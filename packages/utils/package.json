@@ -1,0 +1,47 @@
+{
+  "name": "@darch/utils",
+  "version": "1.0.13",
+  "main": "dist",
+  "typings": "dist",
+  "author": "antoniopresto <antoniopresto@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "build": "rm -rf dist && bbuilder && tsc --declaration --emitDeclarationOnly",
+    "prepublish": "npm run build",
+    "fix": "run-s fix:*",
+    "fix:prettier": "prettier \"src/**/*.ts\" --write",
+    "fix:lint": "eslint src --ext .ts --fix"
+  },
+  "description": "darch utils and helper functions",
+  "keywords": [],
+  "dependencies": {
+    "chalk": "4.1.2",
+    "lodash": "4.17.21",
+    "object-hash": "2.2.0"
+  },
+  "devDependencies": {
+    "@darch/builder": "^1.0.6",
+    "@types/jest": "27.0.3",
+    "@types/lodash": "4.14.178",
+    "@types/node": "16.11.12",
+    "@types/object-hash": "2.2.1",
+    "@typescript-eslint/eslint-plugin": "4.15.2",
+    "@typescript-eslint/parser": "4.15.2",
+    "esbuild": "0.14.3",
+    "eslint": "7.20.0",
+    "eslint-config-prettier": "6.15.0",
+    "eslint-plugin-eslint-comments": "3.2.0",
+    "eslint-plugin-import": "2.22.1",
+    "jest": "27.4.5",
+    "ts-jest": "27.1.1",
+    "typescript": "4.5.4"
+  },
+  "files": [
+    "package.json",
+    "dist/*"
+  ],
+  "prettier": {
+    "singleQuote": true
+  }
+}

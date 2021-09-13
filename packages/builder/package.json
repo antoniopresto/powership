@@ -1,0 +1,26 @@
+{
+  "name": "@darch/builder",
+  "version": "1.0.6",
+  "main": "builder.js.js",
+  "author": "antoniopresto <antoniopresto@gmail.com>",
+  "license": "MIT",
+  "scripts": {},
+  "description": "Internal builder",
+  "keywords": [],
+  "bin": {
+    "bbuilder": "./builder.js"
+  },
+  "dependencies": {
+    "@types/node": "^16.11.12",
+    "esbuild": "^0.14.3",
+    "fast-glob": "^3.2.7",
+    "typescript": "^4.5.4"
+  },
+  "files": [
+    "package.json",
+    "builder.js"
+  ],
+  "prettier": {
+    "singleQuote": true
+  }
+}
