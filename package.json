@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "(cd ./packages/site && yarn dev)",
     "lerna": "lerna",
+    "bootstrap": "lerna bootstrap",
     "fix": "lerna run fix"
   },
   "devDependencies": {
