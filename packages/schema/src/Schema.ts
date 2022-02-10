@@ -1,4 +1,6 @@
 import { RuntimeError } from '@darch/utils/dist/RuntimeError';
+import { StrictMap } from '@darch/utils/dist/StrictMap';
+import { expectedType } from '@darch/utils/dist/expectedType';
 import { getTypeName } from '@darch/utils/dist/getTypeName';
 import { invariantType } from '@darch/utils/dist/invariant';
 import { simpleObjectClone } from '@darch/utils/dist/simpleObjectClone';
@@ -107,7 +109,7 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     return this;
   }
 
-  removeField<K extends ForceString<keyof DefinitionInput>>(field: K | K[]): OmitDefinitionFields<this, K> {
+  removeField<K extends ForceString<keyof DefinitionInput>>(field: K | K[]): Schema<OmitDefinitionFields<this, K>> {
     const fields: string[] = Array.isArray(field) ? field : [field];
     const clone = this.clone();
 
@@ -120,8 +122,8 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     return clone as any;
   }
 
-  addFields<T extends SchemaDefinitionInput>(definition: T): ExtendDefinition<this, T> {
-    return this.clone(definition);
+  addFields<T extends SchemaDefinitionInput>(definition: T): Schema<ExtendDefinition<this, T>> {
+    return this.clone(definition) as any;
   }
 
   get __isTaskforceSchema() {
@@ -134,6 +136,32 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     const def = simpleObjectClone({ ...this.definition, ...args[0] });
     return createSchema(def) as any;
   }
+
+  private __id: string | null = null;
+  get id() {
+    return this.__id;
+  }
+
+  identify<ID extends string>(id: ID): this & { id: ID } {
+    if (this.id) {
+      throw new Error(
+        `Trying to replace existing id "${this.id}" with "${id}". You can clone it to create a new Schema.`
+      );
+    }
+
+    expectedType({ id }, 'string', 'truthy');
+
+    if (Schema.register.has(id)) {
+      throw new Error(`Schema with id "${id}" already registered.`);
+    }
+
+    this.__id = id;
+    Schema.register.set(id, this);
+
+    return this as any;
+  }
+
+  static register = new StrictMap();
 }
 
 export const DarchSchema = Schema;
@@ -144,5 +172,12 @@ export function createSchema<DefinitionInput extends Readonly<SchemaDefinitionIn
   return new Schema<DefinitionInput>(fields);
 }
 
-type OmitDefinitionFields<T, Keys extends string> = T extends Schema<infer Def> ? Schema<Omit<Def, Keys>> : never;
-type ExtendDefinition<T, Ext extends SchemaDefinitionInput> = T extends Schema<infer Def> ? Schema<Def & Ext> : never;
+type OmitDefinitionFields<T, Keys extends string> = T extends { definition: Record<string, any> }
+  ? Omit<T['definition'], Keys>
+  : never;
+
+type ExtendDefinition<T, Ext extends SchemaDefinitionInput> = T extends { definition: Record<string, any> }
+  ? {
+      [K in keyof (T['definition'] & Ext)]: (T['definition'] & Ext)[K];
+    }
+  : never;

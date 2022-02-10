@@ -283,4 +283,23 @@ describe('Schema', () => {
       weight: 83,
     });
   });
+
+  test('identify', () => {
+    const schema1 = createSchema({
+      name: 'string',
+      age: 'int?',
+    });
+
+    expect(schema1.id).toBe(null);
+
+    // @ts-ignore
+    expect(() => schema1.identify()).toThrow();
+    expect(() => schema1.identify('')).toThrow();
+
+    expect(schema1.identify('abc')).toHaveProperty('id', 'abc');
+    expect(() => schema1.identify('abc')).toThrow('Trying to replace existing id "abc"');
+
+    expect(Schema.register.get('abc')).toBe(schema1);
+    expect(() => Schema.register.get('yyy')).toThrow('There is no item with key "yyy"');
+  });
 });
