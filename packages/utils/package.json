@@ -1,6 +1,6 @@
 {
   "name": "@darch/utils",
-  "version": "1.0.13",
+  "version": "1.0.31",
   "main": "dist",
   "typings": "dist",
   "author": "antoniopresto <antoniopresto@gmail.com>",
@@ -22,7 +22,7 @@
     "object-hash": "2.2.0"
   },
   "devDependencies": {
-    "@darch/builder": "^1.0.6",
+    "@darch/builder": "^1.0.31",
     "@types/jest": "27.0.3",
     "@types/lodash": "4.14.178",
     "@types/node": "16.11.12",

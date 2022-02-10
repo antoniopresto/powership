@@ -1,6 +1,6 @@
 {
   "name": "@darch/schema",
-  "version": "1.0.3",
+  "version": "1.0.31",
   "main": "dist/index.js",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -26,12 +26,12 @@
     "inference"
   ],
   "dependencies": {
-    "@darch/utils": "^1.0.13",
+    "@darch/utils": "^1.0.31",
     "npm-run-all": "^4.1.5",
     "ulid": "2.3.0"
   },
   "devDependencies": {
-    "@darch/builder": "^1.0.6",
+    "@darch/builder": "^1.0.31",
     "@types/jest": "27.0.3",
     "@types/node": "16.11.12",
     "@typescript-eslint/eslint-plugin": "4.15.2",
