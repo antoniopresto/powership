@@ -3,8 +3,8 @@
  * @param object
  */
 import { RuntimeError } from './RuntimeError';
-import { getTypeName } from './getTypeName';
 import { ensureArray } from './ensureArray';
+import { getTypeName } from './getTypeName';
 
 export function nonNullValues<T>(
   object: { [key in keyof T]: T[key] | null | undefined },

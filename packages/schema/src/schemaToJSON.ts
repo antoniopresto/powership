@@ -1,4 +1,5 @@
 import { RuntimeError } from '@darch/utils/dist/RuntimeError';
+import { expectedType } from '@darch/utils/dist/expectedType';
 import { getKeys } from '@darch/utils/dist/getKeys';
 import { invariantType } from '@darch/utils/dist/invariant';
 import { JSONSchema4 } from 'json-schema';
@@ -6,9 +7,8 @@ import { JSONSchema4 } from 'json-schema';
 import { isSchema, Schema } from './Schema';
 import { SchemaDefinitionInput } from './TSchemaConfig';
 import { AnyParsedFieldDefinition, AnyParsedSchemaDefinition, isSchemaAsFieldDef } from './TSchemaParser';
-import { FieldTypeName } from './fields/fieldTypes';
-import { expectedType } from '@darch/utils/dist/expectedType';
 import { RecordFieldDef } from './fields/RecordField';
+import { FieldTypeName } from './fields/fieldTypes';
 import { parseFieldDefinitionConfig } from './parseSchemaDefinition';
 
 /**

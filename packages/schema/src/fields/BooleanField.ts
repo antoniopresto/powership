@@ -1,5 +1,6 @@
-import { FieldType, FieldTypeParser } from '../FieldType';
 import { getTypeName } from '@darch/utils/dist/getTypeName';
+
+import { FieldType, FieldTypeParser } from '../FieldType';
 export class BooleanField extends FieldType<boolean, 'boolean', undefined> {
   parse: FieldTypeParser<boolean>;
 
@@ -8,9 +9,7 @@ export class BooleanField extends FieldType<boolean, 'boolean', undefined> {
     this.parse = this.applyParser({
       parse: (input) => {
         if (typeof input !== 'boolean') {
-          throw new Error(
-            `Expected boolean, found ${getTypeName(input)}`
-          );
+          throw new Error(`Expected boolean, found ${getTypeName(input)}`);
         }
         return input;
       },

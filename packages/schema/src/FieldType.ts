@@ -1,6 +1,7 @@
-import { FieldTypeParser, parseValidationError, ValidationCustomMessage } from './applyValidator';
-import { getTypeName } from '@darch/utils/dist/getTypeName';
 import { expectedType } from '@darch/utils/dist/expectedType';
+import { getTypeName } from '@darch/utils/dist/getTypeName';
+
+import { FieldTypeParser, parseValidationError, ValidationCustomMessage } from './applyValidator';
 export * from './applyValidator';
 
 export type FieldTypeGraphql =

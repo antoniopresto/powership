@@ -1,5 +1,6 @@
-import { FieldType, FieldTypeParser } from '../FieldType';
 import { getTypeName } from '@darch/utils/dist/getTypeName';
+
+import { FieldType, FieldTypeParser } from '../FieldType';
 
 export class UndefinedField extends FieldType<undefined, 'undefined', undefined> {
   parse: FieldTypeParser<undefined>;
@@ -19,7 +20,7 @@ export class UndefinedField extends FieldType<undefined, 'undefined', undefined>
   static create = (): UndefinedField => {
     return new UndefinedField();
   };
-  
+
   graphql = () => ({
     name: 'Undefined',
     sdl: 'scalar Undefined',

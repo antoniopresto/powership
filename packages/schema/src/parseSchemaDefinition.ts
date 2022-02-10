@@ -1,5 +1,7 @@
 import { RuntimeError } from '@darch/utils/dist/RuntimeError';
 import { getKeys } from '@darch/utils/dist/getKeys';
+import { getTypeName } from '@darch/utils/dist/getTypeName';
+import { inspectObject } from '@darch/utils/dist/inspectObject';
 import { simpleObjectClone } from '@darch/utils/dist/simpleObjectClone';
 
 import { isFieldType } from './FieldType';
@@ -9,8 +11,6 @@ import { AnyParsedFieldDefinition, ParsedFieldDefinition, ParsedSchemaDefinition
 import { fieldInstanceFromDef } from './fieldInstanceFromDef';
 import { AnyFieldTypeInstance, fieldTypeConstructors } from './fields/fieldTypes';
 import { isStringFieldDefinition, parseStringDefinition } from './parseStringDefinition';
-import { inspectObject } from '@darch/utils/dist/inspectObject';
-import { getTypeName } from '@darch/utils/dist/getTypeName';
 
 export function parseSchemaField<T extends FieldDefinitionConfig>(
   fieldName: string,
@@ -32,10 +32,10 @@ export function parseSchemaField<T extends FieldDefinitionConfig>(
 
   const instanceFromDef = fieldInstanceFromDef(parsed);
 
-  if(instanceFromDef.def){
+  if (instanceFromDef.def) {
     parsed.def = instanceFromDef.def;
   }
-  
+
   if (returnInstance) {
     if (parsed) return instanceFromDef;
     return null;

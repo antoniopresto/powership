@@ -1,5 +1,8 @@
 import memo from 'lodash/memoize';
 
+import { FieldDefinitionConfig, SchemaDefinitionInput } from '../TSchemaConfig';
+
+import { AnyField } from './AnyField';
 import { BooleanField } from './BooleanField';
 import { CursorField } from './CursorField';
 import { DateField } from './DateField';
@@ -7,15 +10,13 @@ import { EmailField } from './EmailField';
 import { EnumField } from './EnumField';
 import { FloatField } from './FloatField';
 import { IntField } from './IntField';
+import { RecordField, RecordFieldDef } from './RecordField';
 import { StringField } from './StringField';
 import { SubSchemaField } from './SubSchema';
 import { UlidField } from './UlidField';
+import { UndefinedField } from './UndefinedField';
 import { UnionField } from './UnionField';
 import { UnknownField } from './UnknownField';
-import { AnyField } from './AnyField';
-import { UndefinedField } from './UndefinedField';
-import { RecordField, RecordFieldDef } from './RecordField';
-import { FieldDefinitionConfig, SchemaDefinitionInput } from '../TSchemaConfig';
 
 export const fieldTypeConstructors = {
   int: IntField,

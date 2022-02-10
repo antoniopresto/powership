@@ -9,13 +9,13 @@ import { EmailField } from '../fields/EmailField';
 import { EnumField } from '../fields/EnumField';
 import { FloatField } from '../fields/FloatField';
 import { IntField } from '../fields/IntField';
+import { RecordField } from '../fields/RecordField';
 import { StringField } from '../fields/StringField';
 import { ULID_REGEX, UlidField } from '../fields/UlidField';
 import { UnionField } from '../fields/UnionField';
 import { UnknownField } from '../fields/UnknownField';
 import { createSchema } from '../index';
 import { fieldToGraphql, schemaToGQL } from '../schemaToGQL';
-import { RecordField } from '../fields/RecordField';
 import { schemaToTypescript } from '../schemaToTypescript';
 
 describe('FieldTypes', () => {

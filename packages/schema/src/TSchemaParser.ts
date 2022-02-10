@@ -3,9 +3,9 @@ import { OnlyKnown } from '@darch/utils/dist/typeUtils';
 import { FieldType } from './FieldType';
 import { CommonFieldConfig, FieldDefinitionConfig } from './TSchemaConfig';
 import { CursorType } from './fields/CursorField';
+import { InferRecordFieldType } from './fields/RecordField';
 import { FieldTypeName, FieldTypes } from './fields/fieldTypes';
 import { AnyStringFieldDefinition, ParseStringDefinition } from './parseStringDefinition';
-import { InferRecordFieldType } from './fields/RecordField';
 
 export type AnyParsedFieldDefinition = {
   [K in keyof FieldTypes]: {

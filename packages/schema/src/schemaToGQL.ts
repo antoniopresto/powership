@@ -1,12 +1,11 @@
-import { camelCase, schemaComposer as defaultSchemaComposer, upperFirst } from 'graphql-compose';
-
 import { RuntimeError } from '@darch/utils/dist/RuntimeError';
 import { getKeys } from '@darch/utils/dist/getKeys';
+import { camelCase, schemaComposer as defaultSchemaComposer, upperFirst } from 'graphql-compose';
 
 import { SchemaDefinitionInput } from './TSchemaConfig';
+import { ParsedFieldDefinition, ParsedSchemaDefinition } from './TSchemaParser';
 import { fieldTypeConstructors } from './fields/fieldTypes';
 import { parseSchemaDefinition } from './parseSchemaDefinition';
-import { ParsedFieldDefinition, ParsedSchemaDefinition } from './TSchemaParser';
 
 export function schemaToGQL(
   typeName: string,

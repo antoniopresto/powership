@@ -3,11 +3,10 @@ import { assert, IsExact } from 'conditional-type-checks';
 import { createSchema, Schema } from '../Schema';
 import { ParsedFieldDefinition, TypeFromSchema } from '../TSchemaParser';
 import { EnumField } from '../fields/EnumField';
-
+import { UnionField } from '../fields/UnionField';
 import { Infer } from '../index';
 import { parseSchemaDefinition } from '../parseSchemaDefinition';
 import { ParseStringDefinition } from '../parseStringDefinition';
-import { UnionField } from '../fields/UnionField';
 
 describe('typings', () => {
   test('enum', () => {

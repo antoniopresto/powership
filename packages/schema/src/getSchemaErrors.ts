@@ -1,5 +1,5 @@
-import { fieldTypeConstructors, isFieldTypeName } from './fields/fieldTypes';
 import type { Schema } from './Schema';
+import { fieldTypeConstructors, isFieldTypeName } from './fields/fieldTypes';
 
 export function parseSchemaFields(params: {
   createSchema: (def: any) => { getErrors: Function; parse: Function };

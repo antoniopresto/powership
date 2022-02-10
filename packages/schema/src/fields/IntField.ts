@@ -1,5 +1,6 @@
-import { FieldType, FieldTypeParser } from '../FieldType';
 import { expectedType } from '@darch/utils/dist/expectedType';
+
+import { FieldType, FieldTypeParser } from '../FieldType';
 
 export type IntFieldDef = {
   min?: number;

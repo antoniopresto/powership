@@ -1,3 +1,4 @@
+import { getTypeName } from '@darch/utils/dist/getTypeName';
 import { inspectObject } from '@darch/utils/dist/inspectObject';
 import uniq from 'lodash/uniq';
 
@@ -6,7 +7,6 @@ import type { FieldDefinitionConfig } from '../TSchemaConfig';
 import type { TypeFromSchema } from '../TSchemaParser';
 
 import type { AnyFieldTypeInstance } from './fieldTypes';
-import { getTypeName } from '@darch/utils/dist/getTypeName';
 
 export class UnionField<U extends FieldDefinitionConfig, T extends Readonly<[U, ...U[]]>> extends FieldType<
   TypeFromSchema<T[number]>,

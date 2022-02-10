@@ -1,3 +1,4 @@
+import { expectedType } from '@darch/utils/dist/expectedType';
 import { inspectObject } from '@darch/utils/dist/inspectObject';
 
 import { FieldType, FieldTypeParser } from '../FieldType';
@@ -5,7 +6,6 @@ import type { FieldDefinitionConfig } from '../TSchemaConfig';
 import type { TypeFromSchema } from '../TSchemaParser';
 
 import type { AnyFieldTypeInstance } from './fieldTypes';
-import { expectedType } from '@darch/utils/dist/expectedType';
 
 const validKeyTypes = ['int', 'string', 'float'] as const;
 type ValidKeyType = typeof validKeyTypes[number];

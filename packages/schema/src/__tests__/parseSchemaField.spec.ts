@@ -3,7 +3,7 @@ import { assert, IsExact } from 'conditional-type-checks';
 import { createSchema } from '../Schema';
 import { TypeFromSchema } from '../TSchemaParser';
 import { EnumField } from '../fields/EnumField';
-import { parseSingleKeyObjectDefinition, parseSchemaField } from '../parseSchemaDefinition';
+import { parseSchemaField, parseSingleKeyObjectDefinition } from '../parseSchemaDefinition';
 
 import { schemaMocks } from './__mock__';
 
