@@ -12,3 +12,5 @@ export function joinPathsCamelCase(...parts: (string | null | undefined)[]) {
 export function joinPathsSnakeCase(...parts: (string | null | undefined)[]) {
   return parts.filter(Boolean).join('_');
 }
+
+// preventing direct code dependency from external lib.
