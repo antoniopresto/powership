@@ -3,7 +3,6 @@ import { assert, IsExact } from 'conditional-type-checks';
 import { createSchema, Schema } from '../Schema';
 import { ParsedFieldDefinition, TypeFromSchema } from '../TSchemaParser';
 import { EnumField } from '../fields/EnumField';
-import { UnionField } from '../fields/UnionField';
 import { Infer } from '../index';
 import { parseSchemaDefinition } from '../parseSchemaDefinition';
 import { ParseStringDefinition } from '../parseStringDefinition';
@@ -219,91 +218,6 @@ describe('typings', () => {
     type T3 = TypeFromSchema<typeof schema3>;
 
     assert<IsExact<T3, S3>>(true);
-  });
-
-  describe('union', () => {
-    it('infer array union with schema inside', () => {
-      const schema1 = createSchema({ a: 'string?' });
-
-      const u = [['int?', schema1]] as const;
-      type P = ParsedFieldDefinition<typeof u>;
-
-      assert<IsExact<true, P['optional']>>(true);
-      assert<IsExact<'union', P['type']>>(true);
-      assert<IsExact<'int?' | typeof schema1, P['def'][number]>>(true);
-    });
-
-    it('infer array union with optional as optional', () => {
-      const u = [['int?', 'string']] as const;
-      type P = ParsedFieldDefinition<typeof u>;
-
-      assert<IsExact<true, P['optional']>>(true);
-      assert<IsExact<'union', P['type']>>(true);
-      assert<IsExact<'int?' | 'string', P['def'][number]>>(true);
-    });
-
-    it('infer array union without optional as required', () => {
-      const u = [['int', 'string']] as const;
-      type P = ParsedFieldDefinition<typeof u>;
-
-      assert<IsExact<true, P['optional']>>(false);
-      assert<IsExact<'union', P['type']>>(true);
-      assert<IsExact<'int' | 'string', P['def'][number]>>(true);
-    });
-
-    it('infer object union with optional as optional', () => {
-      const u = { type: 'union', def: ['int?', 'string'] } as const;
-      type P = ParsedFieldDefinition<typeof u>;
-
-      assert<IsExact<true, P['optional']>>(true);
-      assert<IsExact<'union', P['type']>>(true);
-      assert<IsExact<'int?' | 'string', P['def'][number]>>(true);
-    });
-
-    it('respect object union with optional: true as optional', () => {
-      const u = { type: 'union', def: ['int', 'string'], optional: true } as const;
-      type P = ParsedFieldDefinition<typeof u>;
-
-      assert<IsExact<true, P['optional']>>(true);
-      assert<IsExact<'union', P['type']>>(true);
-      assert<IsExact<'int' | 'string', P['def'][number]>>(true);
-    });
-
-    it('infer object union without optional as required', () => {
-      const u = { type: 'union', def: ['int', 'string'] } as const;
-      type P = ParsedFieldDefinition<typeof u>;
-
-      assert<IsExact<true, P['optional']>>(false);
-      assert<IsExact<'union', P['type']>>(true);
-      assert<IsExact<'int' | 'string', P['def'][number]>>(true);
-    });
-
-    it('respect FieldType union with isOptional: true as optional', () => {
-      const u = UnionField.create(['string', 'int']).optional();
-      type P = ParsedFieldDefinition<typeof u>;
-
-      assert<IsExact<true, P['optional']>>(true);
-      assert<IsExact<'union', P['type']>>(true);
-      assert<IsExact<'int' | 'string', P['def'][number]>>(true);
-    });
-
-    it('infer FieldType union with optional', () => {
-      const u = UnionField.create(['string', 'int?']);
-      type P = ParsedFieldDefinition<typeof u>;
-
-      assert<IsExact<true, P['optional']>>(true);
-      assert<IsExact<'union', P['type']>>(true);
-      assert<IsExact<'int?' | 'string', P['def'][number]>>(true);
-    });
-
-    it('infer FieldType union without optional as required', () => {
-      const u = UnionField.create(['string', 'int']);
-      type P = ParsedFieldDefinition<typeof u>;
-
-      assert<IsExact<true, P['optional']>>(false);
-      assert<IsExact<'union', P['type']>>(true);
-      assert<IsExact<'int' | 'string', P['def'][number]>>(true);
-    });
   });
 
   test('literal schema object', () => {

@@ -12,7 +12,6 @@ import { IntField } from '../fields/IntField';
 import { RecordField } from '../fields/RecordField';
 import { StringField } from '../fields/StringField';
 import { ULID_REGEX, UlidField } from '../fields/UlidField';
-import { UnionField } from '../fields/UnionField';
 import { UnknownField } from '../fields/UnknownField';
 import { createSchema } from '../index';
 import { fieldToGraphql, schemaToGQL } from '../schemaToGQL';
@@ -318,117 +317,6 @@ describe('FieldTypes', () => {
             name: 'a' | 'x';
             nameFromType?: ('a' | 'x')[] | undefined;
             defObject?: ('a' | 'x')[] | undefined;
-          }
-        >
-      >(true);
-    });
-  });
-
-  describe('UnionField', () => {
-    it('parses', () => {
-      expect(() => UnionField.create(['string', 'int']).parse(undefined)).toThrow('Required field');
-
-      expect(() => {
-        return UnionField.create(['string', 'int']).parse(null);
-      }).toThrow('Expected value to match one of the following types: string or int.');
-
-      expect(UnionField.create(['string', 'int']).parse(1)).toEqual(1);
-      expect(UnionField.create(['string', 'int']).parse('a')).toEqual('a');
-      expect(UnionField.create(['string', 'int']).list().parse([2, 'x'])).toEqual([2, 'x']);
-
-      expect(() => UnionField.create(['int?']).parse('ZZ', (v) => `${v}?`)).toThrowError(
-        new RuntimeError('ZZ?', { input: 'ZZ' })
-      );
-    });
-
-    it('should parse union with schema', async () => {
-      const schema1 = createSchema({ name: 'string' });
-      const schema2 = createSchema({ sub: schema1 });
-      const schema3 = createSchema({ sub: schema2 });
-      const sut = UnionField.create([schema3, schema1]).list();
-
-      expect(() => sut.parse([2, 'x'])).toThrow('Expected value to match one of the following types: schema.');
-
-      expect(() => sut.parse([{ name: 1 }])).toThrow(
-        '➤ field "sub": expected type schema, found undefined. at position 0'
-      );
-
-      expect(sut.parse([{ name: 'antonio' }, { sub: { sub: { name: 'antonio' } } }])).toEqual([
-        { name: 'antonio' },
-        { sub: { sub: { name: 'antonio' } } },
-      ]);
-
-      expect(() => sut.parse([{ name: 'antonio' }, { sub: { sub: 1 } }])).toThrow(
-        '➤ field "sub": ➤ field "sub": expected object, found number. at position 1'
-      );
-    });
-
-    test('union as array definition', async () => {
-      const subSchema = createSchema({ name: 'string' });
-
-      const sut = createSchema({
-        foo: [['[string]?', subSchema]],
-      } as const);
-
-      expect(sut.parse({ foo: undefined })).toEqual({ foo: undefined });
-
-      expect(() => sut.parse({ foo: 'a' })).toThrow(
-        'field "foo": Expected value to match one of the following types: string or schema.'
-      );
-
-      expect(sut.parse({ foo: { name: 'a' } })).toEqual({ foo: { name: 'a' } });
-
-      type T = TypeFromSchema<typeof sut>;
-
-      assert<
-        IsExact<
-          T,
-          {
-            foo?: string[] | undefined | { name: string };
-          }
-        >
-      >(true);
-    });
-
-    test('types', () => {
-      const def = {
-        uu: [['int?', 'boolean']],
-
-        nameFromType: UnionField.create(['string']).list().optional(),
-
-        nameOrUndefinedListFromType: UnionField.create(['string?']).list().optional(),
-
-        defObject: {
-          type: 'union',
-          optional: true,
-          list: true,
-          def: ['string', 'boolean'],
-        },
-      } as const;
-
-      // type S = ParsedFieldDefinition<[['[string]?']]>;
-      // type T = TypeFromSchema<{ name: S }>;
-
-      // const gql = schemaToGQL('TempUnionField', def);
-
-      // expect(gql.toSDL()).toEqual(
-      //   'type TempUnionField {\n' +
-      //     '  name: TempUnionFieldNameEnum!\n' +
-      //     '  nameFromType: [TempUnionFieldNameFromTypeEnum]\n' +
-      //     '  defObject: [TempUnionFieldDefObjectEnum]\n' +
-      //     '}'
-      // ); // TODO
-
-      type T = TypeFromSchema<typeof def>;
-
-      assert<
-        IsExact<
-          T,
-          {
-            uu?: number | boolean | undefined;
-            nameOrUndefinedListFromType?: (string | undefined)[] | undefined;
-            nameFromType?: string[] | undefined;
-            defObject?: (string | boolean)[] | undefined;
           }
         >
       >(true);

@@ -228,7 +228,15 @@ export function parseSingleKeyObjectDefinition(input: any) {
     }
   }
 
-  const { description = '', optional = false, list = false } = input;
+  let { description = '', optional = false, list = false } = input;
+
+  if (type === 'union') {
+    def = def.map((el) => parseFieldDefinitionConfig(el));
+    const hasOptionalInDef = def.some((el) => el?.optional === true);
+    if (hasOptionalInDef) {
+      optional = true;
+    }
+  }
 
   return parseFieldDefinitionConfig({
     type,

@@ -103,7 +103,7 @@ describe('parseSchemaDefinition', () => {
         ],
         description: '',
         list: false,
-        optional: false,
+        optional: true,
         type: 'union',
       },
     });

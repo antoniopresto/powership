@@ -383,7 +383,7 @@ export type HasNullableDefinition<T> =
 type IsOptionalString<T> = T extends string ? (T extends `${string}?` ? true : never) : never;
 type IsOptionalDef<T> = T extends object ? (T extends { optional: true } ? true : never) : never;
 type IsOptionalFieldInstance<T> = T extends object ? (T extends { isOptional: true } ? true : never) : never;
-type IsOptionalUnion<T> = T extends object
+type IsOptionalUnion<T> = T extends { __isFieldType: true }
   ? T extends FieldType<any, any, readonly (infer Def)[]>
     ? HasNullableDefinition<Def>
     : never
@@ -396,6 +396,14 @@ export type IsFieldAsSingleKey<T> = T extends { [K in keyof FieldTypes]?: any }
     : never
   : never;
 
+type ArrayHasNullableDefinition<T> = T extends any[] | Readonly<any[]>
+  ? [HasNullableDefinition<T[number]>] extends [never]
+    ? false
+    : [HasNullableDefinition<T[number]>] extends [true]
+    ? true
+    : false
+  : false;
+
 export type ParseFieldNameAsSingleKey<T> =
   //
   T extends { [K in keyof FieldTypes]?: any }
@@ -403,7 +411,10 @@ export type ParseFieldNameAsSingleKey<T> =
       ? {
           type: Exclude<keyof T, keyof CommonFieldConfig>;
           def: T[Exclude<keyof T, keyof CommonFieldConfig>];
-          optional: T extends { optional: true } ? true : false;
+          optional: T extends { optional: true }
+            ? true
+            : // checking if is a union with optional item
+              ArrayHasNullableDefinition<T[Exclude<keyof T, keyof CommonFieldConfig>]>;
           list: T extends { list: true } ? true : false;
           description?: string;
         }

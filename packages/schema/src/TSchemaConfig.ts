@@ -16,12 +16,11 @@ export type FieldNameAsSingleKey = (
       };
     }[Exclude<keyof FieldTypes, 'schema' | 'union'>]
   | { schema: SchemaDefinitionInput }
-  | { union: SchemaDefinitionInput[] }
+  | { union: BaseDefinition[] | Readonly<BaseDefinition[]> }
 ) &
   CommonFieldConfig;
 
-export type FieldDefinitionConfig =
-  | FieldNameAsSingleKey
+type BaseDefinition =
   | AnySchema
   | FieldType<any, FieldTypeName, any>
   | AnyStringFieldDefinition
@@ -30,5 +29,7 @@ export type FieldDefinitionConfig =
   | AnyParsedFieldDefinition
   | { type: AnySchema; list?: boolean; optional?: boolean; description?: string }
   | { schema: SchemaDefinitionInput; list?: boolean; optional?: boolean; description?: string; type?: never };
+
+export type FieldDefinitionConfig = BaseDefinition | FieldNameAsSingleKey;
 
 export type AnySchema = { definition: ParsedSchemaDefinition<any> };
