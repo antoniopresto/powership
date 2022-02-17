@@ -2,26 +2,24 @@ import { getTypeName } from '@darch/utils/lib/getTypeName';
 import { inspectObject } from '@darch/utils/lib/inspectObject';
 import { uniq } from '@darch/utils/lib/uniq';
 
-import { FieldType, FieldTypeParser } from '../FieldType';
+import { FieldType, FieldTypeParser, TAnyFieldType } from '../FieldType';
 import type { FieldDefinitionConfig } from '../TSchemaConfig';
-import type { TypeFromSchema } from '../TSchemaParser';
 
-import type { AnyFieldTypeInstance } from './fieldTypes';
+import { Infer } from '../Infer';
 
-export class UnionField<U extends FieldDefinitionConfig, T extends Readonly<[U, ...U[]]>> extends FieldType<
-  TypeFromSchema<T[number]>,
-  'union',
-  T
-> {
+export class UnionField<
+  U extends FieldDefinitionConfig,
+  T extends Readonly<[U, ...U[]]>
+> extends FieldType<Infer<T[number]>, 'union', T> {
   //
-  parse: FieldTypeParser<TypeFromSchema<T[number]>>;
+  parse: FieldTypeParser<Infer<T[number]>>;
 
   constructor(def: T) {
     super('union', def);
 
     const { parseSchemaField } = require('../parseSchemaDefinition');
 
-    const parsers: AnyFieldTypeInstance[] = def.map((el, index) => {
+    const parsers: TAnyFieldType[] = def.map((el, index) => {
       try {
         return parseSchemaField(`UnionItem_${index}`, el, true);
       } catch (e: any) {
@@ -33,15 +31,15 @@ export class UnionField<U extends FieldDefinitionConfig, T extends Readonly<[U, 
       }
     });
 
-    const hasOptional = (parsers as any[]).some((el) => el.isOptional);
+    const hasOptional = (parsers as any[]).some((el) => el.optional);
 
     if (hasOptional) {
-      this.isOptional = true;
+      this.optional = true;
     }
 
     this.parse = this.applyParser({
       parse: (input: any) => {
-        if (input === undefined && this.isOptional) return input;
+        if (input === undefined && this.optional) return input;
 
         const messages: string[] = [];
         const schemaErrors: any[] = [];
@@ -52,7 +50,10 @@ export class UnionField<U extends FieldDefinitionConfig, T extends Readonly<[U, 
           } catch (e: any) {
             messages.push(`As ${parser.typeName} throws: ${e.message}`);
 
-            if (parser.typeName === 'schema' && getTypeName(input) === 'Object') {
+            if (
+              parser.typeName === 'schema' &&
+              getTypeName(input) === 'Object'
+            ) {
               schemaErrors.push(e);
             }
           }
@@ -65,16 +66,19 @@ export class UnionField<U extends FieldDefinitionConfig, T extends Readonly<[U, 
         const expected = uniq(parsers.map((el) => el.typeName)).join(' or ');
         let errorMessage = `Expected value to match one of the following types: ${expected}.`;
 
-        messages.forEach((err) => (errorMessage += `\n- ${err}`));
-
-        throw new Error(errorMessage);
+        messages.forEach((err) => (errorMessage += `\n- ${err}`));throw new Error(
+          errorMessage
+        );
       },
     });
   }
 
-  static create = <U extends FieldDefinitionConfig, T extends Readonly<[U, ...U[]]>>(
+  static create = <
+    U extends FieldDefinitionConfig,
+    T extends Readonly<[U, ...U[]]>
+  >(
     def: T
-  ): FieldType<TypeFromSchema<T[number]>, 'union', T> => {
+  ): FieldType<Infer<T[number]>, 'union', T> => {
     return new UnionField(def);
   };
 

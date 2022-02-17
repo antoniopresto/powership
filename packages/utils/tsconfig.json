@@ -10,6 +10,7 @@
       "esnext",
       "dom"
     ],
+    "declaration": true,
     "target": "es5",
     "removeComments": false,
     "esModuleInterop": true,

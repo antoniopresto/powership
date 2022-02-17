@@ -1,9 +1,12 @@
-import { memo } from '@darch/utils/lib/memo';
+import { memoize } from '@darch/utils/lib/memoize';
 
-import { ParsedFieldDefinition } from './TSchemaParser';
-import { FieldTypeName, isFieldTypeName } from './fields/fieldTypes';
+import { isFieldTypeName } from './fields/fieldTypes';
+import { FinalFieldDefinition } from './fields/_parseFields';
+import { FieldTypeName } from './fields/_fieldDefinitions';
 
-function _parseStringDefinition<T extends AnyStringFieldDefinition>(typeName: T): ParsedFieldDefinition<T> {
+function _parseStringDefinition<T extends AnyStringFieldDefinition>(
+  typeName: T
+): FinalFieldDefinition {
   const t = typeNameFromTemplate(typeName);
   const isOptional = isOptionalTemplate(typeName);
   const isList = isListTemplate(typeName);
@@ -17,15 +20,21 @@ function _parseStringDefinition<T extends AnyStringFieldDefinition>(typeName: T)
   return obj as any;
 }
 
-function _isOptionalTemplate<T extends string>(type: T): T extends `${string}?` ? true : false {
+function _isOptionalTemplate<T extends string>(
+  type: T
+): T extends `${string}?` ? true : false {
   return !!type.match(/\?$/) as any;
 }
 
-function _isListTemplate<T extends string>(type: T): T extends `[${string}]` | `[${string}]?` ? true : false {
+function _isListTemplate<T extends string>(
+  type: T
+): T extends `[${string}]` | `[${string}]?` ? true : false {
   return !!type.match(/]\??$/) as any;
 }
 
-function _typeNameFromTemplate<T extends FieldTypeName>(enhanced: AnyStringFieldDefinition): T {
+function _typeNameFromTemplate<T extends FieldTypeName>(
+  enhanced: AnyStringFieldDefinition
+): T {
   return enhanced.replace(/[\[\]?, ]/g, '') as any;
 }
 
@@ -35,11 +44,11 @@ function _isStringFieldDefinition(t: any): t is AnyStringFieldDefinition {
   return isFieldTypeName(field);
 }
 
-export const parseStringDefinition = memo(_parseStringDefinition);
-export const typeNameFromTemplate = memo(_typeNameFromTemplate);
-export const isStringFieldDefinition = memo(_isStringFieldDefinition);
-export const isListTemplate = memo(_isListTemplate);
-export const isOptionalTemplate = memo(_isOptionalTemplate);
+export const parseStringDefinition = memoize(_parseStringDefinition);
+export const typeNameFromTemplate = memoize(_typeNameFromTemplate);
+export const isStringFieldDefinition = memoize(_isStringFieldDefinition);
+export const isListTemplate = memoize(_isListTemplate);
+export const isOptionalTemplate = memoize(_isOptionalTemplate);
 
 export type AnyStringFieldDefinition =
   | FieldTypeName
@@ -62,7 +71,13 @@ export type ExtractStringFieldDefType<T extends AnyStringFieldDefinition> =
 export type ParseStringDefinition<S> =
   //
   S extends FieldTypeName
-    ? { type: S; list: false; optional: false; def: undefined; description?: string }
+    ? {
+        type: S;
+        list: false;
+        optional: false;
+        def: undefined;
+        description?: string;
+      }
     : //
     //
     S extends `${FieldTypeName}?`

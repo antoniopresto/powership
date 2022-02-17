@@ -1,7 +1,5 @@
 import { memoize } from '@darch/utils/lib/memoize';
 
-import { FieldDefinitionConfig, SchemaDefinitionInput } from '../TSchemaConfig';
-
 import { AnyField } from './AnyField';
 import { BooleanField } from './BooleanField';
 import { CursorField } from './CursorField';
@@ -10,7 +8,7 @@ import { EmailField } from './EmailField';
 import { EnumField } from './EnumField';
 import { FloatField } from './FloatField';
 import { IntField } from './IntField';
-import { RecordField, RecordFieldDef } from './RecordField';
+import { RecordField } from './RecordField';
 import { StringField } from './StringField';
 import { SubSchemaField } from './SubSchema';
 import { UlidField } from './UlidField';
@@ -18,7 +16,19 @@ import { UndefinedField } from './UndefinedField';
 import { UnionField } from './UnionField';
 import { UnknownField } from './UnknownField';
 
-export const fieldTypeConstructors = {
+import { NullField } from './NullField';
+import { FieldTypeName } from './_fieldDefinitions';
+
+function createConstructors<T extends { [K in FieldTypeName]: any }>(
+  input: T
+): T {
+  const res = Object.create(null);
+  Object.entries(input).forEach(([k, val]) => (res[k] = val));
+  Object.freeze(res);
+  return res;
+}
+
+export const types = createConstructors({
   int: IntField,
   float: FloatField,
   string: StringField,
@@ -34,31 +44,11 @@ export const fieldTypeConstructors = {
   any: AnyField,
   undefined: UndefinedField,
   record: RecordField,
-};
-
-export type FieldTypes = {
-  boolean: BooleanField;
-  cursor: CursorField;
-  date: DateField;
-  email: EmailField;
-  enum: EnumField<string, [string, ...Array<string>]>;
-  union: UnionField<FieldDefinitionConfig, [FieldDefinitionConfig, ...Array<FieldDefinitionConfig>]>;
-  schema: SubSchemaField<SchemaDefinitionInput>;
-  float: FloatField;
-  int: IntField;
-  string: StringField;
-  ulid: UlidField;
-  unknown: UnknownField;
-  any: AnyField;
-  undefined: UndefinedField;
-  record: RecordField<RecordFieldDef>;
-};
-
-export type FieldTypeName = keyof FieldTypes;
-export type AnyFieldTypeInstance = FieldTypes[FieldTypeName];
+  null: NullField,
+});
 
 function _isFieldTypeName(t: any): t is FieldTypeName {
-  return typeof t === 'string' && fieldTypeConstructors.hasOwnProperty(t);
+  return typeof t === 'string' && types[t];
 }
 
 export const isFieldTypeName = memoize(_isFieldTypeName);

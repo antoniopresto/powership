@@ -1,23 +1,33 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 
-import { ParsedFieldDefinition } from './TSchemaParser';
-import { AnyFieldTypeInstance, fieldTypeConstructors } from './fields/fieldTypes';
+import { types } from './fields/fieldTypes';
+import { FinalFieldDefinition } from './fields/_parseFields';
+import { FieldType, TAnyFieldType } from './FieldType';
 
-export function fieldInstanceFromDef(definition: ParsedFieldDefinition<any>): AnyFieldTypeInstance {
-  if (!fieldTypeConstructors.hasOwnProperty(definition.type)) {
-    throw new RuntimeError(`invalid field definition. fieldTypeConstructors["${definition?.type}"] is undefined`, {
-      definition,
-    });
+export function fieldInstanceFromDef(
+  definition: FinalFieldDefinition
+): TAnyFieldType {
+  if (!types[definition.type]) {
+    throw new RuntimeError(
+      `invalid field definition. types["${definition?.type}"] is undefined`,
+      {
+        definition,
+      }
+    );
   }
 
-  let field: AnyFieldTypeInstance = fieldTypeConstructors[definition.type].create(definition.def);
+  const fieldConstructor = types[
+    definition.type
+  ] as typeof FieldType;
+
+  let field = fieldConstructor.create(definition.def);
 
   if (definition.list) {
-    field = field.list();
+    field = field.toList();
   }
 
   if (definition.optional) {
-    field = field.optional();
+    field = field.toOptional();
   }
 
   return field;

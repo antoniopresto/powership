@@ -1,7 +1,6 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { assert, IsExact } from 'conditional-type-checks';
 
-import { TypeFromSchema } from '../TSchemaParser';
 import { BooleanField } from '../fields/BooleanField';
 import { CursorField, CursorType } from '../fields/CursorField';
 import { DateField } from '../fields/DateField';
@@ -13,9 +12,10 @@ import { RecordField } from '../fields/RecordField';
 import { StringField } from '../fields/StringField';
 import { ULID_REGEX, UlidField } from '../fields/UlidField';
 import { UnknownField } from '../fields/UnknownField';
-import { createSchema } from '../index';
+import { createSchema, Schema } from '../index';
 import { fieldToGraphql, schemaToGQL } from '../schemaToGQL';
 import { schemaToTypescript } from '../schemaToTypescript';
+import { Infer } from '../Infer';
 
 describe('FieldTypes', () => {
   describe('field to graphql', () => {
@@ -31,33 +31,52 @@ describe('FieldTypes', () => {
 
       expect(type({ type: 'string' })).toEqual('String!');
       expect(type({ type: 'string', list: true })).toEqual('[String]!');
-      expect(type({ type: 'string', list: true, optional: true })).toEqual('[String]');
-      expect(type({ type: 'string', list: false, optional: true })).toEqual('String');
-      expect(type({ type: 'cursor', list: true, optional: true })).toEqual('[Cursor]');
+      expect(type({ type: 'string', list: true, optional: true })).toEqual(
+        '[String]'
+      );
+      expect(type({ type: 'string', list: false, optional: true })).toEqual(
+        'String'
+      );
+      expect(type({ type: 'cursor', list: true, optional: true })).toEqual(
+        '[Cursor]'
+      );
       expect(type({ type: 'cursor', list: true })).toEqual('[Cursor]!');
     });
   });
 
   describe('StringField', () => {
     it('parses', () => {
-      expect(() => StringField.create({ min: 1 }).parse('')).toThrow('0 is less than the min string length 1.');
-      expect(() => StringField.create({ max: 2 }).parse('123')).toThrow('3 is more than the max string length 2.');
-      expect(StringField.create({ regex: ['^MIN.$', 'i'] }).parse('mine')).toBe('mine');
-      expect(() => StringField.create({ regex: ['MIN.'] }).parse('mine')).toThrowError('Invalid');
+      expect(() => StringField.create({ min: 1 }).parse('')).toThrow(
+        '0 is less than the min string length 1.'
+      );
+      expect(() => StringField.create({ max: 2 }).parse('123')).toThrow(
+        '3 is more than the max string length 2.'
+      );
+      expect(StringField.create({ regex: ['^MIN.$', 'i'] }).parse('mine')).toBe(
+        'mine'
+      );
+      expect(() =>
+        StringField.create({ regex: ['MIN.'] }).parse('mine')
+      ).toThrowError('Invalid');
     });
 
     it('accept custom parse message', () => {
-      expect(() => StringField.create({ min: 5 }).parse('abc', 'custom')).toThrowError(
-        new RuntimeError('custom', { input: 'abc' })
-      );
+      expect(() =>
+        StringField.create({ min: 5 }).parse('abc', 'custom')
+      ).toThrowError(new RuntimeError('custom', { input: 'abc' }));
 
-      expect(() => StringField.create({ min: 5 }).parse('abc', (v) => `hmm ${v} is not enough`)).toThrowError(
+      expect(() =>
+        StringField.create({ min: 5 }).parse(
+          'abc',
+          (v) => `hmm ${v} is not enough`
+        )
+      ).toThrowError(
         new RuntimeError('hmm abc is not enough', { input: 'abc' })
       );
 
-      expect(() => StringField.create({ min: 5 }).parse('xpt', () => new TypeError('tt'))).toThrowError(
-        TypeError('tt')
-      );
+      expect(() =>
+        StringField.create({ min: 5 }).parse('xpt', () => new TypeError('tt'))
+      ).toThrowError(TypeError('tt'));
     });
 
     test('types', () => {
@@ -66,7 +85,7 @@ describe('FieldTypes', () => {
         nameOpt: 'string?',
         nameList: '[string]',
         nameListOptional: '[string]?',
-        nameFromType: StringField.create().list().optional(),
+        nameFromType: StringField.create().toList().toOptional(),
         defObject: {
           type: 'string',
           optional: true,
@@ -87,7 +106,7 @@ describe('FieldTypes', () => {
           '}'
       );
 
-      type T = TypeFromSchema<typeof def>;
+      type T = Infer<typeof def>;
 
       assert<
         IsExact<
@@ -107,13 +126,19 @@ describe('FieldTypes', () => {
 
   describe('UlidField', () => {
     it('parses', () => {
-      expect(UlidField.create({ autoCreate: true }).parse(undefined)).toMatch(ULID_REGEX);
-      expect(() => UlidField.create({ autoCreate: false }).parse(undefined)).toThrow('Required');
+      expect(UlidField.create({ autoCreate: true }).parse(undefined)).toMatch(
+        ULID_REGEX
+      );
+      expect(() =>
+        UlidField.create({ autoCreate: false }).parse(undefined)
+      ).toThrow('Required');
 
       const VALID = '01FH3RMAQ4QWJ0ZJB73G4BPEEK';
       expect(UlidField.create().parse(VALID)).toEqual(VALID);
       expect(() => UlidField.create().parse('xxx')).toThrow('Invalid ulid.');
-      expect(() => UlidField.create().parse('xpt', () => new TypeError('ulid'))).toThrowError(TypeError('ulid'));
+      expect(() =>
+        UlidField.create().parse('xpt', () => new TypeError('ulid'))
+      ).toThrowError(TypeError('ulid'));
     });
 
     test('types', () => {
@@ -122,7 +147,7 @@ describe('FieldTypes', () => {
         nameOpt: 'ulid?',
         nameList: '[ulid]',
         nameListOptional: '[ulid]?',
-        nameFromType: UlidField.create().list().optional(),
+        nameFromType: UlidField.create().toList().toOptional(),
         defObject: {
           type: 'ulid',
           optional: true,
@@ -143,7 +168,7 @@ describe('FieldTypes', () => {
           '}'
       );
 
-      type T = TypeFromSchema<typeof def>;
+      type T = Infer<typeof def>;
 
       assert<
         IsExact<
@@ -164,9 +189,15 @@ describe('FieldTypes', () => {
   describe('IntField', () => {
     it('parses', () => {
       expect(() => IntField.create().parse(undefined)).toThrow('Required');
-      expect(() => IntField.create({ min: 1000 }).parse(5)).toThrow('5 is less than the minimum 1000.');
-      expect(() => IntField.create({ max: 1 }).parse(2)).toThrow('2 is more than the maximum 1.');
-      expect(() => IntField.create().parse(0.1)).toThrow('0.1 is not a valid integer.');
+      expect(() => IntField.create({ min: 1000 }).parse(5)).toThrow(
+        '5 is less than the minimum 1000.'
+      );
+      expect(() => IntField.create({ max: 1 }).parse(2)).toThrow(
+        '2 is more than the maximum 1.'
+      );
+      expect(() => IntField.create().parse(0.1)).toThrow(
+        '0.1 is not a valid integer.'
+      );
 
       expect(IntField.create().parse('1000044')).toBe(1000044);
       expect(() => IntField.create().parse('abc')).toThrow(
@@ -183,7 +214,7 @@ describe('FieldTypes', () => {
         nameOpt: 'int?',
         nameList: '[int]',
         nameListOptional: '[int]?',
-        nameFromType: IntField.create().list().optional(),
+        nameFromType: IntField.create().toList().toOptional(),
         defObject: {
           type: 'int',
           optional: true,
@@ -204,7 +235,7 @@ describe('FieldTypes', () => {
           '}'
       );
 
-      type T = TypeFromSchema<typeof def>;
+      type T = Infer<typeof def>;
 
       assert<
         IsExact<
@@ -225,8 +256,12 @@ describe('FieldTypes', () => {
   describe('FloatField', () => {
     it('parses', () => {
       expect(() => FloatField.create().parse(undefined)).toThrow('Required');
-      expect(() => FloatField.create({ min: 1000 }).parse(5)).toThrow('5 is less than the minimum 1000.');
-      expect(() => FloatField.create({ max: 1 }).parse(2)).toThrow('2 is more than the maximum 1.');
+      expect(() => FloatField.create({ min: 1000 }).parse(5)).toThrow(
+        '5 is less than the minimum 1000.'
+      );
+      expect(() => FloatField.create({ max: 1 }).parse(2)).toThrow(
+        '2 is more than the maximum 1.'
+      );
       expect(FloatField.create().parse(0.1)).toBe(0.1);
       expect(FloatField.create().parse('1.5')).toBe(1.5);
       expect(() => FloatField.create().parse('abc')).toThrow(
@@ -243,7 +278,7 @@ describe('FieldTypes', () => {
         nameOpt: 'float?',
         nameList: '[float]',
         nameListOptional: '[float]?',
-        nameFromType: FloatField.create().list().optional(),
+        nameFromType: FloatField.create().toList().toOptional(),
         defObject: {
           type: 'float',
           optional: true,
@@ -264,7 +299,7 @@ describe('FieldTypes', () => {
           '}'
       );
 
-      type T = TypeFromSchema<typeof def>;
+      type T = Infer<typeof def>;
 
       assert<
         IsExact<
@@ -284,18 +319,22 @@ describe('FieldTypes', () => {
 
   describe('EnumField', () => {
     it('parses', () => {
-      expect(() => EnumField.create(['a', 'b']).parse(undefined)).toThrow('Required field');
-      expect(() => EnumField.create(['a', 'b']).parse(null)).toThrow("accepted: 'a' or 'b', found null.");
-
-      expect(() => EnumField.create(['xx']).parse('ZZ', (v) => `${v}?`)).toThrowError(
-        new RuntimeError('ZZ?', { input: 'ZZ' })
+      expect(() => EnumField.create(['a', 'b']).parse(undefined)).toThrow(
+        'Required field'
       );
+      expect(() => EnumField.create(['a', 'b']).parse(null)).toThrow(
+        "accepted: 'a' or 'b', found null."
+      );
+
+      expect(() =>
+        EnumField.create(['xx']).parse('ZZ', (v) => `${v}?`)
+      ).toThrowError(new RuntimeError('ZZ?', { input: 'ZZ' }));
     });
 
     test('types', () => {
       const def = {
-        name: ['a', 'x'],
-        nameFromType: EnumField.create(['a', 'x']).list().optional(),
+        name: { enum: ['a', 'x'] },
+        nameFromType: EnumField.create(['a', 'x']).toList().toOptional(),
         defObject: {
           type: 'enum',
           optional: true,
@@ -314,7 +353,7 @@ describe('FieldTypes', () => {
           '}'
       );
 
-      type T = TypeFromSchema<typeof def>;
+      type T = Infer<typeof def>;
 
       assert<
         IsExact<
@@ -346,7 +385,7 @@ describe('FieldTypes', () => {
         nameOpt: 'email?',
         nameList: '[email]',
         nameListOptional: '[email]?',
-        nameFromType: EmailField.create().list().optional(),
+        nameFromType: EmailField.create().toList().toOptional(),
         defObject: {
           type: 'email',
           optional: true,
@@ -367,7 +406,7 @@ describe('FieldTypes', () => {
           '}'
       );
 
-      type T = TypeFromSchema<typeof def>;
+      type T = Infer<typeof def>;
 
       assert<
         IsExact<
@@ -397,16 +436,25 @@ describe('FieldTypes', () => {
         'Expected value to be of type "object", found array instead.'
       );
 
-      expect(() => RecordField.create({ type: 'int' }).parse({ a: 'xx' })).toThrow(
+      expect(() =>
+        RecordField.create({ type: 'int' }).parse({ a: 'xx' })
+      ).toThrow(
         'field \'a\': Expected value to be of type "number", found string instead.'
       );
 
-      expect(RecordField.create({ type: [['int', 'boolean']] }).parse({ a: '1', b: true })).toEqual({
+      expect(
+        RecordField.create({ type: ['int', 'boolean'] }).parse({
+          a: '1',
+          b: true,
+        })
+      ).toEqual({
         a: 1,
         b: true,
       });
 
-      expect(() => RecordField.create({ type: 'float', keyType: 'int' }).parse({ a: '1' })).toThrow(
+      expect(() =>
+        RecordField.create({ type: 'float', keyType: 'int' }).parse({ a: '1' })
+      ).toThrow(
         'Unexpected record key `a`. Expected value to be of type "number", found string instead.'
       );
     });
@@ -417,12 +465,16 @@ describe('FieldTypes', () => {
         nameOpt: 'record?',
         nameList: '[record]',
         nameListOptional: '[record]?',
-        nameFromType: RecordField.create({ type: '[int]?' }).list().optional(),
+        nameFromType: RecordField.create({ type: '[int]?' })
+          .toList()
+          .toOptional(),
         defObject: {
           type: 'record',
           def: {
             keyType: 'int',
-            type: 'boolean',
+            type: {
+              record: { type: { schema: { name: ['string', '[int]?'] } } },
+            },
           },
           optional: true,
           list: true,
@@ -443,7 +495,7 @@ describe('FieldTypes', () => {
       );
 
       type AnyRecord = Record<string, any>;
-      type T = TypeFromSchema<typeof def>;
+      type T = Infer<Schema<typeof def>>;
 
       assert<
         IsExact<
@@ -454,7 +506,13 @@ describe('FieldTypes', () => {
             nameList: AnyRecord[];
             nameListOptional?: AnyRecord[] | undefined;
             nameFromType?: Record<string, number[] | undefined>[] | undefined;
-            defObject?: Record<number, boolean>[] | undefined;
+            defObject?:
+              | {
+                  [K: number]: {
+                    [K: string]: { name?: string | number[] | undefined };
+                  };
+                }[]
+              | undefined;
           }
         >
       >(true);
@@ -486,7 +544,9 @@ describe('FieldTypes', () => {
   describe('DateField', () => {
     it('parses', () => {
       expect(() => DateField.create().parse(undefined)).toThrow('Required');
-      expect(() => DateField.create().parse(null)).toThrow('Expected value to be of type "date", found null instead.');
+      expect(() => DateField.create().parse(null)).toThrow(
+        'Expected value to be of type "date", found null instead.'
+      );
       expect(() => DateField.create().parse(new Date().toISOString())).toThrow(
         'Expected value to be of type "date", found string instead.'
       );
@@ -506,7 +566,9 @@ describe('FieldTypes', () => {
         '1970-01-01T00:00:00.002Z is more than the maximum 1970-01-01T00:00:00.001Z.'
       );
 
-      expect(() => DateField.create({ max: now }).parse(future, () => 'xit')).toThrow('xit');
+      expect(() =>
+        DateField.create({ max: now }).parse(future, () => 'xit')
+      ).toThrow('xit');
     });
 
     test('types', () => {
@@ -515,7 +577,7 @@ describe('FieldTypes', () => {
         nameOpt: 'date?',
         nameList: '[date]',
         nameListOptional: '[date]?',
-        nameFromType: DateField.create().list().optional(),
+        nameFromType: DateField.create().toList().toOptional(),
         defObject: {
           type: 'date',
           optional: true,
@@ -536,7 +598,7 @@ describe('FieldTypes', () => {
           '}'
       );
 
-      type T = TypeFromSchema<typeof def>;
+      type T = Infer<typeof def>;
 
       assert<
         IsExact<
@@ -556,10 +618,16 @@ describe('FieldTypes', () => {
 
   describe('CursorField', () => {
     it('parses', () => {
-      expect(() => CursorField.create().parse(undefined)).toThrow('Required field');
+      expect(() => CursorField.create().parse(undefined)).toThrow(
+        'Required field'
+      );
       expect(() => CursorField.create().parse(null)).toThrow('Invalid input.');
-      expect(() => CursorField.create().parse(12)).toThrow('Expected cursor, found 12');
-      expect(() => CursorField.create().parse('xx', () => 'huu')).toThrow('huu');
+      expect(() => CursorField.create().parse(12)).toThrow(
+        'Expected cursor, found 12'
+      );
+      expect(() => CursorField.create().parse('xx', () => 'huu')).toThrow(
+        'huu'
+      );
 
       expect(() =>
         CursorField.create().parse({
@@ -592,7 +660,7 @@ describe('FieldTypes', () => {
         nameOpt: 'cursor?',
         nameList: '[cursor]',
         nameListOptional: '[cursor]?',
-        nameFromType: CursorField.create().list().optional(),
+        nameFromType: CursorField.create().toList().toOptional(),
         defObject: {
           type: 'cursor',
           optional: true,
@@ -613,7 +681,7 @@ describe('FieldTypes', () => {
           '}'
       );
 
-      type T = TypeFromSchema<typeof def>;
+      type T = Infer<typeof def>;
 
       assert<
         IsExact<
@@ -633,9 +701,15 @@ describe('FieldTypes', () => {
 
   describe('BooleanField', () => {
     it('parses', () => {
-      expect(() => BooleanField.create().parse(undefined)).toThrow('Required field');
-      expect(() => BooleanField.create().parse(null)).toThrow('Expected boolean, found Null');
-      expect(() => BooleanField.create().parse('xx', () => 'huu')).toThrow('huu');
+      expect(() => BooleanField.create().parse(undefined)).toThrow(
+        'Required field'
+      );
+      expect(() => BooleanField.create().parse(null)).toThrow(
+        'Expected boolean, found Null'
+      );
+      expect(() => BooleanField.create().parse('xx', () => 'huu')).toThrow(
+        'huu'
+      );
       expect(BooleanField.create().parse(false)).toEqual(false);
       expect(BooleanField.create().parse(true)).toEqual(true);
     });
@@ -646,7 +720,7 @@ describe('FieldTypes', () => {
         nameOpt: 'boolean?',
         nameList: '[boolean]',
         nameListOptional: '[boolean]?',
-        nameFromType: BooleanField.create().list().optional(),
+        nameFromType: BooleanField.create().toList().toOptional(),
         defObject: {
           type: 'boolean',
           optional: true,
@@ -667,7 +741,7 @@ describe('FieldTypes', () => {
           '}'
       );
 
-      type T = TypeFromSchema<typeof def>;
+      type T = Infer<typeof def>;
 
       assert<
         IsExact<
@@ -690,11 +764,15 @@ describe('FieldTypes', () => {
       expect(() => UnknownField.create().parse(undefined)).toThrow('Required');
       expect(UnknownField.create().parse(null)).toBe(null);
 
-      expect(() => UnknownField.create({ types: ['number'] }).parse([])).toThrow();
+      expect(() =>
+        UnknownField.create({ types: ['number'] }).parse([])
+      ).toThrow();
 
       expect(UnknownField.create({ types: ['number'] }).parse(1)).toBe(1);
 
-      expect(() => UnknownField.create({ types: ['number'] }).parse('xx', () => 'huu')).toThrow('huu');
+      expect(() =>
+        UnknownField.create({ types: ['number'] }).parse('xx', () => 'huu')
+      ).toThrow('huu');
 
       expect(UnknownField.create().parse(false)).toEqual(false);
       expect(UnknownField.create().parse(true)).toEqual(true);
@@ -706,7 +784,7 @@ describe('FieldTypes', () => {
         nameOpt: 'unknown?',
         nameList: '[unknown]',
         nameListOptional: '[unknown]?',
-        nameFromType: UnknownField.create().list().optional(),
+        nameFromType: UnknownField.create().toList().toOptional(),
         defObject: {
           type: 'unknown',
           optional: true,
@@ -727,14 +805,14 @@ describe('FieldTypes', () => {
           '}'
       );
 
-      type T = TypeFromSchema<typeof def>;
+      type T = Infer<typeof def>;
 
       assert<
         IsExact<
           T,
           {
             name: unknown;
-            nameOpt?: unknown | undefined;
+            nameOpt: unknown; // FIXME should infer as optional
             nameList: unknown[];
             nameListOptional?: unknown[] | undefined;
             nameFromType?: unknown[] | undefined;

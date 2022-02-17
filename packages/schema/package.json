@@ -1,12 +1,13 @@
 {
   "name": "@darch/schema",
-  "version": "1.1.5",
+  "version": "2.0.0-rc1",
   "main": "lib/index.js",
+  "module": "lib/module/index.js",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "build": "rm -rf lib && tsc",
+    "build": "rm -rf lib && tsc && tsc -p tsconfig.module.json",
     "prepublish": "npm run build && npm run test",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
@@ -26,12 +27,13 @@
     "inference"
   ],
   "dependencies": {
-    "@darch/utils": "^1.1.5"
+    "@darch/utils": "^2.0.0-rc1"
   },
   "devDependencies": {
-    "@darch/builder": "^1.1.5",
+    "@darch/builder": "^2.0.0-rc1",
     "@types/jest": "27.0.3",
     "@types/node": "16.11.12",
+    "@types/lodash": "^4.14.182",
     "@typescript-eslint/eslint-plugin": "4.15.2",
     "@typescript-eslint/parser": "4.15.2",
     "conditional-type-checks": "1.0.5",
@@ -41,22 +43,18 @@
     "eslint-plugin-eslint-comments": "3.2.0",
     "eslint-plugin-import": "2.22.1",
     "graphql": "^16.1.0",
-    "graphql-compose": "9.0.4",
+    "graphql-compose": "^9.0.4",
     "jest": "27.4.5",
-    "json-schema-to-typescript": "10.1.5",
     "npm-run-all": "^4.1.5",
     "ts-jest": "27.1.1",
     "typescript": "4.5.4"
   },
   "peerDependencies": {
     "graphql": "^16.1.0",
-    "graphql-compose": "9.0.4",
-    "json-schema": "0.4.0",
-    "json-schema-to-typescript": "10.1.5"
+    "graphql-compose": "^9.0.4"
   },
   "files": [
     "package.json",
     "lib/*"
-  ],
-  "gitHead": "a31ee64486e735ddd7e838c6b009df6c7dd83ef8"
+  ]
 }

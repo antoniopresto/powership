@@ -1,13 +1,13 @@
 {
   "name": "@darch/utils",
-  "version": "1.1.5",
+  "version": "2.0.0-rc1",
   "main": "lib",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "build": "rm -rf lib && bbuilder && tsc --declaration --emitDeclarationOnly",
+    "build": "rm -rf lib && tsc && tsc -p tsconfig.module.json",
     "prepublish": "npm run build",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
@@ -16,20 +16,23 @@
   "description": "darch utils and helper functions",
   "keywords": [],
   "dependencies": {
-    "chalk": "4.1.2",
-    "lodash": "4.17.21",
+    "chalk": "^4.1.2",
+    "lodash": "^4.17.21",
     "npm-run-all": "^4.1.5",
-    "object-hash": "2.2.0",
-    "ulid": "2.3.0"
+    "object-hash": "^2.2.0",
+    "ulid": "^2.3.0",
+    "json-schema-to-typescript": "^10.1.5",
+    "graphql-compose": "^9.0.4"
   },
   "devDependencies": {
-    "@darch/builder": "^1.1.5",
+    "@darch/builder": "^2.0.0-rc1",
     "@types/jest": "27.0.3",
     "@types/lodash": "4.14.178",
     "@types/node": "16.11.12",
     "@types/object-hash": "2.2.1",
     "@typescript-eslint/eslint-plugin": "4.15.2",
     "@typescript-eslint/parser": "4.15.2",
+    "@types/json-schema": "^7.0.11",
     "esbuild": "0.14.3",
     "eslint": "7.20.0",
     "eslint-config-prettier": "6.15.0",
@@ -45,6 +48,5 @@
   ],
   "prettier": {
     "singleQuote": true
-  },
-  "gitHead": "a31ee64486e735ddd7e838c6b009df6c7dd83ef8"
+  }
 }

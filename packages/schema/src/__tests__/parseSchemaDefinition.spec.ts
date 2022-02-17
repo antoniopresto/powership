@@ -12,16 +12,16 @@ describe('parseSchemaDefinition', () => {
       stringOptional: 'string?',
       arrayString: '[string]',
       arrayStringOptional: '[string]?',
-      enum: ['a', 'b'],
+      enum: { enum: ['a', 'b'] },
       fieldType: EnumField.create(['a', 'x']),
-      fieldTypeOptional: EnumField.create(['a', 'x']).optional(),
-      fieldTypeOptionalList: EnumField.create(['a', 'x']).list().optional(),
-      schemaAsSingleKey: {
+      fieldTypeOptional: EnumField.create(['a', 'x']).toOptional(),
+      fieldTypeOptionalList: EnumField.create(['a', 'x']).toList().toOptional(),
+      schemaAsFlattenDef: {
         schema: {
           name: 'string',
         },
       },
-      unionAsSingleKey: {
+      unionAsFlattenDef: {
         union: ['string', 'int?'],
       },
     });
@@ -76,7 +76,7 @@ describe('parseSchemaDefinition', () => {
         optional: true,
         type: 'string',
       },
-      schemaAsSingleKey: {
+      schemaAsFlattenDef: {
         def: {
           name: {
             list: false,
@@ -88,7 +88,7 @@ describe('parseSchemaDefinition', () => {
         optional: false,
         type: 'schema',
       },
-      unionAsSingleKey: {
+      unionAsFlattenDef: {
         def: [
           {
             list: false,
@@ -101,7 +101,6 @@ describe('parseSchemaDefinition', () => {
             type: 'int',
           },
         ],
-        description: '',
         list: false,
         optional: true,
         type: 'union',
@@ -112,14 +111,14 @@ describe('parseSchemaDefinition', () => {
   it('parse schema', () => {
     const otherSchema = new Schema({
       foo: 'string',
-      status: ['open', 'closed'],
+      status: { enum: ['open', 'closed'] },
     } as const);
 
     const sass = {
-      union: [[{ schema: { points: '[float]?' } }, 'int']],
+      union: [{ schema: { points: '[float]?' } }, 'int'],
       names: '[string]?',
       age: 'int',
-    };
+    } as const;
 
     const sut = parseSchemaDefinition({
       name: 'string',
@@ -130,7 +129,7 @@ describe('parseSchemaDefinition', () => {
         list: true,
       },
       schemaAsTypeList: {
-        type: otherSchema,
+        schema: otherSchema,
         list: true,
       },
       schemaAsSchema: {

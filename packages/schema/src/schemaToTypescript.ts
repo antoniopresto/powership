@@ -1,8 +1,7 @@
-import { compile } from 'json-schema-to-typescript';
-
-import { Schema } from './Schema';
+import { jsonToTypescript } from '@darch/utils/lib/jsonToTypescript';
 import { SchemaDefinitionInput } from './TSchemaConfig';
 import { schemaToJSON } from './schemaToJSON';
+import { SchemaLike } from './fields/ISchemaLike';
 
 const defaultBannerComment = `
  /* tslint:disable */
@@ -20,7 +19,7 @@ const defaultBannerComment = `
  */
 export async function schemaToTypescript(
   name: string,
-  schema: Schema<any> | SchemaDefinitionInput,
+  schema: SchemaLike | SchemaDefinitionInput,
   options?: {
     bannerComment?: string;
     format?: boolean;
@@ -38,7 +37,7 @@ export async function schemaToTypescript(
 
   const json = schemaToJSON(name, schema);
 
-  return compile(json, name, {
+  return jsonToTypescript(json, name, {
     bannerComment,
     format,
     unreachableDefinitions,

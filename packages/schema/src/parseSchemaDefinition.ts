@@ -4,24 +4,31 @@ import { getTypeName } from '@darch/utils/lib/getTypeName';
 import { inspectObject } from '@darch/utils/lib/inspectObject';
 import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 
-import { isFieldType } from './FieldType';
+import { isFieldInstance, TAnyFieldType } from './FieldType';
 import { isSchema, Schema } from './Schema';
-import { FieldDefinitionConfig } from './TSchemaConfig';
-import { AnyParsedFieldDefinition, ParsedFieldDefinition, ParsedSchemaDefinition } from './TSchemaParser';
+import { FieldDefinitionConfig, SchemaDefinitionInput } from './TSchemaConfig';
 import { fieldInstanceFromDef } from './fieldInstanceFromDef';
-import { AnyFieldTypeInstance, fieldTypeConstructors } from './fields/fieldTypes';
-import { isStringFieldDefinition, parseStringDefinition } from './parseStringDefinition';
+
+import { types } from './fields/fieldTypes';
+
+import {
+  isStringFieldDefinition,
+  parseStringDefinition,
+} from './parseStringDefinition';
+
+import { FinalFieldDefinition } from './fields/_parseFields';
+import { isProduction } from '@darch/utils/lib/env';
 
 export function parseSchemaField<T extends FieldDefinitionConfig>(
   fieldName: string,
   definition: T
-): ParsedFieldDefinition<T>;
+): FinalFieldDefinition;
 
 export function parseSchemaField<T extends FieldDefinitionConfig>(
   fieldName: string,
   definition: T,
   returnInstance: true
-): AnyFieldTypeInstance | null;
+): TAnyFieldType;
 
 export function parseSchemaField<T extends FieldDefinitionConfig>(
   fieldName: string,
@@ -37,8 +44,7 @@ export function parseSchemaField<T extends FieldDefinitionConfig>(
   }
 
   if (returnInstance) {
-    if (parsed) return instanceFromDef;
-    return null;
+    return instanceFromDef;
   }
 
   if (parsed) return parsed;
@@ -49,59 +55,53 @@ export function parseSchemaField<T extends FieldDefinitionConfig>(
   });
 }
 
-export function parseFieldDefinitionConfig(definition: FieldDefinitionConfig): ParsedFieldDefinition<any> {
-  if (isSchemaLiteral(definition)) {
-    const { schema, description, optional = false, list = false } = definition;
-
-    const def: any = parseSchemaDefinition(schema);
-
-    return {
-      type: 'schema',
-      def,
-      description,
-      optional,
-      list,
-    };
+export function parseFieldDefinitionConfig(
+  definition: FieldDefinitionConfig
+): FinalFieldDefinition {
+  if (isStringFieldDefinition(definition)) {
+    return parseStringDefinition(definition);
   }
 
-  if (isParsedSchemaField(definition)) {
+  if (isFieldInstance(definition)) {
+    return definition.toSchemaFieldType();
+  }
+
+  if (isFinalFieldDefinition(definition)) {
     if (definition.type === 'schema') {
       if (typeof definition.def !== 'object' || !definition.def) {
         throw new RuntimeError(`Missing def for schema field.`, { definition });
       }
+
       if (isSchema(definition.def)) {
-        throw new RuntimeError(`Def should be a schema.def, not a schema.`, {
-          definition,
-        });
+        definition.def = definition.def.definition;
+      } else {
+        definition.def = parseSchemaDefinition(definition.def);
       }
     }
 
     if (definition.type === 'union') {
-      definition.def = definition.def.map((el) => parseFieldDefinitionConfig(el));
+      let isOptionalUnion = definition.optional;
+
+      definition.def = definition.def.map((el) => {
+        const parsed = parseFieldDefinitionConfig(el);
+        if (parsed.optional) isOptionalUnion = true;
+        return parsed;
+      });
+
+      definition.optional = isOptionalUnion;
     }
 
     return {
-      ...(definition as any),
+      type: definition.type,
+      description: definition.description,
+      def: definition.def,
       optional: !!definition.optional,
       list: !!definition.list,
     };
   }
 
-  if (isStringFieldDefinition(definition)) {
-    return parseStringDefinition(definition);
-  }
-
-  if (isStringArray(definition)) {
-    return {
-      type: 'enum',
-      def: definition,
-      optional: false,
-      list: false,
-    } as any;
-  }
-
   if (isUnionDefArray(definition)) {
-    const def = definition[0].map((el) => parseFieldDefinitionConfig(el));
+    const def = definition.map((el) => parseFieldDefinitionConfig(el));
     const hasOptionalInDef = def.some((el) => el?.optional === true);
 
     return {
@@ -109,15 +109,6 @@ export function parseFieldDefinitionConfig(definition: FieldDefinitionConfig): P
       def,
       optional: hasOptionalInDef,
       list: false,
-    } as any;
-  }
-
-  if (isFieldType(definition)) {
-    return {
-      type: definition.typeName,
-      def: definition.def,
-      optional: !!definition.isOptional,
-      list: !!definition.isList,
     } as any;
   }
 
@@ -130,7 +121,12 @@ export function parseFieldDefinitionConfig(definition: FieldDefinitionConfig): P
     } as any;
   }
 
+  // deprecated
   if (isSchemaAsTypeDefinition(definition)) {
+    console.warn(
+      `Using schema as type -> { type: Schema<any> ...} - is deprecated.`
+    );
+
     return {
       type: 'schema',
       def: definition.type.definition,
@@ -139,7 +135,7 @@ export function parseFieldDefinitionConfig(definition: FieldDefinitionConfig): P
     } as any;
   }
 
-  const keyObjectDefinition = parseSingleKeyObjectDefinition(definition);
+  const keyObjectDefinition = parseFlattenFieldDefinition(definition);
   if (keyObjectDefinition) {
     return keyObjectDefinition;
   }
@@ -147,55 +143,78 @@ export function parseFieldDefinitionConfig(definition: FieldDefinitionConfig): P
   throw new Error(`Unexpected field definition: ${inspectObject(definition)}`);
 }
 
-export function parseSchemaDefinition<T>(input: T): ParsedSchemaDefinition<T> {
-  const result = {} as ParsedSchemaDefinition<T>;
+export function parseSchemaDefinition<T extends SchemaDefinitionInput>(
+  input: T
+): FinalFieldDefinition {
+  const result = {} as FinalFieldDefinition;
 
   getKeys(input).forEach(function (fieldName) {
     try {
-      (result as any)[fieldName] = parseSchemaField(fieldName, (input as any)[fieldName]);
-    } catch (err) {
-      throw new RuntimeError(`failed to process schema`, {
-        err,
-        input,
+      (result as any)[fieldName] = parseSchemaField(
         fieldName,
-      });
+        (input as any)[fieldName]
+      );
+    } catch (err: any) {
+      throw new RuntimeError(
+        `Failed to process schema field "${fieldName}":\n${err.message}`,
+        {
+          err,
+          input,
+        }
+      );
     }
   });
 
   return result;
 }
 
-function isParsedSchemaField(input: any): input is AnyParsedFieldDefinition {
+function isFinalFieldDefinition(input: any): input is FinalFieldDefinition {
   return typeof input?.type === 'string';
 }
 
-function isStringArray<T extends string>(input: any): input is T[] {
-  return Array.isArray(input) && !input.some((el) => typeof el !== 'string');
-}
-
 function isUnionDefArray(input: any): input is [FieldDefinitionConfig[]] {
-  return Array.isArray(input) && input[0] !== 'string';
+  if (!Array.isArray(input)) return false;
+
+  if (!isProduction()) {
+    // verify against old enum definition
+    input.forEach((el) => {
+      if (typeof el === 'string' && !isStringFieldDefinition(el)) {
+        throw new Error(
+          `Plain array is used only for union definitions.\n` +
+            `  "${el}" is not valid as union item.\n` +
+            `  You can use { enum: ['${el}'] } instead of ['${el}'].`
+        );
+      }
+    });
+
+    if (input.length === 1 && Array.isArray(input[0])) {
+      throw new Error(
+        `Defining union using one array withing another array (eg: [[type, type2, type3]]) is no more supported .` +
+          `  \nInstead, you can use:\n { union: [type1, type2, ...] }.\n`
+      );
+    }
+  }
+
+  return true;
 }
 
+/**
+ * Schema as field['type'] is deprecated
+ * @param input
+ */
 export function isSchemaAsTypeDefinition(
   input: any
 ): input is { type: Schema<any>; optional?: boolean; list?: boolean } {
   return input && typeof input === 'object' && isSchema(input.type);
 }
 
-function isSchemaLiteral(
-  input: any
-): input is { schema: any; optional?: boolean; list?: boolean; description?: string } {
-  return Boolean(!input?.type && input?.schema && typeof input.schema === 'object' && !isFieldType(input));
-}
-
-const validTypes = {
+const validFlattenDefinitionKeys = {
   description: 'string',
   optional: 'boolean',
   list: 'boolean',
 } as const;
 
-export function parseSingleKeyObjectDefinition(input: any) {
+export function parseFlattenFieldDefinition(input: any) {
   if (getTypeName(input) !== 'Object') return false;
   if (input.type !== undefined) return false;
   const keys = Object.keys(input);
@@ -207,36 +226,31 @@ export function parseSingleKeyObjectDefinition(input: any) {
   for (let k in input) {
     const val = input[k];
 
-    if (fieldTypeConstructors[k]) {
+    if (types[k]) {
       type = k;
       def = val;
 
       if (k !== 'schema' && def && typeof def === 'object') {
         for (let defKey in def) {
-          if (defKey === 'def' || validTypes[defKey]) {
-            console.warn(`using field def as type definition?\n`, { type: k, def });
+          if (defKey === 'def' || validFlattenDefinitionKeys[defKey]) {
+            console.warn(`using field def as type definition?\n`, {
+              type: k,
+              def,
+            });
             return false;
           }
         }
       }
     } else {
       if (val !== undefined) {
-        if (typeof val !== validTypes[k]) {
+        if (typeof val !== validFlattenDefinitionKeys[k]) {
           return false;
         }
       }
     }
   }
 
-  let { description = '', optional = false, list = false } = input;
-
-  if (type === 'union') {
-    def = def.map((el) => parseFieldDefinitionConfig(el));
-    const hasOptionalInDef = def.some((el) => el?.optional === true);
-    if (hasOptionalInDef) {
-      optional = true;
-    }
-  }
+  let { description, optional, list = false } = input;
 
   return parseFieldDefinitionConfig({
     type,
@@ -244,5 +258,5 @@ export function parseSingleKeyObjectDefinition(input: any) {
     description,
     optional,
     list,
-  } as any);
+  });
 }
