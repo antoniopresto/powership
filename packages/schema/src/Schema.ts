@@ -12,6 +12,8 @@ import { parseValidationError, ValidationCustomMessage } from './applyValidator'
 import { parseSchemaFields } from './getSchemaErrors';
 import { parseSchemaDefinition } from './parseSchemaDefinition';
 
+export { RuntimeError } from '@darch/utils/dist/RuntimeError';
+export * from './parseSchemaDefinition';
 export * from './schemaInferenceUtils';
 
 export class Schema<DefinitionInput extends SchemaDefinitionInput> {
