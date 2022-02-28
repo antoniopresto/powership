@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Schema .graphqlInputType() 1`] = `
+Object {
+  "age": Object {
+    "astNode": Object {
+      "defaultValue": undefined,
+      "description": undefined,
+      "directives": undefined,
+      "kind": "InputValueDefinition",
+      "name": Object {
+        "kind": "Name",
+        "value": "age",
+      },
+      "type": Object {
+        "kind": "NamedType",
+        "name": Object {
+          "kind": "Name",
+          "value": "Int",
+        },
+      },
+    },
+    "description": undefined,
+    "name": "age",
+    "type": "Int",
+  },
+  "name": Object {
+    "astNode": Object {
+      "defaultValue": undefined,
+      "description": undefined,
+      "directives": undefined,
+      "kind": "InputValueDefinition",
+      "name": Object {
+        "kind": "Name",
+        "value": "name",
+      },
+      "type": Object {
+        "kind": "NonNullType",
+        "type": Object {
+          "kind": "NamedType",
+          "name": Object {
+            "kind": "Name",
+            "value": "String",
+          },
+        },
+      },
+    },
+    "description": undefined,
+    "name": "name",
+    "type": "String!",
+  },
+}
+`;
+
+exports[`Schema .graphqlType() 1`] = `
+Object {
+  "age": Object {
+    "args": Array [],
+    "astNode": Object {
+      "arguments": undefined,
+      "description": undefined,
+      "directives": undefined,
+      "kind": "FieldDefinition",
+      "name": Object {
+        "kind": "Name",
+        "value": "age",
+      },
+      "type": Object {
+        "kind": "NamedType",
+        "name": Object {
+          "kind": "Name",
+          "value": "Int",
+        },
+      },
+    },
+    "isDeprecated": false,
+    "name": "age",
+    "type": "Int",
+  },
+  "name": Object {
+    "args": Array [],
+    "astNode": Object {
+      "arguments": undefined,
+      "description": undefined,
+      "directives": undefined,
+      "kind": "FieldDefinition",
+      "name": Object {
+        "kind": "Name",
+        "value": "name",
+      },
+      "type": Object {
+        "kind": "NonNullType",
+        "type": Object {
+          "kind": "NamedType",
+          "name": Object {
+            "kind": "Name",
+            "value": "String",
+          },
+        },
+      },
+    },
+    "isDeprecated": false,
+    "name": "name",
+    "type": "String!",
+  },
+}
+`;

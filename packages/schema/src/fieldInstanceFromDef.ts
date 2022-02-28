@@ -1,4 +1,4 @@
-import { RuntimeError } from '@darch/utils/dist/RuntimeError';
+import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 
 import { ParsedFieldDefinition } from './TSchemaParser';
 import { AnyFieldTypeInstance, fieldTypeConstructors } from './fields/fieldTypes';

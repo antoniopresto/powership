@@ -1,13 +1,13 @@
 {
   "name": "@darch/utils",
-  "version": "1.0.33",
-  "main": "dist",
-  "typings": "dist",
+  "version": "1.0.34-alpha.7",
+  "main": "lib",
+  "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "build": "rm -rf dist && bbuilder && tsc --declaration --emitDeclarationOnly",
+    "build": "rm -rf lib && bbuilder && tsc --declaration --emitDeclarationOnly",
     "prepublish": "npm run build",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
@@ -41,7 +41,7 @@
   },
   "files": [
     "package.json",
-    "dist/*"
+    "lib/*"
   ],
   "prettier": {
     "singleQuote": true

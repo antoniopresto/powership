@@ -1,4 +1,4 @@
-import { OnlyKnown } from '@darch/utils/dist/typeUtils';
+import { OnlyKnown } from '@darch/utils/lib/typeUtils';
 
 import { FieldType } from './FieldType';
 import { CommonFieldConfig, FieldDefinitionConfig } from './TSchemaConfig';
@@ -32,7 +32,11 @@ export type ParsedSchemaDefinition<T> = {
   [K in keyof T]: ParsedFieldDefinition<T[K]>;
 };
 
-export type Infer<T> = TypeFromSchema<T>;
+export type Infer<T> = T extends Record<string, any>
+  ? {
+      [K in keyof TypeFromSchema<T>]: TypeFromSchema<T>[K];
+    }
+  : TypeFromSchema<T>;
 
 export type TypeFromSchema<T> =
   // Z - ParsedFieldDefinition -> Optional<List<GetType<T>>>

@@ -24,6 +24,10 @@ const userSchema = new Schema({
 } as const);
 
 describe('Schema', () => {
+  beforeEach(() => {
+    Schema.register.clear();
+  });
+
   it('handle definition', () => {
     const sut = userSchema.definition;
 
@@ -297,9 +301,29 @@ describe('Schema', () => {
     expect(() => schema1.identify('')).toThrow();
 
     expect(schema1.identify('abc')).toHaveProperty('id', 'abc');
-    expect(() => schema1.identify('abc')).toThrow('Trying to replace existing id "abc"');
+    schema1.identify('abc')
+    schema1.identify('abc')
+    expect(() => schema1.identify('abcx')).toThrow('Trying to replace existing id "abc"');
 
     expect(Schema.register.get('abc')).toBe(schema1);
     expect(() => Schema.register.get('yyy')).toThrow('There is no item with key "yyy"');
+  });
+
+  test('.graphqlType()', () => {
+    const type = createSchema({
+      name: 'string',
+      age: 'int?',
+    }).identify('User');
+
+    expect(type.graphqlType().getFields()).toMatchSnapshot();
+  });
+
+  test('.graphqlInputType()', () => {
+    const type = createSchema({
+      name: 'string',
+      age: 'int?',
+    }).identify('User');
+
+    expect(type.graphqlInputType().getFields()).toMatchSnapshot();
   });
 });

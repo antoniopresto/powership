@@ -1,4 +1,4 @@
-import { memo } from '@darch/utils/dist/memo';
+import { memo } from '@darch/utils/lib/memo';
 
 import { ParsedFieldDefinition } from './TSchemaParser';
 import { FieldTypeName, isFieldTypeName } from './fields/fieldTypes';

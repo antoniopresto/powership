@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
+    "outDir": "lib",
     "rootDir": "src",
     "baseUrl": ".",
     "lib": [
@@ -23,7 +23,6 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "downlevelIteration": true,
-    "isolatedModules": true,
     "noImplicitAny": false
   },
   "include": [

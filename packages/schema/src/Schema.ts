@@ -1,18 +1,22 @@
-import { RuntimeError } from '@darch/utils/dist/RuntimeError';
-import { StrictMap } from '@darch/utils/dist/StrictMap';
-import { expectedType } from '@darch/utils/dist/expectedType';
-import { getTypeName } from '@darch/utils/dist/getTypeName';
-import { invariantType } from '@darch/utils/dist/invariant';
-import { simpleObjectClone } from '@darch/utils/dist/simpleObjectClone';
-import { ForceString } from '@darch/utils/dist/typeUtils';
+import { RuntimeError } from '@darch/utils/lib/RuntimeError';
+import { StrictMap } from '@darch/utils/lib/StrictMap';
+import { expectedType } from '@darch/utils/lib/expectedType';
+import { getTypeName } from '@darch/utils/lib/getTypeName';
+import { invariantType } from '@darch/utils/lib/invariant';
+import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
+import { ForceString } from '@darch/utils/lib/typeUtils';
 
 import { SchemaDefinitionInput } from './TSchemaConfig';
 import { AnyParsedSchemaDefinition, ParsedSchemaDefinition, TypeFromSchema } from './TSchemaParser';
 import { parseValidationError, ValidationCustomMessage } from './applyValidator';
 import { parseSchemaFields } from './getSchemaErrors';
 import { parseSchemaDefinition } from './parseSchemaDefinition';
+import type { ObjectTypeComposer } from 'graphql-compose';
+import { isBrowser } from '@darch/utils/lib/isBrowser';
+import { GraphQLInputObjectType, GraphQLObjectType } from 'graphql';
+import { areEqual } from '@darch/utils/lib/areEqual';
 
-export { RuntimeError } from '@darch/utils/dist/RuntimeError';
+export { RuntimeError } from '@darch/utils/lib/RuntimeError';
 export * from './parseSchemaDefinition';
 export * from './schemaInferenceUtils';
 
@@ -145,6 +149,8 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
   }
 
   identify<ID extends string>(id: ID): this & { id: ID } {
+    if (id && id === this.id) return this as any;
+
     if (this.id) {
       throw new Error(
         `Trying to replace existing id "${this.id}" with "${id}". You can clone it to create a new Schema.`
@@ -153,8 +159,12 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
 
     expectedType({ id }, 'string', 'truthy');
 
-    if (Schema.register.has(id)) {
-      throw new Error(`Schema with id "${id}" already registered.`);
+    if (Schema.register.has(id) && Schema.register.get(id) !== this) {
+      if (areEqual(Schema.register.get(id), this)) {
+        return this as any;
+      } else {
+        throw new Error(`Schema with id "${id}" already registered.`);
+      }
     }
 
     this.__id = id;
@@ -164,15 +174,65 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
   }
 
   static register = new StrictMap();
+
+  private _otc: ObjectTypeComposer | undefined;
+  otc = (): ObjectTypeComposer => {
+    if (this._otc) return this._otc;
+    if (isBrowser() || typeof module?.require !== 'function') {
+      throw new Error('GraphQL transformation is not available on browser.');
+    }
+
+    if (!this.id) {
+      throw new Error(
+        'Should schema.identify() before converting to Graphql.' +
+          '\nYou can call schema.clone() to choose a different identification.'
+      );
+    }
+
+    const { schemaToGQL } = module
+      // preventing build tools transforming require calls
+      .require('./schemaToGQL');
+    //
+    return (this._otc = schemaToGQL(this.id, this.definition));
+  };
+
+  private _graphqlType: GraphQLObjectType | undefined;
+  graphqlType = (): any => {
+    if (this._graphqlType) return this._graphqlType;
+    return (this._graphqlType = this.otc().getType());
+  };
+
+  private _graphqlInputType: GraphQLInputObjectType | undefined;
+  graphqlInputType = (): any => {
+    if (this._graphqlInputType) return this._graphqlInputType;
+    return (this._graphqlInputType = this.otc().getInputType());
+  };
 }
 
 export const DarchSchema = Schema;
 
 export function createSchema<DefinitionInput extends Readonly<SchemaDefinitionInput>>(
   fields: DefinitionInput
+): Schema<DefinitionInput>;
+
+export function createSchema<DefinitionInput extends Readonly<SchemaDefinitionInput>>(
+  name: string,
+  fields: DefinitionInput
+): Schema<DefinitionInput>;
+
+export function createSchema<DefinitionInput extends Readonly<SchemaDefinitionInput>>(
+  ...args: [string, DefinitionInput] | [DefinitionInput]
 ): Schema<DefinitionInput> {
-  return new Schema<DefinitionInput>(fields);
+  const fields = args.length === 2 ? args[1] : args[0];
+  const id = args.length === 2 ? args[0] : undefined;
+
+  const schema = new Schema<DefinitionInput>(fields);
+  if (id) return schema.identify(id);
+
+  return schema;
 }
+
+export { createSchema as createType };
 
 type OmitDefinitionFields<T, Keys extends string> = T extends { definition: Record<string, any> }
   ? Omit<T['definition'], Keys>
