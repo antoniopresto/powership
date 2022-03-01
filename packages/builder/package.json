@@ -1,6 +1,6 @@
 {
   "name": "@darch/builder",
-  "version": "1.0.35-alpha.0+a31ee64",
+  "version": "1.0.36-alpha.1",
   "main": "builder.js.js",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
