@@ -14,7 +14,6 @@ import { parseSchemaDefinition } from './parseSchemaDefinition';
 import type { ObjectTypeComposer } from 'graphql-compose';
 import { isBrowser } from '@darch/utils/lib/isBrowser';
 import { GraphQLInputObjectType, GraphQLObjectType } from 'graphql';
-import { areEqual } from '@darch/utils/lib/areEqual';
 
 export { RuntimeError } from '@darch/utils/lib/RuntimeError';
 export * from './parseSchemaDefinition';
@@ -160,11 +159,7 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     expectedType({ id }, 'string', 'truthy');
 
     if (Schema.register.has(id) && Schema.register.get(id) !== this) {
-      if (areEqual(Schema.register.get(id), this)) {
-        return this as any;
-      } else {
-        throw new Error(`Schema with id "${id}" already registered.`);
-      }
+      console.error(`Schema with id "${id}" already registered.`);
     }
 
     this.__id = id;

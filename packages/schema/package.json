@@ -1,6 +1,6 @@
 {
   "name": "@darch/schema",
-  "version": "1.0.34-alpha.8",
+  "version": "1.0.35-alpha.0+a31ee64",
   "main": "lib/index.js",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -26,10 +26,10 @@
     "inference"
   ],
   "dependencies": {
-    "@darch/utils": "1.0.34-alpha.8"
+    "@darch/utils": "^1.0.35-alpha.0+a31ee64"
   },
   "devDependencies": {
-    "@darch/builder": "^1.0.34-alpha.8",
+    "@darch/builder": "^1.0.35-alpha.0+a31ee64",
     "@types/jest": "27.0.3",
     "@types/node": "16.11.12",
     "@typescript-eslint/eslint-plugin": "4.15.2",
@@ -57,5 +57,6 @@
   "files": [
     "package.json",
     "lib/*"
-  ]
+  ],
+  "gitHead": "a31ee64486e735ddd7e838c6b009df6c7dd83ef8"
 }
