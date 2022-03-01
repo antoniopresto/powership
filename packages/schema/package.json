@@ -26,7 +26,7 @@
     "inference"
   ],
   "dependencies": {
-    "@darch/utils": "^1.0.34-alpha.8"
+    "@darch/utils": "1.0.34-alpha.8"
   },
   "devDependencies": {
     "@darch/builder": "^1.0.34-alpha.8",
