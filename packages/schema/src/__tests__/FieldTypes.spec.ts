@@ -40,8 +40,8 @@ describe('FieldTypes', () => {
 
   describe('StringField', () => {
     it('parses', () => {
-      expect(() => StringField.create({ min: 1 }).parse('')).toThrow('0 is less than the min length 1.');
-      expect(() => StringField.create({ max: 2 }).parse('123')).toThrow('3 is more than the max length 2.');
+      expect(() => StringField.create({ min: 1 }).parse('')).toThrow('0 is less than the min string length 1.');
+      expect(() => StringField.create({ max: 2 }).parse('123')).toThrow('3 is more than the max string length 2.');
       expect(StringField.create({ regex: ['^MIN.$', 'i'] }).parse('mine')).toBe('mine');
       expect(() => StringField.create({ regex: ['MIN.'] }).parse('mine')).toThrowError('Invalid');
     });
@@ -172,6 +172,9 @@ describe('FieldTypes', () => {
       expect(() => IntField.create().parse('abc')).toThrow(
         'Expected value to be of type "number", found string instead.'
       );
+      expect(() => IntField.create().parse('')).toThrow(
+        'Expected value to be of type "number", found string instead.'
+      );
     });
 
     test('types', () => {
@@ -227,6 +230,9 @@ describe('FieldTypes', () => {
       expect(FloatField.create().parse(0.1)).toBe(0.1);
       expect(FloatField.create().parse('1.5')).toBe(1.5);
       expect(() => FloatField.create().parse('abc')).toThrow(
+        'Expected value to be of type "number", found string instead.'
+      );
+      expect(() => FloatField.create().parse('')).toThrow(
         'Expected value to be of type "number", found string instead.'
       );
     });

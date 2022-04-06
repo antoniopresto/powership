@@ -18,7 +18,7 @@ export class IntField extends FieldType<number, 'int', IntFieldDef | undefined> 
 
     this.parse = this.applyParser({
       preParse(input: any) {
-        if (typeof input === 'string') {
+        if (typeof input === 'string' && input !== '') {
           const asNumber = +input;
           if (!isNaN(asNumber)) return asNumber;
         }

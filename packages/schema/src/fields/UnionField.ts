@@ -43,12 +43,15 @@ export class UnionField<U extends FieldDefinitionConfig, T extends Readonly<[U, 
       parse: (input: any) => {
         if (input === undefined && this.isOptional) return input;
 
+        const messages: string[] = [];
         const schemaErrors: any[] = [];
 
         for (let parser of parsers) {
           try {
             return parser.parse(input);
-          } catch (e) {
+          } catch (e: any) {
+            messages.push(`As ${parser.typeName} throws: ${e.message}`);
+
             if (parser.typeName === 'schema' && getTypeName(input) === 'Object') {
               schemaErrors.push(e);
             }
@@ -60,8 +63,11 @@ export class UnionField<U extends FieldDefinitionConfig, T extends Readonly<[U, 
         }
 
         const expected = uniq(parsers.map((el) => el.typeName)).join(' or ');
+        let errorMessage = `Expected value to match one of the following types: ${expected}.`;
 
-        throw new Error(`Expected value to match one of the following types: ${expected}.`);
+        messages.forEach((err) => (errorMessage += `\n- ${err}`));
+
+        throw new Error(errorMessage);
       },
     });
   }

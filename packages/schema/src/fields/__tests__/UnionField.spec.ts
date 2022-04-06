@@ -504,4 +504,17 @@ describe('Union', () => {
       assert<IsExact<Schema2Inferred, TSchema2>>(true);
     });
   });
+
+  it('should parse union of string and numbers', () => {
+    const sut = UnionField.create([{ string: { min: 1 } }, 'float']).optional();
+
+    expect(() => sut.parse('')).toThrow('As string throws: 0 is less than the min string length 1.');
+
+    expect(() => sut.parse('')).toThrow(
+      'As float throws: Expected value to be of type "number", found string instead.'
+    );
+
+    expect(sut.parse('1')).toBe('1');
+    expect(sut.parse(1)).toBe(1);
+  });
 });
