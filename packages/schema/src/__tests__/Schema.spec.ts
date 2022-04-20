@@ -320,4 +320,22 @@ describe('Schema', () => {
       'There is no item with key "yyy"'
     );
   });
+
+  test('.graphqlType()', () => {
+    const type = createSchema({
+      name: 'string',
+      age: 'int?',
+    }).identify('User');
+
+    expect(type.graphqlType().getFields()).toMatchSnapshot();
+  });
+
+  test('.graphqlInputType()', () => {
+    const type = createSchema({
+      name: 'string',
+      age: 'int?',
+    }).identify('User');
+
+    expect(type.graphqlInputType().getFields()).toMatchSnapshot();
+  });
 });

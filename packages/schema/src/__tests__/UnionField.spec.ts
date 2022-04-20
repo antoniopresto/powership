@@ -597,7 +597,7 @@ describe('Union', () => {
   });
 
   it('should parse union of string and numbers', () => {
-    const sut = UnionField.create([{ string: { min: 1 } }, 'float']).optional();
+    const sut = UnionField.create([{ string: { min: 1 } }, 'float']).toOptional();
 
     expect(() => sut.parse('')).toThrow('As string throws: 0 is less than the min string length 1.');
 
