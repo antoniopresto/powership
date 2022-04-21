@@ -19,7 +19,8 @@
   },
   "files": [
     "package.json",
-    "builder.js"
+    "builder.js",
+    "README.md"
   ],
   "prettier": {
     "singleQuote": true

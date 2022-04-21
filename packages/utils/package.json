@@ -44,7 +44,8 @@
   },
   "files": [
     "package.json",
-    "lib/*"
+    "lib/*",
+    "README.md"
   ],
   "prettier": {
     "singleQuote": true
