@@ -129,49 +129,43 @@ export type ToFinalField<Base> =
 type GetI<T> = T extends { __infer: infer I } ? I : never;
 
 // inject  the `__infer` property
-type _injectInfer<T> = T extends { __infer: {} }
-  ? T
-  : T extends {
-      type: FieldTypeName;
-      def: infer Def;
-    }
-  ? {
-      [K in keyof T | '__infer']: K extends '__infer' //
-        ? //
-          // === recursive schema case ===
-          T['type'] extends 'schema'
-          ? Def extends { [K: string]: any }
-            ? InferSchemaDefinition<Def>
-            : never
-          : //
-          // === recursive union case ===
-          T['type'] extends 'union'
-          ? Def extends Array<infer Item> | Readonly<Array<infer Item>>
-            ? InferField<Item>
-            : never
-          : //
+type _injectInfer<T> = T extends {
+  type: FieldTypeName;
+  def: infer Def;
+}
+  ? T & {
+      __infer: // === recursive schema case ===
+      T['type'] extends 'schema'
+        ? Def extends { [K: string]: any }
+          ? InferSchemaDefinition<Def>
+          : never
+        : //
+        // === recursive union case ===
+        T['type'] extends 'union'
+        ? Def extends Array<infer Item> | Readonly<Array<infer Item>>
+          ? InferField<Item>
+          : never
+        : //
 
-          // === parsing record type ===
-          T['type'] extends 'record'
-          ? [Def] extends [undefined]
-            ? { [K: string]: any }
-            : Def extends { keyType: 'int' | 'float' }
-            ? {
-                [K: number]: Def extends { type: infer Type }
-                  ? InferField<Type>
-                  : any;
-              }
-            : {
-                [K: string]: Def extends { type: infer Type }
-                  ? InferField<Type>
-                  : any;
-              }
-          : //
+        // === parsing record type ===
+        T['type'] extends 'record'
+        ? [Def] extends [undefined]
+          ? { [K: string]: any }
+          : Def extends { keyType: 'int' | 'float' }
+          ? {
+              [K: number]: Def extends { type: infer Type }
+                ? InferField<Type>
+                : any;
+            }
+          : {
+              [K: string]: Def extends { type: infer Type }
+                ? InferField<Type>
+                : any;
+            }
+        : //
 
-            // === simple field case
-            _inferBasic<T['type'], Def>
-        : // end infer
-          T[Exclude<K, '__infer'>];
+          // === simple field case
+          _inferBasic<T['type'], Def>;
     }
   : never;
 
