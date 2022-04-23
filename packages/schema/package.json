@@ -1,6 +1,6 @@
 {
   "name": "@darch/schema",
-  "version": "2.0.0-rc2",
+  "version": "2.0.0-rc3",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
   "author": "antoniopresto <antoniopresto@gmail.com>",
@@ -27,10 +27,10 @@
     "inference"
   ],
   "dependencies": {
-    "@darch/utils": "^2.0.0-rc2"
+    "@darch/utils": "^2.0.0-rc3"
   },
   "devDependencies": {
-    "@darch/builder": "^2.0.0-rc2",
+    "@darch/builder": "^2.0.0-rc3",
     "@types/jest": "27.0.3",
     "@types/lodash": "^4.14.182",
     "@types/node": "16.11.12",
