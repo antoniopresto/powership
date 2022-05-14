@@ -1,7 +1,7 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { createSchema, Schema } from '../Schema';
-import {Infer} from "../Infer";
+import { Infer } from '../Infer';
 
 const userSchema = new Schema({
   name: 'string',
@@ -296,29 +296,44 @@ describe('Schema', () => {
     });
   });
 
-  test('identify', () => {
-    const schema1 = createSchema({
-      name: 'string',
-      age: 'int?',
+  describe('identify', () => {
+    test('identify', () => {
+      const schema1 = createSchema({
+        name: 'string',
+        age: 'int?',
+      });
+
+      expect(schema1.id).toBe(null);
+
+      // @ts-ignore
+      expect(() => schema1.identify()).toThrow();
+      expect(() => schema1.identify('')).toThrow();
+
+      expect(schema1.identify('abc')).toHaveProperty('id', 'abc');
+      schema1.identify('abc');
+      schema1.identify('abc');
+      expect(() => schema1.identify('abcx')).toThrow(
+        'Trying to replace existing id "abc"'
+      );
+
+      expect(Schema.register.get('abc')).toBe(schema1);
+      expect(() => Schema.register.get('yyy')).toThrow(
+        'There is no item with key "yyy"'
+      );
     });
 
-    expect(schema1.id).toBe(null);
+    test('does not clone id', () => {
+      const schema1 = createSchema({
+        name: 'string',
+        age: 'int?',
+      }).identify('abc');
 
-    // @ts-ignore
-    expect(() => schema1.identify()).toThrow();
-    expect(() => schema1.identify('')).toThrow();
+      // @ts-ignore
+      expect(schema1.definition.__schema__.id).toBe('abc');
 
-    expect(schema1.identify('abc')).toHaveProperty('id', 'abc');
-    schema1.identify('abc')
-    schema1.identify('abc')
-    expect(() => schema1.identify('abcx')).toThrow(
-      'Trying to replace existing id "abc"'
-    );
-
-    expect(Schema.register.get('abc')).toBe(schema1);
-    expect(() => Schema.register.get('yyy')).toThrow(
-      'There is no item with key "yyy"'
-    );
+      // @ts-ignore
+      expect(schema1.clone().definition.__schema__.id).toBe(undefined);
+    });
   });
 
   test('.graphqlType()', () => {

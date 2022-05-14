@@ -13,7 +13,7 @@ import {
   ValidationCustomMessage,
 } from './applyValidator';
 
-import { parseSchemaFields } from './getSchemaErrors';
+import { validateSchemaFields } from './getSchemaErrors';
 import { parseSchemaDefinition } from './parseSchemaDefinition';
 import { FinalSchemaDefinition, ParseFields } from './fields/_parseFields';
 import { Infer } from './Infer';
@@ -37,6 +37,15 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
 
   constructor(schemaDef: DefinitionInput) {
     this.__definition = parseSchemaDefinition(schemaDef);
+
+    Object.defineProperty(this.__definition, '__schema__', {
+      enumerable: false,
+      value: Object.create(null),
+    });
+  }
+
+  private __setDefinitionMeta(k: string, value: string | number) {
+    this.__definition['__schema__'][k] = value;
   }
 
   parse(
@@ -96,7 +105,7 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
         return;
       }
 
-      const result = parseSchemaFields({
+      const result = validateSchemaFields({
         createSchema: (def) => new SchemaConstructor(def),
         fieldName: currField,
         definition,
@@ -194,6 +203,7 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     }
 
     this.__id = id;
+    this.__setDefinitionMeta('id', id);
     Schema.register.set(id, this);
 
     return this as any;
@@ -202,7 +212,7 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
   static register = new StrictMap();
 
   private _otc: ObjectTypeComposer | undefined;
-  otc = (): ObjectTypeComposer => {
+  entity = (): ObjectTypeComposer => {
     if (this._otc) return this._otc;
     if (isBrowser() || typeof module?.require !== 'function') {
       throw new Error('GraphQL transformation is not available on browser.');
@@ -223,13 +233,13 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
   private _graphqlType: GraphQLObjectType | undefined;
   graphqlType = (): any => {
     if (this._graphqlType) return this._graphqlType;
-    return (this._graphqlType = this.otc().getType());
+    return (this._graphqlType = this.entity().getType());
   };
 
   private _graphqlInputType: GraphQLInputObjectType | undefined;
   graphqlInputType = (): any => {
     if (this._graphqlInputType) return this._graphqlInputType;
-    return (this._graphqlInputType = this.otc().getInputType());
+    return (this._graphqlInputType = this.entity().getInputType());
   };
 }
 

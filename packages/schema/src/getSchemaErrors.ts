@@ -1,7 +1,7 @@
 import type { Schema } from './Schema';
 import { types, isFieldTypeName } from './fields/fieldTypes';
 
-export function parseSchemaFields(params: {
+export function validateSchemaFields(params: {
   createSchema: (def: any) => { getErrors: Function; parse: Function };
   parentType?: string;
   fieldName: string;
@@ -50,7 +50,7 @@ export function parseSchemaFields(params: {
     const errors: string[] = [];
 
     value.forEach(function (item, key) {
-      const result = parseSchemaFields({
+      const result = validateSchemaFields({
         createSchema,
         fieldName: key + '',
         parentType: fieldName,
