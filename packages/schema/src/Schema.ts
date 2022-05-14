@@ -241,6 +241,21 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     if (this._graphqlInputType) return this._graphqlInputType;
     return (this._graphqlInputType = this.entity().getInputType());
   };
+
+  static serverUtils() {
+    if (isBrowser() || typeof module?.require !== 'function') {
+      throw new Error('Server utils are not available on browser.');
+    }
+
+    return {
+      graphqlCompose: dynamicRequire(
+        'graphql-compose',
+        module
+      ) as typeof import('graphql-compose'),
+
+      graphql: dynamicRequire('graphql', module) as typeof import('graphql'),
+    };
+  }
 }
 
 export const DarchSchema = Schema;
