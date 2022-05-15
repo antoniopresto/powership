@@ -15,7 +15,11 @@ import {
 
 import { validateSchemaFields } from './getSchemaErrors';
 import { parseSchemaDefinition } from './parseSchemaDefinition';
-import { FinalSchemaDefinition, ParseFields } from './fields/_parseFields';
+import {
+  FinalSchemaDefinition,
+  ParseFields,
+  ToFinalField,
+} from './fields/_parseFields';
 import { Infer } from './Infer';
 import type { ObjectTypeComposer } from 'graphql-compose';
 import { isBrowser } from '@darch/utils/lib/isBrowser';
@@ -178,6 +182,24 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     return this.removeField(exclusion) as any;
   }
 
+  makeOptional<K extends ForceString<keyof DefinitionInput>>(
+    fields: K | K[]
+  ): Schema<MakeOptional<DefinitionInput, K>> {
+    const fieldList = Array.isArray(fields) ? fields : [fields];
+    const clone = this.clone();
+    fieldList.forEach((key) => (clone.__definition[key].optional = true));
+    return clone as any;
+  }
+
+  makeRequired<K extends ForceString<keyof DefinitionInput>>(
+    fields: K | K[]
+  ): Schema<MakeRequired<DefinitionInput, K>> {
+    const fieldList = Array.isArray(fields) ? fields : [fields];
+    const clone = this.clone();
+    fieldList.forEach((key) => (clone.__definition[key].optional = false));
+    return clone as any;
+  }
+
   get __isDarchSchema(): true {
     return true;
   }
@@ -312,4 +334,28 @@ type CloneFields<T, Keys extends string> = T extends {
   [K: string]: any;
 }
   ? Schema<{ [K in keyof T as K extends Keys ? K : never]: T[K] }>
+  : never;
+
+type MakeOptional<T, Keys extends string> = T extends {
+  [K: string]: any;
+}
+  ? {
+      [K in keyof T]: K extends Keys
+        ? ToFinalField<T[K]> extends infer Obj
+          ? { [K in keyof Obj]: K extends 'optional' ? true : Obj[K] }
+          : never
+        : T[K];
+    }
+  : never;
+
+type MakeRequired<T, Keys extends string> = T extends {
+  [K: string]: any;
+}
+  ? {
+      [K in keyof T]: K extends Keys
+        ? ToFinalField<T[K]> extends infer Obj
+          ? { [K in keyof Obj]: K extends 'optional' ? false : Obj[K] }
+          : never
+        : T[K];
+    }
   : never;

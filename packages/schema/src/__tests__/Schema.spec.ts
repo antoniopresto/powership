@@ -283,6 +283,108 @@ describe('Schema', () => {
     assert<IsExact<CloneNameAge, Omit<T1, 'email'>>>(true);
   });
 
+  test('makeOptional', () => {
+    const schema1 = createSchema({
+      name: 'string',
+      age: 'int?',
+      email: 'email',
+    });
+
+    const clone = schema1.makeOptional(['name', 'email']);
+
+    expect(schema1.definition).toEqual({
+      age: {
+        list: false,
+        optional: true,
+        type: 'int',
+      },
+      name: {
+        list: false,
+        optional: false,
+        type: 'string',
+      },
+      email: {
+        list: false,
+        optional: false,
+        type: 'email',
+      },
+    });
+
+    expect(clone.definition).toEqual({
+      age: {
+        list: false,
+        optional: true,
+        type: 'int',
+      },
+      name: {
+        list: false,
+        optional: true,
+        type: 'string',
+      },
+      email: {
+        list: false,
+        optional: true,
+        type: 'email',
+      },
+    });
+
+    type T1 = Infer<typeof schema1>;
+    type Clone = Infer<typeof clone>;
+
+    assert<IsExact<Clone, Partial<T1>>>(true);
+  });
+  
+  test('makeRequired', () => {
+    const schema1 = createSchema({
+      name: 'string',
+      age: 'int?',
+      email: 'email',
+    });
+
+    const clone = schema1.makeRequired(['name', 'email', 'age']);
+
+    expect(schema1.definition).toEqual({
+      age: {
+        list: false,
+        optional: true,
+        type: 'int',
+      },
+      name: {
+        list: false,
+        optional: false,
+        type: 'string',
+      },
+      email: {
+        list: false,
+        optional: false,
+        type: 'email',
+      },
+    });
+
+    expect(clone.definition).toEqual({
+      age: {
+        list: false,
+        optional: false,
+        type: 'int',
+      },
+      name: {
+        list: false,
+        optional: false,
+        type: 'string',
+      },
+      email: {
+        list: false,
+        optional: false,
+        type: 'email',
+      },
+    });
+
+    type T1 = Infer<typeof schema1>;
+    type Clone = Infer<typeof clone>;
+
+    assert<IsExact<Clone, Required<T1>>>(true);
+  });
+
   test('addFields', () => {
     const schema1 = createSchema({
       name: 'string',
