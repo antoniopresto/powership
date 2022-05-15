@@ -18,6 +18,7 @@ import { parseSchemaDefinition } from './parseSchemaDefinition';
 import {
   FinalSchemaDefinition,
   ParseFields,
+  SchemaFieldInput,
   ToFinalField,
 } from './fields/_parseFields';
 import { Infer } from './Infer';
@@ -25,7 +26,6 @@ import type { ObjectTypeComposer } from 'graphql-compose';
 import { isBrowser } from '@darch/utils/lib/isBrowser';
 import type { GraphQLInputObjectType, GraphQLObjectType } from 'graphql';
 import { dynamicRequire } from '@darch/utils/lib/dynamicRequire';
-import { getKeys } from '@darch/utils/lib/getKeys';
 
 export { RuntimeError } from '@darch/utils/lib/RuntimeError';
 export * from './parseSchemaDefinition';
@@ -172,17 +172,8 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
 
   addFields<T extends SchemaDefinitionInput>(
     definition: T
-  ): ExtendDefinition<DefinitionInput, T> {
+  ): SchemaExtendDefinition<ParseFields<DefinitionInput>, T> {
     return this.clone(definition) as any;
-  }
-
-  cloneFields<K extends ForceString<keyof DefinitionInput>>(
-    fields: K[]
-  ): CloneFields<DefinitionInput, K> {
-    const exclusion = getKeys(this.definition).filter(
-      (k) => !fields.includes(k as any)
-    );
-    return this.removeField(exclusion) as any;
   }
 
   makeOptional<K extends ForceString<keyof DefinitionInput>>(
@@ -208,21 +199,66 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
   }
 
   clone(): this;
+
   clone<T extends SchemaDefinitionInput>(
     extend: T
-  ): ExtendDefinition<DefinitionInput, T>;
-  clone<T extends SchemaDefinitionInput>(
+  ): SchemaExtendDefinition<ParseFields<DefinitionInput>, T>;
+
+  clone<T extends Record<string, SchemaFieldInput | null>>(
     extend: (current: ParseFields<DefinitionInput>) => T
-  ): Schema<T>;
-  clone(extend?: any) {
-    const clone = simpleObjectClone(this.definition);
+  ): Schema<{ [K in keyof ExcludeNull<T>]: ExcludeNull<T>[K] }>;
+
+  clone<K extends keyof DefinitionInput>(
+    fields: K[]
+  ): Schema<CloneFields<ParseFields<DefinitionInput>, K>>;
+
+  clone<
+    K extends keyof DefinitionInput,
+    T extends Record<string, SchemaFieldInput | null>
+  >(
+    fields: K[],
+    extend: (current: CloneFields<ParseFields<DefinitionInput>, K>) => T
+  ): Schema<{ [K in keyof ExcludeNull<T>]: ExcludeNull<T>[K] }>;
+
+  clone(...args: any[]) {
+    const definitionClone = simpleObjectClone(this.definition);
+
+    let extend;
+    let fields;
+
+    if (args.length === 1) {
+      if (Array.isArray(args[0])) {
+        fields = args[0];
+      } else {
+        extend = args[0];
+      }
+    }
+
+    if (args.length === 2) {
+      fields = args[0];
+      extend = args[1];
+    }
+
+    if (Array.isArray(fields)) {
+      for (const k in definitionClone) {
+        if (!fields.includes(k)) {
+          delete definitionClone[k];
+        }
+      }
+    }
 
     const def =
       typeof extend === 'function'
-        ? extend(clone)
+        ? extend(definitionClone)
         : typeof extend === 'object'
-        ? { ...clone, ...extend }
-        : clone;
+        ? { ...definitionClone, ...extend }
+        : definitionClone;
+
+    Object.keys(def).forEach((k) => {
+      if (!def[k]) {
+        delete def[k];
+      }
+    });
 
     return createSchema(def) as any;
   }
@@ -335,7 +371,7 @@ type OmitDefinitionFields<T, Keys extends string> = T extends {
   ? Schema<{ [K in keyof T as K extends Keys ? never : K]: T[K] }>
   : never;
 
-type ExtendDefinition<T, Ext> = T extends { [K: string]: any }
+type SchemaExtendDefinition<T, Ext> = T extends { [K: string]: any }
   ? Ext extends { [K: string]: any }
     ? Schema<{
         [K in keyof (T & Ext)]: (T & Ext)[K];
@@ -343,10 +379,10 @@ type ExtendDefinition<T, Ext> = T extends { [K: string]: any }
     : never
   : never;
 
-type CloneFields<T, Keys extends string> = T extends {
+type CloneFields<T, Keys> = T extends {
   [K: string]: any;
 }
-  ? Schema<{ [K in keyof T as K extends Keys ? K : never]: T[K] }>
+  ? { [K in keyof T as K extends Keys ? K : never]: T[K] }
   : never;
 
 type MakeOptional<T, Keys extends string> = T extends {
@@ -372,3 +408,11 @@ type MakeRequired<T, Keys extends string> = T extends {
         : T[K];
     }
   : never;
+
+type ExcludeNull<T> = {
+  [K in keyof T as [T[K]] extends [null]
+    ? never
+    : [T[K]] extends [undefined]
+    ? never
+    : K]: Exclude<T[K], null>;
+};
