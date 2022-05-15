@@ -789,6 +789,7 @@ describe('FieldTypes', () => {
           type: 'unknown',
           optional: true,
           list: true,
+          description: '🤔',
         },
       } as const;
 
@@ -801,6 +802,8 @@ describe('FieldTypes', () => {
           '  nameList: [Unknown]!\n' +
           '  nameListOptional: [Unknown]\n' +
           '  nameFromType: [Unknown]\n' +
+          '\n' +
+          '  """🤔"""\n' +
           '  defObject: [Unknown]\n' +
           '}'
       );

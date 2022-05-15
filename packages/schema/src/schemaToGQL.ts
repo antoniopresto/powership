@@ -64,11 +64,9 @@ export function fieldToGraphql(params: {
 
   function getType() {
     try {
-      const def: any = field.def;
+      const { def } = field;
 
-      const typeConstructor = types[
-        field.type
-      ] as typeof FieldType;
+      const typeConstructor = types[field.type] as typeof FieldType;
 
       if (!typeConstructor?.create) {
         throw new RuntimeError(
@@ -114,12 +112,18 @@ export function fieldToGraphql(params: {
     fields: { temp: type },
   });
 
+  const gqlField = otc.getField('temp');
+
   if (field.list) {
-    otc.setField('temp', otc.getField('temp').type.getTypePlural());
+    gqlField.type = gqlField.type.getTypePlural();
   }
 
   if (!field.optional) {
-    otc.setField('temp', otc.getField('temp').type.getTypeNonNull());
+    gqlField.type = gqlField.type.getTypeNonNull();
+  }
+
+  if (field.description) {
+    gqlField.description = field.description;
   }
 
   return otc.getField('temp');
