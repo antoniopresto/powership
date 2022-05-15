@@ -131,7 +131,7 @@ describe('Schema', () => {
     );
   });
 
-  it('accepts schema as field type', () => {
+  it('accepts schema as plain definition', () => {
     const rolesSchema = new Schema({
       name: 'string',
       permissions: '[string]',
@@ -158,6 +158,37 @@ describe('Schema', () => {
     expect(() => mySchema.parse({ userId: '123', roles: [1] })).toThrow(
       '• roles[0] expected object, found number'
     );
+  });
+
+  it('accepts schema as field type', () => {
+    const rolesSchema = new Schema({
+      name: 'string',
+      permissions: '[string]',
+      status: { enum: ['open', 'closed'] },
+    } as const);
+
+    const schema1 = new Schema({
+      userId: 'string',
+      roles: {
+        type: rolesSchema,
+        list: true,
+      },
+    });
+
+    const schema2 = new Schema({
+      userId: 'string',
+      roles: {
+        schema: rolesSchema,
+        list: true,
+      },
+    });
+
+    type T1 = Infer<typeof schema1>;
+    type T2 = Infer<typeof schema2>;
+
+    assert<IsExact<T1, T2>>(true);
+
+    expect(schema1.definition).toEqual(schema2.definition);
   });
 
   test('describe', () => {

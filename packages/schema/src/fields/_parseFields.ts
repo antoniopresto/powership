@@ -4,6 +4,7 @@ import { SchemaLike } from './ISchemaLike';
 
 export type SchemaFieldInput =
   | SchemaLike
+  | SchemaInTypeFieldDefinition
   | FinalFieldDefinition
   | FieldAsString
   | FlattenFieldDefinition
@@ -13,6 +14,15 @@ export type SchemaFieldInput =
 
 // https://github.com/microsoft/TypeScript/issues/3496#issuecomment-128553540
 interface SchemaInputArray extends Readonly<Array<SchemaFieldInput>> {}
+
+export interface SchemaInTypeFieldDefinition {
+  type: SchemaLike;
+  def?: never;
+  list?: boolean;
+  optional?: boolean;
+  description?: string;
+  __infer?: any;
+}
 
 export interface SchemaDefinitionInput {
   [K: string]: SchemaFieldInput;
@@ -64,6 +74,19 @@ export type ToFinalField<Base> =
           ? Parsed
           : // === end handling fieldType instance
 
+          Base extends {
+              type: SchemaLike;
+              list?: infer List;
+              optional?: infer Optional;
+            }
+          ? {
+              type: 'schema';
+              def: Base['type']['definition'];
+              list: [List] extends [true] ? true : false;
+              optional: [Optional] extends [true] ? true : false;
+              __infer: InferSchemaDefinition<Base['type']['definition']>;
+            }
+          : //
           Base extends {
               schema: SchemaLike;
               list?: infer List;

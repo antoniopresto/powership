@@ -121,12 +121,7 @@ export function parseFieldDefinitionConfig(
     } as any;
   }
 
-  // deprecated
   if (isSchemaAsTypeDefinition(definition)) {
-    console.warn(
-      `Using schema as type -> { type: Schema<any> ...} - is deprecated.`
-    );
-
     return {
       type: 'schema',
       def: definition.type.definition,

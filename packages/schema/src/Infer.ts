@@ -2,12 +2,22 @@ import {
   FieldAsString,
   FinalFieldDefinition,
   InferField,
+  SchemaInTypeFieldDefinition,
 } from './fields/_parseFields';
 import { SchemaLike } from './fields/ISchemaLike';
 
 export type Infer<T> = T extends SchemaLike
   ? InferField<{ type: 'schema'; def: T['definition'] }>
-  : T extends FinalFieldDefinition
+  : //
+  T extends SchemaInTypeFieldDefinition
+  ? InferField<{
+      type: 'schema';
+      def: T['type']['definition'];
+      list: T['list'];
+      optional: T['optional'];
+    }>
+  : //
+  T extends FinalFieldDefinition
   ? InferField<T>
   : T extends FieldAsString
   ? InferField<T>
@@ -19,4 +29,4 @@ export type Infer<T> = T extends SchemaLike
   ? InferField<T[number]>
   : T extends { [K: string]: any }
   ? InferField<{ type: 'schema'; def: T }>
-  : never;
+  : T;
