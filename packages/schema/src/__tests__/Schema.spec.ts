@@ -237,6 +237,52 @@ describe('Schema', () => {
     assert<IsExact<NoEmail, Omit<T1, 'email'>>>(true);
   });
 
+  test('cloneFields', () => {
+    const schema1 = createSchema({
+      name: 'string',
+      age: 'int?',
+      email: 'email',
+    });
+
+    const cloneNameAge = schema1.cloneFields(['name', 'age']);
+
+    expect(schema1.definition).toEqual({
+      age: {
+        list: false,
+        optional: true,
+        type: 'int',
+      },
+      name: {
+        list: false,
+        optional: false,
+        type: 'string',
+      },
+      email: {
+        list: false,
+        optional: false,
+        type: 'email',
+      },
+    });
+
+    expect(cloneNameAge.definition).toEqual({
+      age: {
+        list: false,
+        optional: true,
+        type: 'int',
+      },
+      name: {
+        list: false,
+        optional: false,
+        type: 'string',
+      },
+    });
+
+    type T1 = Infer<typeof schema1>;
+    type CloneNameAge = Infer<typeof cloneNameAge>;
+
+    assert<IsExact<CloneNameAge, Omit<T1, 'email'>>>(true);
+  });
+
   test('addFields', () => {
     const schema1 = createSchema({
       name: 'string',

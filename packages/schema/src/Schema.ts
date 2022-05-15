@@ -21,6 +21,7 @@ import type { ObjectTypeComposer } from 'graphql-compose';
 import { isBrowser } from '@darch/utils/lib/isBrowser';
 import type { GraphQLInputObjectType, GraphQLObjectType } from 'graphql';
 import { dynamicRequire } from '@darch/utils/lib/dynamicRequire';
+import { getKeys } from '@darch/utils/lib/getKeys';
 
 export { RuntimeError } from '@darch/utils/lib/RuntimeError';
 export * from './parseSchemaDefinition';
@@ -168,6 +169,15 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     return this.clone(definition) as any;
   }
 
+  cloneFields<K extends ForceString<keyof DefinitionInput>>(
+    fields: K[]
+  ): CloneFields<DefinitionInput, K> {
+    const exclusion = getKeys(this.definition).filter(
+      (k) => !fields.includes(k as any)
+    );
+    return this.removeField(exclusion) as any;
+  }
+
   get __isDarchSchema(): true {
     return true;
   }
@@ -296,4 +306,10 @@ type ExtendDefinition<T, Ext> = T extends { [K: string]: any }
         [K in keyof (T & Ext)]: (T & Ext)[K];
       }>
     : never
+  : never;
+
+type CloneFields<T, Keys extends string> = T extends {
+  [K: string]: any;
+}
+  ? Schema<{ [K in keyof T as K extends Keys ? K : never]: T[K] }>
   : never;
