@@ -318,13 +318,17 @@ describe('Schema', () => {
       email: 'email',
     });
 
-    const clone = schema1.clone(['name', 'email'], (v) => {
-      return {
-        ...v,
-        email: null,
-        emails: '[email]',
-      };
-    });
+    const clone = schema1.clone(
+      ['name', 'email'],
+      (v) => {
+        return {
+          ...v,
+          email: null,
+          emails: '[email]',
+        };
+      },
+      'identifyMe'
+    );
 
     expect(schema1.definition).toEqual({
       age: {
@@ -360,6 +364,8 @@ describe('Schema', () => {
     type Clone = Infer<typeof clone>;
 
     assert<IsExact<Clone, { name: string; emails: string[] }>>(true);
+
+    expect(clone.id).toBe('identifyMe');
   });
 
   test('makeOptional', () => {

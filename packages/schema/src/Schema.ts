@@ -198,18 +198,21 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     return true;
   }
 
-  clone(): this;
+  clone(name?: string): this;
 
   clone<T extends SchemaDefinitionInput>(
-    extend: T
+    extend: T,
+    name?: string
   ): SchemaExtendDefinition<ParseFields<DefinitionInput>, T>;
 
   clone<T extends Record<string, SchemaFieldInput | null>>(
-    extend: (current: ParseFields<DefinitionInput>) => T
+    extend: (current: ParseFields<DefinitionInput>) => T,
+    name?: string
   ): Schema<{ [K in keyof ExcludeNull<T>]: ExcludeNull<T>[K] }>;
 
   clone<K extends keyof DefinitionInput>(
-    fields: K[]
+    fields: K[],
+    name?: string
   ): Schema<CloneFields<ParseFields<DefinitionInput>, K>>;
 
   clone<
@@ -217,10 +220,18 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     T extends Record<string, SchemaFieldInput | null>
   >(
     fields: K[],
-    extend: (current: CloneFields<ParseFields<DefinitionInput>, K>) => T
+    extend: (current: CloneFields<ParseFields<DefinitionInput>, K>) => T,
+    name?: string
   ): Schema<{ [K in keyof ExcludeNull<T>]: ExcludeNull<T>[K] }>;
 
   clone(...args: any[]) {
+    const lastArg = args[args.length - 1];
+
+    let newId;
+    if (typeof lastArg === 'string') {
+      newId = args.pop();
+    }
+
     const definitionClone = simpleObjectClone(this.definition);
 
     let extend;
@@ -260,7 +271,13 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
       }
     });
 
-    return createSchema(def) as any;
+    const schema = createSchema(def);
+
+    if (newId) {
+      schema.identify(newId);
+    }
+
+    return schema as any;
   }
 
   private __id: string | null = null;
