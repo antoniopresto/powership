@@ -211,9 +211,19 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
   clone<T extends SchemaDefinitionInput>(
     extend: T
   ): ExtendDefinition<DefinitionInput, T>;
-  clone(...args: any[]) {
-    // @ts-ignore compiler relief
-    const def = simpleObjectClone({ ...this.definition, ...args[0] });
+  clone<T extends SchemaDefinitionInput>(
+    extend: (current: ParseFields<DefinitionInput>) => T
+  ): Schema<T>;
+  clone(extend?: any) {
+    const clone = simpleObjectClone(this.definition);
+
+    const def =
+      typeof extend === 'function'
+        ? extend(clone)
+        : typeof extend === 'object'
+        ? { ...clone, ...extend }
+        : clone;
+
     return createSchema(def) as any;
   }
 

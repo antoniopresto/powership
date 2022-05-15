@@ -188,6 +188,34 @@ describe('Schema', () => {
     expect(schema1.definition).toEqual(schema2.definition);
   });
 
+  test('clone using function', () => {
+    const schema1 = createSchema({
+      name: 'string',
+      age: 'int?',
+    });
+
+    const schema2 = schema1.clone((current) => {
+      return {
+        age: {
+          ...current.age,
+          list: true,
+        },
+      };
+    });
+
+    type Final = Infer<typeof schema2>;
+    assert<IsExact<Final, { age?: number[] | undefined }>>(true);
+
+    expect(schema1.definition).not.toBe(schema2.definition);
+    expect(schema2.definition).toEqual({
+      age: {
+        list: true,
+        optional: true,
+        type: 'int',
+      },
+    });
+  });
+
   test('removeField', () => {
     const schema1 = createSchema({
       name: 'string',
@@ -333,7 +361,7 @@ describe('Schema', () => {
 
     assert<IsExact<Clone, Partial<T1>>>(true);
   });
-  
+
   test('makeRequired', () => {
     const schema1 = createSchema({
       name: 'string',
