@@ -117,7 +117,10 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
         value,
       });
 
-      parsed[currField] = result.parsed;
+      if (input.hasOwnProperty(currField)) {
+        parsed[currField] = result.parsed;
+      }
+
       errors.push(...result.errors);
     });
 
