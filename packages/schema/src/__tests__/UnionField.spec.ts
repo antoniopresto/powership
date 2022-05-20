@@ -5,6 +5,7 @@ import { Infer } from '../Infer';
 import { createSchema } from '../Schema';
 import { ToFinalField } from '../fields/_parseFields';
 import { _assert, _assertFields } from '../fields/__tests__/__assert';
+import {schemaMetaFieldKey} from "../fields/MetaFieldField";
 
 describe('Union', () => {
   it('parses', () => {
@@ -159,6 +160,7 @@ describe('Union', () => {
     } as const);
 
     expect(schema.definition).toEqual({
+      [schemaMetaFieldKey]: expect.anything(),
       union1: {
         def: [
           {
@@ -597,9 +599,14 @@ describe('Union', () => {
   });
 
   it('should parse union of string and numbers', () => {
-    const sut = UnionField.create([{ string: { min: 1 } }, 'float']).toOptional();
+    const sut = UnionField.create([
+      { string: { min: 1 } },
+      'float',
+    ]).toOptional();
 
-    expect(() => sut.parse('')).toThrow('As string throws: 0 is less than the min string length 1.');
+    expect(() => sut.parse('')).toThrow(
+      'As string throws: 0 is less than the min string length 1.'
+    );
 
     expect(() => sut.parse('')).toThrow(
       'As float throws: Expected value to be of type "number", found string instead.'

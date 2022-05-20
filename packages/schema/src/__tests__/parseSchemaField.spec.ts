@@ -6,6 +6,7 @@ import {
 } from '../parseSchemaDefinition';
 
 import { schemaMocks } from './__mock__';
+import {schemaMetaFieldKey} from "../fields/MetaFieldField";
 
 const { typeDefs, stringDefTypes, schema2 } = schemaMocks;
 
@@ -39,6 +40,7 @@ describe('parseSchemaField', () => {
           optional: false,
           type: 'string',
         },
+        [schemaMetaFieldKey]: expect.anything(),
       },
       description: undefined,
       list: false,
@@ -147,6 +149,7 @@ describe('parseSchemaField', () => {
       optional: false,
       type: 'schema',
       def: {
+        [schemaMetaFieldKey]: expect.anything(),
         name: {
           list: false,
           optional: false,
@@ -158,6 +161,7 @@ describe('parseSchemaField', () => {
           type: 'schema',
 
           def: {
+            [schemaMetaFieldKey]: expect.anything(),
             name: {
               list: false,
               optional: false,
@@ -212,6 +216,7 @@ describe('parseSchemaField', () => {
       optional: true,
       type: 'schema',
       def: {
+        [schemaMetaFieldKey]: expect.anything(),
         name: {
           list: false,
           optional: false,
@@ -223,6 +228,7 @@ describe('parseSchemaField', () => {
           type: 'schema',
 
           def: {
+            [schemaMetaFieldKey]: expect.anything(),
             name: {
               list: false,
               optional: false,
@@ -288,6 +294,7 @@ describe('parseSchemaField', () => {
       list: false,
       optional: false,
       def: {
+        [schemaMetaFieldKey]: expect.anything(),
         stringDefBoolean: {
           list: false,
           optional: false,

@@ -16,9 +16,7 @@ export function fieldInstanceFromDef(
     );
   }
 
-  const fieldConstructor = types[
-    definition.type
-  ] as typeof FieldType;
+  const fieldConstructor = types[definition.type] as typeof FieldType;
 
   let field = fieldConstructor.create(definition.def);
 

@@ -18,6 +18,7 @@ import { UnknownField } from './UnknownField';
 
 import { NullField } from './NullField';
 import { FieldTypeName } from './_fieldDefinitions';
+import { MetaField } from './MetaFieldField';
 
 function createConstructors<T extends { [K in FieldTypeName]: any }>(
   input: T
@@ -45,6 +46,7 @@ export const types = createConstructors({
   undefined: UndefinedField,
   record: RecordField,
   null: NullField,
+  meta: MetaField,
 });
 
 function _isFieldTypeName(t: any): t is FieldTypeName {

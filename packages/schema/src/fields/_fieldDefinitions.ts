@@ -1,11 +1,12 @@
 import { SchemaFieldInput } from './_parseFields';
 import { RecordFieldDef } from './RecordField';
 import { SchemaLike } from './ISchemaLike';
+import {MetaFieldDef} from "./MetaFieldField";
 
 export type TCursor = {
   pk: string;
-  prefix: string;
-  delimiter: string;
+  prefix?: string;
+  delimiter?: string;
   limit?: number;
   after?: string;
   fields?: string[];
@@ -75,6 +76,8 @@ export type FieldDefinitions = {
   union: SchemaFieldInput[] | Readonly<SchemaFieldInput[]>;
 
   enum: Array<string> | Readonly<Array<string>>;
+  
+  meta: MetaFieldDef
 };
 
 export type FieldTypeName = Extract<keyof FieldDefinitions, string>;

@@ -16,6 +16,7 @@ import { createSchema, Schema } from '../index';
 import { fieldToGraphql, schemaToGQL } from '../schemaToGQL';
 import { schemaToTypescript } from '../schemaToTypescript';
 import { Infer } from '../Infer';
+import { _assertFields } from '../fields/__tests__/__assert';
 
 describe('FieldTypes', () => {
   describe('field to graphql', () => {
@@ -683,18 +684,16 @@ describe('FieldTypes', () => {
 
       type T = Infer<typeof def>;
 
-      assert<
-        IsExact<
-          T,
-          {
-            name: CursorType;
-            nameOpt?: CursorType | undefined;
-            nameList: CursorType[];
-            nameListOptional?: CursorType[] | undefined;
-            nameFromType?: CursorType[] | undefined;
-            defObject?: CursorType[] | undefined;
-          }
-        >
+      _assertFields<
+        T,
+        {
+          name: CursorType;
+          nameOpt?: CursorType | undefined;
+          nameList: CursorType[];
+          nameListOptional?: CursorType[] | undefined;
+          nameFromType?: CursorType[] | undefined;
+          defObject?: CursorType[] | undefined;
+        }
       >(true);
     });
   });

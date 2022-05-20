@@ -6,7 +6,7 @@ import { invariantType } from '@darch/utils/lib/invariant';
 import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 import { ForceString } from '@darch/utils/lib/typeUtils';
 
-import { SchemaDefinitionInput } from './TSchemaConfig';
+import { SchemaDefinitionInput} from './TSchemaConfig';
 
 import {
   parseValidationError,
@@ -26,6 +26,7 @@ import type { ObjectTypeComposer } from 'graphql-compose';
 import { isBrowser } from '@darch/utils/lib/isBrowser';
 import type { GraphQLInputObjectType, GraphQLObjectType } from 'graphql';
 import { dynamicRequire } from '@darch/utils/lib/dynamicRequire';
+import {isMetaFieldKey, MetaFieldDef, schemaMetaFieldKey} from './fields/MetaFieldField';
 
 export { RuntimeError } from '@darch/utils/lib/RuntimeError';
 export * from './parseSchemaDefinition';
@@ -38,19 +39,21 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     return this.__definition;
   }
 
-  _description: string | undefined;
-
-  constructor(schemaDef: DefinitionInput) {
-    this.__definition = parseSchemaDefinition(schemaDef);
-
-    Object.defineProperty(this.__definition, '__schema__', {
-      enumerable: false,
-      value: Object.create(null),
-    });
+  get description() {
+    return this.meta.description;
   }
 
-  private __setDefinitionMeta(k: string, value: string | number) {
-    this.__definition['__schema__'][k] = value;
+  constructor(schemaDef: DefinitionInput) {
+    const parsed = parseSchemaDefinition(schemaDef);
+    this.__definition = parsed.definition;
+  }
+
+  get meta(): MetaFieldDef {
+    return this.__definition[schemaMetaFieldKey].def;
+  }
+
+  private __setMetaData(k: keyof MetaFieldDef, value: string | number) {
+    this.__definition[schemaMetaFieldKey].def[k] = value;
   }
 
   parse(
@@ -102,9 +105,11 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     }
 
     Object.keys(this.definition).forEach((currField) => {
+      if (isMetaFieldKey(currField)) return;
+
       const value = input[currField];
-      // @ts-ignore infer circular reference
-      const definition = this.definition[currField];
+
+      const fieldDef = this.definition[currField];
 
       if (value === undefined && partial) {
         return;
@@ -113,11 +118,11 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
       const result = validateSchemaFields({
         createSchema: (def) => new SchemaConstructor(def),
         fieldName: currField,
-        definition,
+        definition: fieldDef,
         value,
       });
 
-      if (input.hasOwnProperty(currField)) {
+      if (Object.prototype.hasOwnProperty.call(input, currField)) {
         parsed[currField] = result.parsed;
       }
 
@@ -133,7 +138,7 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
       | [{ [K in keyof DefinitionInput]?: string }]
   ): Schema<DefinitionInput> {
     if (descriptions.length === 1 && typeof descriptions[0] === 'string') {
-      this._description = descriptions[0];
+      this.__setMetaData('description', descriptions[0]);
       return this;
     }
 
@@ -233,6 +238,7 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     }
 
     const definitionClone = simpleObjectClone(this.definition);
+    delete definitionClone[schemaMetaFieldKey];
 
     let extend;
     let fields;
@@ -280,9 +286,8 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     return schema as any;
   }
 
-  private __id: string | null = null;
   get id() {
-    return this.__id;
+    return this.meta.id;
   }
 
   identify<ID extends string>(id: ID): this & { id: ID } {
@@ -300,8 +305,7 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
       console.error(`Schema with id "${id}" already registered.`);
     }
 
-    this.__id = id;
-    this.__setDefinitionMeta('id', id);
+    this.__setMetaData('id', id);
     Schema.register.set(id, this);
 
     return this as any;
@@ -310,10 +314,15 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
   static register = new StrictMap();
 
   private _otc: ObjectTypeComposer | undefined;
-  entity = (): ObjectTypeComposer => {
+
+  entity = (name?: string): ObjectTypeComposer => {
     if (this._otc) return this._otc;
     if (isBrowser() || typeof module?.require !== 'function') {
-      throw new Error('GraphQL transformation is not available on browser.');
+      throw new Error('GraphQL transformation is not available in browser.');
+    }
+
+    if (name) {
+      this.identify(name);
     }
 
     if (!this.id) {

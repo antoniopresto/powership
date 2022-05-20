@@ -1,5 +1,6 @@
 import type { Schema } from './Schema';
 import { types, isFieldTypeName } from './fields/fieldTypes';
+import { isMetaField } from './fields/MetaFieldField';
 
 export function validateSchemaFields(params: {
   createSchema: (def: any) => { getErrors: Function; parse: Function };
@@ -13,8 +14,16 @@ export function validateSchemaFields(params: {
 } {
   const { fieldName, definition, value, parentType, createSchema } = params;
 
+  if (isMetaField(definition, fieldName)) {
+    return {
+      errors: [],
+    };
+  }
+
   function prefixError(msg: string) {
-    return parentType ? `• ${parentType}[${fieldName}] ${msg}` : `➤ field "${fieldName}": ${msg.replace(/\.$/, '')}.`;
+    return parentType
+      ? `• ${parentType}[${fieldName}] ${msg}`
+      : `➤ field "${fieldName}": ${msg.replace(/\.$/, '')}.`;
   }
 
   if (value === undefined) {
@@ -27,14 +36,18 @@ export function validateSchemaFields(params: {
         return {
           errors: [
             prefixError(
-              `expected value to match one of the following types: ${definition.def.map((el) => el.type).join(' or ')}`
+              `expected value to match one of the following types: ${definition.def
+                .map((el) => el.type)
+                .join(' or ')}`
             ),
           ],
         };
       }
 
       return {
-        errors: [prefixError(`expected type ${definition.type}, found undefined`)],
+        errors: [
+          prefixError(`expected type ${definition.type}, found undefined`),
+        ],
       };
     }
   }

@@ -1,10 +1,11 @@
 import { Schema } from '../Schema';
 import { EnumField } from '../fields/EnumField';
 import { parseSchemaDefinition } from '../parseSchemaDefinition';
+import {schemaMetaFieldKey} from "../fields/MetaFieldField";
 
 describe('parseSchemaDefinition', () => {
   it('works', () => {
-    const sut = parseSchemaDefinition({
+    const { definition: sut } = parseSchemaDefinition({
       objectIntDef: {
         type: 'int',
       },
@@ -27,6 +28,7 @@ describe('parseSchemaDefinition', () => {
     });
 
     expect(sut).toEqual({
+      [schemaMetaFieldKey]: expect.anything(),
       arrayString: {
         list: true,
         optional: false,
@@ -78,6 +80,7 @@ describe('parseSchemaDefinition', () => {
       },
       schemaAsFlattenDef: {
         def: {
+          [schemaMetaFieldKey]: expect.anything(),
           name: {
             list: false,
             optional: false,
@@ -120,7 +123,7 @@ describe('parseSchemaDefinition', () => {
       age: 'int',
     } as const;
 
-    const sut = parseSchemaDefinition({
+    const { definition: sut } = parseSchemaDefinition({
       name: 'string',
       schema: otherSchema,
       schemaList: {
@@ -161,6 +164,7 @@ describe('parseSchemaDefinition', () => {
         def: [
           {
             def: {
+              [schemaMetaFieldKey]: expect.anything(),
               points: {
                 list: true,
                 optional: true,
@@ -184,6 +188,7 @@ describe('parseSchemaDefinition', () => {
     };
 
     expect(sut).toEqual({
+      [schemaMetaFieldKey]: expect.anything(),
       name: {
         type: 'string',
         list: false,
@@ -208,19 +213,19 @@ describe('parseSchemaDefinition', () => {
         type: 'schema',
       },
       schemaAsSchema: {
-        def: sassDef,
+        def: { ...sassDef, [schemaMetaFieldKey]: expect.anything() },
         list: false,
         optional: false,
         type: 'schema',
       },
       schemaAsSchemaList: {
-        def: sassDef,
+        def: { ...sassDef, [schemaMetaFieldKey]: expect.anything() },
         list: true,
         optional: false,
         type: 'schema',
       },
       schemaAsSchemaListOptional: {
-        def: sassDef,
+        def: { ...sassDef, [schemaMetaFieldKey]: expect.anything() },
         list: true,
         optional: true,
         type: 'schema',

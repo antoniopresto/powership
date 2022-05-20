@@ -29,4 +29,4 @@ export type Infer<T> = T extends SchemaLike
   ? InferField<T[number]>
   : T extends { [K: string]: any }
   ? InferField<{ type: 'schema'; def: T }>
-  : T;
+  : never;

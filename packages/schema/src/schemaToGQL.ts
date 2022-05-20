@@ -1,11 +1,7 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { getKeys } from '@darch/utils/lib/getKeys';
 
-import {
-  camelCase,
-  schemaComposer as defaultSchemaComposer,
-  upperFirst,
-} from 'graphql-compose';
+import { schemaComposer as defaultSchemaComposer } from 'graphql-compose';
 
 import { FieldType, TAnyFieldType } from './FieldType';
 import { SchemaDefinitionInput } from './TSchemaConfig';
@@ -16,6 +12,8 @@ import {
   FinalFieldDefinition,
   FinalSchemaDefinition,
 } from './fields/_parseFields';
+import { parseTypeName } from './parseTypeName';
+import { isMetaFieldKey } from './fields/MetaFieldField';
 
 export function schemaToGQL(
   typeName: string,
@@ -24,13 +22,14 @@ export function schemaToGQL(
 ) {
   const fields: any = {};
 
-  const parsed = parseSchemaDefinition(definition);
+  const { definition: parsedDefinition } = parseSchemaDefinition(definition);
 
-  getKeys(parsed).forEach((fieldName) => {
-    const field = parsed[fieldName];
+  getKeys(parsedDefinition).forEach((fieldName) => {
+    if (isMetaFieldKey(fieldName)) return;
+    const field = parsedDefinition[fieldName];
 
     if (field.type === 'schema') {
-      const subName = `${parseTypeName(typeName)}${parseTypeName(fieldName)}`;
+      const subName = parseTypeName({ parentName: typeName, fieldName, field });
       const otc = schemaToGQL(subName, field.def as any);
       fields[fieldName] = otc.getTypeName();
     } else {
@@ -137,8 +136,4 @@ function hasFields(
   t: any
 ): t is { name: string; fields: Record<string, string> } {
   return typeof t?.fields === 'object' && typeof t?.name === 'string';
-}
-
-function parseTypeName(name: string) {
-  return upperFirst(camelCase(name));
 }

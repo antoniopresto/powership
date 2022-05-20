@@ -4,8 +4,8 @@ import {Infer} from "../Infer";
 
 const def = {
   pk: 'string',
-  prefix: 'string',
-  delimiter: 'string',
+  prefix: 'string?', // prefix for SK if applies
+  delimiter: 'string?', // the PK delimiter when using composite key
   limit: 'int?',
   after: 'string?',
   fields: '[string]?',
@@ -59,7 +59,7 @@ export class CursorField extends FieldType<CursorType, 'cursor', undefined> {
     name: 'Cursor',
     fields: {
       pk: 'String!',
-      prefix: 'String!',
+      prefix: 'String',
       delimiter: 'String',
       limit: 'Int',
       after: 'String',

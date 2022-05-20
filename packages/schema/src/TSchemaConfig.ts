@@ -1,4 +1,4 @@
-import { SchemaFieldInput, SchemaDefinitionInput } from './fields/_parseFields';
+import { SchemaDefinitionInput, SchemaFieldInput } from './fields/_parseFields';
 
 // for back compatibility
 export type { SchemaDefinitionInput };

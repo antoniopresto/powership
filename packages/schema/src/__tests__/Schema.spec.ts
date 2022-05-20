@@ -2,6 +2,7 @@ import { assert, IsExact } from 'conditional-type-checks';
 
 import { createSchema, Schema } from '../Schema';
 import { Infer } from '../Infer';
+import {schemaMetaFieldKey} from "../fields/MetaFieldField";
 
 const userSchema = new Schema({
   name: 'string',
@@ -71,6 +72,7 @@ describe('Schema', () => {
         optional: true,
         type: 'string',
       },
+      [schemaMetaFieldKey]: expect.anything(),
     });
   });
 
@@ -244,6 +246,7 @@ describe('Schema', () => {
         optional: true,
         type: 'int',
       },
+      [schemaMetaFieldKey]: expect.anything(),
     });
   });
 
@@ -258,6 +261,7 @@ describe('Schema', () => {
     const noEmail = schema1.removeField(['email']);
 
     expect(schema1.definition).toEqual({
+      [schemaMetaFieldKey]: expect.anything(),
       age: {
         list: false,
         optional: true,
@@ -276,6 +280,7 @@ describe('Schema', () => {
     });
 
     expect(noName.definition).toEqual({
+      [schemaMetaFieldKey]: expect.anything(),
       age: {
         list: false,
         optional: true,
@@ -306,6 +311,7 @@ describe('Schema', () => {
     const cloneNameAge = schema1.clone(['name', 'age']);
 
     expect(schema1.definition).toEqual({
+      [schemaMetaFieldKey]: expect.anything(),
       age: {
         list: false,
         optional: true,
@@ -324,6 +330,7 @@ describe('Schema', () => {
     });
 
     expect(cloneNameAge.definition).toEqual({
+      [schemaMetaFieldKey]: expect.anything(),
       age: {
         list: false,
         optional: true,
@@ -362,6 +369,7 @@ describe('Schema', () => {
     );
 
     expect(schema1.definition).toEqual({
+      [schemaMetaFieldKey]: expect.anything(),
       age: {
         list: false,
         optional: true,
@@ -380,6 +388,7 @@ describe('Schema', () => {
     });
 
     expect(clone.definition).toEqual({
+      [schemaMetaFieldKey]: expect.anything(),
       emails: {
         list: true,
         optional: false,
@@ -409,6 +418,7 @@ describe('Schema', () => {
     const clone = schema1.makeOptional(['name', 'email']);
 
     expect(schema1.definition).toEqual({
+      [schemaMetaFieldKey]: expect.anything(),
       age: {
         list: false,
         optional: true,
@@ -427,6 +437,7 @@ describe('Schema', () => {
     });
 
     expect(clone.definition).toEqual({
+      [schemaMetaFieldKey]: expect.anything(),
       age: {
         list: false,
         optional: true,
@@ -460,6 +471,7 @@ describe('Schema', () => {
     const clone = schema1.makeRequired(['name', 'email', 'age']);
 
     expect(schema1.definition).toEqual({
+      [schemaMetaFieldKey]: expect.anything(),
       age: {
         list: false,
         optional: true,
@@ -478,6 +490,7 @@ describe('Schema', () => {
     });
 
     expect(clone.definition).toEqual({
+      [schemaMetaFieldKey]: expect.anything(),
       age: {
         list: false,
         optional: false,
@@ -512,6 +525,7 @@ describe('Schema', () => {
     });
 
     expect(schema1.definition).toEqual({
+      [schemaMetaFieldKey]: expect.anything(),
       age: {
         list: false,
         optional: true,
@@ -525,6 +539,7 @@ describe('Schema', () => {
     });
 
     expect(withEmail.definition).toEqual({
+      [schemaMetaFieldKey]: expect.anything(),
       age: {
         list: false,
         optional: true,
@@ -593,10 +608,10 @@ describe('Schema', () => {
       }).identify('abc');
 
       // @ts-ignore
-      expect(schema1.definition.__schema__.id).toBe('abc');
+      expect(schema1.id).toBe('abc');
 
       // @ts-ignore
-      expect(schema1.clone().definition.__schema__.id).toBe(undefined);
+      expect(schema1.clone().id).toBe(null);
     });
   });
 
@@ -616,5 +631,17 @@ describe('Schema', () => {
     }).identify('User');
 
     expect(type.graphqlInputType().getFields()).toMatchSnapshot();
+  });
+
+  test('.entity(name: string) should identify before creating a OTC type', () => {
+    const type = createSchema({
+      name: 'string',
+      age: 'int?',
+    }).entity('User');
+
+    expect(type.getType().getFields()).toMatchObject({
+      name: { astNode: {} },
+      age: { astNode: {} },
+    });
   });
 });

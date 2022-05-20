@@ -14,6 +14,8 @@ import {
 } from './fields/_parseFields';
 import { FieldTypeName } from './fields/_fieldDefinitions';
 import { SchemaLike } from './fields/ISchemaLike';
+import { parseTypeName } from './parseTypeName';
+import { isMetaFieldKey } from './fields/MetaFieldField';
 
 /**
  * Converts a schema to a json-schema format
@@ -32,13 +34,17 @@ export function schemaToJSON(
     definition = schema as FinalSchemaDefinition;
   }
 
-  const description = isSchema(schema) ? schema._description : undefined;
+  const description = isSchema(schema) ? schema.description : undefined;
 
   const topProperties: Record<string, JSONSchema4> = {};
   const required: string[] = [];
 
   const topJSON: JSONSchema4 & { properties: JSONSchema4 } = {
-    title: parentName,
+    title: parseTypeName({
+      parentName: parentName,
+      fieldName: '',
+      field: { type: 'schema', def: schema },
+    }),
     type: 'object',
     properties: topProperties,
     required,
@@ -50,6 +56,8 @@ export function schemaToJSON(
   }
 
   getKeys(definition).forEach((fieldName) => {
+    if (isMetaFieldKey(fieldName)) return;
+
     const parsedField = parseField({
       field: definition[fieldName] as any,
       fieldName,
@@ -106,6 +114,8 @@ function parseField(params: {
   }
 
   const typeParsers: { [K in FieldTypeName]: () => any } = {
+    meta() {},
+
     null() {
       jsonItem.type = 'null';
     },
@@ -160,13 +170,15 @@ function parseField(params: {
       jsonItem.tsType = 'unknown';
     },
     schema() {
-      Object.assign(
-        jsonItem,
-        schemaToJSON(parentName || fieldName, field.def as any),
-        {
-          title: '',
-        }
-      );
+      const schemaName = parseTypeName({
+        parentName: parentName || '',
+        fieldName: '',
+        field,
+      });
+
+      Object.assign(jsonItem, schemaToJSON(schemaName, field.def), {
+        title: '',
+      });
     },
     union() {
       const def = field.def as FinalFieldDefinition[];

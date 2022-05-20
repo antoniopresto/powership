@@ -6,7 +6,11 @@ import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 
 import { isFieldInstance, TAnyFieldType } from './FieldType';
 import { isSchema, Schema } from './Schema';
-import { FieldDefinitionConfig, SchemaDefinitionInput } from './TSchemaConfig';
+import {
+  FieldDefinitionConfig,
+  SchemaDefinitionInput,
+  
+} from './TSchemaConfig';
 import { fieldInstanceFromDef } from './fieldInstanceFromDef';
 
 import { types } from './fields/fieldTypes';
@@ -18,6 +22,7 @@ import {
 
 import { FinalFieldDefinition } from './fields/_parseFields';
 import { isProduction } from '@darch/utils/lib/env';
+import {isMetaField, MetaField, schemaMetaFieldKey} from './fields/MetaFieldField';
 
 export function parseSchemaField<T extends FieldDefinitionConfig>(
   fieldName: string,
@@ -75,7 +80,7 @@ export function parseFieldDefinitionConfig(
       if (isSchema(definition.def)) {
         definition.def = definition.def.definition;
       } else {
-        definition.def = parseSchemaDefinition(definition.def);
+        definition.def = parseSchemaDefinition(definition.def).definition;
       }
     }
 
@@ -118,6 +123,7 @@ export function parseFieldDefinitionConfig(
       def: definition.definition,
       optional: false,
       list: false,
+      description: definition.description,
     } as any;
   }
 
@@ -127,6 +133,7 @@ export function parseFieldDefinitionConfig(
       def: definition.type.definition,
       optional: !!definition.optional,
       list: !!definition.list,
+      description: definition.type.description,
     } as any;
   }
 
@@ -140,15 +147,26 @@ export function parseFieldDefinitionConfig(
 
 export function parseSchemaDefinition<T extends SchemaDefinitionInput>(
   input: T
-): FinalFieldDefinition {
-  const result = {} as FinalFieldDefinition;
+): {
+  definition: { [key: string]: FinalFieldDefinition };
+  meta: MetaField['asFinalField'];
+} {
+  const result = {} as { [key: string]: FinalFieldDefinition };
+
+  let meta: MetaField['asFinalField'] | undefined = undefined;
 
   getKeys(input).forEach(function (fieldName) {
     try {
-      (result as any)[fieldName] = parseSchemaField(
+      const item = input[fieldName];
+
+      if (isMetaField(item, fieldName)) {
+        return (meta = item);
+      }
+
+      return (result[fieldName] = parseSchemaField(
         fieldName,
         (input as any)[fieldName]
-      );
+      ));
     } catch (err: any) {
       throw new RuntimeError(
         `Failed to process schema field "${fieldName}":\n${err.message}`,
@@ -160,7 +178,13 @@ export function parseSchemaDefinition<T extends SchemaDefinitionInput>(
     }
   });
 
-  return result;
+  meta = meta || { type: 'meta', def: { id: null } };
+  result[schemaMetaFieldKey] = meta;
+
+  return {
+    definition: result,
+    meta,
+  };
 }
 
 function isFinalFieldDefinition(input: any): input is FinalFieldDefinition {
