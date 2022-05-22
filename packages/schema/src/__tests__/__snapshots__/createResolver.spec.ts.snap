@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createResolver Should accept literals as type 1`] = `
+"type Query {
+  airplanes: [Int]
+}
+"
+`;
+
+exports[`createResolver Should create complex types preserving names 1`] = `
+"scalar FIXMEUnionFIXME
+
+type Query {
+  users(id: Ulid!, name: String!, addresses: UserAddressInput, records: Record!): user
+}
+
+scalar Record
+
+scalar Ulid
+
+type user {
+  name: String!
+  age: Int
+}
+
+input UserAddressInput {
+  street: String!
+
+  \\"\\"\\"string or number\\"\\"\\"
+  number: FIXMEUnionFIXME!
+}
+"
+`;

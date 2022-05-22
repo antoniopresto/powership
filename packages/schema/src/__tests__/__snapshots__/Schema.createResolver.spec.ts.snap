@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Schema.createResolver Should create custom resolvers 1`] = `
+"type Query {
+  users: Users
+}
+
+type Users {
+  name: String!
+  age: Int!
+}"
+`;
+
+exports[`Schema.createResolver Should parse optional arguments 1`] = `
+"type Query {
+  users(id: Int): User
+}
+
+type User {
+  name: String!
+  age: Int
+}"
+`;
+
+exports[`Schema.createResolver Should validate output 1`] = `
+"type Query {
+  user(filter: UserFilterInput): User
+}
+
+type User {
+  name: String!
+  age: Int!
+}
+
+input UserFilterInput {
+  id: Int
+  nameSearch: [String]
+}"
+`;

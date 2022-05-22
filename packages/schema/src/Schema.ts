@@ -6,7 +6,7 @@ import { invariantType } from '@darch/utils/lib/invariant';
 import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 import { ForceString } from '@darch/utils/lib/typeUtils';
 
-import { SchemaDefinitionInput} from './TSchemaConfig';
+import { SchemaDefinitionInput } from './TSchemaConfig';
 
 import {
   parseValidationError,
@@ -26,7 +26,12 @@ import type { ObjectTypeComposer } from 'graphql-compose';
 import { isBrowser } from '@darch/utils/lib/isBrowser';
 import type { GraphQLInputObjectType, GraphQLObjectType } from 'graphql';
 import { dynamicRequire } from '@darch/utils/lib/dynamicRequire';
-import {isMetaFieldKey, MetaFieldDef, schemaMetaFieldKey} from './fields/MetaFieldField';
+import {
+  isMetaFieldKey,
+  MetaFieldDef,
+  schemaMetaFieldKey,
+} from './fields/MetaFieldField';
+import type { CreateResolverOptions, Resolver } from './createResolver';
 
 export { RuntimeError } from '@darch/utils/lib/RuntimeError';
 export * from './parseSchemaDefinition';
@@ -326,9 +331,10 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     }
 
     if (!this.id) {
-      throw new Error(
+      throw new RuntimeError(
         'Should schema.identify() before converting to Graphql.' +
-          '\nYou can call schema.clone() to choose a different identification.'
+          '\nYou can call schema.clone() to choose a different identification.',
+        { 'used definition': this.definition }
       );
     }
 
@@ -349,6 +355,19 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     return (this._graphqlInputType = this.entity().getInputType());
   };
 
+  createResolver = <
+    Args extends SchemaDefinitionInput,
+    Context = unknown,
+    Source = unknown
+  >(
+    options: Omit<CreateResolverOptions<this, Args, Context, Source>, 'type'>
+  ): Resolver<this, Args, Context, Source> => {
+    return Schema.serverUtils().createResolver({
+      ...options,
+      type: this,
+    });
+  };
+
   static serverUtils() {
     if (isBrowser() || typeof module?.require !== 'function') {
       throw new Error('Server utils are not available on browser.');
@@ -361,7 +380,26 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
       ) as typeof import('graphql-compose'),
 
       graphql: dynamicRequire('graphql', module) as typeof import('graphql'),
+
+      createResolver: dynamicRequire('./createResolver', module)
+        .createResolver as typeof import('./createResolver')['createResolver'],
     };
+  }
+
+  static createResolver = <
+    TypeDef extends SchemaFieldInput | Schema<SchemaDefinitionInput>,
+    Args extends SchemaDefinitionInput,
+    Context = unknown,
+    Source = unknown
+  >(
+    options: CreateResolverOptions<TypeDef, Args, Context, Source>
+  ): Resolver<TypeDef, Args, Context, Source> => {
+    return Schema.serverUtils().createResolver(options);
+  };
+
+  static async reset() {
+    Schema.serverUtils().graphqlCompose.schemaComposer.clear();
+    Schema.register.clear();
   }
 }
 
