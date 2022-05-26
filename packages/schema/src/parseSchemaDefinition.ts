@@ -6,11 +6,7 @@ import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 
 import { isFieldInstance, TAnyFieldType } from './FieldType';
 import { isSchema, Schema } from './Schema';
-import {
-  FieldDefinitionConfig,
-  SchemaDefinitionInput,
-  
-} from './TSchemaConfig';
+import { FieldDefinitionConfig, SchemaDefinitionInput } from './TSchemaConfig';
 import { fieldInstanceFromDef } from './fieldInstanceFromDef';
 
 import { types } from './fields/fieldTypes';
@@ -22,7 +18,12 @@ import {
 
 import { FinalFieldDefinition } from './fields/_parseFields';
 import { isProduction } from '@darch/utils/lib/env';
-import {isMetaField, MetaField, schemaMetaFieldKey} from './fields/MetaFieldField';
+import {
+  isMetaField,
+  MetaField,
+  schemaMetaFieldKey,
+} from './fields/MetaFieldField';
+import { nonNullValues } from '@darch/utils/lib/invariant';
 
 export function parseSchemaField<T extends FieldDefinitionConfig>(
   fieldName: string,
@@ -43,6 +44,8 @@ export function parseSchemaField<T extends FieldDefinitionConfig>(
   const parsed = simpleObjectClone(parseFieldDefinitionConfig(definition));
 
   const instanceFromDef = fieldInstanceFromDef(parsed);
+
+  setCachedFieldInstance(parsed, instanceFromDef);
 
   if (instanceFromDef.def) {
     parsed.def = instanceFromDef.def;
@@ -146,11 +149,16 @@ export function parseFieldDefinitionConfig(
 }
 
 export function parseSchemaDefinition<T extends SchemaDefinitionInput>(
-  input: T
+  input: T,
+  options: {
+    omitMeta?: boolean;
+  } = {}
 ): {
   definition: { [key: string]: FinalFieldDefinition };
   meta: MetaField['asFinalField'];
 } {
+  const { omitMeta } = options;
+
   const result = {} as { [key: string]: FinalFieldDefinition };
 
   let meta: MetaField['asFinalField'] | undefined = undefined;
@@ -179,7 +187,10 @@ export function parseSchemaDefinition<T extends SchemaDefinitionInput>(
   });
 
   meta = meta || { type: 'meta', def: { id: null } };
-  result[schemaMetaFieldKey] = meta;
+
+  if (!omitMeta) {
+    result[schemaMetaFieldKey] = meta;
+  }
 
   return {
     definition: result,
@@ -277,5 +288,19 @@ export function parseFlattenFieldDefinition(input: any) {
     description,
     optional,
     list,
+  });
+}
+
+export function __getCachedFieldInstance(field: any): TAnyFieldType {
+  return nonNullValues({ __cachedFieldInstance: field?.__cachedFieldInstance })
+    .__cachedFieldInstance;
+}
+
+function setCachedFieldInstance(field, instanceFromDef: TAnyFieldType) {
+  Object.defineProperty(field, '__cachedFieldInstance', {
+    value: instanceFromDef,
+    enumerable: false,
+    configurable: false,
+    writable: false,
   });
 }

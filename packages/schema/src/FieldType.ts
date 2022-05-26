@@ -7,6 +7,7 @@ import {
   parseValidationError,
   ValidationCustomMessage,
 } from './applyValidator';
+import type { FieldTypeName } from './fields/_fieldDefinitions';
 export * from './applyValidator';
 
 export type FieldTypeGraphql =
@@ -20,7 +21,7 @@ export type FieldPortableAPIInput = {
   parentName: string;
 };
 
-export type TAnyFieldType = FieldType<any, any, any>;
+export type TAnyFieldType = FieldType<any, FieldTypeName, any>;
 
 export abstract class FieldType<
   Type,

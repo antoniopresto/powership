@@ -3,6 +3,7 @@
 import { expectedType } from '@darch/utils/lib/expectedType';
 
 import { FieldType, FieldTypeParser } from '../FieldType';
+import { nonNullValues } from '@darch/utils/lib/invariant';
 
 type Serializable = null | undefined | Stringifiable | SerializableList;
 
@@ -68,8 +69,17 @@ export function isMetaField(
   );
 }
 
-export function getSchemaMetaField(
+export function getSchemaDefinitionMetaField(
   input: Record<string, any>
 ): MetaField['asFinalField'] | undefined {
   return input[schemaMetaFieldKey];
+}
+
+export function getSchemaDefinitionId(definition: Record<string, any>): string {
+  return nonNullValues(
+    {
+      id: getSchemaDefinitionMetaField(definition)?.def?.id,
+    },
+    'Schema not identified.'
+  ).id;
 }

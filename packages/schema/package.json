@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "build": "rm -rf lib && tsc && tsc -p tsconfig.module.json",
+    "build": "rm -rf lib && tsc -p tsconfig.prod.json && tsc -p tsconfig.module.json",
     "prepublish": "npm run build && npm run test",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",

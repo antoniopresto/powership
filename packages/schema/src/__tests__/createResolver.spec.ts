@@ -20,7 +20,6 @@ describe('createResolver', () => {
     const resolver = createResolver({
       type: UserType,
       args: { id: 'ulid' },
-      kind: 'query',
       name: 'Users',
       description: 'User resolver',
       async resolve({ args: { id } }) {
@@ -83,7 +82,6 @@ type User {
         addresses: { schema: userAddress, list: true },
         records: { record: { keyType: 'int', type: { enum: ['banana'] } } },
       } as const,
-      kind: 'query',
       name: 'Users',
       resolve(rp) {
         return rp as any;
@@ -127,7 +125,6 @@ type User {
       name: 'Airplanes',
       type: '[int]?',
       args: undefined,
-      kind: 'query',
       async resolve() {
         return undefined;
       },
@@ -144,5 +141,97 @@ type User {
     });
 
     expect(printSchema(schema)).toMatchSnapshot();
+  });
+
+  // it('Should reuse saved OTC types', async () => {
+  //   const AirplaneType = createType('Airplane', {
+  //     model: 'string',
+  //     id: 'ulid',
+  //   });
+  //
+  //   const UserType = createType('User', {
+  //     name: 'string',
+  //     collection: {
+  //       schema: AirplaneType,
+  //       list: true,
+  //       optional: true,
+  //     },
+  //   });
+  //
+  //   const resolver = createResolver({
+  //     name: 'airplanes',
+  //     type: { type: AirplaneType, list: true },
+  //     args: {
+  //       airplanes: { type: AirplaneType, list: true },
+  //       users: { schema: UserType, list: true },
+  //     },
+  //     async resolve() {
+  //       return [];
+  //     },
+  //   });
+  //
+  //   const schema = new GraphQLSchema({
+  //     query: new GraphQLObjectType({
+  //       name: 'Query',
+  //
+  //       fields: () => ({
+  //         airplanes: resolver.getFieldConfig(),
+  //         airplanes2: resolver.getFieldConfig(),
+  //         airplaneFromSchema: AirplaneType.createResolver({
+  //           name: 'airplane',
+  //           args: { id: 'int' },
+  //           resolve() {
+  //             return {} as any;
+  //           },
+  //         }).getFieldConfig(),
+  //
+  //         user: UserType.createResolver({
+  //           name: 'user',
+  //           args: { id: 'int' },
+  //           resolve() {
+  //             return {} as any;
+  //           },
+  //         }).getFieldConfig(),
+  //
+  //         users: Schema.resolverFieldConfig({
+  //           name: 'users',
+  //           type: { schema: UserType, list: true },
+  //           args: {},
+  //           resolve() {
+  //             return {} as any;
+  //           },
+  //         }),
+  //
+  //         airplaneByAP: UserType.createResolver({
+  //           name: 'airplaneByAP',
+  //           args: { ap: AirplaneType },
+  //           resolve() {
+  //             return {} as any;
+  //           },
+  //         }).getFieldConfig(),
+  //       }),
+  //     }),
+  //   });
+  //
+  //   expect(printSchema(schema)).toEqual('');
+  // });
+
+  it('Should reuse arg types', async () => {
+    const name = 'Salad';
+
+    const Fruit = createType('Fruit', {
+      name: 'string',
+      color: 'string',
+    });
+
+    const a = Resolver.argsToGQL({
+      name,
+      args: {
+        name: 'string',
+        fruits: { list: true, type: Fruit },
+      },
+    });
+    
+    expect(a.result).toEqual({})
   });
 });

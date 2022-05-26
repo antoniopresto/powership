@@ -344,7 +344,7 @@ describe('FieldTypes', () => {
         },
       } as const;
 
-      const gql = schemaToGQL('TempEnumField', def);
+      const gql = schemaToGQL({ typeName: 'TempEnumField', definition: def });
 
       expect(gql.toSDL()).toEqual(
         'type TempEnumField {\n' +

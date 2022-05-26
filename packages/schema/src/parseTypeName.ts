@@ -1,7 +1,7 @@
 import { FinalFieldDefinition } from './fields/_parseFields';
-import { getSchemaMetaField } from './fields/MetaFieldField';
-import { camelCase, upperFirst } from 'graphql-compose';
+import { getSchemaDefinitionMetaField } from './fields/MetaFieldField';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
+import { upperFirst } from '@darch/utils/lib/upperFirst';
 
 export function parseTypeName(input: {
   parentName: string;
@@ -11,10 +11,19 @@ export function parseTypeName(input: {
   const { field, parentName, fieldName } = input;
 
   const metaName =
-    field.type === 'schema' ? getSchemaMetaField(field.def)?.def.id : null;
+    field.type === 'schema'
+      ? getSchemaDefinitionMetaField(field.def)?.def.id
+      : null;
 
-  const result =
-    metaName || `${PascalCase(parentName)}${PascalCase(fieldName)}`;
+  let result = metaName || `${parentName}_${fieldName}`;
+
+  if (
+    field.type === 'union' ||
+    field.type === 'enum' ||
+    field.type === 'record'
+  ) {
+    result += `_${upperFirst(field.type)}`;
+  }
 
   if (!result) {
     throw new RuntimeError(
@@ -24,8 +33,4 @@ export function parseTypeName(input: {
   }
 
   return result;
-}
-
-function PascalCase(name: string) {
-  return upperFirst(camelCase(name));
 }

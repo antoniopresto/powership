@@ -1,6 +1,6 @@
 import { FieldType, FieldTypeParser } from '../FieldType';
 import type { Schema } from '../Schema';
-import {Infer} from "../Infer";
+import { Infer } from '../Infer';
 
 const def = {
   pk: 'string',
@@ -20,7 +20,7 @@ let cursorSchema: Schema<CursorDef> | undefined;
 function getCursorSchema() {
   // circular dependency
   const { createSchema } = require('../Schema');
-  cursorSchema = cursorSchema || createSchema(def);
+  cursorSchema = cursorSchema || createSchema('Cursor', def);
   return cursorSchema;
 }
 

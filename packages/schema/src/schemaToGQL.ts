@@ -1,65 +1,55 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
-import { getKeys } from '@darch/utils/lib/getKeys';
 
-import { schemaComposer as defaultSchemaComposer } from 'graphql-compose';
+import type { ObjectTypeComposer } from 'graphql-compose';
 
 import { FieldType, TAnyFieldType } from './FieldType';
 import { SchemaDefinitionInput } from './TSchemaConfig';
 import { types } from './fields/fieldTypes';
-import { parseSchemaDefinition } from './parseSchemaDefinition';
 
 import {
   FinalFieldDefinition,
   FinalSchemaDefinition,
 } from './fields/_parseFields';
-import { parseTypeName } from './parseTypeName';
-import { isMetaFieldKey } from './fields/MetaFieldField';
+import { DarchGraphQLParser } from './DarchGraphQLParser';
+import { createSchema } from './Schema';
+import { schemaComposer } from 'graphql-compose';
 
+export interface SchemaToGQLOptions {
+  typeName: string;
+  definition: SchemaDefinitionInput | FinalSchemaDefinition;
+}
+
+/**
+ * @Deprecated - use DarchGraphQLParser instead
+ * @param typeName
+ * @param definition
+ */
 export function schemaToGQL(
   typeName: string,
-  definition: SchemaDefinitionInput | FinalSchemaDefinition,
-  schemaComposer = defaultSchemaComposer
-) {
-  const fields: any = {};
+  definition: SchemaDefinitionInput | FinalSchemaDefinition
+): ObjectTypeComposer;
 
-  const { definition: parsedDefinition } = parseSchemaDefinition(definition);
+export function schemaToGQL(options: {
+  typeName: string;
+  definition: SchemaDefinitionInput | FinalSchemaDefinition;
+}): ObjectTypeComposer;
 
-  getKeys(parsedDefinition).forEach((fieldName) => {
-    if (isMetaFieldKey(fieldName)) return;
-    const field = parsedDefinition[fieldName];
+export function schemaToGQL(...args: any): ObjectTypeComposer {
+  const { typeName, definition } = normalizeOptions(args);
 
-    if (field.type === 'schema') {
-      const subName = parseTypeName({ parentName: typeName, fieldName, field });
-      const otc = schemaToGQL(subName, field.def as any);
-      fields[fieldName] = otc.getTypeName();
-    } else {
-      fields[fieldName] = fieldToGraphql({
-        field,
-        parentName: typeName,
-        fieldName,
-        schemaComposer,
-      });
-    }
-  });
+  const schema = createSchema(typeName, definition);
 
-  return schemaComposer.createObjectTC({
-    name: typeName,
-    fields,
-  });
+  return DarchGraphQLParser.parse({
+    schema,
+  }).__otc();
 }
 
 export function fieldToGraphql(params: {
   field: FinalFieldDefinition;
   parentName: string;
   fieldName: string;
-  schemaComposer?: typeof defaultSchemaComposer;
 }) {
-  const {
-    fieldName,
-    field,
-    schemaComposer = defaultSchemaComposer,
-    parentName,
-  } = params;
+  const { fieldName, field, parentName } = params;
 
   function getType() {
     try {
@@ -106,12 +96,14 @@ export function fieldToGraphql(params: {
 
   const type: any = getType();
 
+  const tempName = `${fieldName}${parentName}Temp`;
+
   const otc = schemaComposer.createObjectTC({
-    name: 'temp',
-    fields: { temp: type },
+    name: tempName,
+    fields: { [tempName]: type },
   });
 
-  const gqlField = otc.getField('temp');
+  const gqlField = otc.getField(tempName);
 
   if (field.list) {
     gqlField.type = gqlField.type.getTypePlural();
@@ -125,7 +117,11 @@ export function fieldToGraphql(params: {
     gqlField.description = field.description;
   }
 
-  return otc.getField('temp');
+  const result = otc.getField(tempName);
+
+  schemaComposer.delete(tempName);
+
+  return result;
 }
 
 function isSDL(t: any): t is { name: string; sdl: string } {
@@ -136,4 +132,21 @@ function hasFields(
   t: any
 ): t is { name: string; fields: Record<string, string> } {
   return typeof t?.fields === 'object' && typeof t?.name === 'string';
+}
+
+function normalizeOptions(
+  args:
+    | [string, SchemaDefinitionInput | FinalSchemaDefinition]
+    | [SchemaToGQLOptions]
+): SchemaToGQLOptions {
+  if (args.length === 1 && typeof args[0] === 'object') return args[0];
+  if (typeof args[0] !== 'string' || typeof args[1] !== 'object')
+    throw new Error('invalid args');
+
+  const [typeName, definition] = args;
+
+  return {
+    typeName,
+    definition,
+  };
 }

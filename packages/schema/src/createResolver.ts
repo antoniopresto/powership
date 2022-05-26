@@ -1,13 +1,16 @@
 import { SchemaDefinitionInput, SchemaFieldInput } from './fields/_parseFields';
 import { Infer } from './Infer';
-import { createType, isSchema, parseSchemaField, Schema } from './Schema';
-import { ComposeOutputType, schemaComposer } from 'graphql-compose';
+import { createType, parseSchemaField, Schema } from './Schema';
 import type { Resolver as GCResolver } from 'graphql-compose';
-import { GraphQLFieldConfig, GraphQLResolveInfo } from 'graphql';
+import { schemaComposer } from 'graphql-compose';
+import {
+  GraphQLFieldConfig,
+  GraphQLInputFieldMap,
+  GraphQLResolveInfo,
+} from 'graphql';
 import { StrictMap } from '@darch/utils/lib/StrictMap';
-import { fieldToGraphql, schemaToGQL } from './schemaToGQL';
 import { ValidationCustomMessage } from './applyValidator';
-import { schemaMetaFieldKey } from './fields/MetaFieldField';
+import { fieldToGraphql } from './schemaToGQL';
 
 export class Resolver<
   TypeDef extends SchemaFieldInput | Schema<SchemaDefinitionInput>,
@@ -22,7 +25,7 @@ export class Resolver<
   ) {
     const { args, type, name, description, resolve, ...rest } = options;
 
-    let parsedArgsType: Schema<any> | undefined;
+    let parsedArgsType: GraphQLInputFieldMap | undefined;
     let parseArgs:
       | ((
           input: any,
@@ -31,51 +34,33 @@ export class Resolver<
       | undefined;
 
     if (isPossibleArgsDef(args)) {
-      const argsSchema = createType(name, args);
-      parsedArgsType = argsSchema.graphqlInputType().getFields();
+      const fields: GraphQLInputFieldMap = {};
+
+      Object.keys(args).forEach((key) => {
+        const typeDef = parseSchemaField(key, args[key]);
+
+        const fieldTC = fieldToGraphql({
+          field: typeDef,
+          parentName: `${name}Input`,
+          fieldName: key,
+        });
+
+        return (fields[key] = fieldTC.type.getType() as any);
+      });
+
+      const argsSchema = createType(`${name}Input`, args);
       parseArgs = argsSchema.parse.bind(argsSchema);
     } else {
       parsedArgsType = undefined;
     }
 
-    let outputType: ComposeOutputType<any>;
-    let parseOutPut: (input: any) => any;
+    const payloadType = createType(`${name}Payload`, {
+      payload: type,
+    });
 
-    if (isSchema(type)) {
-      parseOutPut = (input) =>
-        type.parse.call(type, input, {
-          customMessage: (_, error) => {
-            return `Invalid payload:\n ${error.message}`;
-          },
-        });
-
-      outputType = type.entity();
-    } else {
-      const field = parseSchemaField('', type, true);
-
-      parseOutPut = (input) =>
-        field.parse.call(field, input, (_, error) => {
-          return `Invalid payload:\n ${error.message}`;
-        });
-
-      if (field.type === 'schema') {
-        const payloadName = field.def[schemaMetaFieldKey]?.id || name;
-
-        const otc = schemaToGQL(payloadName, field.def);
-
-        outputType = otc;
-      } else {
-        const asFinal = field.toSchemaFieldType();
-
-        const otc = fieldToGraphql({
-          field: asFinal,
-          fieldName: 'Payload',
-          parentName: name,
-        });
-
-        outputType = otc.type;
-      }
-    }
+    const parseOutput = (payload: any) => {
+      return payloadType.parse({ payload })['payload'];
+    };
 
     async function finalResolve(rp: ResolveParams<any, any, any>) {
       rp.args =
@@ -87,7 +72,7 @@ export class Resolver<
 
       const result = await resolve(rp);
 
-      return parseOutPut(result);
+      return parseOutput(result);
     }
 
     this.__gcResolver = schemaComposer.createResolver({
@@ -95,7 +80,7 @@ export class Resolver<
       resolve: finalResolve,
       description,
       args: parsedArgsType,
-      type: outputType,
+      type: payloadType.entity(),
       name,
     } as any);
 
@@ -145,6 +130,49 @@ export class Resolver<
   // hasArg
   // getArgTC
   // cloneArg
+
+  static argsToGQL = (options: {
+    name: string;
+    args: SchemaDefinitionInput;
+  }) => {
+    const { args, name } = options;
+
+    let result: GraphQLInputFieldMap | undefined;
+
+    let parseArgs:
+      | ((
+          input: any,
+          options?: { customMessage?: ValidationCustomMessage }
+        ) => any)
+      | undefined;
+
+    if (isPossibleArgsDef(args)) {
+      const fields: GraphQLInputFieldMap = {};
+
+      Object.keys(args).forEach((key) => {
+        const typeDef = parseSchemaField(key, args[key]);
+
+        const fieldTC = fieldToGraphql({
+          field: typeDef,
+          parentName: `${name}Input`,
+          fieldName: key,
+        });
+
+        return (fields[key] = fieldTC.type.getType() as any);
+      });
+
+      const argsSchema = createType(`${name}Input`, args);
+      parseArgs = argsSchema.parse.bind(argsSchema);
+      result = fields;
+    } else {
+      result = undefined;
+    }
+
+    return {
+      parseArgs,
+      result,
+    };
+  };
 }
 
 function isPossibleArgsDef(args: any): args is Readonly<SchemaDefinitionInput> {
@@ -188,7 +216,6 @@ export interface CreateResolverOptions<
 > {
   type: TypeDef;
   name: string;
-
   resolve: (
     paramsObject: ResolveParams<
       ArgsDef extends { [K: string]: SchemaFieldInput }
@@ -200,7 +227,6 @@ export interface CreateResolverOptions<
   ) => Promise<Infer<TypeDef>>;
 
   args?: ArgsDef;
-  kind: 'query' | 'mutation' | 'subscription';
   description?: string;
   deprecationReason?: string | null;
   projection?: ProjectionType;
