@@ -1,18 +1,16 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
-
 import type { ObjectTypeComposer } from 'graphql-compose';
+import { schemaComposer } from 'graphql-compose';
 
+import { DarchGraphQLParser } from './DarchGraphQLParser/DarchGraphQLParser';
 import { FieldType, TAnyFieldType } from './FieldType';
+import { createSchema } from './Schema';
 import { SchemaDefinitionInput } from './TSchemaConfig';
-import { types } from './fields/fieldTypes';
-
 import {
   FinalFieldDefinition,
   FinalSchemaDefinition,
 } from './fields/_parseFields';
-import { DarchGraphQLParser } from './DarchGraphQLParser';
-import { createSchema } from './Schema';
-import { schemaComposer } from 'graphql-compose';
+import { types } from './fields/fieldTypes';
 
 export interface SchemaToGQLOptions {
   typeName: string;
@@ -41,7 +39,7 @@ export function schemaToGQL(...args: any): ObjectTypeComposer {
 
   return DarchGraphQLParser.parse({
     schema,
-  }).__otc();
+  }) as any;
 }
 
 export function fieldToGraphql(params: {

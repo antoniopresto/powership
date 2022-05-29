@@ -1,15 +1,14 @@
-import { SchemaDefinitionInput, SchemaFieldInput } from './fields/_parseFields';
-import { Infer } from './Infer';
-import { createType, parseSchemaField, Schema } from './Schema';
-import type { Resolver as GCResolver } from 'graphql-compose';
-import { schemaComposer } from 'graphql-compose';
+import { StrictMap } from '@darch/utils/lib/StrictMap';
 import {
   GraphQLFieldConfig,
   GraphQLInputFieldMap,
   GraphQLResolveInfo,
 } from 'graphql';
-import { StrictMap } from '@darch/utils/lib/StrictMap';
+
+import { Infer } from './Infer';
+import { createType, parseSchemaField, Schema } from './Schema';
 import { ValidationCustomMessage } from './applyValidator';
+import { SchemaDefinitionInput, SchemaFieldInput } from './fields/_parseFields';
 import { fieldToGraphql } from './schemaToGQL';
 
 export class Resolver<
@@ -18,7 +17,7 @@ export class Resolver<
   Context = unknown,
   Source = unknown
 > {
-  private readonly __gcResolver: GCResolver;
+  private readonly __gcResolver: any;
 
   constructor(
     readonly options: CreateResolverOptions<TypeDef, ArgsDef, Context, Source>
@@ -75,14 +74,14 @@ export class Resolver<
       return parseOutput(result);
     }
 
-    this.__gcResolver = schemaComposer.createResolver({
-      ...rest,
-      resolve: finalResolve,
-      description,
-      args: parsedArgsType,
-      type: payloadType.entity(),
-      name,
-    } as any);
+    // this.__gcResolver = schemaComposer.createResolver({
+    //   ...rest,
+    //   resolve: finalResolve,
+    //   description,
+    //   args: parsedArgsType,
+    //   type: payloadType.entity(),
+    //   name,
+    // } as any);
 
     Resolver.register.set(name, this);
   }

@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="true" type="JavaScriptTestRunnerJest">
+    <node-interpreter value="project" />
+    <node-options value="" />
+    <working-dir value="" />
+    <jest-options value="--watchAll" />
+    <envs />
+    <scope-kind value="ALL" />
+    <method v="2" />
+  </configuration>
+</component>

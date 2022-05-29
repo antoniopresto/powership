@@ -1,41 +1,39 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { StrictMap } from '@darch/utils/lib/StrictMap';
+import { dynamicRequire } from '@darch/utils/lib/dynamicRequire';
+import { isProduction } from '@darch/utils/lib/env';
 import { expectedType } from '@darch/utils/lib/expectedType';
 import { getTypeName } from '@darch/utils/lib/getTypeName';
 import { invariantType } from '@darch/utils/lib/invariant';
+import { isBrowser } from '@darch/utils/lib/isBrowser';
 import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 import { ForceString } from '@darch/utils/lib/typeUtils';
+import type { GraphQLInputObjectType, GraphQLObjectType } from 'graphql';
 
-import { SchemaDefinitionInput } from './TSchemaConfig';
-
+import type { Infer } from './Infer';
+import type { SchemaDefinitionInput } from './TSchemaConfig';
 import {
   parseValidationError,
   ValidationCustomMessage,
 } from './applyValidator';
-
-import { validateSchemaFields } from './getSchemaErrors';
-import { parseSchemaDefinition } from './parseSchemaDefinition';
+import { assertSameDefinition } from './assertSameDefinition';
+import type { CreateResolverOptions, Resolver } from './createResolver';
 import {
+  getSchemaDefinitionMetaField,
+  isMetaFieldKey,
+  MetaFieldDef,
+  schemaMetaFieldKey,
+} from './fields/MetaFieldField';
+import type {
   FinalSchemaDefinition,
   ParseFields,
   SchemaFieldInput,
   ToFinalField,
 } from './fields/_parseFields';
-import { Infer } from './Infer';
-import { isBrowser } from '@darch/utils/lib/isBrowser';
-import type { GraphQLInputObjectType, GraphQLObjectType } from 'graphql';
-import { dynamicRequire } from '@darch/utils/lib/dynamicRequire';
-import {
-  isMetaFieldKey,
-  MetaFieldDef,
-  schemaMetaFieldKey,
-} from './fields/MetaFieldField';
-
-import type { CreateResolverOptions, Resolver } from './createResolver';
-import { isProduction } from '@darch/utils/lib/env';
-import { assertSameDefinition } from './assertSameDefinition';
-import { DarchGraphQLParserResult } from './DarchGraphQLParser';
+import { validateSchemaFields } from './getSchemaErrors';
 import { getSchemaHelpers, SchemaHelpers } from './getSchemaHelpers';
+import { parseSchemaDefinition } from './parseSchemaDefinition';
+import { withCache, WithCache } from './withCache';
 
 export { RuntimeError } from '@darch/utils/lib/RuntimeError';
 export * from './parseSchemaDefinition';
@@ -44,17 +42,24 @@ export * from './schemaInferenceUtils';
 export class Schema<DefinitionInput extends SchemaDefinitionInput> {
   private readonly __definition: any;
 
+  __withCache: WithCache<{
+    graphqlInputType: GraphQLInputObjectType;
+    graphqlType: GraphQLObjectType;
+    helpers: SchemaHelpers<DefinitionInput>;
+  }>;
+
+  constructor(schemaDef: DefinitionInput) {
+    const parsed = parseSchemaDefinition(schemaDef);
+    this.__definition = parsed.definition;
+    this.__withCache = withCache(this);
+  }
+
   get definition(): ParseFields<DefinitionInput> {
     return this.__definition;
   }
 
   get description() {
     return this.meta.description;
-  }
-
-  constructor(schemaDef: DefinitionInput) {
-    const parsed = parseSchemaDefinition(schemaDef);
-    this.__definition = parsed.definition;
   }
 
   get meta(): MetaFieldDef {
@@ -351,13 +356,10 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     return this as any;
   }
 
-  __helpers: SchemaHelpers<DefinitionInput>;
-  helpers = (): SchemaHelpers<DefinitionInput> => {
-    return (this.__helpers = this.__helpers || getSchemaHelpers(this));
+  helpers = () => {
+    return this.__withCache('helpers', () => getSchemaHelpers(this));
   };
 
-  // used by DarchGraphQLParserResult to cache parsed results
-  __graphqlParsed: DarchGraphQLParserResult | undefined;
   entity = (name?: string) => {
     if (isBrowser() || typeof module?.require !== 'function') {
       throw new Error('GraphQL transformation is not available in browser.');
@@ -375,25 +377,21 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
       );
     }
 
-    const { DarchGraphQLParser } = dynamicRequire(
-      './DarchGraphQLParser',
-      module
-    ) as typeof import('./DarchGraphQLParser');
+    const { DarchGraphQLParser } = Schema.serverUtils().graphqlParser;
 
     return DarchGraphQLParser.parse({
       schema: this,
     });
   };
 
-  private _graphqlType: GraphQLObjectType | undefined;
   graphqlType = (): GraphQLObjectType => {
-    return (this._graphqlType = this._graphqlType || this.entity().type);
+    return this.__withCache('graphqlType', () => this.entity().getType());
   };
 
-  private _graphqlInputType: GraphQLInputObjectType | undefined;
   graphqlInputType = () => {
-    return (this._graphqlInputType =
-      this._graphqlInputType || this.entity().__otc().getInputType());
+    return this.__withCache('graphqlInputType', () =>
+      this.entity().getInputType()
+    );
   };
 
   createResolver = <
@@ -415,12 +413,12 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     }
 
     return {
-      graphqlCompose: dynamicRequire(
-        'graphql-compose',
-        module
-      ) as typeof import('graphql-compose'),
-
       graphql: dynamicRequire('graphql', module) as typeof import('graphql'),
+
+      graphqlParser: dynamicRequire(
+        './DarchGraphQLParser/DarchGraphQLParser',
+        module
+      ) as typeof import('./DarchGraphQLParser/DarchGraphQLParser'),
 
       createResolver: dynamicRequire('./createResolver', module)
         .createResolver as typeof import('./createResolver')['createResolver'],
@@ -439,7 +437,10 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
   };
 
   static async reset() {
-    Schema.serverUtils().graphqlCompose.schemaComposer.clear();
+    const { graphqlParser } = Schema.serverUtils();
+
+    graphqlParser.DarchGraphQLParser.reset();
+
     Schema.register.clear();
   }
 
@@ -483,9 +484,13 @@ export function createSchema<
   ...args: [string, DefinitionInput] | [DefinitionInput]
 ): Schema<DefinitionInput> {
   const fields = args.length === 2 ? args[1] : args[0];
-  const id = args.length === 2 ? args[0] : undefined;
 
+  const id = args.length === 2 ? args[0] : undefined;
   if (id) return Schema.getOrSet(id, fields);
+
+  const idFromDefinition = getSchemaDefinitionMetaField(fields)?.def?.id;
+  if (idFromDefinition) return Schema.getOrSet(idFromDefinition, fields);
+
   return new Schema<DefinitionInput>(fields);
 }
 

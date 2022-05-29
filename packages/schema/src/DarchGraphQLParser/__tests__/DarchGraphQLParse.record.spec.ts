@@ -1,6 +1,11 @@
-import { createSchema } from '../Schema';
-import { schemaComposer } from 'graphql-compose';
-import { graphql, printSchema } from 'graphql';
+import {
+  graphql,
+  GraphQLObjectType,
+  GraphQLSchema,
+  printSchema,
+} from 'graphql';
+
+import { createSchema } from '../../Schema';
 
 describe('DarchGraphQLParse.record', () => {
   const person = createSchema('Person', {
@@ -9,18 +14,25 @@ describe('DarchGraphQLParse.record', () => {
     addresses: { record: { type: 'string', keyType: 'int' } },
   });
 
-  schemaComposer.Query.addFields({
-    person: {
-      type: person.graphqlType(),
-      args: {
-        rec: createSchema('rec1', {
-          addresses: { record: { type: '[string]', keyType: 'int' } },
-        }).graphqlInputType(),
-      },
-    },
-  });
+  const record1 = createSchema('rec1', {
+    addresses: { record: { type: '[string]', keyType: 'int' } },
+  }).graphqlInputType();
 
-  const schema = schemaComposer.buildSchema();
+  const schema = new GraphQLSchema({
+    query: new GraphQLObjectType({
+      name: 'Query',
+      fields: {
+        person: {
+          args: {
+            rec: {
+              type: record1,
+            },
+          },
+          type: person.graphqlType(),
+        },
+      },
+    }),
+  });
 
   it('Should convert record', async () => {
     expect(printSchema(schema).split('\n')).toEqual([

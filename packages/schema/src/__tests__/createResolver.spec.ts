@@ -1,9 +1,9 @@
-import { createResolver, Resolver } from '../createResolver';
-import { assert, IsExact } from 'conditional-type-checks';
-import { printSchema } from 'graphql-compose';
-import { createType, Schema } from '../Schema';
 import { PromiseType } from '@darch/utils/lib/typeUtils';
-import { GraphQLObjectType, GraphQLSchema } from 'graphql';
+import { assert, IsExact } from 'conditional-type-checks';
+import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
+
+import { createType, Schema } from '../Schema';
+import { createResolver, Resolver } from '../createResolver';
 
 describe('createResolver', () => {
   afterEach(async () => {
@@ -231,7 +231,7 @@ type User {
         fruits: { list: true, type: Fruit },
       },
     });
-    
-    expect(a.result).toEqual({})
+
+    expect(a.result).toEqual({});
   });
 });

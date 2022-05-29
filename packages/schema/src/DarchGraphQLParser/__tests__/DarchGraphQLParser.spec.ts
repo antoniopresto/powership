@@ -1,11 +1,27 @@
+import { GraphQLSchema, printSchema } from 'graphql';
+
+import { createSchema, Schema } from '../../Schema';
 import { DarchGraphQLParser } from '../DarchGraphQLParser';
-import { createSchema, Schema } from '../Schema';
-import { schemaComposer } from 'graphql-compose';
-import { printSchema } from 'graphql';
 
 describe('DarchGraphQLParser', () => {
   afterEach(() => {
     Schema.reset();
+  });
+
+  it('Should convert field', () => {
+    const schema = createSchema('Item', {
+      name: 'string',
+    });
+
+    const sut = DarchGraphQLParser.parse({
+      schema,
+    });
+
+    expect(sut.typeToString().split('\n')).toEqual([
+      'type Item {',
+      '  name: String!',
+      '}',
+    ]);
   });
 
   it('Should convert literal fields', () => {
@@ -21,7 +37,7 @@ describe('DarchGraphQLParser', () => {
       schema,
     });
 
-    expect(sut.toSDL().split('\n')).toEqual([
+    expect(sut.typeToString().split('\n')).toEqual([
       'type person {',
       '  name: String!',
       '  age: Int',
@@ -59,7 +75,7 @@ describe('DarchGraphQLParser', () => {
       schema: schema2,
     });
 
-    expect(s1.toSDL().split('\n')).toEqual([
+    expect(s1.typeToString().split('\n')).toEqual([
       'type person {',
       '  name: String!',
       '  age: Int',
@@ -69,7 +85,7 @@ describe('DarchGraphQLParser', () => {
       '}',
     ]);
 
-    expect(s2.toSDL().split('\n')).toEqual([
+    expect(s2.typeToString().split('\n')).toEqual([
       'type otherPerson {',
       '  name: String!',
       '  age: Int',
@@ -77,6 +93,14 @@ describe('DarchGraphQLParser', () => {
       '  floats: Float',
       '  integers: [Int]',
       '  persons: [person]!',
+      '}',
+      '',
+      'type person {',
+      '  name: String!',
+      '  age: Int',
+      '  booleans: [Boolean]!',
+      '  floats: Float',
+      '  integers: [Int]',
       '}',
     ]);
   });
@@ -95,10 +119,24 @@ describe('DarchGraphQLParser', () => {
       schema: schema2,
     });
 
-    expect(sut.toSDL().split('\n')).toEqual([
+    expect(sut.typeToString().split('\n')).toEqual([
       'type persons {',
       '  sex: persons_sex_Enum!',
       '  persons: person!',
+      '}',
+      '',
+      'enum persons_sex_Enum {',
+      '  m',
+      '  n',
+      '}',
+      '',
+      'type person {',
+      '  sex: [person_sex_Enum]!',
+      '}',
+      '',
+      'enum person_sex_Enum {',
+      '  m',
+      '  n',
       '}',
     ]);
   });
@@ -117,10 +155,16 @@ describe('DarchGraphQLParser', () => {
       schema: schema2,
     });
 
-    expect(sut.toSDL().split('\n')).toEqual([
+    expect(sut.typeToString().split('\n')).toEqual([
       'type persons {',
       '  createdAt: Date!',
       '  persons: person!',
+      '}',
+      '',
+      'scalar Date',
+      '',
+      'type person {',
+      '  createdAt: Date!',
       '}',
     ]);
   });
@@ -137,15 +181,7 @@ describe('DarchGraphQLParser', () => {
       schema: schema1,
     });
 
-    schemaComposer.Query.addFields({
-      sut,
-    });
-
-    expect(printSchema(schemaComposer.buildSchema()).split('\n')).toEqual([
-      'type Query {',
-      '  sut: paging',
-      '}',
-      '',
+    expect(sut.typeToString().split('\n')).toEqual([
       'type paging {',
       '  id: Cursor!',
       '  maybeId: Cursor',
@@ -176,19 +212,15 @@ describe('DarchGraphQLParser', () => {
       owner: person,
     });
 
-    const sut = createSchema('Task', {
+    const Task = createSchema('Task', {
       owner: [robot, person],
     });
 
-    schemaComposer.Query.addFields({
-      sut: sut.graphqlType(),
+    const sut = DarchGraphQLParser.parse({
+      schema: Task,
     });
 
-    expect(printSchema(schemaComposer.buildSchema()).split('\n')).toEqual([
-      'type Query {',
-      '  sut: Task',
-      '}',
-      '',
+    expect(sut.typeToString().split('\n')).toEqual([
       'type Task {',
       '  owner: Task_owner_Union!',
       '}',
@@ -228,26 +260,31 @@ describe('DarchGraphQLParser', () => {
       owner: [robot, person],
     });
 
-    schemaComposer.Query.addFields({
-      type1: type1.graphqlType(),
-      type2: type2.graphqlType(),
-      person: person.graphqlType(),
-      robot: robot.graphqlType(),
+    const query = createSchema('Query', {
+      type1: { type: type1, list: true, optional: true },
+      type2: type2,
+      person: person,
+      robot: robot,
     });
 
-    schemaComposer.Mutation.addFields({
-      type1: type1.graphqlType(),
-      type2: type2.graphqlType(),
-      person: person.graphqlType(),
-      robot: robot.graphqlType(),
+    const mutation = createSchema('Mutation', {
+      type1: type1,
+      type2: type2,
+      person: person,
+      robot: robot,
     });
 
-    expect(printSchema(schemaComposer.buildSchema()).split('\n')).toEqual([
+    const schema = new GraphQLSchema({
+      query: query.graphqlType(),
+      mutation: mutation.graphqlType(),
+    });
+
+    expect(printSchema(schema).split('\n')).toEqual([
       'type Query {',
-      '  type1: Type1',
-      '  type2: Type2',
-      '  person: Person',
-      '  robot: Robot',
+      '  type1: [Type1]',
+      '  type2: Type2!',
+      '  person: Person!',
+      '  robot: Robot!',
       '}',
       '',
       'type Type1 {',
@@ -274,10 +311,10 @@ describe('DarchGraphQLParser', () => {
       'union Type2_owner_Union = Robot | Person',
       '',
       'type Mutation {',
-      '  type1: Type1',
-      '  type2: Type2',
-      '  person: Person',
-      '  robot: Robot',
+      '  type1: Type1!',
+      '  type2: Type2!',
+      '  person: Person!',
+      '  robot: Robot!',
       '}',
     ]);
   });
