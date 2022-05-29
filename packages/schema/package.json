@@ -43,15 +43,13 @@
     "eslint-plugin-eslint-comments": "3.2.0",
     "eslint-plugin-import": "2.22.1",
     "graphql": "^16.1.0",
-    "graphql-compose": "^9.0.4",
     "jest": "27.4.5",
     "npm-run-all": "^4.1.5",
     "ts-jest": "27.1.1",
     "typescript": "4.5.4"
   },
   "peerDependencies": {
-    "graphql": "*",
-    "graphql-compose": "^9.0.4"
+    "graphql": "*"
   },
   "files": [
     "package.json",

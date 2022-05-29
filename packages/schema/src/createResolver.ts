@@ -9,7 +9,6 @@ import { Infer } from './Infer';
 import { createType, parseSchemaField, Schema } from './Schema';
 import { ValidationCustomMessage } from './applyValidator';
 import { SchemaDefinitionInput, SchemaFieldInput } from './fields/_parseFields';
-import { fieldToGraphql } from './schemaToGQL';
 
 export class Resolver<
   TypeDef extends SchemaFieldInput | Schema<SchemaDefinitionInput>,
@@ -38,13 +37,13 @@ export class Resolver<
       Object.keys(args).forEach((key) => {
         const typeDef = parseSchemaField(key, args[key]);
 
-        const fieldTC = fieldToGraphql({
-          field: typeDef,
-          parentName: `${name}Input`,
-          fieldName: key,
-        });
+        // const fieldTC = fieldToGraphql({
+        //   field: typeDef,
+        //   parentName: `${name}Input`,
+        //   fieldName: key,
+        // });
 
-        return (fields[key] = fieldTC.type.getType() as any);
+        return (fields[key] = ({} as any).type.getType() as any);
       });
 
       const argsSchema = createType(`${name}Input`, args);
@@ -151,13 +150,13 @@ export class Resolver<
       Object.keys(args).forEach((key) => {
         const typeDef = parseSchemaField(key, args[key]);
 
-        const fieldTC = fieldToGraphql({
-          field: typeDef,
-          parentName: `${name}Input`,
-          fieldName: key,
-        });
+        // const fieldTC = fieldToGraphql({
+        //   field: typeDef,
+        //   parentName: `${name}Input`,
+        //   fieldName: key,
+        // });
 
-        return (fields[key] = fieldTC.type.getType() as any);
+        return (fields[key] = ({} as any).type.getType() as any);
       });
 
       const argsSchema = createType(`${name}Input`, args);

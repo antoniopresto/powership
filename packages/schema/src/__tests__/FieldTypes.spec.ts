@@ -1,6 +1,7 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { assert, IsExact } from 'conditional-type-checks';
 
+import { Infer } from '../Infer';
 import { BooleanField } from '../fields/BooleanField';
 import { CursorField, CursorType } from '../fields/CursorField';
 import { DateField } from '../fields/DateField';
@@ -12,39 +13,12 @@ import { RecordField } from '../fields/RecordField';
 import { StringField } from '../fields/StringField';
 import { ULID_REGEX, UlidField } from '../fields/UlidField';
 import { UnknownField } from '../fields/UnknownField';
-import { createSchema, Schema } from '../index';
-import { fieldToGraphql, schemaToGQL } from '../schemaToGQL';
-import { schemaToTypescript } from '../schemaToTypescript';
-import { Infer } from '../Infer';
 import { _assertFields } from '../fields/__tests__/__assert';
+import { createSchema, Schema } from '../index';
+import { schemaToGQL } from '../schemaToGQL';
+import { schemaToTypescript } from '../schemaToTypescript';
 
 describe('FieldTypes', () => {
-  describe('field to graphql', () => {
-    test('scalar gql', () => {
-      const type = (t: any) =>
-        fieldToGraphql({
-          field: { list: false, optional: false, def: undefined, ...t },
-          parentName: 'foo',
-          fieldName: 'field',
-        })
-          .type.getType()
-          .toString();
-
-      expect(type({ type: 'string' })).toEqual('String!');
-      expect(type({ type: 'string', list: true })).toEqual('[String]!');
-      expect(type({ type: 'string', list: true, optional: true })).toEqual(
-        '[String]'
-      );
-      expect(type({ type: 'string', list: false, optional: true })).toEqual(
-        'String'
-      );
-      expect(type({ type: 'cursor', list: true, optional: true })).toEqual(
-        '[Cursor]'
-      );
-      expect(type({ type: 'cursor', list: true })).toEqual('[Cursor]!');
-    });
-  });
-
   describe('StringField', () => {
     it('parses', () => {
       expect(() => StringField.create({ min: 1 }).parse('')).toThrow(
@@ -96,16 +70,16 @@ describe('FieldTypes', () => {
 
       const gql = schemaToGQL('TempString', def);
 
-      expect(gql.toSDL()).toEqual(
-        'type TempString {\n' +
-          '  name: String!\n' +
-          '  nameOpt: String\n' +
-          '  nameList: [String]!\n' +
-          '  nameListOptional: [String]\n' +
-          '  nameFromType: [String]\n' +
-          '  defObject: [String]\n' +
-          '}'
-      );
+      expect(gql.typeToString().split('\n')).toEqual([
+        'type TempString {',
+        '  name: String!',
+        '  nameOpt: String',
+        '  nameList: [String]!',
+        '  nameListOptional: [String]',
+        '  nameFromType: [String]',
+        '  defObject: [String]',
+        '}',
+      ]);
 
       type T = Infer<typeof def>;
 
@@ -158,16 +132,18 @@ describe('FieldTypes', () => {
 
       const gql = schemaToGQL('TempUlid', def);
 
-      expect(gql.toSDL()).toEqual(
-        'type TempUlid {\n' +
-          '  name: Ulid!\n' +
-          '  nameOpt: Ulid\n' +
-          '  nameList: [Ulid]!\n' +
-          '  nameListOptional: [Ulid]\n' +
-          '  nameFromType: [Ulid]\n' +
-          '  defObject: [Ulid]\n' +
-          '}'
-      );
+      expect(gql.typeToString().split('\n')).toEqual([
+        'type TempUlid {',
+        '  name: Ulid!',
+        '  nameOpt: Ulid',
+        '  nameList: [Ulid]!',
+        '  nameListOptional: [Ulid]',
+        '  nameFromType: [Ulid]',
+        '  defObject: [Ulid]',
+        '}',
+        '',
+        'scalar Ulid',
+      ]);
 
       type T = Infer<typeof def>;
 
@@ -225,16 +201,16 @@ describe('FieldTypes', () => {
 
       const gql = schemaToGQL('TempInt', def);
 
-      expect(gql.toSDL()).toEqual(
-        'type TempInt {\n' +
-          '  name: Int!\n' +
-          '  nameOpt: Int\n' +
-          '  nameList: [Int]!\n' +
-          '  nameListOptional: [Int]\n' +
-          '  nameFromType: [Int]\n' +
-          '  defObject: [Int]\n' +
-          '}'
-      );
+      expect(gql.typeToString().split('\n')).toEqual([
+        'type TempInt {',
+        '  name: Int!',
+        '  nameOpt: Int',
+        '  nameList: [Int]!',
+        '  nameListOptional: [Int]',
+        '  nameFromType: [Int]',
+        '  defObject: [Int]',
+        '}',
+      ]);
 
       type T = Infer<typeof def>;
 
@@ -289,16 +265,16 @@ describe('FieldTypes', () => {
 
       const gql = schemaToGQL('TempFloatField', def);
 
-      expect(gql.toSDL()).toEqual(
-        'type TempFloatField {\n' +
-          '  name: Float!\n' +
-          '  nameOpt: Float\n' +
-          '  nameList: [Float]!\n' +
-          '  nameListOptional: [Float]\n' +
-          '  nameFromType: [Float]\n' +
-          '  defObject: [Float]\n' +
-          '}'
-      );
+      expect(gql.typeToString().split('\n')).toEqual([
+        'type TempFloatField {',
+        '  name: Float!',
+        '  nameOpt: Float',
+        '  nameList: [Float]!',
+        '  nameListOptional: [Float]',
+        '  nameFromType: [Float]',
+        '  defObject: [Float]',
+        '}',
+      ]);
 
       type T = Infer<typeof def>;
 
@@ -344,15 +320,30 @@ describe('FieldTypes', () => {
         },
       } as const;
 
-      const gql = schemaToGQL({ typeName: 'TempEnumField', definition: def });
+      const gql = schemaToGQL('TempEnumField', def);
 
-      expect(gql.toSDL()).toEqual(
-        'type TempEnumField {\n' +
-          '  name: TempEnumFieldNameEnum!\n' +
-          '  nameFromType: [TempEnumFieldNameFromTypeEnum]\n' +
-          '  defObject: [TempEnumFieldDefObjectEnum]\n' +
-          '}'
-      );
+      expect(gql.typeToString().split('\n')).toEqual([
+        'type TempEnumField {',
+        '  name: TempEnumField_name_Enum!',
+        '  nameFromType: [TempEnumField_nameFromType_Enum]',
+        '  defObject: [TempEnumField_defObject_Enum]',
+        '}',
+        '',
+        'enum TempEnumField_name_Enum {',
+        '  a',
+        '  x',
+        '}',
+        '',
+        'enum TempEnumField_nameFromType_Enum {',
+        '  a',
+        '  x',
+        '}',
+        '',
+        'enum TempEnumField_defObject_Enum {',
+        '  a',
+        '  x',
+        '}',
+      ]);
 
       type T = Infer<typeof def>;
 
@@ -396,16 +387,16 @@ describe('FieldTypes', () => {
 
       const gql = schemaToGQL('TempEmail', def);
 
-      expect(gql.toSDL()).toEqual(
-        'type TempEmail {\n' +
-          '  name: Email!\n' +
-          '  nameOpt: Email\n' +
-          '  nameList: [Email]!\n' +
-          '  nameListOptional: [Email]\n' +
-          '  nameFromType: [Email]\n' +
-          '  defObject: [Email]\n' +
-          '}'
-      );
+      expect(gql.typeToString().split('\n')).toEqual([
+        'type TempEmail {',
+        '  name: String!',
+        '  nameOpt: String',
+        '  nameList: [String]!',
+        '  nameListOptional: [String]',
+        '  nameFromType: [String]',
+        '  defObject: [String]',
+        '}',
+      ]);
 
       type T = Infer<typeof def>;
 
@@ -484,16 +475,28 @@ describe('FieldTypes', () => {
 
       const gql = schemaToGQL('TempRecord', def);
 
-      expect(gql.toSDL()).toEqual(
-        'type TempRecord {\n' +
-          '  name: Record!\n' +
-          '  nameOpt: Record\n' +
-          '  nameList: [Record]!\n' +
-          '  nameListOptional: [Record]\n' +
-          '  nameFromType: [Record]\n' +
-          '  defObject: [Record]\n' +
-          '}'
-      );
+      expect(gql.typeToString().split('\n')).toEqual([
+        'type TempRecord {',
+        '  name: TempRecord_name_Record!',
+        '  nameOpt: TempRecord_nameOpt_Record',
+        '  nameList: [TempRecord_nameList_Record]!',
+        '  nameListOptional: [TempRecord_nameListOptional_Record]',
+        '  nameFromType: [TempRecord_nameFromType_Record]',
+        '  defObject: [TempRecord_defObject_Record]',
+        '}',
+        '',
+        'scalar TempRecord_name_Record',
+        '',
+        'scalar TempRecord_nameOpt_Record',
+        '',
+        'scalar TempRecord_nameList_Record',
+        '',
+        'scalar TempRecord_nameListOptional_Record',
+        '',
+        'scalar TempRecord_nameFromType_Record',
+        '',
+        'scalar TempRecord_defObject_Record',
+      ]);
 
       type AnyRecord = Record<string, any>;
       type T = Infer<Schema<typeof def>>;
@@ -588,16 +591,18 @@ describe('FieldTypes', () => {
 
       const gql = schemaToGQL('TempDate', def);
 
-      expect(gql.toSDL()).toEqual(
-        'type TempDate {\n' +
-          '  name: Date!\n' +
-          '  nameOpt: Date\n' +
-          '  nameList: [Date]!\n' +
-          '  nameListOptional: [Date]\n' +
-          '  nameFromType: [Date]\n' +
-          '  defObject: [Date]\n' +
-          '}'
-      );
+      expect(gql.typeToString().split('\n')).toEqual([
+        'type TempDate {',
+        '  name: Date!',
+        '  nameOpt: Date',
+        '  nameList: [Date]!',
+        '  nameListOptional: [Date]',
+        '  nameFromType: [Date]',
+        '  defObject: [Date]',
+        '}',
+        '',
+        'scalar Date',
+      ]);
 
       type T = Infer<typeof def>;
 
@@ -671,16 +676,25 @@ describe('FieldTypes', () => {
 
       const gql = schemaToGQL('TempCursorField', def);
 
-      expect(gql.toSDL()).toEqual(
-        'type TempCursorField {\n' +
-          '  name: Cursor!\n' +
-          '  nameOpt: Cursor\n' +
-          '  nameList: [Cursor]!\n' +
-          '  nameListOptional: [Cursor]\n' +
-          '  nameFromType: [Cursor]\n' +
-          '  defObject: [Cursor]\n' +
-          '}'
-      );
+      expect(gql.typeToString().split('\n')).toEqual([
+        'type TempCursorField {',
+        '  name: Cursor!',
+        '  nameOpt: Cursor',
+        '  nameList: [Cursor]!',
+        '  nameListOptional: [Cursor]',
+        '  nameFromType: [Cursor]',
+        '  defObject: [Cursor]',
+        '}',
+        '',
+        'type Cursor {',
+        '  pk: String!',
+        '  prefix: String',
+        '  delimiter: String',
+        '  limit: Int',
+        '  after: String',
+        '  fields: [String]',
+        '}',
+      ]);
 
       type T = Infer<typeof def>;
 
@@ -729,16 +743,16 @@ describe('FieldTypes', () => {
 
       const gql = schemaToGQL('TempBooleanField', def);
 
-      expect(gql.toSDL()).toEqual(
-        'type TempBooleanField {\n' +
-          '  name: Boolean!\n' +
-          '  nameOpt: Boolean\n' +
-          '  nameList: [Boolean]!\n' +
-          '  nameListOptional: [Boolean]\n' +
-          '  nameFromType: [Boolean]\n' +
-          '  defObject: [Boolean]\n' +
-          '}'
-      );
+      expect(gql.typeToString().split('\n')).toEqual([
+        'type TempBooleanField {',
+        '  name: Boolean!',
+        '  nameOpt: Boolean',
+        '  nameList: [Boolean]!',
+        '  nameListOptional: [Boolean]',
+        '  nameFromType: [Boolean]',
+        '  defObject: [Boolean]',
+        '}',
+      ]);
 
       type T = Infer<typeof def>;
 
@@ -794,18 +808,18 @@ describe('FieldTypes', () => {
 
       const gql = schemaToGQL('TempUnknownField', def);
 
-      expect(gql.toSDL()).toEqual(
-        'type TempUnknownField {\n' +
-          '  name: Unknown!\n' +
-          '  nameOpt: Unknown\n' +
-          '  nameList: [Unknown]!\n' +
-          '  nameListOptional: [Unknown]\n' +
-          '  nameFromType: [Unknown]\n' +
-          '\n' +
-          '  """🤔"""\n' +
-          '  defObject: [Unknown]\n' +
-          '}'
-      );
+      expect(gql.typeToString().split('\n')).toEqual([
+        'type TempUnknownField {',
+        '  name: Unknown!',
+        '  nameOpt: Unknown',
+        '  nameList: [Unknown]!',
+        '  nameListOptional: [Unknown]',
+        '  nameFromType: [Unknown]',
+        '  defObject: [Unknown]',
+        '}',
+        '',
+        'scalar Unknown',
+      ]);
 
       type T = Infer<typeof def>;
 
