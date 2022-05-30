@@ -7,7 +7,11 @@ export type DateFieldDef = {
   max?: Date;
 };
 
-export class DateField extends FieldType<Date, 'date', DateFieldDef | undefined> {
+export class DateField extends FieldType<
+  Date,
+  'date',
+  DateFieldDef | undefined
+> {
   parse: FieldTypeParser<Date>;
 
   constructor(def: DateFieldDef = {}) {
@@ -34,11 +38,15 @@ export class DateField extends FieldType<Date, 'date', DateFieldDef | undefined>
         const inputTime = input.getTime();
 
         if (minTime !== 0 && inputTime < minTime && min) {
-          throw new Error(`${input.toISOString()} is less than the minimum ${min.toISOString()}.`);
+          throw new Error(
+            `${input.toISOString()} is less than the minimum ${min.toISOString()}.`
+          );
         }
 
         if (maxTime !== 0 && inputTime > maxTime && max) {
-          throw new Error(`${input.toISOString()} is more than the maximum ${max.toISOString()}.`);
+          throw new Error(
+            `${input.toISOString()} is more than the maximum ${max.toISOString()}.`
+          );
         }
 
         return input;

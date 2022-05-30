@@ -1,6 +1,6 @@
 import { FieldType, FieldTypeParser } from '../FieldType';
-import type { Schema } from '../Schema';
 import { Infer } from '../Infer';
+import type { Schema } from '../Schema';
 
 const def = {
   pk: 'string',

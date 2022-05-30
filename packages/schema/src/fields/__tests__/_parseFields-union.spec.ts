@@ -1,6 +1,7 @@
-import { InferField } from '../_parseFields';
 import { assert, IsExact } from 'conditional-type-checks';
+
 import { Schema } from '../../Schema';
+import { InferField } from '../_parseFields';
 
 test('infer union types', () => {
   type TUnion = InferField<{ schema: { name: ['string', 'int'] } }>;

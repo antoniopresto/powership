@@ -1,7 +1,7 @@
-import { SchemaFieldInput } from './_parseFields';
-import { RecordFieldDef } from './RecordField';
 import { SchemaLike } from './ISchemaLike';
-import {MetaFieldDef} from "./MetaFieldField";
+import { MetaFieldDef } from './MetaFieldField';
+import { RecordFieldDef } from './RecordField';
+import { SchemaFieldInput } from './_parseFields';
 
 export type TCursor = {
   pk: string;
@@ -76,8 +76,8 @@ export type FieldDefinitions = {
   union: SchemaFieldInput[] | Readonly<SchemaFieldInput[]>;
 
   enum: Array<string> | Readonly<Array<string>>;
-  
-  meta: MetaFieldDef
+
+  meta: MetaFieldDef;
 };
 
 export type FieldTypeName = Extract<keyof FieldDefinitions, string>;

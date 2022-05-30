@@ -2,8 +2,8 @@ import { PromiseType } from '@darch/utils/lib/typeUtils';
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
-import { createSchema, createType, Schema } from '../Schema';
-import { createResolver, Resolver } from '../createResolver';
+import { createType, Schema } from '../Schema';
+import { createResolver } from '../createResolver';
 
 describe('createResolver', () => {
   afterEach(async () => {

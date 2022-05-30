@@ -6,16 +6,15 @@ import { JSONSchema4 } from 'json-schema';
 
 import { isSchema } from './Schema';
 import { SchemaDefinitionInput } from './TSchemaConfig';
-import { parseFieldDefinitionConfig } from './parseSchemaDefinition';
-
+import { SchemaLike } from './fields/ISchemaLike';
+import { isMetaFieldKey } from './fields/MetaFieldField';
+import { FieldTypeName } from './fields/_fieldDefinitions';
 import {
   FinalFieldDefinition,
   FinalSchemaDefinition,
 } from './fields/_parseFields';
-import { FieldTypeName } from './fields/_fieldDefinitions';
-import { SchemaLike } from './fields/ISchemaLike';
+import { parseFieldDefinitionConfig } from './parseSchemaDefinition';
 import { parseTypeName } from './parseTypeName';
-import { isMetaFieldKey } from './fields/MetaFieldField';
 
 /**
  * Converts a schema to a json-schema format

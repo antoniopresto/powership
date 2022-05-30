@@ -1,5 +1,7 @@
-import { areEqual } from '@darch/utils/lib/areEqual';
 import { AssertionError } from 'assert';
+
+import { areEqual } from '@darch/utils/lib/areEqual';
+
 import { SchemaDefinitionInput } from './fields/_parseFields';
 import { parseSchemaDefinition } from './parseSchemaDefinition';
 

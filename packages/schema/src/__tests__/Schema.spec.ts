@@ -1,8 +1,8 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
-import { createSchema, Schema } from '../Schema';
 import { Infer } from '../Infer';
-import {schemaMetaFieldKey} from "../fields/MetaFieldField";
+import { createSchema, Schema } from '../Schema';
+import { schemaMetaFieldKey } from '../fields/MetaFieldField';
 
 const userSchema = new Schema({
   name: 'string',
@@ -613,24 +613,6 @@ describe('Schema', () => {
       // @ts-ignore
       expect(schema1.clone().id).toBe(null);
     });
-  });
-
-  test('.graphqlType()', () => {
-    const type = createSchema({
-      name: 'string',
-      age: 'int?',
-    }).identify('User');
-
-    expect(type.graphqlType().getFields()).toMatchSnapshot();
-  });
-
-  test('.graphqlInputType()', () => {
-    const type = createSchema({
-      name: 'string',
-      age: 'int?',
-    }).identify('User');
-
-    expect(type.graphqlInputType().getFields()).toMatchSnapshot();
   });
 
   test('.entity(name: string) should identify before creating a OTC type', () => {

@@ -815,6 +815,8 @@ describe('FieldTypes', () => {
         '  nameList: [Unknown]!',
         '  nameListOptional: [Unknown]',
         '  nameFromType: [Unknown]',
+        '',
+        '  """🤔"""',
         '  defObject: [Unknown]',
         '}',
         '',

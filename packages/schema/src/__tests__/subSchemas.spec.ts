@@ -1,6 +1,7 @@
-import { createSchema } from '../Schema';
 import { assert, IsExact } from 'conditional-type-checks';
+
 import { Infer } from '../Infer';
+import { createSchema } from '../Schema';
 
 describe('subSchemas', () => {
   const schema1 = createSchema('customer', {
@@ -10,7 +11,7 @@ describe('subSchemas', () => {
     addresses: {
       schema: {
         street: 'string',
-        number: { union: ['string', 'int'] },
+        // number: { union: ['string', 'int'] },
         principal: 'boolean?',
       },
       list: true,
@@ -37,7 +38,7 @@ describe('subSchemas', () => {
           age?: number | undefined;
           addresses: {
             street: string;
-            number: string | number;
+            //number: string | number;
             principal?: boolean | undefined;
           }[];
         }
@@ -59,8 +60,7 @@ describe('subSchemas', () => {
 
   it('should generate a graphql type with the original schema name', async () => {
     const gql = schema2.entity();
-    expect(gql.getTypeName()).toBe(schema2.id);
-    expect(gql.getField('members').type.getTypeName()).toBe(schema1.id);
-    expect(gql.getField('members').type.getTypeName()).toBe('customer');
+    expect(gql.getType().name).toBe(schema2.id);
+    expect(gql.getType().getFields()['members'].type.toString()).toBe('[customer]!');
   });
 });

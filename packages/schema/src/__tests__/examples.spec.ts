@@ -1,7 +1,7 @@
 import { createSchema } from '../Schema';
-import { schemaToTypescript } from '../schemaToTypescript';
-import { schemaToJSON } from '../schemaToJSON';
 import { _assertFields } from '../fields/__tests__/__assert';
+import { schemaToJSON } from '../schemaToJSON';
+import { schemaToTypescript } from '../schemaToTypescript';
 
 test('examples', async () => {
   const addressSchema = createSchema({

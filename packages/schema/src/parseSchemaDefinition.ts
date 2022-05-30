@@ -1,29 +1,27 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
+import { isProduction } from '@darch/utils/lib/env';
 import { getKeys } from '@darch/utils/lib/getKeys';
 import { getTypeName } from '@darch/utils/lib/getTypeName';
 import { inspectObject } from '@darch/utils/lib/inspectObject';
+import { nonNullValues } from '@darch/utils/lib/invariant';
 import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 
 import { isFieldInstance, TAnyFieldType } from './FieldType';
 import { isSchema, Schema } from './Schema';
 import { FieldDefinitionConfig, SchemaDefinitionInput } from './TSchemaConfig';
 import { fieldInstanceFromDef } from './fieldInstanceFromDef';
-
-import { types } from './fields/fieldTypes';
-
-import {
-  isStringFieldDefinition,
-  parseStringDefinition,
-} from './parseStringDefinition';
-
-import { FinalFieldDefinition } from './fields/_parseFields';
-import { isProduction } from '@darch/utils/lib/env';
 import {
   isMetaField,
   MetaField,
   schemaMetaFieldKey,
 } from './fields/MetaFieldField';
-import { nonNullValues } from '@darch/utils/lib/invariant';
+import { FinalFieldDefinition } from './fields/_parseFields';
+import { types } from './fields/fieldTypes';
+import {
+  isStringFieldDefinition,
+  parseStringDefinition,
+} from './parseStringDefinition';
+
 
 export function parseSchemaField<T extends FieldDefinitionConfig>(
   fieldName: string,

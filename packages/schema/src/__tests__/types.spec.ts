@@ -1,10 +1,10 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
+import { Infer } from '../Infer';
 import { createSchema, Schema } from '../Schema';
 import { EnumField } from '../fields/EnumField';
-import { ParseStringDefinition } from '../parseStringDefinition';
-import { Infer } from '../Infer';
 import { _assertFields } from '../fields/__tests__/__assert';
+import { ParseStringDefinition } from '../parseStringDefinition';
 
 describe('typings', () => {
   test('enum', () => {

@@ -2,7 +2,11 @@ import { getTypeName } from '@darch/utils/lib/getTypeName';
 
 import { FieldType, FieldTypeParser } from '../FieldType';
 
-export class UndefinedField extends FieldType<undefined, 'undefined', undefined> {
+export class UndefinedField extends FieldType<
+  undefined,
+  'undefined',
+  undefined
+> {
   parse: FieldTypeParser<undefined>;
 
   constructor() {

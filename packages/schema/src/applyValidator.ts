@@ -1,7 +1,12 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 
-export type ValidationCustomMessage = string | ((value: any, originalError: Error) => string | Error);
-export type FieldTypeParser<Type> = (input: any, customMessage?: ValidationCustomMessage) => Type;
+export type ValidationCustomMessage =
+  | string
+  | ((value: any, originalError: Error) => string | Error);
+export type FieldTypeParser<Type> = (
+  input: any,
+  customMessage?: ValidationCustomMessage
+) => Type;
 
 export function parseValidationError(
   input: any,
@@ -9,8 +14,14 @@ export function parseValidationError(
   originalError: (Error & { [K: string]: any }) | string
 ) {
   if (typeof originalError === 'object') {
-    if (!customMessage && typeof originalError === 'object' && Array.isArray(originalError.issues)) {
-      const customIssue = originalError.issues.find((err) => typeof err?.params?.getMessage === 'function');
+    if (
+      !customMessage &&
+      typeof originalError === 'object' &&
+      Array.isArray(originalError.issues)
+    ) {
+      const customIssue = originalError.issues.find(
+        (err) => typeof err?.params?.getMessage === 'function'
+      );
 
       if (typeof customIssue?.params?.getMessage === 'function') {
         customMessage = () => customIssue.params.getMessage(input, error);
@@ -18,7 +29,10 @@ export function parseValidationError(
     }
   }
 
-  const error = typeof originalError === 'string' ? new Error(originalError) : originalError;
+  const error =
+    typeof originalError === 'string'
+      ? new Error(originalError)
+      : originalError;
 
   if (typeof customMessage === 'string') {
     return new RuntimeError(customMessage, { input });
@@ -35,7 +49,10 @@ export function parseValidationError(
     }
   }
 
-  if (typeof originalError === 'object' && originalError?.issues?.length === 1) {
+  if (
+    typeof originalError === 'object' &&
+    originalError?.issues?.length === 1
+  ) {
     return new RuntimeError(originalError.issues[0].message, { input });
   }
 

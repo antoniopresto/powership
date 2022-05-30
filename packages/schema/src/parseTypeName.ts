@@ -1,7 +1,8 @@
-import { FinalFieldDefinition } from './fields/_parseFields';
-import { getSchemaDefinitionMetaField } from './fields/MetaFieldField';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { upperFirst } from '@darch/utils/lib/upperFirst';
+
+import { getSchemaDefinitionMetaField } from './fields/MetaFieldField';
+import { FinalFieldDefinition } from './fields/_parseFields';
 
 export function parseTypeName(input: {
   parentName: string;
@@ -15,7 +16,7 @@ export function parseTypeName(input: {
       ? getSchemaDefinitionMetaField(field.def)?.def.id
       : null;
 
-  let result = metaName || `${parentName}_${fieldName}`;
+  let result = metaName || `${parentName}${fieldName ? `_${fieldName}` : ''}`;
 
   if (
     field.type === 'union' ||

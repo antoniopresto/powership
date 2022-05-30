@@ -1,6 +1,13 @@
-import { FieldPortableAPIInput, FieldType, FieldTypeParser } from '../FieldType';
+import {
+  FieldPortableAPIInput,
+  FieldType,
+  FieldTypeParser,
+} from '../FieldType';
 
-export class EnumField<U extends string, T extends Readonly<[U, ...U[]]>> extends FieldType<T[number], 'enum', T> {
+export class EnumField<
+  U extends string,
+  T extends Readonly<[U, ...U[]]>
+> extends FieldType<T[number], 'enum', T> {
   //
   parse: FieldTypeParser<T[number]>;
 
@@ -10,7 +17,11 @@ export class EnumField<U extends string, T extends Readonly<[U, ...U[]]>> extend
     this.parse = this.applyParser({
       parse: (input: any) => {
         if (!this.def.includes(input)) {
-          throw new Error(`accepted: ${this.def.map((e) => `'${e}'`).join(' or ')}, found ${input}.`);
+          throw new Error(
+            `accepted: ${this.def
+              .map((e) => `'${e}'`)
+              .join(' or ')}, found ${input}.`
+          );
         }
 
         return input;
@@ -18,7 +29,9 @@ export class EnumField<U extends string, T extends Readonly<[U, ...U[]]>> extend
     });
   }
 
-  static create = <U extends string, T extends Readonly<[U, ...U[]]>>(def: T): FieldType<T[number], 'enum', T> => {
+  static create = <U extends string, T extends Readonly<[U, ...U[]]>>(
+    def: T
+  ): FieldType<T[number], 'enum', T> => {
     return new EnumField(def);
   };
 

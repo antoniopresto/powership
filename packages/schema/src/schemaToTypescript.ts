@@ -1,7 +1,8 @@
 import { jsonToTypescript } from '@darch/utils/lib/jsonToTypescript';
+
 import { SchemaDefinitionInput } from './TSchemaConfig';
-import { schemaToJSON } from './schemaToJSON';
 import { SchemaLike } from './fields/ISchemaLike';
+import { schemaToJSON } from './schemaToJSON';
 
 const defaultBannerComment = `
  /* tslint:disable */

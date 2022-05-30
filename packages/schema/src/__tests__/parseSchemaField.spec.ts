@@ -1,12 +1,12 @@
 import { createSchema } from '../Schema';
 import { EnumField } from '../fields/EnumField';
+import { schemaMetaFieldKey } from '../fields/MetaFieldField';
 import {
-  parseSchemaField,
   parseFlattenFieldDefinition,
+  parseSchemaField,
 } from '../parseSchemaDefinition';
 
 import { schemaMocks } from './__mock__';
-import {schemaMetaFieldKey} from "../fields/MetaFieldField";
 
 const { typeDefs, stringDefTypes, schema2 } = schemaMocks;
 

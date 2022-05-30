@@ -1,6 +1,7 @@
-import { FieldDefinitions, FieldTypeName, TCursor } from './_fieldDefinitions';
 import { NullableToPartial } from '@darch/utils/lib/typeUtils';
+
 import { SchemaLike } from './ISchemaLike';
+import { FieldDefinitions, FieldTypeName, TCursor } from './_fieldDefinitions';
 
 export type SchemaFieldInput =
   | SchemaLike

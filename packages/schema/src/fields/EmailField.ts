@@ -12,7 +12,11 @@ type EmailDef = {
 const emailRegex =
   /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
-export class EmailField extends FieldType<string, 'email', EmailDef | undefined> {
+export class EmailField extends FieldType<
+  string,
+  'email',
+  EmailDef | undefined
+> {
   parse: FieldTypeParser<string>;
 
   constructor(def: EmailDef = {}) {
@@ -21,10 +25,14 @@ export class EmailField extends FieldType<string, 'email', EmailDef | undefined>
     let { regex: _regex = emailRegex } = def;
 
     if (def.regex && !Array.isArray(def.regex)) {
-      throw new Error(`Invalid regex definition received. Expected [string] | [string, string].`);
+      throw new Error(
+        `Invalid regex definition received. Expected [string] | [string, string].`
+      );
     }
 
-    const regex = Array.isArray(_regex) ? new RegExp(_regex[0], _regex[1]) : _regex;
+    const regex = Array.isArray(_regex)
+      ? new RegExp(_regex[0], _regex[1])
+      : _regex;
 
     this.parse = this.applyParser({
       parse: (input: any) => {

@@ -8,7 +8,11 @@ export type StringFieldDef = {
   regex?: [string] | [string, string];
 };
 
-export class StringField extends FieldType<string, 'string', StringFieldDef | undefined> {
+export class StringField extends FieldType<
+  string,
+  'string',
+  StringFieldDef | undefined
+> {
   parse: FieldTypeParser<string>;
 
   constructor(def: StringFieldDef = {}) {
@@ -32,11 +36,15 @@ export class StringField extends FieldType<string, 'string', StringFieldDef | un
         const length = input.length;
 
         if (max !== undefined && length > max) {
-          throw new Error(`${length} is more than the max string length ${max}.`);
+          throw new Error(
+            `${length} is more than the max string length ${max}.`
+          );
         }
 
         if (min !== undefined && length < min) {
-          throw new Error(`${length} is less than the min string length ${min}.`);
+          throw new Error(
+            `${length} is less than the min string length ${min}.`
+          );
         }
 
         return input;

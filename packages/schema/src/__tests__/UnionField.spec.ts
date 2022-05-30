@@ -1,11 +1,12 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { assert, IsExact } from 'conditional-type-checks';
-import { UnionField } from '../fields/UnionField';
+
 import { Infer } from '../Infer';
 import { createSchema } from '../Schema';
-import { ToFinalField } from '../fields/_parseFields';
+import { schemaMetaFieldKey } from '../fields/MetaFieldField';
+import { UnionField } from '../fields/UnionField';
 import { _assert, _assertFields } from '../fields/__tests__/__assert';
-import {schemaMetaFieldKey} from "../fields/MetaFieldField";
+import { ToFinalField } from '../fields/_parseFields';
 
 describe('Union', () => {
   it('parses', () => {

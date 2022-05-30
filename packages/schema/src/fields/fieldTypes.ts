@@ -8,6 +8,8 @@ import { EmailField } from './EmailField';
 import { EnumField } from './EnumField';
 import { FloatField } from './FloatField';
 import { IntField } from './IntField';
+import { MetaField } from './MetaFieldField';
+import { NullField } from './NullField';
 import { RecordField } from './RecordField';
 import { StringField } from './StringField';
 import { SubSchemaField } from './SubSchema';
@@ -15,10 +17,7 @@ import { UlidField } from './UlidField';
 import { UndefinedField } from './UndefinedField';
 import { UnionField } from './UnionField';
 import { UnknownField } from './UnknownField';
-
-import { NullField } from './NullField';
 import { FieldTypeName } from './_fieldDefinitions';
-import { MetaField } from './MetaFieldField';
 
 function createConstructors<T extends { [K in FieldTypeName]: any }>(
   input: T

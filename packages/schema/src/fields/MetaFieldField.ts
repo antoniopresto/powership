@@ -1,9 +1,9 @@
 // MetaField is a special field type used to add metadata to a schema
 
 import { expectedType } from '@darch/utils/lib/expectedType';
+import { nonNullValues } from '@darch/utils/lib/invariant';
 
 import { FieldType, FieldTypeParser } from '../FieldType';
-import { nonNullValues } from '@darch/utils/lib/invariant';
 
 type Serializable = null | undefined | Stringifiable | SerializableList;
 

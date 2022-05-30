@@ -6,7 +6,11 @@ export type UnknownFieldDef = {
   types?: string[] | string;
 };
 
-export class UnknownField extends FieldType<unknown, 'unknown', UnknownFieldDef | undefined> {
+export class UnknownField extends FieldType<
+  unknown,
+  'unknown',
+  UnknownFieldDef | undefined
+> {
   parse: FieldTypeParser<any>;
 
   constructor(def?: UnknownFieldDef) {
@@ -21,12 +25,16 @@ export class UnknownField extends FieldType<unknown, 'unknown', UnknownFieldDef 
         }
 
         if (types?.length) {
-          const arr = (Array.isArray(types) ? types : [types]).map((el) => el.toLowerCase());
+          const arr = (Array.isArray(types) ? types : [types]).map((el) =>
+            el.toLowerCase()
+          );
 
           const tn = getTypeName(input).toLowerCase();
 
           if (!arr.includes(tn)) {
-            throw new Error(`expected type to be one of -> (${arr.join(', ')}), found "${tn}"`);
+            throw new Error(
+              `expected type to be one of -> (${arr.join(', ')}), found "${tn}"`
+            );
           }
         }
 

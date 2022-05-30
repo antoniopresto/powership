@@ -1,10 +1,10 @@
+import { SchemaLike } from './fields/ISchemaLike';
 import {
   FieldAsString,
   FinalFieldDefinition,
   InferField,
   SchemaInTypeFieldDefinition,
 } from './fields/_parseFields';
-import { SchemaLike } from './fields/ISchemaLike';
 
 export type Infer<T> = T extends SchemaLike
   ? InferField<{ type: 'schema'; def: T['definition'] }>

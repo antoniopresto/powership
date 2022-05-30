@@ -1,8 +1,8 @@
 import { memoize } from '@darch/utils/lib/memoize';
 
-import { isFieldTypeName } from './fields/fieldTypes';
-import { FinalFieldDefinition } from './fields/_parseFields';
 import { FieldTypeName } from './fields/_fieldDefinitions';
+import { FinalFieldDefinition } from './fields/_parseFields';
+import { isFieldTypeName } from './fields/fieldTypes';
 
 function _parseStringDefinition<T extends AnyStringFieldDefinition>(
   typeName: T

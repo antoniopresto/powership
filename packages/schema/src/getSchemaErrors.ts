@@ -1,6 +1,6 @@
 import type { Schema } from './Schema';
-import { types, isFieldTypeName } from './fields/fieldTypes';
 import { isMetaField } from './fields/MetaFieldField';
+import { isFieldTypeName, types } from './fields/fieldTypes';
 
 export function validateSchemaFields(params: {
   createSchema: (def: any) => { getErrors: Function; parse: Function };

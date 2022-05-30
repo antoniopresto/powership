@@ -7,7 +7,11 @@ export type FloatFieldDef = {
   max?: number;
 };
 
-export class FloatField extends FieldType<number, 'float', FloatFieldDef | undefined> {
+export class FloatField extends FieldType<
+  number,
+  'float',
+  FloatFieldDef | undefined
+> {
   parse: FieldTypeParser<number>;
 
   constructor(def: FloatFieldDef = {}) {

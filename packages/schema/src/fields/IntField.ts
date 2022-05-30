@@ -7,7 +7,11 @@ export type IntFieldDef = {
   max?: number;
 };
 
-export class IntField extends FieldType<number, 'int', IntFieldDef | undefined> {
+export class IntField extends FieldType<
+  number,
+  'int',
+  IntFieldDef | undefined
+> {
   parse: FieldTypeParser<number>;
 
   constructor(def: IntFieldDef = {}) {

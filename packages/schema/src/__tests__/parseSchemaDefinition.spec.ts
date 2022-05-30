@@ -1,7 +1,7 @@
 import { Schema } from '../Schema';
 import { EnumField } from '../fields/EnumField';
+import { schemaMetaFieldKey } from '../fields/MetaFieldField';
 import { parseSchemaDefinition } from '../parseSchemaDefinition';
-import {schemaMetaFieldKey} from "../fields/MetaFieldField";
 
 describe('parseSchemaDefinition', () => {
   it('works', () => {

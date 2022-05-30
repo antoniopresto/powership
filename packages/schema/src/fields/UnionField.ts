@@ -3,9 +3,9 @@ import { inspectObject } from '@darch/utils/lib/inspectObject';
 import { uniq } from '@darch/utils/lib/uniq';
 
 import { FieldType, FieldTypeParser, TAnyFieldType } from '../FieldType';
+import { Infer } from '../Infer';
 import type { FieldDefinitionConfig } from '../TSchemaConfig';
 
-import { Infer } from '../Infer';
 
 export class UnionField<
   U extends FieldDefinitionConfig,
