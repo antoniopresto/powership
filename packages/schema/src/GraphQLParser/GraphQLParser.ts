@@ -161,6 +161,7 @@ export class GraphQLParser {
           ...acc,
           [next.fieldName]: {
             type,
+            description: next.description,
           },
         };
       }, {});

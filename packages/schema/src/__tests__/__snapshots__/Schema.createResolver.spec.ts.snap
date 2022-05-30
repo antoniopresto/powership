@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Schema.createResolver Should not override custom  in field type list 1`] = `
+"type Query {
+  users: [User]!
+}
+
+type User {
+  name: String!
+  age: Int!
+}"
+`;
+
+exports[`Schema.createResolver Should parse optional arguments 1`] = `
+"type Query {
+  users(id: Int): User!
+}
+
+type User {
+  name: String!
+  age: Int
+}"
+`;
+
+exports[`Schema.createResolver Should validate output 1`] = `
+"type Query {
+  user(filter: UserInput_filterInput): User!
+}
+
+type User {
+  name: String!
+  age: Int!
+}
+
+input UserInput_filterInput {
+  id: Int
+  nameSearch: [String]
+}"
+`;

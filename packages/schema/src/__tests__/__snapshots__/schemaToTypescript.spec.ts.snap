@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`schemaToTypescript works 1`] = `
+"/* tslint:disable */
+/**
+ * This file was automatically generated.
+ * DO NOT MODIFY IT BY HAND.
+ */
+
+/**
+ * My Custom Schema
+ */
+export interface MySchema {
+  /**
+   * person name
+   */
+  name: string;
+  date: Date;
+  pointers: Cursor[];
+  bool?: boolean;
+  ulids?: Ulid[];
+  dates: Date[];
+  sex?: \\"m\\" | \\"f\\" | \\"o\\";
+  addresses?:
+    | {
+        kind: \\"home\\";
+        street: string;
+        number: string | number;
+      }[]
+    | {
+        kind: \\"work\\";
+        week_days: \\"0\\" | \\"1\\" | \\"2\\" | \\"3\\" | \\"4\\" | \\"5\\" | \\"6\\";
+        name: {
+          firstName: string;
+          lastName: string;
+        };
+      };
+}
+"
+`;
