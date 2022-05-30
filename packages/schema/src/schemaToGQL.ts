@@ -1,10 +1,10 @@
-import { DarchGraphQLParser } from './DarchGraphQLParser/DarchGraphQLParser';
+import { GraphQLParser } from './GraphQLParser/GraphQLParser';
 import { createSchema } from './Schema';
 import { SchemaDefinitionInput } from './TSchemaConfig';
 import { FinalSchemaDefinition } from './fields/_parseFields';
 
 /**
- * @Deprecated - use DarchGraphQLParser instead
+ * @Deprecated - use GraphQLParser instead
  * @param typeName
  * @param definition
  */
@@ -14,7 +14,7 @@ export function schemaToGQL(
 ) {
   const schema = createSchema(typeName, definition);
 
-  return DarchGraphQLParser.parse({
+  return GraphQLParser.schemaToGraphQL({
     schema,
   });
 }

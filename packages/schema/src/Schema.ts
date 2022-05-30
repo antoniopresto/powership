@@ -377,9 +377,9 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
       );
     }
 
-    const { DarchGraphQLParser } = Schema.serverUtils().graphqlParser;
+    const { GraphQLParser } = Schema.serverUtils().graphqlParser;
 
-    return DarchGraphQLParser.parse({
+    return GraphQLParser.schemaToGraphQL({
       schema: this,
     });
   };
@@ -416,9 +416,9 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
       graphql: dynamicRequire('graphql', module) as typeof import('graphql'),
 
       graphqlParser: dynamicRequire(
-        './DarchGraphQLParser/DarchGraphQLParser',
+        './GraphQLParser/GraphQLParser',
         module
-      ) as typeof import('./DarchGraphQLParser/DarchGraphQLParser'),
+      ) as typeof import('./GraphQLParser/GraphQLParser'),
 
       createResolver: dynamicRequire('./createResolver', module)
         .createResolver as typeof import('./createResolver')['createResolver'],
@@ -437,10 +437,10 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
   };
 
   static async reset() {
-    const { graphqlParser } = Schema.serverUtils();
+    const { graphqlParser, createResolver } = Schema.serverUtils();
 
-    graphqlParser.DarchGraphQLParser.reset();
-
+    graphqlParser.GraphQLParser.reset();
+    createResolver.Resolver.reset();
     Schema.register.clear();
   }
 

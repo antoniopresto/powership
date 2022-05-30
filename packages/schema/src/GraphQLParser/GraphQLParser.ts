@@ -27,7 +27,10 @@ import type { CursorField } from '../fields/CursorField';
 import { SubSchemaField } from '../fields/SubSchema';
 import type { UnionField } from '../fields/UnionField';
 import { FieldTypeName } from '../fields/_fieldDefinitions';
-import { SchemaDefinitionInput } from '../fields/_parseFields';
+import {
+  FinalFieldDefinition,
+  SchemaDefinitionInput,
+} from '../fields/_parseFields';
 import { parseTypeName } from '../parseTypeName';
 
 import { GraphQLDateType } from './GraphQLDateType';
@@ -39,7 +42,7 @@ export type ParseTypeOptions = {
   name?: string;
 };
 
-export interface DarchGraphQLParserResult {
+export interface GraphQLParserResult {
   typeToString(): string;
   inputToString(): string;
   getInputType: (options?: ParseTypeOptions) => GraphQLInputObjectType;
@@ -50,14 +53,15 @@ export interface DarchGraphQLParserResult {
 export interface ConvertFieldResult {
   fieldName: string;
   typeName: string;
-  inputType: (() => GraphQLInputType | null) | null;
+  inputType: () => GraphQLInputType;
   type: () => GraphQLOutputType;
+  description?: string;
 }
 
-const resultsCache = new StrictMap<string, DarchGraphQLParserResult>();
+const resultsCache = new StrictMap<string, GraphQLParserResult>();
 const graphqlTypesRegister = new StrictMap<string, any>();
 
-export class DarchGraphQLParser {
+export class GraphQLParser {
   static resultsCache = resultsCache;
   static graphqlTypesRegister = graphqlTypesRegister;
 
@@ -66,10 +70,10 @@ export class DarchGraphQLParser {
     graphqlTypesRegister.clear();
   };
 
-  static parse<T extends SchemaDefinitionInput>(options: {
+  static schemaToGraphQL<T extends SchemaDefinitionInput>(options: {
     schema: Schema<T>;
     path?: string[]; // family tree of a schema/field
-  }): DarchGraphQLParserResult {
+  }): GraphQLParserResult {
     const { schema, path } = options;
 
     if (!isSchema(schema)) {
@@ -97,19 +101,20 @@ export class DarchGraphQLParser {
     }
 
     // save reference for circular dependencies
-    const graphqlParsed = {} as DarchGraphQLParserResult;
+    const graphqlParsed = {} as GraphQLParserResult;
     resultsCache.set(schemaId, graphqlParsed);
 
     const helpers = schema.helpers();
     const builders: ConvertFieldResult[] = [];
 
-    helpers.list.forEach(({ name: fieldName, instance }) => {
+    helpers.list.forEach(({ name: fieldName, instance, plainField }) => {
       builders.push(
-        this.convertField({
+        this.fieldToGraphQL({
           field: instance,
           parentName: schemaId,
           fieldName,
           path: path || [schemaId],
+          plainField,
         })
       );
     });
@@ -126,6 +131,7 @@ export class DarchGraphQLParser {
           ...acc,
           [next.fieldName]: {
             type: next.type(),
+            description: next.description,
           },
         };
       }, {});
@@ -149,7 +155,7 @@ export class DarchGraphQLParser {
 
       const inputFields = builders.reduce((acc, next) => {
         const type = next.inputType?.();
-        if (!type) return next;
+        if (!type) return acc;
 
         return {
           ...acc,
@@ -187,7 +193,7 @@ export class DarchGraphQLParser {
       return printSchema(schema);
     }
 
-    const parsed: DarchGraphQLParserResult = {
+    const parsed: GraphQLParserResult = {
       getType,
       inputToString: getInputSDL,
       typeToString: getSDL,
@@ -200,13 +206,19 @@ export class DarchGraphQLParser {
     return graphqlParsed;
   }
 
-  static convertField(options: {
+  static fieldToGraphQL(options: {
     field: TAnyFieldType;
     parentName: string;
     fieldName: string;
     path: string[];
+    plainField: FinalFieldDefinition;
   }): ConvertFieldResult {
-    const { field, fieldName, parentName } = options;
+    const {
+      field,
+      fieldName,
+      parentName,
+      plainField: { description },
+    } = options;
     const { list, optional, typeName } = field;
 
     const path = [...options.path, fieldName];
@@ -310,7 +322,7 @@ export class DarchGraphQLParser {
 
         const schema = Schema.getOrSet(id, field.def);
 
-        const res = self.parse({
+        const res = self.schemaToGraphQL({
           schema,
         });
 
@@ -339,7 +351,15 @@ export class DarchGraphQLParser {
           });
         }
 
-        return { inputType: null, type: createUnion };
+        return {
+          inputType: () => {
+            throw new RuntimeError(
+              `GraphQL union items cannot be used as input: https://github.com/graphql/graphql-spec/issues/488`,
+              { field: [...path, subTypeName].join(' > ') }
+            );
+          },
+          type: createUnion,
+        };
       },
 
       record() {
@@ -387,6 +407,7 @@ export class DarchGraphQLParser {
     };
 
     return {
+      description,
       typeName,
       fieldName,
       type() {
@@ -404,8 +425,7 @@ export class DarchGraphQLParser {
       },
 
       inputType() {
-        let result = create[typeName]().inputType?.();
-        if (!result) return null;
+        let result = create[typeName]().inputType();
 
         if (list) {
           result = new GraphQLList(result);

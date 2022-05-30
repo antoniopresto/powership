@@ -1,9 +1,9 @@
 import { GraphQLSchema, printSchema } from 'graphql';
 
 import { createSchema, Schema } from '../../Schema';
-import { DarchGraphQLParser } from '../DarchGraphQLParser';
+import { GraphQLParser } from '../GraphQLParser';
 
-describe('DarchGraphQLParser', () => {
+describe('GraphQLParser', () => {
   afterEach(() => {
     Schema.reset();
   });
@@ -13,7 +13,7 @@ describe('DarchGraphQLParser', () => {
       name: 'string',
     });
 
-    const sut = DarchGraphQLParser.parse({
+    const sut = GraphQLParser.schemaToGraphQL({
       schema,
     });
 
@@ -33,7 +33,7 @@ describe('DarchGraphQLParser', () => {
       integers: { type: 'int', list: true, optional: true },
     });
 
-    const sut = DarchGraphQLParser.parse({
+    const sut = GraphQLParser.schemaToGraphQL({
       schema,
     });
 
@@ -67,11 +67,11 @@ describe('DarchGraphQLParser', () => {
       };
     }, 'otherPerson');
 
-    const s1 = DarchGraphQLParser.parse({
+    const s1 = GraphQLParser.schemaToGraphQL({
       schema: schema1,
     });
 
-    const s2 = DarchGraphQLParser.parse({
+    const s2 = GraphQLParser.schemaToGraphQL({
       schema: schema2,
     });
 
@@ -115,26 +115,26 @@ describe('DarchGraphQLParser', () => {
       persons: schema1,
     });
 
-    const sut = DarchGraphQLParser.parse({
+    const sut = GraphQLParser.schemaToGraphQL({
       schema: schema2,
     });
 
     expect(sut.typeToString().split('\n')).toEqual([
       'type persons {',
-      '  sex: persons_sex_Enum!',
+      '  sex: persons_sexEnum!',
       '  persons: person!',
       '}',
       '',
-      'enum persons_sex_Enum {',
+      'enum persons_sexEnum {',
       '  m',
       '  n',
       '}',
       '',
       'type person {',
-      '  sex: [person_sex_Enum]!',
+      '  sex: [person_sexEnum]!',
       '}',
       '',
-      'enum person_sex_Enum {',
+      'enum person_sexEnum {',
       '  m',
       '  n',
       '}',
@@ -151,12 +151,13 @@ describe('DarchGraphQLParser', () => {
       persons: schema1,
     });
 
-    const sut = DarchGraphQLParser.parse({
+    const sut = GraphQLParser.schemaToGraphQL({
       schema: schema2,
     });
 
     expect(sut.typeToString().split('\n')).toEqual([
       'type persons {',
+      '  """dates of ..."""',
       '  createdAt: Date!',
       '  persons: person!',
       '}',
@@ -177,7 +178,7 @@ describe('DarchGraphQLParser', () => {
       maybeIds: '[cursor]?',
     });
 
-    const sut = DarchGraphQLParser.parse({
+    const sut = GraphQLParser.schemaToGraphQL({
       schema: schema1,
     });
 
@@ -216,16 +217,16 @@ describe('DarchGraphQLParser', () => {
       owner: [robot, person],
     });
 
-    const sut = DarchGraphQLParser.parse({
+    const sut = GraphQLParser.schemaToGraphQL({
       schema: Task,
     });
 
     expect(sut.typeToString().split('\n')).toEqual([
       'type Task {',
-      '  owner: Task_owner_Union!',
+      '  owner: Task_ownerUnion!',
       '}',
       '',
-      'union Task_owner_Union = Robot | Person',
+      'union Task_ownerUnion = Robot | Person',
       '',
       'type Robot {',
       '  name: String!',
@@ -238,6 +239,31 @@ describe('DarchGraphQLParser', () => {
       '  age: Int',
       '}',
     ]);
+  });
+
+  it('Should throw on unions as input', () => {
+    const person = createSchema('Person', {
+      name: 'string',
+      age: 'int?',
+    });
+
+    const robot = createSchema('Robot', {
+      name: 'string',
+      age: 'int?',
+      owner: person,
+    });
+
+    const Task = createSchema('Task', {
+      owner: [robot, person],
+    });
+
+    const sut = GraphQLParser.schemaToGraphQL({
+      schema: Task,
+    });
+
+    expect(() => sut.inputToString()).toThrow(
+      'GraphQL union items cannot be used as input'
+    );
   });
 
   it('Should reuse types', () => {
@@ -288,10 +314,10 @@ describe('DarchGraphQLParser', () => {
       '}',
       '',
       'type Type1 {',
-      '  owner: Type1_owner_Union!',
+      '  owner: Type1_ownerUnion!',
       '}',
       '',
-      'union Type1_owner_Union = Robot | Person',
+      'union Type1_ownerUnion = Robot | Person',
       '',
       'type Robot {',
       '  name: String!',
@@ -305,10 +331,10 @@ describe('DarchGraphQLParser', () => {
       '}',
       '',
       'type Type2 {',
-      '  owner: Type2_owner_Union!',
+      '  owner: Type2_ownerUnion!',
       '}',
       '',
-      'union Type2_owner_Union = Robot | Person',
+      'union Type2_ownerUnion = Robot | Person',
       '',
       'type Mutation {',
       '  type1: Type1!',

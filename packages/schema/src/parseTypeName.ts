@@ -22,7 +22,7 @@ export function parseTypeName(input: {
     field.type === 'enum' ||
     field.type === 'record'
   ) {
-    result += `_${upperFirst(field.type)}`;
+    result += `${upperFirst(field.type)}`;
   }
 
   if (!result) {

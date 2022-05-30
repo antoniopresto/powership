@@ -1,13 +1,18 @@
-import { isMetaFieldKey, MetaFieldDef } from './fields/MetaFieldField';
-import { __getCachedFieldInstance } from './parseSchemaDefinition';
-import type { Schema } from './Schema';
-import { TAnyFieldType } from './FieldType';
-import { SchemaDefinitionInput } from './fields/_parseFields';
 import { getKeys } from '@darch/utils/lib/getKeys';
+
+import { TAnyFieldType } from './FieldType';
+import type { Schema } from './Schema';
+import { isMetaFieldKey, MetaFieldDef } from './fields/MetaFieldField';
+import {
+  FinalFieldDefinition,
+  SchemaDefinitionInput,
+} from './fields/_parseFields';
+import { __getCachedFieldInstance } from './parseSchemaDefinition';
 
 export type SchemaFieldListItem<T extends SchemaDefinitionInput> = {
   instance: TAnyFieldType;
   name: Extract<keyof T, string>;
+  plainField: FinalFieldDefinition;
 };
 
 export type SchemaHelpers<T extends SchemaDefinitionInput> = {
@@ -36,6 +41,7 @@ export function getSchemaHelpers<T extends SchemaDefinitionInput>(
     list.push({
       name: fieldName,
       instance,
+      plainField: field,
     });
   });
 

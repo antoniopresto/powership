@@ -1,5 +1,6 @@
-import { createType, Schema } from '../Schema';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
+
+import { createType, Schema } from '../Schema';
 
 describe('Schema.createResolver', () => {
   beforeEach(async () => {
@@ -14,7 +15,6 @@ describe('Schema.createResolver', () => {
       age: 'int?',
     }).createResolver({
       name: 'Users',
-      kind: 'query',
       args: { id: 'int?' },
       resolve(rp) {
         return resolve(rp);
@@ -22,23 +22,15 @@ describe('Schema.createResolver', () => {
     });
 
     await expect(() =>
-      usersResolver.resolve({
-        args: { id: [] as any },
-        projection: {},
-        source: undefined,
-        info: {} as any,
-        context: {},
-      })
-    ).rejects.toThrow(
-      `Invalid input:\n ➤ field "id": Expected value to be of type "number", found array instead.`
-    );
+      usersResolver.resolve(undefined, { id: [] as any }, {}, {} as any)
+    ).rejects.toThrow(`Invalid input provided to`);
 
     const schema = new GraphQLSchema({
       query: new GraphQLObjectType({
         name: 'Query',
 
         fields: () => ({
-          users: usersResolver.getFieldConfig(),
+          users: usersResolver.fieldConfig,
         }),
       }),
     });
@@ -52,22 +44,16 @@ describe('Schema.createResolver', () => {
       age: 'int?',
     }).createResolver({
       name: 'Users',
-      kind: 'query',
-      async resolve({ args }) {
+      async resolve(_, args) {
         expect(args).toEqual({});
         return { age: 1, name: 'baby' };
       },
     });
 
-    expect(
-      await usersResolver.resolve({
-        args: {},
-        projection: {},
-        source: undefined,
-        info: {} as any,
-        context: {},
-      })
-    ).toEqual({ age: 1, name: 'baby' });
+    expect(await usersResolver.resolve(undefined, {}, {}, {} as any)).toEqual({
+      age: 1,
+      name: 'baby',
+    });
   });
 
   it('Should validate output', async () => {
@@ -76,37 +62,28 @@ describe('Schema.createResolver', () => {
       age: { int: { min: 1 } },
     }).createResolver({
       name: 'User',
-      kind: 'query',
       args: {
         filter: {
           schema: { id: 'int?', nameSearch: '[string]?' },
           optional: true,
         },
       },
-      async resolve({ args }) {
+      async resolve(_, args) {
         expect(args).toEqual({});
         return { age: 0.5, name: 'baby' };
       },
     });
 
     await expect(
-      usersResolver.resolve({
-        args: {},
-        projection: {},
-        source: undefined,
-        info: {} as any,
-        context: {},
-      })
-    ).rejects.toThrow(
-      'Invalid payload:\n ➤ field "age": 0.5 is not a valid integer.'
-    );
+      usersResolver.resolve(undefined, {}, {}, {} as any)
+    ).rejects.toThrow('Invalid output from resolver "User"');
 
     const schema = new GraphQLSchema({
       query: new GraphQLObjectType({
         name: 'Query',
 
         fields: () => ({
-          user: usersResolver.getFieldConfig(),
+          user: usersResolver.fieldConfig,
         }),
       }),
     });
@@ -114,7 +91,7 @@ describe('Schema.createResolver', () => {
     expect(printSchema(schema)).toMatchSnapshot();
   });
 
-  it('Should create custom resolvers', async () => {
+  it('Should not override custom  in field type list', async () => {
     const userType = createType('User', {
       name: 'string',
       age: { int: { min: 1 } },
@@ -123,28 +100,21 @@ describe('Schema.createResolver', () => {
     const usersResolver = Schema.createResolver({
       type: { type: userType, list: true },
       name: 'Users',
-      kind: 'query',
       async resolve() {
         return [{ age: 1, name: 'baby' }];
       },
     });
 
-    expect(
-      await usersResolver.resolve({
-        args: {},
-        projection: {},
-        source: undefined,
-        info: {} as any,
-        context: {},
-      })
-    ).toEqual([{ age: 1, name: 'baby' }]);
+    expect(await usersResolver.resolve(undefined, {}, {}, {} as any)).toEqual([
+      { age: 1, name: 'baby' },
+    ]);
 
     const schema = new GraphQLSchema({
       query: new GraphQLObjectType({
         name: 'Query',
 
         fields: () => ({
-          users: usersResolver.getFieldConfig(),
+          users: usersResolver.fieldConfig,
         }),
       }),
     });

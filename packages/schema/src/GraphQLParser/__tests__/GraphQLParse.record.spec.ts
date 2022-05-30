@@ -7,7 +7,7 @@ import {
 
 import { createSchema } from '../../Schema';
 
-describe('DarchGraphQLParse.record', () => {
+describe('GraphQLParse.record', () => {
   const person = createSchema('Person', {
     name: 'string',
     age: 'int?',
@@ -43,16 +43,16 @@ describe('DarchGraphQLParse.record', () => {
       'type Person {',
       '  name: String!',
       '  age: Int',
-      '  addresses: Person_addresses_Record!',
+      '  addresses: Person_addressesRecord!',
       '}',
       '',
-      'scalar Person_addresses_Record',
+      'scalar Person_addressesRecord',
       '',
       'input rec1Input {',
-      '  addresses: rec1_addresses_Record!',
+      '  addresses: rec1_addressesRecord!',
       '}',
       '',
-      'scalar rec1_addresses_Record',
+      'scalar rec1_addressesRecord',
     ]);
 
     await expect(

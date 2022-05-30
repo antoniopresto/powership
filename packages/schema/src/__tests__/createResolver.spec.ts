@@ -2,13 +2,12 @@ import { PromiseType } from '@darch/utils/lib/typeUtils';
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
-import { createType, Schema } from '../Schema';
+import { createSchema, createType, Schema } from '../Schema';
 import { createResolver, Resolver } from '../createResolver';
 
 describe('createResolver', () => {
   afterEach(async () => {
-    Schema.register.clear();
-    Resolver.register.clear();
+    await Schema.reset();
   });
 
   it('Should create a Resolver', () => {
@@ -22,7 +21,7 @@ describe('createResolver', () => {
       args: { id: 'ulid' },
       name: 'Users',
       description: 'User resolver',
-      async resolve({ args: { id } }) {
+      async resolve(_, { id }) {
         return {
           name: id,
           id: id,
@@ -31,7 +30,7 @@ describe('createResolver', () => {
     });
 
     type Return = PromiseType<ReturnType<typeof resolver.resolve>>;
-    type Args = Parameters<typeof resolver.resolve>[0]['args'];
+    type Args = Parameters<typeof resolver.resolve>[1];
 
     assert<IsExact<Return, { name: string; id: string }>>(true);
     assert<IsExact<Args, { id: string }>>(true);
@@ -41,29 +40,27 @@ describe('createResolver', () => {
         name: 'Query',
 
         fields: () => ({
-          users: resolver.getFieldConfig(),
+          users: resolver.fieldConfig,
         }),
       }),
     });
 
-    expect(printSchema(schema)).toEqual(
-      `type Query {
-  """User resolver"""
-  users(id: Ulid!): User
-}
-
-scalar Ulid
-
-type User {
-  """the user name"""
-  name: String!
-  id: Ulid!
-}
-`
-    );
+    expect(printSchema(schema).split('\n')).toEqual([
+      'type Query {',
+      '  """User resolver"""',
+      '  users(id: Ulid!): User!',
+      '}',
+      '',
+      'type User {',
+      '  """the user name"""',
+      '  name: String!',
+      '  id: Ulid!',
+      '}',
+      '',
+      'scalar Ulid',
+    ]);
   });
 
-  // TODO union type
   it('Should create complex types preserving names', () => {
     const user = createType('user', {
       name: 'string',
@@ -72,7 +69,7 @@ type User {
 
     const userAddress = createType('UserAddress', {
       street: 'string',
-      number: { union: ['string', 'int'], description: 'string or number' },
+      number: 'int?',
     }).describe('The user address');
 
     const resolver = createResolver({
@@ -89,7 +86,7 @@ type User {
     });
 
     type Return = ReturnType<typeof resolver.resolve>;
-    type Args = Parameters<typeof resolver.resolve>[0]['args'];
+    type Args = Parameters<typeof resolver.resolve>[1];
 
     assert<IsExact<Return, Promise<{ name: string; age?: number }>>>(true);
 
@@ -99,7 +96,7 @@ type User {
         {
           name: string;
           addresses: {
-            number: string | number;
+            number?: number | undefined;
             street: string;
           }[];
           records: { [K: number]: 'banana' };
@@ -112,12 +109,28 @@ type User {
         name: 'Query',
 
         fields: () => ({
-          users: resolver.getFieldConfig(),
+          users: resolver.fieldConfig,
         }),
       }),
     });
 
-    expect(printSchema(schema)).toMatchSnapshot();
+    expect(printSchema(schema).split('\n')).toEqual([
+      'type Query {',
+      '  users(name: String!, addresses: [UserAddressInput]!, records: UsersInput_recordsRecord!): user!',
+      '}',
+      '',
+      'type user {',
+      '  name: String!',
+      '  age: Int',
+      '}',
+      '',
+      'input UserAddressInput {',
+      '  street: String!',
+      '  number: Int',
+      '}',
+      '',
+      'scalar UsersInput_recordsRecord',
+    ]);
   });
 
   it('Should accept literals as type', () => {
@@ -135,12 +148,16 @@ type User {
         name: 'Query',
 
         fields: () => ({
-          airplanes: resolver.getFieldConfig(),
+          airplanes: resolver.fieldConfig,
         }),
       }),
     });
 
-    expect(printSchema(schema)).toMatchSnapshot();
+    expect(printSchema(schema).split('\n')).toEqual([
+      'type Query {',
+      '  airplanes: [Int]',
+      '}',
+    ]);
   });
 
   // it('Should reuse saved OTC types', async () => {
@@ -216,22 +233,22 @@ type User {
   //   expect(printSchema(schema)).toEqual('');
   // });
 
-  it('Should reuse arg types', async () => {
-    const name = 'Salad';
-
-    const Fruit = createType('Fruit', {
-      name: 'string',
-      color: 'string',
-    });
-
-    const a = Resolver.argsToGQL({
-      name,
-      args: {
-        name: 'string',
-        fruits: { list: true, type: Fruit },
-      },
-    });
-
-    expect(a.result).toEqual({});
-  });
+  // it('Should reuse arg types', async () => {
+  //   const name = 'Salad';
+  //
+  //   const Fruit = createType('Fruit', {
+  //     name: 'string',
+  //     color: 'string',
+  //   });
+  //
+  //   const a = Resolver.argsToGQL({
+  //     name,
+  //     args: {
+  //       name: 'string',
+  //       fruits: { list: true, type: Fruit },
+  //     },
+  //   });
+  //
+  //   expect(a.result).toEqual({});
+  // });
 });
