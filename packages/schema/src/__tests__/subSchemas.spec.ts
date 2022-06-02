@@ -59,8 +59,10 @@ describe('subSchemas', () => {
   });
 
   it('should generate a graphql type with the original schema name', async () => {
-    const gql = schema2.entity();
+    const gql = schema2.toGraphQL();
     expect(gql.getType().name).toBe(schema2.id);
-    expect(gql.getType().getFields()['members'].type.toString()).toBe('[customer]!');
+    expect(gql.getType().getFields()['members'].type.toString()).toBe(
+      '[customer]!'
+    );
   });
 });

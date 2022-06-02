@@ -7,6 +7,7 @@ import { DateField } from './DateField';
 import { EmailField } from './EmailField';
 import { EnumField } from './EnumField';
 import { FloatField } from './FloatField';
+import { IDField } from './IDField';
 import { IntField } from './IntField';
 import { MetaField } from './MetaFieldField';
 import { NullField } from './NullField';
@@ -30,6 +31,7 @@ function createConstructors<T extends { [K in FieldTypeName]: any }>(
 
 export const types = createConstructors({
   int: IntField,
+  ID: IDField,
   float: FloatField,
   string: StringField,
   boolean: BooleanField,

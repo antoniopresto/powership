@@ -126,8 +126,6 @@ export abstract class FieldType<
 
   readonly __isFieldType = true;
 
-  abstract graphql(api: FieldPortableAPIInput): FieldTypeGraphql;
-
   __portableName: string | undefined;
   mountPortableFieldName = (api: FieldPortableAPIInput) => {
     if (this.__portableName) return this.__portableName;

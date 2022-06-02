@@ -3,7 +3,7 @@ import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../Infer';
 import { BooleanField } from '../fields/BooleanField';
-import { CursorField, CursorType } from '../fields/CursorField';
+import { CursorField } from '../fields/CursorField';
 import { DateField } from '../fields/DateField';
 import { EmailField } from '../fields/EmailField';
 import { EnumField } from '../fields/EnumField';
@@ -14,6 +14,7 @@ import { StringField } from '../fields/StringField';
 import { ULID_REGEX, UlidField } from '../fields/UlidField';
 import { UnknownField } from '../fields/UnknownField';
 import { _assertFields } from '../fields/__tests__/__assert';
+import { CursorType } from '../fields/_fieldDefinitions';
 import { createSchema, Schema } from '../index';
 import { schemaToGQL } from '../schemaToGQL';
 import { schemaToTypescript } from '../schemaToTypescript';
@@ -639,21 +640,21 @@ describe('FieldTypes', () => {
         CursorField.create().parse({
           a: 1,
         })
-      ).toThrow(`➤ field "pk": expected type string, found undefined.`);
+      ).toThrow(`➤ field "PK": expected type string, found undefined.`);
 
       expect(
         CursorField.create().parse({
-          pk: 'a',
+          PK: 'a',
+          version: '1',
           prefix: 'b',
-          delimiter: 'c',
           limit: 1,
           after: 'd',
           fields: ['surname'],
         })
       ).toEqual({
-        pk: 'a',
+        PK: 'a',
+        version: '1',
         prefix: 'b',
-        delimiter: 'c',
         limit: 1,
         after: 'd',
         fields: ['surname'],
@@ -687,16 +688,27 @@ describe('FieldTypes', () => {
         '}',
         '',
         'type Cursor {',
-        '  pk: String!',
+        '  """Primary Key"""',
+        '  PK: String!',
+        '',
+        '  """Secondary or Sort Key"""',
+        '  SK: String',
+        '',
+        '  """The Cursor format version"""',
+        '  version: String!',
+        '',
+        '  """The prefix to search as "startsWith" in SK"""',
         '  prefix: String',
-        '  delimiter: String',
+        '',
+        '  """Composite key separator"""',
+        '  sep: String',
         '  limit: Int',
         '  after: String',
         '  fields: [String]',
         '}',
       ]);
 
-      type T = Infer<typeof def>;
+      type T = Infer<typeof def>['nameFromType'];
 
       _assertFields<
         T,

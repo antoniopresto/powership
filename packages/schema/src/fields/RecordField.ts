@@ -5,7 +5,6 @@ import { FieldType, FieldTypeParser, TAnyFieldType } from '../FieldType';
 import { Infer } from '../Infer';
 import type { FieldDefinitionConfig } from '../TSchemaConfig';
 
-
 const validKeyTypes = ['int', 'string', 'float'] as const;
 type ValidKeyType = typeof validKeyTypes[number];
 

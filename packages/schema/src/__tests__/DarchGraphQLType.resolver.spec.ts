@@ -2,8 +2,8 @@ import { PromiseType } from '@darch/utils/lib/typeUtils';
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
+import { DarchGraphQLType } from '../DarchGraphQLType';
 import { createDarchSchema, Schema } from '../Schema';
-import { createResolver } from '../createResolver';
 
 describe('createResolver', () => {
   afterEach(async () => {
@@ -16,10 +16,9 @@ describe('createResolver', () => {
       id: 'ulid',
     });
 
-    const resolver = createResolver({
-      type: UserType,
+    const resolver = new DarchGraphQLType(UserType).resolver({
+      name: 'User',
       args: { id: 'ulid' },
-      name: 'Users',
       description: 'User resolver',
       async resolve(_, { id }) {
         return {
@@ -40,7 +39,7 @@ describe('createResolver', () => {
         name: 'Query',
 
         fields: () => ({
-          users: resolver.fieldConfig,
+          users: resolver,
         }),
       }),
     });
@@ -72,16 +71,15 @@ describe('createResolver', () => {
       number: 'int?',
     }).describe('The user address');
 
-    const resolver = createResolver({
-      type: user,
+    const resolver = new DarchGraphQLType(user).resolver({
+      name: 'Users',
       args: {
         name: 'string',
         addresses: { schema: userAddress, list: true },
         records: { record: { keyType: 'int', type: { enum: ['banana'] } } },
       } as const,
-      name: 'Users',
-      resolve(rp) {
-        return rp as any;
+      resolve() {
+        return {} as any;
       },
     });
 
@@ -109,7 +107,7 @@ describe('createResolver', () => {
         name: 'Query',
 
         fields: () => ({
-          users: resolver.fieldConfig,
+          users: resolver,
         }),
       }),
     });
@@ -134,9 +132,8 @@ describe('createResolver', () => {
   });
 
   it('Should accept literals as type', () => {
-    const resolver = createResolver({
+    const resolver = new DarchGraphQLType('Airplanes', '[int]?').resolver({
       name: 'Airplanes',
-      type: '[int]?',
       args: undefined,
       async resolve() {
         return undefined;
@@ -148,7 +145,7 @@ describe('createResolver', () => {
         name: 'Query',
 
         fields: () => ({
-          airplanes: resolver.fieldConfig,
+          airplanes: resolver,
         }),
       }),
     });

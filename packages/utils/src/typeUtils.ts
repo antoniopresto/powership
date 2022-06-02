@@ -84,6 +84,27 @@ export type NullableToPartial<T> = UnionToIntersection<
     }
 >;
 
+
+export type Join<L, R> = {
+  [K in keyof ({
+    [K in keyof L]: L[K];
+  } & {
+    [K in keyof R]: R[K];
+  })]: ({
+    [K in keyof L]: L[K];
+  } & {
+    [K in keyof R]: R[K];
+  })[K];
+};
+
+export type Merge<L, R> = Omit<L, keyof R> extends infer P ? Join<P, R> : never;
+
+export type ExtendList<Dest, Extends> = Extends extends []
+  ? Dest
+  : Extends extends [infer Item, ...infer Rest]
+    ? ExtendList<Merge<Dest, Item>, Rest>
+    : never;
+
 // https://fettblog.eu/typescript-union-to-intersection/
 export type UnionToIntersection<T> = (
   T extends any ? (x: T) => any : never

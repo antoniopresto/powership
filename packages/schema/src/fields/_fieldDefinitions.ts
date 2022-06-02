@@ -3,17 +3,21 @@ import { MetaFieldDef } from './MetaFieldField';
 import { RecordFieldDef } from './RecordField';
 import { SchemaFieldInput } from './_parseFields';
 
-export type TCursor = {
-  pk: string;
-  prefix?: string;
-  delimiter?: string;
-  limit?: number;
-  after?: string;
-  fields?: string[];
+export type CursorType = {
+  PK: string;
+  SK?: string | undefined;
+  version?: string | undefined;
+  prefix?: string | undefined;
+  sep?: string | undefined;
+  limit?: number | undefined;
+  after?: string | undefined;
+  fields?: string[] | undefined;
 };
 
 export type FieldDefinitions = {
   any: undefined;
+
+  ID: undefined;
 
   boolean: undefined;
 

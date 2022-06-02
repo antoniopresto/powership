@@ -1,7 +1,11 @@
 import { NullableToPartial } from '@darch/utils/lib/typeUtils';
 
 import { SchemaLike } from './ISchemaLike';
-import { FieldDefinitions, FieldTypeName, TCursor } from './_fieldDefinitions';
+import {
+  CursorType,
+  FieldDefinitions,
+  FieldTypeName,
+} from './_fieldDefinitions';
 
 export type SchemaFieldInput =
   | SchemaLike
@@ -318,7 +322,7 @@ type _inferBasic<Type, Def = undefined> =
     : Type extends 'boolean'
     ? boolean
     : Type extends 'cursor'
-    ? TCursor
+    ? CursorType
     : Type extends 'null'
     ? null
     : Type extends 'undefined'
@@ -337,9 +341,9 @@ type _inferBasic<Type, Def = undefined> =
     ? number
     : Type extends 'ulid'
     ? string
-    : //
-
-    // == parsing enum
+    : Type extends 'ID'
+    ? string
+    : // == parsing enum
     Type extends 'enum'
     ? Def extends Array<infer Val> | Readonly<Array<infer Val>>
       ? Val

@@ -4,6 +4,14 @@ import { SchemaDefinitionInput } from './TSchemaConfig';
 import { SchemaLike } from './fields/ISchemaLike';
 import { schemaToJSON } from './schemaToJSON';
 
+export type SchemaToTypescriptOptions = {
+  bannerComment?: string;
+  format?: boolean;
+  unreachableDefinitions?: boolean;
+  additionalProperties?: boolean;
+  strictIndexSignatures?: boolean;
+};
+
 const defaultBannerComment = `
  /* tslint:disable */
 /**
@@ -21,13 +29,7 @@ const defaultBannerComment = `
 export async function schemaToTypescript(
   name: string,
   schema: SchemaLike | SchemaDefinitionInput,
-  options?: {
-    bannerComment?: string;
-    format?: boolean;
-    unreachableDefinitions?: boolean;
-    additionalProperties?: boolean;
-    strictIndexSignatures?: boolean;
-  }
+  options?: SchemaToTypescriptOptions
 ) {
   const {
     bannerComment = defaultBannerComment,

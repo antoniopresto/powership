@@ -8,8 +8,15 @@ import { invariantType } from '@darch/utils/lib/invariant';
 import { isBrowser } from '@darch/utils/lib/isBrowser';
 import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 import { ForceString } from '@darch/utils/lib/typeUtils';
-import type { GraphQLInputObjectType, GraphQLObjectType } from 'graphql';
+import type {
+  GraphQLInputObjectType,
+  GraphQLInterfaceType,
+  GraphQLObjectType,
+} from 'graphql';
 
+import type { DarchGraphQLType } from './DarchGraphQLType';
+import type { ParseTypeOptions } from './GraphQLParser/GraphQLParser';
+import type { ParseInterfaceOptions } from './GraphQLParser/GraphQLParser';
 import type { Infer } from './Infer';
 import type { SchemaDefinitionInput } from './TSchemaConfig';
 import {
@@ -17,12 +24,12 @@ import {
   ValidationCustomMessage,
 } from './applyValidator';
 import { assertSameDefinition } from './assertSameDefinition';
-import type { CreateResolverOptions, Resolver } from './createResolver';
 import {
   getSchemaDefinitionMetaField,
   isMetaFieldKey,
   MetaFieldDef,
   schemaMetaFieldKey,
+  Serializable,
 } from './fields/MetaFieldField';
 import type {
   FinalSchemaDefinition,
@@ -33,6 +40,7 @@ import type {
 import { validateSchemaFields } from './getSchemaErrors';
 import { getSchemaHelpers, SchemaHelpers } from './getSchemaHelpers';
 import { parseSchemaDefinition } from './parseSchemaDefinition';
+import type { SchemaToTypescriptOptions } from './schemaToTypescript';
 import { withCache, WithCache } from './withCache';
 
 export { RuntimeError } from '@darch/utils/lib/RuntimeError';
@@ -45,6 +53,7 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
   __withCache: WithCache<{
     graphqlInputType: GraphQLInputObjectType;
     graphqlType: GraphQLObjectType;
+    graphqlInterfaceType: GraphQLInterfaceType;
     helpers: SchemaHelpers<DefinitionInput>;
   }>;
 
@@ -66,7 +75,7 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     return this.__definition[schemaMetaFieldKey].def;
   }
 
-  private __setMetaData(k: keyof MetaFieldDef, value: string | number) {
+  __setMetaData(k: keyof MetaFieldDef, value: Serializable) {
     this.__definition[schemaMetaFieldKey].def[k] = value;
   }
 
@@ -335,6 +344,16 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     return this.meta.id;
   }
 
+  get nonNullId() {
+    const id = this.meta.id!;
+    if (!id) {
+      throw new RuntimeError('Expected schema to be identified.', {
+        definition: this.definition,
+      });
+    }
+    return id;
+  }
+
   identify<ID extends string>(id: ID): this & { id: ID } {
     if (id && id === this.id) return this as any;
 
@@ -360,7 +379,7 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     return this.__withCache('helpers', () => getSchemaHelpers(this));
   };
 
-  entity = (name?: string) => {
+  toGraphQL = (name?: string) => {
     if (isBrowser() || typeof module?.require !== 'function') {
       throw new Error('GraphQL transformation is not available in browser.');
     }
@@ -384,27 +403,40 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     });
   };
 
-  graphqlType = (): GraphQLObjectType => {
-    return this.__withCache('graphqlType', () => this.entity().getType());
-  };
-
-  graphqlInputType = () => {
-    return this.__withCache('graphqlInputType', () =>
-      this.entity().getInputType()
+  graphqlType = (options?: ParseTypeOptions): GraphQLObjectType => {
+    return this.__withCache('graphqlType', () =>
+      this.toGraphQL().getType(options)
     );
   };
 
-  createResolver = <
-    Args extends SchemaDefinitionInput,
-    Context = unknown,
-    Source = unknown
-  >(
-    options: Omit<CreateResolverOptions<this, Args, Context, Source>, 'type'>
-  ): Resolver<this, Args, Context, Source> => {
-    return Schema.serverUtils().createResolver({
-      ...options,
-      type: this,
-    });
+  graphqlInterfaceType = (
+    options?: ParseInterfaceOptions
+  ): GraphQLInterfaceType => {
+    return this.__withCache('graphqlInterfaceType', () =>
+      this.toGraphQL().interfaceType(options)
+    );
+  };
+
+  graphqlPrint = (): string => {
+    return this.toGraphQL().typeToString();
+  };
+
+  typescriptPrint = (options?: SchemaToTypescriptOptions): Promise<string> => {
+    return Schema.serverUtils().schemaToTypescript.schemaToTypescript(
+      this.nonNullId,
+      this,
+      options
+    );
+  };
+
+  graphqlTypeToString = (): string => {
+    return this.toGraphQL().typeToString();
+  };
+
+  graphqlInputType = (options?: ParseTypeOptions) => {
+    return this.__withCache('graphqlInputType', () =>
+      this.toGraphQL().getInputType(options)
+    );
   };
 
   static serverUtils() {
@@ -420,27 +452,22 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
         module
       ) as typeof import('./GraphQLParser/GraphQLParser'),
 
-      createResolver: dynamicRequire('./createResolver', module)
-        .createResolver as typeof import('./createResolver')['createResolver'],
+      DarchGraphQLType: dynamicRequire(
+        './DarchGraphQLType',
+        module
+      ) as typeof import('./DarchGraphQLType'),
+
+      schemaToTypescript: dynamicRequire(
+        './schemaToTypescript',
+        module
+      ) as typeof import('./schemaToTypescript'),
     };
   }
 
-  static createResolver = <
-    TypeDef extends SchemaFieldInput | Schema<SchemaDefinitionInput>,
-    Args extends SchemaDefinitionInput,
-    Context = unknown,
-    Source = unknown
-  >(
-    options: CreateResolverOptions<TypeDef, Args, Context, Source>
-  ): Resolver<TypeDef, Args, Context, Source> => {
-    return Schema.serverUtils().createResolver(options);
-  };
-
   static async reset() {
-    const { graphqlParser, createResolver } = Schema.serverUtils();
+    const { graphqlParser } = Schema.serverUtils();
 
     graphqlParser.GraphQLParser.reset();
-    createResolver.Resolver.reset();
     Schema.register.clear();
   }
 
@@ -466,6 +493,22 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
 
     return new Schema<T>(def).identify(id);
   };
+
+  static createType<Definition extends SchemaFieldInput>(
+    definition: Definition
+  ): DarchGraphQLType<Definition>;
+
+  static createType<Definition extends SchemaFieldInput>(
+    name: string,
+    definition: Definition
+  ): DarchGraphQLType<Definition>;
+
+  static createType(...args: any) {
+    return Schema.serverUtils().DarchGraphQLType.createType(
+      // @ts-ignore
+      ...args
+    );
+  }
 }
 
 export const DarchSchema = Schema;
@@ -494,7 +537,7 @@ export function createSchema<
   return new Schema<DefinitionInput>(fields);
 }
 
-export { createSchema as createType };
+export { createSchema as createDarchSchema };
 
 type OmitDefinitionFields<T, Keys extends string> = T extends {
   [K: string]: any;

@@ -1,6 +1,6 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
-import { TCursor } from '../_fieldDefinitions';
+import { CursorType } from '../_fieldDefinitions';
 import { InferField } from '../_parseFields';
 
 type AnyRecord = { [K: string]: any };
@@ -16,7 +16,7 @@ test('ParseFields schema typings', () => {
 
   //   cursor:
   type TTCursor = InferField<{ schema: { name: 'cursor' } }>;
-  assert<IsExact<TTCursor, { name: TCursor }>>(true); //   date:
+  assert<IsExact<TTCursor, { name: CursorType }>>(true); //   date:
 
   //   date
   assert<IsExact<InferField<{ schema: { name: 'date' } }>, { name: Date }>>(
@@ -97,7 +97,10 @@ test('ParseFields schema typings', () => {
 
   //   cursor:
   assert<
-    IsExact<InferField<{ schema: { name: '[cursor]' } }>, { name: TCursor[] }>
+    IsExact<
+      InferField<{ schema: { name: '[cursor]' } }>,
+      { name: CursorType[] }
+    >
   >(true); //   date:
 
   //   date
@@ -189,7 +192,7 @@ test('ParseFields schema typings', () => {
   assert<
     IsExact<
       InferField<{ schema: { name: '[cursor]?' } }>,
-      { name?: TCursor[] | undefined }
+      { name?: CursorType[] | undefined }
     >
   >(true); //   date:
 

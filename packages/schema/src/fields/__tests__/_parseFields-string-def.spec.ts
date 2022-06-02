@@ -1,6 +1,6 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
-import { TCursor } from '../_fieldDefinitions';
+import { CursorType } from '../_fieldDefinitions';
 import { InferField } from '../_parseFields';
 
 type AnyRecord = { [K: string]: any };
@@ -15,7 +15,7 @@ test('infer string def', () => {
   assert<IsExact<TBoolean, boolean>>(true);
 
   //   cursor:
-  assert<IsExact<InferField<'cursor'>, TCursor>>(true); //   date:
+  assert<IsExact<InferField<'cursor'>, CursorType>>(true); //   date:
 
   //   date
   assert<IsExact<InferField<'date'>, Date>>(true);
@@ -66,7 +66,7 @@ test('infer string def', () => {
   assert<IsExact<InferField<'[boolean]'>, boolean[]>>(true);
 
   //   cursor:
-  assert<IsExact<InferField<'[cursor]'>, TCursor[]>>(true); //   date:
+  assert<IsExact<InferField<'[cursor]'>, CursorType[]>>(true); //   date:
 
   //   date
   assert<IsExact<InferField<'[date]'>, Date[]>>(true);
@@ -117,7 +117,7 @@ test('infer string def', () => {
   assert<IsExact<InferField<'[boolean]?'>, boolean[] | undefined>>(true);
 
   //   cursor:
-  assert<IsExact<InferField<'[cursor]?'>, TCursor[] | undefined>>(true); //   date:
+  assert<IsExact<InferField<'[cursor]?'>, CursorType[] | undefined>>(true); //   date:
 
   //   date
   assert<IsExact<InferField<'[date]?'>, Date[] | undefined>>(true);

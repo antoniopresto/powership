@@ -1,19 +1,51 @@
 import { FieldType, FieldTypeParser } from '../FieldType';
-import { Infer } from '../Infer';
 import type { Schema } from '../Schema';
 
+import { CursorType } from './_fieldDefinitions';
+
 const def = {
-  pk: 'string',
-  prefix: 'string?', // prefix for SK if applies
-  delimiter: 'string?', // the PK delimiter when using composite key
-  limit: 'int?',
-  after: 'string?',
-  fields: '[string]?',
+  PK: {
+    string: {},
+    description: 'Primary Key',
+  },
+  SK: {
+    string: {},
+    description: 'Secondary or Sort Key',
+    optional: true,
+  },
+  version: {
+    string: {},
+    description: 'The Cursor format version',
+  },
+  prefix: {
+    string: {},
+    description: 'The prefix to search as "startsWith" in SK',
+    optional: true,
+  },
+  sep: {
+    string: {},
+    description: 'Composite key separator',
+    optional: true,
+  },
+  limit: {
+    int: {},
+    // description: '',
+    optional: true,
+  },
+  after: {
+    string: {},
+    // description: '',
+    optional: true,
+  },
+  fields: {
+    string: {},
+    // description: '',
+    optional: true,
+    list: true,
+  },
 } as const;
 
 type CursorDef = typeof def;
-
-export type CursorType = Infer<CursorDef>;
 
 let cursorSchema: Schema<CursorDef> | undefined;
 

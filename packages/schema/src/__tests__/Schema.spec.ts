@@ -619,7 +619,7 @@ describe('Schema', () => {
     const type = createSchema({
       name: 'string',
       age: 'int?',
-    }).entity('User');
+    }).toGraphQL('User');
 
     expect(type.getType().getFields()).toMatchObject({
       name: { astNode: {} },

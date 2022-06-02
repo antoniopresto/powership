@@ -2,7 +2,7 @@ import { StrictMap } from '@darch/utils/lib/StrictMap';
 import { GraphQLFieldConfig, GraphQLResolveInfo } from 'graphql';
 
 import { Infer } from './Infer';
-import { createType, Schema } from './Schema';
+import { createDarchSchema, Schema } from './Schema';
 import { SchemaDefinitionInput, SchemaFieldInput } from './fields/_parseFields';
 
 export class Resolver<
@@ -20,20 +20,12 @@ export class Resolver<
     const { args, type, name, description, resolve, ...rest } = options;
 
     const argsSchema = isPossibleArgsDef(args)
-      ? createType(`${name}Input`, args)
+      ? createDarchSchema(`${name}Input`, args)
       : undefined;
 
-    const payloadType = createType(`${name}Payload`, {
+    const payloadType = createDarchSchema(`${name}Payload`, {
       payload: type as 'any',
     });
-
-    // if (list !== undefined) {
-    //   payloadType.definition.payload.list = list;
-    // }
-    //
-    // if (optional !== undefined) {
-    //   payloadType.definition.payload.optional = optional;
-    // }
 
     this.resolve = async function typeCheckResolveWrapper(
       source,
@@ -146,19 +138,14 @@ export interface ResolveFunction<
   TypeDef extends SchemaFieldInput | Schema<SchemaDefinitionInput>,
   ArgsDef extends SchemaDefinitionInput,
   Context = unknown,
-  Source = unknown,
-  List = false,
-  Optional = false
+  Source = unknown
 > {
   (
     source: Source,
     args: ArgsDef extends { [K: string]: SchemaFieldInput }
       ? Infer<ArgsDef>
-      : undefined,
+      : {},
     context: Context,
     info: GraphQLResolveInfo
-  ): Promise<AsOptional<AsList<Infer<TypeDef>, List>, Optional>>;
+  ): Promise<Infer<TypeDef>>;
 }
-
-type AsList<T, Is> = [Is] extends [true] ? T[] : T;
-type AsOptional<T, Is> = [Is] extends [true] ? T | undefined | null : T;

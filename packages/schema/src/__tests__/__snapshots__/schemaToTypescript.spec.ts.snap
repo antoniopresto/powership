@@ -20,6 +20,7 @@ export interface MySchema {
   bool?: boolean;
   ulids?: Ulid[];
   dates: Date[];
+  id?: ID[];
   sex?: \\"m\\" | \\"f\\" | \\"o\\";
   addresses?:
     | {

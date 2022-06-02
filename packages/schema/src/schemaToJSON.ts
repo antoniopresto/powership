@@ -131,6 +131,10 @@ function parseField(params: {
       jsonItem.type = 'object';
       jsonItem.tsType = 'Cursor';
     },
+    ID() {
+      jsonItem.type = 'string';
+      jsonItem.tsType = 'ID';
+    },
     date() {
       jsonItem.type = 'string';
       jsonItem.format = 'date-time';

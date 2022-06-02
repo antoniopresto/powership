@@ -22,7 +22,6 @@ import {
   parseStringDefinition,
 } from './parseStringDefinition';
 
-
 export function parseSchemaField<T extends FieldDefinitionConfig>(
   fieldName: string,
   definition: T

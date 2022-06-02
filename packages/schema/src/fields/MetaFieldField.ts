@@ -5,7 +5,7 @@ import { nonNullValues } from '@darch/utils/lib/invariant';
 
 import { FieldType, FieldTypeParser } from '../FieldType';
 
-type Serializable = null | undefined | Stringifiable | SerializableList;
+export type Serializable = null | undefined | Stringifiable | SerializableList;
 
 interface Stringifiable {
   toString(): string;
@@ -16,6 +16,7 @@ interface SerializableList extends Array<Serializable> {}
 export type MetaFieldDef = {
   id: string | null;
   description?: string;
+  implements?: string[];
   [K: string]: Serializable;
 };
 

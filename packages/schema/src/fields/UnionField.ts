@@ -6,7 +6,6 @@ import { FieldType, FieldTypeParser, TAnyFieldType } from '../FieldType';
 import { Infer } from '../Infer';
 import type { FieldDefinitionConfig } from '../TSchemaConfig';
 
-
 export class UnionField<
   U extends FieldDefinitionConfig,
   T extends Readonly<[U, ...U[]]>
