@@ -29,11 +29,15 @@ import type { SchemaToTypescriptOptions } from './schemaToTypescript';
 import { withCache, WithCache } from './withCache';
 
 const register = new StrictMap<string, DarchGraphQLType<SchemaFieldInput>>();
+const resolvers = new StrictMap<string, DarchGraphQLResolver<any, any>>();
 
 export class DarchGraphQLType<Definition extends SchemaFieldInput> {
   static register = register;
+  static resolvers = resolvers;
+
   static reset = () => {
     register.clear();
+    resolvers.clear();
   };
 
   readonly definition: ToFinalField<Definition>;
@@ -47,6 +51,7 @@ export class DarchGraphQLType<Definition extends SchemaFieldInput> {
     graphQLParsed: ConvertFieldResult;
   }>;
 
+  readonly __isDarchGraphQLType = true;
   readonly id: string;
   readonly _schema?: Schema<any>;
 
@@ -189,14 +194,18 @@ export class DarchGraphQLType<Definition extends SchemaFieldInput> {
     );
   };
 
-  resolver = <
+  createResolver = <
     Context = unknown,
     Source = unknown,
     ArgsDef extends SchemaDefinitionInput = SchemaDefinitionInput
   >(
     options: DarchGraphQLFieldConfigInput<Context, Source, Definition, ArgsDef>
-  ): DarchGraphQLFieldConfigOutput<Context, Source, Definition, ArgsDef> => {
-    const { args, name = this.id, resolve, ...rest } = options;
+  ): DarchGraphQLResolver<Context, Source, Definition, ArgsDef> => {
+    const { args, name = this.id, kind = 'query', resolve, ...rest } = options;
+
+    if (resolvers.has(name)) {
+      return resolvers.get(name);
+    }
 
     const parsePayload = this.parse.bind(this);
 
@@ -230,12 +239,18 @@ export class DarchGraphQLType<Definition extends SchemaFieldInput> {
 
     const type: any = this.graphQLType();
 
-    return {
+    const result = {
       ...rest,
+      kind,
+      name,
       resolve: typeCheckResolveWrapper,
       args: ArgsType?.ofType?.getFields(),
       type,
     };
+
+    resolvers.set(name, result);
+
+    return result;
   };
 }
 
@@ -268,12 +283,13 @@ export interface DarchGraphQLFieldConfigInput<
     GraphQLFieldConfig<Source, Context>,
     'resolve' | 'type' | 'args'
   > {
-  name: string;
+  name?: string;
+  kind?: 'query' | 'mutation' | 'subscription';
   args?: ArgsDef;
   resolve: ResolveFunction<Context, Source, TypeDef, ArgsDef>;
 }
 
-export interface DarchGraphQLFieldConfigOutput<
+export interface DarchGraphQLResolver<
   Context = unknown,
   Source = unknown,
   TypeDef extends SchemaFieldInput | Schema<SchemaDefinitionInput> =
@@ -284,6 +300,8 @@ export interface DarchGraphQLFieldConfigOutput<
   //
 > extends Omit<GraphQLFieldConfig<Source, Context>, 'resolve'> {
   resolve: ResolveFunction<Context, Source, TypeDef, ArgsDef>;
+  name: string;
+  kind: 'query' | 'subscription' | 'mutation';
 }
 
 export interface ResolveFunction<
@@ -301,7 +319,7 @@ export interface ResolveFunction<
       : {},
     context: Context,
     info: GraphQLResolveInfo
-  ): Promise<Infer<TypeDef>>;
+  ): Promise<Infer<ToFinalField<TypeDef>>>;
 }
 
 function isPossibleArgsDef(args: any): args is Readonly<SchemaDefinitionInput> {

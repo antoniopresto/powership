@@ -4,3 +4,4 @@ export * from './Schema';
 export * from './fields/fieldTypes';
 export { schemaMetaFieldKey } from './fields/MetaFieldField';
 export * from './DarchGraphQLType';
+export * from './createGraphQLSchema';

@@ -16,7 +16,7 @@ describe('createResolver', () => {
       id: 'ulid',
     });
 
-    const resolver = new DarchGraphQLType(UserType).resolver({
+    const resolver = new DarchGraphQLType(UserType).createResolver({
       name: 'User',
       args: { id: 'ulid' },
       description: 'User resolver',
@@ -71,7 +71,7 @@ describe('createResolver', () => {
       number: 'int?',
     }).describe('The user address');
 
-    const resolver = new DarchGraphQLType(user).resolver({
+    const resolver = new DarchGraphQLType(user).createResolver({
       name: 'Users',
       args: {
         name: 'string',
@@ -132,7 +132,7 @@ describe('createResolver', () => {
   });
 
   it('Should accept literals as type', () => {
-    const resolver = new DarchGraphQLType('Airplanes', '[int]?').resolver({
+    const resolver = new DarchGraphQLType('Airplanes', '[int]?').createResolver({
       name: 'Airplanes',
       args: undefined,
       async resolve() {

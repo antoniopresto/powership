@@ -2,6 +2,7 @@ import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
 import { createType, DarchGraphQLType } from '../DarchGraphQLType';
+import { Infer } from '../Infer';
 import { createSchema, Schema } from '../Schema';
 
 describe('DarchGraphQLType', () => {
@@ -17,9 +18,12 @@ describe('DarchGraphQLType', () => {
 
     expect(sut.definition.type).toEqual('schema');
 
+    type Expected = { name: string; age?: number | undefined };
+    type Inferred = Infer<typeof sut>;
     type Return = ReturnType<typeof sut.parse>;
 
-    assert<IsExact<Return, { name: string; age?: number | undefined }>>(true);
+    assert<IsExact<Inferred, Expected>>(true);
+    assert<IsExact<Return, Expected>>(true);
 
     expect(() => sut.parse({ name: 1 })).toThrow('field "name":');
   });
@@ -120,7 +124,13 @@ describe('DarchGraphQLType', () => {
 
     const sut = new DarchGraphQLType({ schema, list: true });
 
+    type Expected = { foo: number }[];
     type Return = ReturnType<typeof sut.parse>;
+
+    type Inferred = Infer<typeof sut>;
+
+    assert<IsExact<Inferred, Expected>>(true);
+    assert<IsExact<Return, Expected>>(true);
 
     assert<IsExact<Return, { foo: number }[]>>(true);
 
