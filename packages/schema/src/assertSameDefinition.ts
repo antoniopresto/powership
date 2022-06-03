@@ -1,6 +1,7 @@
 import { AssertionError } from 'assert';
 
 import { areEqual } from '@darch/utils/lib/areEqual';
+import { assertSame } from '@darch/utils/lib/assertSame';
 
 import {
   FinalFieldDefinition,
@@ -16,13 +17,11 @@ export function assertSameDefinition(
   a = parseSchemaDefinition(a, { omitMeta: true }).definition;
   b = parseSchemaDefinition(b, { omitMeta: true }).definition;
 
-  if (!areEqual(a, b)) {
-    throw new AssertionError({
-      expected: a,
-      actual: b,
-      message: `An Schema with name "${id}" is already registered with another definition.`,
-    });
-  }
+  assertSame(
+    `An Schema with name "${id}" is already registered with another definition.`,
+    a,
+    b
+  );
 }
 
 export function assertSameField(

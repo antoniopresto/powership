@@ -1,5 +1,6 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { StrictMap } from '@darch/utils/lib/StrictMap';
+import { assertSame } from '@darch/utils/lib/assertSame';
 import { isProduction } from '@darch/utils/lib/env';
 import { nonNullValues } from '@darch/utils/lib/invariant';
 import {
@@ -26,7 +27,7 @@ import { GraphQLInterfaceTypeConfig } from 'graphql/type/definition';
 
 import { TAnyFieldType } from '../FieldType';
 import { isSchema, Schema } from '../Schema';
-import { assertSameDefinition, assertSameField } from '../assertSameDefinition';
+import { assertSameDefinition } from '../assertSameDefinition';
 import type { CursorField } from '../fields/CursorField';
 import { SubSchemaField } from '../fields/SubSchema';
 import type { UnionField } from '../fields/UnionField';
@@ -297,7 +298,11 @@ export class GraphQLParser {
     if (resultsCache.has(cacheId)) {
       const cached = fieldsRegister.get(cacheId);
       if (!isProduction()) {
-        assertSameField(cacheId, cached.plainField, plainField);
+        assertSame(
+          `Different definitions to the same field "${cacheId}"`,
+          cached.plainField,
+          plainField
+        );
       }
       return cached;
     }

@@ -46,6 +46,7 @@ import { withCache, WithCache } from './withCache';
 export { RuntimeError } from '@darch/utils/lib/RuntimeError';
 export * from './parseSchemaDefinition';
 export * from './schemaInferenceUtils';
+export * from './implementSchema';
 
 export class Schema<DefinitionInput extends SchemaDefinitionInput> {
   private readonly __definition: any;
@@ -465,9 +466,12 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
   }
 
   static async reset() {
-    const { graphqlParser } = Schema.serverUtils();
+    if (typeof window === 'undefined') {
+      const { graphqlParser, DarchGraphQLType } = Schema.serverUtils();
+      graphqlParser.GraphQLParser.reset();
+      DarchGraphQLType.DarchGraphQLType.reset();
+    }
 
-    graphqlParser.GraphQLParser.reset();
     Schema.register.clear();
   }
 

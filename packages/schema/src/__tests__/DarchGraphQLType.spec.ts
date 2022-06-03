@@ -1,7 +1,7 @@
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
-import { DarchGraphQLType } from '../DarchGraphQLType';
+import { createType, DarchGraphQLType } from '../DarchGraphQLType';
 import { createSchema, Schema } from '../Schema';
 
 describe('DarchGraphQLType', () => {
@@ -251,5 +251,19 @@ describe('DarchGraphQLType', () => {
       '}',
       '',
     ]);
+  });
+
+  it('Should validate against overriding register', () => {
+    createType('t1', { schema: { name: 'string' } });
+    expect(() => createType('t1', { schema: { name: 'int' } })).toThrow(
+      'Different type already registered with name "t1"'
+    );
+    createType('t1', { schema: { name: 'string' } });
+
+    createType('t2', 'int?');
+    expect(() => createType('t2', 'int')).toThrow(
+      'Different type already registered with name "t2"'
+    );
+    createType('t2', 'int?');
   });
 });

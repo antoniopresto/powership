@@ -1,4 +1,7 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
+import { StrictMap } from '@darch/utils/lib/StrictMap';
+import { assertSame } from '@darch/utils/lib/assertSame';
+import { isProduction } from '@darch/utils/lib/env';
 import type {
   GraphQLFieldConfig,
   GraphQLInterfaceType,
@@ -8,9 +11,8 @@ import type {
 } from 'graphql';
 
 import { TAnyFieldType } from './FieldType';
-import {
+import type {
   ConvertFieldResult,
-  GraphQLParser,
   GraphQLParserResult,
 } from './GraphQLParser/GraphQLParser';
 import { Infer } from './Infer';
@@ -26,7 +28,14 @@ import { parseSchemaField } from './parseSchemaDefinition';
 import type { SchemaToTypescriptOptions } from './schemaToTypescript';
 import { withCache, WithCache } from './withCache';
 
+const register = new StrictMap<string, DarchGraphQLType<SchemaFieldInput>>();
+
 export class DarchGraphQLType<Definition extends SchemaFieldInput> {
+  static register = register;
+  static reset = () => {
+    register.clear();
+  };
+
   readonly definition: ToFinalField<Definition>;
 
   __field: TAnyFieldType;
@@ -81,6 +90,18 @@ export class DarchGraphQLType<Definition extends SchemaFieldInput> {
 
     this.definition =
       this.__field.toSchemaFieldType() as ToFinalField<Definition>;
+
+    if (register.has(name)) {
+      if (!isProduction()) {
+        assertSame(
+          `Different type already registered with name "${name}"`,
+          this.definition,
+          register.get(name)
+        );
+      }
+    } else {
+      register.set(name, this.definition as any);
+    }
   }
 
   parse = (
@@ -91,7 +112,7 @@ export class DarchGraphQLType<Definition extends SchemaFieldInput> {
 
   _toGraphQL = () => {
     return this.__withCache('graphQLParsed', () => {
-      return GraphQLParser.fieldToGraphQL({
+      return Schema.serverUtils().graphqlParser.GraphQLParser.fieldToGraphQL({
         field: this.__field,
         path: [`DarchGraphQLType_${this.id}`],
         plainField: this.__field.toSchemaFieldType(),
@@ -130,9 +151,11 @@ export class DarchGraphQLType<Definition extends SchemaFieldInput> {
         );
       }
 
-      return GraphQLParser.schemaToGraphQL({
-        schema: this._schema,
-      }).interfaceType(...args);
+      return Schema.serverUtils()
+        .graphqlParser.GraphQLParser.schemaToGraphQL({
+          schema: this._schema,
+        })
+        .interfaceType(...args);
     });
   };
 
