@@ -55,6 +55,4 @@ export class StringField extends FieldType<
   static create = (def?: StringFieldDef): StringField => {
     return new StringField(def);
   };
-
-  graphql = () => 'String';
 }

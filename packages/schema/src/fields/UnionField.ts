@@ -87,9 +87,4 @@ export class UnionField<
   ): FieldType<Infer<T[number]>, 'union', T> => {
     return new UnionField(def);
   };
-
-  graphql = () => ({
-    name: 'FIXMEUnionFIXME',
-    sdl: 'scalar FIXMEUnionFIXME', // TODO
-  });
 }

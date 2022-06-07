@@ -46,9 +46,4 @@ export class UnknownField extends FieldType<
   static create = (def?: UnknownFieldDef): UnknownField => {
     return new UnknownField(def);
   };
-
-  graphql = () => ({
-    name: 'Unknown',
-    sdl: 'scalar Unknown',
-  });
 }

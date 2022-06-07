@@ -50,6 +50,4 @@ export class EmailField extends FieldType<
   static create = (def?: EmailDef): EmailField => {
     return new EmailField(def);
   };
-
-  graphql = () => ({ name: 'Email', sdl: 'scalar Email' });
 }

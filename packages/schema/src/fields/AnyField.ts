@@ -15,9 +15,4 @@ export class AnyField extends FieldType<any, 'any', undefined> {
   static create = (): AnyField => {
     return new AnyField();
   };
-
-  graphql = () => ({
-    name: 'Any',
-    sdl: 'scalar Any',
-  });
 }

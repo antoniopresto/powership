@@ -86,16 +86,4 @@ export class CursorField extends FieldType<CursorType, 'cursor', undefined> {
   static create = (): CursorField => {
     return new CursorField();
   };
-
-  graphql = () => ({
-    name: 'Cursor',
-    fields: {
-      pk: 'String!',
-      prefix: 'String',
-      delimiter: 'String',
-      limit: 'Int',
-      after: 'String',
-      fields: '[String]',
-    },
-  });
 }

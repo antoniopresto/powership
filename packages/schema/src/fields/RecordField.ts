@@ -98,9 +98,4 @@ export class RecordField<Def extends RecordFieldDef> extends FieldType<
     def = { keyType: 'string', type: 'any', ...def } as any;
     return new RecordField(def);
   };
-
-  graphql = () => ({
-    name: 'Record',
-    sdl: 'scalar Record',
-  });
 }

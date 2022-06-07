@@ -19,6 +19,4 @@ export class BooleanField extends FieldType<boolean, 'boolean', undefined> {
   static create = (): BooleanField => {
     return new BooleanField();
   };
-
-  graphql = () => 'Boolean';
 }

@@ -24,9 +24,4 @@ export class UndefinedField extends FieldType<
   static create = (): UndefinedField => {
     return new UndefinedField();
   };
-
-  graphql = () => ({
-    name: 'Undefined',
-    sdl: 'scalar Undefined',
-  });
 }

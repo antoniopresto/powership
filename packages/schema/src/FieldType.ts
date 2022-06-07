@@ -10,11 +10,6 @@ import {
 import type { FieldTypeName } from './fields/_fieldDefinitions';
 export * from './applyValidator';
 
-export type FieldTypeGraphql =
-  | string
-  | { name: string; sdl: string }
-  | { name: string; fields: Record<string, string> };
-
 // API used to convert field to another resources, like graphql.
 export type FieldPortableAPIInput = {
   fieldName: string;
@@ -33,14 +28,19 @@ export abstract class FieldType<
   readonly __fieldTypeClassInfer!: Type;
   readonly def: Def;
 
-  protected constructor(typeName: TypeName, def: Def) {
+  id?: string;
+
+  protected constructor(typeName: TypeName, def: Def, id?: string) {
+    this.id = id;
     this.typeName = typeName;
     this.type = typeName;
+
     expectedType({ [`${typeName} definition`]: def }, [
       'object',
       'array',
       'undefined',
     ]);
+
     const defKeys = def ? Object.keys(def) : undefined;
 
     if (defKeys?.length) {
@@ -125,15 +125,6 @@ export abstract class FieldType<
   abstract parse: FieldTypeParser<Type>;
 
   readonly __isFieldType = true;
-
-  __portableName: string | undefined;
-  mountPortableFieldName = (api: FieldPortableAPIInput) => {
-    if (this.__portableName) return this.__portableName;
-    const { parentName, fieldName } = api;
-    return (this.__portableName = `${parentName}${upperFirst(
-      fieldName
-    )}${upperFirst(this.typeName)}`);
-  };
 
   static create(..._args: any[]): TAnyFieldType {
     throw new Error('not implemented in abstract class.');

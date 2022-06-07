@@ -49,7 +49,5 @@ export class FloatField extends FieldType<
     return new FloatField(def);
   };
 
-  graphql = () => 'Float';
-
   toString = () => `${this.typeName}(${this.def || ''})`;
 }

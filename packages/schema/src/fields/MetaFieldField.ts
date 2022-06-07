@@ -48,9 +48,7 @@ export class MetaField extends FieldType<MetaField, 'meta', MetaFieldDef> {
   static create = (def: MetaFieldDef = { id: null }): MetaField => {
     return new MetaField(def);
   };
-
-  graphql = () => 'Meta';
-
+  
   toString = () => `${this.typeName}(${this.def?.id || ''})`;
 }
 

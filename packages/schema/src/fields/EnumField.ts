@@ -1,8 +1,4 @@
-import {
-  FieldPortableAPIInput,
-  FieldType,
-  FieldTypeParser,
-} from '../FieldType';
+import { FieldType, FieldTypeParser } from '../FieldType';
 
 export class EnumField<
   U extends string,
@@ -33,14 +29,5 @@ export class EnumField<
     def: T
   ): FieldType<T[number], 'enum', T> => {
     return new EnumField(def);
-  };
-
-  graphql = (api: FieldPortableAPIInput) => {
-    const name = this.mountPortableFieldName(api);
-
-    return {
-      name,
-      sdl: `enum ${name} { ${this.def.join(' ')} }`,
-    };
   };
 }

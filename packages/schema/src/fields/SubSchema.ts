@@ -34,9 +34,4 @@ export class SubSchemaField<
   ) => {
     return new SubSchemaField<DefinitionInput>(def);
   };
-
-  graphql = () => ({
-    name: 'Unknown',
-    sdl: 'scalar Unknown',
-  });
 }

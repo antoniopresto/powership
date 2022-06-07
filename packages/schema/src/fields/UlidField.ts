@@ -38,9 +38,4 @@ export class UlidField extends FieldType<string, 'ulid', UlidDef | undefined> {
   };
 
   static isUlid = (value: string) => ULID_REGEX.test(value);
-
-  graphql = () => ({
-    name: 'Ulid',
-    sdl: 'scalar Ulid',
-  });
 }

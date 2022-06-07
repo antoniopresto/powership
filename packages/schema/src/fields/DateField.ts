@@ -57,6 +57,4 @@ export class DateField extends FieldType<
   static create = (def: DateFieldDef = {}): DateField => {
     return new DateField(def);
   };
-
-  graphql = () => ({ name: 'Date', sdl: 'scalar Date' });
 }

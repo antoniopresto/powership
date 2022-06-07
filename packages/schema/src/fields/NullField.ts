@@ -19,9 +19,4 @@ export class NullField extends FieldType<string, 'null', undefined> {
   static create = (): NullField => {
     return new NullField();
   };
-
-  graphql = () => ({
-    name: 'Null',
-    sdl: 'scalar Null',
-  });
 }

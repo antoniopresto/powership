@@ -51,6 +51,4 @@ export class IntField extends FieldType<
   static create = (def: IntFieldDef = {}): IntField => {
     return new IntField(def);
   };
-
-  graphql = () => 'Int';
 }
