@@ -59,9 +59,9 @@ function getCursorSchema() {
 export class CursorField extends FieldType<CursorType, 'cursor', undefined> {
   parse: FieldTypeParser<CursorType>;
 
-  get schema() {
-    return getCursorSchema()!;
-  }
+  utils: {
+    schema: Schema<CursorDef>;
+  };
 
   static schema() {
     return getCursorSchema()!;
@@ -70,7 +70,11 @@ export class CursorField extends FieldType<CursorType, 'cursor', undefined> {
   constructor() {
     super('cursor', undefined);
 
-    const parser = this.schema.parse.bind(this.schema);
+    this.utils = {
+      schema: getCursorSchema()!,
+    };
+
+    const parser = this.utils.schema.parse.bind(this.utils.schema);
 
     this.parse = this.applyParser({
       parse: (value) => {

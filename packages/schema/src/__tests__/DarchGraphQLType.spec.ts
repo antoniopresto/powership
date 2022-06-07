@@ -57,7 +57,7 @@ describe('DarchGraphQLType', () => {
     expect(sut.definition.type).toEqual('schema');
 
     expect(Schema.register.get(name)).toEqual(schema);
-    expect((sut.__field as any).schema).toEqual(schema);
+    expect((sut.__field as any).utils.schema).toEqual(schema);
   });
 
   it('should create a new Schema when a different id is provided', async () => {
@@ -69,8 +69,8 @@ describe('DarchGraphQLType', () => {
 
     expect(Schema.register.get('Original')).toEqual(schema);
 
-    expect((sut.__field as any).schema).not.toEqual(schema);
-    expect((sut.__field as any).schema.id).toEqual('AClone');
+    expect((sut.__field as any).utils.schema).not.toEqual(schema);
+    expect((sut.__field as any).utils.schema.id).toEqual('AClone');
   });
 
   it('should print graphql types', async () => {

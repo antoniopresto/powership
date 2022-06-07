@@ -74,15 +74,19 @@ export class DarchGraphQLType<Definition extends SchemaFieldInput> {
     this.__withCache = withCache(this);
 
     if (SubSchemaField.is(this.__field)) {
-      if (name && this.__field.schema.id && this.__field.schema.id !== name) {
-        this.__field.schema = this.__field.schema.clone(name);
+      if (
+        name &&
+        this.__field.utils.schema.id &&
+        this.__field.utils.schema.id !== name
+      ) {
+        this.__field.utils.schema = this.__field.utils.schema.clone(name);
       } else if (name) {
-        this.__field.schema.identify(name);
+        this.__field.utils.schema.identify(name);
       } else {
-        name = getSchemaDefinitionId(this.__field.schema.definition);
+        name = getSchemaDefinitionId(this.__field.utils.schema.definition);
       }
 
-      this._schema = this.__field.schema;
+      this._schema = this.__field.utils.schema;
     }
 
     if (!name) {

@@ -352,8 +352,8 @@ export class GraphQLParser {
         const cursor = field as CursorField;
 
         return {
-          inputType: cursor.schema.graphqlInputType,
-          type: cursor.schema.graphqlType,
+          inputType: cursor.utils.schema.graphqlInputType,
+          type: cursor.utils.schema.graphqlType,
         };
       },
       date() {
@@ -427,7 +427,7 @@ export class GraphQLParser {
           return new GraphQLUnionType({
             ...options,
             name: subTypeName,
-            types: union.fieldTypes.map((field) => {
+            types: union.utils.fieldTypes.map((field) => {
               if (!SubSchemaField.is(field)) {
                 // also relevant: https://github.com/graphql/graphql-js/issues/207
                 throw new RuntimeError(
@@ -439,7 +439,7 @@ export class GraphQLParser {
                 );
               }
 
-              return field.schema.graphqlType();
+              return field.utils.schema.graphqlType();
             }),
           });
         }

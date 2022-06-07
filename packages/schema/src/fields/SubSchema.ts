@@ -11,7 +11,10 @@ export class SubSchemaField<
   DefinitionInput extends SchemaDefinitionInput
 > extends FieldType<Infer<DefinitionInput>, 'schema', DefinitionInput> {
   parse: FieldTypeParser<Infer<DefinitionInput>>;
-  schema: Schema<DefinitionInput>;
+
+  utils: {
+    schema: Schema<DefinitionInput>;
+  };
 
   static is(t: any): t is SubSchemaField<SchemaDefinitionInput> {
     return isFieldInstance(t) && t.typeName === 'schema';
@@ -20,11 +23,13 @@ export class SubSchemaField<
   constructor(def: DefinitionInput) {
     super('schema', def);
 
-    this.schema = require('../Schema').createSchema(def);
+    this.utils = {
+      schema: require('../Schema').createSchema(def),
+    };
 
     this.parse = this.applyParser({
       parse: (input) => {
-        return this.schema.parse(input);
+        return this.utils.schema.parse(input);
       },
     });
   }

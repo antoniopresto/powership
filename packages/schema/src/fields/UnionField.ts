@@ -12,7 +12,10 @@ export class UnionField<
 > extends FieldType<Infer<T[number]>, 'union', T> {
   //
   parse: FieldTypeParser<Infer<T[number]>>;
-  fieldTypes: TAnyFieldType[] = [];
+  
+  utils = {
+    fieldTypes: [] as TAnyFieldType[],
+  };
 
   static is(item: any): item is UnionField<any, any> {
     return item?.typeName === 'union' && Array.isArray(item.fieldTypes);
@@ -23,7 +26,7 @@ export class UnionField<
 
     const { parseSchemaField } = require('../parseSchemaDefinition');
 
-    this.fieldTypes = def.map((el, index) => {
+    this.utils.fieldTypes = def.map((el, index) => {
       try {
         return parseSchemaField(`UnionItem_${index}`, el, true);
       } catch (e: any) {
@@ -35,7 +38,7 @@ export class UnionField<
       }
     });
 
-    const hasOptional = this.fieldTypes.some((el) => el.optional);
+    const hasOptional = this.utils.fieldTypes.some((el) => el.optional);
 
     if (hasOptional) {
       this.optional = true;
@@ -48,7 +51,7 @@ export class UnionField<
         const messages: string[] = [];
         const schemaErrors: any[] = [];
 
-        for (let parser of this.fieldTypes) {
+        for (let parser of this.utils.fieldTypes) {
           try {
             return parser.parse(input);
           } catch (e: any) {
@@ -67,9 +70,9 @@ export class UnionField<
           throw schemaErrors[0];
         }
 
-        const expected = uniq(this.fieldTypes.map((el) => el.typeName)).join(
-          ' or '
-        );
+        const expected = uniq(
+          this.utils.fieldTypes.map((el) => el.typeName)
+        ).join(' or ');
 
         let errorMessage = `Expected value to match one of the following types: ${expected}.`;
 
