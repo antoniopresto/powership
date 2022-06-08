@@ -28,5 +28,9 @@ export function fieldInstanceFromDef(
     field = field.toOptional();
   }
 
+  if (definition.description) {
+    field = field.describe(definition.description);
+  }
+
   return field;
 }

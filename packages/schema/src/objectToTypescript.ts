@@ -12,13 +12,7 @@ export type ObjectToTypescriptOptions = {
   strictIndexSignatures?: boolean;
 };
 
-const defaultBannerComment = `
- /* tslint:disable */
-/**
- * This file was automatically generated.
- * DO NOT MODIFY IT BY HAND.
- */
-`;
+const defaultBannerComment = ``;
 
 /**
  * Creates a typescript declaration from an object

@@ -42,6 +42,38 @@ describe('objectToTypescript', () => {
 
     const ts = await objectToTypescript('MyObject', object);
 
-    expect(ts).toMatchSnapshot();
+    expect(ts.split('\n')).toEqual([
+      '/**',
+      ' * My Custom Object',
+      ' */',
+      'export interface MyObject {',
+      '  /**',
+      '   * person name',
+      '   */',
+      '  name: string;',
+      '  date: Date;',
+      '  pointers: Cursor[];',
+      '  bool?: boolean;',
+      '  ulids?: Ulid[];',
+      '  dates: Date[];',
+      '  id?: ID[];',
+      '  sex?: "m" | "f" | "o";',
+      '  addresses?:',
+      '    | {',
+      '        kind: "home";',
+      '        street: string;',
+      '        number: string | number;',
+      '      }[]',
+      '    | {',
+      '        kind: "work";',
+      '        week_days: "0" | "1" | "2" | "3" | "4" | "5" | "6";',
+      '        name: {',
+      '          firstName: string;',
+      '          lastName: string;',
+      '        };',
+      '      };',
+      '}',
+      '',
+    ]);
   });
 });

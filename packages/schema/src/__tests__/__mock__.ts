@@ -50,9 +50,6 @@ const typeDefs = {
     def: object2['definition'],
   },
 
-  /**
-   * @deprecated
-   */
   objectObjectAsType: {
     type: object2,
     optional: true,

@@ -1,10 +1,10 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { expectedType } from '@darch/utils/lib/expectedType';
 import { getKeys } from '@darch/utils/lib/getKeys';
-import { invariantType } from '@darch/utils/lib/invariant';
+import { nonNullValues } from '@darch/utils/lib/invariant';
 import { JSONSchema4 } from 'json-schema';
 
-import { isObject } from './ObjectType';
+import { createObjectType, isObject } from './ObjectType';
 import { ObjectDefinitionInput } from './TObjectConfig';
 import { ObjectLike } from './fields/IObjectLike';
 import { isMetaFieldKey } from './fields/MetaFieldField';
@@ -30,7 +30,7 @@ export function objectToJSON(
   if (isObject(object)) {
     definition = object.definition as FinalObjectDefinition;
   } else {
-    definition = object as FinalObjectDefinition;
+    definition = createObjectType(object as ObjectDefinitionInput).definition;
   }
 
   const description = isObject(object) ? object.description : undefined;
@@ -82,9 +82,9 @@ function parseField(params: {
   parentName: string | null;
 }): ParsedField {
   const { field, fieldName, parentName } = params;
-  invariantType({ field }, 'object', { field, fieldName, parentName }, 5);
-
   const { type, optional, list, description } = field;
+
+  nonNullValues({ type });
 
   const required = !optional && type !== 'undefined';
 

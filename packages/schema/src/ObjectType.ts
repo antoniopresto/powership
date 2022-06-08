@@ -49,6 +49,12 @@ export * from './objectInferenceUtils';
 export * from './implementObject';
 
 export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
+  get __isDarchObject(): true {
+    return true;
+  }
+
+  static __isDarchObject: boolean = true;
+
   private readonly __definition: any;
 
   __withCache: WithCache<{
@@ -252,10 +258,6 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
     const clone = this.clone();
     fieldList.forEach((key) => (clone.__definition[key].optional = false));
     return clone as any;
-  }
-
-  get __isDarchObject(): true {
-    return true;
   }
 
   clone(name?: string): this;
@@ -462,17 +464,26 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
         './objectToTypescript',
         module
       ) as typeof import('./objectToTypescript'),
+
+      prettier: dynamicRequire('prettier', module) as typeof import('prettier'),
     };
   }
 
   static async reset() {
+    const promises: any[] = [];
+
     if (typeof window === 'undefined') {
       const { graphqlParser, DarchType } = ObjectType.serverUtils();
-      graphqlParser.GraphQLParser.reset();
-      DarchType.DarchType.reset();
+
+      promises.push(
+        graphqlParser.GraphQLParser.reset(),
+        DarchType.DarchType.reset()
+      );
     }
 
-    ObjectType.register.clear();
+    promises.push(ObjectType.register.clear());
+
+    await Promise.all(promises);
   }
 
   static register = new StrictMap<string, any>();

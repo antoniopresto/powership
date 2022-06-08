@@ -120,13 +120,7 @@ import { schemaToTypescript } from '@darch/schema/lib/schemaToTypescript';
 const interfaceTxt = await schemaToTypescript('User', userSchema);
 
 const interfaceTxt = await schemaToTypescript('User', userSchema);
-expect(interfaceTxt).toBe(
-    `/* tslint:disable */
-/**
- * This file was automatically generated.
- * DO NOT MODIFY IT BY HAND.
- */
-
+expect(interfaceTxt).toBe(`
 export interface User {
   name: string;
   email?: Email;

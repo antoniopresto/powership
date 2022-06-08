@@ -53,6 +53,12 @@ export abstract class FieldType<
 
   optional = false;
   list = false;
+  description?: string;
+
+  describe = (description: string): this => {
+    this.description = description;
+    return this;
+  };
 
   toOptional(): this & { optional: true } {
     this.optional = true;
@@ -113,6 +119,7 @@ export abstract class FieldType<
       def: this.def,
       list: this.list,
       optional: this.optional,
+      description: this.description,
     };
   };
 

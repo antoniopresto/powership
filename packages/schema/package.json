@@ -1,6 +1,6 @@
 {
   "name": "@darch/schema",
-  "version": "2.0.0-alpha.1654216472.22+c140e06",
+  "version": "2.0.0-alpha.1654720564.27+a1f37ed",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
   "author": "antoniopresto <antoniopresto@gmail.com>",
@@ -27,10 +27,10 @@
     "inference"
   ],
   "dependencies": {
-    "@darch/utils": "^2.0.0-alpha.1654216472.22+c140e06"
+    "@darch/utils": "^2.0.0-alpha.1654720564.27+a1f37ed"
   },
   "devDependencies": {
-    "@darch/builder": "^2.0.0-alpha.1654216472.22+c140e06",
+    "@darch/builder": "^2.0.0-alpha.1654720564.27+a1f37ed",
     "@types/express": "4.17.13",
     "@types/jest": "27.0.3",
     "@types/lodash": "^4.14.182",
@@ -60,5 +60,5 @@
     "lib/*",
     "README.md"
   ],
-  "gitHead": "c140e061a7d9aefa686f6f5ec93f760e797ca879"
+  "gitHead": "a1f37eddb3863da6ad4d82fb534db475b0f8cfaa"
 }

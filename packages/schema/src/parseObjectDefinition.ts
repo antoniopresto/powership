@@ -251,11 +251,11 @@ export function parseFlattenFieldDefinition(input: any) {
   let def;
 
   for (let k in input) {
-    const val = input[k];
+    const valueOfDefOrOptionalOrListOrDescription = input[k];
 
     if (types[k]) {
       type = k;
-      def = val;
+      def = valueOfDefOrOptionalOrListOrDescription;
 
       if (k !== 'object' && def && typeof def === 'object') {
         for (let defKey in def) {
@@ -269,8 +269,13 @@ export function parseFlattenFieldDefinition(input: any) {
         }
       }
     } else {
-      if (val !== undefined) {
-        if (typeof val !== validFlattenDefinitionKeys[k]) {
+      if (valueOfDefOrOptionalOrListOrDescription !== undefined) {
+        if (
+          // checking if the de `optional` or `list` or `description`
+          // has the expected types
+          typeof valueOfDefOrOptionalOrListOrDescription !==
+          validFlattenDefinitionKeys[k]
+        ) {
           return false;
         }
       }

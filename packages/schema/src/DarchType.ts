@@ -28,16 +28,19 @@ import type { ObjectToTypescriptOptions } from './objectToTypescript';
 import { parseObjectField } from './parseObjectDefinition';
 import { withCache, WithCache } from './withCache';
 
-const register = new StrictMap<string, DarchType<ObjectFieldInput>>();
-const resolvers = new StrictMap<string, DarchGraphQLResolver<any, any>>();
+const register = new StrictMap<string, DarchType<any>>();
+const resolvers = new StrictMap<string, AnyDarchGraphQLResolver>();
 
 export class DarchType<Definition extends ObjectFieldInput> {
+  __isDarchType = true;
+  static __isDarchType = true;
+
   static register = register;
   static resolvers = resolvers;
 
-  static reset = () => {
-    register.clear();
+  static reset = async () => {
     resolvers.clear();
+    register.clear();
   };
 
   readonly definition: ToFinalField<Definition>;
@@ -100,11 +103,13 @@ export class DarchType<Definition extends ObjectFieldInput> {
       this.__field.toObjectFieldType() as ToFinalField<Definition>;
 
     if (register.has(name)) {
+      const existing = register.get(name);
+
       if (!isProduction()) {
         assertSame(
           `Different type already registered with name "${name}"`,
           this.definition,
-          register.get(name)
+          existing
         );
       }
     } else {
@@ -215,18 +220,26 @@ export class DarchType<Definition extends ObjectFieldInput> {
     const parsePayload = this.parse.bind(this);
 
     const argsObject = isPossibleArgsDef(args)
-      ? new DarchType(`${name}Input`, { object: args })
+      ? createObjectType(`${name}Input`, args)
       : undefined;
 
-    async function typeCheckResolveWrapper(
+    const ArgsType: any = argsObject
+      ? argsObject.graphqlInputType({ name: `${name}Input` })
+      : undefined;
+
+    const type: any = this.graphQLType();
+
+    const resolveFunction: any = async function typeCheckResolveWrapper(
       source,
       args: any,
       context: any,
       info: any
     ): Promise<any> {
       args = argsObject
-        ? argsObject.parse(args, (_, error) => {
-            return `Invalid input provided to resolver "${name}":\n ${error.message}`;
+        ? argsObject.parse(args, {
+            customMessage: (_, error) => {
+              return `Invalid input provided to resolver "${name}":\n ${error.message}`;
+            },
           })
         : args;
 
@@ -236,21 +249,17 @@ export class DarchType<Definition extends ObjectFieldInput> {
         result,
         (_, error) => `Invalid output from resolver "${name}": ${error.message}`
       );
-    }
+    };
 
-    const ArgsType: any = argsObject
-      ? argsObject.graphQLInputType()
-      : undefined;
-
-    const type: any = this.graphQLType();
-
-    const result = {
+    const result: DarchGraphQLResolver<any, any, any, any> = {
       ...rest,
       kind,
       name,
-      resolve: typeCheckResolveWrapper,
-      args: ArgsType?.ofType?.getFields(),
+      resolve: resolveFunction,
+      args: ArgsType?.getFields(),
       type,
+      argsDef: args,
+      typeDef: this.definition,
     };
 
     resolvers.set(name, result);
@@ -294,6 +303,8 @@ export interface DarchGraphQLFieldConfigInput<
   resolve: ResolveFunction<Context, Source, TypeDef, ArgsDef>;
 }
 
+export type AnyDarchGraphQLResolver = DarchGraphQLResolver<any, any, any, any>;
+
 export interface DarchGraphQLResolver<
   Context = unknown,
   Source = unknown,
@@ -307,6 +318,8 @@ export interface DarchGraphQLResolver<
   resolve: ResolveFunction<Context, Source, TypeDef, ArgsDef>;
   name: string;
   kind: 'query' | 'subscription' | 'mutation';
+  typeDef: TypeDef;
+  argsDef: ArgsDef;
 }
 
 export interface ResolveFunction<

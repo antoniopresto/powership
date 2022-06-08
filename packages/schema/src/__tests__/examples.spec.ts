@@ -89,13 +89,7 @@ test('examples', async () => {
 
   const interfaceTxt = await objectToTypescript('User', userObject);
   expect(interfaceTxt).toBe(
-    `/* tslint:disable */
-/**
- * This file was automatically generated.
- * DO NOT MODIFY IT BY HAND.
- */
-
-export interface User {
+    `export interface User {
   name: string;
   email?: Email;
   age?: number;

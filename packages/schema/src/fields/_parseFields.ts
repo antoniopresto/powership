@@ -58,7 +58,9 @@ export type FinalFieldDefinition = {
 
 export type FlattenFieldDefinition = {
   [type in FieldTypeName]: {
-    [K in type]: FieldDefinitions[K];
+    [K in type]: [FieldDefinitions[K]] extends [undefined]
+      ? FieldDefinitions[K] | {}
+      : FieldDefinitions[K];
   };
 }[FieldTypeName];
 

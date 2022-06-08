@@ -233,12 +233,6 @@ describe('createType', () => {
     const ts = await ObjectType.createType('IntHem', 'int?').typescriptPrint();
 
     expect(ts.split('\n')).toEqual([
-      '/* tslint:disable */',
-      '/**',
-      ' * This file was automatically generated.',
-      ' * DO NOT MODIFY IT BY HAND.',
-      ' */',
-      '',
       'export interface IntHem {',
       '  IntHem?: number;',
       '}',
@@ -250,12 +244,6 @@ describe('createType', () => {
     }).typescriptPrint();
 
     expect(tsObject.split('\n')).toEqual([
-      '/* tslint:disable */',
-      '/**',
-      ' * This file was automatically generated.',
-      ' * DO NOT MODIFY IT BY HAND.',
-      ' */',
-      '',
       'export interface Person {',
       '  name: string;',
       '}',
