@@ -1,7 +1,7 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../Infer';
-import { createSchema, Schema } from '../Schema';
+import { createObjectType, ObjectType } from '../ObjectType';
 import { EnumField } from '../fields/EnumField';
 import { _assertFields } from '../fields/__tests__/__assert';
 import { ParseStringDefinition } from '../parseStringDefinition';
@@ -24,8 +24,8 @@ describe('typings', () => {
     >(true);
   });
 
-  test('TypeFromSchemaDefinition', () => {
-    const otherSchema = new Schema({
+  test('TypeFromObjectDefinition', () => {
+    const otherObject = new ObjectType({
       name: 'string',
       status: { enum: ['open', 'closed'] },
     } as const);
@@ -41,9 +41,9 @@ describe('typings', () => {
       categoryRO: { enum: ['general', 'closed'] } as const,
       '12Enum': { enum: ['1', '2'] },
       enumTypeField: EnumField.create(['x', 'xx']),
-      otherSchema,
-      otherSchemaList: {
-        schema: otherSchema,
+      otherObject,
+      otherObjectList: {
+        object: otherObject,
         list: true,
       },
     } as const;
@@ -61,11 +61,11 @@ describe('typings', () => {
       categoryRO: 'general' | 'closed';
       '12Enum': '1' | '2';
       enumTypeField: 'x' | 'xx';
-      otherSchema: {
+      otherObject: {
         name: string;
         status: 'open' | 'closed';
       };
-      otherSchemaList: {
+      otherObjectList: {
         name: string;
         status: 'open' | 'closed';
       }[];
@@ -74,8 +74,8 @@ describe('typings', () => {
     _assertFields<T, Expected>(true);
   });
 
-  test('schema as type', () => {
-    const schema1 = createSchema({
+  test('object as type', () => {
+    const object1 = createObjectType({
       name: 'string',
       age: 'int?',
     });
@@ -85,11 +85,11 @@ describe('typings', () => {
       age?: number | undefined;
     };
 
-    type TS1 = Infer<typeof schema1>;
+    type TS1 = Infer<typeof object1>;
     assert<IsExact<TS1, S1>>(true);
 
-    const schema2 = createSchema({
-      people: schema1,
+    const object2 = createObjectType({
+      people: object1,
       status: { enum: ['open', 'closed'] },
       names: '[string]?',
     } as const);
@@ -100,14 +100,14 @@ describe('typings', () => {
       names?: string[] | undefined;
     };
 
-    type TS2 = Infer<typeof schema2>;
+    type TS2 = Infer<typeof object2>;
 
     assert<IsExact<TS2, S2>>(true);
 
-    const schema3 = createSchema({
-      classes: schema2,
+    const object3 = createObjectType({
+      classes: object2,
       classesListOptional: {
-        schema: schema2,
+        object: object2,
         list: true,
         optional: true,
       },
@@ -120,16 +120,16 @@ describe('typings', () => {
       count: number;
     };
 
-    type T3 = Infer<typeof schema3>;
+    type T3 = Infer<typeof object3>;
 
     assert<IsExact<T3, S3>>(true);
   });
 
-  test('literal schema object', () => {
-    const schema1 = createSchema({
+  test('literal object object', () => {
+    const object1 = createObjectType({
       a: 'string?',
       b: {
-        schema: {
+        object: {
           name: 'string?',
           age: 'int',
           numbers: '[float]?',
@@ -139,7 +139,7 @@ describe('typings', () => {
       },
     } as const);
 
-    type Result = Infer<typeof schema1>;
+    type Result = Infer<typeof object1>;
 
     type Expected = {
       a?: string | undefined;
@@ -223,9 +223,9 @@ describe('typings', () => {
   //     // unk_,
   //   } as const
   //
-  //   const schema1 = createSchema(definition);
+  //   const object1 = createObjectType(definition);
   //
-  //   type S1 = TypeFromSchema<typeof schema1>;
+  //   type S1 = TypeFromObject<typeof object1>;
   //
   //   assert<IsExact<T1, S1>>(true);
   // });

@@ -10,28 +10,28 @@ import type {
   GraphQLResolveInfo,
 } from 'graphql';
 
-import { TAnyFieldType } from './FieldType';
 import type {
   ConvertFieldResult,
   GraphQLParserResult,
 } from './GraphQLParser/GraphQLParser';
 import { Infer } from './Infer';
-import { createSchema, Schema } from './Schema';
-import { getSchemaDefinitionId } from './fields/MetaFieldField';
-import { SubSchemaField } from './fields/SubSchema';
+import { createObjectType, ObjectType } from './ObjectType';
+import { TAnyFieldType } from './fields/FieldType';
+import { getObjectDefinitionId } from './fields/MetaFieldField';
+import { ObjectField } from './fields/ObjectField';
 import {
-  SchemaDefinitionInput,
-  SchemaFieldInput,
+  ObjectDefinitionInput,
+  ObjectFieldInput,
   ToFinalField,
 } from './fields/_parseFields';
-import { parseSchemaField } from './parseSchemaDefinition';
-import type { SchemaToTypescriptOptions } from './schemaToTypescript';
+import type { ObjectToTypescriptOptions } from './objectToTypescript';
+import { parseObjectField } from './parseObjectDefinition';
 import { withCache, WithCache } from './withCache';
 
-const register = new StrictMap<string, DarchGraphQLType<SchemaFieldInput>>();
+const register = new StrictMap<string, DarchType<ObjectFieldInput>>();
 const resolvers = new StrictMap<string, DarchGraphQLResolver<any, any>>();
 
-export class DarchGraphQLType<Definition extends SchemaFieldInput> {
+export class DarchType<Definition extends ObjectFieldInput> {
   static register = register;
   static resolvers = resolvers;
 
@@ -51,9 +51,8 @@ export class DarchGraphQLType<Definition extends SchemaFieldInput> {
     graphQLParsed: ConvertFieldResult;
   }>;
 
-  readonly __isDarchGraphQLType = true;
   readonly id: string;
-  readonly _schema?: Schema<any>;
+  readonly _object?: ObjectType<any>;
 
   constructor(definition: Definition);
   constructor(name: string, definition: Definition);
@@ -69,24 +68,24 @@ export class DarchGraphQLType<Definition extends SchemaFieldInput> {
       definition = args[0];
     }
 
-    this.__field = parseSchemaField('temp', definition, true);
+    this.__field = parseObjectField('temp', definition, true);
 
     this.__withCache = withCache(this);
 
-    if (SubSchemaField.is(this.__field)) {
+    if (ObjectField.is(this.__field)) {
       if (
         name &&
-        this.__field.utils.schema.id &&
-        this.__field.utils.schema.id !== name
+        this.__field.utils.object.id &&
+        this.__field.utils.object.id !== name
       ) {
-        this.__field.utils.schema = this.__field.utils.schema.clone(name);
+        this.__field.utils.object = this.__field.utils.object.clone(name);
       } else if (name) {
-        this.__field.utils.schema.identify(name);
+        this.__field.utils.object.identify(name);
       } else {
-        name = getSchemaDefinitionId(this.__field.utils.schema.definition);
+        name = getObjectDefinitionId(this.__field.utils.object.definition);
       }
 
-      this._schema = this.__field.utils.schema;
+      this._object = this.__field.utils.object;
     }
 
     if (!name) {
@@ -98,7 +97,7 @@ export class DarchGraphQLType<Definition extends SchemaFieldInput> {
     this.id = name;
 
     this.definition =
-      this.__field.toSchemaFieldType() as ToFinalField<Definition>;
+      this.__field.toObjectFieldType() as ToFinalField<Definition>;
 
     if (register.has(name)) {
       if (!isProduction()) {
@@ -121,13 +120,15 @@ export class DarchGraphQLType<Definition extends SchemaFieldInput> {
 
   _toGraphQL = () => {
     return this.__withCache('graphQLParsed', () => {
-      return Schema.serverUtils().graphqlParser.GraphQLParser.fieldToGraphQL({
-        field: this.__field,
-        path: [`DarchGraphQLType_${this.id}`],
-        plainField: this.__field.toSchemaFieldType(),
-        fieldName: this.id,
-        parentName: this.id,
-      });
+      return ObjectType.serverUtils().graphqlParser.GraphQLParser.fieldToGraphQL(
+        {
+          field: this.__field,
+          path: [`Type_${this.id}`],
+          plainField: this.__field.toObjectFieldType(),
+          fieldName: this.id,
+          parentName: this.id,
+        }
+      );
     });
   };
 
@@ -151,18 +152,18 @@ export class DarchGraphQLType<Definition extends SchemaFieldInput> {
     ...args: Parameters<GraphQLParserResult['interfaceType']>
   ): GraphQLInterfaceType => {
     return this.__withCache('graphQLInterface', () => {
-      if (!this._schema) {
+      if (!this._object) {
         throw new RuntimeError(
-          'graphQLInterface is only available for schema type',
+          'graphQLInterface is only available for object type',
           {
             type: this.__field.type,
           }
         );
       }
 
-      return Schema.serverUtils()
-        .graphqlParser.GraphQLParser.schemaToGraphQL({
-          schema: this._schema,
+      return ObjectType.serverUtils()
+        .graphqlParser.GraphQLParser.objectToGraphQL({
+          object: this._object,
         })
         .interfaceType(...args);
     });
@@ -172,28 +173,28 @@ export class DarchGraphQLType<Definition extends SchemaFieldInput> {
     const type = this.graphQLType();
     const inputType = this.graphQLInputType();
 
-    const { GraphQLSchema, printSchema } = Schema.serverUtils().graphql;
+    const { GraphQLSchema, printSchema } = ObjectType.serverUtils().graphql;
 
-    const schema = new GraphQLSchema({
+    const object = new GraphQLSchema({
       // @ts-ignore
       types: [type, inputType],
     });
 
-    return printSchema(schema).split('\n');
+    return printSchema(object).split('\n');
   };
 
   typescriptPrint = (
-    options?: SchemaToTypescriptOptions & { name?: string }
+    options?: ObjectToTypescriptOptions & { name?: string }
   ) => {
-    const schema =
-      this._schema ||
-      createSchema({
+    const object =
+      this._object ||
+      createObjectType({
         [this.id]: this.definition,
       });
 
-    return Schema.serverUtils().schemaToTypescript.schemaToTypescript(
+    return ObjectType.serverUtils().objectToTypescript.objectToTypescript(
       options?.name || this.id,
-      schema,
+      object,
       options
     );
   };
@@ -201,7 +202,7 @@ export class DarchGraphQLType<Definition extends SchemaFieldInput> {
   createResolver = <
     Context = unknown,
     Source = unknown,
-    ArgsDef extends SchemaDefinitionInput = SchemaDefinitionInput
+    ArgsDef extends ObjectDefinitionInput = ObjectDefinitionInput
   >(
     options: DarchGraphQLFieldConfigInput<Context, Source, Definition, ArgsDef>
   ): DarchGraphQLResolver<Context, Source, Definition, ArgsDef> => {
@@ -213,8 +214,8 @@ export class DarchGraphQLType<Definition extends SchemaFieldInput> {
 
     const parsePayload = this.parse.bind(this);
 
-    const argsSchema = isPossibleArgsDef(args)
-      ? new DarchGraphQLType(`${name}Input`, { schema: args })
+    const argsObject = isPossibleArgsDef(args)
+      ? new DarchType(`${name}Input`, { object: args })
       : undefined;
 
     async function typeCheckResolveWrapper(
@@ -223,8 +224,8 @@ export class DarchGraphQLType<Definition extends SchemaFieldInput> {
       context: any,
       info: any
     ): Promise<any> {
-      args = argsSchema
-        ? argsSchema.parse(args, (_, error) => {
+      args = argsObject
+        ? argsObject.parse(args, (_, error) => {
             return `Invalid input provided to resolver "${name}":\n ${error.message}`;
           })
         : args;
@@ -237,8 +238,8 @@ export class DarchGraphQLType<Definition extends SchemaFieldInput> {
       );
     }
 
-    const ArgsType: any = argsSchema
-      ? argsSchema.graphQLInputType()
+    const ArgsType: any = argsObject
+      ? argsObject.graphQLInputType()
       : undefined;
 
     const type: any = this.graphQLType();
@@ -258,17 +259,17 @@ export class DarchGraphQLType<Definition extends SchemaFieldInput> {
   };
 }
 
-export function createType<Definition extends SchemaFieldInput>(
+export function createType<Definition extends ObjectFieldInput>(
   definition: Definition
-): DarchGraphQLType<Definition>;
+): DarchType<Definition>;
 
-export function createType<Definition extends SchemaFieldInput>(
+export function createType<Definition extends ObjectFieldInput>(
   name: string,
   definition: Definition
-): DarchGraphQLType<Definition>;
+): DarchType<Definition>;
 
 export function createType(...args: any[]) {
-  return new DarchGraphQLType(
+  return new DarchType(
     // @ts-ignore
     ...args
   );
@@ -277,11 +278,11 @@ export function createType(...args: any[]) {
 export interface DarchGraphQLFieldConfigInput<
   Context = unknown,
   Source = unknown,
-  TypeDef extends SchemaFieldInput | Schema<SchemaDefinitionInput> =
-    | SchemaFieldInput
-    | Schema<SchemaDefinitionInput>,
+  TypeDef extends ObjectFieldInput | ObjectType<ObjectDefinitionInput> =
+    | ObjectFieldInput
+    | ObjectType<ObjectDefinitionInput>,
   //
-  ArgsDef extends SchemaDefinitionInput = SchemaDefinitionInput
+  ArgsDef extends ObjectDefinitionInput = ObjectDefinitionInput
   //
 > extends Omit<
     GraphQLFieldConfig<Source, Context>,
@@ -296,11 +297,11 @@ export interface DarchGraphQLFieldConfigInput<
 export interface DarchGraphQLResolver<
   Context = unknown,
   Source = unknown,
-  TypeDef extends SchemaFieldInput | Schema<SchemaDefinitionInput> =
-    | SchemaFieldInput
-    | Schema<SchemaDefinitionInput>,
+  TypeDef extends ObjectFieldInput | ObjectType<ObjectDefinitionInput> =
+    | ObjectFieldInput
+    | ObjectType<ObjectDefinitionInput>,
   //
-  ArgsDef extends SchemaDefinitionInput = SchemaDefinitionInput
+  ArgsDef extends ObjectDefinitionInput = ObjectDefinitionInput
   //
 > extends Omit<GraphQLFieldConfig<Source, Context>, 'resolve'> {
   resolve: ResolveFunction<Context, Source, TypeDef, ArgsDef>;
@@ -311,14 +312,14 @@ export interface DarchGraphQLResolver<
 export interface ResolveFunction<
   Context = unknown,
   Source = unknown,
-  TypeDef extends SchemaFieldInput | Schema<SchemaDefinitionInput> =
-    | SchemaFieldInput
-    | Schema<SchemaDefinitionInput>,
-  ArgsDef extends SchemaDefinitionInput = SchemaDefinitionInput
+  TypeDef extends ObjectFieldInput | ObjectType<ObjectDefinitionInput> =
+    | ObjectFieldInput
+    | ObjectType<ObjectDefinitionInput>,
+  ArgsDef extends ObjectDefinitionInput = ObjectDefinitionInput
 > {
   (
     source: Source,
-    args: ArgsDef extends { [K: string]: SchemaFieldInput }
+    args: ArgsDef extends { [K: string]: ObjectFieldInput }
       ? Infer<ArgsDef>
       : {},
     context: Context,
@@ -326,6 +327,6 @@ export interface ResolveFunction<
   ): Promise<Infer<ToFinalField<TypeDef>>>;
 }
 
-function isPossibleArgsDef(args: any): args is Readonly<SchemaDefinitionInput> {
+function isPossibleArgsDef(args: any): args is Readonly<ObjectDefinitionInput> {
   return args && typeof args === 'object' && Object.keys(args).length;
 }

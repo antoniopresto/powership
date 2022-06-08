@@ -6,14 +6,14 @@ import { inspectObject } from '@darch/utils/lib/inspectObject';
 import { nonNullValues } from '@darch/utils/lib/invariant';
 import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 
-import { isFieldInstance, TAnyFieldType } from './FieldType';
-import { isSchema, Schema } from './Schema';
-import { FieldDefinitionConfig, SchemaDefinitionInput } from './TSchemaConfig';
+import { isObject, ObjectType } from './ObjectType';
+import { FieldDefinitionConfig, ObjectDefinitionInput } from './TObjectConfig';
 import { fieldInstanceFromDef } from './fieldInstanceFromDef';
+import { isFieldInstance, TAnyFieldType } from './fields/FieldType';
 import {
   isMetaField,
   MetaField,
-  schemaMetaFieldKey,
+  objectMetaFieldKey,
 } from './fields/MetaFieldField';
 import { FinalFieldDefinition } from './fields/_parseFields';
 import { types } from './fields/fieldTypes';
@@ -22,18 +22,18 @@ import {
   parseStringDefinition,
 } from './parseStringDefinition';
 
-export function parseSchemaField<T extends FieldDefinitionConfig>(
+export function parseObjectField<T extends FieldDefinitionConfig>(
   fieldName: string,
   definition: T
 ): FinalFieldDefinition;
 
-export function parseSchemaField<T extends FieldDefinitionConfig>(
+export function parseObjectField<T extends FieldDefinitionConfig>(
   fieldName: string,
   definition: T,
   returnInstance: true
 ): TAnyFieldType;
 
-export function parseSchemaField<T extends FieldDefinitionConfig>(
+export function parseObjectField<T extends FieldDefinitionConfig>(
   fieldName: string,
   definition: T,
   returnInstance = false
@@ -68,19 +68,19 @@ export function parseFieldDefinitionConfig(
   }
 
   if (isFieldInstance(definition)) {
-    return definition.toSchemaFieldType();
+    return definition.toObjectFieldType();
   }
 
   if (isFinalFieldDefinition(definition)) {
-    if (definition.type === 'schema') {
+    if (definition.type === 'object') {
       if (typeof definition.def !== 'object' || !definition.def) {
-        throw new RuntimeError(`Missing def for schema field.`, { definition });
+        throw new RuntimeError(`Missing def for object field.`, { definition });
       }
 
-      if (isSchema(definition.def)) {
+      if (isObject(definition.def)) {
         definition.def = definition.def.definition;
       } else {
-        definition.def = parseSchemaDefinition(definition.def).definition;
+        definition.def = parseObjectDefinition(definition.def).definition;
       }
     }
 
@@ -117,9 +117,9 @@ export function parseFieldDefinitionConfig(
     } as any;
   }
 
-  if (isSchema(definition)) {
+  if (isObject(definition)) {
     return {
-      type: 'schema',
+      type: 'object',
       def: definition.definition,
       optional: false,
       list: false,
@@ -127,9 +127,9 @@ export function parseFieldDefinitionConfig(
     } as any;
   }
 
-  if (isSchemaAsTypeDefinition(definition)) {
+  if (isObjectAsTypeDefinition(definition)) {
     return {
-      type: 'schema',
+      type: 'object',
       def: definition.type.definition,
       optional: !!definition.optional,
       list: !!definition.list,
@@ -145,7 +145,7 @@ export function parseFieldDefinitionConfig(
   throw new Error(`Unexpected field definition: ${inspectObject(definition)}`);
 }
 
-export function parseSchemaDefinition<T extends SchemaDefinitionInput>(
+export function parseObjectDefinition<T extends ObjectDefinitionInput>(
   input: T,
   options: {
     omitMeta?: boolean;
@@ -168,13 +168,13 @@ export function parseSchemaDefinition<T extends SchemaDefinitionInput>(
         return (meta = item);
       }
 
-      return (result[fieldName] = parseSchemaField(
+      return (result[fieldName] = parseObjectField(
         fieldName,
         (input as any)[fieldName]
       ));
     } catch (err: any) {
       throw new RuntimeError(
-        `Failed to process schema field "${fieldName}":\n${err.message}`,
+        `Failed to process object field "${fieldName}":\n${err.message}`,
         {
           err,
           input,
@@ -186,7 +186,7 @@ export function parseSchemaDefinition<T extends SchemaDefinitionInput>(
   meta = meta || { type: 'meta', def: { id: null } };
 
   if (!omitMeta) {
-    result[schemaMetaFieldKey] = meta;
+    result[objectMetaFieldKey] = meta;
   }
 
   return {
@@ -226,13 +226,13 @@ function isUnionDefArray(input: any): input is [FieldDefinitionConfig[]] {
 }
 
 /**
- * Schema as field['type'] is deprecated
+ * Object as field['type'] is deprecated
  * @param input
  */
-export function isSchemaAsTypeDefinition(
+export function isObjectAsTypeDefinition(
   input: any
-): input is { type: Schema<any>; optional?: boolean; list?: boolean } {
-  return input && typeof input === 'object' && isSchema(input.type);
+): input is { type: ObjectType<any>; optional?: boolean; list?: boolean } {
+  return input && typeof input === 'object' && isObject(input.type);
 }
 
 const validFlattenDefinitionKeys = {
@@ -257,7 +257,7 @@ export function parseFlattenFieldDefinition(input: any) {
       type = k;
       def = val;
 
-      if (k !== 'schema' && def && typeof def === 'object') {
+      if (k !== 'object' && def && typeof def === 'object') {
         for (let defKey in def) {
           if (defKey === 'def' || validFlattenDefinitionKeys[defKey]) {
             console.warn(`using field def as type definition?\n`, {

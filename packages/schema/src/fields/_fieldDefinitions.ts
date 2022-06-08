@@ -1,7 +1,7 @@
-import { SchemaLike } from './ISchemaLike';
+import { ObjectLike } from './IObjectLike';
 import { MetaFieldDef } from './MetaFieldField';
 import { RecordFieldDef } from './RecordField';
-import { SchemaFieldInput } from './_parseFields';
+import { ObjectFieldInput } from './_parseFields';
 
 export type CursorType = {
   PK: string;
@@ -72,12 +72,12 @@ export type FieldDefinitions = {
 
   unknown: undefined;
 
-  schema:
-    | { [K: string]: SchemaFieldInput }
-    | Readonly<{ [K: string]: SchemaFieldInput }>
-    | SchemaLike;
+  object:
+    | { [K: string]: ObjectFieldInput }
+    | Readonly<{ [K: string]: ObjectFieldInput }>
+    | ObjectLike;
 
-  union: SchemaFieldInput[] | Readonly<SchemaFieldInput[]>;
+  union: ObjectFieldInput[] | Readonly<ObjectFieldInput[]>;
 
   enum: Array<string> | Readonly<Array<string>>;
 

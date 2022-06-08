@@ -1,16 +1,16 @@
-import { createSchema } from '../Schema';
+import { createObjectType } from '../ObjectType';
 import { EnumField } from '../fields/EnumField';
-import { schemaMetaFieldKey } from '../fields/MetaFieldField';
+import { objectMetaFieldKey } from '../fields/MetaFieldField';
 import {
   parseFlattenFieldDefinition,
-  parseSchemaField,
-} from '../parseSchemaDefinition';
+  parseObjectField,
+} from '../parseObjectDefinition';
 
-import { schemaMocks } from './__mock__';
+import { objectMocks } from './__mock__';
 
-const { typeDefs, stringDefTypes, schema2 } = schemaMocks;
+const { typeDefs, stringDefTypes, object2 } = objectMocks;
 
-describe('parseSchemaField', () => {
+describe('parseObjectField', () => {
   test('parseFlattenFieldDefinition', () => {
     expect(parseFlattenFieldDefinition(EnumField.create(['a', 'b']))).toEqual(
       false
@@ -29,7 +29,7 @@ describe('parseSchemaField', () => {
 
     expect(
       parseFlattenFieldDefinition({
-        schema: {
+        object: {
           name: 'string',
         },
       })
@@ -40,12 +40,12 @@ describe('parseSchemaField', () => {
           optional: false,
           type: 'string',
         },
-        [schemaMetaFieldKey]: expect.anything(),
+        [objectMetaFieldKey]: expect.anything(),
       },
       description: undefined,
       list: false,
       optional: false,
-      type: 'schema',
+      type: 'object',
     });
 
     expect(
@@ -90,7 +90,7 @@ describe('parseSchemaField', () => {
   });
 
   test('enumStringArray', () => {
-    const sut = parseSchemaField('enumStringArray', {
+    const sut = parseObjectField('enumStringArray', {
       enum: ['a', 'b', 'c'],
     } as const);
 
@@ -103,15 +103,15 @@ describe('parseSchemaField', () => {
   });
 
   test('enum FieldType', () => {
-    const single = parseSchemaField(
+    const single = parseObjectField(
       'enum FieldType',
       EnumField.create(['a', 'b'])
     );
-    const list = parseSchemaField(
+    const list = parseObjectField(
       'enum FieldType',
       EnumField.create(['a', 'b']).toList()
     );
-    const listOptional = parseSchemaField(
+    const listOptional = parseObjectField(
       'enum FieldType',
       EnumField.create(['a', 'b']).toList().toOptional()
     );
@@ -138,18 +138,18 @@ describe('parseSchemaField', () => {
     });
   });
 
-  test('schemaTypeName', () => {
-    const sut = parseSchemaField('schemaTypeName', {
-      type: 'schema',
-      def: schema2['definition'],
+  test('objectTypeName', () => {
+    const sut = parseObjectField('objectTypeName', {
+      type: 'object',
+      def: object2['definition'],
     });
 
     expect(sut).toEqual({
       list: false,
       optional: false,
-      type: 'schema',
+      type: 'object',
       def: {
-        [schemaMetaFieldKey]: expect.anything(),
+        [objectMetaFieldKey]: expect.anything(),
         name: {
           list: false,
           optional: false,
@@ -158,10 +158,10 @@ describe('parseSchemaField', () => {
         sub: {
           list: false,
           optional: false,
-          type: 'schema',
+          type: 'object',
 
           def: {
-            [schemaMetaFieldKey]: expect.anything(),
+            [objectMetaFieldKey]: expect.anything(),
             name: {
               list: false,
               optional: false,
@@ -189,34 +189,34 @@ describe('parseSchemaField', () => {
     });
 
     expect(
-      parseSchemaField('schemaTypeName', {
-        type: 'schema',
-        def: schema2['definition'],
+      parseObjectField('objectTypeName', {
+        type: 'object',
+        def: object2['definition'],
         list: true,
       })
     ).toHaveProperty('list', true);
 
     expect(
-      parseSchemaField('schemaTypeName', {
-        type: 'schema',
-        def: schema2['definition'],
+      parseObjectField('objectTypeName', {
+        type: 'object',
+        def: object2['definition'],
         optional: true,
       })
     ).toHaveProperty('optional', true);
   });
 
-  test('schemaObjectAsType', () => {
-    const sut = parseSchemaField(
-      'schemaObjectAsType',
-      typeDefs.schemaObjectAsType // deprecated
+  test('objectObjectAsType', () => {
+    const sut = parseObjectField(
+      'objectObjectAsType',
+      typeDefs.objectObjectAsType // deprecated
     );
 
     expect(sut).toEqual({
       list: true,
       optional: true,
-      type: 'schema',
+      type: 'object',
       def: {
-        [schemaMetaFieldKey]: expect.anything(),
+        [objectMetaFieldKey]: expect.anything(),
         name: {
           list: false,
           optional: false,
@@ -225,10 +225,10 @@ describe('parseSchemaField', () => {
         sub: {
           list: false,
           optional: false,
-          type: 'schema',
+          type: 'object',
 
           def: {
-            [schemaMetaFieldKey]: expect.anything(),
+            [objectMetaFieldKey]: expect.anything(),
             name: {
               list: false,
               optional: false,
@@ -257,7 +257,7 @@ describe('parseSchemaField', () => {
   });
 
   test('stringFieldDefinition', () => {
-    const sut = parseSchemaField(
+    const sut = parseObjectField(
       'stringFieldDefinition',
       typeDefs.stringFieldDefinition
     );
@@ -270,7 +270,7 @@ describe('parseSchemaField', () => {
   });
 
   test('FieldType as def', () => {
-    const sut = parseSchemaField('FieldType', typeDefs.fieldDefAsType);
+    const sut = parseObjectField('FieldType', typeDefs.fieldDefAsType);
 
     expect(sut).toEqual({
       list: true,
@@ -284,17 +284,17 @@ describe('parseSchemaField', () => {
   });
 
   test('stringDefTypes', () => {
-    const sut = parseSchemaField(
+    const sut = parseObjectField(
       'stringDefTypes',
-      createSchema(stringDefTypes)
+      createObjectType(stringDefTypes)
     );
 
     expect(sut).toEqual({
-      type: 'schema',
+      type: 'object',
       list: false,
       optional: false,
       def: {
-        [schemaMetaFieldKey]: expect.anything(),
+        [objectMetaFieldKey]: expect.anything(),
         stringDefBoolean: {
           list: false,
           optional: false,

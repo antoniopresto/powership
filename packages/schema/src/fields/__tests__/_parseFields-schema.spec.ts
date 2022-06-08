@@ -5,169 +5,169 @@ import { InferField } from '../_parseFields';
 
 type AnyRecord = { [K: string]: any };
 
-test('ParseFields schema typings', () => {
+test('ParseFields object typings', () => {
   // ====== SIMPLE STRING DEF =======
   //   any:
-  assert<IsExact<InferField<{ schema: { name: 'any' } }>, { name: any }>>(true);
+  assert<IsExact<InferField<{ object: { name: 'any' } }>, { name: any }>>(true);
 
   //   boolean:
-  type TBoolean = InferField<{ schema: { name: 'boolean' } }>;
+  type TBoolean = InferField<{ object: { name: 'boolean' } }>;
   assert<IsExact<TBoolean, { name: boolean }>>(true);
 
   //   cursor:
-  type TTCursor = InferField<{ schema: { name: 'cursor' } }>;
+  type TTCursor = InferField<{ object: { name: 'cursor' } }>;
   assert<IsExact<TTCursor, { name: CursorType }>>(true); //   date:
 
   //   date
-  assert<IsExact<InferField<{ schema: { name: 'date' } }>, { name: Date }>>(
+  assert<IsExact<InferField<{ object: { name: 'date' } }>, { name: Date }>>(
     true
   );
 
   //   email:
-  assert<IsExact<InferField<{ schema: { name: 'email' } }>, { name: string }>>(
+  assert<IsExact<InferField<{ object: { name: 'email' } }>, { name: string }>>(
     true
   );
 
   //   float:
-  assert<IsExact<InferField<{ schema: { name: 'float' } }>, { name: number }>>(
+  assert<IsExact<InferField<{ object: { name: 'float' } }>, { name: number }>>(
     true
   );
 
   //   int:
-  assert<IsExact<InferField<{ schema: { name: 'int' } }>, { name: number }>>(
+  assert<IsExact<InferField<{ object: { name: 'int' } }>, { name: number }>>(
     true
   );
 
   //   null:
-  assert<IsExact<InferField<{ schema: { name: 'null' } }>, { name: null }>>(
+  assert<IsExact<InferField<{ object: { name: 'null' } }>, { name: null }>>(
     true
   );
 
   //   record:
   assert<
-    IsExact<InferField<{ schema: { name: 'record' } }>, { name: AnyRecord }>
+    IsExact<InferField<{ object: { name: 'record' } }>, { name: AnyRecord }>
   >(true);
 
   //   string:
-  assert<IsExact<InferField<{ schema: { name: 'string' } }>, { name: string }>>(
+  assert<IsExact<InferField<{ object: { name: 'string' } }>, { name: string }>>(
     true
   );
 
   //   ulid:
-  assert<IsExact<InferField<{ schema: { name: 'ulid' } }>, { name: string }>>(
+  assert<IsExact<InferField<{ object: { name: 'ulid' } }>, { name: string }>>(
     true
   );
 
   //   undefined:
   assert<
-    IsExact<InferField<{ schema: { name: 'undefined' } }>, { name?: undefined }>
+    IsExact<InferField<{ object: { name: 'undefined' } }>, { name?: undefined }>
   >(true);
 
   //   unknown:
   assert<
-    IsExact<InferField<{ schema: { name: 'unknown' } }>, { name: unknown }>
+    IsExact<InferField<{ object: { name: 'unknown' } }>, { name: unknown }>
   >(true);
 
-  //   invalid schema:
-  type TSchema = InferField<{ schema: { name: 'schema' } }>;
-  assert<IsExact<TSchema, { name: never }>>(true);
+  //   invalid object:
+  type TObject = InferField<{ object: { name: 'object' } }>;
+  assert<IsExact<TObject, { name: never }>>(true);
 
   //   union:
-  assert<IsExact<InferField<{ schema: { name: 'union' } }>, { name: never }>>(
+  assert<IsExact<InferField<{ object: { name: 'union' } }>, { name: never }>>(
     true
   );
-  type TSUnion = InferField<{ schema: { name: ['string', 'int'] } }>;
+  type TSUnion = InferField<{ object: { name: ['string', 'int'] } }>;
   assert<IsExact<TSUnion, { name: string | number }>>(true);
 
   //   enum:
-  type TSEnum = InferField<{ schema: { name: { enum: ['a', 'b'] } } }>;
+  type TSEnum = InferField<{ object: { name: { enum: ['a', 'b'] } } }>;
   assert<IsExact<TSEnum, { name: 'a' | 'b' }>>(true);
   //
 
   // ====== LIST STRING DEF =======
   //   any:
-  assert<IsExact<InferField<{ schema: { name: '[any]' } }>, { name: any[] }>>(
+  assert<IsExact<InferField<{ object: { name: '[any]' } }>, { name: any[] }>>(
     true
   );
 
   //   boolean:
   assert<
-    IsExact<InferField<{ schema: { name: '[boolean]' } }>, { name: boolean[] }>
+    IsExact<InferField<{ object: { name: '[boolean]' } }>, { name: boolean[] }>
   >(true);
 
   //   cursor:
   assert<
     IsExact<
-      InferField<{ schema: { name: '[cursor]' } }>,
+      InferField<{ object: { name: '[cursor]' } }>,
       { name: CursorType[] }
     >
   >(true); //   date:
 
   //   date
-  assert<IsExact<InferField<{ schema: { name: '[date]' } }>, { name: Date[] }>>(
+  assert<IsExact<InferField<{ object: { name: '[date]' } }>, { name: Date[] }>>(
     true
   );
 
   //   email:
   assert<
-    IsExact<InferField<{ schema: { name: '[email]' } }>, { name: string[] }>
+    IsExact<InferField<{ object: { name: '[email]' } }>, { name: string[] }>
   >(true);
 
   //   float:
   assert<
-    IsExact<InferField<{ schema: { name: '[float]' } }>, { name: number[] }>
+    IsExact<InferField<{ object: { name: '[float]' } }>, { name: number[] }>
   >(true);
 
   //   int:
   assert<
-    IsExact<InferField<{ schema: { name: '[int]' } }>, { name: number[] }>
+    IsExact<InferField<{ object: { name: '[int]' } }>, { name: number[] }>
   >(true);
 
   //   null:
-  type TNullList = InferField<{ schema: { name: '[null]' } }>;
+  type TNullList = InferField<{ object: { name: '[null]' } }>;
   assert<IsExact<TNullList, { name: null[] }>>(true);
 
   //   record:
   assert<
-    IsExact<InferField<{ schema: { name: '[record]' } }>, { name: AnyRecord[] }>
+    IsExact<InferField<{ object: { name: '[record]' } }>, { name: AnyRecord[] }>
   >(true);
 
   //   string:
   assert<
-    IsExact<InferField<{ schema: { name: '[string]' } }>, { name: string[] }>
+    IsExact<InferField<{ object: { name: '[string]' } }>, { name: string[] }>
   >(true);
 
   //   ulid:
   assert<
-    IsExact<InferField<{ schema: { name: '[ulid]' } }>, { name: string[] }>
+    IsExact<InferField<{ object: { name: '[ulid]' } }>, { name: string[] }>
   >(true);
 
   //   undefined:
   assert<
     IsExact<
-      InferField<{ schema: { name: '[undefined]' } }>,
+      InferField<{ object: { name: '[undefined]' } }>,
       { name: undefined[] }
     >
   >(true);
 
   //   unknown:
   assert<
-    IsExact<InferField<{ schema: { name: '[unknown]' } }>, { name: unknown[] }>
+    IsExact<InferField<{ object: { name: '[unknown]' } }>, { name: unknown[] }>
   >(true);
 
-  //   schema:
+  //   object:
   assert<
-    IsExact<InferField<{ schema: { name: '[schema]' } }>, { name: never[] }>
+    IsExact<InferField<{ object: { name: '[object]' } }>, { name: never[] }>
   >(true);
 
   //   union:
   assert<
-    IsExact<InferField<{ schema: { name: '[union]' } }>, { name: never[] }>
+    IsExact<InferField<{ object: { name: '[union]' } }>, { name: never[] }>
   >(true);
 
   //   enum:
   assert<
-    IsExact<InferField<{ schema: { name: '[enum]' } }>, { name: never[] }>
+    IsExact<InferField<{ object: { name: '[enum]' } }>, { name: never[] }>
   >(true);
   //
 
@@ -175,7 +175,7 @@ test('ParseFields schema typings', () => {
   //   any:
   assert<
     IsExact<
-      InferField<{ schema: { name: '[any]?' } }>,
+      InferField<{ object: { name: '[any]?' } }>,
       { name?: any[] | undefined }
     >
   >(true);
@@ -183,7 +183,7 @@ test('ParseFields schema typings', () => {
   //   boolean:
   assert<
     IsExact<
-      InferField<{ schema: { name: '[boolean]?' } }>,
+      InferField<{ object: { name: '[boolean]?' } }>,
       { name?: boolean[] | undefined }
     >
   >(true);
@@ -191,7 +191,7 @@ test('ParseFields schema typings', () => {
   //   cursor:
   assert<
     IsExact<
-      InferField<{ schema: { name: '[cursor]?' } }>,
+      InferField<{ object: { name: '[cursor]?' } }>,
       { name?: CursorType[] | undefined }
     >
   >(true); //   date:
@@ -199,7 +199,7 @@ test('ParseFields schema typings', () => {
   //   date
   assert<
     IsExact<
-      InferField<{ schema: { name: '[date]?' } }>,
+      InferField<{ object: { name: '[date]?' } }>,
       { name?: Date[] | undefined }
     >
   >(true);
@@ -207,7 +207,7 @@ test('ParseFields schema typings', () => {
   //   email:
   assert<
     IsExact<
-      InferField<{ schema: { name: '[email]?' } }>,
+      InferField<{ object: { name: '[email]?' } }>,
       { name?: string[] | undefined }
     >
   >(true);
@@ -215,7 +215,7 @@ test('ParseFields schema typings', () => {
   //   float:
   assert<
     IsExact<
-      InferField<{ schema: { name: '[float]?' } }>,
+      InferField<{ object: { name: '[float]?' } }>,
       { name?: number[] | undefined }
     >
   >(true);
@@ -223,7 +223,7 @@ test('ParseFields schema typings', () => {
   //   int:
   assert<
     IsExact<
-      InferField<{ schema: { name: '[int]?' } }>,
+      InferField<{ object: { name: '[int]?' } }>,
       { name?: number[] | undefined }
     >
   >(true);
@@ -231,7 +231,7 @@ test('ParseFields schema typings', () => {
   //   null:
   assert<
     IsExact<
-      InferField<{ schema: { name: '[null]?' } }>,
+      InferField<{ object: { name: '[null]?' } }>,
       { name?: null[] | undefined }
     >
   >(true);
@@ -239,35 +239,35 @@ test('ParseFields schema typings', () => {
   //   record:
   assert<
     IsExact<
-      InferField<{ schema: { name: '[record]?' } }>,
+      InferField<{ object: { name: '[record]?' } }>,
       { name?: AnyRecord[] | undefined }
     >
   >(true);
 
   //   string:
-  type TStringOptList = InferField<{ schema: { name: '[string]?' } }>;
+  type TStringOptList = InferField<{ object: { name: '[string]?' } }>;
   assert<IsExact<TStringOptList, { name?: string[] | undefined }>>(true);
 
   //   ulid:
-  type TUlid = InferField<{ schema: { name: '[ulid]?' } }>;
+  type TUlid = InferField<{ object: { name: '[ulid]?' } }>;
   assert<IsExact<TUlid, { name?: string[] | undefined }>>(true);
 
   //   undefined:
   assert<
     IsExact<
-      InferField<{ schema: { name: '[undefined]?' } }>,
+      InferField<{ object: { name: '[undefined]?' } }>,
       { name?: undefined[] | undefined }
     >
   >(true);
 
   //   unknown:
-  type TUnknownOptList = InferField<{ schema: { name: '[unknown]?' } }>;
+  type TUnknownOptList = InferField<{ object: { name: '[unknown]?' } }>;
   assert<IsExact<TUnknownOptList, { name?: unknown[] | undefined }>>(true);
 
-  //   schema:
+  //   object:
   assert<
     IsExact<
-      InferField<{ schema: { name: '[schema]?' } }>,
+      InferField<{ object: { name: '[object]?' } }>,
       { name?: never[] | undefined }
     >
   >(true);
@@ -275,7 +275,7 @@ test('ParseFields schema typings', () => {
   //   union:
   assert<
     IsExact<
-      InferField<{ schema: { name: '[union]?' } }>,
+      InferField<{ object: { name: '[union]?' } }>,
       { name?: never[] | undefined }
     >
   >(true);
@@ -283,7 +283,7 @@ test('ParseFields schema typings', () => {
   //   enum:
   assert<
     IsExact<
-      InferField<{ schema: { name: '[enum]?' } }>,
+      InferField<{ object: { name: '[enum]?' } }>,
       { name?: never[] | undefined }
     >
   >(true);

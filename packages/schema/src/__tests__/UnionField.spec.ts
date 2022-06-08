@@ -2,8 +2,8 @@ import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../Infer';
-import { createSchema } from '../Schema';
-import { schemaMetaFieldKey } from '../fields/MetaFieldField';
+import { createObjectType } from '../ObjectType';
+import { objectMetaFieldKey } from '../fields/MetaFieldField';
 import { UnionField } from '../fields/UnionField';
 import { _assert, _assertFields } from '../fields/__tests__/__assert';
 import { ToFinalField } from '../fields/_parseFields';
@@ -31,18 +31,18 @@ describe('Union', () => {
     ).toThrowError(new RuntimeError('ZZ?', { input: 'ZZ' }));
   });
 
-  it('should parse union with schema', async () => {
-    const schema1 = createSchema({ name: 'string' });
-    const schema2 = createSchema({ sub: schema1 });
-    const schema3 = createSchema({ sub: schema2 });
-    const sut = UnionField.create([schema3, schema1]).toList();
+  it('should parse union with object', async () => {
+    const object1 = createObjectType({ name: 'string' });
+    const object2 = createObjectType({ sub: object1 });
+    const object3 = createObjectType({ sub: object2 });
+    const sut = UnionField.create([object3, object1]).toList();
 
     expect(() => sut.parse([2, 'x'])).toThrow(
-      'Expected value to match one of the following types: schema.'
+      'Expected value to match one of the following types: object.'
     );
 
     expect(() => sut.parse([{ name: 1 }])).toThrow(
-      '➤ field "sub": expected type schema, found undefined. at position 0'
+      '➤ field "sub": expected type object, found undefined. at position 0'
     );
 
     expect(
@@ -55,16 +55,16 @@ describe('Union', () => {
   });
 
   test('union as array definition', async () => {
-    const subSchema = createSchema({ name: 'string' });
+    const subObject = createObjectType({ name: 'string' });
 
-    const sut = createSchema({
-      foo: ['[string]?', subSchema],
+    const sut = createObjectType({
+      foo: ['[string]?', subObject],
     } as const);
 
     expect(sut.parse({ foo: undefined })).toEqual({ foo: undefined });
 
     expect(() => sut.parse({ foo: 'a' })).toThrow(
-      'field "foo": Expected value to match one of the following types: string or schema.'
+      'field "foo": Expected value to match one of the following types: string or object.'
     );
 
     expect(sut.parse({ foo: { name: 'a' } })).toEqual({ foo: { name: 'a' } });
@@ -100,9 +100,9 @@ describe('Union', () => {
     } as const;
 
     // type S = ParsedFieldDefinition<[['[string]?']]>;
-    // type T = TypeFromSchema<{ name: S }>;
+    // type T = TypeFromObject<{ name: S }>;
 
-    // const gql = schemaToGQL('TempUnionField', def);
+    // const gql = objectToGQL('TempUnionField', def);
 
     // expect(gql.toSDL()).toEqual(
     //   'type TempUnionField {\n' +
@@ -128,7 +128,7 @@ describe('Union', () => {
   });
 
   test('complex parsing', () => {
-    const schema = createSchema({
+    const object = createObjectType({
       union1: { union: ['boolean', { enum: ['true', 'false'] }] },
       union1Optional: { union: ['boolean?', { enum: ['true', 'false'] }] },
       union1OptionalList: {
@@ -160,8 +160,8 @@ describe('Union', () => {
       },
     } as const);
 
-    expect(schema.definition).toEqual({
-      [schemaMetaFieldKey]: expect.anything(),
+    expect(object.definition).toEqual({
+      [objectMetaFieldKey]: expect.anything(),
       union1: {
         def: [
           {
@@ -331,7 +331,7 @@ describe('Union', () => {
 
     type QBool = 'true' | 'false' | boolean;
 
-    type TSchema = {
+    type TObject = {
       union1: QBool;
       union1Optional?: QBool;
       union1OptionalList?: QBool[];
@@ -345,7 +345,7 @@ describe('Union', () => {
     const random = (array = ['true', 'false', true, false] as const) =>
       array[Math.floor(Math.random() * array.length)];
 
-    const valid = (): TSchema => {
+    const valid = (): TObject => {
       const val = {
         union1: random(),
         union1Optional: random(),
@@ -361,12 +361,12 @@ describe('Union', () => {
       return val;
     };
 
-    schema.parse(valid());
-    schema.parse(valid());
-    schema.parse(valid());
-    schema.parse(valid());
-    schema.parse(valid());
-    schema.parse({
+    object.parse(valid());
+    object.parse(valid());
+    object.parse(valid());
+    object.parse(valid());
+    object.parse(valid());
+    object.parse({
       ...valid(),
       union3ListOptional: undefined,
       union1OptionalList: undefined,
@@ -375,14 +375,14 @@ describe('Union', () => {
   });
 
   describe('infer', () => {
-    it('infer array union with schema inside', () => {
-      const schema1 = createSchema({ a: 'string?' });
+    it('infer array union with object inside', () => {
+      const object1 = createObjectType({ a: 'string?' });
 
-      const u = ['int?', schema1] as const;
+      const u = ['int?', object1] as const;
       type P = ToFinalField<typeof u>;
 
       assert<IsExact<'union', P['type']>>(true);
-      assert<IsExact<'int?' | typeof schema1, P['def'][number]>>(true);
+      assert<IsExact<'int?' | typeof object1, P['def'][number]>>(true);
     });
 
     it('infer array union with optional as optional', () => {
@@ -461,7 +461,7 @@ describe('Union', () => {
       assert<IsExact<'int' | 'string', P['def'][number]>>(true);
     });
 
-    it('infer union from schema', () => {
+    it('infer union from object', () => {
       _assert<
         { union: ['boolean', { enum: ['true', 'false'] }] },
         boolean | 'true' | 'false'
@@ -521,7 +521,7 @@ describe('Union', () => {
         true
       >(true);
 
-      const schema = createSchema({
+      const object = createObjectType({
         union1: { union: ['boolean', { enum: ['true', 'false'] }] },
         union1Optional: { union: ['boolean?', { enum: ['true', 'false'] }] },
         union1OptionalList: {
@@ -566,7 +566,7 @@ describe('Union', () => {
 
       type QBool = 'true' | 'false' | boolean;
 
-      type TSchema = {
+      type TObject = {
         union1: QBool;
         union1Optional?: QBool | undefined;
         union1OptionalList: (QBool | undefined)[];
@@ -579,23 +579,23 @@ describe('Union', () => {
         union5ListOptional: (QBool | undefined)[]; // list containing undefined | boolean | 'true' | 'false'
       };
 
-      type SchemaInferred = Infer<typeof schema>;
+      type ObjectInferred = Infer<typeof object>;
 
-      _assertFields<SchemaInferred, TSchema>(true);
+      _assertFields<ObjectInferred, TObject>(true);
 
-      const schema2 = createSchema({
-        a: { union: [schema, 'string'] },
-        b: { union: [schema, '[string]?'] },
+      const object2 = createObjectType({
+        a: { union: [object, 'string'] },
+        b: { union: [object, '[string]?'] },
       } as const);
 
-      type TSchema2 = {
-        a: TSchema | string;
-        b?: TSchema | string[] | undefined;
+      type TObject2 = {
+        a: TObject | string;
+        b?: TObject | string[] | undefined;
       };
 
-      type Schema2Inferred = Infer<typeof schema2>;
+      type Object2Inferred = Infer<typeof object2>;
 
-      _assertFields<Schema2Inferred, TSchema2>(true);
+      _assertFields<Object2Inferred, TObject2>(true);
     });
   });
 

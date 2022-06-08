@@ -1,4 +1,4 @@
-import { FieldType, FieldTypeParser } from '../FieldType';
+import { FieldType, FieldTypeParser } from './FieldType';
 
 export class AnyField extends FieldType<any, 'any', undefined> {
   parse: FieldTypeParser<any>;

@@ -1,32 +1,32 @@
 import { getKeys } from '@darch/utils/lib/getKeys';
 
-import { TAnyFieldType } from './FieldType';
-import type { Schema } from './Schema';
+import type { ObjectType } from './ObjectType';
+import { TAnyFieldType } from './fields/FieldType';
 import { isMetaFieldKey, MetaFieldDef } from './fields/MetaFieldField';
 import {
   FinalFieldDefinition,
-  SchemaDefinitionInput,
+  ObjectDefinitionInput,
 } from './fields/_parseFields';
-import { __getCachedFieldInstance } from './parseSchemaDefinition';
+import { __getCachedFieldInstance } from './parseObjectDefinition';
 
-export type SchemaFieldListItem<T extends SchemaDefinitionInput> = {
+export type ObjectFieldListItem<T extends ObjectDefinitionInput> = {
   instance: TAnyFieldType;
   name: Extract<keyof T, string>;
   plainField: FinalFieldDefinition;
 };
 
-export type SchemaHelpers<T extends SchemaDefinitionInput> = {
-  list: SchemaFieldListItem<T>[];
+export type ObjectHelpers<T extends ObjectDefinitionInput> = {
+  list: ObjectFieldListItem<T>[];
   meta: MetaFieldDef | undefined;
   keys: Extract<keyof T, string>[];
 };
 
-export function getSchemaHelpers<T extends SchemaDefinitionInput>(
-  schema: Schema<T>
-): SchemaHelpers<T> {
-  const list: SchemaFieldListItem<T>[] = [];
-  const definition = schema.definition;
-  const keys = getKeys(schema.definition);
+export function getObjectHelpers<T extends ObjectDefinitionInput>(
+  object: ObjectType<T>
+): ObjectHelpers<T> {
+  const list: ObjectFieldListItem<T>[] = [];
+  const definition = object.definition;
+  const keys = getKeys(object.definition);
   let meta: MetaFieldDef | undefined;
 
   keys.forEach((fieldName) => {

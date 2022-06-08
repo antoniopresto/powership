@@ -1,10 +1,10 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../Infer';
-import { createSchema, Schema } from '../Schema';
-import { schemaMetaFieldKey } from '../fields/MetaFieldField';
+import { createObjectType, ObjectType } from '../ObjectType';
+import { objectMetaFieldKey } from '../fields/MetaFieldField';
 
-const userSchema = new Schema({
+const userObject = new ObjectType({
   name: 'string',
   optional: 'string?',
   age: 'int',
@@ -24,13 +24,13 @@ const userSchema = new Schema({
   },
 } as const);
 
-describe('Schema', () => {
+describe('Object', () => {
   beforeEach(() => {
-    Schema.register.clear();
+    ObjectType.register.clear();
   });
 
   it('handle definition', () => {
-    const sut = userSchema.definition;
+    const sut = userObject.definition;
 
     expect(sut).toEqual({
       age: {
@@ -72,11 +72,11 @@ describe('Schema', () => {
         optional: true,
         type: 'string',
       },
-      [schemaMetaFieldKey]: expect.anything(),
+      [objectMetaFieldKey]: expect.anything(),
     });
   });
 
-  it('should validate schema', () => {
+  it('should validate object', () => {
     const user = {
       name: 'Antonio',
       age: 1,
@@ -87,36 +87,36 @@ describe('Schema', () => {
       enumArray: ['1', '2'],
     };
 
-    expect(userSchema.parse(user)).toEqual(user);
+    expect(userObject.parse(user)).toEqual(user);
 
-    expect(() => userSchema.parse({ ...user, age: undefined })).toThrow(
+    expect(() => userObject.parse({ ...user, age: undefined })).toThrow(
       `➤ field "age": expected type int, found undefined.`
     );
 
-    expect(() => userSchema.parse({ ...user, enumArray: ['3'] })).toThrow(
+    expect(() => userObject.parse({ ...user, enumArray: ['3'] })).toThrow(
       "• enumArray[0] accepted: '1' or '2', found 3."
     );
   });
 
-  it('should validate schema inside schema', () => {
-    const subSchema = new Schema({
+  it('should validate object inside object', () => {
+    const subObject = new ObjectType({
       mySubField: { enum: ['foo'] },
     } as const);
 
-    const schema = new Schema({
+    const object = new ObjectType({
       name: 'string',
-      sub: subSchema,
+      sub: subObject,
     });
 
     expect(
-      schema.parse({
+      object.parse({
         name: 'a',
         sub: { mySubField: 'foo' },
       })
     ).toEqual({ name: 'a', sub: { mySubField: 'foo' } });
 
     expect(() =>
-      schema.parse({
+      object.parse({
         name: 'a',
         sub: { mySubField: 'INVALID' },
       })
@@ -124,110 +124,110 @@ describe('Schema', () => {
       '➤ field "sub": ➤ field "mySubField": accepted: \'foo\', found INVALID.'
     );
 
-    expect(() => schema.parse({ name: 'a', sub: 1 })).toThrow(
+    expect(() => object.parse({ name: 'a', sub: 1 })).toThrow(
       '➤ field "sub": expected object, found number.'
     );
 
-    expect(() => schema.parse({ name: 'a', sub: {} })).toThrow(
+    expect(() => object.parse({ name: 'a', sub: {} })).toThrow(
       '➤ field "sub": ➤ field "mySubField": expected type enum, found undefined.'
     );
   });
 
-  it('accepts schema as plain definition', () => {
-    const rolesSchema = new Schema({
+  it('accepts object as plain definition', () => {
+    const rolesObject = new ObjectType({
       name: 'string',
       permissions: '[string]',
       status: { enum: ['open', 'closed'] },
     } as const);
 
-    const mySchema = new Schema({
+    const myObject = new ObjectType({
       userId: 'string',
       roles: {
-        schema: rolesSchema,
+        object: rolesObject,
         list: true,
       },
     });
 
-    expect(mySchema.definition.roles.type).toBe('schema');
-    expect(mySchema.definition.roles.def).toEqual(rolesSchema.definition);
+    expect(myObject.definition.roles.type).toBe('object');
+    expect(myObject.definition.roles.def).toEqual(rolesObject.definition);
 
-    expect(() => mySchema.parse({ userId: '123' })).toThrow(
-      '➤ field "roles": expected type schema, found undefined.'
+    expect(() => myObject.parse({ userId: '123' })).toThrow(
+      '➤ field "roles": expected type object, found undefined.'
     );
 
-    expect(() => mySchema.parse({ userId: '123', roles: [] })).not.toThrow();
+    expect(() => myObject.parse({ userId: '123', roles: [] })).not.toThrow();
 
-    expect(() => mySchema.parse({ userId: '123', roles: [1] })).toThrow(
+    expect(() => myObject.parse({ userId: '123', roles: [1] })).toThrow(
       '• roles[0] expected object, found number'
     );
   });
 
-  it('accepts schema as field type', () => {
-    const rolesSchema = new Schema({
+  it('accepts object as field type', () => {
+    const rolesObject = new ObjectType({
       name: 'string',
       permissions: '[string]',
       status: { enum: ['open', 'closed'] },
     } as const);
 
-    const schema1 = new Schema({
+    const object1 = new ObjectType({
       userId: 'string',
       roles: {
-        type: rolesSchema,
+        type: rolesObject,
         list: true,
       },
     });
 
-    const schema2 = new Schema({
+    const object2 = new ObjectType({
       userId: 'string',
       roles: {
-        schema: rolesSchema,
+        object: rolesObject,
         list: true,
       },
     });
 
-    type T1 = Infer<typeof schema1>;
-    type T2 = Infer<typeof schema2>;
+    type T1 = Infer<typeof object1>;
+    type T2 = Infer<typeof object2>;
 
     assert<IsExact<T1, T2>>(true);
 
-    expect(schema1.definition).toEqual(schema2.definition);
+    expect(object1.definition).toEqual(object2.definition);
   });
 
   test('describe', () => {
-    const schema = createSchema({
+    const object = createObjectType({
       name: 'string',
       age: 'int?',
     })
-      .describe('my schema desc.')
+      .describe('my object desc.')
       .describe({
         name: 'the name field',
         age: 'the age field',
       });
 
-    expect(schema.definition.name.description).toEqual('the name field');
-    expect(schema.definition.age.description).toEqual('the age field');
+    expect(object.definition.name.description).toEqual('the name field');
+    expect(object.definition.age.description).toEqual('the age field');
   });
 
   test('clone', () => {
-    const schema1 = createSchema({
+    const object1 = createObjectType({
       name: 'string',
       age: 'int?',
     });
 
-    const schema2 = schema1.clone();
+    const object2 = object1.clone();
 
-    expect(schema1.definition).not.toBe(schema2.definition);
-    expect(schema1.definition).toEqual(schema2.definition);
-    expect(schema1.definition).toEqual(schema2.definition);
+    expect(object1.definition).not.toBe(object2.definition);
+    expect(object1.definition).toEqual(object2.definition);
+    expect(object1.definition).toEqual(object2.definition);
   });
 
   test('clone using function', () => {
-    const schema1 = createSchema({
+    const object1 = createObjectType({
       name: 'string',
       age: 'int?',
     });
 
-    const schema2 = schema1.clone((current) => {
+    const object2 = object1.clone((current) => {
       return {
         age: {
           ...current.age,
@@ -236,32 +236,32 @@ describe('Schema', () => {
       };
     });
 
-    type Final = Infer<typeof schema2>;
+    type Final = Infer<typeof object2>;
     assert<IsExact<Final, { age?: number[] | undefined }>>(true);
 
-    expect(schema1.definition).not.toBe(schema2.definition);
-    expect(schema2.definition).toEqual({
+    expect(object1.definition).not.toBe(object2.definition);
+    expect(object2.definition).toEqual({
       age: {
         list: true,
         optional: true,
         type: 'int',
       },
-      [schemaMetaFieldKey]: expect.anything(),
+      [objectMetaFieldKey]: expect.anything(),
     });
   });
 
   test('removeField', () => {
-    const schema1 = createSchema({
+    const object1 = createObjectType({
       name: 'string',
       age: 'int?',
       email: 'email',
     });
 
-    const noName = schema1.removeField('name');
-    const noEmail = schema1.removeField(['email']);
+    const noName = object1.removeField('name');
+    const noEmail = object1.removeField(['email']);
 
-    expect(schema1.definition).toEqual({
-      [schemaMetaFieldKey]: expect.anything(),
+    expect(object1.definition).toEqual({
+      [objectMetaFieldKey]: expect.anything(),
       age: {
         list: false,
         optional: true,
@@ -280,7 +280,7 @@ describe('Schema', () => {
     });
 
     expect(noName.definition).toEqual({
-      [schemaMetaFieldKey]: expect.anything(),
+      [objectMetaFieldKey]: expect.anything(),
       age: {
         list: false,
         optional: true,
@@ -293,7 +293,7 @@ describe('Schema', () => {
       },
     });
 
-    type T1 = Infer<typeof schema1>;
+    type T1 = Infer<typeof object1>;
     type NoName = Infer<typeof noName>;
     type NoEmail = Infer<typeof noEmail>;
 
@@ -302,16 +302,16 @@ describe('Schema', () => {
   });
 
   test('clone fields', () => {
-    const schema1 = createSchema({
+    const object1 = createObjectType({
       name: 'string',
       age: 'int?',
       email: 'email',
     });
 
-    const cloneNameAge = schema1.clone(['name', 'age']);
+    const cloneNameAge = object1.clone(['name', 'age']);
 
-    expect(schema1.definition).toEqual({
-      [schemaMetaFieldKey]: expect.anything(),
+    expect(object1.definition).toEqual({
+      [objectMetaFieldKey]: expect.anything(),
       age: {
         list: false,
         optional: true,
@@ -330,7 +330,7 @@ describe('Schema', () => {
     });
 
     expect(cloneNameAge.definition).toEqual({
-      [schemaMetaFieldKey]: expect.anything(),
+      [objectMetaFieldKey]: expect.anything(),
       age: {
         list: false,
         optional: true,
@@ -343,20 +343,20 @@ describe('Schema', () => {
       },
     });
 
-    type T1 = Infer<typeof schema1>;
+    type T1 = Infer<typeof object1>;
     type CloneNameAge = Infer<typeof cloneNameAge>;
 
     assert<IsExact<CloneNameAge, Omit<T1, 'email'>>>(true);
   });
 
   test('clone fields with transform', () => {
-    const schema1 = createSchema({
+    const object1 = createObjectType({
       name: 'string',
       age: 'int?',
       email: 'email',
     });
 
-    const clone = schema1.clone(
+    const clone = object1.clone(
       ['name', 'email'],
       (v) => {
         return {
@@ -368,8 +368,8 @@ describe('Schema', () => {
       'identifyMe'
     );
 
-    expect(schema1.definition).toEqual({
-      [schemaMetaFieldKey]: expect.anything(),
+    expect(object1.definition).toEqual({
+      [objectMetaFieldKey]: expect.anything(),
       age: {
         list: false,
         optional: true,
@@ -388,7 +388,7 @@ describe('Schema', () => {
     });
 
     expect(clone.definition).toEqual({
-      [schemaMetaFieldKey]: expect.anything(),
+      [objectMetaFieldKey]: expect.anything(),
       emails: {
         list: true,
         optional: false,
@@ -409,16 +409,16 @@ describe('Schema', () => {
   });
 
   test('makeOptional', () => {
-    const schema1 = createSchema({
+    const object1 = createObjectType({
       name: 'string',
       age: 'int?',
       email: 'email',
     });
 
-    const clone = schema1.makeOptional(['name', 'email']);
+    const clone = object1.makeOptional(['name', 'email']);
 
-    expect(schema1.definition).toEqual({
-      [schemaMetaFieldKey]: expect.anything(),
+    expect(object1.definition).toEqual({
+      [objectMetaFieldKey]: expect.anything(),
       age: {
         list: false,
         optional: true,
@@ -437,7 +437,7 @@ describe('Schema', () => {
     });
 
     expect(clone.definition).toEqual({
-      [schemaMetaFieldKey]: expect.anything(),
+      [objectMetaFieldKey]: expect.anything(),
       age: {
         list: false,
         optional: true,
@@ -455,23 +455,23 @@ describe('Schema', () => {
       },
     });
 
-    type T1 = Infer<typeof schema1>;
+    type T1 = Infer<typeof object1>;
     type Clone = Infer<typeof clone>;
 
     assert<IsExact<Clone, Partial<T1>>>(true);
   });
 
   test('makeRequired', () => {
-    const schema1 = createSchema({
+    const object1 = createObjectType({
       name: 'string',
       age: 'int?',
       email: 'email',
     });
 
-    const clone = schema1.makeRequired(['name', 'email', 'age']);
+    const clone = object1.makeRequired(['name', 'email', 'age']);
 
-    expect(schema1.definition).toEqual({
-      [schemaMetaFieldKey]: expect.anything(),
+    expect(object1.definition).toEqual({
+      [objectMetaFieldKey]: expect.anything(),
       age: {
         list: false,
         optional: true,
@@ -490,7 +490,7 @@ describe('Schema', () => {
     });
 
     expect(clone.definition).toEqual({
-      [schemaMetaFieldKey]: expect.anything(),
+      [objectMetaFieldKey]: expect.anything(),
       age: {
         list: false,
         optional: false,
@@ -508,24 +508,24 @@ describe('Schema', () => {
       },
     });
 
-    type T1 = Infer<typeof schema1>;
+    type T1 = Infer<typeof object1>;
     type Clone = Infer<typeof clone>;
 
     assert<IsExact<Clone, Required<T1>>>(true);
   });
 
   test('addFields', () => {
-    const schema1 = createSchema({
+    const object1 = createObjectType({
       name: 'string',
       age: 'int?',
     });
 
-    const withEmail = schema1.addFields({
+    const withEmail = object1.addFields({
       email: 'email',
     });
 
-    expect(schema1.definition).toEqual({
-      [schemaMetaFieldKey]: expect.anything(),
+    expect(object1.definition).toEqual({
+      [objectMetaFieldKey]: expect.anything(),
       age: {
         list: false,
         optional: true,
@@ -539,7 +539,7 @@ describe('Schema', () => {
     });
 
     expect(withEmail.definition).toEqual({
-      [schemaMetaFieldKey]: expect.anything(),
+      [objectMetaFieldKey]: expect.anything(),
       age: {
         list: false,
         optional: true,
@@ -557,7 +557,7 @@ describe('Schema', () => {
       },
     });
 
-    type T1 = Infer<typeof schema1>;
+    type T1 = Infer<typeof object1>;
     type WithEmail = Infer<typeof withEmail>;
 
     assert<IsExact<WithEmail, T1 & { email: string }>>(true);
@@ -565,7 +565,7 @@ describe('Schema', () => {
 
   test('number as string input', () => {
     expect(
-      createSchema({
+      createObjectType({
         age: 'int',
         weight: 'float',
       }).parse({ age: '32', weight: '83' })
@@ -577,46 +577,46 @@ describe('Schema', () => {
 
   describe('identify', () => {
     test('identify', () => {
-      const schema1 = createSchema({
+      const object1 = createObjectType({
         name: 'string',
         age: 'int?',
       });
 
-      expect(schema1.id).toBe(null);
+      expect(object1.id).toBe(null);
 
       // @ts-ignore
-      expect(() => schema1.identify()).toThrow();
-      expect(() => schema1.identify('')).toThrow();
+      expect(() => object1.identify()).toThrow();
+      expect(() => object1.identify('')).toThrow();
 
-      expect(schema1.identify('abc')).toHaveProperty('id', 'abc');
-      schema1.identify('abc');
-      schema1.identify('abc');
-      expect(() => schema1.identify('abcx')).toThrow(
+      expect(object1.identify('abc')).toHaveProperty('id', 'abc');
+      object1.identify('abc');
+      object1.identify('abc');
+      expect(() => object1.identify('abcx')).toThrow(
         'Trying to replace existing id "abc"'
       );
 
-      expect(Schema.register.get('abc')).toBe(schema1);
-      expect(() => Schema.register.get('yyy')).toThrow(
+      expect(ObjectType.register.get('abc')).toBe(object1);
+      expect(() => ObjectType.register.get('yyy')).toThrow(
         'There is no item with key "yyy"'
       );
     });
 
     test('does not clone id', () => {
-      const schema1 = createSchema({
+      const object1 = createObjectType({
         name: 'string',
         age: 'int?',
       }).identify('abc');
 
       // @ts-ignore
-      expect(schema1.id).toBe('abc');
+      expect(object1.id).toBe('abc');
 
       // @ts-ignore
-      expect(schema1.clone().id).toBe(null);
+      expect(object1.clone().id).toBe(null);
     });
   });
 
   test('.entity(name: string) should identify before creating a OTC type', () => {
-    const type = createSchema({
+    const type = createObjectType({
       name: 'string',
       age: 'int?',
     }).toGraphQL('User');

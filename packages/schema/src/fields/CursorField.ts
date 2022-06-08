@@ -1,6 +1,6 @@
-import { FieldType, FieldTypeParser } from '../FieldType';
-import type { Schema } from '../Schema';
+import type { ObjectType } from '../ObjectType';
 
+import { FieldType, FieldTypeParser } from './FieldType';
 import { CursorType } from './_fieldDefinitions';
 
 const def = {
@@ -47,34 +47,34 @@ const def = {
 
 type CursorDef = typeof def;
 
-let cursorSchema: Schema<CursorDef> | undefined;
+let cursorObject: ObjectType<CursorDef> | undefined;
 
-function getCursorSchema() {
+function getCursorObject() {
   // circular dependency
-  const { createSchema } = require('../Schema');
-  cursorSchema = cursorSchema || createSchema('Cursor', def);
-  return cursorSchema;
+  const { createObjectType } = require('../ObjectType');
+  cursorObject = cursorObject || createObjectType('Cursor', def);
+  return cursorObject;
 }
 
 export class CursorField extends FieldType<CursorType, 'cursor', undefined> {
   parse: FieldTypeParser<CursorType>;
 
   utils: {
-    schema: Schema<CursorDef>;
+    object: ObjectType<CursorDef>;
   };
 
-  static schema() {
-    return getCursorSchema()!;
+  static object() {
+    return getCursorObject()!;
   }
 
   constructor() {
     super('cursor', undefined);
 
     this.utils = {
-      schema: getCursorSchema()!,
+      object: getCursorObject()!,
     };
 
-    const parser = this.utils.schema.parse.bind(this.utils.schema);
+    const parser = this.utils.object.parse.bind(this.utils.object);
 
     this.parse = this.applyParser({
       parse: (value) => {

@@ -5,20 +5,20 @@ import { assertSame } from '@darch/utils/lib/assertSame';
 
 import {
   FinalFieldDefinition,
-  SchemaDefinitionInput,
+  ObjectDefinitionInput,
 } from './fields/_parseFields';
-import { parseSchemaDefinition } from './parseSchemaDefinition';
+import { parseObjectDefinition } from './parseObjectDefinition';
 
 export function assertSameDefinition(
   id: string,
-  a: SchemaDefinitionInput,
-  b: SchemaDefinitionInput
+  a: ObjectDefinitionInput,
+  b: ObjectDefinitionInput
 ) {
-  a = parseSchemaDefinition(a, { omitMeta: true }).definition;
-  b = parseSchemaDefinition(b, { omitMeta: true }).definition;
+  a = parseObjectDefinition(a, { omitMeta: true }).definition;
+  b = parseObjectDefinition(b, { omitMeta: true }).definition;
 
   assertSame(
-    `An Schema with name "${id}" is already registered with another definition.`,
+    `An Object with name "${id}" is already registered with another definition.`,
     a,
     b
   );

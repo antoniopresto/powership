@@ -1,9 +1,9 @@
-// MetaField is a special field type used to add metadata to a schema
+// MetaField is a special field type used to add metadata to an object
 
 import { expectedType } from '@darch/utils/lib/expectedType';
 import { nonNullValues } from '@darch/utils/lib/invariant';
 
-import { FieldType, FieldTypeParser } from '../FieldType';
+import { FieldType, FieldTypeParser } from './FieldType';
 
 export type Serializable = null | undefined | Stringifiable | SerializableList;
 
@@ -48,37 +48,37 @@ export class MetaField extends FieldType<MetaField, 'meta', MetaFieldDef> {
   static create = (def: MetaFieldDef = { id: null }): MetaField => {
     return new MetaField(def);
   };
-  
+
   toString = () => `${this.typeName}(${this.def?.id || ''})`;
 }
 
-export const schemaMetaFieldKey = '__dschm__';
+export const objectMetaFieldKey = '__dschm__';
 
-export function isMetaFieldKey(t: any): t is typeof schemaMetaFieldKey {
-  return t === schemaMetaFieldKey;
+export function isMetaFieldKey(t: any): t is typeof objectMetaFieldKey {
+  return t === objectMetaFieldKey;
 }
 
 export function isMetaField(
   t: any,
   fieldName?: string
 ): t is MetaField['asFinalField'] {
-  if (fieldName && fieldName !== schemaMetaFieldKey) return false;
+  if (fieldName && fieldName !== objectMetaFieldKey) return false;
   return (
     t && typeof t === 'object' && t.type === 'meta' && typeof t.def === 'object'
   );
 }
 
-export function getSchemaDefinitionMetaField(
+export function getObjectDefinitionMetaField(
   input: Record<string, any>
 ): MetaField['asFinalField'] | undefined {
-  return input[schemaMetaFieldKey];
+  return input[objectMetaFieldKey];
 }
 
-export function getSchemaDefinitionId(definition: Record<string, any>): string {
+export function getObjectDefinitionId(definition: Record<string, any>): string {
   return nonNullValues(
     {
-      id: getSchemaDefinitionMetaField(definition)?.def?.id,
+      id: getObjectDefinitionMetaField(definition)?.def?.id,
     },
-    'Schema not identified.'
+    'Object not identified.'
   ).id;
 }

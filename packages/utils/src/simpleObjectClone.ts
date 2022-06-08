@@ -8,8 +8,11 @@ export function simpleObjectClone<T>(input: T): T {
   try {
     return JSON.parse(JSON.stringify(input));
   } catch (e: any) {
-    throw new RuntimeError('Failed to execute JSON.stringify() on input object', {
-      input,
-    });
+    throw new RuntimeError(
+      'Failed to execute JSON.stringify() on input object',
+      {
+        input,
+      }
+    );
   }
 }

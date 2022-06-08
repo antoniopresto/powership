@@ -1,9 +1,9 @@
-import { createSchema } from '../Schema';
-import { schemaToJSON } from '../schemaToJSON';
+import { createObjectType } from '../ObjectType';
+import { objectToJSON } from '../objectToJSON';
 
-describe('schemaToJSON', () => {
+describe('objectToJSON', () => {
   it('works', async () => {
-    const schema = createSchema({
+    const object = createObjectType({
       name: 'string',
       date: 'date',
       pointers: '[cursor]',
@@ -13,7 +13,7 @@ describe('schemaToJSON', () => {
       sex: { enum: ['m', 'f', 'o'] },
       addresses: [
         {
-          schema: {
+          object: {
             kind: { enum: ['home'] },
             street: 'string',
             number: ['string', 'float'],
@@ -23,21 +23,21 @@ describe('schemaToJSON', () => {
           description: 'Home address',
         },
         {
-          schema: {
+          object: {
             kind: { enum: ['work'] },
             weekDays: { enum: ['0', '1', '2', '3', '4', '5', '6'] },
           },
         },
       ],
     })
-      .describe('My Custom Schema')
+      .describe('My Custom Object')
       .describe({ name: 'person name', pointers: 'some pointers' });
 
-    const sut = schemaToJSON('MyTypeABX', schema);
+    const sut = objectToJSON('MyTypeABX', object);
 
     expect(sut).toEqual({
       additionalProperties: false,
-      description: 'My Custom Schema',
+      description: 'My Custom Object',
       properties: {
         addresses: {
           anyOf: [

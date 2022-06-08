@@ -15,9 +15,9 @@ import { ULID_REGEX, UlidField } from '../fields/UlidField';
 import { UnknownField } from '../fields/UnknownField';
 import { _assertFields } from '../fields/__tests__/__assert';
 import { CursorType } from '../fields/_fieldDefinitions';
-import { createSchema, Schema } from '../index';
-import { schemaToGQL } from '../schemaToGQL';
-import { schemaToTypescript } from '../schemaToTypescript';
+import { createObjectType, ObjectType } from '../index';
+import { objectToGQL } from '../objectToGQL';
+import { objectToTypescript } from '../objectToTypescript';
 
 describe('FieldTypes', () => {
   describe('StringField', () => {
@@ -69,7 +69,7 @@ describe('FieldTypes', () => {
         },
       } as const;
 
-      const gql = schemaToGQL('TempString', def);
+      const gql = objectToGQL('TempString', def);
 
       expect(gql.typeToString().split('\n')).toEqual([
         'type TempString {',
@@ -131,7 +131,7 @@ describe('FieldTypes', () => {
         },
       } as const;
 
-      const gql = schemaToGQL('TempUlid', def);
+      const gql = objectToGQL('TempUlid', def);
 
       expect(gql.typeToString().split('\n')).toEqual([
         'type TempUlid {',
@@ -200,7 +200,7 @@ describe('FieldTypes', () => {
         },
       } as const;
 
-      const gql = schemaToGQL('TempInt', def);
+      const gql = objectToGQL('TempInt', def);
 
       expect(gql.typeToString().split('\n')).toEqual([
         'type TempInt {',
@@ -264,7 +264,7 @@ describe('FieldTypes', () => {
         },
       } as const;
 
-      const gql = schemaToGQL('TempFloatField', def);
+      const gql = objectToGQL('TempFloatField', def);
 
       expect(gql.typeToString().split('\n')).toEqual([
         'type TempFloatField {',
@@ -321,7 +321,7 @@ describe('FieldTypes', () => {
         },
       } as const;
 
-      const gql = schemaToGQL('TempEnumField', def);
+      const gql = objectToGQL('TempEnumField', def);
 
       expect(gql.typeToString().split('\n')).toEqual([
         'type TempEnumField {',
@@ -386,7 +386,7 @@ describe('FieldTypes', () => {
         },
       } as const;
 
-      const gql = schemaToGQL('TempEmail', def);
+      const gql = objectToGQL('TempEmail', def);
 
       expect(gql.typeToString().split('\n')).toEqual([
         'type TempEmail {',
@@ -466,7 +466,7 @@ describe('FieldTypes', () => {
           def: {
             keyType: 'int',
             type: {
-              record: { type: { schema: { name: ['string', '[int]?'] } } },
+              record: { type: { object: { name: ['string', '[int]?'] } } },
             },
           },
           optional: true,
@@ -474,7 +474,7 @@ describe('FieldTypes', () => {
         },
       } as const;
 
-      const gql = schemaToGQL('TempRecord', def);
+      const gql = objectToGQL('TempRecord', def);
 
       expect(gql.typeToString().split('\n')).toEqual([
         'type TempRecord {',
@@ -500,7 +500,7 @@ describe('FieldTypes', () => {
       ]);
 
       type AnyRecord = Record<string, any>;
-      type T = Infer<Schema<typeof def>>;
+      type T = Infer<ObjectType<typeof def>>;
 
       assert<
         IsExact<
@@ -525,11 +525,11 @@ describe('FieldTypes', () => {
 
     // TODO
     xtest('ts-types', async () => {
-      const schema = createSchema({
+      const object = createObjectType({
         r1: {
           record: {
             type: {
-              schema: {
+              object: {
                 name: 'string',
                 age: 'int',
               },
@@ -540,7 +540,7 @@ describe('FieldTypes', () => {
         r3: '[record]?',
       });
 
-      const sut = await schemaToTypescript('records', schema.definition);
+      const sut = await objectToTypescript('records', object.definition);
 
       expect(sut).toEqual('');
     });
@@ -590,7 +590,7 @@ describe('FieldTypes', () => {
         },
       } as const;
 
-      const gql = schemaToGQL('TempDate', def);
+      const gql = objectToGQL('TempDate', def);
 
       expect(gql.typeToString().split('\n')).toEqual([
         'type TempDate {',
@@ -675,7 +675,7 @@ describe('FieldTypes', () => {
         },
       } as const;
 
-      const gql = schemaToGQL('TempCursorField', def);
+      const gql = objectToGQL('TempCursorField', def);
 
       expect(gql.typeToString().split('\n')).toEqual([
         'type TempCursorField {',
@@ -753,7 +753,7 @@ describe('FieldTypes', () => {
         },
       } as const;
 
-      const gql = schemaToGQL('TempBooleanField', def);
+      const gql = objectToGQL('TempBooleanField', def);
 
       expect(gql.typeToString().split('\n')).toEqual([
         'type TempBooleanField {',
@@ -818,7 +818,7 @@ describe('FieldTypes', () => {
         },
       } as const;
 
-      const gql = schemaToGQL('TempUnknownField', def);
+      const gql = objectToGQL('TempUnknownField', def);
 
       expect(gql.typeToString().split('\n')).toEqual([
         'type TempUnknownField {',

@@ -1,12 +1,12 @@
 import { printSchema } from 'graphql';
 
-import { createType } from '../DarchGraphQLType';
-import { Schema } from '../Schema';
+import { createType } from '../DarchType';
+import { ObjectType } from '../ObjectType';
 import { createGraphQLSchema } from '../createGraphQLSchema';
 
-describe('createGraphQLSchema', () => {
+describe('createGraphQLObject', () => {
   afterEach(async () => {
-    await Schema.reset();
+    await ObjectType.reset();
   });
 
   it('works', async () => {
@@ -22,33 +22,33 @@ describe('createGraphQLSchema', () => {
       },
     });
 
-    const schema1 = createGraphQLSchema();
+    const object1 = createGraphQLSchema();
 
-    const schema2 = createGraphQLSchema([lettersResolver]);
+    const object2 = createGraphQLSchema([lettersResolver]);
 
-    const schema3 = createGraphQLSchema({
-      description: 'Schema3',
+    const object3 = createGraphQLSchema({
+      description: 'Object3',
     });
 
-    const schema4 = createGraphQLSchema([numbersResolver], {
-      description: 'Schema4',
+    const object4 = createGraphQLSchema([numbersResolver], {
+      description: 'Object4',
     });
 
-    expect(printSchema(schema1).split('\n')).toEqual([
+    expect(printSchema(object1).split('\n')).toEqual([
       'type Query {',
       '  Numbers: [Int]!',
       '  Letters: [String]',
       '}',
     ]);
 
-    expect(printSchema(schema2).split('\n')).toEqual([
+    expect(printSchema(object2).split('\n')).toEqual([
       'type Query {',
       '  Letters: [String]',
       '}',
     ]);
 
-    expect(printSchema(schema3).split('\n')).toEqual([
-      '"""Schema3"""',
+    expect(printSchema(object3).split('\n')).toEqual([
+      '"""Object3"""',
       'schema {',
       '  query: Query',
       '}',
@@ -59,8 +59,8 @@ describe('createGraphQLSchema', () => {
       '}',
     ]);
 
-    expect(printSchema(schema4).split('\n')).toEqual([
-      '"""Schema4"""',
+    expect(printSchema(object4).split('\n')).toEqual([
+      '"""Object4"""',
       'schema {',
       '  query: Query',
       '}',
@@ -79,16 +79,15 @@ describe('createGraphQLSchema', () => {
       },
     });
 
-    const schema = createGraphQLSchema({});
+    const object = createGraphQLSchema({});
 
-    expect(printSchema(schema).split('\n')).toEqual([
+    expect(printSchema(object).split('\n')).toEqual([
       'type Subscription {',
       '  Numbers: [Int]!',
       '}',
     ]);
   });
-  
-  
+
   it('should add mutation', async () => {
     createType('Numbers', '[int]').createResolver({
       kind: 'mutation',
@@ -97,9 +96,9 @@ describe('createGraphQLSchema', () => {
       },
     });
 
-    const schema = createGraphQLSchema({});
+    const object = createGraphQLSchema({});
 
-    expect(printSchema(schema).split('\n')).toEqual([
+    expect(printSchema(object).split('\n')).toEqual([
       'type Mutation {',
       '  Numbers: [Int]!',
       '}',

@@ -1,27 +1,27 @@
 import { NullableToPartial } from '@darch/utils/lib/typeUtils';
 
-import { SchemaLike } from './ISchemaLike';
+import { ObjectLike } from './IObjectLike';
 import {
   CursorType,
   FieldDefinitions,
   FieldTypeName,
 } from './_fieldDefinitions';
 
-export type SchemaFieldInput =
-  | SchemaLike
-  | SchemaInTypeFieldDefinition
+export type ObjectFieldInput =
+  | ObjectLike
+  | ObjectInTypeFieldDefinition
   | FinalFieldDefinition
   | FieldAsString
   | FlattenFieldDefinition
-  | SchemaInputArray
-  | Readonly<SchemaInputArray>;
+  | ObjectInputArray
+  | Readonly<ObjectInputArray>;
 // should update Infer.ts if add any new type here
 
 // https://github.com/microsoft/TypeScript/issues/3496#issuecomment-128553540
-interface SchemaInputArray extends Readonly<Array<SchemaFieldInput>> {}
+interface ObjectInputArray extends Readonly<Array<ObjectFieldInput>> {}
 
-export interface SchemaInTypeFieldDefinition {
-  type: SchemaLike;
+export interface ObjectInTypeFieldDefinition {
+  type: ObjectLike;
   def?: never;
   list?: boolean;
   optional?: boolean;
@@ -29,11 +29,11 @@ export interface SchemaInTypeFieldDefinition {
   __infer?: any;
 }
 
-export interface SchemaDefinitionInput {
-  [K: string]: SchemaFieldInput;
+export interface ObjectDefinitionInput {
+  [K: string]: ObjectFieldInput;
 }
 
-export type InferSchemaDefinition<Def> = NullableToPartial<{
+export type InferObjectDefinition<Def> = NullableToPartial<{
   -readonly [K in keyof Def]: InferField<Def[K]>;
 }>;
 
@@ -43,7 +43,7 @@ export type ParseFields<Input> = {
   -readonly [K in keyof Input]: ToFinalField<Input[K]>;
 };
 
-export type FinalSchemaDefinition = { [K: string]: FinalFieldDefinition };
+export type FinalObjectDefinition = { [K: string]: FinalFieldDefinition };
 
 export type FinalFieldDefinition = {
   [K in FieldTypeName]: {
@@ -80,40 +80,40 @@ export type ToFinalField<Base> =
           : // === end handling fieldType instance
 
           Base extends {
-              type: SchemaLike;
+              type: ObjectLike;
               list?: infer List;
               optional?: infer Optional;
             }
           ? {
-              type: 'schema';
+              type: 'object';
               def: Base['type']['definition'];
               list: [List] extends [true] ? true : false;
               optional: [Optional] extends [true] ? true : false;
-              __infer: InferSchemaDefinition<Base['type']['definition']>;
+              __infer: InferObjectDefinition<Base['type']['definition']>;
             }
           : //
           Base extends {
-              schema: SchemaLike;
+              object: ObjectLike;
               list?: infer List;
               optional?: infer Optional;
             }
           ? {
-              type: 'schema';
-              def: Base['schema']['definition'];
+              type: 'object';
+              def: Base['object']['definition'];
               list: [List] extends [true] ? true : false;
               optional: [Optional] extends [true] ? true : false;
-              __infer: InferSchemaDefinition<Base['schema']['definition']>;
+              __infer: InferObjectDefinition<Base['object']['definition']>;
             }
           : //
           //
-          Base extends SchemaLike
+          Base extends ObjectLike
           ? {
-              type: 'schema';
+              type: 'object';
               def: Base['definition'];
               list: false;
               optional: false;
               description: string | undefined;
-              __infer: InferSchemaDefinition<Base['definition']>;
+              __infer: InferObjectDefinition<Base['definition']>;
             }
           : //
 
@@ -162,10 +162,10 @@ type _injectInfer<T> = T extends {
   def: infer Def;
 }
   ? T & {
-      __infer: // === recursive schema case ===
-      T['type'] extends 'schema'
+      __infer: // === recursive object case ===
+      T['type'] extends 'object'
         ? Def extends { [K: string]: any }
-          ? InferSchemaDefinition<Def>
+          ? InferObjectDefinition<Def>
           : never
         : //
         // === recursive union case ===

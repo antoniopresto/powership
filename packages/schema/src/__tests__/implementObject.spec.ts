@@ -1,35 +1,35 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../Infer';
-import { createSchema, Schema } from '../Schema';
-import { implementSchema, ImplementSchema } from '../implementSchema';
+import { createObjectType, ObjectType } from '../ObjectType';
+import { implementObject, ImplementObject } from '../implementObject';
 
-describe('implementSchema', () => {
-  afterEach(Schema.reset);
+describe('implementObject', () => {
+  afterEach(ObjectType.reset);
 
-  test('infer ImplementSchema', async () => {
-    const nodeType = createSchema('Node', {
+  test('infer ImplementObject', async () => {
+    const nodeType = createObjectType('Node', {
       id: 'ID',
     });
 
-    const ship = createSchema({ name: 'string' });
+    const ship = createObjectType({ name: 'string' });
 
-    type Result = ImplementSchema<typeof nodeType, [typeof ship]>;
+    type Result = ImplementObject<typeof nodeType, [typeof ship]>;
     type Inferred = Infer<Result>;
 
     assert<IsExact<Inferred, { id: string; name: string }>>(true);
   });
 
-  test('infer implementSchema', async () => {
-    const nodeType = createSchema('Node', {
+  test('infer implementObject', async () => {
+    const nodeType = createObjectType('Node', {
       id: 'ID',
     });
 
-    const pageNodeType = createSchema('PageNode', {
+    const pageNodeType = createObjectType('PageNode', {
       title: 'string',
     });
 
-    const ship = implementSchema(
+    const ship = implementObject(
       'ship',
       { name: 'string' },
       nodeType,
@@ -45,16 +45,16 @@ describe('implementSchema', () => {
   });
 
   it('Should extend definition', async () => {
-    const nodeType = createSchema('Node', {
+    const nodeType = createObjectType('Node', {
       id: 'ID',
       status: { enum: ['published', 'draft'] },
     } as const);
 
-    const pageNodeType = createSchema('PageNode', {
+    const pageNodeType = createObjectType('PageNode', {
       title: 'string',
     });
 
-    const postType = implementSchema(
+    const postType = implementObject(
       'Post',
       { body: 'string' },
       nodeType,
@@ -94,16 +94,16 @@ describe('implementSchema', () => {
   });
 
   it('Should create graphql type', async () => {
-    const nodeType = createSchema('Node', {
+    const nodeType = createObjectType('Node', {
       id: 'ID',
       status: { enum: ['published', 'draft'] },
     } as const);
 
-    const pageNodeType = createSchema('PageNode', {
+    const pageNodeType = createObjectType('PageNode', {
       title: 'string',
     });
 
-    const postType = implementSchema(
+    const postType = implementObject(
       'Post',
       { body: 'string' },
       nodeType,

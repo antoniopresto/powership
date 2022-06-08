@@ -1,6 +1,6 @@
 import { expectedType } from '@darch/utils/lib/expectedType';
 
-import { FieldType, FieldTypeParser } from '../FieldType';
+import { FieldType, FieldTypeParser } from './FieldType';
 
 export type DateFieldDef = {
   min?: Date;

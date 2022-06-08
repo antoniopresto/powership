@@ -25,16 +25,16 @@ import {
 } from 'graphql';
 import { GraphQLInterfaceTypeConfig } from 'graphql/type/definition';
 
-import { TAnyFieldType } from '../FieldType';
-import { isSchema, Schema } from '../Schema';
+import { isObject, ObjectType } from '../ObjectType';
 import { assertSameDefinition } from '../assertSameDefinition';
 import type { CursorField } from '../fields/CursorField';
-import { SubSchemaField } from '../fields/SubSchema';
+import { TAnyFieldType } from '../fields/FieldType';
+import { ObjectField } from '../fields/ObjectField';
 import type { UnionField } from '../fields/UnionField';
 import { FieldTypeName } from '../fields/_fieldDefinitions';
 import {
   FinalFieldDefinition,
-  SchemaDefinitionInput,
+  ObjectDefinitionInput,
 } from '../fields/_parseFields';
 import { parseTypeName } from '../parseTypeName';
 
@@ -55,7 +55,7 @@ export interface GraphQLParserResult {
   getInputType: (options?: ParseTypeOptions) => GraphQLInputObjectType;
   getType: (options?: ParseTypeOptions) => GraphQLObjectType;
   interfaceType: (options?: ParseInterfaceOptions) => GraphQLInterfaceType;
-  schema: Schema<any>;
+  object: ObjectType<any>;
 }
 
 export interface ConvertFieldResult {
@@ -82,33 +82,33 @@ export class GraphQLParser {
     fieldsRegister.clear();
   };
 
-  static schemaToGraphQL<T extends SchemaDefinitionInput>(options: {
-    schema: Schema<T>;
-    path?: string[]; // family tree of a schema/field
+  static objectToGraphQL<T extends ObjectDefinitionInput>(options: {
+    object: ObjectType<T>;
+    path?: string[]; // family tree of an object/field
   }): GraphQLParserResult {
-    const { schema, path } = options;
+    const { object, path } = options;
 
-    if (!isSchema(schema)) {
-      throw new RuntimeError(`Invalid Schema.`, {
-        schema,
+    if (!isObject(object)) {
+      throw new RuntimeError(`Invalid Object.`, {
+        object,
       });
     }
 
-    const { id: schemaId } = nonNullValues(
-      { id: schema.id },
-      'The provided schema should be identified before converting. ' +
-        'You can use schema.identify("abc")'
+    const { id: objectId } = nonNullValues(
+      { id: object.id },
+      'The provided object should be identified before converting. ' +
+        'You can use object.identify("abc")'
     );
 
-    const { implements: _implements } = schema.meta;
+    const { implements: _implements } = object.meta;
 
-    if (resultsCache.has(schemaId)) {
-      const cached = resultsCache.get(schemaId);
+    if (resultsCache.has(objectId)) {
+      const cached = resultsCache.get(objectId);
       if (!isProduction()) {
         assertSameDefinition(
-          schemaId,
-          cached.schema.definition,
-          schema.definition
+          objectId,
+          cached.object.definition,
+          object.definition
         );
       }
       return cached;
@@ -116,31 +116,31 @@ export class GraphQLParser {
 
     // save reference for circular dependencies
     const graphqlParsed = {} as GraphQLParserResult;
-    resultsCache.set(schemaId, graphqlParsed);
+    resultsCache.set(objectId, graphqlParsed);
 
-    const helpers = schema.helpers();
+    const helpers = object.helpers();
     const builders: ConvertFieldResult[] = [];
 
     helpers.list.forEach(({ name: fieldName, instance, plainField }) => {
       builders.push(
         this.fieldToGraphQL({
           field: instance,
-          parentName: schemaId,
+          parentName: objectId,
           fieldName,
-          path: path || [schemaId],
+          path: path || [objectId],
           plainField,
         })
       );
     });
 
     function getType(options: ParseTypeOptions = {}) {
-      const { name = schemaId, interfaces } = options;
+      const { name = objectId, interfaces } = options;
 
       const parents = _implements
         ? () =>
             _implements.map((parent) =>
               (
-                Schema.register.get(parent) as Schema<any>
+                ObjectType.register.get(parent) as ObjectType<any>
               ).graphqlInterfaceType()
             )
         : undefined;
@@ -187,7 +187,7 @@ export class GraphQLParser {
     }
 
     function getInputType(options: ParseTypeOptions = {}) {
-      const { name = `${schemaId}Input` } = options;
+      const { name = `${objectId}Input` } = options;
 
       if (graphqlTypesRegister.has(name)) {
         return graphqlTypesRegister.get(name);
@@ -218,7 +218,7 @@ export class GraphQLParser {
     }
 
     function interfaceType(options: ParseInterfaceOptions = {}) {
-      const { name = `${schemaId}Interface` } = options;
+      const { name = `${objectId}Interface` } = options;
 
       if (graphqlTypesRegister.has(name)) {
         return graphqlTypesRegister.get(name);
@@ -251,19 +251,19 @@ export class GraphQLParser {
     function getSDL() {
       const result = getType();
 
-      const schema = new GraphQLSchema({
+      const object = new GraphQLSchema({
         types: [result],
       });
 
-      return printSchema(schema);
+      return printSchema(object);
     }
 
     function getInputSDL() {
-      const schema = new GraphQLSchema({
+      const object = new GraphQLSchema({
         types: [getInputType()],
       });
 
-      return printSchema(schema);
+      return printSchema(object);
     }
 
     const parsed: GraphQLParserResult = {
@@ -272,7 +272,7 @@ export class GraphQLParser {
       typeToString: getSDL,
       getInputType,
       interfaceType,
-      schema,
+      object,
     };
 
     Object.assign(graphqlParsed, parsed);
@@ -352,8 +352,8 @@ export class GraphQLParser {
         const cursor = field as CursorField;
 
         return {
-          inputType: cursor.utils.schema.graphqlInputType,
-          type: cursor.utils.schema.graphqlType,
+          inputType: cursor.utils.object.graphqlInputType,
+          type: cursor.utils.object.graphqlType,
         };
       },
       date() {
@@ -405,17 +405,17 @@ export class GraphQLParser {
           type: () => GraphQLUnknownType,
         };
       },
-      schema() {
+      object() {
         const id = parseTypeName({
           parentName,
           field,
           fieldName,
         });
 
-        const schema = Schema.getOrSet(id, field.def);
+        const object = ObjectType.getOrSet(id, field.def);
 
-        const res = self.schemaToGraphQL({
-          schema,
+        const res = self.objectToGraphQL({
+          object,
         });
 
         return { inputType: res.getInputType, type: res.getType };
@@ -428,7 +428,7 @@ export class GraphQLParser {
             ...options,
             name: subTypeName,
             types: union.utils.fieldTypes.map((field) => {
-              if (!SubSchemaField.is(field)) {
+              if (!ObjectField.is(field)) {
                 // also relevant: https://github.com/graphql/graphql-js/issues/207
                 throw new RuntimeError(
                   `GraphQL union items must be objects: https://github.com/graphql/graphql-spec/issues/215`,
@@ -439,7 +439,7 @@ export class GraphQLParser {
                 );
               }
 
-              return field.utils.schema.graphqlType();
+              return field.utils.object.graphqlType();
             }),
           });
         }

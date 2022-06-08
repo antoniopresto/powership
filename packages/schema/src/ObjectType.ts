@@ -14,52 +14,52 @@ import type {
   GraphQLObjectType,
 } from 'graphql';
 
-import type { DarchGraphQLType } from './DarchGraphQLType';
+import type { DarchType } from './DarchType';
 import type { ParseTypeOptions } from './GraphQLParser/GraphQLParser';
 import type { ParseInterfaceOptions } from './GraphQLParser/GraphQLParser';
 import type { Infer } from './Infer';
-import type { SchemaDefinitionInput } from './TSchemaConfig';
+import type { ObjectDefinitionInput } from './TObjectConfig';
 import {
   parseValidationError,
   ValidationCustomMessage,
 } from './applyValidator';
 import { assertSameDefinition } from './assertSameDefinition';
 import {
-  getSchemaDefinitionMetaField,
+  getObjectDefinitionMetaField,
   isMetaFieldKey,
   MetaFieldDef,
-  schemaMetaFieldKey,
+  objectMetaFieldKey,
   Serializable,
 } from './fields/MetaFieldField';
 import type {
-  FinalSchemaDefinition,
+  FinalObjectDefinition,
+  ObjectFieldInput,
   ParseFields,
-  SchemaFieldInput,
   ToFinalField,
 } from './fields/_parseFields';
-import { validateSchemaFields } from './getSchemaErrors';
-import { getSchemaHelpers, SchemaHelpers } from './getSchemaHelpers';
-import { parseSchemaDefinition } from './parseSchemaDefinition';
-import type { SchemaToTypescriptOptions } from './schemaToTypescript';
+import { validateObjectFields } from './getObjectErrors';
+import { getObjectHelpers, ObjectHelpers } from './getObjectHelpers';
+import type { ObjectToTypescriptOptions } from './objectToTypescript';
+import { parseObjectDefinition } from './parseObjectDefinition';
 import { withCache, WithCache } from './withCache';
 
 export { RuntimeError } from '@darch/utils/lib/RuntimeError';
-export * from './parseSchemaDefinition';
-export * from './schemaInferenceUtils';
-export * from './implementSchema';
+export * from './parseObjectDefinition';
+export * from './objectInferenceUtils';
+export * from './implementObject';
 
-export class Schema<DefinitionInput extends SchemaDefinitionInput> {
+export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
   private readonly __definition: any;
 
   __withCache: WithCache<{
     graphqlInputType: GraphQLInputObjectType;
     graphqlType: GraphQLObjectType;
     graphqlInterfaceType: GraphQLInterfaceType;
-    helpers: SchemaHelpers<DefinitionInput>;
+    helpers: ObjectHelpers<DefinitionInput>;
   }>;
 
-  constructor(schemaDef: DefinitionInput) {
-    const parsed = parseSchemaDefinition(schemaDef);
+  constructor(objectDef: DefinitionInput) {
+    const parsed = parseObjectDefinition(objectDef);
     this.__definition = parsed.definition;
     this.__withCache = withCache(this);
   }
@@ -73,11 +73,11 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
   }
 
   get meta(): MetaFieldDef {
-    return this.__definition[schemaMetaFieldKey].def;
+    return this.__definition[objectMetaFieldKey].def;
   }
 
   __setMetaData(k: keyof MetaFieldDef, value: Serializable) {
-    this.__definition[schemaMetaFieldKey].def[k] = value;
+    this.__definition[objectMetaFieldKey].def[k] = value;
   }
 
   parse(
@@ -117,7 +117,7 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
         customMessage,
         errors.join(' \n')
       );
-      err.isSchemaValidationError = true;
+      err.isObjectValidationError = true;
       err.fieldErrors = errors;
       throw err;
     }
@@ -145,7 +145,7 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     const { partial = false, fields = Object.keys(this.definition) } =
       options || {};
 
-    const SchemaConstructor: any = this.constructor;
+    const ObjectConstructor: any = this.constructor;
 
     const errors: string[] = [];
     const parsed: any = {};
@@ -170,8 +170,8 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
         return;
       }
 
-      const result = validateSchemaFields({
-        createSchema: (def) => new SchemaConstructor(def),
+      const result = validateObjectFields({
+        createObjectType: (def) => new ObjectConstructor(def),
         fieldName: currField,
         definition: fieldDef,
         value,
@@ -191,7 +191,7 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     ...descriptions:
       | [comment: string]
       | [{ [K in keyof DefinitionInput]?: string }]
-  ): Schema<DefinitionInput> {
+  ): ObjectType<DefinitionInput> {
     if (descriptions.length === 1 && typeof descriptions[0] === 'string') {
       this.__setMetaData('description', descriptions[0]);
       return this;
@@ -201,13 +201,13 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
 
     invariantType({ commentsConfig }, 'object', { commentsConfig });
 
-    const definition: FinalSchemaDefinition = this.definition as any;
+    const definition: FinalObjectDefinition = this.definition as any;
 
     Object.entries(commentsConfig).forEach(([name, comment]) => {
       invariantType(
         { [name]: definition[name] },
         'object',
-        `"${name}" is not in schema definition.`
+        `"${name}" is not in object definition.`
       );
       definition[name].description = comment || '';
     });
@@ -230,15 +230,15 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     return clone as any;
   }
 
-  addFields<T extends SchemaDefinitionInput>(
+  addFields<T extends ObjectDefinitionInput>(
     definition: T
-  ): SchemaExtendDefinition<ParseFields<DefinitionInput>, T> {
+  ): ObjectExtendDefinition<ParseFields<DefinitionInput>, T> {
     return this.clone(definition) as any;
   }
 
   makeOptional<K extends ForceString<keyof DefinitionInput>>(
     fields: K | K[]
-  ): Schema<MakeOptional<DefinitionInput, K>> {
+  ): ObjectType<MakeOptional<DefinitionInput, K>> {
     const fieldList = Array.isArray(fields) ? fields : [fields];
     const clone = this.clone();
     fieldList.forEach((key) => (clone.__definition[key].optional = true));
@@ -247,42 +247,42 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
 
   makeRequired<K extends ForceString<keyof DefinitionInput>>(
     fields: K | K[]
-  ): Schema<MakeRequired<DefinitionInput, K>> {
+  ): ObjectType<MakeRequired<DefinitionInput, K>> {
     const fieldList = Array.isArray(fields) ? fields : [fields];
     const clone = this.clone();
     fieldList.forEach((key) => (clone.__definition[key].optional = false));
     return clone as any;
   }
 
-  get __isDarchSchema(): true {
+  get __isDarchObject(): true {
     return true;
   }
 
   clone(name?: string): this;
 
-  clone<T extends SchemaDefinitionInput>(
+  clone<T extends ObjectDefinitionInput>(
     extend: T,
     name?: string
-  ): SchemaExtendDefinition<ParseFields<DefinitionInput>, T>;
+  ): ObjectExtendDefinition<ParseFields<DefinitionInput>, T>;
 
-  clone<T extends Record<string, SchemaFieldInput | null>>(
+  clone<T extends Record<string, ObjectFieldInput | null>>(
     extend: (current: ParseFields<DefinitionInput>) => T,
     name?: string
-  ): Schema<{ [K in keyof ExcludeNull<T>]: ExcludeNull<T>[K] }>;
+  ): ObjectType<{ [K in keyof ExcludeNull<T>]: ExcludeNull<T>[K] }>;
 
   clone<K extends keyof DefinitionInput>(
     fields: K[],
     name?: string
-  ): Schema<CloneFields<ParseFields<DefinitionInput>, K>>;
+  ): ObjectType<CloneFields<ParseFields<DefinitionInput>, K>>;
 
   clone<
     K extends keyof DefinitionInput,
-    T extends Record<string, SchemaFieldInput | null>
+    T extends Record<string, ObjectFieldInput | null>
   >(
     fields: K[],
     extend: (current: CloneFields<ParseFields<DefinitionInput>, K>) => T,
     name?: string
-  ): Schema<{ [K in keyof ExcludeNull<T>]: ExcludeNull<T>[K] }>;
+  ): ObjectType<{ [K in keyof ExcludeNull<T>]: ExcludeNull<T>[K] }>;
 
   clone(...args: any[]) {
     const lastArg = args[args.length - 1];
@@ -293,7 +293,7 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     }
 
     const definitionClone = simpleObjectClone(this.definition);
-    delete definitionClone[schemaMetaFieldKey];
+    delete definitionClone[objectMetaFieldKey];
 
     let extend;
     let fields;
@@ -332,13 +332,13 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
       }
     });
 
-    const schema = createSchema(def);
+    const object = createObjectType(def);
 
     if (newId) {
-      schema.identify(newId);
+      object.identify(newId);
     }
 
-    return schema as any;
+    return object as any;
   }
 
   get id() {
@@ -348,7 +348,7 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
   get nonNullId() {
     const id = this.meta.id!;
     if (!id) {
-      throw new RuntimeError('Expected schema to be identified.', {
+      throw new RuntimeError('Expected object to be identified.', {
         definition: this.definition,
       });
     }
@@ -360,24 +360,24 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
 
     if (this.id) {
       throw new Error(
-        `Trying to replace existing id "${this.id}" with "${id}". You can clone it to create a new Schema.`
+        `Trying to replace existing id "${this.id}" with "${id}". You can clone it to create a new Object.`
       );
     }
 
     expectedType({ id }, 'string', 'truthy');
 
-    if (Schema.register.has(id) && Schema.register.get(id) !== this) {
-      console.error(`Schema with id "${id}" already registered.`);
+    if (ObjectType.register.has(id) && ObjectType.register.get(id) !== this) {
+      console.error(`Object with id "${id}" already registered.`);
     }
 
     this.__setMetaData('id', id);
-    Schema.register.set(id, this);
+    ObjectType.register.set(id, this);
 
     return this as any;
   }
 
   helpers = () => {
-    return this.__withCache('helpers', () => getSchemaHelpers(this));
+    return this.__withCache('helpers', () => getObjectHelpers(this));
   };
 
   toGraphQL = (name?: string) => {
@@ -391,16 +391,16 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
 
     if (!this.id) {
       throw new RuntimeError(
-        'Should schema.identify() before converting to Graphql.' +
-          '\nYou can call schema.clone() to choose a different identification.',
+        'Should object.identify() before converting to Graphql.' +
+          '\nYou can call object.clone() to choose a different identification.',
         { 'used definition': this.definition }
       );
     }
 
-    const { GraphQLParser } = Schema.serverUtils().graphqlParser;
+    const { GraphQLParser } = ObjectType.serverUtils().graphqlParser;
 
-    return GraphQLParser.schemaToGraphQL({
-      schema: this,
+    return GraphQLParser.objectToGraphQL({
+      object: this,
     });
   };
 
@@ -422,8 +422,8 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
     return this.toGraphQL().typeToString();
   };
 
-  typescriptPrint = (options?: SchemaToTypescriptOptions): Promise<string> => {
-    return Schema.serverUtils().schemaToTypescript.schemaToTypescript(
+  typescriptPrint = (options?: ObjectToTypescriptOptions): Promise<string> => {
+    return ObjectType.serverUtils().objectToTypescript.objectToTypescript(
       this.nonNullId,
       this,
       options
@@ -453,105 +453,106 @@ export class Schema<DefinitionInput extends SchemaDefinitionInput> {
         module
       ) as typeof import('./GraphQLParser/GraphQLParser'),
 
-      DarchGraphQLType: dynamicRequire(
-        './DarchGraphQLType',
+      DarchType: dynamicRequire(
+        './DarchType',
         module
-      ) as typeof import('./DarchGraphQLType'),
+      ) as typeof import('./DarchType'),
 
-      schemaToTypescript: dynamicRequire(
-        './schemaToTypescript',
+      objectToTypescript: dynamicRequire(
+        './objectToTypescript',
         module
-      ) as typeof import('./schemaToTypescript'),
+      ) as typeof import('./objectToTypescript'),
     };
   }
 
   static async reset() {
     if (typeof window === 'undefined') {
-      const { graphqlParser, DarchGraphQLType } = Schema.serverUtils();
+      const { graphqlParser, DarchType } = ObjectType.serverUtils();
       graphqlParser.GraphQLParser.reset();
-      DarchGraphQLType.DarchGraphQLType.reset();
+      DarchType.DarchType.reset();
     }
 
-    Schema.register.clear();
+    ObjectType.register.clear();
   }
 
   static register = new StrictMap<string, any>();
 
   /**
-   * Get a Schema with the provided id
-   *    or set a new Schema in the register if not found.
+   * Get an Object with the provided id
+   *    or set a new Object in the register if not found.
    * @param id
    * @param def
    */
-  static getOrSet = <T extends SchemaDefinitionInput>(
+  static getOrSet = <T extends ObjectDefinitionInput>(
     id: string,
     def: T
-  ): Schema<T> => {
+  ): ObjectType<T> => {
     const existing =
-      Schema.register.has(id) && (Schema.register.get(id) as Schema<T>);
+      ObjectType.register.has(id) &&
+      (ObjectType.register.get(id) as ObjectType<T>);
 
     if (existing) {
       !isProduction() && assertSameDefinition(id, def, existing.definition);
       return existing;
     }
 
-    return new Schema<T>(def).identify(id);
+    return new ObjectType<T>(def).identify(id);
   };
 
-  static createType<Definition extends SchemaFieldInput>(
+  static createType<Definition extends ObjectFieldInput>(
     definition: Definition
-  ): DarchGraphQLType<Definition>;
+  ): DarchType<Definition>;
 
-  static createType<Definition extends SchemaFieldInput>(
+  static createType<Definition extends ObjectFieldInput>(
     name: string,
     definition: Definition
-  ): DarchGraphQLType<Definition>;
+  ): DarchType<Definition>;
 
   static createType(...args: any) {
-    return Schema.serverUtils().DarchGraphQLType.createType(
+    return ObjectType.serverUtils().DarchType.createType(
       // @ts-ignore
       ...args
     );
   }
 }
 
-export const DarchSchema = Schema;
+export const DarchObject = ObjectType;
 
-export function createSchema<
-  DefinitionInput extends Readonly<SchemaDefinitionInput>
->(fields: Readonly<DefinitionInput>): Schema<DefinitionInput>;
+export function createObjectType<
+  DefinitionInput extends Readonly<ObjectDefinitionInput>
+>(fields: Readonly<DefinitionInput>): ObjectType<DefinitionInput>;
 
-export function createSchema<
-  DefinitionInput extends Readonly<SchemaDefinitionInput>
->(name: string, fields: DefinitionInput): Schema<DefinitionInput>;
+export function createObjectType<
+  DefinitionInput extends Readonly<ObjectDefinitionInput>
+>(name: string, fields: DefinitionInput): ObjectType<DefinitionInput>;
 
-export function createSchema<
-  DefinitionInput extends Readonly<SchemaDefinitionInput>
+export function createObjectType<
+  DefinitionInput extends Readonly<ObjectDefinitionInput>
 >(
   ...args: [string, DefinitionInput] | [DefinitionInput]
-): Schema<DefinitionInput> {
+): ObjectType<DefinitionInput> {
   const fields = args.length === 2 ? args[1] : args[0];
 
   const id = args.length === 2 ? args[0] : undefined;
-  if (id) return Schema.getOrSet(id, fields);
+  if (id) return ObjectType.getOrSet(id, fields);
 
-  const idFromDefinition = getSchemaDefinitionMetaField(fields)?.def?.id;
-  if (idFromDefinition) return Schema.getOrSet(idFromDefinition, fields);
+  const idFromDefinition = getObjectDefinitionMetaField(fields)?.def?.id;
+  if (idFromDefinition) return ObjectType.getOrSet(idFromDefinition, fields);
 
-  return new Schema<DefinitionInput>(fields);
+  return new ObjectType<DefinitionInput>(fields);
 }
 
-export { createSchema as createDarchSchema };
+export { createObjectType as createDarchObject };
 
 type OmitDefinitionFields<T, Keys extends string> = T extends {
   [K: string]: any;
 }
-  ? Schema<{ [K in keyof T as K extends Keys ? never : K]: T[K] }>
+  ? ObjectType<{ [K in keyof T as K extends Keys ? never : K]: T[K] }>
   : never;
 
-type SchemaExtendDefinition<T, Ext> = T extends { [K: string]: any }
+type ObjectExtendDefinition<T, Ext> = T extends { [K: string]: any }
   ? Ext extends { [K: string]: any }
-    ? Schema<{
+    ? ObjectType<{
         [K in keyof (T & Ext)]: (T & Ext)[K];
       }>
     : never

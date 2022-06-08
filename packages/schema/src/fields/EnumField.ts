@@ -1,4 +1,4 @@
-import { FieldType, FieldTypeParser } from '../FieldType';
+import { FieldType, FieldTypeParser } from './FieldType';
 
 export class EnumField<
   U extends string,

@@ -2,29 +2,27 @@ import type { GraphQLSchema, GraphQLSchemaConfig } from 'graphql';
 import { GraphQLObjectType } from 'graphql';
 import groupBy from 'lodash/groupBy';
 
-import type { DarchGraphQLResolver } from './DarchGraphQLType';
-import { Schema } from './Schema';
+import type { DarchGraphQLResolver } from './DarchType';
+import { ObjectType } from './ObjectType';
 
-export type CreateGraphQLSchemaOptions = Partial<GraphQLSchemaConfig>;
+export type CreateGraphQLObjectOptions = Partial<GraphQLSchemaConfig>;
 
 export function createGraphQLSchema(
   resolvers?: DarchGraphQLResolver[],
-  config?: CreateGraphQLSchemaOptions
+  config?: CreateGraphQLObjectOptions
 ): GraphQLSchema;
 
 export function createGraphQLSchema(
-  config?: CreateGraphQLSchemaOptions
+  config?: CreateGraphQLObjectOptions
 ): GraphQLSchema;
 
 export function createGraphQLSchema(...args: any[]): GraphQLSchema {
   const {
     graphql: { GraphQLSchema },
-    DarchGraphQLType,
-  } = Schema.serverUtils();
+    DarchType,
+  } = ObjectType.serverUtils();
 
-  const registeredResolvers = [
-    ...DarchGraphQLType.DarchGraphQLType.resolvers.values(),
-  ];
+  const registeredResolvers = [...DarchType.DarchType.resolvers.values()];
 
   const resolvers = Array.isArray(args[0]) ? args[0] : registeredResolvers;
 

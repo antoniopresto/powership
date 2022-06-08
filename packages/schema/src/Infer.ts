@@ -1,29 +1,29 @@
-import type { DarchGraphQLType } from './DarchGraphQLType';
-import { SchemaLike } from './fields/ISchemaLike';
+import type { DarchType } from './DarchType';
+import { ObjectLike } from './fields/IObjectLike';
 import {
   FieldAsString,
   FinalFieldDefinition,
   InferField,
-  SchemaInTypeFieldDefinition,
+  ObjectInTypeFieldDefinition,
   ToFinalField,
 } from './fields/_parseFields';
 
 export type Infer<T> =
   //
   //
-  T extends SchemaLike
-    ? InferField<{ type: 'schema'; def: T['definition'] }>
+  T extends ObjectLike
+    ? InferField<{ type: 'object'; def: T['definition'] }>
     : //
-    // DarchGraphQLType
-    T extends DarchGraphQLType<infer Def>
+    // Type
+    T extends DarchType<infer Def>
     ? InferField<ToFinalField<Def>>
     : //
-    T extends SchemaLike
-    ? InferField<{ type: 'schema'; def: T['definition'] }>
+    T extends ObjectLike
+    ? InferField<{ type: 'object'; def: T['definition'] }>
     : //
-    T extends SchemaInTypeFieldDefinition
+    T extends ObjectInTypeFieldDefinition
     ? InferField<{
-        type: 'schema';
+        type: 'object';
         def: T['type']['definition'];
         list: T['list'];
         optional: T['optional'];
@@ -40,5 +40,5 @@ export type Infer<T> =
     : T extends Readonly<any[]>
     ? InferField<T[number]>
     : T extends { [K: string]: any }
-    ? InferField<{ type: 'schema'; def: T }>
+    ? InferField<{ type: 'object'; def: T }>
     : never;

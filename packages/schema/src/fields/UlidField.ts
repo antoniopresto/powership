@@ -1,7 +1,7 @@
 import { expectedType } from '@darch/utils/lib/expectedType';
 import { ulid } from '@darch/utils/lib/ulid';
 
-import { FieldType, FieldTypeParser } from '../FieldType';
+import { FieldType, FieldTypeParser } from './FieldType';
 
 type UlidDef = {
   autoCreate?: boolean;

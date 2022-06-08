@@ -1,7 +1,7 @@
 export * from './Infer';
-export * from './TSchemaConfig';
-export * from './Schema';
+export * from './TObjectConfig';
+export * from './ObjectType';
 export * from './fields/fieldTypes';
-export { schemaMetaFieldKey } from './fields/MetaFieldField';
-export * from './DarchGraphQLType';
+export { objectMetaFieldKey } from './fields/MetaFieldField';
+export * from './DarchType';
 export * from './createGraphQLSchema';

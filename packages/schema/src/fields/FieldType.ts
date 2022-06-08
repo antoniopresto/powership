@@ -1,20 +1,14 @@
 import { expectedType } from '@darch/utils/lib/expectedType';
 import { getTypeName } from '@darch/utils/lib/getTypeName';
-import { upperFirst } from '@darch/utils/lib/upperFirst';
 
 import {
   FieldTypeParser,
   parseValidationError,
   ValidationCustomMessage,
-} from './applyValidator';
-import type { FieldTypeName } from './fields/_fieldDefinitions';
-export * from './applyValidator';
+} from '../applyValidator';
 
-// API used to convert field to another resources, like graphql.
-export type FieldPortableAPIInput = {
-  fieldName: string;
-  parentName: string;
-};
+import type { FieldTypeName } from './_fieldDefinitions';
+export * from '../applyValidator';
 
 export type TAnyFieldType = FieldType<any, FieldTypeName, any>;
 
@@ -113,7 +107,7 @@ export abstract class FieldType<
     };
   };
 
-  toSchemaFieldType = () => {
+  toObjectFieldType = () => {
     return {
       type: this.type,
       def: this.def,

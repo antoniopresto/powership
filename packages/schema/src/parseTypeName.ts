@@ -1,7 +1,7 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { upperFirst } from '@darch/utils/lib/upperFirst';
 
-import { getSchemaDefinitionMetaField } from './fields/MetaFieldField';
+import { getObjectDefinitionMetaField } from './fields/MetaFieldField';
 import { FinalFieldDefinition } from './fields/_parseFields';
 
 export function parseTypeName(input: {
@@ -12,8 +12,8 @@ export function parseTypeName(input: {
   const { field, parentName, fieldName } = input;
 
   const metaName =
-    field.type === 'schema'
-      ? getSchemaDefinitionMetaField(field.def)?.def.id
+    field.type === 'object'
+      ? getObjectDefinitionMetaField(field.def)?.def.id
       : null;
 
   let result = metaName || `${parentName}${fieldName ? `_${fieldName}` : ''}`;

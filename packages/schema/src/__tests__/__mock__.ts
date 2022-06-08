@@ -1,16 +1,16 @@
-import { createSchema } from '../Schema';
+import { createObjectType } from '../ObjectType';
 import { StringField } from '../fields/StringField';
 
-const schema1 = createSchema({
+const object1 = createObjectType({
   name: 'string',
   age: 'int?',
   favorites: '[string]',
   sex: { enum: ['m', 'f', 'o'] },
 } as const);
 
-const schema2 = createSchema({
+const object2 = createObjectType({
   name: 'string',
-  sub: schema1,
+  sub: object1,
 });
 
 const stringDefTypes = {
@@ -45,16 +45,16 @@ const stringDefTypes = {
 
 const typeDefs = {
   enumStringArray: ['a', 'b', 'c'],
-  schemaTypeName: {
-    type: 'schema',
-    def: schema2['definition'],
+  objectTypeName: {
+    type: 'object',
+    def: object2['definition'],
   },
 
   /**
    * @deprecated
    */
-  schemaObjectAsType: {
-    type: schema2,
+  objectObjectAsType: {
+    type: object2,
     optional: true,
     list: true,
   } as any,
@@ -68,9 +68,9 @@ const typeDefs = {
   ...stringDefTypes,
 } as const;
 
-export const schemaMocks = {
-  schema1,
-  schema2,
+export const objectMocks = {
+  object1,
+  object2,
   stringDefTypes,
   typeDefs,
 };

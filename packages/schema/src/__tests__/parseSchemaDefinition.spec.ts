@@ -1,11 +1,11 @@
-import { Schema } from '../Schema';
+import { ObjectType } from '../ObjectType';
 import { EnumField } from '../fields/EnumField';
-import { schemaMetaFieldKey } from '../fields/MetaFieldField';
-import { parseSchemaDefinition } from '../parseSchemaDefinition';
+import { objectMetaFieldKey } from '../fields/MetaFieldField';
+import { parseObjectDefinition } from '../parseObjectDefinition';
 
-describe('parseSchemaDefinition', () => {
+describe('parseObjectDefinition', () => {
   it('works', () => {
-    const { definition: sut } = parseSchemaDefinition({
+    const { definition: sut } = parseObjectDefinition({
       objectIntDef: {
         type: 'int',
       },
@@ -17,8 +17,8 @@ describe('parseSchemaDefinition', () => {
       fieldType: EnumField.create(['a', 'x']),
       fieldTypeOptional: EnumField.create(['a', 'x']).toOptional(),
       fieldTypeOptionalList: EnumField.create(['a', 'x']).toList().toOptional(),
-      schemaAsFlattenDef: {
-        schema: {
+      objectAsFlattenDef: {
+        object: {
           name: 'string',
         },
       },
@@ -28,7 +28,7 @@ describe('parseSchemaDefinition', () => {
     });
 
     expect(sut).toEqual({
-      [schemaMetaFieldKey]: expect.anything(),
+      [objectMetaFieldKey]: expect.anything(),
       arrayString: {
         list: true,
         optional: false,
@@ -78,9 +78,9 @@ describe('parseSchemaDefinition', () => {
         optional: true,
         type: 'string',
       },
-      schemaAsFlattenDef: {
+      objectAsFlattenDef: {
         def: {
-          [schemaMetaFieldKey]: expect.anything(),
+          [objectMetaFieldKey]: expect.anything(),
           name: {
             list: false,
             optional: false,
@@ -89,7 +89,7 @@ describe('parseSchemaDefinition', () => {
         },
         list: false,
         optional: false,
-        type: 'schema',
+        type: 'object',
       },
       unionAsFlattenDef: {
         def: [
@@ -111,39 +111,39 @@ describe('parseSchemaDefinition', () => {
     });
   });
 
-  it('parse schema', () => {
-    const otherSchema = new Schema({
+  it('parse object', () => {
+    const otherObject = new ObjectType({
       foo: 'string',
       status: { enum: ['open', 'closed'] },
     } as const);
 
     const sass = {
-      union: [{ schema: { points: '[float]?' } }, 'int'],
+      union: [{ object: { points: '[float]?' } }, 'int'],
       names: '[string]?',
       age: 'int',
     } as const;
 
-    const { definition: sut } = parseSchemaDefinition({
+    const { definition: sut } = parseObjectDefinition({
       name: 'string',
-      schema: otherSchema,
-      schemaList: {
-        type: 'schema',
-        def: otherSchema.definition,
+      object: otherObject,
+      objectList: {
+        type: 'object',
+        def: otherObject.definition,
         list: true,
       },
-      schemaAsTypeList: {
-        schema: otherSchema,
+      objectAsTypeList: {
+        object: otherObject,
         list: true,
       },
-      schemaAsSchema: {
-        schema: sass,
+      objectAsObject: {
+        object: sass,
       },
-      schemaAsSchemaList: {
-        schema: sass,
+      objectAsObjectList: {
+        object: sass,
         list: true,
       },
-      schemaAsSchemaListOptional: {
-        schema: sass,
+      objectAsObjectListOptional: {
+        object: sass,
         list: true,
         optional: true,
       },
@@ -164,7 +164,7 @@ describe('parseSchemaDefinition', () => {
         def: [
           {
             def: {
-              [schemaMetaFieldKey]: expect.anything(),
+              [objectMetaFieldKey]: expect.anything(),
               points: {
                 list: true,
                 optional: true,
@@ -173,7 +173,7 @@ describe('parseSchemaDefinition', () => {
             },
             list: false,
             optional: false,
-            type: 'schema',
+            type: 'object',
           },
           {
             list: false,
@@ -188,47 +188,47 @@ describe('parseSchemaDefinition', () => {
     };
 
     expect(sut).toEqual({
-      [schemaMetaFieldKey]: expect.anything(),
+      [objectMetaFieldKey]: expect.anything(),
       name: {
         type: 'string',
         list: false,
         optional: false,
       },
-      schema: {
-        def: otherSchema.definition,
+      object: {
+        def: otherObject.definition,
         list: false,
         optional: false,
-        type: 'schema',
+        type: 'object',
       },
-      schemaList: {
-        def: otherSchema.definition,
+      objectList: {
+        def: otherObject.definition,
         list: true,
         optional: false,
-        type: 'schema',
+        type: 'object',
       },
-      schemaAsTypeList: {
-        def: otherSchema.definition,
+      objectAsTypeList: {
+        def: otherObject.definition,
         list: true,
         optional: false,
-        type: 'schema',
+        type: 'object',
       },
-      schemaAsSchema: {
-        def: { ...sassDef, [schemaMetaFieldKey]: expect.anything() },
+      objectAsObject: {
+        def: { ...sassDef, [objectMetaFieldKey]: expect.anything() },
         list: false,
         optional: false,
-        type: 'schema',
+        type: 'object',
       },
-      schemaAsSchemaList: {
-        def: { ...sassDef, [schemaMetaFieldKey]: expect.anything() },
+      objectAsObjectList: {
+        def: { ...sassDef, [objectMetaFieldKey]: expect.anything() },
         list: true,
         optional: false,
-        type: 'schema',
+        type: 'object',
       },
-      schemaAsSchemaListOptional: {
-        def: { ...sassDef, [schemaMetaFieldKey]: expect.anything() },
+      objectAsObjectListOptional: {
+        def: { ...sassDef, [objectMetaFieldKey]: expect.anything() },
         list: true,
         optional: true,
-        type: 'schema',
+        type: 'object',
       },
     });
   });

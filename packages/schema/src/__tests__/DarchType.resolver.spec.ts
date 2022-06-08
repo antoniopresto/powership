@@ -2,21 +2,21 @@ import { PromiseType } from '@darch/utils/lib/typeUtils';
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
-import { DarchGraphQLType } from '../DarchGraphQLType';
-import { createDarchSchema, Schema } from '../Schema';
+import { DarchType } from '../DarchType';
+import { createDarchObject, ObjectType } from '../ObjectType';
 
 describe('createResolver', () => {
   afterEach(async () => {
-    await Schema.reset();
+    await ObjectType.reset();
   });
 
   it('Should create a Resolver', () => {
-    const UserType = createDarchSchema('User', {
+    const UserType = createDarchObject('User', {
       name: { string: {}, description: 'the user name' },
       id: 'ulid',
     });
 
-    const resolver = new DarchGraphQLType(UserType).createResolver({
+    const resolver = new DarchType(UserType).createResolver({
       name: 'User',
       args: { id: 'ulid' },
       description: 'User resolver',
@@ -34,7 +34,7 @@ describe('createResolver', () => {
     assert<IsExact<Return, { name: string; id: string }>>(true);
     assert<IsExact<Args, { id: string }>>(true);
 
-    const schema = new GraphQLSchema({
+    const object = new GraphQLSchema({
       query: new GraphQLObjectType({
         name: 'Query',
 
@@ -44,7 +44,7 @@ describe('createResolver', () => {
       }),
     });
 
-    expect(printSchema(schema).split('\n')).toEqual([
+    expect(printSchema(object).split('\n')).toEqual([
       'type Query {',
       '  """User resolver"""',
       '  users(id: Ulid!): User!',
@@ -61,21 +61,21 @@ describe('createResolver', () => {
   });
 
   it('Should create complex types preserving names', () => {
-    const user = createDarchSchema('user', {
+    const user = createDarchObject('user', {
       name: 'string',
       age: 'int?',
     });
 
-    const userAddress = createDarchSchema('UserAddress', {
+    const userAddress = createDarchObject('UserAddress', {
       street: 'string',
       number: 'int?',
     }).describe('The user address');
 
-    const resolver = new DarchGraphQLType(user).createResolver({
+    const resolver = new DarchType(user).createResolver({
       name: 'Users',
       args: {
         name: 'string',
-        addresses: { schema: userAddress, list: true },
+        addresses: { object: userAddress, list: true },
         records: { record: { keyType: 'int', type: { enum: ['banana'] } } },
       } as const,
       resolve() {
@@ -102,7 +102,7 @@ describe('createResolver', () => {
       >
     >(true);
 
-    const schema = new GraphQLSchema({
+    const object = new GraphQLSchema({
       query: new GraphQLObjectType({
         name: 'Query',
 
@@ -112,7 +112,7 @@ describe('createResolver', () => {
       }),
     });
 
-    expect(printSchema(schema).split('\n')).toEqual([
+    expect(printSchema(object).split('\n')).toEqual([
       'type Query {',
       '  users(name: String!, addresses: [UserAddressInput]!, records: UsersInput_recordsRecord!): user!',
       '}',
@@ -132,7 +132,7 @@ describe('createResolver', () => {
   });
 
   it('Should accept literals as type', () => {
-    const resolver = new DarchGraphQLType('Airplanes', '[int]?').createResolver({
+    const resolver = new DarchType('Airplanes', '[int]?').createResolver({
       name: 'Airplanes',
       args: undefined,
       async resolve() {
@@ -140,7 +140,7 @@ describe('createResolver', () => {
       },
     });
 
-    const schema = new GraphQLSchema({
+    const object = new GraphQLSchema({
       query: new GraphQLObjectType({
         name: 'Query',
 
@@ -150,7 +150,7 @@ describe('createResolver', () => {
       }),
     });
 
-    expect(printSchema(schema).split('\n')).toEqual([
+    expect(printSchema(object).split('\n')).toEqual([
       'type Query {',
       '  airplanes: [Int]',
       '}',

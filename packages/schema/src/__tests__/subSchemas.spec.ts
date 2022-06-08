@@ -1,15 +1,15 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../Infer';
-import { createSchema } from '../Schema';
+import { createObjectType } from '../ObjectType';
 
-describe('subSchemas', () => {
-  const schema1 = createSchema('customer', {
+describe('subObjects', () => {
+  const object1 = createObjectType('customer', {
     id: 'string',
     title: 'string',
     age: 'int?',
     addresses: {
-      schema: {
+      object: {
         street: 'string',
         // number: { union: ['string', 'int'] },
         principal: 'boolean?',
@@ -18,20 +18,20 @@ describe('subSchemas', () => {
     },
   } as const);
 
-  const schema2 = createSchema('campaignMembers', {
+  const object2 = createObjectType('campaignMembers', {
     id: { ulid: { autoCreate: true } },
     members: {
-      type: schema1,
+      type: object1,
       list: true,
     },
   });
 
   it('should infer types correctly', async () => {
-    type TSchema1 = Infer<typeof schema1>;
+    type TObject1 = Infer<typeof object1>;
 
     assert<
       IsExact<
-        TSchema1,
+        TObject1,
         {
           id: string;
           title: string;
@@ -45,22 +45,22 @@ describe('subSchemas', () => {
       >
     >(true);
 
-    type TSchema2 = Infer<typeof schema2>;
+    type TObject2 = Infer<typeof object2>;
 
     assert<
       IsExact<
-        TSchema2,
+        TObject2,
         {
           id: string;
-          members: TSchema1[];
+          members: TObject1[];
         }
       >
     >(true);
   });
 
-  it('should generate a graphql type with the original schema name', async () => {
-    const gql = schema2.toGraphQL();
-    expect(gql.getType().name).toBe(schema2.id);
+  it('should generate a graphql type with the original object name', async () => {
+    const gql = object2.toGraphQL();
+    expect(gql.getType().name).toBe(object2.id);
     expect(gql.getType().getFields()['members'].type.toString()).toBe(
       '[customer]!'
     );

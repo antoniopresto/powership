@@ -47,9 +47,9 @@ test('infer string def', () => {
   //   unknown:
   assert<IsExact<InferField<'unknown'>, unknown>>(true);
 
-  //   schema:
-  type TSchema = InferField<'schema'>;
-  assert<IsExact<TSchema, never>>(true);
+  //   object:
+  type TObject = InferField<'object'>;
+  assert<IsExact<TObject, never>>(true);
 
   //   union:
   assert<IsExact<InferField<'union'>, never>>(true);
@@ -99,8 +99,8 @@ test('infer string def', () => {
   //   unknown:
   assert<IsExact<InferField<'[unknown]'>, unknown[]>>(true);
 
-  //   schema:
-  assert<IsExact<InferField<'[schema]'>, never[]>>(true);
+  //   object:
+  assert<IsExact<InferField<'[object]'>, never[]>>(true);
 
   //   union:
   assert<IsExact<InferField<'[union]'>, never[]>>(true);
@@ -151,8 +151,8 @@ test('infer string def', () => {
   type TUnknownOptList = InferField<'[unknown]?'>;
   assert<IsExact<TUnknownOptList, unknown[] | undefined>>(true);
 
-  //   schema:
-  assert<IsExact<InferField<'[schema]?'>, never[] | undefined>>(true);
+  //   object:
+  assert<IsExact<InferField<'[object]?'>, never[] | undefined>>(true);
 
   //   union:
   assert<IsExact<InferField<'[union]?'>, never[] | undefined>>(true);

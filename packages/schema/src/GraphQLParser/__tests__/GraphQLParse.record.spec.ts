@@ -5,16 +5,16 @@ import {
   printSchema,
 } from 'graphql';
 
-import { createSchema } from '../../Schema';
+import { createObjectType } from '../../ObjectType';
 
 describe('GraphQLParse.record', () => {
-  const person = createSchema('Person', {
+  const person = createObjectType('Person', {
     name: 'string',
     age: 'int?',
     addresses: { record: { type: 'string', keyType: 'int' } },
   });
 
-  const record1 = createSchema('rec1', {
+  const record1 = createObjectType('rec1', {
     addresses: { record: { type: '[string]', keyType: 'int' } },
   }).graphqlInputType();
 
@@ -57,7 +57,7 @@ describe('GraphQLParse.record', () => {
 
     await expect(
       graphql({
-        schema,
+        schema: schema,
         contextValue: {},
         source: '{ person { addresses } }',
         rootValue: {

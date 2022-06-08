@@ -1,9 +1,9 @@
-import type { Schema } from './Schema';
+import type { ObjectType } from './ObjectType';
 import { isMetaField } from './fields/MetaFieldField';
 import { isFieldTypeName, types } from './fields/fieldTypes';
 
-export function validateSchemaFields(params: {
-  createSchema: (def: any) => { getErrors: Function; parse: Function };
+export function validateObjectFields(params: {
+  createObjectType: (def: any) => { getErrors: Function; parse: Function };
   parentType?: string;
   fieldName: string;
   definition: any;
@@ -12,7 +12,7 @@ export function validateSchemaFields(params: {
   errors: string[];
   parsed?: any;
 } {
-  const { fieldName, definition, value, parentType, createSchema } = params;
+  const { fieldName, definition, value, parentType, createObjectType } = params;
 
   if (isMetaField(definition, fieldName)) {
     return {
@@ -63,8 +63,8 @@ export function validateSchemaFields(params: {
     const errors: string[] = [];
 
     value.forEach(function (item, key) {
-      const result = validateSchemaFields({
-        createSchema,
+      const result = validateObjectFields({
+        createObjectType: createObjectType,
         fieldName: key + '',
         parentType: fieldName,
         definition: {
@@ -80,7 +80,7 @@ export function validateSchemaFields(params: {
     return { parsed, errors };
   }
 
-  if (definition.type === 'schema') {
+  if (definition.type === 'object') {
     const def = definition.def;
 
     if (typeof value !== 'object') {
@@ -89,8 +89,8 @@ export function validateSchemaFields(params: {
       };
     }
 
-    const schema: Schema<any> = createSchema(def) as any;
-    const result = schema.safeParse(value);
+    const object: ObjectType<any> = createObjectType(def) as any;
+    const result = object.safeParse(value);
 
     return {
       parsed: result.parsed,

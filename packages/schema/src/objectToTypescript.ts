@@ -1,10 +1,10 @@
 import { jsonToTypescript } from '@darch/utils/lib/jsonToTypescript';
 
-import { SchemaDefinitionInput } from './TSchemaConfig';
-import { SchemaLike } from './fields/ISchemaLike';
-import { schemaToJSON } from './schemaToJSON';
+import { ObjectDefinitionInput } from './TObjectConfig';
+import { ObjectLike } from './fields/IObjectLike';
+import { objectToJSON } from './objectToJSON';
 
-export type SchemaToTypescriptOptions = {
+export type ObjectToTypescriptOptions = {
   bannerComment?: string;
   format?: boolean;
   unreachableDefinitions?: boolean;
@@ -21,15 +21,15 @@ const defaultBannerComment = `
 `;
 
 /**
- * Creates a typescript declaration from a schema
+ * Creates a typescript declaration from an object
  * @param name
- * @param schema
+ * @param object
  * @param options
  */
-export async function schemaToTypescript(
+export async function objectToTypescript(
   name: string,
-  schema: SchemaLike | SchemaDefinitionInput,
-  options?: SchemaToTypescriptOptions
+  object: ObjectLike | ObjectDefinitionInput,
+  options?: ObjectToTypescriptOptions
 ) {
   const {
     bannerComment = defaultBannerComment,
@@ -38,7 +38,7 @@ export async function schemaToTypescript(
     strictIndexSignatures = true,
   } = options || {};
 
-  const json = schemaToJSON(name, schema);
+  const json = objectToJSON(name, object);
 
   return jsonToTypescript(json, name, {
     bannerComment,

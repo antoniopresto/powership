@@ -1,9 +1,9 @@
-import { createSchema } from '../Schema';
-import { schemaToTypescript } from '../schemaToTypescript';
+import { createObjectType } from '../ObjectType';
+import { objectToTypescript } from '../objectToTypescript';
 
-describe('schemaToTypescript', () => {
+describe('objectToTypescript', () => {
   it('works', async () => {
-    const schema = createSchema({
+    const object = createObjectType({
       name: 'string',
       date: 'date',
       pointers: '[cursor]',
@@ -14,7 +14,7 @@ describe('schemaToTypescript', () => {
       sex: [{ enum: ['m', 'f', 'o'], optional: true }],
       addresses: [
         {
-          schema: {
+          object: {
             kind: { enum: ['home'] },
             street: 'string',
             number: ['string', 'float'],
@@ -24,11 +24,11 @@ describe('schemaToTypescript', () => {
           description: 'Home address',
         },
         {
-          schema: {
+          object: {
             kind: { enum: ['work'] },
             week_days: { enum: ['0', '1', '2', '3', '4', '5', '6'] },
             name: {
-              schema: {
+              object: {
                 firstName: 'string',
                 lastName: 'string',
               },
@@ -37,10 +37,10 @@ describe('schemaToTypescript', () => {
         },
       ],
     } as const)
-      .describe('My Custom Schema')
+      .describe('My Custom Object')
       .describe({ name: 'person name', pointers: 'some pointers' });
 
-    const ts = await schemaToTypescript('MySchema', schema);
+    const ts = await objectToTypescript('MyObject', object);
 
     expect(ts).toMatchSnapshot();
   });

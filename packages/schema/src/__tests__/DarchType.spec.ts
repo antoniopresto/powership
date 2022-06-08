@@ -1,22 +1,22 @@
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
-import { createType, DarchGraphQLType } from '../DarchGraphQLType';
+import { createType, DarchType } from '../DarchType';
 import { Infer } from '../Infer';
-import { createSchema, Schema } from '../Schema';
+import { createObjectType, ObjectType } from '../ObjectType';
 
-describe('DarchGraphQLType', () => {
-  beforeEach(Schema.reset);
+describe('createType', () => {
+  beforeEach(ObjectType.reset);
 
   it('works', async () => {
-    const sut = new DarchGraphQLType('user', {
-      schema: {
+    const sut = new DarchType('user', {
+      object: {
         name: 'string',
         age: 'int?',
       },
     });
 
-    expect(sut.definition.type).toEqual('schema');
+    expect(sut.definition.type).toEqual('object');
 
     type Expected = { name: string; age?: number | undefined };
     type Inferred = Infer<typeof sut>;
@@ -28,58 +28,58 @@ describe('DarchGraphQLType', () => {
     expect(() => sut.parse({ name: 1 })).toThrow('field "name":');
   });
 
-  it('should identify when input is schema', async () => {
+  it('should identify when input is object', async () => {
     const name = `_${Math.random() * 1000}_`;
 
-    const sut = new DarchGraphQLType(name, {
-      schema: {
+    const sut = new DarchType(name, {
+      object: {
         name: 'string',
         age: 'int?',
       },
     } as const);
 
-    expect(sut.definition.type).toEqual('schema');
+    expect(sut.definition.type).toEqual('object');
 
-    expect(Schema.register.get(name)).toBeTruthy();
+    expect(ObjectType.register.get(name)).toBeTruthy();
   });
 
-  it('should reuse schema', async () => {
+  it('should reuse object', async () => {
     const name = `_${Math.random() * 1000}_`;
 
-    const schema = createSchema(name, {
+    const object = createObjectType(name, {
       foo: 'int',
     });
 
-    const sut = new DarchGraphQLType(name, {
-      type: schema,
+    const sut = new DarchType(name, {
+      type: object,
     } as const);
 
-    expect(sut.definition.type).toEqual('schema');
+    expect(sut.definition.type).toEqual('object');
 
-    expect(Schema.register.get(name)).toEqual(schema);
-    expect((sut.__field as any).utils.schema).toEqual(schema);
+    expect(ObjectType.register.get(name)).toEqual(object);
+    expect((sut.__field as any).utils.object).toEqual(object);
   });
 
-  it('should create a new Schema when a different id is provided', async () => {
-    const schema = createSchema('Original', {
+  it('should create a new Object when a different id is provided', async () => {
+    const object = createObjectType('Original', {
       foo: 'int',
     });
 
-    const sut = new DarchGraphQLType('AClone', schema);
+    const sut = new DarchType('AClone', object);
 
-    expect(Schema.register.get('Original')).toEqual(schema);
+    expect(ObjectType.register.get('Original')).toEqual(object);
 
-    expect((sut.__field as any).utils.schema).not.toEqual(schema);
-    expect((sut.__field as any).utils.schema.id).toEqual('AClone');
+    expect((sut.__field as any).utils.object).not.toEqual(object);
+    expect((sut.__field as any).utils.object.id).toEqual('AClone');
   });
 
   it('should print graphql types', async () => {
-    const schema = createSchema('Original', {
+    const object = createObjectType('Original', {
       foo: 'int',
     });
 
-    const sut = new DarchGraphQLType('AClone', {
-      type: schema,
+    const sut = new DarchType('AClone', {
+      type: object,
     } as const);
 
     expect(sut.print()).toEqual([
@@ -93,12 +93,12 @@ describe('DarchGraphQLType', () => {
     ]);
   });
 
-  it('Should accept plain schema as definition', async () => {
-    const schema = createSchema('Foo', {
+  it('Should accept plain object as definition', async () => {
+    const object = createObjectType('Foo', {
       foo: 'int',
     });
 
-    const sut = new DarchGraphQLType(schema);
+    const sut = new DarchType(object);
 
     type Return = ReturnType<typeof sut.parse>;
 
@@ -118,11 +118,11 @@ describe('DarchGraphQLType', () => {
   });
 
   it('Should accept list definition', async () => {
-    const schema = createSchema('Foo', {
+    const object = createObjectType('Foo', {
       foo: 'int',
     });
 
-    const sut = new DarchGraphQLType({ schema, list: true });
+    const sut = new DarchType({ object, list: true });
 
     type Expected = { foo: number }[];
     type Return = ReturnType<typeof sut.parse>;
@@ -151,11 +151,11 @@ describe('DarchGraphQLType', () => {
   });
 
   it('Should accept optional option', async () => {
-    const schema = createSchema('Foo', {
+    const object = createObjectType('Foo', {
       foo: 'int',
     });
 
-    const sut = new DarchGraphQLType({ schema, optional: true });
+    const sut = new DarchType({ object, optional: true });
 
     type Return = ReturnType<typeof sut.parse>;
 
@@ -168,11 +168,11 @@ describe('DarchGraphQLType', () => {
   });
 
   it('Should accept optional and list option', async () => {
-    const schema = createSchema('Foo', {
+    const object = createObjectType('Foo', {
       foo: 'int',
     });
 
-    const sut = new DarchGraphQLType({ schema, optional: true, list: true });
+    const sut = new DarchType({ object, optional: true, list: true });
 
     type Return = ReturnType<typeof sut.parse>;
 
@@ -185,25 +185,25 @@ describe('DarchGraphQLType', () => {
   });
 
   it('should create graphQLInterface', () => {
-    const schema = createSchema('Node', {
+    const object = createObjectType('Node', {
       id: 'ID',
     });
 
-    const ship = createSchema('Ship', {
+    const ship = createObjectType('Ship', {
       name: 'string',
     });
 
-    const nodeInterface = new DarchGraphQLType(schema);
+    const nodeInterface = new DarchType(object);
 
     expect(nodeInterface.graphQLInterface().toString()).toEqual(
       'NodeInterface'
     );
 
-    const shipNode = new DarchGraphQLType(ship).graphQLType({
+    const shipNode = new DarchType(ship).graphQLType({
       interfaces: [nodeInterface.graphQLInterface()],
     });
 
-    const graphQLSchema = new GraphQLSchema({
+    const graphQLObject = new GraphQLSchema({
       query: new GraphQLObjectType<any, any>({
         name: 'Query',
         fields: {
@@ -214,7 +214,7 @@ describe('DarchGraphQLType', () => {
       }),
     });
 
-    expect(printSchema(graphQLSchema).split('\n')).toEqual([
+    expect(printSchema(graphQLObject).split('\n')).toEqual([
       'type Query {',
       '  shipNode: Ship!',
       '}',
@@ -230,7 +230,7 @@ describe('DarchGraphQLType', () => {
   });
 
   it('should print typescript', async () => {
-    const ts = await Schema.createType('IntHem', 'int?').typescriptPrint();
+    const ts = await ObjectType.createType('IntHem', 'int?').typescriptPrint();
 
     expect(ts.split('\n')).toEqual([
       '/* tslint:disable */',
@@ -245,11 +245,11 @@ describe('DarchGraphQLType', () => {
       '',
     ]);
 
-    const tsSchema = await Schema.createType('Person', {
-      schema: { name: 'string' },
+    const tsObject = await ObjectType.createType('Person', {
+      object: { name: 'string' },
     }).typescriptPrint();
 
-    expect(tsSchema.split('\n')).toEqual([
+    expect(tsObject.split('\n')).toEqual([
       '/* tslint:disable */',
       '/**',
       ' * This file was automatically generated.',
@@ -264,11 +264,11 @@ describe('DarchGraphQLType', () => {
   });
 
   it('Should validate against overriding register', () => {
-    createType('t1', { schema: { name: 'string' } });
-    expect(() => createType('t1', { schema: { name: 'int' } })).toThrow(
+    createType('t1', { object: { name: 'string' } });
+    expect(() => createType('t1', { object: { name: 'int' } })).toThrow(
       'Different type already registered with name "t1"'
     );
-    createType('t1', { schema: { name: 'string' } });
+    createType('t1', { object: { name: 'string' } });
 
     createType('t2', 'int?');
     expect(() => createType('t2', 'int')).toThrow(

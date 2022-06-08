@@ -1,20 +1,20 @@
 import { GraphQLSchema, printSchema } from 'graphql';
 
-import { createSchema, Schema } from '../../Schema';
+import { createObjectType, ObjectType } from '../../ObjectType';
 import { GraphQLParser } from '../GraphQLParser';
 
 describe('GraphQLParser', () => {
   afterEach(() => {
-    Schema.reset();
+    ObjectType.reset();
   });
 
   it('Should convert field', () => {
-    const schema = createSchema('Item', {
+    const object = createObjectType('Item', {
       name: 'string',
     });
 
-    const sut = GraphQLParser.schemaToGraphQL({
-      schema,
+    const sut = GraphQLParser.objectToGraphQL({
+      object,
     });
 
     expect(sut.typeToString().split('\n')).toEqual([
@@ -25,7 +25,7 @@ describe('GraphQLParser', () => {
   });
 
   it('Should convert literal fields', () => {
-    const schema = createSchema('person', {
+    const object = createObjectType('person', {
       name: 'string',
       age: 'int?',
       booleans: '[boolean]',
@@ -33,8 +33,8 @@ describe('GraphQLParser', () => {
       integers: { type: 'int', list: true, optional: true },
     });
 
-    const sut = GraphQLParser.schemaToGraphQL({
-      schema,
+    const sut = GraphQLParser.objectToGraphQL({
+      object,
     });
 
     expect(sut.typeToString().split('\n')).toEqual([
@@ -48,8 +48,8 @@ describe('GraphQLParser', () => {
     ]);
   });
 
-  it('Should convert sub schemas', () => {
-    const schema1 = createSchema('person', {
+  it('Should convert sub objects', () => {
+    const object1 = createObjectType('person', {
       name: 'string',
       age: 'int?',
       booleans: '[boolean]',
@@ -57,22 +57,22 @@ describe('GraphQLParser', () => {
       integers: { type: 'int', list: true, optional: true },
     });
 
-    const schema2 = schema1.clone((c) => {
+    const object2 = object1.clone((c) => {
       return {
         ...c,
         persons: {
-          type: schema1,
+          type: object1,
           list: true,
         },
       };
     }, 'otherPerson');
 
-    const s1 = GraphQLParser.schemaToGraphQL({
-      schema: schema1,
+    const s1 = GraphQLParser.objectToGraphQL({
+      object: object1,
     });
 
-    const s2 = GraphQLParser.schemaToGraphQL({
-      schema: schema2,
+    const s2 = GraphQLParser.objectToGraphQL({
+      object: object2,
     });
 
     expect(s1.typeToString().split('\n')).toEqual([
@@ -106,17 +106,17 @@ describe('GraphQLParser', () => {
   });
 
   it('Should convert enums', () => {
-    const schema1 = createSchema('person', {
+    const object1 = createObjectType('person', {
       sex: { enum: ['m', 'n'], list: true },
     });
 
-    const schema2 = createSchema('persons', {
+    const object2 = createObjectType('persons', {
       sex: { enum: ['m', 'n'] },
-      persons: schema1,
+      persons: object1,
     });
 
-    const sut = GraphQLParser.schemaToGraphQL({
-      schema: schema2,
+    const sut = GraphQLParser.objectToGraphQL({
+      object: object2,
     });
 
     expect(sut.typeToString().split('\n')).toEqual([
@@ -142,17 +142,17 @@ describe('GraphQLParser', () => {
   });
 
   it('Should convert dates', () => {
-    const schema1 = createSchema('person', {
+    const object1 = createObjectType('person', {
       createdAt: { date: {} },
     });
 
-    const schema2 = createSchema('persons', {
+    const object2 = createObjectType('persons', {
       createdAt: { date: {}, description: 'dates of ...' },
-      persons: schema1,
+      persons: object1,
     });
 
-    const sut = GraphQLParser.schemaToGraphQL({
-      schema: schema2,
+    const sut = GraphQLParser.objectToGraphQL({
+      object: object2,
     });
 
     expect(sut.typeToString().split('\n')).toEqual([
@@ -171,15 +171,15 @@ describe('GraphQLParser', () => {
   });
 
   it('Should convert cursor', () => {
-    const schema1 = createSchema('paging', {
+    const object1 = createObjectType('paging', {
       id: 'cursor',
       maybeId: 'cursor?',
       ids: '[cursor]',
       maybeIds: '[cursor]?',
     });
 
-    const sut = GraphQLParser.schemaToGraphQL({
-      schema: schema1,
+    const sut = GraphQLParser.objectToGraphQL({
+      object: object1,
     });
 
     expect(sut.typeToString().split('\n')).toEqual([
@@ -213,23 +213,23 @@ describe('GraphQLParser', () => {
   });
 
   it('Should convert union', () => {
-    const person = createSchema('Person', {
+    const person = createObjectType('Person', {
       name: 'string',
       age: 'int?',
     });
 
-    const robot = createSchema('Robot', {
+    const robot = createObjectType('Robot', {
       name: 'string',
       age: 'int?',
       owner: person,
     });
 
-    const Task = createSchema('Task', {
+    const Task = createObjectType('Task', {
       owner: [robot, person],
     });
 
-    const sut = GraphQLParser.schemaToGraphQL({
-      schema: Task,
+    const sut = GraphQLParser.objectToGraphQL({
+      object: Task,
     });
 
     expect(sut.typeToString().split('\n')).toEqual([
@@ -253,23 +253,23 @@ describe('GraphQLParser', () => {
   });
 
   it('Should throw on unions as input', () => {
-    const person = createSchema('Person', {
+    const person = createObjectType('Person', {
       name: 'string',
       age: 'int?',
     });
 
-    const robot = createSchema('Robot', {
+    const robot = createObjectType('Robot', {
       name: 'string',
       age: 'int?',
       owner: person,
     });
 
-    const Task = createSchema('Task', {
+    const Task = createObjectType('Task', {
       owner: [robot, person],
     });
 
-    const sut = GraphQLParser.schemaToGraphQL({
-      schema: Task,
+    const sut = GraphQLParser.objectToGraphQL({
+      object: Task,
     });
 
     expect(() => sut.inputToString()).toThrow(
@@ -278,45 +278,45 @@ describe('GraphQLParser', () => {
   });
 
   it('Should reuse types', () => {
-    const person = createSchema('Person', {
+    const person = createObjectType('Person', {
       name: 'string',
       age: 'int?',
     });
 
-    const robot = createSchema('Robot', {
+    const robot = createObjectType('Robot', {
       name: 'string',
       age: 'int?',
       owner: person,
     });
 
-    const type1 = createSchema('Type1', {
+    const type1 = createObjectType('Type1', {
       owner: [robot, person],
     });
 
-    const type2 = createSchema('Type2', {
+    const type2 = createObjectType('Type2', {
       owner: [robot, person],
     });
 
-    const query = createSchema('Query', {
+    const query = createObjectType('Query', {
       type1: { type: type1, list: true, optional: true },
       type2: type2,
       person: person,
       robot: robot,
     });
 
-    const mutation = createSchema('Mutation', {
+    const mutation = createObjectType('Mutation', {
       type1: type1,
       type2: type2,
       person: person,
       robot: robot,
     });
 
-    const schema = new GraphQLSchema({
+    const object = new GraphQLSchema({
       query: query.graphqlType(),
       mutation: mutation.graphqlType(),
     });
 
-    expect(printSchema(schema).split('\n')).toEqual([
+    expect(printSchema(object).split('\n')).toEqual([
       'type Query {',
       '  type1: [Type1]',
       '  type2: Type2!',

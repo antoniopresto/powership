@@ -1,6 +1,6 @@
 import { getTypeName } from '@darch/utils/lib/getTypeName';
 
-import { FieldType, FieldTypeParser } from '../FieldType';
+import { FieldType, FieldTypeParser } from './FieldType';
 
 export type UnknownFieldDef = {
   types?: string[] | string;

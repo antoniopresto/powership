@@ -1,15 +1,15 @@
-import { createSchema } from '../Schema';
+import { createObjectType } from '../ObjectType';
 import { _assertFields } from '../fields/__tests__/__assert';
-import { schemaToJSON } from '../schemaToJSON';
-import { schemaToTypescript } from '../schemaToTypescript';
+import { objectToJSON } from '../objectToJSON';
+import { objectToTypescript } from '../objectToTypescript';
 
 test('examples', async () => {
-  const addressSchema = createSchema({
+  const addressObject = createObjectType({
     street: 'string',
     number: ['string', 'int?'],
   });
 
-  const userSchema = createSchema(
+  const userObject = createObjectType(
     {
       name: 'string', // any string
       email: 'email?', // email type - will validate against email regex
@@ -29,15 +29,15 @@ test('examples', async () => {
         list: true,
       },
 
-      // using a previous schema as field type
+      // using a previous object as field type
       optionalAddress: {
-        schema: addressSchema,
+        object: addressObject,
         optional: true,
       },
 
-      // another way to define schema fields
+      // another way to define object fields
       deliveryAddress: {
-        schema: {
+        object: {
           street: 'string',
           number: 'int?',
         },
@@ -45,17 +45,17 @@ test('examples', async () => {
     } as const // "as const" is needed to TS to infer types correctly
   );
 
-  expect(() => userSchema.parse({ name: 'Antonio', letter: 'x' })).toThrow(
+  expect(() => userObject.parse({ name: 'Antonio', letter: 'x' })).toThrow(
     `field "letter": accepted: 'a' or 'b' or 'c', found x.`
   );
 
   expect(() =>
-    userSchema.parse({ name: 'antonio', letter: 'a', deliveryAddress: {} })
+    userObject.parse({ name: 'antonio', letter: 'a', deliveryAddress: {} })
   ).toThrow(
     'field "deliveryAddress": ➤ field "street": expected type string, found undefined.'
   );
 
-  const parsed = userSchema.parse({
+  const parsed = userObject.parse({
     name: 'antonio',
     letter: 'a',
     deliveryAddress: { street: 'alameda' },
@@ -87,7 +87,7 @@ test('examples', async () => {
     }
   >(true);
 
-  const interfaceTxt = await schemaToTypescript('User', userSchema);
+  const interfaceTxt = await objectToTypescript('User', userObject);
   expect(interfaceTxt).toBe(
     `/* tslint:disable */
 /**
@@ -115,9 +115,9 @@ export interface User {
 `
   );
 
-  const jsonSchema = schemaToJSON('User', userSchema);
+  const jSONSchema = objectToJSON('User', userObject);
 
-  expect(jsonSchema).toEqual({
+  expect(jSONSchema).toEqual({
     additionalProperties: false,
     properties: {
       age: {

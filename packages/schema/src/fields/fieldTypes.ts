@@ -11,9 +11,9 @@ import { IDField } from './IDField';
 import { IntField } from './IntField';
 import { MetaField } from './MetaFieldField';
 import { NullField } from './NullField';
+import { ObjectField } from './ObjectField';
 import { RecordField } from './RecordField';
 import { StringField } from './StringField';
-import { SubSchemaField } from './SubSchema';
 import { UlidField } from './UlidField';
 import { UndefinedField } from './UndefinedField';
 import { UnionField } from './UnionField';
@@ -37,7 +37,7 @@ export const types = createConstructors({
   boolean: BooleanField,
   enum: EnumField,
   union: UnionField,
-  schema: SubSchemaField,
+  object: ObjectField,
   email: EmailField,
   ulid: UlidField,
   cursor: CursorField,

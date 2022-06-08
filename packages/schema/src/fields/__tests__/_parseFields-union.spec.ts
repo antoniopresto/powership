@@ -1,20 +1,20 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
-import { Schema } from '../../Schema';
+import { ObjectType } from '../../ObjectType';
 import { InferField } from '../_parseFields';
 
 test('infer union types', () => {
-  type TUnion = InferField<{ schema: { name: ['string', 'int'] } }>;
+  type TUnion = InferField<{ object: { name: ['string', 'int'] } }>;
   assert<IsExact<TUnion, { name: string | number }>>(true);
 
   type TUnionList = InferField<{
-    schema: { name: ['string', 'int'] };
+    object: { name: ['string', 'int'] };
     list: true;
   }>;
   assert<IsExact<TUnionList, { name: string | number }[]>>(true);
 
   type TUnionListOptional = InferField<{
-    schema: { name: ['string', 'int'] };
+    object: { name: ['string', 'int'] };
     list: true;
     optional: true;
   }>;
@@ -23,7 +23,7 @@ test('infer union types', () => {
   );
 
   type TUnionListOptionalItem = InferField<{
-    schema: { name: ['string', 'int?'] };
+    object: { name: ['string', 'int?'] };
     list: true;
     optional: true;
   }>;
@@ -35,13 +35,13 @@ test('infer union types', () => {
     IsExact<TUnionListOptionalItem, { name?: string | number }[] | undefined>
   >(true);
 
-  type SampleSchema = Schema<{
+  type SampleObject = ObjectType<{
     street: 'string';
     number: 'int?';
     days: { enum: ['0', '1']; list: true; optional: true };
-    add: { schema: { name: 'string' } };
+    add: { object: { name: 'string' } };
     addListOptional: {
-      schema: {
+      object: {
         name: 'string';
         uni: [
           { enum: ['a', 'b'] }, //
@@ -53,9 +53,9 @@ test('infer union types', () => {
     };
   }>;
 
-  type TSampleSchemaInfer = InferField<SampleSchema>;
+  type TSampleObjectInfer = InferField<SampleObject>;
 
-  type TSampleSchema = {
+  type TSampleObject = {
     street: string;
     number?: number | undefined;
     days?: ('0' | '1')[] | undefined;
@@ -68,10 +68,10 @@ test('infer union types', () => {
       | undefined;
   };
 
-  assert<IsExact<TSampleSchema, TSampleSchemaInfer>>(true);
+  assert<IsExact<TSampleObject, TSampleObjectInfer>>(true);
 
-  type AddressSchema = InferField<{
-    schema: {
+  type AddressObject = InferField<{
+    object: {
       name: 'string'; // any string
       email: 'email?'; // email type - will validate against email regex
       age: 'int?'; // optional integer
@@ -90,20 +90,20 @@ test('infer union types', () => {
         list: true;
       };
 
-      // using a previous schema as field type
+      // using a previous object as field type
       optionalAddress: {
-        schema: SampleSchema;
+        object: SampleObject;
         optional: true;
       };
 
-      // another way to define schema fields
-      deliveryAddress: SampleSchema;
+      // another way to define object fields
+      deliveryAddress: SampleObject;
     };
   }>;
 
   assert<
     IsExact<
-      AddressSchema,
+      AddressObject,
       {
         name: string;
         email?: string | undefined;
@@ -112,8 +112,8 @@ test('infer union types', () => {
         unionField?: string | number[] | undefined;
         letter: 'a' | 'b' | 'c';
         letterOptionalList?: ('x' | 'y' | 'z')[] | undefined;
-        optionalAddress?: TSampleSchema | undefined;
-        deliveryAddress: TSampleSchema;
+        optionalAddress?: TSampleObject | undefined;
+        deliveryAddress: TSampleObject;
       }
     >
   >(true);

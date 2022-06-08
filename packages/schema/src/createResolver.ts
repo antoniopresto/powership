@@ -2,12 +2,12 @@ import { StrictMap } from '@darch/utils/lib/StrictMap';
 import { GraphQLFieldConfig, GraphQLResolveInfo } from 'graphql';
 
 import { Infer } from './Infer';
-import { createDarchSchema, Schema } from './Schema';
-import { SchemaDefinitionInput, SchemaFieldInput } from './fields/_parseFields';
+import { createDarchObject, ObjectType } from './ObjectType';
+import { ObjectDefinitionInput, ObjectFieldInput } from './fields/_parseFields';
 
 export class Resolver<
-  TypeDef extends SchemaFieldInput | Schema<SchemaDefinitionInput>,
-  ArgsDef extends SchemaDefinitionInput,
+  TypeDef extends ObjectFieldInput | ObjectType<ObjectDefinitionInput>,
+  ArgsDef extends ObjectDefinitionInput,
   Context = unknown,
   Source = unknown
 > {
@@ -19,11 +19,11 @@ export class Resolver<
   ) {
     const { args, type, name, description, resolve, ...rest } = options;
 
-    const argsSchema = isPossibleArgsDef(args)
-      ? createDarchSchema(`${name}Input`, args)
+    const argsObject = isPossibleArgsDef(args)
+      ? createDarchObject(`${name}Input`, args)
       : undefined;
 
-    const payloadType = createDarchSchema(`${name}Payload`, {
+    const payloadType = createDarchObject(`${name}Payload`, {
       payload: type as 'any',
     });
 
@@ -33,8 +33,8 @@ export class Resolver<
       context,
       info
     ) {
-      args = argsSchema
-        ? argsSchema.parse(args, {
+      args = argsObject
+        ? argsObject.parse(args, {
             customMessage: (_, error) => {
               return `Invalid input provided to resolver "${name}":\n ${error.message}`;
             },
@@ -54,7 +54,7 @@ export class Resolver<
       return payload;
     };
 
-    const ArgsType = argsSchema ? argsSchema.graphqlInputType() : undefined;
+    const ArgsType = argsObject ? argsObject.graphqlInputType() : undefined;
 
     this.fieldConfig = {
       ...rest,
@@ -83,13 +83,13 @@ export class Resolver<
   // cloneArg
 }
 
-function isPossibleArgsDef(args: any): args is Readonly<SchemaDefinitionInput> {
+function isPossibleArgsDef(args: any): args is Readonly<ObjectDefinitionInput> {
   return args && typeof args === 'object' && Object.keys(args).length;
 }
 
 export function createResolver<
-  TypeDef extends SchemaFieldInput | Schema<SchemaDefinitionInput>,
-  ArgsDef extends SchemaDefinitionInput = { [K: string]: 'unknown?' },
+  TypeDef extends ObjectFieldInput | ObjectType<ObjectDefinitionInput>,
+  ArgsDef extends ObjectDefinitionInput = { [K: string]: 'unknown?' },
   Context = unknown,
   Source = unknown
 >(
@@ -117,8 +117,8 @@ type Extensions = {
 type ProjectionType = { [K: string]: any };
 
 export interface CreateResolverOptions<
-  TypeDef extends SchemaFieldInput | Schema<SchemaDefinitionInput>,
-  ArgsDef extends SchemaDefinitionInput,
+  TypeDef extends ObjectFieldInput | ObjectType<ObjectDefinitionInput>,
+  ArgsDef extends ObjectDefinitionInput,
   Context = unknown,
   Source = unknown
 > {
@@ -135,14 +135,14 @@ export interface CreateResolverOptions<
 }
 
 export interface ResolveFunction<
-  TypeDef extends SchemaFieldInput | Schema<SchemaDefinitionInput>,
-  ArgsDef extends SchemaDefinitionInput,
+  TypeDef extends ObjectFieldInput | ObjectType<ObjectDefinitionInput>,
+  ArgsDef extends ObjectDefinitionInput,
   Context = unknown,
   Source = unknown
 > {
   (
     source: Source,
-    args: ArgsDef extends { [K: string]: SchemaFieldInput }
+    args: ArgsDef extends { [K: string]: ObjectFieldInput }
       ? Infer<ArgsDef>
       : {},
     context: Context,

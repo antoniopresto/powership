@@ -2,9 +2,10 @@ import { getTypeName } from '@darch/utils/lib/getTypeName';
 import { inspectObject } from '@darch/utils/lib/inspectObject';
 import { uniq } from '@darch/utils/lib/uniq';
 
-import { FieldType, FieldTypeParser, TAnyFieldType } from '../FieldType';
 import { Infer } from '../Infer';
-import type { FieldDefinitionConfig } from '../TSchemaConfig';
+import type { FieldDefinitionConfig } from '../TObjectConfig';
+
+import { FieldType, FieldTypeParser, TAnyFieldType } from './FieldType';
 
 export class UnionField<
   U extends FieldDefinitionConfig,
@@ -12,7 +13,7 @@ export class UnionField<
 > extends FieldType<Infer<T[number]>, 'union', T> {
   //
   parse: FieldTypeParser<Infer<T[number]>>;
-  
+
   utils = {
     fieldTypes: [] as TAnyFieldType[],
   };
@@ -24,11 +25,11 @@ export class UnionField<
   constructor(def: T) {
     super('union', def);
 
-    const { parseSchemaField } = require('../parseSchemaDefinition');
+    const { parseObjectField } = require('../parseObjectDefinition');
 
     this.utils.fieldTypes = def.map((el, index) => {
       try {
-        return parseSchemaField(`UnionItem_${index}`, el, true);
+        return parseObjectField(`UnionItem_${index}`, el, true);
       } catch (e: any) {
         let message = `Filed to parse type:`;
         message += `\n${inspectObject(el, { tabSize: 2 })}`;
@@ -49,7 +50,7 @@ export class UnionField<
         if (input === undefined && this.optional) return input;
 
         const messages: string[] = [];
-        const schemaErrors: any[] = [];
+        const objectErrors: any[] = [];
 
         for (let parser of this.utils.fieldTypes) {
           try {
@@ -58,16 +59,16 @@ export class UnionField<
             messages.push(`As ${parser.typeName} throws: ${e.message}`);
 
             if (
-              parser.typeName === 'schema' &&
+              parser.typeName === 'object' &&
               getTypeName(input) === 'Object'
             ) {
-              schemaErrors.push(e);
+              objectErrors.push(e);
             }
           }
         }
 
-        if (schemaErrors.length) {
-          throw schemaErrors[0];
+        if (objectErrors.length) {
+          throw objectErrors[0];
         }
 
         const expected = uniq(

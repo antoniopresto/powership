@@ -4,36 +4,36 @@ import { getKeys } from '@darch/utils/lib/getKeys';
 import { invariantType } from '@darch/utils/lib/invariant';
 import { JSONSchema4 } from 'json-schema';
 
-import { isSchema } from './Schema';
-import { SchemaDefinitionInput } from './TSchemaConfig';
-import { SchemaLike } from './fields/ISchemaLike';
+import { isObject } from './ObjectType';
+import { ObjectDefinitionInput } from './TObjectConfig';
+import { ObjectLike } from './fields/IObjectLike';
 import { isMetaFieldKey } from './fields/MetaFieldField';
 import { FieldTypeName } from './fields/_fieldDefinitions';
 import {
   FinalFieldDefinition,
-  FinalSchemaDefinition,
+  FinalObjectDefinition,
 } from './fields/_parseFields';
-import { parseFieldDefinitionConfig } from './parseSchemaDefinition';
+import { parseFieldDefinitionConfig } from './parseObjectDefinition';
 import { parseTypeName } from './parseTypeName';
 
 /**
- * Converts a schema to a json-schema format
+ * Converts an object to a json-schema format
  * @param parentName
- * @param schema
+ * @param object
  */
-export function schemaToJSON(
+export function objectToJSON(
   parentName: string,
-  schema: SchemaLike | SchemaDefinitionInput
+  object: ObjectLike | ObjectDefinitionInput
 ): JSONSchema4 & { properties: JSONSchema4 } {
-  let definition: FinalSchemaDefinition;
+  let definition: FinalObjectDefinition;
 
-  if (isSchema(schema)) {
-    definition = schema.definition as FinalSchemaDefinition;
+  if (isObject(object)) {
+    definition = object.definition as FinalObjectDefinition;
   } else {
-    definition = schema as FinalSchemaDefinition;
+    definition = object as FinalObjectDefinition;
   }
 
-  const description = isSchema(schema) ? schema.description : undefined;
+  const description = isObject(object) ? object.description : undefined;
 
   const topProperties: Record<string, JSONSchema4> = {};
   const required: string[] = [];
@@ -42,7 +42,7 @@ export function schemaToJSON(
     title: parseTypeName({
       parentName: parentName,
       fieldName: '',
-      field: { type: 'schema', def: schema },
+      field: { type: 'object', def: object },
     }),
     type: 'object',
     properties: topProperties,
@@ -172,14 +172,14 @@ function parseField(params: {
       jsonItem.type = 'any';
       jsonItem.tsType = 'unknown';
     },
-    schema() {
-      const schemaName = parseTypeName({
+    object() {
+      const objectName = parseTypeName({
         parentName: parentName || '',
         fieldName: '',
         field,
       });
 
-      Object.assign(jsonItem, schemaToJSON(schemaName, field.def), {
+      Object.assign(jsonItem, objectToJSON(objectName, field.def), {
         title: '',
       });
     },
