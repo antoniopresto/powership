@@ -1,5 +1,7 @@
 import { NullableToPartial } from '@darch/utils/lib/typeUtils';
 
+import { DarchType } from '../DarchType';
+
 import { ObjectLike } from './IObjectLike';
 import {
   CursorType,
@@ -10,18 +12,29 @@ import {
 export type ObjectFieldInput =
   | ObjectLike
   | ObjectInTypeFieldDefinition
+  | DarchType<unknown>
+  | DarchTypeInTypeFieldDefinition
   | FinalFieldDefinition
   | FieldAsString
   | FlattenFieldDefinition
   | ObjectInputArray
   | Readonly<ObjectInputArray>;
-// should update Infer.ts if add any new type here
+// should update _toFinalField and Infer.ts if add any new type here
 
 // https://github.com/microsoft/TypeScript/issues/3496#issuecomment-128553540
 interface ObjectInputArray extends Readonly<Array<ObjectFieldInput>> {}
 
 export interface ObjectInTypeFieldDefinition {
   type: ObjectLike;
+  def?: never;
+  list?: boolean;
+  optional?: boolean;
+  description?: string;
+  __infer?: any;
+}
+
+export interface DarchTypeInTypeFieldDefinition {
+  type: DarchType<unknown>;
   def?: never;
   list?: boolean;
   optional?: boolean;
@@ -72,91 +85,115 @@ export type FieldAsString =
 
 export type ToFinalField<Base> =
   //
-  _handleOptional<
-    _handleList<
-      _injectInfer<
-        //
-        // ==== start handling fieldType instance ====
-        Base extends { __isFieldType: true; parsed: infer Parsed }
-          ? Parsed
-          : // === end handling fieldType instance
-
-          Base extends {
-              type: ObjectLike;
-              list?: infer List;
-              optional?: infer Optional;
-            }
-          ? {
-              type: 'object';
-              def: Base['type']['definition'];
-              list: [List] extends [true] ? true : false;
-              optional: [Optional] extends [true] ? true : false;
-              __infer: InferObjectDefinition<Base['type']['definition']>;
-            }
-          : //
-          Base extends {
-              object: ObjectLike;
-              list?: infer List;
-              optional?: infer Optional;
-            }
-          ? {
-              type: 'object';
-              def: Base['object']['definition'];
-              list: [List] extends [true] ? true : false;
-              optional: [Optional] extends [true] ? true : false;
-              __infer: InferObjectDefinition<Base['object']['definition']>;
-            }
-          : //
-          //
-          Base extends ObjectLike
-          ? {
-              type: 'object';
-              def: Base['definition'];
-              list: false;
-              optional: false;
-              description: string | undefined;
-              __infer: InferObjectDefinition<Base['definition']>;
-            }
-          : //
-
-          // === start handling union type ===
-          Base extends Array<infer Item> | Readonly<Array<infer Item>>
-          ? {
-              type: 'union';
-              def: Array<Item>;
-              list: undefined;
-              optional: undefined;
-              description: string | undefined;
-            }
-          : // === end handling union type
-
-          // ==== start handling FieldAsString ====
-          Base extends FieldAsString
-          ? ParseStringDefinition<Base>
-          : // ==== end handling FieldAsString ====
-
-          Base extends {
-              type: FieldTypeName;
-              def?: infer Def;
-              list?: boolean;
-              optional?: boolean;
-            }
-          ? {
-              type: Base['type'];
-              def: Def;
-              list: [Base['list']] extends [true] ? true : undefined;
-              optional: [Base['optional']] extends [true] ? true : undefined;
-              description: string | undefined;
-            }
-          : // ==== start handling FieldAsTypeKey ====
-            {
-              [K in keyof ParseFlattenFieldDef<Base>]: ParseFlattenFieldDef<Base>[K];
-            }
-      >
-    >
-  >;
+  _handleOptional<_handleList<_injectInfer<_toFinalField<Base>>>>;
 
 type GetI<T> = T extends { __infer: infer I } ? I : never;
+
+//
+export type _toFinalField<Base> = //
+  //
+  //
+
+  // ====== handling DarchType as Field =====
+  Base extends DarchType<infer Def>
+    ? _toFinalField<Def>
+    : Base extends {
+        type: DarchType<infer Def>;
+        list?: infer List;
+        optional?: infer Optional;
+      }
+    ? _toFinalField<Def> extends {
+        type?: infer Type;
+        def: infer Def;
+      }
+      ? _toFinalField<{
+          type: Type;
+          def: Def;
+          list: List;
+          optional: Optional;
+        }>
+      : never
+    : //
+    // ====== FINISH handling DarchType as Field =====
+
+    //
+    //
+    // ==== start handling fieldType instance ====
+    Base extends { __isFieldType: true; parsed: infer Parsed }
+    ? Parsed
+    : // === end handling fieldType instance
+
+    Base extends {
+        type: ObjectLike;
+        list?: infer List;
+        optional?: infer Optional;
+      }
+    ? {
+        type: 'object';
+        def: Base['type']['definition'];
+        list: [List] extends [true] ? true : false;
+        optional: [Optional] extends [true] ? true : false;
+        __infer: InferObjectDefinition<Base['type']['definition']>;
+      }
+    : //
+    Base extends {
+        object: ObjectLike;
+        list?: infer List;
+        optional?: infer Optional;
+      }
+    ? {
+        type: 'object';
+        def: Base['object']['definition'];
+        list: [List] extends [true] ? true : false;
+        optional: [Optional] extends [true] ? true : false;
+        __infer: InferObjectDefinition<Base['object']['definition']>;
+      }
+    : //
+    //
+    Base extends ObjectLike
+    ? {
+        type: 'object';
+        def: Base['definition'];
+        list: false;
+        optional: false;
+        description: string | undefined;
+        __infer: InferObjectDefinition<Base['definition']>;
+      }
+    : //
+
+    // === start handling union type ===
+    Base extends Array<infer Item> | Readonly<Array<infer Item>>
+    ? {
+        type: 'union';
+        def: Array<Item>;
+        list: undefined;
+        optional: undefined;
+        description: string | undefined;
+      }
+    : // === end handling union type
+
+    // ==== start handling FieldAsString ====
+    Base extends FieldAsString
+    ? ParseStringDefinition<Base>
+    : // ==== end handling FieldAsString ====
+
+    Base extends {
+        type: FieldTypeName;
+        def?: infer Def;
+        list?: boolean;
+        optional?: boolean;
+      }
+    ? {
+        type: Base['type'];
+        def: Def;
+        list: [Base['list']] extends [true] ? true : undefined;
+        optional: [Base['optional']] extends [true] ? true : undefined;
+        description: string | undefined;
+      }
+    : // ==== start handling FieldAsTypeKey ====
+      {
+        [K in keyof ParseFlattenFieldDef<Base>]: ParseFlattenFieldDef<Base>[K];
+      };
 
 // inject  the `__infer` property
 type _injectInfer<T> = T extends {
@@ -199,7 +236,7 @@ type _injectInfer<T> = T extends {
     }
   : never;
 
-type _handleList<T> = T extends {
+export type _handleList<T> = T extends {
   __infer: infer Infer;
   list?: infer List;
 }
@@ -210,7 +247,7 @@ type _handleList<T> = T extends {
     : T
   : never;
 
-type _handleOptional<T> = T extends {
+export type _handleOptional<T> = T extends {
   __infer: infer Infer;
   optional?: infer Optional;
 }

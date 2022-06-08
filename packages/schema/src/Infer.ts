@@ -1,11 +1,10 @@
-import type { DarchType } from './DarchType';
+import { DarchType } from './DarchType';
 import { ObjectLike } from './fields/IObjectLike';
 import {
   FieldAsString,
   FinalFieldDefinition,
   InferField,
   ObjectInTypeFieldDefinition,
-  ToFinalField,
 } from './fields/_parseFields';
 
 export type Infer<T> =
@@ -16,7 +15,7 @@ export type Infer<T> =
     : //
     // Type
     T extends DarchType<infer Def>
-    ? InferField<ToFinalField<Def>>
+    ? T['definition']['__infer']
     : //
     T extends ObjectLike
     ? InferField<{ type: 'object'; def: T['definition'] }>

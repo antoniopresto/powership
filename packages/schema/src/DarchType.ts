@@ -31,8 +31,7 @@ import { withCache, WithCache } from './withCache';
 const register = new StrictMap<string, DarchType<any>>();
 const resolvers = new StrictMap<string, AnyDarchGraphQLResolver>();
 
-export class DarchType<Definition extends ObjectFieldInput> {
-  __isDarchType = true;
+export class DarchType<Definition> {
   static __isDarchType = true;
 
   static register = register;
@@ -62,7 +61,7 @@ export class DarchType<Definition extends ObjectFieldInput> {
 
   constructor(...args: any[]) {
     let name: string | undefined = undefined;
-    let definition: Definition;
+    let definition: ObjectFieldInput;
 
     if (args.length === 2) {
       name = args[0];
@@ -99,8 +98,7 @@ export class DarchType<Definition extends ObjectFieldInput> {
 
     this.id = name;
 
-    this.definition =
-      this.__field.toObjectFieldType() as ToFinalField<Definition>;
+    this.definition = this.__field.toObjectFieldType() as any;
 
     if (register.has(name)) {
       const existing = register.get(name);
@@ -287,12 +285,8 @@ export function createType(...args: any[]) {
 export interface DarchGraphQLFieldConfigInput<
   Context = unknown,
   Source = unknown,
-  TypeDef extends ObjectFieldInput | ObjectType<ObjectDefinitionInput> =
-    | ObjectFieldInput
-    | ObjectType<ObjectDefinitionInput>,
-  //
-  ArgsDef extends ObjectDefinitionInput = ObjectDefinitionInput
-  //
+  TypeDef = unknown,
+  ArgsDef = unknown
 > extends Omit<
     GraphQLFieldConfig<Source, Context>,
     'resolve' | 'type' | 'args'
@@ -308,12 +302,8 @@ export type AnyDarchGraphQLResolver = DarchGraphQLResolver<any, any, any, any>;
 export interface DarchGraphQLResolver<
   Context = unknown,
   Source = unknown,
-  TypeDef extends ObjectFieldInput | ObjectType<ObjectDefinitionInput> =
-    | ObjectFieldInput
-    | ObjectType<ObjectDefinitionInput>,
-  //
-  ArgsDef extends ObjectDefinitionInput = ObjectDefinitionInput
-  //
+  TypeDef = unknown,
+  ArgsDef = unknown
 > extends Omit<GraphQLFieldConfig<Source, Context>, 'resolve'> {
   resolve: ResolveFunction<Context, Source, TypeDef, ArgsDef>;
   name: string;
@@ -325,10 +315,8 @@ export interface DarchGraphQLResolver<
 export interface ResolveFunction<
   Context = unknown,
   Source = unknown,
-  TypeDef extends ObjectFieldInput | ObjectType<ObjectDefinitionInput> =
-    | ObjectFieldInput
-    | ObjectType<ObjectDefinitionInput>,
-  ArgsDef extends ObjectDefinitionInput = ObjectDefinitionInput
+  TypeDef = unknown,
+  ArgsDef = unknown
 > {
   (
     source: Source,
