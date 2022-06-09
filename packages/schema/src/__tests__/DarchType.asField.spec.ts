@@ -56,7 +56,7 @@ describe('DarchType.asField', () => {
     const ts = await schema.utils.typescript();
 
     expect(ts.split('\n')).toEqual([
-      'export interface EmptyArgs {}',
+      'export type EmptyArgs = undefined;',
       '',
       'export type userNodeNodeSubscriptionInput = {',
       '  option: "a" | "b";',

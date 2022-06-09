@@ -117,15 +117,14 @@ export type ResolversToTypeScriptOptions = {
   resolvers: DarchResolver[];
 };
 
-export async function resolversToTypescript(
+export async function resolversTypescriptParts(
   params: ResolversToTypeScriptOptions
 ) {
   const { name = 'Schema', options = {}, resolvers } = params;
-  const { format = true } = options;
 
-  const { prettier, objectToTypescript } = ObjectType.serverUtils();
+  const { objectToTypescript } = ObjectType.serverUtils();
 
-  let prefix = 'export interface EmptyArgs {}';
+  let prefix = '\n\nexport type EmptyArgs  = undefined;\n\n';
 
   const convert = async (entryName: string, type: any) => {
     const { description } = type;
@@ -210,6 +209,19 @@ export async function resolversToTypescript(
   });
 
   const code = `${prefix}\n\n${typesCode}\n\n${interfaceCode}}`;
+
+  return { code, lines };
+}
+
+export async function resolversToTypescript(
+  params: ResolversToTypeScriptOptions
+) {
+  const { options = {} } = params;
+  const { format = true } = options;
+
+  const { prettier } = ObjectType.serverUtils();
+
+  const { code } = await resolversTypescriptParts(params);
 
   return format ? prettier.format(code, { parser: 'typescript' }) : code;
 }

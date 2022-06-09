@@ -163,7 +163,7 @@ describe('createGraphQLObject', () => {
     const ts = await object.utils.typescript();
 
     expect(ts.split('\n')).toEqual([
-      'export interface EmptyArgs {}',
+      'export type EmptyArgs = undefined;',
       '',
       'export type NumbersQueryInput = {',
       '  min?: number;',
