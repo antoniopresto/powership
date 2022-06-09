@@ -6,6 +6,7 @@ import { inspectObject } from '@darch/utils/lib/inspectObject';
 import { nonNullValues } from '@darch/utils/lib/invariant';
 import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 
+import { DarchType } from './DarchType';
 import { isObject, ObjectType } from './ObjectType';
 import { FieldDefinitionConfig, ObjectDefinitionInput } from './TObjectConfig';
 import { fieldInstanceFromDef } from './fieldInstanceFromDef';
@@ -21,7 +22,6 @@ import {
   isStringFieldDefinition,
   parseStringDefinition,
 } from './parseStringDefinition';
-import { DarchType } from './DarchType';
 
 export function parseObjectField<T extends FieldDefinitionConfig>(
   fieldName: string,

@@ -4,9 +4,9 @@ import { GraphQLObjectType } from 'graphql';
 import groupBy from 'lodash/groupBy';
 
 import type { DarchResolver } from './DarchType';
+import { assertDarchResolver } from './DarchType';
 import { ObjectType, parseFieldDefinitionConfig } from './ObjectType';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
-import { assertDarchResolver } from './DarchType';
 
 export type CreateGraphQLObjectOptions = Partial<GraphQLSchemaConfig>;
 
@@ -20,7 +20,7 @@ export type GraphQLSchemaWithUtils = import('graphql').GraphQLSchema & {
     resolvers: DarchResolver<any>[];
     registeredResolvers: DarchResolver<any>[];
     grouped: GroupedResolvers;
-    tsPrint: (options?: ResolversToTypeScriptOptions) => Promise<string>;
+    typescript: (options?: ResolversToTypeScriptOptions) => Promise<string>;
   };
 };
 
@@ -95,7 +95,7 @@ export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
     resolvers,
     registeredResolvers,
     grouped,
-    async tsPrint(options?: ResolversToTypeScriptOptions) {
+    async typescript(options?: ResolversToTypeScriptOptions) {
       return (ts =
         ts ||
         resolversToTypescript({

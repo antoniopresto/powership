@@ -30,7 +30,7 @@ import { parseObjectField } from './parseObjectDefinition';
 import { withCache, WithCache } from './withCache';
 
 const register = new StrictMap<string, any>();
-const resolvers = new StrictMap<string, AnyDarchResolver>();
+const resolvers = new StrictMap<string, any>();
 
 export class DarchType<Definition> {
   static is(input: any): input is DarchType<unknown> {
@@ -283,13 +283,13 @@ export class DarchType<Definition> {
 
     resolvers.set(name, result);
 
-    return result;
+    return result as any;
   };
 }
 
 export function assertDarchResolver(
   input: any
-): asserts input is AnyDarchResolver {
+): asserts input is { __isResolver: true } {
   if (input?.__isResolver !== true) {
     throw new Error(`invalid DarchResolver`);
   }

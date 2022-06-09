@@ -160,7 +160,7 @@ describe('createGraphQLObject', () => {
 
     const object = createGraphQLSchema();
 
-    const ts = await object.utils.tsPrint();
+    const ts = await object.utils.typescript();
 
     expect(ts.split('\n')).toEqual([
       'export interface EmptyArgs {}',

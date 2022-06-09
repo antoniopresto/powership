@@ -17,7 +17,7 @@ export class ObjectField<
     object: ObjectType<DefinitionInput>;
   };
 
-  static is(t: any): t is ObjectField<ObjectDefinitionInput> {
+  static is(t: any): t is ObjectField<any> {
     return isFieldInstance(t) && t.typeName === 'object';
   }
 

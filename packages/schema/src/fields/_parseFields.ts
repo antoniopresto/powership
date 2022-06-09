@@ -102,17 +102,12 @@ export type _toFinalField<Base> = //
         list?: infer List;
         optional?: infer Optional;
       }
-    ? _toFinalField<Def> extends {
-        type?: infer Type;
-        def: infer Def;
+    ? {
+        type: ToFinalField<Def>['type'];
+        def: ToFinalField<Def>['def'];
+        list: [List] extends [true] ? true : false;
+        optional: [Optional] extends [true] ? true : false;
       }
-      ? _toFinalField<{
-          type: Type;
-          def: Def;
-          list: List;
-          optional: Optional;
-        }>
-      : never
     : //
     // ====== FINISH handling DarchType as Field =====
 

@@ -24,6 +24,7 @@ import {
   ValidationCustomMessage,
 } from './applyValidator';
 import { assertSameDefinition } from './assertSameDefinition';
+import { ObjectLike } from './fields/IObjectLike';
 import {
   getObjectDefinitionMetaField,
   isMetaFieldKey,
@@ -39,6 +40,7 @@ import type {
 } from './fields/_parseFields';
 import { validateObjectFields } from './getObjectErrors';
 import { getObjectHelpers, ObjectHelpers } from './getObjectHelpers';
+import { ImplementObject, implementObject } from './implementObject';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
 import { parseObjectDefinition } from './parseObjectDefinition';
 import { withCache, WithCache } from './withCache';
@@ -440,6 +442,13 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
     return this.__withCache('graphqlInputType', () =>
       this.toGraphQL().getInputType(options)
     );
+  };
+
+  implement = <Parents extends ReadonlyArray<ObjectLike>>(
+    name: string,
+    ...parents: Parents
+  ): ImplementObject<ObjectType<DefinitionInput>, Parents> => {
+    return implementObject(name, this.definition as any, ...parents);
   };
 
   static serverUtils() {

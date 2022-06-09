@@ -1,6 +1,6 @@
 {
   "name": "@darch/builder",
-  "version": "2.0.0-alpha.1654736805.29+480451c",
+  "version": "2.0.0-alpha.1654740893.30+fd193c5",
   "main": "builder.js.js",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -25,5 +25,5 @@
   "prettier": {
     "singleQuote": true
   },
-  "gitHead": "480451cec419cb070a6da0b3e220b760426e51d8"
+  "gitHead": "fd193c554099d605c8952c7c9beaffaa1a57a65c"
 }
