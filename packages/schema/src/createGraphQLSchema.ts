@@ -162,6 +162,8 @@ export async function resolversTypescriptParts(
 
   const chain = resolvers.map(async (resolver) => {
     const entryName = `${resolver.name}${capitalize(resolver.kind || 'query')}`;
+    const inputName = `${entryName}Input`;
+    const payloadName = `${entryName}Payload`;
 
     const payload = await convert(
       `${entryName}Payload`,
@@ -169,20 +171,22 @@ export async function resolversTypescriptParts(
     );
 
     const args = resolver.argsDef
-      ? await convert(`${entryName}Input`, { object: resolver.argsDef })
+      ? await convert(inputName, { object: resolver.argsDef })
       : { code: `undefined | EmptyArgs`, description: '', comments: '' };
 
     let code = '';
 
-    code += `${args.comments}export type ${entryName}Input = ${args.code};`;
+    code += `${args.comments}export type ${inputName} = ${args.code};`;
 
-    code += `${payload.comments}export type ${entryName}Payload = ${payload.code};`;
+    code += `${payload.comments}export type ${payloadName} = ${payload.code};`;
 
     return {
       entryName,
       code,
       payload,
       args,
+      inputName,
+      payloadName,
       resolver,
     };
   });
