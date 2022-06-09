@@ -1,12 +1,6 @@
-import { AssertionError } from 'assert';
-
-import { areEqual } from '@darch/utils/lib/areEqual';
 import { assertSame } from '@darch/utils/lib/assertSame';
 
-import {
-  FinalFieldDefinition,
-  ObjectDefinitionInput,
-} from './fields/_parseFields';
+import { ObjectDefinitionInput } from './fields/_parseFields';
 import { parseObjectDefinition } from './parseObjectDefinition';
 
 export function assertSameDefinition(
@@ -22,18 +16,4 @@ export function assertSameDefinition(
     a,
     b
   );
-}
-
-export function assertSameField(
-  path: string,
-  a: FinalFieldDefinition,
-  b: FinalFieldDefinition
-) {
-  if (!areEqual(a, b)) {
-    throw new AssertionError({
-      expected: a,
-      actual: b,
-      message: `Different definitions to the same field "${path}"`,
-    });
-  }
 }
