@@ -17,6 +17,7 @@ import type {
 import { Infer } from './Infer';
 import { createObjectType, ObjectType } from './ObjectType';
 import { TAnyFieldType } from './fields/FieldType';
+import { DarchTypeLike } from './fields/IObjectLike';
 import { getObjectDefinitionId } from './fields/MetaFieldField';
 import { ObjectField } from './fields/ObjectField';
 import {
@@ -28,11 +29,22 @@ import type { ObjectToTypescriptOptions } from './objectToTypescript';
 import { parseObjectField } from './parseObjectDefinition';
 import { withCache, WithCache } from './withCache';
 
-const register = new StrictMap<string, DarchType<any>>();
-const resolvers = new StrictMap<string, AnyDarchGraphQLResolver>();
+const register = new StrictMap<string, any>();
+const resolvers = new StrictMap<string, AnyDarchResolver>();
 
 export class DarchType<Definition> {
+  static is(input: any): input is DarchType<unknown> {
+    return input?.__isDarchType === true;
+  }
+
+  static isInType(
+    input: any
+  ): input is { type: DarchTypeLike; list?: boolean; optional?: boolean } {
+    return input?.type?.__isDarchType === true;
+  }
+
   static __isDarchType = true;
+  __isDarchType = true;
 
   static register = register;
   static resolvers = resolvers;
@@ -56,8 +68,14 @@ export class DarchType<Definition> {
   readonly id: string;
   readonly _object?: ObjectType<any>;
 
-  constructor(definition: Definition);
-  constructor(name: string, definition: Definition);
+  constructor(
+    definition: Definition extends ObjectFieldInput ? Definition : never
+  );
+
+  constructor(
+    name: string,
+    definition: Definition extends ObjectFieldInput ? Definition : never
+  );
 
   constructor(...args: any[]) {
     let name: string | undefined = undefined;
@@ -208,7 +226,7 @@ export class DarchType<Definition> {
     ArgsDef extends ObjectDefinitionInput = ObjectDefinitionInput
   >(
     options: DarchGraphQLFieldConfigInput<Context, Source, Definition, ArgsDef>
-  ): DarchGraphQLResolver<Context, Source, Definition, ArgsDef> => {
+  ): DarchResolver<Context, Source, Definition, ArgsDef> => {
     const { args, name = this.id, kind = 'query', resolve, ...rest } = options;
 
     if (resolvers.has(name)) {
@@ -249,7 +267,7 @@ export class DarchType<Definition> {
       );
     };
 
-    const result: DarchGraphQLResolver<any, any, any, any> = {
+    const result = {
       ...rest,
       kind,
       name,
@@ -258,12 +276,23 @@ export class DarchType<Definition> {
       type,
       argsDef: args,
       typeDef: this.definition,
+      __isResolver: true,
     };
+
+    assertDarchResolver(result);
 
     resolvers.set(name, result);
 
     return result;
   };
+}
+
+export function assertDarchResolver(
+  input: any
+): asserts input is AnyDarchResolver {
+  if (input?.__isResolver !== true) {
+    throw new Error(`invalid DarchResolver`);
+  }
 }
 
 export function createType<Definition extends ObjectFieldInput>(
@@ -297,19 +326,20 @@ export interface DarchGraphQLFieldConfigInput<
   resolve: ResolveFunction<Context, Source, TypeDef, ArgsDef>;
 }
 
-export type AnyDarchGraphQLResolver = DarchGraphQLResolver<any, any, any, any>;
+export type AnyDarchResolver = DarchResolver;
 
-export interface DarchGraphQLResolver<
+export interface DarchResolver<
   Context = unknown,
   Source = unknown,
   TypeDef = unknown,
   ArgsDef = unknown
 > extends Omit<GraphQLFieldConfig<Source, Context>, 'resolve'> {
+  __isResolver: true;
   resolve: ResolveFunction<Context, Source, TypeDef, ArgsDef>;
   name: string;
   kind: 'query' | 'subscription' | 'mutation';
-  typeDef: TypeDef;
-  argsDef: ArgsDef;
+  typeDef: TypeDef extends ObjectFieldInput ? TypeDef : never;
+  argsDef: ArgsDef extends Record<string, any> ? ArgsDef : never;
 }
 
 export interface ResolveFunction<

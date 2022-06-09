@@ -3,34 +3,35 @@ import type { GraphQLSchemaConfig } from 'graphql';
 import { GraphQLObjectType } from 'graphql';
 import groupBy from 'lodash/groupBy';
 
-import type { DarchGraphQLResolver } from './DarchType';
+import type { DarchResolver } from './DarchType';
 import { ObjectType, parseFieldDefinitionConfig } from './ObjectType';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
+import { assertDarchResolver } from './DarchType';
 
 export type CreateGraphQLObjectOptions = Partial<GraphQLSchemaConfig>;
 
 export type GroupedResolvers = {
-  [K in DarchGraphQLResolver['kind']]: undefined | DarchGraphQLResolver<any>[];
+  [K in DarchResolver['kind']]: undefined | DarchResolver<any>[];
 };
 
 export type GraphQLSchemaWithUtils = import('graphql').GraphQLSchema & {
   utils: {
     usedConfig: GraphQLSchemaConfig;
-    resolvers: DarchGraphQLResolver<any>[];
-    registeredResolvers: DarchGraphQLResolver<any>[];
+    resolvers: DarchResolver<any>[];
+    registeredResolvers: DarchResolver<any>[];
     grouped: GroupedResolvers;
     tsPrint: (options?: ResolversToTypeScriptOptions) => Promise<string>;
   };
 };
 
-export function createGraphQLSchema(
-  resolvers?: DarchGraphQLResolver[],
+export function createGraphQLSchema<T = any>(
+  resolvers?: T[],
   config?: CreateGraphQLObjectOptions
-): GraphQLSchemaWithUtils;
+): T extends { __isResolver } ? GraphQLSchemaWithUtils : never;
 
-export function createGraphQLSchema(
-  config?: CreateGraphQLObjectOptions
-): GraphQLSchemaWithUtils;
+export function createGraphQLSchema<Config>(
+  config?: Config
+): Config extends CreateGraphQLObjectOptions ? GraphQLSchemaWithUtils : never;
 
 export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
   const {
@@ -40,9 +41,11 @@ export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
 
   const registeredResolvers = [...DarchType.DarchType.resolvers.values()];
 
-  const resolvers: DarchGraphQLResolver[] = Array.isArray(args[0])
+  const resolvers: DarchResolver[] = Array.isArray(args[0])
     ? args[0]
     : registeredResolvers;
+
+  resolvers.forEach((el) => assertDarchResolver(el));
 
   const config = Array.isArray(args[0]) ? args[1] : args[0];
 
@@ -111,7 +114,7 @@ export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
 export type ResolversToTypeScriptOptions = {
   name: string;
   options?: ObjectToTypescriptOptions;
-  resolvers: DarchGraphQLResolver[];
+  resolvers: DarchResolver[];
 };
 
 export async function resolversToTypescript(

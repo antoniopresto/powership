@@ -8,6 +8,30 @@ import { ToFinalField } from '../fields/_parseFields';
 describe('DarchType.asField', () => {
   afterEach(ObjectType.reset);
 
+  it('parseSchemaField', async () => {
+    const user = createType('user', {
+      object: {
+        name: 'string?',
+        age: 'int?',
+      },
+    });
+
+    const userNode = createType('userNode', user);
+
+    const userNodeNode = createType('userNodeNode', {
+      type: userNode,
+      list: true,
+      description: 'userNodeNode is cool',
+    });
+
+    expect(userNodeNode.definition).toMatchObject({
+      def: user.definition.def,
+      type: user.definition.type,
+      list: true,
+      description: 'userNodeNode is cool',
+    });
+  });
+
   it('infer types', async () => {
     const user = createType('user', {
       object: {

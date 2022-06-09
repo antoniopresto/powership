@@ -2,7 +2,7 @@ import { NullableToPartial } from '@darch/utils/lib/typeUtils';
 
 import { DarchType } from '../DarchType';
 
-import { ObjectLike } from './IObjectLike';
+import { DarchTypeLike, ObjectLike } from './IObjectLike';
 import {
   CursorType,
   FieldDefinitions,
@@ -10,16 +10,16 @@ import {
 } from './_fieldDefinitions';
 
 export type ObjectFieldInput =
+  | DarchTypeLike
   | ObjectLike
   | ObjectInTypeFieldDefinition
-  | DarchType<unknown>
   | DarchTypeInTypeFieldDefinition
   | FinalFieldDefinition
   | FieldAsString
   | FlattenFieldDefinition
   | ObjectInputArray
   | Readonly<ObjectInputArray>;
-// should update _toFinalField and Infer.ts if add any new type here
+// should update _toFinalField, parseObjectDefinition.ts and Infer.ts if add any new type here
 
 // https://github.com/microsoft/TypeScript/issues/3496#issuecomment-128553540
 interface ObjectInputArray extends Readonly<Array<ObjectFieldInput>> {}
@@ -34,7 +34,7 @@ export interface ObjectInTypeFieldDefinition {
 }
 
 export interface DarchTypeInTypeFieldDefinition {
-  type: DarchType<unknown>;
+  type: DarchTypeLike;
   def?: never;
   list?: boolean;
   optional?: boolean;

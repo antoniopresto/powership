@@ -21,6 +21,7 @@ import {
   isStringFieldDefinition,
   parseStringDefinition,
 } from './parseStringDefinition';
+import { DarchType } from './DarchType';
 
 export function parseObjectField<T extends FieldDefinitionConfig>(
   fieldName: string,
@@ -63,6 +64,21 @@ export function parseObjectField<T extends FieldDefinitionConfig>(
 export function parseFieldDefinitionConfig(
   definition: FieldDefinitionConfig
 ): FinalFieldDefinition {
+  if (DarchType.is(definition)) {
+    return parseFieldDefinitionConfig(definition.definition);
+  }
+
+  if (DarchType.isInType(definition)) {
+    const { list = false, optional = false, description } = definition;
+
+    return parseFieldDefinitionConfig({
+      ...definition.type.definition,
+      description: description || definition.type.definition.description,
+      list,
+      optional,
+    });
+  }
+
   if (isStringFieldDefinition(definition)) {
     return parseStringDefinition(definition);
   }

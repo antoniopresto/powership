@@ -5,6 +5,7 @@ import {
   FinalFieldDefinition,
   InferField,
   ObjectInTypeFieldDefinition,
+  ToFinalField,
 } from './fields/_parseFields';
 
 export type Infer<T> =
@@ -15,7 +16,9 @@ export type Infer<T> =
     : //
     // Type
     T extends DarchType<infer Def>
-    ? T['definition']['__infer']
+    ? ToFinalField<Def> extends { __infer: infer _In }
+      ? _In
+      : { NO_GO_HORSE_STAY_HORSE: T }
     : //
     T extends ObjectLike
     ? InferField<{ type: 'object'; def: T['definition'] }>
