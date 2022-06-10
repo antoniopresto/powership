@@ -427,7 +427,7 @@ export class GraphQLParser {
           return new GraphQLUnionType({
             ...options,
             name: subTypeName,
-            types: union.utils.fieldTypes.map((field) => {
+            types: union.utils.fieldTypes.map((field, index) => {
               if (!ObjectField.is(field)) {
                 // also relevant: https://github.com/graphql/graphql-js/issues/207
                 throw new RuntimeError(
@@ -439,7 +439,13 @@ export class GraphQLParser {
                 );
               }
 
-              return field.utils.object.graphqlType();
+              let object = field.utils.object;
+
+              if (!object.id) {
+                object = object.clone().identify(`${subTypeName}_${index}`);
+              }
+
+              return object.graphqlType();
             }),
           });
         }

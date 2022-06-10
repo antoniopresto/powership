@@ -24,6 +24,47 @@ describe('GraphQLParser', () => {
     ]);
   });
 
+  it('Should identify plain objects in union definition', () => {
+    const object = createObjectType('User', {
+      name: 'string',
+      address: {
+        object: {
+          number: {
+            union: [
+              { object: { number: 'string' } },
+              { object: { number: 'int' } },
+            ],
+          },
+        },
+      },
+    });
+
+    const sut = GraphQLParser.objectToGraphQL({
+      object,
+    });
+
+    expect(sut.typeToString().split('\n')).toEqual([
+      'type User {',
+      '  name: String!',
+      '  address: User_address!',
+      '}',
+      '',
+      'type User_address {',
+      '  number: User_address_numberUnion!',
+      '}',
+      '',
+      'union User_address_numberUnion = User_address_numberUnion_0 | User_address_numberUnion_1',
+      '',
+      'type User_address_numberUnion_0 {',
+      '  number: String!',
+      '}',
+      '',
+      'type User_address_numberUnion_1 {',
+      '  number: Int!',
+      '}',
+    ]);
+  });
+
   it('Should convert literal fields', () => {
     const object = createObjectType('person', {
       name: 'string',
