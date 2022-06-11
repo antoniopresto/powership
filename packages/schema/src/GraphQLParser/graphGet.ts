@@ -3,8 +3,23 @@ import setWith from 'lodash/setWith';
 
 import { objectToQuery } from './objectToQuery';
 
+const utilsKey = '$';
+
+// Converts a JavaScript object to a GraphQL Query string
+// Full support for nested query / mutation nodes and arguments
+// Optionally strip specific object keys using the ignoreFields option
+
+// Support for input arguments [OK]
+// Support for query aliases via __aliasFor
+// Support for Enum values via EnumType
+// Support for variables via __variables
+// Support for simple directives (such as @client) via __directives
+// Support for one or more inline fragments via __on.__typeName
+// Support for full fragments via __all_on
+// Support for named queries/mutations via __name
 export class QueryBuilder<S extends Record<string, any> = Record<string, any>> {
   chain = new Set<string>();
+  edges = new Map<string, Function>();
   object: Record<string, any> = {};
   query = '';
 
@@ -14,8 +29,30 @@ export class QueryBuilder<S extends Record<string, any> = Record<string, any>> {
 
   read = () => {
     this.object = Object.create(null);
+    const self = this;
 
-    this.chain.forEach((key) => {
+    const chainArray = [...self.chain.values()];
+    chainArray.forEach((value, index) => {
+      if (value.endsWith(utilsKey)) {
+        const methodAndArgsKey = chainArray[index + 2];
+        const parts = methodAndArgsKey
+          .split(/(\.\$\.|\$F|\$A)/)
+          .filter((item) => item && item.indexOf(utilsKey) === -1);
+
+        const [parentKey, method, args] = parts;
+
+        const real: any = self.edges.get(parentKey);
+
+        real[`__${method}`] = JSON.parse(args);
+
+        delete chainArray[index];
+        delete chainArray[index + 1];
+        delete chainArray[index + 2];
+      }
+    });
+
+    chainArray.forEach((key) => {
+      const edge = this.edges.get(key);
       let value = Object.create(null);
 
       // TODO find a better way
@@ -33,9 +70,11 @@ export class QueryBuilder<S extends Record<string, any> = Record<string, any>> {
           .join('');
 
         if (args) {
-          key = key + '.__args';
           try {
-            value = JSON.parse(args);
+            if (args !== '{}') {
+              value = JSON.parse(args);
+              key = key + '.__args';
+            }
           } catch (e) {
             throw new RuntimeError(`Failed to parse query args`, {
               args,
@@ -45,6 +84,12 @@ export class QueryBuilder<S extends Record<string, any> = Record<string, any>> {
         }
       }
 
+      // defining the value props (like __aliasFor, etc.) from the reference in edge.
+      if (edge) {
+        Object.entries(edge).forEach(([k, v]) => {
+          setWith(value, k, v);
+        });
+      }
       setWith(this.object, key, value);
     });
 
@@ -57,19 +102,21 @@ export class QueryBuilder<S extends Record<string, any> = Record<string, any>> {
   build = (parent: string[] = []): any => {
     const self = this;
 
-    function gogo() {}
+    const parentName = parent.join('.');
+    function realItem() {}
+    Object.defineProperty(realItem, 'name', {
+      value: parentName,
+    });
+    self.edges.set(parentName, realItem);
 
-    return new Proxy(gogo, {
-      apply: function (_, _this, args): any {
-        const next = `$F${parent.pop()!}$F`;
-        const oldKey = [...parent, next].join('.');
+    return new Proxy(realItem, {
+      apply: function (_, _this, args) {
+        const propName = parent.pop()!;
+        const next = `$F${propName}$F`;
 
-        self.chain = new Set(
-          [...self.chain.values()].filter((el) => !el.startsWith(oldKey))
-        );
-
-        const argString =
-          args[0] !== undefined ? `$A${JSON.stringify(args[0])}$A` : '';
+        const argString = ![undefined, ''].includes(args[0])
+          ? `$A${JSON.stringify(args[0])}$A`
+          : '';
 
         const newNext = [...parent, `${next}${argString}`];
         self.chain.add(newNext.join('.'));
@@ -77,7 +124,11 @@ export class QueryBuilder<S extends Record<string, any> = Record<string, any>> {
         return self.build(newNext);
       },
 
-      get(_, prop: string): any {
+      get(_, prop: string, receiver): any {
+        if (prop.startsWith(utilsKey)) {
+          // prop = '__REMOVE__';
+        }
+
         if (prop === '0') {
           return self.build(parent);
         }
@@ -86,7 +137,18 @@ export class QueryBuilder<S extends Record<string, any> = Record<string, any>> {
         const field = next.join('.');
 
         self.chain.add(field);
+
         return self.build(next);
+      },
+
+      set(
+        target: () => void,
+        p: string | symbol,
+        value: any
+        // receiver: any
+      ): boolean {
+        target[p] = value;
+        return true;
       },
     });
   };
@@ -94,6 +156,6 @@ export class QueryBuilder<S extends Record<string, any> = Record<string, any>> {
 
 export function graphGet<T extends Record<string, any>>(
   builder: (data: T) => Array<T>
-) {
-  return new QueryBuilder(builder).read();
+): QueryBuilder<T> {
+  return new QueryBuilder(builder);
 }

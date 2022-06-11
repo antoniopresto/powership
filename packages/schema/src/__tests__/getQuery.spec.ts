@@ -1,4 +1,4 @@
-import { QueryBuilder } from '../GraphQLParser/graphGet';
+import { graphGet, QueryBuilder } from '../GraphQLParser/graphGet';
 
 describe('graphGet', () => {
   it('works', async () => {
@@ -62,6 +62,85 @@ describe('graphGet', () => {
       '      title',
       '    }',
       '    age',
+      '  }',
+      '}',
+    ]);
+  });
+
+  it('is cool', () => {
+    const sut = graphGet((data) => {
+      const posts = data.query.Posts.$alias('').$directives({}).$run({
+        limit: 1,
+      });
+
+      return [
+        posts.title.$req(),
+        posts.price.$req(),
+        posts.cart.$req(),
+        posts.cart.total.$req(),
+      ];
+    }).read();
+
+    expect(sut.split('\n')).toEqual([
+      'query {',
+      '  Posts {',
+      '    $alias {',
+      '      $directives {',
+      '        $run (limit: 1) {',
+      '          title {',
+      '            $req',
+      '          }',
+      '          price {',
+      '            $req',
+      '          }',
+      '          cart {',
+      '            $req',
+      '            total {',
+      '              $req',
+      '            }',
+      '          }',
+      '        }',
+      '      }',
+      '    }',
+      '  }',
+      '}',
+    ]);
+  });
+
+  it('run utils', () => {
+    const queryBuilder = graphGet((data) => {
+      data.query.$.name('QueryYeah');
+      data.query.Nodes.$.aliasFor('Posts');
+
+      const posts = data.query.Nodes;
+      const near = posts.near({ id: 'me' });
+
+      return [
+        posts.title,
+        posts.price,
+        posts.cart,
+        posts.cart.total, //
+        near.storeName,
+        near.users.name,
+      ];
+    });
+
+    const sut = queryBuilder.read();
+
+    expect(sut.split('\n')).toEqual([
+      'query QueryYeah {',
+      '  Nodes: Posts {',
+      '    near (id: "me") {',
+      '      storeName',
+      '      users {',
+      '        name',
+      '      }',
+      '    }',
+      '    title',
+      '    price',
+      '    cart {',
+      '      total',
+      '    }',
       '  }',
       '}',
     ]);
