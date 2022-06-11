@@ -108,9 +108,27 @@ describe('graphGet', () => {
   });
 
   it('run utils', () => {
-    const queryBuilder = graphGet((data) => {
-      data.query.$.name('QueryYeah');
-      data.query.Nodes.$.aliasFor('Posts');
+    type S = {
+      query: {
+        Nodes: {
+          title: string;
+          price: string;
+          cart: {
+            total?: number;
+          };
+          near: {
+            storeName: string;
+            users: {
+              name: string;
+            }[];
+          };
+        };
+      };
+    };
+
+    const queryBuilder = graphGet<S>((data): any => {
+      data.query.$name('QueryYeah');
+      data.query.Nodes.$aliasFor('Posts');
 
       const posts = data.query.Nodes;
       const near = posts.near({ id: 'me' });

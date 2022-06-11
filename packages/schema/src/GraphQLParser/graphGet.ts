@@ -1,9 +1,14 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import setWith from 'lodash/setWith';
+import get from 'lodash/get';
 
 import { objectToQuery } from './objectToQuery';
 
 const utilsKey = '$';
+const argsKey = '$A';
+const functionKey = '$F';
+const sepKey = '.';
+const specialKeys = new Set([utilsKey, argsKey, functionKey, sepKey, sepKey]);
 
 // Converts a JavaScript object to a GraphQL Query string
 // Full support for nested query / mutation nodes and arguments
@@ -23,7 +28,7 @@ export class QueryBuilder<S extends Record<string, any> = Record<string, any>> {
   object: Record<string, any> = {};
   query = '';
 
-  constructor(public builder: (data: S) => Array<any>) {
+  constructor(public builder: (data: GraphGetData<S>) => Array<any>) {
     builder(this.build());
   }
 
@@ -32,65 +37,48 @@ export class QueryBuilder<S extends Record<string, any> = Record<string, any>> {
     const self = this;
 
     const chainArray = [...self.chain.values()];
-    chainArray.forEach((value, index) => {
-      if (value.endsWith(utilsKey)) {
-        const methodAndArgsKey = chainArray[index + 2];
-        const parts = methodAndArgsKey
-          .split(/(\.\$\.|\$F|\$A)/)
-          .filter((item) => item && item.indexOf(utilsKey) === -1);
 
-        const [parentKey, method, args] = parts;
+    chainArray.forEach((entry, index) => {
+      const isFunction = entry.indexOf(utilsKey) > -1;
+      const hasArgs = entry.endsWith(argsKey);
 
-        const real: any = self.edges.get(parentKey);
+      if (!isFunction) {
+        const node = Object.create(null);
+        setWith(this.object, entry, node);
+      } else {
+        const parts = entry
+          .split(/(\.|\$F|\$A)/)
+          .filter((item) => item && !specialKeys.has(item));
 
-        real[`__${method}`] = JSON.parse(args);
+        const args = hasArgs ? parts.pop()! : undefined;
+        let method = hasArgs ? parts.pop()! : undefined;
 
-        delete chainArray[index];
-        delete chainArray[index + 1];
-        delete chainArray[index + 2];
-      }
-    });
+        if (method === '$allOn') method = '$all_on';
 
-    chainArray.forEach((key) => {
-      const edge = this.edges.get(key);
-      let value = Object.create(null);
+        const isUtil = method?.startsWith(utilsKey);
 
-      // TODO find a better way
-      const fn = key.match(/(\$F)(.*)(\$F)/)?.[2];
+        if (isUtil && method) {
+          method = `__${method.replace(utilsKey, '')}`;
+        }
 
-      if (fn) {
-        const parts = key.split(/\$[A|F]/g).filter(Boolean);
+        const newEntry = method ? [...parts, method] : parts;
 
-        const lastPart = parts[parts.length - 1];
-        const args = lastPart.endsWith('}') ? lastPart : undefined;
+        if (!isUtil && hasArgs) {
+          newEntry.push('__args');
+        }
 
-        key = key
-          .split(/\$[A|F]/)
-          .filter((el) => !el.startsWith('{'))
-          .join('');
+        const newKey = newEntry
+          .filter((el) => el.indexOf('{') === -1 && el.indexOf(utilsKey) === -1)
+          .join(sepKey);
 
-        if (args) {
-          try {
-            if (args !== '{}') {
-              value = JSON.parse(args);
-              key = key + '.__args';
-            }
-          } catch (e) {
-            throw new RuntimeError(`Failed to parse query args`, {
-              args,
-              key,
-            });
-          }
+        try {
+          const json = args ? JSON.parse(args) : get(this.object, newKey, {});
+
+          setWith(this.object, newKey, json);
+        } catch (e) {
+          throw new RuntimeError(`failed to convert args`, { args, entry });
         }
       }
-
-      // defining the value props (like __aliasFor, etc.) from the reference in edge.
-      if (edge) {
-        Object.entries(edge).forEach(([k, v]) => {
-          setWith(value, k, v);
-        });
-      }
-      setWith(this.object, key, value);
     });
 
     return (this.query = objectToQuery(this.object, {
@@ -155,7 +143,30 @@ export class QueryBuilder<S extends Record<string, any> = Record<string, any>> {
 }
 
 export function graphGet<T extends Record<string, any>>(
-  builder: (data: T) => Array<T>
+  builder: (data: GraphGetData<T>) => Array<any>
 ): QueryBuilder<T> {
   return new QueryBuilder(builder);
 }
+
+export type Utils<T> = {
+  $val: T;
+  $args: (args: Record<string, any>) => GraphGetData<T>;
+  $aliasFor: (alias: string) => GraphGetData<T>;
+  $variables: (args: Record<string, any>) => GraphGetData<T>;
+  $directives: (args: Record<string, any>) => GraphGetData<T>;
+  $on: (
+    record:
+      | { __typeName: string; [K: string]: unknown }
+      | { __typeName: string; [K: string]: unknown }[]
+  ) => GraphGetData<T>;
+  $name: (alias: string) => GraphGetData<T>;
+  $all_on: (args: string[]) => GraphGetData<T>;
+};
+
+export type GraphGetData<O extends Readonly<Record<string, any>>> = {
+  [K in keyof O]: ((
+    ...args: any[]
+  ) => Utils<GraphGetData<O[K]>> & GraphGetData<O[K]>) &
+    Utils<O[K]> &
+    GraphGetData<O[K]>;
+};
