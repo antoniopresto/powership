@@ -2,19 +2,19 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
-import { createSchema, implementSchema } from '../../lib';
+import { createDarchObject, implementObject } from '../../lib';
 import * as darchSchema from '../../lib';
 import React from 'react';
 
-const nodeType = createSchema('Node', {
+const nodeType = createDarchObject('Node', {
   id: 'ID',
 });
 
-const pageNodeType = createSchema('PageNode', {
+const pageNodeType = implementObject('PageNode', {
   title: 'string',
 });
 
-const ship = implementSchema(
+const ship = implementObject(
   'ship',
   { name: 'string' },
   nodeType,
