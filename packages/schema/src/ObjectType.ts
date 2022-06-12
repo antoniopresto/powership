@@ -14,9 +14,9 @@ import type {
   GraphQLObjectType,
 } from 'graphql';
 
-import type { DarchType } from './DarchType';
-import type { ParseTypeOptions } from './GraphQLParser/GraphQLParser';
-import type { ParseInterfaceOptions } from './GraphQLParser/GraphQLParser';
+import type { ParseTypeOptions } from './GraphType/GraphQLParser';
+import type { ParseInterfaceOptions } from './GraphType/GraphQLParser';
+import type { GraphType } from './GraphType/GraphType';
 import type { Infer } from './Infer';
 import type { ObjectDefinitionInput } from './TObjectConfig';
 import {
@@ -460,14 +460,14 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
       graphql: dynamicRequire('graphql', module) as typeof import('graphql'),
 
       graphqlParser: dynamicRequire(
-        './GraphQLParser/GraphQLParser',
+        './GraphType/GraphQLParser',
         module
-      ) as typeof import('./GraphQLParser/GraphQLParser'),
+      ) as typeof import('./GraphType/GraphQLParser'),
 
-      DarchType: dynamicRequire(
-        './DarchType',
+      GraphType: dynamicRequire(
+        './GraphType/GraphType',
         module
-      ) as typeof import('./DarchType'),
+      ) as typeof import('./GraphType/GraphType'),
 
       objectToTypescript: dynamicRequire(
         './objectToTypescript',
@@ -482,11 +482,11 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
     const promises: any[] = [];
 
     if (typeof window === 'undefined') {
-      const { graphqlParser, DarchType } = ObjectType.serverUtils();
+      const { graphqlParser, GraphType } = ObjectType.serverUtils();
 
       promises.push(
         graphqlParser.GraphQLParser.reset(),
-        DarchType.DarchType.reset()
+        GraphType.GraphType.reset()
       );
     }
 
@@ -521,15 +521,15 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
 
   static createType<Definition extends ObjectFieldInput>(
     definition: Definition
-  ): DarchType<Definition>;
+  ): GraphType<Definition>;
 
   static createType<Definition extends ObjectFieldInput>(
     name: string,
     definition: Definition
-  ): DarchType<Definition>;
+  ): GraphType<Definition>;
 
   static createType(...args: any) {
-    return ObjectType.serverUtils().DarchType.createType(
+    return ObjectType.serverUtils().GraphType.createType(
       // @ts-ignore
       ...args
     );

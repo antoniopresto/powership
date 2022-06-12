@@ -2,8 +2,8 @@ import { PromiseType } from '@darch/utils/lib/typeUtils';
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
-import { DarchType } from '../DarchType';
-import { createDarchObject, ObjectType } from '../ObjectType';
+import { createDarchObject, ObjectType } from '../../ObjectType';
+import { GraphType } from '../GraphType';
 
 describe('createResolver', () => {
   afterEach(async () => {
@@ -16,7 +16,7 @@ describe('createResolver', () => {
       id: 'ulid',
     });
 
-    const resolver = new DarchType(UserType).createResolver({
+    const resolver = new GraphType(UserType).createResolver({
       name: 'User',
       args: { id: 'ulid' },
       description: 'User resolver',
@@ -71,7 +71,7 @@ describe('createResolver', () => {
       number: 'int?',
     }).describe('The user address');
 
-    const resolver = new DarchType(user).createResolver({
+    const resolver = new GraphType(user).createResolver({
       name: 'Users',
       args: {
         name: 'string',
@@ -132,7 +132,7 @@ describe('createResolver', () => {
   });
 
   it('Should accept literals as type', () => {
-    const resolver = new DarchType('Airplanes', '[int]?').createResolver({
+    const resolver = new GraphType('Airplanes', '[int]?').createResolver({
       name: 'Airplanes',
       args: undefined,
       async resolve() {

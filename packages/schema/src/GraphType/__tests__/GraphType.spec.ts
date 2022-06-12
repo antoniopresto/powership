@@ -1,15 +1,15 @@
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
-import { createType, DarchType } from '../DarchType';
-import { Infer } from '../Infer';
-import { createObjectType, ObjectType } from '../ObjectType';
+import { Infer } from '../../Infer';
+import { createObjectType, ObjectType } from '../../ObjectType';
+import { createType, GraphType } from '../GraphType';
 
 describe('createType', () => {
   beforeEach(ObjectType.reset);
 
   it('works', async () => {
-    const sut = new DarchType('user', {
+    const sut = new GraphType('user', {
       object: {
         name: 'string',
         age: 'int?',
@@ -36,7 +36,7 @@ describe('createType', () => {
   it('should identify when input is object', async () => {
     const name = `_${Math.random() * 1000}_`;
 
-    const sut = new DarchType(name, {
+    const sut = new GraphType(name, {
       object: {
         name: 'string',
         age: 'int?',
@@ -55,7 +55,7 @@ describe('createType', () => {
       foo: 'int',
     });
 
-    const sut = new DarchType(name, {
+    const sut = new GraphType(name, {
       type: object,
     } as const);
 
@@ -70,7 +70,7 @@ describe('createType', () => {
       foo: 'int',
     });
 
-    const sut = new DarchType('AClone', object);
+    const sut = new GraphType('AClone', object);
 
     expect(ObjectType.register.get('Original')).toEqual(object);
 
@@ -83,7 +83,7 @@ describe('createType', () => {
       foo: 'int',
     });
 
-    const sut = new DarchType('AClone', {
+    const sut = new GraphType('AClone', {
       type: object,
     } as const);
 
@@ -103,7 +103,7 @@ describe('createType', () => {
       foo: 'int',
     });
 
-    const sut = new DarchType(object);
+    const sut = new GraphType(object);
 
     type Return = ReturnType<typeof sut.parse>;
 
@@ -127,7 +127,7 @@ describe('createType', () => {
       foo: 'int',
     });
 
-    const sut = new DarchType({ object, list: true });
+    const sut = new GraphType({ object, list: true });
 
     type Expected = { foo: number }[];
     type Return = ReturnType<typeof sut.parse>;
@@ -160,7 +160,7 @@ describe('createType', () => {
       foo: 'int',
     });
 
-    const sut = new DarchType({ object, optional: true });
+    const sut = new GraphType({ object, optional: true });
 
     type Return = ReturnType<typeof sut.parse>;
 
@@ -177,7 +177,7 @@ describe('createType', () => {
       foo: 'int',
     });
 
-    const sut = new DarchType({ object, optional: true, list: true });
+    const sut = new GraphType({ object, optional: true, list: true });
 
     type Return = ReturnType<typeof sut.parse>;
 
@@ -198,13 +198,13 @@ describe('createType', () => {
       name: 'string',
     });
 
-    const nodeInterface = new DarchType(object);
+    const nodeInterface = new GraphType(object);
 
     expect(nodeInterface.graphQLInterface().toString()).toEqual(
       'NodeInterface'
     );
 
-    const shipNode = new DarchType(ship).graphQLType({
+    const shipNode = new GraphType(ship).graphQLType({
       interfaces: [nodeInterface.graphQLInterface()],
     });
 

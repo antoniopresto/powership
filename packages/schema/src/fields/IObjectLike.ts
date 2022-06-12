@@ -3,7 +3,7 @@ export interface ObjectLike {
   __isDarchObject: true;
 }
 
-export interface DarchTypeLike {
+export interface GraphTypeLike {
   definition: any;
-  __isDarchType: boolean;
+  __isGraphType: boolean;
 }

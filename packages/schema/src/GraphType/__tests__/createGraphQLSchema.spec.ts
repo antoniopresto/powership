@@ -1,9 +1,9 @@
 import { assert, IsExact } from 'conditional-type-checks';
 import { printSchema } from 'graphql';
 
-import { createType } from '../DarchType';
-import { ObjectType } from '../ObjectType';
-import { createGraphQLSchema } from '../createGraphQLSchema';
+import { ObjectType } from '../../ObjectType';
+import { createGraphQLSchema } from '../../createGraphQLSchema';
+import { createType } from '../GraphType';
 
 describe('createGraphQLObject', () => {
   afterEach(async () => {

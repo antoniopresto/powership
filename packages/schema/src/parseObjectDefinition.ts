@@ -6,7 +6,7 @@ import { inspectObject } from '@darch/utils/lib/inspectObject';
 import { nonNullValues } from '@darch/utils/lib/invariant';
 import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 
-import { DarchType } from './DarchType';
+import { GraphType } from './GraphType/GraphType';
 import { isObject, ObjectType } from './ObjectType';
 import { FieldDefinitionConfig, ObjectDefinitionInput } from './TObjectConfig';
 import { fieldInstanceFromDef } from './fieldInstanceFromDef';
@@ -64,11 +64,11 @@ export function parseObjectField<T extends FieldDefinitionConfig>(
 export function parseFieldDefinitionConfig(
   definition: FieldDefinitionConfig
 ): FinalFieldDefinition {
-  if (DarchType.is(definition)) {
+  if (GraphType.is(definition)) {
     return parseFieldDefinitionConfig(definition.definition);
   }
 
-  if (DarchType.isInType(definition)) {
+  if (GraphType.isTypeDefinition(definition)) {
     const { list = false, optional = false, description } = definition;
 
     return parseFieldDefinitionConfig({

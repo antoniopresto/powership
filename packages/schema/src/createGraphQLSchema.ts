@@ -3,7 +3,7 @@ import type { GraphQLSchemaConfig } from 'graphql';
 import { GraphQLObjectType, printSchema } from 'graphql';
 import groupBy from 'lodash/groupBy';
 
-import type { DarchResolver } from './DarchType';
+import type { DarchResolver } from './GraphType/GraphType';
 import { ObjectType, parseFieldDefinitionConfig } from './ObjectType';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
 
@@ -36,10 +36,10 @@ export function createGraphQLSchema<Config>(
 export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
   const {
     graphql: { GraphQLSchema },
-    DarchType,
+    GraphType,
   } = ObjectType.serverUtils();
 
-  const registeredResolvers = [...DarchType.DarchType.resolvers.values()];
+  const registeredResolvers = [...GraphType.GraphType.resolvers.values()];
 
   let resolvers: DarchResolver[] = Array.isArray(args[0])
     ? args[0]

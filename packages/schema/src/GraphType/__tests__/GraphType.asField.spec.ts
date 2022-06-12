@@ -1,12 +1,12 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
-import { createType, DarchType } from '../DarchType';
-import { Infer } from '../Infer';
-import { ObjectType } from '../ObjectType';
-import { createGraphQLSchema } from '../createGraphQLSchema';
-import { ToFinalField } from '../fields/_parseFields';
+import { Infer } from '../../Infer';
+import { ObjectType } from '../../ObjectType';
+import { createGraphQLSchema } from '../../createGraphQLSchema';
+import { ToFinalField } from '../../fields/_parseFields';
+import { createType, GraphType } from '../GraphType';
 
-describe('DarchType.asField', () => {
+describe('GraphType.asField', () => {
   afterEach(ObjectType.reset);
 
   it('parseSchemaField', async () => {
@@ -89,16 +89,16 @@ describe('DarchType.asField', () => {
     type User = { name?: string | undefined; age?: number | undefined };
 
     type B = ToFinalField<
-      DarchType<
-        DarchType<DarchType<DarchType<{ object: typeof user.definition.def }>>>
+      GraphType<
+        GraphType<GraphType<GraphType<{ object: typeof user.definition.def }>>>
       >
     >['__infer'];
 
     assert<IsExact<B, User>>(true);
 
     type A0 = ToFinalField<
-      DarchType<{
-        type: DarchType<{ object: { name: 'string' } }>;
+      GraphType<{
+        type: GraphType<{ object: { name: 'string' } }>;
         list: true;
         optional: true;
       }>
@@ -107,11 +107,11 @@ describe('DarchType.asField', () => {
     assert<IsExact<A0, { name: string }[] | undefined>>(true);
 
     type A = ToFinalField<
-      DarchType<
-        DarchType<
-          DarchType<
-            DarchType<{
-              type: DarchType<{ object: { name: 'string?' } }>;
+      GraphType<
+        GraphType<
+          GraphType<
+            GraphType<{
+              type: GraphType<{ object: { name: 'string?' } }>;
               list: true;
               optional: true;
             }>
@@ -123,11 +123,11 @@ describe('DarchType.asField', () => {
     assert<IsExact<A, { name?: string | undefined }[] | undefined>>(true);
 
     type X = Infer<
-      DarchType<
-        DarchType<
-          DarchType<
-            DarchType<{
-              type: DarchType<{ object: { name: 'string?' } }>;
+      GraphType<
+        GraphType<
+          GraphType<
+            GraphType<{
+              type: GraphType<{ object: { name: 'string?' } }>;
               list: true;
               optional: true;
             }>

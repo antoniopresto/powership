@@ -1,8 +1,4 @@
-import {
-  graphGet,
-  GraphGetData,
-  QueryBuilder,
-} from '../GraphQLParser/graphGet';
+import { graphGet, GraphGetData, QueryBuilder } from '../GraphType/graphGet';
 
 describe('graphGet', () => {
   it('works', async () => {

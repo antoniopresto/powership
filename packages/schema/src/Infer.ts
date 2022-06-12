@@ -1,4 +1,4 @@
-import { DarchType } from './DarchType';
+import { GraphType } from './GraphType/GraphType';
 import { ObjectLike } from './fields/IObjectLike';
 import {
   FieldAsString,
@@ -15,7 +15,7 @@ export type Infer<T> =
     ? InferField<{ type: 'object'; def: T['definition'] }>
     : //
     // Type
-    T extends DarchType<infer Def>
+    T extends GraphType<infer Def>
     ? ToFinalField<Def> extends { __infer: infer _In }
       ? _In
       : { NO_GO_HORSE_STAY_HORSE: T }

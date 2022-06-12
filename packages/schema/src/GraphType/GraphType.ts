@@ -11,42 +11,30 @@ import type {
 } from 'graphql';
 import { GraphQLObjectTypeConfig } from 'graphql';
 
-import type {
-  ConvertFieldResult,
-  GraphQLParserResult,
-} from './GraphQLParser/GraphQLParser';
-import { ParseTypeOptions } from './GraphQLParser/GraphQLParser';
-import { Infer } from './Infer';
-import { createObjectType, ObjectType } from './ObjectType';
-import { FieldDefinitionConfig } from './TObjectConfig';
-import { TAnyFieldType } from './fields/FieldType';
-import { DarchTypeLike } from './fields/IObjectLike';
-import { getObjectDefinitionId } from './fields/MetaFieldField';
-import { ObjectField } from './fields/ObjectField';
+import { Infer } from '../Infer';
+import { createObjectType, ObjectType } from '../ObjectType';
+import { FieldDefinitionConfig } from '../TObjectConfig';
+import { TAnyFieldType } from '../fields/FieldType';
+import { GraphTypeLike } from '../fields/IObjectLike';
+import { getObjectDefinitionId } from '../fields/MetaFieldField';
+import { ObjectField } from '../fields/ObjectField';
 import {
   ObjectDefinitionInput,
   ObjectFieldInput,
   ToFinalField,
-} from './fields/_parseFields';
-import type { ObjectToTypescriptOptions } from './objectToTypescript';
-import { parseObjectField } from './parseObjectDefinition';
+} from '../fields/_parseFields';
+import type { ObjectToTypescriptOptions } from '../objectToTypescript';
+import { parseObjectField } from '../parseObjectDefinition';
+
+import { ParseTypeOptions } from './GraphQLParser';
+import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
 
 const register = new StrictMap<string, any>();
 const resolvers = new StrictMap<string, any>();
 
-export class DarchType<Definition> {
-  static is(input: any): input is DarchType<unknown> {
-    return input?.__isDarchType === true;
-  }
-
-  static isInType(
-    input: any
-  ): input is { type: DarchTypeLike; list?: boolean; optional?: boolean } {
-    return input?.type?.__isDarchType === true;
-  }
-
-  static __isDarchType = true;
-  __isDarchType = true;
+export class GraphType<Definition> {
+  static __isGraphType = true;
+  __isGraphType = true;
 
   static register = register;
   static resolvers = resolvers;
@@ -310,28 +298,38 @@ export class DarchType<Definition> {
   static getOrSet = <T extends FieldDefinitionConfig>(
     id: string,
     def: T
-  ): DarchType<T> => {
+  ): GraphType<T> => {
     const existing =
-      DarchType.register.has(id) &&
-      (DarchType.register.get(id) as DarchType<T>);
+      GraphType.register.has(id) &&
+      (GraphType.register.get(id) as GraphType<T>);
 
     if (existing) return existing;
 
-    return new DarchType<any>(id, def) as any;
+    return new GraphType<any>(id, def) as any;
   };
+
+  static is(input: any): input is GraphType<unknown> {
+    return input?.__isGraphType === true;
+  }
+
+  static isTypeDefinition(
+    input: any
+  ): input is { type: GraphTypeLike; list?: boolean; optional?: boolean } {
+    return input?.type?.__isGraphType === true;
+  }
 }
 
 export function createType<Definition extends ObjectFieldInput>(
   definition: Definition
-): DarchType<Definition>;
+): GraphType<Definition>;
 
 export function createType<Definition extends ObjectFieldInput>(
   name: string,
   definition: Definition
-): DarchType<Definition>;
+): GraphType<Definition>;
 
 export function createType(...args: any[]) {
-  return new DarchType(
+  return new GraphType(
     // @ts-ignore
     ...args
   );

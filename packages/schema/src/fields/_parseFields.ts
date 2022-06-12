@@ -1,8 +1,8 @@
 import { NullableToPartial } from '@darch/utils/lib/typeUtils';
 
-import { DarchType } from '../DarchType';
+import { GraphType } from '../GraphType/GraphType';
 
-import { DarchTypeLike, ObjectLike } from './IObjectLike';
+import { GraphTypeLike, ObjectLike } from './IObjectLike';
 import {
   CursorType,
   FieldDefinitions,
@@ -10,10 +10,10 @@ import {
 } from './_fieldDefinitions';
 
 export type ObjectFieldInput =
-  | DarchTypeLike
+  | GraphTypeLike
   | ObjectLike
   | ObjectInTypeFieldDefinition
-  | DarchTypeInTypeFieldDefinition
+  | GraphTypeInTypeFieldDefinition
   | FinalFieldDefinition
   | FieldAsString
   | FlattenFieldDefinition
@@ -33,8 +33,8 @@ export interface ObjectInTypeFieldDefinition {
   __infer?: any;
 }
 
-export interface DarchTypeInTypeFieldDefinition {
-  type: DarchTypeLike;
+export interface GraphTypeInTypeFieldDefinition {
+  type: GraphTypeLike;
   def?: never;
   list?: boolean;
   optional?: boolean;
@@ -94,11 +94,11 @@ export type _toFinalField<Base> = //
   //
   //
 
-  // ====== handling DarchType as Field =====
-  Base extends DarchType<infer Def>
+  // ====== handling GraphType as Field =====
+  Base extends GraphType<infer Def>
     ? _toFinalField<Def>
     : Base extends {
-        type: DarchType<infer Def>;
+        type: GraphType<infer Def>;
         list?: infer List;
         optional?: infer Optional;
       }
@@ -109,7 +109,7 @@ export type _toFinalField<Base> = //
         optional: [Optional] extends [true] ? true : false;
       }
     : //
-    // ====== FINISH handling DarchType as Field =====
+    // ====== FINISH handling GraphType as Field =====
 
     //
     //

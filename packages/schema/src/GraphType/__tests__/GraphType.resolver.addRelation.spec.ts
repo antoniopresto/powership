@@ -1,11 +1,11 @@
 import { PromiseType } from '@darch/utils/lib/typeUtils';
 import { assert, IsExact } from 'conditional-type-checks';
 
-import { createType, DarchType } from '../DarchType';
-import { createDarchObject, ObjectType } from '../ObjectType';
-import { createGraphQLSchema } from '../createGraphQLSchema';
+import { createDarchObject, ObjectType } from '../../ObjectType';
+import { createGraphQLSchema } from '../../createGraphQLSchema';
+import { createType, GraphType } from '../GraphType';
 
-describe('DarchType', () => {
+describe('GraphType', () => {
   beforeEach(ObjectType.reset);
 
   it('works', async () => {
@@ -24,7 +24,7 @@ describe('DarchType', () => {
       },
     });
 
-    const resolver = new DarchType(UserType).createResolver({
+    const resolver = new GraphType(UserType).createResolver({
       name: 'User',
       args: { id: 'ulid' },
       description: 'User resolver',
@@ -97,7 +97,7 @@ describe('DarchType', () => {
       },
     });
 
-    const resolver = new DarchType(UserType).createResolver({
+    const resolver = new GraphType(UserType).createResolver({
       name: 'User',
       args: { id: 'ulid' },
       description: 'User resolver',
@@ -159,7 +159,7 @@ describe('DarchType', () => {
       },
     });
 
-    const resolver = new DarchType(UserType).createResolver({
+    const resolver = new GraphType(UserType).createResolver({
       name: 'user',
       args: { id: 'ulid' },
       async resolve(_, { id }) {

@@ -1,10 +1,10 @@
-import { GraphQLParser } from './GraphQLParser/GraphQLParser';
+import { GraphQLParser } from './GraphType/GraphQLParser';
 import { createObjectType } from './ObjectType';
 import { ObjectDefinitionInput } from './TObjectConfig';
 import { FinalObjectDefinition } from './fields/_parseFields';
 
 /**
- * @Deprecated - use GraphQLParser instead
+ * @Deprecated - use GraphType instead
  * @param typeName
  * @param definition
  */
