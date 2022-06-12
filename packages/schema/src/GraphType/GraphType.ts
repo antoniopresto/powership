@@ -160,6 +160,8 @@ export class GraphType<Definition> {
       .interfaceType(...args);
   };
 
+  relations = {};
+
   addRelation = <
     FieldTypeDef extends ObjectFieldInput,
     Name extends string,
@@ -187,11 +189,16 @@ export class GraphType<Definition> {
       });
     }
 
+    const resolver = type.createResolver({
+      ...(options as any),
+    });
+
+    resolver.__isRelation = true;
+    resolver.__relatedToGraphTypeId = this.id;
+
     this._object?.addGraphQLMiddleware((hooks) => {
       hooks.onFieldConfigMap.register(function (fields) {
-        fields[name] = type.createResolver({
-          ...(options as any),
-        });
+        fields[name] = resolver;
       });
     });
 
@@ -285,7 +292,9 @@ export class GraphType<Definition> {
       argsDef: args,
       typeDef: this.definition,
       __isResolver: true,
-      isRelation: false,
+      __isRelation: false,
+      __relatedToGraphTypeId: '',
+      __graphTypeId: this.id,
     };
 
     resolvers.set(name, result);
@@ -348,7 +357,7 @@ export interface DarchGraphQLFieldConfigInput<
     GraphQLFieldConfig<Source, Context>,
     'resolve' | 'type' | 'args'
   > {
-  name?: string;
+  name: string;
   kind?: 'query' | 'mutation' | 'subscription';
   args?: ArgsDef;
   resolve: ResolveFunction<Context, Source, TypeDef, ArgsDef>;
@@ -363,13 +372,15 @@ export interface DarchResolver<
   ArgsDef = unknown
 > extends Omit<GraphQLFieldConfig<Source, Context>, 'resolve'> {
   __isResolver: true;
+  __isRelation: boolean;
+  __graphTypeId: string;
+  __relatedToGraphTypeId: string;
+
   resolve: ResolveFunction<Context, Source, TypeDef, ArgsDef>;
   name: string;
   kind: 'query' | 'subscription' | 'mutation';
   typeDef: TypeDef extends ObjectFieldInput ? TypeDef : never;
   argsDef: ArgsDef extends Record<string, any> ? ArgsDef : never;
-
-  isRelation: boolean;
 }
 
 export interface ResolveFunction<

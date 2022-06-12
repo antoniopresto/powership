@@ -1,10 +1,11 @@
-import { capitalize } from '@darch/utils/lib/stringCase';
 import type { GraphQLSchemaConfig } from 'graphql';
 import { GraphQLObjectType, printSchema } from 'graphql';
 import groupBy from 'lodash/groupBy';
 
 import type { DarchResolver } from './GraphType/GraphType';
-import { ObjectType, parseFieldDefinitionConfig } from './ObjectType';
+import { GraphType } from './GraphType/GraphType';
+import { ObjectType } from './ObjectType';
+import { clearMetaField } from './fields/MetaFieldField';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
 
 export type CreateGraphQLObjectOptions = Partial<GraphQLSchemaConfig>;
@@ -45,11 +46,16 @@ export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
     ? args[0]
     : registeredResolvers;
 
-  resolvers = resolvers.filter((el) => el.__isResolver && !el.isRelation);
+  const schemaResolvers = resolvers.filter(
+    (el) => el.__isResolver && !el.__isRelation
+  );
 
   const config = Array.isArray(args[0]) ? args[1] : args[0];
 
-  const grouped = groupBy(resolvers, (item) => item.kind) as GroupedResolvers;
+  const grouped = groupBy(
+    schemaResolvers,
+    (item) => item.kind
+  ) as GroupedResolvers;
 
   function createFields(kind: string) {
     const fields = {};
@@ -99,7 +105,7 @@ export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
       return (ts =
         ts ||
         resolversToTypescript({
-          name: 'Schema',
+          name: 'GraphQLTypes',
           ...options,
           resolvers,
         }));
@@ -123,81 +129,40 @@ export type ResolversToTypeScriptOptions = {
 export async function resolversTypescriptParts(
   params: ResolversToTypeScriptOptions
 ) {
-  const { name = 'Schema', options = {}, resolvers } = params;
-
-  const { objectToTypescript } = ObjectType.serverUtils();
+  const { name = 'Schema' } = params;
 
   let prefix = '\n\nexport type EmptyArgs  = undefined;\n\n';
 
-  const convert = async (entryName: string, type: any) => {
-    const { description } = type;
+  const mainResolvers = params.resolvers.filter((el) => !el.__isRelation);
+  const relations = params.resolvers.filter((el) => el.__isRelation);
 
-    const result = await objectToTypescript.objectToTypescript(
-      entryName,
-      {
-        __CONVERT__REPLACE__: {
-          ...type,
-          description: undefined,
-        },
-      },
-      {
-        ...options,
-        format: false,
-      }
-    );
-
-    let code = result
-      .split('\n')
-      .slice(1, -2)
-      .join('\n')
-      .replace('__CONVERT__REPLACE__', '');
-
-    if (code.startsWith('?')) {
-      code = `${code} | undefined`;
-    }
-
-    code = code.replace(/^\??: /, ``);
-
-    const comments = description ? `\n/** ${description} **/\n` : '';
-
-    return { code, description: description || '', comments };
-  };
-
-  const chain = resolvers.map(async (resolver) => {
-    const entryName = `${resolver.name}${capitalize(resolver.kind || 'query')}`;
-    const inputName = `${entryName}Input`;
-    const payloadName = `${entryName}Payload`;
-
-    const payload = await convert(
-      `${entryName}Payload`,
-      parseFieldDefinitionConfig(resolver.typeDef)
-    );
-
-    const args = resolver.argsDef
-      ? await convert(inputName, { object: resolver.argsDef })
-      : { code: `undefined | EmptyArgs`, description: '', comments: '' };
-
-    let code = '';
-
-    code += `${args.comments}export type ${inputName} = ${args.code};`;
-
-    code += `${payload.comments}export type ${payloadName} = ${payload.code};`;
-
-    return {
-      entryName,
-      code,
-      payload,
-      args,
-      inputName,
-      payloadName,
-      resolver,
-    };
+  const mainResolversConversion = mainResolvers.map((item) => {
+    return convertResolver({
+      entryName: item.name,
+      resolver: item,
+      allResolvers: params.resolvers,
+    });
   });
 
-  const lines = await Promise.all(chain);
+  const relationResolversConversion = relations.map((item) => {
+    let entryName = item.name;
+
+    return convertResolver({
+      entryName,
+      resolver: item,
+      allResolvers: params.resolvers,
+    });
+  });
+
+  const lines = await Promise.all([
+    ...mainResolversConversion,
+    ...relationResolversConversion,
+  ]);
 
   let typesCode = '';
   let interfaceCode = `export interface ${name} {`;
+
+  let resolversCode = `export type Resolvers = {`;
 
   lines.forEach((el) => {
     let {
@@ -206,16 +171,23 @@ export async function resolversTypescriptParts(
       resolver: { description = '' },
     } = el;
 
+    let keyName = entryName;
+    if (el.resolver.__isRelation) {
+      keyName = `"${el.resolver.__relatedToGraphTypeId}.${entryName}"`;
+    }
+
     typesCode += `${code}\n\n`;
 
     if (description) {
       description = `\n\n/** ${description} **/\n`;
     }
 
-    interfaceCode += `${description} ${entryName}: {input: ${entryName}Input, payload: ${entryName}Payload},`;
+    resolversCode += `${description} ${keyName}(args: ${entryName}Input): Promise<${entryName}>,`;
+    //
+    interfaceCode += `${description} ${keyName}: {input: ${entryName}Input, payload: ${entryName}},`;
   });
 
-  const code = `${prefix}\n\n${typesCode}\n\n${interfaceCode}}`;
+  const code = `${prefix}\n\n${typesCode}\n\n${interfaceCode}}\n\n${resolversCode}}`;
 
   return { code, lines };
 }
@@ -231,4 +203,90 @@ export async function resolversToTypescript(
   const { code } = await resolversTypescriptParts(params);
 
   return format ? prettier.format(code, { parser: 'typescript' }) : code;
+}
+
+async function convertResolver(options: {
+  entryName: string;
+  resolver: DarchResolver;
+  allResolvers: DarchResolver[];
+}) {
+  const { resolver, allResolvers, entryName } = options;
+
+  const inputName = `${entryName}Input`;
+  const payloadName = `${entryName}`;
+
+  const payloadDef = {
+    ...(resolver.typeDef as any),
+  };
+
+  allResolvers.forEach((rel) => {
+    if (rel.__relatedToGraphTypeId === resolver.__graphTypeId) {
+      payloadDef.def[rel.name] = GraphType.register.get(rel.__graphTypeId);
+    }
+  });
+
+  const payload = await convertType({
+    entryName: `${entryName}`,
+    type: payloadDef,
+  });
+
+  const args = resolver.argsDef
+    ? await convertType({
+        entryName: inputName,
+        type: { object: resolver.argsDef },
+      })
+    : { code: `undefined | EmptyArgs`, description: '', comments: '' };
+
+  let code = '';
+
+  code += `${args.comments}export type ${inputName} = ${args.code};`;
+
+  code += `${payload.comments}export type ${payloadName} = ${payload.code};`;
+
+  return {
+    entryName,
+    code,
+    payload,
+    args,
+    inputName,
+    payloadName,
+    resolver,
+  };
+}
+
+async function convertType(options: { entryName: string; type: any }) {
+  const { entryName, type } = options;
+  const { objectToTypescript } = ObjectType.serverUtils();
+
+  const { description } = type;
+
+  const result = await objectToTypescript.objectToTypescript(
+    entryName,
+    {
+      __CONVERT__REPLACE__: {
+        ...type,
+        description: undefined, // prevents breaking the `export type...` etc, above. to improve.
+      },
+    },
+    {
+      ...options,
+      format: false,
+    }
+  );
+
+  let code = result
+    .split('\n')
+    .slice(1, -2)
+    .join('\n')
+    .replace('__CONVERT__REPLACE__', '');
+
+  if (code.startsWith('?')) {
+    code = `${code} | undefined`;
+  }
+
+  code = code.replace(/^\??: /, ``);
+
+  const comments = description ? `\n/** ${description} **/\n` : '';
+
+  return { code, description: description || '', comments };
 }

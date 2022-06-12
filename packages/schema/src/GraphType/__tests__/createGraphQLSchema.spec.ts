@@ -183,7 +183,7 @@ describe('createGraphQLObject', () => {
       'export type checkNumbersMutationInput = undefined | EmptyArgs;',
       'export type checkNumbersMutationPayload = boolean;',
       '',
-      'export interface Schema {',
+      'export interface GraphQLTypes {',
       '  NumbersQuery: { input: NumbersQueryInput; payload: NumbersQueryPayload };',
       '  LettersQuery: { input: LettersQueryInput; payload: LettersQueryPayload };',
       '  addLetterMutation: {',

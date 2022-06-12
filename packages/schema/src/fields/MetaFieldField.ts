@@ -54,6 +54,33 @@ export class MetaField extends FieldType<MetaField, 'meta', MetaFieldDef> {
 
 export const objectMetaFieldKey = '__dschm__';
 
+export function createEmptyMetaField(): { type: 'meta'; def: MetaFieldDef } {
+  return { type: 'meta', def: { id: null } };
+}
+
+export function clearMetaField(input: any) {
+  if (!input || typeof input !== 'object') return input;
+
+  if (input.def) {
+    return {
+      ...input,
+      def: {
+        ...input.def,
+        [objectMetaFieldKey]: createEmptyMetaField(),
+      },
+    };
+  }
+
+  if (input[objectMetaFieldKey]) {
+    return {
+      ...input,
+      [objectMetaFieldKey]: createEmptyMetaField(),
+    };
+  }
+
+  return input;
+}
+
 export function isMetaFieldKey(t: any): t is typeof objectMetaFieldKey {
   return t === objectMetaFieldKey;
 }

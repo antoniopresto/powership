@@ -67,7 +67,7 @@ describe('GraphType.asField', () => {
       '  age?: number;',
       '}[];',
       '',
-      'export interface Schema {',
+      'export interface GraphQLTypes {',
       '  /** yeah **/',
       '  userNodeNodeSubscription: {',
       '    input: userNodeNodeSubscriptionInput;',

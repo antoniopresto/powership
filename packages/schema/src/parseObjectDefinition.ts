@@ -12,6 +12,7 @@ import { FieldDefinitionConfig, ObjectDefinitionInput } from './TObjectConfig';
 import { fieldInstanceFromDef } from './fieldInstanceFromDef';
 import { isFieldInstance, TAnyFieldType } from './fields/FieldType';
 import {
+  createEmptyMetaField,
   isMetaField,
   MetaField,
   objectMetaFieldKey,
@@ -199,7 +200,7 @@ export function parseObjectDefinition<T extends ObjectDefinitionInput>(
     }
   });
 
-  meta = meta || { type: 'meta', def: { id: null } };
+  meta = meta || createEmptyMetaField();
 
   if (!omitMeta) {
     result[objectMetaFieldKey] = meta;
