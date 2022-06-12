@@ -1,6 +1,6 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
-import setWith from 'lodash/setWith';
 import get from 'lodash/get';
+import setWith from 'lodash/setWith';
 
 import { objectToQuery } from './objectToQuery';
 

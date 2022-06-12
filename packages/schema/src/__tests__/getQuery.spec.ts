@@ -1,8 +1,12 @@
-import { graphGet, QueryBuilder } from '../GraphQLParser/graphGet';
+import {
+  graphGet,
+  GraphGetData,
+  QueryBuilder,
+} from '../GraphQLParser/graphGet';
 
 describe('graphGet', () => {
   it('works', async () => {
-    const { read } = new QueryBuilder<any>((data) => {
+    const { read } = new QueryBuilder((data) => {
       return [
         data.name,
         data.items[0].inner1[0].final, //
@@ -34,7 +38,7 @@ describe('graphGet', () => {
   });
 
   it('handle arguments', async () => {
-    const queryBuilder = new QueryBuilder<any>((data) => {
+    const queryBuilder = new QueryBuilder((data) => {
       const query = data.query.Query({
         where: { id: 2 },
         orderBy: 'post_date',
@@ -126,7 +130,7 @@ describe('graphGet', () => {
       };
     };
 
-    const queryBuilder = graphGet<S>((data): any => {
+    const queryBuilder = graphGet((data: GraphGetData<S>) => {
       data.query.$name('QueryYeah');
       data.query.Nodes.$aliasFor('Posts');
 
@@ -163,4 +167,78 @@ describe('graphGet', () => {
       '}',
     ]);
   });
+
+  // it('getQuery objectType', () => {
+  //   const object = createType('user', {
+  //     object: {
+  //       name: 'string',
+  //     },
+  //   });
+  //
+  //   type ExcludeObjects<T> = T extends Record<string, any>
+  //     ? {
+  //         [K in keyof T]?: T[K] extends Record<string, any>
+  //           ? Partial<ExcludeObjects<T[K]>> & { __a: 1 }
+  //           : T[K];
+  //       }
+  //     : never;
+  //
+  //   type GraphGet<Schema, Result extends Partial<Schema> = Partial<Schema>> =
+  //     //
+  //     (
+  //       getter: (data: {
+  //         data: ExcludeObjects<Schema>;
+  //       }) => ExcludeObjects<Result>
+  //     ) => string;
+  //
+  //   type Result = {
+  //     user: {
+  //       id: string;
+  //       name: string;
+  //       friends(
+  //         first: number,
+  //         after: string
+  //       ): {
+  //         edges: {
+  //           cursor: string;
+  //           node: {
+  //             id: string;
+  //             name: string;
+  //           };
+  //         };
+  //       };
+  //     };
+  //     pageInfo: {
+  //       hasNextPage: boolean;
+  //     };
+  //   };
+  //
+  //   type F = ExcludeObjects<Result>;
+  //
+  //   const get: GraphGet<Result> = (getter) => {
+  //     return new QueryBuilder(getter as any).read();
+  //   };
+  //
+  //   const sut = get(({ data }) => {
+  //     return {
+  //       user: {
+  //
+  //       }
+  //     };
+  //   });
+  //
+  //   expect(sut.split('\n')).toEqual([
+  //     'data {', //
+  //     '  name',
+  //     '}',
+  //   ]);
+  //
+  //   // const sut = graphGet((data) => {
+  //   //   const posts = data.query.Posts.$alias('').$directives({}).$run({
+  //   //     limit: 1,
+  //   //   });
+  //   //
+  //   //   return [posts.title];
+  //   // });
+  // });
 });
