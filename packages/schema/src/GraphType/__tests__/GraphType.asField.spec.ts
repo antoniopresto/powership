@@ -33,6 +33,7 @@ describe('GraphType.asField', () => {
     });
 
     const resolver = userNodeNode.createResolver({
+      name: 'userNodeNode',
       kind: 'subscription',
       description: 'yeah',
       args: { option: { enum: ['a', 'b'] } },
@@ -58,22 +59,28 @@ describe('GraphType.asField', () => {
     expect(ts.split('\n')).toEqual([
       'export type EmptyArgs = undefined;',
       '',
-      'export type userNodeNodeSubscriptionInput = {',
+      'export type userNodeNodeInput = {',
       '  option: "a" | "b";',
       '};',
       '/** userNodeNode is cool **/',
-      'export type userNodeNodeSubscriptionPayload = {',
+      'export type userNodeNode = {',
       '  name?: string;',
       '  age?: number;',
       '}[];',
       '',
       'export interface GraphQLTypes {',
       '  /** yeah **/',
-      '  userNodeNodeSubscription: {',
-      '    input: userNodeNodeSubscriptionInput;',
-      '    payload: userNodeNodeSubscriptionPayload;',
-      '  };',
+      '  userNodeNode: { input: userNodeNodeInput; payload: userNodeNode };',
       '}',
+      '',
+      'export type QueryResolvers = {};',
+      '',
+      'export type MutationResolvers = {};',
+      '',
+      'export type SubscriptionResolvers = {',
+      '  /** yeah **/',
+      '  userNodeNode(args: userNodeNodeInput): Promise<userNodeNode>;',
+      '};',
       '',
     ]);
   });

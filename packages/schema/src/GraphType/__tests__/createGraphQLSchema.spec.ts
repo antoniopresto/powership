@@ -12,12 +12,14 @@ describe('createGraphQLObject', () => {
 
   it('works', async () => {
     const numbersResolver = createType('Numbers', '[int]').createResolver({
+      name: 'Numbers',
       async resolve() {
         return [1];
       },
     });
 
     const lettersResolver = createType('Letters', '[string]?').createResolver({
+      name: 'Letters',
       async resolve() {
         return ['a', 'b', 'c'];
       },
@@ -74,6 +76,7 @@ describe('createGraphQLObject', () => {
 
   it('should add subscription', async () => {
     createType('Numbers', '[int]').createResolver({
+      name: 'Numbers',
       kind: 'subscription',
       async resolve() {
         return [1];
@@ -91,6 +94,7 @@ describe('createGraphQLObject', () => {
 
   it('should add mutation', async () => {
     createType('Numbers', '[int]').createResolver({
+      name: 'Numbers',
       kind: 'mutation',
       args: {
         limit: 'int',
@@ -115,6 +119,7 @@ describe('createGraphQLObject', () => {
       description: '❤️',
       list: true,
     }).createResolver({
+      name: 'Numbers',
       args: {
         min: 'float?',
       },
@@ -124,6 +129,7 @@ describe('createGraphQLObject', () => {
     });
 
     createType('Letters', '[string]?').createResolver({
+      name: 'Letters',
       async resolve() {
         return ['a', 'b', 'c'];
       },
@@ -135,6 +141,7 @@ describe('createGraphQLObject', () => {
     });
 
     const addLetterResolver = addLetterType.createResolver({
+      name: 'Numbers',
       kind: 'mutation',
       args: {
         letter: { enum: ['a', 'b'] },
@@ -151,6 +158,7 @@ describe('createGraphQLObject', () => {
     assert<IsExact<Args, { letter: 'a' | 'b' }>>(true);
 
     createType('checkNumbers', 'boolean').createResolver({
+      name: 'Numbers',
       kind: 'mutation',
       description: 'Check for numbers ;)',
       async resolve() {
@@ -165,38 +173,28 @@ describe('createGraphQLObject', () => {
     expect(ts.split('\n')).toEqual([
       'export type EmptyArgs = undefined;',
       '',
-      'export type NumbersQueryInput = {',
+      'export type NumbersInput = {',
       '  min?: number;',
       '};',
       '/** ❤️ **/',
-      'export type NumbersQueryPayload = number[];',
+      'export type Numbers = number[];',
       '',
-      'export type LettersQueryInput = undefined | EmptyArgs;',
-      'export type LettersQueryPayload = string[] | undefined;',
-      '',
-      'export type addLetterMutationInput = {',
-      '  letter: "a" | "b";',
-      '};',
-      '/** Bolo de fubá 👨🏽‍🔧 **/',
-      'export type addLetterMutationPayload = boolean;',
-      '',
-      'export type checkNumbersMutationInput = undefined | EmptyArgs;',
-      'export type checkNumbersMutationPayload = boolean;',
+      'export type LettersInput = undefined | EmptyArgs;',
+      'export type Letters = string[] | undefined;',
       '',
       'export interface GraphQLTypes {',
-      '  NumbersQuery: { input: NumbersQueryInput; payload: NumbersQueryPayload };',
-      '  LettersQuery: { input: LettersQueryInput; payload: LettersQueryPayload };',
-      '  addLetterMutation: {',
-      '    input: addLetterMutationInput;',
-      '    payload: addLetterMutationPayload;',
-      '  };',
-      '',
-      '  /** Check for numbers ;) **/',
-      '  checkNumbersMutation: {',
-      '    input: checkNumbersMutationInput;',
-      '    payload: checkNumbersMutationPayload;',
-      '  };',
+      '  Numbers: { input: NumbersInput; payload: Numbers };',
+      '  Letters: { input: LettersInput; payload: Letters };',
       '}',
+      '',
+      'export type QueryResolvers = {',
+      '  Numbers(args: NumbersInput): Promise<Numbers>;',
+      '  Letters(args: LettersInput): Promise<Letters>;',
+      '};',
+      '',
+      'export type MutationResolvers = {};',
+      '',
+      'export type SubscriptionResolvers = {};',
       '',
     ]);
   });

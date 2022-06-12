@@ -134,17 +134,8 @@ export async function resolversTypescriptParts(
   let prefix = '\n\nexport type EmptyArgs  = undefined;\n\n';
 
   const mainResolvers = params.resolvers.filter((el) => !el.__isRelation);
-  const relations = params.resolvers.filter((el) => el.__isRelation);
 
   const mainResolversConversion = mainResolvers.map((item) => {
-    return convertResolver({
-      entryName: item.name,
-      resolver: item,
-      allResolvers: params.resolvers,
-    });
-  });
-
-  const relationResolversConversion = relations.map((item) => {
     let entryName = item.name;
 
     return convertResolver({
@@ -154,27 +145,23 @@ export async function resolversTypescriptParts(
     });
   });
 
-  const lines = await Promise.all([
-    ...mainResolversConversion,
-    ...relationResolversConversion,
-  ]);
+  const lines = await Promise.all(mainResolversConversion);
 
   let typesCode = '';
   let interfaceCode = `export interface ${name} {`;
 
-  let resolversCode = `export type Resolvers = {`;
+  let queryCode = `export type QueryResolvers = {`;
+  let mutationCode = `export type MutationResolvers = {`;
+  let subscriptionCode = `export type SubscriptionResolvers = {`;
 
   lines.forEach((el) => {
     let {
       entryName,
       code,
-      resolver: { description = '' },
+      payloadName,
+      inputName,
+      resolver: { description = '', kind },
     } = el;
-
-    let keyName = entryName;
-    if (el.resolver.__isRelation) {
-      keyName = `"${el.resolver.__relatedToGraphTypeId}.${entryName}"`;
-    }
 
     typesCode += `${code}\n\n`;
 
@@ -182,12 +169,27 @@ export async function resolversTypescriptParts(
       description = `\n\n/** ${description} **/\n`;
     }
 
-    resolversCode += `${description} ${keyName}(args: ${entryName}Input): Promise<${entryName}>,`;
-    //
-    interfaceCode += `${description} ${keyName}: {input: ${entryName}Input, payload: ${entryName}},`;
+    const resolverCode = `${description} ${entryName}(args: ${inputName}): Promise<${payloadName}>,`;
+
+    switch (kind) {
+      case 'mutation': {
+        mutationCode += resolverCode;
+        break;
+      }
+      case 'query': {
+        queryCode += resolverCode;
+        break;
+      }
+      case 'subscription': {
+        subscriptionCode += resolverCode;
+        break;
+      }
+    }
+
+    interfaceCode += `${description} ${entryName}: {input: ${inputName}, payload: ${payloadName}},`;
   });
 
-  const code = `${prefix}\n\n${typesCode}\n\n${interfaceCode}}\n\n${resolversCode}}`;
+  const code = `${prefix}\n\n${typesCode}\n\n${interfaceCode}}\n\n${queryCode}}\n\n${mutationCode}}\n\n${subscriptionCode}}\n\n`;
 
   return { code, lines };
 }
@@ -213,10 +215,11 @@ async function convertResolver(options: {
   const { resolver, allResolvers, entryName } = options;
 
   const inputName = `${entryName}Input`;
-  const payloadName = `${entryName}`;
+
+  const payloadName = `${resolver.__graphTypeId}`;
 
   const payloadDef = {
-    ...(resolver.typeDef as any),
+    ...clearMetaField(resolver.typeDef),
   };
 
   allResolvers.forEach((rel) => {
