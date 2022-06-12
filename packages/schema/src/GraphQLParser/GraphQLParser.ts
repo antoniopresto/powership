@@ -43,7 +43,11 @@ import { GraphQLNullType } from './GraphQLNullType';
 import { GraphQLUlidType } from './GraphQLUlidType';
 import { GraphQLUnknownType } from './GraphQLUnknownType';
 
-export type ParseTypeOptions = Partial<GraphQLObjectTypeConfig<any, any>>;
+export type ParseTypeOptions = Partial<GraphQLObjectTypeConfig<any, any>> & {
+  beforeCreate?: (
+    config: GraphQLObjectTypeConfig<any, any>
+  ) => GraphQLObjectTypeConfig<any, any>;
+};
 
 export type ParseInterfaceOptions = Partial<
   GraphQLInterfaceTypeConfig<any, any>
@@ -175,13 +179,28 @@ export class GraphQLParser {
         };
       }, {});
 
-      const result = new GraphQLObjectType({
+      const finalConfig: any = {
         name,
         fields,
         ...options,
-      });
+      };
 
-      graphqlTypesRegister.set(name, result);
+      finalConfig.fields = () => {
+        if (!options.beforeCreate) return fields;
+
+        const current = { ...finalConfig, fields };
+        const newData = options.beforeCreate(current);
+
+        Object.assign(finalConfig, newData);
+
+        return typeof newData.fields === 'function'
+          ? newData.fields()
+          : newData.fields;
+      };
+
+      const result = new GraphQLObjectType(finalConfig);
+
+      graphqlTypesRegister.set(finalConfig.name, result);
 
       return result;
     }

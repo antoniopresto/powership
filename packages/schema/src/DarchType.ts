@@ -9,13 +9,16 @@ import type {
   GraphQLNamedType,
   GraphQLResolveInfo,
 } from 'graphql';
+import { GraphQLObjectTypeConfig } from 'graphql';
 
 import type {
   ConvertFieldResult,
   GraphQLParserResult,
 } from './GraphQLParser/GraphQLParser';
+import { ParseTypeOptions } from './GraphQLParser/GraphQLParser';
 import { Infer } from './Infer';
 import { createObjectType, ObjectType } from './ObjectType';
+import { FieldDefinitionConfig } from './TObjectConfig';
 import { TAnyFieldType } from './fields/FieldType';
 import { DarchTypeLike } from './fields/IObjectLike';
 import { getObjectDefinitionId } from './fields/MetaFieldField';
@@ -27,7 +30,6 @@ import {
 } from './fields/_parseFields';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
 import { parseObjectField } from './parseObjectDefinition';
-import { withCache, WithCache } from './withCache';
 
 const register = new StrictMap<string, any>();
 const resolvers = new StrictMap<string, any>();
@@ -58,13 +60,6 @@ export class DarchType<Definition> {
 
   __field: TAnyFieldType;
 
-  __withCache: WithCache<{
-    graphqlInputType: GraphQLNamedInputType;
-    graphQLInterface: GraphQLInterfaceType;
-    graphQLType: GraphQLNamedType;
-    graphQLParsed: ConvertFieldResult;
-  }>;
-
   readonly id: string;
   readonly _object?: ObjectType<any>;
 
@@ -89,8 +84,6 @@ export class DarchType<Definition> {
     }
 
     this.__field = parseObjectField('temp', definition, true);
-
-    this.__withCache = withCache(this);
 
     if (ObjectField.is(this.__field)) {
       if (
@@ -140,54 +133,44 @@ export class DarchType<Definition> {
   };
 
   _toGraphQL = () => {
-    return this.__withCache('graphQLParsed', () => {
-      return ObjectType.serverUtils().graphqlParser.GraphQLParser.fieldToGraphQL(
-        {
-          field: this.__field,
-          path: [`Type_${this.id}`],
-          plainField: this.__field.toObjectFieldType(),
-          fieldName: this.id,
-          parentName: this.id,
-        }
-      );
+    return ObjectType.serverUtils().graphqlParser.GraphQLParser.fieldToGraphQL({
+      field: this.__field,
+      path: [`Type_${this.id}`],
+      plainField: this.__field.toObjectFieldType(),
+      fieldName: this.id,
+      parentName: this.id,
     });
   };
 
   graphQLType = (
     ...args: Parameters<ConvertFieldResult['type']>
   ): GraphQLNamedType => {
-    return this.__withCache('graphQLType', () => {
-      return this._toGraphQL().type(...args) as any;
-    });
+    return this._toGraphQL().type(...args) as any;
   };
 
   graphQLInputType = (
     ...args: Parameters<ConvertFieldResult['inputType']>
   ): GraphQLNamedInputType => {
-    return this.__withCache('graphqlInputType', () => {
-      return this._toGraphQL().inputType(...args) as any;
-    });
+    return this._toGraphQL().inputType(...args) as any;
   };
 
   graphQLInterface = (
     ...args: Parameters<GraphQLParserResult['interfaceType']>
   ): GraphQLInterfaceType => {
-    return this.__withCache('graphQLInterface', () => {
-      if (!this._object) {
-        throw new RuntimeError(
-          'graphQLInterface is only available for object type',
-          {
-            type: this.__field.type,
-          }
-        );
-      }
+    if (!this._object) {
+      throw new RuntimeError(
+        'graphQLInterface is only available for object type',
+        {
+          type: this.__field.type,
+        }
+      );
+    }
 
-      return ObjectType.serverUtils()
-        .graphqlParser.GraphQLParser.objectToGraphQL({
-          object: this._object,
-        })
-        .interfaceType(...args);
-    });
+    return ObjectType.serverUtils()
+      .graphqlParser.GraphQLParser.objectToGraphQL({
+        object: this._object,
+      })
+      .interfaceType(...args);
   };
 
   print = (): string[] => {
@@ -243,8 +226,6 @@ export class DarchType<Definition> {
       ? argsObject.graphqlInputType({ name: `${name}Input` })
       : undefined;
 
-    const type: any = this.graphQLType();
-
     const resolveFunction: any = async function typeCheckResolveWrapper(
       source,
       args: any,
@@ -267,32 +248,77 @@ export class DarchType<Definition> {
       );
     };
 
-    const result = {
+    const gqlOptions: Partial<ParseTypeOptions> = {};
+    const clone = this._object?.clone(`${name}Payload`);
+    const cloneGQL = clone?.graphqlType(gqlOptions);
+    const type = cloneGQL ?? this.graphQLType();
+
+    const result: any = {
       ...rest,
       kind,
       name,
       resolve: resolveFunction,
-      args: ArgsType?.getFields(),
+      args: ArgsType?.getFields() || {},
       type,
       argsDef: args,
       typeDef: this.definition,
       __isResolver: true,
+      isRelation: false,
     };
 
-    assertDarchResolver(result);
+    result.addRelation = function addRelation(relDef, relConfig) {
+      const { name: relName } = relConfig;
+
+      if (!clone) {
+        throw new RuntimeError(
+          `addRelation "${relName}": Can't add relation to a not object type`,
+          {
+            relName,
+            config: relConfig,
+            relationConfig: relDef,
+          }
+        );
+      }
+
+      const resolver = createType(relName, relDef).createResolver(relConfig);
+      resolver.isRelation = true;
+
+      gqlOptions.beforeCreate = (config): GraphQLObjectTypeConfig<any, any> => {
+        return {
+          ...config,
+          fields: {
+            ...config.fields,
+            [relName]: resolver,
+          },
+        };
+      };
+
+      return resolver;
+    };
 
     resolvers.set(name, result);
 
     return result as any;
   };
-}
 
-export function assertDarchResolver(
-  input: any
-): asserts input is { __isResolver: true } {
-  if (input?.__isResolver !== true) {
-    throw new Error(`invalid DarchResolver`);
-  }
+  /**
+   * Get an Object with the provided id
+   *    or set a new Object in the register if not found.
+   * @param id
+   * @param def
+   */
+  static getOrSet = <T extends FieldDefinitionConfig>(
+    id: string,
+    def: T
+  ): DarchType<T> => {
+    const existing =
+      DarchType.register.has(id) &&
+      (DarchType.register.get(id) as DarchType<T>);
+
+    if (existing) return existing;
+
+    return new DarchType<any>(id, def) as any;
+  };
 }
 
 export function createType<Definition extends ObjectFieldInput>(
@@ -340,6 +366,32 @@ export interface DarchResolver<
   kind: 'query' | 'subscription' | 'mutation';
   typeDef: TypeDef extends ObjectFieldInput ? TypeDef : never;
   argsDef: ArgsDef extends Record<string, any> ? ArgsDef : never;
+
+  isRelation: boolean;
+
+  addRelation<
+    Context,
+    RelTypeDef extends Readonly<ObjectFieldInput>,
+    RelArgsDef extends Readonly<ObjectDefinitionInput>
+  >(
+    type: RelTypeDef,
+
+    options: DarchGraphQLFieldConfigInput<
+      //   Context = unknown,
+      //   Source = unknown,
+      //   TypeDef = unknown,
+      //   ArgsDef = unknown
+      Context,
+      Infer<TypeDef>,
+      RelTypeDef,
+      RelArgsDef
+    >
+  ): //
+  //   Context = unknown,
+  //   Source = unknown,
+  //   TypeDef = unknown,
+  //   ArgsDef = unknown
+  DarchResolver<Context, Infer<TypeDef>, RelTypeDef, RelArgsDef>;
 }
 
 export interface ResolveFunction<

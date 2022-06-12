@@ -13,12 +13,17 @@ describe('createType', () => {
       object: {
         name: 'string',
         age: 'int?',
+        ee: { enum: ['open', 'closed'] },
       },
-    });
+    } as const);
 
     expect(sut.definition.type).toEqual('object');
 
-    type Expected = { name: string; age?: number | undefined };
+    type Expected = {
+      name: string;
+      age?: number | undefined;
+      ee: 'open' | 'closed';
+    };
     type Inferred = Infer<typeof sut>;
     type Return = ReturnType<typeof sut.parse>;
 
@@ -263,5 +268,26 @@ describe('createType', () => {
       'Different type already registered with name "t2"'
     );
     createType('t2', 'int?');
+  });
+
+  it('handles enums', async () => {
+    const sut = createType('FooBar', {
+      object: {
+        foo: {
+          enum: ['open', 'closed'],
+        },
+      },
+    } as const);
+
+    assert<IsExact<Infer<typeof sut>, { foo: 'open' | 'closed' }>>(true);
+
+    const ts = await sut.typescriptPrint();
+
+    expect(ts.split('\n')).toEqual([
+      'export interface FooBar {',
+      '  foo: "open" | "closed";',
+      '}',
+      '',
+    ]);
   });
 });

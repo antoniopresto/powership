@@ -71,46 +71,6 @@ describe('graphGet', () => {
     ]);
   });
 
-  it('is cool', () => {
-    const sut = graphGet((data) => {
-      const posts = data.query.Posts.$alias('').$directives({}).$run({
-        limit: 1,
-      });
-
-      return [
-        posts.title.$req(),
-        posts.price.$req(),
-        posts.cart.$req(),
-        posts.cart.total.$req(),
-      ];
-    }).read();
-
-    expect(sut.split('\n')).toEqual([
-      'query {',
-      '  Posts {',
-      '    $alias {',
-      '      $directives {',
-      '        $run (limit: 1) {',
-      '          title {',
-      '            $req',
-      '          }',
-      '          price {',
-      '            $req',
-      '          }',
-      '          cart {',
-      '            $req',
-      '            total {',
-      '              $req',
-      '            }',
-      '          }',
-      '        }',
-      '      }',
-      '    }',
-      '  }',
-      '}',
-    ]);
-  });
-
   it('run utils', () => {
     type S = {
       query: {

@@ -38,7 +38,7 @@ export class QueryBuilder<S extends Record<string, any> = Record<string, any>> {
 
     const chainArray = [...self.chain.values()];
 
-    chainArray.forEach((entry, index) => {
+    chainArray.forEach((entry) => {
       const isFunction = entry.indexOf(utilsKey) > -1;
       const hasArgs = entry.endsWith(argsKey);
 
@@ -112,7 +112,7 @@ export class QueryBuilder<S extends Record<string, any> = Record<string, any>> {
         return self.build(newNext);
       },
 
-      get(_, prop: string, receiver): any {
+      get(_, prop: string): any {
         if (prop.startsWith(utilsKey)) {
           // prop = '__REMOVE__';
         }

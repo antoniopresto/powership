@@ -1,10 +1,9 @@
 import { capitalize } from '@darch/utils/lib/stringCase';
 import type { GraphQLSchemaConfig } from 'graphql';
-import { GraphQLObjectType } from 'graphql';
+import { GraphQLObjectType, printSchema } from 'graphql';
 import groupBy from 'lodash/groupBy';
 
 import type { DarchResolver } from './DarchType';
-import { assertDarchResolver } from './DarchType';
 import { ObjectType, parseFieldDefinitionConfig } from './ObjectType';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
 
@@ -21,6 +20,7 @@ export type GraphQLSchemaWithUtils = import('graphql').GraphQLSchema & {
     registeredResolvers: DarchResolver<any>[];
     grouped: GroupedResolvers;
     typescript: (options?: ResolversToTypeScriptOptions) => Promise<string>;
+    print: () => string;
   };
 };
 
@@ -41,11 +41,11 @@ export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
 
   const registeredResolvers = [...DarchType.DarchType.resolvers.values()];
 
-  const resolvers: DarchResolver[] = Array.isArray(args[0])
+  let resolvers: DarchResolver[] = Array.isArray(args[0])
     ? args[0]
     : registeredResolvers;
 
-  resolvers.forEach((el) => assertDarchResolver(el));
+  resolvers = resolvers.filter((el) => el.__isResolver && !el.isRelation);
 
   const config = Array.isArray(args[0]) ? args[1] : args[0];
 
@@ -103,6 +103,9 @@ export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
           ...options,
           resolvers,
         }));
+    },
+    print() {
+      return printSchema(schema);
     },
   };
 
