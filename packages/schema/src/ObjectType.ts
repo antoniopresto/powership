@@ -1,6 +1,7 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { StrictMap } from '@darch/utils/lib/StrictMap';
 import { dynamicRequire } from '@darch/utils/lib/dynamicRequire';
+import { ensureArray } from '@darch/utils/lib/ensureArray';
 import { isProduction } from '@darch/utils/lib/env';
 import { expectedType } from '@darch/utils/lib/expectedType';
 import { getTypeName } from '@darch/utils/lib/getTypeName';
@@ -8,17 +9,14 @@ import { invariantType } from '@darch/utils/lib/invariant';
 import { isBrowser } from '@darch/utils/lib/isBrowser';
 import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 import { ForceString } from '@darch/utils/lib/typeUtils';
-import type {
-  GraphQLInputObjectType,
-  GraphQLInterfaceType,
-  GraphQLObjectType,
-} from 'graphql';
+import type { GraphQLInterfaceType, GraphQLObjectType } from 'graphql';
 
 import type {
   ParseInputTypeOptions,
   ParseTypeOptions,
 } from './GraphType/GraphQLParser';
 import type { ParseInterfaceOptions } from './GraphType/GraphQLParser';
+import { GraphQLParseMiddleware } from './GraphType/GraphQLParser';
 import type { GraphType } from './GraphType/GraphType';
 import type { Infer } from './Infer';
 import type { ObjectDefinitionInput } from './TObjectConfig';
@@ -528,6 +526,14 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
       ...args
     );
   }
+
+  graphQLMiddleware: GraphQLParseMiddleware[] = [];
+
+  addGraphQLMiddleware = (
+    middleware: GraphQLParseMiddleware[] | GraphQLParseMiddleware
+  ) => {
+    this.graphQLMiddleware.push(...ensureArray(middleware));
+  };
 }
 
 export const DarchObject = ObjectType;
@@ -564,7 +570,7 @@ type OmitDefinitionFields<T, Keys extends string> = T extends {
   ? ObjectType<{ [K in keyof T as K extends Keys ? never : K]: T[K] }>
   : never;
 
-type ObjectExtendDefinition<T, Ext> = T extends { [K: string]: any }
+export type ObjectExtendDefinition<T, Ext> = T extends { [K: string]: any }
   ? Ext extends { [K: string]: any }
     ? ObjectType<{
         [K in keyof (T & Ext)]: (T & Ext)[K];

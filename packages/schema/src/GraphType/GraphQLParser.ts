@@ -62,8 +62,12 @@ export function createHooks() {
 
 export type ParserHooks = ReturnType<typeof createHooks>;
 
+export interface GraphQLParseMiddleware {
+  (hooks: ParserHooks): any;
+}
+
 export type CommonTypeOptions = {
-  middleware?(hooks: ParserHooks): any;
+  middleware?: GraphQLParseMiddleware;
 };
 
 export type ParseTypeOptions = Partial<GraphQLObjectTypeConfig<any, any>> &
@@ -178,9 +182,12 @@ export class GraphQLParser {
 
       options.fields = () => {
         const helpers = object.helpers();
+        const objectMiddleware = object.graphQLMiddleware || [];
+
         const builders: ConvertFieldResult[] = [];
         const hooks = createHooks();
         options.middleware?.(hooks);
+        objectMiddleware.forEach((fn) => fn(hooks));
 
         helpers.list.forEach(({ name: fieldName, instance, plainField }) => {
           const field = this.fieldToGraphQL({

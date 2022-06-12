@@ -9,7 +9,6 @@ import type {
   GraphQLNamedType,
   GraphQLResolveInfo,
 } from 'graphql';
-import { GraphQLObjectTypeConfig } from 'graphql';
 
 import { Infer } from '../Infer';
 import { createObjectType, ObjectType } from '../ObjectType';
@@ -26,7 +25,6 @@ import {
 import type { ObjectToTypescriptOptions } from '../objectToTypescript';
 import { parseObjectField } from '../parseObjectDefinition';
 
-import { ParseTypeOptions } from './GraphQLParser';
 import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
 
 const register = new StrictMap<string, any>();
@@ -91,7 +89,8 @@ export class GraphType<Definition> {
 
     if (!name) {
       throw new RuntimeError(`Expected name to be provided, found ${name}`, {
-        parameters: args,
+        name,
+        definition,
       });
     }
 
@@ -159,6 +158,44 @@ export class GraphType<Definition> {
         object: this._object,
       })
       .interfaceType(...args);
+  };
+
+  addRelation = <
+    FieldTypeDef extends ObjectFieldInput,
+    Name extends string,
+    Context = unknown,
+    ArgsDef extends ObjectDefinitionInput = ObjectDefinitionInput
+  >(
+    options: DarchGraphQLFieldConfigInput<
+      Context,
+      Infer<ToFinalField<Definition>>,
+      FieldTypeDef,
+      ArgsDef
+    > & { type: FieldTypeDef; name: Name }
+  ): this => {
+    const object = this._object;
+
+    const type = createType(options.name, options.type);
+
+    const { name } = options;
+
+    if (!object) {
+      throw new RuntimeError(`Can't add relation to a not object type`, {
+        object,
+        type,
+        options,
+      });
+    }
+
+    this._object?.addGraphQLMiddleware((hooks) => {
+      hooks.onFieldConfigMap.register(function (fields) {
+        fields[name] = type.createResolver({
+          ...(options as any),
+        });
+      });
+    });
+
+    return this;
   };
 
   print = (): string[] => {
@@ -236,19 +273,7 @@ export class GraphType<Definition> {
       );
     };
 
-    const middleware: Partial<ParseTypeOptions>['middleware'][] = [];
-
-    const gqlOptions: Partial<ParseTypeOptions> = {
-      middleware(hooks): any {
-        middleware.forEach((apply) => {
-          apply?.(hooks);
-        });
-      },
-    };
-
-    const clone = this._object?.clone(`${name}Payload`);
-    const cloneGQL = clone?.graphqlType(gqlOptions);
-    const type = cloneGQL ?? this.graphQLType();
+    const type = this.graphQLType();
 
     const result: any = {
       ...rest,
@@ -261,32 +286,6 @@ export class GraphType<Definition> {
       typeDef: this.definition,
       __isResolver: true,
       isRelation: false,
-    };
-
-    result.addRelation = function addRelation(relDef, relConfig) {
-      const { name: relName } = relConfig;
-
-      if (!clone) {
-        throw new RuntimeError(
-          `addRelation "${relName}": Can't add relation to a not object type`,
-          {
-            relName,
-            config: relConfig,
-            relationConfig: relDef,
-          }
-        );
-      }
-
-      const resolver = createType(relName, relDef).createResolver(relConfig);
-      resolver.isRelation = true;
-
-      middleware.push((hooks) => {
-        hooks.onFieldConfigMap.register((fields) => {
-          fields[relName] = resolver;
-        });
-      });
-
-      return resolver;
     };
 
     resolvers.set(name, result);
@@ -313,7 +312,7 @@ export class GraphType<Definition> {
     return new GraphType<any>(id, def) as any;
   };
 
-  static is(input: any): input is GraphType<unknown> {
+  static is(input: any): input is GraphType<any> {
     return input?.__isGraphType === true;
   }
 
@@ -371,30 +370,6 @@ export interface DarchResolver<
   argsDef: ArgsDef extends Record<string, any> ? ArgsDef : never;
 
   isRelation: boolean;
-
-  addRelation<
-    Context,
-    RelTypeDef extends Readonly<ObjectFieldInput>,
-    RelArgsDef extends Readonly<ObjectDefinitionInput>
-  >(
-    type: RelTypeDef,
-
-    options: DarchGraphQLFieldConfigInput<
-      //   Context = unknown,
-      //   Source = unknown,
-      //   TypeDef = unknown,
-      //   ArgsDef = unknown
-      Context,
-      Infer<TypeDef>,
-      RelTypeDef,
-      RelArgsDef
-    >
-  ): //
-  //   Context = unknown,
-  //   Source = unknown,
-  //   TypeDef = unknown,
-  //   ArgsDef = unknown
-  DarchResolver<Context, Infer<TypeDef>, RelTypeDef, RelArgsDef>;
 }
 
 export interface ResolveFunction<

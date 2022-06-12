@@ -47,10 +47,10 @@ describe('createResolver', () => {
     expect(printSchema(object).split('\n')).toEqual([
       'type Query {',
       '  """User resolver"""',
-      '  users(id: Ulid!): UserPayload',
+      '  users(id: Ulid!): User!',
       '}',
       '',
-      'type UserPayload {',
+      'type User {',
       '  """the user name"""',
       '  name: String!',
       '  id: Ulid!',
@@ -114,10 +114,10 @@ describe('createResolver', () => {
 
     expect(printSchema(object).split('\n')).toEqual([
       'type Query {',
-      '  users(name: String!, addresses: [UserAddressInput]!, records: UsersInput_recordsRecord!): UsersPayload',
+      '  users(name: String!, addresses: [UserAddressInput]!, records: UsersInput_recordsRecord!): user!',
       '}',
       '',
-      'type UsersPayload {',
+      'type user {',
       '  name: String!',
       '  age: Int',
       '}',
