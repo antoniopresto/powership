@@ -183,6 +183,16 @@ describe('GraphType', () => {
       },
     });
 
+    resolver.addRelation('[string]', {
+      name: 'stringList',
+      args: {
+        size: 'int',
+      },
+      async resolve() {
+        return ['hy'];
+      },
+    });
+
     const schema = createGraphQLSchema();
 
     expect(schema.utils.print().split('\n')).toEqual([
@@ -195,6 +205,7 @@ describe('GraphType', () => {
       '  name: String!',
       '  id: Ulid!',
       '  userEmails(limit: Int): userEmailsPayload',
+      '  stringList(size: Int!): [String]!',
       '}',
       '',
       'scalar Ulid',

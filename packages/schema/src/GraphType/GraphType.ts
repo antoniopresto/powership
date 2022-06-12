@@ -236,7 +236,16 @@ export class GraphType<Definition> {
       );
     };
 
-    const gqlOptions: Partial<ParseTypeOptions> = {};
+    const middleware: Partial<ParseTypeOptions>['middleware'][] = [];
+
+    const gqlOptions: Partial<ParseTypeOptions> = {
+      middleware(hooks): any {
+        middleware.forEach((apply) => {
+          apply?.(hooks);
+        });
+      },
+    };
+
     const clone = this._object?.clone(`${name}Payload`);
     const cloneGQL = clone?.graphqlType(gqlOptions);
     const type = cloneGQL ?? this.graphQLType();
@@ -271,15 +280,11 @@ export class GraphType<Definition> {
       const resolver = createType(relName, relDef).createResolver(relConfig);
       resolver.isRelation = true;
 
-      gqlOptions.beforeCreate = (config): GraphQLObjectTypeConfig<any, any> => {
-        return {
-          ...config,
-          fields: {
-            ...config.fields,
-            [relName]: resolver,
-          },
-        };
-      };
+      middleware.push((hooks) => {
+        hooks.onFieldConfigMap.register((fields) => {
+          fields[relName] = resolver;
+        });
+      });
 
       return resolver;
     };

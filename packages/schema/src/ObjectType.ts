@@ -14,7 +14,10 @@ import type {
   GraphQLObjectType,
 } from 'graphql';
 
-import type { ParseTypeOptions } from './GraphType/GraphQLParser';
+import type {
+  ParseInputTypeOptions,
+  ParseTypeOptions,
+} from './GraphType/GraphQLParser';
 import type { ParseInterfaceOptions } from './GraphType/GraphQLParser';
 import type { GraphType } from './GraphType/GraphType';
 import type { Infer } from './Infer';
@@ -60,9 +63,6 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
   private readonly __definition: any;
 
   __withCache: WithCache<{
-    graphqlInputType: GraphQLInputObjectType;
-    graphqlType: GraphQLObjectType;
-    graphqlInterfaceType: GraphQLInterfaceType;
     helpers: ObjectHelpers<DefinitionInput>;
   }>;
 
@@ -409,17 +409,13 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
   };
 
   graphqlType = (options?: ParseTypeOptions): GraphQLObjectType => {
-    return this.__withCache('graphqlType', () =>
-      this.toGraphQL().getType(options)
-    );
+    return this.toGraphQL().getType(options);
   };
 
   graphqlInterfaceType = (
     options?: ParseInterfaceOptions
   ): GraphQLInterfaceType => {
-    return this.__withCache('graphqlInterfaceType', () =>
-      this.toGraphQL().interfaceType(options)
-    );
+    return this.toGraphQL().interfaceType(options);
   };
 
   graphqlPrint = (): string => {
@@ -438,10 +434,8 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
     return this.toGraphQL().typeToString();
   };
 
-  graphqlInputType = (options?: ParseTypeOptions) => {
-    return this.__withCache('graphqlInputType', () =>
-      this.toGraphQL().getInputType(options)
-    );
+  graphqlInputType = (options?: ParseInputTypeOptions) => {
+    return this.toGraphQL().getInputType(options);
   };
 
   implement = <Parents extends ReadonlyArray<ObjectLike>>(

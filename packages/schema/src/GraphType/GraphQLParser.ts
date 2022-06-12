@@ -2,13 +2,17 @@ import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { StrictMap } from '@darch/utils/lib/StrictMap';
 import { assertSame } from '@darch/utils/lib/assertSame';
 import { isProduction } from '@darch/utils/lib/env';
+import { hooks } from '@darch/utils/lib/hooks';
 import { nonNullValues } from '@darch/utils/lib/invariant';
 import {
   GraphQLBoolean,
   GraphQLEnumType,
+  GraphQLFieldConfig,
+  GraphQLFieldConfigMap,
   GraphQLFloat,
   GraphQLID,
   GraphQLInputObjectType,
+  GraphQLInputObjectTypeConfig,
   GraphQLInputType,
   GraphQLInt,
   GraphQLInterfaceType,
@@ -23,7 +27,11 @@ import {
   GraphQLUnionType,
   printSchema,
 } from 'graphql';
-import { GraphQLInterfaceTypeConfig } from 'graphql/type/definition';
+import {
+  GraphQLInterfaceTypeConfig,
+  ThunkObjMap,
+  ThunkReadonlyArray,
+} from 'graphql/type/definition';
 
 import { isObject, ObjectType } from '../ObjectType';
 import { assertSameDefinition } from '../assertSameDefinition';
@@ -43,20 +51,36 @@ import { GraphQLNullType } from './GraphQLNullType';
 import { GraphQLUlidType } from './GraphQLUlidType';
 import { GraphQLUnknownType } from './GraphQLUnknownType';
 
-export type ParseTypeOptions = Partial<GraphQLObjectTypeConfig<any, any>> & {
-  beforeCreate?: (
-    config: GraphQLObjectTypeConfig<any, any>
-  ) => GraphQLObjectTypeConfig<any, any>;
+export function createHooks() {
+  return {
+    willCreateObjectType: hooks.parallel<GraphQLFieldConfigMap<any, any>>(),
+    onFieldResult: hooks.parallel<ConvertFieldResult>(),
+    onField: hooks.parallel<ConvertFieldResult, GraphQLFieldConfig<any, any>>(),
+    onFieldConfigMap: hooks.parallel<GraphQLFieldConfigMap<any, any>>(),
+  };
+}
+
+export type ParserHooks = ReturnType<typeof createHooks>;
+
+export type CommonTypeOptions = {
+  middleware?(hooks: ParserHooks): any;
 };
+
+export type ParseTypeOptions = Partial<GraphQLObjectTypeConfig<any, any>> &
+  CommonTypeOptions;
+
+export type ParseInputTypeOptions = Partial<GraphQLInputObjectTypeConfig> &
+  CommonTypeOptions;
 
 export type ParseInterfaceOptions = Partial<
   GraphQLInterfaceTypeConfig<any, any>
->;
+> &
+  CommonTypeOptions;
 
 export interface GraphQLParserResult {
   typeToString(): string;
   inputToString(): string;
-  getInputType: (options?: ParseTypeOptions) => GraphQLInputObjectType;
+  getInputType: (options?: ParseInputTypeOptions) => GraphQLInputObjectType;
   getType: (options?: ParseTypeOptions) => GraphQLObjectType;
   interfaceType: (options?: ParseInterfaceOptions) => GraphQLInterfaceType;
   object: ObjectType<any>;
@@ -65,7 +89,7 @@ export interface GraphQLParserResult {
 export interface ConvertFieldResult {
   fieldName: string;
   typeName: string;
-  inputType: (options?: ParseTypeOptions) => GraphQLInputType;
+  inputType: (options?: ParseInputTypeOptions) => GraphQLInputType;
   type: (options?: ParseTypeOptions) => GraphQLOutputType;
   description?: string;
   plainField: FinalFieldDefinition;
@@ -104,7 +128,7 @@ export class GraphQLParser {
         'You can use object.identify("abc")'
     );
 
-    const { implements: _implements } = object.meta;
+    const { implements: parents } = object.meta;
 
     if (resultsCache.has(objectId)) {
       const cached = resultsCache.get(objectId);
@@ -122,148 +146,123 @@ export class GraphQLParser {
     const graphqlParsed = {} as GraphQLParserResult;
     resultsCache.set(objectId, graphqlParsed);
 
-    const helpers = object.helpers();
-    const builders: ConvertFieldResult[] = [];
+    const buildFields = <T>(
+      options: CommonTypeOptions & {
+        fields?: ThunkObjMap<{ type: any; [K: string]: any }>;
+        interfaces?: ThunkReadonlyArray<GraphQLInterfaceType>;
+      },
 
-    helpers.list.forEach(({ name: fieldName, instance, plainField }) => {
-      builders.push(
-        this.fieldToGraphQL({
-          field: instance,
-          parentName: objectId,
-          fieldName,
-          path: path || [objectId],
-          plainField,
-        })
-      );
-    });
+      getType: (data: ConvertFieldResult) => T
+    ) => {
+      const { interfaces: currentInterfacesOption } = options;
 
-    function getType(options: ParseTypeOptions = {}) {
-      const { name = objectId, interfaces } = options;
+      options.interfaces = (): GraphQLInterfaceType[] => {
+        const currentInterfaces =
+          typeof currentInterfacesOption === 'function'
+            ? currentInterfacesOption()
+            : currentInterfacesOption || [];
 
-      const parents = _implements
-        ? () =>
-            _implements.map((parent) =>
-              (
-                ObjectType.register.get(parent) as ObjectType<any>
-              ).graphqlInterfaceType()
+        const types = parents
+          ? parents.map(
+              (parent) => ObjectType.register.get(parent) as ObjectType<any>
             )
-        : undefined;
+          : [];
 
-      if (parents) {
-        const original = interfaces;
+        return [
+          ...currentInterfaces,
+          ...types.map((type) => {
+            return type.graphqlInterfaceType();
+          }),
+        ];
+      };
 
-        if (typeof original === 'function') {
-          options.interfaces = function darchWrapped() {
-            return [...original(), ...parents()];
+      options.fields = () => {
+        const helpers = object.helpers();
+        const builders: ConvertFieldResult[] = [];
+        const hooks = createHooks();
+        options.middleware?.(hooks);
+
+        helpers.list.forEach(({ name: fieldName, instance, plainField }) => {
+          const field = this.fieldToGraphQL({
+            field: instance,
+            parentName: objectId,
+            fieldName,
+            path: path || [objectId],
+            plainField,
+          });
+
+          hooks.onFieldResult.exec(field);
+
+          builders.push(field);
+        });
+
+        const fieldsConfigMap = builders.reduce((acc, next) => {
+          const field: GraphQLFieldConfig<any, any> = {
+            type: getType(next) as any,
+            description: next.description,
           };
-        } else if (Array.isArray(original)) {
-          options.interfaces = function darchWrapped() {
-            return [...original, ...parents()];
+
+          const objMap: GraphQLFieldConfigMap<any, any> = {
+            ...acc,
+            [next.fieldName]: field,
           };
-        } else {
-          options.interfaces = parents;
-        }
-      }
+
+          hooks.onField.exec(next, field);
+
+          return objMap;
+        }, {} as GraphQLFieldConfigMap<any, any>);
+
+        hooks.onFieldConfigMap.exec(fieldsConfigMap);
+
+        hooks.willCreateObjectType.exec(fieldsConfigMap);
+        return fieldsConfigMap;
+      };
+
+      return options;
+    };
+
+    function getType(_options: ParseTypeOptions = {}) {
+      const options = { name: objectId, fields: {}, ..._options };
+      const { name } = options;
 
       if (graphqlTypesRegister.has(name)) {
         return graphqlTypesRegister.get(name);
       }
 
-      const fields = builders.reduce((acc, next) => {
-        return {
-          ...acc,
-          [next.fieldName]: {
-            type: next.type(),
-            description: next.description,
-          },
-        };
-      }, {});
-
-      const finalConfig: any = {
-        name,
-        fields,
-        ...options,
-      };
-
-      finalConfig.fields = () => {
-        if (!options.beforeCreate) return fields;
-
-        const current = { ...finalConfig, fields };
-        const newData = options.beforeCreate(current);
-
-        Object.assign(finalConfig, newData);
-
-        return typeof newData.fields === 'function'
-          ? newData.fields()
-          : newData.fields;
-      };
-
-      const result = new GraphQLObjectType(finalConfig);
-
-      graphqlTypesRegister.set(finalConfig.name, result);
+      buildFields(options, (el) => el.type());
+      const result = new GraphQLObjectType(options);
+      graphqlTypesRegister.set(options.name, result);
 
       return result;
     }
 
-    function getInputType(options: ParseTypeOptions = {}) {
-      const { name = `${objectId}Input` } = options;
+    function getInputType(
+      _options: ParseInputTypeOptions = {}
+    ): GraphQLInputObjectType {
+      const options = { name: `${objectId}Input`, fields: {}, ..._options };
+      const { name } = options;
 
       if (graphqlTypesRegister.has(name)) {
         return graphqlTypesRegister.get(name);
       }
 
-      const inputFields = builders.reduce((acc, next) => {
-        const type = next.inputType?.();
-        if (!type) return acc;
-
-        return {
-          ...acc,
-          [next.fieldName]: {
-            type,
-            description: next.description,
-          },
-        };
-      }, {});
-
-      const result = new GraphQLInputObjectType({
-        name,
-        fields: inputFields,
-        ...(options as any),
-      });
-
+      buildFields(options, (el) => el.inputType());
+      const result = new GraphQLInputObjectType(options);
       graphqlTypesRegister.set(name, result);
-
       return result;
     }
 
-    function interfaceType(options: ParseInterfaceOptions = {}) {
-      const { name = `${objectId}Interface` } = options;
+    function interfaceType(_options: ParseInterfaceOptions = {}) {
+      const options = { name: `${objectId}Interface`, fields: {}, ..._options };
+      const { name } = options;
 
       if (graphqlTypesRegister.has(name)) {
         return graphqlTypesRegister.get(name);
       }
 
-      const inputFields = builders.reduce((acc, next) => {
-        const type = next.inputType?.();
-        if (!type) return acc;
-
-        return {
-          ...acc,
-          [next.fieldName]: {
-            type,
-            description: next.description,
-          },
-        };
-      }, {});
-
-      const result = new GraphQLInterfaceType({
-        name,
-        fields: inputFields,
-        ...(options as any),
-      });
-
+      buildFields(options, (el) => el.type());
+      const result = new GraphQLInterfaceType(options);
       graphqlTypesRegister.set(name, result);
-
       return result;
     }
 
@@ -338,6 +337,7 @@ export class GraphQLParser {
 
     const self = this;
 
+    // @ts-ignore
     const create: {
       [T in FieldTypeName]: () => Omit<
         ConvertFieldResult,
@@ -367,7 +367,7 @@ export class GraphQLParser {
         const res = new GraphQLScalarType({ name: 'Any' });
         return { inputType: () => res, type: () => res };
       },
-      cursor() {
+      cursor(): any {
         const cursor = field as CursorField;
 
         return {
