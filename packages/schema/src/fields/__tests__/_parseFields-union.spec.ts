@@ -4,17 +4,19 @@ import { ObjectType } from '../../ObjectType';
 import { InferField } from '../_parseFields';
 
 test('infer union types', () => {
-  type TUnion = InferField<{ object: { name: ['string', 'int'] } }>;
-  assert<IsExact<TUnion, { name: string | number }>>(true);
+  type TUnion = InferField<{
+    object: { names: [{ union: ['string', 'int'] }] };
+  }>;
+  assert<IsExact<TUnion, { names: (string | number)[] }>>(true);
 
   type TUnionList = InferField<{
-    object: { name: ['string', 'int'] };
+    object: { name: { union: ['string', 'int'] } };
     list: true;
   }>;
   assert<IsExact<TUnionList, { name: string | number }[]>>(true);
 
   type TUnionListOptional = InferField<{
-    object: { name: ['string', 'int'] };
+    object: { name: { union: ['string', 'int'] } };
     list: true;
     optional: true;
   }>;
@@ -23,7 +25,7 @@ test('infer union types', () => {
   );
 
   type TUnionListOptionalItem = InferField<{
-    object: { name: ['string', 'int?'] };
+    object: { name: { union: ['string', 'int?'] } };
     list: true;
     optional: true;
   }>;
@@ -43,10 +45,12 @@ test('infer union types', () => {
     addListOptional: {
       object: {
         name: 'string';
-        uni: [
-          { enum: ['a', 'b'] }, //
-          'int'
-        ];
+        uni: {
+          union: [
+            { enum: ['a', 'b'] }, //
+            'int'
+          ];
+        };
       };
       list: true;
       optional: true;
@@ -78,7 +82,7 @@ test('infer union types', () => {
       notes: '[int]?';
 
       // declaring a union field - will infer as `string | undefined | number[]`
-      unionField: ['string?', '[int]?'];
+      unionField: { union: ['string?', '[int]?'] };
 
       // represents an enum
       letter: { enum: ['a', 'b', 'c'] };

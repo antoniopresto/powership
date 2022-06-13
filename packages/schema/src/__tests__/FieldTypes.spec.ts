@@ -436,7 +436,7 @@ describe('FieldTypes', () => {
       );
 
       expect(
-        RecordField.create({ type: ['int', 'boolean'] }).parse({
+        RecordField.create({ type: { union: ['int', 'boolean'] } }).parse({
           a: '1',
           b: true,
         })
@@ -466,7 +466,9 @@ describe('FieldTypes', () => {
           def: {
             keyType: 'int',
             type: {
-              record: { type: { object: { name: ['string', '[int]?'] } } },
+              record: {
+                type: { object: { name: { union: ['string', '[int]?'] } } },
+              },
             },
           },
           optional: true,
@@ -502,24 +504,22 @@ describe('FieldTypes', () => {
       type AnyRecord = Record<string, any>;
       type T = Infer<ObjectType<typeof def>>;
 
-      assert<
-        IsExact<
-          T,
-          {
-            name: AnyRecord;
-            nameOpt?: AnyRecord | undefined;
-            nameList: AnyRecord[];
-            nameListOptional?: AnyRecord[] | undefined;
-            nameFromType?: Record<string, number[] | undefined>[] | undefined;
-            defObject?:
-              | {
-                  [K: number]: {
-                    [K: string]: { name?: string | number[] | undefined };
-                  };
-                }[]
-              | undefined;
-          }
-        >
+      _assertFields<
+        T,
+        {
+          name: AnyRecord;
+          nameOpt?: AnyRecord | undefined;
+          nameList: AnyRecord[];
+          nameListOptional?: AnyRecord[] | undefined;
+          nameFromType?: Record<string, number[] | undefined>[] | undefined;
+          defObject?:
+            | {
+                [K: number]: {
+                  [K: string]: { name?: string | number[] | undefined };
+                };
+              }[]
+            | undefined;
+        }
       >(true);
     });
 

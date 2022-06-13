@@ -118,7 +118,7 @@ describe('parseObjectDefinition', () => {
     } as const);
 
     const sass = {
-      union: [{ object: { points: '[float]?' } }, 'int'],
+      union: { union: [{ object: { points: '[float]?' } }, 'int'] },
       names: '[string]?',
       age: 'int',
     } as const;

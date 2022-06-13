@@ -266,7 +266,7 @@ describe('GraphQLParser', () => {
     });
 
     const Task = createObjectType('Task', {
-      owner: [robot, person],
+      owner: { union: [robot, person] },
     });
 
     const sut = GraphQLParser.objectToGraphQL({
@@ -306,7 +306,7 @@ describe('GraphQLParser', () => {
     });
 
     const Task = createObjectType('Task', {
-      owner: [robot, person],
+      owner: { union: [robot, person] },
     });
 
     const sut = GraphQLParser.objectToGraphQL({
@@ -331,11 +331,11 @@ describe('GraphQLParser', () => {
     });
 
     const type1 = createObjectType('Type1', {
-      owner: [robot, person],
+      owner: { union: [robot, person] },
     });
 
     const type2 = createObjectType('Type2', {
-      owner: [robot, person],
+      owner: { union: [robot, person] },
     });
 
     const query = createObjectType('Query', {

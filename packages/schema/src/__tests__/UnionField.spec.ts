@@ -58,7 +58,7 @@ describe('Union', () => {
     const subObject = createObjectType({ name: 'string' });
 
     const sut = createObjectType({
-      foo: ['[string]?', subObject],
+      foo: { union: ['[string]?', subObject] },
     } as const);
 
     expect(sut.parse({ foo: undefined })).toEqual({ foo: undefined });
@@ -83,7 +83,7 @@ describe('Union', () => {
 
   test('types', () => {
     const def = {
-      uu: ['int?', 'boolean'],
+      uu: { union: ['int?', 'boolean'] },
 
       nameFromType: UnionField.create(['string']).toList().toOptional(),
 
@@ -132,11 +132,30 @@ describe('Union', () => {
       union1: { union: ['boolean', { enum: ['true', 'false'] }] },
       union1Optional: { union: ['boolean?', { enum: ['true', 'false'] }] },
       union1OptionalList: {
-        union: ['boolean?', { enum: ['true', 'false'] }],
+        union: [
+          'boolean?',
+          {
+            enum: ['true', 'false'],
+          },
+        ],
         list: true,
       },
-      union2: ['boolean', { enum: ['true', 'false'] }],
-      union2Optional: ['boolean?', { enum: ['true', 'false'] }],
+      union2: {
+        union: [
+          'boolean',
+          {
+            enum: ['true', 'false'],
+          },
+        ],
+      },
+      union2Optional: {
+        union: [
+          'boolean?',
+          {
+            enum: ['true', 'false'],
+          },
+        ],
+      },
       union3: {
         type: 'union',
         def: [{ enum: ['true', 'false'] }, 'boolean'],
@@ -378,7 +397,7 @@ describe('Union', () => {
     it('infer array union with object inside', () => {
       const object1 = createObjectType({ a: 'string?' });
 
-      const u = ['int?', object1] as const;
+      const u = { union: ['int?', object1] } as const;
       type P = ToFinalField<typeof u>;
 
       assert<IsExact<'union', P['type']>>(true);
@@ -386,7 +405,7 @@ describe('Union', () => {
     });
 
     it('infer array union with optional as optional', () => {
-      const u = ['int?', 'string'] as const;
+      const u = { union: ['int?', 'string'] } as const;
       type P = ToFinalField<typeof u>;
 
       assert<IsExact<'union', P['type']>>(true);
@@ -394,7 +413,7 @@ describe('Union', () => {
     });
 
     it('infer array union without optional as required', () => {
-      const u = ['int', 'string'] as const;
+      const u = { union: ['int', 'string'] } as const;
       type P = ToFinalField<typeof u>;
 
       assert<IsExact<true, P['optional']>>(false);
@@ -482,12 +501,26 @@ describe('Union', () => {
       >(true);
 
       _assert<
-        ['boolean', { enum: ['true', 'false'] }],
+        {
+          union: [
+            'boolean',
+            {
+              enum: ['true', 'false'];
+            }
+          ];
+        },
         boolean | 'true' | 'false'
       >(true);
 
       _assert<
-        ['boolean?', { enum: ['true', 'false'] }],
+        {
+          union: [
+            'boolean?',
+            {
+              enum: ['true', 'false'];
+            }
+          ];
+        },
         boolean | 'true' | 'false',
         true
       >(true);
@@ -525,11 +558,30 @@ describe('Union', () => {
         union1: { union: ['boolean', { enum: ['true', 'false'] }] },
         union1Optional: { union: ['boolean?', { enum: ['true', 'false'] }] },
         union1OptionalList: {
-          union: ['boolean?', { enum: ['true', 'false'] }],
+          union: [
+            'boolean?',
+            {
+              enum: ['true', 'false'],
+            },
+          ],
           list: true,
         },
-        union2: ['boolean', { enum: ['true', 'false'] }],
-        union2Optional: ['boolean?', { enum: ['true', 'false'] }],
+        union2: {
+          union: [
+            'boolean',
+            {
+              enum: ['true', 'false'],
+            },
+          ],
+        },
+        union2Optional: {
+          union: [
+            'boolean?',
+            {
+              enum: ['true', 'false'],
+            },
+          ],
+        },
         union3: {
           type: 'union',
           def: [{ enum: ['true', 'false'] }, 'boolean'],

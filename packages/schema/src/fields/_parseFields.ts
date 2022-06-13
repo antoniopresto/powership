@@ -22,7 +22,9 @@ export type ObjectFieldInput =
 // should update _toFinalField, parseObjectDefinition.ts and Infer.ts if add any new type here
 
 // https://github.com/microsoft/TypeScript/issues/3496#issuecomment-128553540
-interface ObjectInputArray extends Readonly<Array<ObjectFieldInput>> {}
+interface ObjectInputArray extends ReadonlyArray<ObjectFieldInput> {
+  length: 1;
+}
 
 export interface ObjectInTypeFieldDefinition {
   type: ObjectLike;
@@ -156,16 +158,16 @@ export type _toFinalField<Base> = //
       }
     : //
 
-    // === start handling union type ===
-    Base extends Array<infer Item> | Readonly<Array<infer Item>>
+    // === start handling list ===
+    Base extends [infer Item] | Readonly<[infer Item]>
     ? {
-        type: 'union';
-        def: Array<Item>;
-        list: undefined;
-        optional: undefined;
+        type: ToFinalField<Item>['type'];
+        def: ToFinalField<Item>['def'];
+        list: true;
+        optional: false;
         description: string | undefined;
       }
-    : // === end handling union type
+    : // === end handling list
 
     // ==== start handling FieldAsString ====
     Base extends FieldAsString

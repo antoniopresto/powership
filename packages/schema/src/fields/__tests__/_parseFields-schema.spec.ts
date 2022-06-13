@@ -76,7 +76,7 @@ test('ParseFields object typings', () => {
   assert<IsExact<InferField<{ object: { name: 'union' } }>, { name: never }>>(
     true
   );
-  type TSUnion = InferField<{ object: { name: ['string', 'int'] } }>;
+  type TSUnion = InferField<{ object: { name: { union: ['string', 'int'] } } }>;
   assert<IsExact<TSUnion, { name: string | number }>>(true);
 
   //   enum:

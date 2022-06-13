@@ -11,31 +11,33 @@ describe('objectToTypescript', () => {
       ulids: '[ulid]?',
       dates: '[date]',
       id: '[ID]?',
-      sex: [{ enum: ['m', 'f', 'o'], optional: true }],
-      addresses: [
-        {
-          object: {
-            kind: { enum: ['home'] },
-            street: 'string',
-            number: ['string', 'float'],
+      sex: { union: [{ enum: ['m', 'f', 'o'], optional: true }] },
+      addresses: {
+        union: [
+          {
+            object: {
+              kind: { enum: ['home'] },
+              street: 'string',
+              number: { union: ['string', 'float'] },
+            },
+            optional: true,
+            list: true,
+            description: 'Home address',
           },
-          optional: true,
-          list: true,
-          description: 'Home address',
-        },
-        {
-          object: {
-            kind: { enum: ['work'] },
-            week_days: { enum: ['0', '1', '2', '3', '4', '5', '6'] },
-            name: {
-              object: {
-                firstName: 'string',
-                lastName: 'string',
+          {
+            object: {
+              kind: { enum: ['work'] },
+              week_days: { enum: ['0', '1', '2', '3', '4', '5', '6'] },
+              name: {
+                object: {
+                  firstName: 'string',
+                  lastName: 'string',
+                },
               },
             },
           },
-        },
-      ],
+        ],
+      },
     } as const)
       .describe('My Custom Object')
       .describe({ name: 'person name', pointers: 'some pointers' });

@@ -11,24 +11,27 @@ describe('objectToJSON', () => {
       ulids: '[ulid]?',
       dates: '[date]',
       sex: { enum: ['m', 'f', 'o'] },
-      addresses: [
-        {
-          object: {
-            kind: { enum: ['home'] },
-            street: 'string',
-            number: ['string', 'float'],
+      addresses: {
+        type: 'union',
+        def: [
+          {
+            object: {
+              kind: { enum: ['home'] },
+              street: 'string',
+              number: { union: ['string', 'float'] },
+            },
+            optional: true,
+            list: true,
+            description: 'Home address',
           },
-          optional: true,
-          list: true,
-          description: 'Home address',
-        },
-        {
-          object: {
-            kind: { enum: ['work'] },
-            weekDays: { enum: ['0', '1', '2', '3', '4', '5', '6'] },
+          {
+            object: {
+              kind: { enum: ['work'] },
+              weekDays: { enum: ['0', '1', '2', '3', '4', '5', '6'] },
+            },
           },
-        },
-      ],
+        ],
+      },
     })
       .describe('My Custom Object')
       .describe({ name: 'person name', pointers: 'some pointers' });
