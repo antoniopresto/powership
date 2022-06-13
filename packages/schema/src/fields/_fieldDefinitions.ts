@@ -82,6 +82,8 @@ export type FieldDefinitions = {
   enum: Array<string> | Readonly<Array<string>>;
 
   meta: MetaFieldDef;
+
+  literal: Readonly<unknown>;
 };
 
 export type FieldTypeName = Extract<keyof FieldDefinitions, string>;

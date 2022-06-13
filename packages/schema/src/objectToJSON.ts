@@ -7,6 +7,7 @@ import { JSONSchema4 } from 'json-schema';
 import { createObjectType, isObject } from './ObjectType';
 import { ObjectDefinitionInput } from './TObjectConfig';
 import { ObjectLike } from './fields/IObjectLike';
+import { LiteralField } from './fields/LitarealField';
 import { isMetaFieldKey } from './fields/MetaFieldField';
 import { FieldTypeName } from './fields/_fieldDefinitions';
 import {
@@ -190,6 +191,11 @@ function parseField(params: {
       jsonItem.anyOf = def.map((type) => {
         return parseField({ field: type, fieldName, parentName }).jsonItem;
       });
+    },
+    literal() {
+      if (!LiteralField.isFinalTypeDef(field)) throw 'err';
+      jsonItem.const = LiteralField.utils.deserialize(field.def);
+      jsonItem.tsType = field.def.value;
     },
     record() {
       if (field.type !== 'record' || !field.def) {

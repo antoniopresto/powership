@@ -238,7 +238,9 @@ export class GraphType<Definition> {
   createResolver = <
     Context = unknown,
     Source = unknown,
-    ArgsDef extends ObjectDefinitionInput = ObjectDefinitionInput
+    ArgsDef extends
+      | ObjectDefinitionInput
+      | Readonly<ObjectDefinitionInput> = ObjectDefinitionInput
   >(
     options: DarchGraphQLFieldConfigInput<Context, Source, Definition, ArgsDef>
   ): DarchResolver<Context, Source, Definition, ArgsDef> => {

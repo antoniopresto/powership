@@ -228,6 +228,11 @@ type _injectInfer<T> = T extends {
             }
         : //
 
+        // === start LiteralField ===
+        T['type'] extends 'literal'
+        ? T['def']
+        : // === end LiteralField ===
+
           // === simple field case
           _inferBasic<T['type'], Def>;
     }

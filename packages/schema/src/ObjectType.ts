@@ -8,7 +8,7 @@ import { getTypeName } from '@darch/utils/lib/getTypeName';
 import { invariantType } from '@darch/utils/lib/invariant';
 import { isBrowser } from '@darch/utils/lib/isBrowser';
 import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
-import { ForceString } from '@darch/utils/lib/typeUtils';
+import { ForceString, Serializable } from '@darch/utils/lib/typeUtils';
 import type { GraphQLInterfaceType, GraphQLObjectType } from 'graphql';
 
 import type {
@@ -31,7 +31,6 @@ import {
   isMetaFieldKey,
   MetaFieldDef,
   objectMetaFieldKey,
-  Serializable,
 } from './fields/MetaFieldField';
 import type {
   FinalObjectDefinition,

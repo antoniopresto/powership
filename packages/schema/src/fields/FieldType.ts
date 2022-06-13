@@ -1,4 +1,3 @@
-import { expectedType } from '@darch/utils/lib/expectedType';
 import { getTypeName } from '@darch/utils/lib/getTypeName';
 
 import {
@@ -12,11 +11,7 @@ export * from '../applyValidator';
 
 export type TAnyFieldType = FieldType<any, FieldTypeName, any>;
 
-export abstract class FieldType<
-  Type,
-  TypeName extends string,
-  Def extends Record<string, any> | any[] | undefined
-> {
+export abstract class FieldType<Type, TypeName extends string, Def> {
   readonly typeName: TypeName;
   type: TypeName;
   readonly __fieldTypeClassInfer!: Type;
@@ -28,12 +23,6 @@ export abstract class FieldType<
     this.id = id;
     this.typeName = typeName;
     this.type = typeName;
-
-    expectedType({ [`${typeName} definition`]: def }, [
-      'object',
-      'array',
-      'undefined',
-    ]);
 
     const defKeys = def ? Object.keys(def) : undefined;
 

@@ -11,7 +11,15 @@ import {
 export type Infer<T> =
   //
   //
-  T extends ObjectLike
+  // === start LiteralField ===
+  T extends
+    | { type: 'literal' }
+    | { literal: any }
+    | Readonly<{ type: 'literal' } | { literal: any }>
+    ? ToFinalField<T>['__infer']
+    : // === end LiteralField ===
+
+    T extends ObjectLike
     ? InferField<{ type: 'object'; def: T['definition'] }>
     : //
     // Type

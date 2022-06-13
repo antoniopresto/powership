@@ -37,6 +37,7 @@ import { isObject, ObjectType } from '../ObjectType';
 import { assertSameDefinition } from '../assertSameDefinition';
 import type { CursorField } from '../fields/CursorField';
 import { TAnyFieldType } from '../fields/FieldType';
+import { LiteralField } from '../fields/LitarealField';
 import { ObjectField } from '../fields/ObjectField';
 import type { UnionField } from '../fields/UnionField';
 import { FieldTypeName } from '../fields/_fieldDefinitions';
@@ -530,6 +531,45 @@ export class GraphQLParser {
         }
 
         return { inputType: createRecord, type: createRecord };
+      },
+
+      literal() {
+        if (!LiteralField.is(field)) throw new Error('ts');
+        const { description, def } = field;
+
+        function createLiteral(options: any) {
+          const recordName = parseTypeName({
+            parentName,
+            field,
+            fieldName,
+          });
+
+          return new GraphQLScalarType<'internal', 'external'>({
+            ...options,
+
+            name: recordName,
+
+            description: JSON.stringify(
+              description || `Literal value: ${def.value}`
+            ),
+
+            serialize(value: any) {
+              return LiteralField.utils.deserialize({
+                ...def,
+                value,
+              });
+            },
+
+            parseValue(value: any) {
+              return LiteralField.utils.deserialize({
+                ...def,
+                value,
+              });
+            },
+          });
+        }
+
+        return { inputType: createLiteral, type: createLiteral };
       },
     };
 

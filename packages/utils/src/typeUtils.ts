@@ -1,6 +1,14 @@
 // https://stackoverflow.com/questions/46176165/ways-to-get-string-literal-type-of-array-values-without-enum-overhead
 export const tuple = <T extends string[]>(...args: T) => args;
 
+export type Serializable = null | undefined | Stringifiable | SerializableList;
+
+export interface Stringifiable {
+  toString(): string;
+}
+
+export interface SerializableList extends Array<Serializable> {}
+
 export const tupleNum = <T extends number[]>(...args: T) => args;
 
 export const tupleEnum = <T extends string[]>(

@@ -11,6 +11,7 @@ import { isObject, ObjectType } from './ObjectType';
 import { FieldDefinitionConfig, ObjectDefinitionInput } from './TObjectConfig';
 import { fieldInstanceFromDef } from './fieldInstanceFromDef';
 import { isFieldInstance, TAnyFieldType } from './fields/FieldType';
+import { LiteralField } from './fields/LitarealField';
 import {
   createEmptyMetaField,
   isMetaField,
@@ -65,6 +66,16 @@ export function parseObjectField<T extends FieldDefinitionConfig>(
 export function parseFieldDefinitionConfig(
   definition: FieldDefinitionConfig
 ): FinalFieldDefinition {
+  if (LiteralField.isFinalTypeDef(definition)) {
+    return {
+      type: 'literal',
+      def: definition.def,
+      optional: !!definition.optional,
+      list: !!definition.list,
+      description: definition.description,
+    };
+  }
+
   if (GraphType.is(definition)) {
     return parseFieldDefinitionConfig(definition.definition);
   }

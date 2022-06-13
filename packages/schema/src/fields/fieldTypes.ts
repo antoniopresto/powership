@@ -9,6 +9,7 @@ import { EnumField } from './EnumField';
 import { FloatField } from './FloatField';
 import { IDField } from './IDField';
 import { IntField } from './IntField';
+import { LiteralField } from './LitarealField';
 import { MetaField } from './MetaFieldField';
 import { NullField } from './NullField';
 import { ObjectField } from './ObjectField';
@@ -48,6 +49,7 @@ export const types = createConstructors({
   record: RecordField,
   null: NullField,
   meta: MetaField,
+  literal: LiteralField,
 });
 
 function _isFieldTypeName(t: any): t is FieldTypeName {

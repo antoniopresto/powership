@@ -2,16 +2,9 @@
 
 import { expectedType } from '@darch/utils/lib/expectedType';
 import { nonNullValues } from '@darch/utils/lib/invariant';
+import { Serializable } from '@darch/utils/lib/typeUtils';
 
 import { FieldType, FieldTypeParser } from './FieldType';
-
-export type Serializable = null | undefined | Stringifiable | SerializableList;
-
-interface Stringifiable {
-  toString(): string;
-}
-
-interface SerializableList extends Array<Serializable> {}
 
 export type MetaFieldDef = {
   id: string | null;
