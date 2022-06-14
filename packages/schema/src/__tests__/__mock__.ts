@@ -1,3 +1,6 @@
+import { tuple } from '@darch/utils/lib/typeUtils';
+
+import { createType } from '../GraphType/GraphType';
 import { createObjectType } from '../ObjectType';
 import { StringField } from '../fields/StringField';
 
@@ -71,3 +74,99 @@ export const objectMocks = {
   stringDefTypes,
   typeDefs,
 };
+
+export const productsStatusEnum = tuple('published', 'draft');
+
+export const DimensionsType = createObjectType('Dimensions', {
+  weight: 'string?',
+  length: 'string?',
+  height: 'string?',
+  width: 'string?',
+});
+
+export const ProductImageMapType = createObjectType('ProductImageMap', {
+  key: 'string?',
+  kind: 'string?',
+  allowZoom: 'boolean?',
+});
+
+export const BreadCrumb = createObjectType('BreadCrumb', {
+  id: 'ID',
+  active: 'boolean?',
+  name: 'string',
+  parentId: 'ID?',
+});
+
+export const StockType = createObjectType('Stock', {
+  available: 'boolean',
+  count: 'float?',
+  maxCartQty: 'float?',
+  track: {
+    type: 'boolean',
+    description: 'Track count',
+  },
+});
+
+export const ProductType = createType('Product', {
+  object: {
+    sku: 'string',
+    title: 'string',
+    // createdBy: 'string',
+    // stock: StockType,
+    // name: 'string',
+    // shortDescription: 'string?',
+    // brand: 'string',
+    // detailsUrl: 'string?',
+    // alcoholic: 'boolean',
+    // thumbUrl: 'string?',
+    // breadcrumb: [BreadCrumb],
+    // mapOfImages: [ProductImageMapType],
+    // attributes: 'record',
+    // currentPrice: 'float',
+    // priceFrom: 'float?',
+    // sellPrice: 'float',
+    // dimensions: DimensionsType,
+    // tags: '[string]?',
+    // isDraft: 'boolean?',
+    // slug: 'string?',
+    // categories: ['string'],
+    // status: { enum: productsStatusEnum },
+    // previousStatus: { enum: productsStatusEnum },
+    // spotlight: 'boolean?',
+    // publishedAt: 'date?',
+    // html: 'string?',
+    // homogeneousKit: false,
+    // heterogeneousKit: false,
+    // kit: false,
+    // simpleProduct: true
+    // priceType: 'O',
+    // validOnStore: true,
+    // nutritionalMap: {},
+    // commercialStructure: '/43/1632/',
+    // showPackUnitPrice: false,
+    // nominalPrice: false,
+    // priceProgressiveMap: {},
+  },
+} as const);
+
+export const ProductResolver = ProductType.createResolver({
+  name: 'findProductById',
+  args: {
+    id: 'ID',
+  },
+  description: 'Get a product by id',
+  async resolve(_, { id }) {
+    return ProductType.parse({ id });
+  },
+});
+
+ProductType.addRelation({
+  name: 'owner',
+  type: [ProductType],
+  args: {
+    limit: 'int',
+  },
+  async resolve() {
+    return [];
+  },
+} as const);

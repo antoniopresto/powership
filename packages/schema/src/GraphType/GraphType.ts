@@ -367,6 +367,16 @@ export interface DarchGraphQLFieldConfigInput<
 
 export type AnyDarchResolver = DarchResolver;
 
+export interface FinalResolver extends DarchResolver<any, any, any, any> {
+  name: string;
+  kind: 'query' | 'subscription' | 'mutation';
+  typeDef: any;
+  argsDef: any;
+  resolve(...args: any[]): any;
+}
+
+export type Resolver = FinalResolver;
+
 export interface DarchResolver<
   Context = unknown,
   Source = unknown,
