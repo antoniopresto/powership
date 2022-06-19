@@ -43,6 +43,7 @@ export abstract class FieldType<Type, TypeName extends string, Def> {
   optional = false;
   list = false;
   description?: string;
+  defaultValue?: any;
 
   describe = (description: string): this => {
     this.description = description;
@@ -59,6 +60,11 @@ export abstract class FieldType<Type, TypeName extends string, Def> {
     return this as any;
   }
 
+  setDefaultValue<T>(value: T): this & { defaultValue: T } {
+    this.defaultValue = value;
+    return this as any;
+  }
+
   applyParser = <Type>(parser: {
     preParse?(input: any): Type;
     parse(input: any): Type;
@@ -66,6 +72,10 @@ export abstract class FieldType<Type, TypeName extends string, Def> {
     return (input: any, customMessage?: ValidationCustomMessage) => {
       if (parser.preParse) {
         input = parser.preParse(input);
+      }
+
+      if (input === undefined) {
+        input = this.defaultValue;
       }
 
       if (input === undefined && !this.optional) {
@@ -102,7 +112,7 @@ export abstract class FieldType<Type, TypeName extends string, Def> {
     };
   };
 
-  toObjectFieldType = () => {
+  get asFinalFieldDef() {
     return {
       type: this.type,
       def: this.def,
@@ -110,7 +120,7 @@ export abstract class FieldType<Type, TypeName extends string, Def> {
       optional: this.optional,
       description: this.description,
     };
-  };
+  }
 
   abstract parse: FieldTypeParser<Type>;
 

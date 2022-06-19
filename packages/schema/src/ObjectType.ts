@@ -33,6 +33,7 @@ import {
   objectMetaFieldKey,
 } from './fields/MetaFieldField';
 import type {
+  FinalFieldDefinition,
   FinalObjectDefinition,
   ObjectFieldInput,
   ParseFields,
@@ -164,12 +165,18 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
       );
     }
 
+    input = { ...input };
+
     (fields as string[]).forEach((currField) => {
       if (isMetaFieldKey(currField)) return;
 
-      const value = input[currField];
+      const fieldDef: FinalFieldDefinition = this.definition[currField];
 
-      const fieldDef = this.definition[currField];
+      if (input[currField] === undefined) {
+        input[currField] = fieldDef.defaultValue;
+      }
+
+      const value = input[currField];
 
       if (value === undefined && partial) {
         return;

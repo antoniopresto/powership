@@ -1,3 +1,4 @@
+import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 import { assert, IsExact } from 'conditional-type-checks';
 import { printSchema } from 'graphql';
 
@@ -197,5 +198,198 @@ describe('createGraphQLObject', () => {
       'export type SubscriptionResolvers = {};',
       '',
     ]);
+  });
+
+  describe('printQuery', () => {
+    test('query', () => {
+      createType('Letters', '[string]?').createResolver({
+        name: 'getLetters',
+        async resolve() {
+          return ['a', 'b', 'c'];
+        },
+      });
+
+      createType('Numbers', '[int]').createResolver({
+        name: 'getNumbers',
+        args: {
+          min: { int: {}, defaultValue: 0 },
+        },
+        async resolve() {
+          return [];
+        },
+      });
+
+      const UserType = createType('User', {
+        object: { name: 'string', age: 'int?' },
+      });
+
+      createType('getAllUsersPayload', {
+        type: UserType,
+        list: true,
+      }).createResolver({
+        name: 'getAllUsers',
+        async resolve() {
+          return [];
+        },
+      });
+
+      createType('getUsersPaginationPayload', {
+        type: UserType,
+        list: true,
+      }).createResolver({
+        name: 'getUsersPagination',
+        args: {
+          limit: 'int?',
+        },
+        async resolve() {
+          return [];
+        },
+      });
+
+      UserType.createResolver({
+        kind: 'mutation',
+        name: 'updateUser',
+        args: {
+          id: 'ID',
+        },
+        async resolve() {
+          return UserType.parse({});
+        },
+      });
+
+      const object = createGraphQLSchema();
+      const sut = object.utils.queryExamples();
+
+      expect(sut.fullQuery.split('\n')).toEqual([
+        'query getLetters {',
+        '  getLetters',
+        '}',
+        'query getNumbers($getNumbers_min: Int! = "0") {',
+        '  getNumbers(min: $getNumbers_min)',
+        '}',
+        'query getAllUsers {',
+        '  getAllUsers {',
+        '    name',
+        '    age',
+        '  }',
+        '}',
+        'query getUsersPagination($getUsersPagination_limit: Int) {',
+        '  getUsersPagination(limit: $getUsersPagination_limit) {',
+        '    name',
+        '    age',
+        '  }',
+        '}',
+        'mutation updateUser($updateUser_id: ID!) {',
+        '  updateUser(id: $updateUser_id) {',
+        '    name',
+        '    age',
+        '  }',
+        '}',
+      ]);
+
+      expect(
+        simpleObjectClone(sut.queryByResolver.mutation.updateUser)
+      ).toEqual({
+        allArgs: {
+          Int2166136261: {
+            strings: {
+              innerArgsString: '',
+              innerArgsStringPart: '',
+              topArgsString: '',
+              topArgsStringPart: '',
+            },
+            vars: [],
+          },
+          String2166136261: {
+            strings: {
+              innerArgsString: '',
+              innerArgsStringPart: '',
+              topArgsString: '',
+              topArgsStringPart: '',
+            },
+            vars: [],
+          },
+          User2577014580: {
+            strings: {
+              innerArgsString: '(id: $updateUser_id)',
+              innerArgsStringPart: 'id: $updateUser_id',
+              topArgsString: '($updateUser_id: ID!)',
+              topArgsStringPart: '$updateUser_id: ID!',
+            },
+            vars: [
+              {
+                comments: '',
+                name: 'id',
+                type: 'ID!',
+                varName: '$updateUser_id',
+              },
+            ],
+          },
+        },
+        argsParsed: {
+          strings: {
+            innerArgsString: '(id: $updateUser_id)',
+            innerArgsStringPart: 'id: $updateUser_id',
+            topArgsString: '($updateUser_id: ID!)',
+            topArgsStringPart: '$updateUser_id: ID!',
+          },
+          vars: [
+            {
+              comments: '',
+              name: 'id',
+              type: 'ID!',
+              varName: '$updateUser_id',
+            },
+          ],
+        },
+        fieldQuery:
+          '\n  updateUser(id: $updateUser_id) {\n    name\n    age\n  }\n',
+        fields: {
+          args: [
+            {
+              extensions: {},
+              name: 'id',
+              type: 'ID!',
+            },
+          ],
+          children: [],
+          fields: {
+            age: {
+              args: [],
+              children: [],
+              description:
+                'The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.',
+              fields: {},
+              hash: 'Int2166136261',
+              innerTypeString: 'Int',
+              isObject: false,
+              isUnion: false,
+              readableHash: 'Int',
+            },
+            name: {
+              args: [],
+              children: [],
+              description:
+                'The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.',
+              fields: {},
+              hash: 'String2166136261',
+              innerTypeString: 'String',
+              isObject: false,
+              isUnion: false,
+              readableHash: 'String',
+            },
+          },
+          hash: 'User2577014580',
+          innerTypeString: 'User',
+          isObject: true,
+          isUnion: false,
+          readableHash: 'UseridID!',
+        },
+        fragments: '',
+        fullQuery:
+          'mutation updateUser($updateUser_id: ID!) {\n  updateUser(id: $updateUser_id) {\n    name\n    age\n  }\n}\n',
+        query: ' name  age ',
+      });
+    });
   });
 });

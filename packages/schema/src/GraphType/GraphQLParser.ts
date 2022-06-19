@@ -210,6 +210,15 @@ export class GraphQLParser {
             description: next.description,
           };
 
+          const origin =
+            (object.definition[next.fieldName] as FinalFieldDefinition) ||
+            undefined;
+
+          if (origin?.defaultValue !== undefined) {
+            // @ts-ignore
+            field.defaultValue = origin.defaultValue;
+          }
+
           const objMap: GraphQLFieldConfigMap<any, any> = {
             ...acc,
             [next.fieldName]: field,

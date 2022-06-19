@@ -453,14 +453,19 @@ describe('FieldTypes', () => {
     });
 
     test('types', () => {
+      const nameFromType = RecordField.create({
+        type: '[int]?',
+        keyType: 'int',
+      })
+        .toList()
+        .toOptional();
+
       const def = {
         name: 'record',
         nameOpt: 'record?',
         nameList: '[record]',
         nameListOptional: '[record]?',
-        nameFromType: RecordField.create({ type: '[int]?' })
-          .toList()
-          .toOptional(),
+        nameFromType,
         defObject: {
           type: 'record',
           def: {
@@ -511,7 +516,7 @@ describe('FieldTypes', () => {
           nameOpt?: AnyRecord | undefined;
           nameList: AnyRecord[];
           nameListOptional?: AnyRecord[] | undefined;
-          nameFromType?: Record<string, number[] | undefined>[] | undefined;
+          nameFromType?: Record<number, number[] | undefined>[] | undefined;
           defObject?:
             | {
                 [K: number]: {
@@ -768,18 +773,16 @@ describe('FieldTypes', () => {
 
       type T = Infer<typeof def>;
 
-      assert<
-        IsExact<
-          T,
-          {
-            name: boolean;
-            nameOpt?: boolean | undefined;
-            nameList: boolean[];
-            nameListOptional?: boolean[] | undefined;
-            nameFromType?: boolean[] | undefined;
-            defObject?: boolean[] | undefined;
-          }
-        >
+      _assertFields<
+        T,
+        {
+          name: boolean;
+          nameOpt?: boolean | undefined;
+          nameList: boolean[];
+          nameListOptional?: boolean[] | undefined;
+          nameFromType?: boolean[] | undefined;
+          defObject?: boolean[] | undefined;
+        }
       >(true);
     });
   });

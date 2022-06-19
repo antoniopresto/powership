@@ -2,13 +2,16 @@ import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { StrictMap } from '@darch/utils/lib/StrictMap';
 import { assertSame } from '@darch/utils/lib/assertSame';
 import { isProduction } from '@darch/utils/lib/env';
+import { Merge } from '@darch/utils/lib/typeUtils';
 import type {
+  GraphQLField,
   GraphQLFieldConfig,
   GraphQLInterfaceType,
   GraphQLNamedInputType,
   GraphQLNamedType,
   GraphQLResolveInfo,
 } from 'graphql';
+import { GraphQLObjectType } from 'graphql';
 
 import { Infer } from '../Infer';
 import { createObjectType, ObjectType } from '../ObjectType';
@@ -96,7 +99,7 @@ export class GraphType<Definition> {
 
     this.id = name;
 
-    this.definition = this.__field.toObjectFieldType() as any;
+    this.definition = this.__field.asFinalFieldDef as any;
 
     if (register.has(name)) {
       const existing = register.get(name);
@@ -123,7 +126,7 @@ export class GraphType<Definition> {
     return ObjectType.serverUtils().graphqlParser.GraphQLParser.fieldToGraphQL({
       field: this.__field,
       path: [`Type_${this.id}`],
-      plainField: this.__field.toObjectFieldType(),
+      plainField: this.__field.asFinalFieldDef,
       fieldName: this.id,
       parentName: this.id,
     });
@@ -168,12 +171,15 @@ export class GraphType<Definition> {
     Context = unknown,
     ArgsDef extends ObjectDefinitionInput = ObjectDefinitionInput
   >(
-    options: DarchGraphQLFieldConfigInput<
-      Context,
-      Infer<ToFinalField<Definition>>,
-      FieldTypeDef,
-      ArgsDef
-    > & { type: FieldTypeDef; name: Name }
+    options: Merge<
+      { type: FieldTypeDef; name: Name },
+      DarchGraphQLFieldConfigInput<
+        Context,
+        Infer<ToFinalField<Definition>>,
+        FieldTypeDef,
+        ArgsDef
+      >
+    >
   ): this => {
     const object = this._object;
 
@@ -236,8 +242,8 @@ export class GraphType<Definition> {
   };
 
   createResolver = <
-    Context = unknown,
-    Source = unknown,
+    Context = any,
+    Source = any,
     ArgsDef extends
       | ObjectDefinitionInput
       | Readonly<ObjectDefinitionInput> = ObjectDefinitionInput
@@ -284,15 +290,27 @@ export class GraphType<Definition> {
 
     const type = this.graphQLType();
 
-    const result: any = {
+    const result: { [K in keyof DarchResolver]: any } = {
       ...rest,
       kind,
       name,
       resolve: resolveFunction,
       args: ArgsType?.getFields() || {},
       type,
+
+      // Resolver fields - not in GraphQLFieldConfig
       argsDef: args,
       typeDef: this.definition,
+      asObjectField: (_name = name): GraphQLField<any, any> => {
+        const temp = new GraphQLObjectType({
+          name: 'temp',
+          fields: {
+            [_name]: result,
+          },
+        });
+
+        return temp.getFields()[_name];
+      },
       __isResolver: true,
       __isRelation: false,
       __relatedToGraphTypeId: '',
@@ -367,7 +385,10 @@ export interface DarchGraphQLFieldConfigInput<
 
 export type AnyDarchResolver = DarchResolver;
 
-export interface FinalResolver extends DarchResolver<any, any, any, any> {
+export interface FinalResolver
+  extends Omit<DarchResolver<any, any, any, any>, 'args' | 'type'> {
+  args: any;
+  type: any;
   name: string;
   kind: 'query' | 'subscription' | 'mutation';
   typeDef: any;
@@ -393,6 +414,8 @@ export interface DarchResolver<
   kind: 'query' | 'subscription' | 'mutation';
   typeDef: TypeDef extends ObjectFieldInput ? TypeDef : never;
   argsDef: ArgsDef extends Record<string, any> ? ArgsDef : never;
+
+  asObjectField(name?: string): GraphQLField<any, any>;
 }
 
 export interface ResolveFunction<

@@ -119,7 +119,7 @@ export const ProductType = createType('Product', {
     // detailsUrl: 'string?',
     // alcoholic: 'boolean',
     // thumbUrl: 'string?',
-    // breadcrumb: [BreadCrumb],
+    breadcrumb: [BreadCrumb],
     // mapOfImages: [ProductImageMapType],
     // attributes: 'record',
     // currentPrice: 'float',
@@ -161,12 +161,12 @@ export const ProductResolver = ProductType.createResolver({
 });
 
 ProductType.addRelation({
-  name: 'owner',
-  type: [ProductType],
+  name: 'related',
+  type: [ProductType] as const,
   args: {
     limit: 'int',
   },
   async resolve() {
-    return [];
+    return { age: 1 } as any;
   },
-} as const);
+});

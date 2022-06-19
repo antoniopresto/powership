@@ -4,6 +4,7 @@ import { GraphType } from '../GraphType/GraphType';
 
 import { GraphTypeLike, ObjectLike } from './IObjectLike';
 import {
+  CommonFieldDefinition,
   CursorType,
   FieldDefinitions,
   FieldTypeName,
@@ -26,23 +27,11 @@ interface ObjectInputArray extends ReadonlyArray<ObjectFieldInput> {
   length: 1;
 }
 
-export interface ObjectInTypeFieldDefinition {
-  type: ObjectLike;
-  def?: never;
-  list?: boolean;
-  optional?: boolean;
-  description?: string;
-  __infer?: any;
-}
+export interface ObjectInTypeFieldDefinition
+  extends CommonFieldDefinition<ObjectLike> {}
 
-export interface GraphTypeInTypeFieldDefinition {
-  type: GraphTypeLike;
-  def?: never;
-  list?: boolean;
-  optional?: boolean;
-  description?: string;
-  __infer?: any;
-}
+export interface GraphTypeInTypeFieldDefinition
+  extends CommonFieldDefinition<GraphTypeLike> {}
 
 export interface ObjectDefinitionInput {
   [K: string]: ObjectFieldInput;
@@ -61,14 +50,7 @@ export type ParseFields<Input> = {
 export type FinalObjectDefinition = { [K: string]: FinalFieldDefinition };
 
 export type FinalFieldDefinition = {
-  [K in FieldTypeName]: {
-    type: K;
-    def?: any;
-    list?: boolean;
-    optional?: boolean;
-    description?: string;
-    __infer?: any;
-  };
+  [K in FieldTypeName]: CommonFieldDefinition<K>;
 }[FieldTypeName];
 
 export type FlattenFieldDefinition = {
@@ -215,17 +197,13 @@ type _injectInfer<T> = T extends {
         T['type'] extends 'record'
         ? [Def] extends [undefined]
           ? { [K: string]: any }
-          : Def extends { keyType: 'int' | 'float' }
+          : Def extends { type: infer Type; keyType?: infer KeyType }
           ? {
-              [K: number]: Def extends { type: infer Type }
-                ? InferField<Type>
-                : any;
+              [K in KeyType extends 'int' | 'float'
+                ? number
+                : string]: InferField<Type>;
             }
-          : {
-              [K: string]: Def extends { type: infer Type }
-                ? InferField<Type>
-                : any;
-            }
+          : never
         : //
 
         // === start LiteralField ===

@@ -433,4 +433,40 @@ describe('parseObjectField', () => {
       },
     });
   });
+
+  describe('handle default values', () => {
+    test('in fields', () => {
+      const field = parseObjectField(
+        'Defaulting',
+        {
+          int: {},
+          defaultValue: 123,
+        },
+        true
+      );
+
+      expect(field.parse(undefined)).toEqual(123);
+    });
+
+    test('on objects', () => {
+      const field = parseObjectField(
+        'Defaulting',
+        {
+          object: {
+            age: {
+              int: {},
+              defaultValue: 123,
+            },
+            name: {
+              string: {},
+              defaultValue: 1,
+            },
+          },
+        },
+        true
+      );
+
+      expect(field.parse({ name: 'a' })).toEqual({ name: 'a', age: 123 });
+    });
+  });
 });

@@ -4,6 +4,7 @@ import { inspectObject } from '@darch/utils/lib/inspectObject';
 import { Serializable } from '@darch/utils/lib/typeUtils';
 
 import { FieldType, FieldTypeParser } from './FieldType';
+import { CommonFieldDefinition } from './_fieldDefinitions';
 
 const PROTO_KEY = '__o.proto__';
 
@@ -81,23 +82,8 @@ export class LiteralField<T extends Readonly<Serializable>> extends FieldType<
     return new LiteralField<T>(def);
   };
 
-  static isFinalTypeDef(t: any): t is {
-    type: 'literal';
-    def: any;
-    optional?: boolean;
-    list?: boolean;
-    description?: string;
-  } {
+  static isFinalTypeDef(t: any): t is CommonFieldDefinition<'literal'> {
     return t?.type === 'literal';
-  }
-
-  static isFlattenedDef(t: any): t is {
-    literal: any;
-    optional?: boolean;
-    list?: boolean;
-    description?: string;
-  } {
-    return t?.__isLiteralField === true;
   }
 
   static is(t: any): t is LiteralField<any> {

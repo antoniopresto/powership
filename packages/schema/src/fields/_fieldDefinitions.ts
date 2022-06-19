@@ -14,6 +14,16 @@ export type CursorType = {
   fields?: string[] | undefined;
 };
 
+export interface CommonFieldDefinition<T> {
+  type: T;
+  def?: any;
+  list?: boolean;
+  optional?: boolean;
+  description?: string;
+  defaultValue?: any;
+  __infer?: any;
+}
+
 export type FieldDefinitions = {
   any: undefined;
 

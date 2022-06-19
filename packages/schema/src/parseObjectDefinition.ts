@@ -18,6 +18,7 @@ import {
   MetaField,
   objectMetaFieldKey,
 } from './fields/MetaFieldField';
+import { CommonFieldDefinition } from './fields/_fieldDefinitions';
 import { FinalFieldDefinition } from './fields/_parseFields';
 import { types } from './fields/fieldTypes';
 import {
@@ -73,6 +74,7 @@ export function parseFieldDefinitionConfig(
       optional: !!definition.optional,
       list: !!definition.list,
       description: definition.description,
+      defaultValue: definition.defaultValue,
     };
   }
 
@@ -81,13 +83,19 @@ export function parseFieldDefinitionConfig(
   }
 
   if (GraphType.isTypeDefinition(definition)) {
-    const { list = false, optional = false, description } = definition;
+    const {
+      list = false,
+      optional = false,
+      description,
+      defaultValue,
+    } = definition;
 
     return parseFieldDefinitionConfig({
       ...definition.type.definition,
       description: description || definition.type.definition.description,
       list,
       optional,
+      defaultValue,
     });
   }
 
@@ -96,7 +104,7 @@ export function parseFieldDefinitionConfig(
   }
 
   if (isFieldInstance(definition)) {
-    return definition.toObjectFieldType();
+    return definition.asFinalFieldDef;
   }
 
   if (isFinalFieldDefinition(definition)) {
@@ -125,6 +133,7 @@ export function parseFieldDefinitionConfig(
     }
 
     return {
+      ...definition,
       type: definition.type,
       description: definition.description,
       def: definition.def,
@@ -150,7 +159,7 @@ export function parseFieldDefinitionConfig(
       optional: false,
       list: false,
       description: definition.description,
-    } as any;
+    } as CommonFieldDefinition<'object'>;
   }
 
   if (isObjectAsTypeDefinition(definition)) {
@@ -160,7 +169,7 @@ export function parseFieldDefinitionConfig(
       optional: !!definition.optional,
       list: !!definition.list,
       description: definition.type.description,
-    } as any;
+    } as CommonFieldDefinition<'object'>;
   }
 
   const keyObjectDefinition = parseFlattenFieldDefinition(definition);
@@ -250,11 +259,12 @@ function isListDefinition(input: any): input is [FieldDefinitionConfig] {
  */
 export function isObjectAsTypeDefinition(
   input: any
-): input is { type: ObjectType<any>; optional?: boolean; list?: boolean } {
+): input is CommonFieldDefinition<ObjectType<any>> {
   return input && typeof input === 'object' && isObject(input.type);
 }
 
 const validFlattenDefinitionKeys = {
+  defaultValue: 'any',
   description: 'string',
   optional: 'boolean',
   list: 'boolean',
@@ -264,7 +274,7 @@ export function parseFlattenFieldDefinition(input: any) {
   if (getTypeName(input) !== 'Object') return false;
   if (input.type !== undefined) return false;
   const keys = Object.keys(input);
-  if (keys.length > 4) return false;
+  if (keys.length > 5) return false;
 
   let type;
   let def;
@@ -289,11 +299,14 @@ export function parseFlattenFieldDefinition(input: any) {
       }
     } else {
       if (valueOfDefOrOptionalOrListOrDescription !== undefined) {
+        const acceptAny = validFlattenDefinitionKeys[k] === 'any';
+
         if (
+          !acceptAny &&
           // checking if the de `optional` or `list` or `description`
           // has the expected types
           typeof valueOfDefOrOptionalOrListOrDescription !==
-          validFlattenDefinitionKeys[k]
+            validFlattenDefinitionKeys[k]
         ) {
           return false;
         }
@@ -301,7 +314,7 @@ export function parseFlattenFieldDefinition(input: any) {
     }
   }
 
-  let { description, optional, list = false } = input;
+  let { description, optional, list = false, defaultValue } = input;
 
   return parseFieldDefinitionConfig({
     type,
@@ -309,6 +322,7 @@ export function parseFlattenFieldDefinition(input: any) {
     description,
     optional,
     list,
+    defaultValue,
   });
 }
 

@@ -28,6 +28,10 @@ export function fieldInstanceFromDef(
     field = field.toOptional();
   }
 
+  if (definition.defaultValue !== undefined) {
+    field = field.setDefaultValue(definition.defaultValue);
+  }
+
   if (definition.description) {
     field = field.describe(definition.description);
   }

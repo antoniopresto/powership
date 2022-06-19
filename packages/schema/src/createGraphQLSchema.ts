@@ -1,9 +1,14 @@
+import { tupleEnum } from '@darch/utils/lib/typeUtils';
 import type { GraphQLSchemaConfig } from 'graphql';
 import { GraphQLObjectType, printSchema } from 'graphql';
 import groupBy from 'lodash/groupBy';
 
 import type { DarchResolver } from './GraphType/GraphType';
 import { GraphType } from './GraphType/GraphType';
+import {
+  getSchemaQueryExamples,
+  SchemaQueryExamplesResult,
+} from './GraphType/getQueryExamples';
 import { ObjectType } from './ObjectType';
 import { clearMetaField } from './fields/MetaFieldField';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
@@ -22,8 +27,12 @@ export type GraphQLSchemaWithUtils = import('graphql').GraphQLSchema & {
     grouped: GroupedResolvers;
     typescript: (options?: ResolversToTypeScriptOptions) => Promise<string>;
     print: () => string;
+    queryExamples: () => SchemaQueryExamplesResult;
   };
 };
+
+export const resolverKinds = tupleEnum('mutation', 'query', 'subscription');
+export type ResolverKind = keyof typeof resolverKinds;
 
 export function createGraphQLSchema<T = any>(
   resolvers?: T[],
@@ -112,6 +121,9 @@ export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
     },
     print() {
       return printSchema(schema);
+    },
+    queryExamples() {
+      return getSchemaQueryExamples(schema);
     },
   };
 
