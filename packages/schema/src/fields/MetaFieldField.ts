@@ -1,6 +1,7 @@
 // MetaField is a special field type used to add metadata to an object
 
 import { expectedType } from '@darch/utils/lib/expectedType';
+import { getTypeName } from '@darch/utils/lib/getTypeName';
 import { nonNullValues } from '@darch/utils/lib/invariant';
 import { Serializable } from '@darch/utils/lib/typeUtils';
 
@@ -54,7 +55,9 @@ export function createEmptyMetaField(): { type: 'meta'; def: MetaFieldDef } {
 export function clearMetaField(input: any) {
   if (!input || typeof input !== 'object') return input;
 
-  if (input.def) {
+  const defType = getTypeName(input.def).toLowerCase();
+
+  if (defType === 'object') {
     return {
       ...input,
       def: {

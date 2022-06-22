@@ -9,7 +9,7 @@ import {
   getSchemaQueryExamples,
   SchemaQueryExamplesResult,
 } from './GraphType/getQueryExamples';
-import { ObjectType } from './ObjectType';
+import { DarchObject, ObjectType } from './ObjectType';
 import { clearMetaField } from './fields/MetaFieldField';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
 
@@ -143,7 +143,7 @@ export async function resolversTypescriptParts(
 ) {
   const { name = 'Schema' } = params;
 
-  let prefix = '\n\nexport type EmptyArgs  = undefined;\n\n';
+  let prefix = '';
 
   const mainResolvers = params.resolvers.filter((el) => !el.__isRelation);
 
@@ -175,10 +175,10 @@ export async function resolversTypescriptParts(
       resolver: { description = '', kind },
     } = el;
 
-    typesCode += `${code}\n\n`;
+    typesCode += `${code}\n`;
 
     if (description) {
-      description = `\n\n/** ${description} **/\n`;
+      description = `\n/** ${description} **/\n`;
     }
 
     const resolverCode = `${description} ${entryName}(args: ${inputName}): Promise<${payloadName}>,`;
@@ -201,7 +201,14 @@ export async function resolversTypescriptParts(
     interfaceCode += `${description} ${entryName}: {input: ${inputName}, payload: ${payloadName}},`;
   });
 
-  const code = `${prefix}\n\n${typesCode}\n\n${interfaceCode}}\n\n${queryCode}}\n\n${mutationCode}}\n\n${subscriptionCode}}\n\n`;
+  let code =
+    `${prefix}\n${typesCode}\n${interfaceCode}}\n${queryCode}}\n${mutationCode}}\n${subscriptionCode}}\n`
+      .replace(/\n\n/gm, '\n') // remove multi line breaks
+      .replace(/^\n/gm, ''); // remove empty lines
+
+  code = DarchObject.serverUtils().prettier.format(code, {
+    parser: 'typescript',
+  });
 
   return { code, lines };
 }
@@ -216,7 +223,9 @@ export async function resolversToTypescript(
 
   const { code } = await resolversTypescriptParts(params);
 
-  return format ? prettier.format(code, { parser: 'typescript' }) : code;
+  return format
+    ? prettier.format(code, { parser: 'typescript', printWidth: 100 })
+    : code;
 }
 
 async function convertResolver(options: {
@@ -250,13 +259,13 @@ async function convertResolver(options: {
         entryName: inputName,
         type: { object: resolver.argsDef },
       })
-    : { code: `undefined | EmptyArgs`, description: '', comments: '' };
+    : { code: `undefined`, description: '', comments: '' };
 
   let code = '';
 
-  code += `${args.comments}export type ${inputName} = ${args.code};`;
+  code += `${args.comments}\nexport type ${inputName} = ${args.code};`;
 
-  code += `${payload.comments}export type ${payloadName} = ${payload.code};`;
+  code += `${payload.comments}\nexport type ${payloadName} = ${payload.code};`;
 
   return {
     entryName,

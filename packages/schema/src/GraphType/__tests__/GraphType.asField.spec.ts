@@ -57,8 +57,6 @@ describe('GraphType.asField', () => {
     const ts = await schema.utils.typescript();
 
     expect(ts.split('\n')).toEqual([
-      'export type EmptyArgs = undefined;',
-      '',
       'export type userNodeNodeInput = {',
       '  option: "a" | "b";',
       '};',
@@ -67,16 +65,12 @@ describe('GraphType.asField', () => {
       '  name?: string;',
       '  age?: number;',
       '}[];',
-      '',
       'export interface GraphQLTypes {',
       '  /** yeah **/',
       '  userNodeNode: { input: userNodeNodeInput; payload: userNodeNode };',
       '}',
-      '',
       'export type QueryResolvers = {};',
-      '',
       'export type MutationResolvers = {};',
-      '',
       'export type SubscriptionResolvers = {',
       '  /** yeah **/',
       '  userNodeNode(args: userNodeNodeInput): Promise<userNodeNode>;',

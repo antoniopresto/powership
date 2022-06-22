@@ -94,9 +94,7 @@ describe('GraphType', () => {
     const ts = await schema.utils.typescript();
 
     expect(ts.split('\n')).toEqual([
-      'export type EmptyArgs = undefined;',
-      '',
-      'export type emailInput = undefined | EmptyArgs;',
+      'export type emailInput = undefined;',
       'export type Email = {',
       '  id: ID;',
       '  subject: string;',
@@ -108,15 +106,11 @@ describe('GraphType', () => {
       '    id: Ulid;',
       '  };',
       '};',
-      '',
       'export interface GraphQLTypes {',
       '  email: { input: emailInput; payload: Email };',
       '}',
-      '',
       'export type QueryResolvers = { email(args: emailInput): Promise<Email> };',
-      '',
       'export type MutationResolvers = {};',
-      '',
       'export type SubscriptionResolvers = {};',
       '',
     ]);
@@ -172,8 +166,6 @@ describe('GraphType', () => {
     const ts = await schema.utils.typescript();
 
     expect(ts.split('\n')).toEqual([
-      'export type EmptyArgs = undefined;',
-      '',
       'export type usersInput = {',
       '  limit: number;',
       '};',
@@ -182,19 +174,15 @@ describe('GraphType', () => {
       '  id: ID;',
       '  logins: Date[];',
       '};',
-      '',
       'export interface GraphQLTypes {',
       '  /** UU.RR **/',
       '  users: { input: usersInput; payload: User };',
       '}',
-      '',
       'export type QueryResolvers = {',
       '  /** UU.RR **/',
       '  users(args: usersInput): Promise<User>;',
       '};',
-      '',
       'export type MutationResolvers = {};',
-      '',
       'export type SubscriptionResolvers = {};',
       '',
     ]);

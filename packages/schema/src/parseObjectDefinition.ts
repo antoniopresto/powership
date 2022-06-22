@@ -208,10 +208,11 @@ export function parseObjectDefinition<T extends ObjectDefinitionInput>(
         (input as any)[fieldName]
       ));
     } catch (err: any) {
+      debugger;
       throw new RuntimeError(
         `Failed to process object field "${fieldName}":\n${err.message}`,
         {
-          err,
+          err: err.stack,
           input,
         }
       );
