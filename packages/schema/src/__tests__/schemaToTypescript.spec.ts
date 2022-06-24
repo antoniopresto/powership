@@ -118,7 +118,17 @@ describe('objectToTypescript', () => {
       },
     });
 
-    const schema = createGraphQLSchema([resolver]);
+    const resolverList = createType('IntervalList', {
+      type: IntervalType,
+      list: true,
+    }).createResolver({
+      name: 'getIntervalsList',
+      async resolve() {
+        return [IntervalType.parse({})];
+      },
+    });
+
+    const schema = createGraphQLSchema([resolver, resolverList]);
     const ts = await resolversTypescriptParts({
       name: 'Tools',
       options: {},
@@ -126,7 +136,9 @@ describe('objectToTypescript', () => {
     });
 
     expect(ts.code.split('\n')).toEqual([
-      'export type getIntervalsInput = undefined;',
+      'export type getIntervalsInput = {',
+      '  [k: string]: unknown | undefined;',
+      '};',
       'export type Interval =',
       '  | {',
       '      from: 10;',
@@ -140,11 +152,30 @@ describe('objectToTypescript', () => {
       '  | {',
       '      from: 3;',
       '    };',
+      'export type getIntervalsListInput = {',
+      '  [k: string]: unknown | undefined;',
+      '};',
+      'export type IntervalList = (',
+      '  | {',
+      '      from: 10;',
+      '    }',
+      '  | {',
+      '      from: 7;',
+      '    }',
+      '  | {',
+      '      from: 5;',
+      '    }',
+      '  | {',
+      '      from: 3;',
+      '    }',
+      ')[];',
       'export interface Tools {',
       '  getIntervals: { input: getIntervalsInput; payload: Interval };',
+      '  getIntervalsList: { input: getIntervalsListInput; payload: IntervalList };',
       '}',
       'export type QueryResolvers = {',
       '  getIntervals(args: getIntervalsInput): Promise<Interval>;',
+      '  getIntervalsList(args: getIntervalsListInput): Promise<IntervalList>;',
       '};',
       'export type MutationResolvers = {};',
       'export type SubscriptionResolvers = {};',

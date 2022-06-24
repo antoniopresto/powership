@@ -3,6 +3,7 @@ import { assert, IsExact } from 'conditional-type-checks';
 import { ObjectType } from '../../ObjectType';
 import { createGraphQLSchema } from '../../createGraphQLSchema';
 import { createType } from '../GraphType';
+import { createResolver } from '../createResolver';
 
 describe('GraphType', () => {
   beforeEach(ObjectType.reset);
@@ -94,7 +95,9 @@ describe('GraphType', () => {
     const ts = await schema.utils.typescript();
 
     expect(ts.split('\n')).toEqual([
-      'export type emailInput = undefined;',
+      'export type emailInput = {',
+      '  [k: string]: unknown | undefined;',
+      '};',
       'export type Email = {',
       '  id: ID;',
       '  subject: string;',
@@ -145,12 +148,29 @@ describe('GraphType', () => {
       },
     });
 
+    createResolver({
+      type: {
+        type: UserType,
+        list: true,
+        optional: true,
+      },
+      name: 'usersList',
+      description: 'List of users ;)',
+      args: { cursor: 'string' },
+      async resolve(): Promise<any> {
+        return {};
+      },
+    });
+
     const schema = createGraphQLSchema();
 
     expect(schema.utils.print().split('\n')).toEqual([
       'type Query {',
       '  """UU.RR"""',
       '  users(limit: Int!): User!',
+      '',
+      '  """List of users ;)"""',
+      '  usersList(cursor: String!): [User]',
       '}',
       '',
       'type User {',
@@ -174,13 +194,26 @@ describe('GraphType', () => {
       '  id: ID;',
       '  logins: Date[];',
       '};',
+      'export type usersListInput = {',
+      '  cursor: string;',
+      '};',
+      '/** UU.TT **/',
+      'export type usersListPayload =',
+      '  | {',
+      '      id: ID;',
+      '    }[]',
+      '  | undefined;',
       'export interface GraphQLTypes {',
       '  /** UU.RR **/',
       '  users: { input: usersInput; payload: User };',
+      '  /** List of users ;) **/',
+      '  usersList: { input: usersListInput; payload: usersListPayload };',
       '}',
       'export type QueryResolvers = {',
       '  /** UU.RR **/',
       '  users(args: usersInput): Promise<User>;',
+      '  /** List of users ;) **/',
+      '  usersList(args: usersListInput): Promise<usersListPayload>;',
       '};',
       'export type MutationResolvers = {};',
       'export type SubscriptionResolvers = {};',

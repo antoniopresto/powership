@@ -4,19 +4,15 @@ import { assertSame } from '@darch/utils/lib/assertSame';
 import { isProduction } from '@darch/utils/lib/env';
 import { Merge } from '@darch/utils/lib/typeUtils';
 import type {
-  GraphQLField,
-  GraphQLFieldConfig,
   GraphQLInterfaceType,
   GraphQLNamedInputType,
   GraphQLNamedType,
-  GraphQLResolveInfo,
 } from 'graphql';
-import { GraphQLObjectType } from 'graphql';
 
 import { Infer } from '../Infer';
 import { createObjectType, ObjectType } from '../ObjectType';
 import { FieldDefinitionConfig } from '../TObjectConfig';
-import { TAnyFieldType } from '../fields/FieldType';
+import { TAnyFieldType, ValidationCustomMessage } from '../fields/FieldType';
 import { GraphTypeLike } from '../fields/IObjectLike';
 import { getObjectDefinitionId } from '../fields/MetaFieldField';
 import { ObjectField } from '../fields/ObjectField';
@@ -29,9 +25,14 @@ import type { ObjectToTypescriptOptions } from '../objectToTypescript';
 import { parseObjectField } from '../parseObjectDefinition';
 
 import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
+import {
+  createResolver,
+  Resolver,
+  ResolverConfig,
+  resolvers,
+} from './createResolver';
 
 const register = new StrictMap<string, any>();
-const resolvers = new StrictMap<string, any>();
 
 export class GraphType<Definition> {
   static __isGraphType = true;
@@ -117,9 +118,10 @@ export class GraphType<Definition> {
   }
 
   parse = (
-    ...args: Parameters<TAnyFieldType['parse']>
+    input: any,
+    customMessage?: ValidationCustomMessage
   ): Infer<ToFinalField<Definition>> => {
-    return this.__field.parse(...args);
+    return this.__field.parse(input, customMessage);
   };
 
   _toGraphQL = () => {
@@ -173,7 +175,7 @@ export class GraphType<Definition> {
   >(
     options: Merge<
       { type: FieldTypeDef; name: Name },
-      DarchGraphQLFieldConfigInput<
+      ResolverConfig<
         Context,
         Infer<ToFinalField<Definition>>,
         FieldTypeDef,
@@ -195,9 +197,12 @@ export class GraphType<Definition> {
       });
     }
 
-    const resolver = type.createResolver({
+    const allOptions = {
+      type,
       ...(options as any),
-    });
+    };
+
+    const resolver = createResolver(allOptions);
 
     resolver.__isRelation = true;
     resolver.__relatedToGraphTypeId = this.id;
@@ -242,84 +247,16 @@ export class GraphType<Definition> {
   };
 
   createResolver = <
-    Context = any,
-    Source = any,
-    ArgsDef extends
-      | ObjectDefinitionInput
-      | Readonly<ObjectDefinitionInput> = ObjectDefinitionInput
+    ArgsDef extends ObjectDefinitionInput | Readonly<ObjectDefinitionInput>
   >(
-    options: DarchGraphQLFieldConfigInput<Context, Source, Definition, ArgsDef>
-  ): DarchResolver<Context, Source, Definition, ArgsDef> => {
-    const { args, name = this.id, kind = 'query', resolve, ...rest } = options;
-
-    if (resolvers.has(name)) {
-      return resolvers.get(name);
-    }
-
-    const parsePayload = this.parse.bind(this);
-
-    const argsObject = isPossibleArgsDef(args)
-      ? createObjectType(`${name}Input`, args)
-      : undefined;
-
-    const ArgsType: any = argsObject
-      ? argsObject.graphqlInputType({ name: `${name}Input` })
-      : undefined;
-
-    const resolveFunction: any = async function typeCheckResolveWrapper(
-      source,
-      args: any,
-      context: any,
-      info: any
-    ): Promise<any> {
-      args = argsObject
-        ? argsObject.parse(args, {
-            customMessage: (_, error) => {
-              return `Invalid input provided to resolver "${name}":\n ${error.message}`;
-            },
-          })
-        : args;
-
-      const result = await resolve(source, args, context, info);
-
-      return parsePayload(
-        result,
-        (_, error) => `Invalid output from resolver "${name}": ${error.message}`
-      );
-    };
-
-    const type = this.graphQLType();
-
-    const result: { [K in keyof DarchResolver]: any } = {
-      ...rest,
-      kind,
-      name,
-      resolve: resolveFunction,
-      args: ArgsType?.getFields() || {},
-      type,
-
-      // Resolver fields - not in GraphQLFieldConfig
-      argsDef: args,
-      typeDef: this.definition,
-      asObjectField: (_name = name): GraphQLField<any, any> => {
-        const temp = new GraphQLObjectType({
-          name: 'temp',
-          fields: {
-            [_name]: result,
-          },
-        });
-
-        return temp.getFields()[_name];
-      },
-      __isResolver: true,
-      __isRelation: false,
-      __relatedToGraphTypeId: '',
-      __graphTypeId: this.id,
-    };
-
-    resolvers.set(name, result);
-
-    return result as any;
+    options: Readonly<
+      Omit<ResolverConfig<any, any, Definition, ArgsDef>, 'type'>
+    >
+  ): Resolver<any, any, Definition, ArgsDef> => {
+    return createResolver({
+      type: this,
+      ...options,
+    } as any);
   };
 
   /**
@@ -366,74 +303,4 @@ export function createType(...args: any[]) {
     // @ts-ignore
     ...args
   );
-}
-
-export interface DarchGraphQLFieldConfigInput<
-  Context = unknown,
-  Source = unknown,
-  TypeDef = unknown,
-  ArgsDef = unknown
-> extends Omit<
-    GraphQLFieldConfig<Source, Context>,
-    'resolve' | 'type' | 'args'
-  > {
-  name: string;
-  kind?: 'query' | 'mutation' | 'subscription';
-  args?: ArgsDef;
-  resolve: ResolveFunction<Context, Source, TypeDef, ArgsDef>;
-}
-
-export type AnyDarchResolver = DarchResolver;
-
-export interface FinalResolver
-  extends Omit<DarchResolver<any, any, any, any>, 'args' | 'type'> {
-  args: any;
-  type: any;
-  name: string;
-  kind: 'query' | 'subscription' | 'mutation';
-  typeDef: any;
-  argsDef: any;
-  resolve(...args: any[]): any;
-}
-
-export type Resolver = FinalResolver;
-
-export interface DarchResolver<
-  Context = unknown,
-  Source = unknown,
-  TypeDef = unknown,
-  ArgsDef = unknown
-> extends Omit<GraphQLFieldConfig<Source, Context>, 'resolve'> {
-  __isResolver: true;
-  __isRelation: boolean;
-  __graphTypeId: string;
-  __relatedToGraphTypeId: string;
-
-  resolve: ResolveFunction<Context, Source, TypeDef, ArgsDef>;
-  name: string;
-  kind: 'query' | 'subscription' | 'mutation';
-  typeDef: TypeDef extends ObjectFieldInput ? TypeDef : never;
-  argsDef: ArgsDef extends Record<string, any> ? ArgsDef : never;
-
-  asObjectField(name?: string): GraphQLField<any, any>;
-}
-
-export interface ResolveFunction<
-  Context = unknown,
-  Source = unknown,
-  TypeDef = unknown,
-  ArgsDef = unknown
-> {
-  (
-    source: Source,
-    args: ArgsDef extends { [K: string]: ObjectFieldInput }
-      ? Infer<ArgsDef>
-      : {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): Promise<Infer<ToFinalField<TypeDef>>>;
-}
-
-function isPossibleArgsDef(args: any): args is Readonly<ObjectDefinitionInput> {
-  return args && typeof args === 'object' && Object.keys(args).length;
 }

@@ -14,7 +14,6 @@ import {
   FinalFieldDefinition,
   FinalObjectDefinition,
 } from './fields/_parseFields';
-import { parseFieldDefinitionConfig } from './parseObjectDefinition';
 import { parseTypeName } from './parseTypeName';
 
 /**
@@ -204,20 +203,7 @@ function parseField(params: {
         });
       }
 
-      const def = field.def;
-      const parsedType: any = parseFieldDefinitionConfig(def.type);
-
-      const type = parseField({
-        field: parsedType,
-        fieldName,
-        parentName,
-      }).jsonItem;
-
       jsonItem.type = 'object';
-      jsonItem.patternProperties = {
-        // TODO key by number or string
-        '.*': type,
-      };
     },
   };
 

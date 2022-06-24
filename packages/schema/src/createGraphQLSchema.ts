@@ -148,10 +148,7 @@ export async function resolversTypescriptParts(
   const mainResolvers = params.resolvers.filter((el) => !el.__isRelation);
 
   const mainResolversConversion = mainResolvers.map((item) => {
-    let entryName = item.name;
-
     return convertResolver({
-      entryName,
       resolver: item,
       allResolvers: params.resolvers,
     });
@@ -229,37 +226,37 @@ export async function resolversToTypescript(
 }
 
 async function convertResolver(options: {
-  entryName: string;
   resolver: AnyResolver;
   allResolvers: AnyResolver[];
 }) {
-  const { resolver, allResolvers, entryName } = options;
+  const { resolver, allResolvers } = options;
 
-  const inputName = `${entryName}Input`;
-
-  const payloadName = `${resolver.__graphTypeId}`;
+  const inputName = resolver.argsType.id;
+  const payloadName = resolver.payloadType.id;
 
   const payloadDef = {
+    // clearing ref because will be mutated to inject relations in definition
     ...clearMetaField(resolver.typeDef),
   };
 
   allResolvers.forEach((rel) => {
-    if (rel.__relatedToGraphTypeId === resolver.__graphTypeId) {
+    if (rel.__relatedToGraphTypeId === payloadName) {
+      // TODO check for original type (not usersList, but User)
       payloadDef.def[rel.name] = GraphType.register.get(rel.__graphTypeId);
     }
   });
 
-  const payload = await convertType({
-    entryName: `${entryName}`,
-    type: payloadDef,
-  });
+  const [payload, args] = await Promise.all([
+    convertType({
+      entryName: payloadName,
+      type: payloadDef, // TODO generate type for User[] not for plain object
+    }),
 
-  const args = resolver.argsDef
-    ? await convertType({
-        entryName: inputName,
-        type: { object: resolver.argsDef },
-      })
-    : { code: `undefined`, description: '', comments: '' };
+    convertType({
+      entryName: inputName,
+      type: resolver.argsType.definition,
+    }),
+  ]);
 
   let code = '';
 
@@ -268,7 +265,7 @@ async function convertResolver(options: {
   code += `${payload.comments}\nexport type ${payloadName} = ${payload.code};`;
 
   return {
-    entryName,
+    entryName: resolver.name,
     code,
     payload,
     args,
