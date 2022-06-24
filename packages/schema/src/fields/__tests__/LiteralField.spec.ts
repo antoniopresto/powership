@@ -2,6 +2,7 @@ import { assert, IsExact } from 'conditional-type-checks';
 import { graphql } from 'graphql';
 
 import { createType } from '../../GraphType/GraphType';
+import { createResolver } from '../../GraphType/createResolver';
 import { Infer } from '../../Infer';
 import { createObjectType, ObjectType } from '../../ObjectType';
 import { createGraphQLSchema } from '../../createGraphQLSchema';
@@ -157,17 +158,18 @@ describe('LiteralField', () => {
   it('serialize to graphql', async () => {
     const date = { a: 123 };
 
-    createType('Value', {
-      object: {
-        valid: {
-          literal: date,
+    createResolver({
+      name: 'findValues',
+      type: {
+        object: {
+          valid: {
+            literal: date,
+          },
         },
       },
-    } as const).createResolver({
-      name: 'findValues',
       args: {
-        limit: { literal: 1 },
-      } as const,
+        limit: { literal: 1 } as const,
+      },
       async resolve(_, args) {
         expect(args.limit).toBe(1);
         assert<IsExact<typeof args.limit, 1>>(true);

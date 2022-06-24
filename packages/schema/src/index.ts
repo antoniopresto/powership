@@ -6,5 +6,6 @@ export { objectMetaFieldKey } from './fields/MetaFieldField';
 export * from './GraphType/GraphType';
 export * from './createGraphQLSchema';
 export * from './GraphType/getQueryExamples';
+export * from './GraphType/createResolver';
 // export * from './GraphType/graphGet';
 // export * from './GraphType/objectToQuery';

@@ -374,8 +374,9 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
 
     expectedType({ id }, 'string', 'truthy');
 
-    if (ObjectType.register.has(id) && ObjectType.register.get(id) !== this) {
-      console.error(`Object with id "${id}" already registered.`);
+    if (ObjectType.register.has(id) && !isProduction()) {
+      const existing = ObjectType.register.get(id);
+      assertSameDefinition(id, existing.definition, this.definition);
     }
 
     this.__setMetaData('id', id);

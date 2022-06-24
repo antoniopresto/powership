@@ -1,4 +1,4 @@
-import { PromiseType } from '@darch/utils/lib/typeUtils';
+import { MaybePromise, PromiseType } from '@darch/utils/lib/typeUtils';
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
@@ -86,7 +86,7 @@ describe('createResolver', () => {
     type Return = ReturnType<typeof resolver.resolve>;
     type Args = Parameters<typeof resolver.resolve>[1];
 
-    assert<IsExact<Return, Promise<{ name: string; age?: number }>>>(true);
+    assert<IsExact<Return, MaybePromise<{ name: string; age?: number }>>>(true);
 
     assert<
       IsExact<

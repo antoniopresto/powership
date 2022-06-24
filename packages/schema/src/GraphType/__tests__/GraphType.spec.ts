@@ -259,7 +259,7 @@ describe('createType', () => {
   it('Should validate against overriding register', () => {
     createType('t1', { object: { name: 'string' } });
     expect(() => createType('t1', { object: { name: 'int' } })).toThrow(
-      'Different type already registered with name "t1"'
+      'An Object with name "t1" is already registered with another definition.'
     );
     createType('t1', { object: { name: 'string' } });
 

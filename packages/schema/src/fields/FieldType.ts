@@ -119,6 +119,7 @@ export abstract class FieldType<Type, TypeName extends string, Def> {
       list: this.list,
       optional: this.optional,
       description: this.description,
+      defaultValue: this.defaultValue,
     };
   }
 

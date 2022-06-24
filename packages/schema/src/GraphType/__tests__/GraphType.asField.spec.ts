@@ -1,3 +1,4 @@
+import { MaybePromise } from '@darch/utils/lib/typeUtils';
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../../Infer';
@@ -50,7 +51,7 @@ describe('GraphType.asField', () => {
     type Res = ReturnType<typeof resolver.resolve>;
     type Args = Parameters<typeof resolver.resolve>[1];
 
-    assert<IsExact<Res, Promise<{ name?: string; age?: number }[]>>>(true);
+    assert<IsExact<Res, MaybePromise<{ name?: string; age?: number }[]>>>(true);
     assert<IsExact<Args, { option: 'a' | 'b' }>>(true);
 
     const schema = createGraphQLSchema();

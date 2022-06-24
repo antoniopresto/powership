@@ -1,4 +1,5 @@
 import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
+import { MaybePromise } from '@darch/utils/lib/typeUtils';
 import { assert, IsExact } from 'conditional-type-checks';
 import { printSchema } from 'graphql';
 
@@ -155,7 +156,7 @@ describe('createGraphQLObject', () => {
     type Res = ReturnType<typeof addLetterResolver.resolve>;
     type Args = Parameters<typeof addLetterResolver.resolve>[1];
 
-    assert<IsExact<Res, Promise<boolean>>>(true);
+    assert<IsExact<Res, MaybePromise<boolean>>>(true);
     assert<IsExact<Args, { letter: 'a' | 'b' }>>(true);
 
     createType('checkNumbers', 'boolean').createResolver({

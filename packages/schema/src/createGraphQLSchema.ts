@@ -3,8 +3,8 @@ import type { GraphQLSchemaConfig } from 'graphql';
 import { GraphQLObjectType, printSchema } from 'graphql';
 import groupBy from 'lodash/groupBy';
 
-import type { DarchResolver } from './GraphType/GraphType';
 import { GraphType } from './GraphType/GraphType';
+import { AnyResolver } from './GraphType/createResolver';
 import {
   getSchemaQueryExamples,
   SchemaQueryExamplesResult,
@@ -16,14 +16,14 @@ import type { ObjectToTypescriptOptions } from './objectToTypescript';
 export type CreateGraphQLObjectOptions = Partial<GraphQLSchemaConfig>;
 
 export type GroupedResolvers = {
-  [K in DarchResolver['kind']]: undefined | DarchResolver<any>[];
+  [K in AnyResolver['kind']]: undefined | AnyResolver[];
 };
 
 export type GraphQLSchemaWithUtils = import('graphql').GraphQLSchema & {
   utils: {
     usedConfig: GraphQLSchemaConfig;
-    resolvers: DarchResolver<any>[];
-    registeredResolvers: DarchResolver<any>[];
+    resolvers: AnyResolver[];
+    registeredResolvers: AnyResolver[];
     grouped: GroupedResolvers;
     typescript: (options?: ResolversToTypeScriptOptions) => Promise<string>;
     print: () => string;
@@ -51,7 +51,7 @@ export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
 
   const registeredResolvers = [...GraphType.GraphType.resolvers.values()];
 
-  let resolvers: DarchResolver[] = Array.isArray(args[0])
+  let resolvers: AnyResolver[] = Array.isArray(args[0])
     ? args[0]
     : registeredResolvers;
 
@@ -135,7 +135,7 @@ export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
 export type ResolversToTypeScriptOptions = {
   name: string;
   options?: ObjectToTypescriptOptions;
-  resolvers: DarchResolver[];
+  resolvers: AnyResolver[];
 };
 
 export async function resolversTypescriptParts(
@@ -230,8 +230,8 @@ export async function resolversToTypescript(
 
 async function convertResolver(options: {
   entryName: string;
-  resolver: DarchResolver;
-  allResolvers: DarchResolver[];
+  resolver: AnyResolver;
+  allResolvers: AnyResolver[];
 }) {
   const { resolver, allResolvers, entryName } = options;
 
