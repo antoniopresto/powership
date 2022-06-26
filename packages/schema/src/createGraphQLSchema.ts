@@ -5,6 +5,7 @@ import groupBy from 'lodash/groupBy';
 
 import { GraphType } from './GraphType/GraphType';
 import { AnyResolver } from './GraphType/createResolver';
+import { getInnerGraphTypeId } from './GraphType/getInnerGraphTypeId';
 import {
   getSchemaQueryExamples,
   SchemaQueryExamplesResult,
@@ -233,18 +234,23 @@ async function convertResolver(options: {
 
   const inputName = resolver.argsType.id;
   const payloadName = resolver.payloadType.id;
+  const payloadOriginName = getInnerGraphTypeId(resolver.payloadType);
 
   const payloadDef = {
     // clearing ref because will be mutated to inject relations in definition
     ...clearMetaField(resolver.typeDef),
   };
 
-  allResolvers.forEach((rel) => {
-    if (rel.__relatedToGraphTypeId === payloadName) {
-      // TODO check for original type (not usersList, but User)
-      payloadDef.def[rel.name] = GraphType.register.get(rel.__graphTypeId);
-    }
-  });
+  allResolvers
+    .filter((el) => el.__isRelation)
+    .forEach((rel) => {
+      if (rel.__relatedToGraphTypeId === payloadOriginName) {
+        const typeRelatedToFinalPayload = GraphType.register.get(
+          rel.__graphTypeId
+        );
+        payloadDef.def[rel.name] = typeRelatedToFinalPayload.definition;
+      }
+    });
 
   const [payload, args] = await Promise.all([
     convertType({

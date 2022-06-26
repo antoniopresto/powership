@@ -26,32 +26,31 @@ import { parseObjectField } from '../parseObjectDefinition';
 
 import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
 import {
+  AnyResolver,
   createResolver,
   Resolver,
   ResolverConfig,
-  resolvers,
 } from './createResolver';
 
-const register = new StrictMap<string, any>();
-
-export class GraphType<Definition> {
+export class GraphType<Definition> implements GraphTypeLike {
   static __isGraphType = true;
-  __isGraphType = true;
+  readonly __isGraphType = true;
 
-  static register = register;
-  static resolvers = resolvers;
+  static register = new StrictMap<string, GraphTypeLike>();
+  static resolvers = new StrictMap<string, AnyResolver>();
 
   static reset = async () => {
-    resolvers.clear();
-    register.clear();
+    this.resolvers.clear();
+    this.register.clear();
   };
 
   readonly definition: ToFinalField<Definition>;
+  readonly definitionInput: FieldDefinitionConfig;
 
   __field: TAnyFieldType;
 
   readonly id: string;
-  readonly _object?: ObjectType<any>;
+  readonly _object: ObjectType<any> | undefined;
 
   constructor(
     definition: Definition extends ObjectFieldInput ? Definition : never
@@ -102,18 +101,18 @@ export class GraphType<Definition> {
 
     this.definition = this.__field.asFinalFieldDef as any;
 
-    if (register.has(name)) {
-      const existing = register.get(name);
+    if (GraphType.register.has(name)) {
+      const existing = GraphType.register.get(name);
 
       if (!isProduction()) {
         assertSame(
           `Different type already registered with name "${name}"`,
           this.definition,
-          existing
+          existing.definition
         );
       }
     } else {
-      register.set(name, this.definition as any);
+      GraphType.register.set(name, this as any);
     }
   }
 
@@ -204,10 +203,10 @@ export class GraphType<Definition> {
 
     const resolver = createResolver(allOptions);
 
+    // registering relations to be added when creating graphql schema
     resolver.__isRelation = true;
     resolver.__relatedToGraphTypeId = this.id;
-
-    this._object?.addGraphQLMiddleware((hooks) => {
+    object.addGraphQLMiddleware((hooks) => {
       hooks.onFieldConfigMap.register(function (fields) {
         fields[name] = resolver;
       });

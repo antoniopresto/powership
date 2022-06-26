@@ -97,10 +97,24 @@ export function getObjectDefinitionMetaField(
   return input[objectMetaFieldKey];
 }
 
-export function getObjectDefinitionId(definition: Record<string, any>): string {
+export function getObjectDefinitionId(
+  definition: Record<string, any>,
+  nullable: true
+): string | undefined;
+
+export function getObjectDefinitionId(definition: Record<string, any>): string;
+
+export function getObjectDefinitionId(
+  definition: Record<string, any> = {},
+  nullable = false
+) {
+  const id = getObjectDefinitionMetaField(definition)?.def?.id;
+
+  if (nullable) return id || undefined;
+
   return nonNullValues(
     {
-      id: getObjectDefinitionMetaField(definition)?.def?.id,
+      id,
     },
     'Object not identified.'
   ).id;

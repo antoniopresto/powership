@@ -1,5 +1,9 @@
 import { RuntimeError } from './RuntimeError';
 
+export interface StrictMapOptions<K, V> {
+  onNull?: (key: K, self: StrictMap<K, V>) => NonNullable<V> | void;
+}
+
 export class StrictMap<K, V> {
   nativeMap: Map<K, V>;
 
@@ -11,8 +15,17 @@ export class StrictMap<K, V> {
     this.get(key);
   }
 
-  get(key): NonNullable<V> {
+  get(key, options: StrictMapOptions<K, V> = {}): NonNullable<V> {
     if (!this.nativeMap.has(key)) {
+      const { onNull } = options;
+      if (onNull) {
+        const newItem = onNull(key, this);
+        if (newItem) {
+          this.set(key, newItem);
+          return newItem;
+        }
+      }
+
       throw new StrictMapError(`There is no item with key "${key}"`, {
         validKeys: [...this.nativeMap.keys()],
       });

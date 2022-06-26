@@ -1,4 +1,3 @@
-import { StrictMap } from '@darch/utils/lib/StrictMap';
 import {
   GraphQLField,
   GraphQLFieldConfig,
@@ -17,8 +16,6 @@ import {
 import { createType, GraphType } from './GraphType';
 import { getInnerType } from './getQueryExamples';
 
-export const resolvers = new StrictMap<string, any>();
-
 export function createResolver<
   Type extends FieldDefinitionConfig,
   Args extends ObjectDefinitionInput
@@ -27,8 +24,8 @@ export function createResolver<
 ): Resolver<any, any, Type, Args> {
   const { args, name, kind = 'query', resolve, type, ...rest } = options;
 
-  if (resolvers.has(name)) {
-    return resolvers.get(name);
+  if (GraphType.resolvers.has(name)) {
+    return GraphType.resolvers.get(name);
   }
 
   const payloadType = GraphType.is(type)
@@ -99,7 +96,7 @@ export function createResolver<
     __graphTypeId: payloadType.id,
   };
 
-  resolvers.set(name, result);
+  GraphType.resolvers.set(name, result);
 
   return result as any;
 }

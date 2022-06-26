@@ -120,18 +120,23 @@ describe('GraphType', () => {
   });
 
   it('should print relations in typescript', async () => {
-    const LoginType = createType('Logins', '[date]');
-
     const UserType = createType('User', {
-      description: 'UU.TT',
+      description: 'user entity',
       object: {
         id: 'ID',
       },
     });
 
+    const LoginType = createType('LoginRegister', {
+      object: {
+        time: 'int',
+        device: 'string',
+      },
+    });
+
     UserType.addRelation({
       name: 'logins',
-      description: 'UU.RR.LOGINS',
+      description: 'user logins',
       args: {
         since: 'date?',
       },
@@ -139,24 +144,11 @@ describe('GraphType', () => {
       async resolve(): Promise<any> {},
     });
 
-    UserType.createResolver({
-      name: 'users',
-      description: 'UU.RR',
-      args: { limit: 'int' },
-      async resolve(): Promise<any> {
-        return {};
-      },
-    });
-
     createResolver({
-      type: {
-        type: UserType,
-        list: true,
-        optional: true,
-      },
-      name: 'usersList',
-      description: 'List of users ;)',
-      args: { cursor: 'string' },
+      type: [UserType] as const,
+      name: 'findUsers',
+      description: 'find users resolver',
+      args: { limit: 'int' },
       async resolve(): Promise<any> {
         return {};
       },
@@ -164,56 +156,27 @@ describe('GraphType', () => {
 
     const schema = createGraphQLSchema();
 
-    expect(schema.utils.print().split('\n')).toEqual([
-      'type Query {',
-      '  """UU.RR"""',
-      '  users(limit: Int!): User!',
-      '',
-      '  """List of users ;)"""',
-      '  usersList(cursor: String!): [User]',
-      '}',
-      '',
-      'type User {',
-      '  id: ID!',
-      '',
-      '  """UU.RR.LOGINS"""',
-      '  logins(since: Date): [Date]!',
-      '}',
-      '',
-      'scalar Date',
-    ]);
-
     const ts = await schema.utils.typescript();
 
     expect(ts.split('\n')).toEqual([
-      'export type usersInput = {',
+      'export type findUsersInput = {',
       '  limit: number;',
       '};',
-      '/** UU.TT **/',
-      'export type User = {',
+      '/** user entity **/',
+      'export type findUsersPayload = {',
       '  id: ID;',
-      '  logins: Date[];',
-      '};',
-      'export type usersListInput = {',
-      '  cursor: string;',
-      '};',
-      '/** UU.TT **/',
-      'export type usersListPayload =',
-      '  | {',
-      '      id: ID;',
-      '    }[]',
-      '  | undefined;',
+      '  logins: {',
+      '    time: number;',
+      '    device: string;',
+      '  }[];',
+      '}[];',
       'export interface GraphQLTypes {',
-      '  /** UU.RR **/',
-      '  users: { input: usersInput; payload: User };',
-      '  /** List of users ;) **/',
-      '  usersList: { input: usersListInput; payload: usersListPayload };',
+      '  /** find users resolver **/',
+      '  findUsers: { input: findUsersInput; payload: findUsersPayload };',
       '}',
       'export type QueryResolvers = {',
-      '  /** UU.RR **/',
-      '  users(args: usersInput): Promise<User>;',
-      '  /** List of users ;) **/',
-      '  usersList(args: usersListInput): Promise<usersListPayload>;',
+      '  /** find users resolver **/',
+      '  findUsers(args: findUsersInput): Promise<findUsersPayload>;',
       '};',
       'export type MutationResolvers = {};',
       'export type SubscriptionResolvers = {};',

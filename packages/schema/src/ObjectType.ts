@@ -494,7 +494,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
     await Promise.all(promises);
   }
 
-  static register = new StrictMap<string, any>();
+  static register = new StrictMap<string, ObjectLike>();
 
   /**
    * Get an Object with the provided id
