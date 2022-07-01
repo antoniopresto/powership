@@ -1,6 +1,6 @@
 {
   "name": "@darch/utils",
-  "version": "2.0.0-alpha.1656039433.52+b269ddc",
+  "version": "2.0.0-alpha.1656628585.58+356a59a",
   "main": "lib",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
@@ -27,7 +27,7 @@
     "ulid": "2.3.0"
   },
   "devDependencies": {
-    "@darch/builder": "^2.0.0-alpha.1656039433.52+b269ddc",
+    "@darch/builder": "^2.0.0-alpha.1656628585.58+356a59a",
     "@types/jest": "27.0.3",
     "@types/json-schema": "7.0.11",
     "@types/lodash": "4.14.178",
@@ -53,5 +53,5 @@
   "prettier": {
     "singleQuote": true
   },
-  "gitHead": "b269ddcd1f2f1e81b01e643c9f5ab1aa6c63a704"
+  "gitHead": "356a59aa0118c14eac2ea97a2655007020f38f26"
 }

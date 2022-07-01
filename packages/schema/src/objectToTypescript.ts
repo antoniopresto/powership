@@ -10,6 +10,7 @@ export type ObjectToTypescriptOptions = {
   unreachableDefinitions?: boolean;
   additionalProperties?: boolean;
   strictIndexSignatures?: boolean;
+  ignoreDefaultValues?: boolean;
 };
 
 const defaultBannerComment = ``;
@@ -32,7 +33,7 @@ export async function objectToTypescript(
     strictIndexSignatures = true,
   } = options || {};
 
-  const json = objectToJSON(name, object);
+  const json = objectToJSON(name, object, options);
 
   return jsonToTypescript(json, name, {
     bannerComment,

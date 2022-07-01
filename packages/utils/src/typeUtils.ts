@@ -122,3 +122,30 @@ export type UnionToIntersection<T> = (
   : never;
 
 export type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
+
+export type ArrayKeys<T> = T extends any[] | ReadonlyArray<any>
+  ? T extends [any, ...infer Tail]
+    ? ArrayKeys<Tail> | Tail['length']
+    : never
+  : never;
+
+export type DeepArrayKeys<T extends any[]> = {
+  [K in keyof T]: `${Extract<K, string>}.${ObjectDotNotations<T[K]>}`;
+}[number];
+
+export type ObjectDotNotations<
+  Obj,
+  Level extends string[] = []
+> = Level['length'] extends 3
+  ? never
+  : Obj extends { [K: string]: any }
+  ? {
+      [K in keyof Obj]: K extends string
+        ? Obj[K] extends { [K: string]: any }
+          ? Obj[K] extends any[]
+            ? K | `${K}.${ArrayKeys<Obj[K]>}` | `${K}.${DeepArrayKeys<Obj[K]>}`
+            : K | `${K}.${ObjectDotNotations<Obj[K], [...Level, K]>}`
+          : K
+        : never; // not string (never))
+    }[keyof Obj]
+  : never;

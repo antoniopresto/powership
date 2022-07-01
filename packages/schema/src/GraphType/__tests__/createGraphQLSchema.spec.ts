@@ -260,7 +260,8 @@ describe('createGraphQLObject', () => {
         'query getLetters {',
         '  getLetters',
         '}',
-        'query getNumbers($getNumbers_min: Int! = "0") {',
+        // FIXME
+        'query getNumbers($getNumbers_min: Int = "0") {',
         '  getNumbers(min: $getNumbers_min)',
         '}',
         'query getAllUsers {',

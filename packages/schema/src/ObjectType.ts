@@ -42,6 +42,7 @@ import type {
 import { validateObjectFields } from './getObjectErrors';
 import { getObjectHelpers, ObjectHelpers } from './getObjectHelpers';
 import { ImplementObject, implementObject } from './implementObject';
+import { isObject } from './objectInferenceUtils';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
 import { parseObjectDefinition } from './parseObjectDefinition';
 import { withCache, WithCache } from './withCache';
@@ -541,6 +542,10 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
   ) => {
     this.graphQLMiddleware.push(...ensureArray(middleware));
   };
+
+  static is(input: any): input is ObjectLike {
+    return isObject(input);
+  }
 }
 
 export const DarchObject = ObjectType;

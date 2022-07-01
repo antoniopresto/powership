@@ -1,5 +1,3 @@
-import * as path from 'path';
-
 import * as fs from 'fs-extra';
 
 import { ObjectType, parseFieldDefinitionConfig } from '../ObjectType';
@@ -9,11 +7,6 @@ import {
 } from '../createGraphQLSchema';
 
 import { getSchemaQueryExamples } from './getQueryExamples';
-
-const clientBody = fs.readFileSync(
-  path.join(__dirname, 'generateClient_body.txt'),
-  'utf-8'
-);
 
 export async function generateClientUtils(schema: GraphQLSchemaWithUtils) {
   const {
@@ -128,7 +121,7 @@ export async function generateClientUtils(schema: GraphQLSchemaWithUtils) {
 
   clientInterface += `\n}\n`;
   helpersText += `\n} as const;\n`;
-  helpersText += clientBody;
+  helpersText += genClientBody();
 
   const result = [
     header.join('\n\n'), //
@@ -176,4 +169,66 @@ function rehydrateType(name: string, field: any) {
   const parsed = parseFieldDefinitionConfig(field);
   const json = JSON.stringify(parsed);
   return `GraphType.getOrSet("${name}", ${json} as const)`;
+}
+
+function genClientBody() {
+  return [
+    '',
+    'export type GraphqlClientHelpers = typeof graphqlClientHelpers;',
+    'export type GraphQLEntry = GraphqlClientHelpers[keyof GraphqlClientHelpers];',
+    '',
+    "export type GraphQLFetchParams<K extends GraphQLEntry['name']> = {",
+    '  operationInfo: GraphqlClientHelpers[K];',
+    '  operationName: K;',
+    "  getBody: (args: ExpectedGraphQLClient[K]['args']) => {",
+    '    query: string;',
+    '    variables: Record<string, any>;',
+    '    operationName: K;',
+    '  };',
+    "  parseArgs: (args: ExpectedGraphQLClient[K]['args']) => Record<string, any>;",
+    "  mountBodyString(args: ExpectedGraphQLClient[K]['args']): string;",
+    '};',
+    '',
+    "export function getGraphQLFetchHelpers<MethodName extends GraphQLEntry['name']>(",
+    '  methodName: MethodName,',
+    '): GraphQLFetchParams<MethodName> {',
+    '  const helpers = graphqlClientHelpers[methodName];',
+    '',
+    '  function parseArgs(args: any) {',
+    '    const vars: Record<string, any> = {};',
+    '    const parsedArgs: any = helpers.input.parse(args || {}, (_, error) => {',
+    '      return `\\nGraphQLClientArgumentsError: method ${methodName}: \\n${error.message}`;',
+    '    });',
+    '',
+    '    Object.entries(helpers.operation.varNames).forEach(([inputVarName, { varName }]) => {',
+    '      vars[varName] = parsedArgs[inputVarName];',
+    '    });',
+    '',
+    '    return vars;',
+    '  }',
+    '',
+    '  function getBody(args: any) {',
+    '    const variables = parseArgs(args);',
+    '    return {',
+    '      query: helpers.operation.query,',
+    '      variables,',
+    '      operationName: methodName,',
+    '    };',
+    '  }',
+    '',
+    '  function mountBodyString(args: any) {',
+    '    const body = getBody(args);',
+    '    return JSON.stringify(body);',
+    '  }',
+    '',
+    '  return {',
+    '    operationInfo: helpers,',
+    '    operationName: methodName,',
+    '    parseArgs,',
+    '    getBody,',
+    '    mountBodyString,',
+    '  };',
+    '}',
+    '',
+  ].join('\n');
 }

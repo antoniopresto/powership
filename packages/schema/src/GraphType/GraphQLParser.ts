@@ -608,7 +608,7 @@ export class GraphQLParser {
           result = new GraphQLList(result);
         }
 
-        if (!optional) {
+        if (!optional && field.defaultValue === undefined) {
           result = new GraphQLNonNull(result);
         }
 

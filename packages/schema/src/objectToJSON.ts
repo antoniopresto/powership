@@ -16,14 +16,20 @@ import {
 } from './fields/_parseFields';
 import { parseTypeName } from './parseTypeName';
 
+export type ObjectToJSONOptions = {
+  ignoreDefaultValues?: boolean;
+};
+
 /**
  * Converts an object to a json-schema format
  * @param parentName
  * @param object
+ * @param options
  */
 export function objectToJSON(
   parentName: string,
-  object: ObjectLike | ObjectDefinitionInput
+  object: ObjectLike | ObjectDefinitionInput,
+  options: ObjectToJSONOptions = { ignoreDefaultValues: true }
 ): JSONSchema4 & { properties: JSONSchema4 } {
   let definition: FinalObjectDefinition;
 
@@ -56,15 +62,19 @@ export function objectToJSON(
 
   getKeys(definition).forEach((fieldName) => {
     if (isMetaFieldKey(fieldName)) return;
+    const field = definition[fieldName];
 
     const parsedField = parseField({
-      field: definition[fieldName] as any,
+      field,
       fieldName,
       parentName,
+      options,
     });
+
     if (parsedField.required) {
       required.push(fieldName);
     }
+
     topProperties[fieldName] = parsedField.jsonItem;
   });
 
@@ -80,17 +90,29 @@ function parseField(params: {
   fieldName: string;
   field: FinalFieldDefinition;
   parentName: string | null;
+  options: ObjectToJSONOptions;
 }): ParsedField {
-  const { field, fieldName, parentName } = params;
-  const { type, optional, list, description } = field;
+  const { field, fieldName, parentName, options } = params;
+
+  const { ignoreDefaultValues } = options;
+  let { type, optional, list, description, defaultValue } = field;
 
   nonNullValues({ type });
 
-  const required = !optional && type !== 'undefined';
+  let required = !optional && type !== 'undefined';
 
   const jsonItem: JSONSchema4 = {
     // title, // will generate extra types in typescript
   };
+
+  if (ignoreDefaultValues) {
+    defaultValue = undefined;
+  }
+
+  if (defaultValue !== undefined) {
+    required = false;
+    jsonItem.default = defaultValue;
+  }
 
   if (description) {
     jsonItem.description = description;
@@ -101,6 +123,7 @@ function parseField(params: {
       fieldName,
       field: { ...field, list: false },
       parentName,
+      options,
     });
 
     return {
@@ -179,7 +202,7 @@ function parseField(params: {
         field,
       });
 
-      Object.assign(jsonItem, objectToJSON(objectName, field.def), {
+      Object.assign(jsonItem, objectToJSON(objectName, field.def, options), {
         title: '',
       });
     },
@@ -188,7 +211,8 @@ function parseField(params: {
       expectedType({ def }, 'array');
 
       jsonItem.anyOf = def.map((type) => {
-        return parseField({ field: type, fieldName, parentName }).jsonItem;
+        return parseField({ field: type, fieldName, parentName, options })
+          .jsonItem;
       });
     },
     literal() {

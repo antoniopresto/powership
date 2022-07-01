@@ -1,6 +1,7 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { StrictMap } from '@darch/utils/lib/StrictMap';
 import { assertSame } from '@darch/utils/lib/assertSame';
+import { dynamicRequire } from '@darch/utils/lib/dynamicRequire';
 import { isProduction } from '@darch/utils/lib/env';
 import { Merge } from '@darch/utils/lib/typeUtils';
 import type {
@@ -25,12 +26,7 @@ import type { ObjectToTypescriptOptions } from '../objectToTypescript';
 import { parseObjectField } from '../parseObjectDefinition';
 
 import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
-import {
-  AnyResolver,
-  createResolver,
-  Resolver,
-  ResolverConfig,
-} from './createResolver';
+import type { AnyResolver, Resolver, ResolverConfig } from './createResolver';
 
 export class GraphType<Definition> implements GraphTypeLike {
   static __isGraphType = true;
@@ -201,7 +197,7 @@ export class GraphType<Definition> implements GraphTypeLike {
       ...(options as any),
     };
 
-    const resolver = createResolver(allOptions);
+    const resolver = dynamicRequire('./createResolver', module).createResolver(allOptions);
 
     // registering relations to be added when creating graphql schema
     resolver.__isRelation = true;
@@ -252,7 +248,7 @@ export class GraphType<Definition> implements GraphTypeLike {
       Omit<ResolverConfig<any, any, Definition, ArgsDef>, 'type'>
     >
   ): Resolver<any, any, Definition, ArgsDef> => {
-    return createResolver({
+    return dynamicRequire('./createResolver', module).createResolver({
       type: this,
       ...options,
     } as any);
@@ -270,7 +266,7 @@ export class GraphType<Definition> implements GraphTypeLike {
   ): GraphType<T> => {
     const existing =
       GraphType.register.has(id) &&
-      (GraphType.register.get(id) as GraphType<T>);
+      (GraphType.register.get(id) as any);
 
     if (existing) return existing;
 

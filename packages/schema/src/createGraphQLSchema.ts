@@ -5,12 +5,17 @@ import groupBy from 'lodash/groupBy';
 
 import { GraphType } from './GraphType/GraphType';
 import { AnyResolver } from './GraphType/createResolver';
+import { generateClientUtils } from './GraphType/generateClientUtils';
 import { getInnerGraphTypeId } from './GraphType/getInnerGraphTypeId';
 import {
   getSchemaQueryExamples,
   SchemaQueryExamplesResult,
 } from './GraphType/getQueryExamples';
-import { DarchObject, ObjectType } from './ObjectType';
+import {
+  DarchObject,
+  ObjectType,
+  parseFieldDefinitionConfig,
+} from './ObjectType';
 import { clearMetaField } from './fields/MetaFieldField';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
 
@@ -29,6 +34,7 @@ export type GraphQLSchemaWithUtils = import('graphql').GraphQLSchema & {
     typescript: (options?: ResolversToTypeScriptOptions) => Promise<string>;
     print: () => string;
     queryExamples: () => SchemaQueryExamplesResult;
+    generateClientUtils: () => Promise<string>;
   };
 };
 
@@ -126,11 +132,20 @@ export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
     queryExamples() {
       return getSchemaQueryExamples(schema);
     },
+    generateClientUtils() {
+      return Promise.reject('not implemented');
+    },
   };
 
-  return Object.assign(schema, {
+  const result = Object.assign(schema, {
     utils,
   });
+
+  utils.generateClientUtils = function _generateClientUtils() {
+    return generateClientUtils(result);
+  };
+
+  return result;
 }
 
 export type ResolversToTypeScriptOptions = {
@@ -254,11 +269,13 @@ async function convertResolver(options: {
 
   const [payload, args] = await Promise.all([
     convertType({
+      kind: 'output',
       entryName: payloadName,
       type: payloadDef, // TODO generate type for User[] not for plain object
     }),
 
     convertType({
+      kind: 'input',
       entryName: inputName,
       type: resolver.argsType.definition,
     }),
@@ -281,11 +298,17 @@ async function convertResolver(options: {
   };
 }
 
-async function convertType(options: { entryName: string; type: any }) {
-  const { entryName, type } = options;
+async function convertType(options: {
+  entryName: string;
+  type: any;
+  kind: 'input' | 'output';
+}) {
+  const { entryName, type, kind } = options;
   const { objectToTypescript } = ObjectType.serverUtils();
 
-  const { description } = type;
+  const parsed = parseFieldDefinitionConfig(type);
+
+  const { description } = parsed;
 
   const result = await objectToTypescript.objectToTypescript(
     entryName,
@@ -298,6 +321,7 @@ async function convertType(options: { entryName: string; type: any }) {
     {
       ...options,
       format: false,
+      ignoreDefaultValues: kind !== 'input',
     }
   );
 

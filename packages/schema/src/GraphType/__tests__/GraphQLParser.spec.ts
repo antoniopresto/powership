@@ -321,7 +321,7 @@ describe('GraphQLParser', () => {
   it('Should reuse types', () => {
     const person = createObjectType('Person', {
       name: 'string',
-      age: 'int?',
+      age: { type: 'int', defaultValue: 10 },
     });
 
     const robot = createObjectType('Robot', {
@@ -379,7 +379,7 @@ describe('GraphQLParser', () => {
       '',
       'type Person {',
       '  name: String!',
-      '  age: Int',
+      '  age: Int!',
       '}',
       '',
       'type Type2 {',
