@@ -1,77 +1,65 @@
-import { dynamicRequire } from '@darch/utils/lib/dynamicRequire';
 import { isBrowser } from '@darch/utils/lib/isBrowser';
 
-export const __DarchModulesRecord__ = {
-  graphql: {
-    server: true,
-    module: () => dynamicRequire('graphql', module) as typeof import('graphql'),
-  },
-
-  graphqlParser: {
-    server: true,
-    module: () =>
-      dynamicRequire(
-        './GraphType/GraphQLParser',
-        module
-      ) as typeof import('./GraphType/GraphQLParser'),
-  },
-
-  objectToTypescript: {
-    server: true,
-    module: () =>
-      dynamicRequire(
-        './objectToTypescript',
-        module
-      ) as typeof import('./objectToTypescript'),
-  },
-
-  prettier: {
-    server: true,
-    module: () =>
-      dynamicRequire('prettier', module) as typeof import('prettier'),
-  },
-
-  createGraphQLSchema: {
-    server: true,
-    module: () =>
-      dynamicRequire(
-        './createGraphQLSchema',
-        module
-      ) as typeof import('./createGraphQLSchema'),
-  },
-
-  getQueryExamples: {
-    server: true,
-    module: () =>
-      dynamicRequire(
-        './GraphType/getQueryExamples',
-        module
-      ) as typeof import('./GraphType/getQueryExamples'),
-  },
-
-  createResolver: {
-    server: true,
-    module: () =>
-      dynamicRequire(
-        './GraphType/createResolver',
-        module
-      ) as typeof import('./GraphType/createResolver'),
-  },
-
-  clientUtils: {
-    server: true,
-    module: () =>
-      dynamicRequire(
-        './GraphType/generateClientUtils',
-        module
-      ) as typeof import('./GraphType/generateClientUtils'),
-  },
-
+const sharedCode = {
   GraphType: {
     server: false,
     module: () =>
       require('./GraphType/GraphType') as typeof import('./GraphType/GraphType'),
   },
+};
+
+// @only-server
+const serverCode = {
+  graphql: {
+    server: true,
+    module: () => require('graphql') as typeof import('graphql'),
+  },
+
+  graphqlParser: {
+    server: true,
+    module: () =>
+      require('./GraphType/GraphQLParser') as typeof import('./GraphType/GraphQLParser'),
+  },
+
+  objectToTypescript: {
+    server: true,
+    module: () =>
+      require('./objectToTypescript') as typeof import('./objectToTypescript'),
+  },
+
+  prettier: {
+    server: true,
+    module: () => require('prettier') as typeof import('prettier'),
+  },
+
+  createGraphQLSchema: {
+    server: true,
+    module: () =>
+      require('./createGraphQLSchema') as typeof import('./createGraphQLSchema'),
+  },
+
+  getQueryExamples: {
+    server: true,
+    module: () =>
+      require('./GraphType/getQueryExamples') as typeof import('./GraphType/getQueryExamples'),
+  },
+
+  createResolver: {
+    server: true,
+    module: () =>
+      require('./GraphType/createResolver') as typeof import('./GraphType/createResolver'),
+  },
+  clientUtils: {
+    server: true,
+    module: () =>
+      require('./GraphType/generateClientUtils') as typeof import('./GraphType/generateClientUtils'),
+  },
+};
+
+export const __DarchModulesRecord__ = {
+  // @only-server
+  ...serverCode,
+  ...sharedCode,
 } as const;
 
 export type DarchModulesRecord = typeof __DarchModulesRecord__;
