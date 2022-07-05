@@ -116,64 +116,24 @@ type Caramelo<P> = {
 
 export type DarchModules = Caramelo<Exports>;
 
-const resolved = {} as {
-  [K: string]: {
-    value?: unknown;
-    server: boolean;
-  };
-};
+export const Darch = {} as DarchModules;
 
 Object.entries(__DarchModulesRecord__).forEach(([key, value]) => {
   if (isBrowser() && value.server) {
-    resolved[key] = {
-      server: true,
-    };
+    Object.defineProperty(Darch, key, {
+      get() {
+        throw new Error(`Can't load "${key}". It can be server-only.`);
+      },
+    });
     return;
   }
 
   const mod: any = value.module();
 
-  resolved[key] = {
-    server: value.server,
-    value: mod?.default ? mod.default : mod,
-  };
+  Darch[key] = mod?.default ? mod.default : mod;
 
   Object.entries(mod || {}).forEach(([subKey, subModule]) => {
-    resolved[subKey] = {
-      value: subModule,
-      server: value.server,
-    };
+    if (Darch[subKey] !== undefined) return;
+    Darch[subKey] = subModule;
   });
-});
-
-// @ts-ignore
-export const Darch: DarchModules = new Proxy({} as any, {
-  get(_o, k: any) {
-    const result = resolved[k];
-
-    if (result?.value === undefined) {
-      let errMessage = `Failed to require "${k}".`;
-
-      if (result?.server || isBrowser()) {
-        errMessage = `Can't load "${k}". It can be server-only.`;
-      }
-
-      throw new Error(errMessage);
-    }
-
-    return result.value;
-  },
-
-  has(_o, k: any) {
-    const value = resolved[k].value;
-    return value !== undefined;
-  },
-
-  ownKeys() {
-    return Reflect.ownKeys(resolved);
-  },
-
-  getOwnPropertyDescriptor(_o, k: any) {
-    return Object.getOwnPropertyDescriptor(resolved, k);
-  },
 });
