@@ -197,7 +197,9 @@ export class GraphType<Definition> implements GraphTypeLike {
       ...(options as any),
     };
 
-    const resolver = dynamicRequire('./createResolver', module).createResolver(allOptions);
+    const resolver = dynamicRequire('./createResolver', module).createResolver(
+      allOptions
+    );
 
     // registering relations to be added when creating graphql schema
     resolver.__isRelation = true;
@@ -265,8 +267,7 @@ export class GraphType<Definition> implements GraphTypeLike {
     def: T
   ): GraphType<T> => {
     const existing =
-      GraphType.register.has(id) &&
-      (GraphType.register.get(id) as any);
+      GraphType.register.has(id) && (GraphType.register.get(id) as any);
 
     if (existing) return existing;
 

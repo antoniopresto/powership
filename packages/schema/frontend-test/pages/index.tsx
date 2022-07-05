@@ -2,19 +2,23 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
-import { createDarchObject, implementObject } from '../../lib';
-import * as darchSchema from '../../lib';
+import * as darchSchema from '@darch/schema';
 import React from 'react';
+import { Darch } from '@darch/schema';
 
-const nodeType = createDarchObject('Node', {
-  id: 'ID',
-});
+try {
+  console.log('Darch.createResolver', Darch.createResolver);
+} catch (e) {
+  console.info('test requiring createResolver::\n', e);
+}
 
-const pageNodeType = implementObject('PageNode', {
+const nodeType = Darch.createObjectType('Node', { id: 'ID' });
+
+const pageNodeType = Darch.implementObject('PageNode', {
   title: 'string',
 });
 
-const ship = implementObject(
+const ship = Darch.implementObject(
   'ship',
   { name: 'string' },
   nodeType,

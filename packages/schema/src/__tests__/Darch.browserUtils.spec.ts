@@ -2,32 +2,43 @@
  * @jest-environment jsdom
  */
 
-import { __DarchModulesRecord__, Darch } from '../Darch';
+import { Darch } from '../Darch';
+import { assert, IsExact } from 'conditional-type-checks';
+import { Infer } from '../Infer';
 
 describe('Darch.browserUtils', () => {
-  test('smock', async () => {
-    const sut = Object.keys(Darch).sort();
+  afterEach(Darch.DarchObject.reset);
 
-    sut.forEach((key) => {
-      if (__DarchModulesRecord__[key].server) {
-        expect(() => Darch[key]).toThrow(
-          `Trying to require ${key} in the browser`
-        );
-      } else {
-        expect(Darch[key][key]).toBe(__DarchModulesRecord__[key].module()[key]);
-      }
+  test('createResolver', () => {
+    expect(() => Darch.createResolver).toThrow(
+      'Can\'t load "createResolver". It can be server-only.'
+    );
+  });
+
+  test('createType', () => {
+    const sut = Darch.createType;
+
+    expect(typeof sut).toBe('function');
+    expect(sut.name).toBe('createType');
+
+    const obj = sut('User', {
+      object: {
+        name: 'string',
+      },
     });
 
-    expect(sut).toEqual([
-      'GraphType',
-      'clientUtils',
-      'createGraphQLSchema',
-      'createResolver',
-      'getQueryExamples',
-      'graphql',
-      'graphqlParser',
-      'objectToTypescript',
-      'prettier',
-    ]);
+    type U = Infer<typeof obj>;
+
+    assert<IsExact<{ name: string }, U>>(true);
+
+    expect(() => obj.parse({})).toThrow(
+      '➤ field "name": expected type string, found undefined.'
+    );
+  });
+
+  test('graphql', () => {
+    expect(() => Darch.GraphQLString).toThrow(
+      'Can\'t load "GraphQLString". It can be server-only.'
+    );
   });
 });

@@ -6,132 +6,174 @@ const sharedCode = {
     module: () =>
       require('./GraphType/GraphType') as typeof import('./GraphType/GraphType'),
   },
+  ObjectType: {
+    server: false,
+    module: () => require('./ObjectType') as typeof import('./ObjectType'),
+  },
+  fieldTypes: {
+    server: false,
+    module: () =>
+      require('./fields/fieldTypes') as typeof import('./fields/fieldTypes'),
+  },
+  MetaField: {
+    server: false,
+    module: () =>
+      require('./fields/MetaFieldField') as typeof import('./fields/MetaFieldField'),
+  },
+  implementObject: {
+    server: false,
+    module: () =>
+      require('./implementObject') as typeof import('./implementObject'),
+  },
 };
 
-// @only-server
 const serverCode = {
   graphql: {
     server: true,
+    // @only-server
     module: () => require('graphql') as typeof import('graphql'),
   },
 
   graphqlParser: {
     server: true,
+    // @only-server
     module: () =>
       require('./GraphType/GraphQLParser') as typeof import('./GraphType/GraphQLParser'),
   },
 
   objectToTypescript: {
     server: true,
+    // @only-server
     module: () =>
       require('./objectToTypescript') as typeof import('./objectToTypescript'),
   },
 
   prettier: {
     server: true,
+    // @only-server
     module: () => require('prettier') as typeof import('prettier'),
   },
 
   createGraphQLSchema: {
     server: true,
+    // @only-server
     module: () =>
       require('./createGraphQLSchema') as typeof import('./createGraphQLSchema'),
   },
 
   getQueryExamples: {
     server: true,
+    // @only-server
     module: () =>
       require('./GraphType/getQueryExamples') as typeof import('./GraphType/getQueryExamples'),
   },
 
   createResolver: {
     server: true,
+    // @only-server
     module: () =>
       require('./GraphType/createResolver') as typeof import('./GraphType/createResolver'),
   },
+
   clientUtils: {
     server: true,
+    // @only-server
     module: () =>
       require('./GraphType/generateClientUtils') as typeof import('./GraphType/generateClientUtils'),
   },
 };
 
 export const __DarchModulesRecord__ = {
-  // @only-server
   ...serverCode,
   ...sharedCode,
 } as const;
 
 export type DarchModulesRecord = typeof __DarchModulesRecord__;
 
-export type DarchModules = {
+type Exports = {
   [K in keyof DarchModulesRecord]: DarchModulesRecord[K] extends {
     module: () => infer M;
   }
-    ? M extends { [E in K]: infer Exported }
-      ? M & Exported
-      : M
+    ? M
     : never;
 };
 
-const resolved = {} as Partial<DarchModulesRecord>;
+type NOK<T> = Exclude<keyof T, 'prototype' | number | symbol | 'default'>;
 
-function get<K extends keyof DarchModules>(path: K): DarchModules[K] {
-  if (resolved[path]) return resolved[path] as any;
-  const item = __DarchModulesRecord__[path];
-  if (!item) return undefined as any;
+type AllKeys<T> = {
+  [K in NOK<T>]: NOK<T[K]>;
+}[NOK<T>];
 
-  if (item.server && isBrowser()) {
-    throw new Error(
-      `Trying to require ${path} in the browser.\n` +
-        `       Server utils are only available on server side.\n`
-    );
+type SubProps<P, K> = {
+  [S in keyof P as K extends keyof P[S] ? K : never]: K extends keyof P[S]
+    ? P[S][K]
+    : never;
+};
+
+type Caramelo<P> = {
+  [K in AllKeys<P>]: K extends keyof SubProps<P, K> ? SubProps<P, K>[K] : never;
+};
+
+export type DarchModules = Caramelo<Exports>;
+
+const resolved = {} as {
+  [K: string]: {
+    value?: unknown;
+    server: boolean;
+  };
+};
+
+Object.entries(__DarchModulesRecord__).forEach(([key, value]) => {
+  if (isBrowser() && value.server) {
+    resolved[key] = {
+      server: true,
+    };
+    return;
   }
 
-  const value = item.module();
+  const mod: any = value.module();
 
-  if (!value || typeof value !== 'object') {
-    throw new Error(`Failed to require (${path}).module() as an object.`);
-  }
+  resolved[key] = {
+    server: value.server,
+    value: mod?.default ? mod.default : mod,
+  };
 
-  let result: any = value;
-
-  Object.entries(value).forEach(([k, v]) => {
-    if (k === path && typeof v === 'function') {
-      result = v;
-      // if the module has a function with the same name exported, we set
-      // all other items as static property of that module
-      Object.keys(value).forEach((key) => {
-        if (result[key] === undefined) {
-          result[key] = value[key];
-        }
-      });
-    }
+  Object.entries(mod || {}).forEach(([subKey, subModule]) => {
+    resolved[subKey] = {
+      value: subModule,
+      server: value.server,
+    };
   });
-
-  return (resolved[path] = result);
-}
+});
 
 // @ts-ignore
 export const Darch: DarchModules = new Proxy({} as any, {
   get(_o, k: any) {
-    const result = get(k);
-    if (result === undefined) {
-      throw new Error(`Trying to require undefined module ${k}.`);
+    const result = resolved[k];
+
+    if (result?.value === undefined) {
+      let errMessage = `Failed to require "${k}".`;
+
+      if (result?.server || isBrowser()) {
+        errMessage = `Can't load "${k}". It can be server-only.`;
+      }
+
+      throw new Error(errMessage);
     }
-    return result;
+
+    return result.value;
   },
 
   has(_o, k: any) {
-    const value = get(k);
+    const value = resolved[k].value;
     return value !== undefined;
   },
 
   ownKeys() {
-    return Reflect.ownKeys(__DarchModulesRecord__);
+    return Reflect.ownKeys(resolved);
   },
 
   getOwnPropertyDescriptor(_o, k: any) {
-    return Object.getOwnPropertyDescriptor(__DarchModulesRecord__, k);
+    return Object.getOwnPropertyDescriptor(resolved, k);
   },
 });

@@ -1,283 +1,10 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { Darch } from '../Darch';
+import { Infer } from '../Infer';
 
 describe('Darch.serverUtils', () => {
-  test('smock', async () => {
-    const sut = Object.keys(Darch).sort();
-
-    expect(sut.sort()).toEqual([
-      'GraphType',
-      'clientUtils',
-      'createGraphQLSchema',
-      'createResolver',
-      'getQueryExamples',
-      'graphql',
-      'graphqlParser',
-      'objectToTypescript',
-      'prettier',
-    ]);
-
-    const count = Object.keys(Darch).map((k) => [
-      k,
-      Object.keys(Darch[k]).length > 1,
-    ]);
-
-    expect(count).toEqual([
-      ['graphql', true],
-      ['graphqlParser', true],
-      ['objectToTypescript', false],
-      ['prettier', true],
-      ['createGraphQLSchema', true],
-      ['getQueryExamples', true],
-      ['createResolver', true],
-      ['clientUtils', true],
-      ['GraphType', true],
-    ]);
-  });
-
-  test('all modules', async () => {
-    const modules = [
-      'graphql',
-      'graphqlParser',
-      'GraphType',
-      'objectToTypescript',
-      'prettier',
-      'createGraphQLSchema',
-      'getQueryExamples',
-      'clientUtils',
-    ] as const;
-
-    const sut = modules.map((m) => [
-      m,
-      Object.entries(Darch[m])
-        .filter((el) => typeof el[1] === 'function')
-        .map((el) => el[0]),
-    ]);
-
-    expect(sut).toEqual([
-      [
-        'graphql',
-        [
-          'ExecutableDefinitionsRule',
-          'FieldsOnCorrectTypeRule',
-          'FragmentsOnCompositeTypesRule',
-          'GraphQLDirective',
-          'GraphQLEnumType',
-          'GraphQLError',
-          'GraphQLInputObjectType',
-          'GraphQLInterfaceType',
-          'GraphQLList',
-          'GraphQLNonNull',
-          'GraphQLObjectType',
-          'GraphQLScalarType',
-          'GraphQLSchema',
-          'GraphQLUnionType',
-          'KnownArgumentNamesRule',
-          'KnownDirectivesRule',
-          'KnownFragmentNamesRule',
-          'KnownTypeNamesRule',
-          'Lexer',
-          'Location',
-          'LoneAnonymousOperationRule',
-          'LoneSchemaDefinitionRule',
-          'NoDeprecatedCustomRule',
-          'NoFragmentCyclesRule',
-          'NoSchemaIntrospectionCustomRule',
-          'NoUndefinedVariablesRule',
-          'NoUnusedFragmentsRule',
-          'NoUnusedVariablesRule',
-          'OverlappingFieldsCanBeMergedRule',
-          'PossibleFragmentSpreadsRule',
-          'PossibleTypeExtensionsRule',
-          'ProvidedRequiredArgumentsRule',
-          'ScalarLeafsRule',
-          'SingleFieldSubscriptionsRule',
-          'Source',
-          'Token',
-          'TypeInfo',
-          'UniqueArgumentDefinitionNamesRule',
-          'UniqueArgumentNamesRule',
-          'UniqueDirectiveNamesRule',
-          'UniqueDirectivesPerLocationRule',
-          'UniqueEnumValueNamesRule',
-          'UniqueFieldDefinitionNamesRule',
-          'UniqueFragmentNamesRule',
-          'UniqueInputFieldNamesRule',
-          'UniqueOperationNamesRule',
-          'UniqueOperationTypesRule',
-          'UniqueTypeNamesRule',
-          'UniqueVariableNamesRule',
-          'ValidationContext',
-          'ValuesOfCorrectTypeRule',
-          'VariablesAreInputTypesRule',
-          'VariablesInAllowedPositionRule',
-          'assertAbstractType',
-          'assertCompositeType',
-          'assertDirective',
-          'assertEnumType',
-          'assertEnumValueName',
-          'assertInputObjectType',
-          'assertInputType',
-          'assertInterfaceType',
-          'assertLeafType',
-          'assertListType',
-          'assertName',
-          'assertNamedType',
-          'assertNonNullType',
-          'assertNullableType',
-          'assertObjectType',
-          'assertOutputType',
-          'assertScalarType',
-          'assertSchema',
-          'assertType',
-          'assertUnionType',
-          'assertValidName',
-          'assertValidSchema',
-          'assertWrappingType',
-          'astFromValue',
-          'buildASTSchema',
-          'buildClientSchema',
-          'buildSchema',
-          'coerceInputValue',
-          'concatAST',
-          'createSourceEventStream',
-          'defaultFieldResolver',
-          'defaultTypeResolver',
-          'doTypesOverlap',
-          'execute',
-          'executeSync',
-          'extendSchema',
-          'findBreakingChanges',
-          'findDangerousChanges',
-          'formatError',
-          'getArgumentValues',
-          'getDirectiveValues',
-          'getEnterLeaveForKind',
-          'getIntrospectionQuery',
-          'getLocation',
-          'getNamedType',
-          'getNullableType',
-          'getOperationAST',
-          'getOperationRootType',
-          'getVariableValues',
-          'getVisitFn',
-          'graphql',
-          'graphqlSync',
-          'introspectionFromSchema',
-          'isAbstractType',
-          'isCompositeType',
-          'isConstValueNode',
-          'isDefinitionNode',
-          'isDirective',
-          'isEnumType',
-          'isEqualType',
-          'isExecutableDefinitionNode',
-          'isInputObjectType',
-          'isInputType',
-          'isInterfaceType',
-          'isIntrospectionType',
-          'isLeafType',
-          'isListType',
-          'isNamedType',
-          'isNonNullType',
-          'isNullableType',
-          'isObjectType',
-          'isOutputType',
-          'isRequiredArgument',
-          'isRequiredInputField',
-          'isScalarType',
-          'isSchema',
-          'isSelectionNode',
-          'isSpecifiedDirective',
-          'isSpecifiedScalarType',
-          'isType',
-          'isTypeDefinitionNode',
-          'isTypeExtensionNode',
-          'isTypeNode',
-          'isTypeSubTypeOf',
-          'isTypeSystemDefinitionNode',
-          'isTypeSystemExtensionNode',
-          'isUnionType',
-          'isValidNameError',
-          'isValueNode',
-          'isWrappingType',
-          'lexicographicSortSchema',
-          'locatedError',
-          'parse',
-          'parseConstValue',
-          'parseType',
-          'parseValue',
-          'print',
-          'printError',
-          'printIntrospectionSchema',
-          'printLocation',
-          'printSchema',
-          'printSourceLocation',
-          'printType',
-          'resolveObjMapThunk',
-          'resolveReadonlyArrayThunk',
-          'responsePathAsArray',
-          'separateOperations',
-          'stripIgnoredCharacters',
-          'subscribe',
-          'syntaxError',
-          'typeFromAST',
-          'validate',
-          'validateSchema',
-          'valueFromAST',
-          'valueFromASTUntyped',
-          'visit',
-          'visitInParallel',
-          'visitWithTypeInfo',
-        ],
-      ],
-      ['graphqlParser', ['createHooks', 'GraphQLParser']],
-      [
-        'GraphType',
-        [
-          'is',
-          'isTypeDefinition',
-          'reset',
-          'getOrSet',
-          'GraphType',
-          'createType',
-        ],
-      ],
-      ['objectToTypescript', ['objectToTypescript']],
-      [
-        'prettier',
-        [
-          'formatWithCursor',
-          'format',
-          'check',
-          'resolveConfig',
-          'resolveConfigFile',
-          'clearConfigCache',
-          'getFileInfo',
-          'getSupportInfo',
-        ],
-      ],
-      [
-        'createGraphQLSchema',
-        [
-          'createGraphQLSchema',
-          'resolversTypescriptParts',
-          'resolversToTypescript',
-        ],
-      ],
-      [
-        'getQueryExamples',
-        [
-          'getSchemaQueryExamples',
-          'getQueryExamples',
-          'processField',
-          'getInnerType',
-        ],
-      ],
-      ['clientUtils', ['generateClientUtils', 'saveGraphQLClientUtils']],
-    ]);
-  });
+  afterEach(Darch.DarchObject.reset);
 
   test('createResolver', () => {
     const sut = Darch.createResolver;
@@ -289,8 +16,38 @@ describe('Darch.serverUtils', () => {
 
     expect(typeof sut).toBe('function');
     expect(sut.name).toBe('createResolver');
-    expect(sut.isPossibleArgsDef).toBe(
+    expect(Darch.isPossibleArgsDef).toBe(
       require('../GraphType/createResolver').isPossibleArgsDef
     );
+  });
+
+  test('createType', () => {
+    const sut = Darch.createType;
+
+    expect(typeof sut).toBe('function');
+    expect(sut.name).toBe('createType');
+
+    const obj = sut('User', {
+      object: {
+        name: 'string',
+      },
+    });
+
+    type U = Infer<typeof obj>;
+
+    assert<IsExact<{ name: string }, U>>(true);
+
+    expect(() => obj.parse({})).toThrow(
+      '➤ field "name": expected type string, found undefined.'
+    );
+  });
+
+  test('graphql', () => {
+    const sut = Darch.graphql;
+
+    expect(typeof sut).toBe('function');
+    expect(sut.name).toBe('graphql');
+
+    expect(Darch.GraphQLString.toJSON()).toBe('String');
   });
 });

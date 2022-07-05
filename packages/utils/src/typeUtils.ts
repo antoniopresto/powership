@@ -135,8 +135,9 @@ export type DeepArrayKeys<T extends any[]> = {
 
 export type ObjectDotNotations<
   Obj,
-  Level extends string[] = []
-> = Level['length'] extends 3
+  Level extends string[] = [],
+  Limit = 3
+> = Level['length'] extends Limit
   ? never
   : Obj extends { [K: string]: any }
   ? {
