@@ -5,7 +5,7 @@ import { FieldType, FieldTypeParser } from './FieldType';
 export type StringFieldDef = {
   min?: number;
   max?: number;
-  regex?: [string] | [string, string];
+  regex?: [string] | [string, string] | Readonly<[string, string] | [string]>;
 };
 
 export class StringField extends FieldType<
