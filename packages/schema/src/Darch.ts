@@ -120,11 +120,6 @@ export const Darch = {} as DarchModules;
 
 Object.entries(__DarchModulesRecord__).forEach(([key, value]) => {
   if (isBrowser() && value.server) {
-    Object.defineProperty(Darch, key, {
-      get() {
-        throw new Error(`Can't load "${key}". It can be server-only.`);
-      },
-    });
     return;
   }
 
@@ -133,7 +128,6 @@ Object.entries(__DarchModulesRecord__).forEach(([key, value]) => {
   Darch[key] = mod?.default ? mod.default : mod;
 
   Object.entries(mod || {}).forEach(([subKey, subModule]) => {
-    if (Darch[subKey] !== undefined) return;
     Darch[subKey] = subModule;
   });
 });

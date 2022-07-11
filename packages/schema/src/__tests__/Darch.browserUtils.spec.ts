@@ -10,9 +10,7 @@ describe('Darch.browserUtils', () => {
   afterEach(Darch.DarchObject.reset);
 
   test('createResolver', () => {
-    expect(() => Darch.createResolver).toThrow(
-      'Can\'t load "createResolver". It can be server-only.'
-    );
+    expect(Darch.createResolver).toBe(undefined);
   });
 
   test('createType', () => {
@@ -37,8 +35,6 @@ describe('Darch.browserUtils', () => {
   });
 
   test('graphql', () => {
-    expect(() => Darch.GraphQLString).toThrow(
-      'Can\'t load "GraphQLString". It can be server-only.'
-    );
+    expect(Darch.GraphQLString).toBe(undefined);
   });
 });
