@@ -574,7 +574,8 @@ export function createObjectType<
   return new ObjectType<DefinitionInput>(fields);
 }
 
-export { createObjectType as createDarchObject };
+export const createDarchObject = createObjectType;
+export const createSchema = createObjectType;
 
 type OmitDefinitionFields<T, Keys extends string> = T extends {
   [K: string]: any;
