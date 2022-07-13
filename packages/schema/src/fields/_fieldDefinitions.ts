@@ -42,7 +42,7 @@ export type FieldDefinitions = {
 
   email:
     | {
-        regex?: [string] | [string, string];
+        regex?: [string] | [string, string] | Readonly<[string] | [string, string]>;
       }
     | undefined;
 
@@ -68,7 +68,7 @@ export type FieldDefinitions = {
     | {
         min?: number;
         max?: number;
-        regex?: [string] | [string, string];
+        regex?: [string] | [string, string] | Readonly<[string] | [string, string]>;
       }
     | undefined;
 
