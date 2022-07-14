@@ -13,6 +13,7 @@ module.exports = {
   ],
   globals: { BigInt: true, console: true, WebAssembly: true },
   rules: {
+    'eslint-comments/no-unlimited-disable': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
     'eslint-comments/no-unused-disable': 'error',
