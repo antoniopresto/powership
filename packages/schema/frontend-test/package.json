@@ -4,14 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "analize": "ANALYZE=true next dev",
-    "build": "ANALYZE=true next build && next export ",
+    "analize": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
     "test": "jest"
   },
   "dependencies": {
-    "@darch/schema": "2.0.0-alpha.1656990860.58",
+    "@darch/schema": "2.0.0-alpha.69",
     "@next/bundle-analyzer": "12.2.0",
     "next": "12.1.6",
     "react": "18.1.0",

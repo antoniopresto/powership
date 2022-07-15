@@ -1,6 +1,5 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { getTypeName } from '@darch/utils/lib/getTypeName';
-import { inspectObject } from '@darch/utils/lib/inspectObject';
 import { Serializable } from '@darch/utils/lib/typeUtils';
 
 import { FieldType, FieldTypeParser } from './FieldType';
@@ -26,7 +25,7 @@ export class LiteralField<T extends Readonly<Serializable>> extends FieldType<
       if (typeof value === 'string') return value;
 
       try {
-        return inspectObject(value, { tabSize: 0, depth: 0 });
+        return JSON.stringify(value);
       } catch (e) {
         throw new RuntimeError(`Failed to serialize`, {
           //
@@ -37,7 +36,7 @@ export class LiteralField<T extends Readonly<Serializable>> extends FieldType<
     deserialize(def: LiteralFieldDef): any {
       const typename = getTypeName(def.value);
 
-      if (def['__o.proto__'] === typename) return def.value;
+      if (def[PROTO_KEY] === typename) return def.value;
 
       try {
         return JSON.parse(def.value);

@@ -1,6 +1,7 @@
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
+import { Darch } from '../../Darch';
 import { Infer } from '../../Infer';
 import { createObjectType, ObjectType } from '../../ObjectType';
 import { createType, GraphType } from '../GraphType';
@@ -235,7 +236,7 @@ describe('createType', () => {
   });
 
   it('should print typescript', async () => {
-    const ts = await ObjectType.createType('IntHem', 'int?').typescriptPrint();
+    const ts = await Darch.createType('IntHem', 'int?').typescriptPrint();
 
     expect(ts.split('\n')).toEqual([
       'export interface IntHem {',
@@ -244,7 +245,7 @@ describe('createType', () => {
       '',
     ]);
 
-    const tsObject = await ObjectType.createType('Person', {
+    const tsObject = await Darch.createType('Person', {
       object: { name: 'string' },
     }).typescriptPrint();
 

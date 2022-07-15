@@ -2,11 +2,12 @@
  * Used to represent an object as another object field
  */
 
+import { Darch } from '../Darch';
 import { Infer } from '../Infer';
 import type { ObjectType } from '../ObjectType';
-import type { ObjectDefinitionInput } from '../TObjectConfig';
 
 import { FieldType, FieldTypeParser, isFieldInstance } from './FieldType';
+import type { ObjectDefinitionInput } from './_parseFields';
 
 export class ObjectField<
   DefinitionInput extends ObjectDefinitionInput
@@ -25,7 +26,8 @@ export class ObjectField<
     super('object', def);
 
     this.utils = {
-      object: require('../ObjectType').createObjectType(def),
+      // @ts-ignore
+      object: Darch.createObjectType(def),
     };
 
     this.parse = this.applyParser({

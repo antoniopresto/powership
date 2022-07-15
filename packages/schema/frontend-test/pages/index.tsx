@@ -30,6 +30,8 @@ const Home: NextPage = () => {
 
   if (typeof window === 'object') {
     // @ts-ignore
+    window.Darch = Darch;
+    // @ts-ignore
     window.darchSchema = darchSchema;
   }
 

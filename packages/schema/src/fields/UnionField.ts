@@ -2,6 +2,7 @@ import { getTypeName } from '@darch/utils/lib/getTypeName';
 import { inspectObject } from '@darch/utils/lib/inspectObject';
 import { uniq } from '@darch/utils/lib/uniq';
 
+import { Darch } from '../Darch';
 import { Infer } from '../Infer';
 import type { FieldDefinitionConfig } from '../TObjectConfig';
 
@@ -25,7 +26,7 @@ export class UnionField<
   constructor(def: T) {
     super('union', def);
 
-    const { parseObjectField } = require('../parseObjectDefinition');
+    const { parseObjectField } = Darch;
 
     this.utils.fieldTypes = def.map((el, index) => {
       try {

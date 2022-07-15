@@ -1,7 +1,6 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { StrictMap } from '@darch/utils/lib/StrictMap';
 import { assertSame } from '@darch/utils/lib/assertSame';
-import { dynamicRequire } from '@darch/utils/lib/dynamicRequire';
 import { isProduction } from '@darch/utils/lib/env';
 import { Merge } from '@darch/utils/lib/typeUtils';
 import type {
@@ -10,6 +9,7 @@ import type {
   GraphQLNamedType,
 } from 'graphql';
 
+import { Darch } from '../Darch';
 import { Infer } from '../Infer';
 import { createObjectType, ObjectType } from '../ObjectType';
 import { FieldDefinitionConfig } from '../TObjectConfig';
@@ -120,7 +120,7 @@ export class GraphType<Definition> implements GraphTypeLike {
   };
 
   _toGraphQL = () => {
-    return ObjectType.serverUtils().graphqlParser.GraphQLParser.fieldToGraphQL({
+    return Darch.GraphQLParser.fieldToGraphQL({
       field: this.__field,
       path: [`Type_${this.id}`],
       plainField: this.__field.asFinalFieldDef,
@@ -153,11 +153,9 @@ export class GraphType<Definition> implements GraphTypeLike {
       );
     }
 
-    return ObjectType.serverUtils()
-      .graphqlParser.GraphQLParser.objectToGraphQL({
-        object: this._object,
-      })
-      .interfaceType(...args);
+    return Darch.GraphQLParser.objectToGraphQL({
+      object: this._object,
+    }).interfaceType(...args);
   };
 
   relations = {};
@@ -197,15 +195,13 @@ export class GraphType<Definition> implements GraphTypeLike {
       ...(options as any),
     };
 
-    const resolver = dynamicRequire('./createResolver', module).createResolver(
-      allOptions
-    );
+    const resolver = Darch.createResolver(allOptions);
 
     // registering relations to be added when creating graphql schema
     resolver.__isRelation = true;
     resolver.__relatedToGraphTypeId = this.id;
     object.addGraphQLMiddleware((hooks) => {
-      hooks.onFieldConfigMap.register(function (fields) {
+      hooks.onFieldConfigMap.register(function onFieldConfigMap(fields) {
         fields[name] = resolver;
       });
     });
@@ -217,7 +213,7 @@ export class GraphType<Definition> implements GraphTypeLike {
     const type = this.graphQLType();
     const inputType = this.graphQLInputType();
 
-    const { GraphQLSchema, printSchema } = ObjectType.serverUtils().graphql;
+    const { GraphQLSchema, printSchema } = Darch.graphql;
 
     const object = new GraphQLSchema({
       // @ts-ignore
@@ -236,11 +232,7 @@ export class GraphType<Definition> implements GraphTypeLike {
         [this.id]: this.definition,
       });
 
-    return ObjectType.serverUtils().objectToTypescript.objectToTypescript(
-      options?.name || this.id,
-      object,
-      options
-    );
+    return Darch.objectToTypescript(options?.name || this.id, object, options);
   };
 
   createResolver = <
@@ -250,7 +242,7 @@ export class GraphType<Definition> implements GraphTypeLike {
       Omit<ResolverConfig<any, any, Definition, ArgsDef>, 'type'>
     >
   ): Resolver<any, any, Definition, ArgsDef> => {
-    return dynamicRequire('./createResolver', module).createResolver({
+    return Darch.createResolver({
       type: this,
       ...options,
     } as any);

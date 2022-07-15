@@ -1,6 +1,7 @@
 import { expectedType } from '@darch/utils/lib/expectedType';
 import { inspectObject } from '@darch/utils/lib/inspectObject';
 
+import { Darch } from '../Darch';
 import { Infer } from '../Infer';
 import type { FieldDefinitionConfig } from '../TObjectConfig';
 
@@ -37,7 +38,7 @@ export class RecordField<Def extends RecordFieldDef> extends FieldType<
   constructor(def: Def = { keyType: 'string', type: 'any' } as any) {
     super('record', def);
 
-    const { parseObjectField } = require('../parseObjectDefinition');
+    const { parseObjectField } = Darch;
 
     let parser: TAnyFieldType;
     try {
@@ -57,7 +58,7 @@ export class RecordField<Def extends RecordFieldDef> extends FieldType<
         throw new Error(`keyType should be on of ${validKeyTypes}`);
       }
 
-      keyParser = parseObjectField('RecordFieldKey', def.keyType, true);
+      keyParser = parseObjectField('RecordFieldKey', def.keyType!, true);
     } catch (e: any) {
       e.message = `RecordField: failed to create parser for record keys: ${
         e.message

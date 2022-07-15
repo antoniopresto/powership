@@ -1,3 +1,4 @@
+import { Darch } from '../Darch';
 import type { ObjectType } from '../ObjectType';
 
 import { FieldType, FieldTypeParser } from './FieldType';
@@ -51,7 +52,7 @@ let cursorObject: ObjectType<CursorDef> | undefined;
 
 function getCursorObject() {
   // circular dependency
-  const { createObjectType } = require('../ObjectType');
+  const { createObjectType } = Darch.ObjectType;
   cursorObject = cursorObject || createObjectType('Cursor', def);
   return cursorObject;
 }

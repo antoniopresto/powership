@@ -1,6 +1,7 @@
 import * as fs from 'fs-extra';
 
-import { ObjectType, parseFieldDefinitionConfig } from '../ObjectType';
+import { Darch } from '../Darch';
+import { parseFieldDefinitionConfig } from '../ObjectType';
 import {
   GraphQLSchemaWithUtils,
   resolversTypescriptParts,
@@ -9,10 +10,6 @@ import {
 import { getSchemaQueryExamples } from './getQueryExamples';
 
 export async function generateClientUtils(schema: GraphQLSchemaWithUtils) {
-  const {
-    prettier: { format },
-  } = ObjectType.serverUtils();
-
   const [tsParts, queryExamples] = await Promise.all([
     resolversTypescriptParts({
       name: 'GraphQLInterfaces',
@@ -130,7 +127,7 @@ export async function generateClientUtils(schema: GraphQLSchemaWithUtils) {
     helpersText,
   ].join('\n');
 
-  return format(result, {
+  return Darch.prettier.format(result, {
     parser: 'typescript',
     singleQuote: true,
   });

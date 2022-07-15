@@ -82,7 +82,7 @@ describe('LiteralField', () => {
               a: 123,
             },
           },
-          tsType: '{\n  "value": {\n    "a": 123\n  }\n}',
+          tsType: '{"value":{"a":123}}',
         },
       },
       required: ['valid'],
@@ -106,11 +106,7 @@ describe('LiteralField', () => {
 
     expect(ts.split('\n')).toEqual([
       'export interface Values {',
-      '  valid: {',
-      '    value: {',
-      '      a: 123;',
-      '    };',
-      '  };',
+      '  valid: {value: {a: 123}};',
       '}',
       '',
     ]);
@@ -149,7 +145,7 @@ describe('LiteralField', () => {
       '}',
       '',
       '"""',
-      '"Literal value: {\\n  \\"a\\": 123\\n}"',
+      '"Literal value: {\\"a\\":123}"',
       '"""',
       'scalar Value_valid',
     ]);

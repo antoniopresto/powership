@@ -1,6 +1,5 @@
 import { getByPath } from '@darch/utils/lib/getByPath';
 import { hashString } from '@darch/utils/lib/hashString';
-import { prettify } from '@darch/utils/lib/prettify';
 import {
   GraphQLArgument,
   GraphQLField,
@@ -12,6 +11,7 @@ import {
   isUnionType,
 } from 'graphql';
 
+import { Darch } from '../Darch';
 import { ResolverKind, resolverKinds } from '../createGraphQLSchema';
 import { LiteralField } from '../fields/LitarealField';
 
@@ -606,10 +606,8 @@ function prettifyQuery(
   value = value.trim();
 
   try {
-    value = prettify({
-      code: isMainQuery ? value : `{${value}}`,
+    value = Darch.prettier.format(isMainQuery ? value : `{${value}}`, {
       parser: 'graphql',
-      singleAttributePerLine: true,
       printWidth: 120,
     });
   } catch (e: any) {

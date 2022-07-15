@@ -1979,6 +1979,11 @@ graceful-fs@^4.1.2, graceful-fs@^4.2.4:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.8.tgz#e412b8d33f5e006593cbd3cee6df9f2cebbe802a"
   integrity sha512-qkIilPUYcNhJpd33n0GBXTB1MMPp14TxEsEs0pTrsSVucApsYzW5V+Q8Qxhik6KU3evy+qkAAowTByymK0avdg==
 
+graphql@^16.5.0:
+  version "16.5.0"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.5.0.tgz#41b5c1182eaac7f3d47164fb247f61e4dfb69c85"
+  integrity sha512-qbHgh8Ix+j/qY+a/ZcJnFQ+j8ezakqPiHwPiZhV/3PgGlgf96QMBB5/f2rkiC9sgLoy/xvT6TSiaf2nTHJh5iA==
+
 has-bigints@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/has-bigints/-/has-bigints-1.0.1.tgz#64fe6acb020673e3b78db035a5af69aa9d07b113"
@@ -3348,10 +3353,10 @@ pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
-plugin-hooks@1.0.0-rc1:
-  version "1.0.0-rc1"
-  resolved "https://registry.yarnpkg.com/plugin-hooks/-/plugin-hooks-1.0.0-rc1.tgz#d1fa5531f963740cdde8dd685ff53072a0710d20"
-  integrity sha512-n1Y9h+i1CjRxnFoNucaL9jM1aYW7MXiiZYWR3kzYOwUOT3Wn/MIpOdcABWEAM9JS1u6oG466YWpOTbGASlef/g==
+plugin-hooks@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/plugin-hooks/-/plugin-hooks-1.1.1.tgz#f17c63fd88fd324086934c8e0ddd03f03ef6d1b8"
+  integrity sha512-2h5y9bIgd8o6ngbCEHBRoLV3OUP32PQ0k6CLwJoPlBDXKg++Vgy7/hqmIEd8WRCZQbrGZVgOa7CxqAPe5UAK2Q==
 
 prelude-ls@^1.2.1:
   version "1.2.1"

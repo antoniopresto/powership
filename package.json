@@ -8,7 +8,7 @@
     "fix": "lerna run fix",
     "minor-commit": "git add -A && git commit -m 'minor'",
     "minor": "run-s minor-commit alpha",
-    "alpha": "lerna publish --force-publish --yes --no-verify-access --conventional-graduate --dist-tag next --canary --no-push --preid=alpha.$(date +%s)"
+    "alpha": "lerna publish --force-publish --yes --no-verify-access --conventional-graduate --dist-tag next --canary --no-push --preid=alpha"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "4.15.2",

@@ -1,23 +1,22 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { StrictMap } from '@darch/utils/lib/StrictMap';
-import { dynamicRequire } from '@darch/utils/lib/dynamicRequire';
 import { ensureArray } from '@darch/utils/lib/ensureArray';
 import { isProduction } from '@darch/utils/lib/env';
 import { expectedType } from '@darch/utils/lib/expectedType';
 import { getTypeName } from '@darch/utils/lib/getTypeName';
 import { invariantType } from '@darch/utils/lib/invariant';
-import { isBrowser } from '@darch/utils/lib/isBrowser';
 import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 import { ForceString, Serializable } from '@darch/utils/lib/typeUtils';
 import type { GraphQLInterfaceType, GraphQLObjectType } from 'graphql';
 
+import { Darch } from './Darch';
 import type {
+  GraphQLParserResult,
   ParseInputTypeOptions,
   ParseTypeOptions,
 } from './GraphType/GraphQLParser';
 import type { ParseInterfaceOptions } from './GraphType/GraphQLParser';
 import { GraphQLParseMiddleware } from './GraphType/GraphQLParser';
-import type { GraphType } from './GraphType/GraphType';
 import type { Infer } from './Infer';
 import type { ObjectDefinitionInput } from './TObjectConfig';
 import {
@@ -390,11 +389,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
     return this.__withCache('helpers', () => getObjectHelpers(this));
   };
 
-  toGraphQL = (name?: string) => {
-    if (isBrowser() || typeof module?.require !== 'function') {
-      throw new Error('GraphQL transformation is not available in browser.');
-    }
-
+  toGraphQL = (name?: string): GraphQLParserResult => {
     if (name) {
       this.identify(name);
     }
@@ -407,7 +402,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
       );
     }
 
-    const { GraphQLParser } = ObjectType.serverUtils().graphqlParser;
+    const { GraphQLParser } = Darch.GraphQLParser;
 
     return GraphQLParser.objectToGraphQL({
       object: this,
@@ -429,11 +424,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
   };
 
   typescriptPrint = (options?: ObjectToTypescriptOptions): Promise<string> => {
-    return ObjectType.serverUtils().objectToTypescript.objectToTypescript(
-      this.nonNullId,
-      this,
-      options
-    );
+    return Darch.objectToTypescript(this.nonNullId, this, options);
   };
 
   graphqlTypeToString = (): string => {
@@ -451,43 +442,12 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
     return implementObject(name, this.definition as any, ...parents);
   };
 
-  static serverUtils() {
-    if (isBrowser() || typeof module?.require !== 'function') {
-      throw new Error('Server utils are not available on browser.');
-    }
-
-    return {
-      graphql: dynamicRequire('graphql', module) as typeof import('graphql'),
-
-      graphqlParser: dynamicRequire(
-        './GraphType/GraphQLParser',
-        module
-      ) as typeof import('./GraphType/GraphQLParser'),
-
-      GraphType: dynamicRequire(
-        './GraphType/GraphType',
-        module
-      ) as typeof import('./GraphType/GraphType'),
-
-      objectToTypescript: dynamicRequire(
-        './objectToTypescript',
-        module
-      ) as typeof import('./objectToTypescript'),
-
-      prettier: dynamicRequire('prettier', module) as typeof import('prettier'),
-    };
-  }
-
   static async reset() {
     const promises: any[] = [];
 
     if (typeof window === 'undefined') {
-      const { graphqlParser, GraphType } = ObjectType.serverUtils();
-
-      promises.push(
-        graphqlParser.GraphQLParser.reset(),
-        GraphType.GraphType.reset()
-      );
+      const { GraphQLParser, GraphType } = Darch;
+      promises.push(GraphQLParser.reset(), GraphType.reset());
     }
 
     promises.push(ObjectType.register.clear());
@@ -518,22 +478,6 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
 
     return new ObjectType<T>(def).identify(id);
   };
-
-  static createType<Definition extends ObjectFieldInput>(
-    definition: Definition
-  ): GraphType<Definition>;
-
-  static createType<Definition extends ObjectFieldInput>(
-    name: string,
-    definition: Definition
-  ): GraphType<Definition>;
-
-  static createType(...args: any) {
-    return ObjectType.serverUtils().GraphType.createType(
-      // @ts-ignore
-      ...args
-    );
-  }
 
   graphQLMiddleware: GraphQLParseMiddleware[] = [];
 

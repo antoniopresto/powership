@@ -3,6 +3,7 @@ import type { GraphQLSchemaConfig } from 'graphql';
 import { GraphQLObjectType, printSchema } from 'graphql';
 import groupBy from 'lodash/groupBy';
 
+import { Darch } from './Darch';
 import { GraphType } from './GraphType/GraphType';
 import { AnyResolver } from './GraphType/createResolver';
 import { generateClientUtils } from './GraphType/generateClientUtils';
@@ -11,11 +12,7 @@ import {
   getSchemaQueryExamples,
   SchemaQueryExamplesResult,
 } from './GraphType/getQueryExamples';
-import {
-  DarchObject,
-  ObjectType,
-  parseFieldDefinitionConfig,
-} from './ObjectType';
+import { parseFieldDefinitionConfig } from './ObjectType';
 import { clearMetaField } from './fields/MetaFieldField';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
 
@@ -54,9 +51,9 @@ export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
   const {
     graphql: { GraphQLSchema },
     GraphType,
-  } = ObjectType.serverUtils();
+  } = Darch;
 
-  const registeredResolvers = [...GraphType.GraphType.resolvers.values()];
+  const registeredResolvers = [...GraphType.resolvers.values()];
 
   let resolvers: AnyResolver[] = Array.isArray(args[0])
     ? args[0]
@@ -219,7 +216,7 @@ export async function resolversTypescriptParts(
       .replace(/\n\n/gm, '\n') // remove multi line breaks
       .replace(/^\n/gm, ''); // remove empty lines
 
-  code = DarchObject.serverUtils().prettier.format(code, {
+  code = Darch.prettier.format(code, {
     parser: 'typescript',
   });
 
@@ -232,12 +229,10 @@ export async function resolversToTypescript(
   const { options = {} } = params;
   const { format = true } = options;
 
-  const { prettier } = ObjectType.serverUtils();
-
   const { code } = await resolversTypescriptParts(params);
 
   return format
-    ? prettier.format(code, { parser: 'typescript', printWidth: 100 })
+    ? Darch.prettier.format(code, { parser: 'typescript', printWidth: 100 })
     : code;
 }
 
@@ -304,13 +299,12 @@ async function convertType(options: {
   kind: 'input' | 'output';
 }) {
   const { entryName, type, kind } = options;
-  const { objectToTypescript } = ObjectType.serverUtils();
 
   const parsed = parseFieldDefinitionConfig(type);
 
   const { description } = parsed;
 
-  const result = await objectToTypescript.objectToTypescript(
+  const result = await Darch.objectToTypescript(
     entryName,
     {
       __CONVERT__REPLACE__: {
