@@ -2,6 +2,9 @@ import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { dynamicRequire } from '@darch/utils/lib/dynamicRequire';
 import { isBrowser } from '@darch/utils/lib/isBrowser';
 
+import { fieldTypeNames } from './fields/fieldTypeNames';
+import type { FieldCreators } from './fields/fieldTypes';
+
 const nodeModule = typeof module !== undefined ? module : undefined;
 
 function getModules() {
@@ -144,7 +147,7 @@ type Caramelo<P> = {
   [K in AllKeys<P>]: K extends keyof SubProps<P, K> ? SubProps<P, K>[K] : never;
 };
 
-export type DarchModules = Exports & Caramelo<Exports>;
+export type DarchModules = Exports & Caramelo<Exports> & FieldCreators;
 
 const cache = new Map();
 
@@ -190,6 +193,13 @@ function get(key: string) {
     });
 
     cache.set(key, mainModule);
+  });
+
+  const fieldTypes = modules.fieldTypes.module();
+
+  fieldTypeNames.forEach((key) => {
+    const creator = fieldTypes.create[key];
+    cache.set(key, creator);
   });
 
   return cache.get(key);

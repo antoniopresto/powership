@@ -52,6 +52,22 @@ export const types = createConstructors({
   literal: LiteralField,
 });
 
+export type Types = typeof types;
+
+export type FieldCreators = Readonly<{
+  [K in FieldTypeName]: Types[K]['create'];
+}>;
+
+export const create: FieldCreators = Object.entries(types).reduce(
+  (acc, [key, { create }]) => {
+    return {
+      ...acc,
+      [key]: create,
+    };
+  },
+  {} as FieldCreators
+);
+
 function _isFieldTypeName(t: any): t is FieldTypeName {
   return typeof t === 'string' && types[t];
 }

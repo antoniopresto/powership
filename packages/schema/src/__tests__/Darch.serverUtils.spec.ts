@@ -3,8 +3,33 @@ import { assert, IsExact } from 'conditional-type-checks';
 import { Darch } from '../Darch';
 import { Infer } from '../Infer';
 
-describe('Darch.serverUtils', () => {
+describe('Darch aliases', () => {
   afterEach(Darch.DarchObject.reset);
+
+  test('type creators', async () => {
+    expect(Darch.enum(['m']).definition).toEqual({
+      def: ['m'],
+      list: false,
+      optional: false,
+      type: 'enum',
+    });
+
+    expect(
+      Darch.object({
+        name: { string: {}, defaultValue: 'Antonio' },
+      }).definition
+    ).toEqual({
+      def: {
+        name: {
+          defaultValue: 'Antonio',
+          string: {},
+        },
+      },
+      list: false,
+      optional: false,
+      type: 'object',
+    });
+  });
 
   test('createResolver', () => {
     const sut = Darch.createResolver;

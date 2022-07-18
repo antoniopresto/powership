@@ -17,6 +17,10 @@ export abstract class FieldType<Type, TypeName extends string, Def> {
   readonly __fieldTypeClassInfer!: Type;
   readonly def: Def;
 
+  get definition() {
+    return this.asFinalFieldDef;
+  }
+
   id?: string;
 
   protected constructor(typeName: TypeName, def: Def, id?: string) {

@@ -7,6 +7,10 @@ export class EnumField<
   //
   parse: FieldTypeParser<T[number]>;
 
+  get value(): T {
+    return this.def;
+  }
+
   constructor(def: T) {
     super('enum', def);
 
