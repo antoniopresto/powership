@@ -4,6 +4,7 @@ import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 import { Darch } from '../../Darch';
 import { Infer } from '../../Infer';
 import { createObjectType, ObjectType } from '../../ObjectType';
+import { objectMetaFieldKey } from '../../fields/MetaFieldField';
 import { createType, GraphType } from '../GraphType';
 
 describe('createType', () => {
@@ -47,6 +48,55 @@ describe('createType', () => {
     expect(sut.definition.type).toEqual('object');
 
     expect(ObjectType.register.get(name)).toBeTruthy();
+  });
+
+  test('clone', async () => {
+    const sut = new GraphType('User', {
+      object: {
+        name: 'string',
+        age: 'int?',
+      },
+    } as const);
+
+    const Urso = sut.clone('Urso');
+
+    expect({ ...Urso.definition.def, [objectMetaFieldKey]: 1 }).toEqual({
+      ...sut.definition.def,
+      [objectMetaFieldKey]: 1,
+    });
+
+    const monkey = Urso.clone('monkey', {
+      jumps: 'boolean',
+    });
+
+    expect(monkey.definition).toEqual({
+      def: {
+        __dschm__: {
+          def: {
+            id: 'monkey',
+          },
+          type: 'meta',
+        },
+        age: {
+          list: false,
+          optional: true,
+          type: 'int',
+        },
+        jumps: {
+          list: false,
+          optional: false,
+          type: 'boolean',
+        },
+        name: {
+          list: false,
+          optional: false,
+          type: 'string',
+        },
+      },
+      list: false,
+      optional: false,
+      type: 'object',
+    });
   });
 
   it('should reuse object', async () => {

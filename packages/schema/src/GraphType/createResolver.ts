@@ -28,16 +28,16 @@ export function createResolver<
     return GraphType.resolvers.get(name);
   }
 
-  const payloadType = GraphType.is(type)
+  const payloadType = (GraphType.is(type)
     ? type
-    : createType(`${name}Payload`, type);
+    : createType(`${name}Payload`, type)) as unknown as GraphType<any>;
 
   const gqlType = payloadType.graphQLType();
 
   const argsType = createType(
     `${name}Input`,
     isPossibleArgsDef(args) ? { object: args } : 'record'
-  );
+  ) as unknown as GraphType<any>;
 
   const argsGQLType = argsType.graphQLInputType({ name: `${name}Input` });
   const innerArgsGQLType = getInnerType(argsGQLType);
@@ -144,8 +144,8 @@ export interface Resolver<Context, Source, TypeDef, ArgsDef>
   // keep calm ts
   typeDef: any;
   argsDef: any;
-  payloadType: { id: string; [K: string]: any };
-  argsType: { id: string; [K: string]: any };
+  payloadType: GraphType<any>;
+  argsType: GraphType<any>;
   type: any;
   args: any;
 

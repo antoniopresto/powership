@@ -48,6 +48,18 @@ export class GraphType<Definition> implements GraphTypeLike {
   readonly id: string;
   readonly _object: ObjectType<any> | undefined;
 
+  clone<Ext extends ObjectDefinitionInput>(
+    name: string,
+    extend?: Ext
+  ): ToFinalField<Definition>['type'] extends 'object'
+    ? GraphType<{ object: ToFinalField<Definition>['def'] & Ext }>
+    : GraphType<Definition> {
+    if (this._object) {
+      return createType(this._object.clone((extend as any) || {}, name)) as any;
+    }
+    return createType(name, this.definition) as any;
+  }
+
   constructor(
     definition: Definition extends ObjectFieldInput ? Definition : never
   );
