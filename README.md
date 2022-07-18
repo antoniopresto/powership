@@ -1,5 +1,7 @@
 # Darch
 
+> ⚠️ This is the V2 branch, for V1 see the branch `v1`
+
 Work in progress™️.
 
 Detachable application architecture. <br />
