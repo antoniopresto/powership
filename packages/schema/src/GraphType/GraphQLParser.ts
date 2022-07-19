@@ -104,6 +104,17 @@ const resultsCache = new StrictMap<string, GraphQLParserResult>();
 const graphqlTypesRegister = new StrictMap<string, any>();
 const fieldsRegister = new StrictMap<string, ConvertFieldResult>();
 
+function wrapCreation(name: string, create: (...args: any[]) => any) {
+  return function creator(...args) {
+    if (graphqlTypesRegister.has(name)) {
+      return graphqlTypesRegister.get(name);
+    }
+    const result = create(...args);
+    graphqlTypesRegister.set(name, result);
+    return graphqlTypesRegister.get(name);
+  };
+}
+
 export class GraphQLParser {
   static resultsCache = resultsCache;
   static graphqlTypesRegister = graphqlTypesRegister;
@@ -377,12 +388,18 @@ export class GraphQLParser {
         return { inputType: () => GraphQLID, type: () => GraphQLID };
       },
       undefined() {
-        const res = new GraphQLScalarType({ name: 'Undefined' });
-        return { inputType: () => res, type: () => res };
+        const create = wrapCreation(
+          'Undefined',
+          () => new GraphQLScalarType({ name: 'Undefined' })
+        );
+        return { inputType: create, type: create };
       },
       any() {
-        const res = new GraphQLScalarType({ name: 'Any' });
-        return { inputType: () => res, type: () => res };
+        const create = wrapCreation(
+          'Any',
+          () => new GraphQLScalarType({ name: 'Any' })
+        );
+        return { inputType: create, type: create };
       },
       cursor(): any {
         const cursor = field as CursorField;
@@ -418,7 +435,10 @@ export class GraphQLParser {
           });
         }
 
-        return { inputType: createEnum, type: createEnum };
+        return {
+          inputType: wrapCreation(subTypeName, createEnum),
+          type: wrapCreation(subTypeName, createEnum),
+        };
       },
       float() {
         return { inputType: () => GraphQLFloat, type: () => GraphQLFloat };
@@ -493,18 +513,18 @@ export class GraphQLParser {
               { field: [...path, subTypeName].join(' > ') }
             );
           },
-          type: createUnion,
+          type: wrapCreation(subTypeName, createUnion),
         };
       },
 
       record() {
-        function createRecord(options: any) {
-          const recordName = parseTypeName({
-            parentName,
-            field,
-            fieldName,
-          });
+        const recordName = parseTypeName({
+          parentName,
+          field,
+          fieldName,
+        });
 
+        function createRecord(options: any) {
           return new GraphQLScalarType({
             ...options,
 
@@ -539,20 +559,23 @@ export class GraphQLParser {
           });
         }
 
-        return { inputType: createRecord, type: createRecord };
+        return {
+          inputType: wrapCreation(recordName, createRecord),
+          type: wrapCreation(recordName, createRecord),
+        };
       },
 
       literal() {
         if (!LiteralField.is(field)) throw new Error('ts');
         const { description, def } = field;
 
-        function createLiteral(options: any) {
-          const recordName = parseTypeName({
-            parentName,
-            field,
-            fieldName,
-          });
+        const recordName = parseTypeName({
+          parentName,
+          field,
+          fieldName,
+        });
 
+        function createLiteral(options: any) {
           return new GraphQLScalarType<'internal', 'external'>({
             ...options,
 
@@ -578,7 +601,10 @@ export class GraphQLParser {
           });
         }
 
-        return { inputType: createLiteral, type: createLiteral };
+        return {
+          inputType: wrapCreation(recordName, createLiteral),
+          type: wrapCreation(recordName, createLiteral),
+        };
       },
     };
 
