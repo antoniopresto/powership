@@ -14,11 +14,6 @@ describe('GraphType', () => {
       subject: string;
     };
 
-    type TUser = {
-      id: string;
-      name: string;
-    };
-
     const UserType = createType('User', {
       object: {
         name: { string: {}, description: 'the user name' },
@@ -39,7 +34,8 @@ describe('GraphType', () => {
       type: { type: UserType },
 
       async resolve(root) {
-        assert<IsExact<typeof root, TEmail>>(true);
+        // unknown for TS relief
+        assert<IsExact<typeof root, unknown>>(true);
 
         return {
           id: '123',
@@ -56,7 +52,8 @@ describe('GraphType', () => {
       },
 
       async resolve(parent) {
-        assert<IsExact<typeof parent, TUser>>(true);
+        // unknown for TS relief
+        assert<IsExact<typeof parent, unknown>>(true);
 
         return [];
       },

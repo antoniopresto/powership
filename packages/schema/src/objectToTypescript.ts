@@ -25,7 +25,7 @@ export async function objectToTypescript(
   name: string,
   object: ObjectLike | ObjectDefinitionInput,
   options?: ObjectToTypescriptOptions
-) {
+): Promise<string> {
   const {
     bannerComment = defaultBannerComment,
     format = true,
@@ -40,5 +40,5 @@ export async function objectToTypescript(
     format,
     unreachableDefinitions,
     strictIndexSignatures,
-  });
+  }) as any;
 }

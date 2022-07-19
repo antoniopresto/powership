@@ -1,4 +1,5 @@
 import { getTypeName } from '@darch/utils/lib/getTypeName';
+import { TypeLike } from '@darch/utils/lib/typeUtils';
 
 import {
   FieldTypeParser,
@@ -6,10 +7,10 @@ import {
   ValidationCustomMessage,
 } from '../applyValidator';
 
-import type { FieldTypeName } from './_fieldDefinitions';
+import { FinalFieldDefinition } from './_parseFields';
 export * from '../applyValidator';
 
-export type TAnyFieldType = FieldType<any, FieldTypeName, any>;
+export type TAnyFieldType = TypeLike<FieldType<any, any, any>>;
 
 export abstract class FieldType<Type, TypeName extends string, Def> {
   readonly typeName: TypeName;
@@ -51,7 +52,7 @@ export abstract class FieldType<Type, TypeName extends string, Def> {
 
   describe = (description: string): this => {
     this.description = description;
-    return this;
+    return this as any;
   };
 
   toOptional(): this & { optional: true } {
@@ -116,7 +117,7 @@ export abstract class FieldType<Type, TypeName extends string, Def> {
     };
   };
 
-  get asFinalFieldDef() {
+  get asFinalFieldDef(): FinalFieldDefinition {
     return {
       type: this.type,
       def: this.def,
@@ -124,7 +125,7 @@ export abstract class FieldType<Type, TypeName extends string, Def> {
       optional: this.optional,
       description: this.description,
       defaultValue: this.defaultValue,
-    };
+    } as any;
   }
 
   abstract parse: FieldTypeParser<Type>;

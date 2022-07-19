@@ -89,7 +89,7 @@ export class UnionField<
     T extends Readonly<[U, ...U[]]>
   >(
     def: T
-  ): FieldType<Infer<T[number]>, 'union', T> => {
-    return new UnionField(def);
+  ): UnionField<U, T> => {
+    return new UnionField(def) as any;
   };
 }

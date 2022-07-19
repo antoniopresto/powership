@@ -6,7 +6,11 @@ import { expectedType } from '@darch/utils/lib/expectedType';
 import { getTypeName } from '@darch/utils/lib/getTypeName';
 import { invariantType } from '@darch/utils/lib/invariant';
 import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
-import { ForceString, Serializable } from '@darch/utils/lib/typeUtils';
+import {
+  ForceString,
+  Serializable,
+  TypeLike,
+} from '@darch/utils/lib/typeUtils';
 import type { GraphQLInterfaceType, GraphQLObjectType } from 'graphql';
 
 import { Darch } from './Darch';
@@ -50,6 +54,8 @@ export { RuntimeError } from '@darch/utils/lib/RuntimeError';
 export * from './parseObjectDefinition';
 export * from './objectInferenceUtils';
 export * from './implementObject';
+
+export type AnyObjectType = TypeLike<typeof ObjectType['prototype']>;
 
 export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
   get __isDarchObject(): true {
@@ -206,7 +212,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
   ): ObjectType<DefinitionInput> {
     if (descriptions.length === 1 && typeof descriptions[0] === 'string') {
       this.__setMetaData('description', descriptions[0]);
-      return this;
+      return this as any;
     }
 
     const commentsConfig = descriptions[0];
@@ -224,7 +230,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
       definition[name].description = comment || '';
     });
 
-    return this;
+    return this as any;
   }
 
   removeField<K extends ForceString<keyof DefinitionInput>>(
@@ -401,8 +407,9 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
         { 'used definition': this.definition }
       );
     }
-
-    const { GraphQLParser } = Darch.GraphQLParser;
+  
+    // @ts-ignore circular
+    const { GraphQLParser } = Darch.GraphQLParser as any;
 
     return GraphQLParser.objectToGraphQL({
       object: this,
@@ -424,7 +431,8 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
   };
 
   typescriptPrint = (options?: ObjectToTypescriptOptions): Promise<string> => {
-    return Darch.objectToTypescript(this.nonNullId, this, options);
+    // @ts-ignore circular
+    return Darch.objectToTypescript(this.nonNullId, this, options) as any;
   };
 
   graphqlTypeToString = (): string => {

@@ -107,10 +107,12 @@ type InferArgs<ArgsDef> = InferField<
   }>
 >;
 
+export type ResolverKind = 'query' | 'mutation' | 'subscription';
+
 export interface ResolverConfig<Context, Source, TypeDef, ArgsDef>
   extends Omit<GraphQLFieldConfig<any, any>, 'resolve' | 'args' | 'type'> {
   name: string;
-  kind?: 'query' | 'mutation' | 'subscription';
+  kind?: ResolverKind;
   args?: ArgsDef;
   type: TypeDef;
 
@@ -122,7 +124,23 @@ export interface ResolverConfig<Context, Source, TypeDef, ArgsDef>
   ): Infer<ToFinalField<TypeDef>> | Promise<Infer<ToFinalField<TypeDef>>>;
 }
 
-export type AnyResolver = Resolver<any, any, any, {}>;
+export interface AnyResolver
+  extends Omit<GraphQLFieldConfig<any, any>, 'args' | 'type'> {
+  name: string;
+  kind: ResolverKind;
+  typeDef: any;
+  argsDef: any;
+  payloadType: GraphType<any>;
+  argsType: GraphType<any>;
+  type: any;
+  args: any;
+  asObjectField(name?: string): GraphQLField<any, any>;
+  resolve(root: any, args: any, context: any, info: any): any;
+  __isResolver: true;
+  __isRelation: boolean;
+  __relatedToGraphTypeId: string;
+  __graphTypeId: string;
+}
 
 export interface Resolver<Context, Source, TypeDef, ArgsDef>
   extends Omit<GraphQLFieldConfig<any, any>, 'resolve' | 'args' | 'type'> {

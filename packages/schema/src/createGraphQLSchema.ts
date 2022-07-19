@@ -215,10 +215,11 @@ export async function resolversTypescriptParts(
     `${prefix}\n${typesCode}\n${interfaceCode}}\n${queryCode}}\n${mutationCode}}\n${subscriptionCode}}\n`
       .replace(/\n\n/gm, '\n') // remove multi line breaks
       .replace(/^\n/gm, ''); // remove empty lines
-
+  
+  // @ts-ignore circular
   code = Darch.prettier.format(code, {
     parser: 'typescript',
-  });
+  }) as any;
 
   return { code, lines };
 }
@@ -232,7 +233,8 @@ export async function resolversToTypescript(
   const { code } = await resolversTypescriptParts(params);
 
   return format
-    ? Darch.prettier.format(code, { parser: 'typescript', printWidth: 100 })
+    // @ts-ignore circular
+    ? Darch.prettier.format(code, { parser: 'typescript', printWidth: 100 }) as any
     : code;
 }
 
@@ -303,7 +305,8 @@ async function convertType(options: {
   const parsed = parseFieldDefinitionConfig(type);
 
   const { description } = parsed;
-
+  
+  // @ts-ignore circular
   const result = await Darch.objectToTypescript(
     entryName,
     {
@@ -317,7 +320,7 @@ async function convertType(options: {
       format: false,
       ignoreDefaultValues: kind !== 'input',
     }
-  );
+  ) as any;
 
   let code = result
     .split('\n')

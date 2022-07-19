@@ -150,3 +150,17 @@ export type ObjectDotNotations<
         : never; // not string (never))
     }[keyof Obj]
   : never;
+
+export type TypeLike<T, Level extends ReadonlyArray<number> = [0]> = T extends {
+  [K: string]: any;
+}
+  ? {
+      [K in keyof T]: T[K] extends { [K: string]: any }
+        ? Level['length'] extends 2
+          ? any
+          : T[K] extends AnyFunction
+          ? AnyFunction
+          : TypeLike<T[K], [...Level, 0]>
+        : any;
+    }
+  : any;

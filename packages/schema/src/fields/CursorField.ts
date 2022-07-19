@@ -52,7 +52,7 @@ let cursorObject: ObjectType<CursorDef> | undefined;
 
 function getCursorObject() {
   // circular dependency
-  const { createObjectType } = Darch.ObjectType;
+  const { createObjectType } = Darch.ObjectType as any;
   cursorObject = cursorObject || createObjectType('Cursor', def);
   return cursorObject;
 }

@@ -1,8 +1,22 @@
-import { RuntimeError } from './RuntimeError';
+import { assertTypes } from './expectedType';
+import { isBrowser } from './isBrowser';
 
 export function textToBase64(text: string) {
-  if (typeof text !== 'string') {
-    throw new RuntimeError('textToBase64: invalid text input', { text });
+  assertTypes({ text }, 'string');
+
+  if (isBrowser()) {
+    return window.atob(text);
   }
+
   return Buffer.from(text).toString('base64');
+}
+
+export function base64ToText(text: string) {
+  assertTypes({ text }, 'string');
+
+  if (isBrowser()) {
+    return window.btoa(text);
+  }
+
+  return Buffer.from(text, 'base64');
 }

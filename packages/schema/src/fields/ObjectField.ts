@@ -2,23 +2,27 @@
  * Used to represent an object as another object field
  */
 
+import { TypeLike } from '@darch/utils/lib/typeUtils';
+
 import { Darch } from '../Darch';
-import { Infer } from '../Infer';
-import type { ObjectType } from '../ObjectType';
+import type { AnyObjectType } from '../ObjectType';
 
 import { FieldType, FieldTypeParser, isFieldInstance } from './FieldType';
-import type { ObjectDefinitionInput } from './_parseFields';
 
-export class ObjectField<
-  DefinitionInput extends ObjectDefinitionInput
-> extends FieldType<Infer<DefinitionInput>, 'object', DefinitionInput> {
-  parse: FieldTypeParser<Infer<DefinitionInput>>;
+type AnyObjectField = TypeLike<typeof ObjectField['prototype']>;
+
+export class ObjectField<DefinitionInput> extends FieldType<
+  unknown,
+  'object',
+  DefinitionInput
+> {
+  parse: FieldTypeParser<unknown>;
 
   utils: {
-    object: ObjectType<DefinitionInput>;
+    object: AnyObjectType;
   };
 
-  static is(t: any): t is ObjectField<any> {
+  static is(t: any): t is AnyObjectField {
     return isFieldInstance(t) && t.typeName === 'object';
   }
 
@@ -26,8 +30,8 @@ export class ObjectField<
     super('object', def);
 
     this.utils = {
-      // @ts-ignore
-      object: Darch.createObjectType(def),
+      // @ts-ignore circular
+      object: Darch.createObjectType(def as any) as any,
     };
 
     this.parse = this.applyParser({
@@ -37,9 +41,7 @@ export class ObjectField<
     });
   }
 
-  static create = <DefinitionInput extends ObjectDefinitionInput>(
-    def: DefinitionInput
-  ) => {
+  static create = <DefinitionInput>(def: DefinitionInput) => {
     return new ObjectField<DefinitionInput>(def);
   };
 }

@@ -8,14 +8,18 @@ import {
   ToFinalField,
 } from './fields/_parseFields';
 
-export type Infer<T> =
-  //
-  //
-  // === start LiteralField ===
-  T extends
-    | { type: 'literal' }
-    | { literal: any }
-    | Readonly<{ type: 'literal' } | { literal: any }>
+type MAX_DEEP = 7;
+
+export interface __Infer<T, Level extends ReadonlyArray<number> = [0]> {
+  VALUE: Level['length'] extends MAX_DEEP
+    ? any
+    : //
+    //
+    // === start LiteralField ===
+    T extends
+        | { type: 'literal' }
+        | { literal: any }
+        | Readonly<{ type: 'literal' } | { literal: any }>
     ? ToFinalField<T>['__infer']
     : // === end LiteralField ===
 
@@ -46,9 +50,19 @@ export type Infer<T> =
     : T extends FinalFieldDefinition
     ? InferField<T>
     : T extends [any]
-    ? Infer<T[0]>[]
+    ? Infer<T[0], [...Level, 0]>[]
     : T extends Readonly<[any]>
-    ? Infer<T[0]>[]
+    ? Infer<T[0], [...Level, 0]>[]
     : T extends { [K: string]: any }
     ? InferField<{ type: 'object'; def: T }>
     : never;
+}
+
+export type Infer<
+  T,
+  Level extends ReadonlyArray<number> = [0]
+> = Level['length'] extends MAX_DEEP
+  ? any
+  : __Infer<T, Level> extends { VALUE: infer Result }
+  ? Result
+  : never;

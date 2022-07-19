@@ -6,8 +6,8 @@
     "lerna": "lerna",
     "bootstrap": "lerna bootstrap",
     "fix": "lerna run fix",
-    "minor-commit": "git add -A && git commit -m 'minor'",
-    "minor": "run-s minor-commit alpha",
+    "commit": "git add -A && git commit",
+    "fast": "run-s commit alpha",
     "validate": "(cd packages/schema && npm run prepublish)",
     "alpha": "lerna publish --force-publish --yes --no-verify-access --conventional-graduate --dist-tag next --canary --no-push --preid=alpha.$(date +%s)"
   },

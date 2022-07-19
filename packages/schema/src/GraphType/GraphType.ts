@@ -131,14 +131,15 @@ export class GraphType<Definition> implements GraphTypeLike {
     return this.__field.parse(input, customMessage);
   };
 
-  _toGraphQL = () => {
+  _toGraphQL = (): ConvertFieldResult => {
+    // @ts-ignore
     return Darch.GraphQLParser.fieldToGraphQL({
       field: this.__field,
       path: [`Type_${this.id}`],
       plainField: this.__field.asFinalFieldDef,
       fieldName: this.id,
       parentName: this.id,
-    });
+    }) as any;
   };
 
   graphQLType = (
@@ -164,13 +165,11 @@ export class GraphType<Definition> implements GraphTypeLike {
         }
       );
     }
-
+    // @ts-ignore
     return Darch.GraphQLParser.objectToGraphQL({
       object: this._object,
-    }).interfaceType(...args);
+    }).interfaceType(...args) as any;
   };
-
-  relations = {};
 
   addRelation = <
     FieldTypeDef extends ObjectFieldInput,
@@ -180,12 +179,7 @@ export class GraphType<Definition> implements GraphTypeLike {
   >(
     options: Merge<
       { type: FieldTypeDef; name: Name },
-      ResolverConfig<
-        Context,
-        Infer<ToFinalField<Definition>>,
-        FieldTypeDef,
-        ArgsDef
-      >
+      ResolverConfig<Context, unknown, FieldTypeDef, ArgsDef>
     >
   ): this => {
     const object = this._object;
@@ -206,8 +200,9 @@ export class GraphType<Definition> implements GraphTypeLike {
       type,
       ...(options as any),
     };
-
-    const resolver = Darch.createResolver(allOptions);
+    
+    // @ts-ignore circular
+    const resolver = Darch.createResolver(allOptions) as any;
 
     // registering relations to be added when creating graphql schema
     resolver.__isRelation = true;
@@ -218,14 +213,15 @@ export class GraphType<Definition> implements GraphTypeLike {
       });
     });
 
-    return this;
+    return this as any;
   };
 
   print = (): string[] => {
     const type = this.graphQLType();
     const inputType = this.graphQLInputType();
-
-    const { GraphQLSchema, printSchema } = Darch.graphql;
+    
+    // @ts-ignore circular
+    const { GraphQLSchema, printSchema } = Darch.graphql as any;
 
     const object = new GraphQLSchema({
       // @ts-ignore
@@ -237,14 +233,15 @@ export class GraphType<Definition> implements GraphTypeLike {
 
   typescriptPrint = (
     options?: ObjectToTypescriptOptions & { name?: string }
-  ) => {
+  ): Promise<string> => {
     const object =
       this._object ||
       createObjectType({
         [this.id]: this.definition,
       });
-
-    return Darch.objectToTypescript(options?.name || this.id, object, options);
+  
+    // @ts-ignore circular
+    return Darch.objectToTypescript(options?.name || this.id, object, options) as any;
   };
 
   createResolver = <
@@ -254,10 +251,11 @@ export class GraphType<Definition> implements GraphTypeLike {
       Omit<ResolverConfig<any, any, Definition, ArgsDef>, 'type'>
     >
   ): Resolver<any, any, Definition, ArgsDef> => {
+    // @ts-ignore circular
     return Darch.createResolver({
       type: this,
       ...options,
-    } as any);
+    } as any) as any;
   };
 
   /**
