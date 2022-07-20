@@ -1,26 +1,19 @@
 import { isProduction } from './env';
 
-export function dynamicRequire(request: string, _module?: any) {
+export function dynamicRequire(request: string, _module?: NodeModule) {
   try {
-    if (_module) {
-      return _module.require(request);
-    } else {
-      const req = typeof require === 'function' ? require : undefined;
-      return req?.(request);
-    }
-  } catch (e) {
-    if (!isProduction()) {
-      console.warn(
-        `dynamicRequire: failed to require "${request}".` +
-          `This resource is not available in bundled code.`,
+    return _module!.require(request);
+  } catch (e) {}
 
-        {
-          request,
-          NodeModule: _module,
-          require: typeof require !== undefined ? require : undefined,
-        }
-      );
-    }
-    return null;
+  try {
+    return require(request);
+  } catch (e) {}
+
+  if (!isProduction()) {
+    console.warn(
+      `dynamicRequire: failed to require "${request}".` +
+        `This resource may not be available in bundled code.`
+    );
   }
+  return null;
 }

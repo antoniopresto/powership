@@ -58,4 +58,4 @@ export function expectedType<Input extends { [key: string]: unknown }>(
   return input;
 }
 
-export const assertTypes = expectedType
+export const assertTypes = expectedType;

@@ -7,4 +7,4 @@ export * from './GraphType/GraphType';
 export { Darch } from './Darch';
 export * from './fields/IObjectLike';
 export * from './GraphType/createResolver';
-export * from './utils'
+export * from './utils';

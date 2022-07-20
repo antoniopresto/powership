@@ -1,8 +1,9 @@
+import { createResolver, getType } from '@darch/schema';
+import { delay } from '@darch/utils/lib/delay';
 import { assert, IsExact } from 'conditional-type-checks';
 import { graphql } from 'graphql';
 
 import { createType } from '../../GraphType/GraphType';
-import { createResolver } from '../../GraphType/createResolver';
 import { Infer } from '../../Infer';
 import { createObjectType, ObjectType } from '../../ObjectType';
 import { createGraphQLSchema } from '../../createGraphQLSchema';
@@ -188,5 +189,9 @@ describe('LiteralField', () => {
         },
       },
     });
-  });
+
+    await delay(2000);
+    const fount = getType('findValuesPayload').parse({ valid: { a: 123 } });
+    assert<IsExact<typeof fount, { valid: { a: 123 } }>>(true);
+  }, 7000);
 });

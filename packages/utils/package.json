@@ -23,9 +23,12 @@
     "object-hash": "2.2.0",
     "plugin-hooks": "1.1.1",
     "prettier": "2.6.2",
-    "ulid": "2.3.0"
+    "ulid": "2.3.0",
+    "fs-extra": "10.1.0",
+    "mitt": "3.0.0"
   },
   "devDependencies": {
+    "@types/fs-extra": "9.0.13",
     "@darch/builder": "^2.0.0-alpha.1658253965.72+06f25bc",
     "@types/jest": "27.0.3",
     "@types/json-schema": "7.0.11",

@@ -5,6 +5,7 @@ import {
   GraphQLResolveInfo,
 } from 'graphql';
 
+import { Darch } from '../Darch';
 import { Infer } from '../Infer';
 import { FieldDefinitionConfig } from '../TObjectConfig';
 import {
@@ -25,6 +26,7 @@ export function createResolver<
   const { args, name, kind = 'query', resolve, type, ...rest } = options;
 
   if (GraphType.resolvers.has(name)) {
+    // @ts-ignore
     return GraphType.resolvers.get(name);
   }
 
@@ -97,6 +99,10 @@ export function createResolver<
   };
 
   GraphType.resolvers.set(name, result);
+
+  Darch.typesGen?.DarchWatchTypesPubSub.emit('created', {
+    resolver: result,
+  });
 
   return result as any;
 }
@@ -174,4 +180,8 @@ export function isPossibleArgsDef(
   args: any
 ): args is Readonly<ObjectDefinitionInput> {
   return args && typeof args === 'object' && Object.keys(args).length;
+}
+
+export function getResolver(name: string): AnyResolver {
+  return GraphType.resolvers.get(name) as any;
 }

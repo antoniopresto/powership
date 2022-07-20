@@ -40,6 +40,7 @@ function getModules() {
       server: true,
       // @only-server
       module: () =>
+        // @only-server
         require('./GraphType/GraphQLParser') as typeof import('./GraphType/GraphQLParser'),
     },
 
@@ -49,6 +50,7 @@ function getModules() {
       module: (): typeof import('./objectToTypescript') => {
         try {
           // too big to include in bundles
+          // @only-server
           return dynamicRequire('./objectToTypescript', nodeModule);
         } catch (e: any) {
           return function objectToTypescript() {
@@ -67,6 +69,7 @@ function getModules() {
       module: (): typeof import('prettier') => {
         try {
           // too big to include in bundled code
+          // @only-server
           return dynamicRequire('prettier', nodeModule);
         } catch (e: any) {
           return {
@@ -107,6 +110,20 @@ function getModules() {
       // @only-server
       module: () =>
         require('./GraphType/generateClientUtils') as typeof import('./GraphType/generateClientUtils'),
+    },
+
+    typesGen: {
+      server: true,
+      // @only-server
+      module: (): typeof import('./writeTypes') => {
+        try {
+          // too big to include in bundled code
+          return dynamicRequire('./writeTypes', nodeModule);
+        } catch (e: any) {
+          console.info(`Darch.writeTypes is not available in bundled code.`);
+          throw e;
+        }
+      },
     },
   };
 

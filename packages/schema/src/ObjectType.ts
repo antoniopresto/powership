@@ -407,7 +407,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
         { 'used definition': this.definition }
       );
     }
-  
+
     // @ts-ignore circular
     const { GraphQLParser } = Darch.GraphQLParser as any;
 

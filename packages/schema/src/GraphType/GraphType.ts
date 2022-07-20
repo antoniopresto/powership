@@ -2,6 +2,7 @@ import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { StrictMap } from '@darch/utils/lib/StrictMap';
 import { assertSame } from '@darch/utils/lib/assertSame';
 import { isProduction } from '@darch/utils/lib/env';
+import { isBrowser } from '@darch/utils/lib/isBrowser';
 import { Merge } from '@darch/utils/lib/typeUtils';
 import type {
   GraphQLInterfaceType,
@@ -80,6 +81,7 @@ export class GraphType<Definition> implements GraphTypeLike {
       definition = args[0];
     }
 
+    this.definitionInput = definition;
     this.__field = parseObjectField('temp', definition, true);
 
     if (ObjectField.is(this.__field)) {
@@ -120,6 +122,11 @@ export class GraphType<Definition> implements GraphTypeLike {
         );
       }
     } else {
+      if (!isBrowser()) {
+        Darch.typesGen?.DarchWatchTypesPubSub.emit('created', {
+          graphType: this,
+        });
+      }
       GraphType.register.set(name, this as any);
     }
   }
@@ -200,7 +207,7 @@ export class GraphType<Definition> implements GraphTypeLike {
       type,
       ...(options as any),
     };
-    
+
     // @ts-ignore circular
     const resolver = Darch.createResolver(allOptions) as any;
 
@@ -219,7 +226,7 @@ export class GraphType<Definition> implements GraphTypeLike {
   print = (): string[] => {
     const type = this.graphQLType();
     const inputType = this.graphQLInputType();
-    
+
     // @ts-ignore circular
     const { GraphQLSchema, printSchema } = Darch.graphql as any;
 
@@ -239,9 +246,13 @@ export class GraphType<Definition> implements GraphTypeLike {
       createObjectType({
         [this.id]: this.definition,
       });
-  
+
     // @ts-ignore circular
-    return Darch.objectToTypescript(options?.name || this.id, object, options) as any;
+    return Darch.objectToTypescript(
+      options?.name || this.id,
+      object,
+      options
+    ) as any;
   };
 
   createResolver = <
@@ -301,4 +312,8 @@ export function createType(...args: any[]) {
     // @ts-ignore
     ...args
   );
+}
+
+export function getType(name: string): GraphTypeLike {
+  return GraphType.register.get(name);
 }
