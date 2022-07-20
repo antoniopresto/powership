@@ -1,6 +1,6 @@
 {
   "name": "@darch/utils",
-  "version": "2.0.0-alpha.1658253965.72+06f25bc",
+  "version": "2.0.0-alpha.71",
   "main": "lib",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
@@ -17,19 +17,19 @@
   "keywords": [],
   "dependencies": {
     "chalk": "4.1.2",
+    "fs-extra": "10.1.0",
     "graphql": "^16.5.0",
     "json-schema-to-typescript": "10.1.5",
     "lodash": "4.17.21",
+    "mitt": "3.0.0",
     "object-hash": "2.2.0",
     "plugin-hooks": "1.1.1",
     "prettier": "2.6.2",
-    "ulid": "2.3.0",
-    "fs-extra": "10.1.0",
-    "mitt": "3.0.0"
+    "ulid": "2.3.0"
   },
   "devDependencies": {
+    "@darch/builder": "^2.0.0-alpha.71",
     "@types/fs-extra": "9.0.13",
-    "@darch/builder": "^2.0.0-alpha.1658253965.72+06f25bc",
     "@types/jest": "27.0.3",
     "@types/json-schema": "7.0.11",
     "@types/lodash": "4.14.178",
