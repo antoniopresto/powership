@@ -1,6 +1,6 @@
 {
   "name": "@darch/utils",
-  "version": "2.0.0-alpha.71",
+  "version": "2.0.0-alpha-80",
   "main": "lib",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
@@ -28,7 +28,7 @@
     "ulid": "2.3.0"
   },
   "devDependencies": {
-    "@darch/builder": "^2.0.0-alpha.71",
+    "@darch/builder": "^2.0.0-alpha-80",
     "@types/fs-extra": "9.0.13",
     "@types/jest": "27.0.3",
     "@types/json-schema": "7.0.11",
