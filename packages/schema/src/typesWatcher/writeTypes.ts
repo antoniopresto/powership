@@ -52,7 +52,7 @@ export async function writeTypes(options?: WriteTypesOptions) {
     const fn = [
       `function createType<Definition extends ObjectFieldInput>(name: "${name}",`,
       `definition: Definition):`,
-      `GraphTypeRuntime<RuntimeDefinitions["${name}"],`,
+      `GraphTypeRuntime<Definition,`,
       `RuntimeTypes["${name}"], "${name}">`,
       '\n',
     ].join(' ');
