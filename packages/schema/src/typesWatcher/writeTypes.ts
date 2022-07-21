@@ -97,7 +97,6 @@ export async function writeTypes(options?: WriteTypesOptions) {
 
   let definitions = Object.entries(typesRecord).reduce((acc, [id, next]) => {
     acc += `\n"${id}": ${serialize(next.definition)}\n;`;
-    acc += `\n"${id}TypeDef": ${serialize(next.definitionInput)}\n;`;
     return acc;
   }, '');
 
@@ -136,7 +135,7 @@ function template({
 declare global {
   module '@darch/schema' {
     export * from '@darch/schema';
-    import { ObjectFieldInput, ValidationCustomMessage } from '@darch/schema';
+    import { ObjectFieldInput, ValidationCustomMessage, FieldDefinitionConfig } from '@darch/schema';
     import { Merge } from '@darch/utils/lib/typeUtils';
   
     import {
@@ -145,7 +144,7 @@ declare global {
       GraphQLResolveInfo,
     } from 'graphql';
 
-    export class GraphTypeRuntime<Definition, Type, Name> {
+    export class GraphTypeRuntime<Definition extends FieldDefinitionConfig, Type, Name> {
       static __isGraphType: true;
       readonly __isGraphType: true;
       
