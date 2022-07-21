@@ -63,6 +63,14 @@ export type Infer<
   Level extends ReadonlyArray<number> = [0]
 > = Level['length'] extends MAX_DEEP
   ? any
-  : __Infer<T, Level> extends { VALUE: infer Result }
+  : //
+  //
+  T extends {
+      parse(input: any, options?: any): infer Parsed;
+    }
+  ? Parsed
+  : //
+  //
+  __Infer<T, Level> extends { VALUE: infer Result }
   ? Result
   : never;

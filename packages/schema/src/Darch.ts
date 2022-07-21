@@ -115,14 +115,8 @@ function getModules() {
     typesGen: {
       server: true,
       // @only-server
-      module: (): typeof import('./writeTypes') => {
-        try {
-          // too big to include in bundled code
-          return dynamicRequire('./writeTypes', nodeModule);
-        } catch (e: any) {
-          console.info(`Darch.writeTypes is not available in bundled code.`);
-          throw e;
-        }
+      module: (): typeof import('./typesWatcher') => {
+        return require('./typesWatcher');
       },
     },
   };

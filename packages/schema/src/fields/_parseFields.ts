@@ -180,7 +180,7 @@ type _injectInfer<T> = T extends {
   def: infer Def;
 }
   ? T & {
-      // @ts-ignore
+      // @ts-ignore FIXME
       __infer: // === recursive object case ===
       T['type'] extends 'object'
         ? Def extends { [K: string]: any }

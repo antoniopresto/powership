@@ -3,8 +3,8 @@
     "outDir": "lib",
     "rootDir": "src",
     "paths": {
-      "@darch/schema": ["./index.ts"],
-      "@darch/schema/*": ["./"]
+      "@darch/schema": ["./src"],
+      "@darch/schema/*": ["./src/*"]
     },
     "baseUrl": ".",
     "lib": ["es5", "es6", "es7", "esnext", "dom"],

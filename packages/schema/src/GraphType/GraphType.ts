@@ -133,8 +133,13 @@ export class GraphType<Definition> implements GraphTypeLike {
 
   parse = (
     input: any,
-    customMessage?: ValidationCustomMessage
+    options?:
+      | ValidationCustomMessage
+      | { customMessage: ValidationCustomMessage }
   ): Infer<ToFinalField<Definition>> => {
+    const customMessage =
+      options && typeof options === 'object' ? options.customMessage : options;
+    
     return this.__field.parse(input, customMessage);
   };
 
