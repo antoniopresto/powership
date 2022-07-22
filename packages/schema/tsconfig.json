@@ -2,10 +2,7 @@
   "compilerOptions": {
     "outDir": "lib",
     "rootDir": "src",
-    "paths": {
-      "@darch/schema": ["./src"],
-      "@darch/schema/*": ["./src/*"]
-    },
+    "paths": {},
     "baseUrl": ".",
     "lib": ["es5", "es6", "es7", "esnext", "dom"],
     "declaration": true,

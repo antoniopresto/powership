@@ -19,10 +19,39 @@ import { getInnerType } from './getQueryExamples';
 
 export function createResolver<
   Type extends FieldDefinitionConfig,
+  Args extends ObjectDefinitionInput,
+  Source = any,
+  Context = any
+>(
+  options: Omit<ResolverConfig<Source, Context, Type, Args>, 'resolve'>,
+  resolve: (
+    root: Source,
+    args: InferArgs<Args>,
+    context: Context,
+    info: GraphQLResolveInfo
+  ) => Infer<ToFinalField<Type>> | Promise<Infer<ToFinalField<Type>>>
+): Resolver<Source, Context, Type, Args>;
+
+/**
+ * @deprecated should pass `resolve` as the second parameter of createResolver
+ * @param options.resolver is deprecated
+ */
+export function createResolver<
+  Type extends FieldDefinitionConfig,
   Args extends ObjectDefinitionInput
 >(
   options: ResolverConfig<any, any, Type, Args>
-): Resolver<any, any, Type, Args> {
+): Resolver<any, any, Type, Args>;
+
+export function createResolver(...params: any[]) {
+  let options: ResolverConfig<any, any, any, any>;
+
+  if (params.length === 2) {
+    options = { ...params[0], resolve: params[1] };
+  } else {
+    options = params[0];
+  }
+
   const { args, name, kind = 'query', resolve, type, ...rest } = options;
 
   if (GraphType.resolvers.has(name)) {
@@ -58,6 +87,7 @@ export function createResolver<
         } as any)
       : args;
 
+    // @ts-ignore
     const result = await resolve(source, args, context, info);
 
     return payloadType.parse(
@@ -122,6 +152,9 @@ export interface ResolverConfig<Context, Source, TypeDef, ArgsDef>
   args?: ArgsDef;
   type: TypeDef;
 
+  /**
+   * @deprecated should pass `resolve` as the second parameter of createResolver
+   */
   resolve(
     root: Source,
     args: InferArgs<ArgsDef>,
@@ -155,12 +188,12 @@ export interface Resolver<Context, Source, TypeDef, ArgsDef>
   __graphTypeId: string;
   __relatedToGraphTypeId: string;
 
-  resolve(
+  resolve: (
     root: Source,
     args: InferArgs<ArgsDef>,
     context: Context,
     info: GraphQLResolveInfo
-  ): Infer<ToFinalField<TypeDef>> | Promise<Infer<ToFinalField<TypeDef>>>;
+  ) => Infer<ToFinalField<TypeDef>> | Promise<Infer<ToFinalField<TypeDef>>>;
 
   name: string;
   kind: 'query' | 'subscription' | 'mutation';
