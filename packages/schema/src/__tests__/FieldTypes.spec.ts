@@ -555,11 +555,12 @@ describe('FieldTypes', () => {
     it('parses', () => {
       expect(() => DateField.create().parse(undefined)).toThrow('Required');
       expect(() => DateField.create().parse(null)).toThrow(
-        'Expected value to be of type "date", found null instead.'
+        'Expected value to be of type "date or string or number", found null instead.'
       );
-      expect(() => DateField.create().parse(new Date().toISOString())).toThrow(
-        'Expected value to be of type "date", found string instead.'
+      expect(DateField.create().parse('2000-01-01')).toEqual(
+        new Date('2000-01-01T00:00:00.000Z')
       );
+
       expect(() => DateField.create().parse('xx', () => 'huu')).toThrow('huu');
 
       const now = new Date(1);
