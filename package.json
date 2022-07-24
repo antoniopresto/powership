@@ -9,7 +9,7 @@
     "commit": "git add -A && git commit",
     "fast": "run-s commit alpha",
     "validate": "(cd packages/schema && npm run prepublish)",
-    "alpha": "lerna publish --force-publish --yes --no-verify-access --conventional-graduate --dist-tag next --canary --no-push --preid=alpha.$(date +%Y%m%dT%H%M%S%z)"
+    "alpha": "lerna publish --force-publish --yes --no-verify-access --conventional-graduate --dist-tag next --canary --no-push --exact --preid=alpha.$(date +%Y%m%dT%H%M%S%z)"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "4.15.2",
