@@ -1,3 +1,4 @@
+import { dateSerialize } from '@darch/utils/lib/dateSerialize';
 import { expectedType } from '@darch/utils/lib/expectedType';
 
 import { FieldType, FieldTypeParser } from './FieldType';
@@ -60,31 +61,12 @@ export class DateField extends FieldType<
   };
 
   static serialize(value: unknown): Date {
-    // Valid string values from server side:
-    // 2016-02-02
-    // 2016-02-02T00:13:22Z
-    // 2016-02-02T00:13:22.000Z
-    if (
-      typeof value === 'string' &&
-      /^(\d{4})-(\d{2})-(\d{2})(T((\d{2}):(\d{2}):(\d{2}))(\.(\d{1,3}))?Z)?$/.test(
-        value
-      )
-    ) {
-      return new Date(value);
-    }
+    const date = dateSerialize(value);
 
-    if (typeof value === 'number' && Number.isFinite(value)) {
-      return new Date(value);
-    }
-
-    if (!(value instanceof Date)) {
+    if (!(date instanceof Date)) {
       throw new TypeError('Field error: value is not an instance of Date');
     }
 
-    if (Number.isNaN(value.getTime())) {
-      throw new TypeError('Field error: value is an invalid Date');
-    }
-
-    return value;
+    return date;
   }
 }

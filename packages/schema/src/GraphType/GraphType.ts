@@ -139,7 +139,7 @@ export class GraphType<Definition> implements GraphTypeLike {
   ): Infer<ToFinalField<Definition>> => {
     const customMessage =
       options && typeof options === 'object' ? options.customMessage : options;
-    
+
     return this.__field.parse(input, customMessage);
   };
 

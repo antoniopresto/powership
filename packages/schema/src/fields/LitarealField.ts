@@ -1,9 +1,9 @@
+import { DarchJSON } from '@darch/utils/lib/DarchJSON';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { getTypeName } from '@darch/utils/lib/getTypeName';
 import { Serializable } from '@darch/utils/lib/typeUtils';
 
 import { FieldType, FieldTypeParser } from './FieldType';
-import { CommonFieldDefinition } from './_fieldDefinitions';
 
 const PROTO_KEY = '__o.proto__';
 
@@ -25,7 +25,7 @@ export class LiteralField<T extends Readonly<Serializable>> extends FieldType<
       if (typeof value === 'string') return value;
 
       try {
-        return JSON.stringify(value);
+        return DarchJSON.stringify(value);
       } catch (e) {
         throw new RuntimeError(`Failed to serialize`, {
           //
@@ -39,7 +39,7 @@ export class LiteralField<T extends Readonly<Serializable>> extends FieldType<
       if (def[PROTO_KEY] === typename) return def.value;
 
       try {
-        return JSON.parse(def.value);
+        return DarchJSON.parse(def.value);
       } catch (e) {
         throw new RuntimeError(`Failed deserialize value`, {
           ...def,
@@ -81,7 +81,7 @@ export class LiteralField<T extends Readonly<Serializable>> extends FieldType<
     return new LiteralField<T>(def);
   };
 
-  static isFinalTypeDef(t: any): t is CommonFieldDefinition<'literal'> {
+  static isFinalTypeDef(t: any): t is LiteralField<any> {
     return t?.type === 'literal';
   }
 

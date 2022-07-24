@@ -90,22 +90,22 @@ describe('objectToTypescript', () => {
         // (10|7|5|3)
         {
           object: {
-            from: { literal: '10' },
+            from: { literal: 10 },
           },
         },
         {
           object: {
-            from: { literal: '7' },
+            from: { literal: 7 },
           },
         },
         {
           object: {
-            from: { literal: '5' },
+            from: { literal: 5 },
           },
         },
         {
           object: {
-            from: { literal: '3' },
+            from: { literal: 3 },
           },
         },
       ],

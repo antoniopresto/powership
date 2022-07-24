@@ -192,4 +192,51 @@ describe('LiteralField', () => {
       },
     });
   });
+
+  it('parse Date', async () => {
+    const literal = new Date(1);
+
+    const object = createType('Values', {
+      object: {
+        valid: {
+          literal: { value: literal },
+        },
+      },
+    } as const);
+
+    const ts = await object.typescriptPrint();
+
+    expect(ts.split('\n')).toEqual([
+      'export interface Values {',
+      '  valid: {value: Date};',
+      '}',
+      '',
+    ]);
+  });
+
+  it('parse object with Date', async () => {
+    const literal = {
+      date: new Date(1),
+      regex: /abc/gim,
+      num: [1, 2, 3, NaN],
+      email: 'xica "bacana"',
+    };
+
+    const object = createType('Values', {
+      object: {
+        valid: {
+          literal: { value: literal },
+        },
+      },
+    } as const);
+
+    const ts = await object.typescriptPrint();
+
+    expect(ts.split('\n')).toEqual([
+      'export interface Values {',
+      '  valid: {value: {date: Date; email: \'xica "bacana"\'; num: [1, 2, 3, NaN]; regex: RegExp}};',
+      '}',
+      '',
+    ]);
+  });
 });

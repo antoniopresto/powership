@@ -1,6 +1,8 @@
+import { DarchJSON } from '@darch/utils/lib/DarchJSON';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { expectedType } from '@darch/utils/lib/expectedType';
 import { getKeys } from '@darch/utils/lib/getKeys';
+import { getTypeName } from '@darch/utils/lib/getTypeName';
 import { nonNullValues } from '@darch/utils/lib/invariant';
 import { JSONSchema4 } from 'json-schema';
 
@@ -217,8 +219,25 @@ function parseField(params: {
     },
     literal() {
       if (!LiteralField.isFinalTypeDef(field)) throw 'err';
-      jsonItem.const = LiteralField.utils.deserialize(field.def);
-      jsonItem.tsType = field.def.value;
+      const parsed =
+        field.def['__o.proto__'] === 'String'
+          ? field.def.value
+          : DarchJSON.parse(field.def.value);
+
+      jsonItem.const = parsed;
+
+      const tsType = DarchJSON.stringify(parsed, {
+        quoteStrings: (str) => str,
+        handler: ({ serializer, value }) => {
+          const typeName = getTypeName(value);
+          if (['Object', 'Array'].includes(typeName)) return;
+          if (typeName === 'String') return JSON.stringify(value);
+          if (typeName === 'Number') return value;
+          return serializer?.formatter?.tsName() || typeName;
+        },
+      });
+
+      jsonItem.tsType = tsType;
     },
     record() {
       if (field.type !== 'record' || !field.def) {

@@ -1,3 +1,5 @@
+import clone from 'fast-copy';
+
 import { RuntimeError } from './RuntimeError';
 
 export function simpleObjectClone<T>(input: T): T {
@@ -6,8 +8,9 @@ export function simpleObjectClone<T>(input: T): T {
   }
 
   try {
-    return JSON.parse(JSON.stringify(input));
+    return clone(input);
   } catch (e: any) {
+    debugger;
     throw new RuntimeError(
       'Failed to execute JSON.stringify() on input object',
       {
