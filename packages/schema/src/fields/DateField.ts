@@ -6,6 +6,7 @@ import { FieldType, FieldTypeParser } from './FieldType';
 export type DateFieldDef = {
   min?: Date;
   max?: Date;
+  autoCreate?: boolean;
 };
 
 export class DateField extends FieldType<
@@ -17,7 +18,7 @@ export class DateField extends FieldType<
 
   constructor(def: DateFieldDef = {}) {
     super('date', def);
-    const { min, max } = def;
+    const { min, max, autoCreate } = def;
 
     let minTime = 0;
     let maxTime = 0;
@@ -33,6 +34,12 @@ export class DateField extends FieldType<
     }
 
     this.parse = this.applyParser({
+      preParse(input: any) {
+        if (autoCreate && input === undefined) {
+          return new Date();
+        }
+        return input;
+      },
       parse: (input: unknown) => {
         expectedType({ value: input }, ['date', 'string', 'number']);
         const date = DateField.serialize(input);

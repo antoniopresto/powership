@@ -27,7 +27,11 @@ export interface CommonFieldDefinition<T> {
 export type FieldDefinitions = {
   any: undefined;
 
-  ID: undefined;
+  ID:
+    | {
+        autoCreate?: boolean;
+      }
+    | undefined;
 
   boolean: undefined;
 
@@ -37,6 +41,7 @@ export type FieldDefinitions = {
     | {
         min?: Date;
         max?: Date;
+        autoCreate?: boolean;
       }
     | undefined;
 
