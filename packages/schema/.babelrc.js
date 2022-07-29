@@ -61,7 +61,7 @@ const envConfig = {
 const config = {
   plugins: [
     [
-      require.resolve('./.ts-node/strip-blocks-plugin.js'),
+      require('@darch/babel-plugins').StripBlocksPlugin,
       {
         magicComment: `@only-${KIND_INVERT}`,
       },

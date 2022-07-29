@@ -1,6 +1,6 @@
 import { PluginObj } from '@babel/core';
 
-export default function StripBlocksPlugin(): PluginObj {
+export function StripBlocksPlugin(): PluginObj {
   return {
     name: 'transform-strip-block',
 

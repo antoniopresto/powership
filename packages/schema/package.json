@@ -43,6 +43,7 @@
     "@darch/utils": "2.0.0-alpha.20220724T134243-0300"
   },
   "devDependencies": {
+    "@darch/babel-plugins": "2.0.0-alpha.20220724T134243-0300",
     "@babel/cli": "7.18.6",
     "@babel/core": "7.18.6",
     "@babel/plugin-transform-typescript": "7.18.6",

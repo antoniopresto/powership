@@ -1,0 +1,42 @@
+{
+  "name": "@darch/babel-plugins",
+  "version": "2.0.0-alpha.20220724T134243-0300",
+  "main": "lib",
+  "typings": "lib",
+  "author": "antoniopresto <antoniopresto@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "build": "rm -rf lib && tsc && tsc -p tsconfig.module.json",
+    "prepublish": "npm run build",
+    "fix": "run-s fix:*",
+    "fix:prettier": "prettier \"src/**/*.ts\" --write",
+    "fix:lint": "eslint src --ext .ts --fix"
+  },
+  "description": "darch babel plugins",
+  "keywords": [],
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "7.18.9",
+    "@darch/builder": "2.0.0-alpha.20220724T134243-0300",
+    "@typescript-eslint/eslint-plugin": "4.15.2",
+    "@typescript-eslint/parser": "4.15.2",
+    "esbuild": "0.14.3",
+    "eslint": "7.20.0",
+    "eslint-config-prettier": "6.15.0",
+    "eslint-plugin-eslint-comments": "3.2.0",
+    "eslint-plugin-import": "2.22.1",
+    "jest": "27.4.5",
+    "npm-run-all": "4.1.5",
+    "ts-jest": "27.1.1",
+    "typescript": "4.5.4"
+  },
+  "files": [
+    "package.json",
+    "lib/*",
+    "README.md"
+  ],
+  "prettier": {
+    "singleQuote": true
+  }
+}
