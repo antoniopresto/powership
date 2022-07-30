@@ -1,8 +1,12 @@
-import { MaybeArray, tuple } from '@darch/utils/lib/typeUtils';
+import { MaybeArray, Merge, tuple } from '@darch/utils/lib/typeUtils';
 
 import { SanitizedUpdateOperations } from './sanitizeUpdateExpressions';
+import { getTypeName } from '@darch/utils/lib/getTypeName';
+import { Darch } from '@darch/schema';
+import { RuntimeError } from '@darch/utils/lib/RuntimeError';
+import { devAssert } from '@darch/utils/lib/devAssert';
 
-export const AttributeTypes = tuple(
+export const FieldTypes = tuple(
   'String',
   'Number',
   'Binary',
@@ -14,57 +18,62 @@ export const AttributeTypes = tuple(
   'NumberSet'
 );
 
-export type AttributeType = typeof AttributeTypes[number];
+export type FieldType = typeof FieldTypes[number];
 
-export type KeyType = string | number;
-export type KeyTypeName = 'string' | 'number';
+export type PKSKValueType = string | number;
 
-export type AttributeFilter = {
-  $attribute: string;
-  $eq?: KeyType | boolean | null;
-  $ne?: KeyType | boolean | null;
-  $lte?: KeyType;
-  $lt?: KeyType;
-  $gt?: KeyType;
-  $gte?: KeyType;
-  $between?: [string, string] | [number, number];
-  $exists?: boolean;
-  $type?: AttributeType;
-  $startsWith?: string;
-  $contains?: string | number | boolean | null;
-  $matchString?: string;
-  // $size?: number;
-  $in?: any[];
+export type AllFieldFilter = {
+  $eq: PKSKValueType | boolean | null;
+  $ne: PKSKValueType | boolean | null;
+  $lte: PKSKValueType;
+  $lt: PKSKValueType;
+  $gt: PKSKValueType;
+  $gte: PKSKValueType;
+  $between: [string, string] | [number, number];
+  $exists: boolean;
+  $type: FieldType;
+  $startsWith: string;
+  $contains: string | number | boolean | null;
+  $matchString: string;
+  $in: unknown[];
 };
 
-export type KeyCondition = {
-  $eq?: KeyType;
-  $lte?: KeyType;
-  $lt?: KeyType;
-  $gt?: KeyType;
-  $gte?: KeyType;
-  $startsWith?: KeyType;
-  $between?: [string, string] | [number, number];
+export type FieldFilter = {
+  [K in keyof AllFieldFilter]?: AllFieldFilter[K];
 };
 
-export type AttributeConditions<T extends string> = {
-  [K in T]?: Omit<AttributeFilter, '$attribute'>;
+export type AllIndexFilter = {
+  $eq: PKSKValueType;
+  $lte: PKSKValueType;
+  $lt: PKSKValueType;
+  $gt: PKSKValueType;
+  $gte: PKSKValueType;
+  $startsWith: PKSKValueType;
+  $between: [string, string] | [number, number];
 };
 
-export type TopLevelCondition<T extends string> = {
-  $and?: AttributeConditions<T>[];
-  $or?: AttributeConditions<T>[];
-  $not?: ConditionExpressions<T>;
+export type IndexFilter = {
+  [K in keyof AllIndexFilter]?: AllIndexFilter[K];
 };
 
-export type ConditionExpressions<T extends string = string> =
-  | TopLevelCondition<T>
-  | AttributeConditions<T>;
+export type AttributeFilterRecord<T extends string = string> = {
+  [K in T]?:
+    | FieldFilter
+    | {
+        $and?: AttributeFilterRecord[];
+        $or?: AttributeFilterRecord[];
+        $not?: AttributeFilterRecord;
+      };
+};
 
-export type QueryFilterItem = {
-  field: string;
-  PK: KeyType | KeyCondition;
-  SK?: KeyType | KeyCondition;
+export type IndexFilterRecord<T extends string = string> = {
+  [K in T]?:
+    | IndexFilter
+    | {
+        $and?: IndexFilterRecord[];
+        $or?: IndexFilterRecord[];
+        $not?: IndexFilterRecord;
+      };
 };
 
 export type DocumentBase<T extends { [K: string]: unknown } = {}> = {
@@ -78,11 +87,9 @@ export type TransporterLoaderConfig<TQuery> = {
 
 export type QuerySort = 'ASC' | 'DESC';
 
-export type QueryFilterConfig = QueryFilterItem | QueryFilterItem[];
-
 export type QueryConfig = {
-  filter: QueryFilterConfig;
-  startingKey?: QueryFilterItem;
+  filter: IndexFilter[];
+  startingKey?: IndexFilter;
   consistent?: boolean;
   limit?: number;
   sort?: QuerySort;
@@ -91,15 +98,16 @@ export type QueryConfig = {
 
 export type LoadQueryConfig = TransporterLoaderConfig<QueryConfig>;
 
-export type GetItemConfig = TransporterLoaderConfig<{
-  filter: QueryFilterConfig;
-  consistent?: boolean;
-  projection?: string[];
-}>;
+export type GetItemConfig<IndexFieldKey extends string> =
+  TransporterLoaderConfig<{
+    filter: IndexFilter;
+    consistent?: boolean;
+    projection?: string[];
+  }>;
 
-export type PutItemOptions<T> = {
+export type PutItemOptions<T extends DocumentBase> = {
   item: T;
-  condition?: ConditionExpressions;
+  condition?: FieldFilter;
   replace?: boolean;
 };
 
@@ -133,31 +141,89 @@ export type UpdateExpression<
 
 export type UpdateExpressionKey = keyof UpdateExpression<any>;
 
-export type UpdateItemConfig<Item extends { [key: string]: any }> = {
-  filter: QueryFilterConfig;
+export type UpdateItemConfig<
+  IndexFieldKey extends string,
+  Item extends { [key: string]: any }
+> = {
+  filter: IndexFilter;
   update: SanitizedUpdateOperations<Item>;
   upsert?: boolean;
-  condition?: ConditionExpressions<Extract<keyof Item, string>>;
+  condition?: FieldFilter;
 };
 
-export type DeleteItemOptions = {
-  filter: QueryFilterConfig;
-  condition?: ConditionExpressions;
+export type DeleteItemOptions<
+  IndexFieldKey extends string,
+  Item extends { [key: string]: any }
+> = {
+  filter: IndexFilter;
+  condition?: FieldFilter;
 };
 
-export const TopLevelFilterOperatorKeys = tuple('$and', '$or', '$not');
-export type TopLevelFilterOperatorKey =
-  typeof TopLevelFilterOperatorKeys[number];
+export const FieldFilterOperators: {
+  [K in keyof FieldFilter]: (input: any) => FieldFilter[K];
+} = {
+  $eq: Darch.union(['null', 'boolean', 'string', 'float'] as const).parse,
+  $ne: Darch.union(['null', 'boolean', 'string', 'float'] as const).parse,
+  $lte: Darch.union(['string', 'float'] as const).parse,
+  $lt: Darch.union(['string', 'float'] as const).parse,
+  $gt: Darch.union(['string', 'float'] as const).parse,
+  $gte: Darch.union(['string', 'float'] as const).parse,
 
-export function isValidateTopLevelOperatorKey(
-  key: any
-): key is TopLevelFilterOperatorKey | string {
-  return !!(
-    typeof key === 'string' &&
-    key &&
-    (TopLevelFilterOperatorKeys.includes(key as any) || !key.startsWith('$'))
-  );
-}
+  $between(input: any): [string, string] | [number, number] {
+    const is =
+      Array.isArray(input) &&
+      input.length === 2 &&
+      ((typeof input[0] === 'string' && typeof input[1] === 'string') ||
+        (getTypeName(input[0]) === 'Number' &&
+          getTypeName(input[1]) === 'Number'));
+
+    if (!is) {
+      throw new RuntimeError(`invalid input for $between`, { input });
+    }
+
+    return input as any;
+  },
+
+  $exists: Darch.boolean().parse,
+
+  $type(input: any): FieldType {
+    return FieldTypes.includes(input)
+      ? input
+      : devAssert('invalid input for $type', { input });
+  },
+
+  $startsWith: Darch.string().parse,
+  $contains: Darch.union(['string', 'float', 'boolean', 'null'] as const).parse,
+  $matchString: Darch.string().parse,
+  $in: Darch.unknown().toList().parse,
+
+  // $and(input: unknown) {
+  //   if (!Array.isArray(input)) {
+  //     return devAssert(`Expected input be an array`, { input });
+  //   }
+  //
+  //   return input.map((sub: unknown, index) => {
+  //     assertFieldFilter(sub, `at position ${index}`);
+  //     return sub;
+  //   });
+  // },
+  //
+  // $or(input) {
+  //   if (!Array.isArray(input)) {
+  //     return devAssert(`Expected input be an array`, { input });
+  //   }
+  //
+  //   return input.map((sub: unknown, index) => {
+  //     assertFieldFilter(sub, `at position ${index}`);
+  //     return sub;
+  //   });
+  // },
+  //
+  // $not(input: unknown) {
+  //   assertFieldFilter(input);
+  //   return input;
+  // },
+};
 
 export const AttributeFilterKeys = tuple(
   '$eq',
@@ -172,14 +238,22 @@ export const AttributeFilterKeys = tuple(
   '$startsWith',
   '$contains',
   '$matchString',
-  // '$size',
   '$in'
 );
 
 export type AttributeFilterKey = typeof AttributeFilterKeys[number];
 
-export function isValidAttributeFilterKey(key: any): key is AttributeFilterKey {
-  return AttributeFilterKeys.includes(key);
+export function isAttributeFilterKey(key: unknown): key is AttributeFilterKey {
+  if (typeof key !== 'string') return false;
+  return AttributeFilterKeys.includes(key as any);
+}
+
+export const TopLevelFilterKeys = tuple('$not', '$or', '$and');
+export type TopLevelFilterKey = typeof TopLevelFilterKeys[number];
+
+export function isTopLevelFilterKey(key: unknown): key is TopLevelFilterKey {
+  if (typeof key !== 'string') return false;
+  return TopLevelFilterKeys.includes(key as any);
 }
 
 export type PutItemPayload<T> = {
@@ -205,21 +279,61 @@ export abstract class Transporter {
     items: DocumentBase[];
   }>;
 
-  abstract getItem(options: GetItemConfig): Promise<{
-    item: DocumentBase | null;
-  }>;
+  //
+  // abstract getItem(options: GetItemConfig): Promise<{
+  //   item: DocumentBase | null;
+  // }>;
+  //
 
   abstract putItem<T extends DocumentBase>(
     options: PutItemOptions<T>
   ): Promise<PutItemPayload<T>>;
 
-  abstract updateItem<T extends DocumentBase>(
-    options: UpdateItemConfig<T>
-  ): Promise<UpdateItemPayload<T>>;
+  // abstract updateItem<T extends DocumentBase>(
+  //   options: UpdateItemConfig<T>
+  // ): Promise<UpdateItemPayload<T>>;
+  //
+  // abstract deleteItem<T extends DocumentBase>(
+  //   options: DeleteItemOptions
+  // ): Promise<{
+  //   item: T | null;
+  // }>;
+}
 
-  abstract deleteItem<T extends DocumentBase>(
-    options: DeleteItemOptions
-  ): Promise<{
-    item: T | null;
-  }>;
+export function isPlainQueryKey(input: any): input is PKSKValueType {
+  const tn = getTypeName(input);
+  return tn === 'String' || tn === 'Number';
+}
+
+export function assertFieldFilter(
+  input: any,
+  message?: string
+): asserts input is FieldFilter {
+  const keys =
+    input && typeof input === 'object' ? Object.keys(input) : undefined;
+
+  if (!keys?.length || keys.length < 2) {
+    devAssert(`invalid filter input ${message || ''}`, { input });
+  }
+
+  Object.entries(input).forEach(([k, v]) => {
+    const parse = FieldFilterOperators[k]?.parse;
+    if (!parse) devAssert(`invalid operator ${message || ''}`, { operator: k });
+    return parse(v);
+  });
+}
+
+export function isFieldFilter(input: any): input is FieldFilter {
+  try {
+    assertFieldFilter(input);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+export function isFilterOrPKSKValue(
+  input: any
+): input is PKSKValueType | FieldFilter {
+  return isPlainQueryKey(input) || isFieldFilter(input);
 }

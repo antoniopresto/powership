@@ -22,8 +22,6 @@ export const tupleEnum = <T extends string[]>(
   }, Object.create(null));
 };
 
-export type ObjectKey<T> = T extends Record<string, any> ? T[keyof T] : never;
-
 export type IsAny<T> = 0 extends 1 & T ? true : false;
 
 export type IsNever<T> = [T] extends [never] ? true : false;
@@ -106,11 +104,16 @@ export type Join<L, R> = {
 
 export type Merge<L, R> = Omit<L, keyof R> extends infer P ? Join<P, R> : never;
 
-export type ExtendList<Dest, Extends> = Extends extends []
+export type ExtendListDeep<Dest, Extends> = Extends extends []
   ? Dest
   : Extends extends [infer Item, ...infer Rest]
-  ? ExtendList<Merge<Dest, Item>, Rest>
+  ? ExtendListDeep<Merge<Dest, Item>, Rest>
   : never;
+
+export type ExtendList<Dest extends unknown[], Extends extends unknown[]> = [
+  ...Dest,
+  ...Extends
+];
 
 // https://fettblog.eu/typescript-union-to-intersection/
 export type UnionToIntersection<T> = (

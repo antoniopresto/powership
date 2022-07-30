@@ -1,11 +1,11 @@
-import { isDev } from '@utils/isDev';
-import { tuple } from '@utils/typeUtils';
+import { tuple } from './typeUtils';
+import { isProduction } from './env';
 
 export const LogLevels = tuple('error', 'info', 'crit', 'warning', 'debug');
 
 export type TLogLevel = typeof LogLevels[number];
 
-if (!process.env.LOG_LEVEL && isDev()) {
+if (!process.env.LOG_LEVEL && !isProduction()) {
   process.env.LOG_LEVEL = '2';
 }
 
@@ -28,7 +28,7 @@ export function getLogLevelInfo(): Set<TLogLevel> {
     levels.push('warning');
   }
 
-  if (isDev()) {
+  if (!isProduction()) {
     levels.push('debug');
   }
 

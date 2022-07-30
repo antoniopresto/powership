@@ -1,24 +1,32 @@
-import { parseMongoConditionExpression } from '../parseMongoConditionExpression';
+import { parseAttributeFilters } from '../parseAttributeFilters';
 
 describe('parseMongoConditionExpression', () => {
   test('$lte', () => {
-    expect(parseMongoConditionExpression({ a: { $lte: 1 } })).toEqual([{ a: { $lte: 1 } }]);
+    expect(parseAttributeFilters({ a: { $lte: 1 } })).toEqual([
+      { a: { $lte: 1 } },
+    ]);
   });
 
   test('$lt', () => {
-    expect(parseMongoConditionExpression({ a: { $lt: 1 } })).toEqual([{ a: { $lt: 1 } }]);
+    expect(parseAttributeFilters({ a: { $lt: 1 } })).toEqual([
+      { a: { $lt: 1 } },
+    ]);
   });
 
   test('$gt', () => {
-    expect(parseMongoConditionExpression({ a: { $gt: 1 } })).toEqual([{ a: { $gt: 1 } }]);
+    expect(parseAttributeFilters({ a: { $gt: 1 } })).toEqual([
+      { a: { $gt: 1 } },
+    ]);
   });
 
   test('$gte', () => {
-    expect(parseMongoConditionExpression({ a: { $gte: 1 } })).toEqual([{ a: { $gte: 1 } }]);
+    expect(parseAttributeFilters({ a: { $gte: 1 } })).toEqual([
+      { a: { $gte: 1 } },
+    ]);
   });
 
   test('$between', () => {
-    expect(parseMongoConditionExpression({ a: { $between: [100, 105] } })).toEqual([
+    expect(parseAttributeFilters({ a: { $between: [100, 105] } })).toEqual([
       {
         a: {
           $gte: 100,
@@ -29,17 +37,17 @@ describe('parseMongoConditionExpression', () => {
   });
 
   test('$exists', () => {
-    expect(parseMongoConditionExpression({ a: { $exists: true } })).toEqual([
+    expect(parseAttributeFilters({ a: { $exists: true } })).toEqual([
       { a: { $exists: true } },
     ]);
-    expect(parseMongoConditionExpression({ a: { $exists: false } })).toEqual([
+    expect(parseAttributeFilters({ a: { $exists: false } })).toEqual([
       { a: { $exists: false } },
     ]);
   });
 
   test('$type', () => {
     expect(
-      parseMongoConditionExpression({
+      parseAttributeFilters({
         a: { $type: 'Binary' },
       })
     ).toEqual([{ a: { $type: 'binData' } }]);
@@ -47,7 +55,7 @@ describe('parseMongoConditionExpression', () => {
 
   test('startsWith', () => {
     expect(
-      parseMongoConditionExpression({
+      parseAttributeFilters({
         a: { $startsWith: 'xx' },
       })
     ).toEqual([{ a: /^xx/ }]);
@@ -55,7 +63,7 @@ describe('parseMongoConditionExpression', () => {
 
   test('$contains', () => {
     expect(
-      parseMongoConditionExpression({
+      parseAttributeFilters({
         a: { $contains: 1 },
       })
     ).toEqual([
@@ -72,7 +80,7 @@ describe('parseMongoConditionExpression', () => {
 
   test('$matchString', () => {
     expect(
-      parseMongoConditionExpression({
+      parseAttributeFilters({
         a: { $matchString: 'aa' },
       })
     ).toEqual([{ a: /aa/ }]);
@@ -80,7 +88,7 @@ describe('parseMongoConditionExpression', () => {
 
   test('$size (not supported)', () => {
     expect(() =>
-      parseMongoConditionExpression({
+      parseAttributeFilters({
         // @ts-ignore
         a: { $size: 1 },
       })
@@ -89,14 +97,14 @@ describe('parseMongoConditionExpression', () => {
 
   test('$in', () => {
     expect(
-      parseMongoConditionExpression({
+      parseAttributeFilters({
         a: { $in: ['a'] },
       })
     ).toEqual([{ a: { $in: ['a'] } }]);
   });
   test('$eq', () => {
     expect(
-      parseMongoConditionExpression({
+      parseAttributeFilters({
         a: { $eq: 1 },
       })
     ).toEqual([{ a: { $eq: 1 } }]);
@@ -104,7 +112,7 @@ describe('parseMongoConditionExpression', () => {
 
   test('$ne', () => {
     expect(
-      parseMongoConditionExpression({
+      parseAttributeFilters({
         a: { $ne: 1 },
       })
     ).toEqual([{ a: { $ne: 1 } }]);
@@ -112,12 +120,12 @@ describe('parseMongoConditionExpression', () => {
 
   test('$and', () => {
     expect(
-      parseMongoConditionExpression({
+      parseAttributeFilters({
         b: { $ne: 'xx' },
         $and: [
           { x: { $ne: 'zzz' } },
           //
-        ],
+        ] as any,
       })
     ).toEqual([
       {
@@ -135,7 +143,7 @@ describe('parseMongoConditionExpression', () => {
 
   test('$or', () => {
     expect(
-      parseMongoConditionExpression({
+      parseAttributeFilters({
         b: { $ne: 'xx' },
         $or: [
           { x: { $ne: 'zzz' } },
@@ -148,7 +156,7 @@ describe('parseMongoConditionExpression', () => {
             },
           },
           //
-        ],
+        ] as any,
       })
     ).toEqual([
       {
@@ -182,17 +190,19 @@ describe('parseMongoConditionExpression', () => {
 
   test('"$not" simple', () => {
     expect(
-      parseMongoConditionExpression({
+      parseAttributeFilters({
         $not: {
           a: { $eq: 1 },
           $or: [{ o: { $gt: 1 } }],
-        },
+        } as any,
       })
-    ).toEqual([{ $nor: [{ $and: [{ a: { $eq: 1 } }, { $or: [{ o: { $gt: 1 } }] }] }] }]);
+    ).toEqual([
+      { $nor: [{ $and: [{ a: { $eq: 1 } }, { $or: [{ o: { $gt: 1 } }] }] }] },
+    ]);
   });
 
   test('$not complex', () => {
-    const sut = parseMongoConditionExpression({
+    const sut = parseAttributeFilters({
       b: { $ne: 'xx' },
       $not: {
         // @ts-ignore fixme typing
@@ -213,7 +223,7 @@ describe('parseMongoConditionExpression', () => {
             $not: { x: { $eq: 'z' } },
             $or: [{ a: { $eq: 1 } }],
           },
-        ],
+        ] as any,
       },
     });
 

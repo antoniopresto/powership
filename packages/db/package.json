@@ -34,7 +34,9 @@
   ],
   "dependencies": {
     "@darch/schema": "2.0.0-alpha.20220724T134243-0300",
-    "@darch/utils": "2.0.0-alpha.20220724T134243-0300"
+    "@darch/utils": "2.0.0-alpha.20220724T134243-0300",
+    "dataloader": "2.1.0",
+    "sift": "16.0.0"
   },
   "devDependencies": {
     "mongodb": "4.8.1",
