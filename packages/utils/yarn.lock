@@ -2146,6 +2146,11 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
+hoper@1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/hoper/-/hoper-1.0.8.tgz#8c6cfb12979a0fd00acb4957b14505156cfcbf07"
+  integrity sha512-bk6+fgoV0QG3PfTamTAxM/+MTPAy+Ey6Aeah4H6aZqYtfLUGDSf1g6SPeFKbWAJad+q8ksnM2o0tqHjTaus/9A==
+
 hosted-git-info@^2.1.4:
   version "2.8.9"
   resolved "https://registry.npmjs.org/hosted-git-info/-/hosted-git-info-2.8.9.tgz"

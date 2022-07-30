@@ -45,6 +45,10 @@ export abstract class FieldType<Type, TypeName extends string, Def> {
     }
   }
 
+  is(input: any): input is Type {
+    return this.validate(input);
+  }
+
   optional = false;
   list = false;
   description?: string;
