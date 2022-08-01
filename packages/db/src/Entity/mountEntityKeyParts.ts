@@ -1,8 +1,7 @@
 import get from 'lodash/get';
-import { ID_SEPARATOR } from '../Transporter/HashPKSKConditionsToTopLevelFilter';
-import {CollectionFieldIndexConfig} from "../Transporter/indexMapper";
+import {DocumentIndexItem, PK_SK_SEPARATOR} from "../Transporter/DocumentIndex";
 
-export type EntityIDOptions = Pick<CollectionFieldIndexConfig<any>, 'PK' | 'SK'>;
+export type EntityIDOptions = Pick<DocumentIndexItem<any>, 'PK' | 'SK'>;
 
 export type KeyPart = {
   value: string | number;
@@ -73,7 +72,7 @@ export function mountEntityIndexString(
   const _PK = parts.PK.map((el) => el.value).join(ENTITY_KEY_SEPARATOR);
   const _SK = parts.SK.map((el) => el.value).join(ENTITY_KEY_SEPARATOR);
 
-  return `${_PK}${ID_SEPARATOR}${_SK}`;
+  return `${_PK}${PK_SK_SEPARATOR}${_SK}`;
 }
 
 export function mountEntityIDDescriptor(

@@ -186,4 +186,8 @@ describe('conust', () => {
 
     expect(encodedSorted).toEqual(numbers.map((el) => encodeNumber(el)));
   });
+
+  test('should encode numbers', () => {
+    expect(encodeNumber(-12000000000000000000000000000000000000)).toEqual('30vyx~')
+  });
 });

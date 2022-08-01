@@ -12,6 +12,8 @@
 // text and numbers into a properly sortable version. However, the reverse transformation of such mixed strings
 // is not possible.
 
+import Big from 'big.js';
+
 const maxDigitValue = 35;
 const maxMagnitudeDigitValue = 34;
 
@@ -105,14 +107,14 @@ const digits36Reversed = [
   '0',
 ] as const;
 
-export function encodeNumber(input: string) {
-  const numberString = input + '';
-
-  if ('string' !== typeof input) {
+export function encodeNumber(input: string | number) {
+  if ('string' !== typeof input && 'number' !== typeof input) {
     throw new Error(
       `expected typeof input to be string, but received "${typeof input}"`
     );
   }
+
+  const numberString = typeof input === 'number' ? Big(input).toFixed() : input;
 
   try {
     if (!numberString.length) return '';
@@ -163,7 +165,7 @@ export function encodeNumber(input: string) {
   }
 }
 
-export function conust(input: string) {
+export function conust(input: string | number) {
   return encodeNumber(input);
 }
 

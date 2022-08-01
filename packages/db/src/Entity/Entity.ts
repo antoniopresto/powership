@@ -289,5 +289,5 @@ function buildEntityOperationInfoContext(
     context: parserInput.methodOptions.context,
   };
 }
-export {CollectionFieldIndexConfig} from "../Transporter/indexMapper";
-export {IndexKeyHash} from "../Transporter/indexMapper";
+export {DocumentIndexItem} from "../Transporter/DocumentIndex";
+export {IndexKeyHash} from "../Transporter/DocumentIndex";

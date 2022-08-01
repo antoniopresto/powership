@@ -11,7 +11,6 @@ import {
   LoadQueryConfig,
   PutItemOptions,
   Transporter,
-  FieldConditionExpression,
   UpdateItemConfig,
 } from '../Transporter/Transporter';
 
@@ -21,6 +20,7 @@ import { mongoLoadQuery } from './mongoDataLoader/mongoLoadQuery';
 
 import { parseAttributeFilters } from './parseAttributeFilters';
 import { parseMongoUpdateExpression } from './parseMongoUpdateExpression';
+import { createDocumentIndexMapper } from '../Transporter/DocumentIndex';
 
 export class MongoTransporter extends Transporter {
   _client: MongoClient;
@@ -133,20 +133,21 @@ export class MongoTransporter extends Transporter {
     created: boolean;
     item: T | null;
     original: any;
-    error: string | null;
+    error: string | undefined;
   }> {
-    const { item, replace = false } = options;
-    
+    const { item: itemInput, replace = false, indexConfig } = options;
+
+    const { indexFields, indexFieldKeys } =
+      createDocumentIndexMapper(indexConfig)(itemInput);
+
+    const item = { ...indexFields, ...itemInput };
+
     const collection = this.getCollection(item);
 
-    const conditionExpression: Filter<any> = {
-      _id,
-    };
+    const conditionExpression: Filter<any> = indexFields;
 
     if (options.condition) {
-      conditionExpression.$and = parseAttributeFilters({
-        ...options.condition,
-      });
+      conditionExpression.$and = parseAttributeFilters(options.condition);
     }
 
     let result: any;
@@ -154,11 +155,18 @@ export class MongoTransporter extends Transporter {
 
     try {
       if (replace === false) {
+        //
+        const indexExists = indexFieldKeys.reduce(
+          (previousValue, field) => ({
+            ...previousValue,
+            [field]: { $exists: false },
+          }),
+          {}
+        );
+
         conditionExpression.$and = [
           ...(conditionExpression.$and || []),
-          {
-            _id: { $exists: false },
-          },
+          indexExists,
         ];
       }
 
@@ -176,7 +184,7 @@ export class MongoTransporter extends Transporter {
       updated: updated,
       created: created,
       item: created || updated ? item : null,
-      error: __error?.message || null,
+      error: __error?.message,
     };
 
     Object.defineProperties(res, {

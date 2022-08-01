@@ -1,17 +1,28 @@
-import { PKSKValueType } from './Transporter';
+import { DocumentBase, PKSKValueType } from './Transporter';
 import { encodeNumber } from '@darch/utils/lib/conust';
 
-export type IndexKeyHash<Keys> = `#${string}` | `.${Extract<Keys, string>}`;
+export type IndexKeyHash<Keys = string> =
+  | `#${string}`
+  | `.${Extract<Keys, string>}`;
 
 // Definition for a document index
-export type DocumentIndexItem<T extends Record<string, unknown>> = {
+export type DocumentIndexItem<Keys> = {
   field: `_id` | `_id${number}`;
-  PK: IndexKeyHash<Extract<keyof T, string>>[];
-  SK?: IndexKeyHash<Extract<keyof T, string>>[];
+  PK: IndexKeyHash<Extract<Keys, string>>[];
+  SK?: IndexKeyHash<Extract<Keys, string>>[];
+};
+
+export type DocumentIndexConfig<Doc extends DocumentBase = DocumentBase> = {
+  indices: DocumentIndexItem<
+    [keyof Doc] extends [never] ? string : keyof Doc
+  >[];
 };
 
 export interface DocumentIndexMapper<Document extends Record<string, unknown>> {
-  (document: Record<string, any>): {};
+  (document: Record<string, any>): {
+    indexFields: Record<string, string>;
+    indexFieldKeys: string[];
+  };
 }
 
 type TUtil = {
@@ -23,9 +34,7 @@ type TUtil = {
 
 export function createDocumentIndexMapper<
   Document extends Record<string, unknown>
->(options: {
-  indices: DocumentIndexItem<any>[];
-}): DocumentIndexMapper<Document> {
+>(options: DocumentIndexConfig<Document>): DocumentIndexMapper<Document> {
   const { indices } = options;
 
   const byIndexField: Record<string, TUtil[]> = {};
@@ -80,7 +89,7 @@ export function createDocumentIndexMapper<
       );
     }
 
-    const indexes: Record<string, string> = {};
+    const indexFields: Record<string, string> = {};
 
     indexEntries.forEach(([indexName, utils]) => {
       const keys = { PK: [] as string[], SK: [] as string[] };
@@ -91,7 +100,7 @@ export function createDocumentIndexMapper<
           if (docFieldToExtract !== undefined) {
             const value = fieldValues[docFieldToExtract];
             keys[kind].push(
-              typeof value === 'number' ? encodeNumber(value.toString()) : value
+              typeof value === 'number' ? encodeNumber(value) : value
             );
           }
 
@@ -101,14 +110,15 @@ export function createDocumentIndexMapper<
         }
       );
 
-      indexes[indexName] =
+      indexFields[indexName] =
         keys.PK.join(KEY_SEPARATOR) +
         PK_SK_SEPARATOR +
         keys.SK.join(KEY_SEPARATOR);
     });
 
     return {
-      indexes,
+      indexFields,
+      indexFieldKeys: Object.keys(indexFields),
     };
   };
 }

@@ -31,7 +31,8 @@
     "ulid": "2.3.0",
     "winston-slack-webhook-transport": "2.1.0",
     "winston": "3.8.1",
-    "hoper": "1.0.8"
+    "hoper": "1.0.8",
+    "big.js": "6.2.1"
   },
   "devDependencies": {
     "@darch/builder": "2.0.0-alpha.20220724T134243-0300",
@@ -43,6 +44,7 @@
     "@types/node": "16.11.12",
     "@types/object-hash": "2.2.1",
     "@types/prettier": "2.6.3",
+    "@types/big.js": "6.1.5",
     "@typescript-eslint/eslint-plugin": "4.15.2",
     "@typescript-eslint/parser": "4.15.2",
     "esbuild": "0.14.3",

@@ -5,6 +5,7 @@ import { getTypeName } from '@darch/utils/lib/getTypeName';
 import { Darch } from '@darch/schema';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { devAssert } from '@darch/utils/lib/devAssert';
+import { DocumentIndexConfig } from './DocumentIndex';
 
 export const FieldTypes = tuple(
   'String',
@@ -107,7 +108,8 @@ export type GetItemConfig<IndexFieldKey extends string> =
 
 export type PutItemOptions<T extends DocumentBase> = {
   item: T;
-  condition?: FieldFilter;
+  indexConfig: DocumentIndexConfig<T>;
+  condition?: AttributeFilterRecord;
   replace?: boolean;
 };
 
@@ -148,7 +150,7 @@ export type UpdateItemConfig<
   filter: IndexFilter;
   update: SanitizedUpdateOperations<Item>;
   upsert?: boolean;
-  condition?: FieldFilter;
+  condition?: AttributeFilterRecord;
 };
 
 export type DeleteItemOptions<
@@ -156,7 +158,7 @@ export type DeleteItemOptions<
   Item extends { [key: string]: any }
 > = {
   filter: IndexFilter;
-  condition?: FieldFilter;
+  condition?: AttributeFilterRecord;
 };
 
 export const FieldFilterOperators: {
@@ -260,7 +262,7 @@ export type PutItemPayload<T> = {
   updated: boolean;
   created: boolean;
   item: T | null;
-  error: string | null;
+  error: string | null | undefined;
   original: any;
 };
 
@@ -275,9 +277,9 @@ export abstract class Transporter {
 
   abstract connect(): Promise<any>;
 
-  abstract loadQuery(options: LoadQueryConfig): Promise<{
-    items: DocumentBase[];
-  }>;
+  // abstract loadQuery(options: LoadQueryConfig): Promise<{
+  //   items: DocumentBase[];
+  // }>;
 
   //
   // abstract getItem(options: GetItemConfig): Promise<{

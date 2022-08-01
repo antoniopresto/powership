@@ -3,7 +3,7 @@ import {createObjectType, GraphType, GraphTypeLike, Infer,} from '@darch/schema'
 import {Transporter, QueryConditions} from '../Transporter/Transporter';
 import {tuple} from '@darch/utils/lib/typeUtils';
 import {Waterfall} from '@darch/utils/lib/hooks';
-import {CollectionFieldIndexConfig} from "../Transporter/indexMapper";
+import {DocumentIndexItem} from "../Transporter/DocumentIndex";
 
 export type EntityOptions<
   DefinitionInput extends Readonly<SchemaDefinitionInput>
@@ -13,8 +13,8 @@ export type EntityOptions<
   type: DefinitionInput;
 
   index: [
-    CollectionFieldIndexConfig<DefinitionInput>,
-    ...CollectionFieldIndexConfig<DefinitionInput>[]
+    DocumentIndexItem<DefinitionInput>,
+    ...DocumentIndexItem<DefinitionInput>[]
   ];
 
   collection?: string;
