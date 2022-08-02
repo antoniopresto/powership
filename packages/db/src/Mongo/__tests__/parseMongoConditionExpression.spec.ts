@@ -1,6 +1,15 @@
 import { parseAttributeFilters } from '../parseAttributeFilters';
 
 describe('parseMongoConditionExpression', () => {
+  test('key value', () => {
+    expect(parseAttributeFilters({ a: 1 })).toEqual([{ a: 1 }]);
+
+    expect(parseAttributeFilters({ a: 1, b: '22' })).toEqual([
+      { a: 1 },
+      { b: '22' },
+    ]);
+  });
+
   test('$lte', () => {
     expect(parseAttributeFilters({ a: { $lte: 1 } })).toEqual([
       { a: { $lte: 1 } },

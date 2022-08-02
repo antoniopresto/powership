@@ -19,6 +19,10 @@ export function parseAttributeFilters(attFilter: AttributeFilterRecord) {
   getKeys(attFilter).forEach((attribute: string): any => {
     const filter = notNull(attFilter[attribute]);
 
+    if (typeof filter === 'string' || typeof filter === 'number') {
+      return $and.push({ [attribute]: filter });
+    }
+
     switch (attribute) {
       case '$and': {
         if (!Array.isArray(filter)) {

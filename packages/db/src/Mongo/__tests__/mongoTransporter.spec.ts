@@ -6,6 +6,8 @@
 import { MongoTransporter } from '../MongoTransporter';
 import { createAppMock, AppMock } from './createAppMock';
 import { DocumentIndexConfig } from '../../Transporter/DocumentIndex';
+import { UpdateExpression } from '../../Transporter/Transporter';
+import { sanitizeUpdateExpressions } from '../../Transporter/sanitizeUpdateExpressions';
 
 const itemUser = {
   item: {
@@ -24,9 +26,9 @@ const itemRanking = {
   },
 } as const;
 
-// function sanitizeUpdate<Update extends UpdateExpression<any>>(input: Update) {
-//   return sanitizeUpdateExpressions(input, { PK: ['#mypktest'], SK: undefined });
-// }
+function sanitizeUpdate<Update extends UpdateExpression<{}>>(input: Update) {
+  return sanitizeUpdateExpressions(input, { PK: ['#mypktest'], SK: [] });
+}
 
 jest.setTimeout(60000);
 
@@ -38,6 +40,23 @@ describe('MongoTransporter', () => {
     config: Omit<Parameters<MongoTransporter['putItem']>[0], 'indexConfig'>
   ) {
     return transporter.putItem({
+      indexConfig: {
+        indices: [
+          {
+            field: '_id',
+            PK: ['.PK'],
+            SK: ['.SK'],
+          },
+        ],
+      },
+      ...config,
+    });
+  }
+
+  function _update(
+    config: Omit<Parameters<MongoTransporter['updateItem']>[0], 'indexConfig'>
+  ) {
+    return transporter.updateItem({
       indexConfig: {
         indices: [
           {
@@ -70,23 +89,6 @@ describe('MongoTransporter', () => {
         await _put({
           item: {
             PK: 'ranking',
-            SK: '',
-          },
-        })
-      ).toEqual({
-        created: true,
-        item: {
-          PK: 'ranking',
-          SK: '',
-          _id: 'ranking↠',
-        },
-        updated: false,
-      });
-
-      expect(
-        await _put({
-          item: {
-            PK: 'ranking',
             SK: 0,
           },
         })
@@ -96,6 +98,23 @@ describe('MongoTransporter', () => {
           PK: 'ranking',
           SK: 0,
           _id: 'ranking↠5',
+        },
+        updated: false,
+      });
+
+      expect(
+        await _put({
+          item: {
+            PK: 'ranking',
+            SK: 10,
+          },
+        })
+      ).toEqual({
+        created: true,
+        item: {
+          PK: 'ranking',
+          SK: 10,
+          _id: 'ranking↠721',
         },
         updated: false,
       });
@@ -140,15 +159,15 @@ describe('MongoTransporter', () => {
         await _put({
           item: {
             PK: 'users',
-            SK: '',
+            SK: '5',
           },
         })
       ).toEqual({
         created: true,
         item: {
           PK: 'users',
-          SK: '',
-          _id: 'users↠',
+          SK: '5',
+          _id: 'users↠5',
         },
         updated: false,
       });
@@ -170,9 +189,7 @@ describe('MongoTransporter', () => {
       });
 
       // replace
-      expect(
-        await _put({ ...itemUser, replace: true })
-      ).toEqual({
+      expect(await _put({ ...itemUser, replace: true })).toEqual({
         created: false,
         item: {
           PK: 'users',
@@ -273,119 +290,118 @@ describe('MongoTransporter', () => {
     });
   });
 
-  // describe('updateItem', () => {
-  //   it('should handle config.update', async () => {
-  //     await transporter.putItem({
-  //       item: {
-  //         PK: 'a',
-  //         SK: 'a',
-  //         list: ['a', 'b', 'c', 'd', 'e', 'f'],
-  //         num: 0,
-  //       },
-  //     });
-  //
-  //     const update = (SK: string, update: UpdateExpression<any>) =>
-  //       transporter.updateItem<any>({
-  //         filter: {
-  //           PK: 'a',
-  //           SK,
-  //           field: '_id',
-  //         },
-  //         update: sanitizeUpdate(update),
-  //       });
-  //
-  //     expect(await update('a', { $set: { newProp: 22 } })).toHaveProperty(
-  //       'item.newProp',
-  //       22
-  //     );
-  //
-  //     expect(await update('a', { $remove: ['list[0]'] })).toHaveProperty(
-  //       'item.list',
-  //       ['b', 'c', 'd', 'e', 'f']
-  //     );
-  //     expect(await update('a', { $remove: ['list[4]'] })).toHaveProperty(
-  //       'item.list',
-  //       ['b', 'c', 'd', 'e']
-  //     );
-  //
-  //     expect(await update('a', { $inc: { num: 1, newNum: 2 } })).toHaveProperty(
-  //       'item',
-  //       {
-  //         _id: expect.any(String),
-  //         PK: 'a',
-  //         SK: 'a',
-  //         list: ['b', 'c', 'd', 'e'],
-  //         newNum: 2,
-  //         num: 1,
-  //         newProp: 22,
-  //       }
-  //     );
-  //   });
-  //
-  //   it('should handle config.condition', async () => {
-  //     await transporter.putItem({
-  //       item: {
-  //         PK: 'a',
-  //         SK: 'a',
-  //         list: ['a', 'b', 'c', 'd', 'e', 'f'],
-  //         num: 0,
-  //       },
-  //     });
-  //
-  //     expect(
-  //       await transporter.updateItem<any>({
-  //         filter: {
-  //           PK: 'a',
-  //           SK: 'a',
-  //           field: '_id',
-  //         },
-  //         update: sanitizeUpdate({ $set: { newField: 1 } }),
-  //         condition: { num: { $gte: 1 } },
-  //       })
-  //     ).toEqual({ item: null, created: false, updated: false });
-  //
-  //     const updated = await transporter.updateItem<any>({
-  //       filter: {
-  //         PK: 'a',
-  //         SK: 'a',
-  //         field: '_id',
-  //       },
-  //       update: sanitizeUpdate({ $set: { newField: 1 } }),
-  //       condition: { num: { $gte: 0 } },
-  //     });
-  //
-  //     expect(updated).toHaveProperty('item.newField', 1);
-  //     expect(updated).toHaveProperty('updated', true);
-  //     expect(updated).toHaveProperty('created', false);
-  //   });
-  //
-  //   it('should handle config.upsert using default false', async () => {
-  //     const config: UpdateItemConfig<any> = {
-  //       filter: {
-  //         PK: 'a',
-  //         SK: '55555555_none_exists',
-  //         field: '_id',
-  //       },
-  //
-  //       update: sanitizeUpdate({ $set: { newField: 1 } }),
-  //     };
-  //
-  //     const up1 = await transporter.updateItem<any>({
-  //       ...config,
-  //     });
-  //
-  //     expect(up1).toEqual({ item: null, created: false, updated: false });
-  //
-  //     const up2 = await transporter.updateItem<any>({
-  //       ...config,
-  //       upsert: true,
-  //     });
-  //
-  //     expect(up2).toHaveProperty('item.newField', 1);
-  //     expect(up2).toHaveProperty('created', true);
-  //     expect(up2).toHaveProperty('updated', false);
-  //   });
-  // });
+  describe('updateItem', () => {
+    it('should handle config.update', async () => {
+      await _put({
+        item: {
+          PK: 'a',
+          SK: 'a',
+          list: ['a', 'b', 'c', 'd', 'e', 'f'],
+          num: 0,
+        },
+      });
+
+      const update = (SK: string, update: UpdateExpression<any>) =>
+        _update({
+          filter: {
+            PK: { $eq: 'a' },
+            SK: { $eq: SK },
+          },
+          update: sanitizeUpdate(update),
+        });
+
+      expect(await update('a', { $set: { newProp: 22 } })).toHaveProperty(
+        'item.newProp',
+        22
+      );
+
+      expect(await update('a', { $remove: ['list[0]'] })).toHaveProperty(
+        'item.list',
+        ['b', 'c', 'd', 'e', 'f']
+      );
+      expect(await update('a', { $remove: ['list[4]'] })).toHaveProperty(
+        'item.list',
+        ['b', 'c', 'd', 'e']
+      );
+
+      expect(await update('a', { $inc: { num: 1, newNum: 2 } })).toHaveProperty(
+        'item',
+        {
+          _id: expect.any(String),
+          PK: 'a',
+          SK: 'a',
+          list: ['b', 'c', 'd', 'e'],
+          newNum: 2,
+          num: 1,
+          newProp: 22,
+        }
+      );
+    });
+
+    // it('should handle config.condition', async () => {
+    //   await _update({
+    //     item: {
+    //       PK: 'a',
+    //       SK: 'a',
+    //       list: ['a', 'b', 'c', 'd', 'e', 'f'],
+    //       num: 0,
+    //     },
+    //   });
+    //
+    //   expect(
+    //     await transporter.updateItem<any>({
+    //       filter: {
+    //         PK: 'a',
+    //         SK: 'a',
+    //         field: '_id',
+    //       },
+    //       update: sanitizeUpdate({ $set: { newField: 1 } }),
+    //       condition: { num: { $gte: 1 } },
+    //     })
+    //   ).toEqual({ item: null, created: false, updated: false });
+    //
+    //   const updated = await transporter.updateItem<any>({
+    //     filter: {
+    //       PK: 'a',
+    //       SK: 'a',
+    //       field: '_id',
+    //     },
+    //     update: sanitizeUpdate({ $set: { newField: 1 } }),
+    //     condition: { num: { $gte: 0 } },
+    //   });
+    //
+    //   expect(updated).toHaveProperty('item.newField', 1);
+    //   expect(updated).toHaveProperty('updated', true);
+    //   expect(updated).toHaveProperty('created', false);
+    // });
+
+    // it('should handle config.upsert using default false', async () => {
+    //   const config: UpdateItemConfig<any> = {
+    //     filter: {
+    //       PK: 'a',
+    //       SK: '55555555_none_exists',
+    //       field: '_id',
+    //     },
+    //
+    //     update: sanitizeUpdate({ $set: { newField: 1 } }),
+    //   };
+    //
+    //   const up1 = await transporter.updateItem<any>({
+    //     ...config,
+    //   });
+    //
+    //   expect(up1).toEqual({ item: null, created: false, updated: false });
+    //
+    //   const up2 = await transporter.updateItem<any>({
+    //     ...config,
+    //     upsert: true,
+    //   });
+    //
+    //   expect(up2).toHaveProperty('item.newField', 1);
+    //   expect(up2).toHaveProperty('created', true);
+    //   expect(up2).toHaveProperty('updated', false);
+    // });
+  });
 
   // describe('deleteItem', () => {
   //   it('should handle keyPair', async () => {

@@ -1,6 +1,7 @@
 import { DocumentBase, PKSKValueType } from './Transporter';
 import { encodeNumber } from '@darch/utils/lib/conust';
 import { inspectObject } from '@darch/utils/lib/inspectObject';
+import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 
 export type IndexKeyHash<Keys = string> =
   | `#${string}`
@@ -36,14 +37,27 @@ export type ParsedIndexPart = {
   indexField: DocumentIndexItem<string>['field'];
 };
 
-export type ParsedDocumentIndices = {
-  valid: boolean;
-  invalidFields: ParsedIndexPart['invalidFields'];
-  indexFields: Record<string, string> | null;
-};
+export type ParsedDocumentIndices =
+  | {
+      valid: true;
+      indexFields: Record<string, string>;
+      firstIndex: { key: DocumentIndexItem<string>['field']; value: string };
+      invalidFields: null;
+      error: null;
+    }
+  | {
+      valid: false;
+      invalidFields: ParsedIndexPart['invalidFields'];
+      firstIndex: {
+        key: DocumentIndexItem<string>['field'];
+        value: string;
+      } | null;
+      indexFields: null;
+      error: RuntimeError;
+    };
 
 export interface DocumentIndexMapper<Document extends Record<string, any>> {
-  (doc: Document): {};
+  (doc: Document): Readonly<ParsedDocumentIndices>;
 }
 
 export function createDocumentIndexMapper<
@@ -51,14 +65,11 @@ export function createDocumentIndexMapper<
 >(options: DocumentIndexConfig<Document>): DocumentIndexMapper<Document> {
   const { indices } = options;
 
-  function mapIndexes(doc: Document) {
+  function mapIndexes(doc: Document): ParsedDocumentIndices {
     const indexFields: Record<string, string> = {};
-
-    const result: ParsedDocumentIndices = {
-      valid: true,
-      indexFields,
-      invalidFields: [],
-    };
+    const invalidFields: ParseIndexInvalid[] = [];
+    let firstIndex: ParsedDocumentIndices['firstIndex'] = null;
+    let valid = true;
 
     indices.forEach((index) => {
       const PK = mountIndexFromParts({
@@ -75,20 +86,40 @@ export function createDocumentIndexMapper<
         indexField: index.field,
       });
 
-      result.invalidFields.push(...PK.invalidFields, ...SK.invalidFields);
+      const id = `${PK.value}${PK_SK_SEPARATOR}${SK.value}`;
 
       if (!PK.valid || !SK.valid) {
-        result.valid = false;
+        valid = false;
+        invalidFields.push(...PK.invalidFields, ...SK.invalidFields);
+      } else {
+        if (!firstIndex) {
+          firstIndex = { key: index.field, value: id };
+        }
       }
 
-      indexFields[index.field] = `${PK.value}${PK_SK_SEPARATOR}${SK.value}`;
+      indexFields[index.field] = id;
     });
 
-    if (!result.valid) {
-      result.indexFields = null;
+    if (!valid || !firstIndex) {
+      return {
+        valid: false,
+        firstIndex,
+        indexFields: null,
+        invalidFields,
+        error: new RuntimeError(`Failed to mount document indexes.`, {
+          document: doc,
+          invalidFields,
+        }),
+      };
     }
 
-    return result;
+    return {
+      valid,
+      firstIndex,
+      indexFields,
+      invalidFields: null,
+      error: null,
+    };
   }
 
   return mapIndexes;
@@ -112,7 +143,7 @@ export function mountIndexFromParts(param: {
 
     if (keyPart.startsWith('.')) {
       const documentField = keyPart.slice(1);
-      const found = doc[documentField];
+      let found = doc[documentField];
 
       if (found === undefined || found === null) {
         return invalidFields.push({
@@ -122,6 +153,13 @@ export function mountIndexFromParts(param: {
           indexField: indexField,
           indexPartKind,
         });
+      }
+
+      if (
+        typeof found === 'object' &&
+        (typeof found.$eq === 'string' || typeof found.$eq === 'number')
+      ) {
+        found = found.$eq;
       }
 
       if (found && typeof found === 'string') {

@@ -5,7 +5,11 @@ import { getTypeName } from '@darch/utils/lib/getTypeName';
 import { Darch } from '@darch/schema';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { devAssert } from '@darch/utils/lib/devAssert';
-import { DocumentIndexConfig } from './DocumentIndex';
+import {
+  createDocumentIndexMapper,
+  DocumentIndexConfig,
+  DocumentIndexMapper,
+} from './DocumentIndex';
 
 export const FieldTypes = tuple(
   'String',
@@ -59,6 +63,7 @@ export type IndexFilter = {
 
 export type AttributeFilterRecord<T extends string = string> = {
   [K in T]?:
+    | PKSKValueType
     | FieldFilter
     | {
         $and?: AttributeFilterRecord[];
@@ -69,6 +74,7 @@ export type AttributeFilterRecord<T extends string = string> = {
 
 export type IndexFilterRecord<T extends string = string> = {
   [K in T]?:
+    | PKSKValueType
     | IndexFilter
     | {
         $and?: IndexFilterRecord[];
@@ -101,16 +107,36 @@ export type LoadQueryConfig = TransporterLoaderConfig<QueryConfig>;
 
 export type GetItemConfig<IndexFieldKey extends string> =
   TransporterLoaderConfig<{
-    filter: IndexFilter;
+    filter: IndexFilterRecord;
     consistent?: boolean;
     projection?: string[];
   }>;
 
-export type PutItemOptions<T extends DocumentBase> = {
+export type PutItemConfig<T extends DocumentBase> = {
   item: T;
   indexConfig: DocumentIndexConfig<T>;
   condition?: AttributeFilterRecord;
   replace?: boolean; // defaults to false
+};
+
+export type UpdateItemConfig<
+  IndexFieldKey extends string,
+  Item extends DocumentBase
+> = {
+  filter: IndexFilterRecord;
+  update: SanitizedUpdateOperations<Item>;
+  indexConfig: DocumentIndexConfig<Item>;
+  upsert?: boolean;
+  condition?: AttributeFilterRecord;
+};
+
+export type DeleteItemConfig<
+  IndexFieldKey extends string,
+  Item extends { [key: string]: any }
+> = {
+  filter: IndexFilterRecord;
+  indexConfig: DocumentIndexConfig<Item>;
+  condition?: AttributeFilterRecord;
 };
 
 type UnsetUpdateExpression<Item> = Item extends Record<infer K, any>
@@ -142,24 +168,6 @@ export type UpdateExpression<
 };
 
 export type UpdateExpressionKey = keyof UpdateExpression<any>;
-
-export type UpdateItemConfig<
-  IndexFieldKey extends string,
-  Item extends { [key: string]: any }
-> = {
-  filter: IndexFilter;
-  update: SanitizedUpdateOperations<Item>;
-  upsert?: boolean;
-  condition?: AttributeFilterRecord;
-};
-
-export type DeleteItemOptions<
-  IndexFieldKey extends string,
-  Item extends { [key: string]: any }
-> = {
-  filter: IndexFilter;
-  condition?: AttributeFilterRecord;
-};
 
 export const FieldFilterOperators: {
   [K in keyof FieldFilter]: (input: any) => FieldFilter[K];
@@ -265,10 +273,11 @@ export type PutItemResult<T> = {
   error?: string | null | undefined;
 };
 
-export type UpdateItemPayload<T> = {
+export type UpdateItemResult<T> = {
   updated: boolean;
   created: boolean;
   item: T | null;
+  error?: string;
 };
 
 export abstract class Transporter {
@@ -287,18 +296,24 @@ export abstract class Transporter {
   //
 
   abstract putItem<T extends DocumentBase>(
-    options: PutItemOptions<T>
+    options: PutItemConfig<T>
   ): Promise<PutItemResult<T>>;
 
-  // abstract updateItem<T extends DocumentBase>(
-  //   options: UpdateItemConfig<T>
-  // ): Promise<UpdateItemPayload<T>>;
-  //
+  abstract updateItem<IndexKey extends string, T extends DocumentBase>(
+    options: UpdateItemConfig<IndexKey, T>
+  ): Promise<UpdateItemResult<T>>;
+
   // abstract deleteItem<T extends DocumentBase>(
   //   options: DeleteItemOptions
   // ): Promise<{
   //   item: T | null;
   // }>;
+
+  getIndexMapper<Doc extends DocumentBase>(
+    indexConfig: DocumentIndexConfig<Doc>
+  ) {
+    return createDocumentIndexMapper(indexConfig);
+  }
 }
 
 export function isPlainQueryKey(input: any): input is PKSKValueType {

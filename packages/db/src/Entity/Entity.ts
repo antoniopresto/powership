@@ -8,7 +8,7 @@ import { hooks } from '@darch/utils/lib/hooks';
 import {
   Transporter,
   QueryConditions,
-  UpdateItemPayload,
+  UpdateItemResult,
 } from '../Transporter/Transporter';
 import { sanitizeUpdateExpressions } from '../Transporter/sanitizeUpdateExpressions';
 

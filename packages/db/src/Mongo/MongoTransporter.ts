@@ -4,15 +4,16 @@ import { pluralize } from '@darch/utils/lib/pluralize';
 import { Filter, UpdateFilter } from 'mongodb';
 
 import {
-  DeleteItemOptions,
+  DeleteItemConfig,
   DocumentBase,
   GetItemConfig,
   PKSKValueType,
   LoadQueryConfig,
-  PutItemOptions,
+  PutItemConfig,
   Transporter,
   UpdateItemConfig,
   PutItemResult,
+  UpdateItemResult,
 } from '../Transporter/Transporter';
 
 import { MongoClient } from './MongoClient';
@@ -21,7 +22,7 @@ import { mongoLoadQuery } from './mongoDataLoader/mongoLoadQuery';
 
 import { parseAttributeFilters } from './parseAttributeFilters';
 import { parseMongoUpdateExpression } from './parseMongoUpdateExpression';
-import { createDocumentIndexMapper } from '../Transporter/DocumentIndex';
+import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 
 export class MongoTransporter extends Transporter {
   _client: MongoClient;
@@ -128,21 +129,9 @@ export class MongoTransporter extends Transporter {
   // }
 
   async putItem<T extends DocumentBase>(
-    options: PutItemOptions<T>
+    options: PutItemConfig<T>
   ): Promise<PutItemResult<T>> {
     const { item: itemInput, indexConfig, replace = false } = options;
-
-    const { indexFields } = createDocumentIndexMapper(indexConfig)(itemInput);
-
-    const item = { ...indexFields, ...itemInput } as T;
-
-    const collection = this.getCollection(item);
-
-    const conditionExpression: Filter<any> = indexFields;
-
-    if (options.condition) {
-      conditionExpression.$and = parseAttributeFilters(options.condition);
-    }
 
     const res: PutItemResult<T> = {
       created: false,
@@ -150,6 +139,23 @@ export class MongoTransporter extends Transporter {
       item: null,
       // error: undefined,
     };
+
+    const indexMap = this.getIndexMapper(indexConfig)(itemInput);
+
+    if (indexMap.error) {
+      res.error = indexMap.error.detailsString;
+      return res;
+    }
+
+    const item = { ...indexMap.indexFields, ...itemInput } as T;
+
+    const collection = this.getCollection(item);
+
+    const conditionExpression: Filter<any> = indexMap.indexFields;
+
+    if (options.condition) {
+      conditionExpression.$and = parseAttributeFilters(options.condition);
+    }
 
     try {
       if (replace) {
@@ -179,33 +185,61 @@ export class MongoTransporter extends Transporter {
     return this._client.db.collection(this.collection);
   }
 
-  // async updateItem<T extends DocumentBase>(
-  //   options: UpdateItemConfig<T>
-  // ): Promise<{ item: T | null; updated: boolean; created: boolean }> {
-  //   const { update, upsert, PK } = options;
-  //   const updateExpression: UpdateFilter<any> =
-  //     parseMongoUpdateExpression(update);
-  //
-  //   const collection = this.collectionFromPK(PK);
-  //   const conditionExpression = this._parseItemConditionExpression(options);
-  //
-  //   const result = await collection.findOneAndUpdate(
-  //     conditionExpression,
-  //     updateExpression,
-  //     {
-  //       upsert,
-  //       returnDocument: 'after',
-  //     }
-  //   );
-  //
-  //   const { updatedExisting, upserted } = result.lastErrorObject || {};
-  //
-  //   return {
-  //     item: result.value as any,
-  //     created: !!upserted,
-  //     updated: !!updatedExisting,
-  //   };
-  // }
+  async updateItem<T extends DocumentBase>(
+    options: UpdateItemConfig<string, T>
+  ): Promise<UpdateItemResult<T>> {
+    const { update, upsert, indexConfig, condition, filter } = options;
+
+    const indexMap = this.getIndexMapper(indexConfig)(filter as any);
+
+    if (!indexMap.firstIndex) {
+      return {
+        item: null,
+        updated: false,
+        created: false,
+        error: indexMap.error!.detailsString,
+      };
+    }
+
+    const parsedFilter = indexMap.firstIndex;
+    const updateExpression = parseMongoUpdateExpression(update);
+    const collection = this.getCollection(parsedFilter);
+
+    const conditionExpression: Filter<any> = {
+      [parsedFilter.key]: parsedFilter.value,
+    };
+
+    if (options.condition) {
+      conditionExpression.$and = parseAttributeFilters(options.condition);
+    }
+
+    try {
+      const result = await collection.findOneAndUpdate(
+        conditionExpression,
+        updateExpression,
+        {
+          upsert,
+          returnDocument: 'after',
+        }
+      );
+
+      const { updatedExisting, upserted } = result.lastErrorObject || {};
+
+      return {
+        item: result.value as any,
+        created: !!upserted,
+        updated: !!updatedExisting,
+        // error: result.lastErrorObject
+      };
+    } catch (e: any) {
+      return {
+        item: null,
+        error: e.message,
+        updated: false,
+        created: false,
+      };
+    }
+  }
 
   // async deleteItem<T extends DocumentBase>(
   //   options: DeleteItemOptions
@@ -214,36 +248,5 @@ export class MongoTransporter extends Transporter {
   //   const conditionExpression = this._parseItemConditionExpression(options);
   //   const { value } = await collection.findOneAndDelete(conditionExpression);
   //   return { item: value as any };
-  // }
-
-  // _parseItemConditionExpression(options: {
-  //   PK: TKeyType;
-  //   SK: TKeyType | null;
-  //   SKType: KeyTypeName | null;
-  //   condition?: ConditionExpressions;
-  // }) {
-  //   const { SKType, PK, SK, condition } = options;
-  //
-  //   const _id = hashKey({
-  //     PK,
-  //     SK: SK === undefined ? null : SK,
-  //     SKType,
-  //   });
-  //
-  //   const conditionExpression: Filter<any> = {
-  //     _id,
-  //   };
-  //
-  //   if (condition) {
-  //     const $and = parseMongoConditionExpression({
-  //       ...condition,
-  //     });
-  //
-  //     if ($and.length) {
-  //       conditionExpression.$and = $and;
-  //     }
-  //   }
-  //
-  //   return conditionExpression;
   // }
 }

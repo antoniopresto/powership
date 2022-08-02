@@ -22,7 +22,12 @@ describe('createDocumentIndexMapper', () => {
         _id: 'fulano↠715',
         _id1: '715↠fulano',
       },
-      invalidFields: [],
+      firstIndex: {
+        key: '_id',
+        value: 'fulano↠715',
+      },
+      invalidFields: null,
+      error: null,
       valid: true,
     });
   });
@@ -42,7 +47,12 @@ describe('createDocumentIndexMapper', () => {
       indexFields: {
         _id: '5#NAME↠nice#5',
       },
-      invalidFields: [],
+      firstIndex: {
+        key: '_id',
+        value: '5#NAME↠nice#5',
+      },
+      invalidFields: null,
+      error: null,
       valid: true,
     });
   });
@@ -60,6 +70,7 @@ describe('createDocumentIndexMapper', () => {
 
     expect(oneField({ name: '' })).toEqual({
       indexFields: null,
+      firstIndex: null,
       invalidFields: [
         {
           details: 'Expected string or number, found undefined.',
@@ -84,6 +95,33 @@ describe('createDocumentIndexMapper', () => {
         },
       ],
       valid: false,
+      error: expect.objectContaining({
+        message: 'Failed to mount document indexes.',
+      }),
+    });
+  });
+
+  it('should convert filter.$eq to corresponding value', async () => {
+    const oneField = createDocumentIndexMapper({
+      indices: [
+        {
+          field: '_id',
+          PK: ['#batata', '.name'],
+        },
+      ],
+    });
+
+    expect(oneField({ name: { $eq: 'fulano' } })).toEqual({
+      error: null,
+      firstIndex: {
+        key: '_id',
+        value: 'batata#fulano↠',
+      },
+      indexFields: {
+        _id: 'batata#fulano↠',
+      },
+      invalidFields: null,
+      valid: true,
     });
   });
 });
