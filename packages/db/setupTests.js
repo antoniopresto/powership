@@ -6,6 +6,6 @@ process.env.IS_LOCAL = 'true';
 
 beforeAll(async () => {
   // ensure mongo bins are downloaded
-  // jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+  jest.setTimeout(60000);
   await MongoMemoryServer.create();
 });

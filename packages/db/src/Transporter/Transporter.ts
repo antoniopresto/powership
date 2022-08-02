@@ -110,7 +110,7 @@ export type PutItemOptions<T extends DocumentBase> = {
   item: T;
   indexConfig: DocumentIndexConfig<T>;
   condition?: AttributeFilterRecord;
-  replace?: boolean;
+  replace?: boolean; // defaults to false
 };
 
 type UnsetUpdateExpression<Item> = Item extends Record<infer K, any>
@@ -258,12 +258,11 @@ export function isTopLevelFilterKey(key: unknown): key is TopLevelFilterKey {
   return TopLevelFilterKeys.includes(key as any);
 }
 
-export type PutItemPayload<T> = {
-  updated: boolean;
+export type PutItemResult<T> = {
   created: boolean;
+  updated: boolean;
   item: T | null;
-  error: string | null | undefined;
-  original: any;
+  error?: string | null | undefined;
 };
 
 export type UpdateItemPayload<T> = {
@@ -289,7 +288,7 @@ export abstract class Transporter {
 
   abstract putItem<T extends DocumentBase>(
     options: PutItemOptions<T>
-  ): Promise<PutItemPayload<T>>;
+  ): Promise<PutItemResult<T>>;
 
   // abstract updateItem<T extends DocumentBase>(
   //   options: UpdateItemConfig<T>

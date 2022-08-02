@@ -1,9 +1,12 @@
 import { DocumentBase, PKSKValueType } from './Transporter';
 import { encodeNumber } from '@darch/utils/lib/conust';
+import { inspectObject } from '@darch/utils/lib/inspectObject';
 
 export type IndexKeyHash<Keys = string> =
   | `#${string}`
   | `.${Extract<Keys, string>}`;
+
+export type IndexPartKind = 'PK' | 'SK';
 
 // Definition for a document index
 export type DocumentIndexItem<Keys> = {
@@ -18,111 +21,148 @@ export type DocumentIndexConfig<Doc extends DocumentBase = DocumentBase> = {
   >[];
 };
 
-export interface DocumentIndexMapper<Document extends Record<string, unknown>> {
-  (document: Record<string, any>): {
-    indexFields: Record<string, string>;
-    indexFieldKeys: string[];
-  };
-}
-
-type TUtil = {
-  kind: 'PK' | 'SK';
-  indexField: DocumentIndexItem<any>['field'];
-  docFieldToExtract: string | undefined;
-  hashPartToConcat: string | undefined;
+type ParseIndexInvalid = {
+  reason: 'missing' | 'invalid';
+  details: string;
+  documentField: string;
+  indexField: DocumentIndexItem<string>['field'];
+  indexPartKind: IndexPartKind;
 };
+
+export type ParsedIndexPart = {
+  invalidFields: ParseIndexInvalid[];
+  value: string;
+  valid: boolean;
+  indexField: DocumentIndexItem<string>['field'];
+};
+
+export type ParsedDocumentIndices = {
+  valid: boolean;
+  invalidFields: ParsedIndexPart['invalidFields'];
+  indexFields: Record<string, string> | null;
+};
+
+export interface DocumentIndexMapper<Document extends Record<string, any>> {
+  (doc: Document): {};
+}
 
 export function createDocumentIndexMapper<
   Document extends Record<string, unknown>
 >(options: DocumentIndexConfig<Document>): DocumentIndexMapper<Document> {
   const { indices } = options;
 
-  const byIndexField: Record<string, TUtil[]> = {};
-  const fieldsToExtract = new Set<string>();
+  function mapIndexes(doc: Document) {
+    const indexFields: Record<string, string> = {};
 
-  indices.forEach(({ SK = [], PK, field: indexField }) => {
-    [
-      ...PK.map((value) => ({ kind: 'PK', value } as const)),
-      ...SK.map((value) => ({ kind: 'SK', value } as const)),
-    ].forEach(({ value, kind }) => {
-      //
-      const docFieldToExtract = value.startsWith('.')
-        ? value.slice(1)
-        : undefined;
+    const result: ParsedDocumentIndices = {
+      valid: true,
+      indexFields,
+      invalidFields: [],
+    };
 
-      const item: TUtil = {
-        kind,
-        indexField,
-        docFieldToExtract,
-        hashPartToConcat: value.startsWith('#') ? value.slice(1) : undefined,
-      };
+    indices.forEach((index) => {
+      const PK = mountIndexFromParts({
+        indexPartKind: 'PK',
+        indexParts: index.PK,
+        doc,
+        indexField: index.field,
+      });
 
-      if (docFieldToExtract !== undefined) {
-        fieldsToExtract.add(docFieldToExtract);
+      const SK = mountIndexFromParts({
+        indexPartKind: 'SK',
+        indexParts: index.SK || [],
+        doc,
+        indexField: index.field,
+      });
+
+      result.invalidFields.push(...PK.invalidFields, ...SK.invalidFields);
+
+      if (!PK.valid || !SK.valid) {
+        result.valid = false;
       }
 
-      (byIndexField[indexField] = byIndexField[indexField] || []).push(item);
+      indexFields[index.field] = `${PK.value}${PK_SK_SEPARATOR}${SK.value}`;
+    });
+
+    if (!result.valid) {
+      result.indexFields = null;
+    }
+
+    return result;
+  }
+
+  return mapIndexes;
+}
+
+export function mountIndexFromParts(param: {
+  indexPartKind: IndexPartKind;
+  indexField: ParsedIndexPart['indexField'];
+  indexParts: string[]; // (`#${string}` | `.${string}`)[]
+  doc: Record<string, any>;
+}): ParsedIndexPart {
+  const { indexParts, indexField, indexPartKind, doc } = param;
+  const invalidFields: ParsedIndexPart['invalidFields'] = [];
+
+  const stringParts: string[] = [];
+
+  indexParts.forEach((keyPart) => {
+    if (keyPart.startsWith('#')) {
+      return stringParts.push(keyPart.slice(1));
+    }
+
+    if (keyPart.startsWith('.')) {
+      const documentField = keyPart.slice(1);
+      const found = doc[documentField];
+
+      if (found === undefined || found === null) {
+        return invalidFields.push({
+          reason: 'missing',
+          details: `Expected string or number, found ${found}.`,
+          documentField: keyPart,
+          indexField: indexField,
+          indexPartKind,
+        });
+      }
+
+      if (found && typeof found === 'string') {
+        return stringParts.push(found);
+      }
+
+      if (typeof found === 'number') {
+        return stringParts.push(encodeNumber(found));
+      }
+
+      return invalidFields.push({
+        reason: 'invalid',
+        details: `Expected string or number, found ${typeof found} with value: ${inspectObject(
+          found,
+          {
+            tabSize: 0,
+          }
+        )}.`,
+        documentField: keyPart,
+        indexField,
+        indexPartKind,
+      });
+    }
+
+    return invalidFields.push({
+      reason: 'invalid',
+      details: `Expected key part to match ".\${string}" or "#\${string}", found ${keyPart}`,
+      documentField: keyPart,
+      indexField,
+      indexPartKind,
     });
   });
 
-  const indexEntries = Object.entries(byIndexField);
-
-  return function documentIndexMapper(document) {
-    const fieldValues: Record<string, PKSKValueType> = {};
-    const missingFields = new Set<string>();
-
-    fieldsToExtract.forEach((docFieldToExtract) => {
-      const value = document[docFieldToExtract];
-
-      if (typeof value !== 'number' && typeof value !== 'string') {
-        return missingFields.add(
-          `Field "${docFieldToExtract}" expected string or number, found ${typeof value}.`
-        );
-      }
-
-      return (fieldValues[docFieldToExtract] = value);
-    });
-
-    if (missingFields.size) {
-      throw new Error(
-        'Failed to mount index: ' + [...missingFields.keys()].join(' ')
-      );
-    }
-
-    const indexFields: Record<string, string> = {};
-
-    indexEntries.forEach(([indexName, utils]) => {
-      const keys = { PK: [] as string[], SK: [] as string[] };
-
-      utils.forEach(
-        ({ hashPartToConcat, docFieldToExtract, indexField, kind }) => {
-          //
-          if (docFieldToExtract !== undefined) {
-            const value = fieldValues[docFieldToExtract];
-            keys[kind].push(
-              typeof value === 'number' ? encodeNumber(value) : value
-            );
-          }
-
-          if (hashPartToConcat !== undefined) {
-            keys[kind].push(hashPartToConcat);
-          }
-        }
-      );
-
-      indexFields[indexName] =
-        keys.PK.join(KEY_SEPARATOR) +
-        PK_SK_SEPARATOR +
-        keys.SK.join(KEY_SEPARATOR);
-    });
-
-    return {
-      indexFields,
-      indexFieldKeys: Object.keys(indexFields),
-    };
+  return {
+    value: stringParts.join(ID_KEY_SEPARATOR),
+    valid: !invalidFields.length,
+    invalidFields,
+    indexField,
   };
 }
 
 export const PK_SK_SEPARATOR = '↠';
 export const ID_SEPARATOR_REGEX = new RegExp(PK_SK_SEPARATOR, 'g');
-export const KEY_SEPARATOR = '#';
+export const ID_KEY_SEPARATOR = '#';

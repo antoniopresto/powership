@@ -28,6 +28,8 @@ const itemRanking = {
 //   return sanitizeUpdateExpressions(input, { PK: ['#mypktest'], SK: undefined });
 // }
 
+jest.setTimeout(60000);
+
 describe('MongoTransporter', () => {
   let mockApp: AppMock;
   let transporter: MongoTransporter;
@@ -153,7 +155,9 @@ describe('MongoTransporter', () => {
     });
 
     it('should replace item', async () => {
-      expect(await _put(itemUser)).toEqual({
+      const r1 = await _put(itemUser);
+
+      expect(r1).toEqual({
         created: true,
         item: {
           PK: 'users',
@@ -184,6 +188,7 @@ describe('MongoTransporter', () => {
       expect(await _put({ ...itemUser })).toEqual({
         created: false,
         item: null,
+        error: expect.stringMatching('duplicate'),
         updated: false,
       });
 
@@ -191,6 +196,7 @@ describe('MongoTransporter', () => {
       expect(await _put({ ...itemUser, replace: false })).toEqual({
         created: false,
         item: null,
+        error: expect.stringMatching('duplicate'),
         updated: false,
       });
     });
@@ -238,6 +244,7 @@ describe('MongoTransporter', () => {
       ).toEqual({
         created: false,
         item: null,
+        error: expect.stringMatching('duplicate'),
         updated: false,
       });
     });

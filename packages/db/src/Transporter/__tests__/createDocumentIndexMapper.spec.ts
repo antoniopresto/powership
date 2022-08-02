@@ -18,10 +18,12 @@ describe('createDocumentIndexMapper', () => {
     });
 
     expect(oneField({ name: 'fulano', age: 5 })).toEqual({
-      indexes: {
+      indexFields: {
         _id: 'fulano↠715',
         _id1: '715↠fulano',
       },
+      invalidFields: [],
+      valid: true,
     });
   });
 
@@ -37,10 +39,11 @@ describe('createDocumentIndexMapper', () => {
     });
 
     expect(oneField({ name: 'NAME', age: 0 })).toEqual({
-      indexes: {
-        // '.age', '.name' + '#nice', '.age'
+      indexFields: {
         _id: '5#NAME↠nice#5',
       },
+      invalidFields: [],
+      valid: true,
     });
   });
 
@@ -55,8 +58,32 @@ describe('createDocumentIndexMapper', () => {
       ],
     });
 
-    expect(() => oneField({})).toThrow(
-      'Failed to mount index: Field "age" expected string or number, found undefined. Field "name" expected string or number, found undefined.'
-    );
+    expect(oneField({ name: '' })).toEqual({
+      indexFields: null,
+      invalidFields: [
+        {
+          details: 'Expected string or number, found undefined.',
+          documentField: '.age',
+          indexField: '_id',
+          indexPartKind: 'PK',
+          reason: 'missing',
+        },
+        {
+          details: 'Expected string or number, found string with value: .',
+          documentField: '.name',
+          indexField: '_id',
+          indexPartKind: 'PK',
+          reason: 'invalid',
+        },
+        {
+          details: 'Expected string or number, found undefined.',
+          documentField: '.age',
+          indexField: '_id',
+          indexPartKind: 'SK',
+          reason: 'missing',
+        },
+      ],
+      valid: false,
+    });
   });
 });

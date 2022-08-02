@@ -12,6 +12,7 @@ import {
   PutItemOptions,
   Transporter,
   UpdateItemConfig,
+  PutItemResult,
 } from '../Transporter/Transporter';
 
 import { MongoClient } from './MongoClient';
@@ -128,19 +129,12 @@ export class MongoTransporter extends Transporter {
 
   async putItem<T extends DocumentBase>(
     options: PutItemOptions<T>
-  ): Promise<{
-    updated: boolean;
-    created: boolean;
-    item: T | null;
-    original: any;
-    error: string | undefined;
-  }> {
-    const { item: itemInput, replace = false, indexConfig } = options;
+  ): Promise<PutItemResult<T>> {
+    const { item: itemInput, indexConfig, replace = false } = options;
 
-    const { indexFields, indexFieldKeys } =
-      createDocumentIndexMapper(indexConfig)(itemInput);
+    const { indexFields } = createDocumentIndexMapper(indexConfig)(itemInput);
 
-    const item = { ...indexFields, ...itemInput };
+    const item = { ...indexFields, ...itemInput } as T;
 
     const collection = this.getCollection(item);
 
@@ -150,57 +144,35 @@ export class MongoTransporter extends Transporter {
       conditionExpression.$and = parseAttributeFilters(options.condition);
     }
 
-    let result: any;
-    let __error: any;
-
-    try {
-      if (replace === false) {
-        //
-        const indexExists = indexFieldKeys.reduce(
-          (previousValue, field) => ({
-            ...previousValue,
-            [field]: { $exists: false },
-          }),
-          {}
-        );
-
-        conditionExpression.$and = [
-          ...(conditionExpression.$and || []),
-          indexExists,
-        ];
-      }
-
-      result = await collection.replaceOne(conditionExpression, item, {
-        upsert: true,
-      });
-    } catch (e: any) {
-      __error = e;
-    }
-
-    const updated = result?.modifiedCount === 1;
-    const created = Boolean(result && !result.modifiedCount);
-
-    const res = {
-      updated: updated,
-      created: created,
-      item: created || updated ? item : null,
-      error: __error?.message,
+    const res: PutItemResult<T> = {
+      created: false,
+      updated: false,
+      item: null,
+      // error: undefined,
     };
 
-    Object.defineProperties(res, {
-      __error: {
-        get() {
-          return __error;
-        },
-      },
-      original: {
-        get() {
-          return result;
-        },
-      },
-    });
+    try {
+      if (replace) {
+        const result = await collection.replaceOne(conditionExpression, item, {
+          upsert: true,
+          hint: { _id: 1 },
+        });
 
-    return res as any;
+        const updated = result?.matchedCount === 1;
+
+        res.created = !updated;
+        res.updated = updated;
+        res.item = item;
+      } else {
+        await collection.insertOne(item);
+        res.created = true;
+        res.item = item;
+      }
+    } catch (e: any) {
+      res.error = e.message;
+    }
+
+    return res;
   }
 
   getCollection(_info: unknown) {
