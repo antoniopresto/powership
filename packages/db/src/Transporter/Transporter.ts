@@ -109,12 +109,16 @@ export type QueryConfig = {
 
 export type LoadQueryConfig = TransporterLoaderConfig<QueryConfig>;
 
-export type GetItemConfig<IndexFieldKey extends string> =
-  TransporterLoaderConfig<{
-    filter: IndexFilterRecord;
-    consistent?: boolean;
-    projection?: string[];
-  }>;
+export type GetItemConfig = TransporterLoaderConfig<{
+  filter: IndexFilterRecord;
+  indexConfig: DocumentIndexConfig;
+  consistent?: boolean;
+  projection?: string[];
+}>;
+
+export type GetItemResult = {
+  item: DocumentBase | null;
+};
 
 export type PutItemConfig<T extends DocumentBase> = {
   item: T;
@@ -290,11 +294,7 @@ export abstract class Transporter {
 
   abstract loadQuery(options: LoadQueryConfig): Promise<LoadQueryResult>;
 
-  //
-  // abstract getItem(options: GetItemConfig): Promise<{
-  //   item: DocumentBase | null;
-  // }>;
-  //
+  abstract getItem(options: GetItemConfig): Promise<GetItemResult>;
 
   abstract putItem<T extends DocumentBase>(
     options: PutItemConfig<T>

@@ -9,6 +9,8 @@ import {
   PutItemResult,
   UpdateItemResult,
   LoadQueryResult,
+  GetItemConfig,
+  GetItemResult,
 } from '../Transporter/Transporter';
 
 import { MongoClient } from './MongoClient';
@@ -63,12 +65,12 @@ export class MongoTransporter extends Transporter {
     if (startingKey) {
       const rule = sort === 'DESC' ? '$lt' : '$gt';
 
-      const starting = createMongoIndexBasedFilters({
+      const startingFilter = createMongoIndexBasedFilters({
         filter: startingKey,
         indexConfig,
-      })[0];
+      });
 
-      const [[key, value]] = Object.entries(starting);
+      const [[key, value]] = Object.entries(startingFilter[0]);
 
       $and.push({
         [key]: { [rule]: value },
@@ -80,7 +82,8 @@ export class MongoTransporter extends Transporter {
 
     const collection = this.getCollection(filter);
 
-    const mongoSort = { _id: sort === 'DESC' ? -1 : 1 } as const;
+    const idField = Object.keys($and[0])[0];
+    const mongoSort = { [idField]: sort === 'DESC' ? -1 : 1 } as const;
 
     let items: any[] = [];
 
@@ -111,30 +114,29 @@ export class MongoTransporter extends Transporter {
     return { items };
   }
 
-  // async getItem<T extends DocumentBase>(
-  //   options: GetItemConfig
-  // ): Promise<{ item: T | null }> {
-  //   const {
-  //     query: { PK, SK, SKType, projection, consistent },
-  //     dataloaderContext,
-  //   } = options;
-  //
-  //   const { items } = await this.loadQuery<T>({
-  //     dataloaderContext,
-  //     query: {
-  //       SK,
-  //       SKType,
-  //       PK,
-  //       projection,
-  //       consistent,
-  //       limit: 1,
-  //     },
-  //   });
-  //
-  //   return {
-  //     item: items?.[0] ?? null,
-  //   };
-  // }
+  async getItem<T extends DocumentBase>(
+    options: GetItemConfig
+  ): Promise<GetItemResult> {
+    const {
+      query: { filter, projection, consistent, indexConfig },
+      dataloaderContext,
+    } = options;
+
+    const { items } = await this.loadQuery<T>({
+      dataloaderContext,
+      query: {
+        filter,
+        projection,
+        consistent,
+        limit: 1,
+        indexConfig,
+      },
+    });
+
+    return {
+      item: items?.[0] ?? null,
+    };
+  }
 
   async putItem<T extends DocumentBase>(
     options: PutItemConfig<T>

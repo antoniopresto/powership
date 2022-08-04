@@ -51,16 +51,7 @@ describe('MongoTransporter', () => {
     config: Omit<Parameters<MongoTransporter['putItem']>[0], 'indexConfig'>
   ) {
     return transporter.putItem({
-      indexConfig: {
-        entity: 'entity_foo',
-        indexes: [
-          {
-            field: '_id',
-            PK: ['.PK'],
-            SK: ['.SK'],
-          },
-        ],
-      },
+      indexConfig,
       ...config,
     });
   }
@@ -545,16 +536,7 @@ describe('MongoTransporter', () => {
         ITEMS.map(async (item) => {
           await transporter.putItem({
             item,
-            indexConfig: {
-              entity: '',
-              indexes: [
-                {
-                  field: '_id',
-                  PK: ['.PK'],
-                  SK: ['.SK'],
-                },
-              ],
-            },
+            indexConfig,
           });
         })
       );
@@ -568,7 +550,6 @@ describe('MongoTransporter', () => {
 
             filter: {
               PK: 'users',
-              SK: null,
             },
 
             limit: 1,
@@ -687,7 +668,8 @@ describe('MongoTransporter', () => {
       });
 
       expect(spy).toBeCalledWith(
-        // queryFilterToMongo({ PK: 'users', SK: null, SKType: 'string' }),
+        //
+        expect.any(Object),
         {
           limit: 3,
           projection: ['sub.attr'],
@@ -696,8 +678,14 @@ describe('MongoTransporter', () => {
       );
 
       expect(sut.items).toHaveLength(3);
-      expect(sut.items[0]).toEqual({ _id: 'users↠D', sub: { attr: 4 } });
-      expect(sut.items[1]).toEqual({ _id: 'users↠C', sub: { attr: 3 } });
+      expect(sut.items[0]).toEqual({
+        _id: 'entity_foo#users↠D',
+        sub: { attr: 4 },
+      });
+      expect(sut.items[1]).toEqual({
+        _id: 'entity_foo#users↠C',
+        sub: { attr: 3 },
+      });
 
       spy.mockRestore();
     });
@@ -790,89 +778,106 @@ describe('MongoTransporter', () => {
     //   //   spy.mockRestore();
     //   // });
   });
-  //
-  // describe('getItem', () => {
-  //   it('should call loadQuery', async () => {
-  //     const spy = jest.spyOn(transporter, 'loadQuery');
-  //
-  //     const ctx = { __hola: '' };
-  //
-  //     const result = await transporter.getItem({
-  //       query: {
-  //         PK: 'users',
-  //         SK: '123',
-  //       },
-  //       dataloaderContext: ctx,
-  //     });
-  //
-  //     expect(spy).toBeCalledWith({
-  //       dataloaderContext: ctx,
-  //       query: {
-  //         SK: '123',
-  //         PK: 'users',
-  //
-  //         projection: undefined,
-  //         consistent: undefined,
-  //         limit: 1,
-  //       },
-  //     });
-  //
-  //     expect(result.item).toBe(null);
-  //   });
-  //
-  //   it('should return single item with dataloader', async () => {
-  //     const collection = transporter.db.collection('users');
-  //     const spy = jest.spyOn(collection.constructor.prototype, 'find');
-  //
-  //     await Promise.all([
-  //       transporter.putItem({
-  //         item: {
-  //           PK: 'users',
-  //           SK: 3,
-  //         },
-  //       }),
-  //
-  //       transporter.putItem({
-  //         item: {
-  //           PK: 'users',
-  //           SK: 1000,
-  //         },
-  //       }),
-  //     ]);
-  //
-  //     const dataloaderContext = {};
-  //
-  //     const [g1, g2, g3] = await Promise.all([
-  //       transporter.getItem({
-  //         query: {
-  //           PK: 'users',
-  //           SK: 3,
-  //         },
-  //         dataloaderContext,
-  //       }),
-  //       transporter.getItem({
-  //         query: {
-  //           PK: 'users',
-  //           SK: 1000,
-  //         },
-  //         dataloaderContext,
-  //       }),
-  //       transporter.getItem({
-  //         query: {
-  //           PK: 'users',
-  //           SK: 199,
-  //         },
-  //         dataloaderContext,
-  //       }),
-  //     ]);
-  //
-  //     expect(g1.item).toHaveProperty('SK', 3);
-  //     expect(g2.item).toHaveProperty('SK', 1000);
-  //     expect(g3.item).toBeNull();
-  //
-  //     expect(spy).toBeCalledTimes(1);
-  //
-  //     spy.mockRestore();
-  //   });
-  // });
+
+  describe('getItem', () => {
+    it('should call loadQuery', async () => {
+      const spy = jest.spyOn(transporter, 'loadQuery');
+
+      const ctx = { __hola: '' };
+
+      const result = await transporter.getItem({
+        query: {
+          filter: {
+            PK: 'users',
+            SK: '123',
+          },
+          indexConfig,
+        },
+        dataloaderContext: ctx,
+      });
+
+      expect(spy).toBeCalledWith({
+        dataloaderContext: ctx,
+        query: {
+          consistent: undefined,
+          filter: {
+            SK: '123',
+            PK: 'users',
+          },
+
+          projection: undefined,
+          indexConfig,
+          limit: 1,
+        },
+      });
+
+      expect(result.item).toBe(null);
+    });
+
+    it('should return single item with dataloader', async () => {
+      const collection = transporter.db.collection('users');
+      const spy = jest.spyOn(collection.constructor.prototype, 'find');
+
+      await Promise.all([
+        transporter.putItem({
+          indexConfig,
+          item: {
+            PK: 'users',
+            SK: 3,
+          },
+        }),
+
+        transporter.putItem({
+          indexConfig,
+          item: {
+            PK: 'users',
+            SK: 1000,
+          },
+        }),
+      ]);
+
+      const dataloaderContext = {};
+
+      const [g1, g2, g3] = await Promise.all([
+        transporter.getItem({
+          query: {
+            indexConfig,
+            filter: {
+              PK: 'users',
+              SK: 3,
+            },
+          },
+          dataloaderContext,
+        }),
+        transporter.getItem({
+          query: {
+            indexConfig,
+            filter: {
+              PK: 'users',
+              SK: 1000,
+            },
+          },
+          dataloaderContext,
+        }),
+        transporter.getItem({
+          query: {
+            filter: {
+              PK: 'users',
+              SK: 199,
+            },
+            indexConfig,
+          },
+          dataloaderContext,
+        }),
+      ]);
+
+      expect(g1.item).toHaveProperty('SK', 3);
+      expect(g2.item).toHaveProperty('SK', 1000);
+      expect(g3.item).toBeNull();
+
+      expect(spy).toBeCalledTimes(1);
+
+      spy.mockRestore();
+    });
+  });
 });
