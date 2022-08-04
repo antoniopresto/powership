@@ -1,8 +1,9 @@
 import * as util from 'util';
 
-import { getLogLevelInfo, LogLevels, TLogLevel } from './logLevels';
 import winston from 'winston';
 import SlackHook from 'winston-slack-webhook-transport';
+
+import { getLogLevelInfo, LogLevels, TLogLevel } from './logLevels';
 
 const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL;
 

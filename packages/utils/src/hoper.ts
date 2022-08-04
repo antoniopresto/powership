@@ -1,1 +1,1 @@
-export * from 'hoper'
+export * from 'hoper';

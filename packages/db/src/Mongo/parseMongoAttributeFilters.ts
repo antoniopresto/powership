@@ -4,22 +4,40 @@ import { Filter } from 'mongodb';
 
 import {
   AttributeFilterKey,
-  AttributeFilterRecord,
+  FilterRecord,
   FieldType,
+  IndexFilterRecord,
   TopLevelFilterKey,
 } from '../Transporter/Transporter';
 import { getKeys } from '@darch/utils/lib/getKeys';
 import { getTypeName } from '@darch/utils/lib/getTypeName';
 import { devAssert } from '@darch/utils/lib/devAssert';
-import { notNull } from '@darch/utils/lib/invariant';
+import {
+  DocumentIndexConfig,
+  createDocumentIndexBasedFilters,
+} from '../Transporter/DocumentIndex';
 
-export function parseAttributeFilters(attFilter: AttributeFilterRecord) {
+export function createMongoIndexBasedFilters(options: {
+  filter: IndexFilterRecord;
+  indexConfig: DocumentIndexConfig;
+}) {
+  const { indexConfig, filter } = options;
+  const $and = createDocumentIndexBasedFilters(filter, indexConfig);
+  return parseMongoAttributeFilters({ $and });
+}
+
+export function parseMongoAttributeFilters(attFilter: FilterRecord) {
   const $and: Filter<any>[] = [];
 
   getKeys(attFilter).forEach((attribute: string): any => {
-    const filter = notNull(attFilter[attribute]);
+    const filter = attFilter[attribute];
+    if (filter === undefined) return;
 
-    if (typeof filter === 'string' || typeof filter === 'number') {
+    if (
+      typeof filter === 'string' ||
+      typeof filter === 'number' ||
+      filter === null
+    ) {
       return $and.push({ [attribute]: filter });
     }
 
@@ -30,7 +48,7 @@ export function parseAttributeFilters(attFilter: AttributeFilterRecord) {
         }
 
         return $and.push(
-          ...filter.map((el) => parseAttributeFilters(el).flat()).flat()
+          ...filter.map((el) => parseMongoAttributeFilters(el).flat()).flat()
         );
       }
 
@@ -44,7 +62,7 @@ export function parseAttributeFilters(attFilter: AttributeFilterRecord) {
         return $and.push({
           $or: filter
             .map((el) => {
-              const parsed = parseAttributeFilters(el);
+              const parsed = parseMongoAttributeFilters(el);
               return parsed.flat();
             })
             .flat(),
@@ -61,7 +79,7 @@ export function parseAttributeFilters(attFilter: AttributeFilterRecord) {
         return $and.push({
           $nor: [
             {
-              $and: parseAttributeFilters(filter as any),
+              $and: parseMongoAttributeFilters(filter),
             },
           ],
         });
@@ -123,14 +141,16 @@ export function parseAttributeFilters(attFilter: AttributeFilterRecord) {
         }
 
         case '$startsWith': {
-          if (!filter[operator]) {
-            throw new RuntimeError(`invalid startsWith value`, {
-              value: filter[operator],
+          const value = filter[operator];
+
+          if (typeof value !== 'string') {
+            throw new RuntimeError(`Invalid value for operator $startsWith`, {
+              value,
             });
           }
 
           $and.push({
-            [attribute]: new RegExp(`^${escapeStringRegexp(filter[operator])}`),
+            [attribute]: new RegExp(`^${escapeStringRegexp(value)}`),
           });
 
           break;
@@ -170,37 +190,6 @@ export function parseAttributeFilters(attFilter: AttributeFilterRecord) {
 
   return $and;
 }
-
-// function parse(input: AttributeFilterRecord) {
-//   const value = [] as FieldFilter[];
-//
-//   getKeys(input).forEach(($op) => {
-//     if (!isTopLevelFilterKey($op)) {
-//       return
-//     }
-//
-//     switch ($op) {
-//       case '$not': {
-//         const _input = notNull(input[$op]);
-//         return value.push(parse(_input));
-//       }
-//
-//       case '$or':
-//       case '$and': {
-//         const _input = notNull(input[$op]);
-//         if (!Array.isArray(_input)) {
-//           return devAssert(`Expected array fot $op ${$op}`, { input: _input });
-//         }
-//         return (value[$op] = _input.map((el) => parse(el)));
-//       }
-//
-//       default:
-//         devAssert(`Invalid $op ${$op}`);
-//     }
-//   });
-//
-//   return value;
-// }
 
 const typesMap: { [K in FieldType]: string } = {
   String: 'string',

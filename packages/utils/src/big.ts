@@ -1,1 +1,1 @@
-export * from 'big.js'
+export * from 'big.js';

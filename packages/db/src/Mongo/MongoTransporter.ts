@@ -1,28 +1,26 @@
-import { maybeRequired } from '@darch/utils/lib/maybeRequired';
-import { pluralize } from '@darch/utils/lib/pluralize';
-
-import { Filter, UpdateFilter } from 'mongodb';
+import { Filter } from 'mongodb';
 
 import {
-  DeleteItemConfig,
   DocumentBase,
-  GetItemConfig,
-  PKSKValueType,
   LoadQueryConfig,
   PutItemConfig,
   Transporter,
   UpdateItemConfig,
   PutItemResult,
   UpdateItemResult,
+  LoadQueryResult,
 } from '../Transporter/Transporter';
 
 import { MongoClient } from './MongoClient';
 
 import { mongoLoadQuery } from './mongoDataLoader/mongoLoadQuery';
 
-import { parseAttributeFilters } from './parseAttributeFilters';
+import {
+  parseMongoAttributeFilters,
+  createMongoIndexBasedFilters,
+} from './parseMongoAttributeFilters';
 import { parseMongoUpdateExpression } from './parseMongoUpdateExpression';
-import { RuntimeError } from '@darch/utils/lib/RuntimeError';
+import { Logger } from '@darch/utils/lib/logger';
 
 export class MongoTransporter extends Transporter {
   _client: MongoClient;
@@ -43,66 +41,76 @@ export class MongoTransporter extends Transporter {
 
   collection: string;
 
-  //
-  // async loadQuery<T extends DocumentBase<any>>(
-  //   options: LoadQueryConfig
-  // ): Promise<{ items: T[] }> {
-  //   const { query: queryConfig } = options;
-  //
-  //   let {
-  //     SK,
-  //     SKType,
-  //     sort = 'ASC',
-  //     projection,
-  //     limit,
-  //     startingKey,
-  //   } = queryConfig;
-  //
-  //   SKType = maybeRequired({ SKType }, SK !== null);
-  //
-  //   const collection = this.collectionFromPK(queryConfig.PK);
-  //
-  //   const query = hashToMongoQuery({
-  //     PK: queryConfig.PK,
-  //     SK,
-  //     SKType,
-  //     sort,
-  //     startingKey,
-  //   });
-  //
-  //   Logger.logInfo({ query });
-  //
-  //   const mongoSort = { _id: sort === 'DESC' ? -1 : 1 } as const;
-  //
-  //   let items: any[] = [];
-  //
-  //   if (limit !== undefined && limit > 1) {
-  //     items = await collection
-  //       .find(query, { sort: mongoSort, projection, limit })
-  //       .toArray();
-  //   } else {
-  //     const onlyOne = limit === 1;
-  //
-  //     const result = await mongoLoadQuery(
-  //       {
-  //         db: this._client.db,
-  //         query,
-  //         collection: collection.collectionName,
-  //         projection: projection,
-  //         onlyOne,
-  //         sort: mongoSort,
-  //       },
-  //       options.dataloaderContext
-  //     );
-  //
-  //     if (result) {
-  //       items = onlyOne ? [result] : result;
-  //     }
-  //   }
-  //
-  //   return { items };
-  // }
-  //
+  async loadQuery<T extends DocumentBase<any>>(
+    options: LoadQueryConfig
+  ): Promise<LoadQueryResult> {
+    const { query: queryConfig } = options;
+
+    let {
+      filter,
+      sort = 'ASC',
+      projection,
+      limit,
+      startingKey,
+      indexConfig,
+    } = queryConfig;
+
+    const $and: Filter<any>[] = createMongoIndexBasedFilters({
+      filter,
+      indexConfig,
+    });
+
+    if (startingKey) {
+      const rule = sort === 'DESC' ? '$lt' : '$gt';
+
+      const starting = createMongoIndexBasedFilters({
+        filter: startingKey,
+        indexConfig,
+      })[0];
+
+      const [[key, value]] = Object.entries(starting);
+
+      $and.push({
+        [key]: { [rule]: value },
+      });
+    }
+
+    const query = { $and };
+    Logger.logInfo({ query });
+
+    const collection = this.getCollection(filter);
+
+    const mongoSort = { _id: sort === 'DESC' ? -1 : 1 } as const;
+
+    let items: any[] = [];
+
+    if (limit !== undefined && limit > 1) {
+      items = await collection
+        .find(query, { sort: mongoSort, projection, limit })
+        .toArray();
+    } else {
+      const onlyOne = limit === 1;
+
+      const result = await mongoLoadQuery(
+        {
+          db: this._client.db,
+          query,
+          collection: collection.collectionName,
+          projection: projection,
+          onlyOne,
+          sort: mongoSort,
+        },
+        options.dataloaderContext
+      );
+
+      if (result) {
+        items = onlyOne ? [result] : result;
+      }
+    }
+
+    return { items };
+  }
+
   // async getItem<T extends DocumentBase>(
   //   options: GetItemConfig
   // ): Promise<{ item: T | null }> {
@@ -140,7 +148,7 @@ export class MongoTransporter extends Transporter {
       // error: undefined,
     };
 
-    const indexMap = this.getIndexMapper(indexConfig)(itemInput);
+    const indexMap = this.getDocumentIndexFields(itemInput, indexConfig);
 
     if (indexMap.error) {
       res.error = indexMap.error.detailsString;
@@ -154,7 +162,7 @@ export class MongoTransporter extends Transporter {
     const conditionExpression: Filter<any> = indexMap.indexFields;
 
     if (options.condition) {
-      conditionExpression.$and = parseAttributeFilters(options.condition);
+      conditionExpression.$and = parseMongoAttributeFilters(options.condition);
     }
 
     try {
@@ -188,34 +196,23 @@ export class MongoTransporter extends Transporter {
   async updateItem<T extends DocumentBase>(
     options: UpdateItemConfig<string, T>
   ): Promise<UpdateItemResult<T>> {
-    const { update, upsert, indexConfig, condition, filter } = options;
+    const { update, upsert, indexConfig, filter } = options;
 
-    const indexMap = this.getIndexMapper(indexConfig)(filter as any);
+    const parsedFilter = this.createDocumentIndexBasedFilters(
+      filter,
+      indexConfig
+    );
 
-    if (!indexMap.firstIndex) {
-      return {
-        item: null,
-        updated: false,
-        created: false,
-        error: indexMap.error!.detailsString,
-      };
-    }
-
-    const parsedFilter = indexMap.firstIndex;
     const updateExpression = parseMongoUpdateExpression(update);
     const collection = this.getCollection(parsedFilter);
 
-    const conditionExpression: Filter<any> = {
-      [parsedFilter.key]: parsedFilter.value,
-    };
-
     if (options.condition) {
-      conditionExpression.$and = parseAttributeFilters(options.condition);
+      parsedFilter.push(...parseMongoAttributeFilters(options.condition));
     }
 
     try {
       const result = await collection.findOneAndUpdate(
-        conditionExpression,
+        { $and: parsedFilter },
         updateExpression,
         {
           upsert,

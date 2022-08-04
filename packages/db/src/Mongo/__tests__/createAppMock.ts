@@ -25,6 +25,10 @@ export class AppMock {
   collection(name = 'testing') {
     return notNull(this.client).db.collection(name);
   }
+
+  get db() {
+    return notNull(this.client).db;
+  }
 }
 
 export function createAppMock() {

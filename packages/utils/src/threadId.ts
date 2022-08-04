@@ -1,6 +1,6 @@
 // https://github.com/facebook/react/blob/3e94bce765d355d74f6a60feb4addb6d196e3482/packages/react-dom/src/server/ReactThreadIDAllocator.js#L13-L12
 // Allocates a new index for each request. Tries to stay as compact as possible so that these
-// indices can be used to reference a tightly packed array. As opposed to being used in a Map.
+// indexes can be used to reference a tightly packed array. As opposed to being used in a Map.
 // The first allocated index is 1.
 
 import { invariant } from './invariant';

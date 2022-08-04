@@ -1,5 +1,5 @@
-import { tuple } from './typeUtils';
 import { isProduction } from './env';
+import { tuple } from './typeUtils';
 
 export const LogLevels = tuple('error', 'info', 'crit', 'warning', 'debug');
 

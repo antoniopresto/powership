@@ -188,6 +188,8 @@ describe('conust', () => {
   });
 
   test('should encode numbers', () => {
-    expect(encodeNumber(-12000000000000000000000000000000000000)).toEqual('30vyx~')
+    expect(encodeNumber(-12000000000000000000000000000000000000)).toEqual(
+      '30vyx~'
+    );
   });
 });

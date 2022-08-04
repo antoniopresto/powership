@@ -1,6 +1,6 @@
-import { AppMock, createAppMock } from '../../__tests__/appMock';
 import { MongoClient } from '../MongoClient';
 import { MongoDataLoader } from '../mongoDataLoader/MongoDataLoader';
+import { AppMock, createAppMock } from './createAppMock';
 
 const USERS = {
   Antonio: MongoClient.objectId(),
@@ -22,7 +22,7 @@ describe('MongoEntity.DataLoader', () => {
       index,
     }));
 
-    await mockApp.db.collection('users').insertMany(entries);
+    await mockApp.collection('users').insertMany(entries);
   });
 
   afterEach(async function () {
@@ -93,7 +93,9 @@ describe('MongoEntity.DataLoader', () => {
         projection: {},
         sort: { name: 1 }, // <--- different sort ⚠️
       })
-    ).toThrow('MongoDataLoader: using more than one configuration for the same dataloader.');
+    ).toThrow(
+      'MongoDataLoader: using more than one configuration for the same dataloader.'
+    );
 
     await p1; // wait to close test and destroy mongo
   });
@@ -120,7 +122,9 @@ describe('MongoEntity.DataLoader', () => {
           sort: { name: 1 },
         },
       ])
-    ).toThrow('MongoDataLoader: using more than one configuration for the same dataloader.');
+    ).toThrow(
+      'MongoDataLoader: using more than one configuration for the same dataloader.'
+    );
   });
 
   it('should handle sort', async () => {

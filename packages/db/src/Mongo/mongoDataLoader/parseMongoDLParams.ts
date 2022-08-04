@@ -1,6 +1,8 @@
 import { hashObject } from '@darch/utils/lib/hashObject';
 
 import { MongoDataLoaderKey, MongoLoadQueryParams } from './IMongoDataLoader';
+import { DarchJSON } from '@darch/utils/lib/DarchJSON';
+import { ObjectId } from 'mongodb';
 
 export type ParsedMongoDLParams = ReturnType<typeof parseMongoDLParams>;
 
@@ -12,7 +14,13 @@ export function parseMongoDLParams(options: MongoLoadQueryParams) {
     sort: options.sort,
   });
 
-  const queryHash = hashObject(options.query);
+  const queryHash = DarchJSON.stringify(options.query, {
+    handler({ value, serializer }) {
+      if (serializer) return undefined;
+      if (!isObjectId(value)) return undefined;
+      return value.toHexString();
+    },
+  });
 
   // the config used to make or retrieve the query
   const dataLoaderKey: MongoDataLoaderKey = {
@@ -32,4 +40,8 @@ export function parseMongoDLParams(options: MongoLoadQueryParams) {
     dataLoaderKey,
     _isParsed: true,
   };
+}
+
+export function isObjectId(input: any): input is ObjectId {
+  return typeof input?.toHexString === 'function' && !!input.id;
 }

@@ -8,6 +8,7 @@ import { createAppMock, AppMock } from './createAppMock';
 import { DocumentIndexConfig } from '../../Transporter/DocumentIndex';
 import { UpdateExpression } from '../../Transporter/Transporter';
 import { sanitizeUpdateExpressions } from '../../Transporter/sanitizeUpdateExpressions';
+import { Collection } from 'mongodb';
 
 const itemUser = {
   item: {
@@ -35,13 +36,24 @@ jest.setTimeout(60000);
 describe('MongoTransporter', () => {
   let mockApp: AppMock;
   let transporter: MongoTransporter;
+  const indexConfig: DocumentIndexConfig = {
+    entity: 'entity_foo',
+    indexes: [
+      {
+        field: '_id',
+        PK: ['.PK'],
+        SK: ['.SK'],
+      },
+    ],
+  };
 
   function _put(
     config: Omit<Parameters<MongoTransporter['putItem']>[0], 'indexConfig'>
   ) {
     return transporter.putItem({
       indexConfig: {
-        indices: [
+        entity: 'entity_foo',
+        indexes: [
           {
             field: '_id',
             PK: ['.PK'],
@@ -57,15 +69,7 @@ describe('MongoTransporter', () => {
     config: Omit<Parameters<MongoTransporter['updateItem']>[0], 'indexConfig'>
   ) {
     return transporter.updateItem({
-      indexConfig: {
-        indices: [
-          {
-            field: '_id',
-            PK: ['.PK'],
-            SK: ['.SK'],
-          },
-        ],
-      },
+      indexConfig,
       ...config,
     });
   }
@@ -97,7 +101,9 @@ describe('MongoTransporter', () => {
         item: {
           PK: 'ranking',
           SK: 0,
-          _id: 'ranking↠5',
+          _id: 'entity_foo#ranking↠5',
+          _idPK: 'ranking',
+          _idSK: '5',
         },
         updated: false,
       });
@@ -109,12 +115,12 @@ describe('MongoTransporter', () => {
             SK: 10,
           },
         })
-      ).toEqual({
+      ).toMatchObject({
         created: true,
         item: {
           PK: 'ranking',
           SK: 10,
-          _id: 'ranking↠721',
+          _id: 'entity_foo#ranking↠721',
         },
         updated: false,
       });
@@ -131,7 +137,9 @@ describe('MongoTransporter', () => {
         item: {
           PK: 'ranking',
           SK: 12000000000000000000000000000000000000,
-          _id: 'ranking↠7z412',
+          _id: 'entity_foo#ranking↠7z412',
+          _idPK: 'ranking',
+          _idSK: '7z412',
         },
         updated: false,
       });
@@ -150,7 +158,9 @@ describe('MongoTransporter', () => {
         item: {
           PK: 'users',
           SK: 'users',
-          _id: 'users↠users',
+          _id: 'entity_foo#users↠users',
+          _idPK: 'users',
+          _idSK: 'users',
         },
         updated: false,
       });
@@ -162,12 +172,12 @@ describe('MongoTransporter', () => {
             SK: '5',
           },
         })
-      ).toEqual({
+      ).toMatchObject({
         created: true,
         item: {
           PK: 'users',
           SK: '5',
-          _id: 'users↠5',
+          _id: 'entity_foo#users↠5',
         },
         updated: false,
       });
@@ -176,12 +186,12 @@ describe('MongoTransporter', () => {
     it('should replace item', async () => {
       const r1 = await _put(itemUser);
 
-      expect(r1).toEqual({
+      expect(r1).toMatchObject({
         created: true,
         item: {
           PK: 'users',
           SK: '123',
-          _id: 'users↠123',
+          _id: 'entity_foo#users↠123',
           email: 'fulano@gmail.com',
           name: 'fulano',
         },
@@ -189,12 +199,12 @@ describe('MongoTransporter', () => {
       });
 
       // replace
-      expect(await _put({ ...itemUser, replace: true })).toEqual({
+      expect(await _put({ ...itemUser, replace: true })).toMatchObject({
         created: false,
         item: {
           PK: 'users',
           SK: '123',
-          _id: 'users↠123',
+          _id: 'entity_foo#users↠123',
           email: 'fulano@gmail.com',
           name: 'fulano',
         },
@@ -327,9 +337,11 @@ describe('MongoTransporter', () => {
       expect(await update('a', { $inc: { num: 1, newNum: 2 } })).toHaveProperty(
         'item',
         {
-          _id: expect.any(String),
+          _id: 'entity_foo#a↠a',
           PK: 'a',
           SK: 'a',
+          _idPK: 'a',
+          _idSK: 'a',
           list: ['b', 'c', 'd', 'e'],
           newNum: 2,
           num: 1,
@@ -478,309 +490,306 @@ describe('MongoTransporter', () => {
   //   });
   // });
   //
-  // describe('loadQuery', () => {
-  //   let mockApp: MockApp;
-  //   let transporter: MongoTransporter;
-  //   let collection: Collection;
-  //
-  //   afterAll(async function () {
-  //     await mockApp.reset();
-  //   });
-  //
-  //   beforeAll(async () => {
-  //     mockApp = await createAppMock();
-  //     transporter = new MongoTransporter(mockApp.client!);
-  //     collection = transporter.db.collection('users');
-  //
-  //     const ITEMS = [
-  //       {
-  //         PK: 'users',
-  //         SK: 'A',
-  //         sub: {
-  //           attr: 1,
-  //         },
-  //       },
-  //       {
-  //         PK: 'users',
-  //         SK: 'B',
-  //         sub: {
-  //           attr: 2,
-  //         },
-  //       },
-  //       {
-  //         PK: 'users',
-  //         SK: 'C',
-  //         sub: {
-  //           attr: 3,
-  //         },
-  //       },
-  //       {
-  //         PK: 'users',
-  //         SK: 'D',
-  //         sub: {
-  //           attr: 4,
-  //         },
-  //       },
-  //     ];
-  //
-  //     await Promise.all(
-  //       ITEMS.map(async (item) => {
-  //         await transporter.putItem({
-  //           item,
-  //         });
-  //       })
-  //     );
-  //   });
-  //
-  //   it('should handle startingKey', async () => {
-  //     const [sortAsc, sortDesc] = await Promise.all([
-  //       transporter.loadQuery({
-  //         query: {
-  //           filter: {
-  //             PK: 'users',
-  //             SK: null,
-  //             field: '_id',
-  //           },
-  //
-  //           limit: 1,
-  //           sort: 'ASC',
-  //           startingKey: { PK: 'users', SK: 'A', field: '_id' },
-  //         },
-  //         dataloaderContext: {},
-  //       }),
-  //
-  //       transporter.loadQuery({
-  //         query: {
-  //           PK: 'users',
-  //           SK: null,
-  //
-  //           limit: 1,
-  //           sort: 'DESC',
-  //           startingKey: { PK: 'users', SK: 'D' },
-  //         },
-  //         dataloaderContext: {},
-  //       }),
-  //     ]);
-  //
-  //     expect(sortAsc).toHaveProperty('items.0.SK', 'B');
-  //     expect(sortDesc).toHaveProperty('items.0.SK', 'C');
-  //
-  //     await expect(
-  //       transporter.loadQuery({
-  //         query: {
-  //           PK: 'users',
-  //           SK: null,
-  //           SKType: null,
-  //           limit: 1,
-  //           sort: 'DESC',
-  //           startingKey: { PK: 'users', SK: 'D' },
-  //         },
-  //         dataloaderContext: {},
-  //       })
-  //     ).rejects.toThrow(
-  //       'Expected SKType to be defined when startingKey.SK is provided.'
-  //     );
-  //   });
-  //
-  //   it('should handle limit 1', async () => {
-  //     const sut = await transporter.loadQuery({
-  //       query: {
-  //         PK: 'users',
-  //         SK: null,
-  //         SKType: null,
-  //         limit: 1,
-  //       },
-  //       dataloaderContext: {},
-  //     });
-  //
-  //     expect(sut.items).toHaveLength(1);
-  //     expect(sut.items).toHaveProperty('0.SK', 'A');
-  //   });
-  //
-  //   it('should handle limit 2', async () => {
-  //     const sut = await transporter.loadQuery({
-  //       query: {
-  //         PK: 'users',
-  //         SK: null,
-  //         SKType: null,
-  //         limit: 2,
-  //       },
-  //       dataloaderContext: {},
-  //     });
-  //
-  //     expect(sut.items).toHaveLength(2);
-  //     expect(sut.items[0].SK).toBe('A');
-  //     expect(sut.items[1].SK).toBe('B');
-  //   });
-  //
-  //   it('should handle sort, projection without limit (with dataloader)', async () => {
-  //     const spy = jest.spyOn(collection.constructor.prototype, 'find');
-  //
-  //     const sut = await transporter.loadQuery({
-  //       query: {
-  //         PK: 'users',
-  //         SK: 'B',
-  //
-  //         sort: 'ASC',
-  //         projection: ['sub.attr'],
-  //       },
-  //       dataloaderContext: {},
-  //     });
-  //
-  //     expect(spy).toBeCalledWith(
-  //       {
-  //         // $or injected  from dataloader
-  //         $or: [queryFilterToMongo({ PK: 'users', SK: 'B', SKType: 'string' })],
-  //       },
-  //       { projection: ['sub.attr'], sort: { _id: 1 } }
-  //     );
-  //
-  //     expect(sut.items).toHaveLength(1);
-  //     expect(sut.items[0].sub.attr).toBe(2);
-  //
-  //     spy.mockRestore();
-  //   });
-  //
-  //   it('should handle limit 3, sort, projection', async () => {
-  //     const spy = jest.spyOn(collection.constructor.prototype, 'find');
-  //
-  //     const sut = await transporter.loadQuery({
-  //       query: {
-  //         PK: 'users',
-  //         SK: null,
-  //         limit: 3,
-  //         sort: 'DESC',
-  //
-  //         projection: ['sub.attr'],
-  //       },
-  //       dataloaderContext: {},
-  //     });
-  //
-  //     expect(spy).toBeCalledWith(
-  //       queryFilterToMongo({ PK: 'users', SK: null, SKType: 'string' }),
-  //       {
-  //         limit: 3,
-  //         projection: ['sub.attr'],
-  //         sort: { _id: -1 },
-  //       }
-  //     );
-  //
-  //     expect(sut.items).toHaveLength(3);
-  //     expect(sut.items[0]).toEqual({ _id: 'users↠D', sub: { attr: 4 } });
-  //     expect(sut.items[1]).toEqual({ _id: 'users↠C', sub: { attr: 3 } });
-  //
-  //     spy.mockRestore();
-  //   });
-  //
-  //   it('should handle options.parseCollectionName', async () => {
-  //     transporter = new MongoTransporter(mockApp._mongoClient!, {
-  //       parseCollectionName: (PK) => `customPKCollection_${PK}`,
-  //     });
-  //
-  //     const spy = jest.spyOn(mockApp._mongoClient!.db, 'collection');
-  //
-  //     await transporter.loadQuery({
-  //       query: {
-  //         PK: 'users',
-  //
-  //         SK: '1',
-  //       },
-  //       dataloaderContext: {},
-  //     });
-  //
-  //     expect(spy).toBeCalledWith('customPKCollection_users');
-  //
-  //     spy.mockRestore();
-  //   });
-  //
-  //   // it('should batch queries', async () => {
-  //   //   const spy = jest.spyOn(collection.constructor.prototype, 'find');
-  //   //
-  //   //   transporter = new MongoTransporter(mockApp._mongoClient!, {});
-  //   //
-  //   //   const context = {};
-  //   //
-  //   //   const q1 = {
-  //   //     PK: 'users',
-  //   //     SK: 'batch1_1',
-  //   //   } as const;
-  //   //
-  //   //   const q2 = {
-  //   //     PK: 'users',
-  //   //     SK: 'batch1_2',
-  //   //   } as const;
-  //   //
-  //   //   const q3 = {
-  //   //     PK: 'users',
-  //   //     SK: 'alone1',
-  //   //   } as const;
-  //   //
-  //   //   const q4 = {
-  //   //     PK: 'users',
-  //   //     SK: 'splitByProjection1',
-  //   //
-  //   //     projection: ['_id'] as any,
-  //   //   } as const;
-  //   //
-  //   //   const q5 = {
-  //   //     PK: 'users',
-  //   //     SK: 'splitByProjection2',
-  //   //
-  //   //     projection: ['name'] as any,
-  //   //   } as const;
-  //   //
-  //   //   await Promise.all([
-  //   //     transporter.loadQuery({
-  //   //       query: q1,
-  //   //       dataloaderContext: context,
-  //   //     }),
-  //   //     transporter.loadQuery({
-  //   //       query: q2,
-  //   //       dataloaderContext: context,
-  //   //     }),
-  //   //   ]);
-  //   //
-  //   //   await transporter.loadQuery({
-  //   //     query: q3,
-  //   //     dataloaderContext: context,
-  //   //   });
-  //   //
-  //   //   await Promise.all([
-  //   //     transporter.loadQuery({
-  //   //       query: q4,
-  //   //       dataloaderContext: context,
-  //   //     }),
-  //   //     transporter.loadQuery({
-  //   //       query: q5,
-  //   //       dataloaderContext: context,
-  //   //     }),
-  //   //   ]);
-  //   //
-  //   //   expect(spy).toBeCalledWith(
-  //   //     { $or: [queryFilterToMongo(q1), queryFilterToMongo(q2)] },
-  //   //     { projection: undefined, sort: { _id: 1 } }
-  //   //   );
-  //   //
-  //   //   expect(spy).toBeCalledWith(
-  //   //     { $or: [queryFilterToMongo(q3)] },
-  //   //     { projection: undefined, sort: { _id: 1 } }
-  //   //   );
-  //   //
-  //   //   expect(spy).toBeCalledWith(
-  //   //     { $or: [queryFilterToMongo(q5)] },
-  //   //     { projection: ['name'], sort: { _id: 1 } }
-  //   //   );
-  //   //
-  //   //   expect(spy).toBeCalledWith(
-  //   //     { $or: [queryFilterToMongo(q4)] },
-  //   //     { projection: ['_id'], sort: { _id: 1 } }
-  //   //   );
-  //   //
-  //   //   expect(spy).toBeCalledTimes(4);
-  //   //
-  //   //   spy.mockRestore();
-  //   // });
-  // });
+  describe('loadQuery', () => {
+    let mockApp: AppMock;
+    let transporter: MongoTransporter;
+    let collection: Collection;
+
+    afterAll(async function () {
+      await mockApp.reset();
+    });
+
+    beforeAll(async () => {
+      mockApp = await createAppMock();
+      await mockApp.start();
+
+      transporter = new MongoTransporter({
+        collection: 'users',
+        client: mockApp.client!,
+      });
+
+      collection = transporter.db.collection('users');
+
+      const ITEMS = [
+        {
+          PK: 'users',
+          SK: 'A',
+          sub: {
+            attr: 1,
+          },
+        },
+        {
+          PK: 'users',
+          SK: 'B',
+          sub: {
+            attr: 2,
+          },
+        },
+        {
+          PK: 'users',
+          SK: 'C',
+          sub: {
+            attr: 3,
+          },
+        },
+        {
+          PK: 'users',
+          SK: 'D',
+          sub: {
+            attr: 4,
+          },
+        },
+      ];
+
+      await Promise.all(
+        ITEMS.map(async (item) => {
+          await transporter.putItem({
+            item,
+            indexConfig: {
+              entity: '',
+              indexes: [
+                {
+                  field: '_id',
+                  PK: ['.PK'],
+                  SK: ['.SK'],
+                },
+              ],
+            },
+          });
+        })
+      );
+    });
+
+    it('should handle startingKey', async () => {
+      const [sortAsc, sortDesc] = await Promise.all([
+        transporter.loadQuery({
+          query: {
+            indexConfig,
+
+            filter: {
+              PK: 'users',
+              SK: null,
+            },
+
+            limit: 1,
+            sort: 'ASC',
+            startingKey: { PK: 'users', SK: 'A', field: '_id' },
+          },
+          dataloaderContext: {},
+        }),
+
+        transporter.loadQuery({
+          query: {
+            indexConfig,
+
+            filter: {
+              PK: 'users',
+            },
+
+            limit: 1,
+            sort: 'DESC',
+            startingKey: { PK: 'users', SK: 'D' },
+          },
+          dataloaderContext: {},
+        }),
+      ]);
+
+      expect(sortAsc).toHaveProperty('items.0.SK', 'B');
+      expect(sortDesc).toHaveProperty('items.0.SK', 'C');
+    });
+
+    it('should handle limit 1', async () => {
+      const sut = await transporter.loadQuery({
+        query: {
+          indexConfig,
+          filter: {
+            PK: 'users',
+          },
+          limit: 1,
+        },
+        dataloaderContext: {},
+      });
+
+      expect(sut.items).toHaveLength(1);
+      expect(sut.items).toHaveProperty('0.SK', 'A');
+    });
+
+    it('should handle limit 2', async () => {
+      const sut = await transporter.loadQuery({
+        query: {
+          indexConfig,
+          filter: {
+            PK: 'users',
+          },
+          limit: 2,
+        },
+        dataloaderContext: {},
+      });
+
+      expect(sut.items).toHaveLength(2);
+      expect(sut.items[0].SK).toBe('A');
+      expect(sut.items[1].SK).toBe('B');
+    });
+
+    it('should handle sort, projection without limit (with dataloader)', async () => {
+      const spy = jest.spyOn(collection.constructor.prototype, 'find');
+
+      const sut = await transporter.loadQuery({
+        query: {
+          indexConfig,
+          filter: {
+            PK: 'users',
+            SK: 'B',
+          },
+          sort: 'ASC',
+          projection: ['sub.attr'],
+        },
+        dataloaderContext: {},
+      });
+
+      expect(spy).toBeCalledWith(
+        {
+          // $or injected  from dataloader
+          $or: [
+            {
+              $and: [
+                {
+                  _id: 'entity_foo#users↠B',
+                },
+              ],
+            },
+          ],
+        },
+        { projection: ['sub.attr'], sort: { _id: 1 } }
+      );
+
+      expect(sut.items).toHaveLength(1);
+      expect(sut.items[0].sub.attr).toBe(2);
+
+      spy.mockRestore();
+    });
+
+    it('should handle limit 3, sort, projection', async () => {
+      const spy = jest.spyOn(collection.constructor.prototype, 'find');
+
+      const sut = await transporter.loadQuery({
+        query: {
+          filter: {
+            PK: 'users',
+          },
+          indexConfig,
+          limit: 3,
+          sort: 'DESC',
+
+          projection: ['sub.attr'],
+        },
+        dataloaderContext: {},
+      });
+
+      expect(spy).toBeCalledWith(
+        // queryFilterToMongo({ PK: 'users', SK: null, SKType: 'string' }),
+        {
+          limit: 3,
+          projection: ['sub.attr'],
+          sort: { _id: -1 },
+        }
+      );
+
+      expect(sut.items).toHaveLength(3);
+      expect(sut.items[0]).toEqual({ _id: 'users↠D', sub: { attr: 4 } });
+      expect(sut.items[1]).toEqual({ _id: 'users↠C', sub: { attr: 3 } });
+
+      spy.mockRestore();
+    });
+
+    //   // it('should batch queries', async () => {
+    //   //   const spy = jest.spyOn(collection.constructor.prototype, 'find');
+    //   //
+    //   //   transporter = new MongoTransporter(mockApp._mongoClient!, {});
+    //   //
+    //   //   const context = {};
+    //   //
+    //   //   const q1 = {
+    //   //     PK: 'users',
+    //   //     SK: 'batch1_1',
+    //   //   } as const;
+    //   //
+    //   //   const q2 = {
+    //   //     PK: 'users',
+    //   //     SK: 'batch1_2',
+    //   //   } as const;
+    //   //
+    //   //   const q3 = {
+    //   //     PK: 'users',
+    //   //     SK: 'alone1',
+    //   //   } as const;
+    //   //
+    //   //   const q4 = {
+    //   //     PK: 'users',
+    //   //     SK: 'splitByProjection1',
+    //   //
+    //   //     projection: ['_id'] as any,
+    //   //   } as const;
+    //   //
+    //   //   const q5 = {
+    //   //     PK: 'users',
+    //   //     SK: 'splitByProjection2',
+    //   //
+    //   //     projection: ['name'] as any,
+    //   //   } as const;
+    //   //
+    //   //   await Promise.all([
+    //   //     transporter.loadQuery({
+    //   //       query: q1,
+    //   //       dataloaderContext: context,
+    //   //     }),
+    //   //     transporter.loadQuery({
+    //   //       query: q2,
+    //   //       dataloaderContext: context,
+    //   //     }),
+    //   //   ]);
+    //   //
+    //   //   await transporter.loadQuery({
+    //   //     query: q3,
+    //   //     dataloaderContext: context,
+    //   //   });
+    //   //
+    //   //   await Promise.all([
+    //   //     transporter.loadQuery({
+    //   //       query: q4,
+    //   //       dataloaderContext: context,
+    //   //     }),
+    //   //     transporter.loadQuery({
+    //   //       query: q5,
+    //   //       dataloaderContext: context,
+    //   //     }),
+    //   //   ]);
+    //   //
+    //   //   expect(spy).toBeCalledWith(
+    //   //     { $or: [queryFilterToMongo(q1), queryFilterToMongo(q2)] },
+    //   //     { projection: undefined, sort: { _id: 1 } }
+    //   //   );
+    //   //
+    //   //   expect(spy).toBeCalledWith(
+    //   //     { $or: [queryFilterToMongo(q3)] },
+    //   //     { projection: undefined, sort: { _id: 1 } }
+    //   //   );
+    //   //
+    //   //   expect(spy).toBeCalledWith(
+    //   //     { $or: [queryFilterToMongo(q5)] },
+    //   //     { projection: ['name'], sort: { _id: 1 } }
+    //   //   );
+    //   //
+    //   //   expect(spy).toBeCalledWith(
+    //   //     { $or: [queryFilterToMongo(q4)] },
+    //   //     { projection: ['_id'], sort: { _id: 1 } }
+    //   //   );
+    //   //
+    //   //   expect(spy).toBeCalledTimes(4);
+    //   //
+    //   //   spy.mockRestore();
+    //   // });
+  });
   //
   // describe('getItem', () => {
   //   it('should call loadQuery', async () => {

@@ -1,4 +1,4 @@
-import { MaybeArray, Merge, tuple } from '@darch/utils/lib/typeUtils';
+import { MaybeArray, tuple } from '@darch/utils/lib/typeUtils';
 
 import { SanitizedUpdateOperations } from './sanitizeUpdateExpressions';
 import { getTypeName } from '@darch/utils/lib/getTypeName';
@@ -6,9 +6,9 @@ import { Darch } from '@darch/schema';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { devAssert } from '@darch/utils/lib/devAssert';
 import {
-  createDocumentIndexMapper,
+  getDocumentIndexFields,
   DocumentIndexConfig,
-  DocumentIndexMapper,
+  createDocumentIndexBasedFilters,
 } from './DocumentIndex';
 
 export const FieldTypes = tuple(
@@ -25,11 +25,11 @@ export const FieldTypes = tuple(
 
 export type FieldType = typeof FieldTypes[number];
 
-export type PKSKValueType = string | number;
+export type PKSKValueType = string | number | null;
 
-export type AllFieldFilter = {
-  $eq: PKSKValueType | boolean | null;
-  $ne: PKSKValueType | boolean | null;
+export type AllFilterOperations = {
+  $eq: PKSKValueType | boolean;
+  $ne: PKSKValueType | boolean;
   $lte: PKSKValueType;
   $lt: PKSKValueType;
   $gt: PKSKValueType;
@@ -43,9 +43,28 @@ export type AllFieldFilter = {
   $in: unknown[];
 };
 
-export type FieldFilter = {
-  [K in keyof AllFieldFilter]?: AllFieldFilter[K];
+export type OneFilterOperation = {
+  [K in keyof AllFilterOperations]: { [L in K]: AllFilterOperations[K] };
+}[keyof AllFilterOperations];
+
+export type RootFilterOperators = {
+  $and?: FilterRecord[];
+  $or?: FilterRecord[];
+  $not?: FilterRecord;
 };
+
+export type RootOperatorKey = '$and' | '$or' | '$not';
+
+export type FilterConditions = {
+  [K in keyof (AllFilterOperations &
+    RootFilterOperators)]?: (AllFilterOperations & RootFilterOperators)[K];
+};
+
+export type FilterRecord =
+  | { [K: string]: Partial<AllFilterOperations> | PKSKValueType | undefined }
+  | { $and?: RootFilterOperators['$and'] }
+  | { $or?: RootFilterOperators['$or'] }
+  | { $not?: RootFilterOperators['$not'] };
 
 export type AllIndexFilter = {
   $eq: PKSKValueType;
@@ -61,27 +80,11 @@ export type IndexFilter = {
   [K in keyof AllIndexFilter]?: AllIndexFilter[K];
 };
 
-export type AttributeFilterRecord<T extends string = string> = {
-  [K in T]?:
-    | PKSKValueType
-    | FieldFilter
-    | {
-        $and?: AttributeFilterRecord[];
-        $or?: AttributeFilterRecord[];
-        $not?: AttributeFilterRecord;
-      };
-};
-
-export type IndexFilterRecord<T extends string = string> = {
-  [K in T]?:
-    | PKSKValueType
-    | IndexFilter
-    | {
-        $and?: IndexFilterRecord[];
-        $or?: IndexFilterRecord[];
-        $not?: IndexFilterRecord;
-      };
-};
+export type IndexFilterRecord =
+  | { [K: string]: Partial<AllIndexFilter> | PKSKValueType | undefined }
+  | { $and?: IndexFilterRecord[] }
+  | { $or?: IndexFilterRecord[] }
+  | { $not?: IndexFilterRecord };
 
 export type DocumentBase<T extends { [K: string]: unknown } = {}> = {
   [K in keyof T]: T[K];
@@ -95,8 +98,9 @@ export type TransporterLoaderConfig<TQuery> = {
 export type QuerySort = 'ASC' | 'DESC';
 
 export type QueryConfig = {
-  filter: IndexFilter[];
-  startingKey?: IndexFilter;
+  filter: IndexFilterRecord;
+  indexConfig: DocumentIndexConfig;
+  startingKey?: IndexFilterRecord;
   consistent?: boolean;
   limit?: number;
   sort?: QuerySort;
@@ -115,7 +119,7 @@ export type GetItemConfig<IndexFieldKey extends string> =
 export type PutItemConfig<T extends DocumentBase> = {
   item: T;
   indexConfig: DocumentIndexConfig<T>;
-  condition?: AttributeFilterRecord;
+  condition?: FilterRecord;
   replace?: boolean; // defaults to false
 };
 
@@ -127,7 +131,7 @@ export type UpdateItemConfig<
   update: SanitizedUpdateOperations<Item>;
   indexConfig: DocumentIndexConfig<Item>;
   upsert?: boolean;
-  condition?: AttributeFilterRecord;
+  condition?: FilterRecord;
 };
 
 export type DeleteItemConfig<
@@ -136,7 +140,7 @@ export type DeleteItemConfig<
 > = {
   filter: IndexFilterRecord;
   indexConfig: DocumentIndexConfig<Item>;
-  condition?: AttributeFilterRecord;
+  condition?: FilterRecord;
 };
 
 type UnsetUpdateExpression<Item> = Item extends Record<infer K, any>
@@ -169,8 +173,8 @@ export type UpdateExpression<
 
 export type UpdateExpressionKey = keyof UpdateExpression<any>;
 
-export const FieldFilterOperators: {
-  [K in keyof FieldFilter]: (input: any) => FieldFilter[K];
+export const FilterConditionsParsers: {
+  [K in keyof FilterConditions]-?: (input: any) => FilterConditions[K];
 } = {
   $eq: Darch.union(['null', 'boolean', 'string', 'float'] as const).parse,
   $ne: Darch.union(['null', 'boolean', 'string', 'float'] as const).parse,
@@ -207,32 +211,32 @@ export const FieldFilterOperators: {
   $matchString: Darch.string().parse,
   $in: Darch.unknown().toList().parse,
 
-  // $and(input: unknown) {
-  //   if (!Array.isArray(input)) {
-  //     return devAssert(`Expected input be an array`, { input });
-  //   }
-  //
-  //   return input.map((sub: unknown, index) => {
-  //     assertFieldFilter(sub, `at position ${index}`);
-  //     return sub;
-  //   });
-  // },
-  //
-  // $or(input) {
-  //   if (!Array.isArray(input)) {
-  //     return devAssert(`Expected input be an array`, { input });
-  //   }
-  //
-  //   return input.map((sub: unknown, index) => {
-  //     assertFieldFilter(sub, `at position ${index}`);
-  //     return sub;
-  //   });
-  // },
-  //
-  // $not(input: unknown) {
-  //   assertFieldFilter(input);
-  //   return input;
-  // },
+  $and(input: unknown) {
+    if (!Array.isArray(input)) {
+      return devAssert(`Expected input be an array`, { input });
+    }
+
+    return input.map((sub: unknown, index) => {
+      assertFieldFilter(sub, `at position ${index}`);
+      return sub;
+    });
+  },
+
+  $or(input) {
+    if (!Array.isArray(input)) {
+      return devAssert(`Expected input be an array`, { input });
+    }
+
+    return input.map((sub: unknown, index) => {
+      assertFieldFilter(sub, `at position ${index}`);
+      return sub;
+    });
+  },
+
+  $not(input: unknown) {
+    assertFieldFilter(input);
+    return input;
+  },
 };
 
 export const AttributeFilterKeys = tuple(
@@ -253,11 +257,6 @@ export const AttributeFilterKeys = tuple(
 
 export type AttributeFilterKey = typeof AttributeFilterKeys[number];
 
-export function isAttributeFilterKey(key: unknown): key is AttributeFilterKey {
-  if (typeof key !== 'string') return false;
-  return AttributeFilterKeys.includes(key as any);
-}
-
 export const TopLevelFilterKeys = tuple('$not', '$or', '$and');
 export type TopLevelFilterKey = typeof TopLevelFilterKeys[number];
 
@@ -277,7 +276,11 @@ export type UpdateItemResult<T> = {
   updated: boolean;
   created: boolean;
   item: T | null;
-  error?: string;
+  error?: string | null | undefined;
+};
+
+export type LoadQueryResult = {
+  items: DocumentBase<Record<string, any>>[];
 };
 
 export abstract class Transporter {
@@ -285,9 +288,7 @@ export abstract class Transporter {
 
   abstract connect(): Promise<any>;
 
-  // abstract loadQuery(options: LoadQueryConfig): Promise<{
-  //   items: DocumentBase[];
-  // }>;
+  abstract loadQuery(options: LoadQueryConfig): Promise<LoadQueryResult>;
 
   //
   // abstract getItem(options: GetItemConfig): Promise<{
@@ -309,11 +310,8 @@ export abstract class Transporter {
   //   item: T | null;
   // }>;
 
-  getIndexMapper<Doc extends DocumentBase>(
-    indexConfig: DocumentIndexConfig<Doc>
-  ) {
-    return createDocumentIndexMapper(indexConfig);
-  }
+  createDocumentIndexBasedFilters = createDocumentIndexBasedFilters;
+  getDocumentIndexFields = getDocumentIndexFields;
 }
 
 export function isPlainQueryKey(input: any): input is PKSKValueType {
@@ -324,7 +322,7 @@ export function isPlainQueryKey(input: any): input is PKSKValueType {
 export function assertFieldFilter(
   input: any,
   message?: string
-): asserts input is FieldFilter {
+): asserts input is FilterRecord {
   const keys =
     input && typeof input === 'object' ? Object.keys(input) : undefined;
 
@@ -333,13 +331,13 @@ export function assertFieldFilter(
   }
 
   Object.entries(input).forEach(([k, v]) => {
-    const parse = FieldFilterOperators[k]?.parse;
+    const parse = FilterConditionsParsers[k]?.parse;
     if (!parse) devAssert(`invalid operator ${message || ''}`, { operator: k });
-    return parse(v);
+    parse(v);
   });
 }
 
-export function isFieldFilter(input: any): input is FieldFilter {
+export function isFieldFilter(input: any): input is FilterRecord {
   try {
     assertFieldFilter(input);
     return true;
@@ -348,8 +346,8 @@ export function isFieldFilter(input: any): input is FieldFilter {
   }
 }
 
-export function isFilterOrPKSKValue(
-  input: any
-): input is PKSKValueType | FieldFilter {
-  return isPlainQueryKey(input) || isFieldFilter(input);
+export function isFilterConditionKey(
+  input: unknown
+): input is keyof FilterConditions {
+  return typeof input === 'string' && !!FilterConditionsParsers[input];
 }
