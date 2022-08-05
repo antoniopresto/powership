@@ -11,6 +11,8 @@ import {
   LoadQueryResult,
   GetItemConfig,
   GetItemResult,
+  DeleteItemConfig,
+  DeleteItemResult,
 } from '../Transporter/Transporter';
 
 import { MongoClient } from './MongoClient';
@@ -23,6 +25,7 @@ import {
 } from './parseMongoAttributeFilters';
 import { parseMongoUpdateExpression } from './parseMongoUpdateExpression';
 import { Logger } from '@darch/utils/lib/logger';
+import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 
 export class MongoTransporter extends Transporter {
   _client: MongoClient;
@@ -43,7 +46,8 @@ export class MongoTransporter extends Transporter {
 
   collection: string;
 
-  async loadQuery<T extends DocumentBase<any>>(
+  // TODO condition
+  async loadQuery<T extends DocumentBase>(
     options: LoadQueryConfig
   ): Promise<LoadQueryResult> {
     const { query: queryConfig } = options;
@@ -114,6 +118,7 @@ export class MongoTransporter extends Transporter {
     return { items };
   }
 
+  // TODO condition
   async getItem<T extends DocumentBase>(
     options: GetItemConfig
   ): Promise<GetItemResult> {
@@ -161,10 +166,15 @@ export class MongoTransporter extends Transporter {
 
     const collection = this.getCollection(item);
 
-    const conditionExpression: Filter<any> = indexMap.indexFields;
+    const conditionExpression: Filter<any> = simpleObjectClone(
+      indexMap.indexFields
+    );
 
     if (options.condition) {
-      conditionExpression.$and = parseMongoAttributeFilters(options.condition);
+      conditionExpression.$and = conditionExpression.$and || [];
+      conditionExpression.$and.push(
+        ...parseMongoAttributeFilters(options.condition)
+      );
     }
 
     try {
@@ -198,18 +208,19 @@ export class MongoTransporter extends Transporter {
   async updateItem<T extends DocumentBase>(
     options: UpdateItemConfig<string, T>
   ): Promise<UpdateItemResult<T>> {
-    const { update, upsert, indexConfig, filter } = options;
+    const { update, upsert, indexConfig, filter, condition } = options;
 
     const parsedFilter = this.createDocumentIndexBasedFilters(
       filter,
       indexConfig
     );
 
-    const updateExpression = parseMongoUpdateExpression(update);
+    const parsedUpdate = this.parseUpdateExpression(update, indexConfig);
+    const updateExpression = parseMongoUpdateExpression(parsedUpdate);
     const collection = this.getCollection(parsedFilter);
 
-    if (options.condition) {
-      parsedFilter.push(...parseMongoAttributeFilters(options.condition));
+    if (condition) {
+      parsedFilter.push(...parseMongoAttributeFilters(condition));
     }
 
     try {
@@ -240,12 +251,24 @@ export class MongoTransporter extends Transporter {
     }
   }
 
-  // async deleteItem<T extends DocumentBase>(
-  //   options: DeleteItemOptions
-  // ): Promise<{ item: T | null }> {
-  //   const collection = this.collectionFromPK(options.PK);
-  //   const conditionExpression = this._parseItemConditionExpression(options);
-  //   const { value } = await collection.findOneAndDelete(conditionExpression);
-  //   return { item: value as any };
-  // }
+  async deleteItem<T extends DocumentBase, IndexFieldKeys extends keyof T>(
+    options: DeleteItemConfig<Extract<IndexFieldKeys, string>, T>
+  ): Promise<DeleteItemResult<T>> {
+    const { indexConfig, condition, filter } = options;
+
+    const parsedFilter = this.createDocumentIndexBasedFilters(
+      filter,
+      indexConfig
+    );
+
+    const collection = this.getCollection(parsedFilter);
+
+    if (condition) {
+      parsedFilter.push(...parseMongoAttributeFilters(condition));
+    }
+
+    const { value } = await collection.findOneAndDelete({ $and: parsedFilter });
+
+    return { item: value as any };
+  }
 }

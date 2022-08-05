@@ -10,7 +10,7 @@ import {
   QueryConditions,
   UpdateItemResult,
 } from '../Transporter/Transporter';
-import { sanitizeUpdateExpressions } from '../Transporter/sanitizeUpdateExpressions';
+import { parseUpdateExpression } from '../Transporter/parseUpdateExpression';
 
 import {
   SchemaTypeWithGeneratedFields,

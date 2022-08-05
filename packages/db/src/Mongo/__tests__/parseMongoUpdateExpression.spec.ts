@@ -1,12 +1,10 @@
 import { Collection } from 'mongodb';
 
 import { UpdateExpression } from '../../Transporter/Transporter';
-import {
-  sanitizeUpdateExpressions,
-  TransporterUpdateExpressionFnConfig,
-} from '../../Transporter/sanitizeUpdateExpressions';
-import { AppMock, createAppMock } from '../../__tests__/appMock';
+import { parseUpdateExpression } from '../../Transporter/parseUpdateExpression';
 import { parseMongoUpdateExpression as _parseMongoUpdateExpression } from '../parseMongoUpdateExpression';
+import { DocumentIndexConfig } from '../../Transporter/DocumentIndex';
+import { AppMock, createAppMock } from './createAppMock';
 
 const mockUser = () => ({
   _id: 1 as any,
@@ -17,9 +15,14 @@ const mockUser = () => ({
 
 function parseMongoUpdateExpression(
   updateExpression: UpdateExpression<any>,
-  config: TransporterUpdateExpressionFnConfig = { PK: ['#foo'], SK: undefined }
+  config: DocumentIndexConfig = {
+    entity: 'foo',
+    indexes: [{ PK: ['#foo'], SK: [], field: '_id' }],
+  }
 ) {
-  return _parseMongoUpdateExpression(sanitizeUpdateExpressions(updateExpression, config));
+  return _parseMongoUpdateExpression(
+    parseUpdateExpression(updateExpression, config)
+  );
 }
 
 describe('parseMongoUpdateExpression', () => {
@@ -39,7 +42,7 @@ describe('parseMongoUpdateExpression', () => {
   }
 
   afterEach(async () => {
-    await collection.removeOne({});
+    await collection.deleteOne({});
   });
 
   beforeAll(async () => {
@@ -86,10 +89,14 @@ describe('parseMongoUpdateExpression', () => {
       $setOnInsert: { createdAt: 123 },
     });
 
-    const created = await collection.findOneAndUpdate({ _id: 1 }, parsedCreate, {
-      returnDocument: 'after',
-      upsert: true,
-    });
+    const created = await collection.findOneAndUpdate(
+      { _id: 1 },
+      parsedCreate,
+      {
+        returnDocument: 'after',
+        upsert: true,
+      }
+    );
 
     expect(created.value).toEqual({
       _id: 1,
@@ -102,10 +109,14 @@ describe('parseMongoUpdateExpression', () => {
       $setOnInsert: { createdAt: 'shouldIgnoreMe' },
     });
 
-    const updated = await collection.findOneAndUpdate({ _id: 1 }, parsedUpdate, {
-      returnDocument: 'after',
-      upsert: true,
-    });
+    const updated = await collection.findOneAndUpdate(
+      { _id: 1 },
+      parsedUpdate,
+      {
+        returnDocument: 'after',
+        upsert: true,
+      }
+    );
 
     expect(updated.value).toEqual({
       _id: 1,
@@ -201,7 +212,11 @@ describe('parseMongoUpdateExpression', () => {
       },
     });
 
-    expect(await update({ $pull: { list: ['a', 2] } })).toHaveProperty('list', ['b', 'c', 1]);
+    expect(await update({ $pull: { list: ['a', 2] } })).toHaveProperty('list', [
+      'b',
+      'c',
+      1,
+    ]);
   });
 
   test('$addToSet array item', async () => {
@@ -209,7 +224,10 @@ describe('parseMongoUpdateExpression', () => {
 
     await update({ $set: { list: ['a', 'b', 'a'] } });
 
-    expect(await update({ $addToSet: { list: ['a', 2] } })).toHaveProperty('list', ['b', 'a', 2]);
+    expect(await update({ $addToSet: { list: ['a', 2] } })).toHaveProperty(
+      'list',
+      ['b', 'a', 2]
+    );
   });
 
   describe('deepObjects', () => {
@@ -235,9 +253,9 @@ describe('parseMongoUpdateExpression', () => {
         },
       });
 
-      expect(() => parseMongoUpdateExpression({ $set: { 'arr[0].[0].f': 1 } })).toThrow(
-        "Can't deep update with array index."
-      );
+      expect(() =>
+        parseMongoUpdateExpression({ $set: { 'arr[0].[0].f': 1 } })
+      ).toThrow("Can't deep update with array index.");
     });
 
     test('$setIfNull', async () => {
@@ -261,9 +279,9 @@ describe('parseMongoUpdateExpression', () => {
         },
       });
 
-      expect(() => parseMongoUpdateExpression({ $setIfNull: { 'arr[0].[0].f': 1 } })).toThrow(
-        "Can't deep update with array index."
-      );
+      expect(() =>
+        parseMongoUpdateExpression({ $setIfNull: { 'arr[0].[0].f': 1 } })
+      ).toThrow("Can't deep update with array index.");
     });
 
     test('$inc', async () => {
@@ -286,9 +304,9 @@ describe('parseMongoUpdateExpression', () => {
         },
       });
 
-      expect(() => parseMongoUpdateExpression({ $setIfNull: { 'arr[0].[0].f': 1 } })).toThrow(
-        "Can't deep update with array index."
-      );
+      expect(() =>
+        parseMongoUpdateExpression({ $setIfNull: { 'arr[0].[0].f': 1 } })
+      ).toThrow("Can't deep update with array index.");
     });
 
     test('$append', async () => {
@@ -302,9 +320,9 @@ describe('parseMongoUpdateExpression', () => {
 
       expect(sut).toHaveProperty('foo', { bar: { cux: ['newItem'] } });
 
-      expect(() => parseMongoUpdateExpression({ $append: { 'arr[0].[0].f': ['1'] } })).toThrow(
-        "Can't deep update with array index."
-      );
+      expect(() =>
+        parseMongoUpdateExpression({ $append: { 'arr[0].[0].f': ['1'] } })
+      ).toThrow("Can't deep update with array index.");
     });
 
     test('$prepend', async () => {
@@ -322,9 +340,9 @@ describe('parseMongoUpdateExpression', () => {
 
       expect(sut).toHaveProperty('foo', { bar: { cux: [1, 2, 3, 4, 'x'] } });
 
-      expect(() => parseMongoUpdateExpression({ $prepend: { 'arr[0].[0].f': ['1'] } })).toThrow(
-        "Can't deep update with array index."
-      );
+      expect(() =>
+        parseMongoUpdateExpression({ $prepend: { 'arr[0].[0].f': ['1'] } })
+      ).toThrow("Can't deep update with array index.");
     });
 
     test('$remove array by index', async () => {
@@ -353,12 +371,12 @@ describe('parseMongoUpdateExpression', () => {
       expect(await sut(1)).toHaveProperty('foo.bar', { cux: ['b', 'e'] });
       expect(await sut(1)).toHaveProperty('foo.bar', { cux: ['b'] });
 
-      expect(() => parseMongoUpdateExpression({ $remove: ['arr[0].[0].f'] })).toThrow(
-        "Can't deep update with array index."
-      );
-      expect(() => parseMongoUpdateExpression({ $remove: ['arr[0].f'] })).toThrow(
-        "Can't deep update with array index."
-      );
+      expect(() =>
+        parseMongoUpdateExpression({ $remove: ['arr[0].[0].f'] })
+      ).toThrow("Can't deep update with array index.");
+      expect(() =>
+        parseMongoUpdateExpression({ $remove: ['arr[0].f'] })
+      ).toThrow("Can't deep update with array index.");
     });
 
     test('$remove object property', async () => {
@@ -371,9 +389,9 @@ describe('parseMongoUpdateExpression', () => {
         d: 3,
       });
 
-      expect(() => parseMongoUpdateExpression({ $remove: ['arr[0].f'] })).toThrow(
-        "Can't deep update with array index."
-      );
+      expect(() =>
+        parseMongoUpdateExpression({ $remove: ['arr[0].f'] })
+      ).toThrow("Can't deep update with array index.");
     });
 
     test('$pull array item', async () => {
@@ -385,13 +403,15 @@ describe('parseMongoUpdateExpression', () => {
         },
       });
 
-      expect(await update({ $pull: { 'foo.bar.cux': ['a', 2] } })).toHaveProperty('foo.bar', {
+      expect(
+        await update({ $pull: { 'foo.bar.cux': ['a', 2] } })
+      ).toHaveProperty('foo.bar', {
         cux: ['b', 'c', 1],
       });
 
-      expect(() => parseMongoUpdateExpression({ $pull: { 'foo[0].cux': ['a', 2] } })).toThrow(
-        "Can't deep update with array index."
-      );
+      expect(() =>
+        parseMongoUpdateExpression({ $pull: { 'foo[0].cux': ['a', 2] } })
+      ).toThrow("Can't deep update with array index.");
     });
 
     test('$addToSet array item', async () => {
@@ -399,14 +419,13 @@ describe('parseMongoUpdateExpression', () => {
 
       await update({ $set: { 'foo.bar.cux': ['a', 'b', 'a'] } });
 
-      expect(await update({ $addToSet: { 'foo.bar.cux': ['a', 2] } })).toHaveProperty(
-        'foo.bar.cux',
-        ['b', 'a', 2]
-      );
+      expect(
+        await update({ $addToSet: { 'foo.bar.cux': ['a', 2] } })
+      ).toHaveProperty('foo.bar.cux', ['b', 'a', 2]);
 
-      expect(() => parseMongoUpdateExpression({ $addToSet: { 'foo[999].cux': ['a', 2] } })).toThrow(
-        "Can't deep update with array index."
-      );
+      expect(() =>
+        parseMongoUpdateExpression({ $addToSet: { 'foo[999].cux': ['a', 2] } })
+      ).toThrow("Can't deep update with array index.");
     });
   });
 });

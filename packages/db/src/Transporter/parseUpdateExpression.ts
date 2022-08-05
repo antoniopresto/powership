@@ -1,52 +1,40 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { ensureArray } from '@darch/utils/lib/ensureArray';
 import { getKeys } from '@darch/utils/lib/getKeys';
-import { Entries } from '@darch/utils/lib/typeUtils';
 
 import { UpdateExpression, UpdateExpressionKey } from './Transporter';
+import { DocumentIndexConfig } from './DocumentIndex';
 
-export type TransporterUpdateExpressionFnConfig = {
-  PK: string[];
-  SK: string[];
-};
-
-export type UpdateOperationsByDeleteOperator = {
-  operator: '$remove';
-  operations: {
-    path: string; // field or field.subfield, etc
-    index?: number;
-  }[];
-};
-
-export type TransporterParsedUpdateOperation<
-  Schema,
-  T = Omit<UpdateExpression<Schema>, '$remove'>
-> =
+export type UpdateOperation<Schema> =
   | {
-      [K in Extract<keyof T, string>]-?: {
-        operator: K;
-        entries: Entries<NonNullable<T[K]>>;
-      };
-    }[Extract<keyof T, string>]
-  | UpdateOperationsByDeleteOperator;
+      operator: Exclude<UpdateExpressionKey, '$remove'>;
+      entries: [string, any][];
+    }
+  | {
+      operator: '$remove';
+      removeOperations: {
+        path: string; // field or field.subfield, etc
+        index?: number;
+      }[];
+    };
 
-export type SanitizedUpdateOperations<Schema> =
-  TransporterParsedUpdateOperation<Schema>[];
-
-export function sanitizeUpdateExpressions<Schema extends Record<string, any>>(
+export function parseUpdateExpression<Schema extends Record<string, any>>(
   updateExpression: UpdateExpression<Schema>,
-  config: TransporterUpdateExpressionFnConfig
-): SanitizedUpdateOperations<Schema> {
-  const { PK = [], SK = [] } = config;
-
-  const pkFields = new Set(
-    PK.filter((el) => el.startsWith('.')).map((el) => el.replace(/^./, ''))
-  );
-  const skFields = new Set(
-    SK.filter((el) => el.startsWith('.')).map((el) => el.replace(/^./, ''))
-  );
-
+  indexConfig: DocumentIndexConfig
+): UpdateOperation<Schema>[] {
+  const { indexes } = indexConfig;
   const keys = getKeys(updateExpression);
+
+  const fieldsUsedInIndexes = new Set();
+
+  indexes.forEach((index) => {
+    [...index.PK, ...(index.SK || [])]
+      .filter((el) => el.startsWith('.'))
+      .map((el) => {
+        const field = el.replace(/^./, '');
+        fieldsUsedInIndexes.add(field);
+      });
+  });
 
   if (!keys.length) {
     throw new RuntimeError('Empty update expression', {
@@ -68,7 +56,7 @@ export function sanitizeUpdateExpressions<Schema extends Record<string, any>>(
   }
 
   const errors = new Set<string>();
-  const operations: SanitizedUpdateOperations<Schema> = [];
+  const operations: UpdateOperation<Schema>[] = [];
 
   function pushErrorIfApply(
     field: string,
@@ -89,12 +77,10 @@ export function sanitizeUpdateExpressions<Schema extends Record<string, any>>(
     }
 
     if ($operator !== '$setOnInsert') {
-      if (pkFields.has(fieldStart)) {
-        errors.add(`Can't update field "${fieldStart}" - member of PK.`);
-      }
-
-      if (skFields.has(fieldStart)) {
-        errors.add(`Can't update field "${fieldStart}" - member of SK.`);
+      if (fieldsUsedInIndexes.has(fieldStart)) {
+        errors.add(
+          `The field "${fieldStart}" cannot be updated as it is used in index.`
+        );
       }
     }
   }
@@ -113,14 +99,17 @@ export function sanitizeUpdateExpressions<Schema extends Record<string, any>>(
       case '$addToSet': {
         const entries = Object.entries(operation);
         entries.forEach(([field]) => pushErrorIfApply(field, $operator));
-        operations.push({ operator: $operator, entries: entries as any });
+
+        operations.push({
+          operator: $operator,
+          entries: entries,
+        });
         break;
       }
 
       case '$remove': {
         const toDelete: string[] = ensureArray(operation as any);
-        const removeEntries: UpdateOperationsByDeleteOperator['operations'] =
-          [];
+        const removeEntries: { index?: number; path: string }[] = [];
 
         toDelete.forEach((pathToDelete) => {
           pushErrorIfApply(pathToDelete, '$remove');
@@ -142,7 +131,7 @@ export function sanitizeUpdateExpressions<Schema extends Record<string, any>>(
 
         operations.push({
           operator: '$remove',
-          operations: removeEntries,
+          removeOperations: removeEntries,
         });
         break;
       }

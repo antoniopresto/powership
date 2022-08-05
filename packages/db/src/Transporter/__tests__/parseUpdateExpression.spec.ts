@@ -1,9 +1,8 @@
-import { sanitizeUpdateExpressions } from '../sanitizeUpdateExpressions';
+import { parseUpdateExpression } from '../parseUpdateExpression';
 
-// TODO more tests
-describe('sanitizeUpdateExpressions', () => {
+describe('parseUpdateExpression', () => {
   it('works', async () => {
-    const operations = sanitizeUpdateExpressions<any>(
+    const operations = parseUpdateExpression<any>(
       {
         $set: {
           set_a: '$set_a',
@@ -16,8 +15,14 @@ describe('sanitizeUpdateExpressions', () => {
         $remove: ['a', 'a.b.c[25]'],
       },
       {
-        PK: [],
-        SK: [],
+        entity: 'foo',
+        indexes: [
+          {
+            field: '_id',
+            PK: [],
+            SK: [],
+          },
+        ],
       }
     );
 
@@ -27,10 +32,6 @@ describe('sanitizeUpdateExpressions', () => {
           ['set_a', '$set_a'],
           ['set_b', '$set_b'],
         ],
-        operation: {
-          set_a: '$set_a',
-          set_b: '$set_b',
-        },
         operator: '$set',
       },
       {
@@ -38,14 +39,10 @@ describe('sanitizeUpdateExpressions', () => {
           ['setIfNull_a', '$setIfNull_a'],
           ['$setIfNull_b', '$setIfNull_b'],
         ],
-        operation: {
-          $setIfNull_b: '$setIfNull_b',
-          setIfNull_a: '$setIfNull_a',
-        },
         operator: '$setIfNull',
       },
       {
-        operations: [
+        removeOperations: [
           {
             path: 'a',
           },
@@ -61,7 +58,7 @@ describe('sanitizeUpdateExpressions', () => {
 
   it('should break PK update on setters', () => {
     expect(() =>
-      sanitizeUpdateExpressions(
+      parseUpdateExpression(
         {
           $set: {
             username: 'antonio',
@@ -69,64 +66,94 @@ describe('sanitizeUpdateExpressions', () => {
           },
         },
         {
-          PK: ['#user', '.username'],
-          SK: [],
+          entity: 'foo',
+          indexes: [
+            {
+              field: '_id',
+              PK: ['#user', '.username'],
+              SK: [],
+            },
+          ],
         }
       )
-    ).toThrow(`Can't update field "username" - member of PK.`);
+    ).toThrow(`The field "username" cannot be updated as it is used in index.`);
   });
 
   it('should break PK update on $remove', () => {
     expect(() =>
-      sanitizeUpdateExpressions(
+      parseUpdateExpression(
         {
           $remove: ['username.foo[2]'],
         },
         {
-          PK: ['#user', '.username'],
-          SK: [],
+          entity: 'foo',
+          indexes: [
+            {
+              field: '_id',
+              PK: ['#user', '.username'],
+              SK: [],
+            },
+          ],
         }
       )
-    ).toThrow(`Can't update field "username" - member of PK.`);
+    ).toThrow(`The field "username" cannot be updated as it is used in index.`);
   });
 
   it('should break SK update on $remove', () => {
     expect(() =>
-      sanitizeUpdateExpressions(
+      parseUpdateExpression(
         {
           $remove: ['email'],
         },
         {
-          PK: ['#user', '.username'],
-          SK: ['#user', '.email'],
+          entity: 'foo',
+          indexes: [
+            {
+              field: '_id',
+              PK: ['#user', '.username'],
+              SK: ['#user', '.email'],
+            },
+          ],
         }
       )
-    ).toThrow(`Can't update field "email" - member of SK.`);
+    ).toThrow(`The field "email" cannot be updated as it is used in index.`);
   });
 
   it('should break deep array update', () => {
     expect(() =>
-      sanitizeUpdateExpressions(
+      parseUpdateExpression(
         {
           $set: {
             'family[1].age': 21,
           },
         },
         {
-          PK: ['#user', '.username'],
-          SK: [],
+          entity: 'foo',
+          indexes: [
+            {
+              field: '_id',
+              PK: ['#user', '.username'],
+              SK: [],
+            },
+          ],
         }
       )
     ).toThrow(`Can't deep update with array index.`);
 
     expect(() =>
-      sanitizeUpdateExpressions(
+      parseUpdateExpression(
         {
           $remove: ['email[1].age'],
         },
         {
-          PK: ['#user', '.username'],
-          SK: [],
+          entity: 'foo',
+          indexes: [
+            {
+              field: '_id',
+              PK: ['#user', '.username'],
+              SK: [],
+            },
+          ],
         }
       )
     ).toThrow(`Can't deep update with array index.`);

@@ -2,9 +2,9 @@ import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { ensureArray } from '@darch/utils/lib/ensureArray';
 import * as Mongodb from 'mongodb';
 
-import { SanitizedUpdateOperations } from '../Transporter/sanitizeUpdateExpressions';
+import { UpdateOperation } from '../Transporter/parseUpdateExpression';
 
-export function parseMongoUpdateExpression(operations: SanitizedUpdateOperations<any>) {
+export function parseMongoUpdateExpression(operations: UpdateOperation<any>[]) {
   const update: Mongodb.UpdateFilter<any>[] = [];
 
   operations.forEach(function (item) {
@@ -145,7 +145,7 @@ export function parseMongoUpdateExpression(operations: SanitizedUpdateOperations
       }
 
       case '$remove': {
-        item.operations.forEach(({ index, path }) => {
+        item.removeOperations.forEach(({ index, path }) => {
           if (typeof index === 'number' && index >= 0) {
             const temp = `temp[[${path}]]`;
             const nextIndex = index + 1;
