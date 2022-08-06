@@ -26,7 +26,7 @@ export function validateObjectFields(params: {
       : `➤ field "${fieldName}": ${msg.replace(/\.$/, '')}.`;
   }
 
-  if (value === undefined) {
+  if (value === undefined && !definition.def.autoCreate) {
     if (definition.optional) {
       return {
         errors: [],

@@ -187,7 +187,7 @@ class EntityClass<
       }
     }
 
-    return await transporter.putItem({
+    return await transporter.createOne({
       item: parsed,
       replace,
       condition,
@@ -210,7 +210,7 @@ class EntityClass<
 
     const { PK, SK = null } = parsed;
 
-    return transporter.getItem({
+    return transporter.findOne({
       query: {
         PK,
         SK,
@@ -289,5 +289,5 @@ function buildEntityOperationInfoContext(
     context: parserInput.methodOptions.context,
   };
 }
-export {DocumentIndexItem} from "../Transporter/DocumentIndex";
-export {IndexKeyHash} from "../Transporter/DocumentIndex";
+export {DocumentIndexItem} from "../Transporter/CollectionIndex";
+export {IndexKeyHash} from "../Transporter/CollectionIndex";

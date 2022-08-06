@@ -94,7 +94,10 @@ export class GraphType<Definition> implements GraphTypeLike {
       } else if (name) {
         this.__field.utils.object.identify(name);
       } else {
-        name = getObjectDefinitionId(this.__field.utils.object.definition);
+        name = getObjectDefinitionId(
+          this.__field.utils.object.definition,
+          true // make nullable, the error below about undefined name is more clear
+        );
       }
 
       this._object = this.__field.utils.object;

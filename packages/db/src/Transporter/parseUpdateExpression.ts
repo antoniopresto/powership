@@ -3,7 +3,7 @@ import { ensureArray } from '@darch/utils/lib/ensureArray';
 import { getKeys } from '@darch/utils/lib/getKeys';
 
 import { UpdateExpression, UpdateExpressionKey } from './Transporter';
-import { DocumentIndexConfig } from './DocumentIndex';
+import { AnyCollectionIndexConfig } from './CollectionIndex';
 
 export type UpdateOperation<Schema> =
   | {
@@ -20,7 +20,7 @@ export type UpdateOperation<Schema> =
 
 export function parseUpdateExpression<Schema extends Record<string, any>>(
   updateExpression: UpdateExpression<Schema>,
-  indexConfig: DocumentIndexConfig
+  indexConfig: AnyCollectionIndexConfig
 ): UpdateOperation<Schema>[] {
   const { indexes } = indexConfig;
   const keys = getKeys(updateExpression);

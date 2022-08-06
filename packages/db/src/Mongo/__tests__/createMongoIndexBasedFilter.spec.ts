@@ -8,8 +8,8 @@ import { createAppMock, AppMock } from './createAppMock';
 import { createMongoIndexBasedFilters } from '../parseMongoAttributeFilters';
 import {
   getDocumentIndexFields,
-  DocumentIndexConfig,
-} from '../../Transporter/DocumentIndex';
+  CollectionIndexConfig,
+} from '../../Transporter/CollectionIndex';
 
 describe('createMongoIndexBasedFilter', () => {
   let mockApp: AppMock;
@@ -79,13 +79,7 @@ describe('createMongoIndexBasedFilter', () => {
           },
           {
             entity: 'my_entity',
-            indexes: [
-              {
-                field: '_id',
-                PK: ['.PK'],
-                SK: ['.SK'],
-              },
-            ],
+            indexes: [{ name: 'any', field: '_id', PK: ['.PK'], SK: ['.SK'] }],
           }
         );
 
@@ -559,13 +553,7 @@ const ITEMS = [
   { PK: 'users', SK: 'rafaela' },
 ];
 
-const indexConfig: DocumentIndexConfig = {
+const indexConfig: CollectionIndexConfig = {
   entity: 'my_entity',
-  indexes: [
-    {
-      field: '_id',
-      PK: ['.PK'],
-      SK: ['.SK'],
-    },
-  ],
+  indexes: [{ name: 'any', field: '_id', PK: ['.PK'], SK: ['.SK'] }],
 };

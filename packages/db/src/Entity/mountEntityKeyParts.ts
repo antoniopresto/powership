@@ -1,5 +1,5 @@
 import get from 'lodash/get';
-import {DocumentIndexItem, PK_SK_SEPARATOR} from "../Transporter/DocumentIndex";
+import {DocumentIndexItem, PK_SK_SEPARATOR} from "../Transporter/CollectionIndex";
 
 export type EntityIDOptions = Pick<DocumentIndexItem<any>, 'PK' | 'SK'>;
 

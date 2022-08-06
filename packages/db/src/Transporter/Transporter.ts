@@ -1,4 +1,4 @@
-import { MaybeArray, tuple } from '@darch/utils/lib/typeUtils';
+import { MaybeArray, Name, tuple } from '@darch/utils/lib/typeUtils';
 
 import { parseUpdateExpression } from './parseUpdateExpression';
 import { getTypeName } from '@darch/utils/lib/getTypeName';
@@ -7,9 +7,10 @@ import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { devAssert } from '@darch/utils/lib/devAssert';
 import {
   getDocumentIndexFields,
-  DocumentIndexConfig,
+  CollectionIndexConfig,
   createDocumentIndexBasedFilters,
-} from './DocumentIndex';
+  AnyCollectionIndexConfig,
+} from './CollectionIndex';
 
 export const FieldTypes = tuple(
   'String',
@@ -58,8 +59,13 @@ export type FilterConditions = {
     RootFilterOperators)]?: (AllFilterOperations & RootFilterOperators)[K];
 };
 
-export type FilterRecord =
-  | { [K: string]: Partial<AllFilterOperations> | PKSKValueType | undefined }
+export type FilterRecord<Doc extends DocumentBase = Record<string, any>> =
+  | {
+      [K in keyof Doc]?:
+        | Partial<AllFilterOperations>
+        | PKSKValueType
+        | undefined;
+    }
   | { $and?: RootFilterOperators['$and'] }
   | { $or?: RootFilterOperators['$or'] }
   | { $not?: RootFilterOperators['$not'] };
@@ -78,74 +84,108 @@ export type IndexFilter = {
   [K in keyof AllIndexFilter]?: AllIndexFilter[K];
 };
 
-export type IndexFilterRecord<IndexFieldKeys extends string = string> =
-  | {
-      [K in IndexFieldKeys]?:
+export type IndexFilterRecord<
+  PK extends string = string,
+  SK extends string | undefined = string
+> = (
+  | ({
+      [K in PK]: Partial<AllIndexFilter> | PKSKValueType;
+    } & {
+      [K in SK as SK extends string ? SK : never]?:
         | Partial<AllIndexFilter>
         | PKSKValueType
         | undefined;
-    }
-  | { $and?: IndexFilterRecord<IndexFieldKeys>[] }
-  | { $or?: IndexFilterRecord<IndexFieldKeys>[] }
-  | { $not?: IndexFilterRecord<IndexFieldKeys> };
+    })
+  | { $and?: IndexFilterRecord<PK>[] }
+  | { $or?: IndexFilterRecord<PK>[] }
+  | { $not?: IndexFilterRecord<PK> }
+) & {
+  [K in PK]: Partial<AllIndexFilter> | PKSKValueType;
+};
 
 export type DocumentBase = Record<string, any>;
 
-export type TransporterLoaderConfig<TQuery> = {
-  query: TQuery;
-  dataloaderContext: Record<string, any> | null;
-};
-
 export type QuerySort = 'ASC' | 'DESC';
 
-export type QueryConfig = {
-  filter: IndexFilterRecord;
-  indexConfig: DocumentIndexConfig;
-  startingKey?: IndexFilterRecord;
+export type LoadQueryConfig<
+  Doc extends DocumentBase = DocumentBase,
+  PK extends string = string,
+  SK extends string | undefined = string
+> = {
+  filter: IndexFilterRecord<PK, SK>;
+  indexConfig: CollectionIndexConfig<
+    Doc,
+    PK | (SK extends undefined ? PK : SK)
+  >;
+  startingKey?: IndexFilterRecord<PK, SK>;
   consistent?: boolean;
   limit?: number;
   sort?: QuerySort;
   projection?: string[];
+  dataloaderContext: Record<string, any> | null;
+  condition?: FilterRecord<Doc>;
 };
 
-export type LoadQueryConfig = TransporterLoaderConfig<QueryConfig>;
-
-export type GetItemConfig = TransporterLoaderConfig<{
-  filter: IndexFilterRecord;
-  indexConfig: DocumentIndexConfig;
+export type FindOneConfig<
+  Doc extends DocumentBase = DocumentBase,
+  PK extends string = string,
+  SK extends string | undefined = string
+> = {
+  filter: IndexFilterRecord<PK, SK>;
+  indexConfig: CollectionIndexConfig<
+    Doc,
+    PK | (SK extends undefined ? PK : SK)
+  >;
   consistent?: boolean;
   projection?: string[];
-}>;
-
-export type GetItemResult = {
-  item: DocumentBase | null;
+  condition?: FilterRecord<Doc>;
+  dataloaderContext: Record<string, any> | null;
 };
 
-export type PutItemConfig<T extends DocumentBase> = {
-  item: T;
-  indexConfig: DocumentIndexConfig<T>;
-  condition?: FilterRecord;
+export type FindOneResult<Doc extends DocumentBase = DocumentBase> = {
+  item: Doc | null;
+};
+
+export type CreateOneConfig<
+  Doc extends DocumentBase = DocumentBase,
+  PK extends string = string,
+  SK extends string | undefined = string
+> = {
+  item: Doc;
+  indexConfig: CollectionIndexConfig<
+    Doc,
+    PK | (SK extends undefined ? PK : SK)
+  >;
+  condition?: FilterRecord<Doc>;
   replace?: boolean; // defaults to false
 };
 
-export type UpdateItemConfig<
-  IndexFieldKey extends string,
-  Item extends DocumentBase
+export type UpdateOneConfig<
+  Doc extends DocumentBase = DocumentBase,
+  PK extends string = string,
+  SK extends string | undefined = string
 > = {
-  filter: IndexFilterRecord;
+  filter: IndexFilterRecord<PK, SK>;
   update: UpdateExpression;
-  indexConfig: DocumentIndexConfig<Item>;
+  indexConfig: CollectionIndexConfig<
+    Doc,
+    PK | (SK extends undefined ? PK : SK)
+  >;
   upsert?: boolean;
-  condition?: FilterRecord;
+  condition?: FilterRecord<Doc>;
 };
 
-export type DeleteItemConfig<
-  IndexFieldKey extends string,
-  Item extends { [key: string]: any }
+export type DeleteOneConfig<
+  Item extends DocumentBase = DocumentBase,
+  PK extends string = string,
+  SK extends string | undefined = string
 > = {
-  filter: IndexFilterRecord<IndexFieldKey>;
-  indexConfig: DocumentIndexConfig<Item>;
-  condition?: FilterRecord;
+  filter: IndexFilterRecord<PK, SK>;
+  indexConfig: CollectionIndexConfig<
+    Item,
+    PK | (SK extends undefined ? PK : SK)
+  >;
+  condition?: FilterRecord<Item>;
 };
 
 type UnsetUpdateExpression<Item> = Item extends Record<infer K, any>
@@ -272,46 +312,88 @@ export type PutItemResult<T> = {
   error?: string | null | undefined;
 };
 
-export type UpdateItemResult<T> = {
+export type UpdateItemResult<T extends DocumentBase = DocumentBase> = {
   updated: boolean;
   created: boolean;
   item: T | null;
   error?: string | null | undefined;
 };
 
-export type LoadQueryResult = {
-  items: DocumentBase[];
+export type LoadQueryResult<Doc extends DocumentBase = DocumentBase> = {
+  items: Doc[];
 };
 
-export type DeleteItemResult<T> = {
+export type DeleteOneResult<T extends DocumentBase = DocumentBase> = {
   item: T | null;
 };
+
+type DocumentOptions<T> = {
+  [K in keyof T as K extends 'indexConfig' ? never : K]: T[K];
+};
+
+export interface DocumentMethods<
+  Doc extends DocumentBase,
+  PK extends string,
+  SK extends string | undefined
+> {
+  createOne(
+    options: DocumentOptions<CreateOneConfig<Doc, PK, SK>>
+  ): Promise<PutItemResult<Doc>>;
+
+  loadQuery(
+    options: DocumentOptions<LoadQueryConfig<Doc, PK, SK>>
+  ): Promise<LoadQueryResult<Doc>>;
+
+  findOne(
+    options: DocumentOptions<FindOneConfig<Doc, PK, SK>>
+  ): Promise<FindOneResult<Doc>>;
+
+  updateOne(
+    options: DocumentOptions<UpdateOneConfig<Doc, PK, SK>>
+  ): Promise<UpdateItemResult<Doc>>;
+
+  deleteOne(
+    options: DocumentOptions<DeleteOneConfig<Doc, PK, SK>>
+  ): Promise<DeleteOneResult<Doc>>;
+}
 
 export abstract class Transporter {
   _client: any;
 
   abstract connect(): Promise<any>;
 
-  abstract loadQuery(options: LoadQueryConfig): Promise<LoadQueryResult>;
-
-  abstract getItem(options: GetItemConfig): Promise<GetItemResult>;
-
-  abstract putItem<T extends DocumentBase>(
-    options: PutItemConfig<T>
+  abstract createOne<T extends DocumentBase>(
+    options: CreateOneConfig
   ): Promise<PutItemResult<T>>;
 
-  abstract updateItem<IndexKey extends string, T extends DocumentBase>(
-    options: UpdateItemConfig<IndexKey, T>
-  ): Promise<UpdateItemResult<T>>;
+  abstract loadQuery(options: LoadQueryConfig): Promise<LoadQueryResult>;
 
-  abstract deleteItem<T extends DocumentBase>(
-    options: DeleteItemConfig<string, T>
-  ): Promise<DeleteItemResult<T>>;
+  abstract findOne(options: FindOneConfig): Promise<FindOneResult>;
+
+  abstract updateOne(options: UpdateOneConfig): Promise<UpdateItemResult>;
+
+  abstract deleteOne(options: DeleteOneConfig): Promise<DeleteOneResult>;
 
   createDocumentIndexBasedFilters = createDocumentIndexBasedFilters;
   getDocumentIndexFields = getDocumentIndexFields;
   parseUpdateExpression = parseUpdateExpression;
 }
+
+export const transporterLoaderNames = tuple(
+  'createOne',
+  'loadQuery',
+  'findOne',
+  'updateOne',
+  'deleteOne'
+);
+
+export type TransporterLoaderName = typeof transporterLoaderNames[number];
+
+export type TransporterLoadersRecord = {
+  [K in TransporterLoaderName]: Transporter[K];
+};
+
+export type TransporterLoader = TransporterLoadersRecord[TransporterLoaderName];
 
 export function assertFieldFilter(
   input: any,

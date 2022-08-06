@@ -117,6 +117,14 @@ describe('FieldTypes', () => {
       ).toThrowError(TypeError('ulid'));
     });
 
+    it('should auto create in objects', () => {
+      const obj = createObjectType({
+        u: { ulid: { autoCreate: true } },
+      });
+
+      expect(obj.parse({}).u).toMatch(ULID_REGEX);
+    });
+
     test('types', () => {
       const def = {
         name: 'ulid',

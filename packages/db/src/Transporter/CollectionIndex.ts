@@ -13,6 +13,7 @@ import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { keyBy } from '@darch/utils/lib/keyBy';
 import { devAssert } from '@darch/utils/lib/devAssert';
 import { getKeys } from '@darch/utils/lib/getKeys';
+import { Name } from '@darch/utils/lib/typeUtils';
 
 export const PK_SK_SEPARATOR = '↠';
 export const ID_SEPARATOR_REGEX = new RegExp(PK_SK_SEPARATOR, 'g');
@@ -39,18 +40,11 @@ export function createDocumentIndexBasedFilters<
   Document extends Record<string, unknown>
 >(
   filter: IndexFilterRecord,
-  indexConfig: DocumentIndexConfig<Document>
+  indexConfig: AnyCollectionIndexConfig
 ): FilterRecord[] {
-  const { indexes } = indexConfig;
-  const entity = indexConfig.entity.toLowerCase();
+  const { indexes, entity } = indexConfig;
 
-  keyBy(
-    indexes,
-    (el) => el.field,
-    (field) => {
-      devAssert(`found two indexes with field "${field}"`, { indexes });
-    }
-  );
+  validateIndexNameAndField(indexConfig);
 
   const filtersRecords: FilterRecord[] = [];
   // const invalidFields: ParseIndexInvalid[] = [];
@@ -104,26 +98,18 @@ export function createDocumentIndexBasedFilters<
 
 export function getDocumentIndexFields<
   Document extends Record<string, unknown>
->(
-  doc: Document,
-  options: DocumentIndexConfig<Document>
-): ParsedDocumentIndexes {
-  const { indexes } = options;
-  const entity = options.entity.toLowerCase();
+>(doc: Document, options: AnyCollectionIndexConfig): ParsedDocumentIndexes {
+  const { indexes, entity } = options;
 
-  keyBy(
-    indexes,
-    (el) => el.field,
-    (field) => {
-      devAssert(`found two indexes with field "${field}"`, { indexes });
-    }
-  );
+  validateIndexNameAndField(options);
 
   const indexFields: Record<string, string> = {};
   const invalidFields: ParseIndexInvalid[] = [];
   let firstIndex: ParsedDocumentIndexes['firstIndex'] = null;
   let partialIndexFilter: ParsedDocumentIndexes['partialIndexFilter'] = null;
   let valid = true;
+
+  const parsedIndexKeys: ParsedIndexKey[] = [];
 
   indexes.forEach((index) => {
     const PK = mountIndexFromPartsList({
@@ -146,6 +132,19 @@ export function getDocumentIndexFields<
       doc,
       indexField: index.field,
       acceptNullable: true,
+    });
+
+    parsedIndexKeys.push({
+      entity,
+      index,
+      PK: {
+        definition: index.PK,
+        requiredFields: PK.requiredFields,
+      },
+      SK: {
+        definition: index.SK,
+        requiredFields: SK.requiredFields,
+      },
     });
 
     id += SK.value;
@@ -180,6 +179,7 @@ export function getDocumentIndexFields<
         document: doc,
         invalidFields,
       }),
+      parsedIndexKeys,
     };
   }
 
@@ -190,6 +190,7 @@ export function getDocumentIndexFields<
     indexFields,
     invalidFields: null,
     error: null,
+    parsedIndexKeys,
   };
 }
 
@@ -475,7 +476,7 @@ function joinPKAndSKAsIDFilter(options: {
 }
 
 function mountIndexFromPartsList(param: {
-  indexParts: string[]; // (`#${string}` | `.${string}`)[]
+  indexParts: ReadonlyArray<IndexKeyHash>; // (`#${string}` | `.${string}`)[]
   indexPartKind: IndexPartKind;
   indexField: ParsedIndexPart['indexField'];
   doc: Record<string, any>;
@@ -488,6 +489,7 @@ function mountIndexFromPartsList(param: {
   const stringParts: string[] = [];
   let conditionFound: FilterConditions | undefined = undefined;
   let nullableFound: ParsedIndexPart['nullableFound'];
+  const requiredFields: ParsedIndexPart['requiredFields'] = [];
 
   indexParts.forEach((keyPart) => {
     if (nullableFound) return;
@@ -498,6 +500,8 @@ function mountIndexFromPartsList(param: {
 
     if (keyPart.startsWith('.')) {
       const documentField = keyPart.slice(1);
+      requiredFields.push(documentField);
+
       let found = doc[documentField];
 
       if (found === undefined || found === null) {
@@ -567,6 +571,7 @@ function mountIndexFromPartsList(param: {
     invalidFields,
     indexField,
     isFilter: false,
+    requiredFields,
   };
 
   if (nullableFound) {
@@ -581,6 +586,33 @@ function mountIndexFromPartsList(param: {
   return result;
 }
 
+export function getParsedIndexKeys(
+  indexConfig: AnyCollectionIndexConfig
+): ParsedIndexKey[] {
+  const parts = getDocumentIndexFields({}, indexConfig);
+  return parts.parsedIndexKeys;
+}
+
+export function validateIndexNameAndField(index: AnyCollectionIndexConfig) {
+  const { indexes } = index;
+
+  keyBy(
+    indexes as any,
+    (el) => el.field,
+    (key) => {
+      devAssert(`found two indexes with field "${key}"`, { indexes });
+    }
+  );
+
+  keyBy(
+    indexes as any,
+    (el) => el.name,
+    (key) => {
+      devAssert(`found two indexes with name "${key}"`, { indexes });
+    }
+  );
+}
+
 export type IndexKeyHash<Keys = string> =
   | `#${string}`
   | `.${Extract<Keys, string>}`;
@@ -589,24 +621,48 @@ export type IndexPartKind = 'PK' | 'SK';
 export type DocumentIndexField = `_id` | `_id${number}`;
 
 // Definition for a document index
-export type DocumentIndexItem<Keys> = {
-  field: DocumentIndexField;
-  PK: IndexKeyHash<Extract<Keys, string>>[];
-  SK?: IndexKeyHash<Extract<Keys, string>>[];
-};
 
-export type DocumentIndexConfig<Doc extends DocumentBase = DocumentBase> = {
-  entity: `${string}`;
-  indexes: DocumentIndexItem<
-    [keyof Doc] extends [never] ? string : keyof Doc
-  >[];
+export type DocumentIndexItem<Keys, TName extends Name> = Readonly<{
+  name: TName;
+  field: DocumentIndexField;
+  PK: Readonly<
+    [
+      IndexKeyHash<Extract<Keys, string>>,
+      ...IndexKeyHash<Extract<Keys, string>>[]
+    ]
+  >;
+  SK?: Readonly<
+    [
+      IndexKeyHash<Extract<Keys, string>>,
+      ...IndexKeyHash<Extract<Keys, string>>[]
+    ]
+  >;
+}>;
+
+export type AnyDocIndexItem = DocumentIndexItem<string, Name>;
+
+export type CollectionIndexConfig<
+  Doc extends DocumentBase,
+  EntityName extends string
+> = {
+  entity: Readonly<EntityName>;
+  indexes: Readonly<
+    [
+      DocumentIndexItem<keyof Doc, Name>,
+      ...DocumentIndexItem<keyof Doc, Name>[]
+    ]
+  >;
 };
+export type AnyCollectionIndexConfig = CollectionIndexConfig<
+  DocumentBase,
+  string
+>;
 
 type ParseIndexInvalid = {
   reason: 'missing' | 'invalid';
   details: string;
   documentField: string;
-  indexField: DocumentIndexItem<string>['field'];
+  indexField: AnyDocIndexItem['field'];
   indexPartKind: IndexPartKind;
 };
 
@@ -615,26 +671,43 @@ export type ParsedIndexPart = {
   value: string;
   valid: boolean;
   isFilter: boolean;
-  indexField: DocumentIndexItem<string>['field'];
+  indexField: AnyDocIndexItem['field'];
+  requiredFields: string[];
   conditionFound?: OneFilterOperation;
   nullableFound?: { value: null | undefined }; // when a nullable SK filter is null | undefined
 };
 
 export type DocumentIndexFilterParsed = {
-  key: DocumentIndexItem<string>['field'];
+  key: AnyDocIndexItem['field'];
   PK: FilterConditions | string;
   SK: FilterConditions | string;
   entity: string;
+};
+
+export type ParsedIndexKey = {
+  entity: string;
+  index: AnyDocIndexItem;
+  PK: {
+    requiredFields: string[];
+    definition: Readonly<AnyDocIndexItem['PK']>;
+  };
+  SK: {
+    requiredFields: string[];
+    definition: Readonly<AnyDocIndexItem['SK']>;
+  };
 };
 
 export type ParsedDocumentIndexes =
   | {
       valid: true;
       indexFields: Record<string, string>;
-      firstIndex: { key: DocumentIndexItem<string>['field']; value: string };
+      firstIndex: {
+        key: AnyDocIndexItem['field'];
+        value: string;
+      };
 
       partialIndexFilter: {
-        key: DocumentIndexItem<string>['field'];
+        key: AnyDocIndexItem['field'];
         value: string;
       };
 
@@ -642,21 +715,23 @@ export type ParsedDocumentIndexes =
 
       invalidFields: null;
       error: null;
+      parsedIndexKeys: ParsedIndexKey[];
     }
   | {
       valid: false;
       invalidFields: ParsedIndexPart['invalidFields'];
 
       partialIndexFilter: {
-        key: DocumentIndexItem<string>['field'];
+        key: AnyDocIndexItem['field'];
         value: string;
       } | null;
 
       firstIndex: {
-        key: DocumentIndexItem<string>['field'];
+        key: AnyDocIndexItem['field'];
         value: string;
       } | null;
 
       indexFields: null;
       error: RuntimeError;
+      parsedIndexKeys: ParsedIndexKey[];
     };

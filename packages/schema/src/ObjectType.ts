@@ -184,7 +184,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
 
       const value = input[currField];
 
-      if (value === undefined && partial) {
+      if (value === undefined && partial && !('autoCreate' in fieldDef.def)) {
         return;
       }
 

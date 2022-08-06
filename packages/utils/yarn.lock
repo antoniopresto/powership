@@ -317,17 +317,6 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@darch/builder@2.0.0-alpha.20220724T134243-0300":
-  version "2.0.0-alpha.20220724T134243-0300"
-  resolved "https://registry.yarnpkg.com/@darch/builder/-/builder-2.0.0-alpha.20220724T134243-0300.tgz#8e21d4bef3ba3d4de6819c41d4a3a04804849167"
-  integrity sha512-36SKma1w2O7bUZis12fzNIzLhrhlxGug7wr2ng/xD6HX/hr4KxsTEXBy6/Js6b82yW1sB9gbmyUe1HfRmnNd+w==
-  dependencies:
-    "@types/node" "16.11.12"
-    esbuild "0.14.3"
-    fast-glob "3.2.7"
-    npm-run-all "4.1.5"
-    typescript "4.5.4"
-
 "@eslint/eslintrc@^0.3.0":
   version "0.3.0"
   resolved "https://registry.npmjs.org/@eslint/eslintrc/-/eslintrc-0.3.0.tgz"
@@ -1891,7 +1880,7 @@ fast-equals@4.0.1:
   resolved "https://registry.yarnpkg.com/fast-equals/-/fast-equals-4.0.1.tgz#ff8f92d18f4f4130ce6fbd3748ef714d01cd0893"
   integrity sha512-OXqyj3MD0p8Kee16Jz7CbCnXo+5CHKKu4xBh5UhC1NbmMkHn8WScLRy/B2q5UOlWMlNSQJc4mwXW30Lz+JUZJw==
 
-fast-glob@3.2.7, fast-glob@^3.1.1:
+fast-glob@^3.1.1:
   version "3.2.7"
   resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-3.2.7.tgz#fd6cb7a2d7e9aa7a7846111e85a196d6b2f766a1"
   integrity sha512-rYGMRwip6lUMvYD3BTScMwT1HtAs2d71SMv66Vrxs0IekGZEjhM0pcMfjQPnknBt2zeCwQMEupiN02ZP4DiT1Q==
@@ -4146,6 +4135,11 @@ ts-jest@27.1.1:
     make-error "1.x"
     semver "7.x"
     yargs-parser "20.x"
+
+ts-toolbelt@9.6.0:
+  version "9.6.0"
+  resolved "https://registry.yarnpkg.com/ts-toolbelt/-/ts-toolbelt-9.6.0.tgz#50a25426cfed500d4a09bd1b3afb6f28879edfd5"
+  integrity sha512-nsZd8ZeNUzukXPlJmTBwUAuABDe/9qtVDelJeT/qW0ow3ZS3BsQJtNkan1802aM9Uf68/Y8ljw86Hu0h5IUW3w==
 
 tsconfig-paths@^3.9.0:
   version "3.12.0"

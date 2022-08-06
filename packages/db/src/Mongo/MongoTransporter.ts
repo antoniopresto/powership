@@ -1,18 +1,17 @@
 import { Filter } from 'mongodb';
 
 import {
-  DocumentBase,
   LoadQueryConfig,
-  PutItemConfig,
+  CreateOneConfig,
   Transporter,
-  UpdateItemConfig,
+  UpdateOneConfig,
   PutItemResult,
   UpdateItemResult,
   LoadQueryResult,
-  GetItemConfig,
-  GetItemResult,
-  DeleteItemConfig,
-  DeleteItemResult,
+  FindOneConfig,
+  FindOneResult,
+  DeleteOneConfig,
+  DeleteOneResult,
 } from '../Transporter/Transporter';
 
 import { MongoClient } from './MongoClient';
@@ -45,21 +44,73 @@ export class MongoTransporter extends Transporter {
   }
 
   collection: string;
+  
+  async createOne(options: CreateOneConfig): Promise<PutItemResult<any>> {
+    const { item: itemInput, indexConfig, replace = false } = options;
+    
+    const res: PutItemResult<any> = {
+      created: false,
+      updated: false,
+      item: null,
+      // error: undefined,
+    };
+    
+    const indexMap = this.getDocumentIndexFields(itemInput, indexConfig);
+    
+    if (indexMap.error) {
+      res.error = indexMap.error.detailsString;
+      return res;
+    }
+    
+    const item = { ...indexMap.indexFields, ...itemInput };
+    
+    const collection = this.getCollection(item);
+    
+    const conditionExpression: Filter<any> = simpleObjectClone(
+      indexMap.indexFields
+    );
+    
+    if (options.condition) {
+      conditionExpression.$and = conditionExpression.$and || [];
+      conditionExpression.$and.push(
+        ...parseMongoAttributeFilters(options.condition)
+      );
+    }
+    
+    try {
+      if (replace) {
+        const result = await collection.replaceOne(conditionExpression, item, {
+          upsert: true,
+          hint: { _id: 1 },
+        });
+        
+        const updated = result?.matchedCount === 1;
+        
+        res.created = !updated;
+        res.updated = updated;
+        res.item = item;
+      } else {
+        await collection.insertOne(item);
+        res.created = true;
+        res.item = item;
+      }
+    } catch (e: any) {
+      res.error = e.message;
+    }
+    
+    return res;
+  }
 
-  // TODO condition
-  async loadQuery<T extends DocumentBase>(
-    options: LoadQueryConfig
-  ): Promise<LoadQueryResult> {
-    const { query: queryConfig } = options;
-
-    let {
+  async loadQuery(options: LoadQueryConfig): Promise<LoadQueryResult> {
+    const {
       filter,
       sort = 'ASC',
       projection,
       limit,
       startingKey,
       indexConfig,
-    } = queryConfig;
+      condition,
+    } = options;
 
     const $and: Filter<any>[] = createMongoIndexBasedFilters({
       filter,
@@ -79,6 +130,10 @@ export class MongoTransporter extends Transporter {
       $and.push({
         [key]: { [rule]: value },
       });
+    }
+
+    if (condition) {
+      $and.push(...parseMongoAttributeFilters(condition));
     }
 
     const query = { $and };
@@ -118,24 +173,24 @@ export class MongoTransporter extends Transporter {
     return { items };
   }
 
-  // TODO condition
-  async getItem<T extends DocumentBase>(
-    options: GetItemConfig
-  ): Promise<GetItemResult> {
+  async findOne(options: FindOneConfig): Promise<FindOneResult> {
     const {
-      query: { filter, projection, consistent, indexConfig },
+      filter,
+      projection,
+      consistent,
+      indexConfig,
       dataloaderContext,
+      condition,
     } = options;
 
-    const { items } = await this.loadQuery<T>({
+    const { items } = await this.loadQuery({
       dataloaderContext,
-      query: {
-        filter,
-        projection,
-        consistent,
-        limit: 1,
-        indexConfig,
-      },
+      filter,
+      projection,
+      consistent,
+      limit: 1,
+      indexConfig,
+      condition,
     });
 
     return {
@@ -143,71 +198,7 @@ export class MongoTransporter extends Transporter {
     };
   }
 
-  async putItem<T extends DocumentBase>(
-    options: PutItemConfig<T>
-  ): Promise<PutItemResult<T>> {
-    const { item: itemInput, indexConfig, replace = false } = options;
-
-    const res: PutItemResult<T> = {
-      created: false,
-      updated: false,
-      item: null,
-      // error: undefined,
-    };
-
-    const indexMap = this.getDocumentIndexFields(itemInput, indexConfig);
-
-    if (indexMap.error) {
-      res.error = indexMap.error.detailsString;
-      return res;
-    }
-
-    const item = { ...indexMap.indexFields, ...itemInput } as T;
-
-    const collection = this.getCollection(item);
-
-    const conditionExpression: Filter<any> = simpleObjectClone(
-      indexMap.indexFields
-    );
-
-    if (options.condition) {
-      conditionExpression.$and = conditionExpression.$and || [];
-      conditionExpression.$and.push(
-        ...parseMongoAttributeFilters(options.condition)
-      );
-    }
-
-    try {
-      if (replace) {
-        const result = await collection.replaceOne(conditionExpression, item, {
-          upsert: true,
-          hint: { _id: 1 },
-        });
-
-        const updated = result?.matchedCount === 1;
-
-        res.created = !updated;
-        res.updated = updated;
-        res.item = item;
-      } else {
-        await collection.insertOne(item);
-        res.created = true;
-        res.item = item;
-      }
-    } catch (e: any) {
-      res.error = e.message;
-    }
-
-    return res;
-  }
-
-  getCollection(_info: unknown) {
-    return this._client.db.collection(this.collection);
-  }
-
-  async updateItem<T extends DocumentBase>(
-    options: UpdateItemConfig<string, T>
-  ): Promise<UpdateItemResult<T>> {
+  async updateOne(options: UpdateOneConfig): Promise<UpdateItemResult> {
     const { update, upsert, indexConfig, filter, condition } = options;
 
     const parsedFilter = this.createDocumentIndexBasedFilters(
@@ -251,9 +242,7 @@ export class MongoTransporter extends Transporter {
     }
   }
 
-  async deleteItem<T extends DocumentBase, IndexFieldKeys extends keyof T>(
-    options: DeleteItemConfig<Extract<IndexFieldKeys, string>, T>
-  ): Promise<DeleteItemResult<T>> {
+  async deleteOne(options: DeleteOneConfig): Promise<DeleteOneResult> {
     const { indexConfig, condition, filter } = options;
 
     const parsedFilter = this.createDocumentIndexBasedFilters(
@@ -270,5 +259,9 @@ export class MongoTransporter extends Transporter {
     const { value } = await collection.findOneAndDelete({ $and: parsedFilter });
 
     return { item: value as any };
+  }
+
+  getCollection(_info: unknown) {
+    return this._client.db.collection(this.collection);
   }
 }

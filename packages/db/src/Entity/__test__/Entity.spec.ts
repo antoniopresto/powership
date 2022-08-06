@@ -263,7 +263,7 @@ describe('Entity', () => {
   });
 
   it('create', async () => {
-    const putItem: Transporter['putItem'] = async (options) => ({
+    const createOne: Transporter['createOne'] = async (options) => ({
       updated: true,
       created: true,
       item: options.item,
@@ -271,10 +271,10 @@ describe('Entity', () => {
     });
 
     const transporter: any = {
-      putItem,
+      createOne,
     };
 
-    const spy = jest.spyOn(transporter, 'putItem');
+    const spy = jest.spyOn(transporter, 'createOne');
 
     const single = await entity.createOne({
       item: { name: 'antonios bar', status: 'open', PK: '1' },
@@ -335,7 +335,7 @@ describe('Entity', () => {
         } as const,
       });
 
-      const transporter: any = { putItem: jest.fn() };
+      const transporter: any = { createOne: jest.fn() };
 
       const sutParams = {
         transporter,
@@ -349,7 +349,7 @@ describe('Entity', () => {
         ...sutParams,
       });
 
-      expect(transporter.putItem).toBeCalledWith({
+      expect(transporter.createOne).toBeCalledWith({
         SKType: 'string',
         condition: {},
         item: {
@@ -375,7 +375,7 @@ describe('Entity', () => {
         } as const,
       });
 
-      const transporter: any = { putItem: jest.fn() };
+      const transporter: any = { createOne: jest.fn() };
       const sutParams = {
         transporter,
         replace: false,
@@ -388,7 +388,7 @@ describe('Entity', () => {
         ...sutParams,
       });
 
-      expect(transporter.putItem).toBeCalledWith({
+      expect(transporter.createOne).toBeCalledWith({
         SKType: 'string',
         condition: { a: { $eq: 1 } },
         item: {
@@ -427,7 +427,7 @@ describe('Entity', () => {
         } as const,
       });
 
-      const transporter: any = { getItem: jest.fn() };
+      const transporter: any = { findOne: jest.fn() };
 
       const sutParams = { transporter, dataloaderContext: {} };
 
@@ -436,7 +436,7 @@ describe('Entity', () => {
         item: { username: 'antonio', status: 'open', age: 32 },
       });
 
-      expect(transporter.getItem).toBeCalledWith({
+      expect(transporter.findOne).toBeCalledWith({
         dataloaderContext: {},
         query: {
           PK: 'user#antonio',
@@ -460,7 +460,7 @@ describe('Entity', () => {
         } as const,
       });
 
-      const transporter: any = { getItem: jest.fn() };
+      const transporter: any = { findOne: jest.fn() };
 
       const sutParams = { transporter, dataloaderContext: {} };
 
@@ -469,7 +469,7 @@ describe('Entity', () => {
         item: { username: 'antonio', status: 'open', age: 32 },
       });
 
-      expect(transporter.getItem).toBeCalledWith({
+      expect(transporter.findOne).toBeCalledWith({
         dataloaderContext: {},
         query: {
           PK: 'user#antonio',
@@ -523,7 +523,7 @@ describe('Entity', () => {
         } as const,
       });
 
-      const transporter: any = { updateItem: jest.fn() };
+      const transporter: any = { updateOne: jest.fn() };
 
       await entity.updateOne({
         item: { username: 'antonio', status: 'open', age: 32 },
@@ -534,7 +534,7 @@ describe('Entity', () => {
         upsert: true,
       });
 
-      expect(transporter.updateItem).toBeCalledWith({
+      expect(transporter.updateOne).toBeCalledWith({
         PK: 'user#antonio#open',
         SK: null,
         SKType: 'string',
@@ -568,7 +568,7 @@ describe('Entity', () => {
         } as const,
       });
 
-      const transporter: any = { updateItem: jest.fn() };
+      const transporter: any = { updateOne: jest.fn() };
 
       await entity.updateOne({
         item: { username: 'antonio', status: 'closed', age: 31 },
@@ -578,7 +578,7 @@ describe('Entity', () => {
         dataloaderContext: {},
       });
 
-      expect(transporter.updateItem).toBeCalledWith({
+      expect(transporter.updateOne).toBeCalledWith({
         PK: 'user#antonio',
         SK: '31',
         SKType: 'number',
@@ -606,7 +606,7 @@ describe('Entity', () => {
         } as const,
       });
 
-      const transporter: any = { updateItem: jest.fn() };
+      const transporter: any = { updateOne: jest.fn() };
 
       const expression = {
         item: { username: 'antonio', status: 'closed', age: 31 },
@@ -640,7 +640,7 @@ describe('Entity', () => {
         } as const,
       });
 
-      const transporter: any = { updateItem: jest.fn() };
+      const transporter: any = { updateOne: jest.fn() };
 
       await expect(
         entity.updateOne({
@@ -669,7 +669,7 @@ describe('Entity', () => {
         } as const,
       });
 
-      const transporter: any = { updateItem: jest.fn() };
+      const transporter: any = { updateOne: jest.fn() };
 
       await entity.updateOne({
         item: { username: 'antonio', status: 'closed', age: 31 },
@@ -683,7 +683,7 @@ describe('Entity', () => {
         upsert: true,
       });
 
-      expect(transporter.updateItem).toBeCalledWith({
+      expect(transporter.updateOne).toBeCalledWith({
         PK: 'user#antonio',
         SK: undefined,
         SKType: 'string',
@@ -728,7 +728,7 @@ describe('Entity', () => {
         } as const,
       });
 
-      const transporter: any = { deleteItem: jest.fn() };
+      const transporter: any = { deleteOne: jest.fn() };
 
       await entity.removeOne({
         item: { username: 'antonio', status: 'open', age: 32 },
@@ -737,7 +737,7 @@ describe('Entity', () => {
         dataloaderContext: {},
       });
 
-      expect(transporter.deleteItem).toBeCalledWith({
+      expect(transporter.deleteOne).toBeCalledWith({
         PK: 'user#antonio#open#32',
         SK: null,
         SKType: 'string',
@@ -757,7 +757,7 @@ describe('Entity', () => {
         } as const,
       });
 
-      const transporter: any = { deleteItem: jest.fn() };
+      const transporter: any = { deleteOne: jest.fn() };
 
       await entity.removeOne({
         item: { username: 'antonio', status: 'closed', age: 31 },
@@ -766,7 +766,7 @@ describe('Entity', () => {
         dataloaderContext: {},
       });
 
-      expect(transporter.deleteItem).toBeCalledWith({
+      expect(transporter.deleteOne).toBeCalledWith({
         PK: 'user#antonio',
         SK: '31',
         SKType: 'number',

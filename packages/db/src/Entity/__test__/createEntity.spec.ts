@@ -88,8 +88,8 @@ describe('createEntity', () => {
   });
 
   it('create', async () => {
-    const transporter: Transporter = { putItem: (...args: any) => args } as any;
-    const spy = jest.spyOn(transporter, 'putItem');
+    const transporter: Transporter = { createOne: (...args: any) => args } as any;
+    const spy = jest.spyOn(transporter, 'createOne');
 
     const entity = createEntity({
       name: 'user',

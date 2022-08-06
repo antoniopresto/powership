@@ -3,7 +3,7 @@ import { Collection } from 'mongodb';
 import { UpdateExpression } from '../../Transporter/Transporter';
 import { parseUpdateExpression } from '../../Transporter/parseUpdateExpression';
 import { parseMongoUpdateExpression as _parseMongoUpdateExpression } from '../parseMongoUpdateExpression';
-import { DocumentIndexConfig } from '../../Transporter/DocumentIndex';
+import { CollectionIndexConfig } from '../../Transporter/CollectionIndex';
 import { AppMock, createAppMock } from './createAppMock';
 
 const mockUser = () => ({
@@ -15,9 +15,9 @@ const mockUser = () => ({
 
 function parseMongoUpdateExpression(
   updateExpression: UpdateExpression<any>,
-  config: DocumentIndexConfig = {
+  config: CollectionIndexConfig = {
     entity: 'foo',
-    indexes: [{ PK: ['#foo'], SK: [], field: '_id' }],
+    indexes: [{ name: 'any', PK: ['#foo'], SK: [], field: '_id' }],
   }
 ) {
   return _parseMongoUpdateExpression(

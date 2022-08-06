@@ -32,7 +32,8 @@
     "winston-slack-webhook-transport": "2.1.0",
     "winston": "3.8.1",
     "hoper": "1.0.8",
-    "big.js": "6.2.1"
+    "big.js": "6.2.1",
+    "ts-toolbelt": "9.6.0"
   },
   "devDependencies": {
     "@darch/builder": "2.0.0-alpha.20220724T134243-0300",

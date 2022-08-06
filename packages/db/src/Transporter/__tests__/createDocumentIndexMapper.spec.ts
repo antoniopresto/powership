@@ -1,4 +1,4 @@
-import { getDocumentIndexFields } from '../DocumentIndex';
+import { getDocumentIndexFields } from '../CollectionIndex';
 
 describe('createDocumentIndexMapper', () => {
   it('should mount PK', async () => {

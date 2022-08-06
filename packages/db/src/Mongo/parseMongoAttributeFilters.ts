@@ -13,13 +13,13 @@ import { getKeys } from '@darch/utils/lib/getKeys';
 import { getTypeName } from '@darch/utils/lib/getTypeName';
 import { devAssert } from '@darch/utils/lib/devAssert';
 import {
-  DocumentIndexConfig,
+  AnyCollectionIndexConfig,
   createDocumentIndexBasedFilters,
-} from '../Transporter/DocumentIndex';
+} from '../Transporter/CollectionIndex';
 
 export function createMongoIndexBasedFilters(options: {
   filter: IndexFilterRecord;
-  indexConfig: DocumentIndexConfig;
+  indexConfig: AnyCollectionIndexConfig;
 }) {
   const { indexConfig, filter } = options;
   const $and = createDocumentIndexBasedFilters(filter, indexConfig);
