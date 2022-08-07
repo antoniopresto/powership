@@ -25,8 +25,17 @@ export function mountID(params: {
   SK: string | null;
 }) {
   const { entity, PK, SK } = params;
-  return `${entity}${ID_KEY_SEPARATOR}${PK}${PK_SK_SEPARATOR}${
-    SK === null ? '' : SK
+
+  function encodeKey(key: string) {
+    return key
+      .toString()
+
+      .replace(/↠/g, '\\↠')
+      .replace(/#/g, '\\#');
+  }
+
+  return `${entity}${ID_KEY_SEPARATOR}${encodeKey(PK)}${PK_SK_SEPARATOR}${
+    SK === null ? '' : encodeKey(SK)
   }`;
 }
 
@@ -49,52 +58,65 @@ export function createDocumentIndexBasedFilters<
   let filtersRecords: FilterRecord[] = [];
   // const invalidFields: ParseIndexInvalid[] = [];
 
-  let fullIdFound = false;
+  Object.entries(filter).forEach(([key, value]) => {
+    const filter = { [key]: value };
 
-  indexes.forEach((index) => {
-    if (fullIdFound) return;
+    indexes.forEach((index) => {
+      const PK = mountIndexFromPartsList({
+        indexPartKind: 'PK',
+        indexParts: index.PK,
+        doc: filter,
+        indexField: index.field,
+        acceptNullable: false,
+      });
 
-    const PK = mountIndexFromPartsList({
-      indexPartKind: 'PK',
-      indexParts: index.PK,
-      doc: filter,
-      indexField: index.field,
-      acceptNullable: false,
+      if (!PK.valid) {
+        if (!PK.requiredFields.includes(key)) return; // cant use
+        return devAssert(
+          `Error in PK, failed to mount filter.`,
+          { PK },
+          { depth: 10 }
+        );
+      }
+
+      const SK = mountIndexFromPartsList({
+        indexPartKind: 'SK',
+        indexParts: index.SK || [],
+        doc: filter,
+        indexField: index.field,
+        acceptNullable: true,
+      });
+
+      const items = joinPKAndSKAsIDFilter({
+        indexField: index.field,
+
+        entity,
+
+        PK: PK.isFilter
+          ? (PK.conditionFound as IndexFilter)
+          : PK.valid
+          ? PK.value
+          : (devAssert(
+              `Error in PK, failed to mount filter.`,
+              { PK },
+              { depth: 10 }
+            ) as ''),
+
+        SK: SK.nullableFound
+          ? SK.nullableFound.value
+          : SK.isFilter
+          ? (SK.conditionFound as IndexFilter)
+          : SK.valid
+          ? SK.value
+          : (devAssert(
+              `Error in SK, failed to mount filter.`,
+              { SK },
+              { depth: 10 }
+            ) as ''),
+      });
+
+      filtersRecords.push(...items);
     });
-
-    const SK = mountIndexFromPartsList({
-      indexPartKind: 'SK',
-      indexParts: index.SK || [],
-      doc: filter,
-      indexField: index.field,
-      acceptNullable: true,
-    });
-
-    const items = joinPKAndSKAsIDFilter({
-      indexField: index.field,
-
-      entity,
-
-      PK: PK.isFilter
-        ? (PK.conditionFound as IndexFilter)
-        : PK.valid
-        ? PK.value
-        : (devAssert(`Error in PK, failed to mount filter.`, { PK }) as ''),
-
-      SK: SK.nullableFound
-        ? SK.nullableFound.value
-        : SK.isFilter
-        ? (SK.conditionFound as IndexFilter)
-        : SK.valid
-        ? SK.value
-        : (devAssert(
-            `Error in SK, failed to mount filter.`,
-            { SK },
-            { depth: 10 }
-          ) as ''),
-    });
-
-    filtersRecords.push(...items);
   });
 
   // TODO remove duplicated startsWith by _id{number}

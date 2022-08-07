@@ -6,10 +6,7 @@ import {
 
 import { createAppMock, AppMock } from './createAppMock';
 import { createMongoIndexBasedFilters } from '../parseMongoAttributeFilters';
-import {
-  getDocumentIndexFields,
-  CollectionIndexConfig,
-} from '../../Transporter/CollectionIndex';
+import { getDocumentIndexFields } from '../../Transporter/CollectionIndex';
 
 describe('createMongoIndexBasedFilter', () => {
   let mockApp: AppMock;
@@ -57,7 +54,7 @@ describe('createMongoIndexBasedFilter', () => {
       indexConfig,
       filter: {
         PK,
-        SK,
+        SK: SK === undefined ? null : SK,
       },
     });
 
@@ -164,7 +161,7 @@ describe('createMongoIndexBasedFilter', () => {
         },
       });
 
-      expect(query).toEqual([{ _id: { $eq: 'my_entity#users#123↠abc' } }]);
+      expect(query).toEqual([{ _id: 'my_entity#users\\#123↠abc' }]);
     });
 
     it('should handle $gt', async () => {
@@ -179,8 +176,8 @@ describe('createMongoIndexBasedFilter', () => {
       });
 
       expect(query).toEqual([
-        { _id: /^my_entity#users#123↠/ },
-        { _id: { $gt: 'my_entity#users#123↠abc' } },
+        { _id: /^my_entity#users\\#123↠/ },
+        { _id: { $gt: 'my_entity#users\\#123↠abc' } },
       ]);
     });
 
@@ -196,9 +193,9 @@ describe('createMongoIndexBasedFilter', () => {
       });
 
       expect(query).toEqual([
-        { _id: /^my_entity#users#123↠/ },
+        { _id: /^my_entity#users\\#123↠/ },
         //
-        { _id: { $gte: 'my_entity#users#123↠abc' } },
+        { _id: { $gte: 'my_entity#users\\#123↠abc' } },
       ]);
     });
 
@@ -214,9 +211,9 @@ describe('createMongoIndexBasedFilter', () => {
       });
 
       expect(query).toEqual([
-        { _id: /^my_entity#users#123↠/ },
+        { _id: /^my_entity#users\\#123↠/ },
         //
-        { _id: { $lt: 'my_entity#users#123↠abc' } },
+        { _id: { $lt: 'my_entity#users\\#123↠abc' } },
       ]);
     });
 
@@ -232,9 +229,9 @@ describe('createMongoIndexBasedFilter', () => {
       });
 
       expect(query).toEqual([
-        { _id: /^my_entity#users#123↠/ },
+        { _id: /^my_entity#users\\#123↠/ },
         {
-          _id: { $lte: 'my_entity#users#123↠abc' },
+          _id: { $lte: 'my_entity#users\\#123↠abc' },
         },
       ]);
     });
@@ -553,7 +550,7 @@ const ITEMS = [
   { PK: 'users', SK: 'rafaela' },
 ];
 
-const indexConfig: CollectionIndexConfig = {
+const indexConfig = {
   entity: 'my_entity',
   indexes: [{ name: 'any', field: '_id', PK: ['.PK'], SK: ['.SK'] }],
-};
+} as const;

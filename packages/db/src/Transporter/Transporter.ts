@@ -9,7 +9,6 @@ import {
   getDocumentIndexFields,
   CollectionIndexConfig,
   createDocumentIndexBasedFilters,
-  AnyCollectionIndexConfig,
 } from './CollectionIndex';
 
 export const FieldTypes = tuple(

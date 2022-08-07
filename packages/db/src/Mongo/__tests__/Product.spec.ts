@@ -21,11 +21,13 @@ import {
   AnyFunction,
   Merge,
   UnionToIntersection,
+  Union,
 } from '@darch/utils/lib/typeUtils';
 import { capitalize } from '@darch/utils/lib/stringCase';
 import { devAssert } from '@darch/utils/lib/devAssert';
 import { nonNullValues, notNull } from '@darch/utils/lib/invariant';
 import { createType, Darch } from '@darch/schema';
+import { ULID_REGEX } from '@darch/schema/lib/fields/UlidField';
 
 type GetFieldsUsedInIndexes<IndexItem, Kind> = Kind extends keyof IndexItem
   ? IndexItem[Kind] extends Array<infer F> | ReadonlyArray<infer F>
@@ -264,13 +266,15 @@ function createEntity<Options extends EntityOptions>(
     });
   });
 
-  _createLoader({
-    indexInfo: parsedIndexKeys,
-    newMethodName: 'createOne',
-    method: 'createOne',
+  transporterLoaderNames.forEach((method) => {
+    _createLoader({
+      method,
+      newMethodName: method,
+      indexInfo: parsedIndexKeys,
+    });
   });
 
-  return entity;
+  return entity as Entity<Options>;
 }
 
 describe('Product', () => {
@@ -307,7 +311,7 @@ describe('Product', () => {
     });
   }
 
-  beforeAll(async function () {
+  beforeEach(async function () {
     mockApp = createAppMock();
     await mockApp.start();
     transporter = new MongoTransporter({
@@ -316,13 +320,47 @@ describe('Product', () => {
     });
   });
 
-  afterAll(async function () {
+  afterEach(async function () {
     await mockApp.reset();
   });
 
   it('create entity', async () => {
     const entity = _getEntity();
     expect(typeof entity).toEqual('object');
+  });
+
+  it('TS distributed filter types', async () => {
+    const entity = createEntity({
+      transporter,
+      name: 'Product',
+      indexes: [
+        {
+          name: 'byStore',
+          field: '_id',
+          PK: ['.storeId'],
+          SK: ['.hash'],
+        },
+        {
+          name: 'byStoreAndSKU',
+          field: '_id1',
+          PK: ['.category'],
+          SK: ['.storeId'],
+        },
+      ],
+      type: createType('Product', {
+        object: {
+          title: { string: { min: 2 } },
+          storeId: 'ID',
+          SKU: { string: { min: 3 } },
+        },
+      }),
+    });
+
+    await entity.findOne({ filter: { storeId: '123' }, dataloaderContext: {} });
+    await entity.findOne({
+      filter: { category: '456' },
+      dataloaderContext: {},
+    });
   });
 
   it('create', async () => {
@@ -351,12 +389,13 @@ describe('Product', () => {
     expect(product).toEqual({
       item: {
         SKU: 'sku0',
-        _id: 'Product#store1↠',
-        _id1: 'Product#store1↠sku0',
+        _id: expect.stringMatching(/^product#store1↠/),
+        _id1: expect.stringMatching(/^product#store1↠sku0/),
         _id1PK: 'store1',
         _id1SK: 'sku0',
         _idPK: 'store1',
-        _idSK: '',
+        _idSK: expect.stringMatching(ULID_REGEX),
+        hash: expect.stringMatching(ULID_REGEX),
         storeId: 'store1',
         title: 'banana',
       },
@@ -382,12 +421,13 @@ describe('Product', () => {
     expect(product).toEqual({
       item: {
         SKU: 'sku0',
-        _id: 'Product#store1↠',
-        _id1: 'Product#store1↠sku0',
+        _id: expect.stringMatching(/^product#store1↠/),
+        _id1: expect.stringMatching(/^product#store1↠sku0/),
         _id1PK: 'store1',
         _id1SK: 'sku0',
         _idPK: 'store1',
-        _idSK: '',
+        _idSK: expect.stringMatching(ULID_REGEX),
+        hash: expect.stringMatching(ULID_REGEX),
         storeId: 'store1',
         title: 'banana',
       },

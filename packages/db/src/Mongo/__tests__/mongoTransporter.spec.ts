@@ -1,6 +1,6 @@
 import { MongoTransporter } from '../MongoTransporter';
 import { createAppMock, AppMock } from './createAppMock';
-import { CollectionIndexConfig } from '../../Transporter/CollectionIndex';
+import { AnyCollectionIndexConfig } from '../../Transporter/CollectionIndex';
 import {
   UpdateExpression,
   UpdateOneConfig,
@@ -29,7 +29,7 @@ jest.setTimeout(60000);
 describe('MongoTransporter', () => {
   let mockApp: AppMock;
   let transporter: MongoTransporter;
-  const indexConfig: CollectionIndexConfig = {
+  const indexConfig: AnyCollectionIndexConfig = {
     entity: 'entity_foo',
     indexes: [{ name: 'any', field: '_id', PK: ['.PK'], SK: ['.SK'] }],
   };
@@ -339,7 +339,7 @@ describe('MongoTransporter', () => {
       });
 
       expect(
-        await transporter.updateOne<any>({
+        await transporter.updateOne({
           indexConfig,
           filter: {
             PK: 'a',
@@ -351,7 +351,7 @@ describe('MongoTransporter', () => {
         })
       ).toEqual({ item: null, created: false, updated: false });
 
-      const updated = await transporter.updateOne<any>({
+      const updated = await transporter.updateOne({
         indexConfig,
         filter: {
           PK: 'a',
@@ -368,7 +368,7 @@ describe('MongoTransporter', () => {
     });
 
     it('should handle config.upsert using default false', async () => {
-      const config: UpdateOneConfig<string, any> = {
+      const config: UpdateOneConfig = {
         indexConfig,
         filter: {
           PK: 'a',
@@ -378,13 +378,13 @@ describe('MongoTransporter', () => {
         update: { $set: { newField: 1 } },
       };
 
-      const up1 = await transporter.updateOne<any>({
+      const up1 = await transporter.updateOne({
         ...config,
       });
 
       expect(up1).toEqual({ item: null, created: false, updated: false });
 
-      const up2 = await transporter.updateOne<any>({
+      const up2 = await transporter.updateOne({
         ...config,
         upsert: true,
       });
@@ -414,10 +414,7 @@ describe('MongoTransporter', () => {
         }),
       ]);
 
-      const removed = await transporter.deleteOne<
-        { PK: string; SK: string },
-        'PK' | 'SK'
-      >({
+      const removed = await transporter.deleteOne({
         indexConfig,
         filter: {
           PK: 'a',
