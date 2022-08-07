@@ -1,293 +1,528 @@
-import { createType, ObjectLike, ObjectType } from '@darch/schema';
-
-import { clearMetaField } from '@darch/schema/lib/fields/MetaFieldField';
-import { assertSame } from '@darch/utils/lib/assertSame';
-import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
-import { hooks } from '@darch/utils/lib/hooks';
-
 import {
+  AnyCollectionIndexConfig,
+  CollectionIndexConfig,
+  DocumentIndexItem,
+  getDocumentIndexFields,
+  getParsedIndexKeys,
+  ParsedIndexKey,
+  validateIndexNameAndField,
+} from '../Transporter/CollectionIndex';
+import {
+  DocumentBase,
+  DocumentMethods,
+  FilterRecord,
   Transporter,
-  QueryConditions,
-  UpdateItemResult,
+  TransporterLoader,
+  TransporterLoaderName,
+  transporterLoaderNames,
 } from '../Transporter/Transporter';
-import { parseUpdateExpression } from '../Transporter/parseUpdateExpression';
-
 import {
-  SchemaTypeWithGeneratedFields,
-  EntityGeneratedFieldsType,
-  EntityHooks,
-  EntityMethodOptions,
-  EntityOperationInfoContext,
-  EntityOptions,
-  EntityParserInputOptions,
-  InferEntity,
-  SchemaDefinitionInput,
-  CreateOneOptions,
-  EntityRequestContext,
-  LoadOneOptions,
-} from './EntityInterfaces';
-import { EntityStore } from './EntityStore';
-import { isProduction } from '@darch/utils/lib/env';
-import { ulid } from '@darch/utils/lib/ulid';
-import { mountEntityIndexString } from './mountEntityKeyParts';
+  AnyFunction,
+  Merge,
+  UnionToIntersection,
+} from '@darch/utils/lib/typeUtils';
+import { capitalize } from '@darch/utils/lib/stringCase';
+import { devAssert } from '@darch/utils/lib/devAssert';
+import { hooks, Waterfall } from '@darch/utils/lib/hooks';
+import { nonNullValues, notNull } from '@darch/utils/lib/invariant';
+import { Darch } from '@darch/schema';
 
-export * from './EntityInterfaces';
-
-class EntityClass<
-  InputType extends SchemaDefinitionInput,
-  Options extends Readonly<EntityOptions<InputType>>
+export interface EntityOptions<
+  TName extends string = string,
+  Type extends { parse(...args: any[]): DocumentBase } = {
+    parse(...args: any[]): DocumentBase;
+  },
+  TTransporter extends Transporter = Transporter
 > {
-  readonly type: SchemaTypeWithGeneratedFields<InputType>;
-  readonly entityName: string;
+  type: Type;
+  name: TName;
+  indexes: CollectionIndexConfig<ReturnType<Type['parse']>, TName>['indexes'];
+  transporter?: TTransporter;
+}
 
-  static entityStore = EntityStore;
-  readonly entityStore = EntityStore;
+export type DefaultEntityFields = {
+  ulid: string;
+  createdBy: string | null;
+  updatedBy: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+};
 
-  static async reset() {
-    Entity.entityStore.clear();
-    await ObjectType.reset();
-  }
+export type Entity<Options extends EntityOptions> = Options['type'] extends {
+  parse(...args: any): infer Result;
+}
+  ? Merge<
+      {
+        entity: Options['name'];
+        indexes: Options['indexes'];
+        type: Options['type'];
+        parse: (
+          ...args: Parameters<Options['type']['parse']>
+        ) => DocFromType<Options['type']>;
+        transporter: Options['transporter'];
+      },
+      EntityLoaders<
+        DocFromType<Options['type']>,
+        {
+          entity: Options['name'];
+          indexes: Options['indexes'];
+        }
+      >
+    >
+  : never;
 
-  _hooks: EntityHooks<this> = {
+const ulidField = Darch.ulid({ autoCreate: true });
+const createUlid = () => ulidField.parse(undefined);
+
+export function createEntity<Options extends EntityOptions>(
+  options: Readonly<Options>
+): Entity<Options> {
+  const { indexes, transporter: defaultTransporter, type } = options;
+  const entityName = options.name.toLowerCase();
+
+  const entity = {} as Entity<Options>;
+
+  entity['transporter'] = defaultTransporter;
+
+  const indexConfig: CollectionIndexConfig<any, string> = {
+    entity: entityName,
+    indexes,
+  };
+
+  validateIndexNameAndField(indexConfig);
+  const parsedIndexKeys = getParsedIndexKeys(indexConfig);
+
+  const _hooks: EntityHooks<
+    EntityDocument<{}>,
+    Options['indexes'],
+    EntityLoaderContext
+  > = {
     preParse: hooks.waterfall(),
     postParse: hooks.waterfall(),
     filterResult: hooks.waterfall(),
     beforeQuery: hooks.waterfall(),
   };
 
-  readonly usedOptions: Options;
+  // pre parse PK, SK and ID setters
+  _hooks.preParse.register(async function applyDefaultHooks(doc, ctx) {
+    const possibleCreate = ctx.isCreate || ctx.isUpsert;
 
-  constructor(options: Options) {
-    this.usedOptions = { ...options };
-    const { transporter, name, type: inputType } = this.usedOptions;
-
-    if (!inputType._object) {
-      throw new Error('Input definition is not ObjectType compatible.');
+    if (possibleCreate) {
+      doc.ulid = doc.ulid || createUlid();
     }
 
-    const originDef = clearMetaField(inputType._object.definition);
+    if (ctx.isCreate && !doc.createdAt) {
+      doc.createdAt = new Date();
+      doc.updatedAt = new Date();
+    }
 
-    let objectDef = {
-      object: {
-        ...EntityGeneratedFieldsType.definition,
-        ...originDef,
-      },
+    if (ctx.isCreate && !doc.createdBy) {
+      doc.createdBy = (await ctx.context?.userId?.(false)) || null;
+    }
+
+    if (ctx.isUpdate && !doc.updatedAt) {
+      doc.updatedAt = new Date();
+    }
+
+    if (ctx.isUpdate && !doc.updatedBy) {
+      doc.updatedBy = (await ctx.context?.userId?.(false)) || null;
+    }
+
+    const parsedIndexes = getDocumentIndexFields(doc, indexConfig);
+
+    if (!parsedIndexes.valid) {
+      throw parsedIndexes.error;
+    }
+
+    doc = { ...parsedIndexes.indexFields, ...doc };
+
+    return doc;
+  });
+
+  async function parseOperationContext(
+    method: TransporterLoaderName,
+    options: EntityParserInputOptions<DocumentBase, Options['indexes'], any>
+  ) {
+    await defaultTransporter?.connect();
+
+    let operationInfoContext = buildEntityOperationInfoContext({
+      op: method,
+      methodOptions: options as any,
+    });
+
+    if ('item' in operationInfoContext.options) {
+      const withEntityFields = await _hooks.preParse.exec(
+        operationInfoContext.options.item as any,
+        operationInfoContext
+      );
+
+      let _options = options.partial ? ({ partial: true } as const) : undefined;
+
+      try {
+        const parsed = type.parse(withEntityFields, _options);
+        let doc: any = { ...withEntityFields, ...parsed };
+        doc = await _hooks.postParse.exec(doc, operationInfoContext);
+        operationInfoContext.options.item = doc;
+      } catch (e: any) {
+        e.info = operationInfoContext;
+        throw e;
+      }
+    }
+
+    if ('filter' in operationInfoContext.options) {
+      let filter = operationInfoContext.options.filter;
+      filter = await _hooks.beforeQuery.exec(filter, operationInfoContext);
+      operationInfoContext.options.filter = filter;
+    }
+
+    return operationInfoContext;
+  }
+
+  function _createLoader(config: {
+    method: TransporterLoaderName;
+    newMethodName: string;
+    indexInfo: ParsedIndexKey[];
+    indexes: Options['indexes'];
+  }) {
+    const { indexInfo, indexes, newMethodName, method } = config;
+
+    const loader: TransporterLoader = async function loader(...args) {
+      if (args.length !== 1) {
+        return devAssert(`Invalid number of arguments for ${newMethodName}`);
+      }
+      const { transporter = defaultTransporter } = args['0'];
+
+      nonNullValues(
+        { transporter },
+        `config.transporter should be provided for "${newMethodName}" or during entity creation.`
+      );
+
+      const configInput = {
+        ...args[0],
+        indexConfig: {
+          ...indexConfig,
+          indexes,
+        },
+        dataloaderContext: args[0].context,
+      };
+
+      const operation = await parseOperationContext(method, configInput);
+
+      const fn: AnyFunction = transporter[method].bind(transporter);
+      const result = await fn(operation.options);
+
+      if (result.item) {
+        const [parsed] = await _hooks.filterResult.exec(
+          [result.item],
+          operation
+        );
+
+        result.item = parsed;
+      }
+
+      if (result.items) {
+        const parsed = await _hooks.filterResult.exec(result.items, operation);
+        result.items = parsed;
+      }
+
+      return result;
     };
 
-    this.type = createType(
-      `${name}Entity`,
-      objectDef
-    ) as unknown as SchemaTypeWithGeneratedFields<InputType>;
-
-    this.entityName = name;
-
-    if (this.entityStore.has(name)) {
-      throw new Error(`Can't redeclare entity with name "${this.entityName}"`);
-    }
-
-    this._transporter = transporter;
-    this.entityStore.set(name, this as any);
-    this.applyDefaultHooks();
-  }
-
-  registerPlugins(handler: (hooks: this['_hooks']) => void) {
-    handler(this._hooks);
-  }
-
-  private applyDefaultHooks() {
-    const { index } = this.usedOptions;
-
-    // pre parse PK, SK and ulid setters
-    this._hooks.preParse.register(async function applyDefaultHooks(
-      obj: any,
-      ctx
-    ) {
-      const possibleCreate = ctx.isCreate || ctx.isUpsert;
-      const possibleUpdate = ctx.isUpdate || ctx.isUpsert;
-
-      if (possibleCreate && !obj.ulid) {
-        obj.ulid = obj.ulid || ulid();
-      }
-
-      index.forEach((idx) => {
-        const { field, SK, PK } = idx;
-        if (possibleCreate && (!obj[field] || typeof obj[field] !== 'string')) {
-          obj[field] = mountEntityIndexString(obj, { PK, SK });
-        }
-      });
-
-      if (possibleCreate && !obj.createdAt) {
-        obj.createdAt = new Date();
-        obj.updatedAt = new Date();
-      }
-
-      if (possibleCreate && !obj.createdBy) {
-        obj.createdBy = await ctx.context.userId();
-      }
-
-      if (possibleUpdate && !obj.updatedAt) {
-        obj.updatedAt = new Date();
-      }
-
-      if (possibleUpdate && !obj.updatedBy) {
-        obj.updatedBy = await ctx.context.userId();
-      }
+    Object.defineProperties(loader, {
+      name: { value: newMethodName },
+      indexInfo: { value: indexInfo },
     });
+
+    entity[newMethodName] = loader;
   }
 
-  async parse(
-    options: EntityParserInputOptions<InputType>
-  ): Promise<InferEntity<InputType>> {
-    await this.transporter.connect();
-
-    const operationInfoContext = buildEntityOperationInfoContext(
-      options as any
+  indexConfig.indexes.forEach((index) => {
+    const { name: indexName } = index;
+    const indexInfo = notNull(
+      parsedIndexKeys.find((el) => el.index.name === indexName)
     );
 
-    const { item } = options.methodOptions;
+    const capitalizedIndexName = capitalize(indexName);
 
-    let clone = simpleObjectClone(item);
-
-    if (clone && typeof clone === 'object') {
-      clone = await this._hooks.preParse.exec(clone, operationInfoContext);
-    }
-
-    let parsed: any;
-    try {
-      let _options = options.partial ? ({ partial: true } as const) : undefined;
-      parsed = this.type._object!.parse(clone, _options);
-    } catch (e: any) {
-      e.item = item;
-      throw e;
-    }
-
-    parsed = await this._hooks.postParse.exec(parsed, operationInfoContext);
-
-    return parsed;
-  }
-
-  async createOne<Context extends EntityRequestContext>(
-    options: CreateOneOptions<InputType, Context>
-  ) {
-    const { transporter = this.transporter, replace, condition } = options;
-
-    const parsed = await this.parse({
-      op: 'createOne',
-      methodOptions: options,
-    });
-
-    if (options.checkExisting) {
-      const existing = await this.loadById({
-        ...options,
-        item: parsed,
+    transporterLoaderNames.forEach((method) => {
+      if (method === 'createOne') return;
+      const methodName = `${method}${capitalizedIndexName}`;
+      _createLoader({
+        method,
+        newMethodName: methodName,
+        indexInfo: [indexInfo],
+        indexes: [
+          indexConfig.indexes.find((index) => index.name === indexName)!,
+        ],
       });
+    });
+  });
 
-      if (existing.item) {
-        throw new Error('REPEATED_ITEM');
+  transporterLoaderNames.forEach((method) => {
+    _createLoader({
+      method,
+      newMethodName: method,
+      indexInfo: parsedIndexKeys,
+      indexes: indexConfig.indexes,
+    });
+  });
+
+  return entity as Entity<Options>;
+}
+
+export type EntityLoaderContext = Partial<{
+  userId(strict: false): string | undefined;
+  userId(strict: true): string;
+  userId(): string;
+}> & {};
+
+type EntityDocument<Document> = Merge<DefaultEntityFields, Document>;
+
+export type EntityHooks<
+  Document extends DocumentBase,
+  Indexes extends AnyCollectionIndexConfig['indexes'],
+  Context extends EntityLoaderContext
+> = {
+  preParse: Waterfall<
+    Partial<EntityDocument<Document>>,
+    EntityOperationInfoContext<
+      Partial<EntityDocument<Document>>,
+      Indexes,
+      Context
+    >
+  >;
+
+  postParse: Waterfall<
+    EntityDocument<Document>,
+    EntityOperationInfoContext<EntityDocument<Document>, Indexes, Context>
+  >;
+
+  beforeQuery: Waterfall<
+    FilterRecord<EntityDocument<Document>>,
+    EntityOperationInfoContext<EntityDocument<Document>, Indexes, Context>
+  >;
+
+  filterResult: Waterfall<
+    EntityDocument<Document>[],
+    EntityOperationInfoContext<EntityDocument<Document>, Indexes, Context>
+  >;
+};
+
+type MethodOptions<
+  Document,
+  Indexes extends AnyCollectionIndexConfig['indexes'],
+  Context
+> = Indexes[number] extends infer IndexItem
+  ? IndexItem extends unknown
+    ? {
+        [L in TransporterLoaderName]: Parameters<
+          IndexMethods<Document, IndexItem>[L]
+        >[0] extends infer Options
+          ? Options extends unknown
+            ? Options
+            : never
+          : never;
       }
-    }
-
-    return await transporter.createOne({
-      item: parsed,
-      replace,
-      condition,
-    });
-  }
-
-  async loadById<Context>(options: LoadOneOptions<InputType, Context>) {
-    const {
-      dataloaderContext = {},
-      transporter = this.transporter,
-      consistent,
-      projection,
-    } = options;
-
-    const parsed = await this.parse({
-      op: 'loadById',
-      partial: true,
-      methodOptions: options,
-    });
-
-    const { PK, SK = null } = parsed;
-
-    return transporter.findOne({
-      query: {
-        PK,
-        SK,
-        projection,
-        consistent,
-      },
-      dataloaderContext,
-    });
-  }
-
-  _transporter?: Transporter;
-
-  get transporter(): Transporter {
-    let t = this._transporter;
-    if (!t) {
-      throw new Error(`Entity ${this.entityName}: no transporter defined.`);
-    }
-    return t;
-  }
-}
-
-function EntityConstructor<DefinitionInput extends SchemaDefinitionInput>(
-  options: EntityOptions<DefinitionInput>
-) {
-  const { name } = options;
-
-  if (EntityStore.has(name)) {
-    const entity = EntityStore.get(name);
-
-    if (!isProduction()) {
-      assertSame(
-        `Entity: the cached entity with name "${name}" has a different config`,
-        entity.usedOptions,
-        options
-      );
-    }
-
-    return entity;
-  }
-
-  const entity = new EntityClass(options as any);
-  EntityStore.set(options.name, entity as any);
-  return entity;
-}
-
-const reserved: any[] = ['name', 'length', 'prototype'];
-Reflect.ownKeys(EntityClass).forEach((name) => {
-  if (reserved.includes(name)) return;
-  EntityConstructor[name] = EntityClass[name];
-});
-
-export const Entity = EntityConstructor as unknown as typeof EntityClass;
-
-export type Entity<
-  Definition extends Readonly<SchemaDefinitionInput>,
-  Options extends Readonly<EntityOptions<Definition>>
-> = EntityClass<Definition, Options>;
+    : never
+  : never;
 
 function buildEntityOperationInfoContext(
-  parserInput: EntityParserInputOptions
-): EntityOperationInfoContext {
-  const { op, methodOptions } = parserInput as any; // FIXME;
+  parserInput: EntityParserInputOptions<DocumentBase, any, any>
+): EntityOperationInfoContext<any, any, any> {
+  const { op } = parserInput;
 
   return {
-    op: op,
-    isLoad: op.startsWith('load'),
+    op,
+    isFind: op.startsWith('find'),
     isUpdate: op.startsWith('update'),
     isCreate: op.startsWith('create'),
-    isLoadMany: op === 'loadMany',
-    isLoadOne: op === 'loadOne',
-    isUpdateOne: op === 'updateOne',
-    isDeleteOne: op === 'removeOne',
-    isUpsert: op === 'updateOne' && methodOptions.upsert === true,
-    isCreateOne: op === 'createOne',
-    input: parserInput,
+    isFindMany: op.startsWith('findMany'),
+    isFindOne: op.startsWith('findOne'),
+    isFindById: op.startsWith('findById'),
+    isUpdateOne: op.startsWith('updateOne'),
+    isDeleteOne: op.startsWith('deleteOne'),
+    isUpsert:
+      parserInput.op.startsWith('updateOne') &&
+      // @ts-ignore
+      parserInput.methodOptions.upsert === true,
+    // isUpdateMany: op === 'updateMany',
+    isCreateOne: op.startsWith('createOne'),
+    // isCreateMany: op === 'createMany',
+    options: parserInput.methodOptions,
     context: parserInput.methodOptions.context,
   };
 }
-export {DocumentIndexItem} from "../Transporter/CollectionIndex";
-export {IndexKeyHash} from "../Transporter/CollectionIndex";
+
+export type EntityParserInputOptions<
+  Document extends DocumentBase,
+  Indexes extends AnyCollectionIndexConfig['indexes'],
+  Context extends EntityLoaderContext
+> = (
+  | {
+      op: 'findOne';
+      methodOptions: MethodOptions<Document, Indexes, Context>['findOne'];
+    }
+  | {
+      op: 'findById';
+      methodOptions: MethodOptions<Document, Indexes, Context>['findById'];
+    }
+  | {
+      op: 'findMany';
+      methodOptions: MethodOptions<Document, Indexes, Context>['findMany'];
+    }
+  | {
+      op: 'createOne';
+      methodOptions: MethodOptions<Document, Indexes, Context>['createOne'];
+    }
+  | {
+      op: 'updateOne';
+      methodOptions: MethodOptions<Document, Indexes, Context>['updateOne'];
+    }
+  | {
+      op: 'deleteOne';
+      methodOptions: MethodOptions<Document, Indexes, Context>['deleteOne'];
+    }
+) & {
+  partial?: boolean | (keyof Document)[];
+};
+
+export type EntityOperationInfoContext<
+  Document extends DocumentBase,
+  Indexes extends AnyCollectionIndexConfig['indexes'],
+  Context extends EntityLoaderContext
+> = {
+  op:
+    | 'findMany'
+    | 'findOne'
+    | 'findById'
+    | 'createOne'
+    | 'updateOne'
+    | 'deleteOne';
+  isFind: boolean;
+  isUpdate: boolean;
+  isCreate: boolean;
+  isFindMany: boolean;
+  isFindOne: boolean;
+  isFindById: boolean;
+  isUpdateOne: boolean;
+  isDeleteOne: boolean;
+  isUpsert: boolean;
+  // isUpdateMany: boolean;
+  isCreateOne: boolean;
+  // isCreateMany: boolean;
+  options: EntityParserInputOptions<
+    Document,
+    Indexes,
+    Context
+  >['methodOptions'];
+  context: Context;
+};
+
+type GetFieldsUsedInIndexes<IndexItem, Kind> = Kind extends keyof IndexItem
+  ? IndexItem[Kind] extends Array<infer F> | ReadonlyArray<infer F>
+    ? F extends `.${infer Field}`
+      ? Field
+      : never
+    : never
+  : never;
+
+type EntityTransporterMethod<
+  Method,
+  Context extends EntityLoaderContext = Record<string, any>
+> = Method extends (config: infer Config) => infer Result
+  ? ((
+      config: Merge<Omit<Config, 'dataloaderContext'>, { context: Context }>
+    ) => Result) & {
+      indexInfo: [ParsedIndexKey, ...ParsedIndexKey[]];
+    }
+  : never;
+
+type IndexMethods<
+  Document,
+  IndexItem,
+  Context extends EntityLoaderContext = Record<string, any>
+> = {
+  [M in keyof DocumentMethods<any, any, any>]: EntityTransporterMethod<
+    DocumentMethods<
+      Document,
+      GetFieldsUsedInIndexes<IndexItem, 'PK'>,
+      GetFieldsUsedInIndexes<IndexItem, 'SK'>
+    >[M],
+    Context
+  >;
+};
+
+type GetIndexByName<
+  Union extends DocumentIndexItem<any, any>,
+  Name extends string
+> = Union extends { name: Name; [K: string]: unknown } ? Union : never;
+
+type OneIndexMethod<
+  Documents,
+  Indexes,
+  Methods = {}
+> = Indexes extends readonly [infer CurrentIndex, ...infer Rest]
+  ? OneIndexMethod<
+      Documents,
+      Rest,
+      {
+        [K in keyof IndexMethods<
+          Documents,
+          CurrentIndex
+        >]: K extends keyof Methods
+          ? EntityTransporterMethod<
+              IndexMethods<Documents, CurrentIndex>[K] extends (
+                ...args: infer Args
+              ) => infer Result
+                ? (...args: Args) => Result
+                : never
+            > &
+              EntityTransporterMethod<
+                Methods[K] extends (...args: infer Args) => infer Result
+                  ? (...args: Args) => Result
+                  : never
+              >
+          : IndexMethods<Documents, CurrentIndex>[K];
+      }
+    >
+  : [keyof Methods] extends [never]
+  ? never
+  : Methods;
+
+type EntityLoaders<
+  Doc extends DocumentBase,
+  IndexConfig extends AnyCollectionIndexConfig
+> = UnionToIntersection<
+  {
+    [IndexName in IndexConfig['indexes'][number]['name']]: {
+      [M in keyof IndexMethods<any, any>]: {
+        [L in `${M}${Capitalize<IndexName>}`]: IndexMethods<
+          Doc,
+          GetIndexByName<IndexConfig['indexes'][number], IndexName>
+        >[M];
+      };
+    };
+  }[IndexConfig['indexes'][number]['name']][Exclude<
+    keyof IndexMethods<any, any>,
+    'createOne'
+  >]
+> & {
+  createOne: EntityTransporterMethod<
+    DocumentMethods<
+      Merge<
+        Omit<Doc, keyof DefaultEntityFields>,
+        { [K in keyof DefaultEntityFields]?: DefaultEntityFields[K] }
+      >,
+      GetFieldsUsedInIndexes<IndexConfig['indexes'][number], 'PK'>,
+      GetFieldsUsedInIndexes<IndexConfig['indexes'][number], 'SK'>
+    >['createOne']
+  >;
+} & OneIndexMethod<Doc, IndexConfig['indexes']>;
+
+type DocFromType<Type> = Type extends {
+  parse(...args: any[]): infer Result;
+}
+  ? Result extends DocumentBase
+    ? Merge<DefaultEntityFields, Result>
+    : never
+  : never;

@@ -14,6 +14,9 @@ import { keyBy } from '@darch/utils/lib/keyBy';
 import { devAssert } from '@darch/utils/lib/devAssert';
 import { getKeys } from '@darch/utils/lib/getKeys';
 import { Name } from '@darch/utils/lib/typeUtils';
+import { base64ToText } from '@darch/utils/lib/textToBase64';
+import { DarchJSON } from '@darch/utils/lib/DarchJSON';
+import { Logger } from '@darch/utils/lib/logger';
 
 export const PK_SK_SEPARATOR = '↠';
 export const ID_SEPARATOR_REGEX = new RegExp(PK_SK_SEPARATOR, 'g');
@@ -39,6 +42,42 @@ export function mountID(params: {
   }`;
 }
 
+export function isBase64Id(input: unknown): input is `_:${string}` {
+  return typeof input === 'string' && input.startsWith('_:');
+}
+
+export function getIDFromString(input: string) {
+  if (!isBase64Id(input)) {
+    return {
+      i: undefined,
+      v: input,
+    };
+  }
+
+  try {
+    const content = base64ToText(input.slice(2));
+    const { i, v } = DarchJSON.parse(content);
+
+    if (!i || !v || typeof i !== 'string' || typeof v !== 'string') {
+      throw new RuntimeError(`INVALID_ID`, { content, i, v });
+    }
+
+    return {
+      i,
+      v,
+    };
+  } catch (e) {
+    Logger.logError(e);
+    throw new Error('INVALID_ID');
+  }
+}
+
+export function idToBase64(id: string, indexName: string) {
+  if (isBase64Id(id)) return id;
+  const json = { i: indexName, v: id };
+  return `_:${DarchJSON.stringify(json)}`;
+}
+
 /**
  * Receives a document indexConfig and a key-value filter and converts to
  * an index based search filter.
@@ -56,68 +95,92 @@ export function createDocumentIndexBasedFilters<
   validateIndexNameAndField(indexConfig);
 
   let filtersRecords: FilterRecord[] = [];
-  // const invalidFields: ParseIndexInvalid[] = [];
 
-  Object.entries(filter).forEach(([key, value]) => {
-    const filter = { [key]: value };
+  const filterKeys = new Set(Object.keys(filter));
 
-    indexes.forEach((index) => {
-      const PK = mountIndexFromPartsList({
-        indexPartKind: 'PK',
-        indexParts: index.PK,
-        doc: filter,
-        indexField: index.field,
-        acceptNullable: false,
-      });
-
-      if (!PK.valid) {
-        if (!PK.requiredFields.includes(key)) return; // cant use
-        return devAssert(
-          `Error in PK, failed to mount filter.`,
-          { PK },
-          { depth: 10 }
-        );
+  indexes.forEach((index) => {
+    filterKeys.forEach((key) => {
+      const value = filter[key];
+      if (DocumentIndexRegex.test(key) && typeof value === 'string') {
+        const id = getIDFromString(value);
+        if (id.i) {
+          return filtersRecords.push({
+            [id.i]: id.v,
+          });
+        } else {
+          return filtersRecords.push({
+            $or: indexConfig.indexes.map((index) => ({
+              [index.field]: id.v,
+            })),
+          });
+        }
       }
-
-      const SK = mountIndexFromPartsList({
-        indexPartKind: 'SK',
-        indexParts: index.SK || [],
-        doc: filter,
-        indexField: index.field,
-        acceptNullable: true,
-      });
-
-      const items = joinPKAndSKAsIDFilter({
-        indexField: index.field,
-
-        entity,
-
-        PK: PK.isFilter
-          ? (PK.conditionFound as IndexFilter)
-          : PK.valid
-          ? PK.value
-          : (devAssert(
-              `Error in PK, failed to mount filter.`,
-              { PK },
-              { depth: 10 }
-            ) as ''),
-
-        SK: SK.nullableFound
-          ? SK.nullableFound.value
-          : SK.isFilter
-          ? (SK.conditionFound as IndexFilter)
-          : SK.valid
-          ? SK.value
-          : (devAssert(
-              `Error in SK, failed to mount filter.`,
-              { SK },
-              { depth: 10 }
-            ) as ''),
-      });
-
-      filtersRecords.push(...items);
     });
+
+    const PK = mountIndexFromPartsList({
+      indexPartKind: 'PK',
+      indexParts: index.PK,
+      doc: filter,
+      indexField: index.field,
+      acceptNullable: false,
+    });
+
+    const SK = mountIndexFromPartsList({
+      indexPartKind: 'SK',
+      indexParts: index.SK || [],
+      doc: filter,
+      indexField: index.field,
+      acceptNullable: true,
+    });
+
+    if (!PK.valid) {
+      const requiredByPK = [...PK.requiredFields].find((field) =>
+        filterKeys.has(field)
+      );
+
+      if (!requiredByPK) return;
+
+      return devAssert(
+        `Error in PK, failed to mount filter.`,
+        { PK },
+        { depth: 10 }
+      );
+    }
+
+    const items = joinPKAndSKAsIDFilter({
+      indexField: index.field,
+
+      entity,
+
+      PK: PK.isFilter
+        ? (PK.conditionFound as IndexFilter)
+        : PK.valid
+        ? PK.value
+        : (devAssert(
+            `Error in PK, failed to mount filter.`,
+            { PK },
+            { depth: 10 }
+          ) as ''),
+
+      SK: SK.nullableFound
+        ? SK.nullableFound.value
+        : SK.isFilter
+        ? (SK.conditionFound as IndexFilter)
+        : SK.valid
+        ? SK.value
+        : (devAssert(
+            `Error in SK, failed to mount filter.`,
+            { SK },
+            { depth: 10 }
+          ) as ''),
+    });
+
+    filtersRecords.push(...items);
   });
+
+  if (!filtersRecords.length) {
+    devAssert(`invalid filter`, filter);
+  }
 
   // TODO remove duplicated startsWith by _id{number}
   return filtersRecords;
@@ -645,7 +708,8 @@ export type IndexKeyHash<Keys = string> =
   | `.${Extract<Keys, string>}`;
 
 export type IndexPartKind = 'PK' | 'SK';
-export type DocumentIndexField = `_id` | `_id${number}`;
+export type DocumentIndexField = `_id` | `_id${number}` | 'id';
+export const DocumentIndexRegex = /^(_id\d*)|(id)$/;
 
 // Definition for a document index
 

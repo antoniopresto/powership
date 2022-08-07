@@ -184,7 +184,8 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
 
       const value = input[currField];
 
-      if (value === undefined && partial && !('autoCreate' in fieldDef.def)) {
+      const hasAutoCreateOption = fieldDef?.def?.['autoCreate'] === true;
+      if (value === undefined && partial && !hasAutoCreateOption) {
         return;
       }
 
@@ -195,8 +196,10 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
         value,
       });
 
-      if (Object.prototype.hasOwnProperty.call(input, currField)) {
-        parsed[currField] = result.parsed;
+      if (result.parsed !== undefined) {
+        if (Object.prototype.hasOwnProperty.call(input, currField)) {
+          parsed[currField] = result.parsed;
+        }
       }
 
       errors.push(...result.errors);

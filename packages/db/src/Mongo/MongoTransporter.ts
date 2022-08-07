@@ -12,6 +12,7 @@ import {
   FindOneResult,
   DeleteOneConfig,
   DeleteOneResult,
+  FindByIdConfig,
 } from '../Transporter/Transporter';
 
 import { MongoClient } from './MongoClient';
@@ -140,8 +141,12 @@ export class MongoTransporter extends Transporter {
 
     const collection = this.getCollection(filter);
 
-    const idField = Object.keys($and[0])[0];
-    const mongoSort = { [idField]: sort === 'DESC' ? -1 : 1 } as const;
+    const firstKey = Object.keys($and[0])[0];
+    const sortKey = firstKey && firstKey.startsWith('$') ? '_id' : firstKey;
+    // TODO fixme when by id
+    const mongoSort = {
+      [sortKey]: sort === 'DESC' ? -1 : 1,
+    } as const;
 
     let items: any[] = [];
 
@@ -197,13 +202,33 @@ export class MongoTransporter extends Transporter {
     };
   }
 
+  async findById(options: FindByIdConfig): Promise<FindOneResult> {
+    const {
+      id,
+      projection,
+      consistent,
+      indexConfig,
+      dataloaderContext,
+      condition,
+    } = options;
+
+    return await this.findOne({
+      dataloaderContext,
+      filter: { id },
+      projection,
+      consistent,
+      indexConfig,
+      condition,
+    });
+  }
+
   async updateOne(options: UpdateOneConfig): Promise<UpdateItemResult> {
     const { update, upsert, indexConfig, filter, condition } = options;
 
-    const parsedFilter = this.createDocumentIndexBasedFilters(
+    const parsedFilter = createMongoIndexBasedFilters({
       filter,
-      indexConfig
-    );
+      indexConfig,
+    });
 
     const parsedUpdate = this.parseUpdateExpression(update, indexConfig);
     const updateExpression = parseMongoUpdateExpression(parsedUpdate);
@@ -244,10 +269,10 @@ export class MongoTransporter extends Transporter {
   async deleteOne(options: DeleteOneConfig): Promise<DeleteOneResult> {
     const { indexConfig, condition, filter } = options;
 
-    const parsedFilter = this.createDocumentIndexBasedFilters(
+    const parsedFilter = createMongoIndexBasedFilters({
       filter,
-      indexConfig
-    );
+      indexConfig,
+    });
 
     const collection = this.getCollection(parsedFilter);
 

@@ -150,7 +150,7 @@ export function parseMongoAttributeFilters(attFilter: FilterRecord) {
           }
 
           $and.push({
-            [attribute]: new RegExp(`^${escapeStringRegexp(value)}`),
+            [attribute]: { $regex: `^${escapeStringRegexp(value)}` },
           });
 
           break;

@@ -9,6 +9,7 @@ import {
   getDocumentIndexFields,
   CollectionIndexConfig,
   createDocumentIndexBasedFilters,
+  DocumentIndexField,
 } from './CollectionIndex';
 
 export const FieldTypes = tuple(
@@ -67,7 +68,8 @@ export type FilterRecord<Doc extends DocumentBase = Record<string, any>> =
     }
   | { $and?: RootFilterOperators['$and'] }
   | { $or?: RootFilterOperators['$or'] }
-  | { $not?: RootFilterOperators['$not'] };
+  | { $not?: RootFilterOperators['$not'] }
+  | { [K in DocumentIndexField]?: string };
 
 export type AllIndexFilter = {
   $eq: PKSKValueType;
@@ -86,21 +88,23 @@ export type IndexFilter = {
 export type IndexFilterRecord<
   PK extends string = string,
   SK extends string | undefined = string
-> = (
-  | ({
+> =
+  | ((
+      | ({
+          [K in PK]: Partial<AllIndexFilter> | PKSKValueType;
+        } & {
+          [K in SK as SK extends string ? SK : never]?:
+            | Partial<AllIndexFilter>
+            | PKSKValueType
+            | undefined;
+        })
+      | { $and?: IndexFilterRecord<PK>[] }
+      | { $or?: IndexFilterRecord<PK>[] }
+      | { $not?: IndexFilterRecord<PK> }
+    ) & {
       [K in PK]: Partial<AllIndexFilter> | PKSKValueType;
-    } & {
-      [K in SK as SK extends string ? SK : never]?:
-        | Partial<AllIndexFilter>
-        | PKSKValueType
-        | undefined;
     })
-  | { $and?: IndexFilterRecord<PK>[] }
-  | { $or?: IndexFilterRecord<PK>[] }
-  | { $not?: IndexFilterRecord<PK> }
-) & {
-  [K in PK]: Partial<AllIndexFilter> | PKSKValueType;
-};
+  | { [K in DocumentIndexField]?: string };
 
 export type DocumentBase = Record<string, any>;
 
@@ -131,6 +135,22 @@ export type FindOneConfig<
   SK extends string | undefined = string
 > = {
   filter: IndexFilterRecord<PK, SK>;
+  indexConfig: CollectionIndexConfig<
+    Doc,
+    PK | (SK extends undefined ? PK : SK)
+  >;
+  consistent?: boolean;
+  projection?: string[];
+  condition?: FilterRecord<Doc>;
+  dataloaderContext: Record<string, any> | null;
+};
+
+export type FindByIdConfig<
+  Doc extends DocumentBase = DocumentBase,
+  PK extends string = string,
+  SK extends string | undefined = string
+> = {
+  id: string;
   indexConfig: CollectionIndexConfig<
     Doc,
     PK | (SK extends undefined ? PK : SK)
@@ -347,6 +367,10 @@ export interface DocumentMethods<
     options: DocumentOptions<FindOneConfig<Doc, PK, SK>>
   ): Promise<FindOneResult<Doc>>;
 
+  findById(
+    options: DocumentOptions<FindByIdConfig<Doc, PK, SK>>
+  ): Promise<FindOneResult<Doc>>;
+
   updateOne(
     options: DocumentOptions<UpdateOneConfig<Doc, PK, SK>>
   ): Promise<UpdateItemResult<Doc>>;
@@ -369,17 +393,21 @@ export abstract class Transporter {
 
   abstract findOne(options: FindOneConfig): Promise<FindOneResult>;
 
+  abstract findById(
+    options: DocumentOptions<FindByIdConfig>
+  ): Promise<FindOneResult>;
+
   abstract updateOne(options: UpdateOneConfig): Promise<UpdateItemResult>;
 
   abstract deleteOne(options: DeleteOneConfig): Promise<DeleteOneResult>;
 
-  createDocumentIndexBasedFilters = createDocumentIndexBasedFilters;
   getDocumentIndexFields = getDocumentIndexFields;
   parseUpdateExpression = parseUpdateExpression;
 }
 
 export const transporterLoaderNames = tuple(
   'createOne',
+  'findById',
   'findMany',
   'findOne',
   'updateOne',
