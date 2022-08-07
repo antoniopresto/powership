@@ -3,14 +3,15 @@ import {
   AnyCollectionIndexConfig,
   CollectionIndexConfig,
   DocumentIndexItem,
+  getDocumentIndexFields,
   getParsedIndexKeys,
   ParsedIndexKey,
   validateIndexNameAndField,
 } from '../../Transporter/CollectionIndex';
 import {
-  CreateOneConfig,
   DocumentBase,
   DocumentMethods,
+  FilterRecord,
   Transporter,
   TransporterLoader,
   TransporterLoaderName,
@@ -21,10 +22,10 @@ import {
   AnyFunction,
   Merge,
   UnionToIntersection,
-  Union,
 } from '@darch/utils/lib/typeUtils';
 import { capitalize } from '@darch/utils/lib/stringCase';
 import { devAssert } from '@darch/utils/lib/devAssert';
+import { hooks, Waterfall } from '@darch/utils/lib/hooks';
 import { nonNullValues, notNull } from '@darch/utils/lib/invariant';
 import { createType, Darch } from '@darch/schema';
 import { ULID_REGEX } from '@darch/schema/lib/fields/UlidField';
@@ -37,19 +38,29 @@ type GetFieldsUsedInIndexes<IndexItem, Kind> = Kind extends keyof IndexItem
     : never
   : never;
 
-type TransporterToEntityMethod<M> = M extends AnyFunction
+type EntityTransporterMethod<
+  Method,
+  Context extends EntityLoaderContext = Record<string, any>
+> = Method extends (config: infer Config) => infer Result
   ? ((
-      config: Merge<Parameters<M>[0], { transporter?: Transporter }>
-    ) => ReturnType<M>) & { indexInfo: [ParsedIndexKey, ...ParsedIndexKey[]] }
+      config: Merge<Omit<Config, 'dataloaderContext'>, { context: Context }>
+    ) => Result) & {
+      indexInfo: [ParsedIndexKey, ...ParsedIndexKey[]];
+    }
   : never;
 
-type IndexMethods<Doc, IndexItem> = {
-  [M in keyof DocumentMethods<any, any, any>]: TransporterToEntityMethod<
+type IndexMethods<
+  Document,
+  IndexItem,
+  Context extends EntityLoaderContext = Record<string, any>
+> = {
+  [M in keyof DocumentMethods<any, any, any>]: EntityTransporterMethod<
     DocumentMethods<
-      Doc,
+      Document,
       GetFieldsUsedInIndexes<IndexItem, 'PK'>,
       GetFieldsUsedInIndexes<IndexItem, 'SK'>
-    >[M]
+    >[M],
+    Context
   >;
 };
 
@@ -58,30 +69,36 @@ type GetIndexByName<
   Name extends string
 > = Union extends { name: Name; [K: string]: unknown } ? Union : never;
 
-type OneIndexMethod<Schema, Indexes, Methods = {}> = Indexes extends readonly [
-  infer CurrentIndex,
-  ...infer Rest
-]
+type OneIndexMethod<
+  Documents,
+  Indexes,
+  Methods = {}
+> = Indexes extends readonly [infer CurrentIndex, ...infer Rest]
   ? OneIndexMethod<
-      Schema,
+      Documents,
       Rest,
       {
-        [K in keyof IndexMethods<Schema, CurrentIndex>]: K extends keyof Methods
-          ? TransporterToEntityMethod<
-              IndexMethods<Schema, CurrentIndex>[K] extends (
+        [K in keyof IndexMethods<
+          Documents,
+          CurrentIndex
+        >]: K extends keyof Methods
+          ? EntityTransporterMethod<
+              IndexMethods<Documents, CurrentIndex>[K] extends (
                 ...args: infer Args
               ) => infer Result
                 ? (...args: Args) => Result
                 : never
             > &
-              TransporterToEntityMethod<
+              EntityTransporterMethod<
                 Methods[K] extends (...args: infer Args) => infer Result
                   ? (...args: Args) => Result
                   : never
               >
-          : IndexMethods<Schema, CurrentIndex>[K];
+          : IndexMethods<Documents, CurrentIndex>[K];
       }
     >
+  : [keyof Methods] extends [never]
+  ? never
   : Methods;
 
 type EntityLoaders<
@@ -102,7 +119,7 @@ type EntityLoaders<
     'createOne'
   >]
 > & {
-  createOne: TransporterToEntityMethod<
+  createOne: EntityTransporterMethod<
     DocumentMethods<
       Merge<
         Omit<Doc, keyof DefaultEntityFields>,
@@ -115,12 +132,12 @@ type EntityLoaders<
 } & OneIndexMethod<Doc, IndexConfig['indexes']>;
 
 const indexes = [
-  {
-    name: 'byStoreId',
-    field: '_id',
-    PK: ['.storeId'],
-    SK: ['.hash'],
-  },
+  // {
+  //   name: 'byStoreId',
+  //   field: '_id',
+  //   PK: ['.storeId'],
+  //   SK: ['.ulid'],
+  // },
   {
     name: 'byStoreAndSKU',
     field: '_id1',
@@ -135,7 +152,11 @@ const indexes = [
 ] as const;
 
 type DefaultEntityFields = {
-  hash: string;
+  ulid: string;
+  createdBy: string | null;
+  updatedBy: string | null;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 type DocFromType<Type> = Type extends {
@@ -182,10 +203,13 @@ interface EntityOptions<
   transporter?: TTransporter;
 }
 
+const ulidField = Darch.ulid({ autoCreate: true });
+const createUlid = () => ulidField.parse(undefined);
+
 function createEntity<Options extends EntityOptions>(
   options: Readonly<Options>
 ): Entity<Options> {
-  const { indexes, transporter: defaultTransporter } = options;
+  const { indexes, transporter: defaultTransporter, type } = options;
   const entityName = options.name.toLowerCase();
 
   const entity = {} as Entity<Options>;
@@ -200,6 +224,92 @@ function createEntity<Options extends EntityOptions>(
   validateIndexNameAndField(indexConfig);
   const parsedIndexKeys = getParsedIndexKeys(indexConfig);
 
+  const _hooks: EntityHooks<
+    EntityDocument<{}>,
+    Options['indexes'],
+    EntityLoaderContext
+  > = {
+    preParse: hooks.waterfall(),
+    postParse: hooks.waterfall(),
+    filterResult: hooks.waterfall(),
+    beforeQuery: hooks.waterfall(),
+  };
+
+  // pre parse PK, SK and ID setters
+  _hooks.preParse.register(async function applyDefaultHooks(doc, ctx) {
+    const possibleCreate = ctx.isCreate || ctx.isUpsert;
+
+    if (possibleCreate) {
+      doc.ulid = doc.ulid || createUlid();
+    }
+
+    if (ctx.isCreate && !doc.createdAt) {
+      doc.createdAt = new Date();
+      doc.updatedAt = new Date();
+    }
+
+    if (ctx.isCreate && !doc.createdBy) {
+      doc.createdBy = (await ctx.context?.userId?.(false)) || null;
+    }
+
+    if (ctx.isUpdate && !doc.updatedAt) {
+      doc.updatedAt = new Date();
+    }
+
+    if (ctx.isUpdate && !doc.updatedBy) {
+      doc.updatedBy = (await ctx.context?.userId?.(false)) || null;
+    }
+
+    const parsedIndexes = getDocumentIndexFields(doc, indexConfig);
+
+    if (!parsedIndexes.valid) {
+      throw parsedIndexes.error;
+    }
+
+    doc = { ...parsedIndexes.indexFields, ...doc };
+
+    return doc;
+  });
+
+  async function parseOperationContext(
+    method: TransporterLoaderName,
+    options: EntityParserInputOptions<DocumentBase, Options['indexes'], any>
+  ) {
+    await defaultTransporter?.connect();
+
+    let operationInfoContext = buildEntityOperationInfoContext({
+      op: method,
+      methodOptions: options as any,
+    });
+
+    if ('item' in operationInfoContext.options) {
+      const withEntityFields = await _hooks.preParse.exec(
+        operationInfoContext.options.item as any,
+        operationInfoContext
+      );
+
+      let _options = options.partial ? ({ partial: true } as const) : undefined;
+
+      try {
+        const parsed = type.parse(withEntityFields, _options);
+        let doc: any = { ...withEntityFields, ...parsed };
+        doc = await _hooks.postParse.exec(doc, operationInfoContext);
+        operationInfoContext.options.item = doc;
+      } catch (e: any) {
+        e.info = operationInfoContext;
+        throw e;
+      }
+    }
+
+    if ('filter' in operationInfoContext.options) {
+      let filter = operationInfoContext.options.filter;
+      filter = await _hooks.beforeQuery.exec(filter, operationInfoContext);
+      operationInfoContext.options.filter = filter;
+    }
+
+    return operationInfoContext;
+  }
+
   function _createLoader(config: {
     method: TransporterLoaderName;
     newMethodName: string;
@@ -212,31 +322,38 @@ function createEntity<Options extends EntityOptions>(
         return devAssert(`Invalid number of arguments for ${newMethodName}`);
       }
       const { transporter = defaultTransporter } = args['0'];
+
       nonNullValues(
         { transporter },
         `config.transporter should be provided for "${newMethodName}" or during entity creation.`
       );
 
-      let config: any = {
+      const configInput = {
         ...args[0],
+        indexConfig,
+        dataloaderContext: args[0].context,
       };
 
-      if (method === 'createOne') {
-        const defaultFields: DefaultEntityFields = {
-          hash: Darch.ulid({ autoCreate: true }).parse(undefined),
-        };
-
-        config = {
-          ...config,
-          item: {
-            ...defaultFields,
-            ...config.item,
-          },
-        };
-      }
+      const operation = await parseOperationContext(method, configInput);
 
       const fn: AnyFunction = transporter[method].bind(transporter);
-      return fn({ indexConfig, ...config });
+      const result = await fn(operation.options);
+
+      if (result.item) {
+        const [parsed] = await _hooks.filterResult.exec(
+          [result.item],
+          operation
+        );
+
+        result.item = parsed;
+      }
+
+      if (result.items) {
+        const parsed = await _hooks.filterResult.exec(result.items, operation);
+        result.items = parsed;
+      }
+
+      return result;
     };
 
     Object.defineProperties(loader, {
@@ -298,7 +415,7 @@ describe('Product', () => {
           name: 'byStore',
           field: '_id',
           PK: ['.storeId'],
-          SK: ['.hash'],
+          SK: ['.ulid'],
         },
         {
           name: 'byStoreAndSKU',
@@ -338,7 +455,7 @@ describe('Product', () => {
           name: 'byStore',
           field: '_id',
           PK: ['.storeId'],
-          SK: ['.hash'],
+          SK: ['.ulid'],
         },
         {
           name: 'byStoreAndSKU',
@@ -356,10 +473,10 @@ describe('Product', () => {
       }),
     });
 
-    await entity.findOne({ filter: { storeId: '123' }, dataloaderContext: {} });
+    await entity.findOne({ filter: { storeId: '123' }, context: {} });
     await entity.findOne({
       filter: { category: '456' },
-      dataloaderContext: {},
+      context: {},
     });
   });
 
@@ -368,7 +485,7 @@ describe('Product', () => {
 
     let product = await entity.findOneByStore({
       filter: { storeId: 'store1' },
-      dataloaderContext: {},
+      context: {},
     });
 
     expect(product).toEqual({ item: null });
@@ -379,11 +496,12 @@ describe('Product', () => {
         SKU: 'sku0',
         storeId: 'store1',
       },
+      context: {},
     });
 
     product = await entity.findOneByStore({
       filter: { storeId: 'store1' },
-      dataloaderContext: {},
+      context: {},
     });
 
     expect(product).toEqual({
@@ -395,9 +513,12 @@ describe('Product', () => {
         _id1SK: 'sku0',
         _idPK: 'store1',
         _idSK: expect.stringMatching(ULID_REGEX),
-        hash: expect.stringMatching(ULID_REGEX),
+        ulid: expect.stringMatching(ULID_REGEX),
         storeId: 'store1',
         title: 'banana',
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date),
+        createdBy: null,
       },
     });
   });
@@ -411,11 +532,12 @@ describe('Product', () => {
         SKU: 'sku0',
         storeId: 'store1',
       },
+      context: {},
     });
 
     const product = await entity.findOneByStore({
       filter: { storeId: 'store1' },
-      dataloaderContext: {},
+      context: {},
     });
 
     expect(product).toEqual({
@@ -427,9 +549,12 @@ describe('Product', () => {
         _id1SK: 'sku0',
         _idPK: 'store1',
         _idSK: expect.stringMatching(ULID_REGEX),
-        hash: expect.stringMatching(ULID_REGEX),
+        ulid: expect.stringMatching(ULID_REGEX),
         storeId: 'store1',
         title: 'banana',
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date),
+        createdBy: null,
       },
     });
   });
@@ -443,6 +568,7 @@ describe('Product', () => {
         SKU: 'sku_banana',
         storeId: 'store1',
       },
+      context: {},
     });
 
     await entity.createOne({
@@ -451,11 +577,12 @@ describe('Product', () => {
         SKU: 'sku_batata',
         storeId: 'store1',
       },
+      context: {},
     });
 
     const product = await entity.findManyByStoreAndSKU({
       filter: { storeId: 'store1' },
-      dataloaderContext: {},
+      context: {},
     });
 
     expect(product.items).toHaveLength(2);
@@ -492,3 +619,139 @@ describe('Product', () => {
     //
   });
 });
+
+export type EntityLoaderContext = Partial<{
+  userId(strict: false): string | undefined;
+  userId(strict: true): string;
+  userId(): string;
+}> & {};
+
+type EntityDocument<Document> = Merge<DefaultEntityFields, Document>;
+
+export type EntityHooks<
+  Document extends DocumentBase,
+  Indexes extends AnyCollectionIndexConfig['indexes'],
+  Context extends EntityLoaderContext
+> = {
+  preParse: Waterfall<
+    Partial<EntityDocument<Document>>,
+    EntityOperationInfoContext<
+      Partial<EntityDocument<Document>>,
+      Indexes,
+      Context
+    >
+  >;
+
+  postParse: Waterfall<
+    EntityDocument<Document>,
+    EntityOperationInfoContext<EntityDocument<Document>, Indexes, Context>
+  >;
+
+  beforeQuery: Waterfall<
+    FilterRecord<EntityDocument<Document>>,
+    EntityOperationInfoContext<EntityDocument<Document>, Indexes, Context>
+  >;
+
+  filterResult: Waterfall<
+    EntityDocument<Document>[],
+    EntityOperationInfoContext<EntityDocument<Document>, Indexes, Context>
+  >;
+};
+
+type MethodOptions<
+  Document,
+  Indexes extends AnyCollectionIndexConfig['indexes'],
+  Context
+> = Indexes[number] extends infer IndexItem
+  ? IndexItem extends unknown
+    ? {
+        [L in TransporterLoaderName]: Parameters<
+          IndexMethods<Document, IndexItem>[L]
+        >[0] extends infer Options
+          ? Options extends unknown
+            ? Options
+            : never
+          : never;
+      }
+    : never
+  : never;
+
+function buildEntityOperationInfoContext(
+  parserInput: EntityParserInputOptions<DocumentBase, any, any>
+): EntityOperationInfoContext<any, any, any> {
+  const { op } = parserInput;
+
+  return {
+    op,
+    isFind: op.startsWith('find'),
+    isUpdate: op.startsWith('update'),
+    isCreate: op.startsWith('create'),
+    isFindMany: op.startsWith('findMany'),
+    isFindOne: op.startsWith('findOne'),
+    isUpdateOne: op.startsWith('updateOne'),
+    isDeleteOne: op.startsWith('deleteOne'),
+    isUpsert:
+      parserInput.op.startsWith('updateOne') &&
+      // @ts-ignore
+      parserInput.methodOptions.upsert === true,
+    // isUpdateMany: op === 'updateMany',
+    isCreateOne: op.startsWith('createOne'),
+    // isCreateMany: op === 'createMany',
+    options: parserInput.methodOptions,
+    context: parserInput.methodOptions.context,
+  };
+}
+
+export type EntityParserInputOptions<
+  Document extends DocumentBase,
+  Indexes extends AnyCollectionIndexConfig['indexes'],
+  Context extends EntityLoaderContext
+> = (
+  | {
+      op: 'findOne';
+      methodOptions: MethodOptions<Document, Indexes, Context>['findOne'];
+    }
+  | {
+      op: 'findMany';
+      methodOptions: MethodOptions<Document, Indexes, Context>['findMany'];
+    }
+  | {
+      op: 'createOne';
+      methodOptions: MethodOptions<Document, Indexes, Context>['createOne'];
+    }
+  | {
+      op: 'updateOne';
+      methodOptions: MethodOptions<Document, Indexes, Context>['updateOne'];
+    }
+  | {
+      op: 'deleteOne';
+      methodOptions: MethodOptions<Document, Indexes, Context>['deleteOne'];
+    }
+) & {
+  partial?: boolean | (keyof Document)[];
+};
+
+export type EntityOperationInfoContext<
+  Document extends DocumentBase,
+  Indexes extends AnyCollectionIndexConfig['indexes'],
+  Context extends EntityLoaderContext
+> = {
+  op: 'findMany' | 'findOne' | 'createOne' | 'updateOne' | 'deleteOne';
+  isFind: boolean;
+  isUpdate: boolean;
+  isCreate: boolean;
+  isFindMany: boolean;
+  isFindOne: boolean;
+  isUpdateOne: boolean;
+  isDeleteOne: boolean;
+  isUpsert: boolean;
+  // isUpdateMany: boolean;
+  isCreateOne: boolean;
+  // isCreateMany: boolean;
+  options: EntityParserInputOptions<
+    Document,
+    Indexes,
+    Context
+  >['methodOptions'];
+  context: Context;
+};
