@@ -482,7 +482,7 @@ describe('MongoTransporter', () => {
     });
   });
 
-  describe('loadQuery', () => {
+  describe('findMany', () => {
     let mockApp: AppMock;
     let transporter: MongoTransporter;
     let collection: Collection;
@@ -545,7 +545,7 @@ describe('MongoTransporter', () => {
 
     it('should handle startingKey', async () => {
       const [sortAsc, sortDesc] = await Promise.all([
-        transporter.loadQuery({
+        transporter.findMany({
           indexConfig,
 
           filter: {
@@ -559,7 +559,7 @@ describe('MongoTransporter', () => {
           dataloaderContext: {},
         }),
 
-        transporter.loadQuery({
+        transporter.findMany({
           indexConfig,
 
           filter: {
@@ -579,7 +579,7 @@ describe('MongoTransporter', () => {
     });
 
     it('should handle limit 1', async () => {
-      const sut = await transporter.loadQuery({
+      const sut = await transporter.findMany({
         indexConfig,
         filter: {
           PK: 'users',
@@ -593,7 +593,7 @@ describe('MongoTransporter', () => {
     });
 
     it('should handle limit 2', async () => {
-      const sut = await transporter.loadQuery({
+      const sut = await transporter.findMany({
         indexConfig,
         filter: {
           PK: 'users',
@@ -611,7 +611,7 @@ describe('MongoTransporter', () => {
     it('should handle sort, projection without limit (with dataloader)', async () => {
       const spy = jest.spyOn(collection.constructor.prototype, 'find');
 
-      const sut = await transporter.loadQuery({
+      const sut = await transporter.findMany({
         indexConfig,
         filter: {
           PK: 'users',
@@ -648,7 +648,7 @@ describe('MongoTransporter', () => {
     it('should handle limit 3, sort, projection', async () => {
       const spy = jest.spyOn(collection.constructor.prototype, 'find');
 
-      const sut = await transporter.loadQuery({
+      const sut = await transporter.findMany({
         filter: {
           PK: 'users',
         },
@@ -721,27 +721,27 @@ describe('MongoTransporter', () => {
     //   //   } as const;
     //   //
     //   //   await Promise.all([
-    //   //     transporter.loadQuery({
+    //   //     transporter.findMany({
     //   //       query: q1,
     //   //       dataloaderContext: context,
     //   //     }),
-    //   //     transporter.loadQuery({
+    //   //     transporter.findMany({
     //   //       query: q2,
     //   //       dataloaderContext: context,
     //   //     }),
     //   //   ]);
     //   //
-    //   //   await transporter.loadQuery({
+    //   //   await transporter.findMany({
     //   //     query: q3,
     //   //     dataloaderContext: context,
     //   //   });
     //   //
     //   //   await Promise.all([
-    //   //     transporter.loadQuery({
+    //   //     transporter.findMany({
     //   //       query: q4,
     //   //       dataloaderContext: context,
     //   //     }),
-    //   //     transporter.loadQuery({
+    //   //     transporter.findMany({
     //   //       query: q5,
     //   //       dataloaderContext: context,
     //   //     }),
@@ -774,8 +774,8 @@ describe('MongoTransporter', () => {
   });
 
   describe('findOne', () => {
-    it('should call loadQuery', async () => {
-      const spy = jest.spyOn(transporter, 'loadQuery');
+    it('should call findMany', async () => {
+      const spy = jest.spyOn(transporter, 'findMany');
 
       const ctx = { __hola: '' };
 

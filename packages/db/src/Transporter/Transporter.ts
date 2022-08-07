@@ -107,7 +107,7 @@ export type DocumentBase = Record<string, any>;
 
 export type QuerySort = 'ASC' | 'DESC';
 
-export type LoadQueryConfig<
+export type FindManyConfig<
   Doc extends DocumentBase = DocumentBase,
   PK extends string = string,
   SK extends string | undefined = string
@@ -319,7 +319,7 @@ export type UpdateItemResult<T extends DocumentBase = DocumentBase> = {
   error?: string | null | undefined;
 };
 
-export type LoadQueryResult<Doc extends DocumentBase = DocumentBase> = {
+export type FindManyResult<Doc extends DocumentBase = DocumentBase> = {
   items: Doc[];
 };
 
@@ -340,9 +340,9 @@ export interface DocumentMethods<
     options: DocumentOptions<CreateOneConfig<Doc, PK, SK>>
   ): Promise<PutItemResult<Doc>>;
 
-  loadQuery(
-    options: DocumentOptions<LoadQueryConfig<Doc, PK, SK>>
-  ): Promise<LoadQueryResult<Doc>>;
+  findMany(
+    options: DocumentOptions<FindManyConfig<Doc, PK, SK>>
+  ): Promise<FindManyResult<Doc>>;
 
   findOne(
     options: DocumentOptions<FindOneConfig<Doc, PK, SK>>
@@ -366,7 +366,7 @@ export abstract class Transporter {
     options: CreateOneConfig
   ): Promise<PutItemResult<T>>;
 
-  abstract loadQuery(options: LoadQueryConfig): Promise<LoadQueryResult>;
+  abstract findMany(options: FindManyConfig): Promise<FindManyResult>;
 
   abstract findOne(options: FindOneConfig): Promise<FindOneResult>;
 
@@ -381,7 +381,7 @@ export abstract class Transporter {
 
 export const transporterLoaderNames = tuple(
   'createOne',
-  'loadQuery',
+  'findMany',
   'findOne',
   'updateOne',
   'deleteOne'

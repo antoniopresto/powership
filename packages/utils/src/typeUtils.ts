@@ -227,4 +227,6 @@ export const A_Z = tuple(
 export type A_Z = typeof A_Z[number];
 export type Name = `${A_Z}${string}`;
 
+export * from './IterationMap';
+
 export * from 'ts-toolbelt';

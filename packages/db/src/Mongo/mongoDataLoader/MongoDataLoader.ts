@@ -5,7 +5,7 @@ import sift from 'sift';
 import {
   MongoDataLoaderKey,
   MongoDataLoaderOptions,
-  MongoLoadQueryParams,
+  MongoFindManyParams,
 } from './IMongoDataLoader';
 import { ParsedMongoDLParams, parseMongoDLParams } from './parseMongoDLParams';
 
@@ -29,8 +29,8 @@ export class MongoDataLoader {
     );
   }
 
-  loadQuery = (
-    params: ParsedMongoDLParams | MongoLoadQueryParams
+  findMany = (
+    params: ParsedMongoDLParams | MongoFindManyParams
   ): Promise<any> & { __usedParameters: ParsedMongoDLParams } => {
     const parsedOptions = ensureParsedParams([params])[0];
     const result: any = this._dataloader.load(parsedOptions.dataLoaderKey);
@@ -45,7 +45,7 @@ export class MongoDataLoader {
   };
 
   loadManyQueries = (
-    options: ParsedMongoDLParams[] | MongoLoadQueryParams[]
+    options: ParsedMongoDLParams[] | MongoFindManyParams[]
   ): Promise<any> & { __usedParameters: ParsedMongoDLParams[] } => {
     const parsedOptions = ensureParsedParams(options);
 
@@ -104,7 +104,7 @@ export class MongoDataLoader {
 }
 
 function ensureParsedParams(
-  opt: (ParsedMongoDLParams | MongoLoadQueryParams)[]
+  opt: (ParsedMongoDLParams | MongoFindManyParams)[]
 ): ParsedMongoDLParams[] {
   return opt.map((item) => {
     if (isParsed(item)) return item;

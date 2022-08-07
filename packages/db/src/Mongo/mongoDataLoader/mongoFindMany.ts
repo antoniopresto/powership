@@ -1,18 +1,18 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 
-import { CacheContext, MongoLoadQueryParams } from './IMongoDataLoader';
+import { CacheContext, MongoFindManyParams } from './IMongoDataLoader';
 import { getMongoDataloader } from './getMongoDataloader';
 import { parseMongoDLParams } from './parseMongoDLParams';
 
 export function mongoLoadById(
-  options: Omit<MongoLoadQueryParams, 'query' | 'sort' | 'onlyOne'> & {
+  options: Omit<MongoFindManyParams, 'query' | 'sort' | 'onlyOne'> & {
     id: any;
   },
   cacheContext: CacheContext
 ) {
   const { id, ...rest } = options;
 
-  return mongoLoadQuery(
+  return mongoFindMany(
     {
       ...rest,
       query: { _id: id },
@@ -23,7 +23,7 @@ export function mongoLoadById(
 }
 
 export function mongoLoadByIds(
-  options: Omit<MongoLoadQueryParams, 'query' | 'sort' | 'onlyOne'> & {
+  options: Omit<MongoFindManyParams, 'query' | 'sort' | 'onlyOne'> & {
     ids: any[];
   },
   cacheContext: CacheContext
@@ -43,8 +43,8 @@ export function mongoLoadByIds(
   );
 }
 
-export function mongoLoadQuery(
-  options: MongoLoadQueryParams,
+export function mongoFindMany(
+  options: MongoFindManyParams,
   dataloaderContext?: CacheContext | null
 ) {
   if (!dataloaderContext || typeof dataloaderContext !== 'object') {
@@ -55,5 +55,5 @@ export function mongoLoadQuery(
 
   const dataloader = getMongoDataloader(dataloaderContext, config.dataloaderHash);
 
-  return dataloader.loadQuery(config);
+  return dataloader.findMany(config);
 }

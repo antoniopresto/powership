@@ -1,13 +1,13 @@
 import { Filter } from 'mongodb';
 
 import {
-  LoadQueryConfig,
+  FindManyConfig,
   CreateOneConfig,
   Transporter,
   UpdateOneConfig,
   PutItemResult,
   UpdateItemResult,
-  LoadQueryResult,
+  FindManyResult,
   FindOneConfig,
   FindOneResult,
   DeleteOneConfig,
@@ -16,7 +16,7 @@ import {
 
 import { MongoClient } from './MongoClient';
 
-import { mongoLoadQuery } from './mongoDataLoader/mongoLoadQuery';
+import { mongoFindMany } from './mongoDataLoader/mongoFindMany';
 
 import {
   parseMongoAttributeFilters,
@@ -44,48 +44,47 @@ export class MongoTransporter extends Transporter {
   }
 
   collection: string;
-  
+
   async createOne(options: CreateOneConfig): Promise<PutItemResult<any>> {
     const { item: itemInput, indexConfig, replace = false } = options;
-    
+
     const res: PutItemResult<any> = {
       created: false,
       updated: false,
       item: null,
       // error: undefined,
     };
-    
+
     const indexMap = this.getDocumentIndexFields(itemInput, indexConfig);
-    
+
     if (indexMap.error) {
-      res.error = indexMap.error.detailsString;
-      return res;
+      throw indexMap.error;
     }
-    
+
     const item = { ...indexMap.indexFields, ...itemInput };
-    
+
     const collection = this.getCollection(item);
-    
+
     const conditionExpression: Filter<any> = simpleObjectClone(
       indexMap.indexFields
     );
-    
+
     if (options.condition) {
       conditionExpression.$and = conditionExpression.$and || [];
       conditionExpression.$and.push(
         ...parseMongoAttributeFilters(options.condition)
       );
     }
-    
+
     try {
       if (replace) {
         const result = await collection.replaceOne(conditionExpression, item, {
           upsert: true,
           hint: { _id: 1 },
         });
-        
+
         const updated = result?.matchedCount === 1;
-        
+
         res.created = !updated;
         res.updated = updated;
         res.item = item;
@@ -97,11 +96,11 @@ export class MongoTransporter extends Transporter {
     } catch (e: any) {
       res.error = e.message;
     }
-    
+
     return res;
   }
 
-  async loadQuery(options: LoadQueryConfig): Promise<LoadQueryResult> {
+  async findMany(options: FindManyConfig): Promise<FindManyResult> {
     const {
       filter,
       sort = 'ASC',
@@ -153,7 +152,7 @@ export class MongoTransporter extends Transporter {
     } else {
       const onlyOne = limit === 1;
 
-      const result = await mongoLoadQuery(
+      const result = await mongoFindMany(
         {
           db: this._client.db,
           query,
@@ -183,7 +182,7 @@ export class MongoTransporter extends Transporter {
       condition,
     } = options;
 
-    const { items } = await this.loadQuery({
+    const { items } = await this.findMany({
       dataloaderContext,
       filter,
       projection,

@@ -3,8 +3,8 @@ import { Db } from 'mongodb';
 
 export type CacheContext = Record<string, any>;
 
-// input object to call mongoLoadQuery
-export interface MongoLoadQueryParams {
+// input object to call mongoFindMany
+export interface MongoFindManyParams {
   db: Db;
   query: Record<string, any>;
   collection: string;

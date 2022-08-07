@@ -1,12 +1,12 @@
 import { hashObject } from '@darch/utils/lib/hashObject';
 
-import { MongoDataLoaderKey, MongoLoadQueryParams } from './IMongoDataLoader';
+import { MongoDataLoaderKey, MongoFindManyParams } from './IMongoDataLoader';
 import { DarchJSON } from '@darch/utils/lib/DarchJSON';
 import { ObjectId } from 'mongodb';
 
 export type ParsedMongoDLParams = ReturnType<typeof parseMongoDLParams>;
 
-export function parseMongoDLParams(options: MongoLoadQueryParams) {
+export function parseMongoDLParams(options: MongoFindManyParams) {
   const dataloaderHash = hashObject({
     collection: options.collection,
     onlyOne: options.onlyOne,

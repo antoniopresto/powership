@@ -46,10 +46,14 @@ export function createDocumentIndexBasedFilters<
 
   validateIndexNameAndField(indexConfig);
 
-  const filtersRecords: FilterRecord[] = [];
+  let filtersRecords: FilterRecord[] = [];
   // const invalidFields: ParseIndexInvalid[] = [];
 
+  let fullIdFound = false;
+
   indexes.forEach((index) => {
+    if (fullIdFound) return;
+
     const PK = mountIndexFromPartsList({
       indexPartKind: 'PK',
       indexParts: index.PK,
@@ -66,42 +70,43 @@ export function createDocumentIndexBasedFilters<
       acceptNullable: true,
     });
 
-    filtersRecords.push(
-      ...joinPKAndSKAsIDFilter({
-        indexField: index.field,
+    const items = joinPKAndSKAsIDFilter({
+      indexField: index.field,
 
-        entity,
+      entity,
 
-        PK: PK.isFilter
-          ? (PK.conditionFound as IndexFilter)
-          : PK.valid
-          ? PK.value
-          : (devAssert(`Error in PK, failed to mount filter.`, { PK }) as ''),
+      PK: PK.isFilter
+        ? (PK.conditionFound as IndexFilter)
+        : PK.valid
+        ? PK.value
+        : (devAssert(`Error in PK, failed to mount filter.`, { PK }) as ''),
 
-        SK: SK.nullableFound
-          ? SK.nullableFound.value
-          : SK.isFilter
-          ? (SK.conditionFound as IndexFilter)
-          : SK.valid
-          ? SK.value
-          : (devAssert(
-              `Error in SK, failed to mount filter.`,
-              { SK },
-              { depth: 10 }
-            ) as ''),
-      })
-    );
+      SK: SK.nullableFound
+        ? SK.nullableFound.value
+        : SK.isFilter
+        ? (SK.conditionFound as IndexFilter)
+        : SK.valid
+        ? SK.value
+        : (devAssert(
+            `Error in SK, failed to mount filter.`,
+            { SK },
+            { depth: 10 }
+          ) as ''),
+    });
+
+    filtersRecords.push(...items);
   });
 
+  // TODO remove duplicated startsWith by _id{number}
   return filtersRecords;
 }
 
 export function getDocumentIndexFields<
   Document extends Record<string, unknown>
->(doc: Document, options: AnyCollectionIndexConfig): ParsedDocumentIndexes {
-  const { indexes, entity } = options;
+>(doc: Document, indexConfig: AnyCollectionIndexConfig): ParsedDocumentIndexes {
+  const { indexes, entity } = indexConfig;
 
-  validateIndexNameAndField(options);
+  validateIndexNameAndField(indexConfig);
 
   const indexFields: Record<string, string> = {};
   const invalidFields: ParseIndexInvalid[] = [];
@@ -131,7 +136,7 @@ export function getDocumentIndexFields<
       indexParts: index.SK || [],
       doc,
       indexField: index.field,
-      acceptNullable: true,
+      acceptNullable: !index.SK || !index.SK.length,
     });
 
     parsedIndexKeys.push({

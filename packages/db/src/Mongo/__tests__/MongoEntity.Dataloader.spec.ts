@@ -35,7 +35,7 @@ describe('MongoEntity.DataLoader', () => {
 
     const dataloader = new MongoDataLoader();
 
-    const q1 = dataloader.loadQuery({
+    const q1 = dataloader.findMany({
       db: mockApp.db,
       query: { _id: USERS.Antonio },
       onlyOne: true,
@@ -44,7 +44,7 @@ describe('MongoEntity.DataLoader', () => {
       sort: {},
     });
 
-    const q2 = dataloader.loadQuery({
+    const q2 = dataloader.findMany({
       db: mockApp.db,
       query: { _id: USERS.Cacau },
       onlyOne: true,
@@ -75,7 +75,7 @@ describe('MongoEntity.DataLoader', () => {
   it('should throw if using different dataloaderHash', async () => {
     const dataloader = new MongoDataLoader();
 
-    const p1 = dataloader.loadQuery({
+    const p1 = dataloader.findMany({
       db: mockApp.db,
       query: { _id: USERS.Antonio },
       onlyOne: true,
@@ -85,7 +85,7 @@ describe('MongoEntity.DataLoader', () => {
     });
 
     expect(() =>
-      dataloader.loadQuery({
+      dataloader.findMany({
         db: mockApp.db,
         query: { _id: USERS.Cacau },
         onlyOne: true,
