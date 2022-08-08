@@ -102,10 +102,10 @@ describe('getDocumentIndexFields', () => {
       error: null,
       firstIndex: {
         key: '_id',
-        value: 'foo#5\\#NAME↠nice#5',
+        value: 'foo#5\u0000#NAME↠nice#5',
       },
       indexFields: {
-        _id: 'foo#5\\#NAME↠nice#5',
+        _id: 'foo#5\u0000#NAME↠nice#5',
         _idPK: '5#NAME',
         _idSK: 'nice#5',
       },
@@ -131,7 +131,7 @@ describe('getDocumentIndexFields', () => {
       ],
       partialIndexFilter: {
         key: '_id',
-        value: 'foo#5\\#NAME↠nice#5',
+        value: 'foo#5\u0000#NAME↠nice#5',
       },
       valid: true,
     });

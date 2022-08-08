@@ -2,9 +2,9 @@ import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { ensureArray } from '@darch/utils/lib/ensureArray';
 import * as Mongodb from 'mongodb';
 
-import { UpdateOperation } from '../Transporter/parseUpdateExpression';
+import { UpdateOperation } from '../Transporter';
 
-export function parseMongoUpdateExpression(operations: UpdateOperation<any>[]) {
+export function parseMongoUpdateExpression(operations: UpdateOperation[]) {
   const update: Mongodb.UpdateFilter<any>[] = [];
 
   operations.forEach(function (item) {

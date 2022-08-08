@@ -4,6 +4,7 @@ import { Filter } from 'mongodb';
 
 import {
   CreateOneConfig,
+  CreateOneResult,
   DeleteOneConfig,
   DeleteOneResult,
   FindByIdConfig,
@@ -11,10 +12,9 @@ import {
   FindManyResult,
   FindOneConfig,
   FindOneResult,
-  PutItemResult,
   Transporter,
-  UpdateItemResult,
   UpdateOneConfig,
+  UpdateOneResult,
 } from '../Transporter/Transporter';
 
 import { MongoClient } from './MongoClient';
@@ -44,10 +44,10 @@ export class MongoTransporter extends Transporter {
 
   collection: string;
 
-  async createOne(options: CreateOneConfig): Promise<PutItemResult<any>> {
+  async createOne(options: CreateOneConfig): Promise<CreateOneResult<any>> {
     const { item: itemInput, indexConfig, replace = false } = options;
 
-    const res: PutItemResult<any> = {
+    const res: CreateOneResult<any> = {
       created: false,
       updated: false,
       item: null,
@@ -220,7 +220,7 @@ export class MongoTransporter extends Transporter {
     });
   }
 
-  async updateOne(options: UpdateOneConfig): Promise<UpdateItemResult> {
+  async updateOne(options: UpdateOneConfig): Promise<UpdateOneResult> {
     const { update, upsert, indexConfig, filter, condition } = options;
 
     const parsedFilter = createMongoIndexBasedFilters({

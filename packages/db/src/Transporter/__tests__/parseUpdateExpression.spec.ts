@@ -18,9 +18,10 @@ describe('parseUpdateExpression', () => {
         entity: 'foo',
         indexes: [
           {
+            name: 'byId',
             field: '_id',
-            PK: [],
-            SK: [],
+            PK: ['.foo'],
+            SK: undefined,
           },
         ],
       }
@@ -69,9 +70,10 @@ describe('parseUpdateExpression', () => {
           entity: 'foo',
           indexes: [
             {
+              name: 'byId',
+              SK: undefined,
               field: '_id',
               PK: ['#user', '.username'],
-              SK: [],
             },
           ],
         }
@@ -91,7 +93,8 @@ describe('parseUpdateExpression', () => {
             {
               field: '_id',
               PK: ['#user', '.username'],
-              SK: [],
+              name: 'byId',
+              SK: undefined,
             },
           ],
         }
@@ -112,6 +115,7 @@ describe('parseUpdateExpression', () => {
               field: '_id',
               PK: ['#user', '.username'],
               SK: ['#user', '.email'],
+              name: 'byId',
             },
           ],
         }
@@ -133,7 +137,8 @@ describe('parseUpdateExpression', () => {
             {
               field: '_id',
               PK: ['#user', '.username'],
-              SK: [],
+              name: 'byId',
+              SK: undefined,
             },
           ],
         }
@@ -151,7 +156,8 @@ describe('parseUpdateExpression', () => {
             {
               field: '_id',
               PK: ['#user', '.username'],
-              SK: [],
+              name: 'byId',
+              SK: undefined,
             },
           ],
         }

@@ -22,6 +22,7 @@ import {
 export const PK_SK_SEPARATOR = '↠';
 export const ID_SEPARATOR_REGEX = new RegExp(PK_SK_SEPARATOR, 'g');
 export const ID_KEY_SEPARATOR = '#';
+export const ID_SCAPE_CHAR = String.fromCharCode(0);
 
 export function mountID(params: {
   entity: string;
@@ -34,8 +35,8 @@ export function mountID(params: {
     return key
       .toString()
 
-      .replace(/↠/g, '\\↠')
-      .replace(/#/g, '\\#');
+      .replace(/↠/g, `${ID_SCAPE_CHAR}↠`)
+      .replace(/#/g, `${ID_SCAPE_CHAR}#`);
   }
 
   return `${entity}${ID_KEY_SEPARATOR}${encodeKey(PK)}${PK_SK_SEPARATOR}${
@@ -85,9 +86,7 @@ export function idToBase64(id: string, indexName: string) {
  * @param filter
  * @param indexConfig
  */
-export function createDocumentIndexBasedFilters<
-  Document extends Record<string, unknown>
->(
+export function createDocumentIndexBasedFilters(
   filter: IndexFilterRecord,
   indexConfig: AnyCollectionIndexConfig
 ): FilterRecord[] {

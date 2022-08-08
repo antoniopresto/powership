@@ -1,4 +1,3 @@
-
 import { Darch } from '@darch/schema';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { devAssert } from '@darch/utils/lib/devAssert';
@@ -324,14 +323,14 @@ export type AttributeFilterKey = typeof AttributeFilterKeys[number];
 export const TopLevelFilterKeys = tuple('$not', '$or', '$and');
 export type TopLevelFilterKey = typeof TopLevelFilterKeys[number];
 
-export type PutItemResult<T> = {
+export type CreateOneResult<T> = {
   created: boolean;
   updated: boolean;
   item: T | null;
   error?: string | null | undefined;
 };
 
-export type UpdateItemResult<T extends DocumentBase = DocumentBase> = {
+export type UpdateOneResult<T extends DocumentBase = DocumentBase> = {
   updated: boolean;
   created: boolean;
   item: T | null;
@@ -357,7 +356,7 @@ export interface DocumentMethods<
 > {
   createOne(
     options: DocumentOptions<CreateOneConfig<Doc, PK, SK>>
-  ): Promise<PutItemResult<Doc>>;
+  ): Promise<CreateOneResult<Doc>>;
 
   findMany(
     options: DocumentOptions<FindManyConfig<Doc, PK, SK>>
@@ -373,7 +372,7 @@ export interface DocumentMethods<
 
   updateOne(
     options: DocumentOptions<UpdateOneConfig<Doc, PK, SK>>
-  ): Promise<UpdateItemResult<Doc>>;
+  ): Promise<UpdateOneResult<Doc>>;
 
   deleteOne(
     options: DocumentOptions<DeleteOneConfig<Doc, PK, SK>>
@@ -387,7 +386,7 @@ export abstract class Transporter {
 
   abstract createOne<T extends DocumentBase>(
     options: CreateOneConfig
-  ): Promise<PutItemResult<T>>;
+  ): Promise<CreateOneResult<T>>;
 
   abstract findMany(options: FindManyConfig): Promise<FindManyResult>;
 
@@ -397,7 +396,7 @@ export abstract class Transporter {
     options: DocumentOptions<FindByIdConfig>
   ): Promise<FindOneResult>;
 
-  abstract updateOne(options: UpdateOneConfig): Promise<UpdateItemResult>;
+  abstract updateOne(options: UpdateOneConfig): Promise<UpdateOneResult>;
 
   abstract deleteOne(options: DeleteOneConfig): Promise<DeleteOneResult>;
 

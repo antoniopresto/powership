@@ -2,6 +2,7 @@ import { Darch } from '@darch/schema';
 import { devAssert } from '@darch/utils/lib/devAssert';
 import { hooks, Waterfall } from '@darch/utils/lib/hooks';
 import { nonNullValues, notNull } from '@darch/utils/lib/invariant';
+import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 import { capitalize } from '@darch/utils/lib/stringCase';
 import {
   AnyFunction,
@@ -19,6 +20,7 @@ import {
   validateIndexNameAndField,
 } from '../Transporter/CollectionIndex';
 import {
+  CreateOneResult,
   DocumentBase,
   DocumentMethods,
   FilterRecord,
@@ -27,7 +29,6 @@ import {
   TransporterLoaderName,
   transporterLoaderNames,
 } from '../Transporter/Transporter';
-import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 
 export interface EntityOptions<
   TName extends string = string,
@@ -43,6 +44,7 @@ export interface EntityOptions<
 }
 
 export type DefaultEntityFields = {
+  id: string;
   ulid: string;
   createdBy: string | null;
   updatedBy: string | null;
@@ -60,11 +62,11 @@ export type Entity<Options extends EntityOptions> = Options['type'] extends {
         type: Options['type'];
         parse: (
           ...args: Parameters<Options['type']['parse']>
-        ) => DocFromType<Options['type']>;
+        ) => EntityDocFromType<Options['type']>;
         transporter: Options['transporter'];
       },
       EntityLoaders<
-        DocFromType<Options['type']>,
+        EntityDocFromType<Options['type']>,
         {
           entity: Options['name'];
           indexes: Options['indexes'];
@@ -114,11 +116,22 @@ export function createEntity<Options extends EntityOptions>(
       doc.updatedAt = new Date();
       doc.createdBy =
         doc.createdBy || (await ctx.context?.userId?.(false)) || null;
+
       const parsedIndexes = getDocumentIndexFields(doc, indexConfig);
+
       if (!parsedIndexes.valid) {
         throw parsedIndexes.error;
       }
-      doc = { ...parsedIndexes.indexFields, ...doc };
+
+      doc = {
+        ...parsedIndexes.indexFields,
+        ...doc,
+      };
+
+      if (!doc.id) {
+        doc.id = parsedIndexes.firstIndex.value;
+      }
+
       return doc;
     }
 
@@ -132,7 +145,7 @@ export function createEntity<Options extends EntityOptions>(
     }
 
     if (ctx.isUpsert) {
-      const $setOnInsert = await onCreate({ ...doc.$set });
+      const $setOnInsert = await onCreate({ ...doc.$set, ...doc.$setOnInsert });
       doc.$setOnInsert = {
         ...$setOnInsert,
       };
@@ -516,20 +529,22 @@ type EntityLoaders<
     keyof IndexMethods<any, any>,
     'createOne'
   >]
-> & {
-  createOne: EntityTransporterMethod<
-    DocumentMethods<
-      Merge<
+> &
+  OneIndexMethod<Doc, IndexConfig['indexes']> & {
+    createOne: EntityTransporterMethod<
+      DocumentMethods<
         Omit<Doc, keyof DefaultEntityFields>,
-        { [K in keyof DefaultEntityFields]?: DefaultEntityFields[K] }
-      >,
-      GetFieldsUsedInIndexes<IndexConfig['indexes'][number], 'PK'>,
-      GetFieldsUsedInIndexes<IndexConfig['indexes'][number], 'SK'>
-    >['createOne']
-  >;
-} & OneIndexMethod<Doc, IndexConfig['indexes']>;
+        GetFieldsUsedInIndexes<IndexConfig['indexes'][number], 'PK'>,
+        GetFieldsUsedInIndexes<IndexConfig['indexes'][number], 'SK'>
+      >['createOne'] extends infer CreateOne
+        ? CreateOne extends (config: infer Config) => any
+          ? (config: Config) => Promise<CreateOneResult<Doc>>
+          : never
+        : never
+    >;
+  };
 
-type DocFromType<Type> = Type extends {
+type EntityDocFromType<Type> = Type extends {
   parse(...args: any[]): infer Result;
 }
   ? Result extends DocumentBase

@@ -1,4 +1,7 @@
-import { getDocumentIndexFields } from '../../Transporter/CollectionIndex';
+import {
+  getDocumentIndexFields,
+  ID_SCAPE_CHAR,
+} from '../../Transporter/CollectionIndex';
 import {
   IndexFilter,
   IndexFilterRecord,
@@ -108,7 +111,7 @@ describe('createMongoIndexBasedFilter', () => {
       });
 
       expect(query).toEqual([
-        { _id: /^my_entity#123/ },
+        { _id: { $regex: '^my_entity#123' } },
         {
           _idSK: 'skv',
         },
@@ -126,7 +129,7 @@ describe('createMongoIndexBasedFilter', () => {
         },
       });
 
-      expect(query).toEqual([{ _id: /^my_entity#123↠a/ }]);
+      expect(query).toEqual([{ _id: { $regex: '^my_entity#123↠a' } }]);
     });
 
     it('should handle $between', async () => {
@@ -161,7 +164,7 @@ describe('createMongoIndexBasedFilter', () => {
         },
       });
 
-      expect(query).toEqual([{ _id: 'my_entity#users\\#123↠abc' }]);
+      expect(query).toEqual([{ _id: 'my_entity#users\u0000#123↠abc' }]);
     });
 
     it('should handle $gt', async () => {
@@ -176,8 +179,12 @@ describe('createMongoIndexBasedFilter', () => {
       });
 
       expect(query).toEqual([
-        { _id: /^my_entity#users\\#123↠/ },
-        { _id: { $gt: 'my_entity#users\\#123↠abc' } },
+        {
+          _id: {
+            $regex: '^my_entity#users\u0000#123↠',
+          },
+        },
+        { _id: { $gt: 'my_entity#users\u0000#123↠abc' } },
       ]);
     });
 
@@ -193,9 +200,9 @@ describe('createMongoIndexBasedFilter', () => {
       });
 
       expect(query).toEqual([
-        { _id: /^my_entity#users\\#123↠/ },
+        { _id: { $regex: `^my_entity#users${ID_SCAPE_CHAR}#123↠` } },
         //
-        { _id: { $gte: 'my_entity#users\\#123↠abc' } },
+        { _id: { $gte: `my_entity#users${ID_SCAPE_CHAR}#123↠abc` } },
       ]);
     });
 
@@ -211,9 +218,9 @@ describe('createMongoIndexBasedFilter', () => {
       });
 
       expect(query).toEqual([
-        { _id: /^my_entity#users\\#123↠/ },
+        { _id: { $regex: '^my_entity#users\u0000#123↠' } },
         //
-        { _id: { $lt: 'my_entity#users\\#123↠abc' } },
+        { _id: { $lt: 'my_entity#users\u0000#123↠abc' } },
       ]);
     });
 
@@ -229,9 +236,9 @@ describe('createMongoIndexBasedFilter', () => {
       });
 
       expect(query).toEqual([
-        { _id: /^my_entity#users\\#123↠/ },
+        { _id: { $regex: `^my_entity#users\u0000#123↠` } },
         {
-          _id: { $lte: 'my_entity#users\\#123↠abc' },
+          _id: { $lte: 'my_entity#users\u0000#123↠abc' },
         },
       ]);
     });

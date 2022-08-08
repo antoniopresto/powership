@@ -5,7 +5,7 @@ import { getKeys } from '@darch/utils/lib/getKeys';
 import { AnyCollectionIndexConfig } from './CollectionIndex';
 import { UpdateExpression, UpdateExpressionKey } from './Transporter';
 
-export type UpdateOperation<Schema> =
+export type UpdateOperation =
   | {
       operator: Exclude<UpdateExpressionKey, '$remove'>;
       entries: [string, any][];
@@ -21,7 +21,7 @@ export type UpdateOperation<Schema> =
 export function parseUpdateExpression<Schema extends Record<string, any>>(
   updateExpression: UpdateExpression<Schema>,
   indexConfig: AnyCollectionIndexConfig
-): UpdateOperation<Schema>[] {
+): UpdateOperation[] {
   const { indexes } = indexConfig;
   const keys = getKeys(updateExpression);
 
@@ -56,7 +56,7 @@ export function parseUpdateExpression<Schema extends Record<string, any>>(
   }
 
   const errors = new Set<string>();
-  const operations: UpdateOperation<Schema>[] = [];
+  const operations: UpdateOperation[] = [];
 
   function pushErrorIfApply(
     field: string,
@@ -79,7 +79,8 @@ export function parseUpdateExpression<Schema extends Record<string, any>>(
     if ($operator !== '$setOnInsert') {
       if (fieldsUsedInIndexes.has(fieldStart)) {
         errors.add(
-          `The field "${fieldStart}" cannot be updated as it is used in index.`
+          `The field "${fieldStart}" cannot be updated as it is used in index.\n` +
+            `Use $setOnInsert when updating using {"upsert": true}`
         );
       }
     }

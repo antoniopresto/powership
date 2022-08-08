@@ -1,10 +1,9 @@
 import { createType } from '@darch/schema';
 import { ULID_REGEX } from '@darch/schema/lib/fields/UlidField';
 
-import { MongoTransporter } from '../../Mongo/MongoTransporter';
+import { MongoTransporter } from '../../Mongo';
 import { AppMock, createAppMock } from '../../Mongo/__tests__/createAppMock';
-import { mountID } from '../../Transporter/CollectionIndex';
-
+import { mountID } from '../../Transporter';
 import { createEntity } from '../Entity';
 
 jest.setTimeout(9999999);
@@ -123,6 +122,7 @@ describe('Product', () => {
     expect(product).toEqual({
       item: {
         SKU: 'sku0',
+        id: expect.stringMatching(/^product#store1↠/),
         _id: expect.stringMatching(/^product#store1↠/),
         _id1: expect.stringMatching(/^product#store1↠sku0/),
         _id1PK: 'store1',
@@ -159,6 +159,7 @@ describe('Product', () => {
     expect(product).toEqual({
       item: {
         SKU: 'sku0',
+        id: expect.stringMatching(/^product#store1↠/),
         _id: expect.stringMatching(/^product#store1↠/),
         _id1: expect.stringMatching(/^product#store1↠sku0/),
         _id1PK: 'store1',
@@ -327,7 +328,9 @@ describe('Product', () => {
     ).rejects.toThrow(
       [
         'The field "SKU" cannot be updated as it is used in index.',
+        'Use $setOnInsert when updating using {"upsert": true}',
         'The field "storeId" cannot be updated as it is used in index.',
+        'Use $setOnInsert when updating using {"upsert": true}',
       ].join('\n')
     );
 
@@ -352,7 +355,7 @@ describe('Product', () => {
     });
   });
 
-  it('delete', async () => {
+  it('upsert', async () => {
     const entity = _getEntity();
 
     const update = await entity.updateOne({
@@ -362,6 +365,8 @@ describe('Product', () => {
         $set: {
           category: 'updated',
           category_2: 'added',
+        },
+        $setOnInsert: {
           SKU: 'sku_batata',
           storeId: 'store1',
         },
@@ -373,6 +378,67 @@ describe('Product', () => {
       },
     });
 
-    expect(update).toEqual({});
+    expect(update).toMatchObject({
+      created: true,
+      item: {
+        SKU: 'sku_batata',
+        _id: expect.stringMatching(/product#store1↠01.*/),
+        _id1: 'product#store1↠sku_batata',
+        _id1PK: 'store1',
+        _id1SK: 'sku_batata',
+        _idPK: 'store1',
+        createdBy: 'user1',
+        storeId: 'store1',
+        category: 'updated',
+        category_2: 'added',
+        ulid: expect.stringMatching(ULID_REGEX),
+        updatedAt: expect.any(Date),
+        updatedBy: 'user1',
+      },
+      updated: false,
+    });
+  });
+
+  it('delete', async () => {
+    const entity = _getEntity();
+
+    const created = await entity.createOne({
+      item: {
+        title: 'ORANGES BAHIA',
+        SKU: 'sku_ORANGE',
+        category: 'fruits',
+        storeId: 'store',
+      },
+      context: {
+        userId() {
+          return 'CREATOR_558';
+        },
+      },
+    });
+
+    const id = created.item!.id;
+
+    let found = await entity.findById({ id, context: {} });
+
+    expect(found).toMatchObject({
+      item: {
+        id: expect.stringMatching('product#store↠01'),
+      },
+    });
+
+    const deletedItem = await entity.deleteOne({
+      filter: { id: created.item!.id },
+      context: {},
+    });
+
+    expect(deletedItem).toMatchObject({
+      item: {
+        id,
+      },
+    });
+
+    found = await entity.findById({ id, context: {} });
+
+    expect(found).toMatchObject({ item: null });
   });
 });

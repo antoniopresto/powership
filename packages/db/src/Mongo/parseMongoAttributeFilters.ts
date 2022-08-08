@@ -17,7 +17,6 @@ import {
   TopLevelFilterKey,
 } from '../Transporter/Transporter';
 
-
 export function createMongoIndexBasedFilters(options: {
   filter: IndexFilterRecord;
   indexConfig: AnyCollectionIndexConfig;

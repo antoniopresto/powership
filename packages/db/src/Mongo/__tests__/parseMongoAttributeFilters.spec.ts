@@ -69,7 +69,7 @@ describe('parseMongoAttributeFilters', () => {
       parseMongoAttributeFilters({
         a: { $startsWith: 'xx' },
       })
-    ).toEqual([{ a: /^xx/ }]);
+    ).toEqual([{ a: { $regex: '^xx' } }]);
   });
 
   test('$contains', () => {
@@ -256,7 +256,7 @@ describe('parseMongoAttributeFilters', () => {
                 },
               },
               {
-                ccc: /^c/,
+                ccc: { $regex: '^c' },
               },
               {
                 $nor: [

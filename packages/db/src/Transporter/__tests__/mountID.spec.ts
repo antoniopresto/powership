@@ -18,7 +18,7 @@ describe('mountID', () => {
     });
 
     expect(cart_item).toBe(
-      'cart_item#user\\#fulano\\↠\\#store\\#abc\\↠stoId007↠product\\#store\\\\#abc\\\\↠stoId007\\↠batata_sku'
+      'cart_item#user\u0000#fulano\u0000↠\u0000#store\u0000#abc\u0000↠stoId007↠product\u0000#store\u0000\u0000#abc\u0000\u0000↠stoId007\u0000↠batata_sku'
     );
 
     const cart_item_by_store = mountID({
@@ -28,7 +28,7 @@ describe('mountID', () => {
     });
 
     expect(cart_item_by_store).toEqual(
-      'cart_item#user\\#fulano\\↠\\#store\\#abc\\↠stoId007↠'
+      'cart_item#user\u0000#fulano\u0000↠\u0000#store\u0000#abc\u0000↠stoId007↠'
     );
   });
 });

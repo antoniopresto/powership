@@ -9,7 +9,6 @@ import { MongoTransporter } from '../MongoTransporter';
 
 import { AppMock, createAppMock } from './createAppMock';
 
-
 const itemUser = {
   item: {
     PK: 'users',
