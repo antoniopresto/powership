@@ -168,7 +168,10 @@ export function parseMongoUpdateExpression(operations: UpdateOperation<any>[]) {
                 {
                   $set: {
                     [path]: {
-                      $concatArrays: [`$${temp}`, { $slice: [`$${path}`, nextIndex, max] }],
+                      $concatArrays: [
+                        `$${temp}`,
+                        { $slice: [`$${path}`, nextIndex, max] },
+                      ],
                     },
                   },
                 },
@@ -188,10 +191,13 @@ export function parseMongoUpdateExpression(operations: UpdateOperation<any>[]) {
       }
 
       default: {
-        throw new RuntimeError(`parseMongoUpdateExpression: invalid expression item.`, {
-          item,
-          operations,
-        });
+        throw new RuntimeError(
+          `parseMongoUpdateExpression: invalid expression item.`,
+          {
+            item,
+            operations,
+          }
+        );
       }
     }
   });

@@ -1,12 +1,12 @@
+import { getDocumentIndexFields } from '../../Transporter/CollectionIndex';
 import {
   IndexFilter,
   IndexFilterRecord,
   PKSKValueType,
 } from '../../Transporter/Transporter';
-
-import { createAppMock, AppMock } from './createAppMock';
 import { createMongoIndexBasedFilters } from '../parseMongoAttributeFilters';
-import { getDocumentIndexFields } from '../../Transporter/CollectionIndex';
+
+import { AppMock, createAppMock } from './createAppMock';
 
 describe('createMongoIndexBasedFilter', () => {
   let mockApp: AppMock;

@@ -13,7 +13,11 @@ export interface MongoFindManyParams {
   sort?: object;
 }
 
-export type MongoDataLoaderOptions = DataLoader.Options<MongoDataLoaderKey, any, string>;
+export type MongoDataLoaderOptions = DataLoader.Options<
+  MongoDataLoaderKey,
+  any,
+  string
+>;
 
 export interface MongoDataLoaderKey {
   db: Db;

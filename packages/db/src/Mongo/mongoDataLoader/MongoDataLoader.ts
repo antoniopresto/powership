@@ -49,7 +49,9 @@ export class MongoDataLoader {
   ): Promise<any> & { __usedParameters: ParsedMongoDLParams[] } => {
     const parsedOptions = ensureParsedParams(options);
 
-    const result: any = this._dataloader.loadMany(parsedOptions.map((el) => el.dataLoaderKey));
+    const result: any = this._dataloader.loadMany(
+      parsedOptions.map((el) => el.dataLoaderKey)
+    );
 
     Object.defineProperty(result, '__usedParameters', {
       get() {
@@ -62,7 +64,9 @@ export class MongoDataLoader {
 
   // when a query doesn't have `limit` or `skip`, we can fetch the data
   // joining all queries into a $or and then separating the results
-  fetchData = async (queryList: readonly MongoDataLoaderKey[]): Promise<any[]> => {
+  fetchData = async (
+    queryList: readonly MongoDataLoaderKey[]
+  ): Promise<any[]> => {
     let condition: any = { $or: [] };
 
     const { sort, projection, collection, db } = queryList[0];
@@ -71,7 +75,9 @@ export class MongoDataLoader {
       condition.$or.push(el.query);
     });
 
-    let cursor = db.collection(collection).find(condition, { sort, projection });
+    let cursor = db
+      .collection(collection)
+      .find(condition, { sort, projection });
 
     let queryResult = await cursor.toArray();
 

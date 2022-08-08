@@ -1,2 +1,3 @@
-export * from './Transporter/Transporter'
-export * from './Transporter/parseUpdateExpression'
+export * from './Transporter';
+export * from './Entity';
+export * from './Mongo';

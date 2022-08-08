@@ -2,8 +2,8 @@ import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { ensureArray } from '@darch/utils/lib/ensureArray';
 import { getKeys } from '@darch/utils/lib/getKeys';
 
-import { UpdateExpression, UpdateExpressionKey } from './Transporter';
 import { AnyCollectionIndexConfig } from './CollectionIndex';
+import { UpdateExpression, UpdateExpressionKey } from './Transporter';
 
 export type UpdateOperation<Schema> =
   | {

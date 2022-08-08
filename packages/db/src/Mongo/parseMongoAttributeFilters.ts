@@ -1,21 +1,22 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
+import { devAssert } from '@darch/utils/lib/devAssert';
+import { getKeys } from '@darch/utils/lib/getKeys';
+import { getTypeName } from '@darch/utils/lib/getTypeName';
 import { escapeStringRegexp } from '@darch/utils/lib/scapeRegex';
 import { Filter } from 'mongodb';
 
 import {
-  AttributeFilterKey,
-  FilterRecord,
-  FieldType,
-  IndexFilterRecord,
-  TopLevelFilterKey,
-} from '../Transporter/Transporter';
-import { getKeys } from '@darch/utils/lib/getKeys';
-import { getTypeName } from '@darch/utils/lib/getTypeName';
-import { devAssert } from '@darch/utils/lib/devAssert';
-import {
   AnyCollectionIndexConfig,
   createDocumentIndexBasedFilters,
 } from '../Transporter/CollectionIndex';
+import {
+  AttributeFilterKey,
+  FieldType,
+  FilterRecord,
+  IndexFilterRecord,
+  TopLevelFilterKey,
+} from '../Transporter/Transporter';
+
 
 export function createMongoIndexBasedFilters(options: {
   filter: IndexFilterRecord;

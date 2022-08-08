@@ -1,6 +1,6 @@
 import { getDocumentIndexFields } from '../CollectionIndex';
 
-describe('createDocumentIndexMapper', () => {
+describe('getDocumentIndexFields', () => {
   it('should mount PK', async () => {
     const sut = getDocumentIndexFields(
       { name: 'fulano', age: 5 },
@@ -8,11 +8,13 @@ describe('createDocumentIndexMapper', () => {
         entity: 'foo',
         indexes: [
           {
+            name: 'foo',
             field: '_id',
             PK: ['.name'],
             SK: ['.age'],
           },
           {
+            name: 'bar',
             field: '_id1',
             PK: ['.age'],
             SK: ['.name'],
@@ -22,6 +24,11 @@ describe('createDocumentIndexMapper', () => {
     );
 
     expect(sut).toEqual({
+      error: null,
+      firstIndex: {
+        key: '_id',
+        value: 'foo#fulano↠715',
+      },
       indexFields: {
         _id: 'foo#fulano↠715',
         _id1: 'foo#715↠fulano',
@@ -30,16 +37,47 @@ describe('createDocumentIndexMapper', () => {
         _idPK: 'fulano',
         _idSK: '715',
       },
-      firstIndex: {
-        key: '_id',
-        value: 'foo#fulano↠715',
-      },
+      invalidFields: null,
+      parsedIndexKeys: [
+        {
+          PK: {
+            definition: ['.name'],
+            requiredFields: ['name'],
+          },
+          SK: {
+            definition: ['.age'],
+            requiredFields: ['age'],
+          },
+          entity: 'foo',
+          index: {
+            PK: ['.name'],
+            SK: ['.age'],
+            field: '_id',
+            name: 'foo',
+          },
+        },
+        {
+          PK: {
+            definition: ['.age'],
+            requiredFields: ['age'],
+          },
+          SK: {
+            definition: ['.name'],
+            requiredFields: ['name'],
+          },
+          entity: 'foo',
+          index: {
+            PK: ['.age'],
+            SK: ['.name'],
+            field: '_id1',
+            name: 'bar',
+          },
+        },
+      ],
       partialIndexFilter: {
         key: '_id',
         value: 'foo#fulano↠715',
       },
-      invalidFields: null,
-      error: null,
       valid: true,
     });
   });
@@ -51,6 +89,7 @@ describe('createDocumentIndexMapper', () => {
         entity: 'foo',
         indexes: [
           {
+            name: 'foo',
             field: '_id',
             PK: ['.age', '.name'],
             SK: ['#nice', '.age'],
@@ -60,21 +99,40 @@ describe('createDocumentIndexMapper', () => {
     );
 
     expect(oneField).toEqual({
+      error: null,
+      firstIndex: {
+        key: '_id',
+        value: 'foo#5\\#NAME↠nice#5',
+      },
       indexFields: {
-        _id: 'foo#5#NAME↠nice#5',
+        _id: 'foo#5\\#NAME↠nice#5',
         _idPK: '5#NAME',
         _idSK: 'nice#5',
       },
-      firstIndex: {
-        key: '_id',
-        value: 'foo#5#NAME↠nice#5',
-      },
+      invalidFields: null,
+      parsedIndexKeys: [
+        {
+          PK: {
+            definition: ['.age', '.name'],
+            requiredFields: ['age', 'name'],
+          },
+          SK: {
+            definition: ['#nice', '.age'],
+            requiredFields: ['age'],
+          },
+          entity: 'foo',
+          index: {
+            PK: ['.age', '.name'],
+            SK: ['#nice', '.age'],
+            field: '_id',
+            name: 'foo',
+          },
+        },
+      ],
       partialIndexFilter: {
         key: '_id',
-        value: 'foo#5#NAME↠nice#5',
+        value: 'foo#5\\#NAME↠nice#5',
       },
-      invalidFields: null,
-      error: null,
       valid: true,
     });
   });
@@ -86,18 +144,19 @@ describe('createDocumentIndexMapper', () => {
         entity: 'foo',
         indexes: [
           {
+            name: 'foo',
             field: '_id',
             PK: ['.age', '.name'],
             SK: ['#nice', '.age'],
           },
-        ] as any,
+        ],
       }
     );
 
     expect(oneField).toEqual({
-      indexFields: null,
+      error: expect.any(Object),
       firstIndex: null,
-      partialIndexFilter: null,
+      indexFields: null,
       invalidFields: [
         {
           details: 'Expected string or number, found undefined.',
@@ -121,10 +180,27 @@ describe('createDocumentIndexMapper', () => {
           reason: 'missing',
         },
       ],
+      parsedIndexKeys: [
+        {
+          PK: {
+            definition: ['.age', '.name'],
+            requiredFields: ['age', 'name'],
+          },
+          SK: {
+            definition: ['#nice', '.age'],
+            requiredFields: ['age'],
+          },
+          entity: 'foo',
+          index: {
+            PK: ['.age', '.name'],
+            SK: ['#nice', '.age'],
+            field: '_id',
+            name: 'foo',
+          },
+        },
+      ],
+      partialIndexFilter: null,
       valid: false,
-      error: expect.objectContaining({
-        message: 'Failed to mount document indexes.',
-      }),
     });
   });
 });

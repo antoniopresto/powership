@@ -1,9 +1,10 @@
 import { Collection } from 'mongodb';
 
+import { AnyCollectionIndexConfig } from '../../Transporter/CollectionIndex';
 import { UpdateExpression } from '../../Transporter/Transporter';
 import { parseUpdateExpression } from '../../Transporter/parseUpdateExpression';
 import { parseMongoUpdateExpression as _parseMongoUpdateExpression } from '../parseMongoUpdateExpression';
-import { AnyCollectionIndexConfig } from '../../Transporter/CollectionIndex';
+
 import { AppMock, createAppMock } from './createAppMock';
 
 const mockUser = () => ({

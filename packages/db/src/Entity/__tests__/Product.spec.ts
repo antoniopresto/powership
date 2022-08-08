@@ -1,9 +1,11 @@
-import { AppMock, createAppMock } from '../Mongo/__tests__/createAppMock';
-import { MongoTransporter } from '../Mongo/MongoTransporter';
-import { mountID } from '../Transporter/CollectionIndex';
 import { createType } from '@darch/schema';
-import { createEntity } from './Entity';
 import { ULID_REGEX } from '@darch/schema/lib/fields/UlidField';
+
+import { MongoTransporter } from '../../Mongo/MongoTransporter';
+import { AppMock, createAppMock } from '../../Mongo/__tests__/createAppMock';
+import { mountID } from '../../Transporter/CollectionIndex';
+
+import { createEntity } from '../Entity';
 
 jest.setTimeout(9999999);
 describe('Product', () => {
@@ -291,7 +293,7 @@ describe('Product', () => {
     });
   });
 
-  xit('update', async () => {
+  it('update', async () => {
     const entity = _getEntity();
 
     await entity.createOne({
@@ -339,10 +341,38 @@ describe('Product', () => {
       },
     });
 
-    expect(update).toEqual({});
+    expect(update).toMatchObject({
+      created: false,
+      item: {
+        SKU: 'sku_batata',
+        updatedAt: expect.any(Date),
+        updatedBy: 'user1',
+      },
+      updated: true,
+    });
   });
 
   it('delete', async () => {
-    //
+    const entity = _getEntity();
+
+    const update = await entity.updateOne({
+      upsert: true,
+      filter: { SKU: 'sku_batata', storeId: 'store1' },
+      update: {
+        $set: {
+          category: 'updated',
+          category_2: 'added',
+          SKU: 'sku_batata',
+          storeId: 'store1',
+        },
+      },
+      context: {
+        userId() {
+          return 'user1';
+        },
+      },
+    });
+
+    expect(update).toEqual({});
   });
 });

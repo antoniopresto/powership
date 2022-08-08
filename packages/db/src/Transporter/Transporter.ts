@@ -1,16 +1,16 @@
-import { MaybeArray, Name, tuple } from '@darch/utils/lib/typeUtils';
 
-import { parseUpdateExpression } from './parseUpdateExpression';
-import { getTypeName } from '@darch/utils/lib/getTypeName';
 import { Darch } from '@darch/schema';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { devAssert } from '@darch/utils/lib/devAssert';
+import { getTypeName } from '@darch/utils/lib/getTypeName';
+import { MaybeArray, tuple } from '@darch/utils/lib/typeUtils';
+
 import {
-  getDocumentIndexFields,
   CollectionIndexConfig,
-  createDocumentIndexBasedFilters,
   DocumentIndexField,
+  getDocumentIndexFields,
 } from './CollectionIndex';
+import { parseUpdateExpression } from './parseUpdateExpression';
 
 export const FieldTypes = tuple(
   'String',

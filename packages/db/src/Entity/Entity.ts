@@ -1,3 +1,14 @@
+import { Darch } from '@darch/schema';
+import { devAssert } from '@darch/utils/lib/devAssert';
+import { hooks, Waterfall } from '@darch/utils/lib/hooks';
+import { nonNullValues, notNull } from '@darch/utils/lib/invariant';
+import { capitalize } from '@darch/utils/lib/stringCase';
+import {
+  AnyFunction,
+  Merge,
+  UnionToIntersection,
+} from '@darch/utils/lib/typeUtils';
+
 import {
   AnyCollectionIndexConfig,
   CollectionIndexConfig,
@@ -16,16 +27,7 @@ import {
   TransporterLoaderName,
   transporterLoaderNames,
 } from '../Transporter/Transporter';
-import {
-  AnyFunction,
-  Merge,
-  UnionToIntersection,
-} from '@darch/utils/lib/typeUtils';
-import { capitalize } from '@darch/utils/lib/stringCase';
-import { devAssert } from '@darch/utils/lib/devAssert';
-import { hooks, Waterfall } from '@darch/utils/lib/hooks';
-import { nonNullValues, notNull } from '@darch/utils/lib/invariant';
-import { Darch } from '@darch/schema';
+import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 
 export interface EntityOptions<
   TName extends string = string,
@@ -49,7 +51,7 @@ export type DefaultEntityFields = {
 };
 
 export type Entity<Options extends EntityOptions> = Options['type'] extends {
-  parse(...args: any): infer Result;
+  parse(...args: any): any;
 }
   ? Merge<
       {
@@ -105,36 +107,40 @@ export function createEntity<Options extends EntityOptions>(
 
   // pre parse PK, SK and ID setters
   _hooks.preParse.register(async function applyDefaultHooks(doc, ctx) {
-    const possibleCreate = ctx.isCreate || ctx.isUpsert;
-
-    if (possibleCreate) {
+    async function onCreate(doc: Record<string, any>) {
+      doc = simpleObjectClone(doc);
       doc.ulid = doc.ulid || createUlid();
-    }
-
-    if (ctx.isCreate && !doc.createdAt) {
       doc.createdAt = new Date();
       doc.updatedAt = new Date();
+      doc.createdBy =
+        doc.createdBy || (await ctx.context?.userId?.(false)) || null;
+      const parsedIndexes = getDocumentIndexFields(doc, indexConfig);
+      if (!parsedIndexes.valid) {
+        throw parsedIndexes.error;
+      }
+      doc = { ...parsedIndexes.indexFields, ...doc };
+      return doc;
     }
 
-    if (ctx.isCreate && !doc.createdBy) {
-      doc.createdBy = (await ctx.context?.userId?.(false)) || null;
+    if (ctx.isUpdate) {
+      doc.$set = {
+        ...doc.$set,
+        updatedAt: doc.updatedAt || new Date(),
+        updatedBy:
+          doc.updatedBy || (await ctx.context?.userId?.(false)) || null,
+      };
     }
 
-    if (ctx.isUpdate && !doc.updatedAt) {
-      doc.updatedAt = new Date();
+    if (ctx.isUpsert) {
+      const $setOnInsert = await onCreate({ ...doc.$set });
+      doc.$setOnInsert = {
+        ...$setOnInsert,
+      };
     }
 
-    if (ctx.isUpdate && !doc.updatedBy) {
-      doc.updatedBy = (await ctx.context?.userId?.(false)) || null;
+    if (ctx.isCreate) {
+      doc = await onCreate(doc);
     }
-
-    const parsedIndexes = getDocumentIndexFields(doc, indexConfig);
-
-    if (!parsedIndexes.valid) {
-      throw parsedIndexes.error;
-    }
-
-    doc = { ...parsedIndexes.indexFields, ...doc };
 
     return doc;
   });
@@ -149,6 +155,14 @@ export function createEntity<Options extends EntityOptions>(
       op: method,
       methodOptions: options as any,
     });
+
+    if ('update' in operationInfoContext.options) {
+      let update = operationInfoContext.options.update;
+      operationInfoContext.options.update = await _hooks.preParse.exec(
+        update,
+        operationInfoContext
+      );
+    }
 
     if ('item' in operationInfoContext.options) {
       const withEntityFields = await _hooks.preParse.exec(
@@ -284,12 +298,8 @@ export type EntityHooks<
   Context extends EntityLoaderContext
 > = {
   preParse: Waterfall<
-    Partial<EntityDocument<Document>>,
-    EntityOperationInfoContext<
-      Partial<EntityDocument<Document>>,
-      Indexes,
-      Context
-    >
+    Record<string, any>, // FIXME can be update expression or document, depending on operation
+    EntityOperationInfoContext<Record<string, any>, Indexes, Context>
   >;
 
   postParse: Waterfall<
@@ -316,7 +326,7 @@ type MethodOptions<
   ? IndexItem extends unknown
     ? {
         [L in TransporterLoaderName]: Parameters<
-          IndexMethods<Document, IndexItem>[L]
+          IndexMethods<Document, IndexItem, Context>[L]
         >[0] extends infer Options
           ? Options extends unknown
             ? Options

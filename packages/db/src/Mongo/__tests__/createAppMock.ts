@@ -1,7 +1,8 @@
 import { ObjectType } from '@darch/schema';
-import { MongoMemoryServer } from 'mongodb-memory-server-core';
-import { MongoClient } from '../MongoClient';
 import { notNull } from '@darch/utils/lib/invariant';
+import { MongoMemoryServer } from 'mongodb-memory-server-core';
+
+import { MongoClient } from '../MongoClient';
 
 export class AppMock {
   client?: MongoClient;

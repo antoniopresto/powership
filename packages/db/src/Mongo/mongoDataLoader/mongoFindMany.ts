@@ -53,7 +53,10 @@ export function mongoFindMany(
 
   const config = parseMongoDLParams(options);
 
-  const dataloader = getMongoDataloader(dataloaderContext, config.dataloaderHash);
+  const dataloader = getMongoDataloader(
+    dataloaderContext,
+    config.dataloaderHash
+  );
 
   return dataloader.findMany(config);
 }
