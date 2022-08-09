@@ -6,16 +6,16 @@ import { escapeStringRegexp } from '@darch/utils/lib/scapeRegex';
 import { Filter } from 'mongodb';
 
 import {
-  AnyCollectionIndexConfig,
-  createDocumentIndexBasedFilters,
-} from '../Transporter/CollectionIndex';
-import {
   AttributeFilterKey,
   FieldType,
   FilterRecord,
   IndexFilterRecord,
   TopLevelFilterKey,
-} from '../Transporter/Transporter';
+} from '../Transporter';
+import {
+  AnyCollectionIndexConfig,
+  createDocumentIndexBasedFilters,
+} from '../Transporter/CollectionIndex';
 
 export function createMongoIndexBasedFilters(options: {
   filter: IndexFilterRecord;

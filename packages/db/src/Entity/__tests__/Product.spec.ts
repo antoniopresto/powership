@@ -1,27 +1,27 @@
-import { createType } from '@darch/schema';
+import { createType, ObjectType } from '@darch/schema';
 import { ULID_REGEX } from '@darch/schema/lib/fields/UlidField';
 
 import { MongoTransporter } from '../../Mongo';
 import { AppMock, createAppMock } from '../../Mongo/__tests__/createAppMock';
 import { mountID } from '../../Transporter';
-import { createEntity } from '../Entity';
+import { createEntity, EntityGeneratedFields } from '../Entity';
 
 jest.setTimeout(9999999);
 describe('Product', () => {
   let mockApp: AppMock;
   let transporter: MongoTransporter;
 
-  function _getEntity() {
-    const type = createType('Product', {
-      object: {
-        title: { string: { min: 2 } },
-        storeId: { ID: { autoCreate: false } },
-        SKU: { string: { min: 3 } },
-        category: 'string?',
-      },
-    });
+  const type = createType('Product', {
+    object: {
+      title: { string: { min: 2 } },
+      storeId: { ID: { autoCreate: false } },
+      SKU: { string: { min: 3 } },
+      category: 'string?',
+    },
+  });
 
-    return createEntity({
+  const _getOptions = () => {
+    return {
       transporter,
       name: 'Product',
       indexes: [
@@ -39,10 +39,15 @@ describe('Product', () => {
         },
       ],
       type,
-    });
+    } as const;
+  };
+
+  function _getEntity() {
+    return createEntity(_getOptions());
   }
 
   beforeEach(async function () {
+    await ObjectType.reset();
     mockApp = createAppMock();
     await mockApp.start();
     transporter = new MongoTransporter({
@@ -53,6 +58,28 @@ describe('Product', () => {
 
   afterEach(async function () {
     await mockApp.reset();
+  });
+
+  test('properties', () => {
+    const entity = _getEntity();
+    const options = _getOptions();
+
+    expect(entity.name).toEqual('Product');
+    expect(entity.indexes).toEqual(options.indexes);
+    expect(entity.transporter).toEqual(options.transporter);
+    expect(entity.indexGraphTypes).toMatchObject({});
+    expect(entity.loaders).toMatchObject({
+      updateOneByStoreAndSKU: expect.any(Function),
+    });
+    expect(typeof entity.parse).toEqual('function');
+    expect(entity.originType).toEqual(options.type);
+
+    expect(Object.keys(entity.type.definition.def).sort()).toEqual(
+      Object.keys({
+        ...EntityGeneratedFields,
+        ...options.type.definition.def,
+      }).sort()
+    );
   });
 
   it('create entity', async () => {
@@ -83,6 +110,7 @@ describe('Product', () => {
           title: { string: { min: 2 } },
           storeId: 'ID',
           SKU: { string: { min: 3 } },
+          category: { string: {}, optional: true },
         },
       }),
     });
@@ -440,5 +468,61 @@ describe('Product', () => {
     found = await entity.findById({ id, context: {} });
 
     expect(found).toMatchObject({ item: null });
+  });
+
+  describe('GraphQL utils', () => {
+    const entity = _getEntity();
+
+    test('indexGraphTypes', () => {
+      expect(entity.indexGraphTypes.byStoreAndSKU.id).toEqual(
+        'ProductByStoreAndSKUIndex'
+      );
+    });
+
+    test('toFilterFields', async () => {
+      expect(entity.findManyByStoreAndSKU.getFilterType()).toEqual({
+        SKU: { def: { min: 3 }, list: false, optional: true, type: 'string' },
+        __dschm__: { def: { id: null }, type: 'meta' },
+        storeId: {
+          def: { autoCreate: false },
+          list: false,
+          optional: false,
+          type: 'ID',
+        },
+      });
+
+      expect(entity.findOne.getFilterType()).toEqual({
+        SKU: {
+          def: {
+            min: 3,
+          },
+          list: false,
+          optional: true,
+          type: 'string',
+        },
+        __dschm__: {
+          def: {
+            id: null,
+          },
+          optional: true,
+          type: 'meta',
+        },
+        storeId: {
+          def: {
+            autoCreate: false,
+          },
+          list: false,
+          optional: true,
+          type: 'ID',
+        },
+        ulid: {
+          list: false,
+          optional: true,
+          type: 'string',
+        },
+      });
+
+      // await Darch.writeTypes();
+    });
   });
 });

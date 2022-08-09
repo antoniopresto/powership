@@ -10,15 +10,24 @@ import { LiteralField } from '../fields/LitarealField';
 
 const { serialize } = LiteralField.utils;
 
+export type CustomTypesWriterEvent = {
+  name: string;
+  head?: string[];
+  body?: string[];
+  footer?: string[];
+};
+
 export const DarchWatchTypesPubSub: Emitter<{
   created: {
     graphType?: GraphTypeLike;
     resolver?: AnyResolver;
+    custom?: CustomTypesWriterEvent;
   };
 }> = mitt();
 
 const typesRecord: Record<string, GraphTypeLike> = {};
 const resolversRecord: Record<string, AnyResolver> = {};
+const customTypeRecord: Record<string, CustomTypesWriterEvent> = {};
 
 DarchWatchTypesPubSub.on('created', async (event) => {
   if (event.graphType) {
@@ -27,6 +36,10 @@ DarchWatchTypesPubSub.on('created', async (event) => {
 
   if (event.resolver) {
     resolversRecord[`${event.resolver.name}`] = event.resolver;
+  }
+
+  if (event.custom) {
+    customTypeRecord[event.custom.name] = event.custom;
   }
 
   save();
@@ -90,6 +103,16 @@ export async function writeTypes(options?: WriteTypesOptions) {
     return txt;
   });
 
+  const head: string[] = [];
+  const body: string[] = [];
+  const footer: string[] = [];
+
+  Object.values(customTypeRecord).forEach((item) => {
+    item.head && head.push(...item.head);
+    item.body && head.push(...item.body);
+    item.footer && head.push(...item.footer);
+  });
+
   const typesInterface = await Darch.objectToTypescript(
     'RuntimeTypes',
     typesRecord
@@ -107,6 +130,9 @@ export async function writeTypes(options?: WriteTypesOptions) {
     creators,
     resolvers,
     definitions,
+    extraCustomHead: head,
+    extraCustomBody: body,
+    extraCustomFooter: footer,
   });
 
   content = await Darch.prettier.format(content, {
@@ -122,11 +148,17 @@ function template({
   creators,
   resolvers,
   definitions,
+  extraCustomHead,
+  extraCustomBody,
+  extraCustomFooter,
 }: {
   typesInterface: string;
   definitions: string;
   resolvers: string[];
   creators: string[];
+  extraCustomHead: string[];
+  extraCustomBody: string[];
+  extraCustomFooter: string[];
 }) {
   return `
 /* tslint-disable */
@@ -143,6 +175,8 @@ declare global {
       GraphQLFieldConfig,
       GraphQLResolveInfo,
     } from 'graphql';
+    
+    ${extraCustomHead.join('\n')}
 
     export class GraphTypeRuntime<Definition extends FieldDefinitionConfig, Type, Name> {
       static __isGraphType: true;
@@ -234,9 +268,13 @@ declare global {
       
       ${resolvers.join('\n')}
       
+      ${extraCustomBody.join('\n')}
+      
       ${definitions}
       
       ${typesInterface}
+      
+      ${extraCustomFooter.join('\n')}
   }
 }
 `;

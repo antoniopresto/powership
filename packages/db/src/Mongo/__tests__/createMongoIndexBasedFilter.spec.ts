@@ -1,12 +1,12 @@
 import {
-  getDocumentIndexFields,
-  ID_SCAPE_CHAR,
-} from '../../Transporter/CollectionIndex';
-import {
   IndexFilter,
   IndexFilterRecord,
   PKSKValueType,
-} from '../../Transporter/Transporter';
+} from '../../Transporter';
+import {
+  getDocumentIndexFields,
+  ID_SCAPE_CHAR,
+} from '../../Transporter/CollectionIndex';
 import { createMongoIndexBasedFilters } from '../parseMongoAttributeFilters';
 
 import { AppMock, createAppMock } from './createAppMock';

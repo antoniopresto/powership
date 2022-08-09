@@ -30,6 +30,7 @@ import {
 import { assertSameDefinition } from './assertSameDefinition';
 import { ObjectLike } from './fields/IObjectLike';
 import {
+  clearMetaField,
   getObjectDefinitionMetaField,
   isMetaFieldKey,
   MetaFieldDef,
@@ -42,6 +43,7 @@ import type {
   ParseFields,
   ToFinalField,
 } from './fields/_parseFields';
+
 import { validateObjectFields } from './getObjectErrors';
 import { getObjectHelpers, ObjectHelpers } from './getObjectHelpers';
 import { ImplementObject, implementObject } from './implementObject';
@@ -54,6 +56,9 @@ export { RuntimeError } from '@darch/utils/lib/RuntimeError';
 export * from './parseObjectDefinition';
 export * from './objectInferenceUtils';
 export * from './implementObject';
+export * from './fields/_parseFields';
+export * from './fields/_fieldDefinitions';
+export * from './fields/_parseFields';
 
 export type AnyObjectType = TypeLike<typeof ObjectType['prototype']>;
 
@@ -82,6 +87,11 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
 
   get description() {
     return this.meta.description;
+  }
+
+  // definition without metadata (name, etc)
+  cleanDefinition(): ParseFields<DefinitionInput> {
+    return clearMetaField(this.definition);
   }
 
   get meta(): MetaFieldDef {

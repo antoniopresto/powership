@@ -1,10 +1,7 @@
 import { Collection } from 'mongodb';
 
+import { UpdateExpression, UpdateOneConfig } from '../../Transporter';
 import { AnyCollectionIndexConfig } from '../../Transporter/CollectionIndex';
-import {
-  UpdateExpression,
-  UpdateOneConfig,
-} from '../../Transporter/Transporter';
 import { MongoTransporter } from '../MongoTransporter';
 
 import { AppMock, createAppMock } from './createAppMock';

@@ -15,7 +15,7 @@ import {
   Transporter,
   UpdateOneConfig,
   UpdateOneResult,
-} from '../Transporter/Transporter';
+} from '../Transporter';
 
 import { MongoClient } from './MongoClient';
 import { mongoFindMany } from './mongoDataLoader/mongoFindMany';

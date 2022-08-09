@@ -1,4 +1,14 @@
-import { Darch } from '@darch/schema';
+import {
+  createType,
+  Darch,
+  FinalFieldDefinition,
+  GraphType,
+  ObjectDefinitionInput,
+  ObjectFieldInput,
+  ObjectType,
+  parseObjectDefinition,
+} from '@darch/schema';
+import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { devAssert } from '@darch/utils/lib/devAssert';
 import { hooks, Waterfall } from '@darch/utils/lib/hooks';
 import { nonNullValues, notNull } from '@darch/utils/lib/invariant';
@@ -13,26 +23,26 @@ import {
 import {
   AnyCollectionIndexConfig,
   CollectionIndexConfig,
-  DocumentIndexItem,
-  getDocumentIndexFields,
-  getParsedIndexKeys,
-  ParsedIndexKey,
-  validateIndexNameAndField,
-} from '../Transporter/CollectionIndex';
-import {
   CreateOneResult,
   DocumentBase,
+  DocumentIndexItem,
   DocumentMethods,
   FilterRecord,
+  getDocumentIndexFields,
+  getParsedIndexKeys,
+  IndexFilterRecord,
+  ParsedIndexKey,
   Transporter,
   TransporterLoader,
   TransporterLoaderName,
   transporterLoaderNames,
-} from '../Transporter/Transporter';
+  validateIndexNameAndField,
+} from '../Transporter';
 
 export interface EntityOptions<
   TName extends string = string,
   Type extends { parse(...args: any[]): DocumentBase } = {
+    _object?: ObjectType<any>;
     parse(...args: any[]): DocumentBase;
   },
   TTransporter extends Transporter = Transporter
@@ -52,14 +62,26 @@ export type DefaultEntityFields = {
   updatedAt: Date;
 };
 
+type EntityFinalDefinition<InputDef> = InputDef extends {
+  __isGraphType: true;
+  definition: infer Definition;
+}
+  ? {
+      [K in keyof (EntityGeneratedFields &
+        Definition)]: (EntityGeneratedFields & Definition)[K];
+    }
+  : never;
+
+// export type EntityGraphType<T> = T extends
 export type Entity<Options extends EntityOptions> = Options['type'] extends {
   parse(...args: any): any;
 }
   ? Merge<
       {
-        entity: Options['name'];
+        name: Options['name'];
         indexes: Options['indexes'];
-        type: Options['type'];
+        type: GraphType<EntityFinalDefinition<Options['type']>>;
+        originType: Options['type'];
         parse: (
           ...args: Parameters<Options['type']['parse']>
         ) => EntityDocFromType<Options['type']>;
@@ -71,7 +93,21 @@ export type Entity<Options extends EntityOptions> = Options['type'] extends {
           entity: Options['name'];
           indexes: Options['indexes'];
         }
-      >
+      > extends infer Loaders
+        ? {
+            loaders: Loaders;
+
+            indexGraphTypes: {
+              [K in Options['indexes'][number]['name']]: GraphType<{
+                object: ObjectDefinitionInput;
+              }>;
+            };
+          } & {
+            [K in keyof Loaders]: Loaders[K] & {
+              getFilterType(): GetLoaderFilterType<Loaders[K]>;
+            };
+          }
+        : never
     >
   : never;
 
@@ -81,15 +117,33 @@ const createUlid = () => ulidField.parse(undefined);
 export function createEntity<Options extends EntityOptions>(
   options: Readonly<Options>
 ): Entity<Options> {
-  const { indexes, transporter: defaultTransporter, type } = options;
-  const entityName = options.name.toLowerCase();
+  const {
+    indexes,
+    transporter: defaultTransporter,
+    type,
+    name: entityName,
+  } = options;
+
+  const entityNameLowercase = entityName.toLowerCase();
+
+  const objectType = nonNullValues({
+    entityTypeObject: type._object,
+  }).entityTypeObject;
 
   const entity = {} as Entity<Options>;
+  const loaders: Record<string, any> = {};
+
+  const originDef = objectType.cleanDefinition();
+
+  let entityDefinition = {
+    ...EntityGeneratedFields,
+    ...originDef,
+  };
 
   entity['transporter'] = defaultTransporter;
 
   const indexConfig: CollectionIndexConfig<any, string> = {
-    entity: entityName,
+    entity: entityNameLowercase,
     indexes,
   };
 
@@ -158,6 +212,16 @@ export function createEntity<Options extends EntityOptions>(
     return doc;
   });
 
+  let entityGraphType: GraphType<any> | undefined;
+  function getEntityGraphType(): GraphType<any> {
+    // @ts-ignore
+    return (entityGraphType =
+      entityGraphType ||
+      createType(`${entityName}Entity`, {
+        object: entityDefinition,
+      })) as any;
+  }
+
   async function parseOperationContext(
     method: TransporterLoaderName,
     options: EntityParserInputOptions<DocumentBase, Options['indexes'], any>
@@ -205,6 +269,41 @@ export function createEntity<Options extends EntityOptions>(
     return operationInfoContext;
   }
 
+  const indexGraphTypes = parsedIndexKeys.reduce(
+    (acc, next): Record<string, GraphType<{ object: any }>> => {
+      const fields: ObjectDefinitionInput = {};
+
+      next.PK.requiredFields.forEach((fieldName) => {
+        const def = entityDefinition[fieldName];
+        if (!def) {
+          throw new RuntimeError(
+            `Field "${fieldName}" defined for index ${next.index.name} not defined in the input type.`,
+            { type }
+          );
+        }
+        fields[fieldName] = entityDefinition[fieldName];
+      });
+
+      next.SK.requiredFields.forEach((fieldName) => {
+        const def = entityDefinition[fieldName];
+        if (!def) {
+          throw new RuntimeError(
+            `Field "${fieldName}" defined for index ${next.index.name} not defined in the input type.`,
+            { type }
+          );
+        }
+        fields[fieldName] = fields[fieldName] || { ...def, optional: true };
+      });
+
+      const typeName = `${entityName}${capitalize(next.index.name)}Index`;
+      return {
+        ...acc,
+        [next.index.name]: createType(typeName, { object: fields }),
+      };
+    },
+    {}
+  );
+
   function _createLoader(config: {
     method: TransporterLoaderName;
     newMethodName: string;
@@ -248,18 +347,45 @@ export function createEntity<Options extends EntityOptions>(
       }
 
       if (result.items) {
-        const parsed = await _hooks.filterResult.exec(result.items, operation);
-        result.items = parsed;
+        result.items = await _hooks.filterResult.exec(result.items, operation);
       }
 
       return result;
     };
 
+    function getFilterType() {
+      getEntityGraphType();
+
+      if (indexInfo.length === 1) {
+        return indexGraphTypes[
+          indexInfo[0].index.name
+        ]._object!.cleanDefinition();
+      }
+
+      const all: any = {};
+      indexInfo.forEach(({ index: { name } }) => {
+        const objectType = indexGraphTypes[name]._object as ObjectType<{
+          a: 'any';
+        }>;
+
+        const graph = objectType.cleanDefinition();
+        Object.entries(graph).forEach(([k, v]) => {
+          all[k] = {
+            ...v,
+            optional: true,
+          };
+        });
+      });
+      return all;
+    }
+
     Object.defineProperties(loader, {
       name: { value: newMethodName },
       indexInfo: { value: indexInfo },
+      getFilterType: { value: getFilterType },
     });
 
+    loaders[newMethodName] = loader;
     entity[newMethodName] = loader;
   }
 
@@ -293,6 +419,37 @@ export function createEntity<Options extends EntityOptions>(
       indexes: indexConfig.indexes,
     });
   });
+
+  const getters: {
+    [K in Exclude<keyof Entity<any>, keyof Entity<any>['loaders']>]:
+      | {
+          get(): any;
+        }
+      | { value: any };
+  } = {
+    name: { value: entityName },
+    indexes: { value: indexes },
+    transporter: {
+      get() {
+        return defaultTransporter || options.transporter;
+      },
+    },
+    type: {
+      get() {
+        return getEntityGraphType();
+      },
+    },
+    indexGraphTypes: { value: indexGraphTypes },
+    loaders: { value: loaders },
+    parse: {
+      get() {
+        return getEntityGraphType().parse;
+      },
+    },
+    originType: { value: type },
+  };
+
+  Object.defineProperties(entity, getters);
 
   return entity as Entity<Options>;
 }
@@ -550,4 +707,37 @@ type EntityDocFromType<Type> = Type extends {
   ? Result extends DocumentBase
     ? Merge<DefaultEntityFields, Result>
     : never
+  : never;
+
+export type EntityGeneratedFields = typeof EntityGeneratedFields;
+function _EntityGeneratedFields<
+  T extends { [K in keyof DefaultEntityFields]: ObjectFieldInput }
+>(input: T): T {
+  return parseObjectDefinition(input).definition as any;
+}
+export const EntityGeneratedFields = _EntityGeneratedFields({
+  id: { type: 'string' },
+  ulid: { type: 'string' },
+  createdBy: {
+    type: 'union',
+    def: ['string', 'null'],
+  },
+  updatedBy: {
+    type: 'union',
+    def: ['string', 'null'],
+  },
+  createdAt: { type: 'date' },
+  updatedAt: { type: 'date' },
+});
+
+type GetLoaderFilterType<Loader> = Loader extends (config: infer Config) => any
+  ? 'filter' extends keyof Config
+    ? Config['filter'] extends IndexFilterRecord<infer PK, infer SK>
+      ? { [L in PK]: FinalFieldDefinition } & ([SK] extends [string]
+          ? { [L in SK]: FinalFieldDefinition }
+          : {}) extends infer F
+        ? { [K in keyof F]: F[K] } & {}
+        : never
+      : undefined
+    : undefined
   : never;

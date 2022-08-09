@@ -1,7 +1,7 @@
 import { Collection } from 'mongodb';
 
+import { UpdateExpression } from '../../Transporter';
 import { AnyCollectionIndexConfig } from '../../Transporter/CollectionIndex';
-import { UpdateExpression } from '../../Transporter/Transporter';
 import { parseUpdateExpression } from '../../Transporter/parseUpdateExpression';
 import { parseMongoUpdateExpression as _parseMongoUpdateExpression } from '../parseMongoUpdateExpression';
 
