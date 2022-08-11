@@ -7,6 +7,7 @@ import {
   ObjectFieldInput,
   ObjectType,
   parseObjectDefinition,
+  ToFinalField,
 } from '@darch/schema';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { devAssert } from '@darch/utils/lib/devAssert';
@@ -82,7 +83,15 @@ export type Entity<Options extends EntityOptions> = Options['type'] extends {
       {
         name: Options['name'];
         indexes: Options['indexes'];
-        type: GraphType<{ object: EntityFinalDefinition<Options['type']> }>;
+        type: //
+        ((
+          x: ToFinalField<EntityFinalDefinition<Options['type']>>
+        ) => any) extends (x: infer R) => any
+          ? R extends FinalFieldDefinition
+            ? GraphType<R>
+            : never
+          : never;
+
         originType: Options['type'];
         parse: (
           ...args: Parameters<Options['type']['parse']>
