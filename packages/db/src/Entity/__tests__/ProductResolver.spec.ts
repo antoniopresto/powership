@@ -59,13 +59,11 @@ describe('ProductResolver', () => {
     });
 
     await expect(entity.findOne({ filter: {}, context: {} })).rejects.toThrow(
-      'INVALID_FILTER ➤ Invalid value received ➤ Object {}'
+      'INVALID_FILTER'
     );
 
     await expect(
       entity.findOne({ filter: { batatas: '123' } as any, context: {} })
-    ).rejects.toThrow(
-      "INVALID_FILTER ➤ Invalid value received ➤ Object { batatas: '123' }"
-    );
+    ).rejects.toThrow('INVALID_FILTER');
   });
 });

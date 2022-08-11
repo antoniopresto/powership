@@ -4,14 +4,16 @@ export class EntityError<Kind extends string = string> extends Error {
   __isEntityError: true;
 
   constructor(public kind: Kind, details?: any) {
-    super(
-      `${kind} ➤ Invalid value received ➤ ${
-        details
-          ? inspectObject(details, { depth: 10, tabSize: 0, named: true })
-          : ''
-      }`
-    );
-    this.stack = (this.stack || '').split('\n').slice(4).join('\n');
+    super(kind);
+
+    const _details = details
+      ? ` ➤ ${inspectObject(details, { depth: 10, tabSize: 0, named: true })}\n`
+      : '';
+
+    this.stack =
+      this.message +
+      _details +
+      (this.stack || '').split('\n').slice(4).join('\n');
   }
 
   static is(input: any): input is EntityError {
