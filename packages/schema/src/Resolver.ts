@@ -13,7 +13,7 @@ import {
 } from './fields/_parseFields';
 
 import { createType, GraphType } from './GraphType/GraphType';
-import { getInnerType } from './GraphType/getQueryExamples';
+import { getInnerType } from './GraphType/getQueryTemplates';
 import { GraphTypeLike } from './fields/IObjectLike';
 import { MaybePromise } from '@darch/utils';
 

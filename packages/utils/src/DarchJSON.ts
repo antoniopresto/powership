@@ -122,13 +122,15 @@ export class DarchJSONConstructor {
         serializer?: Serializer<any>;
       }) => string | undefined;
       quoteStrings?: (str: string) => string;
+      quoteKeys?: (str: string) => string;
     } = {}
   ) => {
-    const { handler, quoteStrings } = options;
+    const { handler, quoteStrings, quoteKeys } = options;
     let self = this;
 
     let str = stringify(value, {
       quoteStrings,
+      quoteKeys,
       defaultHandler: ({ value }) => {
         const serializer = this.serializers.find(
           (el) => el.formatter.match(value) !== undefined
@@ -176,9 +178,14 @@ export function stringify(
   options?: {
     defaultHandler?: StringifyDefaultHandler;
     quoteStrings?: (str: string) => string;
+    quoteKeys?: (str: string) => string;
   }
 ): string | undefined {
-  let { defaultHandler, quoteStrings = JSON.stringify } = options || {};
+  let {
+    defaultHandler,
+    quoteStrings = JSON.stringify,
+    quoteKeys = JSON.stringify,
+  } = options || {};
   const typeName = getTypeName(value);
 
   const handled = defaultHandler?.({ value });
@@ -230,7 +237,7 @@ export function stringify(
         v = stringify(value[k], options);
 
         if (v) {
-          partial.push(JSON.stringify(k) + ':' + v);
+          partial.push(quoteKeys(k) + ':' + v);
         }
       }); // Join all of the member texts together, separated with commas,
       // and wrap them in braces.

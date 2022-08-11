@@ -1,6 +1,6 @@
 import { tupleEnum } from '@darch/utils/lib/typeUtils';
 import type { GraphQLSchemaConfig } from 'graphql';
-import { GraphQLObjectType, printSchema } from 'graphql';
+import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 import groupBy from 'lodash/groupBy';
 
 import { Darch } from './Darch';
@@ -9,12 +9,14 @@ import { AnyResolver } from './Resolver';
 import { generateClientUtils } from './GraphType/generateClientUtils';
 import { getInnerGraphTypeId } from './GraphType/getInnerGraphTypeId';
 import {
-  getSchemaQueryExamples,
-  SchemaQueryExamplesResult,
-} from './GraphType/getQueryExamples';
+  getSchemaQueryTemplates,
+  SchemaQueryTemplatesResult,
+} from './GraphType/getQueryTemplates';
 import { parseFieldDefinitionConfig } from './ObjectType';
 import { clearMetaField } from './fields/MetaFieldField';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
+import { schemaToMockPlaceholder } from './mockObject';
+import { capitalize, DarchJSON, notNull } from '@darch/utils';
 
 export type CreateGraphQLObjectOptions = Partial<GraphQLSchemaConfig>;
 
@@ -30,7 +32,8 @@ export type GraphQLSchemaWithUtils = import('graphql').GraphQLSchema & {
     grouped: GroupedResolvers;
     typescript: (options?: ResolversToTypeScriptOptions) => Promise<string>;
     print: () => string;
-    queryExamples: () => SchemaQueryExamplesResult;
+    queryTemplates: () => SchemaQueryTemplatesResult;
+    queryExamples: (options?: { randomText?: () => string }) => string;
     generateClientUtils: () => Promise<string>;
   };
 };
@@ -126,8 +129,11 @@ export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
     print() {
       return printSchema(schema);
     },
-    queryExamples() {
-      return getSchemaQueryExamples(schema);
+    queryTemplates() {
+      return getSchemaQueryTemplates(schema);
+    },
+    queryExamples(options) {
+      return queryExamples({ schema, grouped, ...options });
     },
     generateClientUtils() {
       return Promise.reject('not implemented');
@@ -340,4 +346,60 @@ async function convertType(options: {
   const comments = description ? `\n/** ${description} **/\n` : '';
 
   return { code, description: description || '', comments };
+}
+
+function queryExamples({
+  schema,
+  grouped,
+  randomText,
+}: {
+  schema: GraphQLSchema;
+  grouped: GroupedResolvers;
+  randomText?: () => string;
+}) {
+  let templates = getSchemaQueryTemplates(schema);
+
+  let examples = '';
+
+  Object.entries(grouped).forEach(([_kind, resolvers]) => {
+    const kind = _kind as keyof GroupedResolvers;
+    if (!resolvers?.length) return;
+    const resolversRecord = templates.queryByResolver[kind];
+
+    Object.entries(resolversRecord).forEach(([name, parsed]) => {
+      const resolver = notNull(resolvers.find((el) => el.name === name));
+      const argsDef = resolver.argsType._object?.definition;
+      const argsExamples = argsDef
+        ? schemaToMockPlaceholder(argsDef, { randomText })
+        : '';
+
+      examples += `${kind} ${name}${capitalize(kind)} { ${name}`;
+
+      if (parsed.argsParsed.vars.length) {
+        examples += '(';
+        const args = parsed.argsParsed.vars.map((val) => {
+          const ser = DarchJSON.stringify(argsExamples[val.name], {
+            quoteKeys(str) {
+              if (str.match(/[-.]/)) return JSON.stringify(str);
+              return str;
+            },
+          });
+          return `${val.name}: ${ser}`;
+        });
+        examples += args.join(', ');
+        examples += ')';
+      }
+
+      if (parsed.fragments) {
+        examples += ` {${parsed.query}} `;
+      }
+
+      examples += '}\n';
+    });
+  });
+
+  return [
+    Darch.prettier.format(examples, { parser: 'graphql' }),
+    templates.fullQuery,
+  ].join('\n');
 }

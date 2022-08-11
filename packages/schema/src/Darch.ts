@@ -91,11 +91,11 @@ function getModules() {
         require('./createGraphQLSchema') as typeof import('./createGraphQLSchema'),
     },
 
-    getQueryExamples: {
+    getQueryTemplates: {
       server: true,
       // @only-server
       module: () =>
-        require('./GraphType/getQueryExamples') as typeof import('./GraphType/getQueryExamples'),
+        require('./GraphType/getQueryTemplates') as typeof import('./GraphType/getQueryTemplates'),
     },
 
     createResolver: {

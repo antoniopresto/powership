@@ -208,6 +208,7 @@ describe('createGraphQLObject', () => {
         name: 'getNumbers',
         args: {
           min: { int: {}, defaultValue: 0 },
+          letters: { type: 'string', defaultValue: 'batata' },
         },
         async resolve() {
           return [];
@@ -253,15 +254,14 @@ describe('createGraphQLObject', () => {
       });
 
       const object = createGraphQLSchema();
-      const sut = object.utils.queryExamples();
+      const sut = object.utils.queryTemplates();
 
       expect(sut.fullQuery.split('\n')).toEqual([
         'query getLetters {',
         '  getLetters',
         '}',
-        // FIXME
-        'query getNumbers($getNumbers_min: Int = "0") {',
-        '  getNumbers(min: $getNumbers_min)',
+        'query getNumbers($getNumbers_min: Int = 0, $getNumbers_letters: String = "batata") {',
+        '  getNumbers(min: $getNumbers_min, letters: $getNumbers_letters)',
         '}',
         'query getAllUsers {',
         '  getAllUsers {',
@@ -279,6 +279,123 @@ describe('createGraphQLObject', () => {
         '  updateUser(id: $updateUser_id) {',
         '    name',
         '    age',
+        '  }',
+        '}',
+      ]);
+    });
+
+    test('foo', async () => {
+      const user = createType('User', {
+        object: {
+          name: 'string',
+          age: 'int',
+          addresses: {
+            list: true,
+            object: {
+              street: 'string',
+              number: 'string',
+            },
+          },
+        },
+      });
+
+      user.createResolver({
+        name: 'getUser',
+        args: {
+          min: { int: {}, defaultValue: 0 },
+          letters: { type: 'string', defaultValue: 'batata' },
+          points: {
+            object: {
+              lat: 'string',
+              lon: 'string',
+            },
+          },
+        },
+        async resolve() {
+          return {
+            name: '1111',
+            age: 1,
+            addresses: [],
+          };
+        },
+      });
+
+      user.createResolver({
+        name: 'createUser',
+        kind: 'mutation',
+        args: user._object!.cleanDefinition(),
+        async resolve() {
+          return {
+            name: '1111',
+            age: 1,
+            addresses: [],
+          };
+        },
+      });
+
+      const object = createGraphQLSchema();
+      const examples = object.utils.queryExamples({
+        randomText() {
+          return 'example';
+        },
+      });
+
+      expect(examples.split('\n')).toEqual([
+        'query getUserQuery {',
+        '  getUser(',
+        '    min: 1',
+        '    letters: "example"',
+        '    points: { lat: "example", lon: "example" }',
+        '  ) {',
+        '    name',
+        '    age',
+        '    addresses {',
+        '      ...User_addresses2402738501Fragment',
+        '    }',
+        '  }',
+        '}',
+        'mutation createUserMutation {',
+        '  createUser(',
+        '    name: "example"',
+        '    age: 1',
+        '    addresses: [{ number: "example", street: "example" }]',
+        '  ) {',
+        '    name',
+        '    age',
+        '    addresses {',
+        '      ...User_addresses2402738501Fragment',
+        '    }',
+        '  }',
+        '}',
+        '',
+        'fragment User_addresses2402738501Fragment on User_addresses {',
+        '  street',
+        '  number',
+        '}',
+        'query getUser($getUser_min: Int = 0, $getUser_letters: String = "batata", $getUser_points: getUserInput_pointsInput!) {',
+        '  getUser(min: $getUser_min, letters: $getUser_letters, points: $getUser_points) {',
+        '    name',
+        '    age',
+        '    addresses {',
+        '      ...User_addresses2402738501Fragment',
+        '    }',
+        '  }',
+        '}',
+        'fragment User_addresses2402738501Fragment on User_addresses {',
+        '  street',
+        '  number',
+        '}',
+        'mutation createUser(',
+        '  $createUser_name: String!',
+        '  $createUser_age: Int!',
+        '  $createUser_addresses: [createUserInput_addressesInput]!',
+        ') {',
+        '  createUser(name: $createUser_name, age: $createUser_age, addresses: $createUser_addresses) {',
+        '    name',
+        '    age',
+        '    addresses {',
+        '      ...User_addresses2402738501Fragment',
+        '    }',
         '  }',
         '}',
       ]);

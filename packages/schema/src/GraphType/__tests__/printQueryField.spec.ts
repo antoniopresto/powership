@@ -1,6 +1,6 @@
 import { createObjectType, ObjectType } from '../../ObjectType';
 import { createType } from '../GraphType';
-import { getQueryExamples } from '../getQueryExamples';
+import { getQueryTemplates } from '../getQueryTemplates';
 
 describe('generateQuery', () => {
   afterEach(ObjectType.reset);
@@ -21,7 +21,7 @@ describe('generateQuery', () => {
 
     const graphQLField = resolver.asObjectField();
 
-    const sut = getQueryExamples({
+    const sut = getQueryTemplates({
       graphQLField,
       queryKind: 'mainQuery',
       depthLimit: 10,
@@ -29,7 +29,7 @@ describe('generateQuery', () => {
     });
 
     expect(sut.fullQuery.split('\n')).toEqual([
-      'query getItem($getItem_min: Int = "0") {',
+      'query getItem($getItem_min: Int = 0) {',
       '  getItem(min: $getItem_min) {',
       '    value',
       '  }',
@@ -97,15 +97,13 @@ describe('generateQuery', () => {
     });
 
     const graphQLField = darchResolver.asObjectField('productById');
-    const sut = getQueryExamples({
+    const sut = getQueryTemplates({
       graphQLField,
       queryKind: 'mainQuery',
       depthLimit: 10,
       includeDeprecatedFields: true,
     });
 
-    // FIXME
-    //    $productById_parents_id: ID = "155"...
     expect(sut.fullQuery.split('\n')).toEqual([
       'fragment Breadcrumb2402738501Fragment on Breadcrumb {',
       '  id',
@@ -113,7 +111,7 @@ describe('generateQuery', () => {
       '  name',
       '  parentId',
       '}',
-      'fragment Product3389259298Fragment($productById_parents_id: ID = "155") on Product {',
+      'fragment Product3389259298Fragment($productById_parents_id: ID = 155) on Product {',
       '  sku',
       '  breadcrumb {',
       '    ...Breadcrumb2402738501Fragment',
@@ -125,7 +123,7 @@ describe('generateQuery', () => {
       '    ...Product2040566541Fragment',
       '  }',
       '}',
-      'fragment Product2040566541Fragment($productById_parents_innerParent_limit: Int = "2") on Product {',
+      'fragment Product2040566541Fragment($productById_parents_innerParent_limit: Int = 2) on Product {',
       '  sku',
       '  breadcrumb {',
       '    ...Breadcrumb2402738501Fragment',
@@ -142,8 +140,8 @@ describe('generateQuery', () => {
       '  $productById_id: ID!',
       '  #SKU',
       '  $productById_sku: String!',
-      '  $productById_parents_id: ID = "155"',
-      '  $productById_parents_innerParent_limit: Int = "2"',
+      '  $productById_parents_id: ID = 155',
+      '  $productById_parents_innerParent_limit: Int = 2',
       ') {',
       '  productById(',
       '    #Product ID',
@@ -197,7 +195,7 @@ describe('generateQuery', () => {
 
     const graphQLField = darchResolver.asObjectField();
 
-    const sut = getQueryExamples({
+    const sut = getQueryTemplates({
       graphQLField,
       queryKind: 'mainQuery',
       depthLimit: 10,

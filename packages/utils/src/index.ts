@@ -39,12 +39,15 @@ export * from './assertSame';
 export * from './conust';
 export * from './fvn1a';
 export * from './simpleObjectClone';
+export * from './randomNumber';
+export * from './randomItem';
+export * from './slugify';
+export * from './ulid';
 
 // export * from './logLevels'
 // export * from './logger'
 // export * from './conust'
 // export * from './big'
-// export * from './ulid'
 // export * from './jsonToTypescript'
 
 export { TU };

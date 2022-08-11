@@ -33,7 +33,8 @@
     "winston": "3.8.1",
     "hoper": "1.0.8",
     "big.js": "6.2.1",
-    "ts-toolbelt": "9.6.0"
+    "ts-toolbelt": "9.6.0",
+    "slugify": "1.6.5"
   },
   "devDependencies": {
     "@darch/builder": "^2.0.0-alpha.20220724T134243-0300",

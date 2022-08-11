@@ -7,17 +7,17 @@ import {
   resolversTypescriptParts,
 } from '../createGraphQLSchema';
 
-import { getSchemaQueryExamples } from './getQueryExamples';
+import { getSchemaQueryTemplates } from './getQueryTemplates';
 
 export async function generateClientUtils(schema: GraphQLSchemaWithUtils) {
-  const [tsParts, queryExamples] = await Promise.all([
+  const [tsParts, queryTemplates] = await Promise.all([
     resolversTypescriptParts({
       name: 'GraphQLInterfaces',
       options: {},
       resolvers: schema.utils.resolvers,
     }),
 
-    getSchemaQueryExamples(schema),
+    getSchemaQueryTemplates(schema),
   ]);
 
   const header = [
@@ -92,7 +92,7 @@ export async function generateClientUtils(schema: GraphQLSchemaWithUtils) {
           : { record: { keyType: 'string', type: 'unknown' } }
       )},\n`;
 
-      const resolverQueries = queryExamples.queryByResolver[kind][name];
+      const resolverQueries = queryTemplates.queryByResolver[kind][name];
 
       helpersText += `\noperation: ${JSON.stringify(
         {

@@ -42,17 +42,17 @@ type FieldPayload = {
 
 type ProcessFieldPayload = Record<string, FieldPayload>;
 
-export type SchemaQueryExamplesResult = {
+export type SchemaQueryTemplatesResult = {
   fullQuery: string;
   queryByResolver: {
     [K in ResolverKind]: Record<string, PrintQueryResult>;
   };
 };
 
-export function getSchemaQueryExamples(
+export function getSchemaQueryTemplates(
   schema: GraphQLSchema,
   options: { depthLimit?: number; includeDeprecatedFields?: boolean } = {}
-): SchemaQueryExamplesResult {
+): SchemaQueryTemplatesResult {
   const { depthLimit = 10, includeDeprecatedFields = true } = options;
 
   const query = schema.getQueryType();
@@ -61,7 +61,7 @@ export function getSchemaQueryExamples(
 
   let fullQuery = '';
 
-  const queryByResolver: SchemaQueryExamplesResult['queryByResolver'] = {
+  const queryByResolver: SchemaQueryTemplatesResult['queryByResolver'] = {
     query: {},
     mutation: {},
     subscription: {},
@@ -80,7 +80,7 @@ export function getSchemaQueryExamples(
     const { value, kind } = item;
 
     Object.values(value.getFields()).forEach((graphQLField) => {
-      const item = getQueryExamples({
+      const item = getQueryTemplates({
         kind,
         graphQLField,
         queryKind: 'mainQuery',
@@ -103,7 +103,7 @@ export function getSchemaQueryExamples(
  * Generate the query for the specified field
  * @param params
  */
-export function getQueryExamples(
+export function getQueryTemplates(
   params: ParseQueryFieldOptions
 ): PrintQueryResult {
   const { kind = 'query' } = params;
@@ -479,10 +479,14 @@ function parseArgs(config: ArgsToStringConfig): ParsedArgs {
     const varName = `$${prefix}${name}`;
     const comments = descriptionsToComments(deprecationReason, description);
 
-    const _defaultValue =
+    let _defaultValue =
       arg.defaultValue !== undefined
         ? LiteralField.utils.serialize(defaultValue)
         : undefined;
+
+    if (typeof defaultValue === 'string') {
+      _defaultValue = JSON.stringify(_defaultValue);
+    }
 
     vars.push({
       comments,
@@ -506,7 +510,7 @@ function parsedArgsToString(parsed: ParsedArgs['vars']) {
     innerParts.push(`${comments}${name}: ${varName}`);
 
     if (defaultValue !== undefined) {
-      topParts.push(`= "${defaultValue}"`);
+      topParts.push(`= ${defaultValue}`);
     }
   });
 
