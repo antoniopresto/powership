@@ -88,9 +88,9 @@ export type IndexFilterRecord<
   PK extends string = string,
   SK extends string | undefined = string
 > =
-  | ((
+  | (
       | ({
-          [K in PK]: Partial<AllIndexFilter> | PKSKValueType;
+          [K in PK]?: Partial<AllIndexFilter> | PKSKValueType | undefined;
         } & {
           [K in SK as SK extends string ? SK : never]?:
             | Partial<AllIndexFilter>
@@ -100,10 +100,7 @@ export type IndexFilterRecord<
       | { $and?: IndexFilterRecord<PK>[] }
       | { $or?: IndexFilterRecord<PK>[] }
       | { $not?: IndexFilterRecord<PK> }
-    ) & {
-      [K in PK]: Partial<AllIndexFilter> | PKSKValueType;
-    })
-  | { [K in DocumentIndexField]?: string };
+    ) & { [K in DocumentIndexField]?: string };
 
 export type DocumentBase = Record<string, any>;
 
@@ -355,28 +352,64 @@ export interface DocumentMethods<
   SK extends string | undefined
 > {
   createOne(
-    options: DocumentOptions<CreateOneConfig<Doc, PK, SK>>
-  ): Promise<CreateOneResult<Doc>>;
+    options: {
+      [K in keyof DocumentOptions<
+        CreateOneConfig<Doc, PK, SK>
+      >]: DocumentOptions<CreateOneConfig<Doc, PK, SK>>[K];
+    } & {}
+  ): Promise<{ [K in keyof CreateOneResult<Doc>]: CreateOneResult<Doc>[K] }>;
 
   findMany(
-    options: DocumentOptions<FindManyConfig<Doc, PK, SK>>
-  ): Promise<FindManyResult<Doc>>;
+    options: {
+      [K in keyof DocumentOptions<
+        FindManyConfig<Doc, PK, SK>
+      >]: DocumentOptions<FindManyConfig<Doc, PK, SK>>[K];
+    } & {}
+  ): Promise<{ [K in keyof FindManyResult<Doc>]: FindManyResult<Doc>[K] } & {}>;
 
   findOne(
-    options: DocumentOptions<FindOneConfig<Doc, PK, SK>>
-  ): Promise<FindOneResult<Doc>>;
+    options: {
+      [K in keyof DocumentOptions<FindOneConfig<Doc, PK, SK>>]: DocumentOptions<
+        FindOneConfig<Doc, PK, SK>
+      >[K];
+    } & {}
+  ): Promise<
+    {
+      [K in keyof FindOneResult<Doc>]: FindOneResult<Doc>[K];
+    } & {}
+  >;
 
   findById(
-    options: DocumentOptions<FindByIdConfig<Doc, PK, SK>>
-  ): Promise<FindOneResult<Doc>>;
+    options: {
+      [K in keyof DocumentOptions<
+        FindByIdConfig<Doc, PK, SK>
+      >]: DocumentOptions<FindByIdConfig<Doc, PK, SK>>[K];
+    } & {}
+  ): Promise<
+    {
+      [K in keyof FindOneResult<Doc>]: FindOneResult<Doc>[K];
+    } & {}
+  >;
 
   updateOne(
-    options: DocumentOptions<UpdateOneConfig<Doc, PK, SK>>
-  ): Promise<UpdateOneResult<Doc>>;
+    options: {
+      [K in keyof DocumentOptions<
+        UpdateOneConfig<Doc, PK, SK>
+      >]: DocumentOptions<UpdateOneConfig<Doc, PK, SK>>[K];
+    } & {}
+  ): Promise<
+    { [K in keyof UpdateOneResult<Doc>]: UpdateOneResult<Doc>[K] } & {}
+  >;
 
   deleteOne(
-    options: DocumentOptions<DeleteOneConfig<Doc, PK, SK>>
-  ): Promise<DeleteOneResult<Doc>>;
+    options: {
+      [K in keyof DocumentOptions<
+        DeleteOneConfig<Doc, PK, SK>
+      >]: DocumentOptions<DeleteOneConfig<Doc, PK, SK>>[K];
+    } & {}
+  ): Promise<
+    { [K in keyof DeleteOneResult<Doc>]: DeleteOneResult<Doc>[K] } & {}
+  >;
 }
 
 export abstract class Transporter {

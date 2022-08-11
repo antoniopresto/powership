@@ -4,7 +4,7 @@ import { Emitter, mitt } from '@darch/utils/lib/mitt';
 import { ensureFileSync, writeFileSync } from 'fs-extra';
 
 import { Darch } from '../Darch';
-import { AnyResolver } from '../GraphType/createResolver';
+import { AnyResolver } from '../Resolver';
 import { GraphTypeLike } from '../fields/IObjectLike';
 import { LiteralField } from '../fields/LitarealField';
 

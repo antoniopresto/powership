@@ -38,12 +38,15 @@ import {
 import { MaybePromise } from '@darch/utils';
 import { isMetaFieldKey } from '@darch/schema/lib/fields/MetaFieldField';
 
+type _GraphType = {
+  _object?: ObjectType<any>;
+  __isGraphType: true;
+  parse(...args: any[]): DocumentBase;
+};
+
 export interface EntityOptions<
   TName extends string = string,
-  Type extends { parse(...args: any[]): DocumentBase } = {
-    _object?: ObjectType<any>;
-    parse(...args: any[]): DocumentBase;
-  },
+  Type extends _GraphType = _GraphType,
   TTransporter extends Transporter = Transporter
 > {
   type: Type;
@@ -71,10 +74,10 @@ type EntityFinalDefinition<InputDef> = InputDef extends {
     }
   : never;
 
-type Merge<A, B> = A & B extends infer AB
-  ? {
-      [K in keyof AB]: AB[K];
-    }
+type Merge<A, B> = {
+  [K in keyof A as K extends keyof B ? never : K]: A[K];
+} & ({ [K in keyof B]: B[K] } & {}) extends infer R
+  ? { [K in keyof R]: R[K] } & {}
   : never;
 
 type _GetDef<OptionType> = ((
@@ -83,6 +86,15 @@ type _GetDef<OptionType> = ((
   ? R extends FinalFieldDefinition
     ? R['def']
     : never
+  : never;
+
+type _LoaderWithUtils<Loader, Type> = {
+  filterType: GetLoaderFilterType<
+    Loader,
+    _GetDef<Type> & EntityGeneratedFields
+  >;
+} & Loader extends infer R
+  ? R
   : never;
 
 // export type EntityGraphType<T> = T extends
@@ -104,12 +116,12 @@ export type Entity<Options extends EntityOptions> = Options['type'] extends {
 
         originType: Options['type'];
 
-        getInputDefinition: //
+        inputDefinition: //
         ((
           x: ToFinalField<EntityFinalDefinition<Options['type']>>
         ) => any) extends (x: infer R) => any
           ? R extends FinalFieldDefinition
-            ? () => R['def']
+            ? R['def']
             : never
           : never;
 
@@ -126,21 +138,18 @@ export type Entity<Options extends EntityOptions> = Options['type'] extends {
         }
       > extends infer Loaders
         ? {
-            loaders: Loaders;
+            [K in keyof Loaders]: _LoaderWithUtils<Loaders[K], Options['type']>;
+          } extends infer LoaderWithUtils
+          ? LoaderWithUtils & {
+              loaders: LoaderWithUtils;
 
-            indexGraphTypes: {
-              [K in Options['indexes'][number]['name']]: GraphType<{
-                object: ObjectDefinitionInput;
-              }>;
-            };
-          } & {
-            [K in keyof Loaders]: Loaders[K] & {
-              getFilterType(): GetLoaderFilterType<
-                Loaders[K],
-                _GetDef<Options['type']> & EntityGeneratedFields
-              >;
-            };
-          }
+              indexGraphTypes: {
+                [K in Options['indexes'][number]['name']]: GraphType<{
+                  object: ObjectDefinitionInput;
+                }>;
+              };
+            }
+          : never
         : never
     >
   : never;
@@ -427,7 +436,11 @@ export function createEntity<Options extends EntityOptions>(
     Object.defineProperties(loader, {
       name: { value: newMethodName },
       indexInfo: { value: indexInfo },
-      getFilterType: { value: getFilterType },
+      filterType: {
+        get() {
+          return getFilterType();
+        },
+      },
     });
 
     loaders[newMethodName] = loader;
@@ -492,10 +505,8 @@ export function createEntity<Options extends EntityOptions>(
       },
     },
     originType: { value: type },
-    getInputDefinition: {
-      value: function getInputDefinition() {
-        return objectType.definition;
-      },
+    inputDefinition: {
+      value: objectType.definition,
     },
   };
 
@@ -662,7 +673,11 @@ type EntityTransporterMethod<
   Context extends EntityLoaderContext = Record<string, any>
 > = Method extends (config: infer Config) => infer Result
   ? ((
-      config: Omit<Config, 'dataloaderContext'> & { context: Context }
+      config: Config & { context: Context } extends infer R
+        ? {
+            [K in keyof R as K extends 'dataloaderContext' ? never : K]: R[K];
+          } & {}
+        : never
     ) => Result) & {
       indexInfo: [ParsedIndexKey, ...ParsedIndexKey[]];
     }
@@ -741,7 +756,21 @@ type EntityLoaders<
   OneIndexMethod<Doc, IndexConfig['indexes']> & {
     createOne: EntityTransporterMethod<
       DocumentMethods<
-        Omit<Doc, keyof DefaultEntityFields>,
+        //
+        // Doc with DefaultEntityFields as optional
+        {
+          [K in keyof Doc as K extends keyof DefaultEntityFields
+            ? never
+            : K]: Doc[K];
+        } & {
+          [K in keyof Doc as K extends keyof DefaultEntityFields
+            ? K
+            : never]?: Doc[K];
+        } extends infer R
+          ? { [K in keyof R]: R[K] } & {}
+          : never,
+        // <--
+        //
         GetFieldsUsedInIndexes<IndexConfig['indexes'][number], 'PK'>,
         GetFieldsUsedInIndexes<IndexConfig['indexes'][number], 'SK'>
       >['createOne'] extends infer CreateOne

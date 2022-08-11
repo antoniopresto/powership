@@ -5,16 +5,16 @@ import {
   GraphQLResolveInfo,
 } from 'graphql';
 
-import { Darch } from '../Darch';
+import { Darch } from './Darch';
 import {
   ObjectDefinitionInput,
   ObjectFieldInput,
   ToFinalField,
-} from '../fields/_parseFields';
+} from './fields/_parseFields';
 
-import { createType, GraphType } from './GraphType';
-import { getInnerType } from './getQueryExamples';
-import { GraphTypeLike } from '../fields/IObjectLike';
+import { createType, GraphType } from './GraphType/GraphType';
+import { getInnerType } from './GraphType/getQueryExamples';
+import { GraphTypeLike } from './fields/IObjectLike';
 import { MaybePromise } from '@darch/utils';
 
 export type ResolverContextBase = {
@@ -122,7 +122,7 @@ export function createResolver(
 
   GraphType.resolvers.set(name, result);
 
-  Darch.typesGen?.DarchWatchTypesPubSub.emit('created', {
+  Darch.typesWriter?.DarchWatchTypesPubSub.emit('created', {
     resolver: result,
   });
 
@@ -206,7 +206,12 @@ export type ResolverResolve<Context, Source, TypeDef, ArgsDef> = (
           context: Context,
           info: GraphQLResolveInfo
         ) => Promise<R> | R
-      : never
+      : (
+          parent: Source,
+          args: Record<string, unknown>,
+          context: Context,
+          info: GraphQLResolveInfo
+        ) => Promise<unknown> | unknown
     : never
 ) extends infer R
   ? R

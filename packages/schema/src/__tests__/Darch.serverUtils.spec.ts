@@ -42,7 +42,7 @@ describe('Darch aliases', () => {
     expect(typeof sut).toBe('function');
     expect(sut.name).toBe('createResolver');
     expect(Darch.isPossibleArgsDef).toBe(
-      require('../GraphType/createResolver').isPossibleArgsDef
+      require('../Resolver').isPossibleArgsDef
     );
   });
 

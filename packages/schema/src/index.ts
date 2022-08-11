@@ -10,4 +10,4 @@ export * from './applyValidator';
 export * from '@darch/utils';
 
 // @only-server
-export * from './GraphType/createResolver';
+export * from './Resolver';

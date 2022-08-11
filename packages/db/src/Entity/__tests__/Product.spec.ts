@@ -73,7 +73,7 @@ describe('Product', () => {
     });
     expect(typeof entity.parse).toEqual('function');
     expect(entity.originType).toEqual(options.type);
-    expect(entity.getInputDefinition()).toEqual(options.type.definition.def);
+    expect(entity.inputDefinition).toEqual(options.type.definition.def);
 
     expect(Object.keys(entity.type.definition.def).sort()).toEqual(
       Object.keys({
@@ -481,7 +481,7 @@ describe('Product', () => {
     });
 
     test('toFilterFields', async () => {
-      expect(entity.findManyByStoreAndSKU.getFilterType()).toEqual({
+      expect(entity.findManyByStoreAndSKU.filterType).toEqual({
         SKU: {
           def: {
             min: 3,
@@ -504,7 +504,7 @@ describe('Product', () => {
         },
       });
 
-      expect(entity.findOne.getFilterType()).toEqual({
+      expect(entity.findOne.filterType).toEqual({
         SKU: {
           def: {
             min: 3,

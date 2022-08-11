@@ -1,7 +1,7 @@
 import { ObjectType } from '../../ObjectType';
 import { createGraphQLSchema } from '../../createGraphQLSchema';
 import { createType } from '../GraphType';
-import { createResolver } from '../createResolver';
+import { createResolver } from '../../Resolver';
 
 describe('schema.getGraphQLTypescript', () => {
   afterEach(ObjectType.reset);

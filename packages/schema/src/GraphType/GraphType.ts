@@ -26,7 +26,7 @@ import type { ObjectToTypescriptOptions } from '../objectToTypescript';
 import { parseObjectField } from '../parseObjectDefinition';
 
 import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
-import type { AnyResolver, Resolver, ResolverConfig } from './createResolver';
+import type { AnyResolver, Resolver, ResolverConfig } from '../Resolver';
 
 export class GraphType<Definition extends ObjectFieldInput>
   implements GraphTypeLike
@@ -127,7 +127,7 @@ export class GraphType<Definition extends ObjectFieldInput>
       }
     } else {
       if (!isBrowser()) {
-        Darch.typesGen?.DarchWatchTypesPubSub.emit('created', {
+        Darch.typesWriter?.DarchWatchTypesPubSub.emit('created', {
           graphType: this,
         });
       }

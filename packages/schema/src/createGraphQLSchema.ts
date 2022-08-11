@@ -5,7 +5,7 @@ import groupBy from 'lodash/groupBy';
 
 import { Darch } from './Darch';
 import { GraphType } from './GraphType/GraphType';
-import { AnyResolver } from './GraphType/createResolver';
+import { AnyResolver } from './Resolver';
 import { generateClientUtils } from './GraphType/generateClientUtils';
 import { getInnerGraphTypeId } from './GraphType/getInnerGraphTypeId';
 import {

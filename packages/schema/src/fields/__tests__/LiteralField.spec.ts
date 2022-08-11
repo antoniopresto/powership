@@ -2,7 +2,7 @@ import { assert, IsExact } from 'conditional-type-checks';
 import { graphql } from 'graphql';
 
 import { createType } from '../../GraphType/GraphType';
-import { createResolver } from '../../GraphType/createResolver';
+import { createResolver } from '../../Resolver';
 import { Infer } from '../../Infer';
 import { createObjectType, ObjectType } from '../../ObjectType';
 import { createGraphQLSchema } from '../../createGraphQLSchema';

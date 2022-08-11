@@ -101,8 +101,7 @@ function getModules() {
     createResolver: {
       server: true,
       // @only-server
-      module: () =>
-        require('./GraphType/createResolver') as typeof import('./GraphType/createResolver'),
+      module: () => require('./Resolver') as typeof import('./Resolver'),
     },
 
     clientUtils: {
@@ -112,11 +111,11 @@ function getModules() {
         require('./GraphType/generateClientUtils') as typeof import('./GraphType/generateClientUtils'),
     },
 
-    typesGen: {
+    typesWriter: {
       server: true,
       // @only-server
-      module: (): typeof import('./typesWatcher') => {
-        return require('./typesWatcher');
+      module: (): typeof import('./typesWriter') => {
+        return require('./typesWriter');
       },
     },
   };

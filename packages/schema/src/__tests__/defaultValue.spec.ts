@@ -1,6 +1,6 @@
 import { GraphQLParser } from '../GraphType/GraphQLParser';
 import { createType } from '../GraphType/GraphType';
-import { createResolver } from '../GraphType/createResolver';
+import { createResolver } from '../Resolver';
 import { createObjectType, ObjectType } from '../ObjectType';
 import { createGraphQLSchema } from '../createGraphQLSchema';
 
