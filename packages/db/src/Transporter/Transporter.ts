@@ -90,7 +90,7 @@ export type IndexFilterRecord<
 > =
   | (
       | ({
-          [K in PK]?: Partial<AllIndexFilter> | PKSKValueType | undefined;
+          [K in PK]: Partial<AllIndexFilter> | PKSKValueType | undefined;
         } & {
           [K in SK as SK extends string ? SK : never]?:
             | Partial<AllIndexFilter>
@@ -100,7 +100,8 @@ export type IndexFilterRecord<
       | { $and?: IndexFilterRecord<PK>[] }
       | { $or?: IndexFilterRecord<PK>[] }
       | { $not?: IndexFilterRecord<PK> }
-    ) & { [K in DocumentIndexField]?: string };
+    )
+  | { [K in 'id']?: string };
 
 export type DocumentBase = Record<string, any>;
 
@@ -111,7 +112,11 @@ export type FindManyConfig<
   PK extends string = string,
   SK extends string | undefined = string
 > = {
-  filter: IndexFilterRecord<PK, SK>;
+  filter: IndexFilterRecord<PK, SK> extends infer F
+    ? F extends unknown
+      ? { [K in keyof F]: F[K] } & {}
+      : never
+    : never;
   indexConfig: CollectionIndexConfig<
     Doc,
     PK | (SK extends undefined ? PK : SK)
@@ -130,7 +135,11 @@ export type FindOneConfig<
   PK extends string = string,
   SK extends string | undefined = string
 > = {
-  filter: IndexFilterRecord<PK, SK>;
+  filter: IndexFilterRecord<PK, SK> extends infer F
+    ? F extends unknown
+      ? { [K in keyof F]: F[K] } & {}
+      : never
+    : never;
   indexConfig: CollectionIndexConfig<
     Doc,
     PK | (SK extends undefined ? PK : SK)
@@ -180,7 +189,11 @@ export type UpdateOneConfig<
   PK extends string = string,
   SK extends string | undefined = string
 > = {
-  filter: IndexFilterRecord<PK, SK>;
+  filter: IndexFilterRecord<PK, SK> extends infer F
+    ? F extends unknown
+      ? { [K in keyof F]: F[K] } & {}
+      : never
+    : never;
   update: UpdateExpression;
   indexConfig: CollectionIndexConfig<
     Doc,
@@ -195,7 +208,11 @@ export type DeleteOneConfig<
   PK extends string = string,
   SK extends string | undefined = string
 > = {
-  filter: IndexFilterRecord<PK, SK>;
+  filter: IndexFilterRecord<PK, SK> extends infer F
+    ? F extends unknown
+      ? { [K in keyof F]: F[K] } & {}
+      : never
+    : never;
   indexConfig: CollectionIndexConfig<
     Item,
     PK | (SK extends undefined ? PK : SK)

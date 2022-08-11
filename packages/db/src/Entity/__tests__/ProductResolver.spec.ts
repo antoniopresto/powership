@@ -44,7 +44,7 @@ describe('ProductResolver', () => {
       },
     } as const);
 
-    createEntity({
+    const entity = createEntity({
       name: 'Product',
       transporter: transporter,
       type: ProductType,
@@ -57,5 +57,15 @@ describe('ProductResolver', () => {
         },
       ],
     });
+
+    await expect(entity.findOne({ filter: {}, context: {} })).rejects.toThrow(
+      'INVALID_FILTER ➤ Invalid value received ➤ Object {}'
+    );
+
+    await expect(
+      entity.findOne({ filter: { batatas: '123' } as any, context: {} })
+    ).rejects.toThrow(
+      "INVALID_FILTER ➤ Invalid value received ➤ Object { batatas: '123' }"
+    );
   });
 });

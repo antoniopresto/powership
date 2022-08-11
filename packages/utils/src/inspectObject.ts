@@ -1,10 +1,12 @@
 import { dynamicRequire } from './dynamicRequire';
+import { getTypeName } from './getTypeName';
 
 interface InspectObjectDetails {
   tabSize?: number;
   transformLine?: (text: string, index: number, item: any) => string;
   depth?: number;
   appendDetailIndex?: boolean;
+  named?: boolean | string; // print type name
 }
 
 export function inspectObject(
@@ -15,13 +17,19 @@ export function inspectObject(
   const {
     depth = 2,
     tabSize = 6,
+    named,
     transformLine = appendDetailIndex
       ? (text, index) => `[${index}]: ${text}`
       : (t) => t,
   } = options;
 
   const inspect = (obj: any, index: number) => {
-    const text = typeof obj === 'string' ? obj : _inspectObject(obj, { depth });
+    let text = typeof obj === 'string' ? obj : _inspectObject(obj, { depth });
+    if (named === true) {
+      text = `${getTypeName(obj)} ${text}`;
+    } else if (named) {
+      text = `${named} ${text}`;
+    }
     return transformLine(text, index, obj);
   };
 

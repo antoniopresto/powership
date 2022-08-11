@@ -18,6 +18,7 @@ import {
   isFilterConditionKey,
   OneFilterOperation,
 } from './Transporter';
+import { InvalidFilterError } from './errors';
 
 export const PK_SK_SEPARATOR = '↠';
 export const ID_SEPARATOR_REGEX = new RegExp(PK_SK_SEPARATOR, 'g');
@@ -179,10 +180,9 @@ export function createDocumentIndexBasedFilters(
   });
 
   if (!filtersRecords.length) {
-    devAssert(`invalid filter`, filter);
+    throw new InvalidFilterError(filter);
   }
 
-  // TODO remove duplicated startsWith by _id{number}
   return filtersRecords;
 }
 
