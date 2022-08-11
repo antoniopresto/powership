@@ -36,7 +36,7 @@
     "ts-toolbelt": "9.6.0"
   },
   "devDependencies": {
-    "@darch/builder": "2.0.0-alpha.20220724T134243-0300",
+    "@darch/builder": "^2.0.0-alpha.20220724T134243-0300",
     "@types/ejson": "2.2.0",
     "@types/fs-extra": "9.0.13",
     "@types/jest": "27.0.3",

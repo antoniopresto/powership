@@ -35,6 +35,7 @@ import {
   transporterLoaderNames,
   validateIndexNameAndField,
 } from '../Transporter';
+import { MaybePromise } from '@darch/utils';
 
 export interface EntityOptions<
   TName extends string = string,
@@ -93,6 +94,16 @@ export type Entity<Options extends EntityOptions> = Options['type'] extends {
           : never;
 
         originType: Options['type'];
+
+        getInputDefinition: //
+        ((
+          x: ToFinalField<EntityFinalDefinition<Options['type']>>
+        ) => any) extends (x: infer R) => any
+          ? R extends FinalFieldDefinition
+            ? () => R['def']
+            : never
+          : never;
+
         parse: (
           ...args: Parameters<Options['type']['parse']>
         ) => EntityDocFromType<Options['type']>;
@@ -458,6 +469,11 @@ export function createEntity<Options extends EntityOptions>(
       },
     },
     originType: { value: type },
+    getInputDefinition: {
+      value: function getInputDefinition() {
+        return objectType.definition;
+      },
+    },
   };
 
   Object.defineProperties(entity, getters);
@@ -465,11 +481,9 @@ export function createEntity<Options extends EntityOptions>(
   return entity as Entity<Options>;
 }
 
-export type EntityLoaderContext = Partial<{
-  userId(strict: false): string | undefined;
-  userId(strict: true): string;
-  userId(): string;
-}>;
+export type EntityLoaderContext = {
+  userId?(...args: unknown[]): MaybePromise<string | undefined>;
+};
 
 type EntityDocument<Document> = {
   [K in keyof (DefaultEntityFields & Document)]: (DefaultEntityFields &

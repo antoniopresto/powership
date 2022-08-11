@@ -73,6 +73,7 @@ describe('Product', () => {
     });
     expect(typeof entity.parse).toEqual('function');
     expect(entity.originType).toEqual(options.type);
+    expect(entity.getInputDefinition()).toEqual(options.type.definition.def);
 
     expect(Object.keys(entity.type.definition.def).sort()).toEqual(
       Object.keys({

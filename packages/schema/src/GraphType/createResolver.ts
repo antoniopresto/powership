@@ -15,13 +15,11 @@ import {
 import { createType, GraphType } from './GraphType';
 import { getInnerType } from './getQueryExamples';
 import { GraphTypeLike } from '../fields/IObjectLike';
+import { MaybePromise } from '@darch/utils';
 
-export type ResolverContextBase = Partial<{
-  userId(strict: false): string | undefined;
-  userId(strict: true): string;
-  userId(): string;
-  [K: string]: unknown;
-}> & {};
+export type ResolverContextBase = {
+  userId?(...args: unknown[]): MaybePromise<string | undefined>;
+};
 
 export function createResolverFactory<Context extends ResolverContextBase>(): <
   Source
