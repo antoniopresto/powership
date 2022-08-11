@@ -148,7 +148,7 @@ describe('createGraphQLObject', () => {
         letter: { enum: ['a', 'b'] },
       } as const,
       async resolve() {
-        return true;
+        return {} as any;
       },
     });
 

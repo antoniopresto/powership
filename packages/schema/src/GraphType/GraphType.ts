@@ -3,7 +3,6 @@ import { StrictMap } from '@darch/utils/lib/StrictMap';
 import { assertSame } from '@darch/utils/lib/assertSame';
 import { isProduction } from '@darch/utils/lib/env';
 import { isBrowser } from '@darch/utils/lib/isBrowser';
-import { Merge, Any } from '@darch/utils/lib/typeUtils';
 import type {
   GraphQLInterfaceType,
   GraphQLNamedInputType,
@@ -27,14 +26,11 @@ import type { ObjectToTypescriptOptions } from '../objectToTypescript';
 import { parseObjectField } from '../parseObjectDefinition';
 
 import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
-import type {
-  AnyResolver,
-  InferResolverArgs,
-  Resolver,
-  ResolverConfig,
-} from './createResolver';
+import type { AnyResolver, Resolver, ResolverConfig } from './createResolver';
 
-export class GraphType<Definition extends ObjectFieldInput> implements GraphTypeLike {
+export class GraphType<Definition extends ObjectFieldInput>
+  implements GraphTypeLike
+{
   static __isGraphType = true;
   readonly __isGraphType = true;
 
@@ -197,10 +193,16 @@ export class GraphType<Definition extends ObjectFieldInput> implements GraphType
     Context = unknown,
     ArgsDef extends ObjectDefinitionInput = ObjectDefinitionInput
   >(
-    options: Merge<
-      { type: FieldTypeDef; name: Name },
-      ResolverConfig<Context, unknown, FieldTypeDef, ArgsDef>
-    >
+    options: { type: FieldTypeDef; name: Name } & ResolverConfig<
+      Context,
+      unknown,
+      FieldTypeDef,
+      ArgsDef
+    > extends infer Options
+      ? {
+          [K in keyof Options]: Options[K];
+        }
+      : never
   ): this => {
     const object = this._object;
 
@@ -272,22 +274,9 @@ export class GraphType<Definition extends ObjectFieldInput> implements GraphType
     ArgsDef extends ObjectDefinitionInput | Readonly<ObjectDefinitionInput>
   >(
     options: Readonly<
-      Omit<
-        ResolverConfig<
-          any,
-          any,
-          Any.Cast<Definition, ObjectFieldInput>,
-          ArgsDef
-        >,
-        'type'
-      >
+      Omit<ResolverConfig<any, any, Definition, ArgsDef>, 'type'>
     >
-  ): Resolver<
-    any,
-    any,
-    ToFinalField<Definition>['__infer'],
-    InferResolverArgs<ArgsDef>
-  > => {
+  ): Resolver<any, any, Definition, ArgsDef> => {
     // @ts-ignore circular
     return Darch.createResolver({
       type: this,

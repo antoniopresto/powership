@@ -14,11 +14,7 @@ import { hooks, Waterfall } from '@darch/utils/lib/hooks';
 import { nonNullValues, notNull } from '@darch/utils/lib/invariant';
 import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 import { capitalize } from '@darch/utils/lib/stringCase';
-import {
-  AnyFunction,
-  Merge,
-  UnionToIntersection,
-} from '@darch/utils/lib/typeUtils';
+import { AnyFunction, UnionToIntersection } from '@darch/utils/lib/typeUtils';
 
 import {
   AnyCollectionIndexConfig,
@@ -69,6 +65,12 @@ type EntityFinalDefinition<InputDef> = InputDef extends {
   ? {
       [K in keyof (EntityGeneratedFields &
         Definition)]: (EntityGeneratedFields & Definition)[K];
+    }
+  : never;
+
+type Merge<A, B> = A & B extends infer AB
+  ? {
+      [K in keyof AB]: AB[K];
     }
   : never;
 
@@ -458,9 +460,12 @@ export type EntityLoaderContext = Partial<{
   userId(strict: false): string | undefined;
   userId(strict: true): string;
   userId(): string;
-}> & {};
+}>;
 
-type EntityDocument<Document> = Merge<DefaultEntityFields, Document>;
+type EntityDocument<Document> = {
+  [K in keyof (DefaultEntityFields & Document)]: (DefaultEntityFields &
+    Document)[K];
+} & {};
 
 export type EntityHooks<
   Document extends DocumentBase,
@@ -611,7 +616,7 @@ type EntityTransporterMethod<
   Context extends EntityLoaderContext = Record<string, any>
 > = Method extends (config: infer Config) => infer Result
   ? ((
-      config: Merge<Omit<Config, 'dataloaderContext'>, { context: Context }>
+      config: Omit<Config, 'dataloaderContext'> & { context: Context }
     ) => Result) & {
       indexInfo: [ParsedIndexKey, ...ParsedIndexKey[]];
     }
@@ -705,7 +710,11 @@ type EntityDocFromType<Type> = Type extends {
   parse(...args: any[]): infer Result;
 }
   ? Result extends DocumentBase
-    ? Merge<DefaultEntityFields, Result>
+    ? DefaultEntityFields & Result extends infer R
+      ? {
+          [K in keyof R]: R[K];
+        }
+      : never
     : never
   : never;
 
