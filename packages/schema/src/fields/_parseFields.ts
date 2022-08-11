@@ -1,8 +1,5 @@
-import { NullableToPartial } from '@darch/utils/lib/typeUtils';
+import { NullableToPartial } from '@darch/utils';
 
-import { GraphType } from '../GraphType/GraphType';
-
-import { GraphTypeLike, ObjectLike } from './IObjectLike';
 import {
   CommonFieldDefinition,
   CursorType,
@@ -11,8 +8,8 @@ import {
 } from './_fieldDefinitions';
 
 export type ObjectFieldInput =
-  | GraphTypeLike
-  | ObjectLike
+  | _GraphType
+  | _ObjectType
   | ObjectInTypeFieldDefinition
   | GraphTypeInTypeFieldDefinition
   | FinalFieldDefinition
@@ -28,10 +25,10 @@ interface ObjectInputArray extends ReadonlyArray<ObjectFieldInput> {
 }
 
 export interface ObjectInTypeFieldDefinition
-  extends CommonFieldDefinition<ObjectLike> {}
+  extends CommonFieldDefinition<_ObjectType> {}
 
 export interface GraphTypeInTypeFieldDefinition
-  extends CommonFieldDefinition<GraphTypeLike> {}
+  extends CommonFieldDefinition<_GraphType> {}
 
 export interface ObjectDefinitionInput {
   [K: string]: ObjectFieldInput;
@@ -79,16 +76,16 @@ export type _toFinalField<Base> = //
   //
 
   // ====== handling GraphType as Field =====
-  Base extends GraphType<infer Def>
-    ? _toFinalField<Def>
+  Base extends _GraphType
+    ? Omit<Base['definition'], '__infer'>
     : Base extends {
-        type: GraphType<infer Def>;
+        type: _GraphType;
         list?: infer List;
         optional?: infer Optional;
       }
     ? {
-        type: ToFinalField<Def>['type'];
-        def: ToFinalField<Def>['def'];
+        type: Base['type']['definition']['type'];
+        def: Base['type']['definition']['def'];
         list: [List] extends [true] ? true : false;
         optional: [Optional] extends [true] ? true : false;
       }
@@ -103,7 +100,7 @@ export type _toFinalField<Base> = //
     : // === end handling fieldType instance
 
     Base extends {
-        type: ObjectLike;
+        type: _ObjectType;
         list?: infer List;
         optional?: infer Optional;
       }
@@ -116,7 +113,7 @@ export type _toFinalField<Base> = //
       }
     : //
     Base extends {
-        object: ObjectLike;
+        object: _ObjectType;
         list?: infer List;
         optional?: infer Optional;
       }
@@ -129,7 +126,7 @@ export type _toFinalField<Base> = //
       }
     : //
     //
-    Base extends ObjectLike
+    Base extends _ObjectType
     ? {
         type: 'object';
         def: Base['definition'];
@@ -142,13 +139,17 @@ export type _toFinalField<Base> = //
 
     // === start handling list ===
     Base extends [infer Item] | Readonly<[infer Item]>
-    ? {
-        type: ToFinalField<Item>['type'];
-        def: ToFinalField<Item>['def'];
-        list: true;
-        optional: false;
-        description: string | undefined;
-      }
+    ? ToFinalField<Item> extends infer P
+      ? P extends FinalFieldDefinition
+        ? {
+            type: P['type'];
+            def: P['def'];
+            list: true;
+            optional: false;
+            description: string | undefined;
+          }
+        : never
+      : never
     : // === end handling list
 
     // ==== start handling FieldAsString ====
@@ -369,3 +370,13 @@ type _inferBasic<Type, Def = undefined> =
       ? Val
       : never
     : never;
+
+interface _ObjectType {
+  __isDarchObject: true;
+  definition: { [K: string]: FinalFieldDefinition };
+}
+
+interface _GraphType {
+  __isGraphType: true;
+  definition: FinalFieldDefinition;
+}

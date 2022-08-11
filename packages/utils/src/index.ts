@@ -1,5 +1,6 @@
 import * as TU from './typeUtils';
 
+export * from './typeUtils';
 export * from './devAssert';
 export * from './DarchJSON';
 export * from './getTypeName';
@@ -24,15 +25,20 @@ export * from './textToBase64';
 export * from './pluralize';
 export * from './memoize';
 export * from './scapeRegex';
-export * from './invariant'
-export * from './upperFirst'
-export * from './inspectObject'
-export * from './threadId'
-export * from './hoper'
-export * from './StrictMap'
-export * from './mitt'
-export * from './stringCase'
-export * from './dateSerialize'
+export * from './invariant';
+export * from './upperFirst';
+export * from './inspectObject';
+export * from './threadId';
+export * from './hoper';
+export * from './StrictMap';
+export * from './mitt';
+export * from './stringCase';
+export * from './dateSerialize';
+export * from './areEqual';
+export * from './assertSame';
+export * from './conust';
+export * from './fvn1a';
+export * from './simpleObjectClone';
 
 // export * from './logLevels'
 // export * from './logger'
@@ -40,6 +46,5 @@ export * from './dateSerialize'
 // export * from './big'
 // export * from './ulid'
 // export * from './jsonToTypescript'
-
 
 export { TU };

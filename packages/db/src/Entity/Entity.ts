@@ -80,7 +80,7 @@ export type Entity<Options extends EntityOptions> = Options['type'] extends {
       {
         name: Options['name'];
         indexes: Options['indexes'];
-        type: GraphType<EntityFinalDefinition<Options['type']>>;
+        type: GraphType<{ object: EntityFinalDefinition<Options['type']> }>;
         originType: Options['type'];
         parse: (
           ...args: Parameters<Options['type']['parse']>

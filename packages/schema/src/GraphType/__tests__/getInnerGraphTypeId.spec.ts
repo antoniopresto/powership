@@ -3,7 +3,7 @@ import { createType, GraphType } from '../GraphType';
 import { getInnerGraphTypeId } from '../getInnerGraphTypeId';
 
 describe('getInnerGraphTypeId', () => {
-  let type: GraphType<unknown>;
+  let type: GraphType<any>;
   let typeName = 'RamonValdez';
 
   beforeEach(async () => {

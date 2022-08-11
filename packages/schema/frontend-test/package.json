@@ -10,7 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@darch/schema": "2.0.0-alpha.1658531272.4",
+    "@darch/schema": "2.0.0-alpha.20220810T234645-0300.31",
     "@next/bundle-analyzer": "12.2.0",
     "next": "12.1.6",
     "react": "18.1.0",

@@ -6,7 +6,8 @@ export { objectMetaFieldKey } from './fields/MetaFieldField';
 export * from './GraphType/GraphType';
 export { Darch } from './Darch';
 export * from './fields/IObjectLike';
+export * from './applyValidator';
+export * from '@darch/utils';
+
 // @only-server
 export * from './GraphType/createResolver';
-export * from './utils';
-export * from './applyValidator';

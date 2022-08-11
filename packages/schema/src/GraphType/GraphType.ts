@@ -3,7 +3,7 @@ import { StrictMap } from '@darch/utils/lib/StrictMap';
 import { assertSame } from '@darch/utils/lib/assertSame';
 import { isProduction } from '@darch/utils/lib/env';
 import { isBrowser } from '@darch/utils/lib/isBrowser';
-import { Merge } from '@darch/utils/lib/typeUtils';
+import { Merge, Any } from '@darch/utils/lib/typeUtils';
 import type {
   GraphQLInterfaceType,
   GraphQLNamedInputType,
@@ -27,9 +27,14 @@ import type { ObjectToTypescriptOptions } from '../objectToTypescript';
 import { parseObjectField } from '../parseObjectDefinition';
 
 import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
-import type { AnyResolver, Resolver, ResolverConfig } from './createResolver';
+import type {
+  AnyResolver,
+  InferResolverArgs,
+  Resolver,
+  ResolverConfig,
+} from './createResolver';
 
-export class GraphType<Definition> implements GraphTypeLike {
+export class GraphType<Definition extends ObjectFieldInput> implements GraphTypeLike {
   static __isGraphType = true;
   readonly __isGraphType = true;
 
@@ -267,9 +272,22 @@ export class GraphType<Definition> implements GraphTypeLike {
     ArgsDef extends ObjectDefinitionInput | Readonly<ObjectDefinitionInput>
   >(
     options: Readonly<
-      Omit<ResolverConfig<any, any, Definition, ArgsDef>, 'type'>
+      Omit<
+        ResolverConfig<
+          any,
+          any,
+          Any.Cast<Definition, ObjectFieldInput>,
+          ArgsDef
+        >,
+        'type'
+      >
     >
-  ): Resolver<any, any, Definition, ArgsDef> => {
+  ): Resolver<
+    any,
+    any,
+    ToFinalField<Definition>['__infer'],
+    InferResolverArgs<ArgsDef>
+  > => {
     // @ts-ignore circular
     return Darch.createResolver({
       type: this,
@@ -299,9 +317,13 @@ export class GraphType<Definition> implements GraphTypeLike {
     return input?.__isGraphType === true;
   }
 
-  static isTypeDefinition(
-    input: any
-  ): input is { type: GraphTypeLike; list?: boolean; optional?: boolean } {
+  static isTypeDefinition(input: any): input is {
+    type: GraphTypeLike;
+    list?: boolean;
+    optional?: boolean;
+    description?: string;
+    defaultValue?: unknown;
+  } {
     return input?.type?.__isGraphType === true;
   }
 }
