@@ -36,6 +36,7 @@ import {
   validateIndexNameAndField,
 } from '../Transporter';
 import { MaybePromise } from '@darch/utils';
+import { isMetaFieldKey } from '@darch/schema/lib/fields/MetaFieldField';
 
 export interface EntityOptions<
   TName extends string = string,
@@ -74,6 +75,14 @@ type Merge<A, B> = A & B extends infer AB
   ? {
       [K in keyof AB]: AB[K];
     }
+  : never;
+
+type _GetDef<OptionType> = ((
+  x: ToFinalField<EntityFinalDefinition<OptionType>>
+) => any) extends (x: infer R) => any
+  ? R extends FinalFieldDefinition
+    ? R['def']
+    : never
   : never;
 
 // export type EntityGraphType<T> = T extends
@@ -126,7 +135,10 @@ export type Entity<Options extends EntityOptions> = Options['type'] extends {
             };
           } & {
             [K in keyof Loaders]: Loaders[K] & {
-              getFilterType(): GetLoaderFilterType<Loaders[K]>;
+              getFilterType(): GetLoaderFilterType<
+                Loaders[K],
+                _GetDef<Options['type']> & EntityGeneratedFields
+              >;
             };
           }
         : never
@@ -378,10 +390,21 @@ export function createEntity<Options extends EntityOptions>(
     function getFilterType() {
       getEntityGraphType();
 
+      function _wrap(obj: object) {
+        const o: any = { id: { type: 'ID', optional: true } };
+        Object.keys(obj).forEach((k) => {
+          if (isMetaFieldKey(k)) return;
+          o[k] = { ...obj[k], optional: true };
+        });
+        return o;
+      }
+
       if (indexInfo.length === 1) {
-        return indexGraphTypes[
-          indexInfo[0].index.name
-        ]._object!.cleanDefinition();
+        return _wrap({
+          ...indexGraphTypes[
+            indexInfo[0].index.name
+          ]._object!.cleanDefinition(),
+        });
       }
 
       const all: any = {};
@@ -398,7 +421,7 @@ export function createEntity<Options extends EntityOptions>(
           };
         });
       });
-      return all;
+      return _wrap(all);
     }
 
     Object.defineProperties(loader, {
@@ -762,14 +785,39 @@ export const EntityGeneratedFields = _EntityGeneratedFields({
   updatedAt: { type: 'date' },
 });
 
-type GetLoaderFilterType<Loader> = Loader extends (config: infer Config) => any
+type GetLoaderFilterType<Loader, DocDef> = Loader extends (
+  config: infer Config
+) => any
   ? 'filter' extends keyof Config
     ? Config['filter'] extends IndexFilterRecord<infer PK, infer SK>
-      ? { [L in PK]: FinalFieldDefinition } & ([SK] extends [string]
-          ? { [L in SK]: FinalFieldDefinition }
+      ? {
+          [L in PK]: L extends keyof DocDef
+            ? _FinalOptionalField<DocDef[L]>
+            : never; //
+        } & (// //
+        [SK] extends [string]
+          ? {
+              //
+              [L in SK]: L extends keyof DocDef
+                ? _FinalOptionalField<DocDef[L]>
+                : never; //
+              //
+            }
           : {}) extends infer F
-        ? { [K in keyof F]: F[K] } & {}
+        ? { [K in keyof F]: F[K] } & {
+            id: _FinalOptionalField<'ID?'>;
+          } extends infer R
+          ? { [K in keyof R]: R[K] }
+          : never
         : never
       : undefined
     : undefined
+  : never;
+
+type _FinalOptionalField<T> = {
+  [K in keyof ToFinalField<T> as K extends '__infer'
+    ? never
+    : K]: K extends 'optional' ? true : ToFinalField<T>[K];
+} extends infer R
+  ? { [K in keyof R]: R[K] }
   : never;

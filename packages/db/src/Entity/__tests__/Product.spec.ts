@@ -482,12 +482,24 @@ describe('Product', () => {
 
     test('toFilterFields', async () => {
       expect(entity.findManyByStoreAndSKU.getFilterType()).toEqual({
-        SKU: { def: { min: 3 }, list: false, optional: true, type: 'string' },
-        __dschm__: { def: { id: null }, type: 'meta' },
-        storeId: {
-          def: { autoCreate: false },
+        SKU: {
+          def: {
+            min: 3,
+          },
           list: false,
-          optional: false,
+          optional: true,
+          type: 'string',
+        },
+        id: {
+          optional: true,
+          type: 'ID',
+        },
+        storeId: {
+          def: {
+            autoCreate: false,
+          },
+          list: false,
+          optional: true,
           type: 'ID',
         },
       });
@@ -501,12 +513,9 @@ describe('Product', () => {
           optional: true,
           type: 'string',
         },
-        __dschm__: {
-          def: {
-            id: null,
-          },
+        id: {
           optional: true,
-          type: 'meta',
+          type: 'ID',
         },
         storeId: {
           def: {
