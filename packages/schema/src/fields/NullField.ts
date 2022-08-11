@@ -9,6 +9,10 @@ export class NullField extends FieldType<string, 'null', undefined> {
     super('null', undefined);
 
     this.parse = this.applyParser({
+      preParse(input: any) {
+        if (input === undefined) return null;
+        return input;
+      },
       parse(input: string) {
         expectedType({ value: input }, 'null');
         return input;

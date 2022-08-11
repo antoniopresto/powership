@@ -774,12 +774,12 @@ export const EntityGeneratedFields = _EntityGeneratedFields({
   id: { type: 'string' },
   ulid: { type: 'string' },
   createdBy: {
-    type: 'union',
-    def: ['string', 'null'],
+    type: 'string',
+    optional: true,
   },
   updatedBy: {
-    type: 'union',
-    def: ['string', 'null'],
+    type: 'string',
+    optional: true,
   },
   createdAt: { type: 'date' },
   updatedAt: { type: 'date' },

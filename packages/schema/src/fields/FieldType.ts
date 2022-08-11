@@ -87,6 +87,10 @@ export abstract class FieldType<Type, TypeName extends string, Def> {
         input = this.defaultValue;
       }
 
+      if (input === null && this.optional) {
+        input = undefined;
+      }
+
       if (input === undefined && !this.optional) {
         throw new Error(`Required field`);
       }
