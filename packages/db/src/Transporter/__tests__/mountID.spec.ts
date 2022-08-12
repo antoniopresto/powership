@@ -1,4 +1,9 @@
-import { ID_KEY_SEPARATOR, mountID } from '../CollectionIndex';
+import {
+  ID_KEY_SEPARATOR,
+  mountGraphID,
+  mountID,
+  parseGraphID,
+} from '../CollectionIndex';
 
 describe('mountID', () => {
   it('1', async () => {
@@ -30,5 +35,43 @@ describe('mountID', () => {
     expect(cart_item_by_store).toEqual(
       'cart_item#user\u0000#fulano\u0000↠\u0000#store\u0000#abc\u0000↠stoId007↠'
     );
+  });
+
+  describe('mountGraphID', () => {
+    const indexConfig = {
+      entity: 'users',
+      indexes: [
+        {
+          name: 'foo',
+          field: '_id',
+          PK: ['.name'],
+          SK: ['.age'],
+        },
+        {
+          name: 'bar',
+          field: '_id1',
+          PK: ['.age'],
+          SK: ['.name'],
+        },
+      ],
+    } as const;
+
+    test('1', () => {
+      expect(() => mountGraphID({}, indexConfig)).toThrow(
+        'Failed to mount document indexes.'
+      );
+    });
+
+    test('2', () => {
+      const id = mountGraphID({ name: 'antonio', age: 32 }, indexConfig);
+
+      expect(id).toEqual('dXNlcnM6X2lkOnVzZXJzI2FudG9uaW/ihqA3MjMy');
+
+      expect(parseGraphID(id)).toEqual({
+        e: 'users',
+        i: '_id',
+        v: 'users#antonio↠7232',
+      });
+    });
   });
 });

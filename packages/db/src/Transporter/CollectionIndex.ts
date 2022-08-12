@@ -1,4 +1,3 @@
-import { DarchJSON } from '@darch/utils/lib/DarchJSON';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { encodeNumber } from '@darch/utils/lib/conust';
 import { devAssert } from '@darch/utils/lib/devAssert';
@@ -19,6 +18,7 @@ import {
   OneFilterOperation,
 } from './Transporter';
 import { InvalidFilterError } from './errors';
+import { textToBase64 } from '@darch/utils';
 
 export const PK_SK_SEPARATOR = '↠';
 export const ID_SEPARATOR_REGEX = new RegExp(PK_SK_SEPARATOR, 'g');
@@ -45,29 +45,33 @@ export function mountID(params: {
   }`;
 }
 
-export function isBase64Id(input: unknown): input is `_:${string}` {
-  return typeof input === 'string' && input.startsWith('_:');
-}
+export type GraphIDJSON = {
+  i: string; // index name
+  e: string; // entity
+  v: string; // id value
+};
 
-export function getIDFromString(input: string) {
-  if (!isBase64Id(input)) {
-    return {
-      i: undefined,
-      v: input,
-    };
-  }
-
+export function parseGraphID(input: string): GraphIDJSON | null {
   try {
-    const content = base64ToText(input.slice(2));
-    const { i, v } = DarchJSON.parse(content);
+    const parts = base64ToText(input).split(':');
+    if (parts.length !== 3) return null;
+    const [e, i, v] = parts;
 
-    if (!i || !v || typeof i !== 'string' || typeof v !== 'string') {
-      throw new RuntimeError(`INVALID_ID`, { content, i, v });
+    if (
+      !e ||
+      !i ||
+      !v ||
+      typeof i !== 'string' ||
+      typeof v !== 'string' ||
+      typeof e !== 'string'
+    ) {
+      throw new RuntimeError(`INVALID_GRAPH_ID`, { input, i, v, e });
     }
 
     return {
       i,
       v,
+      e,
     };
   } catch (e) {
     Logger.logError(e);
@@ -75,10 +79,22 @@ export function getIDFromString(input: string) {
   }
 }
 
-export function idToBase64(id: string, indexName: string) {
-  if (isBase64Id(id)) return id;
-  const json = { i: indexName, v: id };
-  return `_:${DarchJSON.stringify(json)}`;
+export function mountGraphID(
+  doc: Record<string, any>,
+  indexConfig: AnyCollectionIndexConfig
+) {
+  const parsed = getDocumentIndexFields(doc, indexConfig);
+  if (!parsed.valid) throw parsed.error;
+
+  const json: GraphIDJSON = {
+    i: parsed.firstIndex.key,
+    e: indexConfig.entity,
+    v: parsed.firstIndex.value,
+  };
+
+  const txt = `${json.e}:${json.i}:${json.v}`;
+
+  return textToBase64(txt);
 }
 
 /**
@@ -102,16 +118,18 @@ export function createDocumentIndexBasedFilters(
   indexes.forEach((index) => {
     filterKeys.forEach((key) => {
       const value = filter[key];
+
       if (DocumentIndexRegex.test(key) && typeof value === 'string') {
-        const id = getIDFromString(value);
-        if (id.i) {
+        const id = parseGraphID(value);
+
+        if (id) {
           return filtersRecords.push({
             [id.i]: id.v,
           });
         } else {
           return filtersRecords.push({
             $or: indexConfig.indexes.map((index) => ({
-              [index.field]: id.v,
+              [index.field]: value,
             })),
           });
         }

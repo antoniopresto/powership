@@ -18,5 +18,5 @@ export function base64ToText(text: string) {
     return window.btoa(text);
   }
 
-  return Buffer.from(text, 'base64').toString('base64');
+  return Buffer.from(text, 'base64').toString();
 }

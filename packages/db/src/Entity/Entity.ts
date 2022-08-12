@@ -28,6 +28,8 @@ import {
   getDocumentIndexFields,
   getParsedIndexKeys,
   IndexFilterRecord,
+  mountGraphID,
+  ParsedDocumentIndexes,
   ParsedIndexKey,
   Transporter,
   TransporterLoader,
@@ -148,10 +150,21 @@ export type Entity<Options extends EntityOptions> = Options['type'] extends {
                   object: ObjectDefinitionInput;
                 }>;
               };
+
+              getDocumentId(doc: Record<string, any>): string;
+              parseDocumentIndexes(
+                doc: Record<string, any>
+              ): ParsedDocumentIndexes;
             }
           : never
         : never
-    >
+    > extends infer FinalEntity
+    ? FinalEntity & {
+        extend<Extension extends { [K: string]: unknown }>(
+          handler: (current: FinalEntity) => Extension
+        ): FinalEntity & Extension;
+      }
+    : never
   : never;
 
 const ulidField = Darch.ulid({ autoCreate: true });
@@ -507,6 +520,23 @@ export function createEntity<Options extends EntityOptions>(
     originType: { value: type },
     inputDefinition: {
       value: objectType.definition,
+    },
+    extend: {
+      value: function extend(cb) {
+        const partial = cb(entity);
+        if (!partial || typeof partial !== 'object') return entity;
+        return Object.assign(entity, partial);
+      },
+    },
+    getDocumentId: {
+      value: function getDocumentId(doc): string {
+        return mountGraphID(doc, indexConfig);
+      },
+    },
+    parseDocumentIndexes: {
+      value: function parseDocumentIndexes(doc): ParsedDocumentIndexes {
+        return getDocumentIndexFields(doc, indexConfig);
+      },
     },
   };
 

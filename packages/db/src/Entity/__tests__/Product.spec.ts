@@ -60,6 +60,18 @@ describe('Product', () => {
     await mockApp.reset();
   });
 
+  test('extend', async () => {
+    const entity = _getEntity();
+
+    const ext = entity.extend(() => {
+      return {
+        foo: () => 1,
+      };
+    });
+
+    expect(ext.foo()).toEqual(1);
+  });
+
   test('properties', () => {
     const entity = _getEntity();
     const options = _getOptions();
