@@ -11,7 +11,7 @@ import { ToFinalField } from '../fields/_parseFields';
 describe('Union', () => {
   it('parses', () => {
     expect(() => UnionField.create(['string', 'int']).parse(undefined)).toThrow(
-      'Required field'
+      'required field'
     );
 
     expect(() => {
@@ -42,7 +42,7 @@ describe('Union', () => {
     );
 
     expect(() => sut.parse([{ name: 1 }])).toThrow(
-      '➤ field "sub": expected type object, found undefined. at position 0'
+      '➤ field "sub": expected object, found undefined. at position 0'
     );
 
     expect(

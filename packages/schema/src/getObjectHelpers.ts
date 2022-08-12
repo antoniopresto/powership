@@ -1,16 +1,13 @@
 import { getKeys } from '@darch/utils/lib/getKeys';
 
-import type { ObjectType } from './ObjectType';
-import { TAnyFieldType } from './fields/FieldType';
+import type { FinalFieldDefinition, ObjectType } from './ObjectType';
 import { isMetaFieldKey, MetaFieldDef } from './fields/MetaFieldField';
-import {
-  FinalFieldDefinition,
-  ObjectDefinitionInput,
-} from './fields/_parseFields';
+import { ObjectDefinitionInput } from './fields/_parseFields';
 import { __getCachedFieldInstance } from './parseObjectDefinition';
+import { AnyField } from './fields/AnyField';
 
 export type ObjectFieldListItem<T extends ObjectDefinitionInput> = {
-  instance: TAnyFieldType;
+  instance: AnyField;
   name: Extract<keyof T, string>;
   plainField: FinalFieldDefinition;
 };

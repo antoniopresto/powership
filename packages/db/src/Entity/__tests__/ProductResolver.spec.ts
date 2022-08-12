@@ -1,7 +1,10 @@
-import { createEntity } from '../Entity';
+import { createEntity, EntityGeneratedFields } from '../Entity';
 import { AppMock, createAppMock } from '../../Mongo/__tests__/createAppMock';
 import { MongoTransporter } from '../../Mongo';
-import { createType, ObjectType } from '@darch/schema';
+import { createResolver, createType, ObjectType } from '@darch/schema';
+import { slugify } from '@darch/utils/lib/slugify';
+import { objectMock } from '@darch/schema';
+import { getTypeName } from '@darch/utils';
 
 describe('ProductResolver', () => {
   let mockApp: AppMock;
@@ -44,26 +47,80 @@ describe('ProductResolver', () => {
       },
     } as const);
 
-    const entity = createEntity({
+    const ProductEntity = createEntity({
       name: 'Product',
-      transporter: transporter,
+      transporter,
       type: ProductType,
       indexes: [
         {
           name: 'byStore',
           field: '_id',
-          PK: ['.storeId'], //
+          PK: ['.storeId'],
           SK: ['.sku'],
         },
       ],
     });
 
-    await expect(entity.findOne({ filter: {}, context: {} })).rejects.toThrow(
-      'INVALID_FILTER'
-    );
+    await expect(
+      ProductEntity.findOne({ filter: {}, context: {} })
+    ).rejects.toThrow('INVALID_FILTER');
 
     await expect(
-      entity.findOne({ filter: { batatas: '123' } as any, context: {} })
+      ProductEntity.findOne({ filter: { batatas: '123' } as any, context: {} })
     ).rejects.toThrow('INVALID_FILTER');
+
+    const productCreateResolver = createResolver({
+      type: ProductEntity.type,
+      name: 'productCreate',
+      kind: 'mutation',
+      args: ProductEntity.inputDefinition,
+      async resolve(_root, args, context) {
+        const storeId = '123';
+
+        const item = {
+          ...args,
+          storeId,
+        };
+
+        item.slug = `${slugify(args.title)}_:${ProductEntity.getDocumentId(
+          item
+        )}`;
+
+        const result = await ProductEntity.createOne({
+          item,
+          context,
+        });
+
+        if (!result.item) {
+          throw new Error('Failed to create product.');
+        }
+
+        return result.item;
+      },
+    });
+
+    const obj: any = objectMock(ProductEntity.originType._object!.definition);
+    const defaultMock = objectMock(EntityGeneratedFields);
+
+    const res = await productCreateResolver.resolve(
+      {},
+      obj,
+      { userId: () => '123' },
+      {} as any
+    );
+
+    const shape = Object.entries({ ...defaultMock, ...res }).reduce(
+      (acc, [name, val]) => {
+        const tn = getTypeName(val);
+        const cons = eval(tn);
+        return {
+          ...acc,
+          [name]: expect.any(cons),
+        };
+      },
+      {}
+    );
+
+    expect(res).toEqual(shape);
   });
 });

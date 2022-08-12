@@ -25,6 +25,7 @@ import {
   isStringFieldDefinition,
   parseStringDefinition,
 } from './parseStringDefinition';
+import { AnyField } from './fields/AnyField';
 
 export function parseObjectField<T extends FieldDefinitionConfig>(
   fieldName: string,
@@ -90,13 +91,23 @@ export function parseFieldDefinitionConfig(
       defaultValue,
     } = definition;
 
-    return parseFieldDefinitionConfig({
+    const def = {
       ...definition.type.definition,
-      description: description || definition.type.definition.description,
       list,
       optional,
-      defaultValue,
-    });
+    };
+
+    const _description = description || definition.type.definition.description;
+
+    if (_description) {
+      def.description = _description;
+    }
+
+    if (defaultValue !== undefined) {
+      def.defaultValue = defaultValue;
+    }
+
+    return parseFieldDefinitionConfig(def);
   }
 
   if (isStringFieldDefinition(definition)) {
@@ -132,24 +143,14 @@ export function parseFieldDefinitionConfig(
       definition.optional = isOptionalUnion;
     }
 
-    return {
-      ...definition,
-      type: definition.type,
-      description: definition.description,
-      def: definition.def,
-      optional: !!definition.optional,
-      list: !!definition.list,
-    };
+    return definition;
   }
 
   if (isListDefinition(definition)) {
     const parsed = parseFieldDefinitionConfig(definition[0]);
-
-    return {
-      ...parsed,
-      list: true,
-      optional: false,
-    };
+    parsed.list = true;
+    parsed.optional = false;
+    return parsed;
   }
 
   if (isObject(definition)) {
@@ -327,9 +328,14 @@ export function parseFlattenFieldDefinition(input: any) {
   });
 }
 
-export function __getCachedFieldInstance(field: any): TAnyFieldType {
-  return nonNullValues({ __cachedFieldInstance: field?.__cachedFieldInstance })
-    .__cachedFieldInstance;
+export function __getCachedFieldInstance(
+  field: FinalFieldDefinition & { [K: string]: any }
+): AnyField {
+  if (field?.__cachedFieldInstance) return field.__cachedFieldInstance;
+  const parsed = parseFieldDefinitionConfig(field);
+  const instanceFromDef = fieldInstanceFromDef(parsed);
+  setCachedFieldInstance(parsed, instanceFromDef);
+  return instanceFromDef;
 }
 
 function setCachedFieldInstance(field, instanceFromDef: TAnyFieldType) {

@@ -22,6 +22,7 @@ describe('mockObject', () => {
         categories: ['string'],
         spotlight: 'boolean?',
         html: 'string?',
+        lit: { literal: { a: 1 } },
       },
     } as const);
 
@@ -39,10 +40,11 @@ describe('mockObject', () => {
       sku: expect.any(String),
       slug: expect.any(String),
       spotlight: expect.any(Boolean),
-      storeId: expect.any(Number),
+      storeId: expect.any(String),
       tags: expect.any(Array),
       thumbUrl: expect.any(String),
       title: expect.any(String),
+      lit: { a: 1 },
     });
   });
 });

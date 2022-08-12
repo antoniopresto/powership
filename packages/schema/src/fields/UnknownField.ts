@@ -21,7 +21,7 @@ export class UnknownField extends FieldType<
       parse: (input) => {
         if (input === undefined) {
           if (this.optional) return input;
-          throw new Error(`Required field`);
+          throw new Error(`required field`);
         }
 
         if (types?.length) {

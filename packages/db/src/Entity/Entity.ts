@@ -60,8 +60,8 @@ export interface EntityOptions<
 export type DefaultEntityFields = {
   id: string;
   ulid: string;
-  createdBy: string | null;
-  updatedBy: string | null;
+  createdBy: string | undefined;
+  updatedBy: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -224,8 +224,8 @@ export function createEntity<Options extends EntityOptions>(
       doc.ulid = doc.ulid || createUlid();
       doc.createdAt = new Date();
       doc.updatedAt = new Date();
-      doc.createdBy =
-        doc.createdBy || (await ctx.context?.userId?.(false)) || null;
+      doc.createdBy = doc.createdBy || (await ctx.context?.userId?.(false));
+      doc.updatedBy = doc.updatedBy || (await ctx.context?.userId?.(false));
 
       const parsedIndexes = getDocumentIndexFields(doc, indexConfig);
 
@@ -243,15 +243,6 @@ export function createEntity<Options extends EntityOptions>(
       }
 
       return doc;
-    }
-
-    if (ctx.isUpdate) {
-      doc.$set = {
-        ...doc.$set,
-        updatedAt: doc.updatedAt || new Date(),
-        updatedBy:
-          doc.updatedBy || (await ctx.context?.userId?.(false)) || null,
-      };
     }
 
     if (ctx.isUpsert) {

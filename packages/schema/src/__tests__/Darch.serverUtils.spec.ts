@@ -62,9 +62,7 @@ describe('Darch aliases', () => {
 
     assert<IsExact<{ name: string }, U>>(true);
 
-    expect(() => obj.parse({})).toThrow(
-      '➤ field "name": expected type string, found undefined.'
-    );
+    expect(() => obj.parse({})).toThrow('➤ field "name": required field.');
   });
 
   test('graphql', () => {

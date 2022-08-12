@@ -3,10 +3,11 @@ import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { FieldType, TAnyFieldType } from './fields/FieldType';
 import { FinalFieldDefinition } from './fields/_parseFields';
 import { types } from './fields/fieldTypes';
+import { AnyField } from './fields/AnyField';
 
 export function fieldInstanceFromDef(
   definition: FinalFieldDefinition
-): TAnyFieldType {
+): AnyField {
   if (!types[definition.type]) {
     throw new RuntimeError(
       `invalid field definition. types["${definition?.type}"] is undefined`,
@@ -16,7 +17,7 @@ export function fieldInstanceFromDef(
     );
   }
 
-  const fieldConstructor = types[definition.type] as typeof FieldType;
+  const fieldConstructor = types[definition.type] as typeof AnyField;
 
   let field = fieldConstructor.create(definition.def);
 

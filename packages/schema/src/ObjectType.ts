@@ -188,10 +188,6 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
 
       const fieldDef: FinalFieldDefinition = this.definition[currField];
 
-      if (input[currField] === undefined) {
-        input[currField] = fieldDef.defaultValue;
-      }
-
       const value = input[currField];
 
       const hasAutoCreateOption = fieldDef?.def?.['autoCreate'] === true;
@@ -207,9 +203,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
       });
 
       if (result.parsed !== undefined) {
-        if (Object.prototype.hasOwnProperty.call(input, currField)) {
-          parsed[currField] = result.parsed;
-        }
+        parsed[currField] = result.parsed;
       }
 
       errors.push(...result.errors);

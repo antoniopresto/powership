@@ -12,6 +12,7 @@ import {
 import { Infer } from './Infer';
 import { CursorField } from './fields/CursorField';
 import { FieldTypeName } from './fields/_fieldDefinitions';
+import { LiteralField } from './fields/LitarealField';
 
 export function objectMock<T extends { [K: string]: FinalFieldDefinition }>(
   definition: T,
@@ -43,8 +44,8 @@ export function objectMock<T extends { [K: string]: FinalFieldDefinition }>(
       enum: () => (Array.isArray(def) ? def[0] : undefined),
       ulid: () => ulid(),
       union: () => (Array.isArray(def) ? fieldToMock(def[0]) : undefined),
-      ID: () => 1,
-      literal: () => randomText(),
+      ID: () => ulid(),
+      literal: () => LiteralField.utils.deserialize(def),
       null: () => null,
       meta: () => createEmptyMetaField(),
     };

@@ -83,16 +83,27 @@ export abstract class FieldType<Type, TypeName extends string, Def> {
         input = parser.preParse(input);
       }
 
-      if (input === undefined) {
+      if (
+        input === undefined ||
+        (input === null && this.defaultValue !== undefined)
+      ) {
         input = this.defaultValue;
       }
 
-      if (input === null && this.optional) {
-        input = undefined;
+      if (this.type === 'null' && input === undefined) {
+        return null;
+      }
+
+      if (this.type !== 'null' && input === null && this.optional) {
+        return undefined;
+      }
+
+      if (input === undefined && this.optional) {
+        return undefined;
       }
 
       if (input === undefined && !this.optional) {
-        throw new Error(`Required field`);
+        throw new Error(`required field`);
       }
 
       if (this.list) {

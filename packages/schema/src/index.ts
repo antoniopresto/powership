@@ -7,6 +7,7 @@ export * from './GraphType/GraphType';
 export { Darch } from './Darch';
 export * from './fields/IObjectLike';
 export * from './applyValidator';
+export * from './mockObject';
 export * from '@darch/utils';
 
 // @only-server

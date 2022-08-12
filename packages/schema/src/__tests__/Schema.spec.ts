@@ -90,7 +90,7 @@ describe('Object', () => {
     expect(userObject.parse(user)).toEqual(user);
 
     expect(() => userObject.parse({ ...user, age: undefined })).toThrow(
-      `➤ field "age": expected type int, found undefined.`
+      `➤ field "age": required field.`
     );
 
     expect(() => userObject.parse({ ...user, enumArray: ['3'] })).toThrow(
@@ -129,7 +129,7 @@ describe('Object', () => {
     );
 
     expect(() => object.parse({ name: 'a', sub: {} })).toThrow(
-      '➤ field "sub": ➤ field "mySubField": expected type enum, found undefined.'
+      '➤ field "sub": ➤ field "mySubField": required field.'
     );
   });
 
@@ -152,7 +152,7 @@ describe('Object', () => {
     expect(myObject.definition.roles.def).toEqual(rolesObject.definition);
 
     expect(() => myObject.parse({ userId: '123' })).toThrow(
-      '➤ field "roles": expected type object, found undefined.'
+      '➤ field "roles": expected array, found undefined.'
     );
 
     expect(() => myObject.parse({ userId: '123', roles: [] })).not.toThrow();

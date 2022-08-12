@@ -1,9 +1,9 @@
 import { FieldType, FieldTypeParser } from './FieldType';
 
-export class AnyField extends FieldType<any, 'any', undefined> {
+export class AnyField extends FieldType<any, 'any', any> {
   parse: FieldTypeParser<any>;
 
-  constructor() {
+  constructor(..._args: any) {
     super('any', undefined);
     this.parse = this.applyParser({
       parse: (input) => {
@@ -12,7 +12,7 @@ export class AnyField extends FieldType<any, 'any', undefined> {
     });
   }
 
-  static create = (): AnyField => {
+  static create = (..._args: any): AnyField => {
     return new AnyField();
   };
 }

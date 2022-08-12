@@ -1,12 +1,13 @@
-import type { ObjectType } from './ObjectType';
+import type { FinalFieldDefinition, ObjectType } from './ObjectType';
 import { isMetaField } from './fields/MetaFieldField';
-import { isFieldTypeName, types } from './fields/fieldTypes';
+import { __getCachedFieldInstance } from './ObjectType';
+import { getTypeName } from '@darch/utils';
 
 export function validateObjectFields(params: {
   createObjectType: (def: any) => { getErrors: Function; parse: Function };
   parentType?: string;
   fieldName: string;
-  definition: any;
+  definition: FinalFieldDefinition;
   value: any;
 }): {
   errors: string[];
@@ -24,32 +25,6 @@ export function validateObjectFields(params: {
     return parentType
       ? `• ${parentType}[${fieldName}] ${msg}`
       : `➤ field "${fieldName}": ${msg.replace(/\.$/, '')}.`;
-  }
-
-  if (value === undefined && !definition?.def?.autoCreate) {
-    if (definition.optional) {
-      return {
-        errors: [],
-      };
-    } else {
-      if (definition.type === 'union') {
-        return {
-          errors: [
-            prefixError(
-              `expected value to match one of the following types: ${definition.def
-                .map((el) => el.type)
-                .join(' or ')}`
-            ),
-          ],
-        };
-      }
-
-      return {
-        errors: [
-          prefixError(`expected type ${definition.type}, found undefined`),
-        ],
-      };
-    }
   }
 
   if (definition.list) {
@@ -82,10 +57,11 @@ export function validateObjectFields(params: {
 
   if (definition.type === 'object') {
     const def = definition.def;
+    const tn = getTypeName(value).toLowerCase();
 
-    if (typeof value !== 'object') {
+    if (tn !== 'object') {
       return {
-        errors: [prefixError(`expected object, found ${typeof value}`)],
+        errors: [prefixError(`expected object, found ${tn}`)],
       };
     }
 
@@ -99,14 +75,11 @@ export function validateObjectFields(params: {
   }
 
   try {
-    if (!isFieldTypeName(definition.type)) {
-      throw new Error(`${definition.type} is not a valid type`);
-    }
+    const field = __getCachedFieldInstance(definition);
+    const parsed = field.parse(value);
 
-    const Constructor = types[definition.type];
-    const fieldInstance = Constructor.create(definition.def);
     return {
-      parsed: fieldInstance.parse(value),
+      parsed,
       errors: [],
     };
   } catch (e: any) {

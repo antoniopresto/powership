@@ -33,7 +33,7 @@ export function createResolverFactory<Context extends ResolverContextBase>(): <
 }
 
 export function createResolver<
-  Context,
+  Context extends ResolverContextBase,
   Root,
   TypeDef extends ObjectFieldInput,
   ArgsDef extends ObjectDefinitionInput
