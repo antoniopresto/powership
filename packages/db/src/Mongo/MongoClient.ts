@@ -33,13 +33,9 @@ export class MongoClient {
 
   constructor(url: string, options = {}) {
     this.options = defaulter(options);
-    const { dbName, clientOptions } = this.options;
+    const { clientOptions } = this.options;
 
     this.client = new mongodb.MongoClient(url, clientOptions);
-
-    if (dbName) {
-      this.connect(dbName);
-    }
   }
 
   async connect(dbName?: string): Promise<mongodb.Db> {

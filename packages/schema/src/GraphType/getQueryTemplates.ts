@@ -157,7 +157,10 @@ export function getQueryTemplates(
     fullQuery += `${kind} ${fieldQuery}`;
   }
 
-  const fragments = prettifyQuery(fieldStrings.fragments, 'mainQuery');
+  const fragments = prettifyQuery(
+    Object.values(fieldStrings.fragments).join('\n'),
+    'mainQuery'
+  );
   fullQuery = fragments + fullQuery;
 
   if (format) {
@@ -289,7 +292,7 @@ export function processField(config: {
 
 type FieldsToStringResult = {
   query: string;
-  fragments: string;
+  fragments: Record<string, string>;
   argsParsed: ParsedArgs;
   allArgs: Record<string, ParsedArgs>;
 };
@@ -330,7 +333,7 @@ function fieldsToString(config: {
 
   const self: FieldsToStringResult = {
     query: '',
-    fragments: '',
+    fragments: {},
     argsParsed,
     allArgs,
   };
@@ -380,7 +383,9 @@ function fieldsToString(config: {
         self.query += ` ...${fragmentName} `;
         self.query += ` } `;
 
-        self.fragments += `fragment ${fragmentName}${topArgsString} on ${field.innerTypeString} { ${child.query} }\n`;
+        self.fragments[
+          fragmentName
+        ] = `fragment ${fragmentName}${topArgsString} on ${field.innerTypeString} { ${child.query} }\n`;
       }
 
       if (field.isUnion) {
@@ -421,7 +426,9 @@ function fieldsToString(config: {
 
         self.query += ` } `;
 
-        self.fragments += `fragment ${fragmentName}  on ${field.innerTypeString} { __typeName ${childQuery} }\n`;
+        self.fragments[
+          fragmentName
+        ] = `fragment ${fragmentName}  on ${field.innerTypeString} { __typeName ${childQuery} }\n`;
       }
     });
   } else {
