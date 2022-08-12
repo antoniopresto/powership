@@ -10,6 +10,8 @@ export interface MongoClientOptions {
 function defaulter(options: MongoClientOptions): Required<MongoClientOptions> {
   return {
     dbName: '',
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
     ...(options as any),
   };
 }
@@ -31,7 +33,7 @@ export class MongoClient {
     return this._dbPromise.result;
   }
 
-  constructor(url: string, options = {}) {
+  constructor(url: string, options: MongoClientOptions = {}) {
     this.options = defaulter(options);
     const { clientOptions } = this.options;
 
