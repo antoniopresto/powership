@@ -15,7 +15,7 @@ import {
 import { parseFieldDefinitionConfig } from './ObjectType';
 import { clearMetaField } from './fields/MetaFieldField';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
-import { schemaToMockPlaceholder } from './mockObject';
+import { objectMock } from './mockObject';
 import { capitalize, DarchJSON, notNull } from '@darch/utils';
 
 export type CreateGraphQLObjectOptions = Partial<GraphQLSchemaConfig>;
@@ -370,7 +370,7 @@ function queryExamples({
       const resolver = notNull(resolvers.find((el) => el.name === name));
       const argsDef = resolver.argsType._object?.definition;
       const argsExamples = argsDef
-        ? schemaToMockPlaceholder(argsDef, { randomText })
+        ? objectMock(argsDef, { randomText })
         : '';
 
       examples += `${kind} ${name}${capitalize(kind)} { ${name}`;
@@ -390,7 +390,7 @@ function queryExamples({
         examples += ')';
       }
 
-      if (parsed.fragments) {
+      if (parsed.query) {
         examples += ` {${parsed.query}} `;
       }
 

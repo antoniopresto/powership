@@ -39,7 +39,7 @@ export * from './assertSame';
 export * from './conust';
 export * from './fvn1a';
 export * from './simpleObjectClone';
-export * from './randomNumber';
+export * from './randomInt';
 export * from './randomItem';
 export * from './slugify';
 export * from './ulid';

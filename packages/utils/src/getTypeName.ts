@@ -3,12 +3,20 @@ export function getTypeName(input: any): string {
   if (input === null) return 'Null';
   if (input === undefined) return 'Undefined';
   if (input === Infinity) return 'Infinity';
-  const _constructor = getConstructorName(input);
-  if (_constructor) return _constructor;
-  return 'Unknown';
+  return getConstructorName(input);
 }
 
-export function getConstructorName(input: any): string | undefined {
-  // immune to minification Object.defineProperty(foo, 'name') on constructors.
-  return input?.constructor?.toString?.().match(/function ([^(]*)/)?.[1];
+export function getConstructorName(input: any): string {
+  const constructorName = input?.constructor
+    ?.toString?.()
+    .match(/function ([^(]*)/)?.[1];
+
+  if (constructorName) return constructorName;
+
+  if (input !== null && typeof input === 'object') {
+    // objects without constructor (with Object.create(null))
+    return 'Object';
+  }
+
+  return 'Unknown';
 }

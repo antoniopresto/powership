@@ -1,35 +1,45 @@
 // Converts a schema to a placeholder object
 import { createEmptyMetaField, isMetaFieldKey } from './fields/MetaFieldField';
 import { FinalFieldDefinition } from './fields/_parseFields';
-import { ulid, slugify, randomNumber, randomItem } from '@darch/utils';
+import {
+  randomName,
+  randomItem,
+  slugify,
+  ulid,
+  randomInt,
+  randomFloat,
+} from '@darch/utils';
 import { Infer } from './Infer';
 import { CursorField } from './fields/CursorField';
 import { FieldTypeName } from './fields/_fieldDefinitions';
 
-export function schemaToMockPlaceholder<
-  T extends { [K: string]: FinalFieldDefinition }
->(definition: T, options?: { randomText?: () => string }): Infer<T> {
+export function objectMock<T extends { [K: string]: FinalFieldDefinition }>(
+  definition: T,
+  options?: { randomText?: () => string }
+): Infer<T> {
   const { randomText = randomName } = options || {};
   const placeHolder: any = {};
 
   function fieldToMock(parsedField: FinalFieldDefinition): any {
-    const { list, def, optional, type } = parsedField;
-
-    if (optional) return undefined;
+    const { list, def, type } = parsedField;
 
     const values: { [L in FieldTypeName]: () => unknown } = {
       any: () => ({ ANY: 'YES' }),
-      int: () => 1,
-      object: () => (def ? schemaToMockPlaceholder(def, options) : undefined),
+      int: () => randomInt(),
+      object: () => (def ? objectMock(def, options) : undefined),
       string: () => randomText(),
-      boolean: () => true,
+      boolean: () => randomItem(true, false),
       unknown: () => Date,
       record: () => ({ [randomText()]: 123 }),
-      float: () => randomNumber(),
+      float: () => randomFloat(),
       undefined: () => undefined,
-      cursor: () => schemaToMockPlaceholder(CursorField.object().definition, options),
-      date: () => new Date(randomNumber(Date.now())),
-      email: () => `${slugify(randomText())}@${slugify(randomText())}.com`,
+      cursor: () => objectMock(CursorField.object().definition, options),
+      date: () => new Date(randomInt(Date.now())),
+      email: () => {
+        return `${slugify(randomText().toLowerCase())}@${slugify(
+          randomText().toLowerCase()
+        )}.${randomItem('.com', '.net', '.com.br', '.co', '.sh')}`;
+      },
       enum: () => (Array.isArray(def) ? def[0] : undefined),
       ulid: () => ulid(),
       union: () => (Array.isArray(def) ? fieldToMock(def[0]) : undefined),
@@ -39,10 +49,13 @@ export function schemaToMockPlaceholder<
       meta: () => createEmptyMetaField(),
     };
 
-    const val = values[type]();
+    if (list) {
+      return [...Array(randomInt(3, 5))].map(() => {
+        return values[type]();
+      });
+    }
 
-    if (list) return [val];
-    return val;
+    return values[type]();
   }
 
   Object.entries(definition).forEach(([key, def]) => {
@@ -51,45 +64,4 @@ export function schemaToMockPlaceholder<
   });
 
   return placeHolder;
-}
-
-export const objectToMock = schemaToMockPlaceholder;
-export const schemaToMock = schemaToMockPlaceholder;
-
-const names = [
-  'Acre',
-  'Alagoas',
-  'Amazonas',
-  'Amapá',
-  'Bahia',
-  'Ceará',
-  'Distrito Federal',
-  'Espírito Santo',
-  'Goiás',
-  'Maranhão',
-  'Minas Gerais',
-  'Mato Grosso do Sul',
-  'Mato Grosso',
-  'Pará',
-  'Paraíba',
-  'Pernambuco',
-  'Piauí',
-  'Paraná',
-  'Rio de Janeiro',
-  'Rio Grande do Norte',
-  'Rondônia',
-  'Roraima',
-  'Rio Grande do Sul',
-  'Santa Catarina',
-  'Sergipe',
-  'São Paulo',
-  'Tocantins',
-  'Rafaela',
-  'Antonio',
-  'Maggie',
-  'Cacau',
-];
-
-function randomName() {
-  return randomItem(names);
 }
