@@ -1,5 +1,5 @@
 {
-  "name": "@darch/db",
+  "name": "@darch/entity",
   "version": "2.0.0-alpha.20220724T134243-0300",
   "main": "lib/index.js",
   "module": "lib/module/index.js",

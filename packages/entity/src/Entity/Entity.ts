@@ -219,13 +219,19 @@ export function createEntity<Options extends EntityOptions>(
 
   // pre parse PK, SK and ID setters
   _hooks.preParse.register(async function applyDefaultHooks(doc, ctx) {
-    async function onCreate(doc: Record<string, any>) {
-      doc = simpleObjectClone(doc);
+    doc = simpleObjectClone(doc);
+
+    async function _onUpdate(doc: Record<string, any>) {
+      doc.updatedAt = new Date();
+      doc.updatedBy = doc.updatedBy || (await ctx.context?.userId?.(false));
+      return doc;
+    }
+
+    async function _onCreate(doc: Record<string, any>) {
+      await _onUpdate(doc);
       doc.ulid = doc.ulid || createUlid();
       doc.createdAt = new Date();
-      doc.updatedAt = new Date();
       doc.createdBy = doc.createdBy || (await ctx.context?.userId?.(false));
-      doc.updatedBy = doc.updatedBy || (await ctx.context?.userId?.(false));
 
       const parsedIndexes = getDocumentIndexFields(doc, indexConfig);
 
@@ -245,15 +251,24 @@ export function createEntity<Options extends EntityOptions>(
       return doc;
     }
 
+    if (ctx.isUpdate) {
+      doc.$set = await _onUpdate({
+        ...doc.$set,
+      });
+    }
+
     if (ctx.isUpsert) {
-      const $setOnInsert = await onCreate({ ...doc.$set, ...doc.$setOnInsert });
+      const $setOnInsert = await _onCreate({
+        ...doc.$set,
+        ...doc.$setOnInsert,
+      });
       doc.$setOnInsert = {
         ...$setOnInsert,
       };
     }
 
     if (ctx.isCreate) {
-      doc = await onCreate(doc);
+      doc = await _onCreate(doc);
     }
 
     return doc;
@@ -404,12 +419,17 @@ export function createEntity<Options extends EntityOptions>(
       getEntityGraphType();
 
       function _wrap(obj: object) {
-        const o: any = { id: { type: 'ID', optional: true } };
+        const def: any = { id: { type: 'ID', optional: true } };
+
         Object.keys(obj).forEach((k) => {
           if (isMetaFieldKey(k)) return;
-          o[k] = { ...obj[k], optional: true };
+          def[k] = { ...obj[k], optional: true };
         });
-        return o;
+
+        return {
+          type: 'object',
+          def: def,
+        };
       }
 
       if (indexInfo.length === 1) {
@@ -857,7 +877,10 @@ type GetLoaderFilterType<Loader, DocDef> = Loader extends (
         ? { [K in keyof F]: F[K] } & {
             id: _FinalOptionalField<'ID?'>;
           } extends infer R
-          ? { [K in keyof R]: R[K] }
+          ? {
+              type: 'object';
+              def: { [K in keyof R]: R[K] };
+            }
           : never
         : never
       : undefined

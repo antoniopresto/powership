@@ -176,6 +176,7 @@ describe('Product', () => {
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date),
         createdBy: null,
+        updatedBy: null,
       },
     });
   });
@@ -213,6 +214,7 @@ describe('Product', () => {
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date),
         createdBy: null,
+        updatedBy: null,
       },
     });
   });
@@ -494,53 +496,58 @@ describe('Product', () => {
 
     test('toFilterFields', async () => {
       expect(entity.findManyByStoreAndSKU.filterType).toEqual({
-        SKU: {
-          def: {
-            min: 3,
+        def: {
+          SKU: {
+            def: {
+              min: 3,
+            },
+            list: false,
+            optional: true,
+            type: 'string',
           },
-          list: false,
-          optional: true,
-          type: 'string',
-        },
-        id: {
-          optional: true,
-          type: 'ID',
-        },
-        storeId: {
-          def: {
-            autoCreate: false,
+          id: {
+            optional: true,
+            type: 'ID',
           },
-          list: false,
-          optional: true,
-          type: 'ID',
+          storeId: {
+            def: {
+              autoCreate: false,
+            },
+            list: false,
+            optional: true,
+            type: 'ID',
+          },
         },
+        type: 'object',
       });
 
       expect(entity.findOne.filterType).toEqual({
-        SKU: {
-          def: {
-            min: 3,
+        type: 'object',
+        def: {
+          SKU: {
+            def: {
+              min: 3,
+            },
+            list: false,
+            optional: true,
+            type: 'string',
           },
-          list: false,
-          optional: true,
-          type: 'string',
-        },
-        id: {
-          optional: true,
-          type: 'ID',
-        },
-        storeId: {
-          def: {
-            autoCreate: false,
+          id: {
+            optional: true,
+            type: 'ID',
           },
-          list: false,
-          optional: true,
-          type: 'ID',
-        },
-        ulid: {
-          list: false,
-          optional: true,
-          type: 'string',
+          storeId: {
+            def: {
+              autoCreate: false,
+            },
+            list: false,
+            optional: true,
+            type: 'ID',
+          },
+          ulid: {
+            optional: true,
+            type: 'string',
+          },
         },
       });
 

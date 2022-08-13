@@ -67,115 +67,121 @@ export function parseObjectField<T extends FieldDefinitionConfig>(
 export function parseFieldDefinitionConfig(
   definition: FieldDefinitionConfig
 ): FinalFieldDefinition {
-  if (LiteralField.isFinalTypeDef(definition)) {
-    return {
-      type: 'literal',
-      def: definition.def,
-      optional: !!definition.optional,
-      list: !!definition.list,
-      description: definition.description,
-      defaultValue: definition.defaultValue,
-    };
-  }
+  function _parseField() {
+    if (LiteralField.isFinalTypeDef(definition)) {
+      return {
+        type: 'literal',
+        def: definition.def,
+        optional: !!definition.optional,
+        list: !!definition.list,
+        description: definition.description,
+        defaultValue: definition.defaultValue,
+      };
+    }
 
-  if (GraphType.is(definition)) {
-    return parseFieldDefinitionConfig(definition.definition);
-  }
+    if (GraphType.is(definition)) {
+      return parseFieldDefinitionConfig(definition.definition);
+    }
 
-  if (GraphType.isTypeDefinition(definition)) {
-    const {
-      list = false,
-      optional = false,
-      description,
-      defaultValue,
-      type: {
-        definition: { type, def, defaultValue: _defaultValue },
-      },
-    } = definition;
+    if (GraphType.isTypeDefinition(definition)) {
+      const {
+        list = false,
+        optional = false,
+        description,
+        defaultValue,
+        type: {
+          definition: { type, def, defaultValue: _defaultValue },
+        },
+      } = definition;
 
-    return {
-      type,
-      def,
-      list,
-      defaultValue: defaultValue === undefined ? _defaultValue : defaultValue,
-      optional,
-      description,
-    };
-  }
+      return {
+        type,
+        def,
+        list,
+        defaultValue: defaultValue === undefined ? _defaultValue : defaultValue,
+        optional,
+        description,
+      };
+    }
 
-  if (isStringFieldDefinition(definition)) {
-    return parseStringDefinition(definition);
-  }
+    if (isStringFieldDefinition(definition)) {
+      return parseStringDefinition(definition);
+    }
 
-  if (isFieldInstance(definition)) {
-    return definition.asFinalFieldDef;
-  }
+    if (isFieldInstance(definition)) {
+      return definition.asFinalFieldDef;
+    }
 
-  if (isFinalFieldDefinition(definition)) {
-    if (definition.type === 'object') {
-      if (typeof definition.def !== 'object' || !definition.def) {
-        throw new RuntimeError(`Missing def for object field.`, {
-          definition,
+    if (isFinalFieldDefinition(definition)) {
+      if (definition.type === 'object') {
+        if (typeof definition.def !== 'object' || !definition.def) {
+          throw new RuntimeError(`Missing def for object field.`, {
+            definition,
+          });
+        }
+
+        if (isObject(definition.def)) {
+          definition.def = definition.def.definition;
+        } else {
+          definition.def = parseObjectDefinition(definition.def).definition;
+        }
+      }
+
+      if (definition.type === 'union') {
+        let isOptionalUnion = definition.optional;
+
+        definition.def = definition.def.map((el) => {
+          const parsed = parseFieldDefinitionConfig(el);
+          if (parsed.optional) isOptionalUnion = true;
+          return parsed;
         });
+
+        definition.optional = isOptionalUnion;
       }
 
-      if (isObject(definition.def)) {
-        definition.def = definition.def.definition;
-      } else {
-        definition.def = parseObjectDefinition(definition.def).definition;
-      }
+      return definition;
     }
 
-    if (definition.type === 'union') {
-      let isOptionalUnion = definition.optional;
-
-      definition.def = definition.def.map((el) => {
-        const parsed = parseFieldDefinitionConfig(el);
-        if (parsed.optional) isOptionalUnion = true;
-        return parsed;
-      });
-
-      definition.optional = isOptionalUnion;
+    if (isListDefinition(definition)) {
+      const parsed = parseFieldDefinitionConfig(definition[0]);
+      parsed.list = true;
+      parsed.optional = false;
+      return parsed;
     }
 
-    return definition;
+    if (isObject(definition)) {
+      return {
+        defaultValue: undefined,
+        type: 'object',
+        def: definition.definition,
+        optional: false,
+        list: false,
+        description: definition.description,
+      };
+    }
+
+    if (isObjectAsTypeDefinition(definition)) {
+      return {
+        type: 'object',
+        def: definition.type.definition,
+        optional: !!definition.optional,
+        list: !!definition.list,
+        description: definition.type.description,
+        defaultValue: undefined,
+      };
+    }
+
+    const keyObjectDefinition = parseFlattenFieldDefinition(definition);
+    if (keyObjectDefinition) {
+      return keyObjectDefinition;
+    }
+
+    throw new Error(
+      `Unexpected field definition: ${inspectObject(definition)}`
+    );
   }
 
-  if (isListDefinition(definition)) {
-    const parsed = parseFieldDefinitionConfig(definition[0]);
-    parsed.list = true;
-    parsed.optional = false;
-    return parsed;
-  }
-
-  if (isObject(definition)) {
-    return {
-      defaultValue: undefined,
-      type: 'object',
-      def: definition.definition,
-      optional: false,
-      list: false,
-      description: definition.description,
-    };
-  }
-
-  if (isObjectAsTypeDefinition(definition)) {
-    return {
-      type: 'object',
-      def: definition.type.definition,
-      optional: !!definition.optional,
-      list: !!definition.list,
-      description: definition.type.description,
-      defaultValue: undefined,
-    };
-  }
-
-  const keyObjectDefinition = parseFlattenFieldDefinition(definition);
-  if (keyObjectDefinition) {
-    return keyObjectDefinition;
-  }
-
-  throw new Error(`Unexpected field definition: ${inspectObject(definition)}`);
+  return simpleObjectClone(_parseField());
 }
 
 export function parseObjectDefinition<T extends ObjectDefinitionInput>(
