@@ -119,7 +119,8 @@ export class MongoTransporter extends Transporter {
       const rule = sort === 'DESC' ? '$lt' : '$gt';
 
       const startingFilter = createMongoIndexBasedFilters({
-        filter: startingKey,
+        filter:
+          typeof startingKey === 'string' ? { id: startingKey } : startingKey,
         indexConfig,
       });
 

@@ -121,7 +121,7 @@ export type FindManyConfig<
     Doc,
     PK | (SK extends undefined ? PK : SK)
   >;
-  startingKey?: IndexFilterRecord<PK, SK>;
+  startingKey?: IndexFilterRecord<PK, SK> | string;
   consistent?: boolean;
   limit?: number;
   sort?: QuerySort;
