@@ -36,6 +36,7 @@ describe('getDocumentIndexFields', () => {
         _id1SK: 'fulano',
         _idPK: 'fulano',
         _idSK: '715',
+        id: expect.any(String)
       },
       invalidFields: null,
       parsedIndexKeys: [
@@ -108,6 +109,7 @@ describe('getDocumentIndexFields', () => {
         _id: 'foo#5\u0000#NAME↠nice#5',
         _idPK: '5#NAME',
         _idSK: 'nice#5',
+        id: expect.any(String)
       },
       invalidFields: null,
       parsedIndexKeys: [

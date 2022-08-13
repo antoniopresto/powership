@@ -81,6 +81,7 @@ describe('MongoTransporter', () => {
           _id: 'entity_foo#ranking↠5',
           _idPK: 'ranking',
           _idSK: '5',
+          id: expect.any(String),
         },
         updated: false,
       });
@@ -98,6 +99,7 @@ describe('MongoTransporter', () => {
           PK: 'ranking',
           SK: 10,
           _id: 'entity_foo#ranking↠721',
+          id: expect.any(String)
         },
         updated: false,
       });
@@ -117,6 +119,7 @@ describe('MongoTransporter', () => {
           _id: 'entity_foo#ranking↠7z412',
           _idPK: 'ranking',
           _idSK: '7z412',
+          id: expect.any(String)
         },
         updated: false,
       });
@@ -138,6 +141,7 @@ describe('MongoTransporter', () => {
           _id: 'entity_foo#users↠users',
           _idPK: 'users',
           _idSK: 'users',
+          id: expect.any(String),
         },
         updated: false,
       });
@@ -319,6 +323,7 @@ describe('MongoTransporter', () => {
           SK: 'a',
           _idPK: 'a',
           _idSK: 'a',
+          id: 'ZW50aXR5X2ZvbzpfaWQ6ZW50aXR5X2ZvbyNh4oagYQ==',
           list: ['b', 'c', 'd', 'e'],
           newNum: 2,
           num: 1,

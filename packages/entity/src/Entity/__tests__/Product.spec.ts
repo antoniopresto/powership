@@ -163,7 +163,7 @@ describe('Product', () => {
     expect(product).toEqual({
       item: {
         SKU: 'sku0',
-        id: expect.stringMatching(/^product#store1↠/),
+        id: expect.any(String),
         _id: expect.stringMatching(/^product#store1↠/),
         _id1: expect.stringMatching(/^product#store1↠sku0/),
         _id1PK: 'store1',
@@ -201,12 +201,12 @@ describe('Product', () => {
     expect(product).toEqual({
       item: {
         SKU: 'sku0',
-        id: expect.stringMatching(/^product#store1↠/),
         _id: expect.stringMatching(/^product#store1↠/),
         _id1: expect.stringMatching(/^product#store1↠sku0/),
         _id1PK: 'store1',
         _id1SK: 'sku0',
         _idPK: 'store1',
+        id: expect.any(String),
         _idSK: expect.stringMatching(ULID_REGEX),
         ulid: expect.stringMatching(ULID_REGEX),
         storeId: 'store1',
@@ -465,7 +465,7 @@ describe('Product', () => {
 
     expect(found).toMatchObject({
       item: {
-        id: expect.stringMatching('product#store↠01'),
+        id: expect.stringMatching('cHJvZHVjdDpfaWQ6cHJvZHVjdCNzdG9'),
       },
     });
 

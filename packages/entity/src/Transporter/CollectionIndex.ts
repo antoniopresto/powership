@@ -79,22 +79,28 @@ export function parseGraphID(input: string): GraphIDJSON | null {
   }
 }
 
+function _mountGraphIDString(
+  firstIndex: { key: string; value: string },
+  entity: string
+) {
+  const json: GraphIDJSON = {
+    i: firstIndex.key,
+    e: entity,
+    v: firstIndex.value,
+  };
+
+  const txt = `${json.e}:${json.i}:${json.v}`;
+
+  return textToBase64(txt);
+}
+
 export function mountGraphID(
   doc: Record<string, any>,
   indexConfig: AnyCollectionIndexConfig
 ) {
   const parsed = getDocumentIndexFields(doc, indexConfig);
   if (!parsed.valid) throw parsed.error;
-
-  const json: GraphIDJSON = {
-    i: parsed.firstIndex.key,
-    e: indexConfig.entity,
-    v: parsed.firstIndex.value,
-  };
-
-  const txt = `${json.e}:${json.i}:${json.v}`;
-
-  return textToBase64(txt);
+  return _mountGraphIDString(parsed.firstIndex, indexConfig.entity);
 }
 
 /**
@@ -228,10 +234,10 @@ export function getDocumentIndexFields<
       acceptNullable: false,
     });
 
-    let id = mountID({ entity, PK: PK.value, SK: '' });
+    let hashedId = mountID({ entity, PK: PK.value, SK: '' });
 
     if (PK.valid && !PK.isFilter && !partialIndexFilter) {
-      partialIndexFilter = { key: index.field, value: id };
+      partialIndexFilter = { key: index.field, value: hashedId };
     }
 
     const SK = mountIndexFromPartsList({
@@ -255,11 +261,11 @@ export function getDocumentIndexFields<
       },
     });
 
-    id += SK.value;
+    hashedId += SK.value;
 
     if (PK.valid && SK.valid && !firstIndex) {
-      partialIndexFilter = { key: index.field, value: id };
-      firstIndex = { key: index.field, value: id };
+      partialIndexFilter = { key: index.field, value: hashedId };
+      firstIndex = { key: index.field, value: hashedId };
     }
 
     if (SK.conditionFound || PK.conditionFound) {
@@ -271,7 +277,7 @@ export function getDocumentIndexFields<
       invalidFields.push(...PK.invalidFields, ...SK.invalidFields);
     }
 
-    indexFields[index.field] = id;
+    indexFields[index.field] = hashedId;
     indexFields[`${index.field}PK`] = PK.value;
     indexFields[`${index.field}SK`] = SK.value;
   });
@@ -290,6 +296,8 @@ export function getDocumentIndexFields<
       parsedIndexKeys,
     };
   }
+
+  indexFields.id = indexFields.id || _mountGraphIDString(firstIndex, entity);
 
   return {
     valid,

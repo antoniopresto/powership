@@ -1,7 +1,6 @@
 import {
   createType,
   Darch,
-  FinalFieldDefinition,
   GraphType,
   ObjectDefinitionInput,
   ObjectFieldInput,
@@ -44,6 +43,7 @@ type _GraphType = {
   _object?: ObjectType<any>;
   __isGraphType: true;
   parse(...args: any[]): DocumentBase;
+  definition: { def: unknown };
 };
 
 export interface EntityOptions<
@@ -66,14 +66,23 @@ export type DefaultEntityFields = {
   updatedAt: Date;
 };
 
-type EntityFinalDefinition<InputDef> = InputDef extends {
+export type EntityFinalDefinition<InputDef> = InputDef extends {
   __isGraphType: true;
-  definition: infer Definition;
+  definition: infer D;
 }
-  ? {
-      [K in keyof (EntityGeneratedFields &
-        Definition)]: (EntityGeneratedFields & Definition)[K];
-    }
+  ? D extends { def: infer Definition }
+    ? {
+        [K in keyof EntityGeneratedFields as K extends keyof Definition
+          ? never
+          : K]: EntityGeneratedFields[K];
+      } & {
+        [K in keyof Definition]: Definition[K];
+      } extends infer R
+      ? {
+          [K in keyof R]: R[K];
+        }
+      : never
+    : never
   : never;
 
 type Merge<A, B> = {
@@ -82,18 +91,10 @@ type Merge<A, B> = {
   ? { [K in keyof R]: R[K] } & {}
   : never;
 
-type _GetDef<OptionType> = ((
-  x: ToFinalField<EntityFinalDefinition<OptionType>>
-) => any) extends (x: infer R) => any
-  ? R extends FinalFieldDefinition
-    ? R['def']
-    : never
-  : never;
-
 type _LoaderWithUtils<Loader, Type> = {
   filterType: GetLoaderFilterType<
     Loader,
-    _GetDef<Type> & EntityGeneratedFields
+    EntityFinalDefinition<Type>['definition']['def']
   >;
 } & Loader extends infer R
   ? R
@@ -108,22 +109,17 @@ export type Entity<Options extends EntityOptions> = Options['type'] extends {
         name: Options['name'];
         indexes: Options['indexes'];
         type: //
-        ((
-          x: ToFinalField<EntityFinalDefinition<Options['type']>>
-        ) => any) extends (x: infer R) => any
-          ? R extends FinalFieldDefinition
-            ? GraphType<R>
-            : never
+        ((x: Options['type']) => any) extends (x: infer Type) => any
+          ? GraphType<{ object: EntityFinalDefinition<Type> }>
           : never;
 
         originType: Options['type'];
 
-        inputDefinition: //
-        ((
-          x: ToFinalField<EntityFinalDefinition<Options['type']>>
-        ) => any) extends (x: infer R) => any
-          ? R extends FinalFieldDefinition
-            ? R['def']
+        inputDefinition: Options['type'] extends { definition: infer Def }
+          ? Def extends { def: infer Def }
+            ? {
+                [K in keyof Def]: ToFinalField<Def[K]>;
+              }
             : never
           : never;
 
@@ -837,9 +833,18 @@ type EntityDocFromType<Type> = Type extends {
 export type EntityGeneratedFields = typeof EntityGeneratedFields;
 function _EntityGeneratedFields<
   T extends { [K in keyof DefaultEntityFields]: ObjectFieldInput }
->(input: T): T {
+>(
+  input: T
+): {
+  [K in keyof T]: {
+    [S in keyof ToFinalField<T[K]> as S extends '__infer'
+      ? never
+      : S]: ToFinalField<T[K]>[S];
+  } & {};
+} {
   return parseObjectDefinition(input).definition as any;
 }
+
 export const EntityGeneratedFields = _EntityGeneratedFields({
   id: { type: 'string' },
   ulid: { type: 'string' },

@@ -256,16 +256,19 @@ describe('createMongoIndexBasedFilter', () => {
           _id: 'my_entity#users↠cacau',
           _idPK: 'users',
           _idSK: 'cacau',
+          id: expect.any(String),
         },
         {
           _id: 'my_entity#users↠cacau2',
           _idPK: 'users',
           _idSK: 'cacau2',
+          id: expect.any(String),
         },
         {
           _id: 'my_entity#users↠cacauZ',
           _idPK: 'users',
           _idSK: 'cacauZ',
+          id: expect.any(String),
         },
       ]);
     });
@@ -274,10 +277,30 @@ describe('createMongoIndexBasedFilter', () => {
       const sut = await get('users', { $between: ['a', 'cz'] });
 
       expect(sut).toEqual([
-        { _id: 'my_entity#users↠antonio', _idPK: 'users', _idSK: 'antonio' },
-        { _id: 'my_entity#users↠cacau', _idPK: 'users', _idSK: 'cacau' },
-        { _id: 'my_entity#users↠cacau2', _idPK: 'users', _idSK: 'cacau2' },
-        { _id: 'my_entity#users↠cacauZ', _idPK: 'users', _idSK: 'cacauZ' },
+        {
+          _id: 'my_entity#users↠antonio',
+          _idPK: 'users',
+          _idSK: 'antonio',
+          id: expect.any(String),
+        },
+        {
+          _id: 'my_entity#users↠cacau',
+          _idPK: 'users',
+          _idSK: 'cacau',
+          id: expect.any(String),
+        },
+        {
+          _id: 'my_entity#users↠cacau2',
+          _idPK: 'users',
+          _idSK: 'cacau2',
+          id: expect.any(String),
+        },
+        {
+          _id: 'my_entity#users↠cacauZ',
+          _idPK: 'users',
+          _idSK: 'cacauZ',
+          id: expect.any(String),
+        },
       ]);
     });
 
@@ -288,6 +311,7 @@ describe('createMongoIndexBasedFilter', () => {
           _id: 'my_entity#users↠cacau',
           _idPK: 'users',
           _idSK: 'cacau',
+          id: expect.any(String)
         },
       ]);
     });
@@ -300,21 +324,25 @@ describe('createMongoIndexBasedFilter', () => {
           _id: 'my_entity#users↠cacau2',
           _idPK: 'users',
           _idSK: 'cacau2',
+          id: expect.any(String)
         },
         {
           _id: 'my_entity#users↠cacauZ',
           _idPK: 'users',
           _idSK: 'cacauZ',
+          id: expect.any(String)
         },
         {
           _id: 'my_entity#users↠maggie',
           _idPK: 'users',
           _idSK: 'maggie',
+          id: expect.any(String)
         },
         {
           _id: 'my_entity#users↠rafaela',
           _idPK: 'users',
           _idSK: 'rafaela',
+          id: expect.any(String)
         },
       ]);
     });
@@ -326,11 +354,13 @@ describe('createMongoIndexBasedFilter', () => {
           _id: 'my_entity#users↠maggie',
           _idPK: 'users',
           _idSK: 'maggie',
+          id: expect.any(String)
         },
         {
           _id: 'my_entity#users↠rafaela',
           _idPK: 'users',
           _idSK: 'rafaela',
+          id: expect.any(String)
         },
       ]);
     });
@@ -342,11 +372,13 @@ describe('createMongoIndexBasedFilter', () => {
           _id: 'my_entity#users↠antonio',
           _idPK: 'users',
           _idSK: 'antonio',
+          id: expect.any(String)
         },
         {
           _id: 'my_entity#users↠cacau',
           _idPK: 'users',
           _idSK: 'cacau',
+          id: expect.any(String)
         },
       ]);
     });
@@ -359,16 +391,19 @@ describe('createMongoIndexBasedFilter', () => {
           _id: 'my_entity#users↠antonio',
           _idPK: 'users',
           _idSK: 'antonio',
+          id: expect.any(String)
         },
         {
           _id: 'my_entity#users↠cacau',
           _idPK: 'users',
           _idSK: 'cacau',
+          id: expect.any(String)
         },
         {
           _id: 'my_entity#users↠cacau2',
           _idPK: 'users',
           _idSK: 'cacau2',
+          id: expect.any(String)
         },
       ]);
     });
@@ -388,18 +423,21 @@ describe('createMongoIndexBasedFilter', () => {
           originalSK: 0,
           _idPK: 'ranking',
           _idSK: '5',
+          id: expect.any(String)
         },
         {
           _id: 'my_entity#ranking↠6x7',
           originalSK: 0.007,
           _idPK: 'ranking',
           _idSK: '6x7',
+          id: expect.any(String)
         },
         {
           _id: 'my_entity#ranking↠712',
           _idPK: 'ranking',
           _idSK: '712',
           originalSK: 2,
+          id: expect.any(String)
         },
       ]);
 
@@ -413,12 +451,14 @@ describe('createMongoIndexBasedFilter', () => {
           originalSK: -0.001,
           _idPK: 'ranking',
           _idSK: '42y~',
+          id: expect.any(String)
         },
         {
           _id: 'my_entity#ranking↠4by~',
           _idPK: 'ranking',
           _idSK: '4by~',
           originalSK: -0.000000000001,
+          id: expect.any(String)
         },
       ]);
     });
@@ -430,6 +470,7 @@ describe('createMongoIndexBasedFilter', () => {
           _idPK: 'ranking',
           _idSK: '6x7',
           originalSK: 0.007,
+          id: expect.any(String)
         },
       ]);
     });
@@ -441,6 +482,7 @@ describe('createMongoIndexBasedFilter', () => {
           originalSK: 0,
           _idPK: 'ranking',
           _idSK: '5',
+          id: expect.any(String)
         },
       ]);
 
@@ -450,6 +492,7 @@ describe('createMongoIndexBasedFilter', () => {
           originalSK: -0.001,
           _idPK: 'ranking',
           _idSK: '42y~',
+          id: expect.any(String)
         },
       ]);
     });
@@ -461,6 +504,7 @@ describe('createMongoIndexBasedFilter', () => {
           originalSK: 10000,
           _idPK: 'ranking',
           _idSK: '751',
+          id: expect.any(String)
         },
       ]);
 
@@ -470,6 +514,7 @@ describe('createMongoIndexBasedFilter', () => {
           originalSK: 10000,
           _idPK: 'ranking',
           _idSK: '751',
+          id: expect.any(String)
         },
       ]);
     });
@@ -481,12 +526,14 @@ describe('createMongoIndexBasedFilter', () => {
           originalSK: 33,
           _idPK: 'ranking',
           _idSK: '7233',
+          id: expect.any(String)
         },
         {
           _id: 'my_entity#ranking↠751',
           originalSK: 10000,
           _idPK: 'ranking',
           _idSK: '751',
+          id: expect.any(String)
         },
       ]);
     });
@@ -498,6 +545,7 @@ describe('createMongoIndexBasedFilter', () => {
           originalSK: -0.001,
           _idPK: 'ranking',
           _idSK: '42y~',
+          id: expect.any(String)
         },
       ]);
 
@@ -509,18 +557,21 @@ describe('createMongoIndexBasedFilter', () => {
           originalSK: -0.001,
           _idPK: 'ranking',
           _idSK: '42y~',
+          id: expect.any(String)
         },
         {
           _id: 'my_entity#ranking↠4by~',
           originalSK: -0.000000000001,
           _idPK: 'ranking',
           _idSK: '4by~',
+          id: expect.any(String)
         },
         {
           _id: 'my_entity#ranking↠5',
           originalSK: 0,
           _idPK: 'ranking',
           _idSK: '5',
+          id: expect.any(String)
         },
       ]);
     });
@@ -532,6 +583,7 @@ describe('createMongoIndexBasedFilter', () => {
           originalSK: -0.001,
           _idPK: 'ranking',
           _idSK: '42y~',
+          id: expect.any(String)
         },
       ]);
 
