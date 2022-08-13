@@ -1,6 +1,5 @@
 import { ObjectType } from '../ObjectType';
 import { EnumField } from '../fields/EnumField';
-import { objectMetaFieldKey } from '../fields/MetaFieldField';
 import { parseObjectDefinition } from '../parseObjectDefinition';
 
 describe('parseObjectDefinition', () => {
@@ -28,7 +27,14 @@ describe('parseObjectDefinition', () => {
     });
 
     expect(sut).toEqual({
-      [objectMetaFieldKey]: expect.anything(),
+      __dschm__: {
+        def: {
+          id: null,
+        },
+        list: false,
+        optional: false,
+        type: 'meta',
+      },
       arrayString: {
         list: true,
         optional: false,
@@ -63,9 +69,27 @@ describe('parseObjectDefinition', () => {
         optional: true,
         type: 'enum',
       },
-      objectIntDef: {
+      objectAsFlattenDef: {
+        def: {
+          __dschm__: {
+            def: {
+              id: null,
+            },
+            list: false,
+            optional: false,
+            type: 'meta',
+          },
+          name: {
+            list: false,
+            optional: false,
+            type: 'string',
+          },
+        },
         list: false,
         optional: false,
+        type: 'object',
+      },
+      objectIntDef: {
         type: 'int',
       },
       string: {
@@ -77,19 +101,6 @@ describe('parseObjectDefinition', () => {
         list: false,
         optional: true,
         type: 'string',
-      },
-      objectAsFlattenDef: {
-        def: {
-          [objectMetaFieldKey]: expect.anything(),
-          name: {
-            list: false,
-            optional: false,
-            type: 'string',
-          },
-        },
-        list: false,
-        optional: false,
-        type: 'object',
       },
       unionAsFlattenDef: {
         def: [
@@ -149,85 +160,266 @@ describe('parseObjectDefinition', () => {
       },
     });
 
-    const sassDef = {
-      age: {
+    expect(sut).toEqual({
+      __dschm__: {
+        def: {
+          id: null,
+        },
         list: false,
         optional: false,
-        type: 'int',
+        type: 'meta',
       },
-      names: {
-        list: true,
-        optional: true,
+      name: {
+        list: false,
+        optional: false,
         type: 'string',
       },
-      union: {
-        def: [
-          {
+      object: {
+        def: {
+          __dschm__: {
             def: {
-              [objectMetaFieldKey]: expect.anything(),
-              points: {
-                list: true,
-                optional: true,
-                type: 'float',
-              },
+              id: null,
             },
             list: false,
             optional: false,
-            type: 'object',
+            type: 'meta',
           },
-          {
+          foo: {
             list: false,
             optional: false,
-            type: 'int',
+            type: 'string',
           },
-        ],
+          status: {
+            def: ['open', 'closed'],
+            list: false,
+            optional: false,
+            type: 'enum',
+          },
+        },
         list: false,
-        optional: false,
-        type: 'union',
-      },
-    };
-
-    expect(sut).toEqual({
-      [objectMetaFieldKey]: expect.anything(),
-      name: {
-        type: 'string',
-        list: false,
-        optional: false,
-      },
-      object: {
-        def: otherObject.definition,
-        list: false,
-        optional: false,
-        type: 'object',
-      },
-      objectList: {
-        def: otherObject.definition,
-        list: true,
-        optional: false,
-        type: 'object',
-      },
-      objectAsTypeList: {
-        def: otherObject.definition,
-        list: true,
         optional: false,
         type: 'object',
       },
       objectAsObject: {
-        def: { ...sassDef, [objectMetaFieldKey]: expect.anything() },
+        def: {
+          __dschm__: {
+            def: {
+              id: null,
+            },
+            list: false,
+            optional: false,
+            type: 'meta',
+          },
+          age: {
+            list: false,
+            optional: false,
+            type: 'int',
+          },
+          names: {
+            list: true,
+            optional: true,
+            type: 'string',
+          },
+          union: {
+            def: [
+              {
+                def: {
+                  __dschm__: {
+                    def: {
+                      id: null,
+                    },
+                    list: false,
+                    optional: false,
+                    type: 'meta',
+                  },
+                  points: {
+                    list: true,
+                    optional: true,
+                    type: 'float',
+                  },
+                },
+                list: false,
+                optional: false,
+                type: 'object',
+              },
+              {
+                list: false,
+                optional: false,
+                type: 'int',
+              },
+            ],
+            list: false,
+            optional: false,
+            type: 'union',
+          },
+        },
         list: false,
         optional: false,
         type: 'object',
       },
       objectAsObjectList: {
-        def: { ...sassDef, [objectMetaFieldKey]: expect.anything() },
+        def: {
+          __dschm__: {
+            def: {
+              id: null,
+            },
+            list: false,
+            optional: false,
+            type: 'meta',
+          },
+          age: {
+            list: false,
+            optional: false,
+            type: 'int',
+          },
+          names: {
+            list: true,
+            optional: true,
+            type: 'string',
+          },
+          union: {
+            def: [
+              {
+                def: {
+                  __dschm__: {
+                    def: {
+                      id: null,
+                    },
+                    list: false,
+                    optional: false,
+                    type: 'meta',
+                  },
+                  points: {
+                    list: true,
+                    optional: true,
+                    type: 'float',
+                  },
+                },
+                list: false,
+                optional: false,
+                type: 'object',
+              },
+              {
+                list: false,
+                optional: false,
+                type: 'int',
+              },
+            ],
+            list: false,
+            optional: false,
+            type: 'union',
+          },
+        },
         list: true,
         optional: false,
         type: 'object',
       },
       objectAsObjectListOptional: {
-        def: { ...sassDef, [objectMetaFieldKey]: expect.anything() },
+        def: {
+          __dschm__: {
+            def: {
+              id: null,
+            },
+            list: false,
+            optional: false,
+            type: 'meta',
+          },
+          age: {
+            list: false,
+            optional: false,
+            type: 'int',
+          },
+          names: {
+            list: true,
+            optional: true,
+            type: 'string',
+          },
+          union: {
+            def: [
+              {
+                def: {
+                  __dschm__: {
+                    def: {
+                      id: null,
+                    },
+                    list: false,
+                    optional: false,
+                    type: 'meta',
+                  },
+                  points: {
+                    list: true,
+                    optional: true,
+                    type: 'float',
+                  },
+                },
+                list: false,
+                optional: false,
+                type: 'object',
+              },
+              {
+                list: false,
+                optional: false,
+                type: 'int',
+              },
+            ],
+            list: false,
+            optional: false,
+            type: 'union',
+          },
+        },
         list: true,
         optional: true,
+        type: 'object',
+      },
+      objectAsTypeList: {
+        def: {
+          __dschm__: {
+            def: {
+              id: null,
+            },
+            list: false,
+            optional: false,
+            type: 'meta',
+          },
+          foo: {
+            list: false,
+            optional: false,
+            type: 'string',
+          },
+          status: {
+            def: ['open', 'closed'],
+            list: false,
+            optional: false,
+            type: 'enum',
+          },
+        },
+        list: true,
+        optional: false,
+        type: 'object',
+      },
+      objectList: {
+        def: {
+          __dschm__: {
+            def: {
+              id: null,
+            },
+            list: false,
+            optional: false,
+            type: 'meta',
+          },
+          foo: {
+            list: false,
+            optional: false,
+            type: 'string',
+          },
+          status: {
+            def: ['open', 'closed'],
+            list: false,
+            optional: false,
+            type: 'enum',
+          },
+        },
+        list: true,
         type: 'object',
       },
     });

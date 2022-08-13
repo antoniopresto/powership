@@ -1,6 +1,5 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 
-import { FieldType, TAnyFieldType } from './fields/FieldType';
 import { FinalFieldDefinition } from './fields/_parseFields';
 import { types } from './fields/fieldTypes';
 import { AnyField } from './fields/AnyField';

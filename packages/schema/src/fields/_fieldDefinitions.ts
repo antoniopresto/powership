@@ -1,7 +1,8 @@
 import { ObjectLike } from './IObjectLike';
 import { MetaFieldDef } from './MetaFieldField';
 import { RecordFieldDef } from './RecordField';
-import { ObjectFieldInput } from './_parseFields';
+import {ObjectFieldInput} from './_parseFields';
+import { UnknownFieldDef } from './UnknownField';
 
 export type CursorType = {
   PK: string;
@@ -91,7 +92,7 @@ export type FieldDefinitions = {
 
   undefined: undefined;
 
-  unknown: undefined;
+  unknown: UnknownFieldDef | undefined;
 
   object:
     | { [K: string]: ObjectFieldInput }

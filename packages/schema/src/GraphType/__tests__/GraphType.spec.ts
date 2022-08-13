@@ -75,6 +75,8 @@ describe('createType', () => {
           def: {
             id: 'monkey',
           },
+          list: false,
+          optional: false,
           type: 'meta',
         },
         age: {

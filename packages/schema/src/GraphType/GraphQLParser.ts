@@ -51,6 +51,7 @@ import { GraphQLDateType } from './GraphQLDateType';
 import { GraphQLNullType } from './GraphQLNullType';
 import { GraphQLUlidType } from './GraphQLUlidType';
 import { GraphQLUnknownType } from './GraphQLUnknownType';
+import { TypeAssertionError } from '@darch/utils';
 
 export function createHooks() {
   return {
@@ -421,6 +422,7 @@ export class GraphQLParser {
       enum() {
         function createEnum(options?: any) {
           const values: any = {};
+          if (field.type !== 'enum') throw TypeAssertionError;
 
           field.def.forEach((key: string) => {
             values[key] = {
@@ -462,13 +464,16 @@ export class GraphQLParser {
         };
       },
       object() {
+        if (field.type !== 'object') throw TypeAssertionError;
+
         const id = parseTypeName({
           parentName,
           field,
           fieldName,
         });
 
-        const object = ObjectType.getOrSet(id, field.def);
+        const def = ObjectType.is(field.def) ? field.def.definition : field.def;
+        const object = ObjectType.getOrSet(id, def);
 
         const res = self.objectToGraphQL({
           object,

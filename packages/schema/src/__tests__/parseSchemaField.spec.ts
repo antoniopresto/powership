@@ -145,27 +145,29 @@ describe('parseObjectField', () => {
     });
 
     expect(sut).toEqual({
-      list: false,
-      optional: false,
-      type: 'object',
       def: {
-        [objectMetaFieldKey]: expect.anything(),
+        __dschm__: {
+          def: {
+            id: null,
+          },
+          list: false,
+          optional: false,
+          type: 'meta',
+        },
         name: {
           list: false,
           optional: false,
           type: 'string',
         },
         sub: {
-          list: false,
-          optional: false,
-          type: 'object',
-
           def: {
-            [objectMetaFieldKey]: expect.anything(),
-            name: {
+            __dschm__: {
+              def: {
+                id: null,
+              },
               list: false,
               optional: false,
-              type: 'string',
+              type: 'meta',
             },
             age: {
               list: false,
@@ -177,6 +179,11 @@ describe('parseObjectField', () => {
               optional: false,
               type: 'string',
             },
+            name: {
+              list: false,
+              optional: false,
+              type: 'string',
+            },
             sex: {
               def: ['m', 'f', 'o'],
               list: false,
@@ -184,8 +191,12 @@ describe('parseObjectField', () => {
               type: 'enum',
             },
           },
+          list: false,
+          optional: false,
+          type: 'object',
         },
       },
+      type: 'object',
     });
 
     expect(

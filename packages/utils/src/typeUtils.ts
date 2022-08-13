@@ -1,4 +1,6 @@
 // https://stackoverflow.com/questions/46176165/ways-to-get-string-literal-type-of-array-values-without-enum-overhead
+import { RuntimeError } from './RuntimeError';
+
 export const tuple = <T extends string[]>(...args: T) => args;
 
 export type Serializable = null | undefined | Stringifiable | SerializableList;
@@ -230,3 +232,10 @@ export type Name = `${A_Z}${string}`;
 export * from './IterationMap';
 
 export * from 'ts-toolbelt';
+
+export class TypeAssertionError extends RuntimeError {
+  constructor(a: any, b: any, message = 'Invalid value received') {
+    super(message, { a, b });
+    console.error('This error is only used in typescript assertions.');
+  }
+}

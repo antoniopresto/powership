@@ -55,6 +55,8 @@ describe('getInnerGraphTypeId', () => {
           def: {
             id: 'RamonValdez',
           },
+          list: false,
+          optional: false,
           type: 'meta',
         },
         fixed: {

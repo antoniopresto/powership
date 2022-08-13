@@ -33,6 +33,20 @@ describe('Object', () => {
     const sut = userObject.definition;
 
     expect(sut).toEqual({
+      '12Enum': {
+        def: ['1', '2'],
+        list: false,
+        optional: false,
+        type: 'enum',
+      },
+      __dschm__: {
+        def: {
+          id: null,
+        },
+        list: false,
+        optional: false,
+        type: 'meta',
+      },
       age: {
         list: false,
         optional: false,
@@ -40,27 +54,19 @@ describe('Object', () => {
       },
       category: {
         def: ['general', 'closed'],
-        type: 'enum',
         list: false,
         optional: false,
-      },
-      '12Enum': {
-        def: ['1', '2'],
         type: 'enum',
-        list: false,
-        optional: false,
       },
       enumArray: {
         def: ['1', '2'],
-        type: 'enum',
         list: true,
-        optional: false,
+        type: 'enum',
       },
       gender: {
-        optional: true,
         def: ['male', 'female', 'other'],
+        optional: true,
         type: 'enum',
-        list: false,
       },
       name: {
         list: false,
@@ -72,7 +78,6 @@ describe('Object', () => {
         optional: true,
         type: 'string',
       },
-      [objectMetaFieldKey]: expect.anything(),
     });
   });
 
@@ -94,7 +99,7 @@ describe('Object', () => {
     );
 
     expect(() => userObject.parse({ ...user, enumArray: ['3'] })).toThrow(
-      "• enumArray[0] accepted: '1' or '2', found 3."
+      "➤ field \"enumArray\": accepted: '1' or '2', found 3. at position 0."
     );
   });
 
@@ -125,7 +130,7 @@ describe('Object', () => {
     );
 
     expect(() => object.parse({ name: 'a', sub: 1 })).toThrow(
-      '➤ field "sub": expected object, found number.'
+      '➤ field "sub": Invalid input. Expected object, found Number.'
     );
 
     expect(() => object.parse({ name: 'a', sub: {} })).toThrow(
@@ -152,13 +157,13 @@ describe('Object', () => {
     expect(myObject.definition.roles.def).toEqual(rolesObject.definition);
 
     expect(() => myObject.parse({ userId: '123' })).toThrow(
-      '➤ field "roles": expected array, found undefined.'
+      '➤ field "roles": required field.'
     );
 
     expect(() => myObject.parse({ userId: '123', roles: [] })).not.toThrow();
 
     expect(() => myObject.parse({ userId: '123', roles: [1] })).toThrow(
-      '• roles[0] expected object, found number'
+      '➤ field "roles": Invalid input. Expected object, found Number at position 0.'
     );
   });
 

@@ -3,7 +3,6 @@ import { isProduction } from '@darch/utils/lib/env';
 import { getKeys } from '@darch/utils/lib/getKeys';
 import { getTypeName } from '@darch/utils/lib/getTypeName';
 import { inspectObject } from '@darch/utils/lib/inspectObject';
-import { nonNullValues } from '@darch/utils/lib/invariant';
 import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 
 import { GraphType } from './GraphType/GraphType';
@@ -42,7 +41,7 @@ export function parseObjectField<T extends FieldDefinitionConfig>(
   fieldName: string,
   definition: T,
   returnInstance = false
-) {
+): TAnyFieldType | FinalFieldDefinition {
   const parsed = simpleObjectClone(parseFieldDefinitionConfig(definition));
 
   const instanceFromDef = fieldInstanceFromDef(parsed);
@@ -89,25 +88,19 @@ export function parseFieldDefinitionConfig(
       optional = false,
       description,
       defaultValue,
+      type: {
+        definition: { type, def, defaultValue: _defaultValue },
+      },
     } = definition;
 
-    const def = {
-      ...definition.type.definition,
+    return {
+      type,
+      def,
       list,
+      defaultValue: defaultValue === undefined ? _defaultValue : defaultValue,
       optional,
+      description,
     };
-
-    const _description = description || definition.type.definition.description;
-
-    if (_description) {
-      def.description = _description;
-    }
-
-    if (defaultValue !== undefined) {
-      def.defaultValue = defaultValue;
-    }
-
-    return parseFieldDefinitionConfig(def);
   }
 
   if (isStringFieldDefinition(definition)) {
@@ -121,7 +114,9 @@ export function parseFieldDefinitionConfig(
   if (isFinalFieldDefinition(definition)) {
     if (definition.type === 'object') {
       if (typeof definition.def !== 'object' || !definition.def) {
-        throw new RuntimeError(`Missing def for object field.`, { definition });
+        throw new RuntimeError(`Missing def for object field.`, {
+          definition,
+        });
       }
 
       if (isObject(definition.def)) {
@@ -155,12 +150,13 @@ export function parseFieldDefinitionConfig(
 
   if (isObject(definition)) {
     return {
+      defaultValue: undefined,
       type: 'object',
       def: definition.definition,
       optional: false,
       list: false,
       description: definition.description,
-    } as CommonFieldDefinition<'object'>;
+    };
   }
 
   if (isObjectAsTypeDefinition(definition)) {
@@ -170,7 +166,8 @@ export function parseFieldDefinitionConfig(
       optional: !!definition.optional,
       list: !!definition.list,
       description: definition.type.description,
-    } as CommonFieldDefinition<'object'>;
+      defaultValue: undefined,
+    };
   }
 
   const keyObjectDefinition = parseFlattenFieldDefinition(definition);
@@ -188,13 +185,13 @@ export function parseObjectDefinition<T extends ObjectDefinitionInput>(
   } = {}
 ): {
   definition: { [key: string]: FinalFieldDefinition };
-  meta: MetaField['asFinalField'];
+  meta: MetaField['asFinalFieldDef'];
 } {
   const { omitMeta } = options;
 
   const result = {} as { [key: string]: FinalFieldDefinition };
 
-  let meta: MetaField['asFinalField'] | undefined = undefined;
+  let meta: MetaField['asFinalFieldDef'] | undefined = undefined;
 
   getKeys(input).forEach(function (fieldName) {
     try {
@@ -272,7 +269,9 @@ const validFlattenDefinitionKeys = {
   list: 'boolean',
 } as const;
 
-export function parseFlattenFieldDefinition(input: any) {
+export function parseFlattenFieldDefinition(
+  input: any
+): FinalFieldDefinition | false {
   if (getTypeName(input) !== 'Object') return false;
   if (input.type !== undefined) return false;
   const keys = Object.keys(input);
@@ -316,7 +315,7 @@ export function parseFlattenFieldDefinition(input: any) {
     }
   }
 
-  let { description, optional, list = false, defaultValue } = input;
+  let { description, optional = false, list = false, defaultValue } = input;
 
   return parseFieldDefinitionConfig({
     type,

@@ -12,7 +12,8 @@ export type FieldTypeParser<Type> = (
 export function parseValidationError(
   input: any,
   customMessage: ValidationCustomMessage | undefined,
-  originalError: (Error & { [K: string]: any }) | string
+  originalError: (Error & { [K: string]: any }) | string,
+  _originDef: any
 ) {
   if (typeof originalError === 'object') {
     if (
@@ -29,6 +30,8 @@ export function parseValidationError(
       }
     }
   }
+
+  // console.log(_originDef);
 
   const error =
     typeof originalError === 'string'

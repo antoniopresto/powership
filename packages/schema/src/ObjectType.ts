@@ -137,7 +137,8 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
       const err: any = parseValidationError(
         input,
         customMessage,
-        errors.join(' \n')
+        errors.join(' \n'),
+        this.definition
       );
       err.isObjectValidationError = true;
       err.fieldErrors = errors;
@@ -167,8 +168,6 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
     const { partial = false, fields = Object.keys(this.definition) } =
       options || {};
 
-    const ObjectConstructor: any = this.constructor;
-
     const errors: string[] = [];
     const parsed: any = {};
 
@@ -191,12 +190,15 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
       const value = input[currField];
 
       const hasAutoCreateOption = fieldDef?.def?.['autoCreate'] === true;
-      if (value === undefined && partial && !hasAutoCreateOption) {
+      if (
+        (value === undefined || value === null) &&
+        partial &&
+        !hasAutoCreateOption
+      ) {
         return;
       }
 
       const result = validateObjectFields({
-        createObjectType: (def) => new ObjectConstructor(def),
         fieldName: currField,
         definition: fieldDef,
         value,

@@ -1,5 +1,4 @@
 import { getTypeName } from '@darch/utils/lib/getTypeName';
-import { TypeLike } from '@darch/utils/lib/typeUtils';
 
 import {
   FieldTypeParser,
@@ -7,12 +6,15 @@ import {
   ValidationCustomMessage,
 } from '../applyValidator';
 
-import { FinalFieldDefinition } from './_parseFields';
+import { AllFinalFieldDefinitions, FinalFieldDefinition } from './_parseFields';
+import { FieldDefinitions, FieldTypeName } from './_fieldDefinitions';
 export * from '../applyValidator';
 
-export type TAnyFieldType = TypeLike<FieldType<any, any, any>>;
-
-export abstract class FieldType<Type, TypeName extends string, Def> {
+export abstract class FieldType<
+  Type,
+  TypeName extends FieldTypeName,
+  Def extends FieldDefinitions[TypeName]
+> {
   readonly typeName: TypeName;
   type: TypeName;
   readonly __fieldTypeClassInfer!: Type;
@@ -78,14 +80,15 @@ export abstract class FieldType<Type, TypeName extends string, Def> {
     preParse?(input: any): Type;
     parse(input: any): Type;
   }): FieldTypeParser<Type> => {
+    const self = this;
     return (input: any, customMessage?: ValidationCustomMessage) => {
       if (parser.preParse) {
         input = parser.preParse(input);
       }
 
       if (
-        input === undefined ||
-        (input === null && this.defaultValue !== undefined)
+        (input === undefined || input === null) &&
+        this.defaultValue !== undefined
       ) {
         input = this.defaultValue;
       }
@@ -119,7 +122,8 @@ export abstract class FieldType<Type, TypeName extends string, Def> {
             const error = parseValidationError(
               item,
               customMessage,
-              originalError
+              originalError,
+              self.asFinalFieldDef
             );
             error.message = `${error.message} at position ${key}`;
             throw error;
@@ -131,20 +135,27 @@ export abstract class FieldType<Type, TypeName extends string, Def> {
       try {
         return parser.parse(input);
       } catch (originalError: any) {
-        throw parseValidationError(input, customMessage, originalError);
+        throw parseValidationError(
+          input,
+          customMessage,
+          originalError,
+          self.definition
+        );
       }
     };
   };
 
-  get asFinalFieldDef(): FinalFieldDefinition {
-    return {
+  get asFinalFieldDef(): AllFinalFieldDefinitions[TypeName] {
+    const res: FinalFieldDefinition = {
       type: this.type,
       def: this.def,
       list: this.list,
       optional: this.optional,
       description: this.description,
       defaultValue: this.defaultValue,
-    } as any;
+    };
+
+    return res as any;
   }
 
   abstract parse: FieldTypeParser<Type>;
@@ -159,3 +170,9 @@ export abstract class FieldType<Type, TypeName extends string, Def> {
 export function isFieldInstance(t: any): t is TAnyFieldType {
   return t?.__isFieldType === true;
 }
+
+export type AllFieldTypes = {
+  [K in keyof FieldDefinitions]: FieldType<any, K, FieldDefinitions[K]>;
+};
+
+export type TAnyFieldType = AllFieldTypes[keyof AllFieldTypes];

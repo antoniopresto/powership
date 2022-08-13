@@ -11,13 +11,15 @@ function _parseStringDefinition<T extends AnyStringFieldDefinition>(
   const isOptional = isOptionalTemplate(typeName);
   const isList = isListTemplate(typeName);
 
-  const obj = Object.freeze({
+  const obj = {
     type: t,
-    optional: isOptional,
-    list: isList,
-  });
+    optional: !!isOptional,
+    list: !!isList,
+    def: undefined,
+    defaultValue: undefined,
+  };
 
-  return obj as any;
+  return obj;
 }
 
 function _isOptionalTemplate<T extends string>(

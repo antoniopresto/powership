@@ -3,7 +3,6 @@ import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../Infer';
 import { createObjectType } from '../ObjectType';
-import { objectMetaFieldKey } from '../fields/MetaFieldField';
 import { UnionField } from '../fields/UnionField';
 import { _assert, _assertFields } from '../fields/__tests__/__assert';
 import { ToFinalField } from '../fields/_parseFields';
@@ -42,7 +41,7 @@ describe('Union', () => {
     );
 
     expect(() => sut.parse([{ name: 1 }])).toThrow(
-      '➤ field "sub": expected object, found undefined. at position 0'
+      '➤ field "sub": required field. at position 0'
     );
 
     expect(
@@ -50,7 +49,7 @@ describe('Union', () => {
     ).toEqual([{ name: 'antonio' }, { sub: { sub: { name: 'antonio' } } }]);
 
     expect(() => sut.parse([{ name: 'antonio' }, { sub: { sub: 1 } }])).toThrow(
-      '➤ field "sub": ➤ field "sub": expected object, found number. at position 1'
+      '➤ field "sub": ➤ field "sub": Invalid input. Expected object, found Number. at position 1'
     );
   });
 
@@ -180,7 +179,14 @@ describe('Union', () => {
     } as const);
 
     expect(object.definition).toEqual({
-      [objectMetaFieldKey]: expect.anything(),
+      __dschm__: {
+        def: {
+          id: null,
+        },
+        list: false,
+        optional: false,
+        type: 'meta',
+      },
       union1: {
         def: [
           {
@@ -195,7 +201,6 @@ describe('Union', () => {
             type: 'enum',
           },
         ],
-
         list: false,
         optional: false,
         type: 'union',
@@ -214,7 +219,6 @@ describe('Union', () => {
             type: 'enum',
           },
         ],
-
         list: false,
         optional: true,
         type: 'union',
@@ -233,7 +237,6 @@ describe('Union', () => {
             type: 'enum',
           },
         ],
-
         list: true,
         optional: true,
         type: 'union',
@@ -288,8 +291,6 @@ describe('Union', () => {
             type: 'boolean',
           },
         ],
-        list: false,
-        optional: false,
         type: 'union',
       },
       union3ListOptional: {
@@ -324,7 +325,6 @@ describe('Union', () => {
             type: 'boolean',
           },
         ],
-        list: false,
         optional: true,
         type: 'union',
       },
@@ -380,13 +380,14 @@ describe('Union', () => {
       return val;
     };
 
-    object.parse(valid());
-    object.parse(valid());
-    object.parse(valid());
-    object.parse(valid());
-    object.parse(valid());
+    const val = valid();
+    // object.parse(valid());
+    // object.parse(valid());
+    // object.parse(valid());
+    // object.parse(valid());
+    // object.parse(valid());
     object.parse({
-      ...valid(),
+      ...val,
       union3ListOptional: undefined,
       union1OptionalList: undefined,
       union1Optional: undefined,

@@ -46,7 +46,34 @@ export type ParseFields<Input> = {
 
 export type FinalObjectDefinition = { [K: string]: FinalFieldDefinition };
 
+export type ExtractTypeName<T> = keyof T extends infer K
+  ? K extends keyof T
+    ? K extends 'type'
+      ? T[K] extends FieldTypeName
+        ? T[K]
+        : never
+      : K extends FieldTypeName
+      ? K
+      : never
+    : never
+  : never;
+
+export type AllFinalFieldDefinitions = {
+  [Type in FieldTypeName]: {
+    type: Type;
+    def: FieldDefinitions[Type];
+    list: boolean;
+    optional: boolean;
+    description: string | undefined;
+    defaultValue: any;
+  };
+};
+
+export type FinalFieldDefinitionStrict =
+  AllFinalFieldDefinitions[keyof AllFinalFieldDefinitions];
+
 export type FinalFieldDefinition = {
+  // less restrictive type, avoid over processing
   [K in FieldTypeName]: CommonFieldDefinition<K>;
 }[FieldTypeName];
 

@@ -51,9 +51,7 @@ test('examples', async () => {
 
   expect(() =>
     userObject.parse({ name: 'antonio', letter: 'a', deliveryAddress: {} })
-  ).toThrow(
-    'field "deliveryAddress": ➤ field "street": expected type string, found undefined.'
-  );
+  ).toThrow('➤ field "deliveryAddress": ➤ field "street": required field.');
 
   const parsed = userObject.parse({
     name: 'antonio',

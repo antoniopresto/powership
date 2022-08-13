@@ -15,10 +15,6 @@ export type MetaFieldDef = {
 };
 
 export class MetaField extends FieldType<MetaField, 'meta', MetaFieldDef> {
-  get asFinalField(): { type: 'meta'; def: MetaFieldDef } {
-    return { type: 'meta', def: this.def };
-  }
-
   parse: FieldTypeParser<MetaField>;
 
   constructor(def: MetaFieldDef = { id: null }) {
@@ -48,8 +44,15 @@ export class MetaField extends FieldType<MetaField, 'meta', MetaFieldDef> {
 
 export const objectMetaFieldKey = '__dschm__';
 
-export function createEmptyMetaField(): { type: 'meta'; def: MetaFieldDef } {
-  return { type: 'meta', def: { id: null } };
+export function createEmptyMetaField(): MetaField['asFinalFieldDef'] {
+  return {
+    defaultValue: undefined,
+    description: undefined,
+    list: false,
+    optional: false,
+    type: 'meta',
+    def: { id: null },
+  };
 }
 
 export function clearMetaField(input: any) {
@@ -84,7 +87,7 @@ export function isMetaFieldKey(t: any): t is typeof objectMetaFieldKey {
 export function isMetaField(
   t: any,
   fieldName?: string
-): t is MetaField['asFinalField'] {
+): t is MetaField['asFinalFieldDef'] {
   if (fieldName && fieldName !== objectMetaFieldKey) return false;
   return (
     t && typeof t === 'object' && t.type === 'meta' && typeof t.def === 'object'
@@ -93,7 +96,7 @@ export function isMetaField(
 
 export function getObjectDefinitionMetaField(
   input: Record<string, any>
-): MetaField['asFinalField'] | undefined {
+): MetaField['asFinalFieldDef'] | undefined {
   return input[objectMetaFieldKey];
 }
 

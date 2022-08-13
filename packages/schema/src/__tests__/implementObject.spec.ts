@@ -67,7 +67,14 @@ describe('implementObject', () => {
           id: 'Post',
           implements: ['Node', 'PageNode'],
         },
+        list: false,
+        optional: false,
         type: 'meta',
+      },
+      body: {
+        list: false,
+        optional: false,
+        type: 'string',
       },
       id: {
         list: false,
@@ -79,11 +86,6 @@ describe('implementObject', () => {
         list: false,
         optional: false,
         type: 'enum',
-      },
-      body: {
-        list: false,
-        optional: false,
-        type: 'string',
       },
       title: {
         list: false,

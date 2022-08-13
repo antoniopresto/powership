@@ -5,17 +5,15 @@
 import { TypeLike } from '@darch/utils/lib/typeUtils';
 
 import { Darch } from '../Darch';
-import type { AnyObjectType } from '../ObjectType';
+import type { AnyObjectType, ObjectDefinitionInput } from '../ObjectType';
 
 import { FieldType, FieldTypeParser, isFieldInstance } from './FieldType';
 
 type AnyObjectField = TypeLike<typeof ObjectField['prototype']>;
 
-export class ObjectField<DefinitionInput> extends FieldType<
-  unknown,
-  'object',
-  DefinitionInput
-> {
+export class ObjectField<
+  DefinitionInput extends ObjectDefinitionInput
+> extends FieldType<unknown, 'object', DefinitionInput> {
   parse: FieldTypeParser<unknown>;
 
   utils: {
@@ -41,7 +39,9 @@ export class ObjectField<DefinitionInput> extends FieldType<
     });
   }
 
-  static create = <DefinitionInput>(def: DefinitionInput) => {
+  static create = <DefinitionInput extends ObjectDefinitionInput>(
+    def: DefinitionInput
+  ) => {
     return new ObjectField<DefinitionInput>(def);
   };
 }
