@@ -1,7 +1,8 @@
 import camelCase from 'lodash/camelCase';
 import upperFirst from 'lodash/upperFirst';
-import { slugify } from './slugify';
+
 import { randomItem } from './randomItem';
+import { slugify } from './slugify';
 
 export function capitalize(input: string) {
   return upperFirst(input);

@@ -43,7 +43,6 @@ import type {
   ParseFields,
   ToFinalField,
 } from './fields/_parseFields';
-
 import { validateObjectFields } from './getObjectErrors';
 import { getObjectHelpers, ObjectHelpers } from './getObjectHelpers';
 import { ImplementObject, implementObject } from './implementObject';

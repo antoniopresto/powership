@@ -1,3 +1,4 @@
+import { TypeAssertionError } from '@darch/utils';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { StrictMap } from '@darch/utils/lib/StrictMap';
 import { assertSame } from '@darch/utils/lib/assertSame';
@@ -51,7 +52,6 @@ import { GraphQLDateType } from './GraphQLDateType';
 import { GraphQLNullType } from './GraphQLNullType';
 import { GraphQLUlidType } from './GraphQLUlidType';
 import { GraphQLUnknownType } from './GraphQLUnknownType';
-import { TypeAssertionError } from '@darch/utils';
 
 export function createHooks() {
   return {

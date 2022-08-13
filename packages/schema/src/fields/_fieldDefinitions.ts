@@ -1,8 +1,8 @@
 import { ObjectLike } from './IObjectLike';
 import { MetaFieldDef } from './MetaFieldField';
 import { RecordFieldDef } from './RecordField';
-import {ObjectFieldInput} from './_parseFields';
 import { UnknownFieldDef } from './UnknownField';
+import { ObjectFieldInput } from './_parseFields';
 
 export type CursorType = {
   PK: string;

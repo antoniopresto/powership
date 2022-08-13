@@ -6,8 +6,8 @@ import {
   ValidationCustomMessage,
 } from '../applyValidator';
 
-import { AllFinalFieldDefinitions, FinalFieldDefinition } from './_parseFields';
 import { FieldDefinitions, FieldTypeName } from './_fieldDefinitions';
+import { AllFinalFieldDefinitions, FinalFieldDefinition } from './_parseFields';
 export * from '../applyValidator';
 
 export abstract class FieldType<

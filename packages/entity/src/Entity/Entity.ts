@@ -9,6 +9,8 @@ import {
   parseObjectDefinition,
   ToFinalField,
 } from '@darch/schema';
+import { isMetaFieldKey } from '@darch/schema/lib/fields/MetaFieldField';
+import { MaybePromise } from '@darch/utils';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { devAssert } from '@darch/utils/lib/devAssert';
 import { hooks, Waterfall } from '@darch/utils/lib/hooks';
@@ -37,8 +39,6 @@ import {
   transporterLoaderNames,
   validateIndexNameAndField,
 } from '../Transporter';
-import { MaybePromise } from '@darch/utils';
-import { isMetaFieldKey } from '@darch/schema/lib/fields/MetaFieldField';
 
 type _GraphType = {
   _object?: ObjectType<any>;
@@ -864,8 +864,7 @@ type GetLoaderFilterType<Loader, DocDef> = Loader extends (
           [L in PK]: L extends keyof DocDef
             ? _FinalOptionalField<DocDef[L]>
             : never; //
-        } & (// //
-        [SK] extends [string]
+        } & ([SK] extends [string] // //
           ? {
               //
               [L in SK]: L extends keyof DocDef

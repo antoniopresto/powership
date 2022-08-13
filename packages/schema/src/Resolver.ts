@@ -1,3 +1,4 @@
+import { MaybePromise } from '@darch/utils';
 import {
   GraphQLField,
   GraphQLFieldConfig,
@@ -6,16 +7,14 @@ import {
 } from 'graphql';
 
 import { Darch } from './Darch';
+import { createType, GraphType } from './GraphType/GraphType';
+import { getInnerType } from './GraphType/getQueryTemplates';
+import { GraphTypeLike } from './fields/IObjectLike';
 import {
   ObjectDefinitionInput,
   ObjectFieldInput,
   ToFinalField,
 } from './fields/_parseFields';
-
-import { createType, GraphType } from './GraphType/GraphType';
-import { getInnerType } from './GraphType/getQueryTemplates';
-import { GraphTypeLike } from './fields/IObjectLike';
-import { MaybePromise } from '@darch/utils';
 
 export type ResolverContextBase = {
   userId?(...args: unknown[]): MaybePromise<string | undefined>;

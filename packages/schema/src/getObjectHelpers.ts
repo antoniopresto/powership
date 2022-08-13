@@ -1,10 +1,10 @@
 import { getKeys } from '@darch/utils/lib/getKeys';
 
 import type { FinalFieldDefinition, ObjectType } from './ObjectType';
+import { AnyField } from './fields/AnyField';
 import { isMetaFieldKey, MetaFieldDef } from './fields/MetaFieldField';
 import { ObjectDefinitionInput } from './fields/_parseFields';
 import { __getCachedFieldInstance } from './parseObjectDefinition';
-import { AnyField } from './fields/AnyField';
 
 export type ObjectFieldListItem<T extends ObjectDefinitionInput> = {
   instance: AnyField;

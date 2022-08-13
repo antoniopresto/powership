@@ -1,3 +1,4 @@
+import { textToBase64 } from '@darch/utils';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { encodeNumber } from '@darch/utils/lib/conust';
 import { devAssert } from '@darch/utils/lib/devAssert';
@@ -18,7 +19,6 @@ import {
   OneFilterOperation,
 } from './Transporter';
 import { InvalidFilterError } from './errors';
-import { textToBase64 } from '@darch/utils';
 
 export const PK_SK_SEPARATOR = '↠';
 export const ID_SEPARATOR_REGEX = new RegExp(PK_SK_SEPARATOR, 'g');

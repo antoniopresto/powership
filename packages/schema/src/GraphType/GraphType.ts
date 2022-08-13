@@ -12,6 +12,7 @@ import type {
 import { Darch } from '../Darch';
 import { Infer } from '../Infer';
 import { createObjectType, ObjectType } from '../ObjectType';
+import type { AnyResolver, Resolver, ResolverConfig } from '../Resolver';
 import { FieldDefinitionConfig } from '../TObjectConfig';
 import { TAnyFieldType, ValidationCustomMessage } from '../fields/FieldType';
 import { GraphTypeLike } from '../fields/IObjectLike';
@@ -26,7 +27,6 @@ import type { ObjectToTypescriptOptions } from '../objectToTypescript';
 import { parseObjectField } from '../parseObjectDefinition';
 
 import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
-import type { AnyResolver, Resolver, ResolverConfig } from '../Resolver';
 
 export class GraphType<Definition extends ObjectFieldInput>
   implements GraphTypeLike

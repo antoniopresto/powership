@@ -1,3 +1,4 @@
+import { capitalize, DarchJSON, notNull } from '@darch/utils';
 import { tupleEnum } from '@darch/utils/lib/typeUtils';
 import type { GraphQLSchemaConfig } from 'graphql';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
@@ -5,7 +6,6 @@ import groupBy from 'lodash/groupBy';
 
 import { Darch } from './Darch';
 import { GraphType } from './GraphType/GraphType';
-import { AnyResolver } from './Resolver';
 import { generateClientUtils } from './GraphType/generateClientUtils';
 import { getInnerGraphTypeId } from './GraphType/getInnerGraphTypeId';
 import {
@@ -13,10 +13,10 @@ import {
   SchemaQueryTemplatesResult,
 } from './GraphType/getQueryTemplates';
 import { parseFieldDefinitionConfig } from './ObjectType';
+import { AnyResolver } from './Resolver';
 import { clearMetaField } from './fields/MetaFieldField';
-import type { ObjectToTypescriptOptions } from './objectToTypescript';
 import { objectMock } from './mockObject';
-import { capitalize, DarchJSON, notNull } from '@darch/utils';
+import type { ObjectToTypescriptOptions } from './objectToTypescript';
 
 export type CreateGraphQLObjectOptions = Partial<GraphQLSchemaConfig>;
 
@@ -369,9 +369,7 @@ function queryExamples({
     Object.entries(resolversRecord).forEach(([name, parsed]) => {
       const resolver = notNull(resolvers.find((el) => el.name === name));
       const argsDef = resolver.argsType._object?.definition;
-      const argsExamples = argsDef
-        ? objectMock(argsDef, { randomText })
-        : '';
+      const argsExamples = argsDef ? objectMock(argsDef, { randomText }) : '';
 
       examples += `${kind} ${name}${capitalize(kind)} { ${name}`;
 

@@ -2,9 +2,9 @@ import { assert, IsExact } from 'conditional-type-checks';
 import { graphql } from 'graphql';
 
 import { createType } from '../../GraphType/GraphType';
-import { createResolver } from '../../Resolver';
 import { Infer } from '../../Infer';
 import { createObjectType, ObjectType } from '../../ObjectType';
+import { createResolver } from '../../Resolver';
 import { createGraphQLSchema } from '../../createGraphQLSchema';
 import { objectToJSON } from '../../objectToJSON';
 import { LiteralField } from '../LitarealField';

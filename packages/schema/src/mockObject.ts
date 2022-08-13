@@ -1,18 +1,19 @@
 // Converts a schema to a placeholder object
-import { createEmptyMetaField, isMetaFieldKey } from './fields/MetaFieldField';
-import { FinalFieldDefinition } from './fields/_parseFields';
 import {
-  randomName,
+  randomFloat,
+  randomInt,
   randomItem,
+  randomName,
   slugify,
   ulid,
-  randomInt,
-  randomFloat,
 } from '@darch/utils';
+
 import { Infer } from './Infer';
 import { CursorField } from './fields/CursorField';
-import { FieldTypeName } from './fields/_fieldDefinitions';
 import { LiteralField } from './fields/LitarealField';
+import { createEmptyMetaField, isMetaFieldKey } from './fields/MetaFieldField';
+import { FieldTypeName } from './fields/_fieldDefinitions';
+import { FinalFieldDefinition } from './fields/_parseFields';
 
 export function objectMock<T extends { [K: string]: FinalFieldDefinition }>(
   definition: T,

@@ -1,10 +1,11 @@
-import { createEntity, EntityGeneratedFields } from '../Entity';
-import { AppMock, createAppMock } from '../../Mongo/__tests__/createAppMock';
-import { MongoTransporter } from '../../Mongo';
 import { createResolver, createType, ObjectType } from '@darch/schema';
-import { slugify } from '@darch/utils/lib/slugify';
 import { objectMock } from '@darch/schema';
 import { getTypeName } from '@darch/utils';
+import { slugify } from '@darch/utils/lib/slugify';
+
+import { MongoTransporter } from '../../Mongo';
+import { AppMock, createAppMock } from '../../Mongo/__tests__/createAppMock';
+import { createEntity, EntityGeneratedFields } from '../Entity';
 
 describe('ProductResolver', () => {
   let mockApp: AppMock;

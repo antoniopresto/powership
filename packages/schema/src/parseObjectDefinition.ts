@@ -9,6 +9,7 @@ import { GraphType } from './GraphType/GraphType';
 import { isObject, ObjectType } from './ObjectType';
 import { FieldDefinitionConfig, ObjectDefinitionInput } from './TObjectConfig';
 import { fieldInstanceFromDef } from './fieldInstanceFromDef';
+import { AnyField } from './fields/AnyField';
 import { isFieldInstance, TAnyFieldType } from './fields/FieldType';
 import { LiteralField } from './fields/LitarealField';
 import {
@@ -24,7 +25,6 @@ import {
   isStringFieldDefinition,
   parseStringDefinition,
 } from './parseStringDefinition';
-import { AnyField } from './fields/AnyField';
 
 export function parseObjectField<T extends FieldDefinitionConfig>(
   fieldName: string,

@@ -1,8 +1,8 @@
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 
+import { AnyField } from './fields/AnyField';
 import { FinalFieldDefinition } from './fields/_parseFields';
 import { types } from './fields/fieldTypes';
-import { AnyField } from './fields/AnyField';
 
 export function fieldInstanceFromDef(
   definition: FinalFieldDefinition

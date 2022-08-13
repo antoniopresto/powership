@@ -33,11 +33,10 @@ function getModules() {
       module: () =>
         require('./implementObject') as typeof import('./implementObject'),
     },
-    
+
     mockObject: {
       server: false,
-      module: () =>
-        require('./mockObject') as typeof import('./mockObject'),
+      module: () => require('./mockObject') as typeof import('./mockObject'),
     },
   };
 
