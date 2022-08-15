@@ -78,7 +78,7 @@ describe('MongoTransporter', () => {
         item: {
           PK: 'ranking',
           SK: 0,
-          _id: 'entity_foo#ranking↠5',
+          _id: 'entity_foo:_id#ranking↠5',
           _idPK: 'ranking',
           _idSK: '5',
           id: expect.any(String),
@@ -98,8 +98,8 @@ describe('MongoTransporter', () => {
         item: {
           PK: 'ranking',
           SK: 10,
-          _id: 'entity_foo#ranking↠721',
-          id: expect.any(String)
+          _id: 'entity_foo:_id#ranking↠721',
+          id: expect.any(String),
         },
         updated: false,
       });
@@ -116,10 +116,10 @@ describe('MongoTransporter', () => {
         item: {
           PK: 'ranking',
           SK: 12000000000000000000000000000000000000,
-          _id: 'entity_foo#ranking↠7z412',
+          _id: 'entity_foo:_id#ranking↠7z412',
           _idPK: 'ranking',
           _idSK: '7z412',
-          id: expect.any(String)
+          id: expect.any(String),
         },
         updated: false,
       });
@@ -138,7 +138,7 @@ describe('MongoTransporter', () => {
         item: {
           PK: 'users',
           SK: 'users',
-          _id: 'entity_foo#users↠users',
+          _id: 'entity_foo:_id#users↠users',
           _idPK: 'users',
           _idSK: 'users',
           id: expect.any(String),
@@ -158,7 +158,7 @@ describe('MongoTransporter', () => {
         item: {
           PK: 'users',
           SK: '5',
-          _id: 'entity_foo#users↠5',
+          _id: 'entity_foo:_id#users↠5',
         },
         updated: false,
       });
@@ -172,7 +172,7 @@ describe('MongoTransporter', () => {
         item: {
           PK: 'users',
           SK: '123',
-          _id: 'entity_foo#users↠123',
+          _id: 'entity_foo:_id#users↠123',
           email: 'fulano@gmail.com',
           name: 'fulano',
         },
@@ -185,7 +185,7 @@ describe('MongoTransporter', () => {
         item: {
           PK: 'users',
           SK: '123',
-          _id: 'entity_foo#users↠123',
+          _id: 'entity_foo:_id#users↠123',
           email: 'fulano@gmail.com',
           name: 'fulano',
         },
@@ -318,12 +318,12 @@ describe('MongoTransporter', () => {
       expect(await update('a', { $inc: { num: 1, newNum: 2 } })).toHaveProperty(
         'item',
         {
-          _id: 'entity_foo#a↠a',
+          _id: 'entity_foo:_id#a↠a',
           PK: 'a',
           SK: 'a',
           _idPK: 'a',
           _idSK: 'a',
-          id: 'ZW50aXR5X2ZvbzpfaWQ6ZW50aXR5X2ZvbyNh4oagYQ==',
+          id: expect.any(String),
           list: ['b', 'c', 'd', 'e'],
           newNum: 2,
           num: 1,
@@ -426,7 +426,7 @@ describe('MongoTransporter', () => {
         },
       });
 
-      expect(removed).toHaveProperty('item._id', 'entity_foo#a↠b');
+      expect(removed).toHaveProperty('item._id', 'entity_foo:_id#a↠b');
 
       const removed2 = await transporter.deleteOne({
         indexConfig,
@@ -543,7 +543,7 @@ describe('MongoTransporter', () => {
       );
     });
 
-    it('should handle startingKey', async () => {
+    it('should handle after', async () => {
       await transporter.findMany({
         indexConfig,
 
@@ -553,7 +553,7 @@ describe('MongoTransporter', () => {
 
         limit: 1,
         sort: 'DESC',
-        startingKey: { PK: 'users', SK: 'D' },
+        after: { PK: 'users', SK: 'D' },
 
         dataloaderContext: {},
       });
@@ -567,7 +567,7 @@ describe('MongoTransporter', () => {
       //
       //     limit: 1,
       //     sort: 'ASC',
-      //     startingKey: { PK: 'users', SK: 'A', field: '_id' },
+      //     after: { PK: 'users', SK: 'A', field: '_id' },
       //
       //     dataloaderContext: {},
       //   }),
@@ -581,7 +581,7 @@ describe('MongoTransporter', () => {
       //
       //     limit: 1,
       //     sort: 'DESC',
-      //     startingKey: { PK: 'users', SK: 'D' },
+      //     after: { PK: 'users', SK: 'D' },
       //
       //     dataloaderContext: {},
       //   }),
@@ -638,14 +638,9 @@ describe('MongoTransporter', () => {
 
       expect(spy).toBeCalledWith(
         {
-          // $or injected  from dataloader
-          $or: [
+          $and: [
             {
-              $and: [
-                {
-                  _id: 'entity_foo#users↠B',
-                },
-              ],
+              _id: 'entity_foo:_id#users↠B',
             },
           ],
         },
@@ -686,11 +681,11 @@ describe('MongoTransporter', () => {
 
       expect(sut.items).toHaveLength(3);
       expect(sut.items[0]).toEqual({
-        _id: 'entity_foo#users↠D',
+        _id: 'entity_foo:_id#users↠D',
         sub: { attr: 4 },
       });
       expect(sut.items[1]).toEqual({
-        _id: 'entity_foo#users↠C',
+        _id: 'entity_foo:_id#users↠C',
         sub: { attr: 3 },
       });
 

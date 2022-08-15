@@ -27,11 +27,11 @@ describe('getDocumentIndexFields', () => {
       error: null,
       firstIndex: {
         key: '_id',
-        value: 'foo#fulano↠715',
+        value: 'foo:_id#fulano↠715',
       },
       indexFields: {
-        _id: 'foo#fulano↠715',
-        _id1: 'foo#715↠fulano',
+        _id: 'foo:_id#fulano↠715',
+        _id1: 'foo:_id1#715↠fulano',
         _id1PK: '715',
         _id1SK: 'fulano',
         _idPK: 'fulano',
@@ -77,7 +77,7 @@ describe('getDocumentIndexFields', () => {
       ],
       partialIndexFilter: {
         key: '_id',
-        value: 'foo#fulano↠715',
+        value: 'foo:_id#fulano↠715',
       },
       valid: true,
     });
@@ -103,10 +103,10 @@ describe('getDocumentIndexFields', () => {
       error: null,
       firstIndex: {
         key: '_id',
-        value: 'foo#5\u0000#NAME↠nice#5',
+        value: 'foo:_id#5\u0000#NAME↠nice#5',
       },
       indexFields: {
-        _id: 'foo#5\u0000#NAME↠nice#5',
+        _id: 'foo:_id#5\u0000#NAME↠nice#5',
         _idPK: '5#NAME',
         _idSK: 'nice#5',
         id: expect.any(String)
@@ -133,7 +133,7 @@ describe('getDocumentIndexFields', () => {
       ],
       partialIndexFilter: {
         key: '_id',
-        value: 'foo#5\u0000#NAME↠nice#5',
+        value: 'foo:_id#5\u0000#NAME↠nice#5',
       },
       valid: true,
     });

@@ -164,8 +164,8 @@ describe('Product', () => {
       item: {
         SKU: 'sku0',
         id: expect.any(String),
-        _id: expect.stringMatching(/^product#store1↠/),
-        _id1: expect.stringMatching(/^product#store1↠sku0/),
+        _id: expect.stringMatching(/^product:_id#store1↠/),
+        _id1: expect.stringMatching(/^product:_id1#store1↠sku0/),
         _id1PK: 'store1',
         _id1SK: 'sku0',
         _idPK: 'store1',
@@ -201,8 +201,8 @@ describe('Product', () => {
     expect(product).toEqual({
       item: {
         SKU: 'sku0',
-        _id: expect.stringMatching(/^product#store1↠/),
-        _id1: expect.stringMatching(/^product#store1↠sku0/),
+        _id: expect.stringMatching(/^product:_id#store1↠/),
+        _id1: expect.stringMatching(/^product:_id1#store1↠sku0/),
         _id1PK: 'store1',
         _id1SK: 'sku0',
         _idPK: 'store1',
@@ -285,15 +285,16 @@ describe('Product', () => {
     });
 
     const id1 = mountID({
+      entity: 'product',
       PK: 'store1',
       SK: 'sku_batata',
-      entity: 'product',
+      indexField: '_id1',
     });
 
     const sut = await entity.findById({ id: id1, context: {} });
 
     expect(sut.item).toMatchObject({
-      _id: expect.stringMatching(/product#store1↠01/),
+      _id: expect.stringMatching(/_id#store1↠01/),
     });
   });
 
@@ -329,11 +330,11 @@ describe('Product', () => {
     });
 
     expect(orange.item).toMatchObject({
-      _id1: 'product#store1↠sku_ORANGE',
+      _id1: 'product:_id1#store1↠sku_ORANGE',
     });
 
     expect(apple.item).toMatchObject({
-      _id1: 'product#store1↠sku_APPLE',
+      _id1: 'product:_id1#store1↠sku_APPLE',
     });
   });
 
@@ -425,8 +426,8 @@ describe('Product', () => {
       created: true,
       item: {
         SKU: 'sku_batata',
-        _id: expect.stringMatching(/product#store1↠01.*/),
-        _id1: 'product#store1↠sku_batata',
+        _id: expect.stringMatching(/product:_id#store1↠01.*/),
+        _id1: 'product:_id1#store1↠sku_batata',
         _id1PK: 'store1',
         _id1SK: 'sku_batata',
         _idPK: 'store1',
@@ -464,9 +465,7 @@ describe('Product', () => {
     let found = await entity.findById({ id, context: {} });
 
     expect(found).toMatchObject({
-      item: {
-        id: expect.stringMatching('cHJvZHVjdDpfaWQ6cHJvZHVjdCNzdG9'),
-      },
+      item: {},
     });
 
     const deletedItem = await entity.deleteOne({

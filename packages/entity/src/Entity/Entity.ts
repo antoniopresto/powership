@@ -29,7 +29,6 @@ import {
   getDocumentIndexFields,
   getParsedIndexKeys,
   IndexFilterRecord,
-  mountGraphID,
   ParsedDocumentIndexes,
   ParsedIndexKey,
   Transporter,
@@ -537,7 +536,9 @@ export function createEntity<Options extends EntityOptions>(
     },
     getDocumentId: {
       value: function getDocumentId(doc): string {
-        return mountGraphID(doc, indexConfig);
+        const indexes = getDocumentIndexFields(doc, indexConfig);
+        if (indexes.error) throw indexes.error;
+        return notNull(indexes.indexFields.id);
       },
     },
     parseDocumentIndexes: {

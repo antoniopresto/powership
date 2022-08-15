@@ -3,6 +3,7 @@ import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 import { Filter } from 'mongodb';
 
 import {
+  createDocumentIndexBasedFilters,
   CreateOneConfig,
   CreateOneResult,
   DeleteOneConfig,
@@ -12,6 +13,7 @@ import {
   FindManyResult,
   FindOneConfig,
   FindOneResult,
+  PaginationResult,
   Transporter,
   UpdateOneConfig,
   UpdateOneResult,
@@ -99,40 +101,54 @@ export class MongoTransporter extends Transporter {
     return res;
   }
 
-  async findMany(options: FindManyConfig): Promise<FindManyResult> {
+  _parseQueryOptions(options: FindManyConfig) {
     const {
       filter,
       sort = 'ASC',
       projection,
       limit,
-      startingKey,
+      after,
       indexConfig,
       condition,
     } = options;
 
-    const $and: Filter<any>[] = createMongoIndexBasedFilters({
+    const { filters, PK } = createDocumentIndexBasedFilters(
       filter,
-      indexConfig,
-    });
+      indexConfig
+    );
+    const $and = parseMongoAttributeFilters({ $and: filters });
 
-    if (startingKey) {
+    const firstFilterEntry = Object.entries(filters[0])[0];
+    const firstFilterKey = firstFilterEntry[0];
+
+    if (after) {
       const rule = sort === 'DESC' ? '$lt' : '$gt';
 
-      const startingFilter = createMongoIndexBasedFilters({
-        filter:
-          typeof startingKey === 'string' ? { id: startingKey } : startingKey,
-        indexConfig,
+      const {
+        filters: startingDocFilters,
+        PK: { key },
+      } = createDocumentIndexBasedFilters(
+        typeof after === 'string' ? { id: after } : after,
+        indexConfig
+      );
+
+      const startingFilter = parseMongoAttributeFilters({
+        $and: startingDocFilters,
       });
 
-      const [[key, value]] = Object.entries(startingFilter[0]);
+      const value = Object.values(startingFilter[0])[0];
 
       $and.push({
         [key]: { [rule]: value },
       });
     }
 
-    if (condition) {
-      $and.push(...parseMongoAttributeFilters(condition));
+    const mongoConditions = condition
+      ? parseMongoAttributeFilters(condition)
+      : undefined;
+
+    if (mongoConditions) {
+      $and.push(...mongoConditions);
     }
 
     const query = { $and };
@@ -140,30 +156,47 @@ export class MongoTransporter extends Transporter {
 
     const collection = this.getCollection(filter);
 
-    const firstKey = Object.keys($and[0])[0];
-    const sortKey = firstKey && firstKey.startsWith('$') ? '_id' : firstKey;
-    // TODO fixme when by id
-    const mongoSort = {
-      [sortKey]: sort === 'DESC' ? -1 : 1,
-    } as const;
+    const sortKey =
+      firstFilterKey && firstFilterKey.startsWith('$') ? '_id' : firstFilterKey;
+    const mongoSort = { [sortKey]: sort === 'DESC' ? -1 : 1 } as const;
+
+    return {
+      db: this._client.db,
+      query,
+      collectionName: collection.collectionName,
+      collection,
+      projection: projection,
+      onlyOne: limit === 1,
+      limit,
+      sort: mongoSort,
+      firstFilterEntry,
+      firstKey: firstFilterKey,
+      PK,
+    };
+  }
+
+  async findMany(options: FindManyConfig): Promise<FindManyResult> {
+    const {
+      onlyOne,
+      collection,
+      db,
+      projection,
+      sort,
+      limit,
+      query, //
+    } = this._parseQueryOptions(options);
 
     let items: any[] = [];
 
-    if (limit !== undefined && limit > 1) {
-      items = await collection
-        .find(query, { sort: mongoSort, projection, limit })
-        .toArray();
-    } else {
-      const onlyOne = limit === 1;
-
+    if (onlyOne) {
       const result = await mongoFindMany(
         {
-          db: this._client.db,
+          db,
           query,
           collection: collection.collectionName,
           projection: projection,
           onlyOne,
-          sort: mongoSort,
+          sort,
         },
         options.dataloaderContext
       );
@@ -171,9 +204,41 @@ export class MongoTransporter extends Transporter {
       if (result) {
         items = onlyOne ? [result] : result;
       }
+    } else {
+      items = await collection
+        .find(query, { sort, projection, limit })
+        .toArray();
     }
 
     return { items };
+  }
+
+  async paginate(options: FindManyConfig): Promise<PaginationResult> {
+    const { items } = await this.findMany({
+      ...options,
+      limit: options.limit !== undefined ? options.limit + 1 : undefined,
+    });
+
+    const edges = items.map((item) => ({
+      node: item,
+      cursor: item.id,
+    }));
+
+    let hasNextPage = !!(options.limit && items.length > options.limit);
+
+    if (hasNextPage) {
+      edges.pop();
+    }
+
+    return {
+      edges,
+      pageInfo: {
+        hasNextPage,
+        hasPreviousPage: !!options.after,
+        startCursor: items[0]?.id,
+        endCursor: items[items.length - 1]?.id,
+      },
+    };
   }
 
   async findOne(options: FindOneConfig): Promise<FindOneResult> {

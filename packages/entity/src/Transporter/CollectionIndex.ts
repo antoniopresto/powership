@@ -1,4 +1,4 @@
-import { textToBase64 } from '@darch/utils';
+import { nonNullValues, textToBase64 } from '@darch/utils';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { encodeNumber } from '@darch/utils/lib/conust';
 import { devAssert } from '@darch/utils/lib/devAssert';
@@ -26,11 +26,12 @@ export const ID_KEY_SEPARATOR = '#';
 export const ID_SCAPE_CHAR = String.fromCharCode(0);
 
 export function mountID(params: {
+  indexField: string;
   entity: string;
   PK: string;
   SK: string | null;
 }) {
-  const { entity, PK, SK } = params;
+  const { indexField, entity, PK, SK } = params;
 
   function encodeKey(key: string) {
     return key
@@ -40,38 +41,44 @@ export function mountID(params: {
       .replace(/#/g, `${ID_SCAPE_CHAR}#`);
   }
 
-  return `${entity}${ID_KEY_SEPARATOR}${encodeKey(PK)}${PK_SK_SEPARATOR}${
+  const prefix = `${entity}:${indexField}`;
+
+  return `${prefix}${ID_KEY_SEPARATOR}${encodeKey(PK)}${PK_SK_SEPARATOR}${
     SK === null ? '' : encodeKey(SK)
   }`;
 }
 
 export type GraphIDJSON = {
-  i: string; // index name
+  i: DocumentIndexField; // index name
   e: string; // entity
   v: string; // id value
 };
 
+// a base64 encoded version of the id created by mountId
+export function mountGraphID(id: string) {
+  if (id.startsWith(`#`)) return id;
+  return `#${textToBase64(id)}`;
+}
+
 export function parseGraphID(input: string): GraphIDJSON | null {
   try {
-    const parts = base64ToText(input).split(':');
-    if (parts.length !== 3) return null;
-    const [e, i, v] = parts;
+    const v = input.startsWith('#') ? base64ToText(input.slice(1)) : input;
+    const [e, idRest] = v.split(':');
+    const [i, rest] = idRest.split(ID_KEY_SEPARATOR);
 
-    if (
-      !e ||
-      !i ||
-      !v ||
-      typeof i !== 'string' ||
-      typeof v !== 'string' ||
-      typeof e !== 'string'
-    ) {
-      throw new RuntimeError(`INVALID_GRAPH_ID`, { input, i, v, e });
-    }
-
-    return {
+    nonNullValues({
+      e,
       i,
       v,
+      rest,
+    });
+
+    assertDocumentIndexKey(i);
+
+    return {
       e,
+      v,
+      i,
     };
   } catch (e) {
     Logger.logError(e);
@@ -79,29 +86,14 @@ export function parseGraphID(input: string): GraphIDJSON | null {
   }
 }
 
-function _mountGraphIDString(
-  firstIndex: { key: string; value: string },
-  entity: string
-) {
-  const json: GraphIDJSON = {
-    i: firstIndex.key,
-    e: entity,
-    v: firstIndex.value,
+export type IndexBasedFilterParsed = {
+  filters: [FilterRecord, ...FilterRecord[]];
+  PK: {
+    // first primaryKey condition found in filter
+    key: DocumentIndexField;
+    value: string;
   };
-
-  const txt = `${json.e}:${json.i}:${json.v}`;
-
-  return textToBase64(txt);
-}
-
-export function mountGraphID(
-  doc: Record<string, any>,
-  indexConfig: AnyCollectionIndexConfig
-) {
-  const parsed = getDocumentIndexFields(doc, indexConfig);
-  if (!parsed.valid) throw parsed.error;
-  return _mountGraphIDString(parsed.firstIndex, indexConfig.entity);
-}
+};
 
 /**
  * Receives a document indexConfig and a key-value filter and converts to
@@ -112,12 +104,13 @@ export function mountGraphID(
 export function createDocumentIndexBasedFilters(
   filter: IndexFilterRecord,
   indexConfig: AnyCollectionIndexConfig
-): FilterRecord[] {
+): IndexBasedFilterParsed {
   const { indexes, entity } = indexConfig;
 
   validateIndexNameAndField(indexConfig);
 
   let filtersRecords: FilterRecord[] = [];
+  let foundPK: IndexBasedFilterParsed['PK'] | undefined = undefined;
 
   const filterKeys = new Set(Object.keys(filter));
 
@@ -125,20 +118,25 @@ export function createDocumentIndexBasedFilters(
     filterKeys.forEach((key) => {
       const value = filter[key];
 
-      if (DocumentIndexRegex.test(key) && typeof value === 'string') {
+      if (key === 'id') {
         const id = parseGraphID(value);
 
         if (id) {
+          foundPK = {
+            key: id.i,
+            value: id.v,
+          };
+
           return filtersRecords.push({
             [id.i]: id.v,
           });
-        } else {
-          return filtersRecords.push({
-            $or: indexConfig.indexes.map((index) => ({
-              [index.field]: value,
-            })),
-          });
         }
+      }
+
+      if (DocumentIndexRegex.test(key) && typeof value === 'string') {
+        return filtersRecords.push({
+          [key]: value,
+        });
       }
     });
 
@@ -172,6 +170,11 @@ export function createDocumentIndexBasedFilters(
       );
     }
 
+    foundPK = {
+      key: index.field,
+      value: PK.value,
+    };
+
     const items = joinPKAndSKAsIDFilter({
       indexField: index.field,
 
@@ -203,11 +206,14 @@ export function createDocumentIndexBasedFilters(
     filtersRecords.push(...items);
   });
 
-  if (!filtersRecords.length) {
-    throw new InvalidFilterError(filter);
+  if (!filtersRecords.length || !foundPK) {
+    throw new InvalidFilterError({ filter, foundPK });
   }
 
-  return filtersRecords;
+  return {
+    filters: filtersRecords as [FilterRecord, ...FilterRecord[]],
+    PK: foundPK,
+  };
 }
 
 export function getDocumentIndexFields<
@@ -234,7 +240,12 @@ export function getDocumentIndexFields<
       acceptNullable: false,
     });
 
-    let hashedId = mountID({ entity, PK: PK.value, SK: '' });
+    let hashedId = mountID({
+      entity: entity,
+      indexField: index.field,
+      PK: PK.value,
+      SK: '',
+    });
 
     if (PK.valid && !PK.isFilter && !partialIndexFilter) {
       partialIndexFilter = { key: index.field, value: hashedId };
@@ -297,7 +308,8 @@ export function getDocumentIndexFields<
     };
   }
 
-  indexFields.id = indexFields.id || _mountGraphIDString(firstIndex, entity);
+  // @ts-ignore
+  indexFields.id = indexFields.id || mountGraphID(firstIndex.value);
 
   return {
     valid,
@@ -323,7 +335,9 @@ function joinPKAndSKAsIDFilter(options: {
   if (SK && typeof SK === 'object' && typeof SK.$eq === 'string') SK = SK.$eq;
 
   if (typeof PK === 'string' && typeof SK === 'string') {
-    return [{ [indexField]: mountID({ PK, SK, entity }) }];
+    return [
+      { [indexField]: mountID({ entity, PK, SK, indexField: indexField }) },
+    ];
   }
 
   if (typeof PK === 'object' && (typeof SK === 'object' || !SK)) {
@@ -376,7 +390,7 @@ function joinPKAndSKAsIDFilter(options: {
     );
 
     function prefix(suffix: string) {
-      return entity + ID_KEY_SEPARATOR + suffix;
+      return `${entity}:${indexField}${ID_KEY_SEPARATOR}${suffix}`;
     }
 
     const SKFilter = SKValue === undefined ? {} : { [SKField]: SKValue };
@@ -434,6 +448,7 @@ function joinPKAndSKAsIDFilter(options: {
             [comparator]: mountID({
               PK: pk_value,
               SK: SKValue,
+              indexField: indexField,
               entity,
             }),
           },
@@ -509,6 +524,7 @@ function joinPKAndSKAsIDFilter(options: {
             $startsWith: mountID({
               PK: PKString,
               SK: sk_value,
+              indexField: indexField,
               entity,
             }),
           },
@@ -524,6 +540,7 @@ function joinPKAndSKAsIDFilter(options: {
           [indexField]: {
             $between: [
               mountID({
+                indexField: indexField,
                 entity,
                 PK: PKString,
                 SK:
@@ -532,6 +549,7 @@ function joinPKAndSKAsIDFilter(options: {
                     : sk_value[0],
               }),
               mountID({
+                indexField: indexField,
                 entity,
                 PK: PKString,
                 SK:
@@ -551,7 +569,12 @@ function joinPKAndSKAsIDFilter(options: {
 
         return {
           [indexField]: {
-            [comparator]: mountID({ PK: PKString, SK: sk_value, entity }),
+            [comparator]: mountID({
+              PK: PKString,
+              SK: sk_value,
+              indexField: indexField,
+              entity,
+            }),
           },
         };
       }
@@ -570,12 +593,22 @@ function joinPKAndSKAsIDFilter(options: {
             {
               [indexField]: {
                 // otherwise will get items $lt, $gt, etc; from another PK
-                $startsWith: mountID({ PK: PKString, SK: '', entity }),
+                $startsWith: mountID({
+                  PK: PKString,
+                  SK: '',
+                  indexField: indexField,
+                  entity,
+                }),
               },
             },
             {
               [indexField]: {
-                [comparator]: mountID({ PK: PKString, SK: sk_value, entity }),
+                [comparator]: mountID({
+                  PK: PKString,
+                  SK: sk_value,
+                  indexField: indexField,
+                  entity,
+                }),
               },
             },
           ],
@@ -852,3 +885,17 @@ export type ParsedDocumentIndexes =
       error: RuntimeError;
       parsedIndexKeys: ParsedIndexKey[];
     };
+
+export function isDocumentIndexKey(
+  input: unknown
+): input is DocumentIndexField {
+  return typeof input === 'string' && DocumentIndexRegex.test(input);
+}
+
+export function assertDocumentIndexKey(
+  input: unknown
+): asserts input is DocumentIndexField {
+  if (!isDocumentIndexKey(input)) {
+    throw new InvalidFilterError({ reason: 'INVALID_INDEX_KEY', input });
+  }
+}

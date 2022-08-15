@@ -121,7 +121,7 @@ export type FindManyConfig<
     Doc,
     PK | (SK extends undefined ? PK : SK)
   >;
-  startingKey?: IndexFilterRecord<PK, SK> | string;
+  after?: IndexFilterRecord<PK, SK> | string;
   consistent?: boolean;
   limit?: number;
   sort?: QuerySort;
@@ -355,6 +355,19 @@ export type FindManyResult<Doc extends DocumentBase = DocumentBase> = {
   items: Doc[];
 };
 
+export type PaginationResult<Doc extends DocumentBase = DocumentBase> = {
+  edges: {
+    cursor: string;
+    node: Doc;
+  }[];
+  pageInfo: {
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+    startCursor: string | undefined;
+    endCursor: string | undefined;
+  };
+};
+
 export type DeleteOneResult<T extends DocumentBase = DocumentBase> = {
   item: T | null;
 };
@@ -383,6 +396,16 @@ export interface DocumentMethods<
       >]: DocumentOptions<FindManyConfig<Doc, PK, SK>>[K];
     } & {}
   ): Promise<{ [K in keyof FindManyResult<Doc>]: FindManyResult<Doc>[K] } & {}>;
+
+  paginate(
+    options: {
+      [K in keyof DocumentOptions<
+        FindManyConfig<Doc, PK, SK>
+      >]: DocumentOptions<FindManyConfig<Doc, PK, SK>>[K];
+    } & {}
+  ): Promise<
+    { [K in keyof PaginationResult<Doc>]: PaginationResult<Doc>[K] } & {}
+  >;
 
   findOne(
     options: {
@@ -439,6 +462,8 @@ export abstract class Transporter {
   ): Promise<CreateOneResult<T>>;
 
   abstract findMany(options: FindManyConfig): Promise<FindManyResult>;
+
+  abstract paginate(options: FindManyConfig): Promise<PaginationResult>;
 
   abstract findOne(options: FindOneConfig): Promise<FindOneResult>;
 

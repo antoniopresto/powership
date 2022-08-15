@@ -15,15 +15,15 @@ import {
 import {
   AnyCollectionIndexConfig,
   createDocumentIndexBasedFilters,
-} from '../Transporter/CollectionIndex';
+} from '../Transporter';
 
 export function createMongoIndexBasedFilters(options: {
   filter: IndexFilterRecord;
   indexConfig: AnyCollectionIndexConfig;
 }) {
   const { indexConfig, filter } = options;
-  const $and = createDocumentIndexBasedFilters(filter, indexConfig);
-  return parseMongoAttributeFilters({ $and });
+  const { filters } = createDocumentIndexBasedFilters(filter, indexConfig);
+  return parseMongoAttributeFilters({ $and: filters });
 }
 
 export function parseMongoAttributeFilters(attFilter: FilterRecord) {
