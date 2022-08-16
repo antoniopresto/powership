@@ -485,7 +485,8 @@ export const transporterLoaderNames = tuple(
   'findMany',
   'findOne',
   'updateOne',
-  'deleteOne'
+  'deleteOne',
+  'paginate'
 );
 
 export type TransporterLoaderName = typeof transporterLoaderNames[number];

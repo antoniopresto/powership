@@ -494,59 +494,53 @@ describe('Product', () => {
     });
 
     test('toFilterFields', async () => {
-      expect(entity.findManyByStoreAndSKU.filterType).toEqual({
-        def: {
-          SKU: {
-            def: {
-              min: 3,
-            },
-            list: false,
-            optional: true,
-            type: 'string',
+      expect(entity.findManyByStoreAndSKU.filterDef).toEqual({
+        SKU: {
+          def: {
+            min: 3,
           },
-          id: {
-            optional: true,
-            type: 'ID',
-          },
-          storeId: {
-            def: {
-              autoCreate: false,
-            },
-            list: false,
-            optional: true,
-            type: 'ID',
-          },
+          list: false,
+          optional: true,
+          type: 'string',
         },
-        type: 'object',
+        id: {
+          optional: true,
+          type: 'ID',
+        },
+        storeId: {
+          def: {
+            autoCreate: false,
+          },
+          list: false,
+          optional: true,
+          type: 'ID',
+        },
       });
 
-      expect(entity.findOne.filterType).toEqual({
-        type: 'object',
-        def: {
-          SKU: {
-            def: {
-              min: 3,
-            },
-            list: false,
-            optional: true,
-            type: 'string',
+      expect(entity.findOne.filterDef).toEqual({
+        SKU: {
+          def: {
+            min: 3,
           },
-          id: {
-            optional: true,
-            type: 'ID',
+          list: false,
+          optional: true,
+          type: 'string',
+        },
+        id: {
+          optional: true,
+          type: 'ID',
+        },
+        storeId: {
+          def: {
+            autoCreate: false,
           },
-          storeId: {
-            def: {
-              autoCreate: false,
-            },
-            list: false,
-            optional: true,
-            type: 'ID',
-          },
-          ulid: {
-            optional: true,
-            type: 'string',
-          },
+          list: false,
+          optional: true,
+          type: 'ID',
+        },
+        ulid: {
+          optional: true,
+          type: 'string',
         },
       });
 

@@ -43,6 +43,7 @@ export * from './randomInt';
 export * from './randomItem';
 export * from './slugify';
 export * from './ulid';
+export * from './lodash';
 
 // export * from './logLevels'
 // export * from './logger'

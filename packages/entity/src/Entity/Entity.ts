@@ -28,7 +28,6 @@ import {
   FilterRecord,
   getDocumentIndexFields,
   getParsedIndexKeys,
-  IndexFilterRecord,
   ParsedDocumentIndexes,
   ParsedIndexKey,
   Transporter,
@@ -37,6 +36,9 @@ import {
   transporterLoaderNames,
   validateIndexNameAndField,
 } from '../Transporter';
+
+import { PageInfoType, PaginationType } from './paginationUtils';
+export * from './paginationUtils';
 
 type _GraphType = {
   _object?: ObjectType<any>;
@@ -90,14 +92,30 @@ type Merge<A, B> = {
   ? { [K in keyof R]: R[K] } & {}
   : never;
 
-type _LoaderWithUtils<Loader, Type> = {
-  filterType: GetLoaderFilterType<
-    Loader,
-    EntityFinalDefinition<Type>['definition']['def']
-  >;
-} & Loader extends infer R
-  ? R
-  : never;
+type _GetLoaderUtils<Loader, Type> =
+  EntityFinalDefinition<Type> extends infer Def
+    ? GetLoaderFilterDef<Loader, Def> extends infer Filter
+      ? Filter extends unknown
+        ? {
+            filterDef: Filter;
+            queryArgs: {
+              filter: {
+                type: 'object';
+                def: Filter;
+              };
+              limit: {
+                type: 'int';
+                optional: true;
+              };
+              after: {
+                type: 'ID';
+                optional: true;
+              };
+            };
+          }
+        : never
+      : never
+    : never;
 
 // export type EntityGraphType<T> = T extends
 export type Entity<Options extends EntityOptions> = Options['type'] extends {
@@ -122,6 +140,8 @@ export type Entity<Options extends EntityOptions> = Options['type'] extends {
             : never
           : never;
 
+        paginationType: PaginationType<Options['type']>;
+
         parse: (
           ...args: Parameters<Options['type']['parse']>
         ) => EntityDocFromType<Options['type']>;
@@ -135,7 +155,14 @@ export type Entity<Options extends EntityOptions> = Options['type'] extends {
         }
       > extends infer Loaders
         ? {
-            [K in keyof Loaders]: _LoaderWithUtils<Loaders[K], Options['type']>;
+            [K in keyof Loaders]: _GetLoaderUtils<
+              Loaders[K],
+              Options['type']
+            > extends infer Utils
+              ? [Utils] extends [never]
+                ? Loaders[K]
+                : Loaders[K] & Utils
+              : never;
           } extends infer LoaderWithUtils
           ? LoaderWithUtils & {
               loaders: LoaderWithUtils;
@@ -147,6 +174,7 @@ export type Entity<Options extends EntityOptions> = Options['type'] extends {
               };
 
               getDocumentId(doc: Record<string, any>): string;
+
               parseDocumentIndexes(
                 doc: Record<string, any>
               ): ParsedDocumentIndexes;
@@ -410,7 +438,7 @@ export function createEntity<Options extends EntityOptions>(
       return result;
     };
 
-    function getFilterType() {
+    function getFilterDef() {
       getEntityGraphType();
 
       function _wrap(obj: object) {
@@ -421,10 +449,7 @@ export function createEntity<Options extends EntityOptions>(
           def[k] = { ...obj[k], optional: true };
         });
 
-        return {
-          type: 'object',
-          def: def,
-        };
+        return def;
       }
 
       if (indexInfo.length === 1) {
@@ -452,12 +477,36 @@ export function createEntity<Options extends EntityOptions>(
       return _wrap(all);
     }
 
+    function getPaginationType() {
+      const filter = getFilterDef();
+      return {
+        limit: {
+          type: 'int',
+          optional: true,
+        },
+        after: {
+          type: 'ID',
+          optional: true,
+        },
+        filter: {
+          type: 'object',
+          optional: true,
+          def: filter,
+        },
+      };
+    }
+
     Object.defineProperties(loader, {
       name: { value: newMethodName },
       indexInfo: { value: indexInfo },
-      filterType: {
+      filterDef: {
         get() {
-          return getFilterType();
+          return getFilterDef();
+        },
+      },
+      queryArgs: {
+        get() {
+          return getPaginationType();
         },
       },
     });
@@ -496,6 +545,23 @@ export function createEntity<Options extends EntityOptions>(
       indexes: indexConfig.indexes,
     });
   });
+
+  function getPaginationType() {
+    const definition = {
+      object: {
+        edges: {
+          list: true,
+          object: {
+            cursor: 'string',
+            node: getEntityGraphType(),
+          },
+        },
+        pageInfo: PageInfoType,
+      },
+    } as const;
+
+    return createType(`${entityName}Connection`, definition);
+  }
 
   const getters: {
     [K in Exclude<keyof Entity<any>, keyof Entity<any>['loaders']>]:
@@ -544,6 +610,11 @@ export function createEntity<Options extends EntityOptions>(
     parseDocumentIndexes: {
       value: function parseDocumentIndexes(doc): ParsedDocumentIndexes {
         return getDocumentIndexFields(doc, indexConfig);
+      },
+    },
+    paginationType: {
+      get() {
+        return getPaginationType();
       },
     },
   };
@@ -611,12 +682,14 @@ function buildEntityOperationInfoContext(
 ): EntityOperationInfoContext<any, any, any> {
   const { op } = parserInput;
 
+  const isPaginate = op.startsWith('paginate');
   return {
     op,
-    isFind: op.startsWith('find'),
+    isFind: op.startsWith('find') || isPaginate,
     isUpdate: op.startsWith('update'),
     isCreate: op.startsWith('create'),
     isFindMany: op.startsWith('findMany'),
+    isPaginate,
     isFindOne: op.startsWith('findOne'),
     isFindById: op.startsWith('findById'),
     isUpdateOne: op.startsWith('updateOne'),
@@ -662,6 +735,10 @@ export type EntityParserInputOptions<
       op: 'deleteOne';
       methodOptions: MethodOptions<Document, Indexes, Context>['deleteOne'];
     }
+  | {
+      op: 'paginate';
+      methodOptions: MethodOptions<Document, Indexes, Context>['paginate'];
+    }
 ) & {
   partial?: boolean | (keyof Document)[];
 };
@@ -676,12 +753,14 @@ export type EntityOperationInfoContext<
     | 'findOne'
     | 'findById'
     | 'createOne'
+    | 'paginate'
     | 'updateOne'
     | 'deleteOne';
   isFind: boolean;
   isUpdate: boolean;
   isCreate: boolean;
   isFindMany: boolean;
+  isPaginate: boolean;
   isFindOne: boolean;
   isFindById: boolean;
   isUpdateOne: boolean;
@@ -848,7 +927,7 @@ function _EntityGeneratedFields<
 
 export const EntityGeneratedFields = _EntityGeneratedFields({
   id: { type: 'string' },
-  ulid: { type: 'string' },
+  ulid: { type: 'ulid' },
   createdBy: {
     type: 'string',
     optional: true,
@@ -861,41 +940,16 @@ export const EntityGeneratedFields = _EntityGeneratedFields({
   updatedAt: { type: 'date' },
 });
 
-type GetLoaderFilterType<Loader, DocDef> = Loader extends (
+type GetLoaderFilterDef<Loader, DocDef> = Loader extends (
   config: infer Config
 ) => any
-  ? 'filter' extends keyof Config
-    ? Config['filter'] extends IndexFilterRecord<infer PK, infer SK>
+  ? Config extends { filter: infer Filter }
+    ? UnionToIntersection<Filter> extends infer AllFilter
       ? {
-          [L in PK]: L extends keyof DocDef
-            ? _FinalOptionalField<DocDef[L]>
-            : never; //
-        } & ([SK] extends [string] // //
-          ? {
-              //
-              [L in SK]: L extends keyof DocDef
-                ? _FinalOptionalField<DocDef[L]>
-                : never; //
-              //
-            }
-          : {}) extends infer F
-        ? { [K in keyof F]: F[K] } & {
-            id: _FinalOptionalField<'ID?'>;
-          } extends infer R
-          ? {
-              type: 'object';
-              def: { [K in keyof R]: R[K] };
-            }
-          : never
-        : never
-      : undefined
-    : undefined
-  : never;
-
-type _FinalOptionalField<T> = {
-  [K in keyof ToFinalField<T> as K extends '__infer'
-    ? never
-    : K]: K extends 'optional' ? true : ToFinalField<T>[K];
-} extends infer R
-  ? { [K in keyof R]: R[K] }
+          [K in keyof AllFilter as K extends keyof DocDef
+            ? K
+            : never]: K extends keyof DocDef ? DocDef[K] : never;
+        }
+      : never
+    : never
   : never;

@@ -1,11 +1,13 @@
-import { createResolver, createType, ObjectType } from '@darch/schema';
+import { createResolver, createType, Infer, ObjectType } from '@darch/schema';
 import { objectMock } from '@darch/schema';
-import { getTypeName } from '@darch/utils';
+import { getTypeName, PromiseType } from '@darch/utils';
 import { slugify } from '@darch/utils/lib/slugify';
 
 import { MongoTransporter } from '../../Mongo';
 import { AppMock, createAppMock } from '../../Mongo/__tests__/createAppMock';
 import { createEntity, EntityGeneratedFields } from '../Entity';
+import { assert, IsExact } from 'conditional-type-checks';
+import { PaginationResult } from '../../Transporter';
 
 describe('ProductResolver', () => {
   let mockApp: AppMock;
@@ -62,6 +64,21 @@ describe('ProductResolver', () => {
       ],
     });
 
+    const obj: any = objectMock(ProductEntity.originType._object!.definition);
+    const defaultMock = objectMock(EntityGeneratedFields);
+
+    const shape = Object.entries({ ...defaultMock, ...obj }).reduce(
+      (acc, [name, val]) => {
+        const tn = getTypeName(val);
+        const cons = eval(tn);
+        return {
+          ...acc,
+          [name]: expect.any(cons),
+        };
+      },
+      {}
+    );
+
     await expect(
       ProductEntity.findOne({ filter: {}, context: {} })
     ).rejects.toThrow('INVALID_FILTER');
@@ -100,9 +117,6 @@ describe('ProductResolver', () => {
       },
     });
 
-    const obj: any = objectMock(ProductEntity.originType._object!.definition);
-    const defaultMock = objectMock(EntityGeneratedFields);
-
     const res = await productCreateResolver.resolve(
       {},
       obj,
@@ -110,18 +124,59 @@ describe('ProductResolver', () => {
       {} as any
     );
 
-    const shape = Object.entries({ ...defaultMock, ...res }).reduce(
-      (acc, [name, val]) => {
-        const tn = getTypeName(val);
-        const cons = eval(tn);
-        return {
-          ...acc,
-          [name]: expect.any(cons),
-        };
+    expect(res).toEqual(shape);
+
+    type ExpectedArgs = {
+      filter: {
+        storeId: string;
+        id?: string | undefined;
+        sku?: string | undefined;
+      };
+      limit?: number | undefined;
+      after?: string | undefined;
+    };
+
+    const productPagination = createResolver({
+      type: ProductEntity.paginationType,
+      args: ProductEntity.paginateByStore.queryArgs,
+      name: 'paginate',
+      async resolve(_, args, context) {
+        type Args = typeof args;
+        assert<IsExact<Args, ExpectedArgs>>(true);
+        return ProductEntity.paginateByStore({ ...args, context });
       },
-      {}
+    });
+
+    type TProduct = Infer<typeof ProductEntity>;
+    type Params = Parameters<typeof productPagination.resolve>;
+    assert<IsExact<Params[1], ExpectedArgs>>(true);
+
+    type Result = PromiseType<ReturnType<typeof productPagination.resolve>>;
+    type EntityPagination = PaginationResult<TProduct>;
+    assert<EntityPagination extends Result ? true : false>(true);
+
+    const resp = await productPagination.resolve(
+      {},
+      { filter: { storeId: '123' } },
+      { userId: () => '123' },
+      {} as any
     );
 
-    expect(res).toEqual(shape);
+    expect(resp).toMatchObject({
+      edges: [
+        {
+          cursor: expect.stringMatching('#'),
+          node: {
+            id: expect.stringMatching('#'),
+          },
+        },
+      ],
+      pageInfo: {
+        endCursor: expect.stringMatching('#'),
+        hasNextPage: false,
+        hasPreviousPage: false,
+        startCursor: expect.stringMatching('#'),
+      },
+    });
   });
 });

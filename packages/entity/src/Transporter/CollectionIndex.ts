@@ -112,6 +112,7 @@ export function createDocumentIndexBasedFilters(
   let filtersRecords: FilterRecord[] = [];
   let foundPK: IndexBasedFilterParsed['PK'] | undefined = undefined;
 
+  nonNullValues({ filter });
   const filterKeys = new Set(Object.keys(filter));
 
   indexes.forEach((index) => {

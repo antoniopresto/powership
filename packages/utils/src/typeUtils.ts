@@ -231,11 +231,12 @@ export type Name = `${A_Z}${string}`;
 
 export * from './IterationMap';
 
-export * from 'ts-toolbelt';
-
 export class TypeAssertionError extends RuntimeError {
   constructor(a: any, b: any, message = 'Invalid value received') {
     super(message, { a, b });
     console.error('This error is only used in typescript assertions.');
   }
 }
+
+export * from 'ts-toolbelt';
+export { T, L, B, A, U, C, N, F, M, I, O, S } from 'ts-toolbelt';
