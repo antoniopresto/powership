@@ -7,11 +7,13 @@ export function validateObjectFields(params: {
   fieldName: string;
   definition: FinalFieldDefinition;
   value: any;
+  fieldParserOptions?: { listExcludeInvalid?: boolean };
 }): {
   errors: string[];
   parsed?: any;
 } {
-  const { fieldName, definition, value, parentType } = params;
+  const { fieldName, definition, value, parentType, fieldParserOptions } =
+    params;
 
   if (isMetaField(definition, fieldName)) {
     return {
@@ -27,7 +29,7 @@ export function validateObjectFields(params: {
 
   try {
     const field = __getCachedFieldInstance(definition);
-    const parsed = field.parse(value);
+    const parsed = field.parse(value, fieldParserOptions);
 
     return {
       parsed,

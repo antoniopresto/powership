@@ -4,6 +4,7 @@ import {
   FieldTypeParser,
   parseValidationError,
   ValidationCustomMessage,
+  FieldParserOptions,
 } from '../applyValidator';
 
 import { FieldDefinitions, FieldTypeName } from './_fieldDefinitions';
@@ -81,7 +82,24 @@ export abstract class FieldType<
     parse(input: any): Type;
   }): FieldTypeParser<Type> => {
     const self = this;
-    return (input: any, customMessage?: ValidationCustomMessage) => {
+    return (
+      input: any,
+      _options?: ValidationCustomMessage | FieldParserOptions
+    ) => {
+      let options: FieldParserOptions = {};
+
+      if (typeof _options === 'function') {
+        options = { customErrorMessage: _options };
+      }
+      if (typeof _options === 'string') {
+        options = { customErrorMessage: _options };
+      }
+      if (typeof _options === 'object') {
+        options = _options;
+      }
+
+      const { customErrorMessage: customMessage, listExcludeInvalid } = options;
+
       if (parser.preParse) {
         input = parser.preParse(input);
       }
@@ -119,6 +137,10 @@ export abstract class FieldType<
             const parsed = parser.parse(item);
             values.push(parsed);
           } catch (originalError: any) {
+            if (listExcludeInvalid) {
+              return;
+            }
+
             const error = parseValidationError(
               item,
               customMessage,

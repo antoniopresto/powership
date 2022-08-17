@@ -26,6 +26,7 @@ import type { ObjectDefinitionInput } from './TObjectConfig';
 import {
   parseValidationError,
   ValidationCustomMessage,
+  FieldParserOptions,
 } from './applyValidator';
 import { assertSameDefinition } from './assertSameDefinition';
 import { ObjectLike } from './fields/IObjectLike';
@@ -105,7 +106,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
     input: any,
     options?: {
       customMessage?: ValidationCustomMessage;
-    }
+    } & FieldParserOptions
   ): Infer<DefinitionInput>;
 
   parse(
@@ -113,7 +114,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
     options?: {
       partial: true;
       customMessage?: ValidationCustomMessage;
-    }
+    } & FieldParserOptions
   ): Partial<Infer<DefinitionInput>>;
 
   parse<Fields extends (keyof DefinitionInput)[]>(
@@ -121,7 +122,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
     options: {
       customMessage?: ValidationCustomMessage;
       fields: Fields;
-    }
+    } & FieldParserOptions
   ): {
     [K in keyof Infer<DefinitionInput> as K extends Fields[number]
       ? K
@@ -162,10 +163,14 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
       partial?: boolean;
       customMessage?: ValidationCustomMessage;
       fields?: keyof DefinitionInput[];
+      listExcludeInvalid?: boolean;
     }
   ): { errors: string[]; parsed: unknown } {
-    const { partial = false, fields = Object.keys(this.definition) } =
-      options || {};
+    const {
+      partial = false,
+      fields = Object.keys(this.definition),
+      listExcludeInvalid,
+    } = options || {};
 
     const errors: string[] = [];
     const parsed: any = {};
@@ -201,6 +206,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
         fieldName: currField,
         definition: fieldDef,
         value,
+        fieldParserOptions: { listExcludeInvalid },
       });
 
       if (result.parsed !== undefined) {
@@ -264,7 +270,8 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
 
   makeOptional<K extends ForceString<keyof DefinitionInput>>(
     fields: K | K[]
-  ): ObjectType<MakeOptional<DefinitionInput, K>> {
+  ): // @ts-ignore
+  ObjectType<MakeOptional<DefinitionInput, K>> {
     const fieldList = Array.isArray(fields) ? fields : [fields];
     const clone = this.clone();
     fieldList.forEach((key) => (clone.__definition[key].optional = true));
@@ -588,3 +595,20 @@ type ExcludeNull<T> = {
     ? never
     : K]: Exclude<T[K], null>;
 };
+
+export function cloneDefinition<
+  Def extends ObjectDefinitionInput,
+  Exclude extends keyof Def
+>(
+  def: Def,
+  exclude: Exclude[]
+): { [K in keyof Def as K extends Exclude ? never : K]: Def[K] } {
+  const _def = simpleObjectClone(def);
+  clearMetaField(_def);
+
+  exclude.forEach((path) => {
+    delete _def[path];
+  });
+
+  return _def;
+}
