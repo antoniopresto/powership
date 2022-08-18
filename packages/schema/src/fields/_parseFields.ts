@@ -100,24 +100,37 @@ type GetI<T> = T extends { __infer: infer I } ? I : never;
 //
 export type _toFinalField<Base> = //
   //
-  //
-
-  // ====== handling GraphType as Field =====
-  Base extends _GraphType
-    ? Omit<Base['definition'], '__infer'>
+  Base extends {
+    type: FieldTypeName;
+    def?: infer Def;
+    list?: boolean;
+    optional?: boolean;
+  }
+    ? {
+        type: Base['type'];
+        def: Def;
+        list: [Base['list']] extends [true] ? true : undefined;
+        optional: [Base['optional']] extends [true] ? true : undefined;
+        description: string | undefined;
+      }
+    : //
+    //
+    Base extends { __isGraphType: true; definition: infer Def }
+    ? _toFinalField<Def>
     : Base extends {
-        type: _GraphType;
+        type: { definition: { type: infer Type; def?: infer Def } };
         list?: infer List;
         optional?: infer Optional;
       }
-    ? {
-        type: Base['type']['definition']['type'];
-        def: Base['type']['definition']['def'];
-        list: [List] extends [true] ? true : false;
-        optional: [Optional] extends [true] ? true : false;
-      }
-    : //
-    // ====== FINISH handling GraphType as Field =====
+    ? Type extends FieldTypeName
+      ? {
+          type: Type;
+          def: Def;
+          list: [List] extends [true] ? true : false;
+          optional: [Optional] extends [true] ? true : false;
+        }
+      : never
+    : // ====== FINISH handling GraphType as Field =====
 
     //
     //
@@ -127,55 +140,52 @@ export type _toFinalField<Base> = //
     : // === end handling fieldType instance
 
     Base extends {
-        type: _ObjectType;
+        type: { __isDarchObject: true; definition: infer Def };
         list?: infer List;
         optional?: infer Optional;
       }
     ? {
         type: 'object';
-        def: Base['type']['definition'];
+        def: Def;
         list: [List] extends [true] ? true : false;
         optional: [Optional] extends [true] ? true : false;
-        __infer: InferObjectDefinition<Base['type']['definition']>;
+        __infer: InferObjectDefinition<Def>;
       }
-    : //
-    Base extends {
-        object: _ObjectType;
+    : Base extends {
+        object: { __isDarchObject: true; definition: infer Def };
         list?: infer List;
         optional?: infer Optional;
       }
     ? {
         type: 'object';
-        def: Base['object']['definition'];
+        def: Def;
         list: [List] extends [true] ? true : false;
         optional: [Optional] extends [true] ? true : false;
-        __infer: InferObjectDefinition<Base['object']['definition']>;
+        __infer: InferObjectDefinition<Def>;
       }
     : //
     //
-    Base extends _ObjectType
+    Base extends { __isDarchObject: true; definition: infer Def }
     ? {
         type: 'object';
-        def: Base['definition'];
+        def: Def;
         list: false;
         optional: false;
         description: string | undefined;
-        __infer: InferObjectDefinition<Base['definition']>;
+        __infer: InferObjectDefinition<Def>;
       }
     : //
 
     // === start handling list ===
     Base extends [infer Item] | Readonly<[infer Item]>
-    ? ToFinalField<Item> extends infer P
-      ? P extends FinalFieldDefinition
-        ? {
-            type: P['type'];
-            def: P['def'];
-            list: true;
-            optional: false;
-            description: string | undefined;
-          }
-        : never
+    ? ToFinalField<Item> extends { type: infer Type; def?: infer Def }
+      ? {
+          type: Type;
+          def: Def;
+          list: true;
+          optional: false;
+          description: string | undefined;
+        }
       : never
     : // === end handling list
 
@@ -183,21 +193,7 @@ export type _toFinalField<Base> = //
     Base extends FieldAsString
     ? ParseStringDefinition<Base>
     : // ==== end handling FieldAsString ====
-
-    Base extends {
-        type: FieldTypeName;
-        def?: infer Def;
-        list?: boolean;
-        optional?: boolean;
-      }
-    ? {
-        type: Base['type'];
-        def: Def;
-        list: [Base['list']] extends [true] ? true : undefined;
-        optional: [Base['optional']] extends [true] ? true : undefined;
-        description: string | undefined;
-      }
-    : // ==== start handling FieldAsTypeKey ====
+      // ==== start handling FieldAsTypeKey ====
       {
         [K in keyof ParseFlattenFieldDef<Base>]: ParseFlattenFieldDef<Base>[K];
       };
@@ -400,10 +396,10 @@ type _inferBasic<Type, Def = undefined> =
 
 interface _ObjectType {
   __isDarchObject: true;
-  definition: { [K: string]: FinalFieldDefinition };
+  definition: unknown;
 }
 
 interface _GraphType {
   __isGraphType: true;
-  definition: FinalFieldDefinition;
+  definition: unknown;
 }
