@@ -2,12 +2,12 @@ import { createResolver, createType, Infer, ObjectType } from '@darch/schema';
 import { objectMock } from '@darch/schema';
 import { getTypeName, PromiseType } from '@darch/utils';
 import { slugify } from '@darch/utils/lib/slugify';
+import { assert, IsExact } from 'conditional-type-checks';
 
 import { MongoTransporter } from '../../Mongo';
 import { AppMock, createAppMock } from '../../Mongo/__tests__/createAppMock';
-import { createEntity, EntityGeneratedFields } from '../Entity';
-import { assert, IsExact } from 'conditional-type-checks';
 import { PaginationResult } from '../../Transporter';
+import { createEntity, EntityGeneratedFields } from '../Entity';
 
 describe('ProductResolver', () => {
   let mockApp: AppMock;
@@ -147,12 +147,13 @@ describe('ProductResolver', () => {
       },
     });
 
-    type TProduct = Infer<typeof ProductEntity>;
+    type TProduct = Infer<typeof ProductEntity.type>;
     type Params = Parameters<typeof productPagination.resolve>;
     assert<IsExact<Params[1], ExpectedArgs>>(true);
 
     type Result = PromiseType<ReturnType<typeof productPagination.resolve>>;
     type EntityPagination = PaginationResult<TProduct>;
+
     assert<EntityPagination extends Result ? true : false>(true);
 
     const resp = await productPagination.resolve(

@@ -1,6 +1,6 @@
 {
   "name": "@darch/entity",
-  "version": "2.0.0-alpha.20220724T134243-0300",
+  "version": "2.0.0-alpha.20220818T142751-0300.56+030a6b1",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
   "author": "antoniopresto <antoniopresto@gmail.com>",
@@ -33,19 +33,17 @@
     "inference"
   ],
   "dependencies": {
-    "@darch/schema": "^2.0.0-alpha.20220724T134243-0300",
-    "@darch/utils": "^2.0.0-alpha.20220724T134243-0300",
+    "@darch/schema": "2.0.0-alpha.20220818T142751-0300.56+030a6b1",
+    "@darch/utils": "2.0.0-alpha.20220818T142751-0300.56+030a6b1",
     "dataloader": "2.1.0",
     "sift": "16.0.0"
   },
   "devDependencies": {
-    "mongodb": "4.8.1",
-    "mongodb-memory-server-core": "8.8.0",
-    "@darch/babel-plugins": "^2.0.0-alpha.20220724T134243-0300",
     "@babel/cli": "7.18.6",
     "@babel/plugin-transform-typescript": "7.18.6",
     "@babel/preset-env": "7.18.6",
     "@babel/preset-typescript": "7.18.6",
+    "@darch/babel-plugins": "2.0.0-alpha.20220818T142751-0300.56+030a6b1",
     "@types/jest": "27.0.3",
     "@types/node": "16.11.12",
     "@typescript-eslint/eslint-plugin": "4.15.2",
@@ -57,17 +55,19 @@
     "eslint-plugin-eslint-comments": "3.2.0",
     "eslint-plugin-import": "2.22.1",
     "jest": "27.4.5",
+    "mongodb": "4.8.1",
+    "mongodb-memory-server-core": "8.8.0",
     "npm-run-all": "4.1.5",
+    "prettier": "2.7.1",
     "rimraf": "3.0.2",
     "ts-jest": "27.1.1",
     "ts-node": "10.8.2",
-    "typescript": "4.5.4",
-    "prettier": "2.7.1"
+    "typescript": "4.5.4"
   },
   "peerDependencies": {
     "graphql": "*",
-    "typescript": ">=4.5.4",
-    "mongodb": ">=4.8.1"
+    "mongodb": ">=4.8.1",
+    "typescript": ">=4.5.4"
   },
   "files": [
     "package.json",

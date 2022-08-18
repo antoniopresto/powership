@@ -540,7 +540,7 @@ describe('Product', () => {
         },
         ulid: {
           optional: true,
-          type: 'string',
+          type: 'ulid',
         },
       });
 
