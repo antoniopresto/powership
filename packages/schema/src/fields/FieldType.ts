@@ -4,7 +4,7 @@ import {
   FieldTypeParser,
   parseValidationError,
   ValidationCustomMessage,
-  FieldParserOptions,
+  FieldParserOptionsObject,
 } from '../applyValidator';
 
 import { FieldDefinitions, FieldTypeName } from './_fieldDefinitions';
@@ -84,9 +84,9 @@ export abstract class FieldType<
     const self = this;
     return (
       input: any,
-      _options?: ValidationCustomMessage | FieldParserOptions
+      _options?: ValidationCustomMessage | FieldParserOptionsObject
     ) => {
-      let options: FieldParserOptions = {};
+      let options: FieldParserOptionsObject = {};
 
       if (typeof _options === 'function') {
         options = { customErrorMessage: _options };

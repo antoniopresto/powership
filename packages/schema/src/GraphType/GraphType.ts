@@ -14,7 +14,7 @@ import { Infer } from '../Infer';
 import { createObjectType, ObjectType } from '../ObjectType';
 import type { AnyResolver, Resolver, ResolverConfig } from '../Resolver';
 import { FieldDefinitionConfig } from '../TObjectConfig';
-import { TAnyFieldType, ValidationCustomMessage } from '../fields/FieldType';
+import { FieldParserConfig, TAnyFieldType } from '../fields/FieldType';
 import { GraphTypeLike } from '../fields/IObjectLike';
 import { getObjectDefinitionId } from '../fields/MetaFieldField';
 import { ObjectField } from '../fields/ObjectField';
@@ -137,9 +137,7 @@ export class GraphType<Definition extends ObjectFieldInput>
 
   parse = (
     input: any,
-    options?:
-      | ValidationCustomMessage
-      | { customMessage: ValidationCustomMessage }
+    options?: FieldParserConfig
   ): Infer<ToFinalField<Definition>> => {
     const customMessage =
       options && typeof options === 'object' ? options.customMessage : options;

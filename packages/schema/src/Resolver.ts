@@ -81,10 +81,12 @@ export function createResolver(
     // @ts-ignore
     const result = await resolve(source, args, context, info);
 
-    return payloadType.parse(
-      result,
-      (_, error) => `Invalid output from resolver "${name}": ${error.message}`
-    );
+    return payloadType.parse(result, {
+      customMessage: (_, error) => {
+        return `Invalid output from resolver "${name}": ${error.message}`;
+      },
+      listExcludeInvalid: true,
+    });
   };
 
   const result: AnyResolver = {

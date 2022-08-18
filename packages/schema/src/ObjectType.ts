@@ -26,7 +26,7 @@ import type { ObjectDefinitionInput } from './TObjectConfig';
 import {
   parseValidationError,
   ValidationCustomMessage,
-  FieldParserOptions,
+  FieldParserOptionsObject,
 } from './applyValidator';
 import { assertSameDefinition } from './assertSameDefinition';
 import { ObjectLike } from './fields/IObjectLike';
@@ -106,7 +106,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
     input: any,
     options?: {
       customMessage?: ValidationCustomMessage;
-    } & FieldParserOptions
+    } & FieldParserOptionsObject
   ): Infer<DefinitionInput>;
 
   parse(
@@ -114,7 +114,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
     options?: {
       partial: true;
       customMessage?: ValidationCustomMessage;
-    } & FieldParserOptions
+    } & FieldParserOptionsObject
   ): Partial<Infer<DefinitionInput>>;
 
   parse<Fields extends (keyof DefinitionInput)[]>(
@@ -122,7 +122,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
     options: {
       customMessage?: ValidationCustomMessage;
       fields: Fields;
-    } & FieldParserOptions
+    } & FieldParserOptionsObject
   ): {
     [K in keyof Infer<DefinitionInput> as K extends Fields[number]
       ? K

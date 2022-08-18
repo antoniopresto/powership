@@ -4,14 +4,19 @@ export type ValidationCustomMessage =
   | string
   | ((value: any, originalError: Error) => string | Error);
 
-export type FieldParserOptions = {
+export type FieldParserOptionsObject = {
   listExcludeInvalid?: boolean;
   customErrorMessage?: ValidationCustomMessage;
+  customMessage?: ValidationCustomMessage;
 };
+
+export type FieldParserConfig =
+  | ValidationCustomMessage
+  | FieldParserOptionsObject;
 
 export type FieldTypeParser<Type> = (
   input: any,
-  options?: ValidationCustomMessage | FieldParserOptions
+  config?: FieldParserConfig
 ) => Type;
 
 export function parseValidationError(
