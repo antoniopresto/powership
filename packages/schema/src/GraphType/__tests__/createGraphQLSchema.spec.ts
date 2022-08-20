@@ -1,10 +1,11 @@
 import { MaybePromise } from '@darch/utils/lib/typeUtils';
 import { assert, IsExact } from 'conditional-type-checks';
-import { printSchema } from 'graphql';
+import { graphql, printSchema } from 'graphql';
 
-import { ObjectType } from '../../ObjectType';
+import { createObjectType, ObjectType } from '../../ObjectType';
 import { createGraphQLSchema } from '../../createGraphQLSchema';
 import { createType } from '../GraphType';
+import { createResolver } from '../../Resolver';
 
 describe('createGraphQLObject', () => {
   afterEach(async () => {
@@ -361,5 +362,53 @@ describe('createGraphQLObject', () => {
         expect.stringMatching('addresses: '),
       ]);
     });
+  });
+
+  test('unions', async () => {
+    const UserType = createObjectType('User', {
+      address: {
+        union: ['string', 'int'],
+      },
+    });
+
+    createResolver({
+      type: UserType,
+      name: 'getUser',
+      args: UserType.definition,
+      async resolve(_, args) {
+        return {
+          address: `OK<${args.address}>`,
+        };
+      },
+    });
+
+    const schema = createGraphQLSchema();
+    const res = await graphql({
+      schema,
+      contextValue: {},
+      source: '{getUser(address: 1) {address}}',
+      variableValues: {},
+    });
+
+    expect(res).toEqual({
+      data: {
+        getUser: {
+          address: 'OK<1>',
+        },
+      },
+    });
+
+    expect(schema.utils.print().split('\n')).toEqual([
+      'type Query {',
+      '  getUser(address: User_addressUnion!): User!',
+      '}',
+      '',
+      'type User {',
+      '  address: User_addressUnion!',
+      '}',
+      '',
+      '"""Union of { type: string } and { type: int }"""',
+      'scalar User_addressUnion',
+    ]);
   });
 });

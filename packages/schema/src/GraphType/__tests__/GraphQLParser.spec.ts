@@ -313,9 +313,14 @@ describe('GraphQLParser', () => {
       object: Task,
     });
 
-    expect(() => sut.inputToString()).toThrow(
-      'GraphQL union items cannot be used as input'
-    );
+    expect(sut.inputToString().split('\n')).toEqual([
+      'input TaskInput {',
+      '  owner: Task_ownerUnion!',
+      '}',
+      '',
+      '"""Union of  Robot  and  Person"""',
+      'scalar Task_ownerUnion',
+    ]);
   });
 
   it('Should reuse types', () => {

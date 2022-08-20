@@ -1,4 +1,4 @@
-import { TypeAssertionError } from '@darch/utils';
+import { DarchJSON, assertEqual } from '@darch/utils';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { StrictMap } from '@darch/utils/lib/StrictMap';
 import { assertSame } from '@darch/utils/lib/assertSame';
@@ -39,8 +39,7 @@ import { assertSameDefinition } from '../assertSameDefinition';
 import type { CursorField } from '../fields/CursorField';
 import { TAnyFieldType } from '../fields/FieldType';
 import { LiteralField } from '../fields/LitarealField';
-import { ObjectField } from '../fields/ObjectField';
-import type { UnionField } from '../fields/UnionField';
+import { UnionField } from '../fields/UnionField';
 import { FieldTypeName } from '../fields/_fieldDefinitions';
 import {
   FinalFieldDefinition,
@@ -51,7 +50,8 @@ import { parseTypeName } from '../parseTypeName';
 import { GraphQLDateType } from './GraphQLDateType';
 import { GraphQLNullType } from './GraphQLNullType';
 import { GraphQLUlidType } from './GraphQLUlidType';
-import { GraphQLUnknownType } from './GraphQLUnknownType';
+import { ObjectField } from '../fields/ObjectField';
+import { getObjectDefinitionMetaField } from '../fields/MetaFieldField';
 
 export function createHooks() {
   return {
@@ -422,7 +422,7 @@ export class GraphQLParser {
       enum() {
         function createEnum(options?: any) {
           const values: any = {};
-          if (field.type !== 'enum') throw TypeAssertionError;
+          assertEqual(field.type, 'enum');
 
           field.def.forEach((key: string) => {
             values[key] = {
@@ -458,13 +458,15 @@ export class GraphQLParser {
         };
       },
       unknown() {
+        const GraphQLUnknownType = new GraphQLScalarType({ name: subTypeName });
+
         return {
           inputType: () => GraphQLUnknownType,
           type: () => GraphQLUnknownType,
         };
       },
       object() {
-        if (field.type !== 'object') throw TypeAssertionError;
+        assertEqual(field.type, 'object');
 
         const id = parseTypeName({
           parentName,
@@ -482,43 +484,88 @@ export class GraphQLParser {
         return { inputType: res.getInputType, type: res.getType };
       },
       union() {
-        function createUnion(options?: any) {
-          const union = field as UnionField<any, any>;
+        if (!UnionField.is(field)) throw field;
+        const descriptions: string[] = [];
 
-          return new GraphQLUnionType({
-            ...options,
-            name: subTypeName,
-            types: union.utils.fieldTypes.map((field, index) => {
-              if (!ObjectField.is(field)) {
-                // also relevant: https://github.com/graphql/graphql-js/issues/207
-                throw new RuntimeError(
-                  `GraphQL union items must be objects: https://github.com/graphql/graphql-spec/issues/215`,
-                  {
-                    field,
-                    path,
-                  }
-                );
-              }
+        // if all types are objects it can be used as normal GraphQL union
+        // otherwise we need to create a scalar, since GraphQL only accepts unions of objects
+        //    -  https://github.com/graphql/graphql-js/issues/207
+        // GraphQL union items cannot be used as input, so we always use scalars for inputs:
+        //    - https://github.com/graphql/graphql-spec/issues/488
+        let areAllObjects = true;
 
-              let object = field.utils.object;
+        field.utils.fieldTypes.forEach((field) => {
+          if (field.type !== 'object') areAllObjects = false;
+          descriptions.push(
+            `${DarchJSON.stringify(field.definition, {
+              quoteKeys(key) {
+                return ` ${key}`;
+              },
+              quoteValues(value, { key }) {
+                if (value === false) return '';
+                if (key === 'type') return ` ${value} `;
+                return ` ${value} `;
+              },
+              handler(payload) {
+                const { value, defaultHandler } = payload;
 
-              if (!object.id) {
-                object = object.clone().identify(`${subTypeName}_${index}`);
-              }
+                if (value?.type === 'object' && value.def) {
+                  const meta = getObjectDefinitionMetaField(value?.def || {});
+                  if (meta?.def.id) return meta.def.id;
+                  return defaultHandler!(value.def);
+                }
 
-              return object.graphqlType();
-            }),
-          });
+                return undefined;
+              },
+            })}`
+          );
+        });
+
+        let description: string | undefined = undefined;
+
+        if (!areAllObjects) {
+          description = descriptions.join(' and ');
+          if (description.length > 100) {
+            description = `Union of:\n'${descriptions
+              .map((el) => ` - ${el}`)
+              .join('\n')}`;
+          } else {
+            description = `Union of ${descriptions.join(' and ')}`.trim();
+          }
         }
 
-        return {
-          inputType: () => {
-            throw new RuntimeError(
-              `GraphQL union items cannot be used as input: https://github.com/graphql/graphql-spec/issues/488`,
-              { field: [...path, subTypeName].join(' > ') }
-            );
+        const scalarUnion = new GraphQLScalarType({
+          name: subTypeName,
+          description,
+          serialize(value) {
+            return field.parse(value);
           },
-          type: wrapCreation(subTypeName, createUnion),
+          parseValue(value) {
+            return field.parse(value);
+          },
+        });
+
+        return {
+          inputType: wrapCreation(subTypeName, () => {
+            return scalarUnion;
+          }),
+          type: wrapCreation(subTypeName, (...options) => {
+            if (!areAllObjects) return scalarUnion;
+
+            return new GraphQLUnionType({
+              name: subTypeName,
+              description,
+              ...options,
+              types: field.utils.fieldTypes.map((field, index) => {
+                if (!ObjectField.is(field)) throw field;
+                let object = field.utils.object;
+                if (!object.id) {
+                  object = object.clone().identify(`${subTypeName}_${index}`);
+                }
+                return object.graphqlType();
+              }),
+            });
+          }),
         };
       },
 

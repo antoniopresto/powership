@@ -232,9 +232,8 @@ export type Name = `${A_Z}${string}`;
 export * from './IterationMap';
 
 export class TypeAssertionError extends RuntimeError {
-  constructor(a: any, b: any, message = 'Invalid value received') {
-    super(message, { a, b });
-    console.error('This error is only used in typescript assertions.');
+  constructor(message = 'UNEXPECTED_VALUE', details: any = undefined) {
+    super(message, details);
   }
 }
 

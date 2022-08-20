@@ -855,18 +855,28 @@ describe('FieldTypes', () => {
       const gql = objectToGQL('TempUnknownField', def);
 
       expect(gql.typeToString().split('\n')).toEqual([
-        'type TempUnknownField {',
-        '  name: Unknown!',
-        '  nameOpt: Unknown',
-        '  nameList: [Unknown]!',
-        '  nameListOptional: [Unknown]',
-        '  nameFromType: [Unknown]',
-        '',
-        '  """🤔"""',
-        '  defObject: [Unknown]',
-        '}',
-        '',
-        'scalar Unknown',
+        "type TempUnknownField {",
+        "  name: TempUnknownField_name!",
+        "  nameOpt: TempUnknownField_nameOpt",
+        "  nameList: [TempUnknownField_nameList]!",
+        "  nameListOptional: [TempUnknownField_nameListOptional]",
+        "  nameFromType: [TempUnknownField_nameFromType]",
+        "",
+        "  \"\"\"🤔\"\"\"",
+        "  defObject: [TempUnknownField_defObject]",
+        "}",
+        "",
+        "scalar TempUnknownField_name",
+        "",
+        "scalar TempUnknownField_nameOpt",
+        "",
+        "scalar TempUnknownField_nameList",
+        "",
+        "scalar TempUnknownField_nameListOptional",
+        "",
+        "scalar TempUnknownField_nameFromType",
+        "",
+        "scalar TempUnknownField_defObject"
       ]);
 
       type T = Infer<typeof def>;

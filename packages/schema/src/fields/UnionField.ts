@@ -20,7 +20,7 @@ export class UnionField<
   };
 
   static is(item: any): item is UnionField<any, any> {
-    return item?.typeName === 'union' && Array.isArray(item.fieldTypes);
+    return item?.typeName === 'union' && Array.isArray(item?.utils?.fieldTypes);
   }
 
   constructor(def: T) {

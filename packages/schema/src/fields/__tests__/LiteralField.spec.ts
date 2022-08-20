@@ -231,7 +231,7 @@ describe('LiteralField', () => {
 
     expect(ts.split('\n')).toEqual([
       'export interface Values {',
-      '  valid: {value: {date: Date; email: \'xica "bacana"\'; num: [1, 2, 3, NaN]; regex: RegExp}};',
+      '  valid: {value: {date: Date; regex: RegExp; num: [1, 2, 3, NaN]; email: \'xica "bacana"\'}};',
       '}',
       '',
     ]);

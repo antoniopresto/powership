@@ -227,7 +227,7 @@ function parseField(params: {
       jsonItem.const = parsed;
 
       const tsType = DarchJSON.stringify(parsed, {
-        quoteStrings: (str) => str,
+        quoteValues: (str) => `${str}`,
         handler: ({ serializer, value }) => {
           const typeName = getTypeName(value);
           if (['Object', 'Array'].includes(typeName)) return;
