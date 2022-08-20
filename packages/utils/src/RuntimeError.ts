@@ -6,7 +6,7 @@ export class RuntimeError extends Error {
   details;
   detailsString = '';
 
-  constructor(message: string, details: any, skipStackLines = 0, depth = 2) {
+  constructor(message: string, details: any, skipStackLines = 0, depth = 10) {
     super(message);
     this.details = details;
     this.detailsString = message;

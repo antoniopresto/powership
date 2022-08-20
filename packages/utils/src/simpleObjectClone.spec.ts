@@ -66,16 +66,24 @@ describe('simpleObjectClone', () => {
       undefined,
     ];
 
-    const str = DarchJSON.stringify(value, {
-      quoteStrings: (str) => str,
-      handler: ({ serializer, value }) => {
-        const typeName = getTypeName(value);
-        if (['Object', 'Array'].includes(typeName)) return;
-        if (['String', 'Number'].includes(typeName)) return value?.toString();
-        return serializer?.formatter?.tsName() || typeName;
-      },
-    });
+    const str = DarchJSON.stringify(
+      { 12: value, b: false },
+      {
+        quoteValues: (str, { key }) => {
+          return key === 'b' ? `${str}____` : `${str}`;
+        },
+        handler: ({ serializer, value, key }) => {
+          if (key === 'b') return 'HMM';
+          const typeName = getTypeName(value);
+          if (['Object', 'Array'].includes(typeName)) return;
+          if (['String', 'Number'].includes(typeName)) return value?.toString();
+          return serializer?.formatter?.tsName() || typeName;
+        },
+      }
+    );
 
-    expect(str).toEqual('[Date,RegExp,{"a":1,"b":{"c":Date}},Null,Undefined]');
+    expect(str).toEqual(
+      '{"12":[Date,RegExp,{"a":1,"b":HMM____},Null,Undefined],"b":HMM____}'
+    );
   });
 });

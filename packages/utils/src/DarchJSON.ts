@@ -115,28 +115,29 @@ export class DarchJSONConstructor {
 
   stringify = (
     value: any,
-    options: {
-      handler?: (utils: {
-        self: DarchJSONConstructor;
-        value: any;
-        serializer?: Serializer<any>;
-      }) => string | undefined;
-      quoteStrings?: (str: string) => string;
-      quoteKeys?: (str: string) => string;
+    options: StringifyOptions & {
+      handler?: (
+        utils: StringifyOptions & {
+          self: DarchJSONConstructor;
+          value: any;
+          serializer?: Serializer<any>;
+        }
+      ) => string | undefined;
     } = {}
   ) => {
-    const { handler, quoteStrings, quoteKeys } = options;
+    const { handler, quoteValues, quoteKeys } = options;
     let self = this;
 
     let str = stringify(value, {
-      quoteStrings,
+      ...options,
+      quoteValues,
       quoteKeys,
-      defaultHandler: ({ value }) => {
+      defaultHandler: ({ value, options }) => {
         const serializer = this.serializers.find(
           (el) => el.formatter.match(value) !== undefined
         );
 
-        const handled = handler?.({ value, self, serializer });
+        const handled = handler?.({ ...options, value, self, serializer });
         if (handled !== undefined) return handled;
         if (!serializer) return undefined;
 
@@ -170,40 +171,50 @@ export class DarchJSONConstructor {
 
 export type StringifyDefaultHandler = (payload: {
   value: any;
+  options: StringifyOptions;
 }) => string | undefined;
+
+export type StringifyOptions = {
+  defaultHandler?: StringifyDefaultHandler;
+  quoteValues?: (
+    str: string | number | boolean,
+    info: { key: string | number | undefined }
+  ) => string;
+  quoteKeys?: (str: string) => string;
+  key?: string | number;
+};
 
 // some parts from meteor ejson
 export function stringify(
   value: any,
-  options?: {
-    defaultHandler?: StringifyDefaultHandler;
-    quoteStrings?: (str: string) => string;
-    quoteKeys?: (str: string) => string;
-  }
+  options: StringifyOptions = {}
 ): string | undefined {
   let {
     defaultHandler,
-    quoteStrings = JSON.stringify,
+    quoteValues = (v) => JSON.stringify(v),
     quoteKeys = JSON.stringify,
-  } = options || {};
+  } = options;
+
   const typeName = getTypeName(value);
 
-  const handled = defaultHandler?.({ value });
-  if (handled !== undefined) return quoteStrings(handled);
+  const info = { key: options?.key ?? undefined };
+
+  const handled = defaultHandler?.({ value, options });
+  if (handled !== undefined) return quoteValues(handled, info);
 
   switch (typeName) {
     case 'String':
-      return quoteStrings(value);
+      return quoteValues(value, info);
 
     case 'NaN':
     case 'Infinity':
       return 'null';
 
     case 'Number':
-      return quoteStrings(value);
+      return quoteValues(value, info);
 
     case 'Boolean':
-      return quoteStrings(value);
+      return quoteValues(value, info);
 
     case 'Array': {
       let partial: string[] = [];
@@ -214,8 +225,8 @@ export function stringify(
       let length = value.length;
 
       for (let i = 0; i < length; i += 1) {
-        partial[i] = stringify(value[i], options) || 'null';
-      } // Join all of the elements together, separated with commas, and wrap
+        partial[i] = stringify(value[i], { ...options, key: i }) || 'null';
+      } // Join all the elements together, separated with commas, and wrap
       // them in brackets.
 
       if (partial.length === 0) {
@@ -231,15 +242,15 @@ export function stringify(
       let partial: string[] = [];
       let v;
 
-      let keys = Object.keys(value).sort();
+      let keys = Object.keys(value);
 
       keys.forEach(function (k) {
-        v = stringify(value[k], options);
+        v = stringify(value[k], { ...options, key: k });
 
         if (v) {
           partial.push(quoteKeys(k) + ':' + v);
         }
-      }); // Join all of the member texts together, separated with commas,
+      }); // Join all the member texts together, separated with commas,
       // and wrap them in braces.
 
       if (partial.length === 0) {
