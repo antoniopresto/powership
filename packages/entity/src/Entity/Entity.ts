@@ -38,6 +38,11 @@ import {
 } from '../Transporter';
 
 import { PageInfoType, PaginationType } from './paginationUtils';
+import {
+  objectToGraphQLConditionType,
+  EntityGraphQLConditionsType,
+  EntityGraphQLConditionsDef,
+} from './EntityFilterConditionType';
 export * from './paginationUtils';
 
 type _GraphType = {
@@ -111,6 +116,17 @@ type _GetLoaderUtils<Loader, Type> =
                 type: 'ID';
                 optional: true;
               };
+              condition: Type extends {
+                definition: infer Def;
+              }
+                ? Def extends { def: infer Def }
+                  ? {
+                      type: 'object';
+                      def: EntityGraphQLConditionsDef<Def>;
+                      optional: true;
+                    }
+                  : never
+                : never;
             };
           }
         : never
@@ -178,6 +194,17 @@ export type Entity<Options extends EntityOptions> = Options['type'] extends {
               parseDocumentIndexes(
                 doc: Record<string, any>
               ): ParsedDocumentIndexes;
+
+              conditionsDefinition: Options['type'] extends {
+                definition: infer Def;
+              }
+                ? Def extends { def: infer Def }
+                  ? {
+                      type: 'object';
+                      def: EntityGraphQLConditionsType<Def>;
+                    }
+                  : never
+                : never;
             }
           : never
         : never
@@ -225,6 +252,11 @@ export function createEntity<Options extends EntityOptions>(
     entity: entityNameLowercase,
     indexes,
   };
+
+  const conditionsType = objectToGraphQLConditionType(
+    `${entityName}Conditions`,
+    entityDefinition
+  );
 
   validateIndexNameAndField(indexConfig);
   const parsedIndexKeys = getParsedIndexKeys(indexConfig);
@@ -493,6 +525,10 @@ export function createEntity<Options extends EntityOptions>(
           optional: true,
           def: filter,
         },
+        condition: {
+          type: conditionsType,
+          optional: true,
+        },
       };
     }
 
@@ -615,6 +651,11 @@ export function createEntity<Options extends EntityOptions>(
     paginationType: {
       get() {
         return getPaginationType();
+      },
+    },
+    conditionsDefinition: {
+      get() {
+        return conditionsType._object!.definition;
       },
     },
   };
