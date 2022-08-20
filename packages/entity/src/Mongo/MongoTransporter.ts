@@ -198,7 +198,7 @@ export class MongoTransporter extends Transporter {
           onlyOne,
           sort,
         },
-        options.dataloaderContext
+        options.context
       );
 
       if (result) {
@@ -242,17 +242,11 @@ export class MongoTransporter extends Transporter {
   }
 
   async findOne(options: FindOneConfig): Promise<FindOneResult> {
-    const {
-      filter,
-      projection,
-      consistent,
-      indexConfig,
-      dataloaderContext,
-      condition,
-    } = options;
+    const { filter, projection, consistent, indexConfig, context, condition } =
+      options;
 
     const { items } = await this.findMany({
-      dataloaderContext,
+      context,
       filter,
       projection,
       consistent,
@@ -267,17 +261,11 @@ export class MongoTransporter extends Transporter {
   }
 
   async findById(options: FindByIdConfig): Promise<FindOneResult> {
-    const {
-      id,
-      projection,
-      consistent,
-      indexConfig,
-      dataloaderContext,
-      condition,
-    } = options;
+    const { id, projection, consistent, indexConfig, context, condition } =
+      options;
 
     return await this.findOne({
-      dataloaderContext,
+      context,
       filter: { id },
       projection,
       consistent,

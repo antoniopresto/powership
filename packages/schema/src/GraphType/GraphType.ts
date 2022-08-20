@@ -112,6 +112,7 @@ export class GraphType<Definition extends ObjectFieldInput>
     }
 
     this.id = name;
+    this.__field.id = name;
 
     this.definition = this.__field.asFinalFieldDef as any;
 

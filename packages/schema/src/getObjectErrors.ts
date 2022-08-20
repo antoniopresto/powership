@@ -7,7 +7,7 @@ export function validateObjectFields(params: {
   fieldName: string;
   definition: FinalFieldDefinition;
   value: any;
-  fieldParserOptions?: { listExcludeInvalid?: boolean };
+  fieldParserOptions?: { excludeInvalidListItems?: boolean };
 }): {
   errors: string[];
   parsed?: any;

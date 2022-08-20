@@ -175,8 +175,6 @@ describe('Product', () => {
         title: 'banana',
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date),
-        createdBy: null,
-        updatedBy: null,
       },
     });
   });
@@ -213,8 +211,6 @@ describe('Product', () => {
         title: 'banana',
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date),
-        createdBy: null,
-        updatedBy: null,
       },
     });
   });

@@ -1,31 +1,38 @@
 import { createType, GraphType, ObjectFieldInput } from '@darch/schema';
+import { DarchJSON, getKeys } from '@darch/utils';
+
 import { FieldTypes } from '../Transporter';
 
-const PKSKValueType = { union: ['string', 'float'], optional: true } as const;
+const PKSKValueType = createType('PKSKValue', {
+  union: ['string', 'float'],
+  optional: true,
+});
 
 const $eq = {
   union: ['string', 'float', 'boolean', 'null'],
   optional: true,
 } as const;
 
-export const EntityFilterConditionType = createType('EntityFilterCondition', {
-  object: {
-    eq: $eq,
-    ne: $eq,
-    lte: PKSKValueType,
-    gt: PKSKValueType,
-    gte: PKSKValueType,
-    between: { union: ['[string]', '[float]'], optional: true },
-    exists: 'boolean?',
-    type: { enum: FieldTypes, optional: true },
-    startsWith: 'string?',
-    contains: {
-      union: ['string', 'float', 'boolean', 'null'],
-      optional: true,
-    },
-    matchString: 'string?',
-    in: '[any]?',
+const Def = {
+  eq: $eq,
+  ne: $eq,
+  lte: PKSKValueType,
+  gt: PKSKValueType,
+  gte: PKSKValueType,
+  between: { union: ['[string]', '[float]'], optional: true },
+  exists: 'boolean?',
+  type: { enum: FieldTypes, optional: true },
+  startsWith: 'string?',
+  contains: {
+    union: ['string', 'float', 'boolean', 'null'],
+    optional: true,
   },
+  matchString: 'string?',
+  in: '[any]?',
+} as const;
+
+export const EntityFilterConditionType = createType('Filter', {
+  object: Def,
 });
 
 export type EntityGraphQLConditionsType<T> = T extends {
@@ -52,4 +59,37 @@ export function objectToGraphQLConditionType<T>(
   });
 
   return createType(name, { object: graphqlDef }) as any;
+}
+
+const keys = getKeys(Def);
+const keysSet = new Set<string>(keys);
+type Operators = typeof keys[number];
+
+export type GraphQLFilterToTransporterFilter<T> = T extends {
+  [K: string]: unknown;
+}
+  ? {
+      [K in keyof T as K extends Operators ? `$${K}` : K]: T[K] extends {
+        [K: string]: unknown;
+      }
+        ? GraphQLFilterToTransporterFilter<T[K]>
+        : T[K];
+    }
+  : T;
+
+export function graphQLFilterToTransporterFilter<T>(
+  filter: T
+): GraphQLFilterToTransporterFilter<T> {
+  if (!filter || typeof filter !== 'object') return filter as any;
+
+  return DarchJSON.parse(
+    DarchJSON.stringify(filter, {
+      quoteKeys(key) {
+        if (keysSet.has(key)) {
+          key = `$${key}`;
+        }
+        return JSON.stringify(key);
+      },
+    })
+  );
 }

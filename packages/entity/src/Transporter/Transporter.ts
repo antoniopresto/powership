@@ -1,4 +1,5 @@
 import { Darch } from '@darch/schema';
+import { MaybePromise } from '@darch/utils';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { devAssert } from '@darch/utils/lib/devAssert';
 import { getTypeName } from '@darch/utils/lib/getTypeName';
@@ -107,6 +108,11 @@ export type DocumentBase = Record<string, any>;
 
 export type QuerySort = 'ASC' | 'DESC';
 
+export type LoaderContext = {
+  [K: string]: unknown;
+  userId?(...args: unknown[]): MaybePromise<string | undefined>;
+};
+
 export type FindManyConfig<
   Doc extends DocumentBase = DocumentBase,
   PK extends string = string,
@@ -126,8 +132,8 @@ export type FindManyConfig<
   limit?: number;
   sort?: QuerySort;
   projection?: string[];
-  dataloaderContext: Record<string, any> | null;
   condition?: FilterRecord<Doc>;
+  context: LoaderContext;
 };
 
 export type FindOneConfig<
@@ -147,7 +153,7 @@ export type FindOneConfig<
   consistent?: boolean;
   projection?: string[];
   condition?: FilterRecord<Doc>;
-  dataloaderContext: Record<string, any> | null;
+  context: LoaderContext;
 };
 
 export type FindByIdConfig<
@@ -163,11 +169,7 @@ export type FindByIdConfig<
   consistent?: boolean;
   projection?: string[];
   condition?: FilterRecord<Doc>;
-  dataloaderContext: Record<string, any> | null;
-};
-
-export type FindOneResult<Doc extends DocumentBase = DocumentBase> = {
-  item: Doc | null;
+  context: LoaderContext;
 };
 
 export type CreateOneConfig<
@@ -182,6 +184,7 @@ export type CreateOneConfig<
   >;
   condition?: FilterRecord<Doc>;
   replace?: boolean; // defaults to false
+  context: LoaderContext;
 };
 
 export type UpdateOneConfig<
@@ -201,6 +204,7 @@ export type UpdateOneConfig<
   >;
   upsert?: boolean;
   condition?: FilterRecord<Doc>;
+  context: LoaderContext;
 };
 
 export type DeleteOneConfig<
@@ -218,6 +222,11 @@ export type DeleteOneConfig<
     PK | (SK extends undefined ? PK : SK)
   >;
   condition?: FilterRecord<Item>;
+  context: LoaderContext;
+};
+
+export type FindOneResult<Doc extends DocumentBase = DocumentBase> = {
+  item: Doc | null;
 };
 
 type UnsetUpdateExpression<Item> = Item extends Record<infer K, any>
@@ -496,6 +505,15 @@ export type TransporterLoadersRecord = {
 };
 
 export type TransporterLoader = TransporterLoadersRecord[TransporterLoaderName];
+
+export function _ensureTransporterMethodsImplementation<
+  T extends { [K in TransporterLoaderName]: unknown }
+>(ops: T): T {
+  transporterLoaderNames.forEach((m) => {
+    if (ops[m] === undefined) throw new Error(`missing method ${m}`);
+  });
+  return ops;
+}
 
 export function assertFieldFilter(
   input: any,

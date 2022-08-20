@@ -85,7 +85,7 @@ export function createResolver(
       customMessage: (_, error) => {
         return `Invalid output from resolver "${name}": ${error.message}`;
       },
-      listExcludeInvalid: true,
+      excludeInvalidListItems: true,
     });
   };
 

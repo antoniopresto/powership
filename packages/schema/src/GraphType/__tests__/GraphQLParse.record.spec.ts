@@ -43,16 +43,16 @@ describe('GraphQLParse.record', () => {
       'type Person {',
       '  name: String!',
       '  age: Int',
-      '  addresses: Person_addressesRecord!',
+      '  addresses: Person_addresses!',
       '}',
       '',
-      'scalar Person_addressesRecord',
+      'scalar Person_addresses',
       '',
       'input rec1Input {',
-      '  addresses: rec1_addressesRecord!',
+      '  addresses: rec1_addresses!',
       '}',
       '',
-      'scalar rec1_addressesRecord',
+      'scalar rec1_addresses',
     ]);
 
     await expect(

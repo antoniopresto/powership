@@ -43,9 +43,13 @@ describe('createMongoIndexBasedFilter', () => {
       })
     ).toEqual('my_entity:_id#users↠5');
 
-    expect(hashQueryKey({ PK: 'users', SK: 2 })).toEqual('my_entity:_id#users↠712');
+    expect(hashQueryKey({ PK: 'users', SK: 2 })).toEqual(
+      'my_entity:_id#users↠712'
+    );
 
-    expect(hashQueryKey({ PK: 'users', SK: '2' })).toEqual('my_entity:_id#users↠2');
+    expect(hashQueryKey({ PK: 'users', SK: '2' })).toEqual(
+      'my_entity:_id#users↠2'
+    );
   });
 
   async function get(

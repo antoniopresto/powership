@@ -34,19 +34,27 @@ describe('MongoTransporter', () => {
   };
 
   function _put(
-    config: Omit<Parameters<MongoTransporter['createOne']>[0], 'indexConfig'>
+    config: Omit<
+      Parameters<MongoTransporter['createOne']>[0],
+      'indexConfig' | 'context'
+    >
   ) {
     return transporter.createOne({
+      context: {},
       indexConfig,
       ...config,
     });
   }
 
   function _update(
-    config: Omit<Parameters<MongoTransporter['updateOne']>[0], 'indexConfig'>
+    config: Omit<
+      Parameters<MongoTransporter['updateOne']>[0],
+      'indexConfig' | 'context'
+    >
   ) {
     return transporter.updateOne({
       indexConfig,
+      context: {},
       ...config,
     });
   }
@@ -345,6 +353,7 @@ describe('MongoTransporter', () => {
       expect(
         await transporter.updateOne({
           indexConfig,
+          context: {},
           filter: {
             PK: 'a',
             SK: 'a',
@@ -357,6 +366,7 @@ describe('MongoTransporter', () => {
 
       const updated = await transporter.updateOne({
         indexConfig,
+        context: {},
         filter: {
           PK: 'a',
           SK: 'a',
@@ -373,6 +383,7 @@ describe('MongoTransporter', () => {
 
     it('should handle config.upsert using default false', async () => {
       const config: UpdateOneConfig = {
+        context: {},
         indexConfig,
         filter: {
           PK: 'a',
@@ -404,6 +415,7 @@ describe('MongoTransporter', () => {
       await Promise.all([
         transporter.createOne({
           indexConfig,
+          context: {},
           item: {
             PK: 'a',
             SK: 'b',
@@ -411,6 +423,7 @@ describe('MongoTransporter', () => {
         }),
         transporter.createOne({
           indexConfig,
+          context: {},
           item: {
             PK: 'a',
             SK: 'c',
@@ -420,6 +433,7 @@ describe('MongoTransporter', () => {
 
       const removed = await transporter.deleteOne({
         indexConfig,
+        context: {},
         filter: {
           PK: 'a',
           SK: 'b',
@@ -430,6 +444,7 @@ describe('MongoTransporter', () => {
 
       const removed2 = await transporter.deleteOne({
         indexConfig,
+        context: {},
         filter: {
           PK: 'a',
           SK: 'b',
@@ -443,6 +458,7 @@ describe('MongoTransporter', () => {
       await Promise.all([
         transporter.createOne({
           indexConfig,
+          context: {},
           item: {
             PK: 'a',
             SK: 'b',
@@ -451,6 +467,7 @@ describe('MongoTransporter', () => {
         }),
         transporter.createOne({
           indexConfig,
+          context: {},
           item: {
             PK: 'a',
             SK: 'c',
@@ -460,6 +477,7 @@ describe('MongoTransporter', () => {
 
       const removed1 = await transporter.deleteOne({
         indexConfig,
+        context: {},
         filter: {
           PK: 'a',
           SK: 'b',
@@ -471,6 +489,7 @@ describe('MongoTransporter', () => {
 
       const removed2 = await transporter.deleteOne({
         indexConfig,
+        context: {},
         filter: {
           PK: 'a',
           SK: 'b',
@@ -538,6 +557,7 @@ describe('MongoTransporter', () => {
           await transporter.createOne({
             item,
             indexConfig,
+            context: {},
           });
         })
       );
@@ -546,6 +566,7 @@ describe('MongoTransporter', () => {
     it('should handle after', async () => {
       await transporter.findMany({
         indexConfig,
+        context: {},
 
         filter: {
           PK: 'users',
@@ -554,8 +575,6 @@ describe('MongoTransporter', () => {
         limit: 1,
         sort: 'DESC',
         after: { PK: 'users', SK: 'D' },
-
-        dataloaderContext: {},
       });
       // const [sortAsc, sortDesc] = await Promise.all([
       //   transporter.findMany({
@@ -569,7 +588,7 @@ describe('MongoTransporter', () => {
       //     sort: 'ASC',
       //     after: { PK: 'users', SK: 'A', field: '_id' },
       //
-      //     dataloaderContext: {},
+      //     context: {},
       //   }),
       //
       //   transporter.findMany({
@@ -583,7 +602,7 @@ describe('MongoTransporter', () => {
       //     sort: 'DESC',
       //     after: { PK: 'users', SK: 'D' },
       //
-      //     dataloaderContext: {},
+      //     context: {},
       //   }),
       // ]);
       //
@@ -594,11 +613,11 @@ describe('MongoTransporter', () => {
     it('should handle limit 1', async () => {
       const sut = await transporter.findMany({
         indexConfig,
+        context: {},
         filter: {
           PK: 'users',
         },
         limit: 1,
-        dataloaderContext: {},
       });
 
       expect(sut.items).toHaveLength(1);
@@ -608,12 +627,11 @@ describe('MongoTransporter', () => {
     it('should handle limit 2', async () => {
       const sut = await transporter.findMany({
         indexConfig,
+        context: {},
         filter: {
           PK: 'users',
         },
         limit: 2,
-
-        dataloaderContext: {},
       });
 
       expect(sut.items).toHaveLength(2);
@@ -626,14 +644,13 @@ describe('MongoTransporter', () => {
 
       const sut = await transporter.findMany({
         indexConfig,
+        context: {},
         filter: {
           PK: 'users',
           SK: 'B',
         },
         sort: 'ASC',
         projection: ['sub.attr'],
-
-        dataloaderContext: {},
       });
 
       expect(spy).toBeCalledWith(
@@ -661,12 +678,11 @@ describe('MongoTransporter', () => {
           PK: 'users',
         },
         indexConfig,
+        context: {},
         limit: 3,
         sort: 'DESC',
 
         projection: ['sub.attr'],
-
-        dataloaderContext: {},
       });
 
       expect(spy).toBeCalledWith(
@@ -731,27 +747,27 @@ describe('MongoTransporter', () => {
     //   //   await Promise.all([
     //   //     transporter.findMany({
     //   //       query: q1,
-    //   //       dataloaderContext: context,
+    //   //       context: context,
     //   //     }),
     //   //     transporter.findMany({
     //   //       query: q2,
-    //   //       dataloaderContext: context,
+    //   //       context: context,
     //   //     }),
     //   //   ]);
     //   //
     //   //   await transporter.findMany({
     //   //     query: q3,
-    //   //     dataloaderContext: context,
+    //   //     context: context,
     //   //   });
     //   //
     //   //   await Promise.all([
     //   //     transporter.findMany({
     //   //       query: q4,
-    //   //       dataloaderContext: context,
+    //   //       context: context,
     //   //     }),
     //   //     transporter.findMany({
     //   //       query: q5,
-    //   //       dataloaderContext: context,
+    //   //       context: context,
     //   //     }),
     //   //   ]);
     //   //
@@ -793,11 +809,11 @@ describe('MongoTransporter', () => {
           SK: '123',
         },
         indexConfig,
-        dataloaderContext: ctx,
+        context: ctx,
       });
 
       expect(spy).toBeCalledWith({
-        dataloaderContext: ctx,
+        context: ctx,
         consistent: undefined,
         filter: {
           SK: '123',
@@ -819,6 +835,7 @@ describe('MongoTransporter', () => {
       await Promise.all([
         transporter.createOne({
           indexConfig,
+          context: {},
           item: {
             PK: 'users',
             SK: 3,
@@ -827,6 +844,7 @@ describe('MongoTransporter', () => {
 
         transporter.createOne({
           indexConfig,
+          context: {},
           item: {
             PK: 'users',
             SK: 1000,
@@ -834,7 +852,7 @@ describe('MongoTransporter', () => {
         }),
       ]);
 
-      const dataloaderContext = {};
+      const context = {};
 
       const [g1, g2, g3] = await Promise.all([
         transporter.findOne({
@@ -843,7 +861,7 @@ describe('MongoTransporter', () => {
             PK: 'users',
             SK: 3,
           },
-          dataloaderContext,
+          context,
         }),
         transporter.findOne({
           indexConfig,
@@ -851,7 +869,7 @@ describe('MongoTransporter', () => {
             PK: 'users',
             SK: 1000,
           },
-          dataloaderContext,
+          context,
         }),
         transporter.findOne({
           filter: {
@@ -859,7 +877,7 @@ describe('MongoTransporter', () => {
             SK: 199,
           },
           indexConfig,
-          dataloaderContext,
+          context,
         }),
       ]);
 

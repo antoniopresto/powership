@@ -24,14 +24,14 @@ import { GraphQLParseMiddleware } from './GraphType/GraphQLParser';
 import type { Infer } from './Infer';
 import type { ObjectDefinitionInput } from './TObjectConfig';
 import {
+  FieldParserOptionsObject,
   parseValidationError,
   ValidationCustomMessage,
-  FieldParserOptionsObject,
 } from './applyValidator';
 import { assertSameDefinition } from './assertSameDefinition';
 import { ObjectLike } from './fields/IObjectLike';
 import {
-  clearMetaField,
+  withCleanMetaField,
   getObjectDefinitionMetaField,
   isMetaFieldKey,
   MetaFieldDef,
@@ -91,7 +91,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
 
   // definition without metadata (name, etc)
   cleanDefinition(): ParseFields<DefinitionInput> {
-    return clearMetaField(this.definition);
+    return withCleanMetaField(this.definition);
   }
 
   get meta(): MetaFieldDef {
@@ -163,13 +163,13 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
       partial?: boolean;
       customMessage?: ValidationCustomMessage;
       fields?: keyof DefinitionInput[];
-      listExcludeInvalid?: boolean;
+      excludeInvalidListItems?: boolean;
     }
   ): { errors: string[]; parsed: unknown } {
     const {
       partial = false,
       fields = Object.keys(this.definition),
-      listExcludeInvalid,
+      excludeInvalidListItems,
     } = options || {};
 
     const errors: string[] = [];
@@ -206,7 +206,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
         fieldName: currField,
         definition: fieldDef,
         value,
-        fieldParserOptions: { listExcludeInvalid },
+        fieldParserOptions: { excludeInvalidListItems },
       });
 
       if (result.parsed !== undefined) {
@@ -603,8 +603,7 @@ export function cloneDefinition<
   def: Def,
   exclude: Exclude[]
 ): { [K in keyof Def as K extends Exclude ? never : K]: Def[K] } {
-  const _def = simpleObjectClone(def);
-  clearMetaField(_def);
+  const _def = withCleanMetaField(simpleObjectClone(def));
 
   exclude.forEach((path) => {
     delete _def[path];

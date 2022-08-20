@@ -1,4 +1,5 @@
 import { deepEqual } from 'fast-equals';
+
 import { TypeAssertionError } from './typeUtils';
 
 export function areEqual(a: any, b: any) {

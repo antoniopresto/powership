@@ -105,7 +105,7 @@ describe('Union', () => {
 
     // expect(gql.toSDL()).toEqual(
     //   'type TempUnionField {\n' +
-    //     '  name: TempUnionFieldNameEnum!\n' +
+    //     '  name: TempUnionFieldName\n' +
     //     '  nameFromType: [TempUnionFieldNameFromTypeEnum]\n' +
     //     '  defObject: [TempUnionFieldDefObjectEnum]\n' +
     //     '}'

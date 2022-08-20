@@ -55,7 +55,7 @@ export function createEmptyMetaField(): MetaField['asFinalFieldDef'] {
   };
 }
 
-export function clearMetaField(input: any) {
+export function withCleanMetaField(input: any) {
   if (!input || typeof input !== 'object') return input;
 
   const defType = getTypeName(input.def).toLowerCase();

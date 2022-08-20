@@ -182,7 +182,7 @@ export function parseMongoAttributeFilters(attFilter: FilterRecord) {
         }
 
         default: {
-          devAssert(`not supported attribute filter.`, { operator });
+          devAssert(`not supported attribute filter "${operator}".`);
         }
       }
     });

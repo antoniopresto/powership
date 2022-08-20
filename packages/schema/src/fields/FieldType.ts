@@ -1,10 +1,10 @@
 import { getTypeName } from '@darch/utils/lib/getTypeName';
 
 import {
+  FieldParserOptionsObject,
   FieldTypeParser,
   parseValidationError,
   ValidationCustomMessage,
-  FieldParserOptionsObject,
 } from '../applyValidator';
 
 import { FieldDefinitions, FieldTypeName } from './_fieldDefinitions';
@@ -98,7 +98,8 @@ export abstract class FieldType<
         options = _options;
       }
 
-      const { customErrorMessage: customMessage, listExcludeInvalid } = options;
+      const { customErrorMessage: customMessage, excludeInvalidListItems } =
+        options;
 
       if (parser.preParse) {
         input = parser.preParse(input);
@@ -137,7 +138,7 @@ export abstract class FieldType<
             const parsed = parser.parse(item);
             values.push(parsed);
           } catch (originalError: any) {
-            if (listExcludeInvalid) {
+            if (excludeInvalidListItems) {
               return;
             }
 

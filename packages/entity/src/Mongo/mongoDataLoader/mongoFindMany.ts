@@ -45,18 +45,15 @@ export function mongoLoadByIds(
 
 export function mongoFindMany(
   options: MongoFindManyParams,
-  dataloaderContext?: CacheContext | null
+  context?: CacheContext | null
 ) {
-  if (!dataloaderContext || typeof dataloaderContext !== 'object') {
-    throw new RuntimeError(`Invalid dataloaderContext`, { dataloaderContext });
+  if (!context || typeof context !== 'object') {
+    throw new RuntimeError(`Invalid context`, { context });
   }
 
   const config = parseMongoDLParams(options);
 
-  const dataloader = getMongoDataloader(
-    dataloaderContext,
-    config.dataloaderHash
-  );
+  const dataloader = getMongoDataloader(context, config.dataloaderHash);
 
   return dataloader.findMany(config);
 }

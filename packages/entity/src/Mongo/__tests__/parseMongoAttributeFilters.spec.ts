@@ -103,7 +103,7 @@ describe('parseMongoAttributeFilters', () => {
         // @ts-ignore
         a: { $size: 1 },
       })
-    ).toThrow('not supported attribute filter.');
+    ).toThrow('not supported attribute filter "$size".');
   });
 
   test('$in', () => {

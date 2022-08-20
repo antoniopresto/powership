@@ -44,6 +44,7 @@ export * from './randomItem';
 export * from './slugify';
 export * from './ulid';
 export * from './lodash';
+export * from './deepFreeze';
 
 // export * from './logLevels'
 // export * from './logger'

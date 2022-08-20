@@ -1,4 +1,4 @@
-import { DarchJSON, assertEqual } from '@darch/utils';
+import { assertEqual, DarchJSON } from '@darch/utils';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { StrictMap } from '@darch/utils/lib/StrictMap';
 import { assertSame } from '@darch/utils/lib/assertSame';
@@ -39,6 +39,8 @@ import { assertSameDefinition } from '../assertSameDefinition';
 import type { CursorField } from '../fields/CursorField';
 import { TAnyFieldType } from '../fields/FieldType';
 import { LiteralField } from '../fields/LitarealField';
+import { getObjectDefinitionMetaField } from '../fields/MetaFieldField';
+import { ObjectField } from '../fields/ObjectField';
 import { UnionField } from '../fields/UnionField';
 import { FieldTypeName } from '../fields/_fieldDefinitions';
 import {
@@ -50,8 +52,6 @@ import { parseTypeName } from '../parseTypeName';
 import { GraphQLDateType } from './GraphQLDateType';
 import { GraphQLNullType } from './GraphQLNullType';
 import { GraphQLUlidType } from './GraphQLUlidType';
-import { ObjectField } from '../fields/ObjectField';
-import { getObjectDefinitionMetaField } from '../fields/MetaFieldField';
 
 export function createHooks() {
   return {
@@ -485,7 +485,7 @@ export class GraphQLParser {
       },
       union() {
         if (!UnionField.is(field)) throw field;
-        const descriptions: string[] = [];
+        let descriptions: string[] = [];
 
         // if all types are objects it can be used as normal GraphQL union
         // otherwise we need to create a scalar, since GraphQL only accepts unions of objects
@@ -504,7 +504,7 @@ export class GraphQLParser {
               quoteValues(value, { key }) {
                 if (value === false) return '';
                 if (key === 'type') return ` ${value} `;
-                return ` ${value} `;
+                return `${value}`;
               },
               handler(payload) {
                 const { value, defaultHandler } = payload;
@@ -523,16 +523,17 @@ export class GraphQLParser {
 
         let description: string | undefined = undefined;
 
-        if (!areAllObjects) {
-          description = descriptions.join(' and ');
-          if (description.length > 100) {
-            description = `Union of:\n'${descriptions
-              .map((el) => ` - ${el}`)
-              .join('\n')}`;
-          } else {
-            description = `Union of ${descriptions.join(' and ')}`.trim();
-          }
+        descriptions = descriptions.map((el) => el.trim());
+        description = descriptions.join(' | ');
+
+        if (description.length > 100) {
+          description = `Union of:\n'${descriptions
+            .map((el) => ` - ${el}`)
+            .join('\n')}`;
+        } else {
+          description = `Union of ${descriptions.join(' | ')}`.trim();
         }
+        description = description.replace(/  /g, ' ');
 
         const scalarUnion = new GraphQLScalarType({
           name: subTypeName,
@@ -554,7 +555,6 @@ export class GraphQLParser {
 
             return new GraphQLUnionType({
               name: subTypeName,
-              description,
               ...options,
               types: field.utils.fieldTypes.map((field, index) => {
                 if (!ObjectField.is(field)) throw field;

@@ -9,12 +9,10 @@ import {
   ToFinalField,
 } from '@darch/schema';
 import { isMetaFieldKey } from '@darch/schema/lib/fields/MetaFieldField';
-import { MaybePromise } from '@darch/utils';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { devAssert } from '@darch/utils/lib/devAssert';
 import { hooks, Waterfall } from '@darch/utils/lib/hooks';
 import { nonNullValues, notNull } from '@darch/utils/lib/invariant';
-import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 import { capitalize } from '@darch/utils/lib/stringCase';
 import { AnyFunction, UnionToIntersection } from '@darch/utils/lib/typeUtils';
 
@@ -25,9 +23,9 @@ import {
   DocumentBase,
   DocumentIndexItem,
   DocumentMethods,
-  FilterRecord,
   getDocumentIndexFields,
   getParsedIndexKeys,
+  LoaderContext,
   ParsedDocumentIndexes,
   ParsedIndexKey,
   Transporter,
@@ -37,12 +35,18 @@ import {
   validateIndexNameAndField,
 } from '../Transporter';
 
-import { PageInfoType, PaginationType } from './paginationUtils';
 import {
-  objectToGraphQLConditionType,
-  EntityGraphQLConditionsType,
   EntityGraphQLConditionsDef,
+  EntityGraphQLConditionsType,
+  graphQLFilterToTransporterFilter,
+  objectToGraphQLConditionType,
 } from './EntityFilterConditionType';
+import {
+  getOperationInfo,
+  LoaderOperationsRecord,
+} from './entityOperationContextTypes';
+import { PageInfoType, PaginationType } from './paginationUtils';
+
 export * from './paginationUtils';
 
 type _GraphType = {
@@ -264,7 +268,7 @@ export function createEntity<Options extends EntityOptions>(
   const _hooks: EntityHooks<
     EntityDocument<{}>,
     Options['indexes'],
-    EntityLoaderContext
+    LoaderContext
   > = {
     preParse: hooks.waterfall(),
     postParse: hooks.waterfall(),
@@ -273,12 +277,11 @@ export function createEntity<Options extends EntityOptions>(
   };
 
   // pre parse PK, SK and ID setters
-  _hooks.preParse.register(async function applyDefaultHooks(doc, ctx) {
-    doc = simpleObjectClone(doc);
-
+  _hooks.preParse.register(async function applyDefaultHooks(ctx) {
     async function _onUpdate(doc: Record<string, any>) {
       doc.updatedAt = new Date();
-      doc.updatedBy = doc.updatedBy || (await ctx.context?.userId?.(false));
+      doc.updatedBy =
+        doc.updatedBy || (await ctx.options.context?.userId?.(false));
       return doc;
     }
 
@@ -286,7 +289,8 @@ export function createEntity<Options extends EntityOptions>(
       await _onUpdate(doc);
       doc.ulid = doc.ulid || createUlid();
       doc.createdAt = new Date();
-      doc.createdBy = doc.createdBy || (await ctx.context?.userId?.(false));
+      doc.createdBy =
+        doc.createdBy || (await ctx.options.context?.userId?.(false));
 
       const parsedIndexes = getDocumentIndexFields(doc, indexConfig);
 
@@ -306,31 +310,35 @@ export function createEntity<Options extends EntityOptions>(
       return doc;
     }
 
-    if (ctx.isUpdate) {
-      doc.$set = await _onUpdate({
-        ...doc.$set,
+    if (ctx.op === 'updateOne') {
+      ctx.options.update.$set = await _onUpdate({
+        ...ctx.options.update.$set,
       });
     }
 
     if (ctx.isUpsert) {
       const $setOnInsert = await _onCreate({
-        ...doc.$set,
-        ...doc.$setOnInsert,
+        ...ctx.options.update.$set,
+        ...ctx.options.update.$setOnInsert,
       });
-      doc.$setOnInsert = {
+      ctx.options.update.$setOnInsert = {
         ...$setOnInsert,
       };
     }
 
     if (ctx.isCreate) {
-      doc = await _onCreate(doc);
+      ctx.options.item = await _onCreate(ctx.options.item);
     }
 
-    return doc;
+    return ctx;
   });
 
-  let entityGraphType: GraphType<any> | undefined;
-  function getEntityGraphType(): GraphType<any> {
+  type EntityGraphType = GraphType<{
+    object: EntityFinalDefinition<GraphType<{ object: {} }>>;
+  }>;
+
+  let entityGraphType: EntityGraphType | undefined;
+  function getEntityGraphType(): EntityGraphType {
     // @ts-ignore
     return (entityGraphType =
       entityGraphType ||
@@ -341,36 +349,52 @@ export function createEntity<Options extends EntityOptions>(
 
   async function parseOperationContext(
     method: TransporterLoaderName,
-    options: EntityParserInputOptions<DocumentBase, Options['indexes'], any>
+    options: any
   ) {
     await defaultTransporter?.connect();
 
-    let operationInfoContext = buildEntityOperationInfoContext({
-      op: method,
-      methodOptions: options as any,
-    });
+    let operationInfoContext = buildEntityOperationInfoContext(method, options);
 
-    if ('update' in operationInfoContext.options) {
-      let update = operationInfoContext.options.update;
-      operationInfoContext.options.update = await _hooks.preParse.exec(
-        update,
-        operationInfoContext
+    if ('filter' in operationInfoContext.options) {
+      operationInfoContext.options.filter = graphQLFilterToTransporterFilter(
+        operationInfoContext.options.filter
+      );
+    }
+    if ('condition' in operationInfoContext.options) {
+      operationInfoContext.options.condition = graphQLFilterToTransporterFilter(
+        operationInfoContext.options.condition
+      );
+    }
+
+    if (operationInfoContext.op === 'updateOne') {
+      operationInfoContext = await _hooks.preParse.exec(
+        // @ts-ignore
+        operationInfoContext,
+        {}
       );
     }
 
     if ('item' in operationInfoContext.options) {
-      const withEntityFields = await _hooks.preParse.exec(
-        operationInfoContext.options.item as any,
-        operationInfoContext
+      operationInfoContext = await _hooks.preParse.exec(
+        // @ts-ignore
+        operationInfoContext,
+        {}
       );
 
-      let _options = options.partial ? ({ partial: true } as const) : undefined;
+      if (!('item' in operationInfoContext.options)) {
+        return devAssert('MISSING_ITEM', { operationInfoContext });
+      }
 
       try {
-        const parsed = type.parse(withEntityFields, _options);
-        let doc: any = { ...withEntityFields, ...parsed };
-        doc = await _hooks.postParse.exec(doc, operationInfoContext);
-        operationInfoContext.options.item = doc;
+        operationInfoContext.options.item = getEntityGraphType().parse(
+          operationInfoContext.options.item
+        ) as AnyEntityDocument;
+
+        operationInfoContext = await _hooks.postParse.exec(
+          // @ts-ignore
+          operationInfoContext,
+          {}
+        );
       } catch (e: any) {
         e.info = operationInfoContext;
         throw e;
@@ -378,9 +402,11 @@ export function createEntity<Options extends EntityOptions>(
     }
 
     if ('filter' in operationInfoContext.options) {
-      let filter = operationInfoContext.options.filter;
-      filter = await _hooks.beforeQuery.exec(filter, operationInfoContext);
-      operationInfoContext.options.filter = filter;
+      operationInfoContext = await _hooks.beforeQuery.exec(
+        // @ts-ignore
+        operationInfoContext,
+        {}
+      );
     }
 
     return operationInfoContext;
@@ -446,17 +472,18 @@ export function createEntity<Options extends EntityOptions>(
           ...indexConfig,
           indexes,
         },
-        dataloaderContext: args[0].context,
+        context: args[0].context,
       };
 
       const operation = await parseOperationContext(method, configInput);
 
-      const fn: AnyFunction = transporter[method].bind(transporter);
-      const result = await fn(operation.options);
+      const resolver: AnyFunction = transporter[method].bind(transporter);
+      const result = await resolver(operation.options);
 
       if (result.item) {
         const [parsed] = await _hooks.filterResult.exec(
           [result.item],
+          // @ts-ignore
           operation
         );
 
@@ -464,7 +491,11 @@ export function createEntity<Options extends EntityOptions>(
       }
 
       if (result.items) {
-        result.items = await _hooks.filterResult.exec(result.items, operation);
+        result.items = await _hooks.filterResult.exec(
+          result.items,
+          // @ts-ignore
+          operation
+        );
       }
 
       return result;
@@ -665,33 +696,31 @@ export function createEntity<Options extends EntityOptions>(
   return entity as Entity<Options>;
 }
 
-export type EntityLoaderContext = {
-  userId?(...args: unknown[]): MaybePromise<string | undefined>;
-};
-
 type EntityDocument<Document> = {
   [K in keyof (DefaultEntityFields & Document)]: (DefaultEntityFields &
     Document)[K];
 } & {};
 
+export type AnyEntityDocument = EntityDocument<{ [K: string]: unknown }>;
+
 export type EntityHooks<
   Document extends DocumentBase,
   Indexes extends AnyCollectionIndexConfig['indexes'],
-  Context extends EntityLoaderContext
+  Context extends LoaderContext
 > = {
   preParse: Waterfall<
-    Record<string, any>, // FIXME can be update expression or document, depending on operation
-    EntityOperationInfoContext<Record<string, any>, Indexes, Context>
+    EntityOperationInfoContext<Record<string, any>, Indexes, Context>,
+    {}
   >;
 
   postParse: Waterfall<
-    EntityDocument<Document>,
-    EntityOperationInfoContext<EntityDocument<Document>, Indexes, Context>
+    EntityOperationInfoContext<EntityDocument<Document>, Indexes, Context>,
+    {}
   >;
 
   beforeQuery: Waterfall<
-    FilterRecord<EntityDocument<Document>>,
-    EntityOperationInfoContext<EntityDocument<Document>, Indexes, Context>
+    EntityOperationInfoContext<EntityDocument<Document>, Indexes, Context>,
+    {}
   >;
 
   filterResult: Waterfall<
@@ -700,122 +729,62 @@ export type EntityHooks<
   >;
 };
 
-type MethodOptions<
-  Document,
-  Indexes extends AnyCollectionIndexConfig['indexes'],
-  Context
-> = Indexes[number] extends infer IndexItem
-  ? IndexItem extends unknown
-    ? {
-        [L in TransporterLoaderName]: Parameters<
-          IndexMethods<Document, IndexItem, Context>[L]
-        >[0] extends infer Options
-          ? Options extends unknown
-            ? Options
-            : never
-          : never;
-      }
-    : never
-  : never;
+function buildEntityOperationInfoContext<M extends TransporterLoaderName>(
+  method: M,
+  options: EntityOperationInfosRecord<any, any, any>[M]['options']
+): EntityOperationInfosRecord<any, any, any>[M] {
+  const info = getOperationInfo(method);
 
-function buildEntityOperationInfoContext(
-  parserInput: EntityParserInputOptions<DocumentBase, any, any>
-): EntityOperationInfoContext<any, any, any> {
-  const { op } = parserInput;
+  const isUpsert =
+    info.isUpdate && 'upsert' in options && options.upsert === true;
 
-  const isPaginate = op.startsWith('paginate');
   return {
-    op,
-    isFind: op.startsWith('find') || isPaginate,
-    isUpdate: op.startsWith('update'),
-    isCreate: op.startsWith('create'),
-    isFindMany: op.startsWith('findMany'),
-    isPaginate,
-    isFindOne: op.startsWith('findOne'),
-    isFindById: op.startsWith('findById'),
-    isUpdateOne: op.startsWith('updateOne'),
-    isDeleteOne: op.startsWith('deleteOne'),
-    isUpsert:
-      parserInput.op.startsWith('updateOne') &&
-      // @ts-ignore
-      parserInput.methodOptions.upsert === true,
-    // isUpdateMany: op === 'updateMany',
-    isCreateOne: op.startsWith('createOne'),
-    // isCreateMany: op === 'createMany',
-    options: parserInput.methodOptions,
-    context: parserInput.methodOptions.context,
-  };
+    ...info,
+    isUpsert,
+    options,
+  } as any;
 }
-
-export type EntityParserInputOptions<
-  Document extends DocumentBase,
-  Indexes extends AnyCollectionIndexConfig['indexes'],
-  Context extends EntityLoaderContext
-> = (
-  | {
-      op: 'findOne';
-      methodOptions: MethodOptions<Document, Indexes, Context>['findOne'];
-    }
-  | {
-      op: 'findById';
-      methodOptions: MethodOptions<Document, Indexes, Context>['findById'];
-    }
-  | {
-      op: 'findMany';
-      methodOptions: MethodOptions<Document, Indexes, Context>['findMany'];
-    }
-  | {
-      op: 'createOne';
-      methodOptions: MethodOptions<Document, Indexes, Context>['createOne'];
-    }
-  | {
-      op: 'updateOne';
-      methodOptions: MethodOptions<Document, Indexes, Context>['updateOne'];
-    }
-  | {
-      op: 'deleteOne';
-      methodOptions: MethodOptions<Document, Indexes, Context>['deleteOne'];
-    }
-  | {
-      op: 'paginate';
-      methodOptions: MethodOptions<Document, Indexes, Context>['paginate'];
-    }
-) & {
-  partial?: boolean | (keyof Document)[];
-};
 
 export type EntityOperationInfoContext<
   Document extends DocumentBase,
   Indexes extends AnyCollectionIndexConfig['indexes'],
-  Context extends EntityLoaderContext
+  Context extends LoaderContext
+> = EntityOperationInfosRecord<
+  Document,
+  Indexes,
+  Context
+>[TransporterLoaderName];
+
+export type EntityOperationInfosRecord<
+  Document extends DocumentBase,
+  Indexes extends AnyCollectionIndexConfig['indexes'],
+  Context extends LoaderContext
 > = {
-  op:
-    | 'findMany'
-    | 'findOne'
-    | 'findById'
-    | 'createOne'
-    | 'paginate'
-    | 'updateOne'
-    | 'deleteOne';
-  isFind: boolean;
-  isUpdate: boolean;
-  isCreate: boolean;
-  isFindMany: boolean;
-  isPaginate: boolean;
-  isFindOne: boolean;
-  isFindById: boolean;
-  isUpdateOne: boolean;
-  isDeleteOne: boolean;
-  isUpsert: boolean;
-  // isUpdateMany: boolean;
-  isCreateOne: boolean;
-  // isCreateMany: boolean;
-  options: EntityParserInputOptions<
-    Document,
-    Indexes,
-    Context
-  >['methodOptions'];
-  context: Context;
+  [Method in keyof LoaderOperationsRecord]: Method extends unknown
+    ? Method extends keyof LoaderOperationsRecord
+      ? LoaderOperationsRecord[Method] & {
+          // ================== //
+          // start infer method
+          // ================== //
+          options: Indexes[number] extends infer IndexItem
+            ? IndexItem extends unknown
+              ? Parameters<
+                  IndexMethods<Document, IndexItem, Context>[Method]
+                >[0] extends infer Options
+                ? Options extends unknown
+                  ? Options
+                  : never
+                : never
+              : never
+            : never;
+          // ================== //
+          // END infer Method
+          // ================== //
+        } extends infer R
+        ? { [K in keyof R]: R[K] }
+        : never
+      : never
+    : never;
 };
 
 type GetFieldsUsedInIndexes<IndexItem, Kind> = Kind extends keyof IndexItem
@@ -828,13 +797,13 @@ type GetFieldsUsedInIndexes<IndexItem, Kind> = Kind extends keyof IndexItem
 
 type EntityTransporterMethod<
   Method,
-  Context extends EntityLoaderContext = Record<string, any>
+  Context extends LoaderContext = Record<string, any>
 > = Method extends (config: infer Config) => infer Result
   ? ((
       config: Config & { context: Context } extends infer R
         ? {
-            [K in keyof R as K extends 'dataloaderContext' ? never : K]: R[K];
-          } & {}
+            [K in keyof R as K extends 'context' ? never : K]: R[K];
+          } & { context: Context }
         : never
     ) => Result) & {
       indexInfo: [ParsedIndexKey, ...ParsedIndexKey[]];
@@ -844,7 +813,7 @@ type EntityTransporterMethod<
 type IndexMethods<
   Document,
   IndexItem,
-  Context extends EntityLoaderContext = Record<string, any>
+  Context extends LoaderContext = Record<string, any>
 > = {
   [M in keyof DocumentMethods<any, any, any>]: EntityTransporterMethod<
     DocumentMethods<

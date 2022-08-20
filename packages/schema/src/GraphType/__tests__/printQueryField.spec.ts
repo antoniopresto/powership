@@ -208,19 +208,19 @@ describe('generateQuery', () => {
     // type "Member" -> {kind: {value: "person"} | {value: "robot"}}
     // args {memberId: ID}
     expect(sut.fullQuery.split('\n')).toEqual([
-      'fragment Member_kindUnion2166136261Fragment on Member_kindUnion {',
+      'fragment Member_kind2166136261Fragment on Member_kind {',
       '  __typeName',
-      '  ... on Member_kindUnion_0 {',
+      '  ... on Member_kind_0 {',
       '    value',
       '  }',
-      '  ... on Member_kindUnion_1 {',
+      '  ... on Member_kind_1 {',
       '    value',
       '  }',
       '}',
       'query getMemberKind($getMemberKind_memberId: ID!) {',
       '  getMemberKind(memberId: $getMemberKind_memberId) {',
       '    kind {',
-      '      ...Member_kindUnion2166136261Fragment',
+      '      ...Member_kind2166136261Fragment',
       '    }',
       '  }',
       '}',

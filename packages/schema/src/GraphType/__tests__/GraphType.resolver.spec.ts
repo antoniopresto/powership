@@ -114,7 +114,7 @@ describe('createResolver', () => {
 
     expect(printSchema(object).split('\n')).toEqual([
       'type Query {',
-      '  users(name: String!, addresses: [UserAddressInput]!, records: UsersInput_recordsRecord!): user!',
+      '  users(name: String!, addresses: [UserAddressInput]!, records: UsersInput_records!): user!',
       '}',
       '',
       'type user {',
@@ -127,7 +127,7 @@ describe('createResolver', () => {
       '  number: Int',
       '}',
       '',
-      'scalar UsersInput_recordsRecord',
+      'scalar UsersInput_records',
     ]);
   });
 

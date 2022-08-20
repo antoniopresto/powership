@@ -3,9 +3,9 @@ import { assert, IsExact } from 'conditional-type-checks';
 import { graphql, printSchema } from 'graphql';
 
 import { createObjectType, ObjectType } from '../../ObjectType';
+import { createResolver } from '../../Resolver';
 import { createGraphQLSchema } from '../../createGraphQLSchema';
 import { createType } from '../GraphType';
-import { createResolver } from '../../Resolver';
 
 describe('createGraphQLObject', () => {
   afterEach(async () => {
@@ -400,15 +400,15 @@ describe('createGraphQLObject', () => {
 
     expect(schema.utils.print().split('\n')).toEqual([
       'type Query {',
-      '  getUser(address: User_addressUnion!): User!',
+      '  getUser(address: User_address!): User!',
       '}',
       '',
       'type User {',
-      '  address: User_addressUnion!',
+      '  address: User_address!',
       '}',
       '',
-      '"""Union of { type: string } and { type: int }"""',
-      'scalar User_addressUnion',
+      '"""Union of { type: string } | { type: int }"""',
+      'scalar User_address',
     ]);
   });
 });
