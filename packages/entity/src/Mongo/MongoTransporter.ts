@@ -106,7 +106,7 @@ export class MongoTransporter extends Transporter {
       filter,
       sort = 'ASC',
       projection,
-      limit,
+      first,
       after,
       indexConfig,
       condition,
@@ -166,8 +166,8 @@ export class MongoTransporter extends Transporter {
       collectionName: collection.collectionName,
       collection,
       projection: projection,
-      onlyOne: limit === 1,
-      limit,
+      onlyOne: first === 1,
+      first,
       sort: mongoSort,
       firstFilterEntry,
       firstKey: firstFilterKey,
@@ -182,7 +182,7 @@ export class MongoTransporter extends Transporter {
       db,
       projection,
       sort,
-      limit,
+      first,
       query, //
     } = this._parseQueryOptions(options);
 
@@ -206,7 +206,7 @@ export class MongoTransporter extends Transporter {
       }
     } else {
       items = await collection
-        .find(query, { sort, projection, limit })
+        .find(query, { sort, projection, limit: first })
         .toArray();
     }
 
@@ -216,7 +216,7 @@ export class MongoTransporter extends Transporter {
   async paginate(options: FindManyConfig): Promise<PaginationResult> {
     const { items } = await this.findMany({
       ...options,
-      limit: options.limit !== undefined ? options.limit + 1 : undefined,
+      first: options.first !== undefined ? options.first + 1 : undefined,
     });
 
     const edges = items.map((item) => ({
@@ -224,7 +224,7 @@ export class MongoTransporter extends Transporter {
       cursor: item.id,
     }));
 
-    let hasNextPage = !!(options.limit && items.length > options.limit);
+    let hasNextPage = !!(options.first && items.length > options.first);
 
     if (hasNextPage) {
       edges.pop();
@@ -250,7 +250,7 @@ export class MongoTransporter extends Transporter {
       filter,
       projection,
       consistent,
-      limit: 1,
+      first: 1,
       indexConfig,
       condition,
     });

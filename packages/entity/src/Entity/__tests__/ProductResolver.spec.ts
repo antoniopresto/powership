@@ -7,7 +7,7 @@ import {
 } from '@darch/schema';
 import { objectMock } from '@darch/schema';
 import { createGraphQLSchema } from '@darch/schema/lib/createGraphQLSchema';
-import { getTypeName, PromiseType } from '@darch/utils';
+import { getTypeName, notNull, PromiseType } from '@darch/utils';
 import { slugify } from '@darch/utils/lib/slugify';
 import { assert, IsExact } from 'conditional-type-checks';
 
@@ -54,20 +54,54 @@ describe('ProductResolver', () => {
         id?: string | undefined;
         sku?: string | undefined;
       };
-      limit?: number | undefined;
+      first?: number | undefined;
       after?: string | undefined;
     };
 
     type TProduct = Infer<typeof ProductEntity.type>;
     type Args = Parameters<typeof productPagination.resolve>[1];
     assert<IsExact<Args['filter'], ExpectedArgs['filter']>>(true);
-    assert<IsExact<Args['limit'], ExpectedArgs['limit']>>(true);
+    assert<IsExact<Args['first'], ExpectedArgs['first']>>(true);
     assert<IsExact<Args['after'], ExpectedArgs['after']>>(true);
 
     type Result = PromiseType<ReturnType<typeof productPagination.resolve>>;
     type EntityPagination = PaginationResult<TProduct>;
 
     assert<EntityPagination extends Result ? true : false>(true);
+  });
+
+  test('findById', async function () {
+    const { createOne, ProductEntity } = getMocks();
+    const created = await createOne();
+
+    const sut = await ProductEntity.findById({
+      id: created.id,
+      context: {},
+    });
+
+    expect(sut).toMatchObject({
+      item: {
+        id: notNull(created.id),
+      },
+    });
+  });
+
+  test('findMany with only id member', async function () {
+    const { createOne, ProductEntity } = getMocks();
+    const created = await createOne();
+
+    const sut = await ProductEntity.findMany({
+      filter: { storeId: created.storeId },
+      context: {},
+    });
+
+    expect(sut).toMatchObject({
+      items: [
+        {
+          id: notNull(created.id),
+        },
+      ],
+    });
   });
 
   test('query edges', async () => {
@@ -174,7 +208,7 @@ describe('ProductResolver', () => {
 
     expect(schema.utils.print().split('\n')).toEqual([
       'type Query {',
-      '  paginate(limit: Int, after: ID, filter: paginateInput_filterInput, condition: ProductConditionsInput): ProductConnection!',
+      '  paginate(first: Int, after: ID, filter: paginateInput_filterInput!, condition: ProductConditionsInput): ProductConnection!',
       '}',
       '',
       'type ProductConnection {',
@@ -410,7 +444,7 @@ describe('ProductResolver', () => {
         id?: string | undefined;
         sku?: string | undefined;
       };
-      limit?: number | undefined;
+      first?: number | undefined;
       after?: string | undefined;
     };
 
@@ -422,7 +456,7 @@ describe('ProductResolver', () => {
         type Args = typeof args;
 
         assert<IsExact<Args['filter'], ExpectedArgs['filter']>>(true);
-        assert<IsExact<Args['limit'], ExpectedArgs['limit']>>(true);
+        assert<IsExact<Args['first'], ExpectedArgs['first']>>(true);
         assert<IsExact<Args['after'], ExpectedArgs['after']>>(true);
 
         return ProductEntity.paginateByStore({ ...args, context });

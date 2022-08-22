@@ -55,7 +55,7 @@ describe('createMongoIndexBasedFilter', () => {
   async function get(
     PK: PKSKValueType,
     SK: PKSKValueType | IndexFilter | undefined,
-    limit?: number
+    first?: number
   ) {
     const $and = createMongoIndexBasedFilters({
       indexConfig,
@@ -67,7 +67,7 @@ describe('createMongoIndexBasedFilter', () => {
 
     return mockApp
       .collection()
-      .find({ $and }, { limit, sort: { _id: 1 } })
+      .find({ $and }, { limit: first, sort: { _id: 1 } })
       .toArray();
   }
 

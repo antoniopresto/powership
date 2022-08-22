@@ -129,7 +129,7 @@ export type FindManyConfig<
   >;
   after?: IndexFilterRecord<PK, SK> | string;
   consistent?: boolean;
-  limit?: number;
+  first?: number;
   sort?: QuerySort;
   projection?: string[];
   condition?: FilterRecord<Doc>;

@@ -1,7 +1,7 @@
 import { Collection } from 'mongodb';
 
 import { UpdateExpression, UpdateOneConfig } from '../../Transporter';
-import { AnyCollectionIndexConfig } from '../../Transporter/CollectionIndex';
+import { AnyCollectionIndexConfig } from '../../Transporter';
 import { MongoTransporter } from '../MongoTransporter';
 
 import { AppMock, createAppMock } from './createAppMock';
@@ -572,7 +572,7 @@ describe('MongoTransporter', () => {
           PK: 'users',
         },
 
-        limit: 1,
+        first: 1,
         sort: 'DESC',
         after: { PK: 'users', SK: 'D' },
       });
@@ -584,7 +584,7 @@ describe('MongoTransporter', () => {
       //       PK: 'users',
       //     },
       //
-      //     limit: 1,
+      //     first: 1,
       //     sort: 'ASC',
       //     after: { PK: 'users', SK: 'A', field: '_id' },
       //
@@ -598,7 +598,7 @@ describe('MongoTransporter', () => {
       //       PK: 'users',
       //     },
       //
-      //     limit: 1,
+      //     first: 1,
       //     sort: 'DESC',
       //     after: { PK: 'users', SK: 'D' },
       //
@@ -610,28 +610,28 @@ describe('MongoTransporter', () => {
       // expect(sortDesc).toHaveProperty('items.0.SK', 'C');
     });
 
-    it('should handle limit 1', async () => {
+    it('should handle first 1', async () => {
       const sut = await transporter.findMany({
         indexConfig,
         context: {},
         filter: {
           PK: 'users',
         },
-        limit: 1,
+        first: 1,
       });
 
       expect(sut.items).toHaveLength(1);
       expect(sut.items).toHaveProperty('0.SK', 'A');
     });
 
-    it('should handle limit 2', async () => {
+    it('should handle first 2', async () => {
       const sut = await transporter.findMany({
         indexConfig,
         context: {},
         filter: {
           PK: 'users',
         },
-        limit: 2,
+        first: 2,
       });
 
       expect(sut.items).toHaveLength(2);
@@ -639,7 +639,7 @@ describe('MongoTransporter', () => {
       expect(sut.items[1].SK).toBe('B');
     });
 
-    it('should handle sort, projection without limit (with dataloader)', async () => {
+    it('should handle sort, projection without first (with dataloader)', async () => {
       const spy = jest.spyOn(collection.constructor.prototype, 'find');
 
       const sut = await transporter.findMany({
@@ -670,7 +670,7 @@ describe('MongoTransporter', () => {
       spy.mockRestore();
     });
 
-    it('should handle limit 3, sort, projection', async () => {
+    it('should handle first 3, sort, projection', async () => {
       const spy = jest.spyOn(collection.constructor.prototype, 'find');
 
       const sut = await transporter.findMany({
@@ -679,7 +679,7 @@ describe('MongoTransporter', () => {
         },
         indexConfig,
         context: {},
-        limit: 3,
+        first: 3,
         sort: 'DESC',
 
         projection: ['sub.attr'],
@@ -822,7 +822,7 @@ describe('MongoTransporter', () => {
 
         projection: undefined,
         indexConfig,
-        limit: 1,
+        first: 1,
       });
 
       expect(result.item).toBe(null);

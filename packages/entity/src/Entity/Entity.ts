@@ -112,7 +112,7 @@ type _GetLoaderUtils<Loader, Type> =
                 type: 'object';
                 def: Filter;
               };
-              limit: {
+              first: {
                 type: 'int';
                 optional: true;
               };
@@ -543,7 +543,7 @@ export function createEntity<Options extends EntityOptions>(
     function getPaginationType() {
       const filter = getFilterDef();
       return {
-        limit: {
+        first: {
           type: 'int',
           optional: true,
         },
@@ -553,7 +553,7 @@ export function createEntity<Options extends EntityOptions>(
         },
         filter: {
           type: 'object',
-          optional: true,
+          optional: false,
           def: filter,
         },
         condition: {

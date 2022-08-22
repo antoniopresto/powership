@@ -62,8 +62,8 @@ export class MongoDataLoader {
     return result;
   };
 
-  // when a query doesn't have `limit` or `skip`, we can fetch the data
-  // joining all queries into a $or and then separating the results
+  // when a query doesn't have `first` or `skip`, we can fetch the data
+  // joining all queries into an $or and then separating the results
   fetchData = async (
     queryList: readonly MongoDataLoaderKey[]
   ): Promise<any[]> => {
