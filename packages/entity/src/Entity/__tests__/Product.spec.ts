@@ -123,7 +123,7 @@ describe('Product', () => {
           title: { string: { min: 2 } },
           storeId: 'ID',
           SKU: { string: { min: 3 } },
-          category: { string: {}, optional: true },
+          category: 'string?',
         },
       }),
     });

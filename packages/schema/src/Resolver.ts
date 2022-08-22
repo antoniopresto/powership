@@ -130,11 +130,15 @@ export function createResolver(
   return result as any;
 }
 
-export type InferResolverArgs<ArgsDef> = [ArgsDef] extends [
-  { [K: string]: any }
-]
-  ? ToFinalField<{ type: 'object'; def: ArgsDef }>['__infer']
-  : Record<string, unknown>;
+export type InferResolverArgs<ArgsDef> =
+  //
+  [ArgsDef] extends [never]
+    ? Record<string, unknown>
+    : [ArgsDef] extends [undefined]
+    ? Record<string, unknown>
+    : [ArgsDef] extends [{ [K: string]: any }]
+    ? ToFinalField<{ type: 'object'; def: ArgsDef }>['__infer']
+    : Record<string, unknown>;
 
 export type ResolverKind = 'query' | 'mutation' | 'subscription';
 
