@@ -18,7 +18,7 @@ import {
   isFilterConditionKey,
   OneFilterOperation,
 } from './Transporter';
-import { InvalidFilterError } from './errors';
+import { EntityError, InvalidFilterError } from './errors';
 
 export const PK_SK_SEPARATOR = '↠';
 export const ID_SEPARATOR_REGEX = new RegExp(PK_SK_SEPARATOR, 'g');
@@ -301,7 +301,7 @@ export function getDocumentIndexFields<
       partialIndexFilter,
       indexFields: null,
       invalidFields,
-      error: new RuntimeError(`Failed to mount document indexes.`, {
+      error: new InvalidFilterError({
         document: doc,
         invalidFields,
       }),
@@ -883,7 +883,7 @@ export type ParsedDocumentIndexes =
       } | null;
 
       indexFields: null;
-      error: RuntimeError;
+      error: EntityError;
       parsedIndexKeys: ParsedIndexKey[];
     };
 

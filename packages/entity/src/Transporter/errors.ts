@@ -24,6 +24,10 @@ export class EntityError<Kind extends string = string> extends Error {
 export function createEntityError<Kind extends string>(
   kind: Kind
 ): {
+  new (message: string, details?: any): EntityError<Kind> & {
+    is(input: any): input is EntityError<Kind>;
+  };
+
   new (details?: any): EntityError<Kind> & {
     is(input: any): input is EntityError<Kind>;
   };
@@ -34,9 +38,15 @@ export function createEntityError<Kind extends string>(
 } {
   class __EntityError extends EntityError<Kind> {
     static kind = kind;
-    constructor(details?: any) {
-      super(kind, details);
+    constructor(...args: any[]) {
+      super(
+        ...([
+          args.length === 2 ? args[0] : kind,
+          args.length === 2 ? args[1] : args[0],
+        ] as const)
+      );
     }
+
     static is(input: any): input is EntityError {
       return (
         typeof input.__isTransporterError === 'boolean' && input.kind === kind
@@ -46,8 +56,8 @@ export function createEntityError<Kind extends string>(
 
   Object.defineProperties(__EntityError, { name: { value: kind } });
 
-  return function _EntityError(details?: any) {
-    return new __EntityError(details);
+  return function _EntityError(...args) {
+    return new __EntityError(...args);
   } as any;
 }
 
