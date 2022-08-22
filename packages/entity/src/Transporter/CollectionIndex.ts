@@ -18,7 +18,7 @@ import {
   isFilterConditionKey,
   OneFilterOperation,
 } from './Transporter';
-import { EntityError, InvalidFilterError } from './errors';
+import { EntityError, EntityErrorKind } from './EntityError';
 
 export const PK_SK_SEPARATOR = '↠';
 export const ID_SEPARATOR_REGEX = new RegExp(PK_SK_SEPARATOR, 'g');
@@ -208,7 +208,11 @@ export function createDocumentIndexBasedFilters(
   });
 
   if (!filtersRecords.length || !foundPK) {
-    throw new InvalidFilterError({ filter, foundPK });
+    throw new EntityError({
+      possibleCondition: foundPK,
+      reason: !filterKeys.size ? 'EMPTY_FILTER' : 'INVALID_FILTER',
+      filter,
+    });
   }
 
   return {
@@ -225,7 +229,7 @@ export function getDocumentIndexFields<
   validateIndexNameAndField(indexConfig);
 
   const indexFields: Record<string, string> = {};
-  const invalidFields: ParseIndexInvalid[] = [];
+  const invalidFields: InvalidParsedIndexField[] = [];
   let firstIndex: ParsedDocumentIndexes['firstIndex'] = null;
   let partialIndexFilter: ParsedDocumentIndexes['partialIndexFilter'] = null;
   let valid = true;
@@ -295,16 +299,34 @@ export function getDocumentIndexFields<
   });
 
   if (!valid || !firstIndex || !partialIndexFilter) {
+    const parsed = (() => {
+      if (!firstIndex) {
+        if (partialIndexFilter) {
+          return {
+            error: {
+              reason: EntityErrorKind.INVALID_FILTER,
+              invalidFields,
+            },
+          };
+        }
+
+        return {
+          error: {
+            reason: EntityErrorKind.INVALID_FIELDS,
+            invalidFields,
+          },
+        };
+      }
+      throw new Error('MISSING_CONDITION');
+    })();
+
     return {
       valid: false,
       firstIndex,
       partialIndexFilter,
       indexFields: null,
       invalidFields,
-      error: new InvalidFilterError({
-        document: doc,
-        invalidFields,
-      }),
+      error: new EntityError(parsed.error),
       parsedIndexKeys,
     };
   }
@@ -809,7 +831,7 @@ export type AnyCollectionIndexConfig = CollectionIndexConfig<
   string
 >;
 
-type ParseIndexInvalid = {
+export type InvalidParsedIndexField = {
   reason: 'missing' | 'invalid';
   details: string;
   documentField: string;
@@ -818,7 +840,7 @@ type ParseIndexInvalid = {
 };
 
 export type ParsedIndexPart = {
-  invalidFields: ParseIndexInvalid[];
+  invalidFields: InvalidParsedIndexField[];
   value: string;
   valid: boolean;
   isFilter: boolean;
@@ -897,6 +919,11 @@ export function assertDocumentIndexKey(
   input: unknown
 ): asserts input is DocumentIndexField {
   if (!isDocumentIndexKey(input)) {
-    throw new InvalidFilterError({ reason: 'INVALID_INDEX_KEY', input });
+    throw new EntityError(
+      {
+        reason: 'INVALID_INDEX_KEY',
+      },
+      input
+    );
   }
 }

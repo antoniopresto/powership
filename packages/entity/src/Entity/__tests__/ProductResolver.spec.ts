@@ -39,11 +39,15 @@ describe('ProductResolver', () => {
 
     await expect(
       ProductEntity.findOne({ filter: {}, context: {} })
-    ).rejects.toThrow('INVALID_FILTER');
+    ).rejects.toThrow(
+      `EMPTY_FILTER ➤ { possibleCondition: undefined, reason: 'EMPTY_FILTER', filter: {} }`
+    );
 
     await expect(
       ProductEntity.findOne({ filter: { batatas: '123' } as any, context: {} })
-    ).rejects.toThrow('INVALID_FILTER');
+    ).rejects.toThrow(
+      `INVALID_FILTER ➤ {\\n  possibleCondition: undefined,\\n  reason: 'INVALID_FILTER',\\n  filter: { batatas: '123' }\\n}`
+    );
 
     const res = await createOne();
     expect(res).toEqual(shape);
