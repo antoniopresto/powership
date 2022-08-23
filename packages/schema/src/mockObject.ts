@@ -15,7 +15,11 @@ import { createEmptyMetaField, isMetaFieldKey } from './fields/MetaFieldField';
 import { FieldTypeName } from './fields/_fieldDefinitions';
 import { FinalFieldDefinition } from './fields/_parseFields';
 
-export type ObjectMockOptions = { randomText?: () => string };
+export type ObjectMockOptions = {
+  randomText?: () => string;
+  maxArrayLength?: number;
+  randomNumber?: () => number;
+};
 
 export function objectMock<T extends { [K: string]: FinalFieldDefinition }>(
   definition: T,
@@ -35,19 +39,23 @@ export function fieldToMock(
   parsedField: FinalFieldDefinition,
   options?: ObjectMockOptions
 ): any {
-  const { randomText = randomName } = options || {};
+  const {
+    randomText = randomName,
+    maxArrayLength = 1,
+    randomNumber,
+  } = options || {};
 
   const { list, def, type } = parsedField;
 
   const values: { [L in FieldTypeName]: () => unknown } = {
-    any: () => ({ ANY: 'YES' }),
-    int: () => randomInt(),
+    any: () => '_ANY_',
+    int: () => (randomNumber|| randomInt)(),
     object: () => (def ? objectMock(def, options) : undefined),
     string: () => randomText(),
     boolean: () => randomItem(true, false),
     unknown: () => Date,
     record: () => ({ [randomText()]: 123 }),
-    float: () => randomFloat(),
+    float: () => (randomNumber||randomFloat)(),
     undefined: () => undefined,
     cursor: () => objectMock(CursorField.object().definition, options),
     date: () => new Date(randomInt(Date.now())),
@@ -66,7 +74,9 @@ export function fieldToMock(
   };
 
   if (list) {
-    return [...Array(randomInt(3, 5))].map(() => {
+    return [
+      ...Array(randomInt(Math.min(3, maxArrayLength), maxArrayLength)),
+    ].map(() => {
       return values[type]();
     });
   }

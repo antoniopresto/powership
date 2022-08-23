@@ -11,9 +11,9 @@ import {
   isUnionType,
 } from 'graphql';
 
-import { Darch } from '../Darch';
 import { ResolverKind, resolverKinds } from '../createGraphQLSchema';
 import { LiteralField } from '../fields/LitarealField';
+import { formatGraphQL } from '@darch/utils/lib/formatGraphQL';
 
 export type ParseQueryFieldOptions = {
   graphQLField: GraphQLField<any, any>;
@@ -617,10 +617,7 @@ function prettifyQuery(
   value = value.trim();
 
   try {
-    value = Darch.prettier.format(isMainQuery ? value : `{${value}}`, {
-      parser: 'graphql',
-      printWidth: 120,
-    });
+    value = formatGraphQL(isMainQuery ? value : `{${value}}`);
   } catch (e: any) {
     throw new Error(`Failed to prettify:\n${value}\n\n\n${e.stack}`);
   }

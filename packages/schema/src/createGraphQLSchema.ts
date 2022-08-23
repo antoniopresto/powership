@@ -15,8 +15,9 @@ import {
 import { parseFieldDefinitionConfig } from './ObjectType';
 import { AnyResolver } from './Resolver';
 import { withCleanMetaField } from './fields/MetaFieldField';
-import { objectMock } from './mockObject';
+import { objectMock, ObjectMockOptions } from './mockObject';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
+import { formatGraphQL } from '@darch/utils/lib/formatGraphQL';
 
 export type CreateGraphQLObjectOptions = Partial<GraphQLSchemaConfig>;
 
@@ -33,7 +34,9 @@ export type GraphQLSchemaWithUtils = import('graphql').GraphQLSchema & {
     typescript: (options?: ResolversToTypeScriptOptions) => Promise<string>;
     print: () => string;
     queryTemplates: () => SchemaQueryTemplatesResult;
-    queryExamples: (options?: { randomText?: () => string }) => string;
+    queryExamples: (
+      options?: ObjectMockOptions & { resolver?: string }
+    ) => string;
     generateClientUtils: () => Promise<string>;
   };
 };
@@ -352,10 +355,14 @@ function queryExamples({
   schema,
   grouped,
   randomText,
+  randomNumber,
+  resolver: resolverName,
 }: {
   schema: GraphQLSchema;
   grouped: GroupedResolvers;
   randomText?: () => string;
+  randomNumber?: () => number;
+  resolver?: string;
 }) {
   let templates = getSchemaQueryTemplates(schema);
 
@@ -367,21 +374,32 @@ function queryExamples({
     const resolversRecord = templates.queryByResolver[kind];
 
     Object.entries(resolversRecord).forEach(([name, parsed]) => {
+      if (resolverName && resolverName !== name) return;
       const resolver = notNull(resolvers.find((el) => el.name === name));
       const argsDef = resolver.argsType._object?.definition;
-      const argsExamples = argsDef ? objectMock(argsDef, { randomText }) : '';
+      const argsExamples = argsDef
+        ? objectMock(argsDef, { randomText, randomNumber })
+        : '';
 
       examples += `${kind} ${name}${capitalize(kind)} { ${name}`;
 
       if (parsed.argsParsed.vars.length) {
         examples += '(';
         const args = parsed.argsParsed.vars.map((val) => {
-          const ser = DarchJSON.stringify(argsExamples[val.name], {
-            quoteKeys(str) {
-              if (str.match(/[-.]/)) return JSON.stringify(str);
-              return str;
-            },
-          });
+          const example = argsExamples[val.name];
+
+          const ser =
+            typeof example === 'string'
+              ? `"${example}"`
+              : example && typeof example === 'object'
+              ? DarchJSON.stringify(example, {
+                  quoteKeys(str) {
+                    if (str.match(/[-.]/)) return `"${str}"`;
+                    return str;
+                  },
+                })
+              : example;
+
           return `${val.name}: ${ser}`;
         });
         examples += args.join(', ');
@@ -396,8 +414,5 @@ function queryExamples({
     });
   });
 
-  return [
-    Darch.prettier.format(examples, { parser: 'graphql' }),
-    templates.fullQuery,
-  ].join('\n');
+  return [formatGraphQL(examples), templates.fullQuery].join('\n');
 }

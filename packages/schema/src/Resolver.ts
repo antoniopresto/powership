@@ -23,8 +23,8 @@ export type ResolverContextBase = {
 export function createResolverFactory<Context extends ResolverContextBase>(): <
   Source
 >() => <
-  TypeDef extends ObjectFieldInput = any,
-  ArgsDef extends ObjectDefinitionInput = any
+  TypeDef extends ObjectFieldInput,
+  ArgsDef extends ObjectDefinitionInput
 >(
   options: ResolverConfig<Context, Source, TypeDef, ArgsDef>
 ) => Resolver<Context, Source, TypeDef, ArgsDef> {
@@ -136,7 +136,7 @@ export type InferResolverArgs<ArgsDef> =
     ? Record<string, unknown>
     : [ArgsDef] extends [undefined]
     ? Record<string, unknown>
-    : [ArgsDef] extends [{ [K: string]: any }]
+    : [ArgsDef] extends [{ [K: string]: unknown }]
     ? ToFinalField<{ type: 'object'; def: ArgsDef }>['__infer']
     : Record<string, unknown>;
 

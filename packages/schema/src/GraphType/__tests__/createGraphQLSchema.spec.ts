@@ -290,6 +290,7 @@ describe('createGraphQLObject', () => {
         object: {
           name: 'string',
           age: 'int',
+          foo_bar: [{ enum: ['foo', 'bar'] }] as const,
           addresses: {
             list: true,
             object: {
@@ -317,49 +318,49 @@ describe('createGraphQLObject', () => {
             name: '1111',
             age: 1,
             addresses: [],
-          };
-        },
-      });
-
-      user.createResolver({
-        name: 'createUser',
-        kind: 'mutation',
-        args: user._object!.cleanDefinition(),
-        async resolve() {
-          return {
-            name: '1111',
-            age: 1,
-            addresses: [],
+            foo_bar: ['bar'],
           };
         },
       });
 
       const object = createGraphQLSchema();
+
       const examples = object.utils.queryExamples({
+        resolver: 'getUser',
         randomText() {
           return 'example';
         },
+        randomNumber() {
+          return 1;
+        },
       });
 
-      expect(examples.split('\n').slice(0, 18)).toMatchObject([
+      expect(examples.split('\n')).toEqual([
         'query getUserQuery {',
-        '  getUser(',
-        expect.stringMatching('min: '),
-        '    letters: "example"',
-        '    points: { lat: "example", lon: "example" }',
-        '  ) {',
+        '  getUser(min: 1, letters: "example", points: {lat: "example", lon: "example"}) {',
         '    name',
         '    age',
+        '    foo_bar',
         '    addresses {',
         '      ...User_addresses2402738501Fragment',
         '    }',
         '  }',
         '}',
-        'mutation createUserMutation {',
-        '  createUser(',
-        '    name: "example"',
-        expect.stringMatching('age: '),
-        expect.stringMatching('addresses: '),
+        'query getUser($getUser_min: Int = 0, $getUser_letters: String = "batata", $getUser_points: getUserInput_pointsInput!) {',
+        '  getUser(min: $getUser_min, letters: $getUser_letters, points: $getUser_points) {',
+        '    name',
+        '    age',
+        '    foo_bar',
+        '    addresses {',
+        '      ...User_addresses2402738501Fragment',
+        '    }',
+        '  }',
+        '}',
+        '',
+        'fragment User_addresses2402738501Fragment on User_addresses {',
+        '  street',
+        '  number',
+        '}',
       ]);
     });
   });
