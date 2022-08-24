@@ -14,11 +14,11 @@ describe('typings', () => {
       IsExact<
         enumT,
         {
-          type: 'enum';
-          optional: true;
-          list: false;
           def: undefined;
           description?: string;
+          list: false;
+          optional: true;
+          type: 'enum';
         }
       >
     >(true);
@@ -51,16 +51,16 @@ describe('typings', () => {
     type T = Infer<typeof definition>;
 
     type Expected = {
+      '12Enum': '1' | '2';
+      age: number;
+      category: 'general' | 'closed';
+      categoryRO: 'general' | 'closed';
+      enumTypeField: 'x' | 'xx';
+      gender?: 'male' | 'female' | 'other' | undefined;
       name: string;
       nameList: string[];
       nameListOptional?: string[] | undefined;
       optional?: string | undefined;
-      age: number;
-      gender?: 'male' | 'female' | 'other' | undefined;
-      category: 'general' | 'closed';
-      categoryRO: 'general' | 'closed';
-      '12Enum': '1' | '2';
-      enumTypeField: 'x' | 'xx';
       otherObject: {
         name: string;
         status: 'open' | 'closed';
@@ -81,8 +81,8 @@ describe('typings', () => {
     });
 
     type S1 = {
-      name: string;
       age?: number | undefined;
+      name: string;
     };
 
     type TS1 = Infer<typeof object1>;
@@ -95,9 +95,9 @@ describe('typings', () => {
     } as const);
 
     type S2 = {
+      names?: string[] | undefined;
       people: S1;
       status: 'open' | 'closed';
-      names?: string[] | undefined;
     };
 
     type TS2 = Infer<typeof object2>;
@@ -145,8 +145,8 @@ describe('typings', () => {
       a?: string | undefined;
       b?:
         | {
-            name?: string;
             age: number;
+            name?: string;
             numbers?: number[];
           }[]
         | undefined;

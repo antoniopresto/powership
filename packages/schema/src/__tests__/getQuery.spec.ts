@@ -71,8 +71,6 @@ describe('graphGet', () => {
     type S = {
       query: {
         Nodes: {
-          title: string;
-          price: string;
           cart: {
             total?: number;
           };
@@ -82,6 +80,8 @@ describe('graphGet', () => {
               name: string;
             }[];
           };
+          price: string;
+          title: string;
         };
       };
     };

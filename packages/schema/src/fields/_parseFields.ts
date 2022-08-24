@@ -60,12 +60,12 @@ export type ExtractTypeName<T> = keyof T extends infer K
 
 export type AllFinalFieldDefinitions = {
   [Type in FieldTypeName]: {
-    type: Type;
     def: FieldDefinitions[Type];
+    defaultValue: any;
+    description: string | undefined;
     list: boolean;
     optional: boolean;
-    description: string | undefined;
-    defaultValue: any;
+    type: Type;
   };
 };
 
@@ -101,33 +101,33 @@ type GetI<T> = T extends { __infer: infer I } ? I : never;
 export type _toFinalField<Base> = //
   //
   Base extends {
-    type: FieldTypeName;
     def?: infer Def;
     list?: boolean;
     optional?: boolean;
+    type: FieldTypeName;
   }
     ? {
-        type: Base['type'];
         def: Def;
+        description: string | undefined;
         list: [Base['list']] extends [true] ? true : undefined;
         optional: [Base['optional']] extends [true] ? true : undefined;
-        description: string | undefined;
+        type: Base['type'];
       }
     : //
     //
     Base extends { __isGraphType: true; definition: infer Def }
     ? _toFinalField<Def>
     : Base extends {
-        type: { definition: { type: infer Type; def?: infer Def } };
         list?: infer List;
         optional?: infer Optional;
+        type: { definition: { def?: infer Def; type: infer Type } };
       }
     ? Type extends FieldTypeName
       ? {
-          type: Type;
           def: Def;
           list: [List] extends [true] ? true : false;
           optional: [Optional] extends [true] ? true : false;
+          type: Type;
         }
       : never
     : // ====== FINISH handling GraphType as Field =====
@@ -140,51 +140,51 @@ export type _toFinalField<Base> = //
     : // === end handling fieldType instance
 
     Base extends {
-        type: { __isDarchObject: true; definition: infer Def };
         list?: infer List;
         optional?: infer Optional;
+        type: { __isDarchObject: true; definition: infer Def };
       }
     ? {
-        type: 'object';
+        __infer: InferObjectDefinition<Def>;
         def: Def;
         list: [List] extends [true] ? true : false;
         optional: [Optional] extends [true] ? true : false;
-        __infer: InferObjectDefinition<Def>;
+        type: 'object';
       }
     : Base extends {
-        object: { __isDarchObject: true; definition: infer Def };
         list?: infer List;
+        object: { __isDarchObject: true; definition: infer Def };
         optional?: infer Optional;
       }
     ? {
-        type: 'object';
+        __infer: InferObjectDefinition<Def>;
         def: Def;
         list: [List] extends [true] ? true : false;
         optional: [Optional] extends [true] ? true : false;
-        __infer: InferObjectDefinition<Def>;
+        type: 'object';
       }
     : //
     //
     Base extends { __isDarchObject: true; definition: infer Def }
     ? {
-        type: 'object';
+        __infer: InferObjectDefinition<Def>;
         def: Def;
+        description: string | undefined;
         list: false;
         optional: false;
-        description: string | undefined;
-        __infer: InferObjectDefinition<Def>;
+        type: 'object';
       }
     : //
 
     // === start handling list ===
     Base extends [infer Item] | Readonly<[infer Item]>
-    ? ToFinalField<Item> extends { type: infer Type; def?: infer Def }
+    ? ToFinalField<Item> extends { def?: infer Def; type: infer Type }
       ? {
-          type: Type;
           def: Def;
+          description: string | undefined;
           list: true;
           optional: false;
-          description: string | undefined;
+          type: Type;
         }
       : never
     : // === end handling list
@@ -200,8 +200,8 @@ export type _toFinalField<Base> = //
 
 // inject  the `__infer` property
 type _injectInfer<T> = T extends {
-  type: FieldTypeName;
   def: infer Def;
+  type: FieldTypeName;
 }
   ? T & {
       // @ts-ignore FIXME deep excessive
@@ -222,7 +222,7 @@ type _injectInfer<T> = T extends {
         T['type'] extends 'record'
         ? [Def] extends [undefined]
           ? { [K: string]: any }
-          : Def extends { type: infer Type; keyType?: infer KeyType }
+          : Def extends { keyType?: infer KeyType; type: infer Type }
           ? {
               [K in KeyType extends 'int' | 'float'
                 ? number
@@ -287,11 +287,11 @@ type ExtractFlattenDefType<Input> = keyof Input extends infer K
 
 type ExtractFlattenDefCommonConfig<Input> = Input extends { [K: string]: any }
   ? {
-      list: [Input['list']] extends [true] ? true : false;
-      optional: [Input['optional']] extends [true] ? true : false;
       description: [Input['description']] extends ['string']
         ? Input['description']
         : undefined;
+      list: [Input['list']] extends [true] ? true : false;
+      optional: [Input['optional']] extends [true] ? true : false;
     }
   : never;
 
@@ -319,42 +319,42 @@ type ParseStringDefinition<S> =
   //
   S extends FieldTypeName
     ? {
-        type: S;
-        list: false;
-        optional: false;
         def: undefined;
         description?: string;
+        list: false;
+        optional: false;
+        type: S;
       }
     : //
     //
     S extends `${FieldTypeName}?`
     ? //
       {
-        type: _ExtractFieldAsString<S>;
-        list: false;
-        optional: true;
         def: undefined;
         description?: string;
+        list: false;
+        optional: true;
+        type: _ExtractFieldAsString<S>;
       }
     : //
     S extends `[${FieldTypeName}]`
     ? //
       {
-        type: _ExtractFieldAsString<S>;
-        list: true;
-        optional: false;
         def: undefined;
         description?: string;
+        list: true;
+        optional: false;
+        type: _ExtractFieldAsString<S>;
       }
     : //
     S extends `[${FieldTypeName}]?`
     ? //
       {
-        type: _ExtractFieldAsString<S>;
-        list: true;
-        optional: true;
         def: undefined;
         description?: string;
+        list: true;
+        optional: true;
+        type: _ExtractFieldAsString<S>;
       }
     : never;
 // ==== start FieldAsString utils ====

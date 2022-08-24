@@ -7,14 +7,15 @@ import { UpdateExpression, UpdateExpressionKey } from './Transporter';
 
 export type UpdateOperation =
   | {
-      operator: Exclude<UpdateExpressionKey, '$remove'>;
       entries: [string, any][];
+      operator: Exclude<UpdateExpressionKey, '$remove'>;
     }
   | {
       operator: '$remove';
       removeOperations: {
-        path: string; // field or field.subfield, etc
-        index?: number;
+        // field or field.subfield, etc
+        index?: number; 
+        path: string;
       }[];
     };
 
@@ -47,8 +48,8 @@ export function parseUpdateExpression<Schema extends Record<string, any>>(
 
     if (!expression || typeof expression !== 'object') {
       throw new RuntimeError(`invalid expression value`, {
-        key: operator,
         expression,
+        key: operator,
       });
     }
 
@@ -102,8 +103,8 @@ export function parseUpdateExpression<Schema extends Record<string, any>>(
         entries.forEach(([field]) => pushErrorIfApply(field, $operator));
 
         operations.push({
-          operator: $operator,
           entries: entries,
+          operator: $operator,
         });
         break;
       }
@@ -167,7 +168,7 @@ function getDeepArrayUpdateError(
   if (arrayMatch) {
     return new RuntimeError(
       `Can't deep update with array index.`,
-      { operation, op: field },
+      { op: field, operation },
       5
     );
   }

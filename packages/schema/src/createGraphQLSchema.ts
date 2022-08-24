@@ -1,4 +1,5 @@
 import { capitalize, DarchJSON, notNull } from '@darch/utils';
+import { formatGraphQL } from '@darch/utils/lib/formatGraphQL';
 import { tupleEnum } from '@darch/utils/lib/typeUtils';
 import type { GraphQLSchemaConfig } from 'graphql';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
@@ -17,7 +18,6 @@ import { AnyResolver } from './Resolver';
 import { withCleanMetaField } from './fields/MetaFieldField';
 import { objectMock, ObjectMockOptions } from './mockObject';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
-import { formatGraphQL } from '@darch/utils/lib/formatGraphQL';
 
 export type CreateGraphQLObjectOptions = Partial<GraphQLSchemaConfig>;
 
@@ -27,17 +27,17 @@ export type GroupedResolvers = {
 
 export type GraphQLSchemaWithUtils = import('graphql').GraphQLSchema & {
   utils: {
-    usedConfig: GraphQLSchemaConfig;
-    resolvers: AnyResolver[];
-    registeredResolvers: AnyResolver[];
+    generateClientUtils: () => Promise<string>;
     grouped: GroupedResolvers;
-    typescript: (options?: ResolversToTypeScriptOptions) => Promise<string>;
     print: () => string;
-    queryTemplates: () => SchemaQueryTemplatesResult;
     queryExamples: (
       options?: ObjectMockOptions & { resolver?: string }
     ) => string;
-    generateClientUtils: () => Promise<string>;
+    queryTemplates: () => SchemaQueryTemplatesResult;
+    registeredResolvers: AnyResolver[];
+    resolvers: AnyResolver[];
+    typescript: (options?: ResolversToTypeScriptOptions) => Promise<string>;
+    usedConfig: GraphQLSchemaConfig;
   };
 };
 
@@ -87,24 +87,24 @@ export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
   }
 
   const usedConfig: GraphQLSchemaConfig = {
-    query: grouped.query
+    mutation: grouped.mutation
       ? new GraphQLObjectType({
-          name: 'Query',
-          fields: createFields('query'),
+          fields: createFields('mutation'),
+          name: 'Mutation',
         })
       : undefined,
 
-    mutation: grouped.mutation
+    query: grouped.query
       ? new GraphQLObjectType({
-          name: 'Mutation',
-          fields: createFields('mutation'),
+          fields: createFields('query'),
+          name: 'Query',
         })
       : undefined,
 
     subscription: grouped.subscription
       ? new GraphQLObjectType({
-          name: 'Subscription',
           fields: createFields('subscription'),
+          name: 'Subscription',
         })
       : undefined,
 
@@ -116,10 +116,21 @@ export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
   let ts: Promise<string>;
 
   const utils: GraphQLSchemaWithUtils['utils'] = {
-    usedConfig,
-    resolvers,
-    registeredResolvers,
+    generateClientUtils() {
+      return Promise.reject('not implemented');
+    },
     grouped,
+    print() {
+      return printSchema(schema);
+    },
+    queryExamples(options) {
+      return queryExamples({ grouped, schema, ...options });
+    },
+    queryTemplates() {
+      return getSchemaQueryTemplates(schema);
+    },
+    registeredResolvers,
+    resolvers,
     async typescript(options?: ResolversToTypeScriptOptions) {
       return (ts =
         ts ||
@@ -129,18 +140,7 @@ export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
           resolvers,
         }));
     },
-    print() {
-      return printSchema(schema);
-    },
-    queryTemplates() {
-      return getSchemaQueryTemplates(schema);
-    },
-    queryExamples(options) {
-      return queryExamples({ schema, grouped, ...options });
-    },
-    generateClientUtils() {
-      return Promise.reject('not implemented');
-    },
+    usedConfig,
   };
 
   const result = Object.assign(schema, {
@@ -171,8 +171,8 @@ export async function resolversTypescriptParts(
 
   const mainResolversConversion = mainResolvers.map((item) => {
     return convertResolver({
-      resolver: item,
       allResolvers: params.resolvers,
+      resolver: item,
     });
   });
 
@@ -251,8 +251,8 @@ export async function resolversToTypescript(
 }
 
 async function convertResolver(options: {
-  resolver: AnyResolver;
   allResolvers: AnyResolver[];
+  resolver: AnyResolver;
 }) {
   const { resolver, allResolvers } = options;
 
@@ -278,14 +278,14 @@ async function convertResolver(options: {
 
   const [payload, args] = await Promise.all([
     convertType({
-      kind: 'output',
       entryName: payloadName,
+      kind: 'output',
       type: payloadDef, // TODO generate type for User[] not for plain object
     }),
 
     convertType({
-      kind: 'input',
       entryName: inputName,
+      kind: 'input',
       type: resolver.argsType.definition,
     }),
   ]);
@@ -297,11 +297,11 @@ async function convertResolver(options: {
   code += `${payload.comments}\nexport type ${payloadName} = ${payload.code};`;
 
   return {
-    entryName: resolver.name,
-    code,
-    payload,
     args,
+    code,
+    entryName: resolver.name,
     inputName,
+    payload,
     payloadName,
     resolver,
   };
@@ -309,8 +309,8 @@ async function convertResolver(options: {
 
 async function convertType(options: {
   entryName: string;
-  type: any;
   kind: 'input' | 'output';
+  type: any;
 }) {
   const { entryName, type, kind } = options;
 
@@ -348,7 +348,7 @@ async function convertType(options: {
 
   const comments = description ? `\n/** ${description} **/\n` : '';
 
-  return { code, description: description || '', comments };
+  return { code, comments, description: description || '' };
 }
 
 function queryExamples({
@@ -358,11 +358,11 @@ function queryExamples({
   randomNumber,
   resolver: resolverName,
 }: {
-  schema: GraphQLSchema;
   grouped: GroupedResolvers;
-  randomText?: () => string;
   randomNumber?: () => number;
+  randomText?: () => string;
   resolver?: string;
+  schema: GraphQLSchema;
 }) {
   let templates = getSchemaQueryTemplates(schema);
 
@@ -378,7 +378,7 @@ function queryExamples({
       const resolver = notNull(resolvers.find((el) => el.name === name));
       const argsDef = resolver.argsType._object?.definition;
       const argsExamples = argsDef
-        ? objectMock(argsDef, { randomText, randomNumber })
+        ? objectMock(argsDef, { randomNumber, randomText })
         : '';
 
       examples += `${kind} ${name}${capitalize(kind)} { ${name}`;

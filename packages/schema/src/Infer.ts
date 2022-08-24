@@ -26,8 +26,8 @@ export type Infer<T> = T extends
   ? ToFinalField<T>['__infer']
   : T extends ObjectLike
   ? InferField<{
-      type: 'object';
       def: T['definition'];
+      type: 'object';
     }>
   : T extends GraphType<infer Def>
   ? ToFinalField<Def> extends {
@@ -39,15 +39,15 @@ export type Infer<T> = T extends
       }
   : T extends ObjectLike
   ? InferField<{
-      type: 'object';
       def: T['definition'];
+      type: 'object';
     }>
   : T extends ObjectInTypeFieldDefinition
   ? InferField<{
-      type: 'object';
       def: T['type']['definition'];
       list: T['list'];
       optional: T['optional'];
+      type: 'object';
     }>
   : T extends FinalFieldDefinition
   ? InferField<T>
@@ -63,7 +63,7 @@ export type Infer<T> = T extends
       [K: string]: any;
     }
   ? InferField<{
-      type: 'object';
       def: T;
+      type: 'object';
     }>
   : never;

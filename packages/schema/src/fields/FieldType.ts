@@ -78,8 +78,8 @@ export abstract class FieldType<
   }
 
   applyParser = <Type>(parser: {
-    preParse?(input: any): Type;
     parse(input: any): Type;
+    preParse?(input: any): Type;
   }): FieldTypeParser<Type> => {
     const self = this;
     return (
@@ -170,12 +170,12 @@ export abstract class FieldType<
 
   get asFinalFieldDef(): AllFinalFieldDefinitions[TypeName] {
     const res: FinalFieldDefinition = {
-      type: this.type,
       def: this.def,
+      defaultValue: this.defaultValue,
+      description: this.description,
       list: this.list,
       optional: this.optional,
-      description: this.description,
-      defaultValue: this.defaultValue,
+      type: this.type,
     };
 
     return res as any;

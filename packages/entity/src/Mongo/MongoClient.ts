@@ -3,8 +3,8 @@ import { Hope, hope } from '@darch/utils/lib/hoper';
 import * as mongodb from 'mongodb';
 
 export interface MongoClientOptions {
-  dbName?: string;
   clientOptions?: mongodb.MongoClientOptions;
+  dbName?: string;
 }
 
 function defaulter(options: MongoClientOptions): Required<MongoClientOptions> {

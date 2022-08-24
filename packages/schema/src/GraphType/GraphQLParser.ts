@@ -55,10 +55,10 @@ import { GraphQLUlidType } from './GraphQLUlidType';
 
 export function createHooks() {
   return {
-    willCreateObjectType: hooks.parallel<GraphQLFieldConfigMap<any, any>>(),
-    onFieldResult: hooks.parallel<ConvertFieldResult>(),
     onField: hooks.parallel<ConvertFieldResult, GraphQLFieldConfig<any, any>>(),
     onFieldConfigMap: hooks.parallel<GraphQLFieldConfigMap<any, any>>(),
+    onFieldResult: hooks.parallel<ConvertFieldResult>(),
+    willCreateObjectType: hooks.parallel<GraphQLFieldConfigMap<any, any>>(),
   };
 }
 
@@ -84,21 +84,21 @@ export type ParseInterfaceOptions = Partial<
   CommonTypeOptions;
 
 export interface GraphQLParserResult {
-  typeToString(): string;
-  inputToString(): string;
   getInputType: (options?: ParseInputTypeOptions) => GraphQLInputObjectType;
   getType: (options?: ParseTypeOptions) => GraphQLObjectType;
+  inputToString(): string;
   interfaceType: (options?: ParseInterfaceOptions) => GraphQLInterfaceType;
   object: ObjectType<any>;
+  typeToString(): string;
 }
 
 export interface ConvertFieldResult {
-  fieldName: string;
-  typeName: string;
-  inputType: (options?: ParseInputTypeOptions) => GraphQLInputType;
-  type: (options?: ParseTypeOptions) => GraphQLOutputType;
   description?: string;
+  fieldName: string;
+  inputType: (options?: ParseInputTypeOptions) => GraphQLInputType;
   plainField: FinalFieldDefinition;
+  type: (options?: ParseTypeOptions) => GraphQLOutputType;
+  typeName: string;
 }
 
 const resultsCache = new StrictMap<string, GraphQLParserResult>();
@@ -165,7 +165,7 @@ export class GraphQLParser {
 
     const buildFields = <T>(
       options: CommonTypeOptions & {
-        fields?: ThunkObjMap<{ type: any; [K: string]: any }>;
+        fields?: ThunkObjMap<{ [K: string]: any; type: any }>;
         interfaces?: ThunkReadonlyArray<GraphQLInterfaceType>;
       },
 
@@ -205,8 +205,8 @@ export class GraphQLParser {
         helpers.list.forEach(({ name: fieldName, instance, plainField }) => {
           const field = this.fieldToGraphQL({
             field: instance,
-            parentName: objectId,
             fieldName,
+            parentName: objectId,
             path: path || [objectId],
             plainField,
           });
@@ -218,8 +218,8 @@ export class GraphQLParser {
 
         const fieldsConfigMap = builders.reduce((acc, next) => {
           const field: GraphQLFieldConfig<any, any> = {
-            type: getType(next) as any,
             description: next.description,
+            type: getType(next) as any,
           };
 
           const origin =
@@ -251,7 +251,7 @@ export class GraphQLParser {
     };
 
     function getType(_options: ParseTypeOptions = {}) {
-      const options = { name: objectId, fields: {}, ..._options };
+      const options = { fields: {}, name: objectId, ..._options };
       const { name } = options;
 
       if (graphqlTypesRegister.has(name)) {
@@ -268,7 +268,7 @@ export class GraphQLParser {
     function getInputType(
       _options: ParseInputTypeOptions = {}
     ): GraphQLInputObjectType {
-      const options = { name: `${objectId}Input`, fields: {}, ..._options };
+      const options = { fields: {}, name: `${objectId}Input`, ..._options };
       const { name } = options;
 
       if (graphqlTypesRegister.has(name)) {
@@ -282,7 +282,7 @@ export class GraphQLParser {
     }
 
     function interfaceType(_options: ParseInterfaceOptions = {}) {
-      const options = { name: `${objectId}Interface`, fields: {}, ..._options };
+      const options = { fields: {}, name: `${objectId}Interface`, ..._options };
       const { name } = options;
 
       if (graphqlTypesRegister.has(name)) {
@@ -314,12 +314,12 @@ export class GraphQLParser {
     }
 
     const parsed: GraphQLParserResult = {
+      getInputType,
       getType,
       inputToString: getInputSDL,
-      typeToString: getSDL,
-      getInputType,
       interfaceType,
       object,
+      typeToString: getSDL,
     };
 
     Object.assign(graphqlParsed, parsed);
@@ -329,8 +329,8 @@ export class GraphQLParser {
 
   static fieldToGraphQL(options: {
     field: TAnyFieldType;
-    parentName: string;
     fieldName: string;
+    parentName: string;
     path: string[];
     plainField: FinalFieldDefinition;
   }): ConvertFieldResult {
@@ -373,27 +373,8 @@ export class GraphQLParser {
         'typeName' | 'fieldName' | 'path' | 'plainField'
       >;
     } = {
-      meta() {
-        throw new Error('meta field');
-      },
-      null() {
-        return {
-          inputType: () => GraphQLNullType,
-          type: () => GraphQLNullType,
-        };
-      },
-      boolean() {
-        return { inputType: () => GraphQLBoolean, type: () => GraphQLBoolean };
-      },
       ID() {
         return { inputType: () => GraphQLID, type: () => GraphQLID };
-      },
-      undefined() {
-        const create = wrapCreation(
-          'Undefined',
-          () => new GraphQLScalarType({ name: 'Undefined' })
-        );
-        return { inputType: create, type: create };
       },
       any() {
         const create = wrapCreation(
@@ -401,6 +382,9 @@ export class GraphQLParser {
           () => new GraphQLScalarType({ name: 'Any' })
         );
         return { inputType: create, type: create };
+      },
+      boolean() {
+        return { inputType: () => GraphQLBoolean, type: () => GraphQLBoolean };
       },
       cursor(): any {
         const cursor = field as CursorField;
@@ -448,30 +432,63 @@ export class GraphQLParser {
       int() {
         return { inputType: () => GraphQLInt, type: () => GraphQLInt };
       },
-      string() {
-        return { inputType: () => GraphQLString, type: () => GraphQLString };
-      },
-      ulid() {
-        return {
-          inputType: () => GraphQLUlidType,
-          type: () => GraphQLUlidType,
-        };
-      },
-      unknown() {
-        const GraphQLUnknownType = new GraphQLScalarType({ name: subTypeName });
+      literal() {
+        if (!LiteralField.is(field)) throw new Error('ts');
+        const { description, def } = field;
+
+        const recordName = parseTypeName({
+          field,
+          fieldName,
+          parentName,
+        });
+
+        function createLiteral(options: any) {
+          return new GraphQLScalarType<'internal', 'external'>({
+            ...options,
+
+            description: JSON.stringify(
+              description || `Literal value: ${def.value}`
+            ),
+
+            name: recordName,
+
+            parseValue(value: any) {
+              return LiteralField.utils.deserialize({
+                ...def,
+                value,
+              });
+            },
+
+            serialize(value: any) {
+              return LiteralField.utils.deserialize({
+                ...def,
+                value,
+              });
+            },
+          });
+        }
 
         return {
-          inputType: () => GraphQLUnknownType,
-          type: () => GraphQLUnknownType,
+          inputType: wrapCreation(recordName, createLiteral),
+          type: wrapCreation(recordName, createLiteral),
+        };
+      },
+      meta() {
+        throw new Error('meta field');
+      },
+      null() {
+        return {
+          inputType: () => GraphQLNullType,
+          type: () => GraphQLNullType,
         };
       },
       object() {
         assertEqual(field.type, 'object');
 
         const id = parseTypeName({
-          parentName,
           field,
           fieldName,
+          parentName,
         });
 
         const def = ObjectType.is(field.def) ? field.def.definition : field.def;
@@ -483,97 +500,11 @@ export class GraphQLParser {
 
         return { inputType: res.getInputType, type: res.getType };
       },
-      union() {
-        if (!UnionField.is(field)) throw field;
-        let descriptions: string[] = [];
-
-        // if all types are objects it can be used as normal GraphQL union
-        // otherwise we need to create a scalar, since GraphQL only accepts unions of objects
-        //    -  https://github.com/graphql/graphql-js/issues/207
-        // GraphQL union items cannot be used as input, so we always use scalars for inputs:
-        //    - https://github.com/graphql/graphql-spec/issues/488
-        let areAllObjects = true;
-
-        field.utils.fieldTypes.forEach((field) => {
-          if (field.type !== 'object') areAllObjects = false;
-          descriptions.push(
-            `${DarchJSON.stringify(field.definition, {
-              quoteKeys(key) {
-                return ` ${key}`;
-              },
-              quoteValues(value, { key }) {
-                if (value === false) return '';
-                if (key === 'type') return ` ${value} `;
-                return `${value}`;
-              },
-              handler(payload) {
-                const { value, defaultHandler } = payload;
-
-                if (value?.type === 'object' && value.def) {
-                  const meta = getObjectDefinitionMetaField(value?.def || {});
-                  if (meta?.def.id) return meta.def.id;
-                  return defaultHandler!(value.def);
-                }
-
-                return undefined;
-              },
-            })}`
-          );
-        });
-
-        let description: string | undefined = undefined;
-
-        descriptions = descriptions.map((el) => el.trim());
-        description = descriptions.join(' | ');
-
-        if (description.length > 100) {
-          description = `Union of:\n'${descriptions
-            .map((el) => ` - ${el}`)
-            .join('\n')}`;
-        } else {
-          description = `Union of ${descriptions.join(' | ')}`.trim();
-        }
-        description = description.replace(/  /g, ' ');
-
-        const scalarUnion = new GraphQLScalarType({
-          name: subTypeName,
-          description,
-          serialize(value) {
-            return field.parse(value);
-          },
-          parseValue(value) {
-            return field.parse(value);
-          },
-        });
-
-        return {
-          inputType: wrapCreation(subTypeName, () => {
-            return scalarUnion;
-          }),
-          type: wrapCreation(subTypeName, (...options) => {
-            if (!areAllObjects) return scalarUnion;
-
-            return new GraphQLUnionType({
-              name: subTypeName,
-              ...options,
-              types: field.utils.fieldTypes.map((field, index) => {
-                if (!ObjectField.is(field)) throw field;
-                let object = field.utils.object;
-                if (!object.id) {
-                  object = object.clone().identify(`${subTypeName}_${index}`);
-                }
-                return object.graphqlType();
-              }),
-            });
-          }),
-        };
-      },
-
       record() {
         const recordName = parseTypeName({
-          parentName,
           field,
           fieldName,
+          parentName,
         });
 
         function createRecord(options: any) {
@@ -582,11 +513,11 @@ export class GraphQLParser {
 
             name: recordName,
 
-            serialize(value) {
+            parseValue(value) {
               return field.parse(value);
             },
 
-            parseValue(value) {
+            serialize(value) {
               return field.parse(value);
             },
 
@@ -616,54 +547,135 @@ export class GraphQLParser {
           type: wrapCreation(recordName, createRecord),
         };
       },
+      string() {
+        return { inputType: () => GraphQLString, type: () => GraphQLString };
+      },
+      ulid() {
+        return {
+          inputType: () => GraphQLUlidType,
+          type: () => GraphQLUlidType,
+        };
+      },
+      undefined() {
+        const create = wrapCreation(
+          'Undefined',
+          () => new GraphQLScalarType({ name: 'Undefined' })
+        );
+        return { inputType: create, type: create };
+      },
 
-      literal() {
-        if (!LiteralField.is(field)) throw new Error('ts');
-        const { description, def } = field;
+      union() {
+        if (!UnionField.is(field)) throw field;
+        let descriptions: string[] = [];
 
-        const recordName = parseTypeName({
-          parentName,
-          field,
-          fieldName,
+        // if all types are objects it can be used as normal GraphQL union
+        // otherwise we need to create a scalar, since GraphQL only accepts unions of objects
+        //    -  https://github.com/graphql/graphql-js/issues/207
+        // GraphQL union items cannot be used as input, so we always use scalars for inputs:
+        //    - https://github.com/graphql/graphql-spec/issues/488
+        let areAllObjects = true;
+
+        field.utils.fieldTypes.forEach((field) => {
+          if (field.type !== 'object') areAllObjects = false;
+          descriptions.push(
+            `${DarchJSON.stringify(field.definition, {
+              handler(payload) {
+                const { value, defaultHandler } = payload;
+
+                if (value?.type === 'object' && value.def) {
+                  const meta = getObjectDefinitionMetaField(value?.def || {});
+                  if (meta?.def.id) return meta.def.id;
+                  return defaultHandler!(value.def);
+                }
+
+                return undefined;
+              },
+              quoteKeys(key) {
+                return ` ${key}`;
+              },
+              quoteValues(value, { key }) {
+                if (value === false) return '';
+                if (key === 'type') return ` ${value} `;
+                return `${value}`;
+              },
+            })}`
+          );
         });
 
-        function createLiteral(options: any) {
-          return new GraphQLScalarType<'internal', 'external'>({
-            ...options,
+        let description: string | undefined = undefined;
 
-            name: recordName,
+        descriptions = descriptions.map((el) => el.trim());
+        description = descriptions.join(' | ');
 
-            description: JSON.stringify(
-              description || `Literal value: ${def.value}`
-            ),
-
-            serialize(value: any) {
-              return LiteralField.utils.deserialize({
-                ...def,
-                value,
-              });
-            },
-
-            parseValue(value: any) {
-              return LiteralField.utils.deserialize({
-                ...def,
-                value,
-              });
-            },
-          });
+        if (description.length > 100) {
+          description = `Union of:\n'${descriptions
+            .map((el) => ` - ${el}`)
+            .join('\n')}`;
+        } else {
+          description = `Union of ${descriptions.join(' | ')}`.trim();
         }
+        description = description.replace(/  /g, ' ');
+
+        const scalarUnion = new GraphQLScalarType({
+          description,
+          name: subTypeName,
+          parseValue(value) {
+            return field.parse(value);
+          },
+          serialize(value) {
+            return field.parse(value);
+          },
+        });
 
         return {
-          inputType: wrapCreation(recordName, createLiteral),
-          type: wrapCreation(recordName, createLiteral),
+          inputType: wrapCreation(subTypeName, () => {
+            return scalarUnion;
+          }),
+          type: wrapCreation(subTypeName, (...options) => {
+            if (!areAllObjects) return scalarUnion;
+
+            return new GraphQLUnionType({
+              name: subTypeName,
+              ...options,
+              types: field.utils.fieldTypes.map((field, index) => {
+                if (!ObjectField.is(field)) throw field;
+                let object = field.utils.object;
+                if (!object.id) {
+                  object = object.clone().identify(`${subTypeName}_${index}`);
+                }
+                return object.graphqlType();
+              }),
+            });
+          }),
+        };
+      },
+
+      unknown() {
+        const GraphQLUnknownType = new GraphQLScalarType({ name: subTypeName });
+
+        return {
+          inputType: () => GraphQLUnknownType,
+          type: () => GraphQLUnknownType,
         };
       },
     };
 
     const result: ConvertFieldResult = {
       description,
-      typeName,
       fieldName,
+      inputType(...args) {
+        let result = create[typeName]().inputType(...args);
+
+        if (list) {
+          result = new GraphQLList(result);
+        }
+
+        if (!optional && field.defaultValue === undefined) {
+          result = new GraphQLNonNull(result);
+        }
+
+        return result;
+      },
       plainField,
       type(...args) {
         let result = create[typeName]().type(...args);
@@ -679,19 +691,7 @@ export class GraphQLParser {
         return result;
       },
 
-      inputType(...args) {
-        let result = create[typeName]().inputType(...args);
-
-        if (list) {
-          result = new GraphQLList(result);
-        }
-
-        if (!optional && field.defaultValue === undefined) {
-          result = new GraphQLNonNull(result);
-        }
-
-        return result;
-      },
+      typeName,
     };
 
     Object.assign(fieldParsed, result);

@@ -96,6 +96,7 @@ export async function generateClientUtils(schema: GraphQLSchemaWithUtils) {
 
       helpersText += `\noperation: ${JSON.stringify(
         {
+          query: resolverQueries.fullQuery,
           varNames: resolverQueries.argsParsed.vars.reduce((acc, next) => {
             return {
               ...acc,
@@ -106,7 +107,6 @@ export async function generateClientUtils(schema: GraphQLSchemaWithUtils) {
               },
             };
           }, {} as any),
-          query: resolverQueries.fullQuery,
         },
         null,
         2

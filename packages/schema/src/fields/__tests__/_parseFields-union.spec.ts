@@ -10,14 +10,14 @@ test('infer union types', () => {
   assert<IsExact<TUnion, { names: (string | number)[] }>>(true);
 
   type TUnionList = InferField<{
-    object: { name: { union: ['string', 'int'] } };
     list: true;
+    object: { name: { union: ['string', 'int'] } };
   }>;
   assert<IsExact<TUnionList, { name: string | number }[]>>(true);
 
   type TUnionListOptional = InferField<{
-    object: { name: { union: ['string', 'int'] } };
     list: true;
+    object: { name: { union: ['string', 'int'] } };
     optional: true;
   }>;
   assert<IsExact<TUnionListOptional, { name: string | number }[] | undefined>>(
@@ -25,8 +25,8 @@ test('infer union types', () => {
   );
 
   type TUnionListOptionalItem = InferField<{
-    object: { name: { union: ['string', 'int?'] } };
     list: true;
+    object: { name: { union: ['string', 'int?'] } };
     optional: true;
   }>;
   assert<
@@ -38,11 +38,9 @@ test('infer union types', () => {
   >(true);
 
   type SampleObject = ObjectType<{
-    street: 'string';
-    number: 'int?';
-    days: { enum: ['0', '1']; list: true; optional: true };
     add: { object: { name: 'string' } };
     addListOptional: {
+      list: true;
       object: {
         name: 'string';
         uni: {
@@ -52,17 +50,16 @@ test('infer union types', () => {
           ];
         };
       };
-      list: true;
       optional: true;
     };
+    days: { enum: ['0', '1']; list: true; optional: true };
+    number: 'int?';
+    street: 'string';
   }>;
 
   type TSampleObjectInfer = InferField<SampleObject>;
 
   type TSampleObject = {
-    street: string;
-    number?: number | undefined;
-    days?: ('0' | '1')[] | undefined;
     add: { name: string };
     addListOptional?:
       | {
@@ -70,29 +67,35 @@ test('infer union types', () => {
           uni: 'a' | 'b' | number;
         }[]
       | undefined;
+    days?: ('0' | '1')[] | undefined;
+    number?: number | undefined;
+    street: string;
   };
 
   assert<IsExact<TSampleObject, TSampleObjectInfer>>(true);
 
   type AddressObject = InferField<{
     object: {
-      name: 'string'; // any string
-      email: 'email?'; // email type - will validate against email regex
-      age: 'int?'; // optional integer
-      notes: '[int]?';
-
-      // declaring a union field - will infer as `string | undefined | number[]`
-      unionField: { union: ['string?', '[int]?'] };
-
+      // email type - will validate against email regex
+      age: 'int?';
+      // another way to define object fields
+      deliveryAddress: SampleObject;
+      // any string
+      email: 'email?';
       // represents an enum
       letter: { enum: ['a', 'b', 'c'] };
 
       // more detailed way to define enums
       letterOptionalList: {
         enum: ['x', 'y', 'z'];
-        optional: true;
         list: true;
+        optional: true;
       };
+
+      name: 'string';
+
+      // optional integer
+      notes: '[int]?';
 
       // using a previous object as field type
       optionalAddress: {
@@ -100,8 +103,8 @@ test('infer union types', () => {
         optional: true;
       };
 
-      // another way to define object fields
-      deliveryAddress: SampleObject;
+      // declaring a union field - will infer as `string | undefined | number[]`
+      unionField: { union: ['string?', '[int]?'] };
     };
   }>;
 
@@ -109,15 +112,15 @@ test('infer union types', () => {
     IsExact<
       AddressObject,
       {
-        name: string;
-        email?: string | undefined;
         age?: number | undefined;
-        notes?: number[] | undefined;
-        unionField?: string | number[] | undefined;
+        deliveryAddress: TSampleObject;
+        email?: string | undefined;
         letter: 'a' | 'b' | 'c';
         letterOptionalList?: ('x' | 'y' | 'z')[] | undefined;
+        name: string;
+        notes?: number[] | undefined;
         optionalAddress?: TSampleObject | undefined;
-        deliveryAddress: TSampleObject;
+        unionField?: string | number[] | undefined;
       }
     >
   >(true);

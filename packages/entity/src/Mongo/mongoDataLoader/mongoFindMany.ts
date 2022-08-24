@@ -15,8 +15,8 @@ export function mongoLoadById(
   return mongoFindMany(
     {
       ...rest,
-      query: { _id: id },
       onlyOne: true,
+      query: { _id: id },
     },
     cacheContext
   );

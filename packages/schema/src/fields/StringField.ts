@@ -3,8 +3,8 @@ import { expectedType } from '@darch/utils/lib/expectedType';
 import { FieldType, FieldTypeParser } from './FieldType';
 
 export type StringFieldDef = {
-  min?: number;
   max?: number;
+  min?: number;
   regex?: [string] | [string, string] | Readonly<[string, string] | [string]>;
 };
 
@@ -20,7 +20,7 @@ export class StringField extends FieldType<
 
     const { min, max, regex } = def;
 
-    expectedType({ min, max }, 'number', true);
+    expectedType({ max, min }, 'number', true);
     expectedType({ regex }, 'array', true);
 
     const regExp = regex && new RegExp(regex[0], regex[1]);

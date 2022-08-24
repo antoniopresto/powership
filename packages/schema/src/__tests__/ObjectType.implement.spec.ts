@@ -20,7 +20,7 @@ describe('ObjectType.implement(...parents)', () => {
 
     type In = Infer<typeof sut>;
 
-    assert<IsExact<In, { name: string; age?: number | undefined; id: string }>>(
+    assert<IsExact<In, { age?: number | undefined; id: string; name: string }>>(
       true
     );
 

@@ -5,9 +5,9 @@ export type ValidationCustomMessage =
   | ((value: any, originalError: Error) => string | Error);
 
 export type FieldParserOptionsObject = {
-  excludeInvalidListItems?: boolean;
   customErrorMessage?: ValidationCustomMessage;
   customMessage?: ValidationCustomMessage;
+  excludeInvalidListItems?: boolean;
 };
 
 export type FieldParserConfig =

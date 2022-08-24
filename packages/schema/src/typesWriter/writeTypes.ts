@@ -11,17 +11,17 @@ import { LiteralField } from '../fields/LitarealField';
 const { serialize } = LiteralField.utils;
 
 export type CustomTypesWriterEvent = {
-  name: string;
-  head?: string[];
   body?: string[];
   footer?: string[];
+  head?: string[];
+  name: string;
 };
 
 export const DarchWatchTypesPubSub: Emitter<{
   created: {
+    custom?: CustomTypesWriterEvent;
     graphType?: GraphTypeLike;
     resolver?: AnyResolver;
-    custom?: CustomTypesWriterEvent;
   };
 }> = mitt();
 
@@ -126,13 +126,13 @@ export async function writeTypes(options?: WriteTypesOptions) {
   definitions = `export interface RuntimeDefinitions {\n${definitions}\n}`;
 
   let content = template({
-    typesInterface,
     creators,
-    resolvers,
     definitions,
-    extraCustomHead: head,
     extraCustomBody: body,
     extraCustomFooter: footer,
+    extraCustomHead: head,
+    resolvers,
+    typesInterface,
   });
 
   content = await Darch.prettier.format(content, {
@@ -152,13 +152,13 @@ function template({
   extraCustomBody,
   extraCustomFooter,
 }: {
-  typesInterface: string;
-  definitions: string;
-  resolvers: string[];
   creators: string[];
-  extraCustomHead: string[];
+  definitions: string;
   extraCustomBody: string[];
   extraCustomFooter: string[];
+  extraCustomHead: string[];
+  resolvers: string[];
+  typesInterface: string;
 }) {
   return `
 /* tslint-disable */

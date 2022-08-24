@@ -29,19 +29,19 @@ export type FieldType = typeof FieldTypes[number];
 export type PKSKValueType = string | number | null;
 
 export type AllFilterOperations = {
+  $between: [string, string] | [number, number];
+  $contains: string | number | boolean | null;
   $eq: PKSKValueType | boolean;
-  $ne: PKSKValueType | boolean;
-  $lte: PKSKValueType;
-  $lt: PKSKValueType;
+  $exists: boolean;
   $gt: PKSKValueType;
   $gte: PKSKValueType;
-  $between: [string, string] | [number, number];
-  $exists: boolean;
-  $type: FieldType;
-  $startsWith: string;
-  $contains: string | number | boolean | null;
-  $matchString: string;
   $in: unknown[];
+  $lt: PKSKValueType;
+  $lte: PKSKValueType;
+  $matchString: string;
+  $ne: PKSKValueType | boolean;
+  $startsWith: string;
+  $type: FieldType;
 };
 
 export type OneFilterOperation = {
@@ -50,8 +50,8 @@ export type OneFilterOperation = {
 
 export type RootFilterOperators = {
   $and?: FilterRecord[];
-  $or?: FilterRecord[];
   $not?: FilterRecord;
+  $or?: FilterRecord[];
 };
 
 export type FilterConditions = {
@@ -72,13 +72,13 @@ export type FilterRecord<Doc extends DocumentBase = Record<string, any>> =
   | { [K in DocumentIndexField]?: string };
 
 export type AllIndexFilter = {
+  $between: [string, string] | [number, number];
   $eq: PKSKValueType;
-  $lte: PKSKValueType;
-  $lt: PKSKValueType;
   $gt: PKSKValueType;
   $gte: PKSKValueType;
+  $lt: PKSKValueType;
+  $lte: PKSKValueType;
   $startsWith: PKSKValueType;
-  $between: [string, string] | [number, number];
 };
 
 export type IndexFilter = {
@@ -118,22 +118,22 @@ export type FindManyConfig<
   PK extends string = string,
   SK extends string | undefined = string
 > = {
+  after?: IndexFilterRecord<PK, SK> | string;
+  condition?: FilterRecord<Doc>;
+  consistent?: boolean;
+  context: LoaderContext;
   filter: IndexFilterRecord<PK, SK> extends infer F
     ? F extends unknown
       ? { [K in keyof F]: F[K] } & {}
       : never
     : never;
+  first?: number;
   indexConfig: CollectionIndexConfig<
     Doc,
     PK | (SK extends undefined ? PK : SK)
   >;
-  after?: IndexFilterRecord<PK, SK> | string;
-  consistent?: boolean;
-  first?: number;
-  sort?: QuerySort;
   projection?: string[];
-  condition?: FilterRecord<Doc>;
-  context: LoaderContext;
+  sort?: QuerySort;
 };
 
 export type FindOneConfig<
@@ -141,6 +141,9 @@ export type FindOneConfig<
   PK extends string = string,
   SK extends string | undefined = string
 > = {
+  condition?: FilterRecord<Doc>;
+  consistent?: boolean;
+  context: LoaderContext;
   filter: IndexFilterRecord<PK, SK> extends infer F
     ? F extends unknown
       ? { [K in keyof F]: F[K] } & {}
@@ -150,10 +153,7 @@ export type FindOneConfig<
     Doc,
     PK | (SK extends undefined ? PK : SK)
   >;
-  consistent?: boolean;
   projection?: string[];
-  condition?: FilterRecord<Doc>;
-  context: LoaderContext;
 };
 
 export type FindByIdConfig<
@@ -161,15 +161,15 @@ export type FindByIdConfig<
   PK extends string = string,
   SK extends string | undefined = string
 > = {
+  condition?: FilterRecord<Doc>;
+  consistent?: boolean;
+  context: LoaderContext;
   id: string;
   indexConfig: CollectionIndexConfig<
     Doc,
     PK | (SK extends undefined ? PK : SK)
   >;
-  consistent?: boolean;
   projection?: string[];
-  condition?: FilterRecord<Doc>;
-  context: LoaderContext;
 };
 
 export type CreateOneConfig<
@@ -177,14 +177,15 @@ export type CreateOneConfig<
   PK extends string = string,
   SK extends string | undefined = string
 > = {
-  item: Doc;
+  condition?: FilterRecord<Doc>;
+  // defaults to false
+  context: LoaderContext;
   indexConfig: CollectionIndexConfig<
     Doc,
     PK | (SK extends undefined ? PK : SK)
   >;
-  condition?: FilterRecord<Doc>;
-  replace?: boolean; // defaults to false
-  context: LoaderContext;
+  item: Doc; 
+  replace?: boolean;
 };
 
 export type UpdateOneConfig<
@@ -192,19 +193,19 @@ export type UpdateOneConfig<
   PK extends string = string,
   SK extends string | undefined = string
 > = {
+  condition?: FilterRecord<Doc>;
+  context: LoaderContext;
   filter: IndexFilterRecord<PK, SK> extends infer F
     ? F extends unknown
       ? { [K in keyof F]: F[K] } & {}
       : never
     : never;
-  update: UpdateExpression;
   indexConfig: CollectionIndexConfig<
     Doc,
     PK | (SK extends undefined ? PK : SK)
   >;
+  update: UpdateExpression;
   upsert?: boolean;
-  condition?: FilterRecord<Doc>;
-  context: LoaderContext;
 };
 
 export type DeleteOneConfig<
@@ -212,6 +213,8 @@ export type DeleteOneConfig<
   PK extends string = string,
   SK extends string | undefined = string
 > = {
+  condition?: FilterRecord<Item>;
+  context: LoaderContext;
   filter: IndexFilterRecord<PK, SK> extends infer F
     ? F extends unknown
       ? { [K in keyof F]: F[K] } & {}
@@ -221,8 +224,6 @@ export type DeleteOneConfig<
     Item,
     PK | (SK extends undefined ? PK : SK)
   >;
-  condition?: FilterRecord<Item>;
-  context: LoaderContext;
 };
 
 export type FindOneResult<Doc extends DocumentBase = DocumentBase> = {
@@ -246,15 +247,23 @@ type ListUpdateExpression<Item> = {
 export type UpdateExpression<
   Item extends Record<string, any> = Record<string, unknown>
 > = {
-  $set?: { [K in keyof Item]?: Item[K] }; // attr | set | list
-  $setIfNull?: { [K in keyof Item]?: Item[K] }; // attr | set | list
-  $setOnInsert?: { [K in keyof Item]?: Item[K] }; // attr | set | list
-  $inc?: { [K in keyof Item]?: Item[K] extends number ? number : never }; // number
-  $append?: ListUpdateExpression<Item>; // list
-  $prepend?: ListUpdateExpression<Item>; // list
-  $remove?: MaybeArray<UnsetUpdateExpression<Item>>; // attr | set | list
-  $pull?: { [K in keyof Item]?: Item[K] extends (infer T)[] ? T[] : never }; // from array or set
-  $addToSet?: { [K in keyof Item]?: Item[K] extends (infer T)[] ? T[] : never }; //  array or set
+  // from array or set
+  $addToSet?: { [K in keyof Item]?: Item[K] extends (infer T)[] ? T[] : never }; 
+  // number
+  $append?: ListUpdateExpression<Item>; 
+  // attr | set | list
+  $inc?: { [K in keyof Item]?: Item[K] extends number ? number : never }; 
+  // list
+  $prepend?: ListUpdateExpression<Item>; 
+  // attr | set | list
+  $pull?: { [K in keyof Item]?: Item[K] extends (infer T)[] ? T[] : never }; 
+  // list
+  $remove?: MaybeArray<UnsetUpdateExpression<Item>>; 
+  $set?: { [K in keyof Item]?: Item[K] }; 
+  // attr | set | list
+  $setIfNull?: { [K in keyof Item]?: Item[K] }; 
+  // attr | set | list
+  $setOnInsert?: { [K in keyof Item]?: Item[K] }; //  array or set
 };
 
 export type UpdateExpressionKey = Extract<keyof UpdateExpression<any>, string>;
@@ -262,13 +271,6 @@ export type UpdateExpressionKey = Extract<keyof UpdateExpression<any>, string>;
 export const FilterConditionsParsers: {
   [K in keyof FilterConditions]-?: (input: any) => FilterConditions[K];
 } = {
-  $eq: Darch.union(['null', 'boolean', 'string', 'float'] as const).parse,
-  $ne: Darch.union(['null', 'boolean', 'string', 'float'] as const).parse,
-  $lte: Darch.union(['string', 'float'] as const).parse,
-  $lt: Darch.union(['string', 'float'] as const).parse,
-  $gt: Darch.union(['string', 'float'] as const).parse,
-  $gte: Darch.union(['string', 'float'] as const).parse,
-
   $between(input: any): [string, string] | [number, number] {
     const is =
       Array.isArray(input) &&
@@ -283,19 +285,11 @@ export const FilterConditionsParsers: {
 
     return input as any;
   },
-
-  $exists: Darch.boolean().parse,
-
-  $type(input: any): FieldType {
-    return FieldTypes.includes(input)
-      ? input
-      : devAssert('invalid input for $type', { input });
-  },
-
-  $startsWith: Darch.string().parse,
+  $eq: Darch.union(['null', 'boolean', 'string', 'float'] as const).parse,
   $contains: Darch.union(['string', 'float', 'boolean', 'null'] as const).parse,
-  $matchString: Darch.string().parse,
-  $in: Darch.unknown().toList().parse,
+  $exists: Darch.boolean().parse,
+  $gt: Darch.union(['string', 'float'] as const).parse,
+  $gte: Darch.union(['string', 'float'] as const).parse,
 
   $and(input: unknown) {
     if (!Array.isArray(input)) {
@@ -306,6 +300,18 @@ export const FilterConditionsParsers: {
       assertFieldFilter(sub, `at position ${index}`);
       return sub;
     });
+  },
+
+  $in: Darch.unknown().toList().parse,
+
+  $lt: Darch.union(['string', 'float'] as const).parse,
+
+  $lte: Darch.union(['string', 'float'] as const).parse,
+  $matchString: Darch.string().parse,
+  $ne: Darch.union(['null', 'boolean', 'string', 'float'] as const).parse,
+  $not(input: unknown) {
+    assertFieldFilter(input);
+    return input;
   },
 
   $or(input) {
@@ -319,9 +325,12 @@ export const FilterConditionsParsers: {
     });
   },
 
-  $not(input: unknown) {
-    assertFieldFilter(input);
-    return input;
+  $startsWith: Darch.string().parse,
+
+  $type(input: any): FieldType {
+    return FieldTypes.includes(input)
+      ? input
+      : devAssert('invalid input for $type', { input });
   },
 };
 
@@ -348,16 +357,16 @@ export type TopLevelFilterKey = typeof TopLevelFilterKeys[number];
 
 export type CreateOneResult<T> = {
   created: boolean;
-  updated: boolean;
-  item: T | null;
   error?: string | null | undefined;
+  item: T | null;
+  updated: boolean;
 };
 
 export type UpdateOneResult<T extends DocumentBase = DocumentBase> = {
-  updated: boolean;
   created: boolean;
-  item: T | null;
   error?: string | null | undefined;
+  item: T | null;
+  updated: boolean;
 };
 
 export type FindManyResult<Doc extends DocumentBase = DocumentBase> = {
@@ -370,10 +379,10 @@ export type PaginationResult<Doc extends DocumentBase = DocumentBase> = {
     node: Doc;
   }[];
   pageInfo: {
+    endCursor: string | undefined;
     hasNextPage: boolean;
     hasPreviousPage: boolean;
     startCursor: string | undefined;
-    endCursor: string | undefined;
   };
 };
 
@@ -398,34 +407,14 @@ export interface DocumentMethods<
     } & {}
   ): Promise<{ [K in keyof CreateOneResult<Doc>]: CreateOneResult<Doc>[K] }>;
 
-  findMany(
+  deleteOne(
     options: {
       [K in keyof DocumentOptions<
-        FindManyConfig<Doc, PK, SK>
-      >]: DocumentOptions<FindManyConfig<Doc, PK, SK>>[K];
-    } & {}
-  ): Promise<{ [K in keyof FindManyResult<Doc>]: FindManyResult<Doc>[K] } & {}>;
-
-  paginate(
-    options: {
-      [K in keyof DocumentOptions<
-        FindManyConfig<Doc, PK, SK>
-      >]: DocumentOptions<FindManyConfig<Doc, PK, SK>>[K];
+        DeleteOneConfig<Doc, PK, SK>
+      >]: DocumentOptions<DeleteOneConfig<Doc, PK, SK>>[K];
     } & {}
   ): Promise<
-    { [K in keyof PaginationResult<Doc>]: PaginationResult<Doc>[K] } & {}
-  >;
-
-  findOne(
-    options: {
-      [K in keyof DocumentOptions<FindOneConfig<Doc, PK, SK>>]: DocumentOptions<
-        FindOneConfig<Doc, PK, SK>
-      >[K];
-    } & {}
-  ): Promise<
-    {
-      [K in keyof FindOneResult<Doc>]: FindOneResult<Doc>[K];
-    } & {}
+    { [K in keyof DeleteOneResult<Doc>]: DeleteOneResult<Doc>[K] } & {}
   >;
 
   findById(
@@ -440,6 +429,36 @@ export interface DocumentMethods<
     } & {}
   >;
 
+  findMany(
+    options: {
+      [K in keyof DocumentOptions<
+        FindManyConfig<Doc, PK, SK>
+      >]: DocumentOptions<FindManyConfig<Doc, PK, SK>>[K];
+    } & {}
+  ): Promise<{ [K in keyof FindManyResult<Doc>]: FindManyResult<Doc>[K] } & {}>;
+
+  findOne(
+    options: {
+      [K in keyof DocumentOptions<FindOneConfig<Doc, PK, SK>>]: DocumentOptions<
+        FindOneConfig<Doc, PK, SK>
+      >[K];
+    } & {}
+  ): Promise<
+    {
+      [K in keyof FindOneResult<Doc>]: FindOneResult<Doc>[K];
+    } & {}
+  >;
+
+  paginate(
+    options: {
+      [K in keyof DocumentOptions<
+        FindManyConfig<Doc, PK, SK>
+      >]: DocumentOptions<FindManyConfig<Doc, PK, SK>>[K];
+    } & {}
+  ): Promise<
+    { [K in keyof PaginationResult<Doc>]: PaginationResult<Doc>[K] } & {}
+  >;
+
   updateOne(
     options: {
       [K in keyof DocumentOptions<
@@ -448,16 +467,6 @@ export interface DocumentMethods<
     } & {}
   ): Promise<
     { [K in keyof UpdateOneResult<Doc>]: UpdateOneResult<Doc>[K] } & {}
-  >;
-
-  deleteOne(
-    options: {
-      [K in keyof DocumentOptions<
-        DeleteOneConfig<Doc, PK, SK>
-      >]: DocumentOptions<DeleteOneConfig<Doc, PK, SK>>[K];
-    } & {}
-  ): Promise<
-    { [K in keyof DeleteOneResult<Doc>]: DeleteOneResult<Doc>[K] } & {}
   >;
 }
 

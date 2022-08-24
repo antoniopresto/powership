@@ -5,9 +5,9 @@ import { createObjectType } from '../ObjectType';
 import { StringField } from '../fields/StringField';
 
 const object1 = createObjectType({
-  name: 'string',
   age: 'int?',
   favorites: '[string]',
+  name: 'string',
   sex: { enum: ['m', 'f', 'o'] },
 } as const);
 
@@ -48,23 +48,23 @@ const stringDefTypes = {
 
 const typeDefs = {
   enumStringArray: ['a', 'b', 'c'],
-  objectTypeName: {
-    type: 'object',
-    def: object2['definition'],
-  },
+  fieldDefAsType: StringField.create({ max: 2, min: 1 }).toList().toOptional(),
 
   objectObjectAsType: {
-    type: object2,
-    optional: true,
     list: true,
+    optional: true,
+    type: object2,
   } as any,
 
+  objectTypeName: {
+    def: object2['definition'],
+    type: 'object',
+  },
   stringFieldDefinition: {
-    type: 'cursor',
     list: true,
     optional: true,
+    type: 'cursor',
   },
-  fieldDefAsType: StringField.create({ min: 1, max: 2 }).toList().toOptional(),
   ...stringDefTypes,
 } as const;
 
@@ -78,21 +78,21 @@ export const objectMocks = {
 export const productsStatusEnum = tuple('published', 'draft');
 
 export const DimensionsType = createObjectType('Dimensions', {
-  weight: 'string?',
-  length: 'string?',
   height: 'string?',
+  length: 'string?',
+  weight: 'string?',
   width: 'string?',
 });
 
 export const ProductImageMapType = createObjectType('ProductImageMap', {
+  allowZoom: 'boolean?',
   key: 'string?',
   kind: 'string?',
-  allowZoom: 'boolean?',
 });
 
 export const BreadCrumb = createObjectType('BreadCrumb', {
-  id: 'ID',
   active: 'boolean?',
+  id: 'ID',
   name: 'string',
   parentId: 'ID?',
 });
@@ -102,15 +102,13 @@ export const StockType = createObjectType('Stock', {
   count: 'float?',
   maxCartQty: 'float?',
   track: {
-    type: 'boolean',
     description: 'Track count',
+    type: 'boolean',
   },
 });
 
 export const ProductType = createType('Product', {
   object: {
-    sku: 'string',
-    title: 'string',
     // createdBy: 'string',
     // stock: StockType,
     // name: 'string',
@@ -120,6 +118,10 @@ export const ProductType = createType('Product', {
     // alcoholic: 'boolean',
     // thumbUrl: 'string?',
     breadcrumb: [BreadCrumb],
+
+    sku: 'string',
+
+    title: 'string',
     // mapOfImages: [ProductImageMapType],
     // attributes: 'record',
     // currentPrice: 'float',
@@ -150,23 +152,23 @@ export const ProductType = createType('Product', {
 } as const);
 
 export const ProductResolver = ProductType.createResolver({
-  name: 'findProductById',
   args: {
     id: 'ID',
   },
   description: 'Get a product by id',
+  name: 'findProductById',
   async resolve(_, { id }) {
     return ProductType.parse({ id });
   },
 });
 
 ProductType.addRelation({
-  name: 'related',
-  type: [ProductType] as const,
   args: {
     limit: 'int',
   },
+  name: 'related',
   async resolve() {
     return { age: 1 } as any;
   },
+  type: [ProductType] as const,
 });

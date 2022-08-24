@@ -12,11 +12,11 @@ function _parseStringDefinition<T extends AnyStringFieldDefinition>(
   const isList = isListTemplate(typeName);
 
   const obj = {
-    type: t,
-    optional: !!isOptional,
-    list: !!isList,
     def: undefined,
     defaultValue: undefined,
+    list: !!isList,
+    optional: !!isOptional,
+    type: t,
   };
 
   return obj;
@@ -74,41 +74,41 @@ export type ParseStringDefinition<S> =
   //
   S extends FieldTypeName
     ? {
-        type: S;
-        list: false;
-        optional: false;
         def: undefined;
         description?: string;
+        list: false;
+        optional: false;
+        type: S;
       }
     : //
     //
     S extends `${FieldTypeName}?`
     ? //
       {
-        type: ExtractStringFieldDefType<S>;
-        list: false;
-        optional: true;
         def: undefined;
         description?: string;
+        list: false;
+        optional: true;
+        type: ExtractStringFieldDefType<S>;
       }
     : //
     S extends `[${FieldTypeName}]`
     ? //
       {
-        type: ExtractStringFieldDefType<S>;
-        list: true;
-        optional: false;
         def: undefined;
         description?: string;
+        list: true;
+        optional: false;
+        type: ExtractStringFieldDefType<S>;
       }
     : //
     S extends `[${FieldTypeName}]?`
     ? //
       {
-        type: ExtractStringFieldDefType<S>;
-        list: true;
-        optional: true;
         def: undefined;
         description?: string;
+        list: true;
+        optional: true;
+        type: ExtractStringFieldDefType<S>;
       }
     : never;

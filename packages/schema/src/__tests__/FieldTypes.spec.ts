@@ -88,12 +88,12 @@ describe('FieldTypes', () => {
         IsExact<
           T,
           {
+            defObject?: string[] | undefined;
             name: string;
-            nameOpt?: string | undefined;
+            nameFromType?: string[] | undefined;
             nameList: string[];
             nameListOptional?: string[] | undefined;
-            nameFromType?: string[] | undefined;
-            defObject?: string[] | undefined;
+            nameOpt?: string | undefined;
           }
         >
       >(true);
@@ -182,12 +182,12 @@ describe('FieldTypes', () => {
         IsExact<
           T,
           {
+            defObject?: string[] | undefined;
             name: string;
-            nameOpt?: string | undefined;
+            nameFromType?: string[] | undefined;
             nameList: string[];
             nameListOptional?: string[] | undefined;
-            nameFromType?: string[] | undefined;
-            defObject?: string[] | undefined;
+            nameOpt?: string | undefined;
           }
         >
       >(true);
@@ -249,12 +249,12 @@ describe('FieldTypes', () => {
         IsExact<
           T,
           {
+            defObject?: number[] | undefined;
             name: number;
-            nameOpt?: number | undefined;
+            nameFromType?: number[] | undefined;
             nameList: number[];
             nameListOptional?: number[] | undefined;
-            nameFromType?: number[] | undefined;
-            defObject?: number[] | undefined;
+            nameOpt?: number | undefined;
           }
         >
       >(true);
@@ -313,12 +313,12 @@ describe('FieldTypes', () => {
         IsExact<
           T,
           {
+            defObject?: number[] | undefined;
             name: number;
-            nameOpt?: number | undefined;
+            nameFromType?: number[] | undefined;
             nameList: number[];
             nameListOptional?: number[] | undefined;
-            nameFromType?: number[] | undefined;
-            defObject?: number[] | undefined;
+            nameOpt?: number | undefined;
           }
         >
       >(true);
@@ -382,9 +382,9 @@ describe('FieldTypes', () => {
         IsExact<
           T,
           {
+            defObject?: ('a' | 'x')[] | undefined;
             name: 'a' | 'x';
             nameFromType?: ('a' | 'x')[] | undefined;
-            defObject?: ('a' | 'x')[] | undefined;
           }
         >
       >(true);
@@ -435,12 +435,12 @@ describe('FieldTypes', () => {
         IsExact<
           T,
           {
+            defObject?: string[] | undefined;
             name: string;
-            nameOpt?: string | undefined;
+            nameFromType?: string[] | undefined;
             nameList: string[];
             nameListOptional?: string[] | undefined;
-            nameFromType?: string[] | undefined;
-            defObject?: string[] | undefined;
+            nameOpt?: string | undefined;
           }
         >
       >(true);
@@ -542,11 +542,6 @@ describe('FieldTypes', () => {
       _assertFields<
         T,
         {
-          name: AnyRecord;
-          nameOpt?: AnyRecord | undefined;
-          nameList: AnyRecord[];
-          nameListOptional?: AnyRecord[] | undefined;
-          nameFromType?: Record<number, number[] | undefined>[] | undefined;
           defObject?:
             | {
                 [K: number]: {
@@ -554,6 +549,11 @@ describe('FieldTypes', () => {
                 };
               }[]
             | undefined;
+          name: AnyRecord;
+          nameFromType?: Record<number, number[] | undefined>[] | undefined;
+          nameList: AnyRecord[];
+          nameListOptional?: AnyRecord[] | undefined;
+          nameOpt?: AnyRecord | undefined;
         }
       >(true);
     });
@@ -647,12 +647,12 @@ describe('FieldTypes', () => {
         IsExact<
           T,
           {
+            defObject?: Date[] | undefined;
             name: Date;
-            nameOpt?: Date | undefined;
+            nameFromType?: Date[] | undefined;
             nameList: Date[];
             nameListOptional?: Date[] | undefined;
-            nameFromType?: Date[] | undefined;
-            defObject?: Date[] | undefined;
+            nameOpt?: Date | undefined;
           }
         >
       >(true);
@@ -729,18 +729,18 @@ describe('FieldTypes', () => {
         '',
         '  """Secondary or Sort Key"""',
         '  SK: String',
-        '',
-        '  """The Cursor format version"""',
-        '  version: String!',
+        '  after: String',
+        '  fields: [String]',
+        '  limit: Int',
         '',
         '  """The prefix to search as "startsWith" in SK"""',
         '  prefix: String',
         '',
         '  """Composite key separator"""',
         '  sep: String',
-        '  limit: Int',
-        '  after: String',
-        '  fields: [String]',
+        '',
+        '  """The Cursor format version"""',
+        '  version: String!',
         '}',
       ]);
 
@@ -749,12 +749,12 @@ describe('FieldTypes', () => {
       _assertFields<
         T,
         {
+          defObject?: CursorType[] | undefined;
           name: CursorType;
-          nameOpt?: CursorType | undefined;
+          nameFromType?: CursorType[] | undefined;
           nameList: CursorType[];
           nameListOptional?: CursorType[] | undefined;
-          nameFromType?: CursorType[] | undefined;
-          defObject?: CursorType[] | undefined;
+          nameOpt?: CursorType | undefined;
         }
       >(true);
     });
@@ -807,12 +807,12 @@ describe('FieldTypes', () => {
       _assertFields<
         T,
         {
+          defObject?: boolean[] | undefined;
           name: boolean;
-          nameOpt?: boolean | undefined;
+          nameFromType?: boolean[] | undefined;
           nameList: boolean[];
           nameListOptional?: boolean[] | undefined;
-          nameFromType?: boolean[] | undefined;
-          defObject?: boolean[] | undefined;
+          nameOpt?: boolean | undefined;
         }
       >(true);
     });
@@ -885,12 +885,13 @@ describe('FieldTypes', () => {
         IsExact<
           T,
           {
+            defObject?: unknown[] | undefined;
             name: unknown;
-            nameOpt: unknown; // FIXME should infer as optional
+            nameFromType?: unknown[] | undefined;
+            // FIXME should infer as optional
             nameList: unknown[];
             nameListOptional?: unknown[] | undefined;
-            nameFromType?: unknown[] | undefined;
-            defObject?: unknown[] | undefined;
+            nameOpt: unknown;
           }
         >
       >(true);

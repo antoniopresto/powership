@@ -16,9 +16,9 @@ import { FieldTypeName } from './fields/_fieldDefinitions';
 import { FinalFieldDefinition } from './fields/_parseFields';
 
 export type ObjectMockOptions = {
-  randomText?: () => string;
   maxArrayLength?: number;
   randomNumber?: () => number;
+  randomText?: () => string;
 };
 
 export function objectMock<T extends { [K: string]: FinalFieldDefinition }>(
@@ -48,15 +48,9 @@ export function fieldToMock(
   const { list, def, type } = parsedField;
 
   const values: { [L in FieldTypeName]: () => unknown } = {
+    ID: () => ulid(),
     any: () => '_ANY_',
-    int: () => (randomNumber|| randomInt)(),
-    object: () => (def ? objectMock(def, options) : undefined),
-    string: () => randomText(),
     boolean: () => randomItem(true, false),
-    unknown: () => Date,
-    record: () => ({ [randomText()]: 123 }),
-    float: () => (randomNumber||randomFloat)(),
-    undefined: () => undefined,
     cursor: () => objectMock(CursorField.object().definition, options),
     date: () => new Date(randomInt(Date.now())),
     email: () => {
@@ -65,12 +59,18 @@ export function fieldToMock(
       )}.${randomItem('.com', '.net', '.com.br', '.co', '.sh')}`;
     },
     enum: () => (Array.isArray(def) ? def[0] : undefined),
-    ulid: () => ulid(),
-    union: () => (Array.isArray(def) ? fieldToMock(def[0]) : undefined),
-    ID: () => ulid(),
+    float: () => (randomNumber || randomFloat)(),
+    int: () => (randomNumber || randomInt)(),
     literal: () => LiteralField.utils.deserialize(def),
-    null: () => null,
     meta: () => createEmptyMetaField(),
+    null: () => null,
+    object: () => (def ? objectMock(def, options) : undefined),
+    record: () => ({ [randomText()]: 123 }),
+    string: () => randomText(),
+    ulid: () => ulid(),
+    undefined: () => undefined,
+    union: () => (Array.isArray(def) ? fieldToMock(def[0]) : undefined),
+    unknown: () => Date,
   };
 
   if (list) {

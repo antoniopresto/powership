@@ -4,9 +4,9 @@ import { expectedType } from '@darch/utils/lib/expectedType';
 import { FieldType, FieldTypeParser } from './FieldType';
 
 export type DateFieldDef = {
-  min?: Date;
-  max?: Date;
   autoCreate?: boolean;
+  max?: Date;
+  min?: Date;
 };
 
 export class DateField extends FieldType<
@@ -23,7 +23,7 @@ export class DateField extends FieldType<
     let minTime = 0;
     let maxTime = 0;
 
-    expectedType({ min, max }, 'date', true);
+    expectedType({ max, min }, 'date', true);
 
     if (min !== undefined) {
       minTime = min.getTime();
@@ -34,12 +34,6 @@ export class DateField extends FieldType<
     }
 
     this.parse = this.applyParser({
-      preParse(input: any) {
-        if (autoCreate && input === undefined) {
-          return new Date();
-        }
-        return input;
-      },
       parse: (input: unknown) => {
         expectedType({ value: input }, ['date', 'string', 'number']);
         const date = DateField.serialize(input);
@@ -59,6 +53,12 @@ export class DateField extends FieldType<
         }
 
         return date;
+      },
+      preParse(input: any) {
+        if (autoCreate && input === undefined) {
+          return new Date();
+        }
+        return input;
       },
     });
   }

@@ -47,15 +47,15 @@ export function objectToJSON(
   const required: string[] = [];
 
   const topJSON: JSONSchema4 & { properties: JSONSchema4 } = {
-    title: parseTypeName({
-      parentName: parentName,
-      fieldName: '',
-      field: { type: 'object', def: object },
-    }),
-    type: 'object',
+    additionalProperties: false,
     properties: topProperties,
     required,
-    additionalProperties: false,
+    title: parseTypeName({
+      field: { def: object, type: 'object' },
+      fieldName: '',
+      parentName: parentName,
+    }),
+    type: 'object',
   };
 
   if (description) {
@@ -69,8 +69,8 @@ export function objectToJSON(
     const parsedField = parseField({
       field,
       fieldName,
-      parentName,
       options,
+      parentName,
     });
 
     if (parsedField.required) {
@@ -89,10 +89,10 @@ type ParsedField = {
 };
 
 function parseField(params: {
-  fieldName: string;
   field: FinalFieldDefinition;
-  parentName: string | null;
+  fieldName: string;
   options: ObjectToJSONOptions;
+  parentName: string | null;
 }): ParsedField {
   const { field, fieldName, parentName, options } = params;
 
@@ -122,43 +122,36 @@ function parseField(params: {
 
   if (list) {
     const parsedListItem = parseField({
-      fieldName,
       field: { ...field, list: false },
-      parentName,
+      fieldName,
       options,
+      parentName,
     });
 
     return {
-      required: !optional,
       jsonItem: {
-        type: 'array',
         items: parsedListItem.jsonItem,
+        type: 'array',
       },
+      required: !optional,
     };
   }
 
   const typeParsers: { [K in FieldTypeName]: () => any } = {
-    meta() {},
+    ID() {
+      jsonItem.type = 'string';
+      jsonItem.tsType = 'ID';
+    },
 
-    null() {
-      jsonItem.type = 'null';
+    any() {
+      jsonItem.type = 'any';
     },
     boolean() {
       jsonItem.type = 'boolean';
     },
-    undefined() {
-      jsonItem.type = 'null';
-    },
-    any() {
-      jsonItem.type = 'any';
-    },
     cursor() {
       jsonItem.type = 'object';
       jsonItem.tsType = 'Cursor';
-    },
-    ID() {
-      jsonItem.type = 'string';
-      jsonItem.tsType = 'ID';
     },
     date() {
       jsonItem.type = 'string';
@@ -186,37 +179,6 @@ function parseField(params: {
     int() {
       jsonItem.type = 'integer';
     },
-    string() {
-      jsonItem.type = 'string';
-    },
-    ulid() {
-      jsonItem.type = 'string';
-      jsonItem.tsType = 'Ulid';
-    },
-    unknown() {
-      jsonItem.type = 'any';
-      jsonItem.tsType = 'unknown';
-    },
-    object() {
-      const objectName = parseTypeName({
-        parentName: parentName || '',
-        fieldName: '',
-        field,
-      });
-
-      Object.assign(jsonItem, objectToJSON(objectName, field.def, options), {
-        title: '',
-      });
-    },
-    union() {
-      const def = field.def as FinalFieldDefinition[];
-      expectedType({ def }, 'array');
-
-      jsonItem.anyOf = def.map((type) => {
-        return parseField({ field: type, fieldName, parentName, options })
-          .jsonItem;
-      });
-    },
     literal() {
       if (!LiteralField.isFinalTypeDef(field)) throw 'err';
       const parsed =
@@ -227,7 +189,6 @@ function parseField(params: {
       jsonItem.const = parsed;
 
       const tsType = DarchJSON.stringify(parsed, {
-        quoteValues: (str) => `${str}`,
         handler: ({ serializer, value }) => {
           const typeName = getTypeName(value);
           if (['Object', 'Array'].includes(typeName)) return;
@@ -235,9 +196,25 @@ function parseField(params: {
           if (typeName === 'Number') return value;
           return serializer?.formatter?.tsName() || typeName;
         },
+        quoteValues: (str) => `${str}`,
       });
 
       jsonItem.tsType = tsType;
+    },
+    meta() {},
+    null() {
+      jsonItem.type = 'null';
+    },
+    object() {
+      const objectName = parseTypeName({
+        field,
+        fieldName: '',
+        parentName: parentName || '',
+      });
+
+      Object.assign(jsonItem, objectToJSON(objectName, field.def, options), {
+        title: '',
+      });
     },
     record() {
       if (field.type !== 'record' || !field.def) {
@@ -247,6 +224,29 @@ function parseField(params: {
       }
 
       jsonItem.type = 'object';
+    },
+    string() {
+      jsonItem.type = 'string';
+    },
+    ulid() {
+      jsonItem.type = 'string';
+      jsonItem.tsType = 'Ulid';
+    },
+    undefined() {
+      jsonItem.type = 'null';
+    },
+    union() {
+      const def = field.def as FinalFieldDefinition[];
+      expectedType({ def }, 'array');
+
+      jsonItem.anyOf = def.map((type) => {
+        return parseField({ field: type, fieldName, options, parentName })
+          .jsonItem;
+      });
+    },
+    unknown() {
+      jsonItem.type = 'any';
+      jsonItem.tsType = 'unknown';
     },
   };
 

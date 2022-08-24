@@ -18,15 +18,15 @@ export class IDField extends FieldType<string, 'ID', IDFieldDef> {
     const createId = Darch.ulid({ autoCreate: true }).parse;
 
     this.parse = this.applyParser({
+      parse(input: string) {
+        expectedType({ value: input }, 'string');
+        return input;
+      },
+
       preParse(input: any) {
         if (autoCreate && input === undefined) {
           return createId(undefined);
         }
-        return input;
-      },
-
-      parse(input: string) {
-        expectedType({ value: input }, 'string');
         return input;
       },
     });

@@ -87,7 +87,7 @@ export function parseMongoAttributeFilters(attFilter: FilterRecord) {
     }
 
     if (getTypeName(filter) !== 'Object') {
-      devAssert(`Invalid filter`, { filter, attribute });
+      devAssert(`Invalid filter`, { attribute, filter });
     }
 
     const keys: (TopLevelFilterKey | AttributeFilterKey | string)[] =
@@ -192,14 +192,14 @@ export function parseMongoAttributeFilters(attFilter: FilterRecord) {
 }
 
 const typesMap: { [K in FieldType]: string } = {
-  String: 'string',
-  Number: 'number',
   Binary: 'binData',
   Boolean: 'bool',
-  Null: 'null',
   List: 'array',
   Map: 'object',
+  Null: 'null',
+  Number: 'number',
   NumberSet: 'array',
+  String: 'string',
   StringSet: 'array',
 } as const;
 

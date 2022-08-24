@@ -24,21 +24,21 @@ export function parseMongoDLParams(options: MongoFindManyParams) {
 
   // the config used to make or retrieve the query
   const dataLoaderKey: MongoDataLoaderKey = {
-    db: options.db,
-    query: options.query,
-    queryHash: queryHash,
-    dataloaderHash: dataloaderHash,
     collection: options.collection,
+    dataloaderHash: dataloaderHash,
+    db: options.db,
     onlyOne: !!options.onlyOne,
     projection: options.projection,
+    query: options.query,
+    queryHash: queryHash,
     sort: options.sort,
   };
 
   return {
+    _isParsed: true,
+    dataLoaderKey,
     dataloaderHash,
     queryHash,
-    dataLoaderKey,
-    _isParsed: true,
   };
 }
 

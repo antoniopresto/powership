@@ -19,15 +19,15 @@ export class UlidField extends FieldType<string, 'ulid', UlidDef | undefined> {
     expectedType({ autoCreate }, 'boolean', true);
 
     this.parse = this.applyParser({
+      parse(input: string) {
+        expectedType({ value: input }, 'string');
+        if (!ULID_REGEX.test(input)) throw new Error('Invalid ulid.');
+        return input;
+      },
       preParse(input) {
         if (autoCreate && input === undefined) {
           return ulid();
         }
-        return input;
-      },
-      parse(input: string) {
-        expectedType({ value: input }, 'string');
-        if (!ULID_REGEX.test(input)) throw new Error('Invalid ulid.');
         return input;
       },
     });

@@ -7,32 +7,32 @@ import { ObjectFieldInput } from './_parseFields';
 export type CursorType = {
   PK: string;
   SK?: string | undefined;
-  version?: string | undefined;
-  prefix?: string | undefined;
-  sep?: string | undefined;
-  limit?: number | undefined;
   after?: string | undefined;
   fields?: string[] | undefined;
+  limit?: number | undefined;
+  prefix?: string | undefined;
+  sep?: string | undefined;
+  version?: string | undefined;
 };
 
 export interface CommonFieldDefinition<T> {
-  type: T;
+  __infer?: any;
   def?: any;
+  defaultValue?: any;
+  description?: string;
   list?: boolean;
   optional?: boolean;
-  description?: string;
-  defaultValue?: any;
-  __infer?: any;
+  type: T;
 }
 
 export type FieldDefinitions = {
-  any: undefined;
-
   ID:
     | {
         autoCreate?: boolean;
       }
     | undefined;
+
+  any: undefined;
 
   boolean: undefined;
 
@@ -40,9 +40,9 @@ export type FieldDefinitions = {
 
   date:
     | {
-        min?: Date;
-        max?: Date;
         autoCreate?: boolean;
+        max?: Date;
+        min?: Date;
       }
     | undefined;
 
@@ -55,28 +55,39 @@ export type FieldDefinitions = {
       }
     | undefined;
 
+  enum: Array<string> | Readonly<Array<string>>;
+
   float:
     | {
-        min?: number;
         max?: number;
+        min?: number;
       }
     | undefined;
 
   int:
     | {
-        min?: number;
         max?: number;
+        min?: number;
       }
     | undefined;
 
+  literal: Readonly<unknown>;
+
+  meta: MetaFieldDef;
+
   null: undefined;
+
+  object:
+    | { [K: string]: ObjectFieldInput }
+    | Readonly<{ [K: string]: ObjectFieldInput }>
+    | ObjectLike;
 
   record: RecordFieldDef | undefined;
 
   string:
     | {
-        min?: number;
         max?: number;
+        min?: number;
         regex?:
           | [string]
           | [string, string]
@@ -92,20 +103,9 @@ export type FieldDefinitions = {
 
   undefined: undefined;
 
-  unknown: UnknownFieldDef | undefined;
-
-  object:
-    | { [K: string]: ObjectFieldInput }
-    | Readonly<{ [K: string]: ObjectFieldInput }>
-    | ObjectLike;
-
   union: ObjectFieldInput[] | Readonly<ObjectFieldInput[]>;
 
-  enum: Array<string> | Readonly<Array<string>>;
-
-  meta: MetaFieldDef;
-
-  literal: Readonly<unknown>;
+  unknown: UnknownFieldDef | undefined;
 };
 
 export type FieldTypeName = Extract<keyof FieldDefinitions, string>;

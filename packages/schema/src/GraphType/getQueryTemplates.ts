@@ -1,3 +1,4 @@
+import { formatGraphQL } from '@darch/utils/lib/formatGraphQL';
 import { getByPath } from '@darch/utils/lib/getByPath';
 import { hashString } from '@darch/utils/lib/hashString';
 import {
@@ -13,31 +14,30 @@ import {
 
 import { ResolverKind, resolverKinds } from '../createGraphQLSchema';
 import { LiteralField } from '../fields/LitarealField';
-import { formatGraphQL } from '@darch/utils/lib/formatGraphQL';
 
 export type ParseQueryFieldOptions = {
-  graphQLField: GraphQLField<any, any>;
   breadcrumb?: string[];
+  depthLimit: number;
+  format?: boolean;
+  graphQLField: GraphQLField<any, any>;
+  includeDeprecatedFields?: boolean;
+  kind?: 'query' | 'mutation' | 'subscription';
   queryKind:
     | 'mainQuery' /* the top query */
     | 'fieldQuery' /* the inner field query, child of the mainQuery */;
-  kind?: 'query' | 'mutation' | 'subscription';
-  includeDeprecatedFields?: boolean;
-  depthLimit: number;
-  format?: boolean;
 };
 
 type FieldPayload = {
+  args: GraphQLArgument[] | readonly GraphQLArgument[];
+  children: FieldPayload[];
+  deprecationReason: string | undefined;
+  description: string | undefined;
+  fields: Record<string, FieldPayload>;
+  hash: string;
+  innerTypeString: string;
   isObject: boolean;
   isUnion: boolean;
-  innerTypeString: string;
-  hash: string;
   readableHash: string;
-  description: string | undefined;
-  deprecationReason: string | undefined;
-  children: FieldPayload[];
-  args: GraphQLArgument[] | readonly GraphQLArgument[];
-  fields: Record<string, FieldPayload>;
 };
 
 type ProcessFieldPayload = Record<string, FieldPayload>;
@@ -62,8 +62,8 @@ export function getSchemaQueryTemplates(
   let fullQuery = '';
 
   const queryByResolver: SchemaQueryTemplatesResult['queryByResolver'] = {
-    query: {},
     mutation: {},
+    query: {},
     subscription: {},
   };
 
@@ -81,11 +81,11 @@ export function getSchemaQueryTemplates(
 
     Object.values(value.getFields()).forEach((graphQLField) => {
       const item = getQueryTemplates({
-        kind,
-        graphQLField,
-        queryKind: 'mainQuery',
-        includeDeprecatedFields,
         depthLimit,
+        graphQLField,
+        includeDeprecatedFields,
+        kind,
+        queryKind: 'mainQuery',
       });
 
       queryByResolver[kind][graphQLField.name] = item;
@@ -120,15 +120,15 @@ export function getQueryTemplates(
   const cache: ProcessFieldPayload = {};
 
   const { payload } = processField({
-    graphQLField,
     cache,
+    graphQLField,
     includeDeprecatedFields,
   });
 
   const fieldStrings = fieldsToString({
-    field: payload,
-    cache,
     breadcrumb,
+    cache,
+    field: payload,
     isTopQuery: false,
   });
 
@@ -169,21 +169,21 @@ export function getQueryTemplates(
 
   fullQuery += `\n`;
 
-  return { ...fieldStrings, fullQuery, fieldQuery, fields: payload };
+  return { ...fieldStrings, fieldQuery, fields: payload, fullQuery };
 }
 
 export interface PrintQueryResult extends FieldsToStringResult {
-  fullQuery: string;
   fieldQuery: string;
   fields: FieldPayload;
+  fullQuery: string;
 }
 
 function getFieldPayload({
   graphQLField,
   cache,
 }: {
-  graphQLField: GraphQLField<any, any>;
   cache: ProcessFieldPayload;
+  graphQLField: GraphQLField<any, any>;
 }): FieldPayload {
   const { args, type } = graphQLField;
   const { innerType } = getInnerType(type);
@@ -195,15 +195,15 @@ function getFieldPayload({
 
   const payload: FieldPayload = (cache[key] = {
     args,
+    children: [],
+    deprecationReason: getByPath(innerType, 'deprecationReason'),
+    description: getByPath(innerType, 'description'),
+    fields: {},
+    hash: key,
+    innerTypeString: innerTypeString,
     isObject: false,
     isUnion: false,
-    children: [],
-    innerTypeString: innerTypeString,
-    hash: key,
     readableHash,
-    description: getByPath(innerType, 'description'),
-    deprecationReason: getByPath(innerType, 'deprecationReason'),
-    fields: {},
   });
 
   if (isObjectType(innerType)) {
@@ -211,8 +211,8 @@ function getFieldPayload({
 
     Object.entries(innerType.getFields()).forEach(([name, field]) => {
       payload.fields[name] = getFieldPayload({
-        graphQLField: field,
         cache,
+        graphQLField: field,
       });
     });
   }
@@ -223,16 +223,16 @@ function getFieldPayload({
 
     unionTypes.forEach((unionType) => {
       const unionItem = getFieldPayload({
-        graphQLField: {
-          type: unionType,
-          args: [],
-          name: unionType.name,
-          description: unionType.description,
-          deprecationReason: getByPath(unionType, 'deprecationReason'),
-          extensions: unionType.extensions,
-          astNode: unionType.astNode as any,
-        },
         cache,
+        graphQLField: {
+          args: [],
+          astNode: unionType.astNode as any,
+          deprecationReason: getByPath(unionType, 'deprecationReason'),
+          description: unionType.description,
+          extensions: unionType.extensions,
+          name: unionType.name,
+          type: unionType,
+        },
       });
 
       payload.children.push(unionItem);
@@ -243,10 +243,10 @@ function getFieldPayload({
 }
 
 export function processField(config: {
-  graphQLField: GraphQLField<any, any>;
-  parent?: { name: string };
-  includeDeprecatedFields: boolean;
   cache?: ProcessFieldPayload;
+  graphQLField: GraphQLField<any, any>;
+  includeDeprecatedFields: boolean;
+  parent?: { name: string };
 }): { cache: ProcessFieldPayload; payload: FieldPayload } {
   const { includeDeprecatedFields, cache = {}, graphQLField } = config;
 
@@ -259,8 +259,8 @@ export function processField(config: {
   }
 
   const payload = getFieldPayload({
-    graphQLField,
     cache,
+    graphQLField,
   });
 
   if (isObjectType(type)) {
@@ -272,8 +272,8 @@ export function processField(config: {
 
     fields.forEach(([_, field]) => {
       const item = getFieldPayload({
-        graphQLField: field,
         cache,
+        graphQLField: field,
       });
 
       if (!item.isObject) {
@@ -281,9 +281,9 @@ export function processField(config: {
       }
 
       processField({
+        cache,
         graphQLField: field,
         includeDeprecatedFields,
-        cache,
       });
     });
   }
@@ -292,10 +292,10 @@ export function processField(config: {
 }
 
 type FieldsToStringResult = {
-  query: string;
-  fragments: Record<string, string>;
-  argsParsed: ParsedArgs;
   allArgs: Record<string, ParsedArgs>;
+  argsParsed: ParsedArgs;
+  fragments: Record<string, string>;
+  query: string;
 };
 
 type FieldsToStringCache = {
@@ -303,12 +303,12 @@ type FieldsToStringCache = {
 };
 
 function fieldsToString(config: {
-  field: FieldPayload;
-  cache: ProcessFieldPayload;
-  isTopQuery: boolean;
-  breadcrumb: string[];
-  fieldsToStringCache?: FieldsToStringCache;
   allArgs?: FieldsToStringResult['allArgs'];
+  breadcrumb: string[];
+  cache: ProcessFieldPayload;
+  field: FieldPayload;
+  fieldsToStringCache?: FieldsToStringCache;
+  isTopQuery: boolean;
 }): FieldsToStringResult {
   const {
     field, //
@@ -333,10 +333,10 @@ function fieldsToString(config: {
   allArgs[hash] = argsParsed;
 
   const self: FieldsToStringResult = {
-    query: '',
-    fragments: {},
-    argsParsed,
     allArgs,
+    argsParsed,
+    fragments: {},
+    query: '',
   };
 
   fieldsToStringCache[hash] = self;
@@ -352,12 +352,12 @@ function fieldsToString(config: {
             strings: { innerArgsString },
           },
         } = fieldsToString({
-          field,
-          cache,
-          breadcrumb: _breadcrumb,
-          isTopQuery: false,
-          fieldsToStringCache,
           allArgs,
+          breadcrumb: _breadcrumb,
+          cache,
+          field,
+          fieldsToStringCache,
+          isTopQuery: false,
         });
 
         self.query += ` ${name}${innerArgsString} `;
@@ -366,12 +366,12 @@ function fieldsToString(config: {
 
       if (field.isObject) {
         const child = fieldsToString({
-          field,
-          cache,
-          breadcrumb: _breadcrumb,
-          isTopQuery: false,
-          fieldsToStringCache,
           allArgs,
+          breadcrumb: _breadcrumb,
+          cache,
+          field,
+          fieldsToStringCache,
+          isTopQuery: false,
         });
 
         const {
@@ -398,11 +398,11 @@ function fieldsToString(config: {
           const u_field = cache[item.hash];
 
           const child = fieldsToString({
-            field: u_field,
-            isTopQuery: false,
             breadcrumb: _breadcrumb,
             cache,
+            field: u_field,
             fieldsToStringCache,
+            isTopQuery: false,
           });
 
           const {
@@ -438,12 +438,12 @@ function fieldsToString(config: {
         strings: { innerArgsString },
       },
     } = fieldsToString({
-      field,
-      cache,
-      breadcrumb,
-      isTopQuery: false,
-      fieldsToStringCache,
       allArgs,
+      breadcrumb,
+      cache,
+      field,
+      fieldsToStringCache,
+      isTopQuery: false,
     });
 
     self.query += `${innerArgsString}`;
@@ -461,10 +461,10 @@ type ParsedArgs = {
   strings: ParsedArgsStrings;
   vars: {
     comments: string;
-    name: string;
-    varName: string;
     defaultValue: string | undefined;
+    name: string;
     type: string;
+    varName: string;
   }[];
 };
 
@@ -475,8 +475,8 @@ function parseArgs(config: ArgsToStringConfig): ParsedArgs {
 
   if (!args?.length) {
     return {
-      vars,
       strings: parsedArgsToString(vars),
+      vars,
     };
   }
 
@@ -498,14 +498,14 @@ function parseArgs(config: ArgsToStringConfig): ParsedArgs {
 
     vars.push({
       comments,
-      name,
-      varName,
       defaultValue: _defaultValue,
+      name,
       type: type.toString(),
+      varName,
     });
   });
 
-  return { vars, strings: parsedArgsToString(vars) };
+  return { strings: parsedArgsToString(vars), vars };
 }
 
 type ParsedArgsStrings = ReturnType<typeof parsedArgsToString>;
@@ -526,12 +526,12 @@ function parsedArgsToString(parsed: ParsedArgs['vars']) {
   const innerArgsStringPart = innerParts.join(',').replace(',=', ' = ');
 
   return {
-    topArgsStringPart,
-    topArgsString: topArgsStringPart.length ? `(${topArgsStringPart})` : '',
     innerArgsString: innerArgsStringPart.length
       ? `(${innerArgsStringPart})`
       : '',
     innerArgsStringPart: innerArgsStringPart,
+    topArgsString: topArgsStringPart.length ? `(${topArgsStringPart})` : '',
+    topArgsStringPart,
   };
 }
 

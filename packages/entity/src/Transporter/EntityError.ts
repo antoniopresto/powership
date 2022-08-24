@@ -1,6 +1,7 @@
 import { inspectObject, tupleEnum } from '@darch/utils';
-import type { InvalidParsedIndexField } from './CollectionIndex';
 import { Logger } from '@darch/utils/lib/logger';
+
+import type { InvalidParsedIndexField } from './CollectionIndex';
 
 export const EntityErrorKind = tupleEnum(
   'INVALID_FIELDS',
@@ -38,7 +39,7 @@ export type EntityErrorKindEnum = typeof EntityErrorKind;
 export type EntityErrorKind = keyof EntityErrorKindEnum;
 
 export type EntityErrorDetails = {
+  [K: string]: unknown;
   invalidFields?: InvalidParsedIndexField[];
   reason: EntityErrorKind;
-  [K: string]: unknown;
 };

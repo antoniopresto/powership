@@ -50,10 +50,10 @@ import { PageInfoType, PaginationType } from './paginationUtils';
 export * from './paginationUtils';
 
 type _GraphType = {
-  _object?: ObjectType<any>;
   __isGraphType: true;
-  parse(...args: any[]): DocumentBase;
+  _object?: ObjectType<any>;
   definition: { def: unknown };
+  parse(...args: any[]): DocumentBase;
 };
 
 export interface EntityOptions<
@@ -61,19 +61,19 @@ export interface EntityOptions<
   Type extends _GraphType = _GraphType,
   TTransporter extends Transporter = Transporter
 > {
-  type: Type;
-  name: TName;
   indexes: CollectionIndexConfig<ReturnType<Type['parse']>, TName>['indexes'];
+  name: TName;
   transporter?: TTransporter;
+  type: Type;
 }
 
 export type DefaultEntityFields = {
+  createdAt: Date;
+  createdBy: string | undefined;
   id: string;
   ulid: string;
-  createdBy: string | undefined;
-  updatedBy: string | undefined;
-  createdAt: Date;
   updatedAt: Date;
+  updatedBy: string | undefined;
 };
 
 export type EntityFinalDefinition<InputDef> = InputDef extends {
@@ -108,29 +108,29 @@ type _GetLoaderUtils<Loader, Type> =
         ? {
             filterDef: Filter;
             queryArgs: {
-              filter: {
-                type: 'object';
-                def: Filter;
-              };
-              first: {
-                type: 'int';
-                optional: true;
-              };
               after: {
-                type: 'ID';
                 optional: true;
+                type: 'ID';
               };
               condition: Type extends {
                 definition: infer Def;
               }
                 ? Def extends { def: infer Def }
                   ? {
-                      type: 'object';
                       def: EntityGraphQLConditionsDef<Def>;
                       optional: true;
+                      type: 'object';
                     }
                   : never
                 : never;
+              filter: {
+                def: Filter;
+                type: 'object';
+              };
+              first: {
+                optional: true;
+                type: 'int';
+              };
             };
           }
         : never
@@ -143,15 +143,7 @@ export type Entity<Options extends EntityOptions> = Options['type'] extends {
 }
   ? Merge<
       {
-        name: Options['name'];
         indexes: Options['indexes'];
-        type: //
-        ((x: Options['type']) => any) extends (x: infer Type) => any
-          ? GraphType<{ object: EntityFinalDefinition<Type> }>
-          : never;
-
-        originType: Options['type'];
-
         inputDefinition: Options['type'] extends { definition: infer Def }
           ? Def extends { def: infer Def }
             ? {
@@ -159,13 +151,21 @@ export type Entity<Options extends EntityOptions> = Options['type'] extends {
               }
             : never
           : never;
+        name: Options['name'];
+
+        originType: Options['type'];
 
         paginationType: PaginationType<Options['type']>;
 
         parse: (
           ...args: Parameters<Options['type']['parse']>
         ) => EntityDocFromType<Options['type']>;
+
         transporter: Options['transporter'];
+        type: //
+        ((x: Options['type']) => any) extends (x: infer Type) => any
+          ? GraphType<{ object: EntityFinalDefinition<Type> }>
+          : never;
       },
       EntityLoaders<
         EntityDocFromType<Options['type']>,
@@ -185,7 +185,18 @@ export type Entity<Options extends EntityOptions> = Options['type'] extends {
               : never;
           } extends infer LoaderWithUtils
           ? LoaderWithUtils & {
-              loaders: LoaderWithUtils;
+              conditionsDefinition: Options['type'] extends {
+                definition: infer Def;
+              }
+                ? Def extends { def: infer Def }
+                  ? {
+                      def: EntityGraphQLConditionsType<Def>;
+                      type: 'object';
+                    }
+                  : never
+                : never;
+
+              getDocumentId(doc: Record<string, any>): string;
 
               indexGraphTypes: {
                 [K in Options['indexes'][number]['name']]: GraphType<{
@@ -193,22 +204,11 @@ export type Entity<Options extends EntityOptions> = Options['type'] extends {
                 }>;
               };
 
-              getDocumentId(doc: Record<string, any>): string;
+              loaders: LoaderWithUtils;
 
               parseDocumentIndexes(
                 doc: Record<string, any>
               ): ParsedDocumentIndexes;
-
-              conditionsDefinition: Options['type'] extends {
-                definition: infer Def;
-              }
-                ? Def extends { def: infer Def }
-                  ? {
-                      type: 'object';
-                      def: EntityGraphQLConditionsType<Def>;
-                    }
-                  : never
-                : never;
             }
           : never
         : never
@@ -270,10 +270,10 @@ export function createEntity<Options extends EntityOptions>(
     Options['indexes'],
     LoaderContext
   > = {
-    preParse: hooks.waterfall(),
-    postParse: hooks.waterfall(),
-    filterResult: hooks.waterfall(),
     beforeQuery: hooks.waterfall(),
+    filterResult: hooks.waterfall(),
+    postParse: hooks.waterfall(),
+    preParse: hooks.waterfall(),
   };
 
   // pre parse PK, SK and ID setters
@@ -448,10 +448,10 @@ export function createEntity<Options extends EntityOptions>(
   );
 
   function _createLoader(config: {
-    method: TransporterLoaderName;
-    newMethodName: string;
     indexInfo: ParsedIndexKey[];
     indexes: Options['indexes'];
+    method: TransporterLoaderName;
+    newMethodName: string;
   }) {
     const { indexInfo, indexes, newMethodName, method } = config;
 
@@ -468,11 +468,11 @@ export function createEntity<Options extends EntityOptions>(
 
       const configInput = {
         ...args[0],
+        context: args[0].context,
         indexConfig: {
           ...indexConfig,
           indexes,
         },
-        context: args[0].context,
       };
 
       const operation = await parseOperationContext(method, configInput);
@@ -505,7 +505,7 @@ export function createEntity<Options extends EntityOptions>(
       getEntityGraphType();
 
       function _wrap(obj: object) {
-        const def: any = { id: { type: 'ID', optional: true } };
+        const def: any = { id: { optional: true, type: 'ID' } };
 
         Object.keys(obj).forEach((k) => {
           if (isMetaFieldKey(k)) return;
@@ -543,34 +543,34 @@ export function createEntity<Options extends EntityOptions>(
     function getPaginationType() {
       const filter = getFilterDef();
       return {
-        first: {
-          type: 'int',
-          optional: true,
-        },
         after: {
-          type: 'ID',
           optional: true,
-        },
-        filter: {
-          type: 'object',
-          optional: false,
-          def: filter,
+          type: 'ID',
         },
         condition: {
-          type: conditionsType,
           optional: true,
+          type: conditionsType,
+        },
+        filter: {
+          def: filter,
+          optional: false,
+          type: 'object',
+        },
+        first: {
+          optional: true,
+          type: 'int',
         },
       };
     }
 
     Object.defineProperties(loader, {
-      name: { value: newMethodName },
-      indexInfo: { value: indexInfo },
       filterDef: {
         get() {
           return getFilterDef();
         },
       },
+      indexInfo: { value: indexInfo },
+      name: { value: newMethodName },
       queryArgs: {
         get() {
           return getPaginationType();
@@ -594,22 +594,22 @@ export function createEntity<Options extends EntityOptions>(
       if (method === 'createOne') return;
       const methodName = `${method}${capitalizedIndexName}`;
       _createLoader({
-        method,
-        newMethodName: methodName,
         indexInfo: [indexInfo],
         indexes: [
           indexConfig.indexes.find((index) => index.name === indexName)!,
         ],
+        method,
+        newMethodName: methodName,
       });
     });
   });
 
   transporterLoaderNames.forEach((method) => {
     _createLoader({
-      method,
-      newMethodName: method,
       indexInfo: parsedIndexKeys,
       indexes: indexConfig.indexes,
+      method,
+      newMethodName: method,
     });
   });
 
@@ -637,29 +637,6 @@ export function createEntity<Options extends EntityOptions>(
         }
       | { value: any };
   } = {
-    name: { value: entityName },
-    indexes: { value: indexes },
-    transporter: {
-      get() {
-        return defaultTransporter || options.transporter;
-      },
-    },
-    type: {
-      get() {
-        return getEntityGraphType();
-      },
-    },
-    indexGraphTypes: { value: indexGraphTypes },
-    loaders: { value: loaders },
-    parse: {
-      get() {
-        return getEntityGraphType().parse;
-      },
-    },
-    originType: { value: type },
-    inputDefinition: {
-      value: objectType.definition,
-    },
     extend: {
       value: function extend(cb) {
         const partial = cb(entity);
@@ -667,6 +644,7 @@ export function createEntity<Options extends EntityOptions>(
         return Object.assign(entity, partial);
       },
     },
+    indexGraphTypes: { value: indexGraphTypes },
     getDocumentId: {
       value: function getDocumentId(doc): string {
         const indexes = getDocumentIndexFields(doc, indexConfig);
@@ -674,19 +652,41 @@ export function createEntity<Options extends EntityOptions>(
         return notNull(indexes.indexFields.id);
       },
     },
-    parseDocumentIndexes: {
-      value: function parseDocumentIndexes(doc): ParsedDocumentIndexes {
-        return getDocumentIndexFields(doc, indexConfig);
+    indexes: { value: indexes },
+    inputDefinition: {
+      value: objectType.definition,
+    },
+    loaders: { value: loaders },
+    conditionsDefinition: {
+      get() {
+        return conditionsType._object!.definition;
       },
     },
+    name: { value: entityName },
+    originType: { value: type },
     paginationType: {
       get() {
         return getPaginationType();
       },
     },
-    conditionsDefinition: {
+    parse: {
       get() {
-        return conditionsType._object!.definition;
+        return getEntityGraphType().parse;
+      },
+    },
+    transporter: {
+      get() {
+        return defaultTransporter || options.transporter;
+      },
+    },
+    parseDocumentIndexes: {
+      value: function parseDocumentIndexes(doc): ParsedDocumentIndexes {
+        return getDocumentIndexFields(doc, indexConfig);
+      },
+    },
+    type: {
+      get() {
+        return getEntityGraphType();
       },
     },
   };
@@ -708,16 +708,6 @@ export type EntityHooks<
   Indexes extends AnyCollectionIndexConfig['indexes'],
   Context extends LoaderContext
 > = {
-  preParse: Waterfall<
-    EntityOperationInfoContext<Record<string, any>, Indexes, Context>,
-    {}
-  >;
-
-  postParse: Waterfall<
-    EntityOperationInfoContext<EntityDocument<Document>, Indexes, Context>,
-    {}
-  >;
-
   beforeQuery: Waterfall<
     EntityOperationInfoContext<EntityDocument<Document>, Indexes, Context>,
     {}
@@ -726,6 +716,16 @@ export type EntityHooks<
   filterResult: Waterfall<
     EntityDocument<Document>[],
     EntityOperationInfoContext<EntityDocument<Document>, Indexes, Context>
+  >;
+
+  postParse: Waterfall<
+    EntityOperationInfoContext<EntityDocument<Document>, Indexes, Context>,
+    {}
+  >;
+
+  preParse: Waterfall<
+    EntityOperationInfoContext<Record<string, any>, Indexes, Context>,
+    {}
   >;
 };
 
@@ -828,7 +828,7 @@ type IndexMethods<
 type GetIndexByName<
   Union extends DocumentIndexItem<any, any>,
   Name extends string
-> = Union extends { name: Name; [K: string]: unknown } ? Union : never;
+> = Union extends { [K: string]: unknown, name: Name; } ? Union : never;
 
 type OneIndexMethod<
   Documents,
@@ -936,18 +936,18 @@ function _EntityGeneratedFields<
 }
 
 export const EntityGeneratedFields = _EntityGeneratedFields({
+  createdAt: { type: 'date' },
+  createdBy: {
+    optional: true,
+    type: 'string',
+  },
   id: { type: 'string' },
   ulid: { type: 'ulid' },
-  createdBy: {
-    type: 'string',
-    optional: true,
-  },
-  updatedBy: {
-    type: 'string',
-    optional: true,
-  },
-  createdAt: { type: 'date' },
   updatedAt: { type: 'date' },
+  updatedBy: {
+    optional: true,
+    type: 'string',
+  },
 });
 
 type GetLoaderFilterDef<Loader, DocDef> = Loader extends (

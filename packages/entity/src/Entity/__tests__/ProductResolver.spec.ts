@@ -40,7 +40,7 @@ describe('ProductResolver', () => {
     await expect(
       ProductEntity.findOne({ filter: {}, context: {} })
     ).rejects.toThrow(
-      `EMPTY_FILTER ➤ { possibleCondition: undefined, reason: 'EMPTY_FILTER', filter: {} }`
+      `EMPTY_FILTER ➤ { filter: {}, possibleCondition: undefined, reason: 'EMPTY_FILTER' }`
     );
 
     await expect(
@@ -53,13 +53,13 @@ describe('ProductResolver', () => {
     expect(res).toEqual(shape);
 
     type ExpectedArgs = {
+      after?: string | undefined;
       filter: {
-        storeId: string;
         id?: string | undefined;
         sku?: string | undefined;
+        storeId: string;
       };
       first?: number | undefined;
-      after?: string | undefined;
     };
 
     type TProduct = Infer<typeof ProductEntity.type>;
@@ -212,7 +212,7 @@ describe('ProductResolver', () => {
 
     expect(schema.utils.print().split('\n')).toEqual([
       'type Query {',
-      '  paginate(first: Int, after: ID, filter: paginateInput_filterInput!, condition: ProductConditionsInput): ProductConnection!',
+      '  paginate(after: ID, condition: ProductConditionsInput, filter: paginateInput_filterInput!, first: Int): ProductConnection!',
       '}',
       '',
       'type ProductConnection {',
@@ -443,13 +443,13 @@ describe('ProductResolver', () => {
     });
 
     type ExpectedArgs = {
+      after?: string | undefined;
       filter: {
-        storeId: string;
         id?: string | undefined;
         sku?: string | undefined;
+        storeId: string;
       };
       first?: number | undefined;
-      after?: string | undefined;
     };
 
     const productPagination = createResolver({

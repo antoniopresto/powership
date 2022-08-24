@@ -51,7 +51,7 @@ describe('GraphType.asField', () => {
     type Res = ReturnType<typeof resolver.resolve>;
     type Args = Parameters<typeof resolver.resolve>[1];
 
-    assert<IsExact<Res, MaybePromise<{ name?: string; age?: number }[]>>>(true);
+    assert<IsExact<Res, MaybePromise<{ age?: number; name?: string }[]>>>(true);
     assert<IsExact<Args, { option: 'a' | 'b' }>>(true);
 
     const schema = createGraphQLSchema();
@@ -88,7 +88,7 @@ describe('GraphType.asField', () => {
       },
     });
 
-    type User = { name?: string | undefined; age?: number | undefined };
+    type User = { age?: number | undefined; name?: string | undefined };
 
     type B = ToFinalField<
       GraphType<
@@ -100,9 +100,9 @@ describe('GraphType.asField', () => {
 
     type A0 = ToFinalField<
       GraphType<{
-        type: GraphType<{ object: { name: 'string' } }>;
         list: true;
         optional: true;
+        type: GraphType<{ object: { name: 'string' } }>;
       }>
     >['__infer'];
 
@@ -113,9 +113,9 @@ describe('GraphType.asField', () => {
         GraphType<
           GraphType<
             GraphType<{
-              type: GraphType<{ object: { name: 'string?' } }>;
               list: true;
               optional: true;
+              type: GraphType<{ object: { name: 'string?' } }>;
             }>
           >
         >
@@ -129,9 +129,9 @@ describe('GraphType.asField', () => {
         GraphType<
           GraphType<
             GraphType<{
-              type: GraphType<{ object: { name: 'string?' } }>;
               list: true;
               optional: true;
+              type: GraphType<{ object: { name: 'string?' } }>;
             }>
           >
         >

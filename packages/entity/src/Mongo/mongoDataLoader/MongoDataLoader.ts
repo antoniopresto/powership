@@ -77,7 +77,7 @@ export class MongoDataLoader {
 
     let cursor = db
       .collection(collection)
-      .find(condition, { sort, projection });
+      .find(condition, { projection, sort });
 
     let queryResult = await cursor.toArray();
 

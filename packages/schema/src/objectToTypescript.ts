@@ -5,12 +5,12 @@ import { ObjectLike } from './fields/IObjectLike';
 import { objectToJSON } from './objectToJSON';
 
 export type ObjectToTypescriptOptions = {
+  additionalProperties?: boolean;
   bannerComment?: string;
   format?: boolean;
-  unreachableDefinitions?: boolean;
-  additionalProperties?: boolean;
-  strictIndexSignatures?: boolean;
   ignoreDefaultValues?: boolean;
+  strictIndexSignatures?: boolean;
+  unreachableDefinitions?: boolean;
 };
 
 const defaultBannerComment = ``;
@@ -38,7 +38,7 @@ export async function objectToTypescript(
   return jsonToTypescript(json, name, {
     bannerComment,
     format,
-    unreachableDefinitions,
     strictIndexSignatures,
+    unreachableDefinitions,
   }) as any;
 }

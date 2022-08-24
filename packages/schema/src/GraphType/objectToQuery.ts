@@ -193,9 +193,9 @@ function convertQuery(
 }
 
 export interface IJsonToGraphQLOptions {
-  pretty?: boolean;
   ignoreFields?: string[];
   includeFalsyKeys?: boolean;
+  pretty?: boolean;
 }
 
 export function objectToQuery(query: any, options: IJsonToGraphQLOptions = {}) {

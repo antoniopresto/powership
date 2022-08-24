@@ -64,24 +64,24 @@ test('examples', async () => {
   _assertFields<
     InferType,
     {
-      name: string;
-      email?: string | undefined;
       age?: number | undefined;
-      notes?: number[] | undefined;
-      unionField?: string | number[] | undefined;
+      deliveryAddress: {
+        number?: number | undefined;
+        street: string;
+      };
+      email?: string | undefined;
       letter: 'a' | 'b' | 'c';
       letterOptionalList?: ('x' | 'y' | 'z')[] | undefined;
+      name: string;
+      notes?: number[] | undefined;
       optionalAddress?:
         | {
-            street: string;
             number?: string | number | undefined;
+            street: string;
           }
         | undefined;
 
-      deliveryAddress: {
-        street: string;
-        number?: number | undefined;
-      };
+      unionField?: string | number[] | undefined;
     }
   >(true);
 

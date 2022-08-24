@@ -3,8 +3,8 @@ import { expectedType } from '@darch/utils/lib/expectedType';
 import { FieldType, FieldTypeParser } from './FieldType';
 
 export type IntFieldDef = {
-  min?: number;
   max?: number;
+  min?: number;
 };
 
 export class IntField extends FieldType<
@@ -18,16 +18,9 @@ export class IntField extends FieldType<
     super('int', def);
     const { min, max } = def;
 
-    expectedType({ min, max }, 'number', true);
+    expectedType({ max, min }, 'number', true);
 
     this.parse = this.applyParser({
-      preParse(input: any) {
-        if (typeof input === 'string' && input !== '') {
-          const asNumber = +input;
-          if (!isNaN(asNumber)) return asNumber;
-        }
-        return input;
-      },
       parse: (input: number) => {
         expectedType({ value: input }, 'number');
 
@@ -43,6 +36,13 @@ export class IntField extends FieldType<
           throw new Error(`${input} is less than the minimum ${min}.`);
         }
 
+        return input;
+      },
+      preParse(input: any) {
+        if (typeof input === 'string' && input !== '') {
+          const asNumber = +input;
+          if (!isNaN(asNumber)) return asNumber;
+        }
         return input;
       },
     });

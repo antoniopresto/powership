@@ -8,10 +8,10 @@ import { Serializable } from '@darch/utils/lib/typeUtils';
 import { FieldType, FieldTypeParser } from './FieldType';
 
 export type MetaFieldDef = {
-  id: string | null;
-  description?: string;
-  implements?: string[];
   [K: string]: Serializable;
+  description?: string;
+  id: string | null;
+  implements?: string[];
 };
 
 export class MetaField extends FieldType<MetaField, 'meta', MetaFieldDef> {
@@ -46,12 +46,12 @@ export const objectMetaFieldKey = '__dschm__';
 
 export function createEmptyMetaField(): MetaField['asFinalFieldDef'] {
   return {
+    def: { id: null },
     defaultValue: undefined,
     description: undefined,
     list: false,
     optional: false,
     type: 'meta',
-    def: { id: null },
   };
 }
 

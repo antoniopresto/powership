@@ -105,9 +105,9 @@ export function parseMongoUpdateExpression(operations: UpdateOperation[]) {
             $set: {
               [k]: {
                 $filter: {
-                  input: `$${k}`,
                   as: 'num',
                   cond: { $not: [{ $in: ['$$num', value] }] },
+                  input: `$${k}`,
                 },
               },
             },
@@ -125,9 +125,9 @@ export function parseMongoUpdateExpression(operations: UpdateOperation[]) {
               $set: {
                 [k]: {
                   $filter: {
-                    input: `$${k}`,
                     as: 'val',
                     cond: { $not: [{ $in: ['$$val', uniqValues] }] },
+                    input: `$${k}`,
                   },
                 },
               },

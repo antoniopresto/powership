@@ -59,8 +59,8 @@ export function parseObjectField<T extends FieldDefinitionConfig>(
   if (parsed) return parsed;
 
   throw new RuntimeError(`field "${fieldName}": invalid definition.`, {
-    parsed,
     definition,
+    parsed,
   });
 }
 
@@ -70,12 +70,12 @@ export function parseFieldDefinitionConfig(
   function _parseField() {
     if (LiteralField.isFinalTypeDef(definition)) {
       return {
-        type: 'literal',
         def: definition.def,
-        optional: !!definition.optional,
-        list: !!definition.list,
-        description: definition.description,
         defaultValue: definition.defaultValue,
+        description: definition.description,
+        list: !!definition.list,
+        optional: !!definition.optional,
+        type: 'literal',
       };
     }
 
@@ -95,12 +95,12 @@ export function parseFieldDefinitionConfig(
       } = definition;
 
       return {
-        type,
         def,
-        list,
         defaultValue: defaultValue === undefined ? _defaultValue : defaultValue,
-        optional,
         description,
+        list,
+        optional,
+        type,
       };
     }
 
@@ -151,23 +151,23 @@ export function parseFieldDefinitionConfig(
 
     if (isObject(definition)) {
       return {
-        defaultValue: undefined,
-        type: 'object',
         def: definition.definition,
-        optional: false,
-        list: false,
+        defaultValue: undefined,
         description: definition.description,
+        list: false,
+        optional: false,
+        type: 'object',
       };
     }
 
     if (isObjectAsTypeDefinition(definition)) {
       return {
-        type: 'object',
         def: definition.type.definition,
-        optional: !!definition.optional,
-        list: !!definition.list,
-        description: definition.type.description,
         defaultValue: undefined,
+        description: definition.type.description,
+        list: !!definition.list,
+        optional: !!definition.optional,
+        type: 'object',
       };
     }
 
@@ -271,8 +271,8 @@ export function isObjectAsTypeDefinition(
 const validFlattenDefinitionKeys = {
   defaultValue: 'any',
   description: 'string',
-  optional: 'boolean',
   list: 'boolean',
+  optional: 'boolean',
 } as const;
 
 export function parseFlattenFieldDefinition(
@@ -297,8 +297,8 @@ export function parseFlattenFieldDefinition(
         for (let defKey in def) {
           if (defKey === 'def' || validFlattenDefinitionKeys[defKey]) {
             console.warn(`using field def as type definition?\n`, {
-              type: k,
               def,
+              type: k,
             });
             return false;
           }
@@ -324,12 +324,12 @@ export function parseFlattenFieldDefinition(
   let { description, optional = false, list = false, defaultValue } = input;
 
   return parseFieldDefinitionConfig({
-    type,
     def,
-    description,
-    optional,
-    list,
     defaultValue,
+    description,
+    list,
+    optional,
+    type,
   });
 }
 
@@ -345,9 +345,9 @@ export function __getCachedFieldInstance(
 
 function setCachedFieldInstance(field, instanceFromDef: TAnyFieldType) {
   Object.defineProperty(field, '__cachedFieldInstance', {
-    value: instanceFromDef,
-    enumerable: false,
     configurable: false,
+    enumerable: false,
+    value: instanceFromDef,
     writable: false,
   });
 }

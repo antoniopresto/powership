@@ -10,47 +10,78 @@ const nodeModule = typeof module !== undefined ? module : undefined;
 function getModules() {
   const sharedCode = {
     GraphType: {
-      server: false,
       module: () =>
         require('./GraphType/GraphType') as typeof import('./GraphType/GraphType'),
-    },
-    ObjectType: {
       server: false,
-      module: () => require('./ObjectType') as typeof import('./ObjectType'),
-    },
-    fieldTypes: {
-      server: false,
-      module: () =>
-        require('./fields/fieldTypes') as typeof import('./fields/fieldTypes'),
     },
     MetaField: {
-      server: false,
       module: () =>
         require('./fields/MetaFieldField') as typeof import('./fields/MetaFieldField'),
+      server: false,
+    },
+    ObjectType: {
+      module: () => require('./ObjectType') as typeof import('./ObjectType'),
+      server: false,
+    },
+    fieldTypes: {
+      module: () =>
+        require('./fields/fieldTypes') as typeof import('./fields/fieldTypes'),
+      server: false,
     },
     implementObject: {
-      server: false,
       module: () =>
         require('./implementObject') as typeof import('./implementObject'),
+      server: false,
     },
 
     mockObject: {
-      server: false,
       module: () => require('./mockObject') as typeof import('./mockObject'),
+      server: false,
     },
   };
 
   const serverCode = {
     GraphQLParser: {
-      server: true,
       // @only-server
       module: () =>
         // @only-server
         require('./GraphType/GraphQLParser') as typeof import('./GraphType/GraphQLParser'),
+
+      server: true,
+    },
+
+    clientUtils: {
+      // @only-server
+      module: () =>
+        require('./GraphType/generateClientUtils') as typeof import('./GraphType/generateClientUtils'),
+
+      server: true,
+    },
+
+    createGraphQLSchema: {
+      // @only-server
+      module: () =>
+        require('./createGraphQLSchema') as typeof import('./createGraphQLSchema'),
+
+      server: true,
+    },
+
+    createResolver: {
+      // @only-server
+      module: () => require('./Resolver') as typeof import('./Resolver'),
+
+      server: true,
+    },
+
+    getQueryTemplates: {
+      // @only-server
+      module: () =>
+        require('./GraphType/getQueryTemplates') as typeof import('./GraphType/getQueryTemplates'),
+
+      server: true,
     },
 
     objectToTypescript: {
-      server: true,
       // @only-server
       module: (): typeof import('./objectToTypescript') => {
         try {
@@ -66,10 +97,11 @@ function getModules() {
           } as any;
         }
       },
+
+      server: true,
     },
 
     prettier: {
-      server: true,
       // @only-server
       module: (): typeof import('prettier') => {
         try {
@@ -87,41 +119,17 @@ function getModules() {
           } as any;
         }
       },
-    },
 
-    createGraphQLSchema: {
       server: true,
-      // @only-server
-      module: () =>
-        require('./createGraphQLSchema') as typeof import('./createGraphQLSchema'),
-    },
-
-    getQueryTemplates: {
-      server: true,
-      // @only-server
-      module: () =>
-        require('./GraphType/getQueryTemplates') as typeof import('./GraphType/getQueryTemplates'),
-    },
-
-    createResolver: {
-      server: true,
-      // @only-server
-      module: () => require('./Resolver') as typeof import('./Resolver'),
-    },
-
-    clientUtils: {
-      server: true,
-      // @only-server
-      module: () =>
-        require('./GraphType/generateClientUtils') as typeof import('./GraphType/generateClientUtils'),
     },
 
     typesWriter: {
-      server: true,
       // @only-server
       module: (): typeof import('./typesWriter') => {
         return require('./typesWriter');
       },
+
+      server: true,
     },
   };
 
@@ -130,10 +138,11 @@ function getModules() {
     ...sharedCode, // shared should override others
 
     graphql: {
-      // Too big to show in logs, let at last position
-      server: true,
       // @only-server
       module: () => require('graphql') as typeof import('graphql'),
+
+      // Too big to show in logs, let at last position
+      server: true,
     },
   } as const;
 }

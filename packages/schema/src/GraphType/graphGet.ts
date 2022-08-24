@@ -149,18 +149,18 @@ export function graphGet<T extends Record<string, any>>(
 }
 
 export type Utils<T> = {
-  $val: T;
-  $args: (args: Record<string, any>) => GraphGetData<T>;
   $aliasFor: (alias: string) => GraphGetData<T>;
-  $variables: (args: Record<string, any>) => GraphGetData<T>;
+  $all_on: (args: string[]) => GraphGetData<T>;
+  $args: (args: Record<string, any>) => GraphGetData<T>;
   $directives: (args: Record<string, any>) => GraphGetData<T>;
+  $name: (alias: string) => GraphGetData<T>;
   $on: (
     record:
-      | { __typeName: string; [K: string]: unknown }
-      | { __typeName: string; [K: string]: unknown }[]
+      | { [K: string]: unknown; __typeName: string }
+      | { [K: string]: unknown; __typeName: string }[]
   ) => GraphGetData<T>;
-  $name: (alias: string) => GraphGetData<T>;
-  $all_on: (args: string[]) => GraphGetData<T>;
+  $val: T;
+  $variables: (args: Record<string, any>) => GraphGetData<T>;
 };
 
 export type GraphGetData<O extends Readonly<Record<string, any>>> = {

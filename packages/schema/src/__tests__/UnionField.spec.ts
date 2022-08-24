@@ -117,10 +117,10 @@ describe('Union', () => {
       IsExact<
         T,
         {
-          uu?: number | boolean | undefined;
-          nameOrUndefinedListFromType?: (string | undefined)[] | undefined;
-          nameFromType?: string[] | undefined;
           defObject?: (string | boolean)[] | undefined;
+          nameFromType?: string[] | undefined;
+          nameOrUndefinedListFromType?: (string | undefined)[] | undefined;
+          uu?: number | boolean | undefined;
         }
       >
     >(true);
@@ -355,10 +355,10 @@ describe('Union', () => {
       union1Optional?: QBool;
       union1OptionalList?: QBool[];
       union2: QBool;
-      union3: QBool;
       union2Optional?: QBool;
-      union3Optional?: QBool;
+      union3: QBool;
       union3ListOptional?: QBool[];
+      union3Optional?: QBool;
     };
 
     const random = (array = ['true', 'false', true, false] as const) =>
@@ -495,8 +495,8 @@ describe('Union', () => {
 
       _assert<
         {
-          union: ['boolean?', { enum: ['true', 'false'] }];
           list: true;
+          union: ['boolean?', { enum: ['true', 'false'] }];
         },
         (boolean | 'true' | 'false' | undefined)[]
       >(true);
@@ -528,9 +528,9 @@ describe('Union', () => {
 
       _assert<
         {
-          type: 'union';
           def: [{ enum: ['true', 'false'] }, 'boolean'];
           optional: true;
+          type: 'union';
         },
         boolean | 'true' | 'false' | undefined,
         true
@@ -538,18 +538,18 @@ describe('Union', () => {
 
       _assert<
         {
-          type: 'union';
           def: [{ enum: ['true', 'false'] }, 'boolean'];
+          type: 'union';
         },
         boolean | 'true' | 'false'
       >(true);
 
       _assert<
         {
-          type: 'union';
           def: [{ enum: ['true', 'false'] }, 'boolean'];
-          optional: true;
           list: true;
+          optional: true;
+          type: 'union';
         },
         (boolean | 'true' | 'false')[] | undefined,
         true
@@ -624,10 +624,10 @@ describe('Union', () => {
         union1Optional?: QBool | undefined;
         union1OptionalList: (QBool | undefined)[];
         union2: QBool;
-        union3: QBool;
         union2Optional?: QBool;
-        union3Optional?: QBool;
+        union3: QBool;
         union3ListOptional?: QBool[] | undefined;
+        union3Optional?: QBool;
         union4ListOptional: (QBool | undefined)[]; // list containing undefined | boolean | 'true' | 'false'
         union5ListOptional: (QBool | undefined)[]; // list containing undefined | boolean | 'true' | 'false'
       };

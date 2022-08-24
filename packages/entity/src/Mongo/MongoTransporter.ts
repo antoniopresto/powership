@@ -38,7 +38,7 @@ export class MongoTransporter extends Transporter {
     return this._client.connect(dbName);
   }
 
-  constructor(options: { collection: string; client: MongoClient }) {
+  constructor(options: { client: MongoClient, collection: string; }) {
     super();
     this._client = options.client;
     this.collection = options.collection;
@@ -51,8 +51,8 @@ export class MongoTransporter extends Transporter {
 
     const res: CreateOneResult<any> = {
       created: false,
-      updated: false,
       item: null,
+      updated: false,
       // error: undefined,
     };
 
@@ -80,8 +80,8 @@ export class MongoTransporter extends Transporter {
     try {
       if (replace) {
         const result = await collection.replaceOne(conditionExpression, item, {
-          upsert: true,
           hint: { _id: 1 },
+          upsert: true,
         });
 
         const updated = result?.matchedCount === 1;
@@ -161,17 +161,17 @@ export class MongoTransporter extends Transporter {
     const mongoSort = { [sortKey]: sort === 'DESC' ? -1 : 1 } as const;
 
     return {
-      db: this._client.db,
-      query,
-      collectionName: collection.collectionName,
       collection,
-      projection: projection,
-      onlyOne: first === 1,
+      collectionName: collection.collectionName,
+      PK,
+      db: this._client.db,
       first,
-      sort: mongoSort,
       firstFilterEntry,
       firstKey: firstFilterKey,
-      PK,
+      onlyOne: first === 1,
+      projection: projection,
+      query,
+      sort: mongoSort,
     };
   }
 
@@ -191,11 +191,11 @@ export class MongoTransporter extends Transporter {
     if (onlyOne) {
       const result = await mongoFindMany(
         {
-          db,
-          query,
           collection: collection.collectionName,
-          projection: projection,
+          db,
           onlyOne,
+          projection: projection,
+          query,
           sort,
         },
         options.context
@@ -206,7 +206,7 @@ export class MongoTransporter extends Transporter {
       }
     } else {
       items = await collection
-        .find(query, { sort, projection, limit: first })
+        .find(query, { limit: first, projection, sort })
         .toArray();
     }
 
@@ -220,8 +220,8 @@ export class MongoTransporter extends Transporter {
     });
 
     const edges = items.map((item) => ({
-      node: item,
       cursor: item.id,
+      node: item,
     }));
 
     let hasNextPage = !!(options.first && items.length > options.first);
@@ -233,10 +233,10 @@ export class MongoTransporter extends Transporter {
     return {
       edges,
       pageInfo: {
+        endCursor: items[items.length - 1]?.id,
         hasNextPage,
         hasPreviousPage: !!options.after,
         startCursor: items[0]?.id,
-        endCursor: items[items.length - 1]?.id,
       },
     };
   }
@@ -246,13 +246,13 @@ export class MongoTransporter extends Transporter {
       options;
 
     const { items } = await this.findMany({
+      condition,
+      consistent,
       context,
       filter,
-      projection,
-      consistent,
       first: 1,
       indexConfig,
-      condition,
+      projection,
     });
 
     return {
@@ -265,12 +265,12 @@ export class MongoTransporter extends Transporter {
       options;
 
     return await this.findOne({
+      condition,
+      consistent,
       context,
       filter: { id },
-      projection,
-      consistent,
       indexConfig,
-      condition,
+      projection,
     });
   }
 
@@ -295,25 +295,25 @@ export class MongoTransporter extends Transporter {
         { $and: parsedFilter },
         updateExpression,
         {
-          upsert,
           returnDocument: 'after',
+          upsert,
         }
       );
 
       const { updatedExisting, upserted } = result.lastErrorObject || {};
 
       return {
-        item: result.value as any,
         created: !!upserted,
+        item: result.value as any,
         updated: !!updatedExisting,
         // error: result.lastErrorObject
       };
     } catch (e: any) {
       return {
-        item: null,
-        error: e.message,
-        updated: false,
         created: false,
+        error: e.message,
+        item: null,
+        updated: false,
       };
     }
   }

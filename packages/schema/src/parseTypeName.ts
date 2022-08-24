@@ -5,9 +5,9 @@ import { FinalFieldDefinition } from './fields/_parseFields';
 import { __getCachedFieldInstance } from './parseObjectDefinition';
 
 export function parseTypeName(input: {
-  parentName: string;
-  fieldName: string;
   field: FinalFieldDefinition;
+  fieldName: string;
+  parentName: string;
 }) {
   const { field, parentName, fieldName } = input;
 

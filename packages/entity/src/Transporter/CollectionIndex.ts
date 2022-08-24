@@ -9,6 +9,7 @@ import { Logger } from '@darch/utils/lib/logger';
 import { base64ToText } from '@darch/utils/lib/textToBase64';
 import { Name } from '@darch/utils/lib/typeUtils';
 
+import { EntityError, EntityErrorKind } from './EntityError';
 import {
   DocumentBase,
   FilterConditions,
@@ -18,7 +19,6 @@ import {
   isFilterConditionKey,
   OneFilterOperation,
 } from './Transporter';
-import { EntityError, EntityErrorKind } from './EntityError';
 
 export const PK_SK_SEPARATOR = '↠';
 export const ID_SEPARATOR_REGEX = new RegExp(PK_SK_SEPARATOR, 'g');
@@ -26,10 +26,10 @@ export const ID_KEY_SEPARATOR = '#';
 export const ID_SCAPE_CHAR = String.fromCharCode(0);
 
 export function mountID(params: {
-  indexField: string;
-  entity: string;
   PK: string;
   SK: string | null;
+  entity: string;
+  indexField: string;
 }) {
   const { indexField, entity, PK, SK } = params;
 
@@ -49,8 +49,9 @@ export function mountID(params: {
 }
 
 export type GraphIDJSON = {
-  i: DocumentIndexField; // index name
-  e: string; // entity
+  // index name
+  e: string; 
+  i: DocumentIndexField; // entity
   v: string; // id value
 };
 
@@ -69,16 +70,16 @@ export function parseGraphID(input: string): GraphIDJSON | null {
     nonNullValues({
       e,
       i,
-      v,
       rest,
+      v,
     });
 
     assertDocumentIndexKey(i);
 
     return {
       e,
-      v,
       i,
+      v,
     };
   } catch (e) {
     Logger.logError(e);
@@ -87,12 +88,12 @@ export function parseGraphID(input: string): GraphIDJSON | null {
 }
 
 export type IndexBasedFilterParsed = {
-  filters: [FilterRecord, ...FilterRecord[]];
   PK: {
     // first primaryKey condition found in filter
     key: DocumentIndexField;
     value: string;
   };
+  filters: [FilterRecord, ...FilterRecord[]];
 };
 
 /**
@@ -142,19 +143,19 @@ export function createDocumentIndexBasedFilters(
     });
 
     const PK = mountIndexFromPartsList({
-      indexPartKind: 'PK',
-      indexParts: index.PK,
+      acceptNullable: false,
       doc: filter,
       indexField: index.field,
-      acceptNullable: false,
+      indexPartKind: 'PK',
+      indexParts: index.PK,
     });
 
     const SK = mountIndexFromPartsList({
-      indexPartKind: 'SK',
-      indexParts: index.SK || [],
+      acceptNullable: true,
       doc: filter,
       indexField: index.field,
-      acceptNullable: true,
+      indexPartKind: 'SK',
+      indexParts: index.SK || [],
     });
 
     if (!PK.valid) {
@@ -177,10 +178,6 @@ export function createDocumentIndexBasedFilters(
     };
 
     const items = joinPKAndSKAsIDFilter({
-      indexField: index.field,
-
-      entity,
-
       PK: PK.isFilter
         ? (PK.conditionFound as IndexFilter)
         : PK.valid
@@ -202,6 +199,10 @@ export function createDocumentIndexBasedFilters(
             { SK },
             { depth: 10 }
           ) as ''),
+
+      entity,
+
+      indexField: index.field,
     });
 
     filtersRecords.push(...items);
@@ -209,15 +210,15 @@ export function createDocumentIndexBasedFilters(
 
   if (!filtersRecords.length || !foundPK) {
     throw new EntityError({
+      filter,
       possibleCondition: foundPK,
       reason: !filterKeys.size ? 'EMPTY_FILTER' : 'INVALID_FILTER',
-      filter,
     });
   }
 
   return {
-    filters: filtersRecords as [FilterRecord, ...FilterRecord[]],
     PK: foundPK,
+    filters: filtersRecords as [FilterRecord, ...FilterRecord[]],
   };
 }
 
@@ -238,18 +239,18 @@ export function getDocumentIndexFields<
 
   indexes.forEach((index) => {
     const PK = mountIndexFromPartsList({
-      indexPartKind: 'PK',
-      indexParts: index.PK,
+      acceptNullable: false,
       doc,
       indexField: index.field,
-      acceptNullable: false,
+      indexPartKind: 'PK',
+      indexParts: index.PK,
     });
 
     let hashedId = mountID({
-      entity: entity,
-      indexField: index.field,
       PK: PK.value,
       SK: '',
+      entity: entity,
+      indexField: index.field,
     });
 
     if (PK.valid && !PK.isFilter && !partialIndexFilter) {
@@ -257,16 +258,14 @@ export function getDocumentIndexFields<
     }
 
     const SK = mountIndexFromPartsList({
-      indexPartKind: 'SK',
-      indexParts: index.SK || [],
+      acceptNullable: !index.SK || !index.SK.length,
       doc,
       indexField: index.field,
-      acceptNullable: !index.SK || !index.SK.length,
+      indexPartKind: 'SK',
+      indexParts: index.SK || [],
     });
 
     parsedIndexKeys.push({
-      entity,
-      index,
       PK: {
         definition: index.PK,
         requiredFields: PK.requiredFields,
@@ -275,6 +274,8 @@ export function getDocumentIndexFields<
         definition: index.SK,
         requiredFields: SK.requiredFields,
       },
+      entity,
+      index,
     });
 
     hashedId += SK.value;
@@ -304,16 +305,16 @@ export function getDocumentIndexFields<
         if (partialIndexFilter) {
           return {
             error: {
-              reason: EntityErrorKind.INVALID_FILTER,
               invalidFields,
+              reason: EntityErrorKind.INVALID_FILTER,
             },
           };
         }
 
         return {
           error: {
-            reason: EntityErrorKind.INVALID_FIELDS,
             invalidFields,
+            reason: EntityErrorKind.INVALID_FIELDS,
           },
         };
       }
@@ -321,13 +322,13 @@ export function getDocumentIndexFields<
     })();
 
     return {
-      valid: false,
+      error: new EntityError(parsed.error),
       firstIndex,
-      partialIndexFilter,
       indexFields: null,
       invalidFields,
-      error: new EntityError(parsed.error),
       parsedIndexKeys,
+      partialIndexFilter,
+      valid: false,
     };
   }
 
@@ -335,21 +336,21 @@ export function getDocumentIndexFields<
   indexFields.id = indexFields.id || mountGraphID(firstIndex.value);
 
   return {
-    valid,
+    error: null,
     firstIndex,
-    partialIndexFilter,
     indexFields,
     invalidFields: null,
-    error: null,
     parsedIndexKeys,
+    partialIndexFilter,
+    valid,
   };
 }
 
 function joinPKAndSKAsIDFilter(options: {
-  indexField: DocumentIndexField;
-  entity: string;
   PK: IndexFilter | string;
   SK: IndexFilter | string | null | undefined;
+  entity: string;
+  indexField: DocumentIndexField;
 }): FilterRecord[] {
   let { PK, SK, entity, indexField } = options;
   const SKField = `${indexField}SK`;
@@ -359,7 +360,7 @@ function joinPKAndSKAsIDFilter(options: {
 
   if (typeof PK === 'string' && typeof SK === 'string') {
     return [
-      { [indexField]: mountID({ entity, PK, SK, indexField: indexField }) },
+      { [indexField]: mountID({ PK, SK, entity, indexField: indexField }) },
     ];
   }
 
@@ -407,8 +408,8 @@ function joinPKAndSKAsIDFilter(options: {
     const valueError = new RuntimeError(
       `Invalid value for comparator ${comparator}`,
       {
-        value: pk_value,
         comparator,
+        value: pk_value,
       }
     );
 
@@ -471,8 +472,8 @@ function joinPKAndSKAsIDFilter(options: {
             [comparator]: mountID({
               PK: pk_value,
               SK: SKValue,
-              indexField: indexField,
               entity,
+              indexField: indexField,
             }),
           },
         };
@@ -506,8 +507,8 @@ function joinPKAndSKAsIDFilter(options: {
     let { sk_value, comparator } = (() => {
       if (SKValue === null || SKValue === undefined) {
         return {
-          sk_value: SKValue,
           comparator: SKValue === undefined ? '$startsWith' : '$eq',
+          sk_value: SKValue,
         };
       }
 
@@ -547,8 +548,8 @@ function joinPKAndSKAsIDFilter(options: {
             $startsWith: mountID({
               PK: PKString,
               SK: sk_value,
-              indexField: indexField,
               entity,
+              indexField: indexField,
             }),
           },
         };
@@ -563,22 +564,22 @@ function joinPKAndSKAsIDFilter(options: {
           [indexField]: {
             $between: [
               mountID({
-                indexField: indexField,
-                entity,
                 PK: PKString,
                 SK:
                   typeof sk_value[0] === 'number'
                     ? encodeNumber(sk_value[0])
                     : sk_value[0],
+                entity,
+                indexField: indexField,
               }),
               mountID({
-                indexField: indexField,
-                entity,
                 PK: PKString,
                 SK:
                   typeof sk_value[1] === 'number'
                     ? encodeNumber(sk_value[1])
                     : sk_value[1],
+                entity,
+                indexField: indexField,
               }),
             ],
           },
@@ -595,8 +596,8 @@ function joinPKAndSKAsIDFilter(options: {
             [comparator]: mountID({
               PK: PKString,
               SK: sk_value,
-              indexField: indexField,
               entity,
+              indexField: indexField,
             }),
           },
         };
@@ -619,8 +620,8 @@ function joinPKAndSKAsIDFilter(options: {
                 $startsWith: mountID({
                   PK: PKString,
                   SK: '',
-                  indexField: indexField,
                   entity,
+                  indexField: indexField,
                 }),
               },
             },
@@ -629,8 +630,8 @@ function joinPKAndSKAsIDFilter(options: {
                 [comparator]: mountID({
                   PK: PKString,
                   SK: sk_value,
-                  indexField: indexField,
                   entity,
+                  indexField: indexField,
                 }),
               },
             },
@@ -648,11 +649,12 @@ function joinPKAndSKAsIDFilter(options: {
 }
 
 function mountIndexFromPartsList(param: {
-  indexParts: ReadonlyArray<IndexKeyHash>; // (`#${string}` | `.${string}`)[]
-  indexPartKind: IndexPartKind;
-  indexField: ParsedIndexPart['indexField'];
+  acceptNullable: boolean; 
   doc: Record<string, any>;
-  acceptNullable: boolean; // when mounting filter for search, SK can be omitted
+  indexField: ParsedIndexPart['indexField'];
+  // (`#${string}` | `.${string}`)[]
+  indexPartKind: IndexPartKind;
+  indexParts: ReadonlyArray<IndexKeyHash>; // when mounting filter for search, SK can be omitted
 }): ParsedIndexPart {
   const { indexParts, indexField, indexPartKind, doc, acceptNullable } = param;
 
@@ -680,11 +682,11 @@ function mountIndexFromPartsList(param: {
         if (acceptNullable) return (nullableFound = { value: found });
         //
         return invalidFields.push({
-          reason: 'missing',
           details: `Expected string or number, found ${found}.`,
           documentField: keyPart,
           indexField: indexField,
           indexPartKind,
+          reason: 'missing',
         });
       }
 
@@ -715,7 +717,6 @@ function mountIndexFromPartsList(param: {
       }
 
       return invalidFields.push({
-        reason: 'invalid',
         details: `Expected string or number, found ${typeof found} with value: ${inspectObject(
           found,
           {
@@ -725,25 +726,26 @@ function mountIndexFromPartsList(param: {
         documentField: keyPart,
         indexField,
         indexPartKind,
+        reason: 'invalid',
       });
     }
 
     return invalidFields.push({
-      reason: 'invalid',
       details: `Expected key part to match ".\${string}" or "#\${string}", found ${keyPart}`,
       documentField: keyPart,
       indexField,
       indexPartKind,
+      reason: 'invalid',
     });
   });
 
   const result: ParsedIndexPart = {
-    value: nullableFound ? '' : stringParts.join(ID_KEY_SEPARATOR),
-    valid: !invalidFields.length,
-    invalidFields,
     indexField,
+    invalidFields,
     isFilter: false,
     requiredFields,
+    valid: !invalidFields.length,
+    value: nullableFound ? '' : stringParts.join(ID_KEY_SEPARATOR),
   };
 
   if (nullableFound) {
@@ -796,8 +798,6 @@ export const DocumentIndexRegex = /^(_id\d*)|(id)$/;
 // Definition for a document index
 
 export type DocumentIndexItem<Keys, TName extends Name> = Readonly<{
-  name: TName;
-  field: DocumentIndexField;
   PK: Readonly<
     [
       IndexKeyHash<Extract<Keys, string>>,
@@ -810,6 +810,8 @@ export type DocumentIndexItem<Keys, TName extends Name> = Readonly<{
       ...IndexKeyHash<Extract<Keys, string>>[]
     ]
   >;
+  field: DocumentIndexField;
+  name: TName;
 }>;
 
 export type AnyDocIndexItem = DocumentIndexItem<string, Name>;
@@ -832,81 +834,81 @@ export type AnyCollectionIndexConfig = CollectionIndexConfig<
 >;
 
 export type InvalidParsedIndexField = {
-  reason: 'missing' | 'invalid';
   details: string;
   documentField: string;
   indexField: AnyDocIndexItem['field'];
   indexPartKind: IndexPartKind;
+  reason: 'missing' | 'invalid';
 };
 
 export type ParsedIndexPart = {
-  invalidFields: InvalidParsedIndexField[];
-  value: string;
-  valid: boolean;
-  isFilter: boolean;
-  indexField: AnyDocIndexItem['field'];
-  requiredFields: string[];
   conditionFound?: OneFilterOperation;
-  nullableFound?: { value: null | undefined }; // when a nullable SK filter is null | undefined
+  indexField: AnyDocIndexItem['field'];
+  invalidFields: InvalidParsedIndexField[];
+  isFilter: boolean;
+  nullableFound?: { value: null | undefined };
+  requiredFields: string[];
+  valid: boolean;
+  value: string; // when a nullable SK filter is null | undefined
 };
 
 export type DocumentIndexFilterParsed = {
-  key: AnyDocIndexItem['field'];
   PK: FilterConditions | string;
   SK: FilterConditions | string;
   entity: string;
+  key: AnyDocIndexItem['field'];
 };
 
 export type ParsedIndexKey = {
-  entity: string;
-  index: AnyDocIndexItem;
   PK: {
-    requiredFields: string[];
     definition: Readonly<AnyDocIndexItem['PK']>;
+    requiredFields: string[];
   };
   SK: {
-    requiredFields: string[];
     definition: Readonly<AnyDocIndexItem['SK']>;
+    requiredFields: string[];
   };
+  entity: string;
+  index: AnyDocIndexItem;
 };
 
 export type ParsedDocumentIndexes =
   | {
-      valid: true;
-      indexFields: Record<string, string>;
+      error: null;
+      filtersFound?: DocumentIndexFilterParsed[];
       firstIndex: {
         key: AnyDocIndexItem['field'];
         value: string;
       };
 
+      indexFields: Record<string, string>;
+
+      invalidFields: null;
+
+      parsedIndexKeys: ParsedIndexKey[];
       partialIndexFilter: {
         key: AnyDocIndexItem['field'];
         value: string;
       };
-
-      filtersFound?: DocumentIndexFilterParsed[];
-
-      invalidFields: null;
-      error: null;
-      parsedIndexKeys: ParsedIndexKey[];
+      valid: true;
     }
   | {
-      valid: false;
-      invalidFields: ParsedIndexPart['invalidFields'];
-
-      partialIndexFilter: {
-        key: AnyDocIndexItem['field'];
-        value: string;
-      } | null;
-
+      error: EntityError;
       firstIndex: {
         key: AnyDocIndexItem['field'];
         value: string;
       } | null;
 
       indexFields: null;
-      error: EntityError;
+
+      invalidFields: ParsedIndexPart['invalidFields'];
+
       parsedIndexKeys: ParsedIndexKey[];
+      partialIndexFilter: {
+        key: AnyDocIndexItem['field'];
+        value: string;
+      } | null;
+      valid: false;
     };
 
 export function isDocumentIndexKey(

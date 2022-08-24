@@ -3,11 +3,11 @@ import { __getCachedFieldInstance } from './ObjectType';
 import { isMetaField } from './fields/MetaFieldField';
 
 export function validateObjectFields(params: {
-  parentType?: string;
-  fieldName: string;
   definition: FinalFieldDefinition;
-  value: any;
+  fieldName: string;
   fieldParserOptions?: { excludeInvalidListItems?: boolean };
+  parentType?: string;
+  value: any;
 }): {
   errors: string[];
   parsed?: any;
@@ -32,8 +32,8 @@ export function validateObjectFields(params: {
     const parsed = field.parse(value, fieldParserOptions);
 
     return {
-      parsed,
       errors: [],
+      parsed,
     };
   } catch (e: any) {
     return {

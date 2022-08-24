@@ -16,7 +16,7 @@ export function withCache<Cache extends Record<string, any>>(
   ): Cache[K] {
     if (!cache.has(key)) {
       if (typeof onCreate !== 'function') {
-        throw new RuntimeError(`missing cache ${key}`, { parent, cache });
+        throw new RuntimeError(`missing cache ${key}`, { cache, parent });
       }
 
       cache.set(key, onCreate());

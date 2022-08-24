@@ -4,18 +4,6 @@ import { DateField } from '../fields/DateField';
 
 export const GraphQLDateType = new GraphQLScalarType({
   name: 'Date',
-  serialize(value) {
-    return DateField.serialize(value).toJSON();
-  },
-  parseValue(value: any) {
-    const date = new Date(value);
-
-    if (Number.isNaN(date.getTime())) {
-      throw new TypeError('Field error: value is an invalid Date');
-    }
-
-    return date;
-  },
   parseLiteral(ast) {
     if (ast.kind === Kind.INT) {
       return new Date(parseInt(ast.value, 10));
@@ -34,5 +22,17 @@ export const GraphQLDateType = new GraphQLScalarType({
     }
 
     return result;
+  },
+  parseValue(value: any) {
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+      throw new TypeError('Field error: value is an invalid Date');
+    }
+
+    return date;
+  },
+  serialize(value) {
+    return DateField.serialize(value).toJSON();
   },
 });

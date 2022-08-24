@@ -22,9 +22,9 @@ describe('createType', () => {
     expect(sut.definition.type).toEqual('object');
 
     type Expected = {
-      name: string;
       age?: number | undefined;
       ee: 'open' | 'closed';
+      name: string;
     };
     type Inferred = Infer<typeof sut>;
     type Return = ReturnType<typeof sut.parse>;

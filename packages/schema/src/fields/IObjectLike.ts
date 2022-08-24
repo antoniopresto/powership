@@ -4,15 +4,15 @@ import { TAnyFieldType } from './FieldType';
 import { FinalFieldDefinition } from './_parseFields';
 
 export interface ObjectLike {
-  definition: { [K: string]: any };
   __isDarchObject: true;
+  definition: { [K: string]: any };
 }
 
 export interface GraphTypeLike {
+  __field: TAnyFieldType;
   __isGraphType: true;
+  readonly _object: ObjectLike | undefined;
   definition: FinalFieldDefinition;
   definitionInput: FieldDefinitionConfig;
-  __field: TAnyFieldType;
   readonly id: string;
-  readonly _object: ObjectLike | undefined;
 }

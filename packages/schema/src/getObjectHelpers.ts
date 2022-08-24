@@ -13,9 +13,9 @@ export type ObjectFieldListItem<T extends ObjectDefinitionInput> = {
 };
 
 export type ObjectHelpers<T extends ObjectDefinitionInput> = {
+  keys: Extract<keyof T, string>[];
   list: ObjectFieldListItem<T>[];
   meta: MetaFieldDef | undefined;
-  keys: Extract<keyof T, string>[];
 };
 
 export function getObjectHelpers<T extends ObjectDefinitionInput>(
@@ -36,15 +36,15 @@ export function getObjectHelpers<T extends ObjectDefinitionInput>(
     const instance = __getCachedFieldInstance(field);
 
     list.push({
-      name: fieldName,
       instance,
+      name: fieldName,
       plainField: field,
     });
   });
 
   return {
+    keys,
     list,
     meta,
-    keys,
   };
 }

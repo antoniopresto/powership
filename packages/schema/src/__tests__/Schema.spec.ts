@@ -408,7 +408,7 @@ describe('Object', () => {
 
     type Clone = Infer<typeof clone>;
 
-    assert<IsExact<Clone, { name: string; emails: string[] }>>(true);
+    assert<IsExact<Clone, { emails: string[]; name: string }>>(true);
 
     expect(clone.id).toBe('identifyMe');
   });

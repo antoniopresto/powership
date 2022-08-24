@@ -4,31 +4,31 @@ import { DarchJSON, getKeys } from '@darch/utils';
 import { FieldTypes } from '../Transporter';
 
 const PKSKValueType = createType('PKSKValue', {
-  union: ['string', 'float'],
   optional: true,
+  union: ['string', 'float'],
 });
 
 const $eq = {
-  union: ['string', 'float', 'boolean', 'null'],
   optional: true,
+  union: ['string', 'float', 'boolean', 'null'],
 } as const;
 
 const Def = {
+  between: { optional: true, union: ['[string]', '[float]'] },
+  contains: {
+    optional: true,
+    union: ['string', 'float', 'boolean', 'null'],
+  },
   eq: $eq,
-  ne: $eq,
-  lte: PKSKValueType,
+  exists: 'boolean?',
   gt: PKSKValueType,
   gte: PKSKValueType,
-  between: { union: ['[string]', '[float]'], optional: true },
-  exists: 'boolean?',
-  type: { enum: FieldTypes, optional: true },
-  startsWith: 'string?',
-  contains: {
-    union: ['string', 'float', 'boolean', 'null'],
-    optional: true,
-  },
-  matchString: 'string?',
   in: '[any]?',
+  lte: PKSKValueType,
+  matchString: 'string?',
+  ne: $eq,
+  startsWith: 'string?',
+  type: { enum: FieldTypes, optional: true },
 } as const;
 
 export const EntityFilterConditionType = createType('Filter', {
@@ -53,8 +53,8 @@ export function objectToGraphQLConditionType<T>(
 
   Object.keys(objectDef).forEach((k) => {
     graphqlDef[k] = {
-      type: EntityFilterConditionType,
       optional: true,
+      type: EntityFilterConditionType,
     };
   });
 

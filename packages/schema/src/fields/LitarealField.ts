@@ -21,18 +21,6 @@ export class LiteralField<T extends Readonly<Serializable>> extends FieldType<
   __isLiteralField = true;
 
   static utils = {
-    serialize(value: any): string {
-      if (typeof value === 'string') return value;
-
-      try {
-        return DarchJSON.stringify(value);
-      } catch (e) {
-        throw new RuntimeError(`Failed to serialize`, {
-          //
-        });
-      }
-    },
-
     deserialize(def: LiteralFieldDef): any {
       const typename = getTypeName(def.value);
 
@@ -47,12 +35,24 @@ export class LiteralField<T extends Readonly<Serializable>> extends FieldType<
       }
     },
 
+    serialize(value: any): string {
+      if (typeof value === 'string') return value;
+
+      try {
+        return DarchJSON.stringify(value);
+      } catch (e) {
+        throw new RuntimeError(`Failed to serialize`, {
+          //
+        });
+      }
+    },
+
     toDef(input: any): LiteralFieldDef {
       if (LiteralField.isLiteralFieldDef(input)) return input;
 
       return {
-        value: LiteralField.utils.serialize(input),
         [PROTO_KEY]: getTypeName(input),
+        value: LiteralField.utils.serialize(input),
       };
     },
   };

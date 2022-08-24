@@ -31,7 +31,7 @@ describe('createResolver', () => {
     type Return = PromiseType<ReturnType<typeof resolver.resolve>>;
     type Args = Parameters<typeof resolver.resolve>[1];
 
-    assert<IsExact<Return, { name: string; id: string }>>(true);
+    assert<IsExact<Return, { id: string; name: string }>>(true);
     assert<IsExact<Args, { id: string }>>(true);
 
     const object = new GraphQLSchema({
@@ -86,17 +86,17 @@ describe('createResolver', () => {
     type Return = ReturnType<typeof resolver.resolve>;
     type Args = Parameters<typeof resolver.resolve>[1];
 
-    assert<IsExact<Return, MaybePromise<{ name: string; age?: number }>>>(true);
+    assert<IsExact<Return, MaybePromise<{ age?: number; name: string }>>>(true);
 
     assert<
       IsExact<
         Args,
         {
-          name: string;
           addresses: {
             number?: number | undefined;
             street: string;
           }[];
+          name: string;
           records: { [K: number]: 'banana' };
         }
       >

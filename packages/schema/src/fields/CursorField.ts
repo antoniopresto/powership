@@ -6,43 +6,45 @@ import { CursorType } from './_fieldDefinitions';
 
 const def = {
   PK: {
-    string: {},
     description: 'Primary Key',
+    string: {},
   },
   SK: {
-    string: {},
     description: 'Secondary or Sort Key',
     optional: true,
-  },
-  version: {
     string: {},
-    description: 'The Cursor format version',
   },
-  prefix: {
-    string: {},
-    description: 'The prefix to search as "startsWith" in SK',
+  after: {
+    // description: '',
     optional: true,
-  },
-  sep: {
+
     string: {},
-    description: 'Composite key separator',
+  },
+  fields: {
+    list: true,
+
+    // description: '',
     optional: true,
+    string: {},
   },
   limit: {
     int: {},
     // description: '',
     optional: true,
   },
-  after: {
-    string: {},
-    // description: '',
+  prefix: {
+    description: 'The prefix to search as "startsWith" in SK',
     optional: true,
+    string: {},
   },
-  fields: {
-    string: {},
-    // description: '',
+  sep: {
+    description: 'Composite key separator',
     optional: true,
-    list: true,
+    string: {},
+  },
+  version: {
+    description: 'The Cursor format version',
+    string: {},
   },
 } as const;
 

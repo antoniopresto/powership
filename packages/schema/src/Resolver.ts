@@ -91,34 +91,38 @@ export function createResolver(
 
   const result: AnyResolver = {
     ...rest,
-    kind,
-    name,
-    resolve: resolveFunction,
+    __graphTypeId: payloadType.id,
+
+    __isRelation: false,
+
+    __isResolver: true,
+
+    __relatedToGraphTypeId: '',
+
     args:
       'getFields' in innerArgsGQLType.innerType
         ? innerArgsGQLType.innerType.getFields()
         : {},
-    type: gqlType,
 
     // Resolver fields - not in GraphQLFieldConfig
     argsDef: args,
-    typeDef: payloadType.definition,
-    payloadType,
     argsType,
     asObjectField: (_name = name): GraphQLField<any, any> => {
       const temp = new GraphQLObjectType({
-        name: 'temp',
         fields: {
           [_name]: result,
         },
+        name: 'temp',
       });
 
       return temp.getFields()[_name];
     },
-    __isResolver: true,
-    __isRelation: false,
-    __relatedToGraphTypeId: '',
-    __graphTypeId: payloadType.id,
+    kind,
+    name,
+    payloadType,
+    resolve: resolveFunction,
+    type: gqlType,
+    typeDef: payloadType.definition,
   };
 
   GraphType.resolvers.set(name, result);
@@ -137,7 +141,7 @@ export type InferResolverArgs<ArgsDef> =
     : [ArgsDef] extends [undefined]
     ? Record<string, unknown>
     : [ArgsDef] extends [{ [K: string]: unknown }]
-    ? ToFinalField<{ type: 'object'; def: ArgsDef }>['__infer']
+    ? ToFinalField<{ def: ArgsDef; type: 'object' }>['__infer']
     : Record<string, unknown>;
 
 export type ResolverKind = 'query' | 'mutation' | 'subscription';
@@ -148,11 +152,11 @@ export interface ResolverConfig<
   TypeDef extends ObjectFieldInput,
   ArgsDef extends ObjectDefinitionInput
 > extends Omit<GraphQLFieldConfig<any, any>, 'resolve' | 'args' | 'type'> {
-  name: string;
-  kind?: ResolverKind;
   args?: ArgsDef;
-  type: TypeDef;
+  kind?: ResolverKind;
+  name: string;
   resolve: ResolverResolve<Context, Source, TypeDef, ArgsDef>;
+  type: TypeDef;
 }
 
 export interface Resolver<
@@ -161,39 +165,39 @@ export interface Resolver<
   TypeDef,
   ArgsDef
 > extends Omit<GraphQLFieldConfig<any, any>, 'resolve' | 'args' | 'type'> {
-  __isResolver: true;
-  __isRelation: boolean;
   __graphTypeId: string;
+  __isRelation: boolean;
+  __isResolver: true;
   __relatedToGraphTypeId: string;
-  name: string;
+  args: any;
+  argsDef: any;
+  argsType: GraphTypeLike;
+  asObjectField(name?: string): GraphQLField<any, any>;
   kind: 'query' | 'subscription' | 'mutation';
+  name: string;
+  payloadType: GraphTypeLike;
+  resolve: ResolverResolve<Context, Source, TypeDef, ArgsDef>;
+  type: any;
   // keep calm ts
   typeDef: any;
-  argsDef: any;
-  payloadType: GraphTypeLike;
-  argsType: GraphTypeLike;
-  type: any;
-  args: any;
-  asObjectField(name?: string): GraphQLField<any, any>;
-  resolve: ResolverResolve<Context, Source, TypeDef, ArgsDef>;
 }
 
 export interface AnyResolver
   extends Omit<GraphQLFieldConfig<any, any>, 'args' | 'type'> {
-  name: string;
-  kind: ResolverKind;
-  typeDef: any;
-  argsDef: any;
-  payloadType: GraphType<any>;
-  argsType: GraphType<any>;
-  type: any;
-  args: any;
-  asObjectField(name?: string): GraphQLField<any, any>;
-  resolve(root: any, args: any, context: any, info: any): any;
-  __isResolver: true;
-  __isRelation: boolean;
-  __relatedToGraphTypeId: string;
   __graphTypeId: string;
+  __isRelation: boolean;
+  __isResolver: true;
+  __relatedToGraphTypeId: string;
+  args: any;
+  argsDef: any;
+  argsType: GraphType<any>;
+  asObjectField(name?: string): GraphQLField<any, any>;
+  kind: ResolverKind;
+  name: string;
+  payloadType: GraphType<any>;
+  resolve(root: any, args: any, context: any, info: any): any;
+  type: any;
+  typeDef: any;
 }
 
 export type ResolverResolve<Context, Source, TypeDef, ArgsDef> = (

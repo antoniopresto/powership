@@ -2,10 +2,10 @@ import { createType, GraphType, GraphTypeLike, Infer } from '@darch/schema';
 
 export const PageInfoType = createType('PageInfo', {
   object: {
+    endCursor: 'string?',
     hasNextPage: 'boolean',
     hasPreviousPage: 'boolean',
     startCursor: 'string?',
-    endCursor: 'string?',
   },
 });
 

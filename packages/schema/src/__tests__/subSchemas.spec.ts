@@ -33,14 +33,14 @@ describe('subObjects', () => {
       IsExact<
         TObject1,
         {
-          id: string;
-          title: string;
-          age?: number | undefined;
           addresses: {
-            street: string;
             //number: string | number;
             principal?: boolean | undefined;
+            street: string;
           }[];
+          age?: number | undefined;
+          id: string;
+          title: string;
         }
       >
     >(true);

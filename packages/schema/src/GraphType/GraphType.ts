@@ -106,8 +106,8 @@ export class GraphType<Definition extends ObjectFieldInput>
 
     if (!name) {
       throw new RuntimeError(`Expected name to be provided, found ${name}`, {
-        name,
         definition,
+        name,
       });
     }
 
@@ -150,10 +150,10 @@ export class GraphType<Definition extends ObjectFieldInput>
     // @ts-ignore
     return Darch.GraphQLParser.fieldToGraphQL({
       field: this.__field,
-      path: [`Type_${this.id}`],
-      plainField: this.__field.asFinalFieldDef,
       fieldName: this.id,
       parentName: this.id,
+      path: [`Type_${this.id}`],
+      plainField: this.__field.asFinalFieldDef,
     }) as any;
   };
 
@@ -192,7 +192,7 @@ export class GraphType<Definition extends ObjectFieldInput>
     Context = unknown,
     ArgsDef extends ObjectDefinitionInput = ObjectDefinitionInput
   >(
-    options: { type: FieldTypeDef; name: Name } & ResolverConfig<
+    options: { name: Name; type: FieldTypeDef } & ResolverConfig<
       Context,
       unknown,
       FieldTypeDef,
@@ -212,8 +212,8 @@ export class GraphType<Definition extends ObjectFieldInput>
     if (!object) {
       throw new RuntimeError(`Can't add relation to a not object type`, {
         object,
-        type,
         options,
+        type,
       });
     }
 
@@ -306,11 +306,11 @@ export class GraphType<Definition extends ObjectFieldInput>
   }
 
   static isTypeDefinition(input: any): input is {
-    type: GraphTypeLike;
+    defaultValue?: unknown;
+    description?: string;
     list?: boolean;
     optional?: boolean;
-    description?: string;
-    defaultValue?: unknown;
+    type: GraphTypeLike;
   } {
     return input?.type?.__isGraphType === true;
   }

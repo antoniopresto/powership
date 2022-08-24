@@ -31,11 +31,11 @@ import {
 import { assertSameDefinition } from './assertSameDefinition';
 import { ObjectLike } from './fields/IObjectLike';
 import {
-  withCleanMetaField,
   getObjectDefinitionMetaField,
   isMetaFieldKey,
   MetaFieldDef,
   objectMetaFieldKey,
+  withCleanMetaField,
 } from './fields/MetaFieldField';
 import type {
   FinalFieldDefinition,
@@ -112,8 +112,8 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
   parse(
     input: any,
     options?: {
-      partial: true;
       customMessage?: ValidationCustomMessage;
+      partial: true;
     } & FieldParserOptionsObject
   ): Partial<Infer<DefinitionInput>>;
 
@@ -160,10 +160,10 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
   safeParse(
     input: any,
     options?: {
-      partial?: boolean;
       customMessage?: ValidationCustomMessage;
-      fields?: keyof DefinitionInput[];
       excludeInvalidListItems?: boolean;
+      fields?: keyof DefinitionInput[];
+      partial?: boolean;
     }
   ): { errors: string[]; parsed: unknown } {
     const {
@@ -203,10 +203,10 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
       }
 
       const result = validateObjectFields({
-        fieldName: currField,
         definition: fieldDef,
-        value,
+        fieldName: currField,
         fieldParserOptions: { excludeInvalidListItems },
+        value,
       });
 
       if (result.parsed !== undefined) {
@@ -216,7 +216,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
       errors.push(...result.errors);
     });
 
-    return { parsed, errors };
+    return { errors, parsed };
   }
 
   describe(

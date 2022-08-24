@@ -5,11 +5,11 @@ export type CacheContext = Record<string, any>;
 
 // input object to call mongoFindMany
 export interface MongoFindManyParams {
-  db: Db;
-  query: Record<string, any>;
   collection: string;
+  db: Db;
   onlyOne?: boolean;
   projection?: object;
+  query: Record<string, any>;
   sort?: object;
 }
 
@@ -20,12 +20,14 @@ export type MongoDataLoaderOptions = DataLoader.Options<
 >;
 
 export interface MongoDataLoaderKey {
-  db: Db;
-  query: Record<string, any>;
-  queryHash: string; // from hashMongoCursor
-  dataloaderHash: string; // from hashMongoCursor
+  // from hashMongoCursor
   collection: string;
-  onlyOne: boolean;
+  // from hashMongoCursor
+  dataloaderHash: string;
+  db: Db; 
+  onlyOne: boolean; 
   projection?: Record<string, any>;
+  query: Record<string, any>;
+  queryHash: string;
   sort?: Record<string, any>;
 }
