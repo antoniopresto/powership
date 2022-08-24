@@ -1,7 +1,7 @@
 import { ASTNode, parse, print } from 'graphql';
 
 export function formatGraphQL(schemaSdl: string) {
-  const node: any = walkAST(parse(schemaSdl), 'definitions');
+  const node: any = walkAST(parse(schemaSdl));
   return print(node);
 }
 
@@ -23,13 +23,8 @@ function sortSchema(key: string, value) {
   return value;
 }
 
-function walkAST(node: ASTNode, key?: string) {
-  // Map a node type to the child node type we should walk down next
-  const nextKey = {
-    arguments: null,
-    definitions: 'fields',
-    fields: 'arguments',
-  };
+function walkAST(node: ASTNode) {
+  let key = node.kind === 'Document' ? 'definitions' : '';
 
   if (!key) {
     return node;
@@ -40,7 +35,7 @@ function walkAST(node: ASTNode, key?: string) {
   }
 
   node[key] = sortSchema(key, node[key]).map((child) => {
-    return walkAST(child, nextKey[key]);
+    return walkAST(child);
   });
 
   return node;

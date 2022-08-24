@@ -151,8 +151,7 @@ export function getQueryTemplates(
     const topArgsString = topArgs.length ? `(${topArgs.join(',')})` : '';
     const innerArgsString = innerArgs.length ? `(${innerArgs.join(',')})` : '';
 
-    const queryName = ` ${name} `;
-    fullQuery += `${kind} ${queryName}${topArgsString} { ${name} ${innerArgsString} ${innerQuery}}`;
+    fullQuery += `${kind} ${name}${topArgsString} { ${name} ${innerArgsString} ${innerQuery}}`;
   } else {
     fullQuery += `${kind} ${fieldQuery}`;
   }
@@ -167,6 +166,8 @@ export function getQueryTemplates(
     fullQuery = prettifyQuery(fullQuery, 'mainQuery');
     fieldQuery = fragments + prettifyQuery(fieldQuery, 'fieldQuery');
   }
+
+  fullQuery += `\n`;
 
   return { ...fieldStrings, fullQuery, fieldQuery, fields: payload };
 }
@@ -375,7 +376,7 @@ function fieldsToString(config: {
 
         const {
           argsParsed: {
-            strings: { topArgsString, innerArgsString },
+            strings: { innerArgsString },
           },
         } = child;
 
@@ -385,7 +386,7 @@ function fieldsToString(config: {
 
         self.fragments[
           fragmentName
-        ] = `fragment ${fragmentName}${topArgsString} on ${field.innerTypeString} { ${child.query} }\n`;
+        ] = `fragment ${fragmentName} on ${field.innerTypeString} { ${child.query} }\n`;
       }
 
       if (field.isUnion) {
@@ -619,7 +620,7 @@ function prettifyQuery(
   try {
     value = formatGraphQL(isMainQuery ? value : `{${value}}`);
   } catch (e: any) {
-    throw new Error(`Failed to prettify:\n${value}\n\n\n${e.stack}`);
+    // throw new Error(`Failed to prettify:\n${value}\n\n\n${e.stack}`);
   }
 
   if (isMainQuery) return value;

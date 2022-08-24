@@ -129,7 +129,7 @@ describe('schema.getGraphQLTypescript', () => {
       '        },',
       '      },',
       '      query:',
-      "        'fragment LoginRegister3438313585Fragment($findUsers_logins_since: Date) on LoginRegister {\\n  time\\n  device\\n}\\nquery findUsers($findUsers_limit: Int!, $findUsers_logins_since: Date) {\\n  findUsers(limit: $findUsers_limit, since: $findUsers_logins_since) {\\n    id\\n    logins(since: $findUsers_logins_since) {\\n      ...LoginRegister3438313585Fragment\\n    }\\n  }\\n}\\n',",
+      "        'query findUsers($findUsers_limit: Int!, $findUsers_logins_since: Date) {\\n  findUsers(limit: $findUsers_limit, since: $findUsers_logins_since) {\\n    id\\n    logins(since: $findUsers_logins_since) {\\n      ...LoginRegister3438313585Fragment\\n    }\\n  }\\n}\\n\\nfragment LoginRegister3438313585Fragment on LoginRegister {\\n  time\\n  device\\n}\\n',",
       '    } as const,',
       '  },',
       '} as const;',
