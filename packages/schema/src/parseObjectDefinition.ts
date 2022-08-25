@@ -3,6 +3,7 @@ import { isProduction } from '@darch/utils/lib/env';
 import { getKeys } from '@darch/utils/lib/getKeys';
 import { getTypeName } from '@darch/utils/lib/getTypeName';
 import { inspectObject } from '@darch/utils/lib/inspectObject';
+import { Logger } from '@darch/utils/lib/logger';
 import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 
 import { GraphType } from './GraphType/GraphType';
@@ -181,19 +182,25 @@ export function parseFieldDefinitionConfig(
     );
   }
 
-  const result = _parseField();
+  try {
+    const result = _parseField();
 
-  if (definition && typeof definition === 'object') {
-    if (
-      '__as' in definition &&
-      definition.__as &&
-      typeof definition.__as === 'string'
-    ) {
-      result.__as = definition.__as;
+    if (definition && typeof definition === 'object') {
+      if (
+        'alias' in definition &&
+        definition.alias &&
+        typeof definition.alias === 'string'
+      ) {
+        result.alias = definition.alias;
+      }
     }
-  }
 
-  return simpleObjectClone(result);
+    return simpleObjectClone(result);
+  } catch (e) {
+    debugger;
+    Logger.logError(e, { input: inspectObject(definition, { depth: 10 }) });
+    throw e;
+  }
 }
 
 export function parseObjectDefinition<T extends ObjectDefinitionInput>(
@@ -281,7 +288,7 @@ export function isObjectAsTypeDefinition(
 }
 
 const validFlattenDefinitionKeys = {
-  __as: 'string',
+  alias: 'string',
   defaultValue: 'any',
   description: 'string',
   list: 'boolean',
@@ -293,8 +300,6 @@ export function parseFlattenFieldDefinition(
 ): FinalFieldDefinition | false {
   if (getTypeName(input) !== 'Object') return false;
   if (input.type !== undefined) return false;
-  const keys = Object.keys(input);
-  if (keys.length > 6) return false;
 
   let type;
   let def;
@@ -339,11 +344,11 @@ export function parseFlattenFieldDefinition(
     optional = false,
     list = false,
     defaultValue,
-    __as,
+    alias,
   } = input;
 
   return parseFieldDefinitionConfig({
-    __as,
+    alias,
     def,
     defaultValue,
     description,

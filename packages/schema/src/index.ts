@@ -9,6 +9,7 @@ export * from './fields/IObjectLike';
 export * from './applyValidator';
 export * from './mockObject';
 export * from '@darch/utils';
+export * from './fields/FieldType';
 
 // @only-server
 export * from './Resolver';

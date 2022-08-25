@@ -26,7 +26,7 @@ export abstract class FieldType<
   }
 
   id?: string;
-  __as?: string;
+  alias?: string;
 
   protected constructor(typeName: TypeName, def: Def, id?: string) {
     this.id = id;

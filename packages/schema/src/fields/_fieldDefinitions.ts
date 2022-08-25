@@ -16,8 +16,8 @@ export type CursorType = {
 };
 
 export interface CommonFieldDefinition<T> {
-  __as?: string;
-  __infer?: any;
+  __infer?: any; // used to infer types
+  alias?: string; // used in generated types,like GraphQL.
   def?: any;
   defaultValue?: any;
   description?: string;

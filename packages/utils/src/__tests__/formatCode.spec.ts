@@ -1,5 +1,4 @@
 import { formatGraphQL } from '../formatGraphQL';
-import { formatTypescript } from '../formatTypescript';
 
 describe('formatCode', () => {
   test('query', async () => {
@@ -139,20 +138,6 @@ describe('formatCode', () => {
       '    }',
       '  }',
       '}',
-    ]);
-  });
-
-  test('typescript', async function () {
-    const sut = formatTypescript(
-      `/*my type*/
-      type banana = {   name: 1}
-    enum Foo { a = 1}`
-    ).split('\n');
-
-    expect(sut).toEqual([
-      '/*my type*/',
-      'type banana = { name : 1 }',
-      'enum Foo { a = 1 }',
     ]);
   });
 });

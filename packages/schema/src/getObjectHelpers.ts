@@ -27,7 +27,7 @@ export function getObjectHelpers<T extends ObjectDefinitionInput>(
   let meta: MetaFieldDef | undefined;
 
   keys.forEach((fieldName) => {
-    const field = definition[fieldName];
+    const field: FinalFieldDefinition = definition[fieldName];
 
     if (isMetaFieldKey(fieldName)) {
       return (meta = field.def);

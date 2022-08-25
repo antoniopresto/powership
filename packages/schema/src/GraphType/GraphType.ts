@@ -52,13 +52,21 @@ export class GraphType<Definition extends ObjectFieldInput>
 
   clone<Ext extends ObjectDefinitionInput>(
     name: string,
-    extend?: Ext
+    extend?: Ext,
+    insecureOverride?: boolean
   ): ToFinalField<Definition>['type'] extends 'object'
     ? GraphType<{ object: ToFinalField<Definition>['def'] & Ext }>
     : GraphType<Definition> {
+    if (insecureOverride && GraphType.register.has(name)) {
+      const existing = GraphType.register.get(name) as any;
+      GraphType.__construct(existing, name, extend);
+      return existing as any;
+    }
+
     if (this._object) {
       return createType(this._object.clone((extend as any) || {}, name)) as any;
     }
+
     return createType(name, this.definition) as any;
   }
 
@@ -72,49 +80,10 @@ export class GraphType<Definition extends ObjectFieldInput>
   );
 
   constructor(...args: any[]) {
-    let name: string | undefined = undefined;
-    let definition: ObjectFieldInput;
+    // @ts-ignore
+    GraphType.__construct(this, ...args);
 
-    if (args.length === 2) {
-      name = args[0];
-      definition = args[1];
-    } else {
-      definition = args[0];
-    }
-
-    this.definitionInput = definition;
-    this.__field = parseObjectField('temp', definition, true);
-
-    if (ObjectField.is(this.__field)) {
-      if (
-        name &&
-        this.__field.utils.object.id &&
-        this.__field.utils.object.id !== name
-      ) {
-        this.__field.utils.object = this.__field.utils.object.clone(name);
-      } else if (name) {
-        this.__field.utils.object.identify(name);
-      } else {
-        name = getObjectDefinitionId(
-          this.__field.utils.object.definition,
-          true // make nullable, the error below about undefined name is more clear
-        );
-      }
-
-      this._object = this.__field.utils.object;
-    }
-
-    if (!name) {
-      throw new RuntimeError(`Expected name to be provided, found ${name}`, {
-        definition,
-        name,
-      });
-    }
-
-    this.id = name;
-    this.__field.id = name;
-
-    this.definition = this.__field.asFinalFieldDef as any;
+    const { id: name } = this;
 
     if (GraphType.register.has(name)) {
       const existing = GraphType.register.get(name);
@@ -135,6 +104,62 @@ export class GraphType<Definition extends ObjectFieldInput>
       GraphType.register.set(name, this as any);
     }
   }
+
+  static __construct = (
+    self: GraphType<any>,
+    ...args: [string, any] | [any]
+  ) => {
+    let name: string | undefined = undefined;
+    let definition: ObjectFieldInput;
+
+    if (args.length === 2) {
+      name = args[0];
+      definition = args[1] as ObjectFieldInput;
+    } else {
+      definition = args[0] as ObjectFieldInput;
+    }
+
+    Object.assign(self, {
+      definitionInput: definition,
+    });
+
+    self.__field = parseObjectField('temp', definition, true);
+
+    if (ObjectField.is(self.__field)) {
+      if (
+        name &&
+        self.__field.utils.object.id &&
+        self.__field.utils.object.id !== name
+      ) {
+        self.__field.utils.object = self.__field.utils.object.clone(name);
+      } else if (name) {
+        self.__field.utils.object.identify(name);
+      } else {
+        name = getObjectDefinitionId(
+          self.__field.utils.object.definition,
+          true // make nullable, the error below about undefined name is more clear
+        );
+      }
+
+      Object.assign(self, {
+        _object: self.__field.utils.object,
+      });
+    }
+
+    if (!name) {
+      throw new RuntimeError(`Expected name to be provided, found ${name}`, {
+        definition,
+        name,
+      });
+    }
+
+    Object.assign(self, {
+      definition: self.__field.asFinalFieldDef,
+      id: name,
+    });
+
+    self.__field.id = name;
+  };
 
   parse = (
     input: any,
@@ -306,7 +331,7 @@ export class GraphType<Definition extends ObjectFieldInput>
   }
 
   static isTypeDefinition(input: any): input is {
-    __as?: string;
+    alias?: string;
     defaultValue?: unknown;
     description?: string;
     list?: boolean;

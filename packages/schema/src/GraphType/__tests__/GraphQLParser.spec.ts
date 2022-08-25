@@ -327,14 +327,14 @@ describe('GraphQLParser', () => {
     ]);
   });
 
-  it('Should use __as as name', async () => {
+  it('Should use alias as name', async () => {
     parseObjectField('un', {
       union: ['string', 'int'],
-      __as: 'HappyFamily',
+      alias: 'HappyFamily',
     });
 
     const type1 = createObjectType('Type1', {
-      owner: { union: ['string', 'int'], __as: 'HappyFamily' },
+      owner: { union: ['string', 'int'], alias: 'HappyFamily' },
     });
 
     expect(type1.graphqlPrint().split('\n')).toEqual([
@@ -360,7 +360,7 @@ describe('GraphQLParser', () => {
     });
 
     const type1 = createObjectType('Type1', {
-      owner: { union: [robot, person], __as: 'HappyFamily' },
+      owner: { union: [robot, person], alias: 'HappyFamily' },
     });
 
     const type2 = createObjectType('Type2', {

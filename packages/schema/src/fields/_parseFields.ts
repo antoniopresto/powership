@@ -19,6 +19,8 @@ export type ObjectFieldInput =
   | Readonly<ObjectInputArray>;
 // should update _toFinalField, parseObjectDefinition.ts and Infer.ts if add any new type here
 
+export type FieldInput = ObjectFieldInput;
+
 // https://github.com/microsoft/TypeScript/issues/3496#issuecomment-128553540
 interface ObjectInputArray extends ReadonlyArray<ObjectFieldInput> {
   length: 1;
@@ -60,7 +62,7 @@ export type ExtractTypeName<T> = keyof T extends infer K
 
 export type AllFinalFieldDefinitions = {
   [Type in FieldTypeName]: {
-    __as?: string;
+    alias?: string;
     def: FieldDefinitions[Type];
     defaultValue: any;
     description: string | undefined;

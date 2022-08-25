@@ -617,7 +617,7 @@ export function createEntity<Options extends EntityOptions>(
     const definition = {
       object: {
         edges: {
-          __as: `${entityName}_Edge`,
+          alias: `${entityName}_Edge`,
           list: true,
           object: {
             cursor: 'string',
