@@ -1,6 +1,10 @@
 import { GraphQLSchema, printSchema } from 'graphql';
 
-import { createObjectType, ObjectType } from '../../ObjectType';
+import {
+  createObjectType,
+  ObjectType,
+  parseObjectField,
+} from '../../ObjectType';
 import { GraphQLParser } from '../GraphQLParser';
 
 describe('GraphQLParser', () => {
@@ -323,6 +327,26 @@ describe('GraphQLParser', () => {
     ]);
   });
 
+  it('Should use __as as name', async () => {
+    parseObjectField('un', {
+      union: ['string', 'int'],
+      __as: 'HappyFamily',
+    });
+
+    const type1 = createObjectType('Type1', {
+      owner: { union: ['string', 'int'], __as: 'HappyFamily' },
+    });
+
+    expect(type1.graphqlPrint().split('\n')).toEqual([
+      'type Type1 {',
+      '  owner: HappyFamily!',
+      '}',
+      '',
+      '"""Union of { type: string } | { type: int }"""',
+      'scalar HappyFamily',
+    ]);
+  });
+
   it('Should reuse types', () => {
     const person = createObjectType('Person', {
       name: 'string',
@@ -336,7 +360,7 @@ describe('GraphQLParser', () => {
     });
 
     const type1 = createObjectType('Type1', {
-      owner: { union: [robot, person] },
+      owner: { union: [robot, person], __as: 'HappyFamily' },
     });
 
     const type2 = createObjectType('Type2', {
@@ -371,7 +395,7 @@ describe('GraphQLParser', () => {
       '}',
       '',
       'type Type1 {',
-      '  owner: Type1_owner!',
+      '  owner: HappyFamily!',
       '}',
       '',
       'union Type1_owner = Robot | Person',

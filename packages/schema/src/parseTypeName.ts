@@ -10,6 +10,7 @@ export function parseTypeName(input: {
   parentName: string;
 }) {
   const { field, parentName, fieldName } = input;
+  if (field.__as && typeof field.__as === 'string') return field.__as;
 
   const cached = __getCachedFieldInstance(field);
   if (cached.id) return cached.id;

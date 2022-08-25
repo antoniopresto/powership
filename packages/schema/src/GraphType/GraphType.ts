@@ -306,6 +306,7 @@ export class GraphType<Definition extends ObjectFieldInput>
   }
 
   static isTypeDefinition(input: any): input is {
+    __as?: string;
     defaultValue?: unknown;
     description?: string;
     list?: boolean;

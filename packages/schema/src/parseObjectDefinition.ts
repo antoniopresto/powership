@@ -181,7 +181,19 @@ export function parseFieldDefinitionConfig(
     );
   }
 
-  return simpleObjectClone(_parseField());
+  const result = _parseField();
+
+  if (definition && typeof definition === 'object') {
+    if (
+      '__as' in definition &&
+      definition.__as &&
+      typeof definition.__as === 'string'
+    ) {
+      result.__as = definition.__as;
+    }
+  }
+
+  return simpleObjectClone(result);
 }
 
 export function parseObjectDefinition<T extends ObjectDefinitionInput>(
@@ -269,6 +281,7 @@ export function isObjectAsTypeDefinition(
 }
 
 const validFlattenDefinitionKeys = {
+  __as: 'string',
   defaultValue: 'any',
   description: 'string',
   list: 'boolean',
@@ -281,7 +294,7 @@ export function parseFlattenFieldDefinition(
   if (getTypeName(input) !== 'Object') return false;
   if (input.type !== undefined) return false;
   const keys = Object.keys(input);
-  if (keys.length > 5) return false;
+  if (keys.length > 6) return false;
 
   let type;
   let def;
@@ -321,9 +334,16 @@ export function parseFlattenFieldDefinition(
     }
   }
 
-  let { description, optional = false, list = false, defaultValue } = input;
+  let {
+    description,
+    optional = false,
+    list = false,
+    defaultValue,
+    __as,
+  } = input;
 
   return parseFieldDefinitionConfig({
+    __as,
     def,
     defaultValue,
     description,

@@ -16,6 +16,7 @@ export type CursorType = {
 };
 
 export interface CommonFieldDefinition<T> {
+  __as?: string;
   __infer?: any;
   def?: any;
   defaultValue?: any;
