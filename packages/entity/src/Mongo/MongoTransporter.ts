@@ -38,7 +38,7 @@ export class MongoTransporter extends Transporter {
     return this._client.connect(dbName);
   }
 
-  constructor(options: { client: MongoClient, collection: string; }) {
+  constructor(options: { client: MongoClient; collection: string }) {
     super();
     this._client = options.client;
     this.collection = options.collection;
@@ -161,9 +161,9 @@ export class MongoTransporter extends Transporter {
     const mongoSort = { [sortKey]: sort === 'DESC' ? -1 : 1 } as const;
 
     return {
+      PK,
       collection,
       collectionName: collection.collectionName,
-      PK,
       db: this._client.db,
       first,
       firstFilterEntry,
@@ -216,7 +216,7 @@ export class MongoTransporter extends Transporter {
   async paginate(options: FindManyConfig): Promise<PaginationResult> {
     const { items } = await this.findMany({
       ...options,
-      first: options.first !== undefined ? options.first + 1 : undefined,
+      first: options.first,
     });
 
     const edges = items.map((item) => ({
@@ -225,10 +225,6 @@ export class MongoTransporter extends Transporter {
     }));
 
     let hasNextPage = !!(options.first && items.length > options.first);
-
-    if (hasNextPage) {
-      edges.pop();
-    }
 
     return {
       edges,

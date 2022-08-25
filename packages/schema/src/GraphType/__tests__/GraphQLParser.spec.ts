@@ -398,7 +398,7 @@ describe('GraphQLParser', () => {
       '  owner: HappyFamily!',
       '}',
       '',
-      'union Type1_owner = Robot | Person',
+      'union HappyFamily = Robot | Person',
       '',
       'type Robot {',
       '  name: String!',

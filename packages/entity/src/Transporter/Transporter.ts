@@ -184,7 +184,7 @@ export type CreateOneConfig<
     Doc,
     PK | (SK extends undefined ? PK : SK)
   >;
-  item: Doc; 
+  item: Doc;
   replace?: boolean;
 };
 
@@ -248,20 +248,20 @@ export type UpdateExpression<
   Item extends Record<string, any> = Record<string, unknown>
 > = {
   // from array or set
-  $addToSet?: { [K in keyof Item]?: Item[K] extends (infer T)[] ? T[] : never }; 
+  $addToSet?: { [K in keyof Item]?: Item[K] extends (infer T)[] ? T[] : never };
   // number
-  $append?: ListUpdateExpression<Item>; 
+  $append?: ListUpdateExpression<Item>;
   // attr | set | list
-  $inc?: { [K in keyof Item]?: Item[K] extends number ? number : never }; 
+  $inc?: { [K in keyof Item]?: Item[K] extends number ? number : never };
   // list
-  $prepend?: ListUpdateExpression<Item>; 
+  $prepend?: ListUpdateExpression<Item>;
   // attr | set | list
-  $pull?: { [K in keyof Item]?: Item[K] extends (infer T)[] ? T[] : never }; 
+  $pull?: { [K in keyof Item]?: Item[K] extends (infer T)[] ? T[] : never };
   // list
-  $remove?: MaybeArray<UnsetUpdateExpression<Item>>; 
-  $set?: { [K in keyof Item]?: Item[K] }; 
+  $remove?: MaybeArray<UnsetUpdateExpression<Item>>;
+  $set?: { [K in keyof Item]?: Item[K] };
   // attr | set | list
-  $setIfNull?: { [K in keyof Item]?: Item[K] }; 
+  $setIfNull?: { [K in keyof Item]?: Item[K] };
   // attr | set | list
   $setOnInsert?: { [K in keyof Item]?: Item[K] }; //  array or set
 };
@@ -271,6 +271,16 @@ export type UpdateExpressionKey = Extract<keyof UpdateExpression<any>, string>;
 export const FilterConditionsParsers: {
   [K in keyof FilterConditions]-?: (input: any) => FilterConditions[K];
 } = {
+  $and(input: unknown) {
+    if (!Array.isArray(input)) {
+      return devAssert(`Expected input be an array`, { input });
+    }
+
+    return input.map((sub: unknown, index) => {
+      assertFieldFilter(sub, `at position ${index}`);
+      return sub;
+    });
+  },
   $between(input: any): [string, string] | [number, number] {
     const is =
       Array.isArray(input) &&
@@ -285,22 +295,12 @@ export const FilterConditionsParsers: {
 
     return input as any;
   },
-  $eq: Darch.union(['null', 'boolean', 'string', 'float'] as const).parse,
   $contains: Darch.union(['string', 'float', 'boolean', 'null'] as const).parse,
+  $eq: Darch.union(['null', 'boolean', 'string', 'float'] as const).parse,
   $exists: Darch.boolean().parse,
   $gt: Darch.union(['string', 'float'] as const).parse,
+
   $gte: Darch.union(['string', 'float'] as const).parse,
-
-  $and(input: unknown) {
-    if (!Array.isArray(input)) {
-      return devAssert(`Expected input be an array`, { input });
-    }
-
-    return input.map((sub: unknown, index) => {
-      assertFieldFilter(sub, `at position ${index}`);
-      return sub;
-    });
-  },
 
   $in: Darch.unknown().toList().parse,
 

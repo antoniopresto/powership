@@ -50,7 +50,7 @@ export function mountID(params: {
 
 export type GraphIDJSON = {
   // index name
-  e: string; 
+  e: string;
   i: DocumentIndexField; // entity
   v: string; // id value
 };
@@ -649,7 +649,7 @@ function joinPKAndSKAsIDFilter(options: {
 }
 
 function mountIndexFromPartsList(param: {
-  acceptNullable: boolean; 
+  acceptNullable: boolean;
   doc: Record<string, any>;
   indexField: ParsedIndexPart['indexField'];
   // (`#${string}` | `.${string}`)[]

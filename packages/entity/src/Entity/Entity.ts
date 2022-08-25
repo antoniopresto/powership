@@ -617,6 +617,7 @@ export function createEntity<Options extends EntityOptions>(
     const definition = {
       object: {
         edges: {
+          __as: `${entityName}_Edge`,
           list: true,
           object: {
             cursor: 'string',
@@ -637,6 +638,11 @@ export function createEntity<Options extends EntityOptions>(
         }
       | { value: any };
   } = {
+    conditionsDefinition: {
+      get() {
+        return conditionsType._object!.definition;
+      },
+    },
     extend: {
       value: function extend(cb) {
         const partial = cb(entity);
@@ -644,7 +650,6 @@ export function createEntity<Options extends EntityOptions>(
         return Object.assign(entity, partial);
       },
     },
-    indexGraphTypes: { value: indexGraphTypes },
     getDocumentId: {
       value: function getDocumentId(doc): string {
         const indexes = getDocumentIndexFields(doc, indexConfig);
@@ -652,16 +657,12 @@ export function createEntity<Options extends EntityOptions>(
         return notNull(indexes.indexFields.id);
       },
     },
+    indexGraphTypes: { value: indexGraphTypes },
     indexes: { value: indexes },
     inputDefinition: {
       value: objectType.definition,
     },
     loaders: { value: loaders },
-    conditionsDefinition: {
-      get() {
-        return conditionsType._object!.definition;
-      },
-    },
     name: { value: entityName },
     originType: { value: type },
     paginationType: {
@@ -674,14 +675,14 @@ export function createEntity<Options extends EntityOptions>(
         return getEntityGraphType().parse;
       },
     },
-    transporter: {
-      get() {
-        return defaultTransporter || options.transporter;
-      },
-    },
     parseDocumentIndexes: {
       value: function parseDocumentIndexes(doc): ParsedDocumentIndexes {
         return getDocumentIndexFields(doc, indexConfig);
+      },
+    },
+    transporter: {
+      get() {
+        return defaultTransporter || options.transporter;
       },
     },
     type: {
@@ -828,7 +829,7 @@ type IndexMethods<
 type GetIndexByName<
   Union extends DocumentIndexItem<any, any>,
   Name extends string
-> = Union extends { [K: string]: unknown, name: Name; } ? Union : never;
+> = Union extends { [K: string]: unknown; name: Name } ? Union : never;
 
 type OneIndexMethod<
   Documents,

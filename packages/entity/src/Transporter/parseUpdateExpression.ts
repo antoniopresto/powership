@@ -14,7 +14,7 @@ export type UpdateOperation =
       operator: '$remove';
       removeOperations: {
         // field or field.subfield, etc
-        index?: number; 
+        index?: number;
         path: string;
       }[];
     };

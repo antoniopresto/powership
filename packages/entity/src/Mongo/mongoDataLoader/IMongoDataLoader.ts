@@ -24,8 +24,8 @@ export interface MongoDataLoaderKey {
   collection: string;
   // from hashMongoCursor
   dataloaderHash: string;
-  db: Db; 
-  onlyOne: boolean; 
+  db: Db;
+  onlyOne: boolean;
   projection?: Record<string, any>;
   query: Record<string, any>;
   queryHash: string;
