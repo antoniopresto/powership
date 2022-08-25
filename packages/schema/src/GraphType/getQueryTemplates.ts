@@ -53,7 +53,7 @@ export function getSchemaQueryTemplates(
   schema: GraphQLSchema,
   options: { depthLimit?: number; includeDeprecatedFields?: boolean } = {}
 ): SchemaQueryTemplatesResult {
-  const { depthLimit = 10, includeDeprecatedFields = true } = options;
+  const { depthLimit = 100, includeDeprecatedFields = true } = options;
 
   const query = schema.getQueryType();
   const mutation = schema.getMutationType();
