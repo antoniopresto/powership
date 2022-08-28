@@ -24,6 +24,8 @@ export const FieldTypes = tuple(
   'NumberSet'
 );
 
+export const DEFAULT_SORT = 'ASC';
+
 export type FieldType = typeof FieldTypes[number];
 
 export type PKSKValueType = string | number | null;

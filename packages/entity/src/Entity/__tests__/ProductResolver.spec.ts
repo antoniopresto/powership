@@ -1,41 +1,17 @@
-import {
-  createResolver,
-  createType,
-  Darch,
-  Infer,
-  ObjectType,
-} from '@darch/schema';
-import { objectMock } from '@darch/schema';
+import { createResolver, Darch, Infer } from '@darch/schema';
 import { createGraphQLSchema } from '@darch/schema/lib/createGraphQLSchema';
-import { getTypeName, notNull, PromiseType } from '@darch/utils';
-import { slugify } from '@darch/utils/lib/slugify';
+import { notNull, PromiseType } from '@darch/utils';
 import { assert, IsExact } from 'conditional-type-checks';
 
-import { MongoTransporter } from '../../Mongo';
-import { AppMock, createAppMock } from '../../Mongo/__tests__/createAppMock';
 import { PaginationResult } from '../../Transporter';
-import { createEntity, EntityGeneratedFields } from '../Entity';
+
+import { setupProductTest } from './setupProductTest';
 
 describe('ProductResolver', () => {
-  let mockApp: AppMock;
-  let transporter: MongoTransporter;
-
-  beforeEach(async function () {
-    await ObjectType.reset();
-    mockApp = createAppMock();
-    await mockApp.start();
-    transporter = new MongoTransporter({
-      collection: 'temp1',
-      client: mockApp.client!,
-    });
-  });
-
-  afterEach(async function () {
-    await mockApp.reset();
-  });
+  const { getMocks } = setupProductTest();
 
   it('type assertion', async () => {
-    const { shape, ProductEntity, productPagination, createOne } = getMocks();
+    const { shape, ProductEntity, createOne } = getMocks();
 
     await expect(
       ProductEntity.findOne({ filter: {}, context: {} })
@@ -49,6 +25,21 @@ describe('ProductResolver', () => {
 
     const res = await createOne();
     expect(res).toEqual(shape);
+
+    const productPagination = createResolver({
+      type: ProductEntity.paginationType,
+      args: ProductEntity.paginateByStore.queryArgs,
+      name: 'paginate',
+      async resolve(_, args, context) {
+        type Args = typeof args;
+
+        assert<IsExact<Args['filter'], ExpectedArgs['filter']>>(true);
+        assert<IsExact<Args['first'], ExpectedArgs['first']>>(true);
+        assert<IsExact<Args['after'], ExpectedArgs['after']>>(true);
+
+        return ProductEntity.paginateByStore({ ...args, context });
+      },
+    });
 
     type ExpectedArgs = {
       after?: string | undefined;
@@ -140,8 +131,8 @@ describe('ProductResolver', () => {
   });
 
   test('query with condition', async function () {
+    const { createOne, transporter } = getMocks();
     const spy = jest.spyOn(transporter, 'paginate');
-    const { createOne } = getMocks();
     await createOne();
 
     const schema = createGraphQLSchema();
@@ -230,23 +221,23 @@ describe('ProductResolver', () => {
       '  ulid: Ulid!',
       '  updatedAt: Date!',
       '  updatedBy: String',
-      '  sku: String!',
-      '  storeId: ID!',
-      '  title: String!',
-      '  shortDescription: String',
-      '  brand: String!',
-      '  detailsUrl: String',
       '  alcoholic: Boolean!',
-      '  thumbUrl: String',
       '  attributes: ProductEntity_attributes',
+      '  brand: String!',
+      '  categories: [String]!',
       '  currentPrice: Float!',
+      '  detailsUrl: String',
+      '  html: String',
       '  priceFrom: Float',
       '  sellPrice: Float!',
-      '  tags: [String]',
+      '  shortDescription: String',
+      '  sku: String!',
       '  slug: String',
-      '  categories: [String]!',
       '  spotlight: Boolean',
-      '  html: String',
+      '  storeId: ID!',
+      '  tags: [String]',
+      '  thumbUrl: String',
+      '  title: String!',
       '}',
       '',
       'scalar Date',
@@ -269,23 +260,23 @@ describe('ProductResolver', () => {
       '  ulid: FilterInput',
       '  updatedAt: FilterInput',
       '  updatedBy: FilterInput',
-      '  sku: FilterInput',
-      '  storeId: FilterInput',
-      '  title: FilterInput',
-      '  shortDescription: FilterInput',
-      '  brand: FilterInput',
-      '  detailsUrl: FilterInput',
       '  alcoholic: FilterInput',
-      '  thumbUrl: FilterInput',
       '  attributes: FilterInput',
+      '  brand: FilterInput',
+      '  categories: FilterInput',
       '  currentPrice: FilterInput',
+      '  detailsUrl: FilterInput',
+      '  html: FilterInput',
       '  priceFrom: FilterInput',
       '  sellPrice: FilterInput',
-      '  tags: FilterInput',
+      '  shortDescription: FilterInput',
+      '  sku: FilterInput',
       '  slug: FilterInput',
-      '  categories: FilterInput',
       '  spotlight: FilterInput',
-      '  html: FilterInput',
+      '  storeId: FilterInput',
+      '  tags: FilterInput',
+      '  thumbUrl: FilterInput',
+      '  title: FilterInput',
       '}',
       '',
       'input FilterInput {',
@@ -351,136 +342,10 @@ describe('ProductResolver', () => {
       '}',
       '',
       'type Mutation {',
-      '  productCreate(sku: String!, storeId: ID!, title: String!, shortDescription: String, brand: String!, detailsUrl: String, alcoholic: Boolean = false, thumbUrl: String, attributes: Product_attributes, currentPrice: Float!, priceFrom: Float, sellPrice: Float!, tags: [String], slug: String, categories: [String]!, spotlight: Boolean, html: String): ProductEntity!',
+      '  productCreate(alcoholic: Boolean = false, attributes: Product_attributes, brand: String!, categories: [String]!, currentPrice: Float!, detailsUrl: String, html: String, priceFrom: Float, sellPrice: Float!, shortDescription: String, sku: String!, slug: String, spotlight: Boolean, storeId: ID!, tags: [String], thumbUrl: String, title: String!): ProductEntity!',
       '}',
       '',
       'scalar Product_attributes',
     ]);
   });
-
-  function getMocks() {
-    const ProductType = createType('Product', {
-      object: {
-        sku: 'string',
-        storeId: 'ID',
-        title: 'string',
-        shortDescription: 'string?',
-        brand: 'string',
-        detailsUrl: 'string?',
-        alcoholic: { boolean: true, defaultValue: false },
-        thumbUrl: 'string?',
-        attributes: 'record?',
-        currentPrice: 'float',
-        priceFrom: 'float?',
-        sellPrice: 'float',
-        tags: '[string]?',
-        slug: 'string?',
-        categories: ['string'],
-        spotlight: 'boolean?',
-        html: 'string?',
-      },
-    } as const);
-
-    const ProductEntity = createEntity({
-      name: 'Product',
-      transporter,
-      type: ProductType,
-      indexes: [
-        {
-          name: 'byStore',
-          field: '_id',
-          PK: ['.storeId'],
-          SK: ['.sku'],
-        },
-      ],
-    });
-
-    const obj: any = objectMock(ProductEntity.originType._object!.definition);
-    const defaultMock = objectMock(EntityGeneratedFields);
-
-    const shape = Object.entries({ ...defaultMock, ...obj }).reduce(
-      (acc, [name, val]) => {
-        const tn = getTypeName(val);
-        const cons = eval(tn);
-        return {
-          ...acc,
-          [name]: expect.any(cons),
-        };
-      },
-      {}
-    );
-
-    const productCreateResolver = createResolver({
-      type: ProductEntity.type,
-      name: 'productCreate',
-      kind: 'mutation',
-      args: ProductEntity.inputDefinition,
-      async resolve(_root, args, context) {
-        const storeId = '123';
-
-        const item = {
-          ...args,
-          storeId,
-        };
-
-        item.slug = `${slugify(item.title)}_:${ProductEntity.getDocumentId(
-          item
-        )}`;
-
-        const result = await ProductEntity.createOne({
-          item,
-          context,
-        });
-
-        if (!result.item) {
-          throw new Error('Failed to create product.');
-        }
-
-        return result.item;
-      },
-    });
-
-    type ExpectedArgs = {
-      after?: string | undefined;
-      filter: {
-        id?: string | undefined;
-        sku?: string | undefined;
-        storeId: string;
-      };
-      first?: number | undefined;
-    };
-
-    const productPagination = createResolver({
-      type: ProductEntity.paginationType,
-      args: ProductEntity.paginateByStore.queryArgs,
-      name: 'paginate',
-      async resolve(_, args, context) {
-        type Args = typeof args;
-
-        assert<IsExact<Args['filter'], ExpectedArgs['filter']>>(true);
-        assert<IsExact<Args['first'], ExpectedArgs['first']>>(true);
-        assert<IsExact<Args['after'], ExpectedArgs['after']>>(true);
-
-        return ProductEntity.paginateByStore({ ...args, context });
-      },
-    });
-
-    function createOne() {
-      return productCreateResolver.resolve(
-        {},
-        obj,
-        { userId: () => '123' },
-        {} as any
-      );
-    }
-
-    return {
-      ProductEntity,
-      obj,
-      shape,
-      productCreateResolver,
-      productPagination,
-      createOne,
-    };
-  }
 });

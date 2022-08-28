@@ -6,6 +6,7 @@ import {
   createDocumentIndexBasedFilters,
   CreateOneConfig,
   CreateOneResult,
+  DEFAULT_SORT,
   DeleteOneConfig,
   DeleteOneResult,
   FindByIdConfig,
@@ -104,7 +105,7 @@ export class MongoTransporter extends Transporter {
   _parseQueryOptions(options: FindManyConfig) {
     const {
       filter,
-      sort = 'ASC',
+      sort = DEFAULT_SORT,
       projection,
       first,
       after,
@@ -214,9 +215,11 @@ export class MongoTransporter extends Transporter {
   }
 
   async paginate(options: FindManyConfig): Promise<PaginationResult> {
+    const limit = options.first !== undefined ? options.first + 1 : undefined;
+
     const { items } = await this.findMany({
       ...options,
-      first: options.first,
+      first: limit,
     });
 
     const edges = items.map((item) => ({
@@ -226,13 +229,17 @@ export class MongoTransporter extends Transporter {
 
     let hasNextPage = !!(options.first && items.length > options.first);
 
+    if (hasNextPage) {
+      edges.pop();
+    }
+
     return {
       edges,
       pageInfo: {
-        endCursor: items[items.length - 1]?.id,
+        endCursor: edges[edges.length - 1]?.cursor,
         hasNextPage,
         hasPreviousPage: !!options.after,
-        startCursor: items[0]?.id,
+        startCursor: edges[0]?.cursor,
       },
     };
   }

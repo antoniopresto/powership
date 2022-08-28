@@ -10,17 +10,10 @@ export function parseTypeName(input: {
   parentName: string;
 }) {
   const { field, parentName, fieldName } = input;
-  if (field.alias && typeof field.alias === 'string') return field.alias;
+  const userDefined = getUserDefinedTypeName(field);
 
-  const cached = __getCachedFieldInstance(field);
-  if (cached.id) return cached.id;
-
-  const metaName =
-    field.type === 'object'
-      ? getObjectDefinitionMetaField(field.def)?.def.id
-      : null;
-
-  let result = metaName || `${parentName}${fieldName ? `_${fieldName}` : ''}`;
+  let result =
+    userDefined || `${parentName}${fieldName ? `_${fieldName}` : ''}`;
 
   if (!result) {
     throw new RuntimeError(
@@ -30,4 +23,15 @@ export function parseTypeName(input: {
   }
 
   return result;
+}
+
+export function getUserDefinedTypeName(field: FinalFieldDefinition) {
+  if (field.alias && typeof field.alias === 'string') return field.alias;
+
+  const cached = __getCachedFieldInstance(field);
+  if (cached.id) return cached.id;
+
+  return field.type === 'object'
+    ? getObjectDefinitionMetaField(field.def)?.def.id
+    : null;
 }
