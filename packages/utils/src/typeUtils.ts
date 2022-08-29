@@ -170,6 +170,19 @@ export type TypeLike<T, Level extends ReadonlyArray<number> = [0]> = T extends {
     }
   : any;
 
+export type IsKnown<T> = IsAny<T> extends true
+  ? 0
+  : IsNever<T> extends true
+  ? 0
+  : IsUnknown<T> extends true
+  ? 0
+  : 1;
+
+export type BinKnown<T, True, False> = {
+  0: False;
+  1: True;
+}[IsKnown<T>];
+
 export const A_Z = tuple(
   'A',
   'B',

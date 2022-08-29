@@ -595,19 +595,3 @@ type ExcludeNull<T> = {
     ? never
     : K]: Exclude<T[K], null>;
 };
-
-export function cloneDefinition<
-  Def extends ObjectDefinitionInput,
-  Exclude extends keyof Def
->(
-  def: Def,
-  exclude: Exclude[]
-): { [K in keyof Def as K extends Exclude ? never : K]: Def[K] } {
-  const _def = withCleanMetaField(simpleObjectClone(def));
-
-  exclude.forEach((path) => {
-    delete _def[path];
-  });
-
-  return _def;
-}

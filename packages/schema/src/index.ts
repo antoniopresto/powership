@@ -10,6 +10,8 @@ export * from './applyValidator';
 export * from './mockObject';
 export * from '@darch/utils';
 export * from './fields/FieldType';
+export * from './fields/FieldType';
+export * from './extendDefinition';
 
 // @only-server
 export * from './Resolver';

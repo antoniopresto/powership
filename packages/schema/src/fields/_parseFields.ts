@@ -1,4 +1,4 @@
-import { NullableToPartial } from '@darch/utils';
+import { IsKnown, NullableToPartial } from '@darch/utils';
 
 import {
   CommonFieldDefinition,
@@ -101,8 +101,9 @@ export type ToFinalField<Base> =
 type GetI<T> = T extends { __infer: infer I } ? I : never;
 
 //
-export type _toFinalField<Base> = //
-  //
+export type _toFinalField<Base> = {
+  0: { def: { INVALID_DEFINITION: Base }; type: 'literal' };
+  1: //
   Base extends {
     def?: infer Def;
     list?: boolean;
@@ -200,6 +201,7 @@ export type _toFinalField<Base> = //
       {
         [K in keyof ParseFlattenFieldDef<Base>]: ParseFlattenFieldDef<Base>[K];
       };
+}[IsKnown<Base>];
 
 // inject  the `__infer` property
 type _injectInfer<T> = T extends {

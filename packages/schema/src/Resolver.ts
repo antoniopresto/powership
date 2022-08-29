@@ -220,7 +220,7 @@ export type ResolverResolve<Context, Source, TypeDef, ArgsDef> = (
           args: Record<string, unknown>,
           context: Context,
           info: GraphQLResolveInfo
-        ) => Promise<unknown> | unknown
+        ) => Promise<any> | any
     : never
 ) extends infer R
   ? R
