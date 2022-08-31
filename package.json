@@ -9,6 +9,7 @@
     "commit": "git add -A && git commit",
     "fast": "run-s commit alpha",
     "validate": "(cd packages/schema && npm run prepublish)",
+    "lp": "lerna exec \"yalc publish\"",
     "alpha": "lerna publish --loglevel=verbose --force-publish --yes --no-verify-access --conventional-graduate --dist-tag next --canary --no-push --exact --preid=alpha.$(date +%Y%m%dT%H%M%S%z)"
   },
   "devDependencies": {

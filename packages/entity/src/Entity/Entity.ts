@@ -61,7 +61,7 @@ export interface EntityOptions<
   Type extends _GraphType = _GraphType,
   TTransporter extends Transporter = Transporter
 > {
-  indexes: CollectionIndexConfig<ReturnType<Type['parse']>, TName>['indexes'];
+  indexes: CollectionIndexConfig<any, TName>['indexes'];
   name: TName;
   transporter?: TTransporter;
   type: Type;
@@ -213,20 +213,36 @@ export type Entity<Options extends EntityOptions> = Options['type'] extends {
           : never
         : never
     > extends infer FinalEntity
-    ? FinalEntity & {
-        extend<Extension extends { [K: string]: unknown }>(
-          handler: (current: FinalEntity) => Extension
-        ): FinalEntity & Extension;
-      }
+    ? WithExtend<FinalEntity>
     : never
   : never;
+
+type WithExtend<A> = {
+  [K in keyof A | 'extend']: K extends 'extend' // //
+    ? any
+    : // {
+    //     extend<B>(
+    //       value: B
+    //     ): WithExtend<
+    //       {
+    //         [K in keyof A | keyof B]: K extends keyof B ? B[K] : K extends keyof A ? A[K] : never;
+    //       }
+    //     >;
+    //   }
+    K extends keyof A
+    ? A[K]
+    : never;
+};
 
 const ulidField = Darch.ulid({ autoCreate: true });
 const createUlid = () => ulidField.parse(undefined);
 
-export function createEntity<Options extends EntityOptions>(
-  options: Readonly<Options>
-): Entity<Options> {
+export function createEntity<
+  Name extends string,
+  Type extends _GraphType,
+  TTransport extends Transporter,
+  Options extends EntityOptions<Name, Type, TTransport>
+>(options: Options): Entity<Options> {
   const {
     indexes,
     transporter: defaultTransporter,
@@ -240,7 +256,7 @@ export function createEntity<Options extends EntityOptions>(
     entityTypeObject: type._object,
   }).entityTypeObject;
 
-  const entity = {} as Entity<Options>;
+  const entity = {} as any;
   const loaders: Record<string, any> = {};
 
   const originDef = objectType.cleanDefinition();
@@ -267,7 +283,7 @@ export function createEntity<Options extends EntityOptions>(
 
   const _hooks: EntityHooks<
     EntityDocument<{}>,
-    Options['indexes'],
+    EntityOptions['indexes'],
     LoaderContext
   > = {
     beforeQuery: hooks.waterfall(),
@@ -449,7 +465,7 @@ export function createEntity<Options extends EntityOptions>(
 
   function _createLoader(config: {
     indexInfo: ParsedIndexKey[];
-    indexes: Options['indexes'];
+    indexes: EntityOptions['indexes'];
     method: TransporterLoaderName;
     newMethodName: string;
   }) {
@@ -631,70 +647,44 @@ export function createEntity<Options extends EntityOptions>(
     return createType(`${entityName}Connection`, definition);
   }
 
+  function extend(cb) {
+    const partial = cb(entity);
+    if (!partial || typeof partial !== 'object') return entity;
+    return partial;
+  }
+
+  function getDocumentId(doc): string {
+    const indexes = getDocumentIndexFields(doc, indexConfig);
+    if (indexes.error) throw indexes.error;
+    return notNull(indexes.indexFields.id);
+  }
+
   const getters: {
-    [K in Exclude<keyof Entity<any>, keyof Entity<any>['loaders']>]:
-      | {
-          get(): any;
-        }
-      | { value: any };
+    [K in Exclude<keyof Entity<any>, keyof Entity<any>['loaders']>]: any;
   } = {
-    conditionsDefinition: {
-      get() {
-        return conditionsType._object!.definition;
-      },
+    conditionsDefinition: conditionsType._object!.definition,
+    extend,
+    getDocumentId,
+    indexGraphTypes: indexGraphTypes,
+    indexes: indexes,
+    inputDefinition: objectType.cleanDefinition(),
+    loaders: loaders,
+    name: entityName,
+    originType: type,
+    paginationType: getPaginationType(),
+    parse: getEntityGraphType().parse,
+    parseDocumentIndexes: function parseDocumentIndexes(
+      doc
+    ): ParsedDocumentIndexes {
+      return getDocumentIndexFields(doc, indexConfig);
     },
-    extend: {
-      value: function extend(cb) {
-        const partial = cb(entity);
-        if (!partial || typeof partial !== 'object') return entity;
-        return Object.assign(entity, partial);
-      },
-    },
-    getDocumentId: {
-      value: function getDocumentId(doc): string {
-        const indexes = getDocumentIndexFields(doc, indexConfig);
-        if (indexes.error) throw indexes.error;
-        return notNull(indexes.indexFields.id);
-      },
-    },
-    indexGraphTypes: { value: indexGraphTypes },
-    indexes: { value: indexes },
-    inputDefinition: {
-      value: objectType.definition,
-    },
-    loaders: { value: loaders },
-    name: { value: entityName },
-    originType: { value: type },
-    paginationType: {
-      get() {
-        return getPaginationType();
-      },
-    },
-    parse: {
-      get() {
-        return getEntityGraphType().parse;
-      },
-    },
-    parseDocumentIndexes: {
-      value: function parseDocumentIndexes(doc): ParsedDocumentIndexes {
-        return getDocumentIndexFields(doc, indexConfig);
-      },
-    },
-    transporter: {
-      get() {
-        return defaultTransporter || options.transporter;
-      },
-    },
-    type: {
-      get() {
-        return getEntityGraphType();
-      },
-    },
+    transporter: defaultTransporter || options.transporter,
+    type: getEntityGraphType(),
   };
 
-  Object.defineProperties(entity, getters);
+  Object.assign(entity, getters);
 
-  return entity as Entity<Options>;
+  return entity;
 }
 
 type EntityDocument<Document> = {

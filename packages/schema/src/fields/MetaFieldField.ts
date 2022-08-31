@@ -61,20 +61,16 @@ export function withCleanMetaField(input: any) {
   const defType = getTypeName(input.def).toLowerCase();
 
   if (defType === 'object') {
+    const { __dschm__, ...def } = input.def;
     return {
       ...input,
-      def: {
-        ...input.def,
-        [objectMetaFieldKey]: createEmptyMetaField(),
-      },
+      def,
     };
   }
 
   if (input[objectMetaFieldKey]) {
-    return {
-      ...input,
-      [objectMetaFieldKey]: createEmptyMetaField(),
-    };
+    const { __dschm__, ...rest } = input;
+    return rest;
   }
 
   return input;

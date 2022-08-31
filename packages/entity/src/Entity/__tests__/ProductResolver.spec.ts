@@ -342,10 +342,10 @@ describe('ProductResolver', () => {
       '}',
       '',
       'type Mutation {',
-      '  productCreate(alcoholic: Boolean = false, attributes: Product_attributes, brand: String!, categories: [String]!, currentPrice: Float!, detailsUrl: String, html: String, priceFrom: Float, sellPrice: Float!, shortDescription: String, sku: String!, slug: String, spotlight: Boolean, storeId: ID!, tags: [String], thumbUrl: String, title: String!): ProductEntity!',
+      '  productCreate(alcoholic: Boolean = false, attributes: productCreateInput_attributes, brand: String!, categories: [String]!, currentPrice: Float!, detailsUrl: String, html: String, priceFrom: Float, sellPrice: Float!, shortDescription: String, sku: String!, slug: String, spotlight: Boolean, storeId: ID!, tags: [String], thumbUrl: String, title: String!): ProductEntity!',
       '}',
       '',
-      'scalar Product_attributes',
+      'scalar productCreateInput_attributes',
     ]);
   });
 });
