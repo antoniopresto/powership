@@ -1,6 +1,8 @@
 import {
   createType,
   Darch,
+  extendDefinition,
+  ExtendDefinitionResult,
   GraphType,
   ObjectDefinitionInput,
   ObjectFieldInput,
@@ -45,7 +47,7 @@ import {
   getOperationInfo,
   LoaderOperationsRecord,
 } from './entityOperationContextTypes';
-import { PageInfoType, PaginationType } from './paginationUtils';
+import { EdgeType, PageInfoType, PaginationType } from './paginationUtils';
 
 export * from './paginationUtils';
 
@@ -95,12 +97,6 @@ export type EntityFinalDefinition<InputDef> = InputDef extends {
     : never
   : never;
 
-type Merge<A, B> = {
-  [K in keyof A as K extends keyof B ? never : K]: A[K];
-} & ({ [K in keyof B]: B[K] } & {}) extends infer R
-  ? { [K in keyof R]: R[K] } & {}
-  : never;
-
 type _GetLoaderUtils<Loader, Type> =
   EntityFinalDefinition<Type> extends infer Def
     ? GetLoaderFilterDef<Loader, Def> extends infer Filter
@@ -137,100 +133,110 @@ type _GetLoaderUtils<Loader, Type> =
       : never
     : never;
 
+interface PrimaryEntityMethods<Options extends EntityOptions> {
+  conditionsDefinition: Options['type'] extends {
+    definition: infer Def;
+  }
+    ? Def extends { def: infer Def }
+      ? {
+          def: EntityGraphQLConditionsType<Def>;
+          type: 'object';
+        }
+      : never
+    : never;
+  edgeType: EdgeType<Options['type']>;
+  getDocumentId(doc: Record<string, any>): string;
+
+  indexGraphTypes: {
+    [K in Options['indexes'][number]['name']]: GraphType<{
+      object: ObjectDefinitionInput;
+    }>;
+  };
+
+  indexes: Options['indexes'];
+
+  inputDefinition: Options['type'] extends { definition: infer Def }
+    ? Def extends { def: infer Def }
+      ? {
+          [K in keyof Def]: ToFinalField<Def[K]>;
+        }
+      : never
+    : never;
+
+  name: Options['name'];
+
+  originType: Options['type'];
+  paginationType: PaginationType<Options['type']>;
+
+  parse: (
+    ...args: Parameters<Options['type']['parse']>
+  ) => EntityDocFromType<Options['type']>;
+
+  parseDocumentIndexes(doc: Record<string, any>): ParsedDocumentIndexes;
+
+  transporter: Options['transporter'];
+
+  type: //
+  ((x: Options['type']) => any) extends (x: infer Type) => any
+    ? GraphType<{ object: EntityFinalDefinition<Type> }>
+    : never;
+}
+
 // export type EntityGraphType<T> = T extends
 export type Entity<Options extends EntityOptions> = Options['type'] extends {
   parse(...args: any): any;
 }
-  ? Merge<
-      {
-        indexes: Options['indexes'];
-        inputDefinition: Options['type'] extends { definition: infer Def }
-          ? Def extends { def: infer Def }
-            ? {
-                [K in keyof Def]: ToFinalField<Def[K]>;
-              }
-            : never
-          : never;
-        name: Options['name'];
-
-        originType: Options['type'];
-
-        paginationType: PaginationType<Options['type']>;
-
-        parse: (
-          ...args: Parameters<Options['type']['parse']>
-        ) => EntityDocFromType<Options['type']>;
-
-        transporter: Options['transporter'];
-        type: //
-        ((x: Options['type']) => any) extends (x: infer Type) => any
-          ? GraphType<{ object: EntityFinalDefinition<Type> }>
-          : never;
-      },
-      EntityLoaders<
+  ? PrimaryEntityMethods<Options> extends infer PropsFromConfig
+    ? EntityLoaders<
         EntityDocFromType<Options['type']>,
         {
           entity: Options['name'];
           indexes: Options['indexes'];
         }
       > extends infer Loaders
+      ? {
+          [K in keyof Loaders]: _GetLoaderUtils<
+            Loaders[K],
+            Options['type']
+          > extends infer Utils
+            ? [Utils] extends [never]
+              ? Loaders[K]
+              : Loaders[K] & Utils
+            : never;
+        } extends infer LoaderWithUtils
         ? {
-            [K in keyof Loaders]: _GetLoaderUtils<
-              Loaders[K],
-              Options['type']
-            > extends infer Utils
-              ? [Utils] extends [never]
-                ? Loaders[K]
-                : Loaders[K] & Utils
-              : never;
-          } extends infer LoaderWithUtils
-          ? LoaderWithUtils & {
-              conditionsDefinition: Options['type'] extends {
-                definition: infer Def;
-              }
-                ? Def extends { def: infer Def }
-                  ? {
-                      def: EntityGraphQLConditionsType<Def>;
-                      type: 'object';
-                    }
-                  : never
-                : never;
-
-              getDocumentId(doc: Record<string, any>): string;
-
-              indexGraphTypes: {
-                [K in Options['indexes'][number]['name']]: GraphType<{
-                  object: ObjectDefinitionInput;
-                }>;
-              };
-
-              loaders: LoaderWithUtils;
-
-              parseDocumentIndexes(
-                doc: Record<string, any>
-              ): ParsedDocumentIndexes;
-            }
+            [K in
+              | keyof PropsFromConfig
+              | keyof LoaderWithUtils
+              | 'loaders']: K extends keyof LoaderWithUtils
+              ? LoaderWithUtils[K]
+              : K extends 'loaders'
+              ? LoaderWithUtils
+              : //
+              K extends keyof PropsFromConfig
+              ? PropsFromConfig[K]
+              : //
+                never;
+          } extends infer R
+          ? WithExtend<R>
           : never
         : never
-    > extends infer FinalEntity
-    ? WithExtend<FinalEntity>
+      : never
     : never
   : never;
 
-type WithExtend<A> = {
-  [K in keyof A | 'extend']: K extends 'extend' // //
-    ? any
-    : // {
-    //     extend<B>(
-    //       value: B
-    //     ): WithExtend<
-    //       {
-    //         [K in keyof A | keyof B]: K extends keyof B ? B[K] : K extends keyof A ? A[K] : never;
-    //       }
-    //     >;
-    //   }
-    K extends keyof A
-    ? A[K]
+export type WithExtend<T> = {
+  [K in keyof T | 'extend']: K extends keyof T
+    ? T[K]
+    : K extends 'extend'
+    ? <E>(
+        transformer: (
+          current: T,
+          utils: { extend: <V>(value: V) => ExtendDefinitionResult<V, V> }
+        ) => E
+      ) => Omit<T, keyof E> & E extends infer R
+        ? WithExtend<{ [K in keyof R]: R[K] } & {}>
+        : never
     : never;
 };
 
@@ -629,16 +635,19 @@ export function createEntity<
     });
   });
 
+  const edgeType = createType(`${entityName}_Edge`, {
+    object: {
+      cursor: 'string',
+      node: getEntityGraphType(),
+    },
+  });
+
   function getPaginationType() {
     const definition = {
       object: {
         edges: {
-          alias: `${entityName}_Edge`,
           list: true,
-          object: {
-            cursor: 'string',
-            node: getEntityGraphType(),
-          },
+          type: edgeType,
         },
         pageInfo: PageInfoType,
       },
@@ -647,10 +656,18 @@ export function createEntity<
     return createType(`${entityName}Connection`, definition);
   }
 
-  function extend(cb) {
+  const ext_utils = { extend: extendDefinition };
+
+  function extend(cb, ext_utils) {
     const partial = cb(entity);
     if (!partial || typeof partial !== 'object') return entity;
-    return partial;
+    const res: any = { ...entity };
+    Object.entries(partial).forEach(([k, v]) => {
+      if (v !== undefined && v !== null) {
+        res[k] = v;
+      }
+    });
+    return res;
   }
 
   function getDocumentId(doc): string {
@@ -663,6 +680,7 @@ export function createEntity<
     [K in Exclude<keyof Entity<any>, keyof Entity<any>['loaders']>]: any;
   } = {
     conditionsDefinition: conditionsType._object!.definition,
+    edgeType: edgeType,
     extend,
     getDocumentId,
     indexGraphTypes: indexGraphTypes,

@@ -11,16 +11,16 @@ export const PageInfoType = createType('PageInfo', {
 
 export type PageInfo = Infer<typeof PageInfoType>;
 
+export type EdgeType<T> = GraphType<{
+  object: {
+    cursor: 'string';
+    node: T extends GraphTypeLike ? T : 'null';
+  };
+}>;
+
 export type PaginationType<T> = GraphType<{
   object: {
-    edges: [
-      {
-        object: {
-          cursor: 'string';
-          node: T extends GraphTypeLike ? T : 'null';
-        };
-      }
-    ];
+    edges: [EdgeType<T>];
     pageInfo: typeof PageInfoType;
   };
 }>;

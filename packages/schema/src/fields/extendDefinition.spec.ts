@@ -119,7 +119,9 @@ describe('extendDefinition', () => {
       },
     });
 
-    const res = extendDefinition(type).extend({ a: '[string]' }).value();
+    const res = extendDefinition(type)
+      .extendDefinition({ a: '[string]' })
+      .value();
 
     assert<IsExact<typeof res.a.type, 'string'>>(true);
     assert<IsExact<typeof res.a.list, true>>(true);
@@ -157,7 +159,7 @@ describe('extendDefinition', () => {
 
     const res = extendDefinition(type)
       .only('name')
-      .extend({ a: '[string]', x: '[int]?' })
+      .extendDefinition({ a: '[string]', x: '[int]?' })
       .exclude('x')
       .optional('a')
       .required('name')
@@ -191,22 +193,18 @@ describe('extendDefinition', () => {
   });
 
   test('deep def', async () => {
-    const type = createType(
-      'fooo',
-      createType(
-        'bar',
-        createType('baz', {
-          object: {
-            name: 'string?',
-            age: 'int',
-          },
-        })
-      )
-    );
+    const t2 = createType('baz', {
+      object: {
+        name: 'string?',
+        age: 'int',
+      },
+    });
+    const t1 = createType('bar', t2);
+    const type = createType('fooo', t1);
 
     const res = extendDefinition(type)
       .only('name')
-      .extend({ a: '[string]', x: '[int]?' })
+      .extendDefinition({ a: '[string]', x: '[int]?' })
       .exclude('x')
       .optional('a')
       .required('name')

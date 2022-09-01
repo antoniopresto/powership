@@ -60,18 +60,6 @@ describe('Product', () => {
     await mockApp.reset();
   });
 
-  test('extend', async () => {
-    const entity = _getEntity();
-
-    const ext = entity.extend(() => {
-      return {
-        foo: () => 1,
-      };
-    });
-
-    expect(ext.foo()).toEqual(1);
-  });
-
   test('properties', () => {
     const entity = _getEntity();
     const options = _getOptions();
@@ -102,6 +90,15 @@ describe('Product', () => {
   });
 
   it('TS distributed filter types', async () => {
+    const type = createType('Product', {
+      object: {
+        title: { string: { min: 2 } },
+        storeId: 'ID',
+        SKU: { string: { min: 3 } },
+        category: 'string?',
+      },
+    });
+
     const entity = createEntity({
       transporter,
       name: 'Product',
@@ -119,14 +116,7 @@ describe('Product', () => {
           SK: ['.storeId'],
         },
       ],
-      type: createType('Product', {
-        object: {
-          title: { string: { min: 2 } },
-          storeId: 'ID',
-          SKU: { string: { min: 3 } },
-          category: 'string?',
-        },
-      }),
+      type,
     });
 
     await entity.findOne({ filter: { storeId: '123' }, context: {} });

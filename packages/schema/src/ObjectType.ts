@@ -29,13 +29,14 @@ import {
   ValidationCustomMessage,
 } from './applyValidator';
 import { assertSameDefinition } from './assertSameDefinition';
+import { extendDefinition, ExtendDefinitionResult } from './extendDefinition';
 import { ObjectLike } from './fields/IObjectLike';
 import {
+  cleanMetaField,
   getObjectDefinitionMetaField,
   isMetaFieldKey,
   MetaFieldDef,
   objectMetaFieldKey,
-  withCleanMetaField,
 } from './fields/MetaFieldField';
 import type {
   FinalFieldDefinition,
@@ -91,7 +92,11 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
 
   // definition without metadata (name, etc)
   cleanDefinition(): ParseFields<DefinitionInput> {
-    return withCleanMetaField(this.definition);
+    return cleanMetaField(this.definition);
+  }
+
+  extend(): ExtendDefinitionResult<DefinitionInput, DefinitionInput> {
+    return extendDefinition(this) as any;
   }
 
   get meta(): MetaFieldDef {

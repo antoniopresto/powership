@@ -9,7 +9,7 @@ import {
 } from '@darch/utils';
 
 import { GraphType } from './GraphType/GraphType';
-import { ObjectType, parseObjectDefinition } from './ObjectType';
+import { ObjectType, parseObjectDefinition, ToFinalField } from './ObjectType';
 import { objectMetaFieldKey } from './fields/MetaFieldField';
 import { ObjectDefinitionInput, ParseFields } from './fields/_parseFields';
 
@@ -18,7 +18,7 @@ export interface ExtendDefinitionResult<Parsed, Origin> {
     keys: K | K[]
   ): ExtendDefinitionResult<ExcludeField<InnerDef<Parsed>, K>, Origin>;
 
-  extend<V extends ObjectDefinitionInput>(
+  extendDefinition<V extends ObjectDefinitionInput>(
     value: V
   ): ExtendDefinitionResult<
     _Override<InnerDef<Parsed>, ParseFields<V>>,
@@ -33,13 +33,21 @@ export interface ExtendDefinitionResult<Parsed, Origin> {
     keys: K | K[]
   ): ExtendDefinitionResult<MakeFieldOptional<InnerDef<Parsed>, K>, Origin>;
 
+  optional(): ExtendDefinitionResult<
+    MakeFieldOptional<InnerDef<Parsed>, DefKeys<Parsed>>,
+    Origin
+  >;
+
   required<K extends DefKeys<Parsed>>(
     keys: K | K[]
   ): ExtendDefinitionResult<MakeFieldRequired<InnerDef<Parsed>, K>, Origin>;
 
-  value(): InnerDef<Parsed> extends infer Res
-    ? { [K in keyof Res]: Res[K] } & {}
-    : never;
+  required(): ExtendDefinitionResult<
+    MakeFieldRequired<InnerDef<Parsed>, DefKeys<Parsed>>,
+    Origin
+  >;
+
+  value(): InnerDef<Parsed>;
 }
 
 export function extendDefinition<Input>(
@@ -84,7 +92,7 @@ export function extendDefinition<Input>(
       return extendDefinition(clone);
     },
 
-    extend(ext) {
+    extendDefinition(ext) {
       assertEqual(getTypeName(ext), 'Object');
       clone = Object.assign(
         clone,
@@ -103,7 +111,7 @@ export function extendDefinition<Input>(
       return extendDefinition(clone);
     },
 
-    optional(keys) {
+    optional(keys = Object.keys(clone)) {
       const optional = ensureArray(keys);
 
       optional.forEach((key) => {
@@ -123,8 +131,8 @@ export function extendDefinition<Input>(
       return extendDefinition(clone);
     },
 
-    required(keys) {
-      const required = ensureArray(keys);
+    required(keys?: unknown) {
+      const required = ensureArray(keys || Object.keys(clone)) as string[];
 
       required.forEach((key) => {
         if (getTypeName(clone[key]) !== 'Object') {
@@ -213,6 +221,6 @@ export type OverrideField<Object, Field, _Extend> = [IsKnown<Field>] extends [0]
   ? Object
   : {
       [K in Exclude<keyof Object, '__infer'>]: K extends Field
-        ? _Override<Object[K], _Extend>
+        ? _Override<ToFinalField<Object[K]>, _Extend>
         : Object[K];
     };

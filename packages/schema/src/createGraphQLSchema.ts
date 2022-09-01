@@ -15,7 +15,7 @@ import {
 } from './GraphType/getQueryTemplates';
 import { parseFieldDefinitionConfig } from './ObjectType';
 import { AnyResolver } from './Resolver';
-import { withCleanMetaField } from './fields/MetaFieldField';
+import { cleanMetaField } from './fields/MetaFieldField';
 import { objectMock, ObjectMockOptions } from './mockObject';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
 
@@ -262,7 +262,7 @@ async function convertResolver(options: {
 
   const payloadDef = {
     // clearing ref because will be mutated to inject relations in definition
-    ...withCleanMetaField(resolver.typeDef),
+    ...cleanMetaField(resolver.typeDef),
   };
 
   allResolvers

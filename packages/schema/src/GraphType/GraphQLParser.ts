@@ -39,7 +39,10 @@ import { assertSameDefinition } from '../assertSameDefinition';
 import type { CursorField } from '../fields/CursorField';
 import { TAnyFieldType } from '../fields/FieldType';
 import { LiteralField } from '../fields/LitarealField';
-import { getObjectDefinitionMetaField } from '../fields/MetaFieldField';
+import {
+  cleanMetaField,
+  getObjectDefinitionMetaField,
+} from '../fields/MetaFieldField';
 import { ObjectField } from '../fields/ObjectField';
 import { UnionField } from '../fields/UnionField';
 import { FieldTypeName } from '../fields/_fieldDefinitions';
@@ -150,6 +153,7 @@ export class GraphQLParser {
     if (resultsCache.has(objectId)) {
       const cached = resultsCache.get(objectId);
       if (!isProduction()) {
+        // @ts-ignore
         assertSameDefinition(
           objectId,
           cached.object.definition,
@@ -577,29 +581,7 @@ export class GraphQLParser {
 
         field.utils.fieldTypes.forEach((field) => {
           if (field.type !== 'object') areAllObjects = false;
-          descriptions.push(
-            `${DarchJSON.stringify(field.definition, {
-              handler(payload) {
-                const { value, defaultHandler } = payload;
-
-                if (value?.type === 'object' && value.def) {
-                  const meta = getObjectDefinitionMetaField(value?.def || {});
-                  if (meta?.def.id) return meta.def.id;
-                  return defaultHandler!(value.def);
-                }
-
-                return undefined;
-              },
-              quoteKeys(key) {
-                return ` ${key}`;
-              },
-              quoteValues(value, { key }) {
-                if (value === false) return '';
-                if (key === 'type') return ` ${value} `;
-                return `${value}`;
-              },
-            })}`
-          );
+          descriptions.push(describeField(field.definition));
         });
 
         let description: string | undefined = undefined;
@@ -608,7 +590,7 @@ export class GraphQLParser {
         description = descriptions.join(' | ');
 
         if (description.length > 100) {
-          description = `Union of:\n'${descriptions
+          description = `Union of:\n${descriptions
             .map((el) => ` - ${el}`)
             .join('\n')}`;
         } else {
@@ -698,4 +680,30 @@ export class GraphQLParser {
 
     return result;
   }
+}
+
+export function describeField(field: FinalFieldDefinition) {
+  if (field.alias) return field.alias;
+
+  return DarchJSON.stringify(field, {
+    handler(payload) {
+      const { value } = payload;
+
+      if (value?.type === 'object' && value.def) {
+        const meta = getObjectDefinitionMetaField(value?.def || {});
+        if (meta?.def.id) return meta.def.id;
+        return describeField(cleanMetaField(value.def));
+      }
+
+      return undefined;
+    },
+    quoteKeys(key) {
+      return ` ${key}`;
+    },
+    quoteValues(value, { key }) {
+      if (value === false) return '';
+      if (key === 'type') return ` ${value} `;
+      return `${value}`;
+    },
+  });
 }

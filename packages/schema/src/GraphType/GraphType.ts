@@ -14,6 +14,7 @@ import { Infer } from '../Infer';
 import { createObjectType, ObjectType } from '../ObjectType';
 import type { AnyResolver, Resolver, ResolverConfig } from '../Resolver';
 import { FieldDefinitionConfig } from '../TObjectConfig';
+import { extendDefinition, ExtendDefinitionResult } from '../extendDefinition';
 import { FieldParserConfig, TAnyFieldType } from '../fields/FieldType';
 import { GraphTypeLike } from '../fields/IObjectLike';
 import { getObjectDefinitionId } from '../fields/MetaFieldField';
@@ -49,26 +50,6 @@ export class GraphType<Definition extends ObjectFieldInput>
 
   readonly id: string;
   readonly _object: ObjectType<any> | undefined;
-
-  clone<Ext extends ObjectDefinitionInput>(
-    name: string,
-    extend?: Ext,
-    insecureOverride?: boolean
-  ): ToFinalField<Definition>['type'] extends 'object'
-    ? GraphType<{ object: ToFinalField<Definition>['def'] & Ext }>
-    : GraphType<Definition> {
-    if (insecureOverride && GraphType.register.has(name)) {
-      const existing = GraphType.register.get(name) as any;
-      GraphType.__construct(existing, name, extend);
-      return existing as any;
-    }
-
-    if (this._object) {
-      return createType(this._object.clone((extend as any) || {}, name)) as any;
-    }
-
-    return createType(name, this.definition) as any;
-  }
 
   constructor(
     definition: Definition extends ObjectFieldInput ? Definition : never
@@ -210,6 +191,33 @@ export class GraphType<Definition extends ObjectFieldInput>
       object: this._object,
     }).interfaceType(...args) as any;
   };
+
+  extend(): ExtendDefinitionResult<
+    ToFinalField<Definition>,
+    ToFinalField<Definition>
+  > {
+    return extendDefinition(this.definition) as any;
+  }
+
+  clone<Ext extends ObjectDefinitionInput>(
+    name: string,
+    extend?: Ext,
+    insecureOverride?: boolean
+  ): ToFinalField<Definition>['type'] extends 'object'
+    ? GraphType<{ object: ToFinalField<Definition>['def'] & Ext }>
+    : GraphType<Definition> {
+    if (insecureOverride && GraphType.register.has(name)) {
+      const existing = GraphType.register.get(name) as any;
+      GraphType.__construct(existing, name, extend);
+      return existing as any;
+    }
+
+    if (this._object) {
+      return createType(this._object.clone((extend as any) || {}, name)) as any;
+    }
+
+    return createType(name, this.definition) as any;
+  }
 
   addRelation = <
     FieldTypeDef extends ObjectFieldInput,
