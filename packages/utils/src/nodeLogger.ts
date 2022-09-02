@@ -40,7 +40,7 @@ if (SLACK_WEBHOOK_URL) {
   );
 }
 
-export class Logger {
+export class NodeLogger {
   private prefix: string;
 
   static lastLogged: { data: any; extraInfo: any } | null = null; // util on tests;
@@ -74,7 +74,7 @@ export class Logger {
   }
 
   log(level: TLogLevel, data: any, extraInfo?: any) {
-    Logger.lastLogged = { data, extraInfo };
+    NodeLogger.lastLogged = { data, extraInfo };
 
     if (!LogLevels.includes(level)) {
       console.trace(`INVALID_LOG_LEVEL ${level}`);
@@ -101,32 +101,32 @@ export class Logger {
   }
 
   static logError = (err: any, extraInfo?: any) => {
-    const logger = new Logger('');
+    const logger = new NodeLogger('');
     logger.error(err, extraInfo);
   };
 
   static logCriticalError = (err: any, extraInfo?: any) => {
-    const logger = new Logger('');
+    const logger = new NodeLogger('');
     logger.criticalError(err, extraInfo);
   };
 
   static log = (level: TLogLevel, data: any) => {
-    const logger = new Logger('');
+    const logger = new NodeLogger('');
     logger.log(level, data);
   };
 
   static logWarning = (data: any) => {
-    const logger = new Logger('');
+    const logger = new NodeLogger('');
     logger.warn(data);
   };
 
   static logInfo = (data: any) => {
-    const logger = new Logger('');
+    const logger = new NodeLogger('');
     logger.info(data);
   };
 
   static debug = (data: any) => {
-    const logger = new Logger('');
+    const logger = new NodeLogger('');
     logger.debug(data);
   };
 }

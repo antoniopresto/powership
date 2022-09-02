@@ -1,5 +1,5 @@
 import { inspectObject, tupleEnum } from '@darch/utils';
-import { Logger } from '@darch/utils/lib/logger';
+import { NodeLogger } from '@darch/utils/lib/nodeLogger';
 
 import type { InvalidParsedIndexField } from './CollectionIndex';
 
@@ -26,7 +26,7 @@ export class EntityError<Kind extends string = string> extends Error {
     }).trim()}`.trim();
 
     if (privateDetails !== undefined) {
-      Logger.logError(inspectObject(privateDetails, { depth: 10 }));
+      NodeLogger.logError(inspectObject(privateDetails, { depth: 10 }));
     }
   }
 

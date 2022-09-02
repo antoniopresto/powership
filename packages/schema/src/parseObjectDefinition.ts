@@ -3,7 +3,6 @@ import { isProduction } from '@darch/utils/lib/env';
 import { getKeys } from '@darch/utils/lib/getKeys';
 import { getTypeName } from '@darch/utils/lib/getTypeName';
 import { inspectObject } from '@darch/utils/lib/inspectObject';
-import { Logger } from '@darch/utils/lib/logger';
 import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 
 import { GraphType } from './GraphType/GraphType';
@@ -198,7 +197,7 @@ export function parseFieldDefinitionConfig(
     return simpleObjectClone(result);
   } catch (e) {
     debugger;
-    Logger.logError(e, { input: inspectObject(definition, { depth: 10 }) });
+    console.error(e, { input: inspectObject(definition, { depth: 10 }) });
     throw e;
   }
 }

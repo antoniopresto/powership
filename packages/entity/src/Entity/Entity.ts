@@ -658,8 +658,8 @@ export function createEntity<
 
   const ext_utils = { extend: extendDefinition };
 
-  function extend(cb, ext_utils) {
-    const partial = cb(entity);
+  function extend(cb) {
+    const partial = cb(entity, ext_utils);
     if (!partial || typeof partial !== 'object') return entity;
     const res: any = { ...entity };
     Object.entries(partial).forEach(([k, v]) => {

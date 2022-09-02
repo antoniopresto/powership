@@ -58,23 +58,33 @@ const envConfig = {
   },
 }[TARGET];
 
-const config = {
-  plugins: [
+module.exports = function (api) {
+  api.cache(true);
+
+  const presets = [
+    '@babel/preset-typescript', //
+    ['@babel/preset-env', envConfig],
+  ];
+
+  if (KIND === 'browser') {
+    presets.push('minify');
+  }
+
+  const plugins = [
     [
       require('@darch/babel-plugins').StripBlocksPlugin,
       {
         magicComment: `@only-${KIND_INVERT}`,
       },
     ],
-  ],
-  presets: [
-    '@babel/preset-typescript', //
-    ['@babel/preset-env', envConfig],
-  ],
-  ignore: [
-    '**/*.spec.ts', //
-    '**/__tests__/**/*',
-  ],
-};
+  ];
 
-module.exports = config;
+  return {
+    presets,
+    plugins,
+    ignore: [
+      /node_modules/,
+      '**/__tests__', //
+    ],
+  };
+};

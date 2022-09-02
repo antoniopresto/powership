@@ -4,8 +4,12 @@
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
-  "main": "lib",
-  "module": "lib/module",
+  "main": "lib/index.js",
+  "module": "lib/module/index.js",
+  "browser": {
+    "lib/index.js": "./lib/browser/index.js",
+    "lib/module/index.js": "./lib/browser/module/index.js"
+  },
   "scripts": {
     "test": "jest",
     "build": "run-s fix clear declarations build:* && sleep 3",
@@ -14,10 +18,12 @@
     "fix:lint": "eslint src --ext .ts --fix",
     "clear": "rimraf lib",
     "prepublish": "run-s fix test build",
+    "build:browser": "TARGET=browser npm run babild -- --out-dir lib/browser",
+    "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir lib/browser/module",
     "build:node": "TARGET=node npm run babild -- --out-dir lib",
     "build:module-node": "TARGET=module-node npm run babild -- --out-dir lib/module",
     "declarations": "tsc -p tsconfig.json",
-    "babild": "babel 'src' --extensions '.ts,.tsx'"
+    "babild": "babel 'src' --extensions '.ts,.tsx' --source-maps=true"
   },
   "description": "darch utils and helper functions",
   "keywords": [],
@@ -31,7 +37,6 @@
     "graphql": "^16.5.0",
     "hoper": "1.0.8",
     "json-schema-to-typescript": "11.0.2",
-    "lodash": "4.17.21",
     "mitt": "3.0.0",
     "object-hash": "2.2.0",
     "plugin-hooks": "1.1.1",
@@ -40,7 +45,8 @@
     "ts-toolbelt": "9.6.0",
     "ulid": "2.3.0",
     "winston": "3.8.1",
-    "winston-slack-webhook-transport": "2.1.0"
+    "winston-slack-webhook-transport": "2.1.0",
+    "lodash": "4.17.21"
   },
   "devDependencies": {
     "@babel/cli": "7.18.6",
@@ -48,12 +54,13 @@
     "@babel/preset-env": "7.18.6",
     "@babel/preset-typescript": "7.18.6",
     "@darch/babel-plugins": "^2.0.0-alpha.20220818T142751-0300.56+030a6b1",
+    "babel-preset-minify": "0.5.2",
     "@types/big.js": "6.1.5",
     "@types/ejson": "2.2.0",
     "@types/fs-extra": "9.0.13",
     "@types/jest": "27.0.3",
     "@types/json-schema": "7.0.11",
-    "@types/lodash": "4.14.178",
+    "@types/lodash": "4.14.184",
     "@types/node": "16.11.12",
     "@types/object-hash": "2.2.1",
     "@types/prettier": "2.6.3",

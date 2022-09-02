@@ -58,6 +58,15 @@ const envConfig = {
   },
 }[TARGET];
 
+const presets = [
+  '@babel/preset-typescript', //
+  ['@babel/preset-env', envConfig],
+];
+
+if (KIND === 'browser') {
+  presets.push('minify');
+}
+
 const config = {
   plugins: [
     [
@@ -67,13 +76,10 @@ const config = {
       },
     ],
   ],
-  presets: [
-    '@babel/preset-typescript', //
-    ['@babel/preset-env', envConfig],
-  ],
+  presets,
   ignore: [
-    '**/*.spec.ts', //
-    '**/__tests__/**/*',
+    /node_modules/,
+    '**/__tests__', //
   ],
 };
 

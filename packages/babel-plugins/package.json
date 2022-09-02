@@ -17,7 +17,6 @@
   "keywords": [],
   "devDependencies": {
     "@babel/core": "7.18.9",
-    "@darch/builder": "2.0.0-alpha.20220818T142751-0300.56+030a6b1",
     "@typescript-eslint/eslint-plugin": "4.15.2",
     "@typescript-eslint/parser": "4.15.2",
     "esbuild": "0.14.3",

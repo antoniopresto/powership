@@ -1,4 +1,4 @@
-import { Logger } from '@darch/utils/lib/logger';
+import { NodeLogger } from '@darch/utils/lib/nodeLogger';
 import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
 import { Filter } from 'mongodb';
 
@@ -153,7 +153,7 @@ export class MongoTransporter extends Transporter {
     }
 
     const query = { $and };
-    Logger.logInfo({ query });
+    NodeLogger.logInfo({ query });
 
     const collection = this.getCollection(filter);
 

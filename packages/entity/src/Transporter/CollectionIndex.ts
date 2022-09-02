@@ -5,7 +5,7 @@ import { devAssert } from '@darch/utils/lib/devAssert';
 import { getKeys } from '@darch/utils/lib/getKeys';
 import { inspectObject } from '@darch/utils/lib/inspectObject';
 import { keyBy } from '@darch/utils/lib/keyBy';
-import { Logger } from '@darch/utils/lib/logger';
+import { NodeLogger } from '@darch/utils/lib/nodeLogger';
 import { base64ToText } from '@darch/utils/lib/textToBase64';
 import { Name } from '@darch/utils/lib/typeUtils';
 
@@ -82,7 +82,7 @@ export function parseGraphID(input: string): GraphIDJSON | null {
       v,
     };
   } catch (e) {
-    Logger.logError(e);
+    NodeLogger.logError(e);
     throw new Error('INVALID_ID');
   }
 }
