@@ -816,17 +816,16 @@ export type DocumentIndexItem<Keys, TName extends Name> = Readonly<{
 
 export type AnyDocIndexItem = DocumentIndexItem<string, Name>;
 
+export type CollectionConfigIndexes<Doc> = Readonly<
+  [DocumentIndexItem<keyof Doc, Name>, ...DocumentIndexItem<keyof Doc, Name>[]]
+>;
+
 export type CollectionIndexConfig<
   Doc extends DocumentBase,
   EntityName extends string
 > = {
   entity: Readonly<EntityName>;
-  indexes: Readonly<
-    [
-      DocumentIndexItem<keyof Doc, Name>,
-      ...DocumentIndexItem<keyof Doc, Name>[]
-    ]
-  >;
+  indexes: CollectionConfigIndexes<Doc>;
 };
 export type AnyCollectionIndexConfig = CollectionIndexConfig<
   DocumentBase,

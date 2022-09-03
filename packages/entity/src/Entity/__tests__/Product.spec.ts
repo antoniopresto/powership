@@ -4,7 +4,8 @@ import { ULID_REGEX } from '@darch/schema/lib/fields/UlidField';
 import { MongoTransporter } from '../../Mongo';
 import { AppMock, createAppMock } from '../../Mongo/__tests__/createAppMock';
 import { mountID } from '../../Transporter';
-import { createEntity, EntityGeneratedFields } from '../Entity';
+import { createEntity } from '../Entity';
+import { createEntityDefaultFields } from '../EntityInterfaces';
 
 jest.setTimeout(9999999);
 describe('Product', () => {
@@ -78,7 +79,7 @@ describe('Product', () => {
 
     expect(Object.keys(entity.type.definition.def).sort()).toEqual(
       Object.keys({
-        ...EntityGeneratedFields,
+        ...createEntityDefaultFields(),
         ...options.type.definition.def,
       }).sort()
     );

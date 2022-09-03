@@ -1,6 +1,7 @@
 import {
   createResolver,
   createType,
+  GraphType,
   objectMock,
   ObjectType,
 } from '@darch/schema';
@@ -9,9 +10,54 @@ import { slugify } from '@darch/utils/lib/slugify';
 
 import { MongoTransporter } from '../../Mongo';
 import { AppMock, createAppMock } from '../../Mongo/__tests__/createAppMock';
-import { createEntity, EntityGeneratedFields } from '../Entity';
+import { createEntity } from '../Entity';
+import { createEntityDefaultFields, Entity } from '../EntityInterfaces';
 
-export function setupProductTest() {
+const productDef = {
+  alcoholic: { boolean: true, defaultValue: false },
+  attributes: 'record?',
+  brand: 'string',
+  categories: ['string'],
+  currentPrice: 'float',
+  detailsUrl: 'string?',
+  html: 'string?',
+  priceFrom: 'float?',
+  sellPrice: 'float',
+  shortDescription: 'string?',
+  sku: 'string',
+  slug: 'string?',
+  spotlight: 'boolean?',
+  storeId: 'ID',
+  tags: '[string]?',
+  thumbUrl: 'string?',
+  title: 'string',
+} as const;
+
+type ProductEntity = Entity<{
+  indexes: [
+    {
+      PK: ['.storeId'];
+      SK: ['.sku'];
+      field: '_id';
+      name: 'byStore';
+    }
+  ];
+  name: 'Product';
+  transporter;
+  type: ProductType;
+}>;
+
+type ProductType = GraphType<{ object: typeof productDef }>;
+
+type Mock = {
+  [K: string]: any;
+  ProductEntity: ProductEntity;
+  ProductType: ProductType;
+};
+
+export function setupProductTest(): {
+  getMocks(): Mock;
+} {
   let mockApp: AppMock;
   let transporter: MongoTransporter;
 
@@ -29,30 +75,12 @@ export function setupProductTest() {
     await mockApp.reset();
   });
 
-  function getMocks() {
+  function getMocks(): Mock {
     const ProductType = createType('Product', {
-      object: {
-        alcoholic: { boolean: true, defaultValue: false },
-        attributes: 'record?',
-        brand: 'string',
-        categories: ['string'],
-        currentPrice: 'float',
-        detailsUrl: 'string?',
-        html: 'string?',
-        priceFrom: 'float?',
-        sellPrice: 'float',
-        shortDescription: 'string?',
-        sku: 'string',
-        slug: 'string?',
-        spotlight: 'boolean?',
-        storeId: 'ID',
-        tags: '[string]?',
-        thumbUrl: 'string?',
-        title: 'string',
-      },
+      object: productDef,
     } as const);
 
-    const ProductEntity = createEntity({
+    const ProductEntity: ProductEntity = createEntity({
       indexes: [
         {
           PK: ['.storeId'],
@@ -68,7 +96,7 @@ export function setupProductTest() {
 
     const mockObject = () =>
       objectMock(ProductEntity.originType._object!.definition) as any;
-    const defaultMock = objectMock(EntityGeneratedFields);
+    const defaultMock: any = objectMock(createEntityDefaultFields());
 
     const shape = Object.entries({ ...defaultMock, ...mockObject() }).reduce(
       (acc, [name, val]) => {
@@ -132,11 +160,11 @@ export function setupProductTest() {
 
     return {
       ProductEntity,
+      ProductType,
       createOne,
       mockApp,
       mockObject,
       obj: mockObject(),
-      productCreateResolver,
       productPagination,
       shape,
       transporter,

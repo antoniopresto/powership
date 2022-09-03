@@ -1,6 +1,46 @@
 import { DeepWritable, simpleObjectClone } from '@darch/utils';
 
-import { _ensureTransporterMethodsImplementation } from '../Transporter';
+import {
+  _ensureTransporterMethodsImplementation,
+  AnyCollectionIndexConfig,
+  DocumentBase,
+  LoaderContext,
+  TransporterLoaderName,
+} from '../Transporter';
+
+import { IndexMethods } from './EntityInterfaces';
+import { EntityOptions } from './EntityOptions';
+
+export function buildEntityOperationInfoContext<
+  M extends TransporterLoaderName
+>(
+  method: M,
+  options: EntityOperationInfosRecord<any, any, any>[M]['options'],
+  entityOptions: EntityOptions
+): EntityOperationInfosRecord<any, any, any>[M] {
+  const info = getOperationInfo(method);
+
+  const { upsert } = options as { upsert?: unknown };
+
+  const isUpsert = info.isUpdate && upsert === true;
+
+  return {
+    ...(info as any),
+    entityOptions,
+    isUpsert,
+    options,
+  };
+}
+
+function getLoaderOperationsInfoHelpers(): LoaderOperationsRecord {
+  return simpleObjectClone(LoaderMethodInfoHelpers);
+}
+
+function getOperationInfo<T extends keyof LoaderOperationsRecord>(
+  op: T
+): LoaderOperationsRecord[T] {
+  return getLoaderOperationsInfoHelpers()[op];
+}
 
 const allFalse = {
   isCreate: false,
@@ -67,16 +107,36 @@ export type LoaderOperationsRecord = DeepWritable<
   typeof LoaderMethodInfoHelpers
 >;
 
-export type LoaderOperationInfo = {
-  [K in keyof LoaderOperationsRecord]: LoaderOperationsRecord[K];
-}[keyof LoaderOperationsRecord];
+export type EntityOperationInfosRecord<
+  Document extends DocumentBase,
+  Indexes extends AnyCollectionIndexConfig['indexes'],
+  Context extends LoaderContext
+> = {
+  [Method in keyof LoaderOperationsRecord]: Method extends unknown
+    ? Method extends keyof LoaderOperationsRecord
+      ? LoaderOperationsRecord[Method] & {
+          entityOptions: EntityOptions;
 
-export function getLoaderOperationsInfoHelpers(): LoaderOperationsRecord {
-  return simpleObjectClone(LoaderMethodInfoHelpers);
-}
-
-export function getOperationInfo<T extends keyof LoaderOperationsRecord>(
-  op: T
-): LoaderOperationsRecord[T] {
-  return getLoaderOperationsInfoHelpers()[op];
-}
+          // ================== //
+          // start infer method
+          // ================== //
+          options: Indexes[number] extends infer IndexItem
+            ? IndexItem extends unknown
+              ? Parameters<
+                  IndexMethods<Document, IndexItem, Context>[Method]
+                >[0] extends infer Options
+                ? Options extends unknown
+                  ? Options
+                  : never
+                : never
+              : never
+            : never;
+          // ================== //
+          // END infer Method
+          // ================== //
+        } extends infer R
+        ? { [K in keyof R]: R[K] }
+        : never
+      : never
+    : never;
+};

@@ -149,7 +149,12 @@ export class GraphType<Definition extends ObjectFieldInput>
     const customMessage =
       options && typeof options === 'object' ? options.customMessage : options;
 
-    return this.__field.parse(input, customMessage);
+    try {
+      return this.__field.parse(input, customMessage);
+    } catch (e: any) {
+      e.message = `➤ ${this.id} ${e.message}`;
+      throw e;
+    }
   };
 
   _toGraphQL = (): ConvertFieldResult => {

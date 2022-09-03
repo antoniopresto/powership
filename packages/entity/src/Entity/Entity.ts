@@ -2,32 +2,23 @@ import {
   createType,
   Darch,
   extendDefinition,
-  ExtendDefinitionResult,
   GraphType,
   ObjectDefinitionInput,
-  ObjectFieldInput,
   ObjectType,
-  parseObjectDefinition,
-  ToFinalField,
 } from '@darch/schema';
 import { isMetaFieldKey } from '@darch/schema/lib/fields/MetaFieldField';
+import { createProxy, ensureArray } from '@darch/utils';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { devAssert } from '@darch/utils/lib/devAssert';
-import { hooks, Waterfall } from '@darch/utils/lib/hooks';
+import { hooks } from '@darch/utils/lib/hooks';
 import { nonNullValues, notNull } from '@darch/utils/lib/invariant';
 import { capitalize } from '@darch/utils/lib/stringCase';
-import { AnyFunction, UnionToIntersection } from '@darch/utils/lib/typeUtils';
+import { AnyFunction } from '@darch/utils/lib/typeUtils';
 
 import {
-  AnyCollectionIndexConfig,
   CollectionIndexConfig,
-  CreateOneResult,
-  DocumentBase,
-  DocumentIndexItem,
-  DocumentMethods,
   getDocumentIndexFields,
   getParsedIndexKeys,
-  LoaderContext,
   ParsedDocumentIndexes,
   ParsedIndexKey,
   Transporter,
@@ -38,937 +29,567 @@ import {
 } from '../Transporter';
 
 import {
-  EntityGraphQLConditionsDef,
-  EntityGraphQLConditionsType,
   graphQLFilterToTransporterFilter,
   objectToGraphQLConditionType,
 } from './EntityFilterConditionType';
 import {
-  getOperationInfo,
-  LoaderOperationsRecord,
-} from './entityOperationContextTypes';
-import { EdgeType, PageInfoType, PaginationType } from './paginationUtils';
+  AnyEntityDocument,
+  createEntityDefaultFields,
+  Entity,
+  EntityFinalDefinition,
+  EntityOperationInfoContext,
+} from './EntityInterfaces';
+import {
+  _EntityGraphType,
+  EntityFieldResolver,
+  EntityOptions,
+} from './EntityOptions';
+import { createEntityPlugin, EntityHooks } from './EntityPlugin';
+import { buildEntityOperationInfoContext } from './entityOperationContextTypes';
+import { PageInfoType } from './paginationUtils';
+import { applyFieldResolvers } from './plugins/applyFieldResolvers';
+import { removeUnderscoreFields } from './plugins/removeUnderscoreFields';
 
 export * from './paginationUtils';
-
-type _GraphType = {
-  __isGraphType: true;
-  _object?: ObjectType<any>;
-  definition: { def: unknown };
-  parse(...args: any[]): DocumentBase;
-};
-
-export interface EntityOptions<
-  TName extends string = string,
-  Type extends _GraphType = _GraphType,
-  TTransporter extends Transporter = Transporter
-> {
-  indexes: CollectionIndexConfig<any, TName>['indexes'];
-  name: TName;
-  transporter?: TTransporter;
-  type: Type;
-}
-
-export type DefaultEntityFields = {
-  createdAt: Date;
-  createdBy: string | undefined;
-  id: string;
-  ulid: string;
-  updatedAt: Date;
-  updatedBy: string | undefined;
-};
-
-export type EntityFinalDefinition<InputDef> = InputDef extends {
-  __isGraphType: true;
-  definition: infer D;
-}
-  ? D extends { def: infer Definition }
-    ? {
-        [K in keyof EntityGeneratedFields as K extends keyof Definition
-          ? never
-          : K]: EntityGeneratedFields[K];
-      } & {
-        [K in keyof Definition]: Definition[K];
-      } extends infer R
-      ? {
-          [K in keyof R]: R[K];
-        }
-      : never
-    : never
-  : never;
-
-type _GetLoaderUtils<Loader, Type> =
-  EntityFinalDefinition<Type> extends infer Def
-    ? GetLoaderFilterDef<Loader, Def> extends infer Filter
-      ? Filter extends unknown
-        ? {
-            filterDef: Filter;
-            queryArgs: {
-              after: {
-                optional: true;
-                type: 'ID';
-              };
-              condition: Type extends {
-                definition: infer Def;
-              }
-                ? Def extends { def: infer Def }
-                  ? {
-                      def: EntityGraphQLConditionsDef<Def>;
-                      optional: true;
-                      type: 'object';
-                    }
-                  : never
-                : never;
-              filter: {
-                def: Filter;
-                type: 'object';
-              };
-              first: {
-                optional: true;
-                type: 'int';
-              };
-            };
-          }
-        : never
-      : never
-    : never;
-
-interface PrimaryEntityMethods<Options extends EntityOptions> {
-  conditionsDefinition: Options['type'] extends {
-    definition: infer Def;
-  }
-    ? Def extends { def: infer Def }
-      ? {
-          def: EntityGraphQLConditionsType<Def>;
-          type: 'object';
-        }
-      : never
-    : never;
-  edgeType: EdgeType<Options['type']>;
-  getDocumentId(doc: Record<string, any>): string;
-
-  indexGraphTypes: {
-    [K in Options['indexes'][number]['name']]: GraphType<{
-      object: ObjectDefinitionInput;
-    }>;
-  };
-
-  indexes: Options['indexes'];
-
-  inputDefinition: Options['type'] extends { definition: infer Def }
-    ? Def extends { def: infer Def }
-      ? {
-          [K in keyof Def]: ToFinalField<Def[K]>;
-        }
-      : never
-    : never;
-
-  name: Options['name'];
-
-  originType: Options['type'];
-  paginationType: PaginationType<Options['type']>;
-
-  parse: (
-    ...args: Parameters<Options['type']['parse']>
-  ) => EntityDocFromType<Options['type']>;
-
-  parseDocumentIndexes(doc: Record<string, any>): ParsedDocumentIndexes;
-
-  transporter: Options['transporter'];
-
-  type: //
-  ((x: Options['type']) => any) extends (x: infer Type) => any
-    ? GraphType<{ object: EntityFinalDefinition<Type> }>
-    : never;
-}
-
-// export type EntityGraphType<T> = T extends
-export type Entity<Options extends EntityOptions> = Options['type'] extends {
-  parse(...args: any): any;
-}
-  ? PrimaryEntityMethods<Options> extends infer PropsFromConfig
-    ? EntityLoaders<
-        EntityDocFromType<Options['type']>,
-        {
-          entity: Options['name'];
-          indexes: Options['indexes'];
-        }
-      > extends infer Loaders
-      ? {
-          [K in keyof Loaders]: _GetLoaderUtils<
-            Loaders[K],
-            Options['type']
-          > extends infer Utils
-            ? [Utils] extends [never]
-              ? Loaders[K]
-              : Loaders[K] & Utils
-            : never;
-        } extends infer LoaderWithUtils
-        ? {
-            [K in
-              | keyof PropsFromConfig
-              | keyof LoaderWithUtils
-              | 'loaders']: K extends keyof LoaderWithUtils
-              ? LoaderWithUtils[K]
-              : K extends 'loaders'
-              ? LoaderWithUtils
-              : //
-              K extends keyof PropsFromConfig
-              ? PropsFromConfig[K]
-              : //
-                never;
-          } extends infer R
-          ? WithExtend<R>
-          : never
-        : never
-      : never
-    : never
-  : never;
-
-export type WithExtend<T> = {
-  [K in keyof T | 'extend']: K extends keyof T
-    ? T[K]
-    : K extends 'extend'
-    ? <E>(
-        transformer: (
-          current: T,
-          utils: { extend: <V>(value: V) => ExtendDefinitionResult<V, V> }
-        ) => E
-      ) => Omit<T, keyof E> & E extends infer R
-        ? WithExtend<{ [K in keyof R]: R[K] } & {}>
-        : never
-    : never;
-};
 
 const ulidField = Darch.ulid({ autoCreate: true });
 const createUlid = () => ulidField.parse(undefined);
 
 export function createEntity<
   Name extends string,
-  Type extends _GraphType,
+  Type extends _EntityGraphType,
   TTransport extends Transporter,
   Options extends EntityOptions<Name, Type, TTransport>
->(options: Options): Entity<Options> {
-  const {
-    indexes,
-    transporter: defaultTransporter,
-    type,
-    name: entityName,
-  } = options;
+>(entityOptions: Options): Entity<Options> {
+  const plugins = [removeUnderscoreFields, applyFieldResolvers];
+  const resolvers: EntityFieldResolver<any, any, any, any>[] = [];
+  let entityUsed = false;
 
-  const entityNameLowercase = entityName.toLowerCase();
-
-  const objectType = nonNullValues({
-    entityTypeObject: type._object,
-  }).entityTypeObject;
-
-  const entity = {} as any;
-  const loaders: Record<string, any> = {};
-
-  const originDef = objectType.cleanDefinition();
-
-  let entityDefinition = {
-    ...EntityGeneratedFields,
-    ...originDef,
-  };
-
-  entity['transporter'] = defaultTransporter;
-
-  const indexConfig: CollectionIndexConfig<any, string> = {
-    entity: entityNameLowercase,
-    indexes,
-  };
-
-  const conditionsType = objectToGraphQLConditionType(
-    `${entityName}Conditions`,
-    entityDefinition
-  );
-
-  validateIndexNameAndField(indexConfig);
-  const parsedIndexKeys = getParsedIndexKeys(indexConfig);
-
-  const _hooks: EntityHooks<
-    EntityDocument<{}>,
-    EntityOptions['indexes'],
-    LoaderContext
-  > = {
-    beforeQuery: hooks.waterfall(),
-    filterResult: hooks.waterfall(),
-    postParse: hooks.waterfall(),
-    preParse: hooks.waterfall(),
-  };
-
-  // pre parse PK, SK and ID setters
-  _hooks.preParse.register(async function applyDefaultHooks(ctx) {
-    async function _onUpdate(doc: Record<string, any>) {
-      doc.updatedAt = new Date();
-      doc.updatedBy =
-        doc.updatedBy || (await ctx.options.context?.userId?.(false));
-      return doc;
-    }
-
-    async function _onCreate(doc: Record<string, any>) {
-      await _onUpdate(doc);
-      doc.ulid = doc.ulid || createUlid();
-      doc.createdAt = new Date();
-      doc.createdBy =
-        doc.createdBy || (await ctx.options.context?.userId?.(false));
-
-      const parsedIndexes = getDocumentIndexFields(doc, indexConfig);
-
-      if (!parsedIndexes.valid) {
-        throw parsedIndexes.error;
+  const entity = createProxy(_createEntity, {
+    onGet(k): any {
+      if (k === 'addHooks') {
+        return function addHooks(hooks) {
+          plugins.push(
+            ...ensureArray(hooks).map((hookConfig, index) => {
+              return createEntityPlugin(
+                `${entityOptions.name}MainPlugin_${index}`,
+                hookConfig
+              );
+            })
+          );
+          return entity;
+        };
       }
 
-      doc = {
-        ...parsedIndexes.indexFields,
-        ...doc,
-      };
+      if (k === 'addRelations') {
+        if (entityUsed) {
+          throw new Error(
+            `addRelations should be used right after entity creation.`
+          );
+        }
 
-      if (!doc.id) {
-        doc.id = parsedIndexes.firstIndex.value;
+        return function addRelations(resolver) {
+          resolvers.push(...ensureArray(resolver));
+          return entity;
+        };
       }
 
-      return doc;
-    }
-
-    if (ctx.op === 'updateOne') {
-      ctx.options.update.$set = await _onUpdate({
-        ...ctx.options.update.$set,
-      });
-    }
-
-    if (ctx.isUpsert) {
-      const $setOnInsert = await _onCreate({
-        ...ctx.options.update.$set,
-        ...ctx.options.update.$setOnInsert,
-      });
-      ctx.options.update.$setOnInsert = {
-        ...$setOnInsert,
-      };
-    }
-
-    if (ctx.isCreate) {
-      ctx.options.item = await _onCreate(ctx.options.item);
-    }
-
-    return ctx;
+      return null;
+    },
   });
 
-  type EntityGraphType = GraphType<{
-    object: EntityFinalDefinition<GraphType<{ object: {} }>>;
-  }>;
+  function _createEntity() {
+    entityUsed = true;
 
-  let entityGraphType: EntityGraphType | undefined;
-  function getEntityGraphType(): EntityGraphType {
-    // @ts-ignore
-    return (entityGraphType =
-      entityGraphType ||
-      createType(`${entityName}Entity`, {
+    const {
+      indexes,
+      transporter: defaultTransporter,
+      type,
+      name: entityName,
+    } = entityOptions;
+
+    const _hooks: EntityHooks<any, any, any> = {
+      beforeQuery: hooks.waterfall(),
+      createDefinition: hooks.parallel(),
+      filterResult: hooks.waterfall(),
+      postParse: hooks.waterfall(),
+      preParse: hooks.waterfall(),
+    };
+
+    plugins.forEach((plugin) => {
+      try {
+        plugin(_hooks);
+      } catch (e: any) {
+        throw new RuntimeError(`Failed to apply plugin ${plugin?.name}`, {
+          message: e.message,
+          plugin,
+        });
+      }
+    });
+
+    const entityNameLowercase = entityName.toLowerCase();
+
+    const objectType = nonNullValues({
+      entityTypeObject: type._object,
+    }).entityTypeObject;
+
+    const entity = {} as any;
+    const loaders: Record<string, any> = {};
+
+    let entityDefinition = {
+      ...createEntityDefaultFields(),
+      ...objectType.cleanDefinition(),
+    };
+
+    const fields = Object.keys(entityDefinition);
+    let inputDef = objectType.cleanDefinition();
+
+    const typeWithoutRelations = createType(
+      `${entityOptions.name}_withoutRelations`,
+      {
         object: entityDefinition,
-      })) as any;
-  }
+      }
+    );
 
-  async function parseOperationContext(
-    method: TransporterLoaderName,
-    options: any
-  ) {
-    await defaultTransporter?.connect();
+    _hooks.createDefinition.exec(entityDefinition, {
+      fields,
+      kind: 'entityDefinition',
+      options: entityOptions,
+      resolvers,
+    });
 
-    let operationInfoContext = buildEntityOperationInfoContext(method, options);
+    _hooks.createDefinition.exec(inputDef, {
+      fields,
+      kind: 'inputDefinition',
+      options: entityOptions,
+      resolvers,
+    });
 
-    if ('filter' in operationInfoContext.options) {
-      operationInfoContext.options.filter = graphQLFilterToTransporterFilter(
-        operationInfoContext.options.filter
-      );
-    }
-    if ('condition' in operationInfoContext.options) {
-      operationInfoContext.options.condition = graphQLFilterToTransporterFilter(
-        operationInfoContext.options.condition
-      );
-    }
+    entity['transporter'] = defaultTransporter;
 
-    if (operationInfoContext.op === 'updateOne') {
-      operationInfoContext = await _hooks.preParse.exec(
-        // @ts-ignore
-        operationInfoContext,
-        {}
-      );
-    }
+    const indexConfig: CollectionIndexConfig<any, string> = {
+      entity: entityNameLowercase,
+      indexes,
+    };
 
-    if ('item' in operationInfoContext.options) {
-      operationInfoContext = await _hooks.preParse.exec(
-        // @ts-ignore
-        operationInfoContext,
-        {}
-      );
+    const conditionsType = objectToGraphQLConditionType(
+      `${entityName}Conditions`,
+      entityDefinition
+    );
 
-      if (!('item' in operationInfoContext.options)) {
-        return devAssert('MISSING_ITEM', { operationInfoContext });
+    validateIndexNameAndField(indexConfig);
+    const parsedIndexKeys = getParsedIndexKeys(indexConfig);
+
+    // pre parse PK, SK and ID setters
+    _hooks.preParse.register(async function applyDefaultHooks(ctx) {
+      async function _onUpdate(doc: Record<string, any>) {
+        doc.updatedAt = new Date();
+        doc.updatedBy =
+          doc.updatedBy || (await ctx.options.context?.userId?.(false));
+        return doc;
       }
 
-      try {
-        operationInfoContext.options.item = getEntityGraphType().parse(
-          operationInfoContext.options.item
-        ) as AnyEntityDocument;
+      async function _onCreate(doc: Record<string, any>) {
+        await _onUpdate(doc);
+        doc.ulid = doc.ulid || createUlid();
+        doc.createdAt = new Date();
+        doc.createdBy =
+          doc.createdBy || (await ctx.options.context?.userId?.(false));
 
-        operationInfoContext = await _hooks.postParse.exec(
+        const parsedIndexes = getDocumentIndexFields(doc, indexConfig);
+
+        if (!parsedIndexes.valid) {
+          throw parsedIndexes.error;
+        }
+
+        doc = {
+          ...parsedIndexes.indexFields,
+          ...doc,
+        };
+
+        if (!doc.id) {
+          doc.id = parsedIndexes.firstIndex.value;
+        }
+
+        return doc;
+      }
+
+      if (ctx.op === 'updateOne') {
+        ctx.options.update.$set = await _onUpdate({
+          ...ctx.options.update.$set,
+        });
+      }
+
+      if (ctx.isUpsert) {
+        const $setOnInsert = await _onCreate({
+          ...ctx.options.update.$set,
+          ...ctx.options.update.$setOnInsert,
+        });
+        ctx.options.update.$setOnInsert = {
+          ...$setOnInsert,
+        };
+      }
+
+      if (ctx.isCreate) {
+        ctx.options.item = await _onCreate(ctx.options.item);
+      }
+
+      return ctx;
+    });
+
+    type EntityGraphType = GraphType<{
+      object: EntityFinalDefinition<GraphType<{ object: {} }>>;
+    }>;
+
+    let entityGraphType: EntityGraphType | undefined;
+    function getEntityGraphType(): EntityGraphType {
+      // @ts-ignore
+      return (entityGraphType =
+        entityGraphType ||
+        createType(`${entityName}Entity`, {
+          object: entityDefinition,
+        })) as any;
+    }
+
+    async function parseOperationContext(
+      method: TransporterLoaderName,
+      methodOptions: any
+    ): Promise<EntityOperationInfoContext<any, any, any>> {
+      await defaultTransporter?.connect();
+
+      let operationInfoContext = buildEntityOperationInfoContext(
+        method,
+        methodOptions,
+        entityOptions
+      );
+
+      if ('filter' in operationInfoContext.options) {
+        operationInfoContext.options.filter = graphQLFilterToTransporterFilter(
+          operationInfoContext.options.filter
+        );
+      }
+      if ('condition' in operationInfoContext.options) {
+        operationInfoContext.options.condition =
+          graphQLFilterToTransporterFilter(
+            operationInfoContext.options.condition
+          );
+      }
+
+      if (operationInfoContext.op === 'updateOne') {
+        operationInfoContext = await _hooks.preParse.exec(
           // @ts-ignore
           operationInfoContext,
           {}
         );
-      } catch (e: any) {
-        e.info = operationInfoContext;
-        throw e;
       }
-    }
 
-    if ('filter' in operationInfoContext.options) {
-      operationInfoContext = await _hooks.beforeQuery.exec(
-        // @ts-ignore
-        operationInfoContext,
-        {}
-      );
-    }
-
-    return operationInfoContext;
-  }
-
-  const indexGraphTypes = parsedIndexKeys.reduce(
-    (acc, next): Record<string, GraphType<{ object: any }>> => {
-      const fields: ObjectDefinitionInput = {};
-
-      next.PK.requiredFields.forEach((fieldName) => {
-        const def = entityDefinition[fieldName];
-        if (!def) {
-          throw new RuntimeError(
-            `Field "${fieldName}" defined for index ${next.index.name} not defined in the input type.`,
-            { type }
-          );
-        }
-        fields[fieldName] = entityDefinition[fieldName];
-      });
-
-      next.SK.requiredFields.forEach((fieldName) => {
-        const def = entityDefinition[fieldName];
-        if (!def) {
-          throw new RuntimeError(
-            `Field "${fieldName}" defined for index ${next.index.name} not defined in the input type.`,
-            { type }
-          );
-        }
-        fields[fieldName] = fields[fieldName] || { ...def, optional: true };
-      });
-
-      const typeName = `${entityName}${capitalize(next.index.name)}Index`;
-      return {
-        ...acc,
-        [next.index.name]: createType(typeName, { object: fields }),
-      };
-    },
-    {}
-  );
-
-  function _createLoader(config: {
-    indexInfo: ParsedIndexKey[];
-    indexes: EntityOptions['indexes'];
-    method: TransporterLoaderName;
-    newMethodName: string;
-  }) {
-    const { indexInfo, indexes, newMethodName, method } = config;
-
-    const loader: TransporterLoader = async function loader(...args) {
-      if (args.length !== 1) {
-        return devAssert(`Invalid number of arguments for ${newMethodName}`);
-      }
-      const { transporter = defaultTransporter } = args['0'];
-
-      nonNullValues(
-        { transporter },
-        `config.transporter should be provided for "${newMethodName}" or during entity creation.`
-      );
-
-      const configInput = {
-        ...args[0],
-        context: args[0].context,
-        indexConfig: {
-          ...indexConfig,
-          indexes,
-        },
-      };
-
-      const operation = await parseOperationContext(method, configInput);
-
-      const resolver: AnyFunction = transporter[method].bind(transporter);
-      const result = await resolver(operation.options);
-
-      if (result.item) {
-        const [parsed] = await _hooks.filterResult.exec(
-          [result.item],
+      if ('item' in operationInfoContext.options) {
+        operationInfoContext = await _hooks.preParse.exec(
           // @ts-ignore
-          operation
+          operationInfoContext,
+          {}
         );
 
-        result.item = parsed;
+        if (!('item' in operationInfoContext.options)) {
+          return devAssert('MISSING_ITEM', { operationInfoContext });
+        }
+
+        try {
+          operationInfoContext.options.item = typeWithoutRelations.parse(
+            operationInfoContext.options.item
+          ) as AnyEntityDocument;
+
+          operationInfoContext = await _hooks.postParse.exec(
+            // @ts-ignore
+            operationInfoContext,
+            {}
+          );
+        } catch (e: any) {
+          e.info = operationInfoContext;
+          throw e;
+        }
       }
 
-      if (result.items) {
-        result.items = await _hooks.filterResult.exec(
-          result.items,
+      if ('filter' in operationInfoContext.options) {
+        operationInfoContext = await _hooks.beforeQuery.exec(
           // @ts-ignore
-          operation
+          operationInfoContext,
+          {}
         );
       }
 
-      return result;
-    };
-
-    function getFilterDef() {
-      getEntityGraphType();
-
-      function _wrap(obj: object) {
-        const def: any = { id: { optional: true, type: 'ID' } };
-
-        Object.keys(obj).forEach((k) => {
-          if (isMetaFieldKey(k)) return;
-          def[k] = { ...obj[k], optional: true };
-        });
-
-        return def;
-      }
-
-      if (indexInfo.length === 1) {
-        return _wrap({
-          ...indexGraphTypes[
-            indexInfo[0].index.name
-          ]._object!.cleanDefinition(),
-        });
-      }
-
-      const all: any = {};
-      indexInfo.forEach(({ index: { name } }) => {
-        const objectType = indexGraphTypes[name]._object as ObjectType<{
-          a: 'any';
-        }>;
-
-        const graph = objectType.cleanDefinition();
-        Object.entries(graph).forEach(([k, v]) => {
-          all[k] = {
-            ...v,
-            optional: true,
-          };
-        });
-      });
-      return _wrap(all);
+      return operationInfoContext;
     }
 
-    function getPaginationType() {
-      const filter = getFilterDef();
-      return {
-        after: {
-          optional: true,
-          type: 'ID',
-        },
-        condition: {
-          optional: true,
-          type: conditionsType,
-        },
-        filter: {
-          def: filter,
-          optional: false,
-          type: 'object',
-        },
-        first: {
-          optional: true,
-          type: 'int',
-        },
-      };
-    }
+    const indexGraphTypes = parsedIndexKeys.reduce(
+      (acc, next): Record<string, GraphType<{ object: any }>> => {
+        const fields: ObjectDefinitionInput = {};
 
-    Object.defineProperties(loader, {
-      filterDef: {
-        get() {
-          return getFilterDef();
-        },
+        next.PK.requiredFields.forEach((fieldName) => {
+          const def = entityDefinition[fieldName];
+          if (!def) {
+            throw new RuntimeError(
+              `Field "${fieldName}" defined for index ${next.index.name} not defined in the input type.`,
+              { type }
+            );
+          }
+          fields[fieldName] = entityDefinition[fieldName];
+        });
+
+        next.SK.requiredFields.forEach((fieldName) => {
+          const def = entityDefinition[fieldName];
+          if (!def) {
+            throw new RuntimeError(
+              `Field "${fieldName}" defined for index ${next.index.name} not defined in the input type.`,
+              { type }
+            );
+          }
+          fields[fieldName] = fields[fieldName] || { ...def, optional: true };
+        });
+
+        const typeName = `${entityName}${capitalize(next.index.name)}Index`;
+        return {
+          ...acc,
+          [next.index.name]: createType(typeName, { object: fields }),
+        };
       },
-      indexInfo: { value: indexInfo },
-      name: { value: newMethodName },
-      queryArgs: {
-        get() {
-          return getPaginationType();
-        },
-      },
-    });
-
-    loaders[newMethodName] = loader;
-    entity[newMethodName] = loader;
-  }
-
-  indexConfig.indexes.forEach((index) => {
-    const { name: indexName } = index;
-    const indexInfo = notNull(
-      parsedIndexKeys.find((el) => el.index.name === indexName)
+      {}
     );
 
-    const capitalizedIndexName = capitalize(indexName);
+    function _createLoader(config: {
+      indexInfo: ParsedIndexKey[];
+      indexes: EntityOptions['indexes'];
+      method: TransporterLoaderName;
+      newMethodName: string;
+    }) {
+      const { indexInfo, indexes, newMethodName, method } = config;
 
-    transporterLoaderNames.forEach((method) => {
-      if (method === 'createOne') return;
-      const methodName = `${method}${capitalizedIndexName}`;
-      _createLoader({
-        indexInfo: [indexInfo],
-        indexes: [
-          indexConfig.indexes.find((index) => index.name === indexName)!,
-        ],
-        method,
-        newMethodName: methodName,
+      const loader: TransporterLoader = async function loader(...args) {
+        if (args.length !== 1) {
+          return devAssert(`Invalid number of arguments for ${newMethodName}`);
+        }
+        const { transporter = defaultTransporter } = args['0'];
+
+        nonNullValues(
+          { transporter },
+          `config.transporter should be provided for "${newMethodName}" or during entity creation.`
+        );
+
+        const configInput = {
+          ...args[0],
+          context: args[0].context,
+          indexConfig: {
+            ...indexConfig,
+            indexes,
+          },
+        };
+
+        const operation = await parseOperationContext(method, configInput);
+        const context = { context: operation, resolvers };
+
+        const resolver: AnyFunction = transporter[method].bind(transporter);
+        const result = await resolver(operation.options);
+
+        if (result.item) {
+          const [parsed] = await _hooks.filterResult.exec(
+            [result.item],
+            context
+          );
+
+          result.item = parsed;
+        }
+
+        if (result.items) {
+          result.items = await _hooks.filterResult.exec(result.items, context);
+        }
+
+        return result;
+      };
+
+      function getFilterDef() {
+        getEntityGraphType();
+
+        function _wrap(obj: object) {
+          const def: any = { id: { optional: true, type: 'ID' } };
+
+          Object.keys(obj).forEach((k) => {
+            if (isMetaFieldKey(k)) return;
+            def[k] = { ...obj[k], optional: true };
+          });
+
+          return def;
+        }
+
+        if (indexInfo.length === 1) {
+          return _wrap({
+            ...indexGraphTypes[
+              indexInfo[0].index.name
+            ]._object!.cleanDefinition(),
+          });
+        }
+
+        const all: any = {};
+        indexInfo.forEach(({ index: { name } }) => {
+          const objectType = indexGraphTypes[name]._object as ObjectType<{
+            a: 'any';
+          }>;
+
+          const graph = objectType.cleanDefinition();
+          Object.entries(graph).forEach(([k, v]) => {
+            all[k] = {
+              ...v,
+              optional: true,
+            };
+          });
+        });
+        return _wrap(all);
+      }
+
+      function getPaginationType() {
+        const filter = getFilterDef();
+        return {
+          after: {
+            optional: true,
+            type: 'ID',
+          },
+          condition: {
+            optional: true,
+            type: conditionsType,
+          },
+          filter: {
+            def: filter,
+            optional: false,
+            type: 'object',
+          },
+          first: {
+            optional: true,
+            type: 'int',
+          },
+        };
+      }
+
+      Object.defineProperties(loader, {
+        filterDef: {
+          get() {
+            return getFilterDef();
+          },
+        },
+        indexInfo: { value: indexInfo },
+        name: { value: newMethodName },
+        queryArgs: {
+          get() {
+            return getPaginationType();
+          },
+        },
+      });
+
+      loaders[newMethodName] = loader;
+      entity[newMethodName] = loader;
+    }
+
+    indexConfig.indexes.forEach((index) => {
+      const { name: indexName } = index;
+      const indexInfo = notNull(
+        parsedIndexKeys.find((el) => el.index.name === indexName)
+      );
+
+      const capitalizedIndexName = capitalize(indexName);
+
+      transporterLoaderNames.forEach((method) => {
+        if (method === 'createOne') return;
+        const methodName = `${method}${capitalizedIndexName}`;
+        _createLoader({
+          indexInfo: [indexInfo],
+          indexes: [
+            indexConfig.indexes.find((index) => index.name === indexName)!,
+          ],
+          method,
+          newMethodName: methodName,
+        });
       });
     });
-  });
 
-  transporterLoaderNames.forEach((method) => {
-    _createLoader({
-      indexInfo: parsedIndexKeys,
-      indexes: indexConfig.indexes,
-      method,
-      newMethodName: method,
+    transporterLoaderNames.forEach((method) => {
+      _createLoader({
+        indexInfo: parsedIndexKeys,
+        indexes: indexConfig.indexes,
+        method,
+        newMethodName: method,
+      });
     });
-  });
 
-  const edgeType = createType(`${entityName}_Edge`, {
-    object: {
-      cursor: 'string',
-      node: getEntityGraphType(),
-    },
-  });
-
-  function getPaginationType() {
-    const definition = {
+    const edgeType = createType(`${entityName}_Edge`, {
       object: {
-        edges: {
-          list: true,
-          type: edgeType,
-        },
-        pageInfo: PageInfoType,
+        cursor: 'string',
+        node: getEntityGraphType(),
       },
-    } as const;
-
-    return createType(`${entityName}Connection`, definition);
-  }
-
-  const ext_utils = { extend: extendDefinition };
-
-  function extend(cb) {
-    const partial = cb(entity, ext_utils);
-    if (!partial || typeof partial !== 'object') return entity;
-    const res: any = { ...entity };
-    Object.entries(partial).forEach(([k, v]) => {
-      if (v !== undefined && v !== null) {
-        res[k] = v;
-      }
     });
-    return res;
+
+    function getPaginationType() {
+      const definition = {
+        object: {
+          edges: {
+            list: true,
+            type: edgeType,
+          },
+          pageInfo: PageInfoType,
+        },
+      } as const;
+
+      return createType(`${entityName}Connection`, definition);
+    }
+
+    const ext_utils = { extend: extendDefinition };
+
+    function extend(cb) {
+      const partial = cb(entity, ext_utils);
+      if (!partial || typeof partial !== 'object') return entity;
+      const res: any = { ...entity };
+      Object.entries(partial).forEach(([k, v]) => {
+        if (v !== undefined && v !== null) {
+          res[k] = v;
+        }
+      });
+      return res;
+    }
+
+    function getDocumentId(doc): string {
+      const indexes = getDocumentIndexFields(doc, indexConfig);
+      if (indexes.error) throw indexes.error;
+      return notNull(indexes.indexFields.id);
+    }
+
+    const getters: {
+      [K in Exclude<keyof Entity<any>, keyof Entity<any>['loaders']>]: any;
+    } = {
+      addHooks: () => ({}), // handled in proxy
+      addRelations: () => ({}), // handled in proxy
+      conditionsDefinition: conditionsType._object!.definition,
+      edgeType: edgeType,
+      extend,
+      getDocumentId,
+      indexGraphTypes: indexGraphTypes,
+      indexes: indexes,
+      inputDefinition: inputDef,
+      loaders: loaders,
+      name: entityName,
+      originType: type,
+      paginationType: getPaginationType(),
+      parse: getEntityGraphType().parse,
+      parseDocumentIndexes: function parseDocumentIndexes(
+        doc
+      ): ParsedDocumentIndexes {
+        return getDocumentIndexFields(doc, indexConfig);
+      },
+      transporter: defaultTransporter || entityOptions.transporter,
+      type: getEntityGraphType(),
+      typeWithoutRelations,
+    };
+
+    Object.assign(entity, getters);
+
+    return entity;
   }
-
-  function getDocumentId(doc): string {
-    const indexes = getDocumentIndexFields(doc, indexConfig);
-    if (indexes.error) throw indexes.error;
-    return notNull(indexes.indexFields.id);
-  }
-
-  const getters: {
-    [K in Exclude<keyof Entity<any>, keyof Entity<any>['loaders']>]: any;
-  } = {
-    conditionsDefinition: conditionsType._object!.definition,
-    edgeType: edgeType,
-    extend,
-    getDocumentId,
-    indexGraphTypes: indexGraphTypes,
-    indexes: indexes,
-    inputDefinition: objectType.cleanDefinition(),
-    loaders: loaders,
-    name: entityName,
-    originType: type,
-    paginationType: getPaginationType(),
-    parse: getEntityGraphType().parse,
-    parseDocumentIndexes: function parseDocumentIndexes(
-      doc
-    ): ParsedDocumentIndexes {
-      return getDocumentIndexFields(doc, indexConfig);
-    },
-    transporter: defaultTransporter || options.transporter,
-    type: getEntityGraphType(),
-  };
-
-  Object.assign(entity, getters);
 
   return entity;
 }
-
-type EntityDocument<Document> = {
-  [K in keyof (DefaultEntityFields & Document)]: (DefaultEntityFields &
-    Document)[K];
-} & {};
-
-export type AnyEntityDocument = EntityDocument<{ [K: string]: unknown }>;
-
-export type EntityHooks<
-  Document extends DocumentBase,
-  Indexes extends AnyCollectionIndexConfig['indexes'],
-  Context extends LoaderContext
-> = {
-  beforeQuery: Waterfall<
-    EntityOperationInfoContext<EntityDocument<Document>, Indexes, Context>,
-    {}
-  >;
-
-  filterResult: Waterfall<
-    EntityDocument<Document>[],
-    EntityOperationInfoContext<EntityDocument<Document>, Indexes, Context>
-  >;
-
-  postParse: Waterfall<
-    EntityOperationInfoContext<EntityDocument<Document>, Indexes, Context>,
-    {}
-  >;
-
-  preParse: Waterfall<
-    EntityOperationInfoContext<Record<string, any>, Indexes, Context>,
-    {}
-  >;
-};
-
-function buildEntityOperationInfoContext<M extends TransporterLoaderName>(
-  method: M,
-  options: EntityOperationInfosRecord<any, any, any>[M]['options']
-): EntityOperationInfosRecord<any, any, any>[M] {
-  const info = getOperationInfo(method);
-
-  const isUpsert =
-    info.isUpdate && 'upsert' in options && options.upsert === true;
-
-  return {
-    ...info,
-    isUpsert,
-    options,
-  } as any;
-}
-
-export type EntityOperationInfoContext<
-  Document extends DocumentBase,
-  Indexes extends AnyCollectionIndexConfig['indexes'],
-  Context extends LoaderContext
-> = EntityOperationInfosRecord<
-  Document,
-  Indexes,
-  Context
->[TransporterLoaderName];
-
-export type EntityOperationInfosRecord<
-  Document extends DocumentBase,
-  Indexes extends AnyCollectionIndexConfig['indexes'],
-  Context extends LoaderContext
-> = {
-  [Method in keyof LoaderOperationsRecord]: Method extends unknown
-    ? Method extends keyof LoaderOperationsRecord
-      ? LoaderOperationsRecord[Method] & {
-          // ================== //
-          // start infer method
-          // ================== //
-          options: Indexes[number] extends infer IndexItem
-            ? IndexItem extends unknown
-              ? Parameters<
-                  IndexMethods<Document, IndexItem, Context>[Method]
-                >[0] extends infer Options
-                ? Options extends unknown
-                  ? Options
-                  : never
-                : never
-              : never
-            : never;
-          // ================== //
-          // END infer Method
-          // ================== //
-        } extends infer R
-        ? { [K in keyof R]: R[K] }
-        : never
-      : never
-    : never;
-};
-
-type GetFieldsUsedInIndexes<IndexItem, Kind> = Kind extends keyof IndexItem
-  ? IndexItem[Kind] extends Array<infer F> | ReadonlyArray<infer F>
-    ? F extends `.${infer Field}`
-      ? Field
-      : never
-    : never
-  : never;
-
-type EntityTransporterMethod<
-  Method,
-  Context extends LoaderContext = Record<string, any>
-> = Method extends (config: infer Config) => infer Result
-  ? ((
-      config: Config & { context: Context } extends infer R
-        ? {
-            [K in keyof R as K extends 'context' ? never : K]: R[K];
-          } & { context: Context }
-        : never
-    ) => Result) & {
-      indexInfo: [ParsedIndexKey, ...ParsedIndexKey[]];
-    }
-  : never;
-
-type IndexMethods<
-  Document,
-  IndexItem,
-  Context extends LoaderContext = Record<string, any>
-> = {
-  [M in keyof DocumentMethods<any, any, any>]: EntityTransporterMethod<
-    DocumentMethods<
-      Document,
-      GetFieldsUsedInIndexes<IndexItem, 'PK'>,
-      GetFieldsUsedInIndexes<IndexItem, 'SK'>
-    >[M],
-    Context
-  >;
-};
-
-type GetIndexByName<
-  Union extends DocumentIndexItem<any, any>,
-  Name extends string
-> = Union extends { [K: string]: unknown; name: Name } ? Union : never;
-
-type OneIndexMethod<
-  Documents,
-  Indexes,
-  Methods = {}
-> = Indexes extends readonly [infer CurrentIndex, ...infer Rest]
-  ? OneIndexMethod<
-      Documents,
-      Rest,
-      {
-        [K in keyof IndexMethods<
-          Documents,
-          CurrentIndex
-        >]: K extends keyof Methods
-          ? EntityTransporterMethod<
-              IndexMethods<Documents, CurrentIndex>[K] extends (
-                ...args: infer Args
-              ) => infer Result
-                ? (...args: Args) => Result
-                : never
-            > &
-              EntityTransporterMethod<
-                Methods[K] extends (...args: infer Args) => infer Result
-                  ? (...args: Args) => Result
-                  : never
-              >
-          : IndexMethods<Documents, CurrentIndex>[K];
-      }
-    >
-  : [keyof Methods] extends [never]
-  ? never
-  : Methods;
-
-type EntityLoaders<
-  Doc extends DocumentBase,
-  IndexConfig extends AnyCollectionIndexConfig
-> = UnionToIntersection<
-  {
-    [IndexName in IndexConfig['indexes'][number]['name']]: {
-      [M in keyof IndexMethods<any, any>]: {
-        [L in `${M}${Capitalize<IndexName>}`]: IndexMethods<
-          Doc,
-          GetIndexByName<IndexConfig['indexes'][number], IndexName>
-        >[M];
-      };
-    };
-  }[IndexConfig['indexes'][number]['name']][Exclude<
-    keyof IndexMethods<any, any>,
-    'createOne'
-  >]
-> &
-  OneIndexMethod<Doc, IndexConfig['indexes']> & {
-    createOne: EntityTransporterMethod<
-      DocumentMethods<
-        //
-        // Doc with DefaultEntityFields as optional
-        {
-          [K in keyof Doc as K extends keyof DefaultEntityFields
-            ? never
-            : K]: Doc[K];
-        } & {
-          [K in keyof Doc as K extends keyof DefaultEntityFields
-            ? K
-            : never]?: Doc[K];
-        } extends infer R
-          ? { [K in keyof R]: R[K] } & {}
-          : never,
-        // <--
-        //
-        GetFieldsUsedInIndexes<IndexConfig['indexes'][number], 'PK'>,
-        GetFieldsUsedInIndexes<IndexConfig['indexes'][number], 'SK'>
-      >['createOne'] extends infer CreateOne
-        ? CreateOne extends (config: infer Config) => any
-          ? (config: Config) => Promise<CreateOneResult<Doc>>
-          : never
-        : never
-    >;
-  };
-
-type EntityDocFromType<Type> = Type extends {
-  parse(...args: any[]): infer Result;
-}
-  ? Result extends DocumentBase
-    ? DefaultEntityFields & Result extends infer R
-      ? {
-          [K in keyof R]: R[K];
-        }
-      : never
-    : never
-  : never;
-
-export type EntityGeneratedFields = typeof EntityGeneratedFields;
-function _EntityGeneratedFields<
-  T extends { [K in keyof DefaultEntityFields]: ObjectFieldInput }
->(
-  input: T
-): {
-  [K in keyof T]: {
-    [S in keyof ToFinalField<T[K]> as S extends '__infer'
-      ? never
-      : S]: ToFinalField<T[K]>[S];
-  } & {};
-} {
-  return parseObjectDefinition(input).definition as any;
-}
-
-export const EntityGeneratedFields = _EntityGeneratedFields({
-  createdAt: { type: 'date' },
-  createdBy: {
-    optional: true,
-    type: 'string',
-  },
-  id: { type: 'string' },
-  ulid: { type: 'ulid' },
-  updatedAt: { type: 'date' },
-  updatedBy: {
-    optional: true,
-    type: 'string',
-  },
-});
-
-type GetLoaderFilterDef<Loader, DocDef> = Loader extends (
-  config: infer Config
-) => any
-  ? Config extends { filter: infer Filter }
-    ? UnionToIntersection<Filter> extends infer AllFilter
-      ? {
-          [K in keyof AllFilter as K extends keyof DocDef
-            ? K
-            : never]: K extends keyof DocDef ? DocDef[K] : never;
-        }
-      : never
-    : never
-  : never;
