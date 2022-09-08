@@ -6,7 +6,7 @@ import { createEntityPlugin } from '../EntityPlugin';
 
 export const applyFieldResolvers = createEntityPlugin('applyFieldResolvers', {
   createDefinition(definition, context) {
-    if (context.kind !== 'entityDefinition') return;
+    if (context.kind !== 'outputDefinition') return;
     const { resolvers } = context;
 
     resolvers.forEach((resolver) => {

@@ -7,7 +7,7 @@ import {
   ObjectType,
 } from '@darch/schema';
 import { isMetaFieldKey } from '@darch/schema/lib/fields/MetaFieldField';
-import { createProxy, ensureArray } from '@darch/utils';
+import { createProxy, ensureArray, simpleObjectClone } from '@darch/utils';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { devAssert } from '@darch/utils/lib/devAssert';
 import { hooks } from '@darch/utils/lib/hooks';
@@ -36,7 +36,6 @@ import {
   AnyEntityDocument,
   createEntityDefaultFields,
   Entity,
-  EntityFinalDefinition,
   EntityOperationInfoContext,
 } from './EntityInterfaces';
 import {
@@ -63,7 +62,7 @@ export function createEntity<
 >(entityOptions: Options): Entity<Options> {
   const plugins = [removeUnderscoreFields, applyFieldResolvers];
   const resolvers: EntityFieldResolver<any, any, any, any>[] = [];
-  let entityUsed = false;
+  let gettersWereCalled = false;
 
   const entity = createProxy(_createEntity, {
     onGet(k): any {
@@ -82,7 +81,7 @@ export function createEntity<
       }
 
       if (k === 'addRelations') {
-        if (entityUsed) {
+        if (gettersWereCalled) {
           throw new Error(
             `addRelations should be used right after entity creation.`
           );
@@ -99,7 +98,7 @@ export function createEntity<
   });
 
   function _createEntity() {
-    entityUsed = true;
+    gettersWereCalled = true;
 
     const {
       indexes,
@@ -129,31 +128,37 @@ export function createEntity<
 
     const entityNameLowercase = entityName.toLowerCase();
 
-    const objectType = nonNullValues({
+    const inputObjectType = nonNullValues({
       entityTypeObject: type._object,
     }).entityTypeObject;
 
     const entity = {} as any;
     const loaders: Record<string, any> = {};
 
-    let entityDefinition = {
+    let entityOutputDefinitionWithRelations = {
       ...createEntityDefaultFields(),
-      ...objectType.cleanDefinition(),
+      ...inputObjectType.cleanDefinition(),
     };
 
-    const fields = Object.keys(entityDefinition);
-    let inputDef = objectType.cleanDefinition();
+    const fields = Object.keys(entityOutputDefinitionWithRelations);
+    let inputDef = inputObjectType.cleanDefinition();
 
-    const typeWithoutRelations = createType(
-      `${entityOptions.name}_withoutRelations`,
-      {
-        object: entityDefinition,
-      }
-    );
-
-    _hooks.createDefinition.exec(entityDefinition, {
+    _hooks.createDefinition.exec(entityOutputDefinitionWithRelations, {
       fields,
-      kind: 'entityDefinition',
+      kind: 'databaseDefinition',
+      options: entityOptions,
+      resolvers,
+    });
+
+    // type without relations
+    const databaseType = createType(`${entityOptions.name}_withoutRelations`, {
+      // without relations and other alterations
+      object: simpleObjectClone(entityOutputDefinitionWithRelations),
+    });
+
+    _hooks.createDefinition.exec(entityOutputDefinitionWithRelations, {
+      fields,
+      kind: 'outputDefinition',
       options: entityOptions,
       resolvers,
     });
@@ -174,7 +179,7 @@ export function createEntity<
 
     const conditionsType = objectToGraphQLConditionType(
       `${entityName}Conditions`,
-      entityDefinition
+      databaseType.definition.def
     );
 
     validateIndexNameAndField(indexConfig);
@@ -237,19 +242,9 @@ export function createEntity<
       return ctx;
     });
 
-    type EntityGraphType = GraphType<{
-      object: EntityFinalDefinition<GraphType<{ object: {} }>>;
-    }>;
-
-    let entityGraphType: EntityGraphType | undefined;
-    function getEntityGraphType(): EntityGraphType {
-      // @ts-ignore
-      return (entityGraphType =
-        entityGraphType ||
-        createType(`${entityName}Entity`, {
-          object: entityDefinition,
-        })) as any;
-    }
+    const entityType = createType(`${entityName}Entity`, {
+      object: entityOutputDefinitionWithRelations,
+    });
 
     async function parseOperationContext(
       method: TransporterLoaderName,
@@ -295,7 +290,7 @@ export function createEntity<
         }
 
         try {
-          operationInfoContext.options.item = typeWithoutRelations.parse(
+          operationInfoContext.options.item = databaseType.parse(
             operationInfoContext.options.item
           ) as AnyEntityDocument;
 
@@ -326,18 +321,18 @@ export function createEntity<
         const fields: ObjectDefinitionInput = {};
 
         next.PK.requiredFields.forEach((fieldName) => {
-          const def = entityDefinition[fieldName];
+          const def = entityOutputDefinitionWithRelations[fieldName];
           if (!def) {
             throw new RuntimeError(
               `Field "${fieldName}" defined for index ${next.index.name} not defined in the input type.`,
               { type }
             );
           }
-          fields[fieldName] = entityDefinition[fieldName];
+          fields[fieldName] = entityOutputDefinitionWithRelations[fieldName];
         });
 
         next.SK.requiredFields.forEach((fieldName) => {
-          const def = entityDefinition[fieldName];
+          const def = entityOutputDefinitionWithRelations[fieldName];
           if (!def) {
             throw new RuntimeError(
               `Field "${fieldName}" defined for index ${next.index.name} not defined in the input type.`,
@@ -406,10 +401,9 @@ export function createEntity<
         return result;
       };
 
+      // create the filter with the index fields plus the "id" field
       function getFilterDef() {
-        getEntityGraphType();
-
-        function _wrap(obj: object) {
+        function _addIDField(obj: object) {
           const def: any = { id: { optional: true, type: 'ID' } };
 
           Object.keys(obj).forEach((k) => {
@@ -421,14 +415,16 @@ export function createEntity<
         }
 
         if (indexInfo.length === 1) {
-          return _wrap({
+          const obj = {
             ...indexGraphTypes[
               indexInfo[0].index.name
             ]._object!.cleanDefinition(),
-          });
+          };
+          return _addIDField(obj);
         }
 
         const all: any = {};
+
         indexInfo.forEach(({ index: { name } }) => {
           const objectType = indexGraphTypes[name]._object as ObjectType<{
             a: 'any';
@@ -442,7 +438,7 @@ export function createEntity<
             };
           });
         });
-        return _wrap(all);
+        return _addIDField(all);
       }
 
       function getPaginationType() {
@@ -521,7 +517,7 @@ export function createEntity<
     const edgeType = createType(`${entityName}_Edge`, {
       object: {
         cursor: 'string',
-        node: getEntityGraphType(),
+        node: entityType,
       },
     });
 
@@ -575,15 +571,14 @@ export function createEntity<
       name: entityName,
       originType: type,
       paginationType: getPaginationType(),
-      parse: getEntityGraphType().parse,
+      parse: databaseType.parse,
       parseDocumentIndexes: function parseDocumentIndexes(
         doc
       ): ParsedDocumentIndexes {
         return getDocumentIndexFields(doc, indexConfig);
       },
       transporter: defaultTransporter || entityOptions.transporter,
-      type: getEntityGraphType(),
-      typeWithoutRelations,
+      type: entityType,
     };
 
     Object.assign(entity, getters);

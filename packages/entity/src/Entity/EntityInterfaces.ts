@@ -33,7 +33,6 @@ import { EntityHookOptions } from './EntityPlugin';
 import { EntityOperationInfosRecord } from './entityOperationContextTypes';
 import { EdgeType, PaginationType } from './paginationUtils';
 
-
 export type EntityGeneratedFields = ReturnType<
   typeof createEntityDefaultFields
 >;
@@ -176,12 +175,6 @@ interface PrimaryEntityMethods<Options extends EntityOptions> {
   transporter: Options['transporter'];
 
   type: ((x: Options['type']) => any) extends (x: infer Type) => any
-    ? GraphType<{ object: EntityFinalDefinition<Type> }>
-    : never;
-
-  typeWithoutRelations: ((x: Options['type']) => any) extends (
-    x: infer Type
-  ) => any
     ? GraphType<{ object: EntityFinalDefinition<Type> }>
     : never;
 }
