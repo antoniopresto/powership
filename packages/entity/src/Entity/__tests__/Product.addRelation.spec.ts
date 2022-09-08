@@ -55,6 +55,30 @@ describe('ProductResolver.addRelations', () => {
 
     expect(found.item).toEqual({ ...created.item, batata: 'batata' });
 
+    expect(
+      Object.entries(ProductEntity.updateDefinition).map(
+        ([key, { optional }]) => [key, optional]
+      )
+    ).toEqual([
+      ['alcoholic', true],
+      ['attributes', true],
+      ['brand', true],
+      ['categories', true],
+      ['currentPrice', true],
+      ['detailsUrl', true],
+      ['html', true],
+      ['priceFrom', true],
+      ['sellPrice', true],
+      ['shortDescription', true],
+      ['sku', true],
+      ['slug', true],
+      ['spotlight', true],
+      ['storeId', true],
+      ['tags', true],
+      ['thumbUrl', true],
+      ['title', true],
+    ]);
+
     expect(ProductEntity.type.print()).toEqual([
       'type Product2Entity {',
       '  createdAt: Date!',

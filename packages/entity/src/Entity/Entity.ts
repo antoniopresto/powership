@@ -143,6 +143,17 @@ export function createEntity<
     const fields = Object.keys(entityOutputDefinitionWithRelations);
     let inputDef = inputObjectType.cleanDefinition();
 
+    let updateDefinition = extendDefinition(inputObjectType.cleanDefinition())
+      .optional()
+      .value();
+
+    _hooks.createDefinition.exec(updateDefinition, {
+      fields,
+      kind: 'updateDefinition',
+      options: entityOptions,
+      resolvers,
+    });
+
     _hooks.createDefinition.exec(entityOutputDefinitionWithRelations, {
       fields,
       kind: 'databaseDefinition',
@@ -579,6 +590,7 @@ export function createEntity<
       },
       transporter: defaultTransporter || entityOptions.transporter,
       type: entityType,
+      updateDefinition: updateDefinition,
     };
 
     Object.assign(entity, getters);

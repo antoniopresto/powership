@@ -80,7 +80,11 @@ export type EntityHooks<
     Record<string, FinalFieldDefinition>,
     {
       fields: string[];
-      kind: 'inputDefinition' | 'outputDefinition' | 'databaseDefinition';
+      kind:
+        | 'inputDefinition'
+        | 'outputDefinition'
+        | 'databaseDefinition'
+        | 'updateDefinition';
       options: EntityOptions;
       resolvers: EntityFieldResolver<any, any, any, any>[];
     }

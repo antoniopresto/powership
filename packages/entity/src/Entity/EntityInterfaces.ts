@@ -177,6 +177,20 @@ interface PrimaryEntityMethods<Options extends EntityOptions> {
   type: ((x: Options['type']) => any) extends (x: infer Type) => any
     ? GraphType<{ object: EntityFinalDefinition<Type> }>
     : never;
+
+  updateDefinition: ((x: Options['type']) => any) extends (x: infer Type) => any
+    ? Type extends { definition: { def: infer D } }
+      ? {
+          [K in keyof D]: ToFinalField<D[K]> extends infer R
+            ? {
+                [K in keyof R as K extends '__infer'
+                  ? never
+                  : K]: K extends 'optional' ? true : R[K];
+              } & {}
+            : never;
+        }
+      : never
+    : never;
 }
 
 // export type EntityGraphType<T> = T extends
