@@ -2,23 +2,23 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
-import * as darchSchema from '@darch/schema';
+import * as braboSchema from '@brabo/schema';
 import React from 'react';
-import { Darch } from '@darch/schema';
+import { CircularDeps } from '@brabo/schema';
 
 try {
-  console.log('Darch.createResolver', Darch.createResolver);
+  console.log('Brabo.createResolver', Brabo.createResolver);
 } catch (e) {
   console.info('test requiring createResolver::\n', e);
 }
 
-const nodeType = Darch.createObjectType('Node', { id: 'ID' });
+const nodeType = Brabo.createObjectType('Node', { id: 'ID' });
 
-const pageNodeType = Darch.implementObject('PageNode', {
+const pageNodeType = Brabo.implementObject('PageNode', {
   title: 'string',
 });
 
-const ship = Darch.implementObject(
+const ship = Brabo.implementObject(
   'ship',
   { name: 'string' },
   nodeType,
@@ -30,9 +30,9 @@ const Home: NextPage = () => {
 
   if (typeof window === 'object') {
     // @ts-ignore
-    window.Darch = Darch;
+    window.Brabo = Brabo;
     // @ts-ignore
-    window.darchSchema = darchSchema;
+    window.braboSchema = braboSchema;
   }
 
   return (

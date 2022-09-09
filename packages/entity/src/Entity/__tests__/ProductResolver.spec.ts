@@ -1,6 +1,6 @@
-import { createResolver, Darch, Infer } from '@darch/schema';
-import { createGraphQLSchema } from '@darch/schema/lib/createGraphQLSchema';
-import { notNull, PromiseType } from '@darch/utils';
+import { CircularDeps, createResolver, Infer } from '@brabo/schema';
+import { createGraphQLSchema } from '@brabo/schema/lib/createGraphQLSchema';
+import { notNull, PromiseType } from '@brabo/utils';
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { PaginationResult } from '../../Transporter';
@@ -103,7 +103,7 @@ describe('ProductResolver', () => {
 
     const schema = createGraphQLSchema();
 
-    const resp = await Darch.graphql({
+    const resp = await CircularDeps.graphql({
       schema,
       contextValue: { userId: () => '123' },
       source:
@@ -137,7 +137,7 @@ describe('ProductResolver', () => {
 
     const schema = createGraphQLSchema();
 
-    const response = await Darch.graphql({
+    const response = await CircularDeps.graphql({
       schema,
       contextValue: { userId: () => '123' },
       source:
@@ -174,7 +174,7 @@ describe('ProductResolver', () => {
 
     const schema = createGraphQLSchema();
 
-    const invalidCondition = await Darch.graphql({
+    const invalidCondition = await CircularDeps.graphql({
       schema,
       contextValue: { userId: () => '123' },
       source:

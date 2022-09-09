@@ -1,4 +1,4 @@
-import { tuple } from '@darch/utils/lib/typeUtils';
+import { tuple } from '@brabo/utils/lib/typeUtils';
 
 import { createObjectType } from '../../ObjectType';
 

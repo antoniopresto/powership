@@ -1,6 +1,6 @@
-import { formatGraphQL } from '@darch/utils/lib/formatGraphQL';
-import { getByPath } from '@darch/utils/lib/getByPath';
-import { hashString } from '@darch/utils/lib/hashString';
+import { formatGraphQL } from '@brabo/utils/lib/formatGraphQL';
+import { getByPath } from '@brabo/utils/lib/getByPath';
+import { hashString } from '@brabo/utils/lib/hashString';
 import {
   GraphQLArgument,
   GraphQLField,

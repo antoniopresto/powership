@@ -1,9 +1,9 @@
-import { Darch } from '@darch/schema';
-import { MaybePromise } from '@darch/utils';
-import { RuntimeError } from '@darch/utils/lib/RuntimeError';
-import { devAssert } from '@darch/utils/lib/devAssert';
-import { getTypeName } from '@darch/utils/lib/getTypeName';
-import { MaybeArray, tuple } from '@darch/utils/lib/typeUtils';
+import { CircularDeps } from '@brabo/schema';
+import { MaybePromise } from '@brabo/utils';
+import { RuntimeError } from '@brabo/utils/lib/RuntimeError';
+import { devAssert } from '@brabo/utils/lib/devAssert';
+import { getTypeName } from '@brabo/utils/lib/getTypeName';
+import { MaybeArray, tuple } from '@brabo/utils/lib/typeUtils';
 
 import {
   CollectionIndexConfig,
@@ -26,7 +26,7 @@ export const FieldTypes = tuple(
 
 export const DEFAULT_SORT = 'ASC';
 
-export type FieldType = typeof FieldTypes[number];
+export type TransporterFieldType = typeof FieldTypes[number];
 
 export type PKSKValueType = string | number | null;
 
@@ -43,7 +43,7 @@ export type AllFilterOperations = {
   $matchString: string;
   $ne: PKSKValueType | boolean;
   $startsWith: string;
-  $type: FieldType;
+  $type: TransporterFieldType;
 };
 
 export type OneFilterOperation = {
@@ -297,20 +297,23 @@ export const FilterConditionsParsers: {
 
     return input as any;
   },
-  $contains: Darch.union(['string', 'float', 'boolean', 'null'] as const).parse,
-  $eq: Darch.union(['null', 'boolean', 'string', 'float'] as const).parse,
-  $exists: Darch.boolean().parse,
-  $gt: Darch.union(['string', 'float'] as const).parse,
+  $contains: CircularDeps.union(['string', 'float', 'boolean', 'null'] as const)
+    .parse,
+  $eq: CircularDeps.union(['null', 'boolean', 'string', 'float'] as const)
+    .parse,
+  $exists: CircularDeps.boolean().parse,
+  $gt: CircularDeps.union(['string', 'float'] as const).parse,
 
-  $gte: Darch.union(['string', 'float'] as const).parse,
+  $gte: CircularDeps.union(['string', 'float'] as const).parse,
 
-  $in: Darch.unknown().toList().parse,
+  $in: CircularDeps.unknown().toList().parse,
 
-  $lt: Darch.union(['string', 'float'] as const).parse,
+  $lt: CircularDeps.union(['string', 'float'] as const).parse,
 
-  $lte: Darch.union(['string', 'float'] as const).parse,
-  $matchString: Darch.string().parse,
-  $ne: Darch.union(['null', 'boolean', 'string', 'float'] as const).parse,
+  $lte: CircularDeps.union(['string', 'float'] as const).parse,
+  $matchString: CircularDeps.string().parse,
+  $ne: CircularDeps.union(['null', 'boolean', 'string', 'float'] as const)
+    .parse,
   $not(input: unknown) {
     assertFieldFilter(input);
     return input;
@@ -327,9 +330,9 @@ export const FilterConditionsParsers: {
     });
   },
 
-  $startsWith: Darch.string().parse,
+  $startsWith: CircularDeps.string().parse,
 
-  $type(input: any): FieldType {
+  $type(input: any): TransporterFieldType {
     return FieldTypes.includes(input)
       ? input
       : devAssert('invalid input for $type', { input });

@@ -1,11 +1,11 @@
-import { capitalize, DarchJSON, notNull } from '@darch/utils';
-import { formatGraphQL } from '@darch/utils/lib/formatGraphQL';
-import { tupleEnum } from '@darch/utils/lib/typeUtils';
+import { BJSON, capitalize, notNull } from '@brabo/utils';
+import { formatGraphQL } from '@brabo/utils/lib/formatGraphQL';
+import { tupleEnum } from '@brabo/utils/lib/typeUtils';
 import type { GraphQLSchemaConfig } from 'graphql';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 import groupBy from 'lodash/groupBy';
 
-import { Darch } from './Darch';
+import { CircularDeps } from './CircularDeps';
 import { GraphType } from './GraphType/GraphType';
 import { generateClientUtils } from './GraphType/generateClientUtils';
 import { getInnerGraphTypeId } from './GraphType/getInnerGraphTypeId';
@@ -57,7 +57,7 @@ export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
   const {
     graphql: { GraphQLSchema },
     GraphType,
-  } = Darch;
+  } = CircularDeps;
 
   const registeredResolvers = [...GraphType.resolvers.values()];
 
@@ -226,7 +226,7 @@ export async function resolversTypescriptParts(
       .replace(/^\n/gm, ''); // remove empty lines
 
   // @ts-ignore circular
-  code = Darch.prettier.format(code, {
+  code = CircularDeps.prettier.format(code, {
     parser: 'typescript',
   }) as any;
 
@@ -243,7 +243,7 @@ export async function resolversToTypescript(
 
   return format
     ? // @ts-ignore circular
-      (Darch.prettier.format(code, {
+      (CircularDeps.prettier.format(code, {
         parser: 'typescript',
         printWidth: 100,
       }) as any)
@@ -319,7 +319,7 @@ async function convertType(options: {
   const { description } = parsed;
 
   // @ts-ignore circular
-  const result = (await Darch.objectToTypescript(
+  const result = (await CircularDeps.objectToTypescript(
     entryName,
     {
       __CONVERT__REPLACE__: {
@@ -392,7 +392,7 @@ function queryExamples({
             typeof example === 'string'
               ? `"${example}"`
               : example && typeof example === 'object'
-              ? DarchJSON.stringify(example, {
+              ? BJSON.stringify(example, {
                   quoteKeys(str) {
                     if (str.match(/[-.]/)) return `"${str}"`;
                     return str;

@@ -1,10 +1,10 @@
-import { assertEqual, DarchJSON } from '@darch/utils';
-import { RuntimeError } from '@darch/utils/lib/RuntimeError';
-import { StrictMap } from '@darch/utils/lib/StrictMap';
-import { assertSame } from '@darch/utils/lib/assertSame';
-import { isProduction } from '@darch/utils/lib/env';
-import { hooks } from '@darch/utils/lib/hooks';
-import { nonNullValues } from '@darch/utils/lib/invariant';
+import { assertEqual, BJSON } from '@brabo/utils';
+import { RuntimeError } from '@brabo/utils/lib/RuntimeError';
+import { StrictMap } from '@brabo/utils/lib/StrictMap';
+import { assertSame } from '@brabo/utils/lib/assertSame';
+import { isProduction } from '@brabo/utils/lib/env';
+import { hooks } from '@brabo/utils/lib/hooks';
+import { nonNullValues } from '@brabo/utils/lib/invariant';
 import {
   GraphQLBoolean,
   GraphQLEnumType,
@@ -227,6 +227,7 @@ export class GraphQLParser {
           };
 
           const origin =
+            // @ts-ignore
             (object.definition[next.fieldName] as FinalFieldDefinition) ||
             undefined;
 
@@ -495,7 +496,9 @@ export class GraphQLParser {
           parentName,
         });
 
+        // @ts-ignore
         const def = ObjectType.is(field.def) ? field.def.definition : field.def;
+        // @ts-ignore
         const object = ObjectType.getOrSet(id, def);
 
         const res = self.objectToGraphQL({
@@ -621,9 +624,9 @@ export class GraphQLParser {
               ...options,
               types: field.utils.fieldTypes.map((field, index) => {
                 if (!ObjectField.is(field)) throw field;
-                let object = field.utils.object;
+                let object: ObjectType<any> = field.utils.object;
                 if (!object.id) {
-                  object = object.clone().identify(`${subTypeName}_${index}`);
+                  object = object.clone().objectType(`${subTypeName}_${index}`);
                 }
                 return object.graphqlType();
               }),
@@ -685,7 +688,7 @@ export class GraphQLParser {
 export function describeField(field: FinalFieldDefinition) {
   if (field.alias) return field.alias;
 
-  return DarchJSON.stringify(field, {
+  return BJSON.stringify(field, {
     handler(payload) {
       const { value } = payload;
 

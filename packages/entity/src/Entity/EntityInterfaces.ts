@@ -5,8 +5,8 @@ import {
   ObjectFieldInput,
   parseObjectDefinition,
   ToFinalField,
-} from '@darch/schema';
-import { MaybeArray, UnionToIntersection } from '@darch/utils';
+} from '@brabo/schema';
+import { MaybeArray, UnionToIntersection } from '@brabo/utils';
 
 import {
   AnyCollectionIndexConfig,

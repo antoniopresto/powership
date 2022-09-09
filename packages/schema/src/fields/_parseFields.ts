@@ -1,4 +1,4 @@
-import { IsKnown, NullableToPartial } from '@darch/utils';
+import { IsKnown, NullableToPartial } from '@brabo/utils';
 
 import {
   CommonFieldDefinition,
@@ -16,8 +16,11 @@ export type ObjectFieldInput =
   | FieldAsString
   | FlattenFieldDefinition
   | ObjectInputArray
+  | KNOWN_UNKNOWN_OBJECT
   | Readonly<ObjectInputArray>;
 // should update _toFinalField, parseObjectDefinition.ts and Infer.ts if add any new type here
+
+export type KNOWN_UNKNOWN_OBJECT = 'KNOWN_UNKNOWN_OBJECT';
 
 export type FieldInput = ObjectFieldInput;
 
@@ -104,12 +107,28 @@ type GetI<T> = T extends { __infer: infer I } ? I : never;
 export type _toFinalField<Base> = {
   0: { def: { INVALID_DEFINITION: Base }; type: 'literal' };
   1: //
-  Base extends {
-    def?: infer Def;
-    list?: boolean;
-    optional?: boolean;
-    type: FieldTypeName;
-  }
+  //
+  // Start handling known unknown fields
+  Base extends
+    | KNOWN_UNKNOWN_OBJECT
+    | { object: KNOWN_UNKNOWN_OBJECT }
+    | { type: KNOWN_UNKNOWN_OBJECT }
+    ? {
+        def: KNOWN_UNKNOWN_OBJECT;
+        list?: false;
+        optional?: false;
+        type: 'object';
+      }
+    : //
+    // End handling known unknown fields
+    //
+
+    Base extends {
+        def?: infer Def;
+        list?: boolean;
+        optional?: boolean;
+        type: FieldTypeName;
+      }
     ? {
         def: Def;
         description: string | undefined;
@@ -146,7 +165,7 @@ export type _toFinalField<Base> = {
     Base extends {
         list?: infer List;
         optional?: infer Optional;
-        type: { __isDarchObject: true; definition: infer Def };
+        type: { __isBraboObject: true; definition: infer Def };
       }
     ? {
         __infer: InferObjectDefinition<Def>;
@@ -157,7 +176,7 @@ export type _toFinalField<Base> = {
       }
     : Base extends {
         list?: infer List;
-        object: { __isDarchObject: true; definition: infer Def };
+        object: { __isBraboObject: true; definition: infer Def };
         optional?: infer Optional;
       }
     ? {
@@ -169,7 +188,7 @@ export type _toFinalField<Base> = {
       }
     : //
     //
-    Base extends { __isDarchObject: true; definition: infer Def }
+    Base extends { __isBraboObject: true; definition: infer Def }
     ? {
         __infer: InferObjectDefinition<Def>;
         def: Def;
@@ -201,7 +220,7 @@ export type _toFinalField<Base> = {
       {
         [K in keyof ParseFlattenFieldDef<Base>]: ParseFlattenFieldDef<Base>[K];
       };
-}[IsKnown<Base>];
+}[IsKnown<Base> extends 1 ? (Base extends ObjectFieldInput ? 1 : 0) : 0];
 
 // inject  the `__infer` property
 type _injectInfer<T> = T extends {
@@ -211,7 +230,19 @@ type _injectInfer<T> = T extends {
   ? T & {
       // @ts-ignore FIXME deep excessive
       __infer: // === recursive object case ===
-      T['type'] extends 'object'
+
+      // HANDLING KNOWN_UNKNOWNS
+      // KNOWN_UNKNOWN_OBJECT
+      Def extends KNOWN_UNKNOWN_OBJECT
+        ? {
+            [K: string]: any;
+          }
+        : //
+        // END HANDLING KNOWN UNKNOWS
+        //
+        //
+
+        T['type'] extends 'object'
         ? Def extends { [K: string]: any }
           ? InferObjectDefinition<Def>
           : never
@@ -400,7 +431,7 @@ type _inferBasic<Type, Def = undefined> =
     : never;
 
 interface _ObjectType {
-  __isDarchObject: true;
+  __isBraboObject: true;
   definition: unknown;
 }
 

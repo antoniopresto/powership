@@ -6,7 +6,7 @@ import {
   randomName,
   slugify,
   ulid,
-} from '@darch/utils';
+} from '@brabo/utils';
 
 import { Infer } from './Infer';
 import { CursorField } from './fields/CursorField';

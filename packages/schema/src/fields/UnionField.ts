@@ -1,8 +1,8 @@
-import { getTypeName } from '@darch/utils/lib/getTypeName';
-import { inspectObject } from '@darch/utils/lib/inspectObject';
-import { uniq } from '@darch/utils/lib/uniq';
+import { getTypeName } from '@brabo/utils/lib/getTypeName';
+import { inspectObject } from '@brabo/utils/lib/inspectObject';
+import { uniq } from '@brabo/utils/lib/uniq';
 
-import { Darch } from '../Darch';
+import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';
 import type { FieldDefinitionConfig } from '../TObjectConfig';
 
@@ -26,7 +26,7 @@ export class UnionField<
   constructor(def: T) {
     super('union', def);
 
-    const { parseObjectField } = Darch;
+    const { parseObjectField } = CircularDeps;
 
     this.utils.fieldTypes = def.map((el, index) => {
       try {

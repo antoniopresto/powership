@@ -1,4 +1,4 @@
-import { DarchJSON } from './DarchJSON';
+import { BJSON } from './BJSON';
 import { EmailRegex } from './emailRegex';
 import { getTypeName } from './getTypeName';
 import { simpleObjectClone } from './simpleObjectClone';
@@ -27,34 +27,34 @@ describe('simpleObjectClone', () => {
 
   it('stringify', async () => {
     const obj = getObject();
-    const str = DarchJSON.stringify(obj);
+    const str = BJSON.stringify(obj);
 
     expect(typeof str).toEqual('string');
   });
 
   it('parse', async () => {
-    const str = DarchJSON.stringify(getObject());
-    const value = DarchJSON.parse(str);
+    const str = BJSON.stringify(getObject());
+    const value = BJSON.parse(str);
     expect(value).toEqual(getObject());
   });
 
   it('stringify date', async () => {
     const date = new Date('1989-01-01');
-    const str = DarchJSON.stringify(date);
+    const str = BJSON.stringify(date);
     expect(str).toEqual('"ːDateː(1989-01-01T00:00:00.000Z)"');
-    expect(DarchJSON.parse(str)).toEqual(date);
+    expect(BJSON.parse(str)).toEqual(date);
   });
 
   it('stringify NaN', async () => {
     const value = NaN;
-    const str = DarchJSON.stringify(value);
-    expect(DarchJSON.parse(str)).toEqual(value);
+    const str = BJSON.stringify(value);
+    expect(BJSON.parse(str)).toEqual(value);
   });
 
   it('stringify [NaN]', async () => {
     const value = [NaN];
-    const str = DarchJSON.stringify(value);
-    expect(DarchJSON.parse(str)).toEqual(value);
+    const str = BJSON.stringify(value);
+    expect(BJSON.parse(str)).toEqual(value);
   });
 
   test('custom replacer', () => {
@@ -66,7 +66,7 @@ describe('simpleObjectClone', () => {
       undefined,
     ];
 
-    const str = DarchJSON.stringify(
+    const str = BJSON.stringify(
       { 12: value, b: false },
       {
         quoteValues: (str, { key }) => {

@@ -15,7 +15,7 @@ describe('extendDefinition', () => {
       },
     });
 
-    const res = extendDefinition(type).value();
+    const res = extendDefinition(type).def();
     assert<IsExact<typeof res.age.type, 'int'>>(true);
     assert<IsExact<typeof res.name.type, 'string'>>(true);
 
@@ -41,8 +41,8 @@ describe('extendDefinition', () => {
       },
     });
 
-    extendDefinition(type).only('name').value();
-    const res = extendDefinition(type).only(['name']).value();
+    extendDefinition(type).only('name').def();
+    const res = extendDefinition(type).only(['name']).def();
 
     // @ts-expect-error
     res.age?.type;
@@ -66,8 +66,8 @@ describe('extendDefinition', () => {
       },
     });
 
-    extendDefinition(type).exclude('name').value();
-    const res = extendDefinition(type).exclude(['name']).value();
+    extendDefinition(type).exclude('name').def();
+    const res = extendDefinition(type).exclude(['name']).def();
 
     // @ts-expect-error
     res.name?.type;
@@ -91,8 +91,8 @@ describe('extendDefinition', () => {
       },
     });
 
-    const res = extendDefinition(type).optional(['name']).value();
-    extendDefinition(type).optional('name').value();
+    const res = extendDefinition(type).optional(['name']).def();
+    extendDefinition(type).optional('name').def();
 
     assert<IsExact<typeof res.age.type, 'int'>>(true);
     assert<IsExact<typeof res.name.optional, true>>(true);
@@ -121,7 +121,7 @@ describe('extendDefinition', () => {
 
     const res = extendDefinition(type)
       .extendDefinition({ a: '[string]' })
-      .value();
+      .def();
 
     assert<IsExact<typeof res.a.type, 'string'>>(true);
     assert<IsExact<typeof res.a.list, true>>(true);
@@ -163,7 +163,7 @@ describe('extendDefinition', () => {
       .exclude('x')
       .optional('a')
       .required('name')
-      .value();
+      .def();
 
     assert<IsExact<typeof res.a.type, 'string'>>(true);
     assert<IsExact<typeof res.a.list, true>>(true);
@@ -208,7 +208,7 @@ describe('extendDefinition', () => {
       .exclude('x')
       .optional('a')
       .required('name')
-      .value();
+      .graphType('myClone123').definition.def;
 
     assert<IsExact<typeof res.a.type, 'string'>>(true);
     assert<IsExact<typeof res.a.list, true>>(true);
@@ -224,6 +224,11 @@ describe('extendDefinition', () => {
     assert<IsExact<typeof res.name.type, 'string'>>(true);
 
     expect(res).toEqual({
+      __dschm__: expect.objectContaining({
+        def: {
+          id: 'myClone123',
+        },
+      }),
       a: {
         list: true,
         optional: true,

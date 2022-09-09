@@ -1,6 +1,6 @@
 import * as fs from 'fs-extra';
 
-import { Darch } from '../Darch';
+import { CircularDeps } from '../CircularDeps';
 import { parseFieldDefinitionConfig } from '../ObjectType';
 import {
   GraphQLSchemaWithUtils,
@@ -25,7 +25,7 @@ export async function generateClientUtils(schema: GraphQLSchemaWithUtils) {
     '/* istanbul ignore file */',
     '/* eslint-disable */',
     //
-    "import { GraphType } from '@darch/schema';\n\n",
+    "import { GraphType } from '@brabo/schema';\n\n",
     '\nexport type GraphQLClientError = { message: string, path: string[] };\n', //
     '\nexport type ID = number | string;\n', //
     `\nexport type GraphQLClientResponse<Result> = {data: Result, errors: null} | {data: null, errors: GraphQLClientError[]}\n`,
@@ -127,7 +127,7 @@ export async function generateClientUtils(schema: GraphQLSchemaWithUtils) {
     helpersText,
   ].join('\n');
 
-  return Darch.prettier.format(result, {
+  return CircularDeps.prettier.format(result, {
     parser: 'typescript',
     singleQuote: true,
   });

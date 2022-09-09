@@ -1,4 +1,4 @@
-import { memoize } from '@darch/utils/lib/memoize';
+import { memoize } from '@brabo/utils/lib/memoize';
 
 import { FieldTypeName } from './fields/_fieldDefinitions';
 import { FinalFieldDefinition } from './fields/_parseFields';

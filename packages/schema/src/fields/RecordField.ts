@@ -1,7 +1,7 @@
-import { expectedType } from '@darch/utils/lib/expectedType';
-import { inspectObject } from '@darch/utils/lib/inspectObject';
+import { expectedType } from '@brabo/utils/lib/expectedType';
+import { inspectObject } from '@brabo/utils/lib/inspectObject';
 
-import { Darch } from '../Darch';
+import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';
 import type { FieldDefinitionConfig } from '../TObjectConfig';
 
@@ -43,7 +43,7 @@ export class RecordField<Def extends RecordFieldDef> extends FieldType<
   constructor(def: Def = { keyType: 'string', type: 'any' } as any) {
     super('record', def);
 
-    const { parseObjectField } = Darch;
+    const { parseObjectField } = CircularDeps;
 
     let parser: TAnyFieldType;
     try {

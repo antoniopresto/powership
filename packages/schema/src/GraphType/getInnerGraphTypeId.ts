@@ -1,4 +1,4 @@
-import { getByPath } from '@darch/utils/lib/getByPath';
+import { getByPath } from '@brabo/utils/lib/getByPath';
 
 import { objectMetaFieldKey } from '../fields/MetaFieldField';
 

@@ -1,19 +1,14 @@
-import { RuntimeError } from '@darch/utils/lib/RuntimeError';
-import { StrictMap } from '@darch/utils/lib/StrictMap';
-import { ensureArray } from '@darch/utils/lib/ensureArray';
-import { isProduction } from '@darch/utils/lib/env';
-import { expectedType } from '@darch/utils/lib/expectedType';
-import { getTypeName } from '@darch/utils/lib/getTypeName';
-import { invariantType } from '@darch/utils/lib/invariant';
-import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
-import {
-  ForceString,
-  Serializable,
-  TypeLike,
-} from '@darch/utils/lib/typeUtils';
+import { RuntimeError } from '@brabo/utils/lib/RuntimeError';
+import { StrictMap } from '@brabo/utils/lib/StrictMap';
+import { ensureArray } from '@brabo/utils/lib/ensureArray';
+import { isProduction } from '@brabo/utils/lib/env';
+import { expectedType } from '@brabo/utils/lib/expectedType';
+import { getTypeName } from '@brabo/utils/lib/getTypeName';
+import { invariantType } from '@brabo/utils/lib/invariant';
+import { Serializable } from '@brabo/utils/lib/typeUtils';
 import type { GraphQLInterfaceType, GraphQLObjectType } from 'graphql';
 
-import { Darch } from './Darch';
+import { CircularDeps } from './CircularDeps';
 import type {
   GraphQLParserResult,
   ParseInputTypeOptions,
@@ -41,9 +36,7 @@ import {
 import type {
   FinalFieldDefinition,
   FinalObjectDefinition,
-  ObjectFieldInput,
   ParseFields,
-  ToFinalField,
 } from './fields/_parseFields';
 import { validateObjectFields } from './getObjectErrors';
 import { getObjectHelpers, ObjectHelpers } from './getObjectHelpers';
@@ -53,7 +46,7 @@ import type { ObjectToTypescriptOptions } from './objectToTypescript';
 import { parseObjectDefinition } from './parseObjectDefinition';
 import { withCache, WithCache } from './withCache';
 
-export { RuntimeError } from '@darch/utils/lib/RuntimeError';
+export { RuntimeError } from '@brabo/utils/lib/RuntimeError';
 export * from './parseObjectDefinition';
 export * from './objectInferenceUtils';
 export * from './implementObject';
@@ -61,14 +54,12 @@ export * from './fields/_parseFields';
 export * from './fields/_fieldDefinitions';
 export * from './fields/_parseFields';
 
-export type AnyObjectType = TypeLike<typeof ObjectType['prototype']>;
-
 export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
-  get __isDarchObject(): true {
+  get __isBraboObject(): true {
     return true;
   }
 
-  static __isDarchObject: boolean = true;
+  static __isBraboObject: boolean = true;
 
   private readonly __definition: any;
 
@@ -194,6 +185,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
     (fields as string[]).forEach((currField) => {
       if (isMetaFieldKey(currField)) return;
 
+      // @ts-ignore
       const fieldDef: FinalFieldDefinition = this.definition[currField];
 
       const value = input[currField];
@@ -252,127 +244,8 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
     return this as any;
   }
 
-  removeField<K extends ForceString<keyof DefinitionInput>>(
-    field: K | K[]
-  ): OmitDefinitionFields<DefinitionInput, K> {
-    const fields: string[] = Array.isArray(field) ? field : [field];
-    const clone = this.clone();
-
-    for (const k in clone.__definition) {
-      if (fields.includes(k)) {
-        delete clone.__definition[k];
-      }
-    }
-
-    return clone as any;
-  }
-
-  addFields<T extends ObjectDefinitionInput>(
-    definition: T
-  ): ObjectExtendDefinition<ParseFields<DefinitionInput>, T> {
-    return this.clone(definition) as any;
-  }
-
-  makeOptional<K extends ForceString<keyof DefinitionInput>>(
-    fields: K | K[]
-  ): // @ts-ignore
-  ObjectType<MakeOptional<DefinitionInput, K>> {
-    const fieldList = Array.isArray(fields) ? fields : [fields];
-    const clone = this.clone();
-    fieldList.forEach((key) => (clone.__definition[key].optional = true));
-    return clone as any;
-  }
-
-  makeRequired<K extends ForceString<keyof DefinitionInput>>(
-    fields: K | K[]
-  ): ObjectType<MakeRequired<DefinitionInput, K>> {
-    const fieldList = Array.isArray(fields) ? fields : [fields];
-    const clone = this.clone();
-    fieldList.forEach((key) => (clone.__definition[key].optional = false));
-    return clone as any;
-  }
-
-  clone(name?: string): this;
-
-  clone<T extends ObjectDefinitionInput>(
-    extend: T,
-    name?: string
-  ): ObjectExtendDefinition<ParseFields<DefinitionInput>, T>;
-
-  clone<T extends Record<string, ObjectFieldInput | null>>(
-    extend: (current: ParseFields<DefinitionInput>) => T,
-    name?: string
-  ): ObjectType<{ [K in keyof ExcludeNull<T>]: ExcludeNull<T>[K] }>;
-
-  clone<K extends keyof DefinitionInput>(
-    fields: K[],
-    name?: string
-  ): ObjectType<CloneFields<ParseFields<DefinitionInput>, K>>;
-
-  clone<
-    K extends keyof DefinitionInput,
-    T extends Record<string, ObjectFieldInput | null>
-  >(
-    fields: K[],
-    extend: (current: CloneFields<ParseFields<DefinitionInput>, K>) => T,
-    name?: string
-  ): ObjectType<{ [K in keyof ExcludeNull<T>]: ExcludeNull<T>[K] }>;
-
-  clone(...args: any[]) {
-    const lastArg = args[args.length - 1];
-
-    let newId;
-    if (typeof lastArg === 'string') {
-      newId = args.pop();
-    }
-
-    const definitionClone = simpleObjectClone(this.definition);
-    delete definitionClone[objectMetaFieldKey];
-
-    let extend;
-    let fields;
-
-    if (args.length === 1) {
-      if (Array.isArray(args[0])) {
-        fields = args[0];
-      } else {
-        extend = args[0];
-      }
-    }
-
-    if (args.length === 2) {
-      fields = args[0];
-      extend = args[1];
-    }
-
-    if (Array.isArray(fields)) {
-      for (const k in definitionClone) {
-        if (!fields.includes(k)) {
-          delete definitionClone[k];
-        }
-      }
-    }
-
-    const def =
-      typeof extend === 'function'
-        ? extend(definitionClone)
-        : typeof extend === 'object'
-        ? { ...definitionClone, ...extend }
-        : definitionClone;
-
-    Object.keys(def).forEach((k) => {
-      if (!def[k]) {
-        delete def[k];
-      }
-    });
-
-    const object = createObjectType(def);
-
-    if (newId) {
-      object.identify(newId);
-    }
-
-    return object as any;
+  clone(): ExtendDefinitionResult<this, this> {
+    return extendDefinition(this);
   }
 
   get id() {
@@ -429,7 +302,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
     }
 
     // @ts-ignore circular
-    const { GraphQLParser } = Darch.GraphQLParser as any;
+    const { GraphQLParser } = CircularDeps.GraphQLParser as any;
 
     return GraphQLParser.objectToGraphQL({
       object: this,
@@ -452,7 +325,11 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
 
   typescriptPrint = (options?: ObjectToTypescriptOptions): Promise<string> => {
     // @ts-ignore circular
-    return Darch.objectToTypescript(this.nonNullId, this, options) as any;
+    return CircularDeps.objectToTypescript(
+      this.nonNullId,
+      this,
+      options
+    ) as any;
   };
 
   graphqlTypeToString = (): string => {
@@ -474,7 +351,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
     const promises: any[] = [];
 
     if (typeof window === 'undefined') {
-      const { GraphQLParser, GraphType } = Darch;
+      const { GraphQLParser, GraphType } = CircularDeps;
       promises.push(GraphQLParser.reset(), GraphType.reset());
     }
 
@@ -504,7 +381,8 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
       return existing;
     }
 
-    return new ObjectType<T>(def).identify(id);
+    // @ts-ignore
+    return new ObjectType(def).identify(id);
   };
 
   graphQLMiddleware: GraphQLParseMiddleware[] = [];
@@ -515,12 +393,12 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
     this.graphQLMiddleware.push(...ensureArray(middleware));
   };
 
-  static is(input: any): input is ObjectLike {
+  static is(input: any): input is ObjectType<ObjectDefinitionInput> {
     return isObject(input);
   }
 }
 
-export const DarchObject = ObjectType;
+export const BraboObject = ObjectType;
 
 export function createObjectType<
   DefinitionInput extends Readonly<ObjectDefinitionInput>
@@ -546,57 +424,5 @@ export function createObjectType<
   return new ObjectType<DefinitionInput>(fields);
 }
 
-export const createDarchObject = createObjectType;
+export const createBraboObject = createObjectType;
 export const createSchema = createObjectType;
-
-type OmitDefinitionFields<T, Keys extends string> = T extends {
-  [K: string]: any;
-}
-  ? ObjectType<{ [K in keyof T as K extends Keys ? never : K]: T[K] }>
-  : never;
-
-export type ObjectExtendDefinition<T, Ext> = T extends { [K: string]: any }
-  ? Ext extends { [K: string]: any }
-    ? ObjectType<{
-        [K in keyof (T & Ext)]: (T & Ext)[K];
-      }>
-    : never
-  : never;
-
-type CloneFields<T, Keys> = T extends {
-  [K: string]: any;
-}
-  ? { [K in keyof T as K extends Keys ? K : never]: T[K] }
-  : never;
-
-type MakeOptional<T, Keys extends string> = T extends {
-  [K: string]: any;
-}
-  ? {
-      [K in keyof T]: K extends Keys
-        ? ToFinalField<T[K]> extends infer Obj
-          ? { [K in keyof Obj]: K extends 'optional' ? true : Obj[K] }
-          : never
-        : T[K];
-    }
-  : never;
-
-type MakeRequired<T, Keys extends string> = T extends {
-  [K: string]: any;
-}
-  ? {
-      [K in keyof T]: K extends Keys
-        ? ToFinalField<T[K]> extends infer Obj
-          ? { [K in keyof Obj]: K extends 'optional' ? false : Obj[K] }
-          : never
-        : T[K];
-    }
-  : never;
-
-type ExcludeNull<T> = {
-  [K in keyof T as [T[K]] extends [null]
-    ? never
-    : [T[K]] extends [undefined]
-    ? never
-    : K]: Exclude<T[K], null>;
-};

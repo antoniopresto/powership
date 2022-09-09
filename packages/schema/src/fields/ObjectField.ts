@@ -2,10 +2,10 @@
  * Used to represent an object as another object field
  */
 
-import { TypeLike } from '@darch/utils/lib/typeUtils';
+import { TypeLike } from '@brabo/utils/lib/typeUtils';
 
-import { Darch } from '../Darch';
-import type { AnyObjectType, ObjectDefinitionInput } from '../ObjectType';
+import { CircularDeps } from '../CircularDeps';
+import type { ObjectDefinitionInput } from '../ObjectType';
 
 import { FieldType, FieldTypeParser, isFieldInstance } from './FieldType';
 
@@ -17,7 +17,7 @@ export class ObjectField<
   parse: FieldTypeParser<unknown>;
 
   utils: {
-    object: AnyObjectType;
+    object: any;
   };
 
   static is(t: any): t is AnyObjectField {
@@ -29,7 +29,7 @@ export class ObjectField<
 
     this.utils = {
       // @ts-ignore circular
-      object: Darch.createObjectType(def as any) as any,
+      object: CircularDeps.createObjectType(def as any) as any,
     };
 
     this.parse = this.applyParser({

@@ -1,4 +1,4 @@
-import { RuntimeError } from '@darch/utils/lib/RuntimeError';
+import { RuntimeError } from '@brabo/utils/lib/RuntimeError';
 
 export type ValidationCustomMessage =
   | string

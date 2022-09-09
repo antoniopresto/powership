@@ -1,4 +1,4 @@
-import { jsonToTypescript } from '@darch/utils/lib/jsonToTypescript';
+import { jsonToTypescript } from '@brabo/utils/lib/jsonToTypescript';
 
 import { ObjectDefinitionInput } from './TObjectConfig';
 import { ObjectLike } from './fields/IObjectLike';

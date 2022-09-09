@@ -1,9 +1,9 @@
-import { DarchJSON } from '@darch/utils/lib/DarchJSON';
-import { RuntimeError } from '@darch/utils/lib/RuntimeError';
-import { expectedType } from '@darch/utils/lib/expectedType';
-import { getKeys } from '@darch/utils/lib/getKeys';
-import { getTypeName } from '@darch/utils/lib/getTypeName';
-import { nonNullValues } from '@darch/utils/lib/invariant';
+import { BJSON } from '@brabo/utils/lib/BJSON';
+import { RuntimeError } from '@brabo/utils/lib/RuntimeError';
+import { expectedType } from '@brabo/utils/lib/expectedType';
+import { getKeys } from '@brabo/utils/lib/getKeys';
+import { getTypeName } from '@brabo/utils/lib/getTypeName';
+import { nonNullValues } from '@brabo/utils/lib/invariant';
 import { JSONSchema4 } from 'json-schema';
 
 import { createObjectType, isObject } from './ObjectType';
@@ -184,11 +184,11 @@ function parseField(params: {
       const parsed =
         field.def['__o.proto__'] === 'String'
           ? field.def.value
-          : DarchJSON.parse(field.def.value);
+          : BJSON.parse(field.def.value);
 
       jsonItem.const = parsed;
 
-      const tsType = DarchJSON.stringify(parsed, {
+      const tsType = BJSON.stringify(parsed, {
         handler: ({ serializer, value }) => {
           const typeName = getTypeName(value);
           if (['Object', 'Array'].includes(typeName)) return;

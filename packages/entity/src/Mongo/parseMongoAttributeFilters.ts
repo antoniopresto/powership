@@ -1,13 +1,13 @@
-import { RuntimeError } from '@darch/utils/lib/RuntimeError';
-import { devAssert } from '@darch/utils/lib/devAssert';
-import { getKeys } from '@darch/utils/lib/getKeys';
-import { getTypeName } from '@darch/utils/lib/getTypeName';
-import { escapeStringRegexp } from '@darch/utils/lib/scapeRegex';
+import { RuntimeError } from '@brabo/utils/lib/RuntimeError';
+import { devAssert } from '@brabo/utils/lib/devAssert';
+import { getKeys } from '@brabo/utils/lib/getKeys';
+import { getTypeName } from '@brabo/utils/lib/getTypeName';
+import { escapeStringRegexp } from '@brabo/utils/lib/scapeRegex';
 import { Filter } from 'mongodb';
 
 import {
   AttributeFilterKey,
-  FieldType,
+  TransporterFieldType,
   FilterRecord,
   IndexFilterRecord,
   TopLevelFilterKey,
@@ -191,7 +191,7 @@ export function parseMongoAttributeFilters(attFilter: FilterRecord) {
   return $and;
 }
 
-const typesMap: { [K in FieldType]: string } = {
+const typesMap: { [K in TransporterFieldType]: string } = {
   Binary: 'binData',
   Boolean: 'bool',
   List: 'array',

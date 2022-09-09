@@ -1,6 +1,6 @@
-import { parseFieldDefinitionConfig } from '@darch/schema';
-import { createProxy, notNull } from '@darch/utils';
-import { NodeLogger } from '@darch/utils/lib/nodeLogger';
+import { parseFieldDefinitionConfig } from '@brabo/schema';
+import { createProxy, notNull } from '@brabo/utils';
+import { NodeLogger } from '@brabo/utils/lib/nodeLogger';
 
 import { createEntityPlugin } from '../EntityPlugin';
 

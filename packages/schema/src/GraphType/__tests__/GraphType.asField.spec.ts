@@ -1,8 +1,9 @@
-import { MaybePromise } from '@darch/utils/lib/typeUtils';
+import { MaybePromise } from '@brabo/utils/lib/typeUtils';
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../../Infer';
 import { ObjectType } from '../../ObjectType';
+import { createResolver } from '../../Resolver';
 import { createGraphQLSchema } from '../../createGraphQLSchema';
 import { ToFinalField } from '../../fields/_parseFields';
 import { createType, GraphType } from '../GraphType';
@@ -33,7 +34,8 @@ describe('GraphType.asField', () => {
       description: 'userNodeNode is cool',
     });
 
-    const resolver = userNodeNode.createResolver({
+    const resolver = createResolver({
+      type: userNodeNode,
       name: 'userNodeNode',
       kind: 'subscription',
       description: 'yeah',

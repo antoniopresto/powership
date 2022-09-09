@@ -26,20 +26,20 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@darch/entity@file:../../entity":
+"@brabo/entity@file:../../entity":
   version "2.0.0-alpha.20220818T142751-0300.56"
   dependencies:
-    "@darch/schema" "2.0.0-alpha.20220818T142751-0300.56+030a6b1"
-    "@darch/utils" "2.0.0-alpha.20220818T142751-0300.56+030a6b1"
+    "@brabo/schema" "2.0.0-alpha.20220818T142751-0300.56+030a6b1"
+    "@brabo/utils" "2.0.0-alpha.20220818T142751-0300.56+030a6b1"
     dataloader "2.1.0"
     sift "16.0.0"
 
-"@darch/schema@2.0.0-alpha.20220818T142751-0300.56+030a6b1", "@darch/schema@file:..", "@darch/schema@file:../":
+"@brabo/schema@2.0.0-alpha.20220818T142751-0300.56+030a6b1", "@brabo/schema@file:..", "@brabo/schema@file:../":
   version "2.0.0-alpha.20220818T142751-0300.56"
   dependencies:
-    "@darch/utils" "2.0.0-alpha.20220818T142751-0300.56+030a6b1"
+    "@brabo/utils" "2.0.0-alpha.20220818T142751-0300.56+030a6b1"
 
-"@darch/utils@2.0.0-alpha.20220818T142751-0300.56+030a6b1", "@darch/utils@file:../../utils":
+"@brabo/utils@2.0.0-alpha.20220818T142751-0300.56+030a6b1", "@brabo/utils@file:../../utils":
   version "2.0.0-alpha.20220818T142751-0300.56"
   dependencies:
     big.js "6.2.1"

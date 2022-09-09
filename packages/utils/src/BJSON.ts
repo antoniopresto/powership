@@ -52,7 +52,7 @@ export class Serializer<Type> {
   }
 }
 
-export class DarchJSONConstructor {
+export class BJSONConstructor {
   static serializers = [
     new Serializer<Date>({
       name: 'Date',
@@ -110,7 +110,7 @@ export class DarchJSONConstructor {
   serializers: Serializer<any>[] = [];
 
   constructor() {
-    this.serializers = DarchJSONConstructor.serializers;
+    this.serializers = BJSONConstructor.serializers;
   }
 
   stringify = (
@@ -118,7 +118,7 @@ export class DarchJSONConstructor {
     options: StringifyOptions & {
       handler?: (
         utils: StringifyOptions & {
-          self: DarchJSONConstructor;
+          self: BJSONConstructor;
           value: any;
           serializer?: Serializer<any>;
         }
@@ -268,4 +268,4 @@ export function stringify(
   }
 } // If the JSON object does not yet have a stringify method, give it one.
 
-export const DarchJSON = new DarchJSONConstructor();
+export const BJSON = new BJSONConstructor();

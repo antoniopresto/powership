@@ -1,4 +1,4 @@
-import { Infer } from '@darch/schema';
+import { Infer } from '@brabo/schema';
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { setupProductTest } from './setupProductTest';

@@ -1,9 +1,9 @@
 import path from 'path';
 
-import { Emitter, mitt } from '@darch/utils/lib/mitt';
+import { Emitter, mitt } from '@brabo/utils/lib/mitt';
 import { ensureFileSync, writeFileSync } from 'fs-extra';
 
-import { Darch } from '../Darch';
+import { CircularDeps } from '../CircularDeps';
 import { AnyResolver } from '../Resolver';
 import { GraphTypeLike } from '../fields/IObjectLike';
 import { LiteralField } from '../fields/LitarealField';
@@ -17,7 +17,7 @@ export type CustomTypesWriterEvent = {
   name: string;
 };
 
-export const DarchWatchTypesPubSub: Emitter<{
+export const BraboWatchTypesPubSub: Emitter<{
   created: {
     custom?: CustomTypesWriterEvent;
     graphType?: GraphTypeLike;
@@ -29,7 +29,7 @@ const typesRecord: Record<string, GraphTypeLike> = {};
 const resolversRecord: Record<string, AnyResolver> = {};
 const customTypeRecord: Record<string, CustomTypesWriterEvent> = {};
 
-DarchWatchTypesPubSub.on('created', async (event) => {
+BraboWatchTypesPubSub.on('created', async (event) => {
   if (event.graphType) {
     typesRecord[`${event.graphType.id}`] = event.graphType;
   }
@@ -51,7 +51,7 @@ export interface WriteTypesOptions {
 
 export const defaultTypesDest = path.resolve(
   process.cwd(),
-  'src/generated/darch.d.ts'
+  'src/generated/brabo.d.ts'
 );
 
 export async function writeTypes(options?: WriteTypesOptions) {
@@ -77,7 +77,7 @@ export async function writeTypes(options?: WriteTypesOptions) {
     txt += `\n export ${fn};\n`;
     txt += `\n export ${getTypeFn};\n`;
 
-    txt += `\n export const Darch = { createType, getType };\n`;
+    txt += `\n export const Brabo = { createType, getType };\n`;
 
     return txt;
   });
@@ -98,7 +98,7 @@ export async function writeTypes(options?: WriteTypesOptions) {
     txt += `\n export ${fn};\n`;
     txt += `\n export ${getTypeFn};\n`;
 
-    txt += `\n export const Darch = { createResolver, getResolver };\n`;
+    txt += `\n export const Brabo = { createResolver, getResolver };\n`;
 
     return txt;
   });
@@ -113,7 +113,7 @@ export async function writeTypes(options?: WriteTypesOptions) {
     item.footer && head.push(...item.footer);
   });
 
-  const typesInterface = await Darch.objectToTypescript(
+  const typesInterface = await CircularDeps.objectToTypescript(
     'RuntimeTypes',
     typesRecord
   );
@@ -135,7 +135,7 @@ export async function writeTypes(options?: WriteTypesOptions) {
     typesInterface,
   });
 
-  content = await Darch.prettier.format(content, {
+  content = await CircularDeps.prettier.format(content, {
     parser: 'typescript',
     singleQuote: true,
   });
@@ -165,10 +165,10 @@ function template({
 /* tslint:disable */
 /* eslint-disable */
 declare global {
-  module '@darch/schema' {
-    export * from '@darch/schema';
-    import { ObjectFieldInput, ValidationCustomMessage, FieldDefinitionConfig } from '@darch/schema';
-    import { Merge } from '@darch/utils/lib/typeUtils';
+  module '@brabo/schema' {
+    export * from '@brabo/schema';
+    import { ObjectFieldInput, ValidationCustomMessage, FieldDefinitionConfig } from '@brabo/schema';
+    import { Merge } from '@brabo/utils/lib/typeUtils';
   
     import {
       GraphQLField,
@@ -285,10 +285,10 @@ let timeoutMS = 2000;
 function save() {
   clearTimeout(timeoutRef);
 
-  if (process.env.darch_emit_interval) {
+  if (process.env.brabo_emit_interval) {
     timeoutMS =
-      +process.env.darch_emit_interval > 0
-        ? +process.env.darch_emit_interval
+      +process.env.brabo_emit_interval > 0
+        ? +process.env.brabo_emit_interval
         : timeoutMS;
 
     timeoutRef = setTimeout(() => {

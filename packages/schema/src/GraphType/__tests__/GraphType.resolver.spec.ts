@@ -1,8 +1,9 @@
-import { MaybePromise, PromiseType } from '@darch/utils/lib/typeUtils';
+import { MaybePromise, PromiseType } from '@brabo/utils/lib/typeUtils';
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
-import { createDarchObject, ObjectType } from '../../ObjectType';
+import { createBraboObject, ObjectType } from '../../ObjectType';
+import { createResolver } from '../../Resolver';
 import { GraphType } from '../GraphType';
 
 describe('createResolver', () => {
@@ -11,12 +12,15 @@ describe('createResolver', () => {
   });
 
   it('Should create a Resolver', () => {
-    const UserType = createDarchObject('User', {
+    const UserType = createBraboObject('User', {
       name: { string: {}, description: 'the user name' },
       id: 'ulid',
     });
 
-    const resolver = new GraphType(UserType).createResolver({
+    const t1 = new GraphType(UserType);
+
+    const resolver = createResolver({
+      type: t1,
       name: 'User',
       args: { id: 'ulid' },
       description: 'User resolver',
@@ -61,17 +65,20 @@ describe('createResolver', () => {
   });
 
   it('Should create complex types preserving names', () => {
-    const user = createDarchObject('user', {
+    const user = createBraboObject('user', {
       name: 'string',
       age: 'int?',
     });
 
-    const userAddress = createDarchObject('UserAddress', {
+    const userAddress = createBraboObject('UserAddress', {
       street: 'string',
       number: 'int?',
     }).describe('The user address');
 
-    const resolver = new GraphType(user).createResolver({
+    const t1 = new GraphType(user);
+
+    const resolver = createResolver({
+      type: t1,
       name: 'Users',
       args: {
         name: 'string',
@@ -132,7 +139,10 @@ describe('createResolver', () => {
   });
 
   it('Should accept literals as type', () => {
-    const resolver = new GraphType('Airplanes', '[int]?').createResolver({
+    const ap = new GraphType('Airplanes', '[int]?');
+
+    const resolver = createResolver({
+      type: ap,
       name: 'Airplanes',
       args: undefined,
       async resolve() {

@@ -14,21 +14,11 @@ describe('schema.getGraphQLTypescript', () => {
       },
     });
 
-    const LoginType = createType('LoginRegister', {
+    createType('LoginRegister', {
       object: {
         time: 'int',
         device: 'string',
       },
-    });
-
-    UserType.addRelation({
-      name: 'logins',
-      description: 'user logins',
-      args: {
-        since: 'date?',
-      },
-      type: { type: LoginType, list: true },
-      async resolve(): Promise<any> {},
     });
 
     createResolver({
@@ -52,7 +42,7 @@ describe('schema.getGraphQLTypescript', () => {
       '',
       '/* eslint-disable */',
       '',
-      "import { GraphType } from '@darch/schema';",
+      "import { GraphType } from '@brabo/schema';",
       '',
       'export type GraphQLClientError = { message: string; path: string[] };',
       '',
@@ -64,10 +54,6 @@ describe('schema.getGraphQLTypescript', () => {
       '',
       'export type findUsersPayload = {',
       '  id: ID;',
-      '  logins: {',
-      '    time: number;',
-      '    device: string;',
-      '  }[];',
       '}[];',
       '',
       'export type findUsersInput = {',
@@ -121,7 +107,7 @@ describe('schema.getGraphQLTypescript', () => {
       '',
       '    operation: {',
       '      query:',
-      "        'query findUsers($findUsers_limit: Int!, $findUsers_logins_since: Date) {\\n  findUsers(limit: $findUsers_limit, since: $findUsers_logins_since) {\\n    id\\n    logins(since: $findUsers_logins_since) {\\n      ...LoginRegister3438313585Fragment\\n    }\\n  }\\n}\\n\\nfragment LoginRegister3438313585Fragment on LoginRegister {\\n  time\\n  device\\n}\\n',",
+      "        'query findUsers($findUsers_limit: Int!) {\\n  findUsers(limit: $findUsers_limit) {\\n    id\\n  }\\n}\\n',",
       '      varNames: {',
       '        limit: {',
       "          comments: '',",

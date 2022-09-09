@@ -8,8 +8,8 @@ module.exports = {
 
   moduleNameMapper: pathsToModuleNameMapper(
     {
-      '@darch/schema': ['./index.ts'],
-      '@darch/schema/*': ['./*'],
+      '@brabo/schema': ['./index.ts'],
+      '@brabo/schema/*': ['./*'],
     },
     {
       prefix: '<rootDir>/src/',

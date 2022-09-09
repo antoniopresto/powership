@@ -1,4 +1,4 @@
-import { createType } from '@darch/schema';
+import { createType } from '@brabo/schema';
 
 import { createEntity } from '../Entity';
 

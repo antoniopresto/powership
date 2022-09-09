@@ -1,4 +1,4 @@
-import { memoize } from '@darch/utils/lib/memoize';
+import { memoize } from '@brabo/utils/lib/memoize';
 
 import { AnyField } from './AnyField';
 import { BooleanField } from './BooleanField';

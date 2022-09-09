@@ -4,9 +4,9 @@ import {
   GraphType,
   objectMock,
   ObjectType,
-} from '@darch/schema';
-import { getTypeName } from '@darch/utils';
-import { slugify } from '@darch/utils/lib/slugify';
+} from '@brabo/schema';
+import { getTypeName } from '@brabo/utils';
+import { slugify } from '@brabo/utils/lib/slugify';
 
 import { MongoTransporter } from '../../Mongo';
 import { AppMock, createAppMock } from '../../Mongo/__tests__/createAppMock';

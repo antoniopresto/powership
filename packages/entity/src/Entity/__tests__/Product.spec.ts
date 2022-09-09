@@ -1,5 +1,5 @@
-import { createType, ObjectType } from '@darch/schema';
-import { ULID_REGEX } from '@darch/schema/lib/fields/UlidField';
+import { createType, ObjectType } from '@brabo/schema';
+import { ULID_REGEX } from '@brabo/schema/lib/fields/UlidField';
 
 import { MongoTransporter } from '../../Mongo';
 import { AppMock, createAppMock } from '../../Mongo/__tests__/createAppMock';
@@ -532,7 +532,7 @@ describe('Product', () => {
         },
       });
 
-      // await Darch.writeTypes();
+      // await Brabo.writeTypes();
     });
   });
 });

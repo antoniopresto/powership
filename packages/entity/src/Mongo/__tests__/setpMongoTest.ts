@@ -1,4 +1,4 @@
-import { ObjectType } from '@darch/schema';
+import { ObjectType } from '@brabo/schema';
 
 import { MongoTransporter } from '../MongoTransporter';
 

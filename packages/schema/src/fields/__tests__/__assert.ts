@@ -17,8 +17,12 @@ type Exact<A, B, Optional> = IsExact<
         : ':::ERROR:::';
     };
 
-type ExactFields<A extends Record<any, any>, B extends Record<any, any>> = {
-  [K in keyof A as IsExact<B[K], A[K]> extends true ? never : K]: A[K];
+type ExactFields<A, B> = {
+  [K in keyof A as K extends keyof B
+    ? IsExact<B[K], A[K]> extends true
+      ? never
+      : K
+    : K]: A[K];
 };
 
 export function _assert<A, B, Optional = false>(

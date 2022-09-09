@@ -1,13 +1,13 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
-import { Darch } from '../Darch';
+import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';
 
-describe('Darch aliases', () => {
-  afterEach(Darch.DarchObject.reset);
+describe('Brabo aliases', () => {
+  afterEach(CircularDeps.BraboObject.reset);
 
   test('type creators', async () => {
-    expect(Darch.enum(['m']).definition).toEqual({
+    expect(CircularDeps.enum(['m']).definition).toEqual({
       def: ['m'],
       list: false,
       optional: false,
@@ -15,7 +15,7 @@ describe('Darch aliases', () => {
     });
 
     expect(
-      Darch.object({
+      CircularDeps.object({
         name: { string: {}, defaultValue: 'Antonio' },
       }).definition
     ).toEqual({
@@ -32,7 +32,7 @@ describe('Darch aliases', () => {
   });
 
   test('createResolver', () => {
-    const sut = Darch.createResolver;
+    const sut = CircularDeps.createResolver;
 
     type Arg = Parameters<typeof sut>[0]['kind'];
     assert<IsExact<Arg, 'subscription' | 'query' | 'mutation' | undefined>>(
@@ -41,13 +41,13 @@ describe('Darch aliases', () => {
 
     expect(typeof sut).toBe('function');
     expect(sut.name).toBe('createResolver');
-    expect(Darch.isPossibleArgsDef).toBe(
+    expect(CircularDeps.isPossibleArgsDef).toBe(
       require('../Resolver').isPossibleArgsDef
     );
   });
 
   test('createType', () => {
-    const sut = Darch.createType;
+    const sut = CircularDeps.createType;
 
     expect(typeof sut).toBe('function');
     expect(sut.name).toBe('createType');
@@ -66,11 +66,11 @@ describe('Darch aliases', () => {
   });
 
   test('graphql', () => {
-    const sut = Darch.graphql;
+    const sut = CircularDeps.graphql;
 
     expect(typeof sut).toBe('function');
     expect(sut.name).toBe('graphql');
 
-    expect(Darch.GraphQLString.toJSON()).toBe('String');
+    expect(CircularDeps.GraphQLString.toJSON()).toBe('String');
   });
 });

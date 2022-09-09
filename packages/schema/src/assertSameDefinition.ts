@@ -1,4 +1,4 @@
-import { assertSame } from '@darch/utils/lib/assertSame';
+import { assertSame } from '@brabo/utils/lib/assertSame';
 
 import { ObjectDefinitionInput } from './fields/_parseFields';
 import { parseObjectDefinition } from './parseObjectDefinition';

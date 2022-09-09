@@ -1,9 +1,9 @@
-import { RuntimeError } from '@darch/utils/lib/RuntimeError';
-import { isProduction } from '@darch/utils/lib/env';
-import { getKeys } from '@darch/utils/lib/getKeys';
-import { getTypeName } from '@darch/utils/lib/getTypeName';
-import { inspectObject } from '@darch/utils/lib/inspectObject';
-import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
+import { RuntimeError } from '@brabo/utils/lib/RuntimeError';
+import { isProduction } from '@brabo/utils/lib/env';
+import { getKeys } from '@brabo/utils/lib/getKeys';
+import { getTypeName } from '@brabo/utils/lib/getTypeName';
+import { inspectObject } from '@brabo/utils/lib/inspectObject';
+import { simpleObjectClone } from '@brabo/utils/lib/simpleObjectClone';
 
 import { GraphType } from './GraphType/GraphType';
 import { isObject, ObjectType } from './ObjectType';

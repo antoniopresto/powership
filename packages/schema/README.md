@@ -1,7 +1,7 @@
-# @darch/schema
+# @brabo/schema
 Typescript schema validation with static type inference.
 
-Schemas are a crucial part of a microservices architecture or a detachable application architecture (darch). 
+Schemas are a crucial part of a microservices architecture or a detachable application architecture (brabo). 
 They can serve as contracts between different pieces of an application (frontend, backend, forms) and different services.
 So schemas should be **easily portable, written and read**, and that's the goal of this package.
 
@@ -12,7 +12,7 @@ So schemas should be **easily portable, written and read**, and that's the goal 
 To install:
 
 ```sh
-npm install @darch/schema
+npm install @brabo/schema
 ```
 
 ⚠️ IMPORTANT: You must enable `strict` mode in your `tsconfig.json`. This is a best practice for all TypeScript projects.
@@ -113,9 +113,9 @@ npm install @darch/schema
 ```
 
 ### schemaToTypescript
-Returns a string of an interface representing a DarchSchema;
+Returns a string of an interface representing a BraboSchema;
 ``` ts
-import { schemaToTypescript } from '@darch/schema/lib/schemaToTypescript';
+import { schemaToTypescript } from '@brabo/schema/lib/schemaToTypescript';
 
 const interfaceTxt = await schemaToTypescript('User', userSchema);
 
@@ -141,10 +141,10 @@ export interface User {
 ```
 
 ### schemaToJSON
-Receives a DarchSchema and returns a [json-schema](https://json-schema.org/)
+Receives a BraboSchema and returns a [json-schema](https://json-schema.org/)
 
 ``` ts
-  import { schemaToJSON } from '@darch/schema/lib/schemaToJSON';
+  import { schemaToJSON } from '@brabo/schema/lib/schemaToJSON';
 
   const jsonSchema = schemaToJSON('User', userSchema);
 

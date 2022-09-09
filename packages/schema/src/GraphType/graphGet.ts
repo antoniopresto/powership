@@ -1,4 +1,4 @@
-import { RuntimeError } from '@darch/utils/lib/RuntimeError';
+import { RuntimeError } from '@brabo/utils/lib/RuntimeError';
 import get from 'lodash/get';
 import setWith from 'lodash/setWith';
 
@@ -148,7 +148,7 @@ export function graphGet<T extends Record<string, any>>(
   return new QueryBuilder(builder);
 }
 
-export type Utils<T> = {
+export type Utils<T extends Readonly<Record<string, unknown>>> = {
   $aliasFor: (alias: string) => GraphGetData<T>;
   $all_on: (args: string[]) => GraphGetData<T>;
   $args: (args: Record<string, any>) => GraphGetData<T>;

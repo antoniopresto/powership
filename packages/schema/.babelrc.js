@@ -70,7 +70,7 @@ if (KIND === 'browser') {
 const config = {
   plugins: [
     [
-      require('@darch/babel-plugins').StripBlocksPlugin,
+      require('@brabo/babel-plugins').StripBlocksPlugin,
       {
         magicComment: `@only-${KIND_INVERT}`,
       },

@@ -1,5 +1,5 @@
-import { expectedType } from '@darch/utils/lib/expectedType';
-import { ulid } from '@darch/utils/lib/ulid';
+import { expectedType } from '@brabo/utils/lib/expectedType';
+import { ulid } from '@brabo/utils/lib/ulid';
 
 import { FieldType, FieldTypeParser } from './FieldType';
 

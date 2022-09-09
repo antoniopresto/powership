@@ -1,5 +1,6 @@
 import { createType } from '../GraphType/GraphType';
 import { createObjectType } from '../ObjectType';
+import { createResolver } from '../Resolver';
 import {
   createGraphQLSchema,
   resolversTypescriptParts,
@@ -111,17 +112,21 @@ describe('objectToTypescript', () => {
       ],
     });
 
-    const resolver = IntervalType.createResolver({
+    const resolver = createResolver({
+      type: IntervalType,
       name: 'getIntervals',
       async resolve() {
         return IntervalType.parse({});
       },
     });
 
-    const resolverList = createType('IntervalList', {
+    const gil = createType('IntervalList', {
       type: IntervalType,
       list: true,
-    }).createResolver({
+    });
+
+    const resolverList = createResolver({
+      type: gil,
       name: 'getIntervalsList',
       async resolve() {
         return [IntervalType.parse({})];

@@ -1,4 +1,4 @@
-import { MaybePromise } from '@darch/utils/lib/typeUtils';
+import { MaybePromise } from '@brabo/utils/lib/typeUtils';
 import { assert, IsExact } from 'conditional-type-checks';
 import { graphql, printSchema } from 'graphql';
 
@@ -13,15 +13,20 @@ describe('createGraphQLObject', () => {
   });
 
   it('works', async () => {
-    const numbersResolver = createType('Numbers', '[int]').createResolver({
+    const type = createType('Numbers', '[int]');
+
+    const numbersResolver = createResolver({
+      type,
       name: 'Numbers',
       async resolve() {
         return [1];
       },
     });
 
-    const lettersResolver = createType('Letters', '[string]?').createResolver({
+    const lt = createType('Letters', '[string]?');
+    const lettersResolver = createResolver({
       name: 'Letters',
+      type: lt,
       async resolve() {
         return ['a', 'b', 'c'];
       },
@@ -77,7 +82,10 @@ describe('createGraphQLObject', () => {
   });
 
   it('should add subscription', async () => {
-    createType('Numbers', '[int]').createResolver({
+    const type = createType('Numbers', '[int]');
+
+    createResolver({
+      type,
       name: 'Numbers',
       kind: 'subscription',
       async resolve() {
@@ -95,7 +103,9 @@ describe('createGraphQLObject', () => {
   });
 
   it('should add mutation', async () => {
-    createType('Numbers', '[int]').createResolver({
+    const t1 = createType('Numbers', '[int]');
+    createResolver({
+      type: t1,
       name: 'Numbers',
       kind: 'mutation',
       args: {
@@ -116,11 +126,14 @@ describe('createGraphQLObject', () => {
   });
 
   it('should print typescript', async () => {
-    createType('Numbers', {
+    const nn = createType('Numbers', {
       int: { min: 2 },
       description: '❤️',
       list: true,
-    }).createResolver({
+    });
+
+    createResolver({
+      type: nn,
       name: 'Numbers',
       args: {
         min: 'float?',
@@ -130,7 +143,10 @@ describe('createGraphQLObject', () => {
       },
     });
 
-    createType('Letters', '[string]?').createResolver({
+    const letters = createType('Letters', '[string]?');
+
+    createResolver({
+      type: letters,
       name: 'Letters',
       async resolve() {
         return ['a', 'b', 'c'];
@@ -142,7 +158,8 @@ describe('createGraphQLObject', () => {
       description: 'Bolo de fubá 👨🏽‍🔧',
     });
 
-    const addLetterResolver = addLetterType.createResolver({
+    const addLetterResolver = createResolver({
+      type: addLetterType,
       name: 'Numbers',
       kind: 'mutation',
       args: {
@@ -159,7 +176,9 @@ describe('createGraphQLObject', () => {
     assert<IsExact<Res, MaybePromise<boolean>>>(true);
     assert<IsExact<Args, { letter: 'a' | 'b' }>>(true);
 
-    createType('checkNumbers', 'boolean').createResolver({
+    const NT = createType('checkNumbers', 'boolean');
+    createResolver({
+      type: NT,
       name: 'Numbers',
       kind: 'mutation',
       description: 'Check for numbers ;)',
@@ -198,14 +217,18 @@ describe('createGraphQLObject', () => {
 
   describe('printQuery', () => {
     test('query', () => {
-      createType('Letters', '[string]?').createResolver({
+      const GT = createType('Letters', '[string]?');
+      createResolver({
+        type: GT,
         name: 'getLetters',
         async resolve() {
           return ['a', 'b', 'c'];
         },
       });
 
-      createType('Numbers', '[int]').createResolver({
+      const gt2 = createType('Numbers', '[int]');
+      createResolver({
+        type: gt2,
         name: 'getNumbers',
         args: {
           min: { int: {}, defaultValue: 0 },
@@ -220,20 +243,26 @@ describe('createGraphQLObject', () => {
         object: { name: 'string', age: 'int?' },
       });
 
-      createType('getAllUsersPayload', {
+      const GTA = createType('getAllUsersPayload', {
         type: UserType,
         list: true,
-      }).createResolver({
+      });
+
+      createResolver({
         name: 'getAllUsers',
+        type: GTA,
         async resolve() {
           return [];
         },
       });
 
-      createType('getUsersPaginationPayload', {
+      const gup = createType('getUsersPaginationPayload', {
         type: UserType,
         list: true,
-      }).createResolver({
+      });
+
+      createResolver({
+        type: gup,
         name: 'getUsersPagination',
         args: {
           limit: 'int?',
@@ -243,8 +272,9 @@ describe('createGraphQLObject', () => {
         },
       });
 
-      UserType.createResolver({
+      createResolver({
         kind: 'mutation',
+        type: UserType,
         name: 'updateUser',
         args: {
           id: 'ID',
@@ -301,7 +331,8 @@ describe('createGraphQLObject', () => {
         },
       });
 
-      user.createResolver({
+      createResolver({
+        type: user,
         name: 'getUser',
         args: {
           min: { int: {}, defaultValue: 0 },

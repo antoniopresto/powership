@@ -1,37 +1,31 @@
-import { RuntimeError } from '@darch/utils/lib/RuntimeError';
-import { StrictMap } from '@darch/utils/lib/StrictMap';
-import { assertSame } from '@darch/utils/lib/assertSame';
-import { isProduction } from '@darch/utils/lib/env';
-import { isBrowser } from '@darch/utils/lib/isBrowser';
+import { RuntimeError } from '@brabo/utils/lib/RuntimeError';
+import { StrictMap } from '@brabo/utils/lib/StrictMap';
+import { assertSame } from '@brabo/utils/lib/assertSame';
+import { isProduction } from '@brabo/utils/lib/env';
+import { isBrowser } from '@brabo/utils/lib/isBrowser';
 import type {
   GraphQLInterfaceType,
   GraphQLNamedInputType,
   GraphQLNamedType,
 } from 'graphql';
 
-import { Darch } from '../Darch';
+import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';
 import { createObjectType, ObjectType } from '../ObjectType';
-import type { AnyResolver, Resolver, ResolverConfig } from '../Resolver';
+import type { AnyResolver } from '../Resolver';
 import { FieldDefinitionConfig } from '../TObjectConfig';
 import { extendDefinition, ExtendDefinitionResult } from '../extendDefinition';
 import { FieldParserConfig, TAnyFieldType } from '../fields/FieldType';
 import { GraphTypeLike } from '../fields/IObjectLike';
 import { getObjectDefinitionId } from '../fields/MetaFieldField';
 import { ObjectField } from '../fields/ObjectField';
-import {
-  ObjectDefinitionInput,
-  ObjectFieldInput,
-  ToFinalField,
-} from '../fields/_parseFields';
+import { ObjectFieldInput, ToFinalField } from '../fields/_parseFields';
 import type { ObjectToTypescriptOptions } from '../objectToTypescript';
 import { parseObjectField } from '../parseObjectDefinition';
 
 import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
 
-export class GraphType<Definition extends ObjectFieldInput>
-  implements GraphTypeLike
-{
+export class GraphType<Definition extends ObjectFieldInput> {
   static __isGraphType = true;
   readonly __isGraphType = true;
 
@@ -72,13 +66,14 @@ export class GraphType<Definition extends ObjectFieldInput>
       if (!isProduction()) {
         assertSame(
           `Different type already registered with name "${name}"`,
+          // @ts-ignore
           this.definition,
           existing.definition
         );
       }
     } else {
       if (!isBrowser()) {
-        Darch.typesWriter?.DarchWatchTypesPubSub.emit('created', {
+        CircularDeps.typesWriter?.BraboWatchTypesPubSub.emit('created', {
           graphType: this,
         });
       }
@@ -106,13 +101,18 @@ export class GraphType<Definition extends ObjectFieldInput>
 
     self.__field = parseObjectField('temp', definition, true);
 
-    if (ObjectField.is(self.__field)) {
+    if (
+      ObjectField.is(self.__field) &&
+      ObjectType.is(self.__field.utils.object)
+    ) {
       if (
         name &&
         self.__field.utils.object.id &&
         self.__field.utils.object.id !== name
       ) {
-        self.__field.utils.object = self.__field.utils.object.clone(name);
+        self.__field.utils.object = self.__field.utils.object
+          .clone()
+          .objectType(name);
       } else if (name) {
         self.__field.utils.object.identify(name);
       } else {
@@ -150,7 +150,7 @@ export class GraphType<Definition extends ObjectFieldInput>
       options && typeof options === 'object' ? options.customMessage : options;
 
     try {
-      return this.__field.parse(input, customMessage);
+      return this.__field.parse(input, customMessage) as any;
     } catch (e: any) {
       e.message = `➤ ${this.id} ${e.message}`;
       throw e;
@@ -159,7 +159,7 @@ export class GraphType<Definition extends ObjectFieldInput>
 
   _toGraphQL = (): ConvertFieldResult => {
     // @ts-ignore
-    return Darch.GraphQLParser.fieldToGraphQL({
+    return CircularDeps.GraphQLParser.fieldToGraphQL({
       field: this.__field,
       fieldName: this.id,
       parentName: this.id,
@@ -192,7 +192,7 @@ export class GraphType<Definition extends ObjectFieldInput>
       );
     }
     // @ts-ignore
-    return Darch.GraphQLParser.objectToGraphQL({
+    return CircularDeps.GraphQLParser.objectToGraphQL({
       object: this._object,
     }).interfaceType(...args) as any;
   };
@@ -204,83 +204,16 @@ export class GraphType<Definition extends ObjectFieldInput>
     return extendDefinition(this.definition) as any;
   }
 
-  clone<Ext extends ObjectDefinitionInput>(
-    name: string,
-    extend?: Ext,
-    insecureOverride?: boolean
-  ): ToFinalField<Definition>['type'] extends 'object'
-    ? GraphType<{ object: ToFinalField<Definition>['def'] & Ext }>
-    : GraphType<Definition> {
-    if (insecureOverride && GraphType.register.has(name)) {
-      const existing = GraphType.register.get(name) as any;
-      GraphType.__construct(existing, name, extend);
-      return existing as any;
-    }
-
-    if (this._object) {
-      return createType(this._object.clone((extend as any) || {}, name)) as any;
-    }
-
-    return createType(name, this.definition) as any;
+  clone(): ExtendDefinitionResult<this, this> {
+    return extendDefinition(this);
   }
-
-  addRelation = <
-    FieldTypeDef extends ObjectFieldInput,
-    Name extends string,
-    Context = unknown,
-    ArgsDef extends ObjectDefinitionInput = ObjectDefinitionInput
-  >(
-    options: { name: Name; type: FieldTypeDef } & ResolverConfig<
-      Context,
-      unknown,
-      FieldTypeDef,
-      ArgsDef
-    > extends infer Options
-      ? {
-          [K in keyof Options]: Options[K];
-        }
-      : never
-  ): this => {
-    const object = this._object;
-
-    const type = createType(options.name, options.type);
-
-    const { name } = options;
-
-    if (!object) {
-      throw new RuntimeError(`Can't add relation to a not object type`, {
-        object,
-        options,
-        type,
-      });
-    }
-
-    const allOptions = {
-      type,
-      ...(options as any),
-    };
-
-    // @ts-ignore circular
-    const resolver = Darch.createResolver(allOptions) as any;
-
-    // registering relations to be added when creating graphql schema
-    resolver.__isRelation = true;
-    resolver.__relatedToGraphTypeId = this.id;
-    object.addGraphQLMiddleware((hooks) => {
-      hooks.onFieldConfigMap.register(function onFieldConfigMap(fields) {
-        fields[name] = resolver;
-      });
-    });
-
-    return this as any;
-  };
 
   print = (): string[] => {
     const type = this.graphQLType();
     const inputType = this.graphQLInputType();
 
     // @ts-ignore circular
-    const { GraphQLSchema, printSchema } = Darch.graphql as any;
+    const { GraphQLSchema, printSchema } = CircularDeps.graphql as any;
 
     const object = new GraphQLSchema({
       // @ts-ignore
@@ -300,25 +233,11 @@ export class GraphType<Definition extends ObjectFieldInput>
       });
 
     // @ts-ignore circular
-    return Darch.objectToTypescript(
+    return CircularDeps.objectToTypescript(
       options?.name || this.id,
       object,
       options
     ) as any;
-  };
-
-  createResolver = <
-    ArgsDef extends ObjectDefinitionInput | Readonly<ObjectDefinitionInput>
-  >(
-    options: Readonly<
-      Omit<ResolverConfig<any, any, Definition, ArgsDef>, 'type'>
-    >
-  ): Resolver<any, any, Definition, ArgsDef> => {
-    // @ts-ignore circular
-    return Darch.createResolver({
-      type: this,
-      ...options,
-    } as any) as any;
   };
 
   /**

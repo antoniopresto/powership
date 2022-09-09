@@ -1,19 +1,19 @@
 import {
+  CircularDeps,
   createType,
-  Darch,
   extendDefinition,
   GraphType,
   ObjectDefinitionInput,
   ObjectType,
-} from '@darch/schema';
-import { isMetaFieldKey } from '@darch/schema/lib/fields/MetaFieldField';
-import { createProxy, ensureArray, simpleObjectClone } from '@darch/utils';
-import { RuntimeError } from '@darch/utils/lib/RuntimeError';
-import { devAssert } from '@darch/utils/lib/devAssert';
-import { hooks } from '@darch/utils/lib/hooks';
-import { nonNullValues, notNull } from '@darch/utils/lib/invariant';
-import { capitalize } from '@darch/utils/lib/stringCase';
-import { AnyFunction } from '@darch/utils/lib/typeUtils';
+} from '@brabo/schema';
+import { isMetaFieldKey } from '@brabo/schema/lib/fields/MetaFieldField';
+import { createProxy, ensureArray, simpleObjectClone } from '@brabo/utils';
+import { RuntimeError } from '@brabo/utils/lib/RuntimeError';
+import { devAssert } from '@brabo/utils/lib/devAssert';
+import { hooks } from '@brabo/utils/lib/hooks';
+import { nonNullValues, notNull } from '@brabo/utils/lib/invariant';
+import { capitalize } from '@brabo/utils/lib/stringCase';
+import { AnyFunction } from '@brabo/utils/lib/typeUtils';
 
 import {
   CollectionIndexConfig,
@@ -51,7 +51,7 @@ import { removeUnderscoreFields } from './plugins/removeUnderscoreFields';
 
 export * from './paginationUtils';
 
-const ulidField = Darch.ulid({ autoCreate: true });
+const ulidField = CircularDeps.ulid({ autoCreate: true });
 const createUlid = () => ulidField.parse(undefined);
 
 export function createEntity<

@@ -219,7 +219,7 @@ describe('Object', () => {
       age: 'int?',
     });
 
-    const object2 = object1.clone();
+    const object2 = object1.clone().objectType();
 
     expect(object1.definition).not.toBe(object2.definition);
     expect(object1.definition).toEqual(object2.definition);
@@ -232,14 +232,18 @@ describe('Object', () => {
       age: 'int?',
     });
 
-    const object2 = object1.clone((current) => {
-      return {
-        age: {
-          ...current.age,
-          list: true,
-        },
-      };
-    });
+    const object2 = object1
+      .clone()
+      .exclude('name')
+      .extendDefinition((current) => {
+        return {
+          age: {
+            ...current.age,
+            list: true,
+          },
+        };
+      })
+      .objectType();
 
     type Final = Infer<typeof object2>;
     assert<IsExact<Final, { age?: number[] | undefined }>>(true);
@@ -262,8 +266,8 @@ describe('Object', () => {
       email: 'email',
     });
 
-    const noName = object1.removeField('name');
-    const noEmail = object1.removeField(['email']);
+    const noName = object1.clone().exclude('name').objectType();
+    const noEmail = object1.clone().exclude(['email']).objectType();
 
     expect(object1.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
@@ -313,7 +317,7 @@ describe('Object', () => {
       email: 'email',
     });
 
-    const cloneNameAge = object1.clone(['name', 'age']);
+    const cloneNameAge = object1.clone().only(['name', 'age']).objectType();
 
     expect(object1.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
@@ -361,17 +365,17 @@ describe('Object', () => {
       email: 'email',
     });
 
-    const clone = object1.clone(
-      ['name', 'email'],
-      (v) => {
+    const clone = object1
+      .clone()
+      .only(['name', 'email'])
+      .exclude('email')
+      .extendDefinition((v) => {
         return {
           ...v,
-          email: null,
           emails: '[email]',
         };
-      },
-      'identifyMe'
-    );
+      })
+      .objectType('identifyMe');
 
     expect(object1.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
@@ -420,7 +424,7 @@ describe('Object', () => {
       email: 'email',
     });
 
-    const clone = object1.makeOptional(['name', 'email']);
+    const clone = object1.clone().optional(['name', 'email']).objectType();
 
     expect(object1.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
@@ -473,7 +477,10 @@ describe('Object', () => {
       email: 'email',
     });
 
-    const clone = object1.makeRequired(['name', 'email', 'age']);
+    const clone = object1
+      .clone()
+      .required(['name', 'email', 'age'])
+      .objectType();
 
     expect(object1.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
@@ -525,9 +532,12 @@ describe('Object', () => {
       age: 'int?',
     });
 
-    const withEmail = object1.addFields({
-      email: 'email',
-    });
+    const withEmail = object1
+      .clone()
+      .extendDefinition({
+        email: 'email',
+      })
+      .objectType();
 
     expect(object1.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
@@ -616,7 +626,7 @@ describe('Object', () => {
       expect(object1.id).toBe('abc');
 
       // @ts-ignore
-      expect(object1.clone().id).toBe(null);
+      expect(object1.clone().objectType().id).toBe(null);
     });
   });
 

@@ -1,6 +1,6 @@
-import { expectedType } from '@darch/utils/lib/expectedType';
+import { expectedType } from '@brabo/utils/lib/expectedType';
 
-import { Darch } from '../Darch';
+import { CircularDeps } from '../CircularDeps';
 
 import { FieldType, FieldTypeParser } from './FieldType';
 
@@ -15,7 +15,7 @@ export class IDField extends FieldType<string, 'ID', IDFieldDef> {
     super('ID', def);
     const { autoCreate } = def;
 
-    const createId = Darch.ulid({ autoCreate: true }).parse;
+    const createId = CircularDeps.ulid({ autoCreate: true }).parse;
 
     this.parse = this.applyParser({
       parse(input: string) {

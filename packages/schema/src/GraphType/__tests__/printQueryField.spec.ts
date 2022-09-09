@@ -1,4 +1,5 @@
 import { createObjectType, ObjectType } from '../../ObjectType';
+import { createResolver } from '../../Resolver';
 import { createType } from '../GraphType';
 import { getQueryTemplates } from '../getQueryTemplates';
 
@@ -9,7 +10,8 @@ describe('generateQuery', () => {
   it('handles defaultValue', async () => {
     const Item = createType('Item', { object: { value: 'int' } });
 
-    const resolver = Item.createResolver({
+    const resolver = createResolver({
+      type: Item,
       name: 'getItem',
       args: {
         min: { int: {}, optional: true, defaultValue: 0 },
@@ -53,7 +55,7 @@ describe('generateQuery', () => {
       },
     } as const);
 
-    ProductType.addRelation({
+    createResolver({
       name: 'parents',
       type: [ProductType] as const,
       args: {
@@ -64,21 +66,8 @@ describe('generateQuery', () => {
       },
     });
 
-    ProductType.addRelation({
-      name: 'innerParent',
+    const braboResolver = createResolver({
       type: ProductType,
-      args: {
-        limit: {
-          type: 'int',
-          defaultValue: 2,
-        },
-      },
-      async resolve() {
-        return ProductType.parse({});
-      },
-    });
-
-    const darchResolver = ProductType.createResolver({
       name: 'getProductById',
       description: 'Get a product by ID',
       args: {
@@ -96,7 +85,7 @@ describe('generateQuery', () => {
       },
     });
 
-    const graphQLField = darchResolver.asObjectField('productById');
+    const graphQLField = braboResolver.asObjectField('productById');
     const sut = getQueryTemplates({
       graphQLField,
       queryKind: 'mainQuery',
@@ -112,48 +101,11 @@ describe('generateQuery', () => {
       '  parentId',
       '}',
       '',
-      'fragment Product2040566541Fragment on Product {',
-      '  sku',
-      '  breadcrumb {',
-      '    ...Breadcrumb2402738501Fragment',
-      '  }',
-      '  parents(id: $productById_parents_id) {',
-      '    ...Product3389259298Fragment',
-      '  }',
-      '  innerParent(limit: $productById_parents_innerParent_limit) {',
-      '    ...Product2040566541Fragment',
-      '  }',
-      '}',
-      '',
-      'fragment Product3389259298Fragment on Product {',
-      '  sku',
-      '  breadcrumb {',
-      '    ...Breadcrumb2402738501Fragment',
-      '  }',
-      '  parents(id: $productById_parents_id) {',
-      '    ...Product3389259298Fragment',
-      '  }',
-      '  innerParent(limit: $productById_parents_innerParent_limit) {',
-      '    ...Product2040566541Fragment',
-      '  }',
-      '}',
-      '',
-      'query productById($productById_id: ID!, $productById_sku: String!, $productById_parents_id: ID = 155, $productById_parents_innerParent_limit: Int = 2) {',
-      '  productById(',
-      '    id: $productById_id',
-      '    sku: $productById_sku',
-      '    id: $productById_parents_id',
-      '    limit: $productById_parents_innerParent_limit',
-      '  ) {',
+      'query productById($productById_id: ID!, $productById_sku: String!) {',
+      '  productById(id: $productById_id, sku: $productById_sku) {',
       '    sku',
       '    breadcrumb {',
       '      ...Breadcrumb2402738501Fragment',
-      '    }',
-      '    parents(id: $productById_parents_id) {',
-      '      ...Product3389259298Fragment',
-      '    }',
-      '    innerParent(limit: $productById_parents_innerParent_limit) {',
-      '      ...Product2040566541Fragment',
       '    }',
       '  }',
       '}',
@@ -177,7 +129,8 @@ describe('generateQuery', () => {
       },
     } as const);
 
-    const darchResolver = ProductType.createResolver({
+    const braboResolver = createResolver({
+      type: ProductType,
       name: 'getMemberKind',
       args: {
         memberId: 'ID',
@@ -187,7 +140,7 @@ describe('generateQuery', () => {
       },
     });
 
-    const graphQLField = darchResolver.asObjectField();
+    const graphQLField = braboResolver.asObjectField();
 
     const sut = getQueryTemplates({
       graphQLField,

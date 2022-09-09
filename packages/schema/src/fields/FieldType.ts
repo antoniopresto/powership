@@ -1,4 +1,4 @@
-import { getTypeName } from '@darch/utils/lib/getTypeName';
+import { getTypeName } from '@brabo/utils/lib/getTypeName';
 
 import {
   FieldParserOptionsObject,
@@ -134,7 +134,7 @@ export abstract class FieldType<
           throw new Error(`expected Array, found ${getTypeName(input)}`);
         }
         const values: any = [];
-        input.forEach(function (item, key) {
+        input.forEach((item, key) => {
           try {
             const parsed = parser.parse(item);
             values.push(parsed);
@@ -196,7 +196,7 @@ export function isFieldInstance(t: any): t is TAnyFieldType {
 }
 
 export type AllFieldTypes = {
-  [K in keyof FieldDefinitions]: FieldType<any, K, FieldDefinitions[K]>;
+  [K in keyof FieldDefinitions]: FieldType<unknown, K, FieldDefinitions[K]>;
 };
 
 export type TAnyFieldType = AllFieldTypes[keyof AllFieldTypes];

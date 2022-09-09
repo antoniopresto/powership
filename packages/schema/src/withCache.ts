@@ -1,4 +1,4 @@
-import { RuntimeError } from '@darch/utils/lib/RuntimeError';
+import { RuntimeError } from '@brabo/utils/lib/RuntimeError';
 
 export interface WithCache<Cache extends Record<string, any>> {
   <K extends keyof Cache>(key: K, onCreate?: () => Cache[K]): Cache[K];
@@ -16,7 +16,10 @@ export function withCache<Cache extends Record<string, any>>(
   ): Cache[K] {
     if (!cache.has(key)) {
       if (typeof onCreate !== 'function') {
-        throw new RuntimeError(`missing cache ${key}`, { cache, parent });
+        throw new RuntimeError(`missing cache ${String(key)}`, {
+          cache,
+          parent,
+        });
       }
 
       cache.set(key, onCreate());

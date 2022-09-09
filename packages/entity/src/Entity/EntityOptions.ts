@@ -3,7 +3,7 @@ import {
   ObjectFieldInput,
   ObjectType,
   ResolverResolve,
-} from '@darch/schema';
+} from '@brabo/schema';
 
 import {
   CollectionConfigIndexes,

@@ -1,6 +1,6 @@
 {
-  "name": "@darch/babel-plugins",
-  "version": "2.0.0-alpha.20220818T142751-0300.56+030a6b1",
+  "name": "@brabo/babel-plugins",
+  "version": "2.0.0-alpha.20220909T213108-0300.81+1caeb26",
   "main": "lib",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
@@ -13,7 +13,7 @@
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint src --ext .ts --fix"
   },
-  "description": "darch babel plugins",
+  "description": "brabo babel plugins",
   "keywords": [],
   "devDependencies": {
     "@babel/core": "7.18.9",
@@ -30,7 +30,7 @@
     "npm-run-all": "4.1.5",
     "prettier": "2.7.1",
     "ts-jest": "27.1.1",
-    "typescript": "4.5.4"
+    "typescript": "4.8.3"
   },
   "files": [
     "package.json",
@@ -39,5 +39,6 @@
   ],
   "prettier": {
     "singleQuote": true
-  }
+  },
+  "gitHead": "1caeb2643c0b8fb9a9ca6ee3359154e72bf8884b"
 }

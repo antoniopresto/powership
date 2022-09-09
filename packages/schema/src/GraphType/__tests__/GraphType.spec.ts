@@ -1,7 +1,7 @@
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
-import { Darch } from '../../Darch';
+import { CircularDeps } from '../../CircularDeps';
 import { Infer } from '../../Infer';
 import { createObjectType, ObjectType } from '../../ObjectType';
 import { objectMetaFieldKey } from '../../fields/MetaFieldField';
@@ -58,16 +58,18 @@ describe('createType', () => {
       },
     } as const);
 
-    const Urso = sut.clone('Urso');
+    const Urso = sut.clone().graphType('Urso');
 
     expect({ ...Urso.definition.def, [objectMetaFieldKey]: 1 }).toEqual({
       ...sut.definition.def,
       [objectMetaFieldKey]: 1,
     });
 
-    const monkey = Urso.clone('monkey', {
-      jumps: 'boolean',
-    });
+    const monkey = Urso.clone()
+      .extendDefinition({
+        jumps: 'boolean',
+      })
+      .graphType('monkey');
 
     expect(monkey.definition).toEqual({
       def: {
@@ -288,7 +290,10 @@ describe('createType', () => {
   });
 
   it('should print typescript', async () => {
-    const ts = await Darch.createType('IntHem', 'int?').typescriptPrint();
+    const ts = await CircularDeps.createType(
+      'IntHem',
+      'int?'
+    ).typescriptPrint();
 
     expect(ts.split('\n')).toEqual([
       'export interface IntHem {',
@@ -297,7 +302,7 @@ describe('createType', () => {
       '',
     ]);
 
-    const tsObject = await Darch.createType('Person', {
+    const tsObject = await CircularDeps.createType('Person', {
       object: { name: 'string' },
     }).typescriptPrint();
 

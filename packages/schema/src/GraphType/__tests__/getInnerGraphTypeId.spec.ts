@@ -27,27 +27,29 @@ describe('getInnerGraphTypeId', () => {
   });
 
   test('GraphType in type of type of type of GraphType', async () => {
-    const sut = getInnerGraphTypeId(createType('1', createType('2', type)));
+    const tt = createType('2', type);
+    const sut = getInnerGraphTypeId(createType('1', tt));
     expect(sut).toBe(typeName);
   });
 
   test('GraphType in type of type of type of list flattened', async () => {
-    const finalType = createType(
-      '0',
-      createType(
-        '1',
-        createType(
-          '2',
-          createType('3', {
-            type: createType('4', {
-              type: createType(type),
-              list: true,
-            }),
-            optional: true,
-          })
-        )
-      )
-    );
+    const t5 = createType(type);
+
+    const t4 = createType('4', {
+      type: t5,
+      list: true,
+    });
+
+    const t3 = createType('3', {
+      type: t4,
+      optional: true,
+    });
+
+    const t2 = createType('2', t3);
+
+    const t1 = createType('1', t2);
+
+    const finalType = createType('0', t1);
 
     expect(finalType.definition).toEqual({
       def: {

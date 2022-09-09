@@ -1,7 +1,8 @@
-import { tuple } from '@darch/utils/lib/typeUtils';
+import { tuple } from '@brabo/utils/lib/typeUtils';
 
 import { createType } from '../GraphType/GraphType';
 import { createObjectType } from '../ObjectType';
+import { createResolver } from '../Resolver';
 import { StringField } from '../fields/StringField';
 
 const object1 = createObjectType({
@@ -151,7 +152,7 @@ export const ProductType = createType('Product', {
   },
 } as const);
 
-export const ProductResolver = ProductType.createResolver({
+export const ProductResolver = createResolver({
   args: {
     id: 'ID',
   },
@@ -160,15 +161,5 @@ export const ProductResolver = ProductType.createResolver({
   async resolve(_, { id }) {
     return ProductType.parse({ id });
   },
-});
-
-ProductType.addRelation({
-  args: {
-    limit: 'int',
-  },
-  name: 'related',
-  async resolve() {
-    return { age: 1 } as any;
-  },
-  type: [ProductType] as const,
+  type: ProductType,
 });

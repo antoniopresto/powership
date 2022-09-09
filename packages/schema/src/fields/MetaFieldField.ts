@@ -1,9 +1,9 @@
 // MetaField is a special field type used to add metadata to an object
 
-import { expectedType } from '@darch/utils/lib/expectedType';
-import { getTypeName } from '@darch/utils/lib/getTypeName';
-import { nonNullValues } from '@darch/utils/lib/invariant';
-import { Serializable } from '@darch/utils/lib/typeUtils';
+import { expectedType } from '@brabo/utils/lib/expectedType';
+import { getTypeName } from '@brabo/utils/lib/getTypeName';
+import { nonNullValues } from '@brabo/utils/lib/invariant';
+import { Serializable } from '@brabo/utils/lib/typeUtils';
 
 import { FieldType, FieldTypeParser } from './FieldType';
 

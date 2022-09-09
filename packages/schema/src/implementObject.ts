@@ -1,6 +1,6 @@
-import { RuntimeError } from '@darch/utils/lib/RuntimeError';
-import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
-import { Merge } from '@darch/utils/lib/typeUtils';
+import { RuntimeError } from '@brabo/utils/lib/RuntimeError';
+import { simpleObjectClone } from '@brabo/utils/lib/simpleObjectClone';
+import { Merge } from '@brabo/utils/lib/typeUtils';
 
 import { createObjectType, isObject, ObjectType } from './ObjectType';
 import { ObjectLike } from './fields/IObjectLike';
@@ -48,7 +48,8 @@ export function implementObject<
       );
     }
 
-    def = parent.clone(def).definition;
+    // @ts-ignore
+    def = parent.clone().extendDefinition(def).def();
 
     tree.push(parent.nonNullId);
   });

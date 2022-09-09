@@ -1,4 +1,4 @@
-import { MaybePromise } from '@darch/utils';
+import { MaybePromise } from '@brabo/utils';
 import {
   GraphQLField,
   GraphQLFieldConfig,
@@ -6,7 +6,7 @@ import {
   GraphQLResolveInfo,
 } from 'graphql';
 
-import { Darch } from './Darch';
+import { CircularDeps } from './CircularDeps';
 import { createType, GraphType } from './GraphType/GraphType';
 import { getInnerType } from './GraphType/getQueryTemplates';
 import { GraphTypeLike } from './fields/IObjectLike';
@@ -24,7 +24,7 @@ export function createResolverFactory<Context extends ResolverContextBase>(): <
   Source
 >() => <
   TypeDef extends ObjectFieldInput,
-  ArgsDef extends ObjectDefinitionInput
+  ArgsDef extends ObjectDefinitionInput | undefined
 >(
   options: ResolverConfig<Context, Source, TypeDef, ArgsDef>
 ) => Resolver<Context, Source, TypeDef, ArgsDef> {
@@ -35,7 +35,7 @@ export function createResolver<
   Context extends ResolverContextBase,
   Root,
   TypeDef extends ObjectFieldInput,
-  ArgsDef extends ObjectDefinitionInput
+  ArgsDef extends ObjectDefinitionInput | undefined
 >(
   options: ResolverConfig<Context, Root, TypeDef, ArgsDef>
 ): Resolver<Context, Root, TypeDef, ArgsDef>;
@@ -127,7 +127,7 @@ export function createResolver(
 
   GraphType.resolvers.set(name, result);
 
-  Darch.typesWriter?.DarchWatchTypesPubSub.emit('created', {
+  CircularDeps.typesWriter?.BraboWatchTypesPubSub.emit('created', {
     resolver: result,
   });
 
@@ -150,7 +150,7 @@ export interface ResolverConfig<
   Context extends ResolverContextBase,
   Source extends any,
   TypeDef extends ObjectFieldInput,
-  ArgsDef extends ObjectDefinitionInput
+  ArgsDef extends ObjectDefinitionInput | undefined
 > extends Omit<GraphQLFieldConfig<any, any>, 'resolve' | 'args' | 'type'> {
   args?: ArgsDef;
   kind?: ResolverKind;

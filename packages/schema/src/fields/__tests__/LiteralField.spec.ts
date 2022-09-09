@@ -115,31 +115,15 @@ describe('LiteralField', () => {
   it('converts to graphql', async () => {
     const date = { a: 123 };
 
-    createType('Value', {
+    const ts = createType('Value', {
       object: {
         valid: {
           literal: date,
         },
       },
-    } as const).createResolver({
-      name: 'findValues',
-      args: {
-        limit: 'int',
-      },
-      async resolve() {
-        return LiteralField.utils.serialize({ valid: date }) as any;
-      },
-    });
+    } as const).print();
 
-    const schema = createGraphQLSchema();
-
-    const gql = schema.utils.print();
-
-    expect(gql.split('\n')).toEqual([
-      'type Query {',
-      '  findValues(limit: Int!): Value!',
-      '}',
-      '',
+    expect(ts).toEqual([
       'type Value {',
       '  valid: Value_valid!',
       '}',
@@ -148,6 +132,10 @@ describe('LiteralField', () => {
       '"Literal value: {\\"a\\":123}"',
       '"""',
       'scalar Value_valid',
+      '',
+      'input ValueInput {',
+      '  valid: Value_valid!',
+      '}',
     ]);
   });
 
