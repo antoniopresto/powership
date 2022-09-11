@@ -50,28 +50,31 @@ export type OneFilterOperation = {
   [K in keyof AllFilterOperations]: { [L in K]: AllFilterOperations[K] };
 }[keyof AllFilterOperations];
 
-export type RootFilterOperators = {
-  $and?: FilterRecord[];
-  $not?: FilterRecord;
-  $or?: FilterRecord[];
+export type RootFilterOperators<
+  Doc extends DocumentBase = Record<string, any>
+> = {
+  $and?: FilterRecord<Doc>[];
+  $not?: FilterRecord<Doc>;
+  $or?: FilterRecord<Doc>[];
 };
 
-export type FilterConditions = {
+export type FilterConditions<Doc extends DocumentBase = DocumentBase> = {
   [K in keyof (AllFilterOperations &
-    RootFilterOperators)]?: (AllFilterOperations & RootFilterOperators)[K];
+    RootFilterOperators<Doc>)]?: (AllFilterOperations &
+    RootFilterOperators<Doc>)[K];
 };
 
-export type FilterRecord<Doc extends DocumentBase = Record<string, any>> =
+export type FilterRecord<Doc extends DocumentBase = DocumentBase> =
   | {
       [K in keyof Doc]?:
         | Partial<AllFilterOperations>
         | PKSKValueType
         | undefined;
     }
-  | { $and?: RootFilterOperators['$and'] }
-  | { $or?: RootFilterOperators['$or'] }
-  | { $not?: RootFilterOperators['$not'] }
-  | { [K in DocumentIndexField]?: string };
+  | { $and: RootFilterOperators<Doc>['$and'] }
+  | { $or: RootFilterOperators<Doc>['$or'] }
+  | { $not: RootFilterOperators<Doc>['$not'] }
+  | { [K in DocumentIndexField]: string };
 
 export type AllIndexFilter = {
   $between: [string, string] | [number, number];
@@ -90,21 +93,14 @@ export type IndexFilter = {
 export type IndexFilterRecord<
   PK extends string = string,
   SK extends string | undefined = string
-> =
-  | (
-      | ({
-          [K in PK]: Partial<AllIndexFilter> | PKSKValueType | undefined;
-        } & {
-          [K in SK as SK extends string ? SK : never]?:
-            | Partial<AllIndexFilter>
-            | PKSKValueType
-            | undefined;
-        })
-      | { $and?: IndexFilterRecord<PK>[] }
-      | { $or?: IndexFilterRecord<PK>[] }
-      | { $not?: IndexFilterRecord<PK> }
-    )
-  | { [K in 'id']?: string };
+> = {
+  [K in PK]: Partial<AllIndexFilter> | PKSKValueType | undefined;
+} & {
+  [K in SK as SK extends string ? SK : never]?:
+    | Partial<AllIndexFilter>
+    | PKSKValueType
+    | undefined;
+};
 
 export type DocumentBase = Record<string, any>;
 

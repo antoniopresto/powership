@@ -1,4 +1,6 @@
 import {
+  GraphType,
+  KNOWN_UNKNOWN_OBJECT,
   ObjectDefinitionInput,
   ObjectFieldInput,
   ObjectType,
@@ -23,6 +25,12 @@ export interface EntityOptions<
   transporter?: TTransporter;
   type: Type;
 }
+
+export type AnyEntityOptions = EntityOptions<
+  'AnyEntityOptions',
+  GraphType<KNOWN_UNKNOWN_OBJECT>,
+  Transporter
+>;
 
 export type EntityDocFromType<Type> = Type extends {
   parse(...args: any[]): infer Result;

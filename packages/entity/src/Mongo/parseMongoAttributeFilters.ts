@@ -7,10 +7,10 @@ import { Filter } from 'mongodb';
 
 import {
   AttributeFilterKey,
-  TransporterFieldType,
   FilterRecord,
   IndexFilterRecord,
   TopLevelFilterKey,
+  TransporterFieldType,
 } from '../Transporter';
 import {
   AnyCollectionIndexConfig,

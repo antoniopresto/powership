@@ -1,6 +1,6 @@
 {
   "name": "brabo",
-  "version": "2.0.0-alpha.20220818T142751-0300.56+030a6b1",
+  "version": "2.0.0-alpha.20220909T213108-0300.81+1caeb26",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
   "author": "antoniopresto <antoniopresto@gmail.com>",
@@ -24,16 +24,16 @@
     "url": "https://github.com/antoniopresto/brabo/tree/master/packages/db"
   },
   "dependencies": {
-    "@brabo/schema": "2.0.0-alpha.20220818T142751-0300.56+030a6b1",
-    "@brabo/utils": "2.0.0-alpha.20220818T142751-0300.56+030a6b1",
-    "@brabo/entity": "2.0.0-alpha.20220818T142751-0300.56+030a6b1"
+    "@brabo/entity": "2.0.0-alpha.20220909T213108-0300.81+1caeb26",
+    "@brabo/schema": "2.0.0-alpha.20220909T213108-0300.81+1caeb26",
+    "@brabo/utils": "2.0.0-alpha.20220909T213108-0300.81+1caeb26"
   },
   "devDependencies": {
     "@babel/cli": "7.18.6",
     "@babel/plugin-transform-typescript": "7.18.6",
     "@babel/preset-env": "7.18.6",
     "@babel/preset-typescript": "7.18.6",
-    "@brabo/babel-plugins": "2.0.0-alpha.20220818T142751-0300.56+030a6b1",
+    "@brabo/babel-plugins": "2.0.0-alpha.20220909T213108-0300.81+1caeb26",
     "@types/jest": "27.0.3",
     "@types/node": "16.11.12",
     "@typescript-eslint/eslint-plugin": "4.15.2",
@@ -41,12 +41,12 @@
     "conditional-type-checks": "1.0.5",
     "esbuild": "0.14.3",
     "eslint": "7.20.0",
-    "graphql": "16.5.0",
     "eslint-config-prettier": "6.15.0",
     "eslint-plugin-eslint-comments": "3.2.0",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-sort-keys-fix": "^1.1.2",
     "eslint-plugin-typescript-sort-keys": "^2.1.0",
+    "graphql": "16.5.0",
     "jest": "27.4.5",
     "mongodb": "4.8.1",
     "mongodb-memory-server-core": "8.8.0",
@@ -55,7 +55,7 @@
     "rimraf": "3.0.2",
     "ts-jest": "27.1.1",
     "ts-node": "10.8.2",
-    "typescript": "4.5.4"
+    "typescript": "4.8.3"
   },
   "peerDependencies": {
     "graphql": "*",
@@ -66,5 +66,6 @@
     "package.json",
     "lib/*",
     "README.md"
-  ]
+  ],
+  "gitHead": "1caeb2643c0b8fb9a9ca6ee3359154e72bf8884b"
 }

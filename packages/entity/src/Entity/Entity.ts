@@ -33,6 +33,7 @@ import {
   objectToGraphQLConditionType,
 } from './EntityFilterConditionType';
 import {
+  _EntityMethods,
   AnyEntityDocument,
   createEntityDefaultFields,
   Entity,
@@ -143,9 +144,7 @@ export function createEntity<
     const fields = Object.keys(entityOutputDefinitionWithRelations);
     let inputDef = inputObjectType.cleanDefinition();
 
-    let updateDefinition = extendDefinition(inputObjectType.cleanDefinition())
-      .optional()
-      .value();
+    let updateDefinition = inputObjectType.clone().optional().def();
 
     _hooks.createDefinition.exec(updateDefinition, {
       fields,
@@ -566,8 +565,11 @@ export function createEntity<
       return notNull(indexes.indexFields.id);
     }
 
+    type TEntity = _EntityMethods<Options> & { loaders: Record<string, any> };
+
+    // @ts-ignore
     const getters: {
-      [K in Exclude<keyof Entity<any>, keyof Entity<any>['loaders']>]: any;
+      [K in keyof TEntity]: any;
     } = {
       addHooks: () => ({}), // handled in proxy
       addRelations: () => ({}), // handled in proxy

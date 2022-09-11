@@ -1,7 +1,7 @@
 import { createType, GraphType, ObjectFieldInput } from '@brabo/schema';
 import { BJSON, getKeys } from '@brabo/utils';
 
-import { FieldTypes } from '../Transporter';
+import { DocumentBase, FieldTypes } from '../Transporter';
 
 const PKSKValueType = createType('PKSKValue', {
   optional: true,
@@ -35,6 +35,10 @@ export const EntityFilterConditionType = createType('Filter', {
   object: Def,
 });
 
+export type EntityFilterConditionType = typeof Def extends infer R
+  ? { [K in keyof R & string as `$${K}`]: R[K] } & {}
+  : never;
+
 export type EntityGraphQLConditionsType<T> = T extends {
   [K: string]: ObjectFieldInput;
 }
@@ -45,7 +49,7 @@ export type EntityGraphQLConditionsDef<T> = {
   [K in keyof T]: typeof EntityFilterConditionType;
 };
 
-export function objectToGraphQLConditionType<T>(
+export function objectToGraphQLConditionType<T extends DocumentBase>(
   name: string,
   objectDef: T
 ): EntityGraphQLConditionsType<T> {
@@ -77,6 +81,7 @@ export type GraphQLFilterToTransporterFilter<T> = T extends {
     }
   : T;
 
+// appending '$' in filter keys
 export function graphQLFilterToTransporterFilter<T>(
   filter: T
 ): GraphQLFilterToTransporterFilter<T> {

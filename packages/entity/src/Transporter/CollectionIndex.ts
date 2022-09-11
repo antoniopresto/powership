@@ -120,7 +120,7 @@ export function createDocumentIndexBasedFilters(
     filterKeys.forEach((key) => {
       const value = filter[key];
 
-      if (key === 'id') {
+      if (key === 'id' && typeof value === 'string') {
         const id = parseGraphID(value);
 
         if (id) {
@@ -395,7 +395,7 @@ function joinPKAndSKAsIDFilter(options: {
   function handlePKFilter(
     PKFilter: IndexFilter,
     SKValue: string | null | undefined
-  ): IndexFilterRecord {
+  ): FilterRecord {
     const keys = getKeys(PKFilter);
 
     if (keys.length !== 1) {
