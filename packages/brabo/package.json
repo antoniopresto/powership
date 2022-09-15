@@ -26,9 +26,9 @@
     "url": "https://github.com/antoniopresto/brabo/tree/master/packages/db"
   },
   "dependencies": {
-    "@brabo/entity": "0.1.0",
-    "@brabo/schema": "0.1.0",
-    "@brabo/utils": "0.1.0"
+    "@brabo/entity": "^0.1.0",
+    "@brabo/schema": "^0.1.0",
+    "@brabo/utils": "^0.1.0"
   },
   "devDependencies": {
     "@babel/cli": "7.18.6",
@@ -36,15 +36,15 @@
     "@babel/plugin-transform-typescript": "7.18.6",
     "@babel/preset-env": "7.18.6",
     "@babel/preset-typescript": "7.18.6",
-    "@brabo/babel-plugins": "0.1.0",
+    "@brabo/babel-plugins": "^0.1.0",
     "@types/babel__core": "7.1.19",
     "@types/babel__helper-plugin-utils": "7.10.0",
-    "babel-plugin-transform-strip-block": "0.0.5",
-    "babel-preset-minify": "0.5.2",
     "@types/jest": "27.0.3",
     "@types/node": "16.11.12",
     "@typescript-eslint/eslint-plugin": "4.15.2",
     "@typescript-eslint/parser": "4.15.2",
+    "babel-plugin-transform-strip-block": "0.0.5",
+    "babel-preset-minify": "0.5.2",
     "conditional-type-checks": "1.0.5",
     "esbuild": "0.14.3",
     "eslint": "7.20.0",
