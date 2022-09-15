@@ -188,7 +188,7 @@ export function createEntity<
     };
 
     const conditionsType = objectToGraphQLConditionType(
-      `${entityName}Conditions`,
+      `${entityName}QueryConditions`,
       databaseType.definition.def
     );
 

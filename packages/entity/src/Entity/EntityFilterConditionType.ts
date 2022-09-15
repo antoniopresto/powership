@@ -1,11 +1,11 @@
 import { createType, GraphType, ObjectFieldInput } from '@brabo/schema';
 import { BJSON, getKeys } from '@brabo/utils';
 
-import { DocumentBase, FieldTypes } from '../Transporter';
+import { DocumentBase, FieldTypes, FilterRecord } from '../Transporter';
 
 const PKSKValueType = createType('PKSKValue', {
   optional: true,
-  union: ['string', 'float'],
+  union: ['string', 'float', 'null'],
 });
 
 const $eq = {
@@ -31,8 +31,30 @@ const Def = {
   type: { enum: FieldTypes, optional: true },
 } as const;
 
+type _Def = typeof Def extends infer R
+  ? {
+      [K in keyof R]: K extends 'between'
+        ? {
+            optional: true;
+            union: [
+              { def: [number, number]; type: 'literal' },
+              { def: [string, string]; type: 'literal' }
+            ];
+          }
+        : R[K];
+    }
+  : never;
+
 export const EntityFilterConditionType = createType('Filter', {
-  object: Def,
+  alias: 'Filter',
+  optional: true,
+  union: [
+    { object: Def as unknown as _Def },
+    PKSKValueType, //
+  ],
+} as unknown as {
+  literal: FilterRecord; // force infer
+  optional: true;
 });
 
 export type EntityFilterConditionType = typeof Def extends infer R
@@ -42,10 +64,10 @@ export type EntityFilterConditionType = typeof Def extends infer R
 export type EntityGraphQLConditionsType<T> = T extends {
   [K: string]: ObjectFieldInput;
 }
-  ? GraphType<{ object: EntityGraphQLConditionsDef<T> }>
+  ? GraphType<{ object: EntityGraphQLFieldConditionsType<T> }>
   : never;
 
-export type EntityGraphQLConditionsDef<T> = {
+export type EntityGraphQLFieldConditionsType<T> = {
   [K in keyof T]: typeof EntityFilterConditionType;
 };
 
@@ -57,6 +79,7 @@ export function objectToGraphQLConditionType<T extends DocumentBase>(
 
   Object.keys(objectDef).forEach((k) => {
     graphqlDef[k] = {
+      alias: `QueryCondition`,
       optional: true,
       type: EntityFilterConditionType,
     };

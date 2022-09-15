@@ -64,17 +64,22 @@ export type FilterConditions<Doc extends DocumentBase = DocumentBase> = {
     RootFilterOperators<Doc>)[K];
 };
 
+type _DocFilters<Doc> = {
+  [K in keyof Doc]?: Record<string, any> | PKSKValueType | undefined;
+};
 export type FilterRecord<Doc extends DocumentBase = DocumentBase> =
-  | {
-      [K in keyof Doc]?:
-        | Partial<AllFilterOperations>
-        | PKSKValueType
-        | undefined;
-    }
-  | { $and: RootFilterOperators<Doc>['$and'] }
-  | { $or: RootFilterOperators<Doc>['$or'] }
-  | { $not: RootFilterOperators<Doc>['$not'] }
-  | { [K in DocumentIndexField]: string };
+  | _DocFilters<Doc>
+  | ({
+      $and?: RootFilterOperators<Doc>['$and'];
+      $not?: RootFilterOperators<Doc>['$not'];
+      $or?: RootFilterOperators<Doc>['$or'];
+      _id?: string;
+      _id0?: string;
+      _id1?: string;
+      _id2?: string;
+      _id3?: string;
+      id?: string;
+    } & _DocFilters<Doc>);
 
 export type AllIndexFilter = {
   $between: [string, string] | [number, number];
@@ -111,6 +116,15 @@ export type LoaderContext = {
   userId?(...args: unknown[]): MaybePromise<string | undefined>;
 };
 
+export type MethodFilter<
+  PK extends string,
+  SK extends string | undefined
+> = IndexFilterRecord<PK, SK> extends infer F
+  ? F extends unknown
+    ? { [K in keyof F]: F[K] } & {}
+    : never
+  : never;
+
 export type FindManyConfig<
   Doc extends DocumentBase = DocumentBase,
   PK extends string = string,
@@ -120,11 +134,7 @@ export type FindManyConfig<
   condition?: FilterRecord<Doc>;
   consistent?: boolean;
   context: LoaderContext;
-  filter: IndexFilterRecord<PK, SK> extends infer F
-    ? F extends unknown
-      ? { [K in keyof F]: F[K] } & {}
-      : never
-    : never;
+  filter: MethodFilter<PK, SK>;
   first?: number;
   indexConfig: CollectionIndexConfig<
     Doc,
@@ -142,11 +152,7 @@ export type FindOneConfig<
   condition?: FilterRecord<Doc>;
   consistent?: boolean;
   context: LoaderContext;
-  filter: IndexFilterRecord<PK, SK> extends infer F
-    ? F extends unknown
-      ? { [K in keyof F]: F[K] } & {}
-      : never
-    : never;
+  filter: MethodFilter<PK, SK> | { [K in DocumentIndexField]?: string };
   indexConfig: CollectionIndexConfig<
     Doc,
     PK | (SK extends undefined ? PK : SK)
@@ -193,11 +199,7 @@ export type UpdateOneConfig<
 > = {
   condition?: FilterRecord<Doc>;
   context: LoaderContext;
-  filter: IndexFilterRecord<PK, SK> extends infer F
-    ? F extends unknown
-      ? { [K in keyof F]: F[K] } & {}
-      : never
-    : never;
+  filter: MethodFilter<PK, SK> | { [K in DocumentIndexField]?: string };
   indexConfig: CollectionIndexConfig<
     Doc,
     PK | (SK extends undefined ? PK : SK)
@@ -213,11 +215,7 @@ export type DeleteOneConfig<
 > = {
   condition?: FilterRecord<Item>;
   context: LoaderContext;
-  filter: IndexFilterRecord<PK, SK> extends infer F
-    ? F extends unknown
-      ? { [K in keyof F]: F[K] } & {}
-      : never
-    : never;
+  filter: MethodFilter<PK, SK> | { [K in DocumentIndexField]?: string };
   indexConfig: CollectionIndexConfig<
     Item,
     PK | (SK extends undefined ? PK : SK)

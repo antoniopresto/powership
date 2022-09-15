@@ -1,6 +1,6 @@
 {
   "name": "@brabo/utils",
-  "version": "2.0.0-alpha.20220909T213108-0300.81+1caeb26",
+  "version": "0.1.0",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -53,7 +53,7 @@
     "@babel/plugin-transform-typescript": "7.18.6",
     "@babel/preset-env": "7.18.6",
     "@babel/preset-typescript": "7.18.6",
-    "@brabo/babel-plugins": "2.0.0-alpha.20220909T213108-0300.81+1caeb26",
+    "@brabo/babel-plugins": "0.1.0",
     "@types/big.js": "6.1.5",
     "@types/ejson": "2.2.0",
     "@types/fs-extra": "9.0.13",

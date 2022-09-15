@@ -1,6 +1,6 @@
 {
   "name": "@brabo/babel-plugins",
-  "version": "2.0.0-alpha.20220909T213108-0300.81+1caeb26",
+  "version": "0.1.0",
   "main": "lib",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",

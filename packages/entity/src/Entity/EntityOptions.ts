@@ -47,7 +47,7 @@ export type EntityDocFromType<Type> = Type extends {
 export type EntityFieldResolver<
   Context,
   TypeDef extends ObjectFieldInput,
-  ArgsDef extends ObjectDefinitionInput,
+  ArgsDef extends ObjectDefinitionInput | undefined,
   Root
 > = {
   args?: ArgsDef;

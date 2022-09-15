@@ -33,18 +33,30 @@ describe('ProductResolver', () => {
       async resolve(_, args, context) {
         type Args = typeof args;
 
-        assert<IsExact<Args['filter'], ExpectedArgs['filter']>>(true);
+        assert<
+          IsExact<
+            Args['filter'],
+            {
+              // id?: string | undefined;
+              sku?: string | undefined;
+              storeId: string;
+            }
+          >
+        >(true);
+
         assert<IsExact<Args['first'], ExpectedArgs['first']>>(true);
         assert<IsExact<Args['after'], ExpectedArgs['after']>>(true);
 
-        return ProductEntity.paginateByStore({ ...args, context });
+        return ProductEntity.paginateByStore({
+          ...args,
+          context,
+        });
       },
     });
 
     type ExpectedArgs = {
       after?: string | undefined;
       filter: {
-        id?: string | undefined;
         sku?: string | undefined;
         storeId: string;
       };
@@ -201,7 +213,7 @@ describe('ProductResolver', () => {
 
     expect(schema.utils.print().split('\n')).toEqual([
       'type Query {',
-      '  paginate(after: ID, condition: ProductConditionsInput, filter: paginateInput_filterInput!, first: Int): ProductConnection!',
+      '  paginate(after: ID, condition: ProductQueryConditionsInput, filter: paginateInput_filterInput!, first: Int): ProductConnection!',
       '}',
       '',
       'type ProductConnection {',
@@ -253,87 +265,38 @@ describe('ProductResolver', () => {
       '  startCursor: String',
       '}',
       '',
-      'input ProductConditionsInput {',
-      '  createdAt: FilterInput',
-      '  createdBy: FilterInput',
-      '  id: FilterInput',
-      '  ulid: FilterInput',
-      '  updatedAt: FilterInput',
-      '  updatedBy: FilterInput',
-      '  alcoholic: FilterInput',
-      '  attributes: FilterInput',
-      '  brand: FilterInput',
-      '  categories: FilterInput',
-      '  currentPrice: FilterInput',
-      '  detailsUrl: FilterInput',
-      '  html: FilterInput',
-      '  priceFrom: FilterInput',
-      '  sellPrice: FilterInput',
-      '  shortDescription: FilterInput',
-      '  sku: FilterInput',
-      '  slug: FilterInput',
-      '  spotlight: FilterInput',
-      '  storeId: FilterInput',
-      '  tags: FilterInput',
-      '  thumbUrl: FilterInput',
-      '  title: FilterInput',
+      'input ProductQueryConditionsInput {',
+      '  createdAt: QueryCondition',
+      '  createdBy: QueryCondition',
+      '  id: QueryCondition',
+      '  ulid: QueryCondition',
+      '  updatedAt: QueryCondition',
+      '  updatedBy: QueryCondition',
+      '  alcoholic: QueryCondition',
+      '  attributes: QueryCondition',
+      '  brand: QueryCondition',
+      '  categories: QueryCondition',
+      '  currentPrice: QueryCondition',
+      '  detailsUrl: QueryCondition',
+      '  html: QueryCondition',
+      '  priceFrom: QueryCondition',
+      '  sellPrice: QueryCondition',
+      '  shortDescription: QueryCondition',
+      '  sku: QueryCondition',
+      '  slug: QueryCondition',
+      '  spotlight: QueryCondition',
+      '  storeId: QueryCondition',
+      '  tags: QueryCondition',
+      '  thumbUrl: QueryCondition',
+      '  title: QueryCondition',
       '}',
       '',
-      'input FilterInput {',
-      '  between: Filter_between',
-      '  contains: Filter_contains',
-      '  eq: Filter_eq',
-      '  exists: Boolean',
-      '  gt: Filter_gt',
-      '  gte: Filter_gte',
-      '  in: [Any]',
-      '  lte: Filter_lte',
-      '  matchString: String',
-      '  ne: Filter_ne',
-      '  startsWith: String',
-      '  type: Filter_type',
-      '}',
-      '',
-      '"""Union of { list:true, type: string } | { list:true, type: float }"""',
-      'scalar Filter_between',
-      '',
       '"""',
-      'Union of { type: string } | { type: float } | { type: boolean } | { type: null }',
+      'Union of:',
+      ' - { between:{ def:[{ list:true, type: string },{ list:true, type: float }], optional:true, type: union }, contains:{ def:[{ type: string },{ type: float },{ type: boolean },{ type: null }], optional:true, type: union }, eq:{ def:[{ type: string },{ type: float },{ type: boolean },{ type: null }], optional:true, type: union }, exists:{ optional:true, type: boolean }, gt:{ def:[{ type: string },{ type: float },{ type: null }], optional:true, type: union }, gte:{ def:[{ type: string },{ type: float },{ type: null }], optional:true, type: union }, in:{ list:true, optional:true, type: any }, lte:{ def:[{ type: string },{ type: float },{ type: null }], optional:true, type: union }, matchString:{ optional:true, type: string }, ne:{ def:[{ type: string },{ type: float },{ type: boolean },{ type: null }], optional:true, type: union }, startsWith:{ optional:true, type: string }, type:{ def:[String,Number,Binary,Boolean,Null,List,Map,StringSet,NumberSet], optional:true, type: enum }}',
+      ' - { def:[{ type: string },{ type: float },{ type: null }], optional:true, type: union }',
       '"""',
-      'scalar Filter_contains',
-      '',
-      '"""',
-      'Union of { type: string } | { type: float } | { type: boolean } | { type: null }',
-      '"""',
-      'scalar Filter_eq',
-      '',
-      '"""Union of { type: string } | { type: float }"""',
-      'scalar Filter_gt',
-      '',
-      '"""Union of { type: string } | { type: float }"""',
-      'scalar Filter_gte',
-      '',
-      'scalar Any',
-      '',
-      '"""Union of { type: string } | { type: float }"""',
-      'scalar Filter_lte',
-      '',
-      '"""',
-      'Union of { type: string } | { type: float } | { type: boolean } | { type: null }',
-      '"""',
-      'scalar Filter_ne',
-      '',
-      'enum Filter_type {',
-      '  String',
-      '  Number',
-      '  Binary',
-      '  Boolean',
-      '  Null',
-      '  List',
-      '  Map',
-      '  StringSet',
-      '  NumberSet',
-      '}',
+      'scalar QueryCondition',
       '',
       'input paginateInput_filterInput {',
       '  id: ID',

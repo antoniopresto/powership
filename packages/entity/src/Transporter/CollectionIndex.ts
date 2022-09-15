@@ -792,7 +792,15 @@ export type IndexKeyHash<Keys = string> =
   | `.${Extract<Keys, string>}`;
 
 export type IndexPartKind = 'PK' | 'SK';
-export type DocumentIndexField = `_id` | `_id${number}` | 'id';
+
+export type DocumentIndexField =
+  | 'id'
+  | `_id`
+  | `_id0`
+  | `_id1`
+  | `_id2`
+  | `_id3`;
+
 export const DocumentIndexRegex = /^(_id\d*)|(id)$/;
 
 // Definition for a document index
@@ -816,9 +824,17 @@ export type DocumentIndexItem<Keys, TName extends Name> = Readonly<{
 
 export type AnyDocIndexItem = DocumentIndexItem<string, Name>;
 
-export type CollectionConfigIndexes<Doc> = Readonly<
-  [DocumentIndexItem<keyof Doc, Name>, ...DocumentIndexItem<keyof Doc, Name>[]]
->;
+export type CollectionConfigIndexes<Doc> =
+  | [
+      DocumentIndexItem<keyof Doc, Name>,
+      ...DocumentIndexItem<keyof Doc, Name>[]
+    ]
+  | Readonly<
+      [
+        DocumentIndexItem<keyof Doc, Name>,
+        ...DocumentIndexItem<keyof Doc, Name>[]
+      ]
+    >;
 
 export type CollectionIndexConfig<
   Doc extends DocumentBase,
@@ -827,6 +843,7 @@ export type CollectionIndexConfig<
   entity: Readonly<EntityName>;
   indexes: CollectionConfigIndexes<Doc>;
 };
+
 export type AnyCollectionIndexConfig = CollectionIndexConfig<
   DocumentBase,
   string
