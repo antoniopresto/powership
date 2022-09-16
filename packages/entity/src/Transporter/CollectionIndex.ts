@@ -55,15 +55,18 @@ export type GraphIDJSON = {
   v: string; // id value
 };
 
+export const GRAPH_ID_PREFIX = '~!';
 // a base64 encoded version of the id created by mountId
 export function mountGraphID(id: string) {
-  if (id.startsWith(`#`)) return id;
-  return `#${textToBase64(id)}`;
+  if (id.startsWith(GRAPH_ID_PREFIX)) return id;
+  return `${GRAPH_ID_PREFIX}${textToBase64(id)}`;
 }
 
 export function parseGraphID(input: string): GraphIDJSON | null {
   try {
-    const v = input.startsWith('#') ? base64ToText(input.slice(1)) : input;
+    const v = input.startsWith(GRAPH_ID_PREFIX)
+      ? base64ToText(input.slice(1))
+      : input;
     const [e, idRest] = v.split(':');
     const [i, rest] = idRest.split(ID_KEY_SEPARATOR);
 

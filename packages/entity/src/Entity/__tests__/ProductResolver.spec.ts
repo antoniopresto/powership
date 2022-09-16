@@ -128,14 +128,14 @@ describe('ProductResolver', () => {
         paginate: {
           edges: [
             {
-              cursor: expect.stringMatching('#'),
+              cursor: expect.stringMatching(/^~!/),
               node: {
-                id: expect.stringMatching('#'),
+                id: expect.stringMatching(/^~!/),
               },
             },
           ],
           pageInfo: {
-            endCursor: expect.stringMatching('#'),
+            endCursor: expect.stringMatching(/^~!/),
           },
         },
       },
