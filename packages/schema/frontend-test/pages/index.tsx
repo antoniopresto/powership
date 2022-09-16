@@ -2,23 +2,16 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
-import * as braboSchema from '@brabo/schema';
 import React from 'react';
-import { CircularDeps } from '@brabo/schema';
+import { createObjectType, implementObject } from '@brabo/schema';
 
-try {
-  console.log('Brabo.createResolver', Brabo.createResolver);
-} catch (e) {
-  console.info('test requiring createResolver::\n', e);
-}
+const nodeType = createObjectType('Node', { id: 'ID' });
 
-const nodeType = Brabo.createObjectType('Node', { id: 'ID' });
-
-const pageNodeType = Brabo.implementObject('PageNode', {
+const pageNodeType = implementObject('PageNode', {
   title: 'string',
 });
 
-const ship = Brabo.implementObject(
+const ship = implementObject(
   'ship',
   { name: 'string' },
   nodeType,
@@ -27,13 +20,6 @@ const ship = Brabo.implementObject(
 
 const Home: NextPage = () => {
   console.log(ship.parse({ name: 'antonio', title: 'Fiesta', id: '1' }));
-
-  if (typeof window === 'object') {
-    // @ts-ignore
-    window.Brabo = Brabo;
-    // @ts-ignore
-    window.braboSchema = braboSchema;
-  }
 
   return (
     <div className={styles.container}>

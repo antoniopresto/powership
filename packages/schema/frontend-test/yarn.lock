@@ -12,35 +12,21 @@
     call-me-maybe "^1.0.1"
     js-yaml "^4.1.0"
 
-"@colors/colors@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
-  integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
-
-"@dabh/diagnostics@^2.0.2":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@dabh/diagnostics/-/diagnostics-2.0.3.tgz#7f7e97ee9a725dffc7808d93668cc984e1dc477a"
-  integrity sha512-hrlQOIi7hAfzsMqlGSFyVucrx38O+j6wiGOf//H2ecvIEqYN4ADBSS2iLMh5UFyDunCNniUIPk/q3riFv45xRA==
+"@brabo/entity@^0.1.0", "@brabo/entity@file:../../entity":
+  version "0.1.0"
   dependencies:
-    colorspace "1.1.x"
-    enabled "2.0.x"
-    kuler "^2.0.0"
-
-"@brabo/entity@file:../../entity":
-  version "2.0.0-alpha.20220818T142751-0300.56"
-  dependencies:
-    "@brabo/schema" "2.0.0-alpha.20220818T142751-0300.56+030a6b1"
-    "@brabo/utils" "2.0.0-alpha.20220818T142751-0300.56+030a6b1"
+    "@brabo/schema" "^0.1.0"
+    "@brabo/utils" "^0.1.0"
     dataloader "2.1.0"
     sift "16.0.0"
 
-"@brabo/schema@2.0.0-alpha.20220818T142751-0300.56+030a6b1", "@brabo/schema@file:..", "@brabo/schema@file:../":
-  version "2.0.0-alpha.20220818T142751-0300.56"
+"@brabo/schema@^0.1.0", "@brabo/schema@file:..", "@brabo/schema@file:../":
+  version "0.1.0"
   dependencies:
-    "@brabo/utils" "2.0.0-alpha.20220818T142751-0300.56+030a6b1"
+    "@brabo/utils" "^0.1.0"
 
-"@brabo/utils@2.0.0-alpha.20220818T142751-0300.56+030a6b1", "@brabo/utils@file:../../utils":
-  version "2.0.0-alpha.20220818T142751-0300.56"
+"@brabo/utils@^0.1.0", "@brabo/utils@file:../../utils":
+  version "0.1.0"
   dependencies:
     big.js "6.2.1"
     chalk "4.1.2"
@@ -61,6 +47,20 @@
     ulid "2.3.0"
     winston "3.8.1"
     winston-slack-webhook-transport "2.1.0"
+
+"@colors/colors@1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
+  integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
+
+"@dabh/diagnostics@^2.0.2":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@dabh/diagnostics/-/diagnostics-2.0.3.tgz#7f7e97ee9a725dffc7808d93668cc984e1dc477a"
+  integrity sha512-hrlQOIi7hAfzsMqlGSFyVucrx38O+j6wiGOf//H2ecvIEqYN4ADBSS2iLMh5UFyDunCNniUIPk/q3riFv45xRA==
+  dependencies:
+    colorspace "1.1.x"
+    enabled "2.0.x"
+    kuler "^2.0.0"
 
 "@jsdevtools/ono@^7.1.3":
   version "7.1.3"
@@ -265,6 +265,13 @@ big.js@6.2.1:
   version "6.2.1"
   resolved "https://registry.yarnpkg.com/big.js/-/big.js-6.2.1.tgz#7205ce763efb17c2e41f26f121c420c6a7c2744f"
   integrity sha512-bCtHMwL9LeDIozFn+oNhhFoq+yQ3BNdnsLSASUxLciOb1vgvpHsIO1dsENiGMgbb4SkP5TrzWzRiLddn8ahVOQ==
+
+"brabo@file:../../brabo":
+  version "0.1.0"
+  dependencies:
+    "@brabo/entity" "^0.1.0"
+    "@brabo/schema" "^0.1.0"
+    "@brabo/utils" "^0.1.0"
 
 brace-expansion@^1.1.7:
   version "1.1.11"
