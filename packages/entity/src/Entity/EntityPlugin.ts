@@ -1,5 +1,5 @@
 import { FinalFieldDefinition } from '@brabo/schema';
-import { Parallel, Waterfall } from '@brabo/utils/lib/hooks';
+import { Parallel, Waterfall } from 'plugin-hooks';
 
 import {
   AnyCollectionIndexConfig,

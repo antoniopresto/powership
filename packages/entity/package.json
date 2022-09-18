@@ -36,7 +36,8 @@
     "@brabo/schema": "^0.1.0",
     "@brabo/utils": "^0.1.0",
     "dataloader": "2.1.0",
-    "sift": "16.0.0"
+    "sift": "16.0.0",
+    "plugin-hooks": "^1.1.3"
   },
   "devDependencies": {
     "@babel/cli": "7.18.6",
