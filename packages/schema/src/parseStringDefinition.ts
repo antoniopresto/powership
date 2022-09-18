@@ -11,13 +11,17 @@ function _parseStringDefinition<T extends AnyStringFieldDefinition>(
   const isOptional = isOptionalTemplate(typeName);
   const isList = isListTemplate(typeName);
 
-  const obj = {
-    def: undefined,
-    defaultValue: undefined,
-    list: !!isList,
-    optional: !!isOptional,
+  const obj: FinalFieldDefinition = {
     type: t,
   };
+
+  if (isList) {
+    obj.list = true;
+  }
+
+  if (isOptional) {
+    obj.optional = true;
+  }
 
   return obj;
 }

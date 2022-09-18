@@ -21,13 +21,9 @@ describe('extendDefinition', () => {
 
     expect(res).toMatchObject({
       age: {
-        list: false,
-        optional: false,
         type: 'int',
       },
       name: {
-        list: false,
-        optional: false,
         type: 'string',
       },
     });
@@ -51,8 +47,6 @@ describe('extendDefinition', () => {
 
     expect(res).toEqual({
       name: {
-        list: false,
-        optional: false,
         type: 'string',
       },
     });
@@ -76,8 +70,6 @@ describe('extendDefinition', () => {
 
     expect(res).toEqual({
       age: {
-        list: false,
-        optional: false,
         type: 'int',
       },
     });
@@ -99,13 +91,10 @@ describe('extendDefinition', () => {
 
     expect(res).toEqual({
       name: {
-        list: false,
         optional: true,
         type: 'string',
       },
       age: {
-        list: false,
-        optional: false,
         type: 'int',
       },
     });
@@ -133,17 +122,13 @@ describe('extendDefinition', () => {
     expect(res).toEqual({
       a: {
         list: true,
-        optional: false,
+
         type: 'string',
       },
       age: {
-        list: false,
-        optional: false,
         type: 'int',
       },
       name: {
-        list: false,
-        optional: false,
         type: 'string',
       },
     });
@@ -185,8 +170,6 @@ describe('extendDefinition', () => {
         type: 'string',
       },
       name: {
-        list: false,
-        optional: false,
         type: 'string',
       },
     });
@@ -235,8 +218,6 @@ describe('extendDefinition', () => {
         type: 'string',
       },
       name: {
-        list: false,
-        optional: false,
         type: 'string',
       },
     });

@@ -57,8 +57,7 @@ describe('getInnerGraphTypeId', () => {
           def: {
             id: 'RamonValdez',
           },
-          list: false,
-          optional: false,
+
           type: 'meta',
         },
         fixed: {
@@ -66,12 +65,11 @@ describe('getInnerGraphTypeId', () => {
             '__o.proto__': 'String',
             value: '123',
           },
-          list: false,
-          optional: false,
+
           type: 'literal',
         },
       },
-      list: false,
+
       optional: true,
       type: 'object',
     });

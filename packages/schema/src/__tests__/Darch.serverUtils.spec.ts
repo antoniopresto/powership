@@ -9,8 +9,7 @@ describe('Brabo aliases', () => {
   test('type creators', async () => {
     expect(CircularDeps.enum(['m']).definition).toEqual({
       def: ['m'],
-      list: false,
-      optional: false,
+
       type: 'enum',
     });
 
@@ -25,8 +24,7 @@ describe('Brabo aliases', () => {
           string: {},
         },
       },
-      list: false,
-      optional: false,
+
       type: 'object',
     });
   });

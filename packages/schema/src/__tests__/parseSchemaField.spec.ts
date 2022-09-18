@@ -36,15 +36,10 @@ describe('parseObjectField', () => {
     ).toEqual({
       def: {
         name: {
-          list: false,
-          optional: false,
           type: 'string',
         },
         [objectMetaFieldKey]: expect.anything(),
       },
-      description: undefined,
-      list: false,
-      optional: false,
       type: 'object',
     });
 
@@ -60,7 +55,7 @@ describe('parseObjectField', () => {
       def: {
         min: 1,
       },
-      description: undefined,
+
       list: true,
       optional: true,
       type: 'string',
@@ -96,8 +91,7 @@ describe('parseObjectField', () => {
 
     expect(sut).toEqual({
       type: 'enum',
-      optional: false,
-      list: false,
+
       def: ['a', 'b', 'c'],
     });
   });
@@ -118,14 +112,13 @@ describe('parseObjectField', () => {
 
     expect(single).toEqual({
       type: 'enum',
-      optional: false,
-      list: false,
+
       def: ['a', 'b'],
     });
 
     expect(list).toEqual({
       type: 'enum',
-      optional: false,
+
       list: true,
       def: ['a', 'b'],
     });
@@ -150,13 +143,10 @@ describe('parseObjectField', () => {
           def: {
             id: null,
           },
-          list: false,
-          optional: false,
+
           type: 'meta',
         },
         name: {
-          list: false,
-          optional: false,
           type: 'string',
         },
         sub: {
@@ -165,34 +155,28 @@ describe('parseObjectField', () => {
               def: {
                 id: null,
               },
-              list: false,
-              optional: false,
+
               type: 'meta',
             },
             age: {
-              list: false,
               optional: true,
               type: 'int',
             },
             favorites: {
               list: true,
-              optional: false,
+
               type: 'string',
             },
             name: {
-              list: false,
-              optional: false,
               type: 'string',
             },
             sex: {
               def: ['m', 'f', 'o'],
-              list: false,
-              optional: false,
+
               type: 'enum',
             },
           },
-          list: false,
-          optional: false,
+
           type: 'object',
         },
       },
@@ -229,36 +213,28 @@ describe('parseObjectField', () => {
       def: {
         [objectMetaFieldKey]: expect.anything(),
         name: {
-          list: false,
-          optional: false,
           type: 'string',
         },
         sub: {
-          list: false,
-          optional: false,
           type: 'object',
 
           def: {
             [objectMetaFieldKey]: expect.anything(),
             name: {
-              list: false,
-              optional: false,
               type: 'string',
             },
             age: {
-              list: false,
               optional: true,
               type: 'int',
             },
             favorites: {
               list: true,
-              optional: false,
+
               type: 'string',
             },
             sex: {
               def: ['m', 'f', 'o'],
-              list: false,
-              optional: false,
+
               type: 'enum',
             },
           },
@@ -302,18 +278,15 @@ describe('parseObjectField', () => {
 
     expect(sut).toEqual({
       type: 'object',
-      list: false,
-      optional: false,
+
       def: {
         [objectMetaFieldKey]: expect.anything(),
         stringDefBoolean: {
-          list: false,
-          optional: false,
           type: 'boolean',
         },
         stringDefBooleanList: {
           list: true,
-          optional: false,
+
           type: 'boolean',
         },
         stringDefBooleanListOptional: {
@@ -322,13 +295,11 @@ describe('parseObjectField', () => {
           type: 'boolean',
         },
         stringDefCursor: {
-          list: false,
-          optional: false,
           type: 'cursor',
         },
         stringDefCursorList: {
           list: true,
-          optional: false,
+
           type: 'cursor',
         },
         stringDefCursorListOptional: {
@@ -337,13 +308,11 @@ describe('parseObjectField', () => {
           type: 'cursor',
         },
         stringDefDate: {
-          list: false,
-          optional: false,
           type: 'date',
         },
         stringDefDateList: {
           list: true,
-          optional: false,
+
           type: 'date',
         },
         stringDefDateListOptional: {
@@ -352,13 +321,11 @@ describe('parseObjectField', () => {
           type: 'date',
         },
         stringDefEmail: {
-          list: false,
-          optional: false,
           type: 'email',
         },
         stringDefEmailList: {
           list: true,
-          optional: false,
+
           type: 'email',
         },
         stringDefEmailListOptional: {
@@ -367,13 +334,11 @@ describe('parseObjectField', () => {
           type: 'email',
         },
         stringDefFloat: {
-          list: false,
-          optional: false,
           type: 'float',
         },
         stringDefFloatList: {
           list: true,
-          optional: false,
+
           type: 'float',
         },
         stringDefFloatListOptional: {
@@ -382,13 +347,11 @@ describe('parseObjectField', () => {
           type: 'float',
         },
         stringDefInt: {
-          list: false,
-          optional: false,
           type: 'int',
         },
         stringDefIntList: {
           list: true,
-          optional: false,
+
           type: 'int',
         },
         stringDefIntListOptional: {
@@ -397,13 +360,11 @@ describe('parseObjectField', () => {
           type: 'int',
         },
         stringDefString: {
-          list: false,
-          optional: false,
           type: 'string',
         },
         stringDefStringList: {
           list: true,
-          optional: false,
+
           type: 'string',
         },
         stringDefStringListOptional: {
@@ -412,13 +373,11 @@ describe('parseObjectField', () => {
           type: 'string',
         },
         stringDefUlid: {
-          list: false,
-          optional: false,
           type: 'ulid',
         },
         stringDefUlidList: {
           list: true,
-          optional: false,
+
           type: 'ulid',
         },
         stringDefUlidListOptional: {
@@ -427,13 +386,11 @@ describe('parseObjectField', () => {
           type: 'ulid',
         },
         stringDefUnknown: {
-          list: false,
-          optional: false,
           type: 'unknown',
         },
         stringDefUnknownList: {
           list: true,
-          optional: false,
+
           type: 'unknown',
         },
         stringDefUnknownListOptional: {

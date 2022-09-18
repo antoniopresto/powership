@@ -35,27 +35,22 @@ describe('Object', () => {
     expect(sut).toEqual({
       '12Enum': {
         def: ['1', '2'],
-        list: false,
-        optional: false,
+
         type: 'enum',
       },
       __dschm__: {
         def: {
           id: null,
         },
-        list: false,
-        optional: false,
+
         type: 'meta',
       },
       age: {
-        list: false,
-        optional: false,
         type: 'int',
       },
       category: {
         def: ['general', 'closed'],
-        list: false,
-        optional: false,
+
         type: 'enum',
       },
       enumArray: {
@@ -69,12 +64,9 @@ describe('Object', () => {
         type: 'enum',
       },
       name: {
-        list: false,
-        optional: false,
         type: 'string',
       },
       optional: {
-        list: false,
         optional: true,
         type: 'string',
       },
@@ -272,18 +264,13 @@ describe('Object', () => {
     expect(object1.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
       age: {
-        list: false,
         optional: true,
         type: 'int',
       },
       name: {
-        list: false,
-        optional: false,
         type: 'string',
       },
       email: {
-        list: false,
-        optional: false,
         type: 'email',
       },
     });
@@ -291,13 +278,10 @@ describe('Object', () => {
     expect(noName.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
       age: {
-        list: false,
         optional: true,
         type: 'int',
       },
       email: {
-        list: false,
-        optional: false,
         type: 'email',
       },
     });
@@ -322,18 +306,13 @@ describe('Object', () => {
     expect(object1.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
       age: {
-        list: false,
         optional: true,
         type: 'int',
       },
       name: {
-        list: false,
-        optional: false,
         type: 'string',
       },
       email: {
-        list: false,
-        optional: false,
         type: 'email',
       },
     });
@@ -341,13 +320,10 @@ describe('Object', () => {
     expect(cloneNameAge.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
       age: {
-        list: false,
         optional: true,
         type: 'int',
       },
       name: {
-        list: false,
-        optional: false,
         type: 'string',
       },
     });
@@ -380,18 +356,13 @@ describe('Object', () => {
     expect(object1.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
       age: {
-        list: false,
         optional: true,
         type: 'int',
       },
       name: {
-        list: false,
-        optional: false,
         type: 'string',
       },
       email: {
-        list: false,
-        optional: false,
         type: 'email',
       },
     });
@@ -400,12 +371,10 @@ describe('Object', () => {
       [objectMetaFieldKey]: expect.anything(),
       emails: {
         list: true,
-        optional: false,
+
         type: 'email',
       },
       name: {
-        list: false,
-        optional: false,
         type: 'string',
       },
     });
@@ -429,18 +398,13 @@ describe('Object', () => {
     expect(object1.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
       age: {
-        list: false,
         optional: true,
         type: 'int',
       },
       name: {
-        list: false,
-        optional: false,
         type: 'string',
       },
       email: {
-        list: false,
-        optional: false,
         type: 'email',
       },
     });
@@ -448,17 +412,14 @@ describe('Object', () => {
     expect(clone.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
       age: {
-        list: false,
         optional: true,
         type: 'int',
       },
       name: {
-        list: false,
         optional: true,
         type: 'string',
       },
       email: {
-        list: false,
         optional: true,
         type: 'email',
       },
@@ -485,18 +446,13 @@ describe('Object', () => {
     expect(object1.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
       age: {
-        list: false,
         optional: true,
         type: 'int',
       },
       name: {
-        list: false,
-        optional: false,
         type: 'string',
       },
       email: {
-        list: false,
-        optional: false,
         type: 'email',
       },
     });
@@ -504,18 +460,12 @@ describe('Object', () => {
     expect(clone.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
       age: {
-        list: false,
-        optional: false,
         type: 'int',
       },
       name: {
-        list: false,
-        optional: false,
         type: 'string',
       },
       email: {
-        list: false,
-        optional: false,
         type: 'email',
       },
     });
@@ -542,13 +492,10 @@ describe('Object', () => {
     expect(object1.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
       age: {
-        list: false,
         optional: true,
         type: 'int',
       },
       name: {
-        list: false,
-        optional: false,
         type: 'string',
       },
     });
@@ -556,18 +503,13 @@ describe('Object', () => {
     expect(withEmail.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
       age: {
-        list: false,
         optional: true,
         type: 'int',
       },
       email: {
-        list: false,
-        optional: false,
         type: 'email',
       },
       name: {
-        list: false,
-        optional: false,
         type: 'string',
       },
     });

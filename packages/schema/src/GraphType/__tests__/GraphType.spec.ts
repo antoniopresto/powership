@@ -77,28 +77,21 @@ describe('createType', () => {
           def: {
             id: 'monkey',
           },
-          list: false,
-          optional: false,
+
           type: 'meta',
         },
         age: {
-          list: false,
           optional: true,
           type: 'int',
         },
         jumps: {
-          list: false,
-          optional: false,
           type: 'boolean',
         },
         name: {
-          list: false,
-          optional: false,
           type: 'string',
         },
       },
-      list: false,
-      optional: false,
+
       type: 'object',
     });
   });

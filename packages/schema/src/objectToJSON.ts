@@ -38,6 +38,7 @@ export function objectToJSON(
   if (isObject(object)) {
     definition = object.definition as FinalObjectDefinition;
   } else {
+    // @ts-ignore
     definition = createObjectType(object as ObjectDefinitionInput).definition;
   }
 

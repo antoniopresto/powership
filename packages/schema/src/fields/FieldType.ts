@@ -179,6 +179,12 @@ export abstract class FieldType<
       type: this.type,
     };
 
+    Object.entries(res).forEach(([k, v]) => {
+      if (v === undefined || v === false) {
+        delete res[k];
+      }
+    });
+
     return res as any;
   }
 

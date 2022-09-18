@@ -6,9 +6,9 @@ import { parseStringDefinition } from '../parseStringDefinition';
 const definitions = getKeys(types)
   .map((type) => {
     return [
-      [type, { type, optional: false, list: false }],
-      [`${type}?`, { type, optional: true, list: false }],
-      [`[${type}]`, { type, optional: false, list: true }],
+      [type, { type }],
+      [`${type}?`, { type, optional: true }],
+      [`[${type}]`, { type, list: true }],
       [`[${type}]?`, { type, optional: true, list: true }],
     ] as const;
   })
@@ -20,8 +20,6 @@ describe('parseStringDefinition', () => {
 
     expect(sut).toEqual({
       type: 'string',
-      list: false,
-      optional: false,
     });
   });
 

@@ -89,6 +89,7 @@ export function extendDefinition<Input>(
   }
 
   if (CircularDeps.ObjectType.is(obj)) {
+    // @ts-ignore
     return extendDefinition(obj.definition) as unknown as R;
   }
 
@@ -177,7 +178,7 @@ export function extendDefinition<Input>(
             }
           );
         }
-        clone[key].optional = false;
+        delete clone[key].optional;
       });
 
       return extendDefinition(clone);

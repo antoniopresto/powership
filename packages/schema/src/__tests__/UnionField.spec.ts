@@ -173,7 +173,7 @@ describe('Union', () => {
       union4ListOptional: {
         type: 'union',
         def: [{ enum: ['true', 'false'] }, 'boolean?'],
-        optional: false,
+
         list: true,
       },
     } as const);
@@ -183,57 +183,48 @@ describe('Union', () => {
         def: {
           id: null,
         },
-        list: false,
-        optional: false,
+
         type: 'meta',
       },
       union1: {
         def: [
           {
-            list: false,
-            optional: false,
             type: 'boolean',
           },
           {
             def: ['true', 'false'],
-            list: false,
-            optional: false,
+
             type: 'enum',
           },
         ],
-        list: false,
-        optional: false,
+
         type: 'union',
       },
       union1Optional: {
         def: [
           {
-            list: false,
             optional: true,
             type: 'boolean',
           },
           {
             def: ['true', 'false'],
-            list: false,
-            optional: false,
+
             type: 'enum',
           },
         ],
-        list: false,
+
         optional: true,
         type: 'union',
       },
       union1OptionalList: {
         def: [
           {
-            list: false,
             optional: true,
             type: 'boolean',
           },
           {
             def: ['true', 'false'],
-            list: false,
-            optional: false,
+
             type: 'enum',
           },
         ],
@@ -244,36 +235,30 @@ describe('Union', () => {
       union2: {
         def: [
           {
-            list: false,
-            optional: false,
             type: 'boolean',
           },
           {
             def: ['true', 'false'],
-            list: false,
-            optional: false,
+
             type: 'enum',
           },
         ],
-        list: false,
-        optional: false,
+
         type: 'union',
       },
       union2Optional: {
         def: [
           {
-            list: false,
             optional: true,
             type: 'boolean',
           },
           {
             def: ['true', 'false'],
-            list: false,
-            optional: false,
+
             type: 'enum',
           },
         ],
-        list: false,
+
         optional: true,
         type: 'union',
       },
@@ -281,13 +266,10 @@ describe('Union', () => {
         def: [
           {
             def: ['true', 'false'],
-            list: false,
-            optional: false,
+
             type: 'enum',
           },
           {
-            list: false,
-            optional: false,
             type: 'boolean',
           },
         ],
@@ -297,13 +279,10 @@ describe('Union', () => {
         def: [
           {
             def: ['true', 'false'],
-            list: false,
-            optional: false,
+
             type: 'enum',
           },
           {
-            list: false,
-            optional: false,
             type: 'boolean',
           },
         ],
@@ -315,13 +294,10 @@ describe('Union', () => {
         def: [
           {
             def: ['true', 'false'],
-            list: false,
-            optional: false,
+
             type: 'enum',
           },
           {
-            list: false,
-            optional: false,
             type: 'boolean',
           },
         ],
@@ -332,12 +308,10 @@ describe('Union', () => {
         def: [
           {
             def: ['true', 'false'],
-            list: false,
-            optional: false,
+
             type: 'enum',
           },
           {
-            list: false,
             optional: true,
             type: 'boolean',
           },
@@ -601,7 +575,7 @@ describe('Union', () => {
         union4ListOptional: {
           type: 'union',
           def: [{ enum: ['true', 'false'] }, 'boolean?'], // list containing undefined | boolean | 'true' | 'false'
-          optional: false,
+
           list: true,
         },
         union5ListOptional: {
@@ -612,7 +586,7 @@ describe('Union', () => {
             },
             'boolean?', // list containing undefined | boolean | 'true' | 'false'
           ],
-          optional: false,
+
           list: true, // list
         },
       } as const);

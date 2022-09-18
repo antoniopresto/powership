@@ -487,7 +487,7 @@ describe('Product', () => {
           def: {
             min: 3,
           },
-          list: false,
+
           optional: true,
           type: 'string',
         },
@@ -499,7 +499,7 @@ describe('Product', () => {
           def: {
             autoCreate: false,
           },
-          list: false,
+
           optional: true,
           type: 'ID',
         },
@@ -510,7 +510,6 @@ describe('Product', () => {
           def: {
             min: 3,
           },
-          list: false,
           optional: true,
           type: 'string',
         },
@@ -522,7 +521,7 @@ describe('Product', () => {
           def: {
             autoCreate: false,
           },
-          list: false,
+
           optional: true,
           type: 'ID',
         },

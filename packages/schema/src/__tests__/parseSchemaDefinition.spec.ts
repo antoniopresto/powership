@@ -31,13 +31,12 @@ describe('parseObjectDefinition', () => {
         def: {
           id: null,
         },
-        list: false,
-        optional: false,
+
         type: 'meta',
       },
       arrayString: {
         list: true,
-        optional: false,
+
         type: 'string',
       },
       arrayStringOptional: {
@@ -47,19 +46,17 @@ describe('parseObjectDefinition', () => {
       },
       enum: {
         def: ['a', 'b'],
-        list: false,
-        optional: false,
+
         type: 'enum',
       },
       fieldType: {
         def: ['a', 'x'],
-        list: false,
-        optional: false,
+
         type: 'enum',
       },
       fieldTypeOptional: {
         def: ['a', 'x'],
-        list: false,
+
         optional: true,
         type: 'enum',
       },
@@ -75,47 +72,37 @@ describe('parseObjectDefinition', () => {
             def: {
               id: null,
             },
-            list: false,
-            optional: false,
+
             type: 'meta',
           },
           name: {
-            list: false,
-            optional: false,
             type: 'string',
           },
         },
-        list: false,
-        optional: false,
+
         type: 'object',
       },
       objectIntDef: {
         type: 'int',
       },
       string: {
-        list: false,
-        optional: false,
         type: 'string',
       },
       stringOptional: {
-        list: false,
         optional: true,
         type: 'string',
       },
       unionAsFlattenDef: {
         def: [
           {
-            list: false,
-            optional: false,
             type: 'string',
           },
           {
-            list: false,
             optional: true,
             type: 'int',
           },
         ],
-        list: false,
+
         optional: true,
         type: 'union',
       },
@@ -165,13 +152,10 @@ describe('parseObjectDefinition', () => {
         def: {
           id: null,
         },
-        list: false,
-        optional: false,
+
         type: 'meta',
       },
       name: {
-        list: false,
-        optional: false,
         type: 'string',
       },
       object: {
@@ -180,24 +164,19 @@ describe('parseObjectDefinition', () => {
             def: {
               id: null,
             },
-            list: false,
-            optional: false,
+
             type: 'meta',
           },
           foo: {
-            list: false,
-            optional: false,
             type: 'string',
           },
           status: {
             def: ['open', 'closed'],
-            list: false,
-            optional: false,
+
             type: 'enum',
           },
         },
-        list: false,
-        optional: false,
+
         type: 'object',
       },
       objectAsObject: {
@@ -206,13 +185,10 @@ describe('parseObjectDefinition', () => {
             def: {
               id: null,
             },
-            list: false,
-            optional: false,
+
             type: 'meta',
           },
           age: {
-            list: false,
-            optional: false,
             type: 'int',
           },
           names: {
@@ -228,8 +204,7 @@ describe('parseObjectDefinition', () => {
                     def: {
                       id: null,
                     },
-                    list: false,
-                    optional: false,
+
                     type: 'meta',
                   },
                   points: {
@@ -238,23 +213,18 @@ describe('parseObjectDefinition', () => {
                     type: 'float',
                   },
                 },
-                list: false,
-                optional: false,
+
                 type: 'object',
               },
               {
-                list: false,
-                optional: false,
                 type: 'int',
               },
             ],
-            list: false,
-            optional: false,
+
             type: 'union',
           },
         },
-        list: false,
-        optional: false,
+
         type: 'object',
       },
       objectAsObjectList: {
@@ -263,13 +233,10 @@ describe('parseObjectDefinition', () => {
             def: {
               id: null,
             },
-            list: false,
-            optional: false,
+
             type: 'meta',
           },
           age: {
-            list: false,
-            optional: false,
             type: 'int',
           },
           names: {
@@ -285,8 +252,7 @@ describe('parseObjectDefinition', () => {
                     def: {
                       id: null,
                     },
-                    list: false,
-                    optional: false,
+
                     type: 'meta',
                   },
                   points: {
@@ -295,23 +261,19 @@ describe('parseObjectDefinition', () => {
                     type: 'float',
                   },
                 },
-                list: false,
-                optional: false,
+
                 type: 'object',
               },
               {
-                list: false,
-                optional: false,
                 type: 'int',
               },
             ],
-            list: false,
-            optional: false,
+
             type: 'union',
           },
         },
         list: true,
-        optional: false,
+
         type: 'object',
       },
       objectAsObjectListOptional: {
@@ -320,13 +282,10 @@ describe('parseObjectDefinition', () => {
             def: {
               id: null,
             },
-            list: false,
-            optional: false,
+
             type: 'meta',
           },
           age: {
-            list: false,
-            optional: false,
             type: 'int',
           },
           names: {
@@ -342,8 +301,7 @@ describe('parseObjectDefinition', () => {
                     def: {
                       id: null,
                     },
-                    list: false,
-                    optional: false,
+
                     type: 'meta',
                   },
                   points: {
@@ -352,18 +310,14 @@ describe('parseObjectDefinition', () => {
                     type: 'float',
                   },
                 },
-                list: false,
-                optional: false,
+
                 type: 'object',
               },
               {
-                list: false,
-                optional: false,
                 type: 'int',
               },
             ],
-            list: false,
-            optional: false,
+
             type: 'union',
           },
         },
@@ -377,24 +331,20 @@ describe('parseObjectDefinition', () => {
             def: {
               id: null,
             },
-            list: false,
-            optional: false,
+
             type: 'meta',
           },
           foo: {
-            list: false,
-            optional: false,
             type: 'string',
           },
           status: {
             def: ['open', 'closed'],
-            list: false,
-            optional: false,
+
             type: 'enum',
           },
         },
         list: true,
-        optional: false,
+
         type: 'object',
       },
       objectList: {
@@ -403,19 +353,15 @@ describe('parseObjectDefinition', () => {
             def: {
               id: null,
             },
-            list: false,
-            optional: false,
+
             type: 'meta',
           },
           foo: {
-            list: false,
-            optional: false,
             type: 'string',
           },
           status: {
             def: ['open', 'closed'],
-            list: false,
-            optional: false,
+
             type: 'enum',
           },
         },

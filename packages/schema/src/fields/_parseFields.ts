@@ -67,10 +67,10 @@ export type AllFinalFieldDefinitions = {
   [Type in FieldTypeName]: {
     alias?: string;
     def: FieldDefinitions[Type];
-    defaultValue: any;
-    description: string | undefined;
-    list: boolean;
-    optional: boolean;
+    defaultValue?: any;
+    description?: string | undefined;
+    list?: boolean;
+    optional?: boolean;
     type: Type;
   };
 };
@@ -96,6 +96,18 @@ export type FieldAsString =
   | `${FieldTypeName}?`
   | `[${FieldTypeName}]`
   | `[${FieldTypeName}]?`;
+
+type _FieldAsString<T extends FieldTypeName> =
+  | T
+  | `${T}?`
+  | `[${T}]`
+  | `[${T}]?`;
+
+export type ShortenFinalFieldDefinition = {
+  [Type in FieldTypeName]: {
+    [K in _FieldAsString<Type>]: K | { [L in K]: FieldDefinitions[Type] | {} };
+  }[_FieldAsString<Type>];
+}[FieldTypeName];
 
 export type ToFinalField<Base> =
   //

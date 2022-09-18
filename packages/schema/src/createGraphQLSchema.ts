@@ -314,7 +314,7 @@ async function convertType(options: {
 }) {
   const { entryName, type, kind } = options;
 
-  const parsed = parseFieldDefinitionConfig(type);
+  const parsed = parseFieldDefinitionConfig(type, { deep: { omitMeta: true } });
 
   const { description } = parsed;
 
@@ -324,7 +324,7 @@ async function convertType(options: {
     {
       __CONVERT__REPLACE__: {
         ...type,
-        description: undefined, // prevents breaking the `export type...` etc, above. to improve.
+        // prevents breaking the `export type...` etc, above. to improve.
       },
     },
     {

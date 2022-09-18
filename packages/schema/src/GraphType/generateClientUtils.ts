@@ -163,7 +163,9 @@ export async function saveGraphQLClientUtils(
 }
 
 function rehydrateType(name: string, field: any) {
-  const parsed = parseFieldDefinitionConfig(field);
+  const parsed = parseFieldDefinitionConfig(field, {
+    deep: { omitMeta: true },
+  });
   const json = JSON.stringify(parsed);
   return `GraphType.getOrSet("${name}", ${json} as const)`;
 }

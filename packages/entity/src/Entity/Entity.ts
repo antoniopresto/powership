@@ -10,10 +10,10 @@ import { isMetaFieldKey } from '@brabo/schema/lib/fields/MetaFieldField';
 import { createProxy, ensureArray, simpleObjectClone } from '@brabo/utils';
 import { RuntimeError } from '@brabo/utils/lib/RuntimeError';
 import { devAssert } from '@brabo/utils/lib/devAssert';
-import { hooks } from 'plugin-hooks';
 import { nonNullValues, notNull } from '@brabo/utils/lib/invariant';
 import { capitalize } from '@brabo/utils/lib/stringCase';
 import { AnyFunction } from '@brabo/utils/lib/typeUtils';
+import { hooks } from 'plugin-hooks';
 
 import {
   CollectionIndexConfig,
@@ -464,7 +464,7 @@ export function createEntity<
           },
           filter: {
             def: filter,
-            optional: false,
+
             type: 'object',
           },
           first: {

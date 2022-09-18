@@ -8,8 +8,15 @@ export function assertSameDefinition(
   a: ObjectDefinitionInput,
   b: ObjectDefinitionInput
 ) {
-  a = parseObjectDefinition(a, { omitMeta: true }).definition;
-  b = parseObjectDefinition(b, { omitMeta: true }).definition;
+  a = parseObjectDefinition(a, {
+    deep: { omitMeta: true },
+    omitMeta: true,
+  }).definition;
+
+  b = parseObjectDefinition(b, {
+    deep: { omitMeta: true },
+    omitMeta: true,
+  }).definition;
 
   assertSame(
     `An Object with name "${id}" is already registered with another definition.`,
