@@ -1,5 +1,5 @@
 {
-  "name": "@brabo/utils",
+  "name": "@darch/utils",
   "version": "0.1.0",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
@@ -25,7 +25,7 @@
     "declarations": "tsc -p tsconfig.json",
     "babild": "babel 'src' --extensions '.ts,.tsx' --source-maps=true --ignore '**/__tests__'"
   },
-  "description": "brabo utils and helper functions",
+  "description": "darch utils and helper functions",
   "keywords": [],
   "dependencies": {
     "big.js": "6.2.1",
@@ -53,7 +53,7 @@
     "@babel/plugin-transform-typescript": "7.18.6",
     "@babel/preset-env": "7.18.6",
     "@babel/preset-typescript": "7.18.6",
-    "@brabo/babel-plugins": "^0.1.0",
+    "@darch/babel-plugins": "^0.1.0",
     "@types/big.js": "6.1.5",
     "@types/ejson": "2.2.0",
     "@types/fs-extra": "9.0.13",

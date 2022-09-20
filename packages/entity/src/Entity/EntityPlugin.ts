@@ -1,4 +1,4 @@
-import { FinalFieldDefinition } from '@brabo/schema';
+import { FinalFieldDefinition } from '@darch/schema';
 import { Parallel, Waterfall } from 'plugin-hooks';
 
 import { DocumentBase } from '../Transporter';

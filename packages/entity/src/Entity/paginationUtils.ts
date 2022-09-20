@@ -1,4 +1,4 @@
-import { createType, GraphType, GraphTypeLike, Infer } from '@brabo/schema';
+import { createType, GraphType, GraphTypeLike, Infer } from '@darch/schema';
 
 export const PageInfoType = createType('PageInfo', {
   object: {

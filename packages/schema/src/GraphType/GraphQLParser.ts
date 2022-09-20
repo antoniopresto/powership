@@ -1,10 +1,10 @@
-import { assertEqual, BJSON } from '@brabo/utils';
-import { RuntimeError } from '@brabo/utils/lib/RuntimeError';
-import { StrictMap } from '@brabo/utils/lib/StrictMap';
-import { assertSame } from '@brabo/utils/lib/assertSame';
-import { isProduction } from '@brabo/utils/lib/env';
-import { hooks } from '@brabo/utils/lib/hooks';
-import { nonNullValues } from '@brabo/utils/lib/invariant';
+import { assertEqual, DJSON } from '@darch/utils';
+import { RuntimeError } from '@darch/utils/lib/RuntimeError';
+import { StrictMap } from '@darch/utils/lib/StrictMap';
+import { assertSame } from '@darch/utils/lib/assertSame';
+import { isProduction } from '@darch/utils/lib/env';
+import { hooks } from '@darch/utils/lib/hooks';
+import { nonNullValues } from '@darch/utils/lib/invariant';
 import {
   GraphQLBoolean,
   GraphQLEnumType,
@@ -685,7 +685,7 @@ export class GraphQLParser {
 export function describeField(field: FinalFieldDefinition) {
   if (field.alias) return field.alias;
 
-  return BJSON.stringify(field, {
+  return DJSON.stringify(field, {
     handler(payload) {
       const { value } = payload;
 

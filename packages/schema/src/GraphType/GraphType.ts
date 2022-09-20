@@ -1,8 +1,8 @@
-import { RuntimeError } from '@brabo/utils/lib/RuntimeError';
-import { StrictMap } from '@brabo/utils/lib/StrictMap';
-import { assertSame } from '@brabo/utils/lib/assertSame';
-import { isProduction } from '@brabo/utils/lib/env';
-import { isBrowser } from '@brabo/utils/lib/isBrowser';
+import { RuntimeError } from '@darch/utils/lib/RuntimeError';
+import { StrictMap } from '@darch/utils/lib/StrictMap';
+import { assertSame } from '@darch/utils/lib/assertSame';
+import { isProduction } from '@darch/utils/lib/env';
+import { isBrowser } from '@darch/utils/lib/isBrowser';
 import type {
   GraphQLInterfaceType,
   GraphQLNamedInputType,
@@ -77,7 +77,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
       }
     } else {
       if (!isBrowser()) {
-        CircularDeps.typesWriter?.BraboWatchTypesPubSub.emit('created', {
+        CircularDeps.typesWriter?.DarchWatchTypesPubSub.emit('created', {
           graphType: this,
         });
       }

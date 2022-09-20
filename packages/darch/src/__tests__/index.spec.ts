@@ -1,5 +1,5 @@
-import { createEntity } from '@brabo/entity';
-import { createType, ObjectType } from '@brabo/schema';
+import { createEntity } from '@darch/entity';
+import { createType, ObjectType } from '@darch/schema';
 import { assert, IsExact } from 'conditional-type-checks';
 
 describe('index', () => {

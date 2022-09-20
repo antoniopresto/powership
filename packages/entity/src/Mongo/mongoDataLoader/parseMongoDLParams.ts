@@ -1,5 +1,5 @@
-import { BJSON } from '@brabo/utils/lib/BJSON';
-import { hashObject } from '@brabo/utils/lib/hashObject';
+import { DJSON } from '@darch/utils/lib/DJSON';
+import { hashObject } from '@darch/utils/lib/hashObject';
 import { ObjectId } from 'mongodb';
 
 import { MongoDataLoaderKey, MongoFindManyParams } from './IMongoDataLoader';
@@ -14,7 +14,7 @@ export function parseMongoDLParams(options: MongoFindManyParams) {
     sort: options.sort,
   });
 
-  const queryHash = BJSON.stringify(options.query, {
+  const queryHash = DJSON.stringify(options.query, {
     handler({ value, serializer }) {
       if (serializer) return undefined;
       if (!isObjectId(value)) return undefined;

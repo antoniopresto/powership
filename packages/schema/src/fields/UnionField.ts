@@ -1,6 +1,6 @@
-import { getTypeName } from '@brabo/utils/lib/getTypeName';
-import { inspectObject } from '@brabo/utils/lib/inspectObject';
-import { uniq } from '@brabo/utils/lib/uniq';
+import { getTypeName } from '@darch/utils/lib/getTypeName';
+import { inspectObject } from '@darch/utils/lib/inspectObject';
+import { uniq } from '@darch/utils/lib/uniq';
 
 import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';

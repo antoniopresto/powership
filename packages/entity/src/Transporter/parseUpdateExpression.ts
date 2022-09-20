@@ -1,6 +1,6 @@
-import { RuntimeError } from '@brabo/utils/lib/RuntimeError';
-import { ensureArray } from '@brabo/utils/lib/ensureArray';
-import { getKeys } from '@brabo/utils/lib/getKeys';
+import { RuntimeError } from '@darch/utils/lib/RuntimeError';
+import { ensureArray } from '@darch/utils/lib/ensureArray';
+import { getKeys } from '@darch/utils/lib/getKeys';
 
 import { AnyCollectionIndexConfig } from './CollectionIndex';
 import { UpdateExpression, UpdateExpressionKey } from './Transporter';

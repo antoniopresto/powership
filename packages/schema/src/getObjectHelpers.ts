@@ -1,4 +1,4 @@
-import { getKeys } from '@brabo/utils/lib/getKeys';
+import { getKeys } from '@darch/utils/lib/getKeys';
 
 import type { FinalFieldDefinition } from './ObjectType';
 import { AnyField } from './fields/AnyField';

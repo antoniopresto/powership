@@ -1,5 +1,5 @@
 {
-  "name": "@brabo/babel-plugins",
+  "name": "@darch/babel-plugins",
   "version": "0.1.0",
   "main": "lib",
   "typings": "lib",
@@ -13,7 +13,7 @@
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint src --ext .ts --fix"
   },
-  "description": "brabo babel plugins",
+  "description": "darch babel plugins",
   "keywords": [],
   "devDependencies": {
     "@babel/core": "7.18.9",

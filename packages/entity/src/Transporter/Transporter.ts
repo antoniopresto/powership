@@ -1,9 +1,9 @@
-import { CircularDeps } from '@brabo/schema';
-import { MaybePromise } from '@brabo/utils';
-import { RuntimeError } from '@brabo/utils/lib/RuntimeError';
-import { devAssert } from '@brabo/utils/lib/devAssert';
-import { getTypeName } from '@brabo/utils/lib/getTypeName';
-import { MaybeArray, tuple } from '@brabo/utils/lib/typeUtils';
+import { CircularDeps } from '@darch/schema';
+import { MaybePromise } from '@darch/utils';
+import { RuntimeError } from '@darch/utils/lib/RuntimeError';
+import { devAssert } from '@darch/utils/lib/devAssert';
+import { getTypeName } from '@darch/utils/lib/getTypeName';
+import { MaybeArray, tuple } from '@darch/utils/lib/typeUtils';
 
 import {
   CollectionIndexConfig,

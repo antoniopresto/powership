@@ -1,4 +1,4 @@
-import { MaybePromise } from '@brabo/utils';
+import { MaybePromise } from '@darch/utils';
 import {
   GraphQLField,
   GraphQLFieldConfig,
@@ -127,7 +127,7 @@ export function createResolver(
 
   GraphType.resolvers.set(name, result);
 
-  CircularDeps.typesWriter?.BraboWatchTypesPubSub.emit('created', {
+  CircularDeps.typesWriter?.DarchWatchTypesPubSub.emit('created', {
     resolver: result,
   });
 

@@ -1,8 +1,8 @@
-import { MaybePromise, PromiseType } from '@brabo/utils/lib/typeUtils';
+import { MaybePromise, PromiseType } from '@darch/utils/lib/typeUtils';
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
-import { createBraboObject, ObjectType } from '../../ObjectType';
+import { createDarchObject, ObjectType } from '../../ObjectType';
 import { createResolver } from '../../Resolver';
 import { GraphType } from '../GraphType';
 
@@ -12,7 +12,7 @@ describe('createResolver', () => {
   });
 
   it('Should create a Resolver', () => {
-    const UserType = createBraboObject('User', {
+    const UserType = createDarchObject('User', {
       name: { string: {}, description: 'the user name' },
       id: 'ulid',
     });
@@ -65,12 +65,12 @@ describe('createResolver', () => {
   });
 
   it('Should create complex types preserving names', () => {
-    const user = createBraboObject('user', {
+    const user = createDarchObject('user', {
       name: 'string',
       age: 'int?',
     });
 
-    const userAddress = createBraboObject('UserAddress', {
+    const userAddress = createDarchObject('UserAddress', {
       street: 'string',
       number: 'int?',
     }).describe('The user address');

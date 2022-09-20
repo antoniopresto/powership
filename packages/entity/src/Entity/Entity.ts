@@ -5,14 +5,14 @@ import {
   GraphType,
   ObjectDefinitionInput,
   ObjectType,
-} from '@brabo/schema';
-import { isMetaFieldKey } from '@brabo/schema/lib/fields/MetaFieldField';
-import { createProxy, ensureArray, simpleObjectClone } from '@brabo/utils';
-import { RuntimeError } from '@brabo/utils/lib/RuntimeError';
-import { devAssert } from '@brabo/utils/lib/devAssert';
-import { nonNullValues, notNull } from '@brabo/utils/lib/invariant';
-import { capitalize } from '@brabo/utils/lib/stringCase';
-import { AnyFunction } from '@brabo/utils/lib/typeUtils';
+} from '@darch/schema';
+import { isMetaFieldKey } from '@darch/schema/lib/fields/MetaFieldField';
+import { createProxy, ensureArray, simpleObjectClone } from '@darch/utils';
+import { RuntimeError } from '@darch/utils/lib/RuntimeError';
+import { devAssert } from '@darch/utils/lib/devAssert';
+import { nonNullValues, notNull } from '@darch/utils/lib/invariant';
+import { capitalize } from '@darch/utils/lib/stringCase';
+import { AnyFunction } from '@darch/utils/lib/typeUtils';
 import { hooks } from 'plugin-hooks';
 
 import {

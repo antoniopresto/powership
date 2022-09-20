@@ -1,4 +1,4 @@
-import { IsKnown } from '@brabo/utils';
+import { IsKnown } from '@darch/utils';
 
 import { GraphType } from './GraphType/GraphType';
 import { ObjectLike } from './fields/IObjectLike';

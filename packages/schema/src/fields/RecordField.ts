@@ -1,5 +1,5 @@
-import { expectedType } from '@brabo/utils/lib/expectedType';
-import { inspectObject } from '@brabo/utils/lib/inspectObject';
+import { expectedType } from '@darch/utils/lib/expectedType';
+import { inspectObject } from '@darch/utils/lib/inspectObject';
 
 import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';

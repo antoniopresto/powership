@@ -2,7 +2,7 @@
  * Used to represent an object as another object field
  */
 
-import { TypeLike } from '@brabo/utils/lib/typeUtils';
+import { TypeLike } from '@darch/utils/lib/typeUtils';
 
 import { CircularDeps } from '../CircularDeps';
 import type { ObjectDefinitionInput } from '../ObjectType';

@@ -1,6 +1,6 @@
-import { BJSON, capitalize, notNull } from '@brabo/utils';
-import { formatGraphQL } from '@brabo/utils/lib/formatGraphQL';
-import { tupleEnum } from '@brabo/utils/lib/typeUtils';
+import { DJSON, capitalize, notNull } from '@darch/utils';
+import { formatGraphQL } from '@darch/utils/lib/formatGraphQL';
+import { tupleEnum } from '@darch/utils/lib/typeUtils';
 import type { GraphQLSchemaConfig } from 'graphql';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 import groupBy from 'lodash/groupBy';
@@ -392,7 +392,7 @@ function queryExamples({
             typeof example === 'string'
               ? `"${example}"`
               : example && typeof example === 'object'
-              ? BJSON.stringify(example, {
+              ? DJSON.stringify(example, {
                   quoteKeys(str) {
                     if (str.match(/[-.]/)) return `"${str}"`;
                     return str;

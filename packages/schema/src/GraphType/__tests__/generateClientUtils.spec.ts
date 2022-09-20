@@ -42,7 +42,7 @@ describe('schema.getGraphQLTypescript', () => {
       '',
       '/* eslint-disable */',
       '',
-      "import { GraphType } from '@brabo/schema';",
+      "import { GraphType } from '@darch/schema';",
       '',
       'export type GraphQLClientError = { message: string; path: string[] };',
       '',

@@ -25,7 +25,7 @@ export async function generateClientUtils(schema: GraphQLSchemaWithUtils) {
     '/* istanbul ignore file */',
     '/* eslint-disable */',
     //
-    "import { GraphType } from '@brabo/schema';\n\n",
+    "import { GraphType } from '@darch/schema';\n\n",
     '\nexport type GraphQLClientError = { message: string, path: string[] };\n', //
     '\nexport type ID = number | string;\n', //
     `\nexport type GraphQLClientResponse<Result> = {data: Result, errors: null} | {data: null, errors: GraphQLClientError[]}\n`,

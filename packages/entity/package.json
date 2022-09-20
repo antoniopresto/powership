@@ -1,5 +1,5 @@
 {
-  "name": "@brabo/entity",
+  "name": "@darch/entity",
   "version": "0.1.0",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
@@ -18,10 +18,10 @@
     "declarations": "tsc -p tsconfig.declarations.json",
     "babild": "babel 'src' --extensions '.ts,.tsx'"
   },
-  "description": "Brabo db",
+  "description": "Darch db",
   "repository": {
     "type": "git",
-    "url": "https://github.com/antoniopresto/brabo/tree/master/packages/db"
+    "url": "https://github.com/antoniopresto/darch/tree/master/packages/db"
   },
   "keywords": [
     "typescript",
@@ -32,8 +32,8 @@
     "inference"
   ],
   "dependencies": {
-    "@brabo/schema": "^0.1.0",
-    "@brabo/utils": "^0.1.0",
+    "@darch/schema": "^0.1.0",
+    "@darch/utils": "^0.1.0",
     "dataloader": "2.1.0",
     "sift": "16.0.0",
     "plugin-hooks": "^1.1.3"
@@ -43,7 +43,7 @@
     "@babel/plugin-transform-typescript": "7.18.6",
     "@babel/preset-env": "7.18.6",
     "@babel/preset-typescript": "7.18.6",
-    "@brabo/babel-plugins": "^0.1.0",
+    "@darch/babel-plugins": "^0.1.0",
     "@types/jest": "27.0.3",
     "@types/node": "16.11.12",
     "@typescript-eslint/eslint-plugin": "4.15.2",

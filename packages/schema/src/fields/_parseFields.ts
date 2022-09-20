@@ -1,4 +1,4 @@
-import { IsKnown, NullableToPartial } from '@brabo/utils';
+import { IsKnown, NullableToPartial } from '@darch/utils';
 
 import {
   CommonFieldDefinition,
@@ -162,7 +162,7 @@ export type _toFinalField<Base> = {
     Base extends {
         list?: infer List;
         optional?: infer Optional;
-        type: { __isBraboObject: true; definition: infer Def };
+        type: { __isDarchObject: true; definition: infer Def };
       }
     ? {
         __infer: InferObjectDefinition<Def>;
@@ -173,7 +173,7 @@ export type _toFinalField<Base> = {
       }
     : Base extends {
         list?: infer List;
-        object: { __isBraboObject: true; definition: infer Def };
+        object: { __isDarchObject: true; definition: infer Def };
         optional?: infer Optional;
       }
     ? {
@@ -185,7 +185,7 @@ export type _toFinalField<Base> = {
       }
     : //
     //
-    Base extends { __isBraboObject: true; definition: infer Def }
+    Base extends { __isDarchObject: true; definition: infer Def }
     ? {
         __infer: InferObjectDefinition<Def>;
         def: Def;
@@ -417,7 +417,7 @@ type _inferBasic<Type, Def = undefined> =
     : never;
 
 interface _ObjectType {
-  __isBraboObject: true;
+  __isDarchObject: true;
   definition: unknown;
 }
 

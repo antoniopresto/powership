@@ -1,4 +1,4 @@
-import { getTypeName } from '@brabo/utils/lib/getTypeName';
+import { getTypeName } from '@darch/utils/lib/getTypeName';
 
 import { FieldType, FieldTypeParser } from './FieldType';
 export class BooleanField extends FieldType<boolean, 'boolean', undefined> {

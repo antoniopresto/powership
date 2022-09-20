@@ -1,4 +1,4 @@
-import { RuntimeError } from '@brabo/utils/lib/RuntimeError';
+import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import get from 'lodash/get';
 import setWith from 'lodash/setWith';
 

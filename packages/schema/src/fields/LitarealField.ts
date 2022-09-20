@@ -1,7 +1,7 @@
-import { BJSON } from '@brabo/utils/lib/BJSON';
-import { RuntimeError } from '@brabo/utils/lib/RuntimeError';
-import { getTypeName } from '@brabo/utils/lib/getTypeName';
-import { Serializable } from '@brabo/utils/lib/typeUtils';
+import { DJSON } from '@darch/utils/lib/DJSON';
+import { RuntimeError } from '@darch/utils/lib/RuntimeError';
+import { getTypeName } from '@darch/utils/lib/getTypeName';
+import { Serializable } from '@darch/utils/lib/typeUtils';
 
 import { FieldType, FieldTypeParser } from './FieldType';
 
@@ -27,7 +27,7 @@ export class LiteralField<T extends Readonly<Serializable>> extends FieldType<
       if (def[PROTO_KEY] === typename) return def.value;
 
       try {
-        return BJSON.parse(def.value);
+        return DJSON.parse(def.value);
       } catch (e) {
         throw new RuntimeError(`Failed deserialize value`, {
           ...def,
@@ -39,7 +39,7 @@ export class LiteralField<T extends Readonly<Serializable>> extends FieldType<
       if (typeof value === 'string') return value;
 
       try {
-        return BJSON.stringify(value);
+        return DJSON.stringify(value);
       } catch (e) {
         throw new RuntimeError(`Failed to serialize`, {
           //

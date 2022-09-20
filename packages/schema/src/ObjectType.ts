@@ -1,12 +1,12 @@
-import { IsKnown } from '@brabo/utils';
-import { RuntimeError } from '@brabo/utils/lib/RuntimeError';
-import { StrictMap } from '@brabo/utils/lib/StrictMap';
-import { ensureArray } from '@brabo/utils/lib/ensureArray';
-import { isProduction } from '@brabo/utils/lib/env';
-import { expectedType } from '@brabo/utils/lib/expectedType';
-import { getTypeName } from '@brabo/utils/lib/getTypeName';
-import { invariantType } from '@brabo/utils/lib/invariant';
-import { Serializable } from '@brabo/utils/lib/typeUtils';
+import { IsKnown } from '@darch/utils';
+import { RuntimeError } from '@darch/utils/lib/RuntimeError';
+import { StrictMap } from '@darch/utils/lib/StrictMap';
+import { ensureArray } from '@darch/utils/lib/ensureArray';
+import { isProduction } from '@darch/utils/lib/env';
+import { expectedType } from '@darch/utils/lib/expectedType';
+import { getTypeName } from '@darch/utils/lib/getTypeName';
+import { invariantType } from '@darch/utils/lib/invariant';
+import { Serializable } from '@darch/utils/lib/typeUtils';
 import type { GraphQLInterfaceType, GraphQLObjectType } from 'graphql';
 
 import { CircularDeps } from './CircularDeps';
@@ -49,7 +49,7 @@ import type { ObjectToTypescriptOptions } from './objectToTypescript';
 import { parseObjectDefinition } from './parseObjectDefinition';
 import { withCache, WithCache } from './withCache';
 
-export { RuntimeError } from '@brabo/utils/lib/RuntimeError';
+export { RuntimeError } from '@darch/utils/lib/RuntimeError';
 export * from './parseObjectDefinition';
 export * from './objectInferenceUtils';
 export * from './implementObject';
@@ -71,11 +71,11 @@ export class ObjectType<
     };
   }
 
-  get __isBraboObject(): true {
+  get __isDarchObject(): true {
     return true;
   }
 
-  static __isBraboObject: boolean = true;
+  static __isDarchObject: boolean = true;
 
   private readonly __definition: any;
 
@@ -417,7 +417,7 @@ export class ObjectType<
   }
 }
 
-export const BraboObject = ObjectType;
+export const DarchObject = ObjectType;
 
 export function createObjectType<
   DefinitionInput extends Readonly<ObjectDefinitionInput>
@@ -446,7 +446,7 @@ export function createObjectType<
   return new ObjectType(fields) as any;
 }
 
-export const createBraboObject = createObjectType;
+export const createDarchObject = createObjectType;
 export const createSchema = createObjectType;
 
 type _HandleInput<T> = [IsKnown<T>] extends [1]

@@ -1,4 +1,4 @@
-import { RuntimeError } from '@brabo/utils/lib/RuntimeError';
+import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import DataLoader from 'dataloader';
 import sift from 'sift';
 

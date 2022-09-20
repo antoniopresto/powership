@@ -1,5 +1,5 @@
-import { inspectObject, tupleEnum } from '@brabo/utils';
-import { NodeLogger } from '@brabo/utils/lib/nodeLogger';
+import { inspectObject, tupleEnum } from '@darch/utils';
+import { NodeLogger } from '@darch/utils/lib/nodeLogger';
 
 import type { InvalidParsedIndexField } from './CollectionIndex';
 

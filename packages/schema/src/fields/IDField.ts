@@ -1,4 +1,4 @@
-import { expectedType } from '@brabo/utils/lib/expectedType';
+import { expectedType } from '@darch/utils/lib/expectedType';
 
 import { CircularDeps } from '../CircularDeps';
 

@@ -12,20 +12,20 @@
     call-me-maybe "^1.0.1"
     js-yaml "^4.1.0"
 
-"@brabo/entity@^0.1.0", "@brabo/entity@file:../../entity":
+"@darch/entity@^0.1.0", "@darch/entity@file:../../entity":
   version "0.1.0"
   dependencies:
-    "@brabo/schema" "^0.1.0"
-    "@brabo/utils" "^0.1.0"
+    "@darch/schema" "^0.1.0"
+    "@darch/utils" "^0.1.0"
     dataloader "2.1.0"
     sift "16.0.0"
 
-"@brabo/schema@^0.1.0", "@brabo/schema@file:..", "@brabo/schema@file:../":
+"@darch/schema@^0.1.0", "@darch/schema@file:..", "@darch/schema@file:../":
   version "0.1.0"
   dependencies:
-    "@brabo/utils" "^0.1.0"
+    "@darch/utils" "^0.1.0"
 
-"@brabo/utils@^0.1.0", "@brabo/utils@file:../../utils":
+"@darch/utils@^0.1.0", "@darch/utils@file:../../utils":
   version "0.1.0"
   dependencies:
     big.js "6.2.1"
@@ -266,12 +266,12 @@ big.js@6.2.1:
   resolved "https://registry.yarnpkg.com/big.js/-/big.js-6.2.1.tgz#7205ce763efb17c2e41f26f121c420c6a7c2744f"
   integrity sha512-bCtHMwL9LeDIozFn+oNhhFoq+yQ3BNdnsLSASUxLciOb1vgvpHsIO1dsENiGMgbb4SkP5TrzWzRiLddn8ahVOQ==
 
-"brabo@file:../../brabo":
+"darch@file:../../darch":
   version "0.1.0"
   dependencies:
-    "@brabo/entity" "^0.1.0"
-    "@brabo/schema" "^0.1.0"
-    "@brabo/utils" "^0.1.0"
+    "@darch/entity" "^0.1.0"
+    "@darch/schema" "^0.1.0"
+    "@darch/utils" "^0.1.0"
 
 brace-expansion@^1.1.7:
   version "1.1.11"

@@ -66,7 +66,7 @@ describe('generateQuery', () => {
       },
     });
 
-    const braboResolver = createResolver({
+    const darchResolver = createResolver({
       type: ProductType,
       name: 'getProductById',
       description: 'Get a product by ID',
@@ -85,7 +85,7 @@ describe('generateQuery', () => {
       },
     });
 
-    const graphQLField = braboResolver.asObjectField('productById');
+    const graphQLField = darchResolver.asObjectField('productById');
     const sut = getQueryTemplates({
       graphQLField,
       queryKind: 'mainQuery',
@@ -129,7 +129,7 @@ describe('generateQuery', () => {
       },
     } as const);
 
-    const braboResolver = createResolver({
+    const darchResolver = createResolver({
       type: ProductType,
       name: 'getMemberKind',
       args: {
@@ -140,7 +140,7 @@ describe('generateQuery', () => {
       },
     });
 
-    const graphQLField = braboResolver.asObjectField();
+    const graphQLField = darchResolver.asObjectField();
 
     const sut = getQueryTemplates({
       graphQLField,

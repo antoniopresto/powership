@@ -3,8 +3,8 @@ import { assert, IsExact } from 'conditional-type-checks';
 import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';
 
-describe('Brabo aliases', () => {
-  afterEach(CircularDeps.BraboObject.reset);
+describe('Darch aliases', () => {
+  afterEach(CircularDeps.DarchObject.reset);
 
   test('type creators', async () => {
     expect(CircularDeps.enum(['m']).definition).toEqual({

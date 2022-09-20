@@ -7,5 +7,5 @@ export function isObjectValidationError(
 }
 
 export function isObject(input: any): input is ObjectType<any> {
-  return input?.__isBraboObject === true;
+  return input?.__isDarchObject === true;
 }
