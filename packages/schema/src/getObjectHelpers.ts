@@ -1,33 +1,30 @@
 import { getKeys } from '@brabo/utils/lib/getKeys';
 
-import type { FinalFieldDefinition, ObjectType } from './ObjectType';
+import type { FinalFieldDefinition } from './ObjectType';
 import { AnyField } from './fields/AnyField';
 import { isMetaFieldKey, MetaFieldDef } from './fields/MetaFieldField';
-import { ObjectDefinitionInput } from './fields/_parseFields';
 import { __getCachedFieldInstance } from './parseObjectDefinition';
 
-export type ObjectFieldListItem<T extends ObjectDefinitionInput> = {
+export type ObjectFieldListItem = {
   instance: AnyField;
-  name: Extract<keyof T, string>;
+  name: string;
   plainField: FinalFieldDefinition;
 };
 
-export type ObjectHelpers<T extends ObjectDefinitionInput> = {
-  keys: Extract<keyof T, string>[];
-  list: ObjectFieldListItem<T>[];
+export type ObjectHelpers = {
+  keys: string[];
+  list: ObjectFieldListItem[];
   meta: MetaFieldDef | undefined;
 };
 
-export function getObjectHelpers<T extends ObjectDefinitionInput>(
-  object: ObjectType<T>
-): ObjectHelpers<T> {
-  const list: ObjectFieldListItem<T>[] = [];
+export function getObjectHelpers(object: any): ObjectHelpers {
+  const list: ObjectFieldListItem[] = [];
   const definition = object.definition;
   const keys = getKeys(object.definition);
   let meta: MetaFieldDef | undefined;
 
   keys.forEach((fieldName) => {
-    const field: FinalFieldDefinition = definition[fieldName];
+    const field = definition[fieldName];
 
     if (isMetaFieldKey(fieldName)) {
       return (meta = field.def);

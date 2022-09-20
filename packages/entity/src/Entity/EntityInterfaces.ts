@@ -1,19 +1,15 @@
 import {
-  ExtendDefinitionResult,
   GraphType,
   ObjectDefinitionInput,
   ObjectFieldInput,
   parseObjectDefinition,
   ToFinalField,
 } from '@brabo/schema';
-import { MaybeArray, UnionToIntersection } from '@brabo/utils';
+import { UnionToIntersection } from '@brabo/utils';
 
 import {
-  AnyCollectionIndexConfig,
-  CollectionConfigIndexes,
   CreateOneResult,
   DocumentBase,
-  DocumentIndexItem,
   DocumentMethods,
   LoaderContext,
   ParsedDocumentIndexes,
@@ -21,16 +17,8 @@ import {
   TransporterLoaderName,
 } from '../Transporter';
 
-import {
-  EntityGraphQLConditionsType,
-  EntityGraphQLFieldConditionsType,
-} from './EntityFilterConditionType';
-import {
-  EntityDocFromType,
-  EntityFieldResolver,
-  EntityOptions,
-} from './EntityOptions';
-import { EntityHookOptions } from './EntityPlugin';
+import { EntityGraphQLConditionsType } from './EntityFilterConditionType';
+import { EntityDocFromType, EntityOptions } from './EntityOptions';
 import { EntityOperationInfosRecord } from './entityOperationContextTypes';
 import { EdgeType, PaginationType } from './paginationUtils';
 
@@ -54,31 +42,31 @@ export const createEntityDefaultFields = () =>
     },
   });
 
-type GetLoaderFilterDef<Loader, DocDef> = Loader extends (
-  config: infer Config
-) => any
-  ? Config extends { filter: infer Filter }
-    ? UnionToIntersection<Filter> extends infer AllFilter
-      ? {
-          [K in keyof AllFilter as K extends keyof DocDef
-            ? K
-            : never]: K extends keyof DocDef ? DocDef[K] : never;
-        } extends infer R
-        ? {
-            // transforming optional args as optional field definitions
-            [K in keyof R]-?: [Extract<R[K], undefined>] extends [never]
-              ? ToFinalField<R[K]>
-              : Omit<
-                  ToFinalField<Exclude<R[K], undefined>>,
-                  '__infer' | 'optional'
-                > & { optional: true } extends infer F
-              ? { [K in keyof F]: F[K] } & {}
-              : never;
-          }
-        : never
-      : never
-    : never
-  : never;
+// type GetLoaderFilterDef<Loader, DocDef> = Loader extends (
+//   config: infer Config
+// ) => any
+//   ? Config extends { filter: infer Filter }
+//     ? UnionToIntersection<Filter> extends infer AllFilter
+//       ? {
+//           [K in keyof AllFilter as K extends keyof DocDef
+//             ? K
+//             : never]: K extends keyof DocDef ? DocDef[K] : never;
+//         } extends infer R
+//         ? {
+//             // transforming optional args as optional field definitions
+//             [K in keyof R]-?: [Extract<R[K], undefined>] extends [never]
+//               ? ToFinalField<R[K]>
+//               : Omit<
+//                   ToFinalField<Exclude<R[K], undefined>>,
+//                   '__infer' | 'optional'
+//                 > & { optional: true } extends infer F
+//               ? { [K in keyof F]: F[K] } & {}
+//               : never;
+//           }
+//         : never
+//       : never
+//     : never
+//   : never;
 
 export type DefaultEntityFields = {
   createdAt: Date;
@@ -105,44 +93,46 @@ export type EntityFinalDefinition<InputDef> = InputDef extends {
     : never
   : never;
 
-type _GetLoaderUtils<Loader, Type> = Loader extends unknown
-  ? EntityFinalDefinition<Type> extends infer Def
-    ? GetLoaderFilterDef<Loader, Def> extends infer Filter
-      ? Filter extends unknown
-        ? {
-            filterDef: Filter;
-            queryArgs: {
-              after: {
-                optional: true;
-                type: 'ID';
-              };
-              condition: Type extends {
-                definition: infer Def;
-              }
-                ? Def extends { def: infer Def }
-                  ? {
-                      def: EntityGraphQLFieldConditionsType<Def>;
-                      optional: true;
-                      type: 'object';
-                    }
-                  : never
-                : never;
-              filter: {
-                def: Filter;
-                type: 'object';
-              };
-              first: {
-                optional: true;
-                type: 'int';
-              };
-            };
-          }
-        : never
-      : never
-    : never
-  : never;
+// type _GetLoaderUtils<Loader, Type> = Loader extends unknown
+//   ? EntityFinalDefinition<Type> extends infer Def
+//     ? GetLoaderFilterDef<Loader, Def> extends infer Filter
+//       ? Filter extends unknown
+//         ? {
+//             filterDef: Filter;
+//             queryArgs: {
+//               after: {
+//                 optional: true;
+//                 type: 'ID';
+//               };
+//               condition: Type extends {
+//                 definition: infer Def;
+//               }
+//                 ? Def extends { def: infer Def }
+//                   ? {
+//                       def: EntityGraphQLFieldConditionsType<Def>;
+//                       optional: true;
+//                       type: 'object';
+//                     }
+//                   : never
+//                 : never;
+//               filter: {
+//                 def: Filter;
+//                 type: 'object';
+//               };
+//               first: {
+//                 optional: true;
+//                 type: 'int';
+//               };
+//             };
+//           }
+//         : never
+//       : never
+//     : never
+//   : never;
 
-interface PrimaryEntityMethods<Options extends EntityOptions> {
+type _EDoc<Options extends EntityOptions> = EntityDocFromType<Options['type']>;
+
+export type Entity<Options extends EntityOptions> = {
   conditionsDefinition: Options['type'] extends {
     definition: infer Def;
   }
@@ -153,6 +143,7 @@ interface PrimaryEntityMethods<Options extends EntityOptions> {
         }
       : never
     : never;
+
   edgeType: EdgeType<Options['type']>;
   getDocumentId(doc: Record<string, any>): string;
 
@@ -197,132 +188,102 @@ interface PrimaryEntityMethods<Options extends EntityOptions> {
                 [K in keyof R as K extends '__infer'
                   ? never
                   : K]: K extends 'optional' ? true : R[K];
-              } & {}
+              }
             : never;
         }
       : never
     : never;
-}
-
-// export type EntityGraphType<T> = T extends
-export type Entity<Options extends EntityOptions> =
-  Options['type'] extends infer Type
-    ? Type extends {
-        definition: { def: unknown };
-        parse(...args: unknown[]): unknown;
-      }
-      ? EntityDocFromType<Options['type']> extends infer Doc
-        ? Doc extends DocumentBase
-          ? Options['indexes'] extends infer Indexes
-            ? Indexes extends CollectionConfigIndexes<Doc>
-              ? PrimaryEntityMethods<Options> extends infer PropsFromConfig
-                ? /**
-                   * HADOUKEN!!!
-                   */
-                  EntityLoadersWithUtils<
-                    Type,
-                    Doc,
-                    Indexes
-                  > extends infer Loaders
-                  ? {
-                      [K in keyof Loaders]: _GetLoaderUtils<
-                        Loaders[K],
-                        Options['type']
-                      > extends infer Utils
-                        ? [Utils] extends [never]
-                          ? Loaders[K]
-                          : Loaders[K] & Utils
-                        : never;
-                    } extends infer LoaderWithUtils
-                    ? {
-                        [K in
-                          | keyof PropsFromConfig
-                          | keyof LoaderWithUtils
-                          | 'loaders']: K extends keyof LoaderWithUtils
-                          ? LoaderWithUtils[K]
-                          : K extends 'loaders'
-                          ? LoaderWithUtils
-                          : //
-                          K extends keyof PropsFromConfig
-                          ? PropsFromConfig[K]
-                          : //
-                            never;
-                      } extends infer R
-                      ? WithExtend<R>
-                      : never
-                    : never
-                  : never
-                : never
-              : never
-            : never
+} & UnionToIntersection<
+  {
+    // METHODS WITH FILTER BY INDEX
+    [IndexKey in _KEY<Options['indexes']>]: {
+      [L in IndexKey]: MethodsWithIndexBasedFilter<
+        _EDoc<Options>,
+        _VAL<Options['indexes'], L>
+      >; // TODO UTILS
+    }[IndexKey];
+  }[_KEY<Options['indexes']>]
+> & {
+    // CREATE_ONE
+    createOne: EntityTransporterMethod<
+      DocumentMethods<
+        //
+        // Doc with DefaultEntityFields as optional
+        {
+          [K in keyof _EDoc<Options> as K extends keyof DefaultEntityFields
+            ? never
+            : K]: _EDoc<Options>[K];
+        } & {
+          [K in keyof _EDoc<Options> as K extends keyof DefaultEntityFields
+            ? K
+            : never]?: _EDoc<Options>[K];
+        },
+        GetFieldsUsedInIndexes<Options['indexes'][number], 'PK'>,
+        GetFieldsUsedInIndexes<Options['indexes'][number], 'SK'>
+      >['createOne'] extends infer CreateOne
+        ? CreateOne extends (config: infer Config) => any
+          ? (config: Config) => Promise<CreateOneResult<_EDoc<Options>>>
           : never
         : never
-      : never
-    : never;
+    >;
+  };
 
-export type _EntityMethods<Config extends EntityOptions> = WithExtend<
-  PrimaryEntityMethods<Config>
->;
+type _VAL<LIST, K> = K extends keyof LIST ? LIST[K] : any;
+type _KEY<T> = Exclude<keyof T, keyof any[]>;
 
-type WithExtend<T> = T extends {
-  parse(...a: any[]): infer Doc;
-}
-  ? Doc extends DocumentBase
-    ? {
-        [K in
-          | keyof T
-          | 'extend'
-          | 'addHooks'
-          | 'addRelations']: K extends keyof T
-          ? T[K]
-          : //
-          //
-          // EXTEND
-          K extends 'extend'
-          ? <E>(
-              transformer: (
-                current: T,
-                utils: { extend: <V>(value: V) => ExtendDefinitionResult<V, V> }
-              ) => E
-            ) => Omit<T, keyof E> & E extends infer R
-              ? WithExtend<{ [K in keyof R]: R[K] } & {}>
-              : never
-          : //
-          //
-          //
-          // ADD_HOOKS
-          K extends 'addHooks'
-          ? (
-              options: MaybeArray<
-                EntityHookOptions<Doc, EntityOptions['indexes']>
-              >
-            ) => WithExtend<T>
-          : //
-          //
-          //
-          //
-          K extends 'addRelations'
-          ? <
-              Context extends LoaderContext,
-              Definition extends ObjectFieldInput,
-              ArgsDef extends ObjectDefinitionInput | undefined
-            >(
-              options: EntityFieldResolver<Context, Definition, ArgsDef, Doc>
-            ) => WithExtend<T>
-          : never;
-      }
-    : never
-  : never;
+// type WithExtend<T> = T; // FIXME
+// type WithExtend<T> = T extends {
+//   parse(...a: any[]): infer Doc;
+// }
+//   ? Doc extends DocumentBase
+//     ? {
+//         [K in
+//           | keyof T
+//           | 'extend'
+//           | 'addHooks'
+//           | 'addRelations']: K extends keyof T
+//           ? T[K]
+//           : //
+//           //
+//           // EXTEND
+//           K extends 'extend'
+//           ? <E>(
+//               transformer: (
+//                 current: T,
+//                 utils: { extend: <V>(value: V) => ExtendDefinitionResult<V, V> }
+//               ) => E
+//             ) => Omit<T, keyof E> & E extends infer R
+//               ? WithExtend<{ [K in keyof R]: R[K] } & {}>
+//               : never
+//           : //
+//           //
+//           //
+//           // ADD_HOOKS
+//           K extends 'addHooks'
+//           ? (
+//               options: MaybeArray<
+//                 EntityHookOptions<Doc, EntityOptions['indexes']>
+//               >
+//             ) => WithExtend<T>
+//           : //
+//           //
+//           //
+//           //
+//           K extends 'addRelations'
+//           ? <
+//               Context extends LoaderContext,
+//               Definition extends ObjectFieldInput,
+//               ArgsDef extends ObjectDefinitionInput | undefined
+//             >(
+//               options: EntityFieldResolver<Context, Definition, ArgsDef, Doc>
+//             ) => WithExtend<T>
+//           : never;
+//       }
+//     : never
+//   : never;
 
-export type EntityOperationInfoContext<
-  Document extends DocumentBase,
-  Indexes extends AnyCollectionIndexConfig['indexes'],
-  Context extends LoaderContext
-> = EntityOperationInfosRecord<
-  Document,
-  Indexes,
-  Context
->[TransporterLoaderName];
+export type EntityOperationInfoContext =
+  EntityOperationInfosRecord[TransporterLoaderName];
 
 type GetFieldsUsedInIndexes<IndexItem, Kind> = Kind extends keyof IndexItem
   ? IndexItem[Kind] extends Array<infer F> | ReadonlyArray<infer F>
@@ -347,18 +308,20 @@ type EntityTransporterMethod<
     }
   : never;
 
-export type IndexMethods<
+export type MethodsWithIndexBasedFilter<
   Document extends DocumentBase,
-  IndexItem,
-  Context extends LoaderContext = Record<string, any>
+  IndexItem
 > = {
-  [M in keyof DocumentMethods<any, any, any>]: EntityTransporterMethod<
+  //  CREATE_ONE IS EXCLUDED because there is no filters
+  [M in keyof DocumentMethods<any, any, any> as M extends `createOne`
+    ? never
+    : M]: EntityTransporterMethod<
     DocumentMethods<
       Document,
       GetFieldsUsedInIndexes<IndexItem, 'PK'>,
       GetFieldsUsedInIndexes<IndexItem, 'SK'>
     >[M],
-    Context
+    LoaderContext
   >;
 };
 
@@ -393,100 +356,6 @@ export type IndexMethods<
 // const b = {} as P;
 // b.filter.userId = { $eq: '' };
 // const c = x.findOne.queryArgs.filter.def;
-
-type GetIndexByName<
-  Union extends DocumentIndexItem<any, any>,
-  Name extends string
-> = Union extends { [K: string]: unknown; name: Name } ? Union : never;
-
-type OneIndexMethod<
-  Doc extends DocumentBase,
-  Indexes,
-  Methods = {}
-> = Indexes extends readonly [infer CurrentIndex, ...infer Rest]
-  ? OneIndexMethod<
-      Doc,
-      Rest,
-      {
-        [K in keyof IndexMethods<Doc, CurrentIndex>]: K extends keyof Methods
-          ? EntityTransporterMethod<
-              IndexMethods<Doc, CurrentIndex>[K] extends (
-                ...args: infer Args
-              ) => infer Result
-                ? (...args: Args) => Result
-                : never
-            > &
-              EntityTransporterMethod<
-                Methods[K] extends (...args: infer Args) => infer Result
-                  ? (...args: Args) => Result
-                  : never
-              >
-          : IndexMethods<Doc, CurrentIndex>[K];
-      }
-    >
-  : [keyof Methods] extends [never]
-  ? never
-  : Methods;
-
-type EntityLoaders<
-  Doc extends DocumentBase,
-  Indexes extends CollectionConfigIndexes<Doc>
-> = UnionToIntersection<
-  {
-    [IndexName in Indexes[number]['name']]: {
-      [M in keyof IndexMethods<any, any>]: {
-        [L in `${M}${Capitalize<IndexName>}`]: IndexMethods<
-          Doc,
-          GetIndexByName<Indexes[number], IndexName>
-        >[M];
-      };
-    };
-  }[Indexes[number]['name']][Exclude<keyof IndexMethods<any, any>, 'createOne'>]
-> &
-  OneIndexMethod<Doc, Indexes> & {
-    createOne: EntityTransporterMethod<
-      DocumentMethods<
-        //
-        // Doc with DefaultEntityFields as optional
-        {
-          [K in keyof Doc as K extends keyof DefaultEntityFields
-            ? never
-            : K]: Doc[K];
-        } & {
-          [K in keyof Doc as K extends keyof DefaultEntityFields
-            ? K
-            : never]?: Doc[K];
-        } extends infer R
-          ? { [K in keyof R]: R[K] } & {}
-          : never,
-        // <--
-        //
-        GetFieldsUsedInIndexes<Indexes[number], 'PK'>,
-        GetFieldsUsedInIndexes<Indexes[number], 'SK'>
-      >['createOne'] extends infer CreateOne
-        ? CreateOne extends (config: infer Config) => any
-          ? (config: Config) => Promise<CreateOneResult<Doc>>
-          : never
-        : never
-    >;
-  };
-
-type EntityLoadersWithUtils<
-  Type,
-  Doc extends DocumentBase,
-  Indexes extends CollectionConfigIndexes<Doc>
-> = EntityLoaders<Doc, Indexes> extends infer Loaders
-  ? {
-      [K in keyof Loaders]: _GetLoaderUtils<
-        Loaders[K],
-        Type
-      > extends infer Utils
-        ? [Utils] extends [never]
-          ? Loaders[K]
-          : Loaders[K] & Utils
-        : never;
-    }
-  : never;
 
 function _EntityGeneratedFields<
   T extends { [K in keyof DefaultEntityFields]: ObjectFieldInput }

@@ -121,25 +121,32 @@ export type MethodFilter<
   SK extends string | undefined
 > = IndexFilterRecord<PK, SK> extends infer F
   ? F extends unknown
-    ? { [K in keyof F]: F[K] } & {}
-    : never
-  : never;
+    ? { [K in keyof F]: F[K] }
+    : {}
+  : {};
 
 export type FindManyConfig<
   Doc extends DocumentBase = DocumentBase,
   PK extends string = string,
   SK extends string | undefined = string
 > = {
-  after?: IndexFilterRecord<PK, SK> | string;
+  after?:
+    | (IndexFilterRecord<PK, SK> extends infer R
+        ? { [K in keyof R]: R[K] }
+        : {})
+    | string;
+
   condition?: FilterRecord<Doc>;
   consistent?: boolean;
   context: LoaderContext;
-  filter: MethodFilter<PK, SK>;
+  filter: MethodFilter<PK, SK> extends infer R ? { [K in keyof R]: R[K] } : {};
   first?: number;
+
   indexConfig: CollectionIndexConfig<
     Doc,
     PK | (SK extends undefined ? PK : SK)
   >;
+
   projection?: string[];
   sort?: QuerySort;
 };

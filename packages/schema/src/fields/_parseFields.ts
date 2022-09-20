@@ -7,20 +7,20 @@ import {
   FieldTypeName,
 } from './_fieldDefinitions';
 
-export type ObjectFieldInput =
+export type _ObjectFieldInputBase =
   | _GraphType
   | _ObjectType
   | ObjectInTypeFieldDefinition
   | GraphTypeInTypeFieldDefinition
   | FinalFieldDefinition
-  | FieldAsString
-  | FlattenFieldDefinition
+  | FieldAsString;
+
+export type ObjectFieldInput =
+  | _ObjectFieldInputBase
   | ObjectInputArray
-  | KNOWN_UNKNOWN_OBJECT
+  | FlattenFieldDefinition
   | Readonly<ObjectInputArray>;
 // should update _toFinalField, parseObjectDefinition.ts and Infer.ts if add any new type here
-
-export type KNOWN_UNKNOWN_OBJECT = 'KNOWN_UNKNOWN_OBJECT';
 
 export type FieldInput = ObjectFieldInput;
 
@@ -117,30 +117,15 @@ type GetI<T> = T extends { __infer: infer I } ? I : never;
 
 //
 export type _toFinalField<Base> = {
-  0: { def: { INVALID_DEFINITION: Base }; type: 'literal' };
+  0: { type: 'any' };
   1: //
-  //
-  // Start handling known unknown fields
-  Base extends
-    | KNOWN_UNKNOWN_OBJECT
-    | { object: KNOWN_UNKNOWN_OBJECT }
-    | { type: KNOWN_UNKNOWN_OBJECT }
-    ? {
-        def: KNOWN_UNKNOWN_OBJECT;
-        list?: false;
-        optional?: false;
-        type: 'object';
-      }
-    : //
-    // End handling known unknown fields
-    //
 
-    Base extends {
-        def?: infer Def;
-        list?: boolean;
-        optional?: boolean;
-        type: FieldTypeName;
-      }
+  Base extends {
+    def?: infer Def;
+    list?: boolean;
+    optional?: boolean;
+    type: FieldTypeName;
+  }
     ? {
         def: Def;
         description: string | undefined;
@@ -243,18 +228,7 @@ type _injectInfer<T> = T extends {
       // @ts-ignore FIXME deep excessive
       __infer: // === recursive object case ===
 
-      // HANDLING KNOWN_UNKNOWNS
-      // KNOWN_UNKNOWN_OBJECT
-      Def extends KNOWN_UNKNOWN_OBJECT
-        ? {
-            [K: string]: any;
-          }
-        : //
-        // END HANDLING KNOWN UNKNOWS
-        //
-        //
-
-        T['type'] extends 'object'
+      T['type'] extends 'object'
         ? Def extends { [K: string]: any }
           ? InferObjectDefinition<Def>
           : never
@@ -451,3 +425,9 @@ interface _GraphType {
   __isGraphType: true;
   definition: unknown;
 }
+
+export type InferTypeInstance<T, ELSE extends any = never> = T extends {
+  '__ds.recycle.def': infer I;
+}
+  ? I
+  : ELSE;

@@ -1,13 +1,8 @@
 import { assertSame } from '@brabo/utils/lib/assertSame';
 
-import { ObjectDefinitionInput } from './fields/_parseFields';
 import { parseObjectDefinition } from './parseObjectDefinition';
 
-export function assertSameDefinition(
-  id: string,
-  a: ObjectDefinitionInput,
-  b: ObjectDefinitionInput
-) {
+export function assertSameDefinition(id: string, a: any, b: any) {
   a = parseObjectDefinition(a, {
     deep: { omitMeta: true },
     omitMeta: true,

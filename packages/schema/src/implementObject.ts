@@ -33,7 +33,7 @@ export function implementObject<
   definition: Readonly<Def>,
   ...parents: Parents
 ): ImplementObject<ObjectType<Def>, Parents> {
-  let def: ObjectDefinitionInput = simpleObjectClone(definition);
+  let def = simpleObjectClone(definition) as ObjectDefinitionInput;
   delete def[objectMetaFieldKey];
 
   const tree: string[] = [];
@@ -57,5 +57,5 @@ export function implementObject<
   const object = createObjectType(name, def);
   object.__setMetaData('implements', tree);
 
-  return object as ImplementObject<ObjectType<Def>, Parents>;
+  return object as unknown as ImplementObject<ObjectType<Def>, Parents>;
 }

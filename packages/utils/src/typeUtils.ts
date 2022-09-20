@@ -183,6 +183,11 @@ export type BinKnown<T, True, False> = {
   1: True;
 }[IsKnown<T>];
 
+export type BinAny<T, True, False> = {
+  0: False;
+  1: True;
+}[IsAny<T> extends true ? 0 : 1];
+
 export const A_Z = tuple(
   'A',
   'B',

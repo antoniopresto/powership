@@ -33,7 +33,6 @@ import {
   objectToGraphQLConditionType,
 } from './EntityFilterConditionType';
 import {
-  _EntityMethods,
   AnyEntityDocument,
   createEntityDefaultFields,
   Entity,
@@ -108,7 +107,7 @@ export function createEntity<
       name: entityName,
     } = entityOptions;
 
-    const _hooks: EntityHooks<any, any, any> = {
+    const _hooks: EntityHooks = {
       beforeQuery: hooks.waterfall(),
       createDefinition: hooks.parallel(),
       filterResult: hooks.waterfall(),
@@ -259,7 +258,7 @@ export function createEntity<
     async function parseOperationContext(
       method: TransporterLoaderName,
       methodOptions: any
-    ): Promise<EntityOperationInfoContext<any, any, any>> {
+    ): Promise<EntityOperationInfoContext> {
       await defaultTransporter?.connect();
 
       let operationInfoContext = buildEntityOperationInfoContext(
@@ -565,7 +564,7 @@ export function createEntity<
       return notNull(indexes.indexFields.id);
     }
 
-    type TEntity = _EntityMethods<Options> & { loaders: Record<string, any> };
+    type TEntity = any; // FIXME_EntityMethods<Options> & { loaders: Record<string, any> };
 
     // @ts-ignore
     const getters: {

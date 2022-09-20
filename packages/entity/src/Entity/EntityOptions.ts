@@ -1,6 +1,5 @@
 import {
   GraphType,
-  KNOWN_UNKNOWN_OBJECT,
   ObjectDefinitionInput,
   ObjectFieldInput,
   ObjectType,
@@ -28,14 +27,14 @@ export interface EntityOptions<
 
 export type AnyEntityOptions = EntityOptions<
   'AnyEntityOptions',
-  GraphType<KNOWN_UNKNOWN_OBJECT>,
+  GraphType<any>,
   Transporter
 >;
 
 export type EntityDocFromType<Type> = Type extends {
   parse(...args: any[]): infer Result;
 }
-  ? Result extends DocumentBase
+  ? Result extends {}
     ? DefaultEntityFields & Result extends infer R
       ? {
           [K in keyof R]: R[K];

@@ -2,22 +2,18 @@ import { DeepWritable, simpleObjectClone } from '@brabo/utils';
 
 import {
   _ensureTransporterMethodsImplementation,
-  AnyCollectionIndexConfig,
-  DocumentBase,
-  LoaderContext,
   TransporterLoaderName,
 } from '../Transporter';
 
-import { IndexMethods } from './EntityInterfaces';
 import { EntityOptions } from './EntityOptions';
 
 export function buildEntityOperationInfoContext<
   M extends TransporterLoaderName
 >(
   method: M,
-  options: EntityOperationInfosRecord<any, any, any>[M]['options'],
+  options: EntityOperationInfosRecord[M]['options'],
   entityOptions: EntityOptions
-): EntityOperationInfosRecord<any, any, any>[M] {
+): EntityOperationInfosRecord[M] {
   const info = getOperationInfo(method);
 
   const { upsert } = options as { upsert?: unknown };
@@ -107,11 +103,7 @@ export type LoaderOperationsRecord = DeepWritable<
   typeof LoaderMethodInfoHelpers
 >;
 
-export type EntityOperationInfosRecord<
-  Document extends DocumentBase,
-  Indexes extends AnyCollectionIndexConfig['indexes'],
-  Context extends LoaderContext
-> = {
+export type EntityOperationInfosRecord = {
   [Method in keyof LoaderOperationsRecord]: Method extends unknown
     ? Method extends keyof LoaderOperationsRecord
       ? LoaderOperationsRecord[Method] & {
@@ -120,17 +112,20 @@ export type EntityOperationInfosRecord<
           // ================== //
           // start infer method
           // ================== //
-          options: Indexes[number] extends infer IndexItem
-            ? IndexItem extends unknown
-              ? Parameters<
-                  IndexMethods<Document, IndexItem, Context>[Method]
-                >[0] extends infer Options
-                ? Options extends unknown
-                  ? Options
-                  : never
-                : never
-              : never
-            : never;
+          options: Record<string, any>;
+
+          // TOO MUCH for now
+          // Indexes[number] extends infer IndexItem
+          // ? IndexItem extends unknown
+          //   ? Parameters<
+          //       MethodsWithIndexBasedFilter<Document, IndexItem, Context>[Method]
+          //     >[0] extends infer Options
+          //     ? Options extends unknown
+          //       ? Options
+          //       : never
+          //     : never
+          //   : never
+          // : never;
           // ================== //
           // END infer Method
           // ================== //

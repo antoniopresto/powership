@@ -12,7 +12,7 @@ import {
   ObjectType,
   ShortenFinalFieldDefinition,
 } from './ObjectType';
-import { FieldDefinitionConfig, ObjectDefinitionInput } from './TObjectConfig';
+import { FieldDefinitionConfig } from './TObjectConfig';
 import { fieldInstanceFromDef } from './fieldInstanceFromDef';
 import { AnyField } from './fields/AnyField';
 import { isFieldInstance, TAnyFieldType } from './fields/FieldType';
@@ -311,8 +311,8 @@ type ParseResult = {
   meta?: MetaField['asFinalFieldDef'];
 };
 
-export function parseObjectDefinition<T extends ObjectDefinitionInput>(
-  input: T,
+export function parseObjectDefinition(
+  input: Record<string, any>,
   options: ParseFieldOptions = {}
 ): ParseResult {
   let { deep, omitMeta } = options;

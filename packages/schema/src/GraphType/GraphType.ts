@@ -29,6 +29,10 @@ export class GraphType<Definition extends ObjectFieldInput> {
   static __isGraphType = true;
   readonly __isGraphType = true;
 
+  '__ds.recycle.def'(): ToFinalField<Definition> {
+    return this.definition;
+  }
+
   static register = new StrictMap<string, GraphTypeLike>();
   static resolvers = new StrictMap<string, AnyResolver>();
 
@@ -226,6 +230,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   typescriptPrint = (
     options?: ObjectToTypescriptOptions & { name?: string }
   ): Promise<string> => {
+    // @ts-ignore
     const object =
       this._object ||
       createObjectType({

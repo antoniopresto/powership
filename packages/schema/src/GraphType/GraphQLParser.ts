@@ -46,10 +46,7 @@ import {
 import { ObjectField } from '../fields/ObjectField';
 import { UnionField } from '../fields/UnionField';
 import { FieldTypeName } from '../fields/_fieldDefinitions';
-import {
-  FinalFieldDefinition,
-  ObjectDefinitionInput,
-} from '../fields/_parseFields';
+import { FinalFieldDefinition } from '../fields/_parseFields';
 import { parseTypeName } from '../parseTypeName';
 
 import { GraphQLDateType } from './GraphQLDateType';
@@ -91,7 +88,7 @@ export interface GraphQLParserResult {
   getType: (options?: ParseTypeOptions) => GraphQLObjectType;
   inputToString(): string;
   interfaceType: (options?: ParseInterfaceOptions) => GraphQLInterfaceType;
-  object: ObjectType<any>;
+  object: ObjectType<{}>;
   typeToString(): string;
 }
 
@@ -130,7 +127,7 @@ export class GraphQLParser {
     fieldsRegister.clear();
   };
 
-  static objectToGraphQL<T extends ObjectDefinitionInput>(options: {
+  static objectToGraphQL<T>(options: {
     object: ObjectType<T>;
     path?: string[]; // family tree of an object/field
   }): GraphQLParserResult {
@@ -323,7 +320,7 @@ export class GraphQLParser {
       getType,
       inputToString: getInputSDL,
       interfaceType,
-      object,
+      object: object as any,
       typeToString: getSDL,
     };
 

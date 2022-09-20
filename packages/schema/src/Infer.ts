@@ -11,7 +11,7 @@ import {
 } from './fields/_parseFields';
 
 export type Infer<T> = {
-  0: { literal: { INVALID_DEFINITION: T } };
+  0: any;
   1: T extends
     | {
         type: 'literal';

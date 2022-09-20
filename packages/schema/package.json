@@ -22,7 +22,7 @@
     "build:node": "TARGET=node npm run babild -- --out-dir lib",
     "build:module-node": "TARGET=module-node npm run babild -- --out-dir lib/module",
     "declarations": "tsc -p tsconfig.declarations.json",
-    "babild": "babel 'src' --extensions '.ts,.tsx' --source-maps=true"
+    "babild": "babel 'src' --extensions '.ts,.tsx' --source-maps=true --ignore '**/__tests__'"
   },
   "description": "TypeScript schema declaration and validation library with static type inference",
   "repository": {

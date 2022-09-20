@@ -1,23 +1,17 @@
 import { FinalFieldDefinition } from '@brabo/schema';
 import { Parallel, Waterfall } from 'plugin-hooks';
 
-import {
-  AnyCollectionIndexConfig,
-  DocumentBase,
-  LoaderContext,
-} from '../Transporter';
+import { DocumentBase } from '../Transporter';
 
 import { EntityDocument, EntityOperationInfoContext } from './EntityInterfaces';
 import { EntityFieldResolver, EntityOptions } from './EntityOptions';
 
 export function createEntityPlugin<
-  Document extends DocumentBase = DocumentBase,
-  Indexes extends AnyCollectionIndexConfig['indexes'] = AnyCollectionIndexConfig['indexes'],
-  Context extends LoaderContext = LoaderContext
+  Document extends DocumentBase = DocumentBase
 >(
   name: string,
-  handlers: HooksRemap<EntityHooks<Document, Indexes, Context>>
-): EntityPlugin<Document, Indexes, Context> {
+  handlers: HooksRemap<EntityHooks<Document>>
+): EntityPlugin<Document> {
   const entries = Object.entries(handlers);
 
   function plugin(hooks) {
@@ -42,11 +36,8 @@ export function createEntityPlugin<
   return plugin;
 }
 
-export type EntityHookOptions<
-  Document extends DocumentBase = DocumentBase,
-  Indexes extends AnyCollectionIndexConfig['indexes'] = AnyCollectionIndexConfig['indexes'],
-  Context extends LoaderContext = LoaderContext
-> = HooksRemap<EntityHooks<Document, Indexes, Context>>;
+export type EntityHookOptions<Document extends DocumentBase = DocumentBase> =
+  HooksRemap<EntityHooks<Document>>;
 
 export type HooksRemap<Hooks> = Hooks extends unknown
   ? {
@@ -58,23 +49,12 @@ export type HooksRemap<Hooks> = Hooks extends unknown
     }
   : never;
 
-export interface EntityPlugin<
-  Document extends DocumentBase = DocumentBase,
-  Indexes extends AnyCollectionIndexConfig['indexes'] = AnyCollectionIndexConfig['indexes'],
-  Context extends LoaderContext = LoaderContext
-> {
-  (hooks: EntityHooks<Document, Indexes, Context>): unknown;
+export interface EntityPlugin<Document extends DocumentBase = DocumentBase> {
+  (hooks: EntityHooks<Document>): unknown;
 }
 
-export type EntityHooks<
-  Document extends DocumentBase = DocumentBase,
-  Indexes extends AnyCollectionIndexConfig['indexes'] = AnyCollectionIndexConfig['indexes'],
-  Context extends LoaderContext = LoaderContext
-> = {
-  beforeQuery: Waterfall<
-    EntityOperationInfoContext<EntityDocument<Document>, Indexes, Context>,
-    {}
-  >;
+export type EntityHooks<Document extends DocumentBase = DocumentBase> = {
+  beforeQuery: Waterfall<EntityOperationInfoContext, {}>;
 
   createDefinition: Parallel<
     Record<string, FinalFieldDefinition>,
@@ -93,22 +73,12 @@ export type EntityHooks<
   filterResult: Waterfall<
     EntityDocument<Document>[],
     {
-      context: EntityOperationInfoContext<
-        EntityDocument<Document>,
-        Indexes,
-        Context
-      >;
+      context: EntityOperationInfoContext;
       resolvers: EntityFieldResolver<any, any, any, any>[];
     }
   >;
 
-  postParse: Waterfall<
-    EntityOperationInfoContext<EntityDocument<Document>, Indexes, Context>,
-    {}
-  >;
+  postParse: Waterfall<EntityOperationInfoContext, {}>;
 
-  preParse: Waterfall<
-    EntityOperationInfoContext<Record<string, any>, Indexes, Context>,
-    {}
-  >;
+  preParse: Waterfall<EntityOperationInfoContext, {}>;
 };

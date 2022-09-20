@@ -10,10 +10,7 @@ export function dynamicRequire(request: string, _module?: NodeModule) {
   } catch (e) {}
 
   if (!isProduction()) {
-    console.warn(
-      `dynamicRequire: failed to require "${request}".` +
-        `This resource may not be available in bundled code.`
-    );
+    debugger;
   }
   return null;
 }

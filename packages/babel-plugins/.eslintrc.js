@@ -3,7 +3,15 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: { project: './tsconfig.lint.json' },
   env: { es6: true },
-  ignorePatterns: ['node_modules', 'build', 'dist', 'lib', 'coverage', '*.js'],
+  ignorePatterns: [
+    'node_modules',
+    'build',
+    'dist',
+    'lib',
+    'coverage',
+    '*.js',
+    '**/__tests__/*',
+  ],
   plugins: [
     'typescript-sort-keys',
     'sort-keys-fix',

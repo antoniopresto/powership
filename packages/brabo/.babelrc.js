@@ -77,10 +77,7 @@ const config = {
     ],
   ],
   presets,
-  ignore: [
-    /node_modules/,
-    '**/__tests__', //
-  ],
+  ignore: [/node_modules/],
 };
 
 module.exports = config;

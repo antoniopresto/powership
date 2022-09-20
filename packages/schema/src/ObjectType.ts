@@ -1,3 +1,4 @@
+import { IsKnown } from '@brabo/utils';
 import { RuntimeError } from '@brabo/utils/lib/RuntimeError';
 import { StrictMap } from '@brabo/utils/lib/StrictMap';
 import { ensureArray } from '@brabo/utils/lib/ensureArray';
@@ -33,7 +34,9 @@ import {
   MetaFieldDef,
   objectMetaFieldKey,
 } from './fields/MetaFieldField';
+import { FieldTypeName } from './fields/_fieldDefinitions';
 import type {
+  FieldAsString,
   FinalFieldDefinition,
   FinalObjectDefinition,
   ParseFields,
@@ -54,7 +57,20 @@ export * from './fields/_parseFields';
 export * from './fields/_fieldDefinitions';
 export * from './fields/_parseFields';
 
-export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
+export class ObjectType<
+  Input,
+  HandledInput extends _HandleInput<Input> = _HandleInput<Input>
+> {
+  // utils to recycle parsed definition
+  '__ds.recycle.def'() {
+    return {
+      __infer: undefined as unknown as Infer<HandledInput>,
+      list: false,
+      optional: false,
+      type: 'object' as 'object',
+    };
+  }
+
   get __isBraboObject(): true {
     return true;
   }
@@ -64,16 +80,19 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
   private readonly __definition: any;
 
   __withCache: WithCache<{
-    helpers: ObjectHelpers<DefinitionInput>;
+    helpers: ObjectHelpers;
   }>;
 
-  constructor(objectDef: DefinitionInput) {
+  constructor(objectDef: HandledInput) {
+    if (!objectDef || typeof objectDef !== 'object') {
+      throw new Error('Expected object definition to be an object');
+    }
     const parsed = parseObjectDefinition(objectDef);
     this.__definition = parsed.definition;
     this.__withCache = withCache(this);
   }
 
-  get definition(): ParseFields<DefinitionInput> {
+  get definition(): ParseFields<HandledInput> {
     return this.__definition;
   }
 
@@ -82,11 +101,11 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
   }
 
   // definition without metadata (name, etc)
-  cleanDefinition(): ParseFields<DefinitionInput> {
+  cleanDefinition(): ParseFields<HandledInput> {
     return cleanMetaField(this.definition);
   }
 
-  extend(): ExtendDefinitionResult<DefinitionInput, DefinitionInput> {
+  extend(): ExtendDefinitionResult<HandledInput, HandledInput> {
     return extendDefinition(this) as any;
   }
 
@@ -103,7 +122,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
     options?: {
       customMessage?: ValidationCustomMessage;
     } & FieldParserOptionsObject
-  ): Infer<DefinitionInput>;
+  ): Infer<HandledInput>;
 
   parse(
     input: any,
@@ -111,18 +130,18 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
       customMessage?: ValidationCustomMessage;
       partial: true;
     } & FieldParserOptionsObject
-  ): Partial<Infer<DefinitionInput>>;
+  ): Partial<Infer<HandledInput>>;
 
-  parse<Fields extends (keyof DefinitionInput)[]>(
+  parse<Fields extends (keyof HandledInput)[]>(
     input: any,
     options: {
       customMessage?: ValidationCustomMessage;
       fields: Fields;
     } & FieldParserOptionsObject
   ): {
-    [K in keyof Infer<DefinitionInput> as K extends Fields[number]
+    [K in keyof Infer<HandledInput> as K extends Fields[number]
       ? K
-      : never]: Infer<DefinitionInput>[K];
+      : never]: Infer<HandledInput>[K];
   };
 
   parse(input: any, options?: any) {
@@ -144,7 +163,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
     return parsed as any;
   }
 
-  validate(input: any): input is Infer<DefinitionInput> {
+  validate(input: any): input is Infer<HandledInput> {
     try {
       this.parse(input);
       return true;
@@ -158,7 +177,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
     options?: {
       customMessage?: ValidationCustomMessage;
       excludeInvalidListItems?: boolean;
-      fields?: keyof DefinitionInput[];
+      fields?: keyof HandledInput[];
       partial?: boolean;
     }
   ): { errors: string[]; parsed: unknown } {
@@ -219,8 +238,8 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
   describe(
     ...descriptions:
       | [comment: string]
-      | [{ [K in keyof DefinitionInput]?: string }]
-  ): ObjectType<DefinitionInput> {
+      | [{ [K in keyof HandledInput]?: string }]
+  ): ObjectType<HandledInput> {
     if (descriptions.length === 1 && typeof descriptions[0] === 'string') {
       this.__setMetaData('description', descriptions[0]);
       return this as any;
@@ -284,7 +303,7 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
     return this as any;
   }
 
-  helpers = () => {
+  helpers: any = () => {
     return this.__withCache('helpers', () => getObjectHelpers(this));
   };
 
@@ -343,8 +362,8 @@ export class ObjectType<DefinitionInput extends ObjectDefinitionInput> {
   implement = <Parents extends ReadonlyArray<ObjectLike>>(
     name: string,
     ...parents: Parents
-  ): ImplementObject<ObjectType<DefinitionInput>, Parents> => {
-    return implementObject(name, this.definition as any, ...parents);
+  ): ImplementObject<ObjectType<HandledInput>, Parents> => {
+    return implementObject(name, this.definition as any, ...parents) as any;
   };
 
   static async reset() {
@@ -416,13 +435,36 @@ export function createObjectType<
   const fields = args.length === 2 ? args[1] : args[0];
 
   const id = args.length === 2 ? args[0] : undefined;
-  if (id) return ObjectType.getOrSet(id, fields);
+  if (id) {
+    // @ts-ignore
+    return ObjectType.getOrSet(id, fields);
+  }
 
   const idFromDefinition = getObjectDefinitionMetaField(fields)?.def?.id;
   if (idFromDefinition) return ObjectType.getOrSet(idFromDefinition, fields);
 
-  return new ObjectType<DefinitionInput>(fields);
+  return new ObjectType(fields) as any;
 }
 
 export const createBraboObject = createObjectType;
 export const createSchema = createObjectType;
+
+type _HandleInput<T> = [IsKnown<T>] extends [1]
+  ? {
+      [K in keyof T as T[K] extends
+        | { parse(...args: any): any }
+        | any[]
+        | Readonly<any[]>
+        | { [K in FieldTypeName]?: any }
+        | FieldAsString
+        | { type: any }
+        ? K
+        : never]: T[K];
+    } extends infer R
+    ? T extends R
+      ? T
+      : T extends Readonly<R>
+      ? T
+      : {}
+    : {}
+  : {};
