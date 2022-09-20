@@ -30,6 +30,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   readonly __isGraphType = true;
 
   '__ds.recycle.def'(): ToFinalField<Definition> {
+    // @ts-ignore
     return this.definition;
   }
 

@@ -1,4 +1,4 @@
-import { DJSON, capitalize, notNull } from '@darch/utils';
+import { capitalize, DJSON, notNull } from '@darch/utils';
 import { formatGraphQL } from '@darch/utils/lib/formatGraphQL';
 import { tupleEnum } from '@darch/utils/lib/typeUtils';
 import type { GraphQLSchemaConfig } from 'graphql';
