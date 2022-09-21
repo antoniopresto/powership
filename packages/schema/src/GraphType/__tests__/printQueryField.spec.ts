@@ -51,13 +51,13 @@ describe('generateQuery', () => {
     const ProductType = createType('Product', {
       object: {
         sku: 'string',
-        breadcrumb: [Breadcrumb],
+        breadcrumb: { type: Breadcrumb, list: true },
       },
     } as const);
 
     createResolver({
       name: 'parents',
-      type: [ProductType] as const,
+      type: { type: ProductType, list: true },
       args: {
         id: { type: 'ID', defaultValue: 155 },
       },

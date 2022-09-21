@@ -20,7 +20,7 @@ export type EdgeType<T> = GraphType<{
 
 export type PaginationType<T> = GraphType<{
   object: {
-    edges: [EdgeType<T>];
+    edges: { list: true; type: EdgeType<T> };
     pageInfo: typeof PageInfoType;
   };
 }>;

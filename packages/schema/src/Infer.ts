@@ -59,10 +59,6 @@ export type Infer<T> = {
     ? InferField<T>
     : T extends FinalFieldDefinition
     ? InferField<T>
-    : T extends [any]
-    ? Infer<T[0]>[]
-    : T extends Readonly<[any]>
-    ? Infer<T[0]>[]
     : T extends {
         [K: string]: any;
       }

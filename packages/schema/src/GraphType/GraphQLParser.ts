@@ -145,14 +145,16 @@ export class GraphQLParser {
         'You can use object.identify("abc")'
     );
 
+    const cacheId = `${[objectId].filter(Boolean).join()}`;
+
     const { implements: parents } = object.meta;
 
-    if (resultsCache.has(objectId)) {
-      const cached = resultsCache.get(objectId);
+    if (resultsCache.has(cacheId)) {
+      const cached = resultsCache.get(cacheId);
       if (!isProduction()) {
         // @ts-ignore
         assertSameDefinition(
-          objectId,
+          cacheId,
           cached.object.definition,
           object.definition
         );
@@ -162,7 +164,7 @@ export class GraphQLParser {
 
     // save reference for circular dependencies
     const graphqlParsed = {} as GraphQLParserResult;
-    resultsCache.set(objectId, graphqlParsed);
+    resultsCache.set(cacheId, graphqlParsed);
 
     const buildFields = <T>(
       options: CommonTypeOptions & {

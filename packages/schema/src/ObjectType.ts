@@ -61,16 +61,6 @@ export class ObjectType<
   Input,
   HandledInput extends _HandleInput<Input> = _HandleInput<Input>
 > {
-  // utils to recycle parsed definition
-  '__ds.recycle.def'() {
-    return {
-      __infer: undefined as unknown as Infer<HandledInput>,
-      list: false,
-      optional: false,
-      type: 'object' as 'object',
-    };
-  }
-
   get __isDarchObject(): true {
     return true;
   }
@@ -410,6 +400,31 @@ export class ObjectType<
     middleware: GraphQLParseMiddleware[] | GraphQLParseMiddleware
   ) => {
     this.graphQLMiddleware.push(...ensureArray(middleware));
+  };
+
+  toList = () => {
+    return {
+      def: this.definition as unknown as HandledInput,
+      list: true,
+      type: 'object' as 'object',
+    };
+  };
+
+  toOptional = () => {
+    return {
+      def: this.definition as unknown as HandledInput,
+      optional: true,
+      type: 'object' as 'object',
+    };
+  };
+
+  toOptionalList = () => {
+    return {
+      def: this.definition as unknown as HandledInput,
+      list: true,
+      optional: true,
+      type: 'object' as 'object',
+    };
   };
 
   static is(input: any): input is ObjectType<ObjectDefinitionInput> {

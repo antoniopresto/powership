@@ -204,8 +204,10 @@ export type DefKeys<Input> =
     ? DefKeys<Def>
     : Input extends { definition: infer Definition }
     ? DefKeys<Definition>
-    : keyof Input extends infer K extends string
-    ? K
+    : keyof Input extends infer K
+    ? K extends string
+      ? K
+      : never
     : never;
 
 export type MakeFieldOptional<Object, OptionalField> = OverrideField<

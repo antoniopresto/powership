@@ -5,7 +5,7 @@ import { InferField } from '../_parseFields';
 
 test('infer union types', () => {
   type TUnion = InferField<{
-    object: { names: [{ union: ['string', 'int'] }] };
+    object: { names: { union: ['string', 'int']; list: true } };
   }>;
   assert<IsExact<TUnion, { names: (string | number)[] }>>(true);
 

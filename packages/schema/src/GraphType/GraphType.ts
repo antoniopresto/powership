@@ -29,11 +29,6 @@ export class GraphType<Definition extends ObjectFieldInput> {
   static __isGraphType = true;
   readonly __isGraphType = true;
 
-  '__ds.recycle.def'(): ToFinalField<Definition> {
-    // @ts-ignore
-    return this.definition;
-  }
-
   static register = new StrictMap<string, GraphTypeLike>();
   static resolvers = new StrictMap<string, AnyResolver>();
 

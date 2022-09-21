@@ -22,7 +22,7 @@ describe('schema.getGraphQLTypescript', () => {
     });
 
     createResolver({
-      type: [UserType] as const,
+      type: { type: UserType, list: true },
       name: 'findUsers',
       description: 'find users resolver',
       args: { limit: 'int' },
@@ -76,7 +76,6 @@ describe('schema.getGraphQLTypescript', () => {
       "    kind: 'query',",
       "    payload: GraphType.getOrSet('findUsersPayload', {",
       "      def: { id: { type: 'ID' } },",
-      "      description: 'user entity',",
       '      list: true,',
       "      type: 'object',",
       '    } as const),',

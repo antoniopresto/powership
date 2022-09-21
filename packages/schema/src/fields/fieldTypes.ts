@@ -9,6 +9,7 @@ import { EnumField } from './EnumField';
 import { FloatField } from './FloatField';
 import { IDField } from './IDField';
 import { IntField } from './IntField';
+// import { ListField } from './ListField';
 import { LiteralField } from './LitarealField';
 import { MetaField } from './MetaFieldField';
 import { NullField } from './NullField';
@@ -40,6 +41,7 @@ export const types = createConstructors({
   enum: EnumField,
   float: FloatField,
   int: IntField,
+  // list: ListField,
   literal: LiteralField,
   meta: MetaField,
   null: NullField,

@@ -19,7 +19,7 @@ describe('mockObject', () => {
         sellPrice: 'float',
         tags: '[string]?',
         slug: 'string?',
-        categories: ['string'],
+        categories: '[string]',
         spotlight: 'boolean?',
         html: 'string?',
         lit: { literal: { a: 1 } },

@@ -119,7 +119,7 @@ export const ProductType = createType('Product', {
     detailsUrl: 'string?',
     alcoholic: { boolean: true, defaultValue: false },
     thumbUrl: 'string?',
-    breadcrumb: BreadCrumbType,
+    breadcrumb: { type: BreadCrumbType, list: true },
     mapOfImages: {
       type: ProductImageMapType,
       list: true,

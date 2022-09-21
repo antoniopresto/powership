@@ -72,6 +72,8 @@ export type FieldDefinitions = {
       }
     | undefined;
 
+  // list: ObjectFieldInput | Readonly<ObjectFieldInput>;
+
   literal: Readonly<unknown>;
 
   meta: MetaFieldDef;

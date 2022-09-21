@@ -19,16 +19,6 @@ export abstract class FieldType<
   readonly typeName: TypeName;
   type: TypeName;
 
-  // utils to infer parsed definition
-  '__ds.recycle.def'() {
-    return {
-      __infer: undefined as Type,
-      list: this.list,
-      optional: this.optional,
-      type: this.type as TypeName,
-    };
-  }
-
   readonly def: Def;
 
   get definition() {

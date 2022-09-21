@@ -1,0 +1,52 @@
+// import { inspectObject } from '@darch/utils/lib/inspectObject';
+//
+// import { CircularDeps } from '../CircularDeps';
+// import { Infer } from '../Infer';
+// import type { FieldDefinitionConfig } from '../TObjectConfig';
+//
+// import { FieldType, FieldTypeParser, TAnyFieldType } from './FieldType';
+// import { ObjectFieldInput } from './_parseFields';
+//
+// export class ListField<T extends ObjectFieldInput> extends FieldType<
+//   Infer<T>[],
+//   'list',
+//   T
+// > {
+//   //
+//   parse: FieldTypeParser<Infer<T>[]>;
+//
+//   utils = {
+//     fieldType: {} as TAnyFieldType,
+//   };
+//
+//   static is(item: any): item is ListField<any> {
+//     return item?.typeName === 'list';
+//   }
+//
+//   constructor(def: T) {
+//     super('list', def);
+//     const { parseObjectField } = CircularDeps;
+//
+//     try {
+//       this.utils.fieldType = parseObjectField(`ListItem`, def, true)
+//         //
+//         .toList(); // HERE is the list
+//     } catch (e: any) {
+//       let message = `Filed to parse type:`;
+//       message += `\n${inspectObject(def, { tabSize: 2 })}`;
+//       e.stack = message + '\n' + e.stack;
+//       throw e;
+//     }
+//
+//     this.parse = this.applyParser({
+//       parse: (input: any) => {
+//         if (input === undefined && this.optional) return input;
+//         return this.utils.fieldType.parse(input);
+//       },
+//     });
+//   }
+//
+//   static create = <T extends FieldDefinitionConfig>(def: T): ListField<T> => {
+//     return new ListField(def) as any;
+//   };
+// }

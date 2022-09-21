@@ -15,19 +15,10 @@ export type _ObjectFieldInputBase =
   | FinalFieldDefinition
   | FieldAsString;
 
-export type ObjectFieldInput =
-  | _ObjectFieldInputBase
-  | ObjectInputArray
-  | FlattenFieldDefinition
-  | Readonly<ObjectInputArray>;
+export type ObjectFieldInput = _ObjectFieldInputBase | FlattenFieldDefinition;
 // should update _toFinalField, parseObjectDefinition.ts and Infer.ts if add any new type here
 
 export type FieldInput = ObjectFieldInput;
-
-// https://github.com/microsoft/TypeScript/issues/3496#issuecomment-128553540
-interface ObjectInputArray extends ReadonlyArray<ObjectFieldInput> {
-  length: 1;
-}
 
 export interface ObjectInTypeFieldDefinition
   extends CommonFieldDefinition<_ObjectType> {}
@@ -129,11 +120,8 @@ export type _toFinalField<Base> = {
             Base,
             _ParseObjectType<
               Base,
-              _ParseShortListDef<
-                Base,
-                //
-                _ParseFlattenDef<Base>
-              >
+              //
+              _ParseFlattenDef<Base>
             >
           >
         >
@@ -347,13 +335,6 @@ interface _GraphType {
   definition: unknown;
 }
 
-export type InferTypeInstance<T, ELSE extends any = never> = T extends {
-  '__ds.recycle.def': infer I;
-}
-  ? I
-  : ELSE;
-
-// type _ParseStringDef<Base, ELSE> =
 type _ParseSimpleType<Base, ELSE> = Base extends {
   def?: infer Def;
   list?: boolean;
@@ -459,20 +440,6 @@ type _ParseFieldInstance<Base, ELSE> = //
         type: 'object';
       }
     : ELSE;
-
-type _ParseShortListDef<Base, ELSE> = Base extends
-  | [infer Item]
-  | Readonly<[infer Item]>
-  ? ToFinalField<Item> extends { def?: infer Def; type: infer Type }
-    ? {
-        def: Def;
-        description: string | undefined;
-        list: true;
-        optional: false;
-        type: Type;
-      }
-    : never
-  : ELSE;
 
 type _ParseFlattenDef<Base> = {
   [K in keyof ParseFlattenFieldDef<Base>]: ParseFlattenFieldDef<Base>[K];

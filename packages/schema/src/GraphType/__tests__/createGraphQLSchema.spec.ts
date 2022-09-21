@@ -320,7 +320,7 @@ describe('createGraphQLObject', () => {
         object: {
           name: 'string',
           age: 'int',
-          foo_bar: [{ enum: ['foo', 'bar'] }] as const,
+          foo_bar: { enum: ['foo', 'bar'], list: true },
           addresses: {
             list: true,
             object: {
@@ -329,7 +329,7 @@ describe('createGraphQLObject', () => {
             },
           },
         },
-      });
+      } as const);
 
       createResolver({
         type: user,
