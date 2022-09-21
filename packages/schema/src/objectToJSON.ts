@@ -1,4 +1,4 @@
-import { DJSON } from '@darch/utils/lib/DJSON';
+import { BJSON } from '@darch/utils/lib/BJSON';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { expectedType } from '@darch/utils/lib/expectedType';
 import { getKeys } from '@darch/utils/lib/getKeys';
@@ -185,11 +185,11 @@ function parseField(params: {
       const parsed =
         field.def['__o.proto__'] === 'String'
           ? field.def.value
-          : DJSON.parse(field.def.value);
+          : BJSON.parse(field.def.value);
 
       jsonItem.const = parsed;
 
-      const tsType = DJSON.stringify(parsed, {
+      const tsType = BJSON.stringify(parsed, {
         handler: ({ serializer, value }) => {
           const typeName = getTypeName(value);
           if (['Object', 'Array'].includes(typeName)) return;

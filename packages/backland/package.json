@@ -1,5 +1,5 @@
 {
-  "name": "darch",
+  "name": "backland",
   "version": "0.1.1-alpha.20220921T143712-0300.9+0866271",
   "main": "lib/index.js",
   "module": "lib/module/index.js",

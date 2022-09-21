@@ -48,7 +48,7 @@ export function mountID(params: {
   }`;
 }
 
-export type GraphIDJSON = {
+export type GraphIBJSON = {
   // index name
   e: string;
   i: DocumentIndexField; // entity
@@ -62,7 +62,7 @@ export function mountGraphID(id: string) {
   return `${GRAPH_ID_PREFIX}${textToBase64(id)}`;
 }
 
-export function parseGraphID(input: string): GraphIDJSON | null {
+export function parseGraphID(input: string): GraphIBJSON | null {
   try {
     const v = input.startsWith(GRAPH_ID_PREFIX)
       ? base64ToText(input.slice(1))

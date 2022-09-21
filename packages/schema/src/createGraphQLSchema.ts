@@ -1,4 +1,4 @@
-import { capitalize, DJSON, notNull } from '@darch/utils';
+import { capitalize, BJSON, notNull } from '@darch/utils';
 import { formatGraphQL } from '@darch/utils/lib/formatGraphQL';
 import { tupleEnum } from '@darch/utils/lib/typeUtils';
 import type { GraphQLSchemaConfig } from 'graphql';
@@ -392,7 +392,7 @@ function queryExamples({
             typeof example === 'string'
               ? `"${example}"`
               : example && typeof example === 'object'
-              ? DJSON.stringify(example, {
+              ? BJSON.stringify(example, {
                   quoteKeys(str) {
                     if (str.match(/[-.]/)) return `"${str}"`;
                     return str;

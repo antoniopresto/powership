@@ -1,4 +1,4 @@
-import { DJSON } from '@darch/utils/lib/DJSON';
+import { BJSON } from '@darch/utils/lib/BJSON';
 import { hashObject } from '@darch/utils/lib/hashObject';
 import { ObjectId } from 'mongodb';
 
@@ -14,7 +14,7 @@ export function parseMongoDLParams(options: MongoFindManyParams) {
     sort: options.sort,
   });
 
-  const queryHash = DJSON.stringify(options.query, {
+  const queryHash = BJSON.stringify(options.query, {
     handler({ value, serializer }) {
       if (serializer) return undefined;
       if (!isObjectId(value)) return undefined;

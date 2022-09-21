@@ -2,7 +2,7 @@ import * as TU from './typeUtils';
 
 export * from './typeUtils';
 export * from './devAssert';
-export * from './DJSON';
+export * from './BJSON';
 export * from './getTypeName';
 export * from './RuntimeError';
 export * from './getKeys';

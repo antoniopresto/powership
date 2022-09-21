@@ -1,7 +1,7 @@
 export * from './Infer';
 export * from './TObjectConfig';
 export * from './ObjectType';
-export * from './fields/fieldTypes';
+
 export { objectMetaFieldKey } from './fields/MetaFieldField';
 export * from './GraphType/GraphType';
 export { CircularDeps } from './CircularDeps';
@@ -10,8 +10,12 @@ export * from './applyValidator';
 export * from './mockObject';
 export * from '@darch/utils';
 export * from './fields/FieldType';
-export * from './fields/FieldType';
+export * from './fields/fieldTypes';
 export * from './extendDefinition';
 
 // @only-server
 export * from './Resolver';
+// @only-server
+export * from './createGraphQLSchema';
+// @only-server
+export type { ResolverKind } from './createGraphQLSchema';

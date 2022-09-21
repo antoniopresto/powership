@@ -52,7 +52,7 @@ export class Serializer<Type> {
   }
 }
 
-export class DJSONConstructor {
+export class BJSONConstructor {
   static serializers = [
     new Serializer<Date>({
       name: 'Date',
@@ -110,7 +110,7 @@ export class DJSONConstructor {
   serializers: Serializer<any>[] = [];
 
   constructor() {
-    this.serializers = DJSONConstructor.serializers;
+    this.serializers = BJSONConstructor.serializers;
   }
 
   stringify = (
@@ -118,7 +118,7 @@ export class DJSONConstructor {
     options: StringifyOptions & {
       handler?: (
         utils: StringifyOptions & {
-          self: DJSONConstructor;
+          self: BJSONConstructor;
           value: any;
           serializer?: Serializer<any>;
         }
@@ -268,4 +268,4 @@ export function stringify(
   }
 } // If the JSON object does not yet have a stringify method, give it one.
 
-export const DJSON = new DJSONConstructor();
+export const BJSON = new BJSONConstructor();

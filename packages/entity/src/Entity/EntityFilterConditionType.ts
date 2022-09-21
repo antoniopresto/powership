@@ -1,5 +1,5 @@
 import { createType, GraphType, ObjectFieldInput } from '@darch/schema';
-import { DJSON, getKeys } from '@darch/utils';
+import { BJSON, getKeys } from '@darch/utils';
 
 import { DocumentBase, FieldTypes, FilterRecord } from '../Transporter';
 
@@ -110,8 +110,8 @@ export function graphQLFilterToTransporterFilter<T>(
 ): GraphQLFilterToTransporterFilter<T> {
   if (!filter || typeof filter !== 'object') return filter as any;
 
-  return DJSON.parse(
-    DJSON.stringify(filter, {
+  return BJSON.parse(
+    BJSON.stringify(filter, {
       quoteKeys(key) {
         if (keysSet.has(key)) {
           key = `$${key}`;

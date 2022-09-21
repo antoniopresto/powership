@@ -1,4 +1,4 @@
-import { DJSON } from '@darch/utils/lib/DJSON';
+import { BJSON } from '@darch/utils/lib/BJSON';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { getTypeName } from '@darch/utils/lib/getTypeName';
 import { Serializable } from '@darch/utils/lib/typeUtils';
@@ -27,7 +27,7 @@ export class LiteralField<T extends Readonly<Serializable>> extends FieldType<
       if (def[PROTO_KEY] === typename) return def.value;
 
       try {
-        return DJSON.parse(def.value);
+        return BJSON.parse(def.value);
       } catch (e) {
         throw new RuntimeError(`Failed deserialize value`, {
           ...def,
@@ -39,7 +39,7 @@ export class LiteralField<T extends Readonly<Serializable>> extends FieldType<
       if (typeof value === 'string') return value;
 
       try {
-        return DJSON.stringify(value);
+        return BJSON.stringify(value);
       } catch (e) {
         throw new RuntimeError(`Failed to serialize`, {
           //

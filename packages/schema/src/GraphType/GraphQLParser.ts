@@ -1,4 +1,4 @@
-import { assertEqual, DJSON } from '@darch/utils';
+import { assertEqual, BJSON } from '@darch/utils';
 import { RuntimeError } from '@darch/utils/lib/RuntimeError';
 import { StrictMap } from '@darch/utils/lib/StrictMap';
 import { assertSame } from '@darch/utils/lib/assertSame';
@@ -687,7 +687,7 @@ export class GraphQLParser {
 export function describeField(field: FinalFieldDefinition) {
   if (field.alias) return field.alias;
 
-  return DJSON.stringify(field, {
+  return BJSON.stringify(field, {
     handler(payload) {
       const { value } = payload;
 
