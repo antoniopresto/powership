@@ -91,7 +91,7 @@ export const ProductImageMapType = createObjectType('ProductImageMap', {
   kind: 'string?',
 });
 
-export const BreadCrumb = createObjectType('BreadCrumb', {
+export const BreadCrumbType = createObjectType('BreadCrumb', {
   active: 'boolean?',
   id: 'ID',
   name: 'string',
@@ -110,45 +110,29 @@ export const StockType = createObjectType('Stock', {
 
 export const ProductType = createType('Product', {
   object: {
-    // createdBy: 'string',
-    // stock: StockType,
-    // name: 'string',
-    // shortDescription: 'string?',
-    // brand: 'string',
-    // detailsUrl: 'string?',
-    // alcoholic: 'boolean',
-    // thumbUrl: 'string?',
-    breadcrumb: [BreadCrumb],
-
     sku: 'string',
-
+    storeId: 'ID',
     title: 'string',
-    // mapOfImages: [ProductImageMapType],
-    // attributes: 'record',
-    // currentPrice: 'float',
-    // priceFrom: 'float?',
-    // sellPrice: 'float',
-    // dimensions: DimensionsType,
-    // tags: '[string]?',
-    // isDraft: 'boolean?',
-    // slug: 'string?',
-    // categories: ['string'],
-    // status: { enum: productsStatusEnum },
-    // previousStatus: { enum: productsStatusEnum },
-    // spotlight: 'boolean?',
-    // publishedAt: 'date?',
-    // html: 'string?',
-    // homogeneousKit: false,
-    // heterogeneousKit: false,
-    // kit: false,
-    // simpleProduct: true
-    // priceType: 'O',
-    // validOnStore: true,
-    // nutritionalMap: {},
-    // commercialStructure: '/43/1632/',
-    // showPackUnitPrice: false,
-    // nominalPrice: false,
-    // priceProgressiveMap: {},
+    stock: StockType,
+    shortDescription: 'string?',
+    brand: 'string',
+    detailsUrl: 'string?',
+    alcoholic: { boolean: true, defaultValue: false },
+    thumbUrl: 'string?',
+    breadcrumb: BreadCrumbType,
+    mapOfImages: {
+      type: ProductImageMapType,
+      list: true,
+      optional: true,
+    },
+    attributes: 'record?',
+    currentPrice: 'float',
+    priceFrom: 'float?',
+    sellPrice: 'float',
+    dimensions: {
+      type: DimensionsType,
+      optional: true,
+    },
   },
 } as const);
 
