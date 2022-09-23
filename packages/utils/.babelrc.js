@@ -72,7 +72,7 @@ module.exports = function (api) {
 
   const plugins = [
     [
-      require('@darch/babel-plugins').StripBlocksPlugin,
+      require('@backland/babel-plugins').StripBlocksPlugin,
       {
         magicComment: `@only-${KIND_INVERT}`,
       },

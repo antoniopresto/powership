@@ -1,6 +1,6 @@
-import { parseFieldDefinitionConfig } from '@darch/schema';
-import { createProxy, notNull } from '@darch/utils';
-import { NodeLogger } from '@darch/utils/lib/nodeLogger';
+import { parseFieldDefinitionConfig } from '@backland/schema';
+import { createProxy, notNull } from '@backland/utils';
+import { NodeLogger } from '@backland/utils/lib/nodeLogger';
 
 import { createEntityPlugin } from '../EntityPlugin';
 

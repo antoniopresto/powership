@@ -1,7 +1,7 @@
-import { BJSON } from '@darch/utils/lib/BJSON';
-import { RuntimeError } from '@darch/utils/lib/RuntimeError';
-import { getTypeName } from '@darch/utils/lib/getTypeName';
-import { Serializable } from '@darch/utils/lib/typeUtils';
+import { BJSON } from '@backland/utils/lib/BJSON';
+import { RuntimeError } from '@backland/utils/lib/RuntimeError';
+import { getTypeName } from '@backland/utils/lib/getTypeName';
+import { Serializable } from '@backland/utils/lib/typeUtils';
 
 import { FieldType, FieldTypeParser } from './FieldType';
 

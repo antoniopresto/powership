@@ -1,4 +1,4 @@
-import { getTypeName } from '@darch/utils/lib/getTypeName';
+import { getTypeName } from '@backland/utils/lib/getTypeName';
 
 import { FieldType, FieldTypeParser } from './FieldType';
 

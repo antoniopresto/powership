@@ -326,7 +326,7 @@ type _inferBasic<Type, Def = undefined> =
     : never;
 
 interface _ObjectType {
-  __isDarchObject: true;
+  __isBacklandObject: true;
   definition: unknown;
 }
 
@@ -379,7 +379,7 @@ type _ParseGraphType<Base, ELSE> = Base extends {
 type _ParseObjectType<Base, ELSE> =
   //
   Base extends {
-    __isDarchObject: true;
+    __isBacklandObject: true;
     definition: infer Def;
   }
     ? {
@@ -393,7 +393,7 @@ type _ParseObjectType<Base, ELSE> =
         list?: infer List;
         optional?: infer Optional;
         type: {
-          __isDarchObject: true;
+          __isBacklandObject: true;
           definition: infer Def;
         };
       }
@@ -418,7 +418,7 @@ type _ParseFieldInstance<Base, ELSE> = //
     Base extends {
         list?: infer List;
         optional?: infer Optional;
-        type: { __isDarchObject: true; definition: infer Def };
+        type: { __isBacklandObject: true; definition: infer Def };
       }
     ? {
         __infer: InferObjectDefinition<Def>;
@@ -429,7 +429,7 @@ type _ParseFieldInstance<Base, ELSE> = //
       }
     : Base extends {
         list?: infer List;
-        object: { __isDarchObject: true; definition: infer Def };
+        object: { __isBacklandObject: true; definition: infer Def };
         optional?: infer Optional;
       }
     ? {

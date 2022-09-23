@@ -1,8 +1,8 @@
-import { MaybePromise, PromiseType } from '@darch/utils/lib/typeUtils';
+import { MaybePromise, PromiseType } from '@backland/utils/lib/typeUtils';
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
-import { createDarchObject, ObjectType } from '../../ObjectType';
+import { createBacklandObject, ObjectType } from '../../ObjectType';
 import { createResolver } from '../../Resolver';
 import { GraphType } from '../GraphType';
 
@@ -12,7 +12,7 @@ describe('createResolver', () => {
   });
 
   it('Should create a Resolver', () => {
-    const UserType = createDarchObject('User', {
+    const UserType = createBacklandObject('User', {
       name: { string: {}, description: 'the user name' },
       id: 'ulid',
     });
@@ -65,12 +65,12 @@ describe('createResolver', () => {
   });
 
   it('Should create complex types preserving names', () => {
-    const user = createDarchObject('user', {
+    const user = createBacklandObject('user', {
       name: 'string',
       age: 'int?',
     });
 
-    const userAddress = createDarchObject('UserAddress', {
+    const userAddress = createBacklandObject('UserAddress', {
       street: 'string',
       number: 'int?',
     }).describe('The user address');

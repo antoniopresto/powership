@@ -1,4 +1,4 @@
-import { Infer } from '@brabo/schema';
+import { Infer } from '@backland/schema';
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { setupProductTest } from './setupProductTest';

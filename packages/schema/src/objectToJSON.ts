@@ -1,9 +1,9 @@
-import { BJSON } from '@darch/utils/lib/BJSON';
-import { RuntimeError } from '@darch/utils/lib/RuntimeError';
-import { expectedType } from '@darch/utils/lib/expectedType';
-import { getKeys } from '@darch/utils/lib/getKeys';
-import { getTypeName } from '@darch/utils/lib/getTypeName';
-import { nonNullValues } from '@darch/utils/lib/invariant';
+import { BJSON } from '@backland/utils/lib/BJSON';
+import { RuntimeError } from '@backland/utils/lib/RuntimeError';
+import { expectedType } from '@backland/utils/lib/expectedType';
+import { getKeys } from '@backland/utils/lib/getKeys';
+import { getTypeName } from '@backland/utils/lib/getTypeName';
+import { nonNullValues } from '@backland/utils/lib/invariant';
 import { JSONSchema4 } from 'json-schema';
 
 import { createObjectType, isObject } from './ObjectType';

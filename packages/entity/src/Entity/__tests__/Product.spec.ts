@@ -1,5 +1,5 @@
-import { createType, ObjectType } from '@brabo/schema';
-import { ULID_REGEX } from '@brabo/schema/lib/fields/UlidField';
+import { createType, ObjectType } from '@backland/schema';
+import { ULID_REGEX } from '@backland/schema/lib/fields/UlidField';
 
 import { MongoTransporter } from '../../Mongo';
 import { AppMock, createAppMock } from '../../Mongo/__tests__/createAppMock';

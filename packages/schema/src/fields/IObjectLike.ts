@@ -4,7 +4,7 @@ import { TAnyFieldType } from './FieldType';
 import { FinalFieldDefinition } from './_parseFields';
 
 export interface ObjectLike {
-  __isDarchObject: true;
+  __isBacklandObject: true;
   definition: { [K: string]: any };
 }
 

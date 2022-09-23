@@ -1,9 +1,9 @@
 /*
  * Handles circular dependencies with type safety
  */
-import { RuntimeError } from '@darch/utils/lib/RuntimeError';
-import { dynamicRequire } from '@darch/utils/lib/dynamicRequire';
-import { isBrowser } from '@darch/utils/lib/isBrowser';
+import { RuntimeError } from '@backland/utils/lib/RuntimeError';
+import { dynamicRequire } from '@backland/utils/lib/dynamicRequire';
+import { isBrowser } from '@backland/utils/lib/isBrowser';
 
 import { fieldTypeNames } from './fields/fieldTypeNames';
 import type { FieldCreators } from './fields/fieldTypes';
@@ -94,7 +94,7 @@ function getModules() {
         } catch (e: any) {
           return function objectToTypescript() {
             throw new Error(
-              '⚠️ Darch.objectToTypescript is not available when bundled.\n' +
+              '⚠️ Backland.objectToTypescript is not available when bundled.\n' +
                 e.stack
             );
           } as any;
@@ -115,7 +115,7 @@ function getModules() {
           return {
             format(code) {
               console.warn(
-                '⚠️ Darch.prettier is not available when bundled.' + e.stack
+                '⚠️ Backland.prettier is not available when bundled.' + e.stack
               );
               return code;
             },
@@ -174,7 +174,7 @@ type Caramelo<P> = {
   [K in AllKeys<P>]: K extends keyof SubProps<P, K> ? SubProps<P, K>[K] : never;
 };
 
-export type DarchModules = Exports & Caramelo<Exports> & FieldCreators;
+export type BacklandModules = Exports & Caramelo<Exports> & FieldCreators;
 
 const cache = new Map();
 
@@ -232,7 +232,7 @@ function get(key: string) {
   return cache.get(key);
 }
 
-export const CircularDeps = new Proxy({} as DarchModules, {
+export const CircularDeps = new Proxy({} as BacklandModules, {
   get(_, key: string) {
     const item = get(key);
     if (!item) {

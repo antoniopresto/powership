@@ -1,4 +1,4 @@
-import { MaybePromise } from '@darch/utils/lib/typeUtils';
+import { MaybePromise } from '@backland/utils/lib/typeUtils';
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../../Infer';

@@ -4,15 +4,15 @@ import {
   GraphType,
   objectMock,
   ObjectType,
-} from '@brabo/schema';
-import { getTypeName } from '@brabo/utils';
-import { slugify } from '@brabo/utils/lib/slugify';
+} from '@backland/schema';
+import { getTypeName } from '@backland/utils';
+import { slugify } from '@backland/utils/lib/slugify';
 
 import { MongoTransporter } from '../../Mongo';
 import { AppMock, createAppMock } from '../../Mongo/__tests__/createAppMock';
 import { createEntity } from '../Entity';
 import { createEntityDefaultFields, Entity } from '../EntityInterfaces';
-import { createSchema } from '@darch/schema';
+import { createSchema } from '@backland/schema';
 
 export const BreadCrumbType = createType('BreadCrumb', {
   object: {

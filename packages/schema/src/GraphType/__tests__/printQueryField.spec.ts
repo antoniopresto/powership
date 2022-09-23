@@ -66,7 +66,7 @@ describe('generateQuery', () => {
       },
     });
 
-    const darchResolver = createResolver({
+    const backlandResolver = createResolver({
       type: ProductType,
       name: 'getProductById',
       description: 'Get a product by ID',
@@ -85,7 +85,7 @@ describe('generateQuery', () => {
       },
     });
 
-    const graphQLField = darchResolver.asObjectField('productById');
+    const graphQLField = backlandResolver.asObjectField('productById');
     const sut = getQueryTemplates({
       graphQLField,
       queryKind: 'mainQuery',
@@ -129,7 +129,7 @@ describe('generateQuery', () => {
       },
     } as const);
 
-    const darchResolver = createResolver({
+    const backlandResolver = createResolver({
       type: ProductType,
       name: 'getMemberKind',
       args: {
@@ -140,7 +140,7 @@ describe('generateQuery', () => {
       },
     });
 
-    const graphQLField = darchResolver.asObjectField();
+    const graphQLField = backlandResolver.asObjectField();
 
     const sut = getQueryTemplates({
       graphQLField,

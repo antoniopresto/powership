@@ -1,6 +1,6 @@
-import { RuntimeError } from '@darch/utils/lib/RuntimeError';
-import { simpleObjectClone } from '@darch/utils/lib/simpleObjectClone';
-import { Merge } from '@darch/utils/lib/typeUtils';
+import { RuntimeError } from '@backland/utils/lib/RuntimeError';
+import { simpleObjectClone } from '@backland/utils/lib/simpleObjectClone';
+import { Merge } from '@backland/utils/lib/typeUtils';
 
 import { createObjectType, isObject, ObjectType } from './ObjectType';
 import { ObjectLike } from './fields/IObjectLike';

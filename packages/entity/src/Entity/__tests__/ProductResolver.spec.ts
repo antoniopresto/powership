@@ -1,6 +1,6 @@
-import { CircularDeps, createResolver, Infer } from '@brabo/schema';
-import { createGraphQLSchema } from '@brabo/schema/lib/createGraphQLSchema';
-import { notNull, PromiseType } from '@brabo/utils';
+import { CircularDeps, createResolver, Infer } from '@backland/schema';
+import { createGraphQLSchema } from '@backland/schema/lib/createGraphQLSchema';
+import { notNull, PromiseType } from '@backland/utils';
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { PaginationResult } from '../../Transporter';

@@ -1,6 +1,6 @@
 {
   "name": "my-app",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -12,10 +12,10 @@
     "finstall": "rm -rf node_modules && yarn install"
   },
   "dependencies": {
-    "backland": "0.1.0",
-    "@backland/schema": "0.1.0",
-    "@backland/utils": "0.1.0",
-    "@backland/entity": "0.1.0",
+    "backland": "^0.0.1",
+    "@backland/schema": "^0.0.1",
+    "@backland/utils": "^0.0.1",
+    "@backland/entity": "^0.0.1",
     "@next/bundle-analyzer": "12.2.0",
     "next": "12.1.6",
     "react": "18.1.0",

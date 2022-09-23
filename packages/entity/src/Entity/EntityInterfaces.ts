@@ -6,7 +6,7 @@ import {
   parseObjectDefinition,
   ToFinalField,
 } from '@backland/schema';
-import { MaybeArray, UnionToIntersection } from '@backland/utils';
+import { MaybeArray, Override, UnionToIntersection } from '@backland/utils';
 
 import {
   CreateOneResult,
@@ -210,7 +210,7 @@ type _Entity<Options extends EntityOptions> = {
 
 export type Entity<Options extends EntityOptions> =
   //
-  _Entity<Options> & WithExtend<Options>;
+  _Entity<Options> & WithExtend<Options, _Entity<Options>>;
 
 type Utils<Loader, Options extends EntityOptions> = {
   filterDef: GetLoaderFilterDef<Loader, _getOptionsTypeDef<Options>>;
@@ -301,13 +301,13 @@ type _getOptionsTypeDef<Options extends EntityOptions> =
     : any;
 
 type ExcludeExtend<E> = {
-  [K in keyof E as K extends keyof WithExtend<any> ? never : K]: E[K];
+  [K in keyof E as K extends keyof WithExtend<any, any> ? never : K]: E[K];
 } & {};
 
-type WithExtend<Options extends EntityOptions> = {
+type WithExtend<Options extends EntityOptions, Origin> = {
   addHooks: (
     options: MaybeArray<EntityHookOptions>
-  ) => ExcludeExtend<Entity<Options>> & WithExtend<Options>;
+  ) => ExcludeExtend<Origin> & WithExtend<Options, Origin>;
 
   addRelations: <
     Context extends LoaderContext,
@@ -320,14 +320,15 @@ type WithExtend<Options extends EntityOptions> = {
       ArgsDef,
       _getDocType<Options>
     >
-  ) => ExcludeExtend<Entity<Options>> & WithExtend<Options>;
+  ) => ExcludeExtend<Origin> & WithExtend<Options, Origin>;
 
-  extend: <E>(
+  extend: <TransformerReturn>(
     transformer: (
-      current: E,
+      current: Origin,
       utils: { extend: <V>(value: V) => ExtendDefinitionResult<V, V> }
-    ) => E
-  ) => ExcludeExtend<Entity<Options>> & WithExtend<Options>;
+    ) => TransformerReturn
+  ) => ExcludeExtend<Override<Origin, TransformerReturn>> &
+    WithExtend<Options, Override<Origin, TransformerReturn>>;
 };
 
 export type EntityOperationInfoContext =

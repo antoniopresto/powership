@@ -1,12 +1,12 @@
-import { IsKnown } from '@darch/utils';
-import { RuntimeError } from '@darch/utils/lib/RuntimeError';
-import { StrictMap } from '@darch/utils/lib/StrictMap';
-import { ensureArray } from '@darch/utils/lib/ensureArray';
-import { isProduction } from '@darch/utils/lib/env';
-import { expectedType } from '@darch/utils/lib/expectedType';
-import { getTypeName } from '@darch/utils/lib/getTypeName';
-import { invariantType } from '@darch/utils/lib/invariant';
-import { Serializable } from '@darch/utils/lib/typeUtils';
+import { IsKnown } from '@backland/utils';
+import { RuntimeError } from '@backland/utils/lib/RuntimeError';
+import { StrictMap } from '@backland/utils/lib/StrictMap';
+import { ensureArray } from '@backland/utils/lib/ensureArray';
+import { isProduction } from '@backland/utils/lib/env';
+import { expectedType } from '@backland/utils/lib/expectedType';
+import { getTypeName } from '@backland/utils/lib/getTypeName';
+import { invariantType } from '@backland/utils/lib/invariant';
+import { Serializable } from '@backland/utils/lib/typeUtils';
 import type { GraphQLInterfaceType, GraphQLObjectType } from 'graphql';
 
 import { CircularDeps } from './CircularDeps';
@@ -49,7 +49,7 @@ import type { ObjectToTypescriptOptions } from './objectToTypescript';
 import { parseObjectDefinition } from './parseObjectDefinition';
 import { withCache, WithCache } from './withCache';
 
-export { RuntimeError } from '@darch/utils/lib/RuntimeError';
+export { RuntimeError } from '@backland/utils/lib/RuntimeError';
 export * from './parseObjectDefinition';
 export * from './objectInferenceUtils';
 export * from './implementObject';
@@ -61,11 +61,11 @@ export class ObjectType<
   Input,
   HandledInput extends _HandleInput<Input> = _HandleInput<Input>
 > {
-  get __isDarchObject(): true {
+  get __isBacklandObject(): true {
     return true;
   }
 
-  static __isDarchObject: boolean = true;
+  static __isBacklandObject: boolean = true;
 
   private readonly __definition: any;
 
@@ -432,7 +432,7 @@ export class ObjectType<
   }
 }
 
-export const DarchObject = ObjectType;
+export const BacklandObject = ObjectType;
 
 export function createObjectType<
   DefinitionInput extends Readonly<ObjectDefinitionInput>
@@ -461,7 +461,7 @@ export function createObjectType<
   return new ObjectType(fields) as any;
 }
 
-export const createDarchObject = createObjectType;
+export const createBacklandObject = createObjectType;
 export const createSchema = createObjectType;
 
 type _HandleInput<T> = [IsKnown<T>] extends [1]

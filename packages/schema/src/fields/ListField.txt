@@ -1,4 +1,4 @@
-// import { inspectObject } from '@darch/utils/lib/inspectObject';
+// import { inspectObject } from '@backland/utils/lib/inspectObject';
 //
 // import { CircularDeps } from '../CircularDeps';
 // import { Infer } from '../Infer';

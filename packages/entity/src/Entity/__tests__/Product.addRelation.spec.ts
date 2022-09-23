@@ -1,9 +1,10 @@
-import { createType } from '@brabo/schema';
+import { createType } from '@backland/schema';
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { createEntity } from '../Entity';
 
 import { setupProductTest } from './setupProductTest';
+import { PromiseType } from '@backland/utils';
 
 describe('ProductResolver.addRelations', () => {
   const { getMocks } = setupProductTest();
@@ -45,12 +46,30 @@ describe('ProductResolver.addRelations', () => {
       },
     });
 
+    const Transformed = ProductEntity.extend((origin) => {
+      return {
+        createOne: async (
+          num: 1,
+          ...rest: Parameters<typeof origin.createOne>
+        ) => {
+          return [num, await origin.createOne(...rest)] as const;
+        },
+      };
+    });
+
+    type PC = Parameters<typeof Transformed.createOne>[0];
+    assert<IsExact<PC, 1>>(true);
+    type PR = PromiseType<ReturnType<typeof Transformed.createOne>>[0];
+    assert<IsExact<PR, 1>>(true);
+
     const item = mockObject();
 
-    const created = await ProductEntity.createOne({
+    const [num, created] = await Transformed.createOne(1, {
       item,
       context: {},
     });
+
+    expect(num).toBe(1);
 
     expect(created).not.toHaveProperty('item.batata');
     expect(created).toHaveProperty('item.createdAt', expect.any(Date)); // entity generated

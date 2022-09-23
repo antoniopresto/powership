@@ -8,7 +8,7 @@ export { CircularDeps } from './CircularDeps';
 export * from './fields/IObjectLike';
 export * from './applyValidator';
 export * from './mockObject';
-export * from '@darch/utils';
+export * from '@backland/utils';
 export * from './fields/FieldType';
 export * from './fields/fieldTypes';
 export * from './extendDefinition';
