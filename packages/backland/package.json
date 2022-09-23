@@ -25,9 +25,9 @@
     "url": "https://github.com/antoniopresto/backland/tree/master/packages/db"
   },
   "dependencies": {
-    "@backland/entity": "0.1.1-alpha.20220921T143712-0300.9+0866271",
-    "@backland/schema": "0.1.1-alpha.20220921T143712-0300.9+0866271",
-    "@backland/utils": "0.1.1-alpha.20220921T143712-0300.9+0866271"
+    "@backland/entity": "^0.1.1",
+    "@backland/schema": "^0.1.1",
+    "@backland/utils": "^0.1.1"
   },
   "devDependencies": {
     "@babel/cli": "7.18.6",
@@ -35,7 +35,7 @@
     "@babel/plugin-transform-typescript": "7.18.6",
     "@babel/preset-env": "7.18.6",
     "@babel/preset-typescript": "7.18.6",
-    "@backland/babel-plugins": "0.1.1-alpha.20220921T143712-0300.9+0866271",
+    "@backland/babel-plugins": "^0.1.1",
     "@types/babel__core": "7.1.19",
     "@types/babel__helper-plugin-utils": "7.10.0",
     "@types/jest": "27.0.3",
