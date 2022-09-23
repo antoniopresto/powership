@@ -1,44 +1,16 @@
 import * as util from 'util';
 
-import winston from 'winston';
-import SlackHook from 'winston-slack-webhook-transport';
-
 import { getLogLevelInfo, LogLevels, TLogLevel } from './logLevels';
-
-const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL;
 
 const ALLOWED_LOG_LEVELS = getLogLevelInfo();
 
-const logger = winston.createLogger({
-  levels: {
-    // RFC5424 (https://www.npmjs.com/package/winston#logging-levels)
-    emerg: 0,
-    alert: 1,
-    crit: 2,
-    error: 3,
-    warning: 4,
-    notice: 5,
-    info: 6,
-    debug: -1,
-  },
-  transports: [
-    new winston.transports.Console({
-      format: winston.format.combine(
-        winston.format.colorize(),
-        winston.format.simple()
-      ),
-    }),
-  ],
-});
-
-if (SLACK_WEBHOOK_URL) {
-  logger.add(
-    new SlackHook({
-      level: 'crit',
-      webhookUrl: SLACK_WEBHOOK_URL,
-    })
-  );
-}
+const logger: { [K in TLogLevel]: (...args: any[]) => void } = {
+  error: console.error,
+  debug: console.debug,
+  info: console.info,
+  warning: console.warn,
+  crit: console.error,
+};
 
 export class NodeLogger {
   private prefix: string;
@@ -94,7 +66,7 @@ export class NodeLogger {
     payload.push(data);
 
     try {
-      logger.log(level, payload.join('\n'), extraInfo);
+      logger[level](payload.join('\n'), extraInfo);
     } catch (e) {
       console.trace(e);
     }

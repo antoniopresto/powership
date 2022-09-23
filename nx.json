@@ -1,0 +1,33 @@
+{
+  "extends": "nx/presets/npm.json",
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/nx-cloud",
+      "options": {
+        "cacheableOperations": [
+          "test",
+          "build",
+          "prepublish",
+          "fix",
+          "fix:prettier",
+          "fix:lint",
+          "clear",
+          "build:browser",
+          "build:module-browser",
+          "build:node",
+          "build:module-node",
+          "declarations",
+          "babild"
+        ]
+      }
+    }
+  },
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"]
+    }
+  },
+  "affected": {
+    "defaultBase": "master"
+  }
+}
