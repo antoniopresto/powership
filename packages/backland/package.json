@@ -1,6 +1,6 @@
 {
   "name": "backland",
-  "version": "0.1.1-alpha.20220921T143712-0300.9+0866271",
+  "version": "0.1.1",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
   "author": "antoniopresto <antoniopresto@gmail.com>",

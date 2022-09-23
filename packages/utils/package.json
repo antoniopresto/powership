@@ -1,6 +1,6 @@
 {
   "name": "@darch/utils",
-  "version": "0.1.1-alpha.20220920T122708-0300.6+9b3c48b",
+  "version": "0.1.1",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
