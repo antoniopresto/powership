@@ -1,5 +1,5 @@
 {
-  "name": "@darch/schema",
+  "name": "@backland/schema",
   "version": "0.1.1-alpha.20220920T122708-0300.6+9b3c48b",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
@@ -27,7 +27,7 @@
   "description": "TypeScript schema declaration and validation library with static type inference",
   "repository": {
     "type": "git",
-    "url": "https://github.com/antoniopresto/darch/tree/master/packages/schema"
+    "url": "https://github.com/antoniopresto/backland/tree/master/packages/schema"
   },
   "keywords": [
     "typescript",
@@ -38,7 +38,7 @@
     "inference"
   ],
   "dependencies": {
-    "@darch/utils": "0.1.1-alpha.20220920T122708-0300.6+9b3c48b"
+    "@backland/utils": "0.1.1-alpha.20220920T122708-0300.6+9b3c48b"
   },
   "devDependencies": {
     "@babel/cli": "7.18.6",
@@ -46,7 +46,7 @@
     "@babel/plugin-transform-typescript": "7.18.6",
     "@babel/preset-env": "7.18.6",
     "@babel/preset-typescript": "7.18.6",
-    "@darch/babel-plugins": "0.1.1-alpha.20220920T122708-0300.6+9b3c48b",
+    "@backland/babel-plugins": "0.1.1-alpha.20220920T122708-0300.6+9b3c48b",
     "@types/babel__core": "7.1.19",
     "@types/babel__helper-plugin-utils": "7.10.0",
     "@types/express": "4.17.13",

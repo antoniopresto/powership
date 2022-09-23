@@ -1,5 +1,5 @@
 {
-  "name": "@darch/entity",
+  "name": "@backland/entity",
   "version": "0.1.1-alpha.20220920T122708-0300.6+9b3c48b",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
@@ -18,10 +18,10 @@
     "declarations": "tsc -p tsconfig.declarations.json",
     "babild": "babel 'src' --extensions '.ts,.tsx'"
   },
-  "description": "Darch db",
+  "description": "Backland db",
   "repository": {
     "type": "git",
-    "url": "https://github.com/antoniopresto/darch/tree/master/packages/db"
+    "url": "https://github.com/antoniopresto/backland/tree/master/packages/db"
   },
   "keywords": [
     "typescript",
@@ -32,8 +32,8 @@
     "inference"
   ],
   "dependencies": {
-    "@darch/schema": "0.1.1-alpha.20220920T122708-0300.6+9b3c48b",
-    "@darch/utils": "0.1.1-alpha.20220920T122708-0300.6+9b3c48b",
+    "@backland/schema": "0.1.1-alpha.20220920T122708-0300.6+9b3c48b",
+    "@backland/utils": "0.1.1-alpha.20220920T122708-0300.6+9b3c48b",
     "dataloader": "2.1.0",
     "plugin-hooks": "^1.1.3",
     "sift": "16.0.0"
@@ -43,7 +43,7 @@
     "@babel/plugin-transform-typescript": "7.18.6",
     "@babel/preset-env": "7.18.6",
     "@babel/preset-typescript": "7.18.6",
-    "@darch/babel-plugins": "0.1.1-alpha.20220920T122708-0300.6+9b3c48b",
+    "@backland/babel-plugins": "0.1.1-alpha.20220920T122708-0300.6+9b3c48b",
     "@types/jest": "27.0.3",
     "@types/node": "16.11.12",
     "@typescript-eslint/eslint-plugin": "4.15.2",

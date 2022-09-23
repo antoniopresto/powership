@@ -1159,6 +1159,11 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
+"@darch/babel-plugins@0.1.1-alpha.20220920T122708-0300.6+9b3c48b":
+  version "0.1.1-alpha.20220920T122708-0300.6"
+  resolved "https://registry.yarnpkg.com/@darch/babel-plugins/-/babel-plugins-0.1.1-alpha.20220920T122708-0300.6.tgz#0d118e42c20ec982ad0f310a331a19f49f71bd82"
+  integrity sha512-ppLVm67TwODaRs3/PEfhnTSSiSiiUarwm3Vl/rKije1JhaKvS7ailu8CCA7tyJLjSq7UZfleBdyEAuzv9zLYhg==
+
 "@eslint/eslintrc@^0.3.0":
   version "0.3.0"
   resolved "https://registry.npmjs.org/@eslint/eslintrc/-/eslintrc-0.3.0.tgz"

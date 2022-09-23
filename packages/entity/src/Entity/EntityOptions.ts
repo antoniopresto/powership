@@ -4,7 +4,7 @@ import {
   ObjectFieldInput,
   ObjectType,
   ResolverResolve,
-} from '@darch/schema';
+} from '@backland/schema';
 
 import {
   CollectionConfigIndexes,

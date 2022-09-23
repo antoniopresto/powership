@@ -1,5 +1,5 @@
-import { createEntity } from '@darch/entity';
-import { createType, ObjectType } from '@darch/schema';
+import { createEntity } from '@backland/entity';
+import { createType, ObjectType } from '@backland/schema';
 import { assert, IsExact } from 'conditional-type-checks';
 
 describe('index', () => {

@@ -1,8 +1,8 @@
-import { RuntimeError } from '@darch/utils/lib/RuntimeError';
-import { StrictMap } from '@darch/utils/lib/StrictMap';
-import { assertSame } from '@darch/utils/lib/assertSame';
-import { isProduction } from '@darch/utils/lib/env';
-import { isBrowser } from '@darch/utils/lib/isBrowser';
+import { RuntimeError } from '@backland/utils/lib/RuntimeError';
+import { StrictMap } from '@backland/utils/lib/StrictMap';
+import { assertSame } from '@backland/utils/lib/assertSame';
+import { isProduction } from '@backland/utils/lib/env';
+import { isBrowser } from '@backland/utils/lib/isBrowser';
 import type {
   GraphQLInterfaceType,
   GraphQLNamedInputType,
@@ -73,7 +73,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
       }
     } else {
       if (!isBrowser()) {
-        CircularDeps.typesWriter?.DarchWatchTypesPubSub.emit('created', {
+        CircularDeps.typesWriter?.BacklandWatchTypesPubSub.emit('created', {
           graphType: this,
         });
       }

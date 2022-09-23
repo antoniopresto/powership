@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
 import React from 'react';
-import { createObjectType, implementObject } from '@darch/schema';
+import { createObjectType, implementObject } from '@backland/schema';
 
 const nodeType = createObjectType('Node', { id: 'ID' });
 

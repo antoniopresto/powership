@@ -1,9 +1,9 @@
-import { CircularDeps } from '@darch/schema';
-import { MaybePromise } from '@darch/utils';
-import { RuntimeError } from '@darch/utils/lib/RuntimeError';
-import { devAssert } from '@darch/utils/lib/devAssert';
-import { getTypeName } from '@darch/utils/lib/getTypeName';
-import { MaybeArray, tuple } from '@darch/utils/lib/typeUtils';
+import { CircularDeps } from '@backland/schema';
+import { MaybePromise } from '@backland/utils';
+import { RuntimeError } from '@backland/utils/lib/RuntimeError';
+import { devAssert } from '@backland/utils/lib/devAssert';
+import { getTypeName } from '@backland/utils/lib/getTypeName';
+import { MaybeArray, tuple } from '@backland/utils/lib/typeUtils';
 
 import {
   CollectionIndexConfig,

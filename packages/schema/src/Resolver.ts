@@ -1,4 +1,4 @@
-import { MaybePromise } from '@darch/utils';
+import { MaybePromise } from '@backland/utils';
 import {
   GraphQLField,
   GraphQLFieldConfig,
@@ -127,7 +127,7 @@ export function createResolver(
 
   GraphType.resolvers.set(name, result);
 
-  CircularDeps.typesWriter?.DarchWatchTypesPubSub.emit('created', {
+  CircularDeps.typesWriter?.BacklandWatchTypesPubSub.emit('created', {
     resolver: result,
   });
 
