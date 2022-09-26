@@ -12,7 +12,8 @@
     "lp": "lerna exec \"yalc publish\"",
     "alpha-version": "lerna version prerelease --yes --conventional-graduate --no-push --exact --preid=alpha.$(date +%Y%m%dT%H%M%S%z)",
     "build": "nx run-many --target=build --projects=$(nx affected:libs --plain | sed 's/ /,/g')",
-    "alpha": "run-s build alpha-version && lerna exec 'npm publish'"
+    "publish-all": "lerna exec --no-bail 'npm publish'",
+    "alpha": "run-s build alpha-version publish-all"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "4.15.2",
