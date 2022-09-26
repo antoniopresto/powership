@@ -10,7 +10,7 @@
     "fast": "run-s commit alpha",
     "validate": "(cd packages/schema && npm run prepublish)",
     "lp": "lerna exec \"yalc publish\"",
-    "alpha": "lerna publish --loglevel=verbose --force-publish --yes --no-verify-access --conventional-graduate --dist-tag next --canary --no-push --exact --preid=alpha.$(date +%Y%m%dT%H%M%S%z)"
+    "alpha": "lerna version prerelease --yes --conventional-graduate --no-push --exact --preid=alpha.$(date +%Y%m%dT%H%M%S%z)"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "4.15.2",
