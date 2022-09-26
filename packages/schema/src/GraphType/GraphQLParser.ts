@@ -409,7 +409,7 @@ export class GraphQLParser {
         });
 
         return {
-          inputType: wrapCreationWithCache(`${id}`, (...args) => {
+          inputType: wrapCreationWithCache(`${id}ListInput`, (...args) => {
             return new GraphQLList(convertFieldResult.inputType(...args));
           }),
           type: wrapCreationWithCache(`${id}List`, (...args) => {
