@@ -16,7 +16,7 @@ export class StringField extends FieldType<
   parse: FieldTypeParser<string>;
 
   constructor(def: StringFieldDef = {}) {
-    super('string', def);
+    super({ def: def, name: 'string' });
 
     const { min, max, regex } = def;
 

@@ -5,7 +5,10 @@ export class BooleanField extends FieldType<boolean, 'boolean', undefined> {
   parse: FieldTypeParser<boolean>;
 
   constructor() {
-    super('boolean', undefined);
+    super({
+      def: undefined,
+      name: 'boolean',
+    });
     this.parse = this.applyParser({
       parse: (input) => {
         if (typeof input !== 'boolean') {

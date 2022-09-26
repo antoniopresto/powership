@@ -1,4 +1,3 @@
-import { RuntimeError } from '@backland/utils/lib/RuntimeError';
 import { StrictMap } from '@backland/utils/lib/StrictMap';
 import { assertSame } from '@backland/utils/lib/assertSame';
 import { isProduction } from '@backland/utils/lib/env';
@@ -128,10 +127,9 @@ export class GraphType<Definition extends ObjectFieldInput> {
     }
 
     if (!name) {
-      throw new RuntimeError(`Expected name to be provided, found ${name}`, {
-        definition,
-        name,
-      });
+      throw new Error(
+        `createType: Expected name to be provided: createType(typeName, definition);`
+      );
     }
 
     Object.assign(self, {
@@ -184,12 +182,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
     ...args: Parameters<GraphQLParserResult['interfaceType']>
   ): GraphQLInterfaceType => {
     if (!this._object) {
-      throw new RuntimeError(
-        'graphQLInterface is only available for object type',
-        {
-          type: this.__field.type,
-        }
-      );
+      throw new Error('graphQLInterface is only available for object type');
     }
     // @ts-ignore
     return CircularDeps.GraphQLParser.objectToGraphQL({

@@ -1,4 +1,3 @@
-import { RuntimeError } from '@backland/utils/lib/RuntimeError';
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../Infer';
@@ -39,20 +38,18 @@ describe('FieldTypes', () => {
     it('accept custom parse message', () => {
       expect(() =>
         StringField.create({ min: 5 }).parse('abc', 'custom')
-      ).toThrowError(new RuntimeError('custom', { input: 'abc' }));
+      ).toThrowError('custom');
 
       expect(() =>
         StringField.create({ min: 5 }).parse(
           'abc',
           (v) => `hmm ${v} is not enough`
         )
-      ).toThrowError(
-        new RuntimeError('hmm abc is not enough', { input: 'abc' })
-      );
+      ).toThrowError('hmm abc is not enough');
 
       expect(() =>
         StringField.create({ min: 5 }).parse('xpt', () => new TypeError('tt'))
-      ).toThrowError(TypeError('tt'));
+      ).toThrowError('tt');
     });
 
     test('types', () => {
@@ -136,7 +133,7 @@ describe('FieldTypes', () => {
       expect(() => UlidField.create().parse('xxx')).toThrow('Invalid ulid.');
       expect(() =>
         UlidField.create().parse('xpt', () => new TypeError('ulid'))
-      ).toThrowError(TypeError('ulid'));
+      ).toThrowError('ulid');
     });
 
     it('should auto create in objects', () => {
@@ -336,7 +333,7 @@ describe('FieldTypes', () => {
 
       expect(() =>
         EnumField.create(['xx']).parse('ZZ', (v) => `${v}?`)
-      ).toThrowError(new RuntimeError('ZZ?', { input: 'ZZ' }));
+      ).toThrowError('ZZ?');
     });
 
     test('types', () => {

@@ -55,10 +55,10 @@ describe('LiteralField', () => {
 
     expect(err).toEqual([
       '➤ field "value": Unexpected literal value:',
-      'Expected:',
-      '7',
-      'Received:',
-      '2.',
+      '      Expected:',
+      '      7',
+      '      Received:',
+      '      2.',
     ]);
   });
 

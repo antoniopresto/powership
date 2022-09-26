@@ -41,7 +41,7 @@ export class RecordField<Def extends RecordFieldDef> extends FieldType<
   parse: FieldTypeParser<InferRecordFieldType<Def>>;
 
   constructor(def: Def = { keyType: 'string', type: 'any' } as any) {
-    super('record', def);
+    super({ def: def, name: 'record' });
 
     const { parseObjectField } = CircularDeps;
 

@@ -5,6 +5,8 @@ import {
   CursorType,
   FieldDefinitions,
   FieldTypeName,
+  ListDefinition,
+  ListDefinitionTruthy,
 } from './_fieldDefinitions';
 
 export type _ObjectFieldInputBase =
@@ -137,7 +139,12 @@ type _injectInfer<T> = T extends {
       // @ts-ignore FIXME deep excessive
       __infer: // === recursive object case ===
 
-      T['type'] extends 'object'
+      T['type'] extends 'array'
+        ? Def extends { of: infer Of }
+          ? InferField<Of>[]
+          : never
+        : //
+        T['type'] extends 'object'
         ? Def extends { [K: string]: any }
           ? InferObjectDefinition<Def>
           : never
@@ -176,7 +183,7 @@ export type _handleList<T> = T extends {
   __infer: infer Infer;
   list?: infer List;
 }
-  ? [List] extends [true]
+  ? [List] extends [ListDefinitionTruthy]
     ? {
         [K in keyof T | '__infer']: K extends '__infer' ? Infer[] : T[K];
       }
@@ -337,14 +344,14 @@ interface _GraphType {
 
 type _ParseSimpleType<Base, ELSE> = Base extends {
   def?: infer Def;
-  list?: boolean;
+  list?: ListDefinition;
   optional?: boolean;
   type: FieldTypeName;
 }
   ? {
       def: Def;
       description: string | undefined;
-      list: [Base['list']] extends [true] ? true : undefined;
+      list: [Base['list']] extends [ListDefinitionTruthy] ? true : undefined;
       optional: [Base['optional']] extends [true] ? true : undefined;
       type: Base['type'];
     }
@@ -368,7 +375,7 @@ type _ParseGraphType<Base, ELSE> = Base extends {
     ? P extends { def: infer Def; type: infer Type }
       ? {
           def: Def;
-          list: [List] extends [true] ? true : false;
+          list: [List] extends [ListDefinitionTruthy] ? true : false;
           optional: [Optional] extends [true] ? true : false;
           type: Type;
         }
@@ -401,7 +408,7 @@ type _ParseObjectType<Base, ELSE> =
       ? P extends { def: infer Def; type: 'object' }
         ? {
             def: Def;
-            list: [List] extends [true] ? true : false;
+            list: [List] extends [ListDefinitionTruthy] ? true : false;
             optional: [Optional] extends [true] ? true : false;
             type: 'object';
           }
@@ -423,7 +430,7 @@ type _ParseFieldInstance<Base, ELSE> = //
     ? {
         __infer: InferObjectDefinition<Def>;
         def: Def;
-        list: [List] extends [true] ? true : false;
+        list: [List] extends [ListDefinitionTruthy] ? true : false;
         optional: [Optional] extends [true] ? true : false;
         type: 'object';
       }
@@ -435,7 +442,7 @@ type _ParseFieldInstance<Base, ELSE> = //
     ? {
         __infer: InferObjectDefinition<Def>;
         def: Def;
-        list: [List] extends [true] ? true : false;
+        list: [List] extends [ListDefinitionTruthy] ? true : false;
         optional: [Optional] extends [true] ? true : false;
         type: 'object';
       }

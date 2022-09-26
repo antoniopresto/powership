@@ -17,7 +17,7 @@ export class DateField extends FieldType<
   parse: FieldTypeParser<Date>;
 
   constructor(def: DateFieldDef = {}) {
-    super('date', def);
+    super({ def: def, name: 'date' });
     const { min, max, autoCreate } = def;
 
     let minTime = 0;

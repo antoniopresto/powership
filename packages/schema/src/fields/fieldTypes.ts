@@ -1,6 +1,7 @@
 import { memoize } from '@backland/utils/lib/memoize';
 
 import { AnyField } from './AnyField';
+import { ArrayField } from './ArrayField';
 import { BooleanField } from './BooleanField';
 import { CursorField } from './CursorField';
 import { DateField } from './DateField';
@@ -55,6 +56,7 @@ function createConstructors<T extends { [K in FieldTypeName]: any }>(
 export const types = createConstructors({
   ID: IDField,
   any: AnyField,
+  array: ArrayField,
   boolean: BooleanField,
   cursor: CursorField,
   date: DateField,
@@ -62,7 +64,6 @@ export const types = createConstructors({
   enum: EnumField,
   float: FloatField,
   int: IntField,
-  // list: ListField,
   literal: LiteralField,
   meta: MetaField,
   null: NullField,

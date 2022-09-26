@@ -15,7 +15,7 @@ export class IntField extends FieldType<
   parse: FieldTypeParser<number>;
 
   constructor(def: IntFieldDef = {}) {
-    super('int', def);
+    super({ def: def, name: 'int' });
     const { min, max } = def;
 
     expectedType({ max, min }, 'number', true);

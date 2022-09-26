@@ -1,3 +1,4 @@
+import { ArrayFieldDef } from './ArrayField';
 import { ObjectLike } from './IObjectLike';
 import { MetaFieldDef } from './MetaFieldField';
 import { RecordFieldDef } from './RecordField';
@@ -15,13 +16,22 @@ export type CursorType = {
   version?: string | undefined;
 };
 
+export type ListDefinitionObject = {
+  length?: number;
+  max?: number;
+  min?: number;
+};
+
+export type ListDefinition = ListDefinitionObject | boolean;
+export type ListDefinitionTruthy = ListDefinitionObject | true;
+
 export interface CommonFieldDefinition<T> {
   __infer?: any; // used to infer types
   alias?: string; // used in generated types,like GraphQL.
   def?: any;
   defaultValue?: any;
   description?: string;
-  list?: boolean;
+  list?: ListDefinition;
   optional?: boolean;
   type: T;
 }
@@ -34,6 +44,8 @@ export type FieldDefinitions = {
     | undefined;
 
   any: undefined;
+
+  array: ArrayFieldDef;
 
   boolean: undefined;
 
@@ -73,7 +85,6 @@ export type FieldDefinitions = {
     | undefined;
 
   // list: ObjectFieldInput | Readonly<ObjectFieldInput>;
-
   literal: Readonly<unknown>;
 
   meta: MetaFieldDef;

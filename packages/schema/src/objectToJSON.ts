@@ -6,7 +6,7 @@ import { getTypeName } from '@backland/utils/lib/getTypeName';
 import { nonNullValues } from '@backland/utils/lib/invariant';
 import { JSONSchema4 } from 'json-schema';
 
-import { createObjectType, isObject } from './ObjectType';
+import { createObjectType, isObject, parseObjectField } from './ObjectType';
 import { ObjectDefinitionInput } from './TObjectConfig';
 import { ObjectLike } from './fields/IObjectLike';
 import { LiteralField } from './fields/LitarealField';
@@ -98,7 +98,7 @@ function parseField(params: {
   const { field, fieldName, parentName, options } = params;
 
   const { ignoreDefaultValues } = options;
-  let { type, optional, list, description, defaultValue } = field;
+  let { type, list, optional, description, defaultValue } = field;
 
   nonNullValues({ type });
 
@@ -121,9 +121,12 @@ function parseField(params: {
     jsonItem.description = description;
   }
 
-  if (list) {
+  if (type === 'array' || list) {
     const parsedListItem = parseField({
-      field: { ...field, list: false },
+      field:
+        type === 'array'
+          ? parseObjectField(fieldName, field.def.of)
+          : { ...field, list: false },
       fieldName,
       options,
       parentName,
@@ -143,9 +146,11 @@ function parseField(params: {
       jsonItem.type = 'string';
       jsonItem.tsType = 'ID';
     },
-
     any() {
       jsonItem.type = 'any';
+    },
+    array() {
+      // handled above
     },
     boolean() {
       jsonItem.type = 'boolean';

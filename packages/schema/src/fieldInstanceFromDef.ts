@@ -21,7 +21,7 @@ export function fieldInstanceFromDef(
   let field = fieldConstructor.create(definition.def);
 
   if (definition.list) {
-    field = field.toList();
+    field = field.toList(definition.list);
   }
 
   if (definition.optional) {

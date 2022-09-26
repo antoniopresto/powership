@@ -71,7 +71,7 @@ export class CursorField extends FieldType<CursorType, 'cursor', undefined> {
   }
 
   constructor() {
-    super('cursor', undefined);
+    super({ def: undefined, name: 'cursor' });
 
     this.utils = {
       object: getCursorObject()!,

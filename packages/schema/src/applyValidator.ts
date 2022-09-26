@@ -1,4 +1,4 @@
-import { RuntimeError } from '@backland/utils/lib/RuntimeError';
+import { createFieldTypeError } from './fields/FieldTypeErrors';
 
 export type ValidationCustomMessage =
   | string
@@ -22,8 +22,7 @@ export type FieldTypeParser<Type> = (
 export function parseValidationError(
   input: any,
   customMessage: ValidationCustomMessage | undefined,
-  originalError: (Error & { [K: string]: any }) | string,
-  _originDef: any
+  originalError: (Error & { [K: string]: any }) | string
 ) {
   if (typeof originalError === 'object') {
     if (
@@ -45,11 +44,11 @@ export function parseValidationError(
 
   const error =
     typeof originalError === 'string'
-      ? new Error(originalError)
+      ? createFieldTypeError('custom', originalError)
       : originalError;
 
   if (typeof customMessage === 'string') {
-    return new RuntimeError(customMessage, { input });
+    return createFieldTypeError('custom', customMessage);
   }
 
   if (typeof customMessage === 'function') {
@@ -57,17 +56,13 @@ export function parseValidationError(
     if (!_customError) return error;
 
     if ('string' === typeof _customError) {
-      return new RuntimeError(_customError, { input });
+      return createFieldTypeError('custom', _customError);
     } else {
-      return _customError;
+      return createFieldTypeError(
+        'custom',
+        _customError?.message || _customError
+      );
     }
-  }
-
-  if (
-    typeof originalError === 'object' &&
-    originalError?.issues?.length === 1
-  ) {
-    return new RuntimeError(originalError.issues[0].message, { input });
   }
 
   return error;

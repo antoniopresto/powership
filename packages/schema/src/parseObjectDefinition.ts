@@ -313,7 +313,7 @@ type ParseResult = {
 
 export function parseObjectDefinition(
   input: Record<string, any>,
-  options: ParseFieldOptions = {}
+  options: Omit<ParseFieldOptions, 'returnInstance'> = {}
 ): ParseResult {
   let { deep, omitMeta } = options;
 

@@ -24,7 +24,7 @@ export class UnionField<
   }
 
   constructor(def: T) {
-    super('union', def);
+    super({ def: def, name: 'union' });
 
     const { parseObjectField } = CircularDeps;
 

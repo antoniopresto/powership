@@ -1,5 +1,3 @@
-import { getTypeName } from '@backland/utils/lib/getTypeName';
-
 import {
   FieldParserOptionsObject,
   FieldTypeParser,
@@ -7,14 +5,24 @@ import {
   ValidationCustomMessage,
 } from '../applyValidator';
 
-import { FieldDefinitions, FieldTypeName } from './_fieldDefinitions';
+import { arrayFieldParse } from './ArrayFieldParse';
+import { isFieldError } from './FieldTypeErrors';
+import {
+  FieldDefinitions,
+  FieldTypeName,
+  ListDefinitionObject,
+  ListDefinitionTruthy,
+} from './_fieldDefinitions';
 import { AllFinalFieldDefinitions, FinalFieldDefinition } from './_parseFields';
 export * from '../applyValidator';
+
+export type FieldTypeOptions = ListDefinitionObject & { [K: string]: unknown };
 
 export abstract class FieldType<
   Type,
   TypeName extends FieldTypeName,
-  Def extends FieldDefinitions[TypeName]
+  Def extends FieldDefinitions[TypeName],
+  Options extends FieldTypeOptions = {}
 > {
   readonly typeName: TypeName;
   type: TypeName;
@@ -27,11 +35,19 @@ export abstract class FieldType<
 
   id?: string;
   alias?: string;
+  options: Options;
 
-  protected constructor(typeName: TypeName, def: Def, id?: string) {
+  protected constructor(config: {
+    def: Def;
+    id?: string;
+    name: TypeName;
+    options?: Options;
+  }) {
+    const { name, id, def, options = {} } = config;
     this.id = id;
-    this.typeName = typeName;
-    this.type = typeName;
+    this.typeName = name;
+    this.type = name;
+    this.options = options as Options;
 
     const defKeys = def ? Object.keys(def) : undefined;
 
@@ -68,8 +84,11 @@ export abstract class FieldType<
     return this as any;
   }
 
-  toList(): this & { list: true } {
+  toList(options?: ListDefinitionTruthy): this & { list: true } {
     this.list = true;
+    if (options && typeof options === 'object') {
+      this.options = { ...this.options, ...options };
+    }
     return this as any;
   }
 
@@ -79,10 +98,9 @@ export abstract class FieldType<
   }
 
   applyParser = <Type>(parser: {
-    parse(input: any): Type;
+    parse(input: any, _options: FieldParserOptionsObject): Type;
     preParse?(input: any): Type;
   }): FieldTypeParser<Type> => {
-    const self = this;
     return (
       input: any,
       _options?: ValidationCustomMessage | FieldParserOptionsObject
@@ -99,8 +117,7 @@ export abstract class FieldType<
         options = _options;
       }
 
-      const { customErrorMessage: customMessage, excludeInvalidListItems } =
-        options;
+      const { customErrorMessage: customMessage } = options;
 
       if (parser.preParse) {
         input = parser.preParse(input);
@@ -129,42 +146,23 @@ export abstract class FieldType<
         throw new Error(`required field`);
       }
 
-      if (this.list) {
-        if (!Array.isArray(input)) {
-          throw new Error(`expected Array, found ${getTypeName(input)}`);
-        }
-        const values: any = [];
-        input.forEach((item, key) => {
-          try {
-            const parsed = parser.parse(item);
-            values.push(parsed);
-          } catch (originalError: any) {
-            if (excludeInvalidListItems) {
-              return;
-            }
-
-            const error = parseValidationError(
-              item,
-              customMessage,
-              originalError,
-              self.asFinalFieldDef
-            );
-            error.message = `${error.message} at position ${key}`;
-            throw error;
-          }
+      if (this.asFinalFieldDef.list) {
+        return arrayFieldParse({
+          arrayOptions: {}, // since is the shot definition (list:true) there is no options
+          input,
+          parser: (input) => parser.parse(input, options),
+          parserOptions: options,
         });
-        return values;
       }
 
       try {
-        return parser.parse(input);
+        return parser.parse(input, options) as any;
       } catch (originalError: any) {
-        throw parseValidationError(
-          input,
-          customMessage,
-          originalError,
-          self.definition
-        );
+        if (isFieldError(originalError)) {
+          throw originalError;
+        }
+
+        throw parseValidationError(input, customMessage, originalError);
       }
     };
   };

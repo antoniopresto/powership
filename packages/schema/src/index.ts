@@ -11,6 +11,7 @@ export * from './mockObject';
 export * from '@backland/utils';
 export * from './fields/FieldType';
 export * from './fields/fieldTypes';
+export * from './fields/FieldTypeErrors';
 export * from './extendDefinition';
 
 // @only-server

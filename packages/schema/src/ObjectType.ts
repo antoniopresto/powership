@@ -143,7 +143,6 @@ export class ObjectType<
         input,
         customMessage,
         errors.join(' \n'),
-        this.definition
       );
       err.isObjectValidationError = true;
       err.fieldErrors = errors;

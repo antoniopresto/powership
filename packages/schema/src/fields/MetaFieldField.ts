@@ -18,7 +18,7 @@ export class MetaField extends FieldType<MetaField, 'meta', MetaFieldDef> {
   parse: FieldTypeParser<MetaField>;
 
   constructor(def: MetaFieldDef = { id: null }) {
-    super('meta', def);
+    super({ def: def, name: 'meta' });
     this.toOptional();
     const { id, description } = def;
 

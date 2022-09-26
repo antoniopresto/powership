@@ -26,6 +26,7 @@ import {
   GraphQLSchema,
   GraphQLString,
   GraphQLUnionType,
+  isNullableType,
   printSchema,
 } from 'graphql';
 import {
@@ -36,6 +37,7 @@ import {
 
 import { isObject, ObjectType } from '../ObjectType';
 import { assertSameDefinition } from '../assertSameDefinition';
+import { ArrayField } from '../fields/ArrayField';
 import type { CursorField } from '../fields/CursorField';
 import { TAnyFieldType } from '../fields/FieldType';
 import { LiteralField } from '../fields/LitarealField';
@@ -105,7 +107,7 @@ const resultsCache = new StrictMap<string, GraphQLParserResult>();
 const graphqlTypesRegister = new StrictMap<string, any>();
 const fieldsRegister = new StrictMap<string, ConvertFieldResult>();
 
-function wrapCreation(name: string, create: (...args: any[]) => any) {
+function wrapCreationWithCache(name: string, create: (...args: any[]) => any) {
   return function creator(...args) {
     if (graphqlTypesRegister.has(name)) {
       return graphqlTypesRegister.get(name);
@@ -339,7 +341,7 @@ export class GraphQLParser {
     plainField: FinalFieldDefinition;
   }): ConvertFieldResult {
     const { field, fieldName, parentName, plainField } = options;
-    const { list, optional, typeName } = field;
+    const { optional, typeName } = field;
     const { description } = plainField;
 
     const path = [...options.path, fieldName];
@@ -381,11 +383,39 @@ export class GraphQLParser {
         return { inputType: () => GraphQLID, type: () => GraphQLID };
       },
       any() {
-        const create = wrapCreation(
+        const create = wrapCreationWithCache(
           'Any',
           () => new GraphQLScalarType({ name: 'Any' })
         );
         return { inputType: create, type: create };
+      },
+      array() {
+        const {
+          utils: { listItemType: innerFieldType },
+        } = field as ArrayField<any>;
+
+        const id = parseTypeName({
+          field: innerFieldType,
+          fieldName,
+          parentName,
+        });
+
+        const convertFieldResult = self.fieldToGraphQL({
+          field: innerFieldType,
+          fieldName,
+          parentName,
+          path,
+          plainField: innerFieldType.asFinalFieldDef,
+        });
+
+        return {
+          inputType: wrapCreationWithCache(`${id}`, (...args) => {
+            return new GraphQLList(convertFieldResult.inputType(...args));
+          }),
+          type: wrapCreationWithCache(`${id}List`, (...args) => {
+            return new GraphQLList(convertFieldResult.type(...args));
+          }),
+        };
       },
       boolean() {
         return { inputType: () => GraphQLBoolean, type: () => GraphQLBoolean };
@@ -426,8 +456,8 @@ export class GraphQLParser {
         }
 
         return {
-          inputType: wrapCreation(subTypeName, createEnum),
-          type: wrapCreation(subTypeName, createEnum),
+          inputType: wrapCreationWithCache(subTypeName, createEnum),
+          type: wrapCreationWithCache(subTypeName, createEnum),
         };
       },
       float() {
@@ -473,8 +503,8 @@ export class GraphQLParser {
         }
 
         return {
-          inputType: wrapCreation(recordName, createLiteral),
-          type: wrapCreation(recordName, createLiteral),
+          inputType: wrapCreationWithCache(recordName, createLiteral),
+          type: wrapCreationWithCache(recordName, createLiteral),
         };
       },
       meta() {
@@ -526,31 +556,12 @@ export class GraphQLParser {
             serialize(value) {
               return field.parse(value);
             },
-
-            // to improve error message by record field
-            // parseLiteral(ast) {
-            //   if (ast.kind !== Kind.OBJECT) {
-            //     throw new GraphQLError(
-            //       `Query error: Can only parse object to Record but got a: ${ast.kind}`,
-            //       [ast]
-            //     );
-            //   }
-            //
-            //   let result;
-            //   try {
-            //     result = field.parse(ast.kind);
-            //   }catch (e){
-            //           //     throw new GraphQLError('Query error: Invalid Record', [ast]);
-            //   }
-            //
-            //   return result;
-            // },
           });
         }
 
         return {
-          inputType: wrapCreation(recordName, createRecord),
-          type: wrapCreation(recordName, createRecord),
+          inputType: wrapCreationWithCache(recordName, createRecord),
+          type: wrapCreationWithCache(recordName, createRecord),
         };
       },
       string() {
@@ -563,7 +574,7 @@ export class GraphQLParser {
         };
       },
       undefined() {
-        const create = wrapCreation(
+        const create = wrapCreationWithCache(
           'Undefined',
           () => new GraphQLScalarType({ name: 'Undefined' })
         );
@@ -612,10 +623,10 @@ export class GraphQLParser {
         });
 
         return {
-          inputType: wrapCreation(subTypeName, () => {
+          inputType: wrapCreationWithCache(subTypeName, () => {
             return scalarUnion;
           }),
-          type: wrapCreation(subTypeName, (...options) => {
+          type: wrapCreationWithCache(subTypeName, (...options) => {
             if (!areAllObjects) return scalarUnion;
 
             return new GraphQLUnionType({
@@ -650,7 +661,7 @@ export class GraphQLParser {
       inputType(...args) {
         let result = create[typeName]().inputType(...args);
 
-        if (list) {
+        if (field.list) {
           result = new GraphQLList(result);
         }
 
@@ -664,11 +675,11 @@ export class GraphQLParser {
       type(...args) {
         let result = create[typeName]().type(...args);
 
-        if (list) {
+        if (field.list) {
           result = new GraphQLList(result);
         }
 
-        if (!optional) {
+        if (!optional && isNullableType(result)) {
           result = new GraphQLNonNull(result);
         }
 

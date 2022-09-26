@@ -45,11 +45,17 @@ export function fieldToMock(
     randomNumber,
   } = options || {};
 
-  const { list, def, type } = parsedField;
+  let { list, def, type } = parsedField;
+
+  if (type === 'array') {
+    // FIXME min, max, exact, def.def can be a string, etc
+    return fieldToMock({ ...def, list: true }, options);
+  }
 
   const values: { [L in FieldTypeName]: () => unknown } = {
     ID: () => ulid(),
     any: () => '_ANY_',
+    array: () => undefined, // handled below,
     boolean: () => randomItem(true, false),
     cursor: () => objectMock(CursorField.object().definition, options),
     date: () => new Date(randomInt(Date.now())),

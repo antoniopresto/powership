@@ -4,7 +4,11 @@ export class AnyField extends FieldType<any, 'any', any> {
   parse: FieldTypeParser<any>;
 
   constructor(..._args: any) {
-    super('any', undefined);
+    super({
+      def: undefined,
+      name: 'any',
+    });
+
     this.parse = this.applyParser({
       parse: (input) => {
         return input;

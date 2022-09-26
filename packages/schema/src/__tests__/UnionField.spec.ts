@@ -1,4 +1,3 @@
-import { RuntimeError } from '@backland/utils/lib/RuntimeError';
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../Infer';
@@ -27,7 +26,7 @@ describe('Union', () => {
 
     expect(() =>
       UnionField.create(['int?']).parse('ZZ', (v) => `${v}?`)
-    ).toThrowError(new RuntimeError('ZZ?', { input: 'ZZ' }));
+    ).toThrowError('ZZ?');
   });
 
   it('should parse union with object', async () => {

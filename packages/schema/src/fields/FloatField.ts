@@ -15,7 +15,7 @@ export class FloatField extends FieldType<
   parse: FieldTypeParser<number>;
 
   constructor(def: FloatFieldDef = {}) {
-    super('float', def);
+    super({ def: def, name: 'float' });
 
     const { min, max } = def;
 

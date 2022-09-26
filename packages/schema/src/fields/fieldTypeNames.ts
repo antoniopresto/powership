@@ -12,6 +12,7 @@ function createFieldNames<Arg extends { [K in FieldTypeName]: any }>(
 export const fieldTypesClassMap = createFieldNames({
   ID: 'IDField',
   any: 'AnyField',
+  array: 'ArrayField',
   boolean: 'BooleanField',
   cursor: 'CursorField',
   date: 'DateField',
