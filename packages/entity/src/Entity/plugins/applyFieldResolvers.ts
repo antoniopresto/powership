@@ -14,20 +14,32 @@ export const applyFieldResolvers = createEntityPlugin('applyFieldResolvers', {
     });
   },
   //
-  async filterResult(docs, context) {
-    if (!context.context.isFind) return;
+  async filterResult(payload, context) {
+    const hasItemsOrPagination = 'items' in payload || 'pagination' in payload;
+    if (!hasItemsOrPagination) return;
 
     const {
       resolvers,
-      context: {
+      operation: {
         entityOptions: { name: entityName },
       },
     } = context;
 
     if (resolvers.length) {
-      return await Promise.all(
-        docs.map(async (doc) => {
-          if (!doc || typeof doc !== 'object') return doc;
+      const isPagination = payload.kind === 'pagination';
+
+      let items =
+        payload.kind === 'pagination'
+          ? payload.pagination.edges
+          : payload.items;
+
+      items = await Promise.all(
+        items.map(async (originalDocument) => {
+          if (!originalDocument || typeof originalDocument !== 'object') {
+            return originalDocument;
+          }
+
+          const node = isPagination ? originalDocument.node : originalDocument;
 
           await Promise.allSettled(
             resolvers.map(async ({ resolve, name }) => {
@@ -36,9 +48,9 @@ export const applyFieldResolvers = createEntityPlugin('applyFieldResolvers', {
               let val: any = null;
               try {
                 val = await resolve(
-                  doc,
+                  node,
                   {}, // TODO
-                  context.context,
+                  context.operation.options.context,
                   createProxy(() => {
                     console.error(
                       'GraphQLResolveInfo not available in field resolvers.'
@@ -52,11 +64,13 @@ export const applyFieldResolvers = createEntityPlugin('applyFieldResolvers', {
                   e
                 );
               }
-              doc[field] = val;
+              node[field] = val;
             })
           );
 
-          return doc;
+          return isPagination
+            ? { ...originalDocument, node }
+            : originalDocument;
         })
       );
     }

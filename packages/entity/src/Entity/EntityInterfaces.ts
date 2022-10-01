@@ -326,7 +326,8 @@ type WithExtend<Options extends EntityOptions, Origin> = {
 
   extend: <TransformerReturn>(
     transformer: (
-      current: Origin,
+      current: ExcludeExtend<Origin> &
+        WithExtend<Options, ExcludeExtend<Origin>>,
       utils: {
         extend: <V>(value: V) => ExtendDefinitionResult<V, V>;
       }

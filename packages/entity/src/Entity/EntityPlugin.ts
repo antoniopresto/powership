@@ -1,7 +1,8 @@
 import { FinalFieldDefinition } from '@backland/schema';
+import { tuple } from '@backland/utils';
 import { Parallel, Waterfall } from 'plugin-hooks';
 
-import { DocumentBase } from '../Transporter';
+import { DocumentBase, PaginationResult } from '../Transporter';
 
 import { EntityDocument, EntityOperationInfoContext } from './EntityInterfaces';
 import { EntityFieldResolver, EntityOptions } from './EntityOptions';
@@ -53,27 +54,40 @@ export interface EntityPlugin<Document extends DocumentBase = DocumentBase> {
   (hooks: EntityHooks<Document>): unknown;
 }
 
+export const EntityHooksCreateDefinitionKind = tuple(
+  'inputDefinition',
+  'outputDefinition',
+  'databaseDefinition',
+  'updateDefinition'
+);
+
+export type EntityHooksCreateDefinitionKind =
+  typeof EntityHooksCreateDefinitionKind[number];
+
 export type EntityHooks<Document extends DocumentBase = DocumentBase> = {
   beforeQuery: Waterfall<EntityOperationInfoContext, {}>;
 
   createDefinition: Parallel<
     Record<string, FinalFieldDefinition>,
     {
+      entityOptions: EntityOptions;
       fields: string[];
-      kind:
-        | 'inputDefinition'
-        | 'outputDefinition'
-        | 'databaseDefinition'
-        | 'updateDefinition';
-      options: EntityOptions;
+      kind: EntityHooksCreateDefinitionKind;
       resolvers: EntityFieldResolver<any, any, any, any>[];
     }
   >;
 
   filterResult: Waterfall<
-    EntityDocument<Document>[],
+    | {
+        items: EntityDocument<Document>[];
+        kind: 'items';
+      }
+    | {
+        kind: 'pagination';
+        pagination: PaginationResult<EntityDocument<Document>>;
+      },
     {
-      context: EntityOperationInfoContext;
+      operation: EntityOperationInfoContext;
       resolvers: EntityFieldResolver<any, any, any, any>[];
     }
   >;

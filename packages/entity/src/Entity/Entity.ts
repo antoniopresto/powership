@@ -146,36 +146,38 @@ export function createEntity<
     let updateDefinition = inputObjectType.clone().optional().def();
 
     _hooks.createDefinition.exec(updateDefinition, {
+      entityOptions,
       fields,
       kind: 'updateDefinition',
-      options: entityOptions,
       resolvers,
     });
 
-    _hooks.createDefinition.exec(entityOutputDefinitionWithRelations, {
+    const databaseDefinition = simpleObjectClone(
+      entityOutputDefinitionWithRelations
+    );
+    _hooks.createDefinition.exec(databaseDefinition, {
+      entityOptions,
       fields,
       kind: 'databaseDefinition',
-      options: entityOptions,
       resolvers,
     });
-
     // type without relations
     const databaseType = createType(`${entityOptions.name}_withoutRelations`, {
       // without relations and other alterations
-      object: simpleObjectClone(entityOutputDefinitionWithRelations),
+      object: databaseDefinition,
     });
 
     _hooks.createDefinition.exec(entityOutputDefinitionWithRelations, {
+      entityOptions,
       fields,
       kind: 'outputDefinition',
-      options: entityOptions,
       resolvers,
     });
 
     _hooks.createDefinition.exec(inputDef, {
+      entityOptions,
       fields,
       kind: 'inputDefinition',
-      options: entityOptions,
       resolvers,
     });
 
@@ -188,7 +190,7 @@ export function createEntity<
 
     const conditionsType = objectToGraphQLConditionType(
       `${entityName}QueryConditions`,
-      databaseType.definition.def
+      entityOutputDefinitionWithRelations
     );
 
     validateIndexNameAndField(indexConfig);
@@ -389,22 +391,33 @@ export function createEntity<
         };
 
         const operation = await parseOperationContext(method, configInput);
-        const context = { context: operation, resolvers };
+        const context = { operation, resolvers };
 
         const resolver: AnyFunction = transporter[method].bind(transporter);
-        const result = await resolver(operation.options);
+        let result = await resolver(operation.options);
 
         if (result.item) {
-          const [parsed] = await _hooks.filterResult.exec(
-            [result.item],
+          const res = await _hooks.filterResult.exec(
+            { items: [result.item], kind: 'items' },
             context
           );
-
-          result.item = parsed;
+          if (res.kind === 'items') result.item = res.items[0];
         }
 
         if (result.items) {
-          result.items = await _hooks.filterResult.exec(result.items, context);
+          const res = await _hooks.filterResult.exec(
+            { items: result.items, kind: 'items' },
+            context
+          );
+          if (res.kind === 'items') result.items = res.items;
+        }
+
+        if (result.edges) {
+          const res = await _hooks.filterResult.exec(
+            { kind: 'pagination', pagination: result },
+            context
+          );
+          if (res.kind === 'pagination') result = res.pagination;
         }
 
         return result;
@@ -583,7 +596,7 @@ export function createEntity<
       name: entityName,
       originType: type,
       paginationType: getPaginationType(),
-      parse: databaseType.parse,
+      parse: entityType.parse,
       parseDocumentIndexes: function parseDocumentIndexes(
         doc
       ): ParsedDocumentIndexes {
