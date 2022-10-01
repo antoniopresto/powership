@@ -1,6 +1,6 @@
 {
   "name": "@backland/babel-plugins",
-  "version": "0.1.3-alpha.20221001192412.0",
+  "version": "0.1.3-alpha.20221001193637.0",
   "main": "lib",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
@@ -39,6 +39,5 @@
   ],
   "prettier": {
     "singleQuote": true
-  },
-  "gitHead": "1caeb2643c0b8fb9a9ca6ee3359154e72bf8884b"
+  }
 }
