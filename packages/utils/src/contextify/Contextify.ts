@@ -2,6 +2,8 @@ import fs from 'fs';
 import nodePath from 'path';
 import vm from 'vm';
 
+import { Process } from '../useProcess';
+
 import { isBuiltInModule } from './builtin-modules';
 
 const ORIGINAL_REQUIRE = require;
@@ -33,7 +35,7 @@ type PrepareRequireArgs = {
   vmContext?: vm.Context | null;
 };
 
-const IS_PROD_ENV = process.env.NODE_ENV === 'production';
+const IS_PROD_ENV = Process.env?.NODE_ENV === 'production';
 
 export class Contextify {
   allBranches = new Set();

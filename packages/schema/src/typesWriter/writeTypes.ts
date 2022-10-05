@@ -1,5 +1,6 @@
 import path from 'path';
 
+import { Process } from '@backland/utils';
 import { Emitter, mitt } from '@backland/utils/lib/mitt';
 import { ensureFileSync, writeFileSync } from 'fs-extra';
 
@@ -50,7 +51,7 @@ export interface WriteTypesOptions {
 }
 
 export const defaultTypesDest = path.resolve(
-  process.cwd(),
+  Process.cwd(),
   'src/generated/backland.d.ts'
 );
 

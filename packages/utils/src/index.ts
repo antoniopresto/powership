@@ -45,6 +45,7 @@ export * from './slugify';
 export * from './ulid';
 export * from './deepFreeze';
 export * from './override';
+export * from './useProcess';
 
 // @only-server
 export * from './logLevels';

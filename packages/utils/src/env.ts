@@ -1,3 +1,5 @@
+import { Process } from './useProcess';
+
 export function isProduction() {
-  return typeof process === 'object' && process.env.NODE_ENV === 'production';
+  return Process.env?.NODE_ENV === 'production';
 }
