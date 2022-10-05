@@ -54,6 +54,7 @@ import { parseTypeName } from '../parseTypeName';
 import { GraphQLDateType } from './GraphQLDateType';
 import { GraphQLNullType } from './GraphQLNullType';
 import { GraphQLUlidType } from './GraphQLUlidType';
+import { isHiddenFieldName } from '../isHiddenFieldName';
 
 export function createHooks() {
   return {
@@ -208,6 +209,8 @@ export class GraphQLParser {
         objectMiddleware.forEach((fn) => fn(hooks));
 
         helpers.list.forEach(({ name: fieldName, instance, plainField }) => {
+          if (isHiddenFieldName(fieldName)) return;
+
           const field = this.fieldToGraphQL({
             field: instance,
             fieldName,

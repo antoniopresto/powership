@@ -95,7 +95,7 @@ export class ObjectType<
     return cleanMetaField(this.definition);
   }
 
-  extend(): ExtendDefinitionResult<HandledInput, HandledInput> {
+  edit(): ExtendDefinitionResult<HandledInput, HandledInput> {
     return extendDefinition(this) as any;
   }
 

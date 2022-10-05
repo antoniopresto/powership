@@ -13,6 +13,7 @@ export * from './fields/FieldType';
 export * from './fields/fieldTypes';
 export * from './fields/FieldTypeErrors';
 export * from './extendDefinition';
+export * from './isHiddenFieldName';
 
 // @only-server
 export * from './Resolver';

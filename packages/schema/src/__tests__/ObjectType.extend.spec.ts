@@ -26,7 +26,7 @@ describe('ObjectType.extend', () => {
       },
     });
 
-    const ext = obj.extend().optional().required('name').def();
+    const ext = obj.edit().optional().required('name').def();
 
     const res = createType('Person', {
       object: ext,

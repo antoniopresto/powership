@@ -10,12 +10,12 @@ import { createObjectType, isObject, parseObjectField } from './ObjectType';
 import { ObjectDefinitionInput } from './TObjectConfig';
 import { ObjectLike } from './fields/IObjectLike';
 import { LiteralField } from './fields/LitarealField';
-import { isMetaFieldKey } from './fields/MetaFieldField';
 import { FieldTypeName } from './fields/_fieldDefinitions';
 import {
   FinalFieldDefinition,
   FinalObjectDefinition,
 } from './fields/_parseFields';
+import { isHiddenFieldName } from './isHiddenFieldName';
 import { parseTypeName } from './parseTypeName';
 
 export type ObjectToJSONOptions = {
@@ -64,7 +64,7 @@ export function objectToJSON(
   }
 
   getKeys(definition).forEach((fieldName) => {
-    if (isMetaFieldKey(fieldName)) return;
+    if (isHiddenFieldName(fieldName)) return;
     const field = definition[fieldName];
 
     const parsedField = parseField({

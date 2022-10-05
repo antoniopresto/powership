@@ -190,7 +190,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
     }).interfaceType(...args) as any;
   };
 
-  extend(): ExtendDefinitionResult<
+  edit(): ExtendDefinitionResult<
     ToFinalField<Definition>,
     ToFinalField<Definition>
   > {
