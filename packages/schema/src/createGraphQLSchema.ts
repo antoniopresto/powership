@@ -322,7 +322,7 @@ async function convertType(options: {
   const result = (await CircularDeps.objectToTypescript(
     entryName,
     {
-      __CONVERT__REPLACE__: {
+      CONVERT__REPLACE: {
         ...type,
         // prevents breaking the `export type...` etc, above. to improve.
       },
@@ -338,7 +338,7 @@ async function convertType(options: {
     .split('\n')
     .slice(1, -2)
     .join('\n')
-    .replace('__CONVERT__REPLACE__', '');
+    .replace('CONVERT__REPLACE', '');
 
   if (code.startsWith('?')) {
     code = `${code} | undefined`;

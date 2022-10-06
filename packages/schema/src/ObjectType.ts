@@ -49,7 +49,6 @@ import type { ObjectToTypescriptOptions } from './objectToTypescript';
 import { parseObjectDefinition } from './parseObjectDefinition';
 import { withCache, WithCache } from './withCache';
 
-export { RuntimeError } from '@backland/utils/lib/RuntimeError';
 export * from './parseObjectDefinition';
 export * from './objectInferenceUtils';
 export * from './implementObject';
@@ -142,7 +141,7 @@ export class ObjectType<
       const err: any = parseValidationError(
         input,
         customMessage,
-        errors.join(' \n'),
+        errors.join(' \n')
       );
       err.isObjectValidationError = true;
       err.fieldErrors = errors;

@@ -1,5 +1,5 @@
 {
-  "name": "backland",
+  "name": "@backland/transporter",
   "version": "0.1.3-alpha.20221005213820.0",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
@@ -13,38 +13,41 @@
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint src --ext .ts --fix",
     "prepublish": "run-s build fix && run-p test",
-    "build:browser": "TARGET=browser npm run babild -- --out-dir lib/browser",
-    "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir lib/browser/module",
     "build:node": "TARGET=node npm run babild -- --out-dir lib",
     "build:module-node": "TARGET=module-node npm run babild -- --out-dir lib/module",
     "declarations": "tsc -p tsconfig.declarations.json",
-    "babild": "babel 'src' --extensions '.ts,.tsx' --source-maps=true --ignore '**/__tests__'"
+    "babild": "babel 'src' --extensions '.ts,.tsx'"
   },
+  "description": "Backland db",
   "repository": {
     "type": "git",
     "url": "https://github.com/antoniopresto/backland/tree/master/packages/db"
   },
+  "keywords": [
+    "typescript",
+    "schema",
+    "graphql",
+    "validation",
+    "type",
+    "inference"
+  ],
   "dependencies": {
-    "@backland/entity": "0.1.3-alpha.20221005213820.0",
     "@backland/schema": "0.1.3-alpha.20221005213820.0",
-    "@backland/transporter": "0.1.3-alpha.20221005213820.0",
-    "@backland/utils": "0.1.3-alpha.20221005213820.0"
+    "@backland/utils": "0.1.3-alpha.20221005213820.0",
+    "dataloader": "2.1.0",
+    "plugin-hooks": "^1.1.3",
+    "sift": "16.0.0"
   },
   "devDependencies": {
     "@babel/cli": "7.18.6",
-    "@babel/core": "7.18.6",
     "@babel/plugin-transform-typescript": "7.18.6",
     "@babel/preset-env": "7.18.6",
     "@babel/preset-typescript": "7.18.6",
     "@backland/babel-plugins": "0.1.3-alpha.20221005213820.0",
-    "@types/babel__core": "7.1.19",
-    "@types/babel__helper-plugin-utils": "7.10.0",
     "@types/jest": "27.0.3",
     "@types/node": "16.11.12",
     "@typescript-eslint/eslint-plugin": "4.15.2",
     "@typescript-eslint/parser": "4.15.2",
-    "babel-plugin-transform-strip-block": "0.0.5",
-    "babel-preset-minify": "0.5.2",
     "conditional-type-checks": "1.0.5",
     "esbuild": "0.14.3",
     "eslint": "7.20.0",
@@ -66,6 +69,7 @@
   },
   "peerDependencies": {
     "graphql": "*",
+    "mongodb": ">=4.8.1",
     "typescript": ">=4.5.4"
   },
   "files": [

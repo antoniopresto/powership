@@ -49,12 +49,12 @@ import { ObjectField } from '../fields/ObjectField';
 import { UnionField } from '../fields/UnionField';
 import { FieldTypeName } from '../fields/_fieldDefinitions';
 import { FinalFieldDefinition } from '../fields/_parseFields';
+import { isHiddenFieldName } from '../isHiddenFieldName';
 import { parseTypeName } from '../parseTypeName';
 
 import { GraphQLDateType } from './GraphQLDateType';
 import { GraphQLNullType } from './GraphQLNullType';
 import { GraphQLUlidType } from './GraphQLUlidType';
-import { isHiddenFieldName } from '../isHiddenFieldName';
 
 export function createHooks() {
   return {

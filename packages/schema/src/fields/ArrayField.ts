@@ -4,11 +4,7 @@ import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';
 
 import { arrayFieldParse } from './ArrayFieldParse';
-import {
-  FieldType,
-  FieldTypeParser,
-  TAnyFieldType,
-} from './FieldType';
+import { FieldType, FieldTypeParser, TAnyFieldType } from './FieldType';
 import { ObjectFieldInput } from './_parseFields';
 
 export type ArrayFieldDef = {
