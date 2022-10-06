@@ -46,7 +46,6 @@ import { createEntityPlugin, EntityHooks } from './EntityPlugin';
 import { buildEntityOperationInfoContext } from './entityOperationContextTypes';
 import { PageInfoType } from './paginationUtils';
 import { applyFieldResolvers } from './plugins/applyFieldResolvers';
-import { removeUnderscoreFields } from './plugins/removeUnderscoreFields';
 
 export * from './paginationUtils';
 
@@ -59,7 +58,7 @@ export function createEntity<
   TTransport extends Transporter,
   Options extends EntityOptions<Name, Type, TTransport>
 >(entityOptions: Options): Entity<Options> {
-  const plugins = [removeUnderscoreFields, applyFieldResolvers];
+  const plugins = [applyFieldResolvers];
   const resolvers: EntityFieldResolver<any, any, any, any>[] = [];
   let gettersWereCalled = false;
 
