@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.prod.json",
+  "compilerOptions": {
+    "target": "esnext",
+    "outDir": "lib/module",
+    "module": "esnext",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
+  "exclude": [
+    "node_modules/**", //
+    "**/*/__tests__/*"
+  ]
+}

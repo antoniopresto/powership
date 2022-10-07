@@ -25,6 +25,9 @@
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"]
+    },
+    "prepublish": {
+      "dependsOn": ["^prepublish"]
     }
   },
   "affected": {

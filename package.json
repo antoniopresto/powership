@@ -11,7 +11,7 @@
     "validate": "(cd packages/schema && npm run prepublish)",
     "lp": "lerna exec \"yalc publish\"",
     "link-all": "lerna link --force-local",
-    "alpha-version": "lerna version prerelease --yes --conventional-graduate --no-push --exact --preid=alpha.$(date +%Y%m%d%H%M%S) --force-publish",
+    "alpha-version": "lerna version prerelease --yes --no-git-tag-version --conventional-graduate --no-push --exact --preid=alpha.$(date +%Y%m%d%H%M%S) --force-publish",
     "build": "nx run-many --target=build --projects=$(nx affected:libs --plain | sed 's/ /,/g')",
     "publish-all": "lerna exec --no-bail 'npm publish'",
     "alpha": "lerna publish --loglevel=verbose --force-publish --yes --no-verify-access --conventional-graduate --dist-tag next --canary --no-push --exact --preid=alpha.$(date +%Y%m%dT%H%M%S%z)"
