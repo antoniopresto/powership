@@ -4,8 +4,8 @@ export const USERNAME_REGEX = /^[a-z0-9_]{3,16}$/;
 
 export const usernameType = createType('username', {
   string: {
-    min: 3,
     max: 16,
+    min: 3,
   },
 });
 

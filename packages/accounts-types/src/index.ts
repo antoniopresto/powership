@@ -1,6 +1,5 @@
-import { TokenEntity, UserEntity } from './entity';
-
-export interface AccountsMongoOptions {
-  userEntity: UserEntity;
-  tokenEntity: TokenEntity;
-}
+export * from './entity';
+export * from './UserSchema';
+export * from './AccountsTokenSchema';
+export * from './ContactSchema';
+export * from './validateUserName';
