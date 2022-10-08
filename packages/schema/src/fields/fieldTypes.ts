@@ -16,6 +16,7 @@ import { LiteralField } from './LitarealField';
 import { MetaField } from './MetaFieldField';
 import { NullField } from './NullField';
 import { ObjectField } from './ObjectField';
+import { PhoneField } from './PhoneField';
 import { RecordField } from './RecordField';
 import { StringField } from './StringField';
 import { UlidField } from './UlidField';
@@ -71,6 +72,7 @@ export const types = createConstructors({
   meta: MetaField,
   null: NullField,
   object: ObjectField,
+  phone: PhoneField,
   record: RecordField,
   string: StringField,
   ulid: UlidField,

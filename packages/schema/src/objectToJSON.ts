@@ -19,6 +19,7 @@ import {
 } from './fields/_parseFields';
 import { isHiddenFieldName } from './isHiddenFieldName';
 import { parseTypeName } from './parseTypeName';
+import { E164_PHONE_REGEX } from './fields/PhoneField';
 
 export type ObjectToJSONOptions = {
   ignoreDefaultValues?: boolean;
@@ -242,6 +243,15 @@ function parseField(params: {
       Object.assign(jsonItem, objectToJSON(objectName, field.def, options), {
         title: '',
       });
+    },
+    phone() {
+      Object.assign(jsonItem, {
+        maxLength: 20,
+        minLength: 10,
+        pattern: E164_PHONE_REGEX.toString(),
+      });
+
+      jsonItem.tsType = 'Phone';
     },
     record() {
       if (field.type !== 'record' || !field.def) {

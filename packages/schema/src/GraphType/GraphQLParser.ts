@@ -55,6 +55,7 @@ import { parseTypeName } from '../parseTypeName';
 
 import { GraphQLDateType } from './GraphQLDateType';
 import { GraphQLNullType } from './GraphQLNullType';
+import { GraphQLPhoneType } from './GraphQLPhoneType';
 import { GraphQLUlidType } from './GraphQLUlidType';
 
 export function createHooks() {
@@ -569,6 +570,12 @@ export class GraphQLParser {
         });
 
         return { inputType: res.getInputType, type: res.getType };
+      },
+      phone() {
+        return {
+          inputType: () => new GraphQLPhoneType(),
+          type: () => new GraphQLPhoneType(),
+        };
       },
       record() {
         const recordName = parseTypeName({

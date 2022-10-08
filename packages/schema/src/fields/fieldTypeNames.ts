@@ -25,6 +25,7 @@ export const fieldTypesClassMap = createFieldNames({
   meta: 'MetaField',
   null: 'NullField',
   object: 'ObjectField',
+  phone: 'PhoneField',
   record: 'RecordField',
   string: 'StringField',
   ulid: 'UlidField',

@@ -2,6 +2,7 @@ import { AliasFieldDef } from './AliasField';
 import { ArrayFieldDef } from './ArrayField';
 import { ObjectLike } from './IObjectLike';
 import { MetaFieldDef } from './MetaFieldField';
+import { PhoneFieldDef } from './PhoneField';
 import { RecordFieldDef } from './RecordField';
 import { UnknownFieldDef } from './UnknownField';
 import { ObjectFieldInput } from './_parseFields';
@@ -101,6 +102,8 @@ export type FieldDefinitions = {
     | { [K: string]: ObjectFieldInput }
     | Readonly<{ [K: string]: ObjectFieldInput }>
     | ObjectLike;
+
+  phone: PhoneFieldDef;
 
   record: RecordFieldDef | undefined;
 

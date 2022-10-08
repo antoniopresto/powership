@@ -318,6 +318,8 @@ type _inferBasic<Type, Def = undefined> =
     ? boolean
     : Type extends 'cursor'
     ? CursorType
+    : Type extends 'phone'
+    ? string
     : Type extends 'null'
     ? null
     : Type extends 'undefined'
