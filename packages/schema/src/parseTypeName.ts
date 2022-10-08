@@ -26,7 +26,7 @@ export function parseTypeName(input: {
 }
 
 export function getUserDefinedTypeName(field: FinalFieldDefinition) {
-  if (field.alias && typeof field.alias === 'string') return field.alias;
+  if (field.name && typeof field.name === 'string') return field.name;
 
   const cached = __getCachedFieldInstance(field);
   if (cached.id) return cached.id;

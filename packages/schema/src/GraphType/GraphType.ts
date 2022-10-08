@@ -257,10 +257,10 @@ export class GraphType<Definition extends ObjectFieldInput> {
   }
 
   static isTypeDefinition(input: any): input is {
-    alias?: string;
     defaultValue?: unknown;
     description?: string;
     list?: boolean;
+    name?: string;
     optional?: boolean;
     type: GraphTypeLike;
   } {

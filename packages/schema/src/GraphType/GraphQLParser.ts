@@ -103,7 +103,7 @@ export interface ConvertFieldResult {
   inputType: (options?: ParseInputTypeOptions) => GraphQLInputType;
   plainField: FinalFieldDefinition;
   type: (options?: ParseTypeOptions) => GraphQLOutputType;
-  typeName: string; // used by alias fields and possible others
+  typeName: string;
 }
 
 const resultsCache = new StrictMap<string, GraphQLParserResult>();
@@ -704,7 +704,7 @@ export class GraphQLParser {
       fieldName,
       inputType(...args) {
         if (typeName === 'alias') {
-          // should be handled in parseObject
+          // dev only assertion, aliasing should be handled in parseObject
           throw new Error(`can't handle alias in convertField.`);
         }
 
@@ -723,7 +723,7 @@ export class GraphQLParser {
       plainField,
       type(...args) {
         if (typeName === 'alias') {
-          // should be handled in parseObject
+          // dev only assertion, aliasing should be handled in parseObject
           throw new Error(`can't handle alias in convertField.`);
         }
 
@@ -750,7 +750,7 @@ export class GraphQLParser {
 }
 
 export function describeField(field: FinalFieldDefinition) {
-  if (field.alias) return field.alias;
+  if (field.name) return field.name;
 
   return BJSON.stringify(field, {
     handler(payload) {

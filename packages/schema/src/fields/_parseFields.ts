@@ -71,11 +71,11 @@ export type ExtractTypeName<T> = keyof T extends infer K
 
 export type AllFinalFieldDefinitions = {
   [Type in FieldTypeName]: {
-    alias?: string;
     def: FieldDefinitions[Type];
     defaultValue?: any;
     description?: string | undefined;
     list?: boolean;
+    name?: string;
     optional?: boolean;
     type: Type;
   };

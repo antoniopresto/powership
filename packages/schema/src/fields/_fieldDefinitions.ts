@@ -28,12 +28,14 @@ export type ListDefinition = ListDefinitionObject | boolean;
 export type ListDefinitionTruthy = ListDefinitionObject | true;
 
 export type _CommonFieldDefinition = {
-  __infer?: any; // used to infer types
-  alias?: string; // used in generated types,like GraphQL.
+  __infer?: any;
+  // used in generated types,like GraphQL.
   def?: any;
   defaultValue?: any;
   description?: string;
   list?: ListDefinition;
+  // used to infer types
+  name?: string;
   optional?: boolean;
 };
 

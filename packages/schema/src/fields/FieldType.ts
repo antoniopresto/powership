@@ -40,7 +40,7 @@ export abstract class FieldType<
   }
 
   id?: string;
-  alias?: string;
+  name?: string;
   options: Options;
 
   protected constructor(config: {

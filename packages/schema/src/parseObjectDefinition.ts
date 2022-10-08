@@ -246,11 +246,11 @@ export function parseFieldDefinitionConfig<
 
     if (definition && typeof definition === 'object') {
       if (
-        'alias' in definition &&
-        definition.alias &&
-        typeof definition.alias === 'string'
+        'name' in definition &&
+        definition.name &&
+        typeof definition.name === 'string'
       ) {
-        result.alias = definition.alias;
+        result.name = definition.name;
       }
     }
 
@@ -412,10 +412,10 @@ export function isObjectAsTypeDefinition(
 }
 
 const validFlattenDefinitionKeys = {
-  alias: 'string',
   defaultValue: 'any',
   description: 'string',
   list: 'boolean',
+  name: 'string',
   optional: 'boolean',
 } as const;
 
@@ -471,16 +471,16 @@ export function parseFlattenFieldDefinition(
     optional = false,
     list = false,
     defaultValue,
-    alias,
+    name,
   } = input;
 
   return parseFieldDefinitionConfig(
     {
-      alias,
       def,
       defaultValue,
       description,
       list,
+      name,
       optional,
       type,
     },

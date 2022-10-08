@@ -45,7 +45,7 @@ type _Def = typeof Def extends infer R
   : never;
 
 export const EntityFilterConditionType = createType('Filter', {
-  alias: 'Filter',
+  name: 'Filter',
   optional: true,
   union: [
     { object: Def as unknown as _Def },
@@ -78,7 +78,7 @@ export function objectToGraphQLConditionType<T extends DocumentBase>(
 
   Object.keys(objectDef).forEach((k) => {
     graphqlDef[k] = {
-      alias: `QueryCondition`,
+      name: `QueryCondition`,
       optional: true,
       type: EntityFilterConditionType,
     };

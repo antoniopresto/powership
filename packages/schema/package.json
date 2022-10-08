@@ -11,6 +11,7 @@
   "license": "MIT",
   "scripts": {
     "test": "jest",
+    "ts": "tsc --noEmit",
     "build": "run-s clear declarations build:* && sleep 3",
     "clear": "rimraf lib",
     "fix": "run-s fix:* && sleep 3 ",

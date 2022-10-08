@@ -28,8 +28,8 @@ export function fieldInstanceFromDef(
     field = field.toOptional();
   }
 
-  if (definition.alias) {
-    field.alias = definition.alias;
+  if (definition.name) {
+    field.name = definition.name;
   }
 
   if (definition.defaultValue !== undefined) {

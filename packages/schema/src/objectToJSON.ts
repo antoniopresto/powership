@@ -12,6 +12,7 @@ import { createObjectType, isObject, parseObjectField } from './ObjectType';
 import { ObjectDefinitionInput } from './TObjectConfig';
 import { ObjectLike } from './fields/IObjectLike';
 import { LiteralField } from './fields/LitarealField';
+import { E164_PHONE_REGEX } from './fields/PhoneField';
 import { FieldTypeName } from './fields/_fieldDefinitions';
 import {
   FinalFieldDefinition,
@@ -19,7 +20,6 @@ import {
 } from './fields/_parseFields';
 import { isHiddenFieldName } from './isHiddenFieldName';
 import { parseTypeName } from './parseTypeName';
-import { E164_PHONE_REGEX } from './fields/PhoneField';
 
 export type ObjectToJSONOptions = {
   ignoreDefaultValues?: boolean;
@@ -98,7 +98,7 @@ export function objectToJSON(
 type ParsedField = {
   composers: { compose: (parent: JSONSchema4) => JSONSchema4; key: string }[];
   jsonItem: JSONSchema4;
-  required: boolean; // used by alias fields and possible others
+  required: boolean;
 };
 
 function parseField(params: {
