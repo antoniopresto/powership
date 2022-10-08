@@ -1,4 +1,4 @@
-import { IsKnown } from '@backland/utils';
+import { IsKnown, setByPath } from '@backland/utils';
 import { RuntimeError } from '@backland/utils/lib/RuntimeError';
 import { StrictMap } from '@backland/utils/lib/StrictMap';
 import { ensureArray } from '@backland/utils/lib/ensureArray';
@@ -26,6 +26,7 @@ import {
 } from './applyValidator';
 import { assertSameDefinition } from './assertSameDefinition';
 import { extendDefinition, ExtendDefinitionResult } from './extendDefinition';
+import { FieldComposer } from './fields/FieldType';
 import { ObjectLike } from './fields/IObjectLike';
 import {
   cleanMetaField,
@@ -46,7 +47,10 @@ import { getObjectHelpers, ObjectHelpers } from './getObjectHelpers';
 import { ImplementObject, implementObject } from './implementObject';
 import { isObject } from './objectInferenceUtils';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
-import { parseObjectDefinition } from './parseObjectDefinition';
+import {
+  __getCachedFieldInstance,
+  parseObjectDefinition,
+} from './parseObjectDefinition';
 import { withCache, WithCache } from './withCache';
 
 export * from './parseObjectDefinition';
@@ -189,11 +193,18 @@ export class ObjectType<
 
     input = { ...input };
 
+    const composers: { compose: FieldComposer; key: string }[] = [];
+
     (fields as string[]).forEach((currField) => {
       if (isMetaFieldKey(currField)) return;
 
       // @ts-ignore
       const fieldDef: FinalFieldDefinition = this.definition[currField];
+
+      if (fieldDef.type === 'alias') {
+        const instance = __getCachedFieldInstance(fieldDef);
+        composers.push({ compose: instance.compose!, key: currField });
+      }
 
       const value = input[currField];
 
@@ -218,6 +229,10 @@ export class ObjectType<
       }
 
       errors.push(...result.errors);
+    });
+
+    composers.forEach((el) => {
+      setByPath(parsed, el.key, el.compose({ ...input, ...parsed }));
     });
 
     return { errors, parsed };
@@ -291,8 +306,10 @@ export class ObjectType<
     return this as any;
   }
 
-  helpers: any = () => {
-    return this.__withCache('helpers', () => getObjectHelpers(this));
+  helpers = () => {
+    return this.__withCache('helpers', () =>
+      getObjectHelpers(this)
+    ) as ObjectHelpers;
   };
 
   toGraphQL = (name?: string): GraphQLParserResult => {

@@ -1,5 +1,6 @@
 import { memoize } from '@backland/utils/lib/memoize';
 
+import { AliasField } from './AliasField';
 import { AnyField } from './AnyField';
 import { ArrayField } from './ArrayField';
 import { BooleanField } from './BooleanField';
@@ -43,6 +44,7 @@ export * from './UlidField';
 export * from './UndefinedField';
 export * from './UnionField';
 export * from './UnknownField';
+export * from './AliasField';
 
 function createConstructors<T extends { [K in FieldTypeName]: any }>(
   input: T
@@ -55,6 +57,7 @@ function createConstructors<T extends { [K in FieldTypeName]: any }>(
 
 export const types = createConstructors({
   ID: IDField,
+  alias: AliasField,
   any: AnyField,
   array: ArrayField,
   boolean: BooleanField,

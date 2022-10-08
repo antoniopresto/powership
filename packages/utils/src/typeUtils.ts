@@ -1,5 +1,10 @@
 // https://stackoverflow.com/questions/46176165/ways-to-get-string-literal-type-of-array-values-without-enum-overhead
+import { A, B, C, F, I, L, M, N, O, S, T, U } from 'ts-toolbelt';
+
 import { RuntimeError } from './RuntimeError';
+
+export * from 'ts-toolbelt';
+export { T, L, B, A, U, C, N, F, M, I, O, S };
 
 export const tuple = <T extends string[]>(...args: T) => args;
 
@@ -255,5 +260,5 @@ export class TypeAssertionError extends RuntimeError {
   }
 }
 
-export * from 'ts-toolbelt';
-export { T, L, B, A, U, C, N, F, M, I, O, S } from 'ts-toolbelt';
+export type As<T, L> = A.Cast<T, L>;
+export type Cast<T, L> = A.Cast<T, L>;

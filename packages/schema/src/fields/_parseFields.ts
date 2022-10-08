@@ -1,4 +1,8 @@
-import { IsKnown, NullableToPartial } from '@backland/utils';
+import {
+  GetFieldByDotNotation,
+  IsKnown,
+  NullableToPartial,
+} from '@backland/utils';
 
 import {
   CommonFieldDefinition,
@@ -33,7 +37,16 @@ export interface ObjectDefinitionInput {
 }
 
 export type InferObjectDefinition<Def> = NullableToPartial<{
-  -readonly [K in keyof Def]: InferField<Def[K]>;
+  -readonly [K in keyof Def]: ToFinalField<Def[K]> extends infer Final
+    ? Final extends { def: string; type: 'alias' }
+      ? // handling aliasing
+        GetFieldByDotNotation<
+          InferObjectDefinition<AllButNot<Def, K>>,
+          Final['def']
+        >
+      : // infer schema field
+        InferField<Def[K]>
+    : any;
 }>;
 
 export type InferField<Input> = GetI<ToFinalField<Input>>;
@@ -451,3 +464,17 @@ type _ParseFieldInstance<Base, ELSE> = //
 type _ParseFlattenDef<Base> = {
   [K in keyof ParseFlattenFieldDef<Base>]: ParseFlattenFieldDef<Base>[K];
 };
+
+type AllButNot<T, N> = T extends { [K: string]: unknown }
+  ? { [K in keyof T as K extends N ? never : K]: T[K] }
+  : T;
+
+// type Steps<N> = N extends string
+//   ? N extends `${infer Head}.${infer Tail}`
+//     ? Head | `${Head}.${Steps<Tail>}` | N
+//     : N
+//   : never;
+//
+// type S = Steps<'a.b'>
+//
+// type X = AllButNot<{ a: { b: { c: 1 }; x: { y: { z: 1 } } } }, 'a.b'>;

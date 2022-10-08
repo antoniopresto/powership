@@ -1,6 +1,8 @@
+import { setByPath } from '@backland/utils';
 import { BJSON } from '@backland/utils/lib/BJSON';
 import { RuntimeError } from '@backland/utils/lib/RuntimeError';
 import { expectedType } from '@backland/utils/lib/expectedType';
+import { getByPath } from '@backland/utils/lib/getByPath';
 import { getKeys } from '@backland/utils/lib/getKeys';
 import { getTypeName } from '@backland/utils/lib/getTypeName';
 import { nonNullValues } from '@backland/utils/lib/invariant';
@@ -63,6 +65,7 @@ export function objectToJSON(
     topJSON.description = description;
   }
 
+  const composers: ParsedField['composers'] = [];
   getKeys(definition).forEach((fieldName) => {
     if (isHiddenFieldName(fieldName)) return;
     const field = definition[fieldName];
@@ -79,14 +82,22 @@ export function objectToJSON(
     }
 
     topProperties[fieldName] = parsedField.jsonItem;
+
+    composers.push(...parsedField.composers);
+  });
+
+  composers.forEach((composer) => {
+    const value = composer.compose(topProperties);
+    setByPath(topProperties, composer.key, value);
   });
 
   return topJSON;
 }
 
 type ParsedField = {
+  composers: { compose: (parent: JSONSchema4) => JSONSchema4; key: string }[];
   jsonItem: JSONSchema4;
-  required: boolean;
+  required: boolean; // used by alias fields and possible others
 };
 
 function parseField(params: {
@@ -99,6 +110,7 @@ function parseField(params: {
 
   const { ignoreDefaultValues } = options;
   let { type, list, optional, description, defaultValue } = field;
+  const composers: ParsedField['composers'] = [];
 
   nonNullValues({ type });
 
@@ -133,6 +145,7 @@ function parseField(params: {
     });
 
     return {
+      composers,
       jsonItem: {
         items: parsedListItem.jsonItem,
         type: 'array',
@@ -145,6 +158,14 @@ function parseField(params: {
     ID() {
       jsonItem.type = 'string';
       jsonItem.tsType = 'ID';
+    },
+    alias() {
+      composers.push({
+        compose(parent) {
+          return getByPath(parent, field.def);
+        },
+        key: fieldName,
+      });
     },
     any() {
       jsonItem.type = 'any';
@@ -262,5 +283,5 @@ function parseField(params: {
 
   typeParsers[type]();
 
-  return { jsonItem, required };
+  return { composers, jsonItem, required };
 }

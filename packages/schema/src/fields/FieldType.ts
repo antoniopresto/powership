@@ -18,6 +18,10 @@ export * from '../applyValidator';
 
 export type FieldTypeOptions = ListDefinitionObject & { [K: string]: unknown };
 
+export type FieldComposer<Schema = Record<string, any>, T = any> = (
+  schema: Schema
+) => T; // used by alias fieldType and possibly others
+
 export abstract class FieldType<
   Type,
   TypeName extends FieldTypeName,
@@ -28,6 +32,8 @@ export abstract class FieldType<
   type: TypeName;
 
   readonly def: Def;
+
+  compose: FieldComposer<Record<string, any>, Type> | undefined;
 
   get definition() {
     return this.asFinalFieldDef;

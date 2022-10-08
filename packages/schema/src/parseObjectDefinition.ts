@@ -25,7 +25,7 @@ import {
 } from './fields/MetaFieldField';
 import { CommonFieldDefinition } from './fields/_fieldDefinitions';
 import { FinalFieldDefinition } from './fields/_parseFields';
-import { types } from './fields/fieldTypes';
+import { AliasField, types } from './fields/fieldTypes';
 import {
   isStringFieldDefinition,
   parseStringDefinition,
@@ -325,7 +325,9 @@ export function parseObjectDefinition(
 
   let meta: MetaField['asFinalFieldDef'] | undefined = undefined;
 
-  getKeys(input).forEach(function (fieldName) {
+  const keys = getKeys(input);
+
+  keys.forEach(function (fieldName) {
     try {
       const item = input[fieldName];
 
@@ -347,6 +349,20 @@ export function parseObjectDefinition(
           input,
         }
       );
+    }
+  });
+
+  // handling aliases
+  keys.forEach((k) => {
+    if (result[k]?.type === 'alias') {
+      const field = __getCachedFieldInstance(result[k]) as any;
+      AliasField.assert(field);
+      const parent = field.def.split(/[.$[]/)[0];
+      if (!result[parent]) {
+        throw new Error(
+          `Failed to define alias: "${field.def}" is not a defined in schema.`
+        );
+      }
     }
   });
 

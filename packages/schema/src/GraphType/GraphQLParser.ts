@@ -1,8 +1,9 @@
-import { assertEqual, BJSON } from '@backland/utils';
+import { assertEqual, BJSON, setByPath } from '@backland/utils';
 import { RuntimeError } from '@backland/utils/lib/RuntimeError';
 import { StrictMap } from '@backland/utils/lib/StrictMap';
 import { assertSame } from '@backland/utils/lib/assertSame';
 import { isProduction } from '@backland/utils/lib/env';
+import { getByPath } from '@backland/utils/lib/getByPath';
 import { hooks } from '@backland/utils/lib/hooks';
 import { nonNullValues } from '@backland/utils/lib/invariant';
 import {
@@ -101,7 +102,7 @@ export interface ConvertFieldResult {
   inputType: (options?: ParseInputTypeOptions) => GraphQLInputType;
   plainField: FinalFieldDefinition;
   type: (options?: ParseTypeOptions) => GraphQLOutputType;
-  typeName: string;
+  typeName: string; // used by alias fields and possible others
 }
 
 const resultsCache = new StrictMap<string, GraphQLParserResult>();
@@ -208,8 +209,15 @@ export class GraphQLParser {
         options.middleware?.(hooks);
         objectMiddleware.forEach((fn) => fn(hooks));
 
+        const aliases: { dest: string; origin: string }[] = [];
+
         helpers.list.forEach(({ name: fieldName, instance, plainField }) => {
           if (isHiddenFieldName(fieldName)) return;
+
+          if (plainField.type === 'alias') {
+            aliases.push({ dest: fieldName, origin: plainField.def });
+            return;
+          }
 
           const field = this.fieldToGraphQL({
             field: instance,
@@ -249,6 +257,14 @@ export class GraphQLParser {
 
           return objMap;
         }, {} as GraphQLFieldConfigMap<any, any>);
+
+        aliases.forEach((alias) => {
+          setByPath(
+            fieldsConfigMap,
+            alias.dest,
+            getByPath(fieldsConfigMap, alias.origin)
+          );
+        });
 
         hooks.onFieldConfigMap.exec(fieldsConfigMap);
 
@@ -379,11 +395,14 @@ export class GraphQLParser {
     const create: {
       [T in FieldTypeName]: () => Omit<
         ConvertFieldResult,
-        'typeName' | 'fieldName' | 'path' | 'plainField'
+        'typeName' | 'fieldName' | 'path' | 'plainField' | 'composers'
       >;
     } = {
       ID() {
         return { inputType: () => GraphQLID, type: () => GraphQLID };
+      },
+      alias() {
+        return {} as any; // handled in object parser;
       },
       any() {
         const create = wrapCreationWithCache(
@@ -421,7 +440,10 @@ export class GraphQLParser {
         };
       },
       boolean() {
-        return { inputType: () => GraphQLBoolean, type: () => GraphQLBoolean };
+        return {
+          inputType: () => GraphQLBoolean,
+          type: () => GraphQLBoolean,
+        };
       },
       cursor(): any {
         const cursor = field as CursorField;
@@ -438,7 +460,10 @@ export class GraphQLParser {
         };
       },
       email() {
-        return { inputType: () => GraphQLString, type: () => GraphQLString };
+        return {
+          inputType: () => GraphQLString,
+          type: () => GraphQLString,
+        };
       },
       enum() {
         function createEnum(options?: any) {
@@ -464,10 +489,16 @@ export class GraphQLParser {
         };
       },
       float() {
-        return { inputType: () => GraphQLFloat, type: () => GraphQLFloat };
+        return {
+          inputType: () => GraphQLFloat,
+          type: () => GraphQLFloat,
+        };
       },
       int() {
-        return { inputType: () => GraphQLInt, type: () => GraphQLInt };
+        return {
+          inputType: () => GraphQLInt,
+          type: () => GraphQLInt,
+        };
       },
       literal() {
         if (!LiteralField.is(field)) throw new Error('ts');
@@ -568,7 +599,10 @@ export class GraphQLParser {
         };
       },
       string() {
-        return { inputType: () => GraphQLString, type: () => GraphQLString };
+        return {
+          inputType: () => GraphQLString,
+          type: () => GraphQLString,
+        };
       },
       ulid() {
         return {
@@ -662,6 +696,11 @@ export class GraphQLParser {
       description,
       fieldName,
       inputType(...args) {
+        if (typeName === 'alias') {
+          // should be handled in parseObject
+          throw new Error(`can't handle alias in convertField.`);
+        }
+
         let result = create[typeName]().inputType(...args);
 
         if (field.list) {
@@ -676,6 +715,11 @@ export class GraphQLParser {
       },
       plainField,
       type(...args) {
+        if (typeName === 'alias') {
+          // should be handled in parseObject
+          throw new Error(`can't handle alias in convertField.`);
+        }
+
         let result = create[typeName]().type(...args);
 
         if (field.list) {

@@ -1,3 +1,4 @@
+import { AliasFieldDef } from './AliasField';
 import { ArrayFieldDef } from './ArrayField';
 import { ObjectLike } from './IObjectLike';
 import { MetaFieldDef } from './MetaFieldField';
@@ -25,7 +26,7 @@ export type ListDefinitionObject = {
 export type ListDefinition = ListDefinitionObject | boolean;
 export type ListDefinitionTruthy = ListDefinitionObject | true;
 
-export interface CommonFieldDefinition<T> {
+export type _CommonFieldDefinition = {
   __infer?: any; // used to infer types
   alias?: string; // used in generated types,like GraphQL.
   def?: any;
@@ -33,8 +34,11 @@ export interface CommonFieldDefinition<T> {
   description?: string;
   list?: ListDefinition;
   optional?: boolean;
+};
+
+export type CommonFieldDefinition<T> = {
   type: T;
-}
+} & _CommonFieldDefinition;
 
 export type FieldDefinitions = {
   ID:
@@ -42,6 +46,8 @@ export type FieldDefinitions = {
         autoCreate?: boolean;
       }
     | undefined;
+
+  alias: AliasFieldDef;
 
   any: undefined;
 
