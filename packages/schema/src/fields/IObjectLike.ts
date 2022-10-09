@@ -15,4 +15,5 @@ export interface GraphTypeLike {
   definition: FinalFieldDefinition;
   definitionInput: FieldDefinitionConfig;
   readonly id: string;
+  readonly optionalId: string | undefined;
 }

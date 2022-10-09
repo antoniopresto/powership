@@ -1,3 +1,4 @@
+import { RuntimeError } from '@backland/utils/lib/RuntimeError';
 import { StrictMap } from '@backland/utils/lib/StrictMap';
 import { assertSame } from '@backland/utils/lib/assertSame';
 import { isProduction } from '@backland/utils/lib/env';
@@ -40,8 +41,27 @@ export class GraphType<Definition extends ObjectFieldInput> {
   readonly definitionInput: FieldDefinitionConfig;
 
   __field: TAnyFieldType;
+  __id: string | undefined;
 
-  readonly id: string;
+  get id(): string {
+    if (this.optionalId) return this.optionalId;
+
+    throw new RuntimeError(
+      [
+        'The method you are trying to execute needs the used graphType identified.' +
+          ' Use ``myGraphType.identify("name")`` and try again.',
+        'You can also read that information from ``myGraphType.optionalId.`',
+        '',
+        '',
+      ].join('\n'),
+      this.definitionInput
+    );
+  }
+
+  get optionalId(): string | undefined {
+    return this.__id;
+  }
+
   readonly _object: ObjectType<any> | undefined;
 
   constructor(
@@ -56,28 +76,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   constructor(...args: any[]) {
     // @ts-ignore
     GraphType.__construct(this, ...args);
-
-    const { id: name } = this;
-
-    if (GraphType.register.has(name)) {
-      const existing = GraphType.register.get(name);
-
-      if (!isProduction()) {
-        assertSame(
-          `Different type already registered with name "${name}"`,
-          // @ts-ignore
-          this.definition,
-          existing.definition
-        );
-      }
-    } else {
-      if (!isBrowser()) {
-        CircularDeps.typesWriter?.BacklandWatchTypesPubSub.emit('created', {
-          graphType: this,
-        });
-      }
-      GraphType.register.set(name, this as any);
-    }
+    if (this.__id) this.identify(this.__id);
   }
 
   static __construct = (
@@ -134,15 +133,45 @@ export class GraphType<Definition extends ObjectFieldInput> {
 
     Object.assign(self, {
       definition: self.__field.asFinalFieldDef,
-      id: name,
     });
 
-    self.__field.id = name;
+    if (name) {
+      self.identify(name);
+    }
   };
 
   private __hiddenField: boolean = false;
 
+  identify = (name: string) => {
+    const self = this as any;
+
+    self.__id = name;
+    self.__field.id = name;
+    self.definition = self.__field.asFinalFieldDef;
+
+    if (GraphType.register.has(name)) {
+      const existing = GraphType.register.get(name);
+
+      if (!isProduction()) {
+        assertSame(
+          `Different type already registered with name "${name}"`,
+          // @ts-ignore
+          this.definition,
+          existing.definition
+        );
+      }
+    } else {
+      if (!isBrowser()) {
+        CircularDeps.typesWriter?.BacklandWatchTypesPubSub.emit('created', {
+          graphType: this,
+        });
+      }
+      GraphType.register.set(name, this as any);
+    }
+  };
+
   set hiddenField(value) {
+    this.__field.hiddenField = value;
     this.__hiddenField = value;
   }
 

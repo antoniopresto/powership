@@ -132,12 +132,7 @@ export class GraphQLParser {
     fieldsRegister.clear();
   };
 
-  static objectToGraphQL<T>(options: {
-    object: ObjectType<T>;
-    path?: string[]; // family tree of an object/field
-  }): GraphQLParserResult {
-    const { object, path } = options;
-
+  static objectIds = <T>(object: ObjectType<T>) => {
     if (!isObject(object)) {
       throw new RuntimeError(`Invalid Object.`, {
         object,
@@ -151,7 +146,17 @@ export class GraphQLParser {
     );
 
     const cacheId = `${[objectId].filter(Boolean).join()}`;
+    //
+    return { cacheId, object, objectId };
+  };
 
+  static objectToGraphQL<T>(options: {
+    object: ObjectType<T>;
+    path?: string[]; // family tree of an object/field
+  }): GraphQLParserResult {
+    const { object, path } = options;
+
+    const { cacheId, objectId } = this.objectIds(object);
     const { implements: parents } = object.meta;
 
     if (resultsCache.has(cacheId)) {

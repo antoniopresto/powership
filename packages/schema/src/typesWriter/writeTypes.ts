@@ -31,7 +31,7 @@ const resolversRecord: Record<string, AnyResolver> = {};
 const customTypeRecord: Record<string, CustomTypesWriterEvent> = {};
 
 BacklandWatchTypesPubSub.on('created', async (event) => {
-  if (event.graphType) {
+  if (event.graphType?.optionalId) {
     typesRecord[`${event.graphType.id}`] = event.graphType;
   }
 
