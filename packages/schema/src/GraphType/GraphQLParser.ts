@@ -244,6 +244,8 @@ export class GraphQLParser {
             (object.definition[next.fieldName] as FinalFieldDefinition) ||
             undefined;
 
+          if (origin?.hiddenField) return acc;
+
           if (origin?.defaultValue !== undefined) {
             // @ts-ignore
             field.defaultValue = origin.defaultValue;

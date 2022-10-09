@@ -74,6 +74,7 @@ export type AllFinalFieldDefinitions = {
     def: FieldDefinitions[Type];
     defaultValue?: any;
     description?: string | undefined;
+    hiddenField?: boolean;
     list?: boolean;
     name?: string;
     optional?: boolean;

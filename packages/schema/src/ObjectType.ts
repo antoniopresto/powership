@@ -93,6 +93,16 @@ export class ObjectType<
     return this.meta.description;
   }
 
+  private __hiddenField: boolean = false;
+
+  set hiddenField(value) {
+    this.__hiddenField = value;
+  }
+
+  get hiddenField() {
+    return this.__hiddenField;
+  }
+
   // definition without metadata (name, etc)
   cleanDefinition(): ParseFields<HandledInput> {
     return cleanMetaField(this.definition);
@@ -171,13 +181,16 @@ export class ObjectType<
       excludeInvalidListItems?: boolean;
       fields?: keyof HandledInput[];
       partial?: boolean;
-    }
+    } & FieldParserOptionsObject
   ): { errors: string[]; parsed: unknown } {
     const {
       partial = false,
       fields = Object.keys(this.definition),
       excludeInvalidListItems,
+      includeHidden,
     } = options || {};
+
+    if (this.__hiddenField && !includeHidden) return { errors: [], parsed: {} };
 
     const errors: string[] = [];
     const parsed: any = {};
@@ -200,6 +213,8 @@ export class ObjectType<
 
       // @ts-ignore
       const fieldDef: FinalFieldDefinition = this.definition[currField];
+
+      if (!includeHidden && fieldDef.hiddenField) return;
 
       if (fieldDef.type === 'alias') {
         const instance = __getCachedFieldInstance(fieldDef);

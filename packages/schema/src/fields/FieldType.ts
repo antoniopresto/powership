@@ -79,6 +79,7 @@ export abstract class FieldType<
   list = false;
   description?: string;
   defaultValue?: any;
+  hiddenField?: boolean;
 
   describe = (description: string): this => {
     this.description = description;
@@ -123,7 +124,10 @@ export abstract class FieldType<
         options = _options;
       }
 
-      const { customErrorMessage: customMessage } = options;
+      const { customErrorMessage: customMessage, includeHidden } = options;
+
+      // keep it secret
+      if (this.hiddenField && !includeHidden) return undefined;
 
       if (parser.preParse) {
         input = parser.preParse(input);
@@ -178,6 +182,7 @@ export abstract class FieldType<
       def: this.def,
       defaultValue: this.defaultValue,
       description: this.description,
+      hiddenField: this.hiddenField,
       list: this.list,
       optional: this.optional,
       type: this.type,

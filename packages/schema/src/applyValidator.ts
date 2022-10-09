@@ -8,6 +8,7 @@ export type FieldParserOptionsObject = {
   customErrorMessage?: ValidationCustomMessage;
   customMessage?: ValidationCustomMessage;
   excludeInvalidListItems?: boolean;
+  includeHidden?: boolean;
 };
 
 export type FieldParserConfig =

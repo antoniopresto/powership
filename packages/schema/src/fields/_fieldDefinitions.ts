@@ -33,6 +33,7 @@ export type _CommonFieldDefinition = {
   def?: any;
   defaultValue?: any;
   description?: string;
+  hiddenField?: boolean;
   list?: ListDefinition;
   // used to infer types
   name?: string;

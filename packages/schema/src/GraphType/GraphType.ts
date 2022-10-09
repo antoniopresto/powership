@@ -140,12 +140,25 @@ export class GraphType<Definition extends ObjectFieldInput> {
     self.__field.id = name;
   };
 
+  private __hiddenField: boolean = false;
+
+  set hiddenField(value) {
+    this.__hiddenField = value;
+  }
+
+  get hiddenField() {
+    return this.__hiddenField;
+  }
+
   parse = (
     input: any,
     options?: FieldParserConfig
   ): Infer<ToFinalField<Definition>> => {
     const customMessage =
       options && typeof options === 'object' ? options.customMessage : options;
+
+    const _options = typeof options === 'object' ? options : {};
+    if (this.__hiddenField && !_options.includeHidden) return undefined as any;
 
     try {
       return this.__field.parse(input, customMessage) as any;
@@ -259,6 +272,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   static isTypeDefinition(input: any): input is {
     defaultValue?: unknown;
     description?: string;
+    hiddenField?: boolean;
     list?: boolean;
     name?: string;
     optional?: boolean;

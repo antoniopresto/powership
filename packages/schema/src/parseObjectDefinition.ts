@@ -125,6 +125,7 @@ export function parseFieldDefinitionConfig<
         def: definition.def,
         defaultValue: definition.defaultValue,
         description: definition.description,
+        hiddenField: definition.hiddenField,
         list: !!definition.list,
         optional: !!definition.optional,
         type: 'literal',
@@ -132,7 +133,9 @@ export function parseFieldDefinitionConfig<
     }
 
     if (GraphType.is(definition)) {
-      return parseFieldDefinitionConfig(definition.definition, { deep });
+      const def = parseFieldDefinitionConfig(definition.definition, { deep });
+      def.hiddenField = def.hiddenField || definition.hiddenField;
+      return def;
     }
 
     if (GraphType.isTypeDefinition(definition)) {
@@ -141,6 +144,7 @@ export function parseFieldDefinitionConfig<
         optional = false,
         description,
         defaultValue,
+        hiddenField,
         type: {
           definition: { type, def, defaultValue: _defaultValue },
         },
@@ -150,6 +154,7 @@ export function parseFieldDefinitionConfig<
         def,
         defaultValue: defaultValue === undefined ? _defaultValue : defaultValue,
         description,
+        hiddenField,
         list,
         optional,
         type,
@@ -174,6 +179,8 @@ export function parseFieldDefinitionConfig<
 
         if (isObject(definition.def)) {
           definition.def = definition.def.definition;
+          definition.hiddenField =
+            definition.hiddenField || definition.def.hiddenField;
         } else {
           definition.def = parseObjectDefinition(definition.def, {
             deep,
@@ -210,7 +217,7 @@ export function parseFieldDefinitionConfig<
           : definition.definition,
         defaultValue: undefined,
         description: definition.description,
-
+        hiddenField: definition.hiddenField,
         type: 'object',
       };
     }
@@ -222,7 +229,9 @@ export function parseFieldDefinitionConfig<
           : definition.type.definition,
         defaultValue: undefined,
         description: definition.type.description,
+        hiddenField: definition.hiddenField || definition.type.hiddenField,
         list: !!definition.list,
+        name: definition.name,
         optional: !!definition.optional,
         type: 'object',
       };
@@ -414,6 +423,7 @@ export function isObjectAsTypeDefinition(
 const validFlattenDefinitionKeys = {
   defaultValue: 'any',
   description: 'string',
+  hiddenField: 'boolean',
   list: 'boolean',
   name: 'string',
   optional: 'boolean',
@@ -472,6 +482,7 @@ export function parseFlattenFieldDefinition(
     list = false,
     defaultValue,
     name,
+    hiddenField,
   } = input;
 
   return parseFieldDefinitionConfig(
@@ -479,6 +490,7 @@ export function parseFlattenFieldDefinition(
       def,
       defaultValue,
       description,
+      hiddenField,
       list,
       name,
       optional,

@@ -48,7 +48,6 @@ export function createEmptyMetaField(): MetaField['asFinalFieldDef'] {
   return {
     def: { id: null },
     defaultValue: undefined,
-
     type: 'meta',
   };
 }
