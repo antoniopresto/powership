@@ -22,6 +22,7 @@
       }
     }
   },
+  "strictlyOrderedTargets": ["build", "prepublish", "install"],
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"]

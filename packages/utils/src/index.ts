@@ -10,6 +10,7 @@ export * from './keyBy';
 export * from './groupBy';
 export * from './sortBy';
 export * from './getByPath';
+export * from './setByPath';
 export * from './isBrowser';
 export * from './filterNull';
 export * from './emailRegex';

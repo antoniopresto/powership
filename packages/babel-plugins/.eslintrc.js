@@ -22,7 +22,6 @@ module.exports = {
     'plugin:eslint-comments/recommended',
     'plugin:import/typescript',
     'prettier',
-    'prettier/@typescript-eslint',
   ],
   globals: { BigInt: true, console: true, WebAssembly: true },
   rules: {

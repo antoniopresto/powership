@@ -8,8 +8,7 @@
   "extends": [
     "plugin:eslint-comments/recommended",
     "plugin:import/typescript",
-    "prettier",
-    "prettier/@typescript-eslint"
+    "prettier"
   ],
   "globals": { "BigInt": true, "console": true, "WebAssembly": true },
   "rules": {
