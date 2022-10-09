@@ -165,6 +165,13 @@ export class ObjectType<
     return parsed as any;
   }
 
+  softParse = <T = any>(
+    input: any,
+    options: FieldParserOptionsObject = {}
+  ): Infer<HandledInput> & { [K: string]: T } => {
+    return this.parse(input, { ...options, allowUnspecified: true });
+  };
+
   validate(input: any): input is Infer<HandledInput> {
     try {
       this.parse(input);
@@ -188,6 +195,7 @@ export class ObjectType<
       fields = Object.keys(this.definition),
       excludeInvalidListItems,
       includeHidden,
+      allowUnspecified,
     } = options || {};
 
     if (this.__hiddenField && !includeHidden) return { errors: [], parsed: {} };
@@ -250,7 +258,12 @@ export class ObjectType<
       setByPath(parsed, el.key, el.compose({ ...input, ...parsed }));
     });
 
-    return { errors, parsed };
+    const resulting = allowUnspecified ? { ...input, ...parsed } : parsed;
+
+    return {
+      errors,
+      parsed: resulting,
+    };
   }
 
   describe(
