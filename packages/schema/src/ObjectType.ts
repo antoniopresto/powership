@@ -93,14 +93,14 @@ export class ObjectType<
     return this.meta.description;
   }
 
-  private __hiddenField: boolean = false;
+  private __hidden: boolean = false;
 
-  set hiddenField(value) {
-    this.__hiddenField = value;
+  set hidden(value) {
+    this.__hidden = value;
   }
 
-  get hiddenField() {
-    return this.__hiddenField;
+  get hidden() {
+    return this.__hidden;
   }
 
   // definition without metadata (name, etc)
@@ -198,7 +198,7 @@ export class ObjectType<
       allowUnspecified,
     } = options || {};
 
-    if (this.__hiddenField && !includeHidden) return { errors: [], parsed: {} };
+    if (this.__hidden && !includeHidden) return { errors: [], parsed: {} };
 
     const errors: string[] = [];
     const parsed: any = {};
@@ -222,7 +222,7 @@ export class ObjectType<
       // @ts-ignore
       const fieldDef: FinalFieldDefinition = this.definition[currField];
 
-      if (!includeHidden && fieldDef.hiddenField) return;
+      if (!includeHidden && fieldDef.hidden) return;
 
       if (fieldDef.type === 'alias') {
         const instance = __getCachedFieldInstance(fieldDef);

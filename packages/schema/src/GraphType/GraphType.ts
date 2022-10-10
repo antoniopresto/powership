@@ -140,7 +140,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
     }
   };
 
-  private __hiddenField: boolean = false;
+  private __hidden: boolean = false;
 
   identify = (name: string) => {
     const self = this as any;
@@ -170,13 +170,13 @@ export class GraphType<Definition extends ObjectFieldInput> {
     }
   };
 
-  set hiddenField(value) {
-    this.__field.hiddenField = value;
-    this.__hiddenField = value;
+  set hidden(value) {
+    this.__field.hidden = value;
+    this.__hidden = value;
   }
 
-  get hiddenField() {
-    return this.__hiddenField;
+  get hidden() {
+    return this.__hidden;
   }
 
   parse = (
@@ -187,7 +187,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
       options && typeof options === 'object' ? options.customMessage : options;
 
     const _options = typeof options === 'object' ? options : {};
-    if (this.__hiddenField && !_options.includeHidden) return undefined as any;
+    if (this.__hidden && !_options.includeHidden) return undefined as any;
 
     try {
       return this.__field.parse(input, customMessage) as any;
@@ -301,7 +301,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   static isTypeDefinition(input: any): input is {
     defaultValue?: unknown;
     description?: string;
-    hiddenField?: boolean;
+    hidden?: boolean;
     list?: boolean;
     name?: string;
     optional?: boolean;

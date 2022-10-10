@@ -70,7 +70,7 @@ export function objectToJSON(
   getKeys(definition).forEach((fieldName) => {
     if (isHiddenFieldName(fieldName)) return;
     const field = definition[fieldName];
-    if (field.hiddenField) return;
+    if (field.hidden) return;
 
     const parsedField = parseField({
       field,

@@ -32,8 +32,8 @@ export function fieldInstanceFromDef(
     field.name = definition.name;
   }
 
-  if (definition.hiddenField) {
-    field.hiddenField = definition.hiddenField;
+  if (definition.hidden) {
+    field.hidden = definition.hidden;
   }
 
   if (definition.defaultValue !== undefined) {

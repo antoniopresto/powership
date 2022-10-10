@@ -27,13 +27,17 @@ export type ListDefinitionObject = {
 export type ListDefinition = ListDefinitionObject | boolean;
 export type ListDefinitionTruthy = ListDefinitionObject | true;
 
+export type FieldExampleFunction = () => string | Promise<string>;
+export type FieldExample = FieldExampleFunction|string;
+
 export type _CommonFieldDefinition = {
   __infer?: any;
   // used in generated types,like GraphQL.
   def?: any;
   defaultValue?: any;
+  example?: FieldExample;
   description?: string;
-  hiddenField?: boolean;
+  hidden?: boolean;
   list?: ListDefinition;
   // used to infer types
   name?: string;
