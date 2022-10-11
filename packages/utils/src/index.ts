@@ -47,6 +47,7 @@ export * from './ulid';
 export * from './deepFreeze';
 export * from './override';
 export * from './useProcess';
+export * from './sortObject';
 
 // @only-server
 export * from './logLevels';

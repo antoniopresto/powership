@@ -238,7 +238,16 @@ export function stringify(
       return v;
     }
 
-    case 'Object': {
+    case 'Null':
+      return 'null';
+
+    case 'Undefined':
+      return 'undefined';
+
+    case 'Function':
+      return 'function unknown(){}';
+
+    default: {
       let partial: string[] = [];
       let v;
 
@@ -260,10 +269,6 @@ export function stringify(
       }
 
       return v;
-    }
-
-    default: {
-      return undefined;
     }
   }
 } // If the JSON object does not yet have a stringify method, give it one.
