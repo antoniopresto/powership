@@ -2,13 +2,6 @@
 # yarn lockfile v1
 
 
-"@accounts/types@^0.33.2":
-  version "0.33.2"
-  resolved "https://registry.yarnpkg.com/@accounts/types/-/types-0.33.2.tgz#dcf5adf1619242c1831729ec4ba7f8f4c7ceb5eb"
-  integrity sha512-VL/fNYHNef0Hjc7/FMQKKJW/jHCjmx3iu/uYAnbyspPRSRlJFFA0UdvTqOSaH/Qhu72JTfPcu6uLj0hgbV/vCQ==
-  dependencies:
-    tslib "2.3.1"
-
 "@ampproject/remapping@^2.1.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@ampproject/remapping/-/remapping-2.2.0.tgz#56c133824780de3174aed5ab6834f3026790154d"
@@ -2882,13 +2875,6 @@
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@types/minimist/-/minimist-1.2.2.tgz#ee771e2ba4b3dc5b372935d549fd9617bf345b8c"
   integrity sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==
-
-"@types/mongodb@4.0.6":
-  version "4.0.6"
-  resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-4.0.6.tgz#3732d725e6cdef0a5e95f2944af1dd9c79759371"
-  integrity sha512-XTbn1Z1j7fHzC1Vkd9LYO48lO2C581r+oRCi/KNzcTHIri7hEaya8r9vxoHJiKr+oeUWVK69+9xr84Mp+aReaw==
-  dependencies:
-    mongodb "*"
 
 "@types/node@*":
   version "18.7.19"
@@ -7844,7 +7830,7 @@ mongodb-memory-server-core@8.9.3:
     uuid "^8.3.1"
     yauzl "^2.10.0"
 
-mongodb@*, mongodb@4.10.0:
+mongodb@4.10.0:
   version "4.10.0"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.10.0.tgz#49fc509c928ff126577d628ab09aaf1e5855cd22"
   integrity sha512-My2QxLTw0Cc1O9gih0mz4mqo145Jq4rLAQx0Glk/Ha9iYBzYpt4I2QFNRIh35uNFNfe8KFQcdwY1/HKxXBkinw==
@@ -9079,6 +9065,11 @@ saslprep@^1.0.3:
   dependencies:
     sparse-bitfield "^3.0.3"
 
+scrypt-kdf@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/scrypt-kdf/-/scrypt-kdf-2.0.1.tgz#3355224c52d398331b2cbf2b70a7be26b52c53e6"
+  integrity sha512-dMhpgBVJPDWZP5erOCwTjI6oAO9hKhFAjZsdSQ0spaWJYHuA/wFNF2weQQfsyCIk8eNKoLfEDxr3zAtM+gZo0Q==
+
 "semver@2 || 3 || 4 || 5", semver@^5.5.0, semver@^5.6.0:
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.7.1.tgz#a954f931aeba508d307bbf069eff0c01c96116f7"
@@ -9755,11 +9746,6 @@ tsconfig-paths@^3.14.1, tsconfig-paths@^3.9.0:
     json5 "^1.0.1"
     minimist "^1.2.6"
     strip-bom "^3.0.0"
-
-tslib@2.3.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
-  integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
 
 tslib@^1.8.1, tslib@^1.9.0:
   version "1.14.1"

@@ -101,43 +101,6 @@ export type EntityFinalDefinition<InputDef> = InputDef extends {
     : never
   : never;
 
-// type _GetLoaderUtils<Loader, Type> = Loader extends unknown
-//   ? EntityFinalDefinition<Type> extends infer Def
-//     ? GetLoaderFilterDef<Loader, Def> extends infer Filter
-//       ? Filter extends unknown
-//         ? {
-//             filterDef: Filter;
-//             queryArgs: {
-//               after: {
-//                 optional: true;
-//                 type: 'ID';
-//               };
-//               condition: Type extends {
-//                 definition: infer Def;
-//               }
-//                 ? Def extends { def: infer Def }
-//                   ? {
-//                       def: EntityGraphQLFieldConditionsType<Def>;
-//                       optional: true;
-//                       type: 'object';
-//                     }
-//                   : never
-//                 : never;
-//               filter: {
-//                 def: Filter;
-//                 type: 'object';
-//               };
-//               first: {
-//                 optional: true;
-//                 type: 'int';
-//               };
-//             };
-//           }
-//         : never
-//       : never
-//     : never
-//   : never;
-
 type _Entity<Options extends EntityOptions> = {
   conditionsDefinition: {
     def: EntityGraphQLConditionsType<_getOptionsTypeDef<Options>>;
@@ -233,33 +196,6 @@ type Utils<Loader, Options extends EntityOptions> = {
     };
   };
 };
-//
-// type ProductType = GraphType<{
-//   object: {
-//     price: 'float';
-//     sku: 'string';
-//     storeId: 'string';
-//     title: 'string';
-//   };
-// }>;
-//
-// type ProductEntity = Entity<{
-//   indexes: [
-//     {
-//       PK: ['.storeId'];
-//       SK: ['.sku'];
-//       field: '_id';
-//       name: 'byStore';
-//     }
-//   ];
-//   name: 'Product';
-//   transporter;
-//   type: ProductType;
-// }>;
-//
-// const entity = {} as ProductEntity;
-//
-// entity.findOne.filterDef;
 
 type CreateOne<Options extends EntityOptions> = EntityTransporterMethod<
   DocumentMethods<
@@ -385,38 +321,6 @@ export type MethodsWithIndexBasedFilter<
   >;
 };
 
-// type Index = {
-//   name: 'a';
-//   field: '_id';
-//   PK: ['.name'];
-//   SK: ['.userId'];
-// };
-// type Index2 = {
-//   name: 'b';
-//   field: '_id2';
-//   PK: ['.userId'];
-//   SK: ['.userId'];
-// };
-//
-// type Doc = { name: string; userId: number; age?: number };
-// type GT = {
-//   definition: { def: { name: 'string'; userId: 'int'; age: 'int?' } };
-// };
-//
-// type UPK = GetFieldsUsedInIndexes<Index, 'PK'>;
-// type USK = GetFieldsUsedInIndexes<Index, 'SK'>;
-// type M1 = DocumentMethods<Doc, UPK, USK>;
-// type M2 = IndexMethods<Doc, Index, {}>;
-// type OIM = OneIndexMethod<Doc, [Index, Index2]>;
-// type LU = EntityLoadersWithUtils<GT, Doc, [Index, Index2]>;
-//
-// const x = {} as LU;
-// type P = Parameters<typeof x.findOne>[0];
-// type E = PromiseType<ReturnType<typeof x.findOne>>;
-// const b = {} as P;
-// b.filter.userId = { $eq: '' };
-// const c = x.findOne.queryArgs.filter.def;
-
 function _EntityGeneratedFields<
   T extends { [K in keyof DefaultEntityFields]: ObjectFieldInput }
 >(
@@ -437,3 +341,17 @@ export type EntityDocument<Document> = {
 } & {};
 
 export type AnyEntityDocument = EntityDocument<{ [K: string]: unknown }>;
+
+type MockOptions<Doc extends Record<string, any>> = EntityOptions<
+  string,
+  {
+    __isGraphType: true;
+    _object: any;
+    definition: any;
+    parse(...args: any[]): Doc;
+  }
+>;
+
+export type AnyEntity<Doc extends DocumentBase = DocumentBase> = Entity<
+  MockOptions<Doc>
+>;
