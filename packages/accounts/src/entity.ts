@@ -3,7 +3,7 @@ import { createType } from '@backland/schema';
 
 import { Account, AccountSchema } from './AccountSchema';
 
-export type AccountEntity<T extends Account = Account> = AnyEntity<T>;
+export type AccountEntity = AnyEntity<Account>;
 
 export function createDefaultAccountEntity() {
   const type = createType('Account', {
@@ -16,9 +16,9 @@ export function createDefaultAccountEntity() {
       // profile PK is profile#ulid(same from account)
       // secondary index has username as PK to performance login with username
       {
-        PK: ['.ulid'],
+        PK: ['.accountId'],
         field: '_id',
-        name: 'ulid',
+        name: 'accountId',
       },
       {
         PK: ['.username'],

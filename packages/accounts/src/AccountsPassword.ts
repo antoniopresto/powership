@@ -1,7 +1,9 @@
 import { ulid } from '@backland/utils';
 
-import { Account, tokenTypeEnum } from './AccountSchema';
+import { AccessType, accessTypesEnum } from './AccessType';
+import { AccessTypesRecord, Account } from './AccountSchema';
 import { Password } from './Password';
+import { Token, tokenKindEnum } from './TokenType';
 import { AccountEntity, createDefaultAccountEntity } from './entity';
 
 export interface PasswordHandlerOptions<
@@ -18,10 +20,10 @@ export type CreateUserPasswordInput = {
   username: string;
 };
 
-export class PasswordHandler<TEntity extends AccountEntity = AccountEntity> {
+export class AccountsPassword<TEntity extends AccountEntity = AccountEntity> {
   private options: PasswordHandlerOptions<TEntity>;
 
-  accountEntity: TEntity;
+  accountEntity: AccountEntity;
 
   get addHooks() {
     return this.accountEntity.addHooks as TEntity['addHooks'];
@@ -53,28 +55,35 @@ export class PasswordHandler<TEntity extends AccountEntity = AccountEntity> {
     const date = new Date();
     const accountId = ulid();
 
+    const passwordToken: Token = {
+      createdAt: date,
+      kind: tokenKindEnum.password,
+      reason: 'signup',
+      value: await Password.hash({ password }),
+    };
+
+    const emailAccess: AccessType = {
+      createdAt: date,
+      kind: accessTypesEnum.email,
+      updatedAt: date,
+      value: email.toLowerCase(),
+      verified: false,
+    };
+
+    const accessTypes = {
+      [`${accessTypesEnum.email}_${emailAccess.value}`]: emailAccess,
+    } as unknown as AccessTypesRecord;
+
     const user: Account = {
       ...cleanUser,
+      accessTypes,
       accountId,
       deactivated: false,
       id: accountId,
       permissions: [`admin_profile:${accountId}`],
-      providers: [
-        {
-          createdAt: date,
-          kind: 'email',
-          updatedAt: date,
-          value: email.toLowerCase(),
-        },
-      ],
-      tokens: [
-        {
-          createdAt: date,
-          reason: 'signup',
-          type: 'password',
-          value: await Password.hash({ password }),
-        },
-      ],
+      tokens: {
+        password: passwordToken,
+      },
       username,
     };
 
@@ -96,17 +105,17 @@ export class PasswordHandler<TEntity extends AccountEntity = AccountEntity> {
    * @param email The email address to mark as verified.
    */
   public async verifyEmail(userId: string, email: string): Promise<void> {
+    const emailKey = `accessTypes.email_${email}`;
+
     const ret = await this.accountEntity.updateOne({
       condition: {
-        'providers.kind': 'email',
-        'providers.value': email.toLowerCase(),
-        'tokens.type': tokenTypeEnum.email_verification,
+        [emailKey]: { $exists: true },
       },
       context: {},
       filter: { id: userId },
       update: {
         $set: {
-          'providers.$.verified': true,
+          [`${emailKey}.verified`]: true,
         },
       },
     });
@@ -122,22 +131,20 @@ export class PasswordHandler<TEntity extends AccountEntity = AccountEntity> {
    * @param newPassword A new password for the user.
    */
   public async setPassword(userId: string, newPassword: string): Promise<void> {
+    const passwordToken: Token = {
+      createdAt: new Date(),
+      kind: tokenKindEnum.password,
+      value: await Password.hash({ password: newPassword }),
+    };
+
     const ret = await this.accountEntity.updateOne({
       context: {},
       filter: { id: userId },
       update: {
         $set: {
-          '__private.password.bcrypt': newPassword,
+          [`tokens.${tokenKindEnum.password}`]: passwordToken,
         },
       },
-    });
-
-    await this.tokenEntity.deleteOne({
-      condition: {
-        kind: tokenKindEnum.reset_password,
-      },
-      context: {},
-      filter: { ownerId: userId },
     });
 
     if (!ret.item) {
@@ -157,63 +164,57 @@ export class PasswordHandler<TEntity extends AccountEntity = AccountEntity> {
     token: string
   ): Promise<void> {
     const tokenItem: Token = {
-      contact: email.toLowerCase(),
+      createdAt: new Date(),
       kind: tokenKindEnum.email_verification,
-      ownerId: userId,
       value: token,
     };
 
-    await this.tokenEntity.updateOne({
-      condition: {
-        contact: email.toLowerCase(),
-        kind: tokenKindEnum.email_verification,
-      },
+    const ret = await this.accountEntity.updateOne({
       context: {},
-      filter: {
-        ownerId: userId,
-      },
+      filter: { id: userId },
       update: {
-        $set: tokenItem,
+        $set: {
+          [`tokens.${tokenKindEnum.email_verification}`]: tokenItem,
+        },
       },
-      upsert: true,
     });
+
+    if (!ret.item) {
+      throw new Error('User not found');
+    }
   }
 
   /**
    * Add a reset password token to a user.
    * @param userId Id used to update the user.
-   * @param email Which address of the user's to link the token to.
    * @param token Random token used to verify the user email.
    * @param reason Reason to use for the token.
    */
   public async addResetPasswordToken(
     userId: string,
-    email: string,
     token: string,
     reason: string
   ): Promise<void> {
     const tokenItem: Token = {
-      contact: email.toLowerCase(),
-      kind: tokenKindEnum.reset_password,
-      ownerId: userId,
+      createdAt: new Date(),
+      kind: tokenKindEnum.password_recovery,
       reason,
       value: token,
     };
 
-    await this.tokenEntity.updateOne({
-      condition: {
-        contact: email.toLowerCase(),
-        kind: tokenKindEnum.reset_password,
-      },
+    const ret = await this.accountEntity.updateOne({
       context: {},
-      filter: {
-        ownerId: userId,
-      },
+      filter: { id: userId },
       update: {
-        $set: tokenItem,
+        $set: {
+          [`tokens.${tokenKindEnum.password_recovery}`]: tokenItem,
+        },
       },
-      upsert: true,
     });
+
+    if (!ret.item) {
+      throw new Error('User not found');
+    }
   }
 
   /**
@@ -225,22 +226,16 @@ export class PasswordHandler<TEntity extends AccountEntity = AccountEntity> {
     userId: string,
     context: Record<string, any> = {}
   ): Promise<void> {
-    const tokens = await this.tokenEntity.findMany({
-      context,
-      filter: { kind: tokenKindEnum.reset_password, ownerId: userId },
+    const ret = await this.accountEntity.updateOne({
+      context: {},
+      filter: { id: userId },
+      update: {
+        $remove: [`tokens.${tokenKindEnum.password_recovery}`],
+      },
     });
 
-    await Promise.allSettled(
-      tokens.items.map(async (el) => {
-        await this.tokenEntity.deleteOne({ context, filter: { id: el.id } });
-      })
-    ).then((el) =>
-      el
-        .filter((el) => el.status === 'rejected')
-        .forEach((el) => {
-          // @ts-ignore
-          console.error(el.reason);
-        })
-    );
+    if (!ret.item) {
+      throw new Error('User not found');
+    }
   }
 }

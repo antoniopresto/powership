@@ -1,98 +1,54 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
-import { createSchema, createType, Infer } from '@backland/schema';
-import { tupleEnum } from 'backland';
+import { createSchema, Infer } from '@backland/schema';
+import { UnionToIntersection } from '@backland/utils';
 
+import { AccessType, AccessTypeSchema } from './AccessType';
+import { Token, TokenSchema } from './TokenType';
 import { usernameType } from './validateUserName';
 
-export const tokenTypeEnum = tupleEnum(
-  'email_verification',
-  'phone_verification',
-  'password_recovery',
-  '2fa',
-  'custom'
-);
+type Cast<A1 extends any, A2 extends any> = A1 extends A2 ? A1 : never;
 
-export const AccountTokenSchema = createSchema({
-  reason: 'string?',
-  type: {
-    enum: Object.values(tokenTypeEnum),
-    description: 'Examples: 2fa, password_recovery',
-  },
-  value: { string: { min: 4, max: 1000 } },
-  endTime: 'date?',
-  createdAt: { date: { autoCreate: true } },
-} as const);
+export type AccessTypesRecord = UnionToIntersection<
+  {
+    [K in AccessType['kind']]: {
+      [L in `${K}_${string}`]: Cast<AccessType, { kind: K }>;
+    };
+  }[AccessType['kind']]
+>;
 
-export type AccountToken = Infer<typeof AccountTokenSchema>;
-
-export const AccountsServiceBase = createSchema({
-  createdAt: { date: { autoCreate: true } },
-  updatedAt: { date: { autoCreate: true } },
-  meta: 'record?',
-} as const);
-
-export const AccountServiceType = createType({
-  union: [
+export type TokensRecord = Partial<
+  UnionToIntersection<
     {
-      object: {
-        ...AccountsServiceBase.definition,
-        kind: { literal: 'phone' },
-        value: 'phone',
-        verified: 'boolean',
-      },
-    },
-
-    {
-      object: {
-        ...AccountsServiceBase.definition,
-        kind: { literal: 'email' },
-        value: 'email',
-        verified: 'boolean',
-      },
-    },
-
-    {
-      object: {
-        ...AccountsServiceBase.definition,
-        kind: { literal: 'oauth' },
-        provider: { string: {}, description: 'Provider name' },
-        accessToken: 'string',
-        refreshToken: 'string',
-      },
-    },
-
-    {
-      object: {
-        ...AccountsServiceBase.definition,
-        kind: { literal: 'custom' },
-        meta: 'record',
-      },
-    },
-  ],
-} as const);
-
-export type AccountService = Infer<typeof AccountServiceType>;
+      [K in Token['kind']]: {
+        [L in K]: Cast<Token, { kind: K }>;
+      };
+    }[Token['kind']]
+  >
+>;
 
 export const AccountSchema = createSchema({
   accountId: { ulid: { autoCreate: true } },
-  id: { alias: 'accountId' },
 
   username: usernameType,
 
-  providers: {
+  accessTypes: {
     hidden: true,
-    array: {
-      of: AccountServiceType,
-      min: 1,
+    description: 'Record with "type_value" as key.',
+    record: {
+      keyType: 'string',
+      type: AccessTypeSchema,
     },
-  } as unknown as { literal: [AccountService, ...AccountService[]] },
+  } as unknown as {
+    literal: AccessTypesRecord;
+  },
 
   tokens: {
     hidden: true,
-    array: {
-      of: AccountTokenSchema,
+    record: {
+      keyType: 'string',
+      type: TokenSchema,
     },
-  },
+  } as unknown as { literal: TokensRecord },
 
   permissions: '[string]',
 

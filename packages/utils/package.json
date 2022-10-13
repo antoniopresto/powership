@@ -50,6 +50,7 @@
     "winston-slack-webhook-transport": "2.2.2"
   },
   "devDependencies": {
+    "mongodb": "4.10.0",
     "@babel/cli": "7.19.3",
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
@@ -78,7 +79,8 @@
     "jest-diff": "29.1.2",
     "npm-run-all": "4.1.5",
     "ts-jest": "29.0.3",
-    "typescript": "4.8.4"
+    "typescript": "4.8.4",
+    "@backland/memorydb": "0.1.6"
   },
   "files": [
     "package.json",
