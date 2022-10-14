@@ -27,7 +27,7 @@ import {
   EntityFieldResolver,
   EntityOptions,
 } from './EntityOptions';
-import { EntityHookOptions } from './EntityPlugin';
+import { EntityHookOptions, EntityHooks } from './EntityPlugin';
 import { EntityOperationInfosRecord } from './entityOperationContextTypes';
 import { EdgeType, PaginationType } from './paginationUtils';
 
@@ -103,10 +103,11 @@ export type EntityFinalDefinition<InputDef> = InputDef extends {
   : never;
 
 type _Entity<Options extends EntityOptions> = {
+  _hooks: EntityHooks;
+
   clone: <O extends EntityOptions>(
     handler: (originalOptions: Options) => O
   ) => Entity<O>;
-
   conditionsDefinition: {
     def: EntityGraphQLConditionsType<_getOptionsTypeDef<Options>>;
     type: 'object';
@@ -122,6 +123,8 @@ type _Entity<Options extends EntityOptions> = {
   ) => Entity<{ [K in keyof Options]: K extends 'type' ? T : Options[K] } & {}>;
 
   getDocumentId(doc: Record<string, any>): string;
+
+  readonly hasAliases: boolean;
 
   indexGraphTypes: {
     [K in Options['indexes'][number]['name']]: GraphType<{

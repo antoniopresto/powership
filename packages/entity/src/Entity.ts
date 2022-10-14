@@ -3,12 +3,14 @@ import {
   createType,
   extendDefinition,
   ExtendDefinitionResult,
+  FinalFieldDefinition,
   GraphType,
   ObjectDefinitionInput,
   ObjectType,
 } from '@backland/schema';
 import { isMetaFieldKey } from '@backland/schema/lib/fields/MetaFieldField';
 import {
+  AnyCollectionIndexConfig,
   CollectionIndexConfig,
   getDocumentIndexFields,
   getParsedIndexKeys,
@@ -160,13 +162,7 @@ export function createEntity<
       name: entityName,
     } = entityOptions;
 
-    const _hooks: EntityHooks = {
-      beforeQuery: hooks.waterfall(),
-      createDefinition: hooks.parallel(),
-      filterResult: hooks.waterfall(),
-      postParse: hooks.waterfall(),
-      preParse: hooks.waterfall(),
-    };
+    const _hooks = _createHooks();
 
     plugins.forEach((plugin) => {
       try {
@@ -250,170 +246,21 @@ export function createEntity<
     const parsedIndexKeys = getParsedIndexKeys(indexConfig);
 
     // pre parse PK, SK and ID setters
-    _hooks.preParse.register(async function applyDefaultHooks(ctx) {
-      async function _onUpdate(doc: Record<string, any>) {
-        doc.updatedAt = new Date();
-        doc.updatedBy =
-          doc.updatedBy || (await ctx.options.context?.userId?.(false));
-        return doc;
-      }
-
-      async function _onCreate(doc: Record<string, any>) {
-        await _onUpdate(doc);
-        doc.ulid = doc.ulid || createUlid();
-        doc.createdAt = new Date();
-        doc.createdBy =
-          doc.createdBy || (await ctx.options.context?.userId?.(false));
-
-        const parsedIndexes = getDocumentIndexFields(doc, indexConfig);
-
-        if (!parsedIndexes.valid) {
-          throw parsedIndexes.error;
-        }
-
-        doc = {
-          ...parsedIndexes.indexFields,
-          ...doc,
-        };
-
-        if (!doc.id) {
-          doc.id = parsedIndexes.firstIndex.value;
-        }
-
-        return doc;
-      }
-
-      if (ctx.op === 'updateOne') {
-        ctx.options.update.$set = await _onUpdate({
-          ...ctx.options.update.$set,
-        });
-      }
-
-      if (ctx.isUpsert) {
-        const $setOnInsert = await _onCreate({
-          ...ctx.options.update.$set,
-          ...ctx.options.update.$setOnInsert,
-        });
-        ctx.options.update.$setOnInsert = {
-          ...$setOnInsert,
-        };
-      }
-
-      if (ctx.isCreate) {
-        ctx.options.item = await _onCreate(ctx.options.item);
-      }
-
-      return ctx;
+    _registerPKSKHook({
+      entityOptions,
+      hooks: _hooks,
+      indexConfig,
     });
 
     const entityType = createType(`${entityName}Entity`, {
       object: entityOutputDefinitionWithRelations,
     });
 
-    async function parseOperationContext(
-      method: TransporterLoaderName,
-      methodOptions: any
-    ): Promise<EntityOperationInfoContext> {
-      await defaultTransporter?.connect();
-
-      let operationInfoContext = buildEntityOperationInfoContext(
-        method,
-        methodOptions,
-        entityOptions
-      );
-
-      if ('filter' in operationInfoContext.options) {
-        operationInfoContext.options.filter = graphQLFilterToTransporterFilter(
-          operationInfoContext.options.filter
-        );
-      }
-      if ('condition' in operationInfoContext.options) {
-        operationInfoContext.options.condition =
-          graphQLFilterToTransporterFilter(
-            operationInfoContext.options.condition
-          );
-      }
-
-      if (operationInfoContext.op === 'updateOne') {
-        operationInfoContext = await _hooks.preParse.exec(
-          // @ts-ignore
-          operationInfoContext,
-          {}
-        );
-      }
-
-      if ('item' in operationInfoContext.options) {
-        operationInfoContext = await _hooks.preParse.exec(
-          // @ts-ignore
-          operationInfoContext,
-          {}
-        );
-
-        if (!('item' in operationInfoContext.options)) {
-          return devAssert('MISSING_ITEM', { operationInfoContext });
-        }
-
-        try {
-          operationInfoContext.options.item = databaseType.parse(
-            operationInfoContext.options.item
-          ) as AnyEntityDocument;
-
-          operationInfoContext = await _hooks.postParse.exec(
-            // @ts-ignore
-            operationInfoContext,
-            {}
-          );
-        } catch (e: any) {
-          e.info = operationInfoContext;
-          throw e;
-        }
-      }
-
-      if ('filter' in operationInfoContext.options) {
-        operationInfoContext = await _hooks.beforeQuery.exec(
-          // @ts-ignore
-          operationInfoContext,
-          {}
-        );
-      }
-
-      return operationInfoContext;
-    }
-
-    const indexGraphTypes = parsedIndexKeys.reduce(
-      (acc, next): Record<string, GraphType<{ object: any }>> => {
-        const fields: ObjectDefinitionInput = {};
-
-        next.PK.requiredFields.forEach((fieldName) => {
-          const def = entityOutputDefinitionWithRelations[fieldName];
-          if (!def) {
-            throw new RuntimeError(
-              `Field "${fieldName}" defined for index ${next.index.name} not defined in the input type.`,
-              { type }
-            );
-          }
-          fields[fieldName] = entityOutputDefinitionWithRelations[fieldName];
-        });
-
-        next.SK.requiredFields.forEach((fieldName) => {
-          const def = entityOutputDefinitionWithRelations[fieldName];
-          if (!def) {
-            throw new RuntimeError(
-              `Field "${fieldName}" defined for index ${next.index.name} not defined in the input type.`,
-              { type }
-            );
-          }
-          fields[fieldName] = fields[fieldName] || { ...def, optional: true };
-        });
-
-        const typeName = `${entityName}${capitalize(next.index.name)}Index`;
-        return {
-          ...acc,
-          [next.index.name]: createType(typeName, { object: fields }),
-        };
-      },
-      {}
-    );
+    const indexGraphTypes = _getIndexGraphTypes({
+      entityOptions,
+      entityOutputDefinitionWithRelations,
+      parsedIndexKeys,
+    });
 
     function _createLoader(config: {
       indexInfo: ParsedIndexKey[];
@@ -443,7 +290,14 @@ export function createEntity<
           },
         };
 
-        const operation = await parseOperationContext(method, configInput);
+        const operation = await _parseOperationContext({
+          databaseType,
+          entityOptions,
+          hooks: _hooks,
+          method,
+          methodOptions: configInput,
+        });
+
         const context = { operation, resolvers };
 
         const resolver: AnyFunction = transporter[method].bind(transporter);
@@ -666,4 +520,376 @@ export function createEntity<
   }
 
   return entity;
+}
+
+function _createHooks(): EntityHooks {
+  return {
+    beforeQuery: hooks.waterfall(),
+    createDefinition: hooks.parallel(),
+    filterResult: hooks.waterfall(),
+    postParse: hooks.waterfall(),
+    preParse: hooks.waterfall(),
+  };
+}
+
+// pre parse PK, SK and ID setters
+function _registerPKSKHook(input: {
+  entityOptions: EntityOptions;
+  hooks: EntityHooks;
+  indexConfig: AnyCollectionIndexConfig;
+}) {
+  const { hooks, indexConfig } = input;
+
+  hooks.preParse.register(async function applyDefaultHooks(ctx) {
+    async function _onUpdate(doc: Record<string, any>) {
+      doc.updatedAt = new Date();
+      doc.updatedBy =
+        doc.updatedBy || (await ctx.options.context?.userId?.(false));
+      return doc;
+    }
+
+    async function _onCreate(doc: Record<string, any>) {
+      await _onUpdate(doc);
+      doc.ulid = doc.ulid || createUlid();
+      doc.createdAt = new Date();
+      doc.createdBy =
+        doc.createdBy || (await ctx.options.context?.userId?.(false));
+
+      const parsedIndexes = getDocumentIndexFields(doc, indexConfig);
+
+      if (!parsedIndexes.valid) {
+        throw parsedIndexes.error;
+      }
+
+      doc = {
+        ...parsedIndexes.indexFields,
+        ...doc,
+      };
+
+      if (!doc.id) {
+        doc.id = parsedIndexes.firstIndex.value;
+      }
+
+      return doc;
+    }
+
+    if (ctx.op === 'updateOne') {
+      ctx.options.update.$set = await _onUpdate({
+        ...ctx.options.update.$set,
+      });
+    }
+
+    if (ctx.isUpsert) {
+      const $setOnInsert = await _onCreate({
+        ...ctx.options.update.$set,
+        ...ctx.options.update.$setOnInsert,
+      });
+      ctx.options.update.$setOnInsert = {
+        ...$setOnInsert,
+      };
+    }
+
+    if (ctx.isCreate) {
+      ctx.options.item = await _onCreate(ctx.options.item);
+    }
+
+    return ctx;
+  });
+}
+
+async function _parseOperationContext(input: {
+  databaseType: GraphType<any>;
+  entityOptions: EntityOptions;
+  hooks: EntityHooks;
+  method: TransporterLoaderName;
+  methodOptions: any;
+}): Promise<EntityOperationInfoContext> {
+  const {
+    entityOptions,
+    methodOptions,
+    method,
+    hooks: hooks,
+    databaseType,
+  } = input;
+
+  const { transporter: defaultTransporter } = entityOptions;
+
+  await defaultTransporter?.connect();
+
+  let operationInfoContext = buildEntityOperationInfoContext(
+    method,
+    methodOptions,
+    entityOptions
+  );
+
+  if ('filter' in operationInfoContext.options) {
+    operationInfoContext.options.filter = graphQLFilterToTransporterFilter(
+      operationInfoContext.options.filter
+    );
+  }
+  if ('condition' in operationInfoContext.options) {
+    operationInfoContext.options.condition = graphQLFilterToTransporterFilter(
+      operationInfoContext.options.condition
+    );
+  }
+
+  if (operationInfoContext.op === 'updateOne') {
+    operationInfoContext = await hooks.preParse.exec(
+      // @ts-ignore
+      operationInfoContext,
+      {}
+    );
+  }
+
+  if ('item' in operationInfoContext.options) {
+    operationInfoContext = await hooks.preParse.exec(
+      // @ts-ignore
+      operationInfoContext,
+      {}
+    );
+
+    if (!('item' in operationInfoContext.options)) {
+      return devAssert('MISSING_ITEM', { operationInfoContext });
+    }
+
+    try {
+      operationInfoContext.options.item = databaseType.parse(
+        operationInfoContext.options.item
+      ) as AnyEntityDocument;
+
+      operationInfoContext = await hooks.postParse.exec(
+        // @ts-ignore
+        operationInfoContext,
+        {}
+      );
+    } catch (e: any) {
+      e.info = operationInfoContext;
+      throw e;
+    }
+  }
+
+  if ('filter' in operationInfoContext.options) {
+    operationInfoContext = await hooks.beforeQuery.exec(
+      // @ts-ignore
+      operationInfoContext,
+      {}
+    );
+  }
+
+  return operationInfoContext;
+}
+
+// function _createLoader(config: {
+//   conditionsType;
+//   databaseType: GraphType<any>;
+//   entityOptions: EntityOptions;
+//   hooks: EntityHooks;
+//   indexConfig: AnyCollectionIndexConfig;
+//   indexGraphTypes;
+//   indexInfo: ParsedIndexKey[];
+//   method: TransporterLoaderName;
+//   newMethodName: string;
+//   resolvers;
+// }) {
+//   const {
+//     indexInfo,
+//     entityOptions,
+//     newMethodName,
+//     method,
+//     indexConfig,
+//     hooks,
+//     databaseType,
+//     indexGraphTypes,
+//     resolvers,
+//     conditionsType,
+//   } = config;
+//
+//   const { indexes, transporter: defaultTransporter } = entityOptions;
+//
+//   const loader: TransporterLoader = async function loader(...args) {
+//     if (args.length !== 1) {
+//       return devAssert(`Invalid number of arguments for ${newMethodName}`);
+//     }
+//     const { transporter = defaultTransporter } = args['0'];
+//
+//     nonNullValues(
+//       { transporter },
+//       `config.transporter should be provided for "${newMethodName}" or during entity creation.`
+//     );
+//
+//     const configInput = {
+//       ...args[0],
+//       context: args[0].context,
+//       indexConfig: {
+//         ...indexConfig,
+//         indexes,
+//       },
+//     };
+//
+//     const operation = await _parseOperationContext({
+//       databaseType,
+//       entityOptions,
+//       hooks: hooks,
+//       method,
+//       methodOptions: configInput,
+//     });
+//
+//     const context = { operation, resolvers };
+//
+//     const resolver: AnyFunction = transporter[method].bind(transporter);
+//     let result = await resolver(operation.options);
+//
+//     if (result.item) {
+//       const res = await hooks.filterResult.exec(
+//         { items: [result.item], kind: 'items' },
+//         context
+//       );
+//       if (res.kind === 'items') result.item = res.items[0];
+//     }
+//
+//     if (result.items) {
+//       const res = await hooks.filterResult.exec(
+//         { items: result.items, kind: 'items' },
+//         context
+//       );
+//       if (res.kind === 'items') result.items = res.items;
+//     }
+//
+//     if (result.edges) {
+//       const res = await hooks.filterResult.exec(
+//         { kind: 'pagination', pagination: result },
+//         context
+//       );
+//       if (res.kind === 'pagination') result = res.pagination;
+//     }
+//
+//     return result;
+//   };
+//
+//   // create the filter with the index fields plus the "id" field
+//   function getFilterDef() {
+//     function _addIDField(obj: object) {
+//       const def: any = { id: { optional: true, type: 'ID' } };
+//
+//       Object.keys(obj).forEach((k) => {
+//         if (isMetaFieldKey(k)) return;
+//         def[k] = { ...obj[k], optional: true };
+//       });
+//
+//       return def;
+//     }
+//
+//     if (indexInfo.length === 1) {
+//       const obj = {
+//         ...indexGraphTypes[indexInfo[0].index.name]._object!.cleanDefinition(),
+//       };
+//       return _addIDField(obj);
+//     }
+//
+//     const all: any = {};
+//
+//     indexInfo.forEach(({ index: { name } }) => {
+//       const objectType = indexGraphTypes[name]._object as ObjectType<{
+//         a: 'any';
+//       }>;
+//
+//       const graph = objectType.cleanDefinition();
+//       Object.entries(graph).forEach(([k, v]) => {
+//         all[k] = {
+//           ...v,
+//           optional: true,
+//         };
+//       });
+//     });
+//     return _addIDField(all);
+//   }
+//
+//   function getPaginationType() {
+//     const filter = getFilterDef();
+//     return {
+//       after: {
+//         optional: true,
+//         type: 'ID',
+//       },
+//       condition: {
+//         optional: true,
+//         type: conditionsType,
+//       },
+//       filter: {
+//         def: filter,
+//
+//         type: 'object',
+//       },
+//       first: {
+//         optional: true,
+//         type: 'int',
+//       },
+//     };
+//   }
+//
+//   Object.defineProperties(loader, {
+//     filterDef: {
+//       get() {
+//         return getFilterDef();
+//       },
+//     },
+//     indexInfo: { value: indexInfo },
+//     name: { value: newMethodName },
+//     queryArgs: {
+//       get() {
+//         return getPaginationType();
+//       },
+//     },
+//   });
+//
+//   return { loader };
+// }
+
+function _getIndexGraphTypes(input: {
+  entityOptions: EntityOptions;
+  entityOutputDefinitionWithRelations: Record<string, FinalFieldDefinition>;
+  parsedIndexKeys: ParsedIndexKey[];
+}) {
+  const {
+    entityOptions,
+    parsedIndexKeys,
+    entityOutputDefinitionWithRelations,
+  } = input;
+
+  const { name: entityName, type } = entityOptions;
+
+  return parsedIndexKeys.reduce(
+    (acc, next): Record<string, GraphType<{ object: any }>> => {
+      const fields: ObjectDefinitionInput = {};
+
+      next.PK.requiredFields.forEach((fieldName) => {
+        const def = entityOutputDefinitionWithRelations[fieldName];
+        if (!def) {
+          throw new RuntimeError(
+            `Field "${fieldName}" defined for index ${next.index.name} not defined in the input type.`,
+            { type }
+          );
+        }
+        fields[fieldName] = entityOutputDefinitionWithRelations[fieldName];
+      });
+
+      next.SK.requiredFields.forEach((fieldName) => {
+        const def = entityOutputDefinitionWithRelations[fieldName];
+        if (!def) {
+          throw new RuntimeError(
+            `Field "${fieldName}" defined for index ${next.index.name} not defined in the input type.`,
+            { type }
+          );
+        }
+        fields[fieldName] = fields[fieldName] || { ...def, optional: true };
+      });
+
+      const typeName = `${entityName}${capitalize(next.index.name)}Index`;
+      return {
+        ...acc,
+        [next.index.name]: createType(typeName, { object: fields }),
+      };
+    },
+    {}
+  );
 }
