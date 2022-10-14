@@ -2,6 +2,7 @@ import {
   CircularDeps,
   createType,
   extendDefinition,
+  ExtendDefinitionResult,
   GraphType,
   ObjectDefinitionInput,
   ObjectType,
@@ -19,7 +20,13 @@ import {
   transporterLoaderNames,
   validateIndexNameAndField,
 } from '@backland/transporter';
-import { createProxy, ensureArray, simpleObjectClone } from '@backland/utils';
+import {
+  createProxy,
+  ensureArray,
+  isProduction,
+  simpleObjectClone,
+  tupleEnum,
+} from '@backland/utils';
 import { RuntimeError } from '@backland/utils/lib/RuntimeError';
 import { devAssert } from '@backland/utils/lib/devAssert';
 import { nonNullValues, notNull } from '@backland/utils/lib/invariant';
@@ -32,6 +39,7 @@ import {
   objectToGraphQLConditionType,
 } from './EntityFilterConditionType';
 import {
+  AnyEntity,
   AnyEntityDocument,
   createEntityDefaultFields,
   Entity,
@@ -52,43 +60,90 @@ export * from './paginationUtils';
 const ulidField = CircularDeps.ulid({ autoCreate: true });
 const createUlid = () => ulidField.parse(undefined);
 
+const extendMethodsEnum = tupleEnum(
+  'extendType',
+  'addHooks',
+  'addRelations',
+  'clone'
+);
+
 export function createEntity<
   Name extends string,
   Type extends _EntityGraphType,
   TTransport extends Transporter,
   Options extends EntityOptions<Name, Type, TTransport>
->(entityOptions: Options): Entity<Options> {
+>(configOptions: Options): Entity<Options> {
+  let entityOptions = { ...configOptions };
+
   const plugins = [applyFieldResolvers];
   const resolvers: EntityFieldResolver<any, any, any, any>[] = [];
   let gettersWereCalled = false;
 
   const entity = createProxy(_createEntity, {
-    onGet(k): any {
-      if (k === 'addHooks') {
-        return function addHooks(hooks) {
-          plugins.push(
-            ...ensureArray(hooks).map((hookConfig, index) => {
-              return createEntityPlugin(
-                `${entityOptions.name}MainPlugin_${index}`,
-                hookConfig
-              );
-            })
-          );
-          return entity;
-        };
-      }
+    onGet(k: any): any {
+      if (typeof k === 'string' && k in extendMethodsEnum) {
+        //
+        // clone
+        if (k === 'clone') {
+          return function cloneEntity(
+            handler: (originalOptions: Options) => AnyEntity
+          ): AnyEntity {
+            const newValue = handler({ ...entityOptions });
 
-      if (k === 'addRelations') {
-        if (gettersWereCalled) {
-          throw new Error(
-            `addRelations should be used right after entity creation.`
-          );
+            if (
+              gettersWereCalled &&
+              newValue.name === entityOptions.name &&
+              !isProduction()
+            ) {
+              console.warn(
+                `entity.clone: the cloned entity has the same name "${entityOptions.name}". \n
+                You may encounter unexpected behavior if the entity has already been used.`
+              );
+            }
+
+            return createEntity(newValue) as any;
+          };
         }
 
-        return function addRelations(resolver) {
-          resolvers.push(...ensureArray(resolver));
-          return entity;
-        };
+        if (gettersWereCalled) {
+          throw new Error(`${k} should be used right after entity creation.`);
+        }
+
+        if (k === 'extendType') {
+          return function extendType(
+            handler: (
+              helper: ExtendDefinitionResult<Options['type'], Options['type']>,
+              originalOptions: Options
+            ) => AnyEntity
+          ): AnyEntity {
+            const newType = handler(
+              extendDefinition(entityOptions.type),
+              entityOptions
+            );
+            return createEntity({ ...entityOptions, type: newType }) as any;
+          };
+        }
+
+        if (k === 'addHooks') {
+          return function addHooks(hooks) {
+            plugins.push(
+              ...ensureArray(hooks).map((hookConfig, index) => {
+                return createEntityPlugin(
+                  `${entityOptions.name}MainPlugin_${index}`,
+                  hookConfig
+                );
+              })
+            );
+            return entity;
+          };
+        }
+
+        if (k === 'addRelations') {
+          return function addRelations(resolver) {
+            resolvers.push(...ensureArray(resolver));
+            return entity;
+          };
+        }
       }
 
       return null;

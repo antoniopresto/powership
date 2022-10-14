@@ -11,7 +11,7 @@ import {
   Transporter,
 } from '@backland/transporter';
 
-import { DefaultEntityFields } from './EntityInterfaces';
+import { EntityDefaultFields } from './EntityInterfaces';
 
 export interface EntityOptions<
   TName extends string = string,
@@ -34,7 +34,7 @@ export type EntityDocFromType<Type> = Type extends {
   parse(...args: any[]): infer Result;
 }
   ? Result extends {}
-    ? DefaultEntityFields & Result extends infer R
+    ? EntityDefaultFields & Result extends infer R
       ? {
           [K in keyof R]: R[K];
         }

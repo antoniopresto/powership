@@ -109,8 +109,15 @@ export class BJSONConstructor {
 
   serializers: Serializer<any>[] = [];
 
-  constructor() {
-    this.serializers = BJSONConstructor.serializers;
+  constructor(
+    options: {
+      extraSerializers?: Serializer<any>[];
+    } = {}
+  ) {
+    this.serializers = [
+      ...BJSONConstructor.serializers,
+      ...(options.extraSerializers || []),
+    ];
   }
 
   stringify = (

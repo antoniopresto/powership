@@ -22,6 +22,7 @@ import {
   EntityGraphQLFieldConditionsType,
 } from './EntityFilterConditionType';
 import {
+  _EntityGraphType,
   EntityDocFromType,
   EntityFieldResolver,
   EntityOptions,
@@ -76,7 +77,7 @@ type GetLoaderFilterDef<Loader, DocDef> = Loader extends (
     : never
   : never;
 
-export type DefaultEntityFields = {
+export type EntityDefaultFields = {
   createdAt: Date;
   createdBy: string | undefined;
   id: string;
@@ -102,11 +103,23 @@ export type EntityFinalDefinition<InputDef> = InputDef extends {
   : never;
 
 type _Entity<Options extends EntityOptions> = {
+  clone: <O extends EntityOptions>(
+    handler: (originalOptions: Options) => O
+  ) => Entity<O>;
+
   conditionsDefinition: {
     def: EntityGraphQLConditionsType<_getOptionsTypeDef<Options>>;
     type: 'object';
   };
+
   edgeType: EdgeType<Options['type']>;
+
+  extendType: <T extends _EntityGraphType>(
+    handler: (
+      helper: ExtendDefinitionResult<Options['type'], Options['type']>,
+      originalOptions: Options
+    ) => T
+  ) => Entity<{ [K in keyof Options]: K extends 'type' ? T : Options[K] } & {}>;
 
   getDocumentId(doc: Record<string, any>): string;
 
@@ -127,8 +140,8 @@ type _Entity<Options extends EntityOptions> = {
     : never;
 
   name: Options['name'];
-  originType: Options['type'];
 
+  originType: Options['type'];
   paginationType: PaginationType<Options['type']>;
 
   parse: (
@@ -156,6 +169,8 @@ type _Entity<Options extends EntityOptions> = {
         }
       : never
     : never;
+
+  usedOptions: Options;
 } & { createOne: CreateOne<Options> } & UnionToIntersection<
     {
       // METHODS WITH FILTER BY INDEX
@@ -202,11 +217,11 @@ type CreateOne<Options extends EntityOptions> = EntityTransporterMethod<
     //
     // Doc with DefaultEntityFields as optional
     {
-      [K in keyof _getDocType<Options> as K extends keyof DefaultEntityFields
+      [K in keyof _getDocType<Options> as K extends keyof EntityDefaultFields
         ? never
         : K]: _getDocType<Options>[K];
     } & {
-      [K in keyof _getDocType<Options> as K extends keyof DefaultEntityFields
+      [K in keyof _getDocType<Options> as K extends keyof EntityDefaultFields
         ? K
         : never]?: _getDocType<Options>[K];
     },
@@ -322,7 +337,7 @@ export type MethodsWithIndexBasedFilter<
 };
 
 function _EntityGeneratedFields<
-  T extends { [K in keyof DefaultEntityFields]: ObjectFieldInput }
+  T extends { [K in keyof EntityDefaultFields]: ObjectFieldInput }
 >(
   input: T
 ): {
@@ -336,7 +351,7 @@ function _EntityGeneratedFields<
 }
 
 export type EntityDocument<Document> = {
-  [K in keyof (DefaultEntityFields & Document)]: (DefaultEntityFields &
+  [K in keyof (EntityDefaultFields & Document)]: (EntityDefaultFields &
     Document)[K];
 } & {};
 
