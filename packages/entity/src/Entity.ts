@@ -59,6 +59,7 @@ import { createEntityPlugin, EntityHooks } from './EntityPlugin';
 import { buildEntityOperationInfoContext } from './entityOperationContextTypes';
 import { PageInfoType } from './paginationUtils';
 import { applyFieldResolvers } from './plugins/applyFieldResolvers';
+import { versionPlugin } from './plugins/versionPlugin';
 
 export * from './paginationUtils';
 
@@ -80,7 +81,7 @@ export function createEntity<
 >(configOptions: Options): Entity<Options> {
   let entityOptions = { ...configOptions };
 
-  const plugins = [applyFieldResolvers];
+  const plugins = [applyFieldResolvers, versionPlugin];
   const resolvers: EntityFieldResolver<any, any, any, any>[] = [];
   let gettersWereCalled = false;
 
@@ -551,6 +552,8 @@ function _registerPKSKHook(input: {
       doc.updatedBy =
         doc.updatedBy || (await ctx.options.context?.userId?.(false));
       doc._v = ulid();
+
+      // TODO check for aliases using plugin
       return doc;
     }
 

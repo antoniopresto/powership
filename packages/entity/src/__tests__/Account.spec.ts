@@ -1,4 +1,4 @@
-import { createType } from '@backland/schema';
+import { createType, ULID_REGEX } from '@backland/schema';
 
 import { MongoTransporter } from '@backland/mongo';
 import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
@@ -80,6 +80,7 @@ describe('Account', () => {
         },
         _id: 'user:_id#antonio↠',
         _idPK: 'antonio',
+        _v: expect.stringMatching(ULID_REGEX),
         _idSK: '',
         firstName: 'antonio',
         id: '~!dXNlcjpfaWQjYW50b25pb+KGoA==',

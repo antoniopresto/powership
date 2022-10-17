@@ -153,6 +153,7 @@ describe('Product', () => {
       item: {
         SKU: 'sku0',
         id: expect.any(String),
+        _v: expect.stringMatching(ULID_REGEX),
         _id: expect.stringMatching(/^product:_id#store1↠/),
         _id1: expect.stringMatching(/^product:_id1#store1↠sku0/),
         _id1PK: 'store1',
@@ -188,6 +189,7 @@ describe('Product', () => {
     expect(product).toEqual({
       item: {
         SKU: 'sku0',
+        _v: expect.stringMatching(ULID_REGEX),
         _id: expect.stringMatching(/^product:_id#store1↠/),
         _id1: expect.stringMatching(/^product:_id1#store1↠sku0/),
         _id1PK: 'store1',
@@ -357,7 +359,7 @@ describe('Product', () => {
       context: {},
     });
 
-    await entity.createOne({
+    const created = await entity.createOne({
       item: {
         title: 'batata',
         SKU: 'sku_batata',
@@ -399,11 +401,14 @@ describe('Product', () => {
       created: false,
       item: {
         SKU: 'sku_batata',
+        _v: expect.stringMatching(ULID_REGEX),
         updatedAt: expect.any(Date),
         updatedBy: 'user1',
       },
       updated: true,
     });
+
+    expect(created.item!._v).not.toEqual(update.item!._v);
   });
 
   it('upsert', async () => {
