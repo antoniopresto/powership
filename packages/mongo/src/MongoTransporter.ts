@@ -63,7 +63,7 @@ export class MongoTransporter implements Transporter {
       throw indexMap.error;
     }
 
-    const item = { ...indexMap.indexFields, ...itemInput };
+    const item = { ...itemInput, ...indexMap.indexFields };
 
     const collection = this.getCollection(item);
 

@@ -1,20 +1,24 @@
 import { UpdateOperation } from '@backland/transporter';
 import { RuntimeError } from '@backland/utils/lib/RuntimeError';
 import { ensureArray } from '@backland/utils/lib/ensureArray';
-import * as Mongodb from 'mongodb';
+import type { UpdateFilter } from 'mongodb';
 
 export function parseMongoUpdateExpression(operations: UpdateOperation[]) {
-  const update: Mongodb.UpdateFilter<any>[] = [];
+  const update: UpdateFilter<any>[] = [];
+
+  // used to group all simple $set operations
+  // to prevent the error "field names may not start with '$'" for
+  // array positional updates
+  let simple$Set: UpdateFilter<any> | undefined;
 
   operations.forEach(function (item) {
     switch (item.operator) {
       case '$set': {
         item.entries.forEach(([k, value]) => {
-          update.push({
-            $set: {
-              [k]: value,
-            },
-          });
+          simple$Set = {
+            ...simple$Set,
+            [k]: value,
+          };
         });
         break;
       }
@@ -34,19 +38,7 @@ export function parseMongoUpdateExpression(operations: UpdateOperation[]) {
 
       case '$setIfNull': {
         item.entries.forEach(([k, value]) => {
-          update.push({
-            $set: {
-              [k]: {
-                $cond: [
-                  {
-                    $ifNull: [`$${k}`, false],
-                  },
-                  `$${k}`,
-                  value,
-                ],
-              },
-            },
-          });
+          update.push(stageSetIfNull(k, value));
         });
         break;
       }
@@ -200,6 +192,12 @@ export function parseMongoUpdateExpression(operations: UpdateOperation[]) {
       }
     }
   });
+
+  if (!update.length) {
+    if (simple$Set) return { $set: simple$Set };
+  } else if (simple$Set) {
+    update.push({ $set: simple$Set });
+  }
 
   return update;
 }
