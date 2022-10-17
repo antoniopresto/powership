@@ -30,18 +30,18 @@ export function objectMock<T extends { [K: string]: FinalFieldDefinition }>(
 ): Infer<T> {
   const placeHolder: any = {};
 
-  const composers: { compose: FieldComposer; key: string }[] = [];
+  const composers: { composer: FieldComposer; key: string }[] = [];
   Object.entries(definition).forEach(([key, def]) => {
     if (isMetaFieldKey(key)) return;
     if (def.type === 'alias') {
       const instance = __getCachedFieldInstance(def);
-      composers.push({ compose: instance.compose!, key });
+      composers.push({ composer: instance.composer!, key });
     }
     placeHolder[key] = fieldToMock(def, options);
   });
 
   composers.forEach((el) => {
-    setByPath(placeHolder, el.key, el.compose(placeHolder));
+    setByPath(placeHolder, el.key, el.composer.compose(placeHolder));
   });
 
   return placeHolder;

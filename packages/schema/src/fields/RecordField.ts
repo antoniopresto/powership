@@ -32,7 +32,7 @@ export class RecordField<Def extends RecordFieldDef> extends FieldType<
   'record',
   Def | undefined
 > {
-  __isRecordField: true;
+  __isRecordField = true;
 
   static is(input: any): input is RecordField<RecordFieldDef> {
     return !!(input && typeof input === 'object' && input.__isRecordField);

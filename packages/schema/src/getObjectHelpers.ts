@@ -1,12 +1,12 @@
 import { getKeys } from '@backland/utils/lib/getKeys';
 
 import type { FinalFieldDefinition } from './ObjectType';
-import { AnyField } from './fields/AnyField';
+import { TAnyFieldType } from './fields/FieldType';
 import { isMetaFieldKey, MetaFieldDef } from './fields/MetaFieldField';
 import { __getCachedFieldInstance } from './parseObjectDefinition';
 
 export type ObjectFieldListItem = {
-  instance: AnyField;
+  instance: TAnyFieldType;
   name: string;
   plainField: FinalFieldDefinition;
 };

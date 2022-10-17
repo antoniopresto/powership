@@ -125,12 +125,6 @@ export class GraphType<Definition extends ObjectFieldInput> {
       });
     }
 
-    if (!name) {
-      throw new Error(
-        `createType: Expected name to be provided: createType(typeName, definition);`
-      );
-    }
-
     Object.assign(self, {
       definition: self.__field.asFinalFieldDef,
     });

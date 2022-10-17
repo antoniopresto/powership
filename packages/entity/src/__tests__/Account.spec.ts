@@ -39,14 +39,14 @@ describe('Account', () => {
   }
 
   function userMock() {
-    return {
+    return UserType.parse({
       firstName: 'antonio',
       lastName: 'Silva',
       username: 'antonio',
       __private: {
         password: { value: '123456' },
       },
-    };
+    });
   }
 
   it('create', async () => {
@@ -88,6 +88,7 @@ describe('Account', () => {
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date),
         username: 'antonio',
+        email: null,
       },
     });
   });
@@ -96,6 +97,8 @@ describe('Account', () => {
 export const AccountType = createType('Account', {
   object: {
     username: 'string',
+    email: { alias: 'providers' },
+    providers: { string: {}, list: true, optional: true },
     __private: {
       object: {
         password: {

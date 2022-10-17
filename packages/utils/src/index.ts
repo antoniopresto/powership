@@ -1,5 +1,7 @@
 import * as TU from './typeUtils';
 
+export * from 'aggio';
+
 export * from './typeUtils';
 export * from './devAssert';
 export * from './BJSON';

@@ -4,6 +4,7 @@ import {
   extendDefinition,
   ExtendDefinitionResult,
   FinalFieldDefinition,
+  FinalObjectDefinition,
   GraphType,
   ObjectDefinitionInput,
   ObjectType,
@@ -28,6 +29,7 @@ import {
   isProduction,
   simpleObjectClone,
   tupleEnum,
+  ulid,
 } from '@backland/utils';
 import { RuntimeError } from '@backland/utils/lib/RuntimeError';
 import { devAssert } from '@backland/utils/lib/devAssert';
@@ -45,6 +47,7 @@ import {
   AnyEntityDocument,
   createEntityDefaultFields,
   Entity,
+  EntityAliasItem,
   EntityOperationInfoContext,
 } from './EntityInterfaces';
 import {
@@ -210,6 +213,7 @@ export function createEntity<
       kind: 'databaseDefinition',
       resolvers,
     });
+
     // type without relations
     const databaseType = createType(`${entityOptions.name}_withoutRelations`, {
       // without relations and other alterations
@@ -484,14 +488,15 @@ export function createEntity<
       return notNull(indexes.indexFields.id);
     }
 
-    type TEntity = any; // FIXME_EntityMethods<Options> & { loaders: Record<string, any> };
+    type TEntity = AnyEntity;
 
     // @ts-ignore
     const getters: {
       [K in keyof TEntity]: any;
     } = {
       addHooks: () => ({}), // handled in proxy
-      addRelations: () => ({}), // handled in proxy
+      addRelations: () => ({}),
+      aliases: _objectAliases(databaseDefinition),
       conditionsDefinition: conditionsType._object!.definition,
       edgeType: edgeType,
       extend,
@@ -499,7 +504,7 @@ export function createEntity<
       indexGraphTypes: indexGraphTypes,
       indexes: indexes,
       inputDefinition: inputDef,
-      loaders: loaders,
+      // loaders: loaders,
       name: entityName,
       originType: type,
       paginationType: getPaginationType(),
@@ -545,6 +550,7 @@ function _registerPKSKHook(input: {
       doc.updatedAt = new Date();
       doc.updatedBy =
         doc.updatedBy || (await ctx.options.context?.userId?.(false));
+      doc._v = ulid();
       return doc;
     }
 
@@ -892,4 +898,31 @@ function _getIndexGraphTypes(input: {
     },
     {}
   );
+}
+
+function _objectAliases(def: FinalObjectDefinition, parent?: string) {
+  let aliases: EntityAliasItem[] = [];
+
+  Object.entries(def).forEach(([k, v]) => {
+    const _parent = [parent, k].filter(Boolean).join('.');
+
+    if (v.type === 'alias') {
+      aliases.push({
+        from: [parent, v.def],
+        to: _parent,
+      });
+    }
+
+    if (v.type === 'object') {
+      aliases.push(..._objectAliases(v.def, _parent));
+    }
+
+    if (Array.isArray(v.def) && v[0].type) {
+      v.def.forEach((el) => {
+        aliases.push(..._objectAliases(el, _parent));
+      });
+    }
+  });
+
+  return aliases;
 }

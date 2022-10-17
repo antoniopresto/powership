@@ -1,16 +1,35 @@
-import { assertEqual } from '@backland/utils';
-import { getByPath } from '@backland/utils';
+import { aggio, Aggregation, assertEqual, getByPath } from '@backland/utils';
 
-import { FieldType, FieldTypeParser } from './FieldType';
+import { CircularDeps } from '../CircularDeps';
+import { Infer } from '../Infer';
 
-export type AliasFieldDef = string;
+import {
+  FieldComposer,
+  FieldType,
+  FieldTypeParser,
+  TAnyFieldType,
+} from './FieldType';
+import { FieldInput } from './_parseFields';
 
-export class AliasField extends FieldType<any, 'alias', AliasFieldDef> {
+export type AliasFieldAggregation<Parent = any> = {
+  aggregate: Aggregation<Parent> | Readonly<Aggregation<Parent>>;
+  type: FieldInput;
+};
+
+export type AliasFieldDef = string | AliasFieldAggregation;
+
+export class AliasField<InputDef extends AliasFieldDef = any> extends FieldType<
+  InputDef extends { type: infer T } ? Infer<T> : any,
+  'alias',
+  AliasFieldDef
+> {
   parse: FieldTypeParser<any>;
 
-  compose = (parent: Record<string, any>) => {
-    return getByPath(parent, this.def);
+  utils: {
+    fieldType: TAnyFieldType;
   };
+
+  composer: FieldComposer;
 
   static is(input: any): input is AliasField {
     return input?.__isFieldType && input?.type === 'alias';
@@ -26,8 +45,27 @@ export class AliasField extends FieldType<any, 'alias', AliasFieldDef> {
       name: 'alias',
     });
 
+    this.utils = {
+      fieldType: CircularDeps.createType(
+        typeof def === 'string' ? 'any' : def.type
+      ).__field,
+    };
+
+    this.composer = {
+      compose: (parent: Record<string, any>) => {
+        if (typeof this.def === 'string') {
+          return getByPath(parent, this.def);
+        }
+        return aggio([parent], this.def.aggregate as Aggregation<any>);
+      },
+      def: this.utils.fieldType.asFinalFieldDef,
+      validate: (value) => {
+        return this.utils.fieldType.validate(value);
+      },
+    };
+
     this.parse = (input) => {
-      return input; // value is expected to be pre validated
+      return this.utils.fieldType.parse(input);
     };
   }
 

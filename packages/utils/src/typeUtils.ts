@@ -20,13 +20,47 @@ export const tupleNum = <T extends number[]>(...args: T) => args;
 
 export const tupleEnum = <T extends string[]>(
   ...values: T
-): { readonly [K in T[number]]: K } => {
-  return values.reduce((p, n) => {
+): {
+  readonly //
+  [K in T[number]]: K;
+} & (T[number] extends 'list' //
+  ? {
+      //
+      __list: T[number][];
+    }
+  : {
+      //
+      list: T[number][];
+    }) &
+  (T[number] extends 'enum'
+    ? {
+        //
+        __enum: T[number];
+      }
+    : {
+        //
+        enum: T[number];
+      }) => {
+  const en = values.reduce((p, n) => {
     return {
       ...p,
       [n]: n,
     };
   }, Object.create(null));
+
+  Object.defineProperty(en, en.list !== undefined ? '__list' : 'list', {
+    enumerable: false,
+    value: values,
+  });
+
+  Object.defineProperty(en, en.enum !== undefined ? '__enum' : 'enum', {
+    enumerable: false,
+    get() {
+      return values[0];
+    },
+  });
+
+  return en;
 };
 
 export type IsAny<T> = 0 extends 1 & T ? true : false;
@@ -97,7 +131,7 @@ export type NullableToPartial<T> = UnionToIntersection<
     }
 >;
 
-export type Join<L, R> = {
+type Join<L, R> = {
   [K in keyof ({
     [K in keyof L]: L[K];
   } & {

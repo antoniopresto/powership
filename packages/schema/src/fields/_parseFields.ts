@@ -38,12 +38,14 @@ export interface ObjectDefinitionInput {
 
 export type InferObjectDefinition<Def> = NullableToPartial<{
   -readonly [K in keyof Def]: ToFinalField<Def[K]> extends infer Final
-    ? Final extends { def: string; type: 'alias' }
+    ? Final extends { def: any; type: 'alias' }
       ? // handling aliasing
-        GetFieldByDotNotation<
-          InferObjectDefinition<AllButNot<Def, K>>,
-          Final['def']
-        >
+        [Final['def']] extends [string]
+        ? GetFieldByDotNotation<
+            InferObjectDefinition<AllButNot<Def, K>>,
+            Final['def']
+          >
+        : InferField<Final['def']['type']>
       : // infer schema field
         InferField<Def[K]>
     : any;

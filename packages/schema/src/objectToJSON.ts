@@ -8,8 +8,14 @@ import { getTypeName } from '@backland/utils/lib/getTypeName';
 import { nonNullValues } from '@backland/utils/lib/invariant';
 import { JSONSchema4 } from 'json-schema';
 
-import { createObjectType, isObject, parseObjectField } from './ObjectType';
+import {
+  __getCachedFieldInstance,
+  createObjectType,
+  isObject,
+  parseObjectField,
+} from './ObjectType';
 import { ObjectDefinitionInput } from './TObjectConfig';
+import { AliasField } from './fields/AliasField';
 import { ObjectLike } from './fields/IObjectLike';
 import { LiteralField } from './fields/LitarealField';
 import { E164_PHONE_REGEX } from './fields/PhoneField';
@@ -162,9 +168,21 @@ function parseField(params: {
       jsonItem.tsType = 'ID';
     },
     alias() {
+      const type = __getCachedFieldInstance(field);
+      AliasField.assert(type);
+
       composers.push({
         compose(parent) {
-          return getByPath(parent, field.def);
+          if (typeof type.def === 'string') {
+            return getByPath(parent, type.def);
+          } else {
+            return parseField({
+              field: type.utils.fieldType.asFinalFieldDef,
+              fieldName,
+              options,
+              parentName,
+            }).jsonItem;
+          }
         },
         key: fieldName,
       });

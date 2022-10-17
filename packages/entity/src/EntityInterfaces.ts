@@ -1,4 +1,5 @@
 import {
+  AliasFieldDef,
   ExtendDefinitionResult,
   GraphType,
   ObjectDefinitionInput,
@@ -37,6 +38,10 @@ export type EntityGeneratedFields = ReturnType<
 
 export const createEntityDefaultFields = () =>
   _EntityGeneratedFields({
+    _v: {
+      hidden: true,
+      ulid: { autoCreate: true },
+    },
     createdAt: { type: 'date' },
     createdBy: {
       optional: true,
@@ -78,6 +83,7 @@ type GetLoaderFilterDef<Loader, DocDef> = Loader extends (
   : never;
 
 export type EntityDefaultFields = {
+  _v: string;
   createdAt: Date;
   createdBy: string | undefined;
   id: string;
@@ -102,8 +108,11 @@ export type EntityFinalDefinition<InputDef> = InputDef extends {
     : never
   : never;
 
+export type EntityAliasItem = { from: AliasFieldDef[]; to: string };
+
 type _Entity<Options extends EntityOptions> = {
   _hooks: EntityHooks;
+  aliases: EntityAliasItem[];
 
   clone: <O extends EntityOptions>(
     handler: (originalOptions: Options) => O

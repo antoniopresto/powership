@@ -42,7 +42,7 @@ export type GraphQLSchemaWithUtils = import('graphql').GraphQLSchema & {
 };
 
 export const resolverKinds = tupleEnum('mutation', 'query', 'subscription');
-export type ResolverKind = keyof typeof resolverKinds;
+export type ResolverKind = typeof resolverKinds.enum;
 
 export function createGraphQLSchema<T = any>(
   resolvers?: T[],

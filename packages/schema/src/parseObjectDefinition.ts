@@ -8,13 +8,13 @@ import { simpleObjectClone } from '@backland/utils/lib/simpleObjectClone';
 import { GraphType } from './GraphType/GraphType';
 import {
   FieldAsString,
+  FinalFieldDefinitionStrict,
   isObject,
   ObjectType,
   ShortenFinalFieldDefinition,
 } from './ObjectType';
 import { FieldDefinitionConfig } from './TObjectConfig';
 import { fieldInstanceFromDef } from './fieldInstanceFromDef';
-import { AnyField } from './fields/AnyField';
 import { isFieldInstance, TAnyFieldType } from './fields/FieldType';
 import { LiteralField } from './fields/LitarealField';
 import {
@@ -25,7 +25,7 @@ import {
 } from './fields/MetaFieldField';
 import { CommonFieldDefinition } from './fields/_fieldDefinitions';
 import { FinalFieldDefinition } from './fields/_parseFields';
-import { AliasField, types } from './fields/fieldTypes';
+import { types } from './fields/fieldTypes';
 import {
   isStringFieldDefinition,
   parseStringDefinition,
@@ -179,8 +179,6 @@ export function parseFieldDefinitionConfig<
 
         if (isObject(definition.def)) {
           definition.def = definition.def.definition;
-          definition.hidden =
-            definition.hidden || definition.def.hidden;
         } else {
           definition.def = parseObjectDefinition(definition.def, {
             deep,
@@ -198,6 +196,14 @@ export function parseFieldDefinitionConfig<
         });
 
         definition.optional = isOptionalUnion;
+      }
+
+      if (definition.type === 'alias') {
+        if (typeof definition.def === 'object') {
+          definition.def.type = parseFieldDefinitionConfig(definition.def.type, {
+            deep,
+          });
+        }
       }
 
       return definition;
@@ -361,20 +367,6 @@ export function parseObjectDefinition(
     }
   });
 
-  // handling aliases
-  keys.forEach((k) => {
-    if (result[k]?.type === 'alias') {
-      const field = __getCachedFieldInstance(result[k]) as any;
-      AliasField.assert(field);
-      const parent = field.def.split(/[.$[]/)[0];
-      if (!result[parent]) {
-        throw new Error(
-          `Failed to define alias: "${field.def}" is not a defined in schema.`
-        );
-      }
-    }
-  });
-
   meta = meta || createEmptyMetaField();
 
   if (!omitMeta) {
@@ -387,7 +379,9 @@ export function parseObjectDefinition(
   };
 }
 
-function isFinalFieldDefinition(input: any): input is FinalFieldDefinition {
+function isFinalFieldDefinition(
+  input: any
+): input is FinalFieldDefinitionStrict {
   return typeof input?.type === 'string';
 }
 
@@ -502,7 +496,7 @@ export function parseFlattenFieldDefinition(
 
 export function __getCachedFieldInstance(
   field: FinalFieldDefinition & { [K: string]: any }
-): AnyField {
+): TAnyFieldType {
   if (field?.__cachedFieldInstance) return field.__cachedFieldInstance;
   const parsed = parseFieldDefinitionConfig(field);
   const instanceFromDef = fieldInstanceFromDef(parsed);

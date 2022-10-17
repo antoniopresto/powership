@@ -203,6 +203,15 @@ export class ObjectType<
     const errors: string[] = [];
     const parsed: any = {};
 
+    const partialList: {
+      composer: FieldComposer | undefined;
+      fieldDef: FinalFieldDefinition;
+      key: string;
+      value: any;
+    }[] = [];
+
+    const partialRecord: Record<string, any> = {};
+
     if (!input || typeof input !== 'object' || Array.isArray(input)) {
       throw new RuntimeError(
         `Invalid input. Expected object, found ${getTypeName(input)}`,
@@ -214,9 +223,7 @@ export class ObjectType<
 
     input = { ...input };
 
-    const composers: { compose: FieldComposer; key: string }[] = [];
-
-    (fields as string[]).forEach((currField) => {
+    (fields as string[]).forEach((currField): any => {
       if (isMetaFieldKey(currField)) return;
 
       // @ts-ignore
@@ -226,7 +233,12 @@ export class ObjectType<
 
       if (fieldDef.type === 'alias') {
         const instance = __getCachedFieldInstance(fieldDef);
-        composers.push({ compose: instance.compose!, key: currField });
+        return partialList.push({
+          composer: instance.composer!,
+          fieldDef,
+          key: currField,
+          value: undefined,
+        });
       }
 
       const value = input[currField];
@@ -240,22 +252,33 @@ export class ObjectType<
         return;
       }
 
+      partialRecord[currField] = value;
+      partialList.push({
+        composer: undefined,
+        fieldDef,
+        key: currField,
+        value,
+      });
+    });
+
+    partialList.forEach(({ key, fieldDef, value, composer }) => {
+      if (composer) {
+        value = composer.compose(partialRecord);
+        fieldDef = composer.def;
+      }
+
       const result = validateObjectFields({
         definition: fieldDef,
-        fieldName: currField,
+        fieldName: key,
         fieldParserOptions: { excludeInvalidListItems },
         value,
       });
 
       if (result.parsed !== undefined) {
-        parsed[currField] = result.parsed;
+        parsed[key] = result.parsed;
       }
 
       errors.push(...result.errors);
-    });
-
-    composers.forEach((el) => {
-      setByPath(parsed, el.key, el.compose({ ...input, ...parsed }));
     });
 
     const resulting = allowUnspecified ? { ...input, ...parsed } : parsed;

@@ -36,8 +36,9 @@ import {
   ThunkReadonlyArray,
 } from 'graphql/type/definition';
 
-import { isObject, ObjectType } from '../ObjectType';
+import { __getCachedFieldInstance, isObject, ObjectType } from '../ObjectType';
 import { assertSameDefinition } from '../assertSameDefinition';
+import { AliasField } from '../fields/AliasField';
 import { ArrayField } from '../fields/ArrayField';
 import type { CursorField } from '../fields/CursorField';
 import { TAnyFieldType } from '../fields/FieldType';
@@ -215,13 +216,26 @@ export class GraphQLParser {
         options.middleware?.(hooks);
         objectMiddleware.forEach((fn) => fn(hooks));
 
-        const aliases: { dest: string; origin: string }[] = [];
+        const fieldsConfigMap: GraphQLFieldConfigMap<any, any> = {};
+
+        const aliases: {
+          fieldName: string;
+          instance: AliasField;
+          parentName: string;
+          path: string[];
+        }[] = [];
 
         helpers.list.forEach(({ name: fieldName, instance, plainField }) => {
           if (isHiddenFieldName(fieldName)) return;
 
           if (plainField.type === 'alias') {
-            aliases.push({ dest: fieldName, origin: plainField.def });
+            AliasField.assert(instance);
+            aliases.push({
+              fieldName,
+              instance,
+              parentName: objectId,
+              path: path || [objectId],
+            });
             return;
           }
 
@@ -238,7 +252,7 @@ export class GraphQLParser {
           builders.push(field);
         });
 
-        const fieldsConfigMap = builders.reduce((acc, next) => {
+        builders.forEach((next) => {
           const field: GraphQLFieldConfig<any, any> = {
             description: next.description,
             type: getType(next) as any,
@@ -249,29 +263,38 @@ export class GraphQLParser {
             (object.definition[next.fieldName] as FinalFieldDefinition) ||
             undefined;
 
-          if (origin?.hidden) return acc;
+          if (origin?.hidden) return;
 
           if (origin?.defaultValue !== undefined) {
             // @ts-ignore
             field.defaultValue = origin.defaultValue;
           }
 
-          const objMap: GraphQLFieldConfigMap<any, any> = {
-            ...acc,
-            [next.fieldName]: field,
-          };
+          fieldsConfigMap[next.fieldName] = field;
 
           hooks.onField.exec(next, field);
+        });
 
-          return objMap;
-        }, {} as GraphQLFieldConfigMap<any, any>);
-
-        aliases.forEach((alias) => {
-          setByPath(
-            fieldsConfigMap,
-            alias.dest,
-            getByPath(fieldsConfigMap, alias.origin)
-          );
+        aliases.forEach(({ instance, fieldName, parentName, path }) => {
+          if (typeof instance.def === 'string') {
+            setByPath(
+              fieldsConfigMap,
+              fieldName,
+              getByPath(fieldsConfigMap, instance.def)
+            );
+          } else {
+            setByPath(
+              fieldsConfigMap,
+              fieldName,
+              this.fieldToGraphQL({
+                field: __getCachedFieldInstance(instance.asFinalFieldDef),
+                fieldName,
+                parentName,
+                path,
+                plainField: instance.asFinalFieldDef,
+              })
+            );
+          }
         });
 
         hooks.onFieldConfigMap.exec(fieldsConfigMap);

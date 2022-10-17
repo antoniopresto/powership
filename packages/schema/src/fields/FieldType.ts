@@ -13,14 +13,21 @@ import {
   ListDefinitionObject,
   ListDefinitionTruthy,
 } from './_fieldDefinitions';
-import { AllFinalFieldDefinitions, FinalFieldDefinition } from './_parseFields';
+import {
+  AllFinalFieldDefinitions,
+  FinalFieldDefinition,
+  FinalFieldDefinitionStrict,
+} from './_parseFields';
 export * from '../applyValidator';
 
 export type FieldTypeOptions = ListDefinitionObject & { [K: string]: unknown };
 
-export type FieldComposer<Schema = Record<string, any>, T = any> = (
-  schema: Schema
-) => T; // used by alias fieldType and possibly others
+// used by alias fieldType and possibly others
+export type FieldComposer<Schema = Record<string, any>, T = any> = {
+  compose: (schema: Schema) => T;
+  def: FinalFieldDefinitionStrict;
+  validate(input: any, parent: Schema): T;
+};
 
 export abstract class FieldType<
   Type,
@@ -33,7 +40,7 @@ export abstract class FieldType<
 
   readonly def: Def;
 
-  compose: FieldComposer<Record<string, any>, Type> | undefined;
+  composer: FieldComposer<Record<string, any>, Type> | undefined;
 
   get definition() {
     return this.asFinalFieldDef;

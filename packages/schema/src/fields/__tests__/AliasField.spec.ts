@@ -15,16 +15,36 @@ describe('AliasField', () => {
         },
       },
       fn: { alias: 'person.age' },
+      fn2: {
+        alias: {
+          type: 'record?',
+          aggregate: [
+            {
+              $keyBy: 'person.age',
+            },
+          ],
+        },
+      },
     } as const);
 
     const value = schema.parse({ person: { age: 123 } });
 
-    assert<IsExact<typeof value, { person: { age: number }; fn: number }>>(
-      true
-    );
+    assert<
+      IsExact<
+        typeof value,
+        { person: { age: number }; fn: number; fn2?: Record<string, any> }
+      >
+    >(true);
 
     expect(value).toEqual({
       fn: 123,
+      fn2: {
+        '123': {
+          person: {
+            age: 123,
+          },
+        },
+      },
       person: {
         age: 123,
       },
@@ -39,6 +59,16 @@ describe('AliasField', () => {
         },
       },
       aliased: { alias: 'person' },
+      fn2: {
+        alias: {
+          type: 'record?',
+          aggregate: [
+            {
+              $keyBy: 'person.age',
+            },
+          ],
+        },
+      },
     } as const);
 
     const json = await objectToJSON('Values', schema);
@@ -57,6 +87,9 @@ describe('AliasField', () => {
           title: '',
           type: 'object',
         },
+        fn2: {
+          type: 'object',
+        },
         person: {
           additionalProperties: false,
           properties: {
@@ -69,7 +102,7 @@ describe('AliasField', () => {
           type: 'object',
         },
       },
-      required: ['person', 'aliased'],
+      required: ['person', 'aliased', 'fn2'],
       title: 'Values',
       type: 'object',
     });
@@ -84,6 +117,16 @@ describe('AliasField', () => {
           literal: { value: date },
         },
         aliased: { alias: 'valid' },
+        fn2: {
+          alias: {
+            type: 'record?',
+            aggregate: [
+              {
+                $keyBy: 'person.age',
+              },
+            ],
+          },
+        },
       },
     } as const);
 
@@ -93,6 +136,9 @@ describe('AliasField', () => {
       'export interface Values {',
       '  valid: {value: {a: 123}};',
       '  aliased: {value: {a: 123}};',
+      '  fn2: {',
+      '    [k: string]: unknown | undefined;',
+      '  };',
       '}',
       '',
     ]);
