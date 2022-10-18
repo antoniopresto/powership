@@ -1,9 +1,11 @@
-import { UpdateOperation } from '@backland/transporter';
+import { ParsedUpdateExpression } from '@backland/transporter';
 import { RuntimeError } from '@backland/utils/lib/RuntimeError';
-import { ensureArray } from '@backland/utils/lib/ensureArray';
+import merge from 'lodash.merge';
 import type { UpdateFilter } from 'mongodb';
 
-export function parseMongoUpdateExpression(operations: UpdateOperation[]) {
+export function parseMongoUpdateExpression(
+  operations: ParsedUpdateExpression[]
+) {
   const update: UpdateFilter<any>[] = [];
 
   // used to group all simple $set operations
@@ -11,14 +13,17 @@ export function parseMongoUpdateExpression(operations: UpdateOperation[]) {
   // array positional updates
   let simple$Set: UpdateFilter<any> | undefined;
 
-  operations.forEach(function (item) {
+  function _set(filter: Record<string, any>) {
+    return (simple$Set = merge(simple$Set || {}, filter));
+  }
+
+  (operations as _ExampleUpdate[]).forEach(function (item) {
     switch (item.operator) {
       case '$set': {
-        item.entries.forEach(([k, value]) => {
-          simple$Set = {
-            ...simple$Set,
-            [k]: value,
-          };
+        item.entries.forEach(([key, value]) => {
+          _set({
+            $set: { [key]: value },
+          });
         });
         break;
       }
@@ -58,49 +63,29 @@ export function parseMongoUpdateExpression(operations: UpdateOperation[]) {
 
       case '$append': {
         item.entries.forEach(([k, value]) => {
-          update.push(
-            //
-            stageSetIfNull(k, []),
-            {
-              $set: {
-                [k]: {
-                  $concatArrays: [`$${k}`, value],
-                },
-              },
-            }
-          );
+          _set({
+            $push: {
+              [k]: { ..._mergeEach(value) },
+            },
+          });
         });
         break;
       }
 
       case '$prepend': {
         item.entries.forEach(([k, value]) => {
-          update.push(
-            //
-            stageSetIfNull(k, []),
-            {
-              $set: {
-                [k]: {
-                  $concatArrays: [value, `$${k}`],
-                },
-              },
-            }
-          );
+          _set({
+            $push: { [k]: { ..._mergeEach(value), $position: 0 } },
+          });
         });
         break;
       }
 
       case '$pull': {
         item.entries.forEach(([k, value]) => {
-          update.push({
-            $set: {
-              [k]: {
-                $filter: {
-                  as: 'num',
-                  cond: { $not: [{ $in: ['$$num', value] }] },
-                  input: `$${k}`,
-                },
-              },
+          _set({
+            $pull: {
+              [k]: { $in: _mergeEach(value, '$in').$in },
             },
           });
         });
@@ -108,36 +93,23 @@ export function parseMongoUpdateExpression(operations: UpdateOperation[]) {
       }
 
       case '$addToSet': {
-        item.entries.forEach(([k, value]) => {
-          const uniqValues = [...new Set(ensureArray(value)).values()];
-
-          update.push(
-            {
-              $set: {
-                [k]: {
-                  $filter: {
-                    as: 'val',
-                    cond: { $not: [{ $in: ['$$val', uniqValues] }] },
-                    input: `$${k}`,
-                  },
-                },
-              },
-            },
-            {
-              $set: {
-                [k]: {
-                  $concatArrays: [`$${k}`, uniqValues],
-                },
-              },
-            }
-          );
+        item.entries.forEach(([key, value]) => {
+          _set({
+            $addToSet: { [key]: _mergeEach(value) },
+          });
         });
         break;
       }
 
       case '$remove': {
-        item.removeOperations.forEach(({ index, path }) => {
+        item.entries.forEach(([, path]) => {
+          if (typeof path !== 'string') return;
+
+          const [, indexParent, indexEnd] = path.match(/(\D*)\.(\d*)$/) || [];
+          const index = indexEnd !== undefined ? +indexEnd : undefined;
+
           if (typeof index === 'number' && index >= 0) {
+            path = indexParent;
             const temp = `temp[[${path}]]`;
             const nextIndex = index + 1;
             const max = 999999999;
@@ -194,9 +166,9 @@ export function parseMongoUpdateExpression(operations: UpdateOperation[]) {
   });
 
   if (!update.length) {
-    if (simple$Set) return { $set: simple$Set };
+    if (simple$Set) return simple$Set;
   } else if (simple$Set) {
-    update.push({ $set: simple$Set });
+    update.push(simple$Set);
   }
 
   return update;
@@ -217,3 +189,16 @@ function stageSetIfNull(field: string, value: any) {
     },
   };
 }
+
+function _mergeEach<K extends string>(value: any, key = '$each' as K) {
+  const list =
+    value && typeof value === 'object' && value[key] ? value[key] : [value];
+  return { [key]: list } as { [L in K]: any[] };
+}
+
+type _ExampleUpdate = ParsedUpdateExpression<{
+  [k: string]: any;
+  _id: string;
+  list: any[];
+  obj: { sub: { sub_sub: 1 } };
+}>;

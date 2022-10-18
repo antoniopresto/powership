@@ -10,10 +10,9 @@ export const EntityErrorKind = tupleEnum(
   'INVALID_FILTER'
 );
 
-export class CollectionErrors<Kind extends string = string> extends Error {
-  __isEntityError: true;
+export class CollectionErrors extends Error {
+  __isEntityError = true;
   static kinds = EntityErrorKind;
-  kind: Kind;
 
   constructor(publicDetails: EntityErrorDetails, privateDetails?: any) {
     super(publicDetails.reason);

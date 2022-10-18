@@ -3218,10 +3218,10 @@ agentkeepalive@^4.2.1:
     depd "^1.1.2"
     humanize-ms "^1.2.1"
 
-aggio@^0.0.16:
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/aggio/-/aggio-0.0.16.tgz#ca74b5584352dab2159af73e50d784accb907714"
-  integrity sha512-bQ+pVH0Zup6kUPd7mY30G6LqCk9UA4/fjsiChDOuHuRMWpS5FYz6zDiVY4r+HuLHRLlMO++j+sIOuPVy0mBrNQ==
+aggio@^0.0.19:
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/aggio/-/aggio-0.0.19.tgz#75a27dcc7ba4010d0a569992156f4921a59a3fd4"
+  integrity sha512-llUquVOPC0maqJ0XzBNoImfmngtv86lkUg7mSbYRYd0xvG/Jhl0RMvtkbOE6jMZf42Torh6yaIPvCMcsMmnirw==
   dependencies:
     async "3.2.4"
     binary-search-tree "0.2.6"

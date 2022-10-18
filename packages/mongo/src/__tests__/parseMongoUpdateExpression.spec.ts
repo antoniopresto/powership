@@ -1,10 +1,4 @@
-import {
-  UpdateExpression,
-  AnyCollectionIndexConfig,
-  parseUpdateExpression,
-} from '@backland/transporter';
-
-import { parseMongoUpdateExpression as _parseMongoUpdateExpression } from '../parseMongoUpdateExpression';
+import { UpdateExpression } from '@backland/transporter';
 
 import { AppMock, createAppMock } from '../test-utils';
 import { MongoTransporter } from '../MongoTransporter';
@@ -15,18 +9,6 @@ const mockUser = () => ({
   age: 20,
   list: ['a'],
 });
-
-function parseMongoUpdateExpression(
-  updateExpression: UpdateExpression<any>,
-  config: AnyCollectionIndexConfig = {
-    entity: 'foo',
-    indexes: [{ name: 'any', PK: ['#foo'], SK: undefined, field: '_id' }],
-  }
-) {
-  return _parseMongoUpdateExpression(
-    parseUpdateExpression(updateExpression, config)
-  );
-}
 
 describe('parseMongoUpdateExpression', () => {
   let mockApp: AppMock;
@@ -54,10 +36,12 @@ describe('parseMongoUpdateExpression', () => {
     return item;
   }
 
-  async function update(exp: UpdateExpression<any>) {
+  async function update(
+    exp: UpdateExpression<{ list: any[]; [K: string]: any }>
+  ) {
     const res = await mockApp.transporter.updateOne({
       filter: { _id: 'user:_id#1↠' },
-      update: exp,
+      update: exp as any,
       indexConfig,
       context: {},
     });
@@ -201,7 +185,7 @@ describe('parseMongoUpdateExpression', () => {
 
     const sut = await update({
       $append: {
-        list: ['newItem'],
+        list: { $each: ['newItem'] },
       },
     });
 
@@ -215,12 +199,12 @@ describe('parseMongoUpdateExpression', () => {
     await create();
 
     await update({
-      $prepend: { list: ['x'] },
+      $prepend: { list: 'x' },
     });
 
     const sut = await update({
       $prepend: {
-        list: [1, 2, 3, 4],
+        list: { $each: [1, 2, 3, 4] },
       },
     });
 
@@ -234,7 +218,7 @@ describe('parseMongoUpdateExpression', () => {
 
     const sut = (n: number) =>
       update({
-        $remove: ['name', 'age', `list[${n}]`],
+        $remove: ['name', 'age', `list.${n}`],
       });
 
     expect(await sut(0)).toEqual({
@@ -278,11 +262,9 @@ describe('parseMongoUpdateExpression', () => {
       },
     });
 
-    expect(await update({ $pull: { list: ['a', 2] } })).toHaveProperty('list', [
-      'b',
-      'c',
-      1,
-    ]);
+    expect(
+      await update({ $pull: { list: { $in: ['a', 2] } } })
+    ).toHaveProperty('list', ['b', 'c', 1]);
   });
 
   test('$addToSet array item', async () => {
@@ -290,10 +272,9 @@ describe('parseMongoUpdateExpression', () => {
 
     await update({ $set: { list: ['a', 'b', 'a'] } });
 
-    expect(await update({ $addToSet: { list: ['a', 2] } })).toHaveProperty(
-      'list',
-      ['b', 'a', 2]
-    );
+    expect(
+      await update({ $addToSet: { list: { $each: ['a', 2] } } })
+    ).toHaveProperty('list', ['a', 'b', 'a', 2]);
   });
 
   describe('deepObjects', () => {
@@ -319,10 +300,6 @@ describe('parseMongoUpdateExpression', () => {
           },
         },
       });
-
-      expect(() =>
-        parseMongoUpdateExpression({ $set: { 'arr[0].[0].f': 1 } })
-      ).toThrow("Can't deep update with array index.");
     });
 
     test('$setIfNull', async () => {
@@ -346,10 +323,6 @@ describe('parseMongoUpdateExpression', () => {
           },
         },
       });
-
-      expect(() =>
-        parseMongoUpdateExpression({ $setIfNull: { 'arr[0].[0].f': 1 } })
-      ).toThrow("Can't deep update with array index.");
     });
 
     test('$inc', async () => {
@@ -372,10 +345,6 @@ describe('parseMongoUpdateExpression', () => {
           },
         },
       });
-
-      expect(() =>
-        parseMongoUpdateExpression({ $setIfNull: { 'arr[0].[0].f': 1 } })
-      ).toThrow("Can't deep update with array index.");
     });
 
     test('$append', async () => {
@@ -383,35 +352,27 @@ describe('parseMongoUpdateExpression', () => {
 
       const sut = await update({
         $append: {
-          'foo.bar.cux': ['newItem'],
+          'foo.bar.cux': { $each: ['newItem'] },
         },
       });
 
       expect(sut).toHaveProperty('foo', { bar: { cux: ['newItem'] } });
-
-      expect(() =>
-        parseMongoUpdateExpression({ $append: { 'arr[0].[0].f': ['1'] } })
-      ).toThrow("Can't deep update with array index.");
     });
 
     test('$prepend', async () => {
       await create();
 
       await update({
-        $prepend: { 'foo.bar.cux': ['x'] },
+        $prepend: { 'foo.bar.cux': 'x' },
       });
 
       const sut = await update({
         $prepend: {
-          'foo.bar.cux': [1, 2, 3, 4],
+          'foo.bar.cux': { $each: [1, 2, 3, 4] },
         },
       });
 
       expect(sut).toHaveProperty('foo', { bar: { cux: [1, 2, 3, 4, 'x'] } });
-
-      expect(() =>
-        parseMongoUpdateExpression({ $prepend: { 'arr[0].[0].f': ['1'] } })
-      ).toThrow("Can't deep update with array index.");
     });
 
     test('$remove array by index', async () => {
@@ -421,7 +382,7 @@ describe('parseMongoUpdateExpression', () => {
 
       const sut = (n: number) =>
         update({
-          $remove: ['name', 'age', `foo.bar.cux[${n}]`],
+          $remove: ['name', 'age', `foo.bar.cux.${n}`],
         });
 
       expect(await sut(0)).toHaveProperty('foo.bar', {
@@ -439,13 +400,6 @@ describe('parseMongoUpdateExpression', () => {
       expect(await sut(1)).toHaveProperty('foo.bar', { cux: ['b', 'd', 'e'] });
       expect(await sut(1)).toHaveProperty('foo.bar', { cux: ['b', 'e'] });
       expect(await sut(1)).toHaveProperty('foo.bar', { cux: ['b'] });
-
-      expect(() =>
-        parseMongoUpdateExpression({ $remove: ['arr[0].[0].f'] })
-      ).toThrow("Can't deep update with array index.");
-      expect(() =>
-        parseMongoUpdateExpression({ $remove: ['arr[0].f'] })
-      ).toThrow("Can't deep update with array index.");
     });
 
     test('$remove object property', async () => {
@@ -457,10 +411,6 @@ describe('parseMongoUpdateExpression', () => {
         c: 2,
         d: 3,
       });
-
-      expect(() =>
-        parseMongoUpdateExpression({ $remove: ['arr[0].f'] })
-      ).toThrow("Can't deep update with array index.");
     });
 
     test('$pull array item', async () => {
@@ -473,14 +423,10 @@ describe('parseMongoUpdateExpression', () => {
       });
 
       expect(
-        await update({ $pull: { 'foo.bar.cux': ['a', 2] } })
+        await update({ $pull: { 'foo.bar.cux': { $in: ['a', 2] } } })
       ).toHaveProperty('foo.bar', {
         cux: ['b', 'c', 1],
       });
-
-      expect(() =>
-        parseMongoUpdateExpression({ $pull: { 'foo[0].cux': ['a', 2] } })
-      ).toThrow("Can't deep update with array index.");
     });
 
     test('$addToSet array item', async () => {
@@ -489,12 +435,17 @@ describe('parseMongoUpdateExpression', () => {
       await update({ $set: { 'foo.bar.cux': ['a', 'b', 'a'] } });
 
       expect(
-        await update({ $addToSet: { 'foo.bar.cux': ['a', 2] } })
-      ).toHaveProperty('foo.bar.cux', ['b', 'a', 2]);
+        await update({ $addToSet: { 'foo.bar.cux': { $each: ['a', 2] } } })
+      ).toHaveProperty('foo.bar.cux', ['a', 'b', 'a', 2]);
 
-      expect(() =>
-        parseMongoUpdateExpression({ $addToSet: { 'foo[999].cux': ['a', 2] } })
-      ).toThrow("Can't deep update with array index.");
+      expect(
+        await update({
+          $addToSet: { 'foo.2.cux': { $each: ['a', 2] } },
+        })
+      ).toHaveProperty('foo', {
+        '2': { cux: ['a', 2] },
+        bar: { cux: ['a', 'b', 'a', 2] },
+      });
     });
   });
 });

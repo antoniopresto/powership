@@ -1,9 +1,15 @@
 import { CircularDeps } from '@backland/schema';
-import { MaybePromise } from '@backland/utils';
+import { Cast, MaybePromise } from '@backland/utils';
 import { RuntimeError } from '@backland/utils/lib/RuntimeError';
 import { devAssert } from '@backland/utils/lib/devAssert';
 import { getTypeName } from '@backland/utils/lib/getTypeName';
 import { MaybeArray, tuple } from '@backland/utils/lib/typeUtils';
+import {
+  Join,
+  MatchKeysAndValues,
+  NestedPaths,
+  UpdateDefinition,
+} from 'aggio/lib/Operations';
 
 import { CollectionIndexConfig, DocumentIndexField } from './CollectionIndex';
 
@@ -206,7 +212,7 @@ export type UpdateOneConfig<
     Doc,
     PK | (SK extends undefined ? PK : SK)
   >;
-  update: UpdateExpression;
+  update: UpdateExpression<Doc>;
   upsert?: boolean;
 };
 
@@ -228,40 +234,36 @@ export type FindOneResult<Doc extends DocumentBase = DocumentBase> = {
   item: Doc | null;
 };
 
-type UnsetUpdateExpression<Item> = Item extends Record<infer K, any>
-  ? K extends string
-    ? Item[K] extends unknown[]
-      ? `${K}[${number}]` | K
-      : // : Item[K] extends Record<string, any>
-        // ? `${K}.${UnsetUpdateExpression<Item[K]>}`
-        K
-    : never
-  : never;
+export type ArrayOperationRecord<
+  TSchema,
+  KV extends string = '$each'
+> = MatchKeysAndValues<TSchema> extends infer All
+  ? {
+      [K in keyof All as [NonNullable<All[K]>] extends [any[]] ? K : never]?:
+        | Cast<NonNullable<All[K]>, any[]>[number]
+        | { [Kv in KV]?: Cast<NonNullable<All[K]>, any[]>[number][] };
+    }
+  : any;
 
-type ListUpdateExpression<Item> = {
-  [K in keyof Item]?: Item[K] extends (infer T)[] ? T[] | T : never;
-};
-
-export type UpdateExpression<
-  Item extends Record<string, any> = Record<string, unknown>
-> = {
+export type UpdateExpression<TSchema = Record<string, any>> = {
   // from array or set
-  $addToSet?: { [K in keyof Item]?: Item[K] extends (infer T)[] ? T[] : never };
+  $addToSet?: ArrayOperationRecord<TSchema>;
   // number
-  $append?: ListUpdateExpression<Item>;
+  $append?: ArrayOperationRecord<TSchema>;
   // attr | set | list
-  $inc?: { [K in keyof Item]?: Item[K] extends number ? number : never };
+  $inc?: UpdateDefinition<TSchema>['$inc'];
   // list
-  $prepend?: ListUpdateExpression<Item>;
+  $prepend?: ArrayOperationRecord<TSchema>;
   // attr | set | list
-  $pull?: { [K in keyof Item]?: Item[K] extends (infer T)[] ? T[] : never };
+  $pull?: ArrayOperationRecord<TSchema, '$in'>;
   // list
-  $remove?: MaybeArray<UnsetUpdateExpression<Item>>;
-  $set?: { [K in keyof Item]?: Item[K] };
+  $remove?: MaybeArray<Join<NestedPaths<TSchema>, '.'>>;
   // attr | set | list
-  $setIfNull?: { [K in keyof Item]?: Item[K] };
+  $set?: UpdateDefinition<TSchema>['$set'];
   // attr | set | list
-  $setOnInsert?: { [K in keyof Item]?: Item[K] }; //  array or set
+  $setIfNull?: UpdateDefinition<TSchema>['$set'];
+  // attr | set | list
+  $setOnInsert?: UpdateDefinition<TSchema>['$set'];
 };
 
 export type UpdateExpressionKey = Extract<keyof UpdateExpression<any>, string>;

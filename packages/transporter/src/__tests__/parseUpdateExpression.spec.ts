@@ -12,7 +12,7 @@ describe('parseUpdateExpression', () => {
           setIfNull_a: '$setIfNull_a',
           $setIfNull_b: '$setIfNull_b',
         },
-        $remove: ['a', 'a.b.c[25]'],
+        $remove: ['a', 'a.b.c.25'],
       },
       {
         entity: 'foo',
@@ -34,6 +34,7 @@ describe('parseUpdateExpression', () => {
           ['set_b', '$set_b'],
         ],
         operator: '$set',
+        valueConstructorName: 'Object',
       },
       {
         entries: [
@@ -41,17 +42,14 @@ describe('parseUpdateExpression', () => {
           ['$setIfNull_b', '$setIfNull_b'],
         ],
         operator: '$setIfNull',
+        valueConstructorName: 'Object',
       },
       {
-        removeOperations: [
-          {
-            path: 'a',
-          },
-          {
-            index: 25,
-            path: 'a.b.c',
-          },
+        entries: [
+          ['0', 'a'],
+          ['1', 'a.b.c.25'],
         ],
+        valueConstructorName: 'Array',
         operator: '$remove',
       },
     ]);
@@ -85,7 +83,7 @@ describe('parseUpdateExpression', () => {
     expect(() =>
       parseUpdateExpression(
         {
-          $remove: ['username.foo[2]'],
+          $remove: ['username.foo.2'],
         },
         {
           entity: 'foo',
@@ -123,12 +121,12 @@ describe('parseUpdateExpression', () => {
     ).toThrow(`The field "email" cannot be updated as it is used in index.`);
   });
 
-  it('should break deep array update', () => {
-    expect(() =>
+  it('should handle deep array update', () => {
+    expect(
       parseUpdateExpression(
         {
           $set: {
-            'family[1].age': 21,
+            'family.1.age': 21,
           },
         },
         {
@@ -143,12 +141,22 @@ describe('parseUpdateExpression', () => {
           ],
         }
       )
-    ).toThrow(`Can't deep update with array index.`);
+    ).toEqual([
+      {
+        entries: [['family.1.age', 21]],
+        operator: '$set',
+        valueConstructorName: 'Object',
+      },
+    ]);
+  });
 
-    expect(() =>
+  it('should handle $each on deep array update', () => {
+    expect(
       parseUpdateExpression(
         {
-          $remove: ['email[1].age'],
+          $append: {
+            items: { $each: [['a', 'b'], 1, 2] },
+          },
         },
         {
           entity: 'foo',
@@ -162,6 +170,48 @@ describe('parseUpdateExpression', () => {
           ],
         }
       )
-    ).toThrow(`Can't deep update with array index.`);
+    ).toEqual([
+      {
+        entries: [
+          [
+            'items',
+            {
+              $each: [['a', 'b'], 1, 2],
+            },
+          ],
+        ],
+        operator: '$append',
+        valueConstructorName: 'Object',
+      },
+    ]);
+  });
+
+  it('should $append number', () => {
+    expect(
+      parseUpdateExpression(
+        {
+          $append: {
+            items: 1,
+          },
+        },
+        {
+          entity: 'foo',
+          indexes: [
+            {
+              field: '_id',
+              PK: ['#user', '.username'],
+              name: 'byId',
+              SK: undefined,
+            },
+          ],
+        }
+      )
+    ).toEqual([
+      {
+        entries: [['items', 1]],
+        operator: '$append',
+        valueConstructorName: 'Object',
+      },
+    ]);
   });
 });

@@ -317,11 +317,11 @@ describe('MongoTransporter', () => {
         22
       );
 
-      expect(await update('a', { $remove: ['list[0]'] })).toHaveProperty(
+      expect(await update('a', { $remove: ['list.0'] })).toHaveProperty(
         'item.list',
         ['b', 'c', 'd', 'e', 'f']
       );
-      expect(await update('a', { $remove: ['list[4]'] })).toHaveProperty(
+      expect(await update('a', { $remove: ['list.4'] })).toHaveProperty(
         'item.list',
         ['b', 'c', 'd', 'e']
       );

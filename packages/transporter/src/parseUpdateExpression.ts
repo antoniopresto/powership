@@ -1,96 +1,59 @@
+import { getTypeName } from '@backland/utils';
 import { RuntimeError } from '@backland/utils/lib/RuntimeError';
-import { ensureArray } from '@backland/utils/lib/ensureArray';
-import { getKeys } from '@backland/utils/lib/getKeys';
+import { Join, NestedPaths } from 'aggio/lib/Operations';
 
 import { AnyCollectionIndexConfig } from './CollectionIndex';
-import { UpdateExpression, UpdateExpressionKey } from './Transporter';
+import { UpdateExpression } from './Transporter';
 
-export type UpdateOperation =
-  | {
-      entries: [string, any][];
-      operator: Exclude<UpdateExpressionKey, '$remove'>;
-    }
-  | {
-      operator: '$remove';
-      removeOperations: {
-        // field or field.subfield, etc
-        index?: number;
-        path: string;
-      }[];
-    };
+export type ParsedUpdateExpression<TSchema = Record<string, any>> =
+  UpdateExpression<TSchema> extends infer UX
+    ? keyof UX extends infer OP
+      ? OP extends keyof UX
+        ? UX[OP] extends infer V
+          ? {
+              entries: [Join<NestedPaths<TSchema>, '.'>, V][];
+              operator: OP;
+              valueConstructorName: string;
+            }
+          : any
+        : any
+      : any
+    : any;
 
 export function parseUpdateExpression<Schema extends Record<string, any>>(
   updateExpression: UpdateExpression<Schema>,
   indexConfig: AnyCollectionIndexConfig
-): UpdateOperation[] {
+): ParsedUpdateExpression<Schema>[] {
   const { indexes } = indexConfig;
-  const keys = getKeys(updateExpression);
+  const entries = Object.entries(updateExpression);
 
-  const fieldsUsedInIndexes = new Set();
-
-  indexes.forEach((index) => {
-    [...index.PK, ...(index.SK || [])]
+  const fieldsUsedInMainIndex = new Set();
+  const mainIndex = indexes[0];
+  //
+  {
+    [...mainIndex.PK, ...(mainIndex.SK || [])]
       .filter((el) => el.startsWith('.'))
       .map((el) => {
         const field = el.replace(/^./, '');
-        fieldsUsedInIndexes.add(field);
+        fieldsUsedInMainIndex.add(field);
       });
-  });
+  }
 
-  if (!keys.length) {
+  if (!entries.length) {
     throw new RuntimeError('Empty update expression', {
       updateExpression,
     });
   }
 
-  function getOperation(operator: UpdateExpressionKey) {
-    const expression = (updateExpression as UpdateExpression)[operator];
-
-    if (!expression || typeof expression !== 'object') {
-      throw new RuntimeError(`invalid expression value`, {
-        expression,
-        key: operator,
-      });
-    }
-
-    return expression;
-  }
-
   const errors = new Set<string>();
-  const operations: UpdateOperation[] = [];
+  const operations: ParsedUpdateExpression[] = [];
+  type _Entry = typeof entries[number];
 
-  function pushErrorIfApply(
-    field: string,
-    $operator: keyof UpdateExpression<any>
-  ) {
-    const fieldStart = field.split(/[.\[]/)[0];
-    const deepArrayUpdateErr = getDeepArrayUpdateError(
-      $operator,
-      field,
-      $operator === '$remove'
-    );
-
-    if (deepArrayUpdateErr) {
-      errors.add(
-        deepArrayUpdateErr.message + '\n' + deepArrayUpdateErr.stack ||
-          deepArrayUpdateErr.message
-      );
-    }
-
-    if ($operator !== '$setOnInsert') {
-      if (fieldsUsedInIndexes.has(fieldStart)) {
-        errors.add(
-          `The field "${fieldStart}" cannot be updated as it is used in index.\n` +
-            `Use $setOnInsert when updating using {"upsert": true}`
-        );
-      }
-    }
-  }
-
-  keys.forEach(function ($operator) {
-    const operation = getOperation($operator);
+  function each([$operator, operation]: _Entry) {
+    const valueConstructorName = getTypeName(operation);
 
     switch ($operator) {
+      case '$remove':
       case '$set':
       case '$setOnInsert':
       case '$setIfNull':
@@ -99,41 +62,31 @@ export function parseUpdateExpression<Schema extends Record<string, any>>(
       case '$prepend':
       case '$pull':
       case '$addToSet': {
-        const entries = Object.entries(operation);
-        entries.forEach(([field]) => pushErrorIfApply(field, $operator));
+        const opValueEntries = Object.entries(operation) as any[];
+
+        if ($operator !== '$setOnInsert') {
+          opValueEntries.forEach(([field, value]) => {
+            // checking if we are mutating fields on PK
+            const mutatingField =
+              $operator === '$remove'
+                ? value // for $remove the fields are in the value, like:
+                : // { $remove: ['fieldA.subField', 'fieldC', ...] }
+                  field;
+
+            const rootField = mutatingField.split('.')[0];
+            if (fieldsUsedInMainIndex.has(rootField)) {
+              errors.add(
+                `The field "${rootField}" cannot be updated as it is used in index.\n` +
+                  `Use $setOnInsert when updating using {"upsert": true}`
+              );
+            }
+          });
+        }
 
         operations.push({
-          entries: entries,
+          entries: opValueEntries,
           operator: $operator,
-        });
-        break;
-      }
-
-      case '$remove': {
-        const toDelete: string[] = ensureArray(operation as any);
-        const removeEntries: { index?: number; path: string }[] = [];
-
-        toDelete.forEach((pathToDelete) => {
-          pushErrorIfApply(pathToDelete, '$remove');
-          const arrayMatch = pathToDelete.match(/(.*)\[(\d*)]$/);
-
-          if (arrayMatch) {
-            const [, path, index] = arrayMatch;
-
-            removeEntries.push({
-              index: parseInt(index),
-              path,
-            });
-          } else {
-            removeEntries.push({
-              path: pathToDelete,
-            });
-          }
-        });
-
-        operations.push({
-          operator: '$remove',
-          removeOperations: removeEntries,
+          valueConstructorName,
         });
         break;
       }
@@ -144,34 +97,14 @@ export function parseUpdateExpression<Schema extends Record<string, any>>(
         });
       }
     }
-  });
+  }
+
+  entries.forEach(each);
 
   if (errors.size) {
     let message = ['Update expression errors: ', ...errors.values()].join('\n');
     throw new Error(message);
   }
 
-  return operations;
-}
-
-function getDeepArrayUpdateError(
-  operation: keyof UpdateExpression<any>,
-  field: string,
-  allowAtEnd = false
-) {
-  const arrayMatch = field.match(/\[(\d*)]/g);
-
-  if (allowAtEnd && arrayMatch?.length === 1 && field.match(/(.*)\[(\d*)]$/)) {
-    return;
-  }
-
-  if (arrayMatch) {
-    return new RuntimeError(
-      `Can't deep update with array index.`,
-      { op: field, operation },
-      5
-    );
-  }
-
-  return;
+  return operations as ParsedUpdateExpression<Schema>[];
 }
