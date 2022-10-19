@@ -47,7 +47,6 @@ import {
   AnyEntityDocument,
   createEntityDefaultFields,
   Entity,
-  EntityAliasItem,
   EntityOperationInfoContext,
 } from './EntityInterfaces';
 import {
@@ -499,8 +498,9 @@ export function createEntity<
     } = {
       addHooks: () => ({}), // handled in proxy
       addRelations: () => ({}),
-      aliases: _objectAliases(databaseDefinition),
+      aliasPaths: _objectAliasPaths(databaseDefinition),
       conditionsDefinition: conditionsType._object!.definition,
+      databaseType,
       edgeType: edgeType,
       extend,
       getDocumentId,
@@ -623,6 +623,17 @@ async function _parseOperationContext(input: {
     entity,
   } = input;
 
+  let doc;
+  const getDocument = () => {
+    return (doc =
+      doc ||
+      entity.findOne({
+        condition: methodOptions.condition,
+        context: {},
+        filter: methodOptions.filter,
+      }));
+  };
+
   const { transporter: defaultTransporter } = entityOptions;
 
   await defaultTransporter?.connect();
@@ -648,7 +659,7 @@ async function _parseOperationContext(input: {
     operationInfoContext = await hooks.preParse.exec(
       // @ts-ignore
       operationInfoContext,
-      { entity }
+      { entity, getDocument }
     );
   }
 
@@ -656,7 +667,7 @@ async function _parseOperationContext(input: {
     operationInfoContext = await hooks.preParse.exec(
       // @ts-ignore
       operationInfoContext,
-      { entity }
+      { entity, getDocument }
     );
 
     if (!('item' in operationInfoContext.options)) {
@@ -671,7 +682,7 @@ async function _parseOperationContext(input: {
       operationInfoContext = await hooks.postParse.exec(
         // @ts-ignore
         operationInfoContext,
-        { entity }
+        { entity, getDocument }
       );
     } catch (e: any) {
       e.info = operationInfoContext;
@@ -905,29 +916,24 @@ function _getIndexGraphTypes(input: {
   );
 }
 
-function _objectAliases(def: FinalObjectDefinition, parent?: string) {
-  let aliases: EntityAliasItem[] = [];
-
+function _objectAliasPaths(def: FinalObjectDefinition, found: string[] = []) {
   Object.entries(def).forEach(([k, v]) => {
-    const _parent = [parent, k].filter(Boolean).join('.');
-
     if (v.type === 'alias') {
-      aliases.push({
-        from: [parent, v.def],
-        to: _parent,
-      });
+      const last = found[found.length - 1];
+      const current = last ? [`${last}.${k}`, k] : [k];
+      found.push(...current);
     }
 
     if (v.type === 'object') {
-      aliases.push(..._objectAliases(v.def, _parent));
+      _objectAliasPaths(v.def, found);
     }
 
     if (Array.isArray(v.def) && v[0].type) {
       v.def.forEach((el) => {
-        aliases.push(..._objectAliases(el, _parent));
+        _objectAliasPaths(el, found);
       });
     }
   });
 
-  return aliases;
+  return found;
 }

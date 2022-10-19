@@ -67,9 +67,9 @@ export const EntityHooksCreateDefinitionKind = tuple(
 export type EntityHooksCreateDefinitionKind =
   typeof EntityHooksCreateDefinitionKind[number];
 
-export type EntityParserHookContext = { entity: AnyEntity };
+export type EntityParserHookContext<E extends AnyEntity> = { entity: E, getDocument(options?: {}): ReturnType<E['findOne']> };
 
-export type EntityHooks<Document extends DocumentBase = DocumentBase> = {
+export type EntityHooks<Doc extends DocumentBase = DocumentBase, E extends AnyEntity = AnyEntity> = {
   beforeQuery: Waterfall<EntityOperationInfoContext, {}>;
 
   createDefinition: Parallel<
@@ -84,12 +84,12 @@ export type EntityHooks<Document extends DocumentBase = DocumentBase> = {
 
   filterResult: Waterfall<
     | {
-        items: EntityDocument<Document>[];
+        items: EntityDocument<Doc>[];
         kind: 'items';
       }
     | {
         kind: 'pagination';
-        pagination: PaginationResult<EntityDocument<Document>>;
+        pagination: PaginationResult<EntityDocument<Doc>>;
       },
     {
       operation: EntityOperationInfoContext;
@@ -97,7 +97,7 @@ export type EntityHooks<Document extends DocumentBase = DocumentBase> = {
     }
   >;
 
-  postParse: Waterfall<EntityOperationInfoContext, EntityParserHookContext>;
+  postParse: Waterfall<EntityOperationInfoContext, EntityParserHookContext<E>>;
 
-  preParse: Waterfall<EntityOperationInfoContext, EntityParserHookContext>;
+  preParse: Waterfall<EntityOperationInfoContext, EntityParserHookContext<E>>;
 };

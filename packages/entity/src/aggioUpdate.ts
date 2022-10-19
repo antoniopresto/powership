@@ -1,4 +1,5 @@
 import {
+  AnyCollectionIndexConfig,
   parseUpdateExpression,
   UpdateExpression,
 } from '@backland/transporter';
@@ -10,20 +11,23 @@ import {
   UpdateDefinition,
 } from '@backland/utils';
 
+export const _testingIndexConfig: AnyCollectionIndexConfig = {
+  entity: 'temp',
+  indexes: [
+    {
+      PK: ['#'],
+      field: '_id',
+      name: 'temp',
+    },
+  ],
+}
+
 export function aggioUpdate<T extends TDocument>(
   doc: T,
-  update: UpdateExpression<T>
+  update: UpdateExpression<T>,
+  indexConfig: AnyCollectionIndexConfig
 ): T {
-  const operations = parseUpdateExpression(update, {
-    entity: 'temp',
-    indexes: [
-      {
-        PK: ['#'],
-        field: '_id',
-        name: 'temp',
-      },
-    ],
-  });
+  const operations = parseUpdateExpression(update, indexConfig);
 
   const db = createDB({ docs: [doc] });
 

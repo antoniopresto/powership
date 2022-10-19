@@ -15,6 +15,7 @@ import {
   ParsedDocumentIndexes,
   ParsedIndexKey,
   TransporterLoaderName,
+  TransporterLoadersRecord,
 } from '@backland/transporter';
 import { MaybeArray, UnionToIntersection } from '@backland/utils';
 
@@ -108,11 +109,9 @@ export type EntityFinalDefinition<InputDef> = InputDef extends {
     : never
   : never;
 
-export type EntityAliasItem = { from: AliasFieldDef[]; to: string };
-
 type _Entity<Options extends EntityOptions> = {
   _hooks: EntityHooks;
-  aliases: EntityAliasItem[];
+  aliasPaths: string[]; // paths of found aliases in entity schemas or sub schemas
 
   clone: <O extends EntityOptions>(
     handler: (originalOptions: Options) => O
@@ -121,6 +120,10 @@ type _Entity<Options extends EntityOptions> = {
     def: EntityGraphQLConditionsType<_getOptionsTypeDef<Options>>;
     type: 'object';
   };
+
+  databaseType: ((x: Options['type']) => any) extends (x: infer Type) => any
+    ? GraphType<{ object: EntityFinalDefinition<Type> }>
+    : never;
 
   edgeType: EdgeType<Options['type']>;
 
@@ -152,8 +155,8 @@ type _Entity<Options extends EntityOptions> = {
     : never;
 
   name: Options['name'];
-
   originType: Options['type'];
+
   paginationType: PaginationType<Options['type']>;
 
   parse: (
@@ -305,8 +308,18 @@ type WithExtend<Options extends EntityOptions, Origin> = {
   };
 };
 
-export type EntityOperationInfoContext =
-  EntityOperationInfosRecord[TransporterLoaderName];
+export type EntityOperationInfoContext<
+  LoaderName extends TransporterLoaderName = TransporterLoaderName
+> = EntityOperationInfosRecord[LoaderName];
+
+export function isEntityContextOfLoader<
+  LoaderName extends TransporterLoaderName
+>(
+  t: EntityOperationInfoContext,
+  name: LoaderName
+): t is EntityOperationInfoContext<LoaderName> {
+  return t.loaderName === name;
+}
 
 type GetFieldsUsedInIndexes<IndexItem, Kind> = Kind extends keyof IndexItem
   ? IndexItem[Kind] extends Array<infer F> | ReadonlyArray<infer F>
@@ -315,6 +328,19 @@ type GetFieldsUsedInIndexes<IndexItem, Kind> = Kind extends keyof IndexItem
       : never
     : never
   : never;
+
+export type EntityLoaderConfig<
+  Method extends TransporterLoaderName,
+  Context extends LoaderContext = Record<string, any>
+> = TransporterLoadersRecord[Method] extends (
+  config: infer Config
+) => infer Result
+  ? Config & { context: Context } extends infer R
+    ? {
+        [K in keyof R as K extends 'context' ? never : K]: R[K];
+      } & { context: Context }
+    : never
+  : any;
 
 type EntityTransporterMethod<
   Method,
