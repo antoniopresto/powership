@@ -1,9 +1,8 @@
-import { assertEqual, BJSON, setByPath } from '@backland/utils';
+import { assertEqual, BJSON } from '@backland/utils';
 import { RuntimeError } from '@backland/utils/lib/RuntimeError';
 import { StrictMap } from '@backland/utils/lib/StrictMap';
 import { assertSame } from '@backland/utils/lib/assertSame';
 import { isProduction } from '@backland/utils/lib/env';
-import { getByPath } from '@backland/utils/lib/getByPath';
 import { hooks } from '@backland/utils/lib/hooks';
 import { nonNullValues } from '@backland/utils/lib/invariant';
 import {
@@ -230,11 +229,18 @@ export class GraphQLParser {
 
           if (plainField.type === 'alias') {
             AliasField.assert(instance);
-            aliases.push({
+
+            const subTypeName = parseTypeName({
+              field: plainField,
               fieldName,
+              parentName: objectId,
+            });
+
+            aliases.push({
+              fieldName: subTypeName,
               instance,
               parentName: objectId,
-              path: path || [objectId],
+              path: [objectId, fieldName],
             });
             return;
           }
@@ -252,7 +258,7 @@ export class GraphQLParser {
           builders.push(field);
         });
 
-        builders.forEach((next) => {
+        function _useConvertFieldResult(next: ConvertFieldResult) {
           const field: GraphQLFieldConfig<any, any> = {
             description: next.description,
             type: getType(next) as any,
@@ -273,28 +279,23 @@ export class GraphQLParser {
           fieldsConfigMap[next.fieldName] = field;
 
           hooks.onField.exec(next, field);
-        });
+        }
+        builders.forEach(_useConvertFieldResult);
 
         aliases.forEach(({ instance, fieldName, parentName, path }) => {
-          if (typeof instance.def === 'string') {
-            setByPath(
-              fieldsConfigMap,
+          const { type } = instance.asFinalFieldDef.def as {
+            type: FinalFieldDefinition; // already parsed during parseObjectDefinition
+          };
+
+          _useConvertFieldResult(
+            this.fieldToGraphQL({
+              field: __getCachedFieldInstance(type),
               fieldName,
-              getByPath(fieldsConfigMap, instance.def)
-            );
-          } else {
-            setByPath(
-              fieldsConfigMap,
-              fieldName,
-              this.fieldToGraphQL({
-                field: __getCachedFieldInstance(instance.asFinalFieldDef),
-                fieldName,
-                parentName,
-                path,
-                plainField: instance.asFinalFieldDef,
-              })
-            );
-          }
+              parentName,
+              path,
+              plainField: instance.asFinalFieldDef,
+            })
+          );
         });
 
         hooks.onFieldConfigMap.exec(fieldsConfigMap);

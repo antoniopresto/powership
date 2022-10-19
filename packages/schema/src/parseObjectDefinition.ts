@@ -200,8 +200,18 @@ export function parseFieldDefinitionConfig<
 
       if (definition.type === 'alias') {
         if (typeof definition.def === 'object') {
-          definition.def.type = parseFieldDefinitionConfig(definition.def.type, {
-            deep,
+          definition.def.type = parseFieldDefinitionConfig(
+            definition.def.type,
+            {
+              deep,
+            }
+          );
+
+          validFlattenDefinitionKeysList.forEach((k) => {
+            if (definition[k] !== undefined) {
+              // @ts-ignore
+              definition.def.type[k] = definition[k];
+            }
           });
         }
       }
@@ -422,6 +432,8 @@ const validFlattenDefinitionKeys = {
   name: 'string',
   optional: 'boolean',
 } as const;
+
+const validFlattenDefinitionKeysList = getKeys(validFlattenDefinitionKeys);
 
 export function parseFlattenFieldDefinition(
   input: any,

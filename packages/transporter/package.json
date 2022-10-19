@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "build": "run-s clear declarations build:* && sleep 3",
+    "build": "run-s clear && run-p declarations build:* && sleep 3",
     "clear": "rimraf lib",
     "fix": "run-s fix:* && sleep 3 ",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",

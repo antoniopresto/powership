@@ -12,7 +12,7 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "run-s fix clear declarations build:* && sleep 3",
+    "build": "run-s clear && run-p declarations build:* && sleep 3",
     "fix": "run-s fix:* && sleep 3",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint src --ext .ts --fix",

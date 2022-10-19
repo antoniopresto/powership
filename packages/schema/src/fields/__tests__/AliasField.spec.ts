@@ -144,32 +144,100 @@ describe('AliasField', () => {
     ]);
   });
 
-  it('converts to graphql', async () => {
+  it('converts to typescript', async () => {
     const date = { a: 123 };
 
     const ts = createType('Value', {
       object: {
         valid: {
+          description: `I'm a valid date`,
           literal: date,
         },
-        aliased: { alias: 'valid' },
+        aliased: {
+          description: `I'm a clone ☺️`,
+          alias: {
+            type: 'date',
+            aggregate: [
+              {
+                $pick: 'valid',
+              },
+            ],
+          },
+        },
       },
     } as const).print();
 
     expect(ts).toEqual([
       'type Value {',
+      '  """I\'m a valid date"""',
       '  valid: Value_valid!',
-      '  aliased: Value_valid!',
+      '',
+      '  """I\'m a clone ☺️"""',
+      '  Value_aliased: Date!',
       '}',
       '',
       '"""',
-      '"Literal value: {\\"a\\":123}"',
+      '"I\'m a valid date"',
       '"""',
       'scalar Value_valid',
       '',
+      'scalar Date',
+      '',
       'input ValueInput {',
+      '  """I\'m a valid date"""',
       '  valid: Value_valid!',
-      '  aliased: Value_valid!',
+      '',
+      '  """I\'m a clone ☺️"""',
+      '  Value_aliased: Date!',
+      '}',
+    ]);
+  });
+  
+  it('converts to graphql', async () => {
+    const date = { a: 123 };
+
+    const gql = createType('Value', {
+      object: {
+        valid: {
+          description: `I'm a valid date`,
+          literal: date,
+        },
+        aliased: {
+          description: `I'm a clone ☺️`,
+          alias: {
+            type: 'date',
+            aggregate: [
+              {
+                $pick: 'valid',
+              },
+            ],
+          },
+        },
+      },
+    } as const).print();
+
+    expect(gql).toEqual([
+      'type Value {',
+      '  """I\'m a valid date"""',
+      '  valid: Value_valid!',
+      '',
+      '  """I\'m a clone ☺️"""',
+      '  Value_aliased: Date!',
+      '}',
+      '',
+      '"""',
+      '"I\'m a valid date"',
+      '"""',
+      'scalar Value_valid',
+      '',
+      'scalar Date',
+      '',
+      'input ValueInput {',
+      '  """I\'m a valid date"""',
+      '  valid: Value_valid!',
+      '',
+      '  """I\'m a clone ☺️"""',
+      '  Value_aliased: Date!',
       '}',
     ]);
   });

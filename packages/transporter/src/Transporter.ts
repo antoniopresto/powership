@@ -8,6 +8,7 @@ import {
   Join,
   MatchKeysAndValues,
   NestedPaths,
+  Query,
   UpdateDefinition,
 } from 'aggio/lib/Operations';
 
@@ -65,11 +66,10 @@ export type FilterConditions<Doc extends DocumentBase = DocumentBase> = {
     RootFilterOperators<Doc>)[K];
 };
 
-type _DocFilters<Doc> = {
-  [K in keyof Doc]?: Record<string, any> | PKSKValueType | undefined;
-};
+export type EntityFilters<Doc> = Query<Doc>;
+
 export type FilterRecord<Doc extends DocumentBase = DocumentBase> =
-  | _DocFilters<Doc>
+  | EntityFilters<Doc>
   | ({
       $and?: RootFilterOperators<Doc>['$and'];
       $not?: RootFilterOperators<Doc>['$not'];
@@ -80,7 +80,7 @@ export type FilterRecord<Doc extends DocumentBase = DocumentBase> =
       _id2?: string;
       _id3?: string;
       id?: string;
-    } & _DocFilters<Doc>);
+    } & EntityFilters<Doc>);
 
 export type AllIndexFilter = {
   $between: [string, string] | [number, number];

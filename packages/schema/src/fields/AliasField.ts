@@ -45,10 +45,12 @@ export class AliasField<InputDef extends AliasFieldDef = any> extends FieldType<
       name: 'alias',
     });
 
+    const type = CircularDeps.createType(
+      typeof def === 'string' ? 'any' : def.type
+    );
+
     this.utils = {
-      fieldType: CircularDeps.createType(
-        typeof def === 'string' ? 'any' : def.type
-      ).__field,
+      fieldType: type.__field,
     };
 
     this.composer = {
