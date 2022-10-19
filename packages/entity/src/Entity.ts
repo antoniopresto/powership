@@ -58,6 +58,7 @@ import {
 import { createEntityPlugin, EntityHooks } from './EntityPlugin';
 import { buildEntityOperationInfoContext } from './entityOperationContextTypes';
 import { PageInfoType } from './paginationUtils';
+import { aliasesPlugin } from './plugins/aliasesPlugin';
 import { applyFieldResolvers } from './plugins/applyFieldResolvers';
 import { versionPlugin } from './plugins/versionPlugin';
 
@@ -81,7 +82,7 @@ export function createEntity<
 >(configOptions: Options): Entity<Options> {
   let entityOptions = { ...configOptions };
 
-  const plugins = [applyFieldResolvers, versionPlugin];
+  const plugins = [applyFieldResolvers, versionPlugin, aliasesPlugin];
   const resolvers: EntityFieldResolver<any, any, any, any>[] = [];
   let gettersWereCalled = false;
 
@@ -297,6 +298,7 @@ export function createEntity<
 
         const operation = await _parseOperationContext({
           databaseType,
+          entity,
           entityOptions,
           hooks: _hooks,
           method,
@@ -552,8 +554,6 @@ function _registerPKSKHook(input: {
       doc.updatedBy =
         doc.updatedBy || (await ctx.options.context?.userId?.(false));
       doc._v = ulid();
-
-      // TODO check for aliases using plugin
       return doc;
     }
 
@@ -608,6 +608,7 @@ function _registerPKSKHook(input: {
 
 async function _parseOperationContext(input: {
   databaseType: GraphType<any>;
+  entity: AnyEntity;
   entityOptions: EntityOptions;
   hooks: EntityHooks;
   method: TransporterLoaderName;
@@ -619,6 +620,7 @@ async function _parseOperationContext(input: {
     method,
     hooks: hooks,
     databaseType,
+    entity,
   } = input;
 
   const { transporter: defaultTransporter } = entityOptions;
@@ -646,7 +648,7 @@ async function _parseOperationContext(input: {
     operationInfoContext = await hooks.preParse.exec(
       // @ts-ignore
       operationInfoContext,
-      {}
+      { entity }
     );
   }
 
@@ -654,7 +656,7 @@ async function _parseOperationContext(input: {
     operationInfoContext = await hooks.preParse.exec(
       // @ts-ignore
       operationInfoContext,
-      {}
+      { entity }
     );
 
     if (!('item' in operationInfoContext.options)) {
@@ -669,7 +671,7 @@ async function _parseOperationContext(input: {
       operationInfoContext = await hooks.postParse.exec(
         // @ts-ignore
         operationInfoContext,
-        {}
+        { entity }
       );
     } catch (e: any) {
       e.info = operationInfoContext;

@@ -262,9 +262,10 @@ describe('parseMongoUpdateExpression', () => {
       },
     });
 
-    expect(
-      await update({ $pull: { list: { $in: ['a', 2] } } })
-    ).toHaveProperty('list', ['b', 'c', 1]);
+    expect(await update({ $pull: { list: { $in: ['a', 2] } } })).toHaveProperty(
+      'list',
+      ['b', 'c', 1]
+    );
   });
 
   test('$addToSet array item', async () => {

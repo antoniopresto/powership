@@ -3,7 +3,11 @@ import { DocumentBase, PaginationResult } from '@backland/transporter';
 import { tuple } from '@backland/utils';
 import { Parallel, Waterfall } from 'plugin-hooks';
 
-import { EntityDocument, EntityOperationInfoContext } from './EntityInterfaces';
+import {
+  AnyEntity,
+  EntityDocument,
+  EntityOperationInfoContext,
+} from './EntityInterfaces';
 import { EntityFieldResolver, EntityOptions } from './EntityOptions';
 
 export function createEntityPlugin<
@@ -63,6 +67,8 @@ export const EntityHooksCreateDefinitionKind = tuple(
 export type EntityHooksCreateDefinitionKind =
   typeof EntityHooksCreateDefinitionKind[number];
 
+export type EntityParserHookContext = { entity: AnyEntity };
+
 export type EntityHooks<Document extends DocumentBase = DocumentBase> = {
   beforeQuery: Waterfall<EntityOperationInfoContext, {}>;
 
@@ -91,7 +97,7 @@ export type EntityHooks<Document extends DocumentBase = DocumentBase> = {
     }
   >;
 
-  postParse: Waterfall<EntityOperationInfoContext, {}>;
+  postParse: Waterfall<EntityOperationInfoContext, EntityParserHookContext>;
 
-  preParse: Waterfall<EntityOperationInfoContext, {}>;
+  preParse: Waterfall<EntityOperationInfoContext, EntityParserHookContext>;
 };
