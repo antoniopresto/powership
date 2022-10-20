@@ -309,6 +309,27 @@ export function createEntity<
         const resolver: AnyFunction = transporter[method].bind(transporter);
         let result = await resolver(operation.options);
 
+        if (
+          !result.error &&
+          operation.isUpdate &&
+          entity.aliasPaths.length &&
+          !result.item
+        ) {
+          // checking for updates that have failed to update aliases
+          // probably because of version mismatch, since we check for version match.
+
+          if (!context.operation.getDocumentResult) {
+            // just in case of aliasesPlugin being removed
+            // aliasesPlugin sets context.operation.getDocumentResult
+            throw new Error(`UPDATE_DOCUMENT_WITH_ALIAS_FIELDS_ERROR_1`);
+          }
+
+          const existing = await context.operation.getDocumentResult;
+          if (existing.item) {
+            throw new Error(`UPDATE_DOCUMENT_WITH_ALIAS_FIELDS_ERROR_2`);
+          }
+        }
+
         if (result.item) {
           const res = await _hooks.filterResult.exec(
             { items: [result.item], kind: 'items' },
@@ -622,18 +643,6 @@ async function _parseOperationContext(input: {
     databaseType,
     entity,
   } = input;
-
-  let doc;
-  const getDocument = () => {
-    return (doc =
-      doc ||
-      entity.findOne({
-        condition: methodOptions.condition,
-        context: {},
-        filter: methodOptions.filter,
-      }));
-  };
-
   const { transporter: defaultTransporter } = entityOptions;
 
   await defaultTransporter?.connect();
@@ -643,6 +652,22 @@ async function _parseOperationContext(input: {
     methodOptions,
     entityOptions
   );
+
+  let getDocumentResult: ReturnType<typeof entity['findOne']>;
+
+  const getDocument = () => {
+    getDocumentResult =
+      getDocumentResult ||
+      entity.findOne({
+        condition: methodOptions.condition,
+        context: {},
+        filter: methodOptions.filter,
+      });
+
+    operationInfoContext.getDocumentResult = getDocumentResult;
+
+    return getDocumentResult;
+  };
 
   if ('filter' in operationInfoContext.options) {
     operationInfoContext.options.filter = graphQLFilterToTransporterFilter(
@@ -700,172 +725,6 @@ async function _parseOperationContext(input: {
 
   return operationInfoContext;
 }
-
-// function _createLoader(config: {
-//   conditionsType;
-//   databaseType: GraphType<any>;
-//   entityOptions: EntityOptions;
-//   hooks: EntityHooks;
-//   indexConfig: AnyCollectionIndexConfig;
-//   indexGraphTypes;
-//   indexInfo: ParsedIndexKey[];
-//   method: TransporterLoaderName;
-//   newMethodName: string;
-//   resolvers;
-// }) {
-//   const {
-//     indexInfo,
-//     entityOptions,
-//     newMethodName,
-//     method,
-//     indexConfig,
-//     hooks,
-//     databaseType,
-//     indexGraphTypes,
-//     resolvers,
-//     conditionsType,
-//   } = config;
-//
-//   const { indexes, transporter: defaultTransporter } = entityOptions;
-//
-//   const loader: TransporterLoader = async function loader(...args) {
-//     if (args.length !== 1) {
-//       return devAssert(`Invalid number of arguments for ${newMethodName}`);
-//     }
-//     const { transporter = defaultTransporter } = args['0'];
-//
-//     nonNullValues(
-//       { transporter },
-//       `config.transporter should be provided for "${newMethodName}" or during entity creation.`
-//     );
-//
-//     const configInput = {
-//       ...args[0],
-//       context: args[0].context,
-//       indexConfig: {
-//         ...indexConfig,
-//         indexes,
-//       },
-//     };
-//
-//     const operation = await _parseOperationContext({
-//       databaseType,
-//       entityOptions,
-//       hooks: hooks,
-//       method,
-//       methodOptions: configInput,
-//     });
-//
-//     const context = { operation, resolvers };
-//
-//     const resolver: AnyFunction = transporter[method].bind(transporter);
-//     let result = await resolver(operation.options);
-//
-//     if (result.item) {
-//       const res = await hooks.filterResult.exec(
-//         { items: [result.item], kind: 'items' },
-//         context
-//       );
-//       if (res.kind === 'items') result.item = res.items[0];
-//     }
-//
-//     if (result.items) {
-//       const res = await hooks.filterResult.exec(
-//         { items: result.items, kind: 'items' },
-//         context
-//       );
-//       if (res.kind === 'items') result.items = res.items;
-//     }
-//
-//     if (result.edges) {
-//       const res = await hooks.filterResult.exec(
-//         { kind: 'pagination', pagination: result },
-//         context
-//       );
-//       if (res.kind === 'pagination') result = res.pagination;
-//     }
-//
-//     return result;
-//   };
-//
-//   // create the filter with the index fields plus the "id" field
-//   function getFilterDef() {
-//     function _addIDField(obj: object) {
-//       const def: any = { id: { optional: true, type: 'ID' } };
-//
-//       Object.keys(obj).forEach((k) => {
-//         if (isMetaFieldKey(k)) return;
-//         def[k] = { ...obj[k], optional: true };
-//       });
-//
-//       return def;
-//     }
-//
-//     if (indexInfo.length === 1) {
-//       const obj = {
-//         ...indexGraphTypes[indexInfo[0].index.name]._object!.cleanDefinition(),
-//       };
-//       return _addIDField(obj);
-//     }
-//
-//     const all: any = {};
-//
-//     indexInfo.forEach(({ index: { name } }) => {
-//       const objectType = indexGraphTypes[name]._object as ObjectType<{
-//         a: 'any';
-//       }>;
-//
-//       const graph = objectType.cleanDefinition();
-//       Object.entries(graph).forEach(([k, v]) => {
-//         all[k] = {
-//           ...v,
-//           optional: true,
-//         };
-//       });
-//     });
-//     return _addIDField(all);
-//   }
-//
-//   function getPaginationType() {
-//     const filter = getFilterDef();
-//     return {
-//       after: {
-//         optional: true,
-//         type: 'ID',
-//       },
-//       condition: {
-//         optional: true,
-//         type: conditionsType,
-//       },
-//       filter: {
-//         def: filter,
-//
-//         type: 'object',
-//       },
-//       first: {
-//         optional: true,
-//         type: 'int',
-//       },
-//     };
-//   }
-//
-//   Object.defineProperties(loader, {
-//     filterDef: {
-//       get() {
-//         return getFilterDef();
-//       },
-//     },
-//     indexInfo: { value: indexInfo },
-//     name: { value: newMethodName },
-//     queryArgs: {
-//       get() {
-//         return getPaginationType();
-//       },
-//     },
-//   });
-//
-//   return { loader };
-// }
 
 function _getIndexGraphTypes(input: {
   entityOptions: EntityOptions;

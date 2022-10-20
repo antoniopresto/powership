@@ -1,4 +1,4 @@
-import { areEqual, ensureArray } from '@backland/utils';
+import { areEqual, delay, ensureArray } from '@backland/utils';
 
 import { isEntityContextOfLoader } from '../EntityInterfaces';
 import { createEntityPlugin } from '../EntityPlugin';
@@ -18,8 +18,15 @@ export const aliasesPlugin = createEntityPlugin('AliasesPlugin', {
     if (!isEntityContextOfLoader(context, 'updateOne')) return;
 
     const {
-      options: { update, indexConfig },
+      options: { update, indexConfig, condition = {} },
     } = context;
+
+    condition._v = dbDocument._v;
+    context.options.condition = condition;
+
+    if (typeof context.options.context.__testDelay === 'number') {
+      await delay(context.options.context.__testDelay);
+    }
 
     const memoryUpdate = aggioUpdate(dbDocument, update, indexConfig);
     const parsedMemoryUpdate = entity.databaseType.parse(memoryUpdate);

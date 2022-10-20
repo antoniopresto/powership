@@ -185,6 +185,48 @@ describe('Aliases', () => {
 
       expect(update.item).not.toHaveProperty('phone');
     });
+
+    test('check for version on updating document with aliases', async () => {
+      const entity = _getEntity(transporter);
+      const mock = userMock();
+
+      const access: AccessType = {
+        kind: 'phone',
+        value: '+5511941382908',
+        updatedAt: new Date(),
+        createdAt: new Date(),
+        verified: false,
+      };
+
+      mock.access.push(access);
+
+      await entity.createOne({
+        item: mock,
+        context: {},
+      });
+
+      await entity.findOne({
+        filter: { username: mock.username },
+        context: {},
+      });
+
+      const sut = Promise.all([
+        entity.updateOne({
+          filter: { username: mock.username },
+          update: { $remove: ['access.1'] },
+          context: { __testDelay: 100 },
+        }),
+        entity.updateOne({
+          filter: { username: mock.username },
+          update: { $remove: ['access.1'] },
+          context: {},
+        }),
+      ]);
+
+      await expect(sut).rejects.toThrow(
+        'UPDATE_DOCUMENT_WITH_ALIAS_FIELDS_ERROR_2'
+      );
+    });
   });
 });
 

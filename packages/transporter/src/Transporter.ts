@@ -257,7 +257,9 @@ export type UpdateExpression<TSchema = Record<string, any>> = {
   // attr | set | list
   $pull?: ArrayOperationRecord<TSchema, '$in'>;
   // list
-  $remove?: MaybeArray<Join<NestedPaths<TSchema>, '.'>>;
+  $remove?: MaybeArray<`${Join<NestedPaths<TSchema>, '.'>}${
+    | `.${string}`
+    | ''}`>;
   // attr | set | list
   $set?: UpdateDefinition<TSchema>['$set'];
   // attr | set | list

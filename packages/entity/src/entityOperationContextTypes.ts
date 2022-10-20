@@ -5,6 +5,7 @@ import {
 import { DeepWritable, simpleObjectClone } from '@backland/utils';
 
 import {
+  AnyEntity,
   EntityLoaderConfig,
   EntityOperationInfoContext,
 } from './EntityInterfaces';
@@ -108,6 +109,8 @@ export type EntityOperationInfosRecord = {
     ? Method extends keyof LoaderOperationsRecord
       ? LoaderOperationsRecord[Method] & {
           entityOptions: EntityOptions;
+          
+          getDocumentResult?: ReturnType<AnyEntity['findOne']>;
 
           loaderName: Method;
 

@@ -395,7 +395,7 @@ describe('Product', () => {
           return 'user1';
         },
       },
-    });
+    } as any);
 
     expect(update).toMatchObject({
       created: false,
@@ -432,7 +432,7 @@ describe('Product', () => {
           return 'user1';
         },
       },
-    });
+    } as any);
 
     expect(update).toMatchObject({
       created: true,

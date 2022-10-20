@@ -1,5 +1,4 @@
 import {
-  AliasFieldDef,
   ExtendDefinitionResult,
   GraphType,
   ObjectDefinitionInput,
@@ -332,9 +331,7 @@ type GetFieldsUsedInIndexes<IndexItem, Kind> = Kind extends keyof IndexItem
 export type EntityLoaderConfig<
   Method extends TransporterLoaderName,
   Context extends LoaderContext = Record<string, any>
-> = TransporterLoadersRecord[Method] extends (
-  config: infer Config
-) => infer Result
+> = TransporterLoadersRecord[Method] extends (config: infer Config) => any
   ? Config & { context: Context } extends infer R
     ? {
         [K in keyof R as K extends 'context' ? never : K]: R[K];

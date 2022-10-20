@@ -67,9 +67,16 @@ export const EntityHooksCreateDefinitionKind = tuple(
 export type EntityHooksCreateDefinitionKind =
   typeof EntityHooksCreateDefinitionKind[number];
 
-export type EntityParserHookContext<E extends AnyEntity> = { entity: E, getDocument(options?: {}): ReturnType<E['findOne']> };
+export type EntityParserHookContext<E extends AnyEntity> = {
+  checkForVersion?: boolean;
+  entity: E;
+  getDocument(options?: {}): ReturnType<E['findOne']>;
+};
 
-export type EntityHooks<Doc extends DocumentBase = DocumentBase, E extends AnyEntity = AnyEntity> = {
+export type EntityHooks<
+  Doc extends DocumentBase = DocumentBase,
+  E extends AnyEntity = AnyEntity
+> = {
   beforeQuery: Waterfall<EntityOperationInfoContext, {}>;
 
   createDefinition: Parallel<
