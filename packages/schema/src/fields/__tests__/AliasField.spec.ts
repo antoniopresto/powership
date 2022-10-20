@@ -192,7 +192,7 @@ describe('AliasField', () => {
       '}',
     ]);
   });
-  
+
   it('converts to graphql', async () => {
     const date = { a: 123 };
 

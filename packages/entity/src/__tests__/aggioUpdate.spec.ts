@@ -1,4 +1,4 @@
-import {_testingIndexConfig, aggioUpdate} from '../aggioUpdate';
+import { _testingIndexConfig, aggioUpdate } from '../aggioUpdate';
 
 describe('aggioUpdate', () => {
   const _doc = () => ({
@@ -9,10 +9,14 @@ describe('aggioUpdate', () => {
   });
 
   test('$inc', async () => {
-    const sut = aggioUpdate(_doc(), {
-      $set: { name: 'updated' },
-      $inc: { age: -1, 'listing.3.age': 1 },
-    }, _testingIndexConfig);
+    const sut = aggioUpdate(
+      _doc(),
+      {
+        $set: { name: 'updated' },
+        $inc: { age: -1, 'listing.3.age': 1 },
+      },
+      _testingIndexConfig
+    );
 
     expect(sut).toEqual({
       ..._doc(),
@@ -31,9 +35,13 @@ describe('aggioUpdate', () => {
   });
 
   test('$setIfNull', async () => {
-    const sut = aggioUpdate(_doc(), {
-      $setIfNull: { nullish: 'added' },
-    }, _testingIndexConfig);
+    const sut = aggioUpdate(
+      _doc(),
+      {
+        $setIfNull: { nullish: 'added' },
+      },
+      _testingIndexConfig
+    );
 
     expect(sut).toEqual({
       ..._doc(),
@@ -42,9 +50,13 @@ describe('aggioUpdate', () => {
   });
 
   test('$remove', async () => {
-    const sut = aggioUpdate(_doc(), {
-      $remove: 'name',
-    }, _testingIndexConfig);
+    const sut = aggioUpdate(
+      _doc(),
+      {
+        $remove: 'name',
+      },
+      _testingIndexConfig
+    );
 
     expect(sut).toEqual({
       ..._doc(),
@@ -52,9 +64,13 @@ describe('aggioUpdate', () => {
   });
 
   test('$pull', async () => {
-    const sut = aggioUpdate(_doc(), {
-      $pull: { listing: 1 },
-    }, _testingIndexConfig);
+    const sut = aggioUpdate(
+      _doc(),
+      {
+        $pull: { listing: 1 },
+      },
+      _testingIndexConfig
+    );
 
     expect(sut).toEqual({
       ..._doc(),
@@ -69,9 +85,13 @@ describe('aggioUpdate', () => {
   });
 
   test('$prepend', async () => {
-    const sut = aggioUpdate(_doc(), {
-      $prepend: { listing: { $each: [777] } },
-    }, _testingIndexConfig);
+    const sut = aggioUpdate(
+      _doc(),
+      {
+        $prepend: { listing: { $each: [777] } },
+      },
+      _testingIndexConfig
+    );
 
     expect(sut).toEqual({
       ..._doc(),
@@ -88,9 +108,13 @@ describe('aggioUpdate', () => {
   });
 
   test('$append', async () => {
-    const sut = aggioUpdate(_doc(), {
-      $append: { listing: { $each: [777] } },
-    }, _testingIndexConfig);
+    const sut = aggioUpdate(
+      _doc(),
+      {
+        $append: { listing: { $each: [777] } },
+      },
+      _testingIndexConfig
+    );
 
     expect(sut).toEqual({
       ..._doc(),
@@ -107,9 +131,13 @@ describe('aggioUpdate', () => {
   });
 
   test('$addToSet', async () => {
-    const sut = aggioUpdate(_doc(), {
-      $addToSet: { listing: { $each: [1, 7778] } },
-    }, _testingIndexConfig);
+    const sut = aggioUpdate(
+      _doc(),
+      {
+        $addToSet: { listing: { $each: [1, 7778] } },
+      },
+      _testingIndexConfig
+    );
 
     expect(sut).toEqual({
       ..._doc(),

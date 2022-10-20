@@ -109,7 +109,7 @@ export type EntityOperationInfosRecord = {
     ? Method extends keyof LoaderOperationsRecord
       ? LoaderOperationsRecord[Method] & {
           entityOptions: EntityOptions;
-          
+
           getDocumentResult?: ReturnType<AnyEntity['findOne']>;
 
           loaderName: Method;

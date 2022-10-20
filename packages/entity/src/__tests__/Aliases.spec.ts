@@ -145,7 +145,7 @@ describe('Aliases', () => {
         entity.updateOne({
           filter: { username: mock.username },
           condition: { 'access.kind': 'email' },
-          update: { $remove: ['access.0'] as any },
+          update: { $remove: ['access.0'] },
           context: {},
         })
       ).rejects.toThrow('field "email": required field.');
@@ -179,7 +179,7 @@ describe('Aliases', () => {
 
       const update = await entity.updateOne({
         filter: { username: mock.username },
-        update: { $remove: ['access.1'] as any },
+        update: { $remove: ['access.1'] },
         context: {},
       });
 

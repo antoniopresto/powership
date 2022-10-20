@@ -20,7 +20,7 @@ export const _testingIndexConfig: AnyCollectionIndexConfig = {
       name: 'temp',
     },
   ],
-}
+};
 
 export function aggioUpdate<T extends TDocument>(
   doc: T,

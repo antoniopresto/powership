@@ -53,6 +53,7 @@ export const StockType = createType('Stock', {
 
 const productDef = {
   object: {
+    _v: 'string',
     sku: 'string',
     storeId: 'ID',
     title: 'string',

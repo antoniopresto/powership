@@ -108,6 +108,7 @@ describe('ProductResolver.addRelations', () => {
         ([key, { optional }]) => [key, optional]
       )
     ).toEqual([
+      ['_v', true],
       ['sku', true],
       ['storeId', true],
       ['title', true],

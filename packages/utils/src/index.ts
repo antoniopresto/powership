@@ -50,6 +50,7 @@ export * from './deepFreeze';
 export * from './override';
 export * from './useProcess';
 export * from './sortObject';
+export * from './objectDiff';
 
 // @only-server
 export * from './logLevels';

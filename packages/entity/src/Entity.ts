@@ -775,21 +775,27 @@ function _getIndexGraphTypes(input: {
   );
 }
 
-function _objectAliasPaths(def: FinalObjectDefinition, found: string[] = []) {
+function _objectAliasPaths(
+  def: FinalObjectDefinition,
+  found: string[] = [],
+  parent = ''
+) {
+  const isArray = Array.isArray(def);
+
   Object.entries(def).forEach(([k, v]) => {
+    const currentPath = isArray ? `${parent}[${k}]` : `${parent}.${k}`;
+
     if (v.type === 'alias') {
-      const last = found[found.length - 1];
-      const current = last ? [`${last}.${k}`, k] : [k];
-      found.push(...current);
+      found.push(...(parent ? [currentPath, k] : [k]));
     }
 
     if (v.type === 'object') {
-      _objectAliasPaths(v.def, found);
+      _objectAliasPaths(v.def, found, currentPath);
     }
 
     if (Array.isArray(v.def) && v[0].type) {
       v.def.forEach((el) => {
-        _objectAliasPaths(el, found);
+        _objectAliasPaths(el, found, currentPath);
       });
     }
   });

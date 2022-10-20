@@ -378,14 +378,7 @@ describe('Product', () => {
           },
         },
       })
-    ).rejects.toThrow(
-      [
-        'The field "SKU" cannot be updated as it is used in index.',
-        'Use $setOnInsert when updating using {"upsert": true}',
-        'The field "storeId" cannot be updated as it is used in index.',
-        'Use $setOnInsert when updating using {"upsert": true}',
-      ].join('\n')
-    );
+    ).rejects.toThrow('Use $setOnInsert when updating using {"upsert": true}');
 
     const update = await entity.updateOne({
       filter: { SKU: 'sku_batata', storeId: 'store1' },
