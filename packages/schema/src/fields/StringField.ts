@@ -1,6 +1,7 @@
 import { expectedType } from '@backland/utils/lib/expectedType';
 
 import { FieldType, FieldTypeParser } from './FieldType';
+import { FieldTypeError } from './FieldTypeErrors';
 
 export type StringFieldDef = {
   max?: number;
@@ -30,19 +31,24 @@ export class StringField extends FieldType<
         expectedType({ value: input }, 'string');
 
         if (regExp && !regExp.test(input) && regex) {
-          throw new Error(`Invalid`);
+          throw new FieldTypeError(`regexMismatch`, {
+            regex: regExp.toString(),
+            input,
+          });
         }
 
         const length = input.length;
 
         if (max !== undefined && length > max) {
-          throw new Error(
+          throw new FieldTypeError(
+            'maxSize',
             `${length} is more than the max string length ${max}.`
           );
         }
 
         if (min !== undefined && length < min) {
-          throw new Error(
+          throw new FieldTypeError(
+            'minSize',
             `${length} is less than the min string length ${min}.`
           );
         }

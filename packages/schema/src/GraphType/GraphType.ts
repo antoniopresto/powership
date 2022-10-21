@@ -97,7 +97,9 @@ export class GraphType<Definition extends ObjectFieldInput> {
       definitionInput: definition,
     });
 
-    self.__field = parseObjectField('temp', definition, true);
+    self.__field = parseObjectField('temp', definition, {
+      returnInstance: true,
+    });
 
     if (
       ObjectField.is(self.__field) &&
@@ -186,7 +188,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
     try {
       return this.__field.parse(input, customMessage) as any;
     } catch (e: any) {
-      e.message = `➤ ${this.optionalId||''} ${e.message}`;
+      e.message = `➤ ${this.optionalId || ''} ${e.message}`;
       throw e;
     }
   };

@@ -156,7 +156,7 @@ type _injectInfer<T> = T extends {
       __infer: // === recursive object case ===
 
       T['type'] extends 'array'
-        ? Def extends { of: infer Of }
+        ? Def extends { of: infer Of; [K: string]: any }
           ? InferField<Of>[]
           : never
         : //
