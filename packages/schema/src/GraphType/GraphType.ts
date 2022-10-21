@@ -186,7 +186,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
     try {
       return this.__field.parse(input, customMessage) as any;
     } catch (e: any) {
-      e.message = `➤ ${this.id} ${e.message}`;
+      e.message = `➤ ${this.optionalId||''} ${e.message}`;
       throw e;
     }
   };

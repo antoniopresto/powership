@@ -239,6 +239,7 @@ export class ObjectType<
           key: currField,
           value: undefined,
         });
+        return;
       }
 
       const value = input[currField];
@@ -278,7 +279,7 @@ export class ObjectType<
         parsed[key] = result.parsed;
       }
 
-      errors.push(...result.errors);
+      errors.unshift(...result.errors);
     });
 
     const resulting = allowUnspecified ? { ...input, ...parsed } : parsed;
@@ -529,6 +530,7 @@ export function createObjectType<
 
 export const createBacklandObject = createObjectType;
 export const createSchema = createObjectType;
+export const resetTypesCache = ObjectType.reset;
 
 type _HandleInput<T> = [IsKnown<T>] extends [1]
   ? {
