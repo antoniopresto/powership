@@ -4,8 +4,8 @@ import { AccessType, accessTypesEnum } from './AccessType';
 import { Account, AccountInput, AccountSchema } from './AccountSchema';
 import { Password } from './Password';
 import { Token, tokenKindEnum } from './TokenType';
-import { AccountsEntity } from './DefaultAccountsEntity';
-import {  EntityDocument } from '@backland/entity';
+import { AccountsEntity } from './AccountsEntity';
+import { EntityDocument } from '@backland/entity';
 
 export interface PasswordHandlerOptions<
   TEntity extends AccountsEntity = AccountsEntity
@@ -264,7 +264,59 @@ export class AccountsPassword<TEntity extends AccountsEntity> {
 
     return ret.item as DocType<TEntity>;
   }
+
+  findUser = async ({
+    username,
+    context = {},
+  }: {
+    username: string;
+    context?: any;
+  }): Promise<AnyUser | null> => {
+    return (
+      await this.accountEntity.findOne({
+        filter: { username } as any,
+        context,
+      })
+    ).item as unknown as AnyUser | null;
+  };
+
+  async userByPasswordLogin(input: {
+    username: string;
+    password: string;
+  }): Promise<DocType<TEntity>> {
+    const { username, password } = input;
+
+    const foundUser = await this.findUser({ username });
+
+    if (!foundUser) {
+      throw new Error('LOGIN_FAILED');
+    }
+
+    const token = foundUser.tokens.find(
+      (el) => el.kind === tokenKindEnum.password
+    );
+    const hash: string | undefined = token?.value;
+
+    if (!hash) {
+      throw new Error('LOGIN_FAILED');
+    }
+
+    const { valid: isPasswordValid } = await Password.verify({
+      password,
+      hash,
+    });
+
+    if (!isPasswordValid) {
+      throw new Error('LOGIN_FAILED');
+    }
+
+    return foundUser as any;
+  }
 }
+
+type AnyUser = {
+  [K in keyof DocType<AccountsEntity>]: DocType<AccountsEntity>[K];
+} & {};
 
 type DocType<TEntity> = TEntity extends { parse(...args: any[]): infer Res }
   ? EntityDocument<Res> & Account

@@ -25,16 +25,15 @@ hash.input = createSchema({
 async function verify(
   params: PasswordVerifyInput
 ): Promise<{ valid: boolean }> {
-  const { values } = verify.input.parse(params);
-  const keyBuf = Buffer.from(values[0], 'base64');
-  const valid = await Scrypt.verify(keyBuf, values[1]);
+  const { password, hash } = verify.input.parse(params);
+  const keyBuf = Buffer.from(hash, 'base64');
+  const valid = await Scrypt.verify(keyBuf, password);
   return { valid };
 }
 
 verify.input = createSchema({
-  values: { array: { length: 2, of: PasswordType } } as unknown as {
-    literal: [string, string];
-  },
+  password: { string: {} },
+  hash: { string: {} },
 });
 
 export const Password = {

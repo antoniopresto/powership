@@ -1,5 +1,5 @@
 import { AccountsPassword } from '../AccountsPassword';
-import { createDefaultAccountEntity } from '../DefaultAccountsEntity';
+import { createDefaultAccountEntity } from '../AccountsEntity';
 import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
 
 describe('AccountsPassword', () => {
@@ -40,6 +40,31 @@ describe('AccountsPassword', () => {
       username: 'antoniopresto',
       email: 'antonio@example.com',
       request: {},
+    });
+
+    expect(sut).toEqual(_expectedUser());
+  });
+
+  test('userByPasswordLogin', async () => {
+    const accountsPassword = accounts();
+
+    await accountsPassword.createUser({
+      password: '1234567',
+      username: 'antoniopresto',
+      email: 'antonio@example.com',
+      request: {},
+    });
+
+    await expect(
+      accountsPassword.userByPasswordLogin({
+        password: 'wrongpass',
+        username: 'antoniopresto',
+      })
+    ).rejects.toThrow('LOGIN_FAILED');
+
+    const sut = await accountsPassword.userByPasswordLogin({
+      password: '1234567',
+      username: 'antoniopresto',
     });
 
     expect(sut).toEqual(_expectedUser());
