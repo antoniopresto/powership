@@ -1,14 +1,14 @@
 import { ulid } from '@backland/utils';
 import crypto from 'crypto';
 import { AccessType, accessTypesEnum } from './AccessType';
-import { AccountInput, AccountSchema } from './AccountSchema';
+import { Account, AccountInput, AccountSchema } from './AccountSchema';
 import { Password } from './Password';
 import { Token, tokenKindEnum } from './TokenType';
-import { AccountEntity } from './entity';
-import { EntityDocument } from '@backland/entity';
+import { AccountsEntity } from './DefaultAccountsEntity';
+import {  EntityDocument } from '@backland/entity';
 
 export interface PasswordHandlerOptions<
-  TEntity extends AccountEntity = AccountEntity
+  TEntity extends AccountsEntity = AccountsEntity
 > {
   accountEntity: TEntity;
 }
@@ -21,10 +21,10 @@ export type CreateUserPasswordInput = {
   username: string;
 };
 
-export class AccountsPassword<TEntity extends AccountEntity = AccountEntity> {
+export class AccountsPassword<TEntity extends AccountsEntity> {
   private options: PasswordHandlerOptions<TEntity>;
 
-  accountEntity: AccountEntity;
+  accountEntity: AccountsEntity;
 
   get addHooks() {
     return this.accountEntity.addHooks as TEntity['addHooks'];
@@ -46,7 +46,7 @@ export class AccountsPassword<TEntity extends AccountEntity = AccountEntity> {
     username,
     request,
     ...cleanUser
-  }: CreateUserPasswordInput): Promise<EntityDocument<TEntity>> {
+  }: CreateUserPasswordInput): Promise<DocType<TEntity>> {
     const date = new Date();
     const accountId = ulid();
 
@@ -83,33 +83,39 @@ export class AccountsPassword<TEntity extends AccountEntity = AccountEntity> {
       throw new Error(ret.error || 'Failed to create user');
     }
 
-    return ret.item as any;
+    return ret.item as DocType<TEntity>;
   }
 
   /**
    * Marks the user's email address as verified.
-   * @param userId Id used to update the user.
-   * @param email The email address to mark as verified.
+   * @param input
+   * @param input.userId Id used to update the user.
+   * @param input.email The email address to mark as verified.
    */
-  public async verifyEmail(userId: string, email: string): Promise<void> {
-    const emailKey = `access#${email}` as const;
+  public async verifyEmail(input: {
+    id: string;
+    email: string;
+  }): Promise<DocType<TEntity>> {
+    const { id, email } = input;
 
     const ret = await this.accountEntity.updateOne({
       condition: {
-        [emailKey]: { $exists: true },
+        'access.value': email,
       },
       context: {},
-      filter: { _id: userId },
+      filter: { id },
       update: {
         $set: {
-          'access.$.verifies': true,
+          'access.$.verified': true,
         },
       },
     });
 
     if (!ret.item) {
-      throw new Error('User not found');
+      throw new Error(ret.error || 'User not found');
     }
+
+    return ret.item as DocType<TEntity>;
   }
 
   /**
@@ -117,7 +123,10 @@ export class AccountsPassword<TEntity extends AccountEntity = AccountEntity> {
    * @param userId Id used to update the user.
    * @param newPassword A new password for the user.
    */
-  public async setPassword(userId: string, newPassword: string): Promise<void> {
+  public async setPassword(
+    userId: string,
+    newPassword: string
+  ): Promise<DocType<TEntity>> {
     const passwordToken: Token = {
       createdAt: new Date(),
       kind: tokenKindEnum.password,
@@ -142,6 +151,8 @@ export class AccountsPassword<TEntity extends AccountEntity = AccountEntity> {
     if (!ret.item) {
       throw new Error('User not found');
     }
+
+    return ret.item as DocType<TEntity>;
   }
 
   /**
@@ -154,7 +165,7 @@ export class AccountsPassword<TEntity extends AccountEntity = AccountEntity> {
     userId: string,
     email: string,
     token: string
-  ): Promise<void> {
+  ): Promise<DocType<TEntity>> {
     const tokenItem: Token = {
       createdAt: new Date(),
       kind: tokenKindEnum.email_verification,
@@ -179,6 +190,8 @@ export class AccountsPassword<TEntity extends AccountEntity = AccountEntity> {
     if (!ret.item) {
       throw new Error('User not found');
     }
+
+    return ret.item as DocType<TEntity>;
   }
 
   /**
@@ -191,7 +204,7 @@ export class AccountsPassword<TEntity extends AccountEntity = AccountEntity> {
     userId: string;
     reason: string;
     token?: string;
-  }): Promise<string> {
+  }): Promise<DocType<TEntity>> {
     const { userId, reason } = options;
     const token =
       options.token || (await Password.hash({ password: crypto.randomUUID() }));
@@ -222,7 +235,7 @@ export class AccountsPassword<TEntity extends AccountEntity = AccountEntity> {
       throw new Error('User not found');
     }
 
-    return token;
+    return ret.item as DocType<TEntity>;
   }
 
   /**
@@ -233,7 +246,7 @@ export class AccountsPassword<TEntity extends AccountEntity = AccountEntity> {
   public async removeAllResetPasswordTokens(
     userId: string,
     context: Record<string, any> = {}
-  ): Promise<void> {
+  ): Promise<DocType<TEntity>> {
     const ret = await this.accountEntity.updateOne({
       context: {},
       filter: { id: userId },
@@ -248,5 +261,11 @@ export class AccountsPassword<TEntity extends AccountEntity = AccountEntity> {
     if (!ret.item) {
       throw new Error('User not found');
     }
+
+    return ret.item as DocType<TEntity>;
   }
 }
+
+type DocType<TEntity> = TEntity extends { parse(...args: any[]): infer Res }
+  ? EntityDocument<Res> & Account
+  : Account;

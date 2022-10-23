@@ -39,14 +39,6 @@ describe('AccountSchema', () => {
           value: 'antonio@example.com',
         },
       ],
-      accessTypesByValue: {
-        'email#antonio@example.com': {
-          createdAt: expect.any(Date),
-          kind: 'email',
-          updatedAt: expect.any(Date),
-          value: 'antonio@example.com',
-        },
-      },
       accountId: expect.stringMatching(ULID_REGEX),
       deactivated: false,
       permissions: [],

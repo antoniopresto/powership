@@ -12,7 +12,8 @@ describe('AccessType', () => {
     });
 
     expect(sut).toEqual({
-      indexValue: 'phone#+5511941999999',
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date),
       kind: 'phone',
       value: '+5511941999999',
       verified: true,

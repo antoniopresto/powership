@@ -24,7 +24,7 @@ export const aliasesPlugin = createEntityPlugin('AliasesPlugin', {
       await delay(context.options.context.__testDelay);
     }
 
-    const memoryUpdate = aggioUpdate(dbDocument, update, indexConfig);
+    const memoryUpdate = aggioUpdate(dbDocument, update, indexConfig, context.options);
     const parsedMemoryUpdate = entity.databaseType.parse(memoryUpdate);
 
     const diffs = objectDiffPaths(dbDocument, parsedMemoryUpdate);

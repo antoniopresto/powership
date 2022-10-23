@@ -1,5 +1,6 @@
 import {
   AnyCollectionIndexConfig,
+  FilterRecord,
   parseUpdateExpression,
   UpdateExpression,
 } from '@backland/transporter';
@@ -25,8 +26,14 @@ export const _testingIndexConfig: AnyCollectionIndexConfig = {
 export function aggioUpdate<T extends TDocument>(
   doc: T,
   update: UpdateExpression<T>,
-  indexConfig: AnyCollectionIndexConfig
+  indexConfig: AnyCollectionIndexConfig,
+  options?: {
+    // when updating array by position, we need to provide the query
+    condition?: FilterRecord;
+  }
 ): T {
+  const { condition = {} } = options || {};
+
   const operations = parseUpdateExpression(update, indexConfig);
 
   const db = createDB({ docs: [doc] });
@@ -88,7 +95,7 @@ export function aggioUpdate<T extends TDocument>(
       }
 
       try {
-        db.update({}, parsed);
+        db.update(condition, parsed);
       } catch (e: any) {
         e.message = `Failed to run operation ${op.operator} ${e.message} ${
           e.message

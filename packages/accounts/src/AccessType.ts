@@ -26,7 +26,7 @@ export const AccessTypeSchema = createType({
       object: {
         ...AccessTypeBase.definition,
         kind: { literal: accessTypesEnum.phone },
-        value: 'phone',
+        value: accessTypesEnum.phone,
       },
     },
 

@@ -3,9 +3,9 @@ import { createType } from '@backland/schema';
 
 import { Account, AccountSchema } from './AccountSchema';
 
-export type AccountEntity = AnyEntity<Account>;
+export type AccountsEntity = AnyEntity<Account>;
 
-export function createDefaultAccountEntity(): AccountEntity {
+export function createDefaultAccountEntity(): AccountsEntity {
   const type = createType('Account', {
     object: AccountSchema.definition,
   });
@@ -28,5 +28,5 @@ export function createDefaultAccountEntity(): AccountEntity {
     ],
     name: 'Account',
     type,
-  }) as unknown as AccountEntity;
+  }) as unknown as AccountsEntity;
 }

@@ -2,33 +2,11 @@
 import { createSchema, createType, GraphType, Infer } from '@backland/schema';
 import { UnionToIntersection } from '@backland/utils';
 
-import { AccessType, AccessTypeSchema, accessTypesEnum } from './AccessType';
+import { AccessTypeSchema, accessTypesEnum } from './AccessType';
 import { Token, TokenSchema } from './TokenType';
 import { usernameType } from './validateUserName';
 
 type Cast<A1 extends any, A2 extends any> = A1 extends A2 ? A1 : never;
-
-export const AccessTypesByValue = createType('AccessTypesByValue', {
-  description:
-    'AccessTypes record shaped as {[`${accessTypeKind}_${accessTypeValue}`]: AccessType }',
-  alias: {
-    type: {
-      record: { key: 'string', type: AccessTypeSchema },
-    },
-    aggregate: [
-      { $pick: 'access' },
-      { $keyBy: { $template: '{kind}#{value}' } },
-    ],
-  },
-}) as unknown as GraphType<{
-  literal: UnionToIntersection<
-    {
-      [K in AccessType['kind']]: {
-        [L in `${K}_${string}`]: Cast<AccessType, { kind: K }>;
-      };
-    }[AccessType['kind']]
-  >;
-}>;
 
 export const AccountTokenByKind = createType('AccountTokenByKind', {
   description: 'AccessTypes record shaped as {[`${kind}`]: Token }',
@@ -63,9 +41,9 @@ export const AccountSchema = createSchema({
     alias: {
       type: 'email',
       aggregate: [
-        { $pick: 'access' }, //
+        { $pick: 'access' },
         { $matchOne: { kind: accessTypesEnum.email } },
-        { $pick: 'value' }, //
+        { $pick: 'value' },
       ],
     },
   },
@@ -75,9 +53,9 @@ export const AccountSchema = createSchema({
     alias: {
       type: 'phone',
       aggregate: [
-        { $pick: 'access' }, //
+        { $pick: 'access' },
         { $matchOne: { kind: accessTypesEnum.phone } },
-        { $pick: 'value' }, //
+        { $pick: 'value' },
       ],
     },
   },
@@ -88,8 +66,6 @@ export const AccountSchema = createSchema({
       min: 1,
     },
   },
-
-  accessTypesByValue: AccessTypesByValue,
 
   tokens: {
     array: { of: TokenSchema, min: 1 },
@@ -105,5 +81,5 @@ export const AccountSchema = createSchema({
 export type Account = Infer<typeof AccountSchema>;
 export type AccountInput = Omit<
   Account,
-  'accessTypesByValue' | 'tokenByKind' | 'accountId' | 'phone' | 'email'
+  'tokenByKind' | 'accountId' | 'phone' | 'email'
 >;
