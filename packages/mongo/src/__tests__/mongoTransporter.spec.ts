@@ -3,6 +3,7 @@ import { Collection } from 'mongodb';
 import {
   AnyCollectionIndexConfig,
   UpdateExpression,
+  UpdateManyConfig,
   UpdateOneConfig,
 } from '@backland/transporter';
 import { MongoTransporter } from '../MongoTransporter';
@@ -413,6 +414,40 @@ describe('MongoTransporter', () => {
     });
   });
 
+  describe('updateMany', () => {
+    it('should handle config.upsert using default false', async () => {
+      const config: UpdateManyConfig = {
+        context: {},
+        indexConfig,
+        filter: {
+          PK: 'a',
+          SK: '55555555_none_exists',
+          field: '_id',
+        },
+        update: { $set: { newField: 1 } },
+      };
+
+      const up1 = await transporter.updateMany({
+        ...config,
+      });
+
+      expect(up1).toEqual({
+        modifiedCount: 0,
+        upsertedId: null,
+      });
+
+      const up2 = await transporter.updateMany({
+        ...config,
+        upsert: true,
+      });
+
+      expect(up2).toEqual({
+        modifiedCount: 0,
+        upsertedId: expect.any(String),
+      });
+    });
+  });
+
   describe('deleteOne', () => {
     it('should handle keyPair', async () => {
       await Promise.all([
@@ -501,6 +536,97 @@ describe('MongoTransporter', () => {
       });
 
       expect(removed2).toHaveProperty('item.email', 'abc@bb.cc');
+    });
+  });
+
+  describe('deleteMany', () => {
+    it('should handle keyPair', async () => {
+      await Promise.all([
+        transporter.createOne({
+          indexConfig,
+          context: {},
+          item: {
+            PK: 'a',
+            SK: 'b',
+          },
+        }),
+        transporter.createOne({
+          indexConfig,
+          context: {},
+          item: {
+            PK: 'a',
+            SK: 'c',
+          },
+        }),
+      ]);
+
+      const removed = await transporter.deleteMany({
+        indexConfig,
+        context: {},
+        filter: {
+          PK: 'a',
+          SK: 'b',
+        },
+      });
+
+      expect(removed).toEqual({ deletedCount: 1 });
+
+      const removed2 = await transporter.deleteMany({
+        indexConfig,
+        context: {},
+        filter: {
+          PK: 'a',
+          SK: 'b',
+        },
+      });
+
+      expect(removed2).toEqual({ deletedCount: 0 });
+    });
+
+    it('should handle condition', async () => {
+      await Promise.all([
+        transporter.createOne({
+          indexConfig,
+          context: {},
+          item: {
+            PK: 'a',
+            SK: 'b',
+            email: 'abc@bb.cc',
+          },
+        }),
+        transporter.createOne({
+          indexConfig,
+          context: {},
+          item: {
+            PK: 'a',
+            SK: 'c',
+          },
+        }),
+      ]);
+
+      const removed1 = await transporter.deleteMany({
+        indexConfig,
+        context: {},
+        filter: {
+          PK: 'a',
+          SK: 'b',
+        },
+        condition: { email: { $startsWith: 'xxx' } },
+      });
+
+      expect(removed1).toEqual({ deletedCount: 0 });
+
+      const removed2 = await transporter.deleteMany({
+        indexConfig,
+        context: {},
+        filter: {
+          PK: 'a',
+          SK: 'b',
+        },
+        condition: { email: { $startsWith: 'abc' } },
+      });
+
+      expect(removed2).toEqual({ deletedCount: 1 });
     });
   });
 

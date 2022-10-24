@@ -3,6 +3,8 @@ import {
   CreateOneConfig,
   CreateOneResult,
   DEFAULT_SORT,
+  DeleteManyConfig,
+  DeleteManyResult,
   DeleteOneConfig,
   DeleteOneResult,
   FindByIdConfig,
@@ -14,6 +16,8 @@ import {
   PaginationResult,
   parseUpdateExpression,
   Transporter,
+  UpdateManyConfig,
+  UpdateManyResult,
   UpdateOneConfig,
   UpdateOneResult,
 } from '@backland/transporter';
@@ -277,8 +281,12 @@ export class MongoTransporter implements Transporter {
     });
   }
 
-  async updateOne(options: UpdateOneConfig): Promise<UpdateOneResult> {
-    const { update, upsert, indexConfig, filter, condition } = options;
+  _parseUpdateParams(
+    options:
+      | { kind: 'updateOne'; params: UpdateOneConfig }
+      | { kind: 'updateMany'; params: UpdateManyConfig }
+  ) {
+    const { update, upsert, indexConfig, filter, condition } = options.params;
 
     const parsedFilter = createMongoIndexBasedFilters({
       filter,
@@ -292,6 +300,26 @@ export class MongoTransporter implements Transporter {
     if (condition) {
       parsedFilter.push(...parseMongoAttributeFilters(condition));
     }
+
+    return {
+      collection,
+      condition,
+      filter,
+      indexConfig,
+      parsedFilter,
+      parsedUpdate,
+      update,
+      updateExpression,
+      upsert,
+    };
+  }
+
+  async updateOne(options: UpdateOneConfig): Promise<UpdateOneResult> {
+    const { upsert, updateExpression, collection, parsedFilter } =
+      this._parseUpdateParams({
+        kind: 'updateOne',
+        params: options,
+      });
 
     try {
       const result = await collection.findOneAndUpdate(
@@ -321,6 +349,37 @@ export class MongoTransporter implements Transporter {
     }
   }
 
+  async updateMany(options: UpdateManyConfig): Promise<UpdateManyResult> {
+    const { upsert, updateExpression, collection, parsedFilter } =
+      this._parseUpdateParams({
+        kind: 'updateMany',
+        params: options,
+      });
+
+    try {
+      const result = await collection.updateMany(
+        { $and: parsedFilter },
+        updateExpression,
+        {
+          upsert,
+        }
+      );
+
+      const { modifiedCount, upsertedId } = result;
+
+      return {
+        modifiedCount,
+        upsertedId,
+      };
+    } catch (e: any) {
+      return {
+        error: e.message,
+        modifiedCount: null,
+        upsertedId: null,
+      };
+    }
+  }
+
   async deleteOne(options: DeleteOneConfig): Promise<DeleteOneResult> {
     const { indexConfig, condition, filter } = options;
 
@@ -338,6 +397,27 @@ export class MongoTransporter implements Transporter {
     const { value } = await collection.findOneAndDelete({ $and: parsedFilter });
 
     return { item: value as any };
+  }
+
+  async deleteMany(options: DeleteManyConfig): Promise<DeleteManyResult> {
+    const { indexConfig, condition, filter } = options;
+
+    const parsedFilter = createMongoIndexBasedFilters({
+      filter,
+      indexConfig,
+    });
+
+    const collection = this.getCollection(parsedFilter);
+
+    if (condition) {
+      parsedFilter.push(...parseMongoAttributeFilters(condition));
+    }
+
+    const { deletedCount } = await collection.deleteMany({
+      $and: parsedFilter,
+    });
+
+    return { deletedCount };
   }
 
   getCollection(_info: unknown) {
