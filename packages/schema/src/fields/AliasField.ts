@@ -50,7 +50,7 @@ export class AliasField<InputDef extends AliasFieldDef = any> extends FieldType<
     );
 
     this.utils = {
-      fieldType: type.__field,
+      fieldType: type.__lazyGetter.field,
     };
 
     this.composer = {

@@ -1,6 +1,7 @@
 import { getTypeName } from '@backland/utils/lib/getTypeName';
 
 import { FieldType, FieldTypeParser } from './FieldType';
+import { createFieldTypeError } from './FieldTypeErrors';
 
 export type UnknownFieldDef = {
   types?: string[] | string;
@@ -21,7 +22,7 @@ export class UnknownField extends FieldType<
       parse: (input) => {
         if (input === undefined) {
           if (this.optional) return input;
-          throw new Error(`required field`);
+          throw createFieldTypeError('requiredMissing', { input });
         }
 
         if (types?.length) {

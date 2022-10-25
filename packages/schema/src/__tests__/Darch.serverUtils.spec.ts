@@ -60,7 +60,7 @@ describe('Backland aliases', () => {
 
     assert<IsExact<{ name: string }, U>>(true);
 
-    expect(() => obj.parse({})).toThrow('➤ field "name": required field.');
+    expect(() => obj.parse({})).toThrow('➤ field "name": RequiredMissing');
   });
 
   test('graphql', () => {

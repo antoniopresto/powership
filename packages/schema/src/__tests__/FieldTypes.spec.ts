@@ -32,7 +32,7 @@ describe('FieldTypes', () => {
       );
       expect(() =>
         StringField.create({ regex: ['MIN.'] }).parse('mine')
-      ).toThrowError('Invalid');
+      ).toThrowError(`RegexMismatch`);
     });
 
     it('accept custom parse message', () => {
@@ -126,7 +126,7 @@ describe('FieldTypes', () => {
       );
       expect(() =>
         UlidField.create({ autoCreate: false }).parse(undefined)
-      ).toThrow('required');
+      ).toThrow('RequiredMissing: { input: undefined }');
 
       const VALID = '01FH3RMAQ4QWJ0ZJB73G4BPEEK';
       expect(UlidField.create().parse(VALID)).toEqual(VALID);
@@ -193,7 +193,9 @@ describe('FieldTypes', () => {
 
   describe('IntField', () => {
     it('parses', () => {
-      expect(() => IntField.create().parse(undefined)).toThrow('required');
+      expect(() => IntField.create().parse(undefined)).toThrow(
+        'RequiredMissing: { input: undefined }'
+      );
       expect(() => IntField.create({ min: 1000 }).parse(5)).toThrow(
         '5 is less than the minimum 1000.'
       );
@@ -260,7 +262,9 @@ describe('FieldTypes', () => {
 
   describe('FloatField', () => {
     it('parses', () => {
-      expect(() => FloatField.create().parse(undefined)).toThrow('required');
+      expect(() => FloatField.create().parse(undefined)).toThrow(
+        'RequiredMissing: { input: undefined }'
+      );
       expect(() => FloatField.create({ min: 1000 }).parse(5)).toThrow(
         '5 is less than the minimum 1000.'
       );
@@ -325,7 +329,7 @@ describe('FieldTypes', () => {
   describe('EnumField', () => {
     it('parses', () => {
       expect(() => EnumField.create(['a', 'b']).parse(undefined)).toThrow(
-        'required field'
+        'RequiredMissing: { input: undefined }'
       );
       expect(() => EnumField.create(['a', 'b']).parse(null)).toThrow(
         "accepted: 'a' or 'b', found null."
@@ -390,7 +394,9 @@ describe('FieldTypes', () => {
 
   describe('EmailField', () => {
     it('parses', () => {
-      expect(() => EmailField.create().parse(undefined)).toThrow('required');
+      expect(() => EmailField.create().parse(undefined)).toThrow(
+        'RequiredMissing: { input: undefined }'
+      );
       expect(() => EmailField.create().parse(null)).toThrow(
         'Expected value to be of type "string", found null instead.'
       );
@@ -446,7 +452,9 @@ describe('FieldTypes', () => {
 
   describe('RecordField', () => {
     it('parses', () => {
-      expect(() => RecordField.create().parse(undefined)).toThrow('required');
+      expect(() => RecordField.create().parse(undefined)).toThrow(
+        'RequiredMissing: { input: undefined }'
+      );
 
       expect(() => RecordField.create().parse(null)).toThrow(
         'Expected value to be of type "object", found null instead.'
@@ -580,7 +588,9 @@ describe('FieldTypes', () => {
 
   describe('DateField', () => {
     it('parses', () => {
-      expect(() => DateField.create().parse(undefined)).toThrow('required');
+      expect(() => DateField.create().parse(undefined)).toThrow(
+        'RequiredMissing: { input: undefined }'
+      );
       expect(() => DateField.create().parse(null)).toThrow(
         'Expected value to be of type "date or string or number", found null instead.'
       );
@@ -659,7 +669,7 @@ describe('FieldTypes', () => {
   describe('CursorField', () => {
     it('parses', () => {
       expect(() => CursorField.create().parse(undefined)).toThrow(
-        'required field'
+        'RequiredMissing: { input: undefined }'
       );
       expect(() => CursorField.create().parse(null)).toThrow('Invalid input.');
       expect(() => CursorField.create().parse(12)).toThrow(
@@ -673,7 +683,7 @@ describe('FieldTypes', () => {
         CursorField.create().parse({
           a: 1,
         })
-      ).toThrow(`➤ field "PK": required field.`);
+      ).toThrow(`➤ field "PK": RequiredMissing`);
 
       expect(
         CursorField.create().parse({
@@ -760,7 +770,7 @@ describe('FieldTypes', () => {
   describe('BooleanField', () => {
     it('parses', () => {
       expect(() => BooleanField.create().parse(undefined)).toThrow(
-        'required field'
+        'RequiredMissing: { input: undefined }'
       );
       expect(() => BooleanField.create().parse(null)).toThrow(
         'Expected boolean, found Null'
@@ -817,7 +827,9 @@ describe('FieldTypes', () => {
 
   describe('UnknownField', () => {
     it('parses', () => {
-      expect(() => UnknownField.create().parse(undefined)).toThrow('required');
+      expect(() => UnknownField.create().parse(undefined)).toThrow(
+        'RequiredMissing: { input: undefined }'
+      );
       expect(UnknownField.create().parse(null)).toBe(null);
 
       expect(() =>

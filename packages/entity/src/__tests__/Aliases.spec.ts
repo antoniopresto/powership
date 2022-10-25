@@ -148,7 +148,7 @@ describe('Aliases', () => {
           update: { $remove: ['access.0'] },
           context: {},
         })
-      ).rejects.toThrow('field "email": required field.');
+      ).rejects.toThrow('field "email": RequiredMissing');
     });
 
     test('update optional item used in  alias', async () => {

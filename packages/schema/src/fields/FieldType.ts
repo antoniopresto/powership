@@ -6,7 +6,7 @@ import {
 } from '../applyValidator';
 
 import { arrayFieldParse } from './ArrayFieldParse';
-import { isFieldError } from './FieldTypeErrors';
+import { createFieldTypeError, isFieldError } from './FieldTypeErrors';
 import {
   FieldDefinitions,
   FieldTypeName,
@@ -160,7 +160,7 @@ export abstract class FieldType<
       }
 
       if (input === undefined && !this.optional) {
-        throw new Error(`required field`);
+        throw createFieldTypeError('requiredMissing', { input });
       }
 
       if (this.asFinalFieldDef.list) {
@@ -175,7 +175,7 @@ export abstract class FieldType<
       try {
         return parser.parse(input, options) as any;
       } catch (originalError: any) {
-        if (isFieldError(originalError)) {
+        if (!customMessage && isFieldError(originalError)) {
           throw originalError;
         }
 

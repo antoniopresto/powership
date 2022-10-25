@@ -9,7 +9,7 @@
 !.vscode/extensions.json
 
 lerna-debug.log
-
+./.run
 # dependencies
 node_modules
 
@@ -74,3 +74,4 @@ webpack-stats.json
 # Modern Relay
 __generated__
 lib/
+/.idea/

@@ -1,6 +1,5 @@
-import { FieldDefinitionConfig } from '../TObjectConfig';
+import { LazyParseGraphTypePayload } from '../GraphType/GraphType';
 
-import { TAnyFieldType } from './FieldType';
 import { FinalFieldDefinition } from './_parseFields';
 
 export interface ObjectLike {
@@ -9,11 +8,9 @@ export interface ObjectLike {
 }
 
 export interface GraphTypeLike {
-  __field: TAnyFieldType;
   __isGraphType: true;
-  readonly _object: ObjectLike | undefined;
+  __lazyGetter: LazyParseGraphTypePayload;
   definition: FinalFieldDefinition;
-  definitionInput: FieldDefinitionConfig;
   readonly id: string;
   readonly optionalId: string | undefined;
 }

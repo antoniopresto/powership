@@ -376,7 +376,7 @@ function queryExamples({
     Object.entries(resolversRecord).forEach(([name, parsed]) => {
       if (resolverName && resolverName !== name) return;
       const resolver = notNull(resolvers.find((el) => el.name === name));
-      const argsDef = resolver.argsType._object?.definition;
+      const argsDef = resolver.argsType.__lazyGetter.objectType?.definition;
       const argsExamples = argsDef
         ? objectMock(argsDef, { randomNumber, randomText })
         : '';

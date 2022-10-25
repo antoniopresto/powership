@@ -110,7 +110,7 @@ describe('createType', () => {
     expect(sut.definition.type).toEqual('object');
 
     expect(ObjectType.register.get(name)).toEqual(object);
-    expect((sut.__field as any).utils.object).toEqual(object);
+    expect((sut.__lazyGetter.field as any).utils.object).toEqual(object);
   });
 
   it('should create a new Object when a different id is provided', async () => {
@@ -122,8 +122,8 @@ describe('createType', () => {
 
     expect(ObjectType.register.get('Original')).toEqual(object);
 
-    expect((sut.__field as any).utils.object).not.toEqual(object);
-    expect((sut.__field as any).utils.object.id).toEqual('AClone');
+    expect((sut.__lazyGetter.field as any).utils.object).not.toEqual(object);
+    expect((sut.__lazyGetter.field as any).utils.object.id).toEqual('AClone');
   });
 
   it('should print graphql types', async () => {
@@ -308,17 +308,17 @@ describe('createType', () => {
   });
 
   it('Should validate against overriding register', () => {
-    createType('t1', { object: { name: 'string' } });
-    expect(() => createType('t1', { object: { name: 'int' } })).toThrow(
+    createType('t1', { object: { name: 'string' } }).touch();
+    expect(() => createType('t1', { object: { name: 'int' } }).touch()).toThrow(
       'An Object with name "t1" is already registered with another definition.'
     );
-    createType('t1', { object: { name: 'string' } });
+    createType('t1', { object: { name: 'string' } }).touch();
 
-    createType('t2', 'int?');
-    expect(() => createType('t2', 'int')).toThrow(
+    createType('t2', 'int?').touch();
+    expect(() => createType('t2', 'int').touch()).toThrow(
       'Different type already registered with name "t2"'
     );
-    createType('t2', 'int?');
+    createType('t2', 'int?').touch();
   });
 
   it('handles enums', async () => {

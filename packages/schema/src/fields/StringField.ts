@@ -32,8 +32,8 @@ export class StringField extends FieldType<
 
         if (regExp && !regExp.test(input) && regex) {
           throw new FieldTypeError(`regexMismatch`, {
-            regex: regExp.toString(),
             input,
+            regex: regExp.toString(),
           });
         }
 

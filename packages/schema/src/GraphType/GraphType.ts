@@ -9,9 +9,13 @@ import type {
   GraphQLNamedType,
 } from 'graphql';
 
-import { CircularDeps } from '../CircularDeps';
+import { BacklandModules, CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';
-import { createObjectType, ObjectType } from '../ObjectType';
+import {
+  createObjectType,
+  FinalFieldDefinition,
+  ObjectType,
+} from '../ObjectType';
 import type { AnyResolver } from '../Resolver';
 import { FieldDefinitionConfig } from '../TObjectConfig';
 import { extendDefinition, ExtendDefinitionResult } from '../extendDefinition';
@@ -38,10 +42,6 @@ export class GraphType<Definition extends ObjectFieldInput> {
   };
 
   readonly definition: ToFinalField<Definition>;
-  readonly definitionInput: FieldDefinitionConfig;
-
-  __field: TAnyFieldType;
-  __id: string | undefined;
 
   get id(): string {
     if (this.optionalId) return this.optionalId;
@@ -54,97 +54,60 @@ export class GraphType<Definition extends ObjectFieldInput> {
         '',
         '',
       ].join('\n'),
-      this.definitionInput
+      this.__lazyGetter.definitionInput
     );
   }
 
   get optionalId(): string | undefined {
-    return this.__id;
+    return this.__lazyGetter.id;
   }
 
-  readonly _object: ObjectType<any> | undefined;
-
   constructor(
-    definition: Definition extends ObjectFieldInput ? Definition : never
+    definition: Definition extends ObjectFieldInput
+      ? Definition | (() => Definition)
+      : never
   );
 
   constructor(
     name: string,
-    definition: Definition extends ObjectFieldInput ? Definition : never
+    definition: Definition extends ObjectFieldInput
+      ? Definition | (() => Definition)
+      : never
   );
 
-  constructor(...args: any[]) {
-    // @ts-ignore
-    GraphType.__construct(this, ...args);
-    if (this.__id) this.identify(this.__id);
+  constructor(...args: GraphTypeArgs) {
+    const { initializer, idFromArgs } = lazyCreateGraphTypeInitPayload(args);
+
+    Object.defineProperty(this, '__lazyGetter', {
+      get() {
+        return initializer();
+      },
+    });
+
+    Object.defineProperty(this, 'definition', {
+      enumerable: true,
+      get() {
+        return initializer().definition;
+      },
+    });
+
+    if (idFromArgs) {
+      this.identify(idFromArgs);
+    }
   }
 
-  static __construct = (
-    self: GraphType<any>,
-    ...args: [string, any] | [any]
-  ) => {
-    let name: string | undefined = undefined;
-    let definition: ObjectFieldInput;
+  // used to lazy process input definition to improve circular dependency in types
+  __lazyGetter: LazyParseGraphTypePayload;
 
-    if (args.length === 2) {
-      name = args[0];
-      definition = args[1] as ObjectFieldInput;
-    } else {
-      definition = args[0] as ObjectFieldInput;
-    }
-
-    Object.assign(self, {
-      definitionInput: definition,
-    });
-
-    self.__field = parseObjectField('temp', definition, {
-      returnInstance: true,
-    });
-
-    if (
-      ObjectField.is(self.__field) &&
-      ObjectType.is(self.__field.utils.object)
-    ) {
-      if (
-        name &&
-        self.__field.utils.object.id &&
-        self.__field.utils.object.id !== name
-      ) {
-        self.__field.utils.object = self.__field.utils.object
-          .clone()
-          .objectType(name);
-      } else if (name) {
-        self.__field.utils.object.identify(name);
-      } else {
-        name = getObjectDefinitionId(
-          self.__field.utils.object.definition,
-          true // make nullable, the error below about undefined name is more clear
-        );
-      }
-
-      Object.assign(self, {
-        _object: self.__field.utils.object,
-      });
-    }
-
-    Object.assign(self, {
-      definition: self.__field.asFinalFieldDef,
-    });
-
-    if (name) {
-      self.identify(name);
-    }
-  };
+  touch() {
+    // just dispatch lazy loader getters
+    this.__lazyGetter.id;
+    return this;
+  }
 
   private __hidden: boolean = false;
 
   identify = (name: string) => {
-    const self = this as any;
-
-    self.__id = name;
-    self.__field.id = name;
-    self.definition = self.__field.asFinalFieldDef;
-
     if (GraphType.register.has(name)) {
       const existing = GraphType.register.get(name);
 
@@ -167,7 +130,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   };
 
   set hidden(value) {
-    this.__field.hidden = value;
+    this.__lazyGetter.field.hidden = value;
     this.__hidden = value;
   }
 
@@ -186,7 +149,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
     if (this.__hidden && !_options.includeHidden) return undefined as any;
 
     try {
-      return this.__field.parse(input, customMessage) as any;
+      return this.__lazyGetter.field.parse(input, customMessage) as any;
     } catch (e: any) {
       e.message = `➤ ${this.optionalId || ''} ${e.message}`;
       throw e;
@@ -196,11 +159,11 @@ export class GraphType<Definition extends ObjectFieldInput> {
   _toGraphQL = (): ConvertFieldResult => {
     // @ts-ignore
     return CircularDeps.GraphQLParser.fieldToGraphQL({
-      field: this.__field,
+      field: this.__lazyGetter.field,
       fieldName: this.id,
       parentName: this.id,
       path: [`Type_${this.id}`],
-      plainField: this.__field.asFinalFieldDef,
+      plainField: this.__lazyGetter.field.asFinalFieldDef,
     }) as any;
   };
 
@@ -219,12 +182,12 @@ export class GraphType<Definition extends ObjectFieldInput> {
   graphQLInterface = (
     ...args: Parameters<GraphQLParserResult['interfaceType']>
   ): GraphQLInterfaceType => {
-    if (!this._object) {
+    if (!this.__lazyGetter.objectType) {
       throw new Error('graphQLInterface is only available for object type');
     }
     // @ts-ignore
     return CircularDeps.GraphQLParser.objectToGraphQL({
-      object: this._object,
+      object: this.__lazyGetter.objectType,
     }).interfaceType(...args) as any;
   };
 
@@ -232,6 +195,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
     ToFinalField<Definition>,
     ToFinalField<Definition>
   > {
+    // @ts-ignore
     return extendDefinition(this.definition) as any;
   }
 
@@ -259,7 +223,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   ): Promise<string> => {
     // @ts-ignore
     const object =
-      this._object ||
+      this.__lazyGetter.objectType ||
       createObjectType({
         [this.id]: this.definition,
       });
@@ -307,13 +271,102 @@ export class GraphType<Definition extends ObjectFieldInput> {
   }
 }
 
+export type LazyParseGraphTypePayload = {
+  // id can be from args or from the inner type, like an object type with id
+  definition: FinalFieldDefinition;
+  definitionInput:
+    | ObjectFieldInput
+    | ((utils: BacklandModules) => ObjectFieldInput);
+  field: TAnyFieldType;
+  // object lazy created when the corresponding getter in GraphType is called
+  id: string | undefined;
+  idFromArgs: string | undefined;
+  objectType?: ObjectType<any>;
+};
+
+export type GraphTypeArgs<Def extends ObjectFieldInput = ObjectFieldInput> =
+  | [string, Def | ((utils: BacklandModules) => Def)]
+  | [Def | ((utils: BacklandModules) => Def)];
+
+// used to lazy parse args to improve circular types usage
+export function lazyCreateGraphTypeInitPayload(
+  args: GraphTypeArgs,
+  onLoad?: (payload: LazyParseGraphTypePayload) => any
+) {
+  let payload: LazyParseGraphTypePayload;
+
+  let id: string | undefined = undefined;
+
+  let definitionInput:
+    | ObjectFieldInput
+    | ((utils: BacklandModules) => ObjectFieldInput);
+
+  let idFromArgs;
+  if (args.length === 2) {
+    idFromArgs = id = args[0];
+    definitionInput = args[1];
+  } else {
+    definitionInput = args[0];
+  }
+
+  function initializer(): LazyParseGraphTypePayload {
+    if (payload) return payload;
+
+    const def =
+      typeof definitionInput === 'function'
+        ? definitionInput(CircularDeps)
+        : definitionInput;
+
+    const field = parseObjectField('temp', def, {
+      returnInstance: true,
+    }) as TAnyFieldType & { utils: { object?: any } };
+
+    if (ObjectField.is(field) && ObjectType.is(field.utils.object)) {
+      if (id && field.utils.object.id && field.utils.object.id !== id) {
+        field.utils.object = field.utils.object.clone().objectType(id);
+      } else if (id) {
+        field.utils.object.identify(id);
+      } else {
+        // @ts-ignore (deep)
+        id = getObjectDefinitionId(
+          field.utils.object.definition,
+          true // make nullable, the error below about undefined name is more clear
+        );
+      }
+    }
+
+    payload = {
+      definition: field.asFinalFieldDef,
+
+      definitionInput,
+
+      field,
+      // id can be from inner type, like an object type with id or defined in an argument of createType
+      id,
+      idFromArgs,
+      objectType: field.utils?.object,
+    };
+
+    onLoad?.(payload);
+
+    return payload;
+  }
+
+  return {
+    // id can also be from inner type, like an object type with id
+    definitionInput,
+    idFromArgs,
+    initializer,
+  };
+}
+
 export function createType<Definition extends ObjectFieldInput>(
-  definition: Definition
+  definition: Definition | ((utils: BacklandModules) => Definition)
 ): GraphType<Definition>;
 
 export function createType<Definition extends ObjectFieldInput>(
   name: string,
-  definition: Definition
+  definition: Definition | ((utils: BacklandModules) => Definition)
 ): GraphType<Definition>;
 
 export function createType(...args: any[]) {

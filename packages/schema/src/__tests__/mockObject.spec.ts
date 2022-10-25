@@ -26,25 +26,27 @@ describe('mockObject', () => {
       },
     } as const);
 
-    expect(objectMock(ProductType._object!.definition)).toEqual({
-      alcoholic: expect.any(Boolean),
-      attributes: expect.any(Object),
-      brand: expect.any(String),
-      categories: expect.any(Array),
-      currentPrice: expect.any(Number),
-      detailsUrl: expect.any(String),
-      html: expect.any(String),
-      priceFrom: expect.any(Number),
-      sellPrice: expect.any(Number),
-      shortDescription: expect.any(String),
-      sku: expect.any(String),
-      slug: expect.any(String),
-      spotlight: expect.any(Boolean),
-      storeId: expect.any(String),
-      tags: expect.any(Array),
-      thumbUrl: expect.any(String),
-      title: expect.any(String),
-      lit: { a: 1 },
-    });
+    expect(objectMock(ProductType.__lazyGetter.objectType!.definition)).toEqual(
+      {
+        alcoholic: expect.any(Boolean),
+        attributes: expect.any(Object),
+        brand: expect.any(String),
+        categories: expect.any(Array),
+        currentPrice: expect.any(Number),
+        detailsUrl: expect.any(String),
+        html: expect.any(String),
+        priceFrom: expect.any(Number),
+        sellPrice: expect.any(Number),
+        shortDescription: expect.any(String),
+        sku: expect.any(String),
+        slug: expect.any(String),
+        spotlight: expect.any(Boolean),
+        storeId: expect.any(String),
+        tags: expect.any(Array),
+        thumbUrl: expect.any(String),
+        title: expect.any(String),
+        lit: { a: 1 },
+      }
+    );
   });
 });

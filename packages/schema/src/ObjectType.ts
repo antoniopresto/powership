@@ -9,13 +9,13 @@ import { invariantType } from '@backland/utils/lib/invariant';
 import { Serializable } from '@backland/utils/lib/typeUtils';
 import type { GraphQLInterfaceType, GraphQLObjectType } from 'graphql';
 
-import { CircularDeps } from './CircularDeps';
+import { BacklandModules, CircularDeps } from './CircularDeps';
 import type {
   GraphQLParserResult,
   ParseInputTypeOptions,
+  ParseInterfaceOptions,
   ParseTypeOptions,
 } from './GraphType/GraphQLParser';
-import type { ParseInterfaceOptions } from './GraphType/GraphQLParser';
 import { GraphQLParseMiddleware } from './GraphType/GraphQLParser';
 import type { Infer } from './Infer';
 import type { ObjectDefinitionInput } from './TObjectConfig';
@@ -70,23 +70,37 @@ export class ObjectType<
 
   static __isBacklandObject: boolean = true;
 
-  private readonly __definition: any;
-
   __withCache: WithCache<{
     helpers: ObjectHelpers;
   }>;
 
-  constructor(objectDef: HandledInput) {
-    if (!objectDef || typeof objectDef !== 'object') {
-      throw new Error('Expected object definition to be an object');
-    }
-    const parsed = parseObjectDefinition(objectDef);
-    this.__definition = parsed.definition;
+  inputDefinition:
+    | ObjectDefinitionInput
+    | ((modules: BacklandModules) => ObjectDefinitionInput);
+
+  constructor(
+    objectDef: HandledInput | ((modules: BacklandModules) => HandledInput)
+  ) {
+    this.inputDefinition = objectDef as ObjectDefinitionInput;
     this.__withCache = withCache(this);
   }
 
+  private __definitionCache: any;
   get definition(): ParseFields<HandledInput> {
-    return this.__definition;
+    return (this.__definitionCache =
+      this.__definitionCache ||
+      (() => {
+        const objectDef =
+          typeof this.inputDefinition === 'function'
+            ? this.inputDefinition(CircularDeps)
+            : this.inputDefinition;
+
+        if (!objectDef || typeof objectDef !== 'object') {
+          throw new Error('Expected object definition to be an object');
+        }
+
+        return parseObjectDefinition(objectDef).definition;
+      })());
   }
 
   get description() {
@@ -113,11 +127,11 @@ export class ObjectType<
   }
 
   get meta(): MetaFieldDef {
-    return this.__definition[objectMetaFieldKey].def;
+    return this.definition[objectMetaFieldKey].def;
   }
 
   __setMetaData(k: keyof MetaFieldDef, value: Serializable) {
-    this.__definition[objectMetaFieldKey].def[k] = value;
+    this.definition[objectMetaFieldKey].def[k] = value;
   }
 
   parse(
@@ -446,19 +460,27 @@ export class ObjectType<
    */
   static getOrSet = <T extends ObjectDefinitionInput>(
     id: string,
-    def: T
+    def: T | (() => T)
   ): ObjectType<T> => {
     const existing =
       ObjectType.register.has(id) &&
       (ObjectType.register.get(id) as ObjectType<T>);
 
     if (existing) {
-      !isProduction() && assertSameDefinition(id, def, existing.definition);
+      !isProduction() &&
+        assertSameDefinition(
+          id,
+          typeof def === 'function' ? def() : def,
+          existing.definition
+        );
       return existing;
     }
 
     // @ts-ignore
-    return new ObjectType(def).identify(id);
+    return new ObjectType(() => {
+      def = typeof def === 'function' ? def() : def;
+      return def;
+    }).identify(id);
   };
 
   graphQLMiddleware: GraphQLParseMiddleware[] = [];

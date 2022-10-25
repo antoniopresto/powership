@@ -12,20 +12,20 @@ describe('GraphType.asField', () => {
   afterEach(ObjectType.reset);
 
   it('parseSchemaField', async () => {
-    const user = createType('user', {
+    const user = createType('user', ({ types }) => ({
       object: {
         name: 'string?',
-        age: 'int?',
+        age: types.int.create().toOptional(),
       },
-    });
+    }));
 
     const userNode = createType('userNode', user);
 
-    const userNodeNode = createType('userNodeNode', {
+    const userNodeNode = createType('userNodeNode', () => ({
       type: userNode,
       list: true,
       description: 'userNodeNode is cool',
-    });
+    }));
 
     expect(userNodeNode.definition).toMatchObject({
       def: user.definition.def,

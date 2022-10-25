@@ -9,7 +9,7 @@ import { ToFinalField } from '../fields/_parseFields';
 describe('Union', () => {
   it('parses', () => {
     expect(() => UnionField.create(['string', 'int']).parse(undefined)).toThrow(
-      'required field'
+      'RequiredMissing: { input: undefined }'
     );
 
     expect(() => {
@@ -40,7 +40,7 @@ describe('Union', () => {
     );
 
     expect(() => sut.parse([{ name: 1 }])).toThrow(
-      '➤ field "sub": required field. at position 0'
+      '➤ field "sub": RequiredMissing: { input: undefined }. at position 0'
     );
 
     expect(
@@ -632,7 +632,7 @@ describe('Union', () => {
     ]).toOptional();
 
     expect(() => sut.parse('')).toThrow(
-      'As string throws: 0 is less than the min string length 1.'
+      `As string throws: MinSize: 0 is less than the min string length 1`
     );
 
     expect(() => sut.parse('')).toThrow(

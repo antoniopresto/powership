@@ -8,7 +8,8 @@ export const FieldTypeErrorCodes = tuple(
   'unexpected',
   'unexpectedType',
   'custom',
-  'invalidPhone'
+  'invalidPhone',
+  'requiredMissing'
 );
 
 export type FieldTypeErrorCode = typeof FieldTypeErrorCodes[number];
