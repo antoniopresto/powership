@@ -7,16 +7,18 @@ import {
   ToFinalField,
 } from '@backland/schema';
 import {
+  CollectionConfigIndexes,
   CreateOneResult,
   DocumentBase,
   DocumentMethods,
   LoaderContext,
   ParsedDocumentIndexes,
   ParsedIndexKey,
+  Transporter,
   TransporterLoaderName,
   TransporterLoadersRecord,
 } from '@backland/transporter';
-import { MaybeArray, UnionToIntersection } from '@backland/utils';
+import { Cast, MaybeArray, Merge, UnionToIntersection } from '@backland/utils';
 
 import {
   EntityGraphQLConditionsType,
@@ -113,8 +115,9 @@ type _Entity<Options extends EntityOptions> = {
   aliasPaths: string[]; // paths of found aliases in entity schemas or sub schemas
 
   clone: <O extends EntityOptions>(
-    handler: (originalOptions: Options) => O
+    handler: ((originalOptions: Options) => O) | Partial<O>
   ) => Entity<O>;
+
   conditionsDefinition: {
     def: EntityGraphQLConditionsType<_getOptionsTypeDef<Options>>;
     type: 'object';
@@ -154,6 +157,7 @@ type _Entity<Options extends EntityOptions> = {
     : never;
 
   name: Options['name'];
+
   originType: Options['type'];
 
   paginationType: PaginationType<Options['type']>;
@@ -163,6 +167,16 @@ type _Entity<Options extends EntityOptions> = {
   ) => EntityDocFromType<Options['type']>;
 
   parseDocumentIndexes(doc: Record<string, any>): ParsedDocumentIndexes;
+
+  setOption: <ON extends keyof EntityOptions, NV extends EntityOptions[ON]>(
+    optionName: ON,
+    value: NV
+  ) => Entity<
+    Cast<
+      { [K in keyof Options]: K extends ON ? NV : Options[K] },
+      EntityOptions
+    >
+  >;
 
   transporter: Options['transporter'];
 
@@ -385,23 +399,25 @@ function _EntityGeneratedFields<
   return parseObjectDefinition(input).definition as any;
 }
 
-export type EntityDocument<Document> = {
-  [K in keyof (EntityDefaultFields & Document)]: (EntityDefaultFields &
-    Document)[K];
-} & {};
+export type EntityDocument<Document> = Merge<Document, EntityDefaultFields>;
 
-export type AnyEntityDocument = EntityDocument<{ [K: string]: unknown }>;
+export type AnyEntityDocument<Doc extends DocumentBase = DocumentBase> =
+  EntityDocument<Doc>;
 
-type MockOptions<Doc extends Record<string, any>> = EntityOptions<
-  string,
-  {
+export type AnyEntity<
+  Doc extends DocumentBase = DocumentBase,
+  PK extends keyof Doc = keyof Doc,
+  SK extends keyof Doc | undefined = undefined
+> = Entity<{
+  indexes: CollectionConfigIndexes<
+    { [K in PK]: Doc[PK] } & (SK extends string ? { [K in SK]: Doc[SK] } : {})
+  >;
+  name: string;
+  transporter: Transporter;
+  type: {
     __isGraphType: true;
     _object: any;
     definition: any;
     parse(...args: any[]): Doc;
-  }
->;
-
-export type AnyEntity<Doc extends DocumentBase = DocumentBase> = Entity<
-  MockOptions<Doc>
->;
+  };
+}>;

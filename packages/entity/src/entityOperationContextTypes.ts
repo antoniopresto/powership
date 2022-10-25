@@ -5,7 +5,7 @@ import {
 import { DeepWritable, simpleObjectClone } from '@backland/utils';
 
 import {
-  AnyEntity,
+  EntityDocument,
   EntityLoaderConfig,
   EntityOperationInfoContext,
 } from './EntityInterfaces';
@@ -43,6 +43,7 @@ const allFalse = {
   isCreate: false,
   isCreateOne: false,
   isDelete: false,
+  isDeleteMany: false,
   isDeleteOne: false,
   isFind: false,
   isFindById: false,
@@ -50,6 +51,7 @@ const allFalse = {
   isFindOne: false,
   isPaginate: false,
   isUpdate: false,
+  isUpdateMany: false,
   isUpdateOne: false,
   isUpsert: false,
 } as const;
@@ -60,6 +62,12 @@ const LoaderMethodInfoHelpers = _ensureTransporterMethodsImplementation({
     isCreate: true,
     isCreateOne: true,
     op: 'createOne',
+  },
+  deleteMany: {
+    ...allFalse,
+    isDelete: true,
+    isDeleteMany: true,
+    op: 'deleteMany',
   },
   deleteOne: {
     ...allFalse,
@@ -91,6 +99,13 @@ const LoaderMethodInfoHelpers = _ensureTransporterMethodsImplementation({
     isPaginate: true,
     op: 'paginate',
   },
+  updateMany: {
+    ...allFalse,
+    isUpdate: true,
+    isUpdateMany: true,
+    isUpsert: false as boolean,
+    op: 'updateMany',
+  },
   updateOne: {
     ...allFalse,
     isUpdate: true,
@@ -110,7 +125,7 @@ export type EntityOperationInfosRecord = {
       ? LoaderOperationsRecord[Method] & {
           entityOptions: EntityOptions;
 
-          getDocumentResult?: ReturnType<AnyEntity['findOne']>;
+          getDocumentResults?: EntityDocument<any>[];
 
           loaderName: Method;
 

@@ -6,6 +6,7 @@ import {
   FinalFieldDefinition,
   FinalObjectDefinition,
   GraphType,
+  isFieldTypeName,
   ObjectDefinitionInput,
   ObjectType,
 } from '@backland/schema';
@@ -70,6 +71,7 @@ const extendMethodsEnum = tupleEnum(
   'extendType',
   'addHooks',
   'addRelations',
+  'setOption',
   'clone'
 );
 
@@ -88,13 +90,15 @@ export function createEntity<
   const entity = createProxy(_createEntity, {
     onGet(k: any): any {
       if (typeof k === 'string' && k in extendMethodsEnum) {
-        //
         // clone
         if (k === 'clone') {
           return function cloneEntity(
-            handler: (originalOptions: Options) => AnyEntity
+            handler: ((originalOptions: Options) => AnyEntity) | Options
           ): AnyEntity {
-            const newValue = handler({ ...entityOptions });
+            const newValue =
+              typeof handler === 'function'
+                ? handler({ ...entityOptions })
+                : { ...entityOptions, ...handler };
 
             if (
               gettersWereCalled &&
@@ -113,6 +117,13 @@ export function createEntity<
 
         if (gettersWereCalled) {
           throw new Error(`${k} should be used right after entity creation.`);
+        }
+
+        if (k === 'setOption') {
+          return function setOption(optionName: string, value: any) {
+            entityOptions[optionName] = value;
+            return entity;
+          };
         }
 
         if (k === 'extendType') {
@@ -159,6 +170,7 @@ export function createEntity<
   function _createEntity() {
     gettersWereCalled = true;
 
+    // keep it here, because can be changed in the above "onGet"
     const {
       indexes,
       transporter: defaultTransporter,
@@ -318,14 +330,13 @@ export function createEntity<
           // checking for updates that have failed to update aliases
           // probably because of version mismatch, since we check for version match.
 
-          if (!context.operation.getDocumentResult) {
+          if (!context.operation.getDocumentResults) {
             // just in case of aliasesPlugin being removed
-            // aliasesPlugin sets context.operation.getDocumentResult
+            // aliasesPlugin sets context.operation.getDocumentResults
             throw new Error(`UPDATE_DOCUMENT_WITH_ALIAS_FIELDS_ERROR_1`);
           }
 
-          const existing = await context.operation.getDocumentResult;
-          if (existing.item) {
+          if (context.operation.getDocumentResults) {
             throw new Error(`UPDATE_DOCUMENT_WITH_ALIAS_FIELDS_ERROR_2`);
           }
         }
@@ -603,7 +614,7 @@ function _registerPKSKHook(input: {
       return doc;
     }
 
-    if (ctx.op === 'updateOne') {
+    if (ctx.isUpdate) {
       ctx.options.update.$set = await _onUpdate({
         ...ctx.options.update.$set,
       });
@@ -653,22 +664,6 @@ async function _parseOperationContext(input: {
     entityOptions
   );
 
-  let getDocumentResult: ReturnType<typeof entity['findOne']>;
-
-  const getDocument = () => {
-    getDocumentResult =
-      getDocumentResult ||
-      entity.findOne({
-        condition: methodOptions.condition,
-        context: {},
-        filter: methodOptions.filter,
-      });
-
-    operationInfoContext.getDocumentResult = getDocumentResult;
-
-    return getDocumentResult;
-  };
-
   if ('filter' in operationInfoContext.options) {
     operationInfoContext.options.filter = graphQLFilterToTransporterFilter(
       operationInfoContext.options.filter
@@ -680,11 +675,11 @@ async function _parseOperationContext(input: {
     );
   }
 
-  if (operationInfoContext.op === 'updateOne') {
+  if (operationInfoContext.isUpdate) {
     operationInfoContext = await hooks.preParse.exec(
       // @ts-ignore
       operationInfoContext,
-      { entity, getDocument }
+      { entity }
     );
   }
 
@@ -692,7 +687,7 @@ async function _parseOperationContext(input: {
     operationInfoContext = await hooks.preParse.exec(
       // @ts-ignore
       operationInfoContext,
-      { entity, getDocument }
+      { entity }
     );
 
     if (!('item' in operationInfoContext.options)) {
@@ -707,7 +702,7 @@ async function _parseOperationContext(input: {
       operationInfoContext = await hooks.postParse.exec(
         // @ts-ignore
         operationInfoContext,
-        { entity, getDocument }
+        { entity }
       );
     } catch (e: any) {
       e.info = operationInfoContext;
@@ -793,8 +788,9 @@ function _objectAliasPaths(
       _objectAliasPaths(v.def, found, currentPath);
     }
 
-    if (Array.isArray(v.def) && v[0].type) {
+    if (Array.isArray(v.def)) {
       v.def.forEach((el) => {
+        if (!isFieldTypeName(el?.type)) return;
         _objectAliasPaths(el, found, currentPath);
       });
     }

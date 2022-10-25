@@ -56,4 +56,51 @@ describe('Entity clone', () => {
 
     expect(productGQL).toMatchSnapshot();
   });
+
+  test('setOption', async function () {
+    const { ProductEntity, ProductType } = await getMocks();
+
+    const clonedEntity = ProductEntity.clone({ name: 'NewClone' })
+      .setOption('type', ProductType.clone().only('sku').graphType('NewClone'))
+      .setOption('indexes', [
+        {
+          name: 'sku',
+          PK: ['.sku'],
+          field: '_id',
+        },
+      ]);
+
+    type Cloned = ReturnType<typeof clonedEntity.parse>;
+    assert<IsExact<Cloned, EntityDefaultFields & { sku: string }>>(true);
+
+    let productGQL = ProductEntity.type.print();
+
+    expect(clonedEntity.type.print()).toEqual([
+      'type NewCloneEntity {',
+      '  createdAt: Date!',
+      '  createdBy: String',
+      '  id: String!',
+      '  ulid: Ulid!',
+      '  updatedAt: Date!',
+      '  updatedBy: String',
+      '  sku: String!',
+      '}',
+      '',
+      'scalar Date',
+      '',
+      'scalar Ulid',
+      '',
+      'input NewCloneEntityInput {',
+      '  createdAt: Date!',
+      '  createdBy: String',
+      '  id: String!',
+      '  ulid: Ulid!',
+      '  updatedAt: Date!',
+      '  updatedBy: String',
+      '  sku: String!',
+      '}',
+    ]);
+
+    expect(productGQL).toMatchSnapshot();
+  });
 });

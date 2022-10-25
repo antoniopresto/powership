@@ -70,7 +70,6 @@ export type EntityHooksCreateDefinitionKind =
 export type EntityParserHookContext<E extends AnyEntity> = {
   checkForVersion?: boolean;
   entity: E;
-  getDocument(options?: {}): ReturnType<E['findOne']>;
 };
 
 export type EntityHooks<
