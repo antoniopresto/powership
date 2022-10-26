@@ -1,6 +1,6 @@
 {
   "name": "@backland/utils",
-  "version": "0.1.3-alpha.20221020195532.0",
+  "version": "0.1.3-alpha.20221026121440.0",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -28,6 +28,7 @@
   "description": "backland utils and helper functions",
   "keywords": [],
   "dependencies": {
+    "aggio": "^0.0.112",
     "big.js": "6.2.1",
     "chalk": "5.1.0",
     "deep-object-diff": "1.1.7",
@@ -41,6 +42,7 @@
     "libphonenumber-js": "1.10.13",
     "lodash": "4.17.21",
     "mitt": "3.0.0",
+    "ms": "^3.0.0-canary.1",
     "object-hash": "3.0.0",
     "plugin-hooks": "1.1.3",
     "prettier": "2.7.1",
@@ -48,15 +50,14 @@
     "ts-toolbelt": "9.6.0",
     "ulid": "2.3.0",
     "winston": "3.8.2",
-    "winston-slack-webhook-transport": "2.2.2",
-    "ms": "^3.0.0-canary.1"
+    "winston-slack-webhook-transport": "2.2.2"
   },
   "devDependencies": {
     "@babel/cli": "7.19.3",
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@backland/babel-plugins": "0.1.3-alpha.20221020195532.0",
+    "@backland/babel-plugins": "0.1.3-alpha.20221026121440.0",
     "@types/big.js": "6.1.6",
     "@types/ejson": "2.2.0",
     "@types/fs-extra": "9.0.13",
@@ -68,7 +69,6 @@
     "@types/prettier": "2.7.1",
     "@typescript-eslint/eslint-plugin": "5.39.0",
     "@typescript-eslint/parser": "5.39.0",
-    "aggio": "^0.0.112",
     "babel-preset-minify": "0.5.2",
     "esbuild": "0.15.10",
     "eslint": "8.25.0",

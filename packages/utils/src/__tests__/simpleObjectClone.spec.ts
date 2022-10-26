@@ -1,7 +1,7 @@
-import { BJSON } from './BJSON';
-import { EmailRegex } from './emailRegex';
-import { getTypeName } from './getTypeName';
-import { simpleObjectClone } from './simpleObjectClone';
+import { BJSON } from '../BJSON';
+import { EmailRegex } from '../emailRegex';
+import { getTypeName } from '../getTypeName';
+import { simpleObjectClone } from '../simpleObjectClone';
 
 describe('simpleObjectClone', () => {
   const getObject = () => ({
@@ -83,7 +83,7 @@ describe('simpleObjectClone', () => {
     );
 
     expect(str).toEqual(
-      '{"12":[Date,RegExp,{"a":1,"b":HMM____},Null,Undefined],"b":HMM____}'
+      '{"12":[Date,RegExp,{"a":1,"b":HMM____},Null,undefined],"b":HMM____}'
     );
   });
 });

@@ -1,8 +1,17 @@
 import { dateSerialize } from './dateSerialize';
 import { getTypeName } from './getTypeName';
 
+export const SEP = 'ː';
+
+function withSEP(txt: string) {
+  return `${SEP}${txt}${SEP}`;
+}
+
+export const BJSON_UNDEFINED = withSEP('undef');
+export const BJSON_FUNCTION = withSEP('func');
+
 export class Serializer<Type> {
-  static SEP = 'ː';
+  static SEP = SEP;
   name: string;
   sep: string;
   blockStart: string;
@@ -16,6 +25,7 @@ export class Serializer<Type> {
       getParams(value: Type): string[];
       hydrate(...str: string[]): Type;
       match(value: unknown): undefined | Type;
+      jsonReplacer?: string;
     }
   ) {
     this.name = formatter.name;
@@ -30,14 +40,29 @@ export class Serializer<Type> {
 
     if (tested === undefined) return;
 
+    const wrap = (txt: string) => `${this.blockStart}${txt}${this.blockEnd}`;
+
+    if (this.formatter.jsonReplacer) {
+      return this.formatter.jsonReplacer;
+    }
+
     const params = this.formatter.getParams(tested);
 
-    return `${this.blockStart}${params.join(this.paramSep)}${this.blockEnd}`;
+    return wrap(params.join(this.paramSep));
   }
 
-  parse(value: string) {
+  parse(value: string): { value: Type } | undefined {
     const str = value?.toString?.();
     if (typeof str !== 'string') return;
+
+    if (
+      this.formatter.jsonReplacer !== undefined &&
+      value === this.formatter.jsonReplacer
+    ) {
+      return {
+        value: this.formatter.hydrate(),
+      };
+    }
 
     if (!(str.startsWith(this.blockStart) && str.endsWith(this.blockEnd))) {
       return;
@@ -48,7 +73,9 @@ export class Serializer<Type> {
       .slice(0, -this.blockEnd.length)
       .split(this.paramSep);
 
-    return this.formatter.hydrate(...params);
+    return {
+      value: this.formatter.hydrate(...params),
+    };
   }
 }
 
@@ -106,10 +133,10 @@ export class BJSONConstructor {
       },
     }),
 
-    new Serializer<'__BLD_UND__'>({
+    new Serializer({
       name: 'Undefined',
       tsName() {
-        return '__BLD_UND__';
+        return 'undefined';
       },
       hydrate() {
         return undefined as any;
@@ -118,8 +145,9 @@ export class BJSONConstructor {
         return [];
       },
       match(value: unknown) {
-        return value === undefined ? '__BLD_UND__' : undefined;
+        return value === undefined ? BJSON_UNDEFINED : undefined;
       },
+      jsonReplacer: BJSON_UNDEFINED,
     }),
 
     new Serializer<Function>({
@@ -136,6 +164,7 @@ export class BJSONConstructor {
       match(value: unknown) {
         return typeof value === 'function' ? value : undefined;
       },
+      jsonReplacer: BJSON_FUNCTION,
     }),
   ];
 
@@ -189,10 +218,9 @@ export class BJSONConstructor {
 
   parse = (input: string) => {
     return JSON.parse(input, (_key, value) => {
-      if (value === 'ːUndefinedː()') return undefined; // special case
       for (let serializer of this.serializers) {
         const match = serializer.parse(value);
-        if (match !== undefined) return match;
+        if (match !== undefined) return match.value;
       }
       return value;
     });
@@ -223,8 +251,6 @@ export type StringifyOptions = {
   quoteKeys?: (str: string) => string;
   key?: string | number;
 };
-
-const EMO_UNDEFINED = '::unDefinEd::'; // boring
 
 // some parts from meteor ejson
 export function stringify(
@@ -284,7 +310,7 @@ export function stringify(
       return 'null';
 
     case 'Undefined':
-      return EMO_UNDEFINED;
+      return 'undefined';
 
     case 'Function':
       return 'function unknown(){}';
