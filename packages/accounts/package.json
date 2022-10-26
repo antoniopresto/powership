@@ -6,12 +6,11 @@
   "typings": "lib/index.d.ts",
   "scripts": {
     "clean": "rimraf lib",
+    "test": "echo todo",
     "start": "tsc --watch",
     "precompile": "npm run clean",
     "build": "tsc",
     "prepublishOnly": "npm run build",
-    "testonly": "jest --runInBand --forceExit",
-    "test:watch": "jest --watch",
     "coverage": "npm run testonly -- --coverage",
     "prepublish": "npm run build"
   },
