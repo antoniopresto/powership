@@ -12,6 +12,7 @@ import {
   ListDefinition,
   ListDefinitionTruthy,
 } from './_fieldDefinitions';
+import { ArrayFieldDef } from './ArrayField';
 
 export type _ObjectFieldInputBase =
   | _GraphType
@@ -156,7 +157,7 @@ type _injectInfer<T> = T extends {
       __infer: // === recursive object case ===
 
       T['type'] extends 'array'
-        ? Def extends { of: infer Of }
+        ? Def extends ArrayFieldDef<infer Of>
           ? InferField<Of>[]
           : never
         : //

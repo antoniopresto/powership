@@ -76,7 +76,12 @@ export class GraphType<Definition extends ObjectFieldInput> {
   );
 
   constructor(...args: GraphTypeArgs) {
-    const { initializer, idFromArgs } = lazyCreateGraphTypeInitPayload(args);
+    const { initializer, idFromArgs } = lazyCreateGraphTypeInitPayload(
+      args,
+      () => {
+        this.touched = true;
+      }
+    );
 
     Object.defineProperty(this, '__lazyGetter', {
       get() {
@@ -98,6 +103,8 @@ export class GraphType<Definition extends ObjectFieldInput> {
 
   // used to lazy process input definition to improve circular dependency in types
   __lazyGetter: LazyParseGraphTypePayload;
+
+  touched = false;
 
   touch() {
     // just dispatch lazy loader getters

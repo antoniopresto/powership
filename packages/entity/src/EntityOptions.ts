@@ -1,8 +1,8 @@
 import {
   GraphType,
+  LazyParseGraphTypePayload,
   ObjectDefinitionInput,
   ObjectFieldInput,
-  ObjectType,
   ResolverResolve,
 } from '@backland/schema';
 import {
@@ -55,8 +55,7 @@ export type EntityFieldResolver<
 };
 
 export type _EntityGraphType = {
-  __isGraphType: true;
-  _object?: ObjectType<any>;
+  __lazyGetter: LazyParseGraphTypePayload;
   definition: { def: unknown };
   parse(...args: any[]): DocumentBase;
 };

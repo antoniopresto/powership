@@ -161,7 +161,9 @@ export function setupProductTest(): {
     });
 
     const mockObject = () =>
-      objectMock(ProductEntity.originType._object!.definition) as any;
+      objectMock(
+        ProductEntity.originType.__lazyGetter.objectType!.definition
+      ) as any;
     const defaultMock: any = objectMock(createEntityDefaultFields());
 
     const shape = Object.entries({ ...defaultMock, ...mockObject() }).reduce(

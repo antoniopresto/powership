@@ -105,6 +105,38 @@ export class BJSONConstructor {
         return typeof value === 'number' && isNaN(value) ? value : undefined;
       },
     }),
+
+    new Serializer<'__BLD_UND__'>({
+      name: 'Undefined',
+      tsName() {
+        return '__BLD_UND__';
+      },
+      hydrate() {
+        return undefined as any;
+      },
+      getParams() {
+        return [];
+      },
+      match(value: unknown) {
+        return value === undefined ? '__BLD_UND__' : undefined;
+      },
+    }),
+
+    new Serializer<Function>({
+      name: 'Function',
+      tsName() {
+        return 'Function';
+      },
+      hydrate() {
+        return function __unknown__() {};
+      },
+      getParams() {
+        return [];
+      },
+      match(value: unknown) {
+        return typeof value === 'function' ? value : undefined;
+      },
+    }),
   ];
 
   serializers: Serializer<any>[] = [];
@@ -157,6 +189,7 @@ export class BJSONConstructor {
 
   parse = (input: string) => {
     return JSON.parse(input, (_key, value) => {
+      if (value === 'ːUndefinedː()') return undefined; // special case
       for (let serializer of this.serializers) {
         const match = serializer.parse(value);
         if (match !== undefined) return match;
@@ -190,6 +223,8 @@ export type StringifyOptions = {
   quoteKeys?: (str: string) => string;
   key?: string | number;
 };
+
+const EMO_UNDEFINED = '::unDefinEd::'; // boring
 
 // some parts from meteor ejson
 export function stringify(
@@ -249,7 +284,7 @@ export function stringify(
       return 'null';
 
     case 'Undefined':
-      return 'undefined';
+      return EMO_UNDEFINED;
 
     case 'Function':
       return 'function unknown(){}';

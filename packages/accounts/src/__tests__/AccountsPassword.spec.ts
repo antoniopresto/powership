@@ -1,6 +1,7 @@
-import { AccountsPassword } from '../AccountsPassword';
-import { createDefaultAccountEntity } from '../AccountsEntity';
+import { AccountPassword } from '../AccountPassword';
 import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
+import { TokenEntity } from '../entity/TokenEntity';
+import { AccountsEntity } from '../entity/AccountEntity';
 
 describe('AccountsPassword', () => {
   let mockApp: AppMock;
@@ -15,16 +16,10 @@ describe('AccountsPassword', () => {
   });
 
   function accounts() {
-    const accountEntity = createDefaultAccountEntity().clone((options) => {
-      return {
-        ...options,
-        transporter: mockApp.transporter,
-      };
-    });
+    AccountsEntity.setOption('transporter', mockApp.transporter);
+    TokenEntity.setOption('transporter', mockApp.transporter);
 
-    return new AccountsPassword({
-      accountEntity,
-    });
+    return new AccountPassword({});
   }
 
   test('new', async () => {
@@ -35,14 +30,27 @@ describe('AccountsPassword', () => {
   test('createUser', async () => {
     const accountsPassword = accounts();
 
-    const sut = await accountsPassword.createUser({
+    const account = await accountsPassword.createUser({
       password: '1234567',
       username: 'antoniopresto',
       email: 'antonio@example.com',
       request: {},
     });
 
-    expect(sut).toEqual(_expectedUser());
+    const token = await accountsPassword.tokenEntity.findOne({
+      filter: {
+        accountId: account.accountId,
+        kind: 'password',
+        createdFor: account.accountId,
+      },
+      context: {},
+    });
+
+    expect(token).toMatchObject({
+      item: { accountId: account.accountId },
+    });
+
+    expect(account).toEqual(_expectedUser());
   });
 
   test('userByPasswordLogin', async () => {
@@ -81,7 +89,7 @@ describe('AccountsPassword', () => {
     });
 
     const sut = await accountsPassword.verifyEmail({
-      id: user.id,
+      accountId: user.id,
       email: user.email,
     });
 
@@ -116,22 +124,6 @@ function _expectedUser() {
     email: 'antonio@example.com',
     id: expect.stringMatching('='),
     permissions: [expect.stringMatching('admin_profile:01')],
-    tokenByKind: {
-      password: {
-        createdAt: expect.any(Date),
-        kind: 'password',
-        reason: 'signup',
-        value: expect.any(String),
-      },
-    },
-    tokens: [
-      {
-        createdAt: expect.any(Date),
-        kind: 'password',
-        reason: 'signup',
-        value: expect.stringMatching(/.{100,}/),
-      },
-    ],
     ulid: expect.stringMatching('01'),
     updatedAt: expect.any(Date),
     username: 'antoniopresto',

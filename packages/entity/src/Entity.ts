@@ -72,7 +72,8 @@ const extendMethodsEnum = tupleEnum(
   'addHooks',
   'addRelations',
   'setOption',
-  'clone'
+  'clone',
+  'extend'
 );
 
 export function createEntity<
@@ -80,8 +81,21 @@ export function createEntity<
   Type extends _EntityGraphType,
   TTransport extends Transporter,
   Options extends EntityOptions<Name, Type, TTransport>
->(configOptions: Options): Entity<Options> {
-  let entityOptions = { ...configOptions };
+>(configOptions: Options | (() => Options)): Entity<Options> {
+  const optionMutations: ((options: Options) => Options)[] = [];
+  const entityMutations: ((entity: AnyEntity) => AnyEntity)[] = [];
+
+  let entityOptions = createProxy(() => {
+    const opt =
+      typeof configOptions === 'function'
+        ? //
+          configOptions()
+        : configOptions;
+
+    return optionMutations.reduce((acc, next) => {
+      return next(acc);
+    }, opt);
+  });
 
   const plugins = [applyFieldResolvers, versionPlugin, aliasesPlugin];
   const resolvers: EntityFieldResolver<any, any, any, any>[] = [];
@@ -93,25 +107,27 @@ export function createEntity<
         // clone
         if (k === 'clone') {
           return function cloneEntity(
-            handler: ((originalOptions: Options) => AnyEntity) | Options
+            handler: ((originalOptions: Options) => Options) | Options
           ): AnyEntity {
-            const newValue =
-              typeof handler === 'function'
-                ? handler({ ...entityOptions })
-                : { ...entityOptions, ...handler };
+            return createEntity(() => {
+              const newValue =
+                typeof handler === 'function'
+                  ? handler(entityOptions)
+                  : { ...entityOptions, ...handler };
 
-            if (
-              gettersWereCalled &&
-              newValue.name === entityOptions.name &&
-              !isProduction()
-            ) {
-              console.warn(
-                `entity.clone: the cloned entity has the same name "${entityOptions.name}". \n
+              if (
+                gettersWereCalled &&
+                newValue.name === entityOptions.name &&
+                !isProduction()
+              ) {
+                console.warn(
+                  `entity.clone: the cloned entity has the same name "${entityOptions.name}". \n
                 You may encounter unexpected behavior if the entity has already been used.`
-              );
-            }
+                );
+              }
 
-            return createEntity(newValue) as any;
+              return newValue;
+            }) as any;
           };
         }
 
@@ -121,7 +137,12 @@ export function createEntity<
 
         if (k === 'setOption') {
           return function setOption(optionName: string, value: any) {
-            entityOptions[optionName] = value;
+            optionMutations.push((opt) => {
+              return {
+                ...opt,
+                [optionName]: value,
+              };
+            });
             return entity;
           };
         }
@@ -133,11 +154,14 @@ export function createEntity<
               originalOptions: Options
             ) => AnyEntity
           ): AnyEntity {
-            const newType = handler(
-              extendDefinition(entityOptions.type),
-              entityOptions
-            );
-            return createEntity({ ...entityOptions, type: newType }) as any;
+            return createEntity(() => {
+              const newType = handler(
+                extendDefinition(entityOptions.type),
+                entityOptions
+              );
+
+              return { ...entityOptions, type: newType };
+            }) as any;
           };
         }
 
@@ -158,6 +182,18 @@ export function createEntity<
         if (k === 'addRelations') {
           return function addRelations(resolver) {
             resolvers.push(...ensureArray(resolver));
+            return entity;
+          };
+        }
+
+        if (k === 'extend') {
+          return function extend(cb) {
+            entityMutations.push((entity) => {
+              const ext_utils = { extend: extendDefinition };
+              const partial = cb(entity, ext_utils);
+              if (!partial || typeof partial !== 'object') return entity;
+              return { ...entity, ...partial };
+            });
             return entity;
           };
         }
@@ -194,7 +230,7 @@ export function createEntity<
     const entityNameLowercase = entityName.toLowerCase();
 
     const inputObjectType = nonNullValues({
-      entityTypeObject: type._object,
+      entityTypeObject: type.__lazyGetter.objectType,
     }).entityTypeObject;
 
     const entity = {} as any;
@@ -385,7 +421,7 @@ export function createEntity<
           const obj = {
             ...indexGraphTypes[
               indexInfo[0].index.name
-            ]._object!.cleanDefinition(),
+            ].__lazyGetter.objectType!.cleanDefinition(),
           };
           return _addIDField(obj);
         }
@@ -393,7 +429,8 @@ export function createEntity<
         const all: any = {};
 
         indexInfo.forEach(({ index: { name } }) => {
-          const objectType = indexGraphTypes[name]._object as ObjectType<{
+          const objectType = indexGraphTypes[name].__lazyGetter
+            .objectType as unknown as ObjectType<{
             a: 'any';
           }>;
 
@@ -502,20 +539,6 @@ export function createEntity<
       return createType(`${entityName}Connection`, definition);
     }
 
-    const ext_utils = { extend: extendDefinition };
-
-    function extend(cb) {
-      const partial = cb(entity, ext_utils);
-      if (!partial || typeof partial !== 'object') return entity;
-      const res: any = { ...entity };
-      Object.entries(partial).forEach(([k, v]) => {
-        if (v !== undefined && v !== null) {
-          res[k] = v;
-        }
-      });
-      return res;
-    }
-
     function getDocumentId(doc): string {
       const indexes = getDocumentIndexFields(doc, indexConfig);
       if (indexes.error) throw indexes.error;
@@ -531,10 +554,10 @@ export function createEntity<
       addHooks: () => ({}), // handled in proxy
       addRelations: () => ({}),
       aliasPaths: _objectAliasPaths(databaseDefinition),
-      conditionsDefinition: conditionsType._object!.definition,
+      conditionsDefinition: conditionsType.__lazyGetter.objectType!.definition,
       databaseType,
       edgeType: edgeType,
-      extend,
+      extend: () => ({}), // handled in proxy
       getDocumentId,
       indexGraphTypes: indexGraphTypes,
       indexes: indexes,
@@ -556,7 +579,9 @@ export function createEntity<
 
     Object.assign(entity, getters);
 
-    return entity;
+    return entityMutations.reduce((acc, next) => {
+      return next(acc);
+    }, entity);
   }
 
   return entity;
@@ -725,7 +750,7 @@ function _getIndexGraphTypes(input: {
   entityOptions: EntityOptions;
   entityOutputDefinitionWithRelations: Record<string, FinalFieldDefinition>;
   parsedIndexKeys: ParsedIndexKey[];
-}) {
+}): Record<string, GraphType<any>> {
   const {
     entityOptions,
     parsedIndexKeys,

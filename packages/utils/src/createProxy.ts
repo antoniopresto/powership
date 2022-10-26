@@ -8,60 +8,61 @@ export function createProxy<T extends Record<string, any>>(
   thunk: () => T,
   options?: CreateProxyOptions<T>
 ): T {
-  const data = {} as any;
+  let data;
+
   let isResolved = false;
-  const getFC: any = () => {
-    if (!isResolved) {
-      isResolved = true;
-      const tmp = typeof thunk === 'function' ? thunk() : thunk;
-      Object.keys(tmp).forEach((k) => {
-        data[k] = tmp[k];
-      });
-    }
+  const run = () => {
+    if (isResolved) return data;
+    isResolved = true;
+    data = typeof thunk === 'function' ? thunk() : thunk;
     return data;
   };
 
-  const proxy = new Proxy(data, {
-    get(_o, k: any) {
-      if (options?.onGet) {
-        const res: any = options.onGet(k);
-        if (res !== null) return res;
-      }
-      return getFC()[k];
-    },
-    set(_o, k: any, v: any) {
-      if (options?.onSet) {
-        const res: any = options.onSet(k, v);
-        if (res !== null) return res;
-      }
-      getFC()[k] = v;
-      return true;
-    },
-    has(_o, k: any) {
-      if (options?.onHas) {
-        const res: any = options.onHas(k);
-        if (res !== null) return res;
-      }
-      return k in getFC();
-    },
-    deleteProperty(_o, k) {
-      delete getFC()[k];
-      return true;
-    },
-    ownKeys() {
-      return Reflect.ownKeys(getFC());
-    },
-    defineProperty(_o, k, d: any) {
-      return Object.defineProperty(getFC(), k, d);
-    },
-    // @ts-expect-error
-    getOwnPropertyNames() {
-      return Object.getOwnPropertyNames(getFC());
-    },
-    getOwnPropertyDescriptor(_o, k: any) {
-      return Object.getOwnPropertyDescriptor(getFC(), k);
-    },
-  });
+  const proxy = new Proxy(
+    {},
+    {
+      get(_o, k: any) {
+        if (options?.onGet) {
+          const res: any = options.onGet(k);
+          if (res !== null) return res;
+        }
+        const realValue = run();
+        return realValue[k];
+      },
+      set(_o, k: any, v: any) {
+        if (options?.onSet) {
+          const res: any = options.onSet(k, v);
+          if (res !== null) return res;
+        }
+        run()[k] = v;
+        return true;
+      },
+      has(_o, k: any) {
+        if (options?.onHas) {
+          const res: any = options.onHas(k);
+          if (res !== null) return res;
+        }
+        return k in run();
+      },
+      deleteProperty(_o, k) {
+        delete run()[k];
+        return true;
+      },
+      ownKeys() {
+        return Reflect.ownKeys(run());
+      },
+      defineProperty(_o, k, d: any) {
+        return Object.defineProperty(run(), k, d);
+      },
+      // @ts-expect-error
+      getOwnPropertyNames() {
+        return Object.getOwnPropertyNames(run());
+      },
+      getOwnPropertyDescriptor(_o, k: any) {
+        return Object.getOwnPropertyDescriptor(run(), k);
+      },
+    }
+  );
 
   return proxy as any;
 }

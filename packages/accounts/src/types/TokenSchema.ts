@@ -14,15 +14,19 @@ export const tokenKindEnum = tupleEnum(
 );
 
 export const TokenSchema = createSchema({
-  createdAt: { date: { autoCreate: true } },
-  endTime: 'date?',
+  accountId: 'ID',
   kind: {
     description: 'Examples: 2fa, password_recovery',
     enum: tokenKindEnum.list,
   },
   reason: 'string?',
+  createdFor: {
+    string: { min: 2 },
+    description:
+      'Indicates for what that token was created. ' +
+      'Example: accountId, email, phone, 2fa service, etc',
+  },
   value: { string: { max: 1000, min: 4 } },
 } as const);
 
 export type Token = Infer<typeof TokenSchema>;
-

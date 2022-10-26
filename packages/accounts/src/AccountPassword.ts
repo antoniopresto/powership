@@ -1,16 +1,21 @@
 import { ulid } from '@backland/utils';
 import crypto from 'crypto';
-import { AccessType, accessTypesEnum } from './AccessType';
-import { Account, AccountInput, AccountSchema } from './AccountSchema';
-import { Password } from './Password';
-import { Token, tokenKindEnum } from './TokenType';
-import { AccountsEntity } from './AccountsEntity';
-import { EntityDocument } from '@backland/entity';
+import { AccessType, accessTypesEnum } from './types/AccessTypeSchema';
+import { AccountInput, AccountSchema } from './types/AccountSchema';
+import { PasswordHash } from './utils/PasswordHash';
+import { Token, tokenKindEnum } from './types/TokenSchema';
+import {
+  AccountDocument,
+  AccountEntity,
+  AccountsEntity,
+} from './entity/AccountEntity';
+import { TokenDocument, TokenEntity } from './entity/TokenEntity';
 
 export interface PasswordHandlerOptions<
-  TEntity extends AccountsEntity = AccountsEntity
+  TEntity extends AccountEntity = AccountEntity
 > {
-  accountEntity: TEntity;
+  accountEntity?: TEntity;
+  tokenEntity?: TokenEntity;
 }
 
 export type CreateUserPasswordInput = {
@@ -21,19 +26,20 @@ export type CreateUserPasswordInput = {
   username: string;
 };
 
-export class AccountsPassword<TEntity extends AccountsEntity> {
+export class AccountPassword<TEntity extends AccountEntity> {
   private options: PasswordHandlerOptions<TEntity>;
 
-  accountEntity: AccountsEntity;
+  accountEntity: AccountEntity;
+  tokenEntity: TokenEntity;
 
   get addHooks() {
     return this.accountEntity.addHooks as TEntity['addHooks'];
   }
 
   constructor(options: PasswordHandlerOptions<TEntity>) {
-    const accountEntity = options.accountEntity;
     this.options = options;
-    this.accountEntity = accountEntity as TEntity;
+    this.accountEntity = options.accountEntity || AccountsEntity;
+    this.tokenEntity = options.tokenEntity || TokenEntity;
   }
 
   /**
@@ -46,16 +52,23 @@ export class AccountsPassword<TEntity extends AccountsEntity> {
     username,
     request,
     ...cleanUser
-  }: CreateUserPasswordInput): Promise<DocType<TEntity>> {
+  }: CreateUserPasswordInput): Promise<AccountDocument> {
     const date = new Date();
     const accountId = ulid();
 
     const passwordToken: Token = {
-      createdAt: date,
+      accountId,
       kind: tokenKindEnum.password,
       reason: 'signup',
-      value: await Password.hash({ password }),
+      createdFor: accountId,
+      value: await PasswordHash.hash({ password }),
     };
+
+    const { error, item: _token } = await this.tokenEntity.createOne({
+      item: passwordToken,
+      context: {},
+    });
+    if (error || !_token) throw new Error(error || 'SIGNUP_FAILED');
 
     const emailAccess: AccessType = {
       createdAt: date,
@@ -70,7 +83,6 @@ export class AccountsPassword<TEntity extends AccountsEntity> {
       access: [emailAccess],
       deactivated: false,
       permissions: [`admin_profile:${accountId}`],
-      tokens: [passwordToken],
       username,
     };
 
@@ -83,27 +95,27 @@ export class AccountsPassword<TEntity extends AccountsEntity> {
       throw new Error(ret.error || 'Failed to create user');
     }
 
-    return ret.item as DocType<TEntity>;
+    return ret.item as AccountDocument;
   }
 
   /**
    * Marks the user's email address as verified.
    * @param input
-   * @param input.userId Id used to update the user.
+   * @param input.accountId Id used to update the user.
    * @param input.email The email address to mark as verified.
    */
   public async verifyEmail(input: {
-    id: string;
+    accountId: string;
     email: string;
-  }): Promise<DocType<TEntity>> {
-    const { id, email } = input;
+  }): Promise<AccountDocument> {
+    const { accountId, email } = input;
 
     const ret = await this.accountEntity.updateOne({
       condition: {
         'access.value': email,
       },
       context: {},
-      filter: { id },
+      filter: { id: accountId },
       update: {
         $set: {
           'access.$.verified': true,
@@ -115,36 +127,35 @@ export class AccountsPassword<TEntity extends AccountsEntity> {
       throw new Error(ret.error || 'User not found');
     }
 
-    return ret.item as DocType<TEntity>;
+    return ret.item as AccountDocument;
   }
 
   /**
    * Change the password for a user.
-   * @param userId Id used to update the user.
+   * @param accountId Id used to update the user.
    * @param newPassword A new password for the user.
    */
   public async setPassword(
-    userId: string,
+    accountId: string,
     newPassword: string
-  ): Promise<DocType<TEntity>> {
+  ): Promise<TokenDocument> {
     const passwordToken: Token = {
-      createdAt: new Date(),
+      accountId: accountId,
       kind: tokenKindEnum.password,
-      value: await Password.hash({ password: newPassword }),
+      createdFor: accountId,
+      value: await PasswordHash.hash({ password: newPassword }),
     };
 
-    const ret = await this.accountEntity.updateOne({
+    const ret = await this.tokenEntity.updateOne({
       context: {},
-      filter: { id: userId },
-      condition: {
-        $or: [
-          { 'tokens.kind': tokenKindEnum.password },
-          { 'tokens.kind': { $exists: false } },
-        ],
+      upsert: true,
+      filter: {
+        accountId: accountId,
+        kind: tokenKindEnum.password,
+        createdFor: accountId,
       },
       update: {
-        $remove: ['tokens.$'],
-        $append: { tokens: passwordToken },
+        $set: passwordToken,
       },
     });
 
@@ -152,38 +163,33 @@ export class AccountsPassword<TEntity extends AccountsEntity> {
       throw new Error('User not found');
     }
 
-    return ret.item as DocType<TEntity>;
+    return ret.item as TokenDocument;
   }
 
   /**
    * Add an email verification token to a user.
-   * @param userId Id used to update the user.
+   * @param accountId Id used to update the user.
    * @param email Which address of the user's to link the token to.
    * @param token Random token used to verify the user email.
    */
   public async addEmailVerificationToken(
-    userId: string,
+    accountId: string,
     email: string,
     token: string
-  ): Promise<DocType<TEntity>> {
+  ): Promise<TokenDocument> {
     const tokenItem: Token = {
-      createdAt: new Date(),
+      accountId: accountId,
       kind: tokenKindEnum.email_verification,
       value: token,
+      createdFor: email,
     };
 
-    const ret = await this.accountEntity.updateOne({
+    const ret = await this.tokenEntity.updateOne({
       context: {},
-      filter: { id: userId },
-      condition: {
-        $or: [
-          { 'tokens.kind': tokenKindEnum.email_verification },
-          { 'tokens.kind': { $exists: false } },
-        ],
-      },
+      filter: { accountId: accountId, kind: tokenItem.kind, createdFor: email },
+      upsert: true,
       update: {
-        $remove: ['tokens.$'],
-        $append: { tokens: tokenItem },
+        $set: tokenItem,
       },
     });
 
@@ -191,43 +197,44 @@ export class AccountsPassword<TEntity extends AccountsEntity> {
       throw new Error('User not found');
     }
 
-    return ret.item as DocType<TEntity>;
+    return ret.item as TokenDocument;
   }
 
   /**
    * Add a reset password token to a user.
-   * @param options.userId Id used to update the user.
+   * @param options.accountId Id used to update the user.
    * @param options.reason Reason to use for the token.
    * @param options.token a random token
    */
   public async addResetPasswordToken(options: {
-    userId: string;
+    accountId: string;
     reason: string;
     token?: string;
-  }): Promise<DocType<TEntity>> {
-    const { userId, reason } = options;
+  }): Promise<TokenDocument> {
+    const { accountId, reason } = options;
     const token =
-      options.token || (await Password.hash({ password: crypto.randomUUID() }));
+      options.token ||
+      (await PasswordHash.hash({ password: crypto.randomUUID() }));
 
     const tokenItem: Token = {
-      createdAt: new Date(),
+      accountId,
+      createdFor: accountId,
       kind: tokenKindEnum.password_recovery,
       reason: reason,
       value: token,
+      // endTime: // TODO
     };
 
-    const ret = await this.accountEntity.updateOne({
+    const ret = await this.tokenEntity.updateOne({
       context: {},
-      filter: { id: userId },
-      condition: {
-        $or: [
-          { 'tokens.kind': tokenKindEnum.password_recovery },
-          { 'tokens.kind': { $exists: false } },
-        ],
+      upsert: true,
+      filter: {
+        accountId,
+        kind: tokenKindEnum.password_recovery,
+        createdFor: accountId,
       },
       update: {
-        $remove: ['tokens.$'],
-        $append: { tokens: tokenItem },
+        $set: tokenItem,
       },
     });
 
@@ -235,34 +242,25 @@ export class AccountsPassword<TEntity extends AccountsEntity> {
       throw new Error('User not found');
     }
 
-    return ret.item as DocType<TEntity>;
+    return ret.item as TokenDocument;
   }
 
   /**
    * Remove all the reset password tokens for a user.
-   * @param userId Id used to update the user.
+   * @param accountId Id used to update the user.
    * @param context
    */
   public async removeAllResetPasswordTokens(
-    userId: string,
+    accountId: string,
     context: Record<string, any> = {}
-  ): Promise<DocType<TEntity>> {
-    const ret = await this.accountEntity.updateOne({
+  ): Promise<void> {
+    await this.tokenEntity.deleteMany({
       context: {},
-      filter: { id: userId },
-      condition: {
-        $or: [{ 'tokens.kind': tokenKindEnum.password_recovery }],
-      },
-      update: {
-        $remove: ['tokens.$'],
-      },
+      filter: {
+        accountId,
+        kind: tokenKindEnum.password_recovery,
+      } as any,
     });
-
-    if (!ret.item) {
-      throw new Error('User not found');
-    }
-
-    return ret.item as DocType<TEntity>;
   }
 
   findUser = async ({
@@ -271,19 +269,19 @@ export class AccountsPassword<TEntity extends AccountsEntity> {
   }: {
     username: string;
     context?: any;
-  }): Promise<AnyUser | null> => {
+  }): Promise<AccountDocument | null> => {
     return (
       await this.accountEntity.findOne({
         filter: { username } as any,
         context,
       })
-    ).item as unknown as AnyUser | null;
+    ).item as unknown as AccountDocument | null;
   };
 
   async userByPasswordLogin(input: {
     username: string;
     password: string;
-  }): Promise<DocType<TEntity>> {
+  }): Promise<AccountDocument> {
     const { username, password } = input;
 
     const foundUser = await this.findUser({ username });
@@ -292,16 +290,22 @@ export class AccountsPassword<TEntity extends AccountsEntity> {
       throw new Error('LOGIN_FAILED');
     }
 
-    const token = foundUser.tokens.find(
-      (el) => el.kind === tokenKindEnum.password
-    );
-    const hash: string | undefined = token?.value;
+    const { item: token } = await this.tokenEntity.findOne({
+      filter: {
+        accountId: foundUser.accountId,
+        kind: tokenKindEnum.password,
+        createdFor: foundUser.accountId,
+      },
+      context: {},
+    });
 
-    if (!hash) {
+    if (!token) {
       throw new Error('LOGIN_FAILED');
     }
 
-    const { valid: isPasswordValid } = await Password.verify({
+    const hash = token.value;
+
+    const { valid: isPasswordValid } = await PasswordHash.verify({
       password,
       hash,
     });
@@ -310,14 +314,6 @@ export class AccountsPassword<TEntity extends AccountsEntity> {
       throw new Error('LOGIN_FAILED');
     }
 
-    return foundUser as any;
+    return foundUser as AccountDocument;
   }
 }
-
-type AnyUser = {
-  [K in keyof DocType<AccountsEntity>]: DocType<AccountsEntity>[K];
-} & {};
-
-type DocType<TEntity> = TEntity extends { parse(...args: any[]): infer Res }
-  ? EntityDocument<Res> & Account
-  : Account;

@@ -1,7 +1,6 @@
-import { AccountInput, AccountSchema } from '../AccountSchema';
-import { AccessType } from '../AccessType';
-import { Token } from '../TokenType';
 import { ULID_REGEX } from '@backland/schema';
+import { AccountInput, AccountSchema } from '../types/AccountSchema';
+import { AccessType } from '../types/AccessTypeSchema';
 
 describe('AccountSchema', () => {
   // afterEach();
@@ -12,16 +11,9 @@ describe('AccountSchema', () => {
       value: 'antonio@example.com',
     };
 
-    const token: Token = {
-      createdAt: new Date(),
-      kind: 'password',
-      value: '12345',
-    };
-
     const account: AccountInput = {
       username: 'antoniopresto',
       access: [accessItem],
-      tokens: [token],
       permissions: [],
       deactivated: false,
     };
@@ -42,20 +34,6 @@ describe('AccountSchema', () => {
       accountId: expect.stringMatching(ULID_REGEX),
       deactivated: false,
       permissions: [],
-      tokens: [
-        {
-          createdAt: expect.any(Date),
-          kind: 'password',
-          value: '12345',
-        },
-      ],
-      tokenByKind: {
-        password: {
-          createdAt: expect.any(Date),
-          kind: 'password',
-          value: '12345',
-        },
-      },
     });
   });
 });

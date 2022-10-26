@@ -1,5 +1,5 @@
 import { resetTypesCache } from '@backland/schema';
-import { AccessTypeSchema } from '../AccessType';
+import { AccessTypeSchema, AccessType } from '../types/AccessTypeSchema';
 
 describe('AccessType', () => {
   beforeEach(resetTypesCache);

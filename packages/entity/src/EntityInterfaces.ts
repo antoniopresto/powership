@@ -1,6 +1,7 @@
 import {
   ExtendDefinitionResult,
   GraphType,
+  LazyParseGraphTypePayload,
   ObjectDefinitionInput,
   ObjectFieldInput,
   parseObjectDefinition,
@@ -18,7 +19,7 @@ import {
   TransporterLoaderName,
   TransporterLoadersRecord,
 } from '@backland/transporter';
-import { Cast, MaybeArray, Merge, UnionToIntersection } from '@backland/utils';
+import { MaybeArray, Merge, UnionToIntersection } from '@backland/utils';
 
 import {
   EntityGraphQLConditionsType,
@@ -37,6 +38,8 @@ import { EdgeType, PaginationType } from './paginationUtils';
 export type EntityGeneratedFields = ReturnType<
   typeof createEntityDefaultFields
 >;
+
+export type _Cast<A1 extends any, A2 extends any> = A1 extends A2 ? A1 : A2;
 
 export const createEntityDefaultFields = () =>
   _EntityGeneratedFields({
@@ -172,7 +175,7 @@ type _Entity<Options extends EntityOptions> = {
     optionName: ON,
     value: NV
   ) => Entity<
-    Cast<
+    _Cast<
       { [K in keyof Options]: K extends ON ? NV : Options[K] },
       EntityOptions
     >
@@ -415,8 +418,7 @@ export type AnyEntity<
   name: string;
   transporter: Transporter;
   type: {
-    __isGraphType: true;
-    _object: any;
+    __lazyGetter: LazyParseGraphTypePayload;
     definition: any;
     parse(...args: any[]): Doc;
   };

@@ -36,7 +36,7 @@ verify.input = createSchema({
   hash: { string: {} },
 });
 
-export const Password = {
+export const PasswordHash = {
   hash,
   type: PasswordType,
   validate: PasswordType.parse,

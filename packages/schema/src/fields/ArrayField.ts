@@ -6,12 +6,13 @@ import { Infer } from '../Infer';
 import { arrayFieldParse } from './ArrayFieldParse';
 import { FieldType, FieldTypeParser, TAnyFieldType } from './FieldType';
 import { ObjectFieldInput } from './_parseFields';
+import { Cast } from '@backland/utils';
 
-export type ArrayFieldDef = {
+export type ArrayFieldDef<Of = any> = {
   length?: number;
   max?: number;
   min?: number;
-  of: ObjectFieldInput;
+  of: Cast<Of, ObjectFieldInput>;
 };
 
 export class ArrayField<T extends ArrayFieldDef> extends FieldType<
