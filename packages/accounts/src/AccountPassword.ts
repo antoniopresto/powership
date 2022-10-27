@@ -80,6 +80,7 @@ export class AccountPassword<TEntity extends AccountEntity> {
 
     const user: AccountInput = {
       ...cleanUser,
+      accountId,
       access: [emailAccess],
       deactivated: false,
       permissions: [`admin_profile:${accountId}`],
@@ -222,7 +223,6 @@ export class AccountPassword<TEntity extends AccountEntity> {
       kind: tokenKindEnum.password_recovery,
       reason: reason,
       value: token,
-      // endTime: // TODO
     };
 
     const ret = await this.tokenEntity.updateOne({

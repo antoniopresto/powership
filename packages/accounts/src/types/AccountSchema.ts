@@ -1,10 +1,7 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 import { createSchema, Infer } from '@backland/schema';
 
-import {
-  AccessTypeSchema,
-  accessTypesEnum,
-} from './AccessTypeSchema';
+import { AccessTypeSchema, accessTypesEnum } from './AccessTypeSchema';
 import { usernameType } from '../utils/validateUserName';
 
 export const AccountSchema = createSchema({
@@ -49,4 +46,4 @@ export const AccountSchema = createSchema({
 } as const);
 
 export type Account = Infer<typeof AccountSchema>;
-export type AccountInput = Omit<Account, 'accountId' | 'phone' | 'email'>;
+export type AccountInput = Omit<Account, 'phone' | 'email'>;

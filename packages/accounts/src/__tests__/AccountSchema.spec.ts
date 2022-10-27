@@ -1,6 +1,7 @@
 import { ULID_REGEX } from '@backland/schema';
 import { AccountInput, AccountSchema } from '../types/AccountSchema';
 import { AccessType } from '../types/AccessTypeSchema';
+import { ulid } from '@backland/utils';
 
 describe('AccountSchema', () => {
   // afterEach();
@@ -16,6 +17,7 @@ describe('AccountSchema', () => {
       access: [accessItem],
       permissions: [],
       deactivated: false,
+      accountId: ulid(),
     };
 
     const sut = AccountSchema.parse(account);

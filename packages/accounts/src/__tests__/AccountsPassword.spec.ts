@@ -1,28 +1,31 @@
-import { AccountPassword } from '../AccountPassword';
 import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
-import { TokenEntity } from '../entity/TokenEntity';
-import { AccountsEntity } from '../entity/AccountEntity';
 
 describe('AccountsPassword', () => {
   let mockApp: AppMock;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     mockApp = createAppMock();
     await mockApp.start();
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     await mockApp.reset();
+    jest.resetModules();
   });
 
   function accounts() {
+    const { AccountsEntity } = require('../entity/AccountEntity');
+    const { TokenEntity } = require('../entity/TokenEntity');
+    const { AccountPassword } =
+      require('../AccountPassword') as typeof import('../AccountPassword');
+
     AccountsEntity.setOption('transporter', mockApp.transporter);
     TokenEntity.setOption('transporter', mockApp.transporter);
 
     return new AccountPassword({});
   }
 
-  test('new', async () => {
+  test('instantiate AccountsPassword', async () => {
     const accountsPassword = accounts();
     expect(accountsPassword.accountEntity).toBeTruthy();
   });
