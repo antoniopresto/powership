@@ -406,13 +406,13 @@ export type UpdateOneResult<T extends DocumentBase = DocumentBase> = {
 
 export type UpdateManyResult = {
   error?: string | null | undefined;
-  modifiedCount: number|null;
+  modifiedCount: number | null;
   upsertedId: string | null;
 };
 
 export type DeleteManyResult = {
-  error?: string | null | undefined;
   deletedCount: number;
+  error?: string | null | undefined;
 };
 
 export type FindManyResult<Doc extends DocumentBase = DocumentBase> = {
@@ -453,6 +453,14 @@ export interface DocumentMethods<
     } & {}
   ): Promise<{ [K in keyof CreateOneResult<Doc>]: CreateOneResult<Doc>[K] }>;
 
+  deleteMany(
+    options: {
+      [K in keyof DocumentOptions<
+        DeleteManyConfig<Doc, PK, SK>
+      >]: DocumentOptions<DeleteManyConfig<Doc, PK, SK>>[K];
+    } & {}
+  ): Promise<{ [K in keyof DeleteManyResult]: DeleteManyResult[K] } & {}>;
+
   deleteOne(
     options: {
       [K in keyof DocumentOptions<
@@ -461,16 +469,6 @@ export interface DocumentMethods<
     } & {}
   ): Promise<
     { [K in keyof DeleteOneResult<Doc>]: DeleteOneResult<Doc>[K] } & {}
-  >;
-
-  deleteMany(
-    options: {
-      [K in keyof DocumentOptions<
-        DeleteManyConfig<Doc, PK, SK>
-      >]: DocumentOptions<DeleteManyConfig<Doc, PK, SK>>[K];
-    } & {}
-  ): Promise<
-    { [K in keyof DeleteManyResult]: DeleteManyResult[K] } & {}
   >;
 
   findById(
@@ -515,6 +513,14 @@ export interface DocumentMethods<
     { [K in keyof PaginationResult<Doc>]: PaginationResult<Doc>[K] } & {}
   >;
 
+  updateMany(
+    options: {
+      [K in keyof DocumentOptions<
+        UpdateManyConfig<Doc, PK, SK>
+      >]: DocumentOptions<UpdateManyConfig<Doc, PK, SK>>[K];
+    } & {}
+  ): Promise<{ [K in keyof UpdateManyResult]: UpdateManyResult[K] } & {}>;
+
   updateOne(
     options: {
       [K in keyof DocumentOptions<
@@ -524,14 +530,6 @@ export interface DocumentMethods<
   ): Promise<
     { [K in keyof UpdateOneResult<Doc>]: UpdateOneResult<Doc>[K] } & {}
   >;
-
-  updateMany(
-    options: {
-      [K in keyof DocumentOptions<
-        UpdateManyConfig<Doc, PK, SK>
-      >]: DocumentOptions<UpdateManyConfig<Doc, PK, SK>>[K];
-    } & {}
-  ): Promise<{ [K in keyof UpdateManyResult]: UpdateManyResult[K] } & {}>;
 }
 
 export interface Transporter {
@@ -543,9 +541,9 @@ export interface Transporter {
     options: CreateOneConfig
   ): Promise<CreateOneResult<T>>;
 
-  deleteOne(options: DeleteOneConfig): Promise<DeleteOneResult>;
-
   deleteMany(options: DeleteManyConfig): Promise<DeleteManyResult>;
+
+  deleteOne(options: DeleteOneConfig): Promise<DeleteOneResult>;
 
   findById(options: DocumentOptions<FindByIdConfig>): Promise<FindOneResult>;
 
@@ -555,9 +553,9 @@ export interface Transporter {
 
   paginate(options: FindManyConfig): Promise<PaginationResult>;
 
-  updateOne(options: UpdateOneConfig): Promise<UpdateOneResult>;
-
   updateMany(options: UpdateManyConfig): Promise<UpdateManyResult>;
+
+  updateOne(options: UpdateOneConfig): Promise<UpdateOneResult>;
 }
 
 export const transporterLoaderNames = tuple(

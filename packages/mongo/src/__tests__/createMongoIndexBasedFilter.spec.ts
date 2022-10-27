@@ -160,7 +160,7 @@ describe('createMongoIndexBasedFilter', () => {
       const query = createMongoIndexBasedFilters({
         indexConfig,
         filter: {
-          PK: 'users#123',
+          PK: 'users\u0000#123',
           SK: {
             $eq: 'abc',
           },
@@ -173,7 +173,7 @@ describe('createMongoIndexBasedFilter', () => {
     it('should handle $gt', async () => {
       const query = createMongoIndexBasedFilters({
         filter: {
-          PK: 'users#123',
+          PK: 'users\u0000#123',
           SK: {
             $gt: 'abc',
           },
@@ -194,7 +194,7 @@ describe('createMongoIndexBasedFilter', () => {
     it('should handle $gte', async () => {
       const query = createMongoIndexBasedFilters({
         filter: {
-          PK: 'users#123',
+          PK: 'users\u0000#123',
           SK: {
             $gte: 'abc',
           },
@@ -212,7 +212,7 @@ describe('createMongoIndexBasedFilter', () => {
     it('should handle $lt', async () => {
       const query = createMongoIndexBasedFilters({
         filter: {
-          PK: 'users#123',
+          PK: 'users\u0000#123',
           SK: {
             $lt: 'abc',
           },
@@ -231,7 +231,7 @@ describe('createMongoIndexBasedFilter', () => {
       const query = createMongoIndexBasedFilters({
         indexConfig,
         filter: {
-          PK: 'users#123',
+          PK: 'users\u0000#123',
           SK: {
             $lte: 'abc',
           },
