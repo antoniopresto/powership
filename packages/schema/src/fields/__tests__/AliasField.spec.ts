@@ -19,8 +19,9 @@ describe('AliasField', () => {
         alias: {
           type: 'record?',
           aggregate: [
+            { $pick: 'person' },
             {
-              $keyBy: 'person.age',
+              $keyBy: 'age',
             },
           ],
         },
@@ -40,9 +41,7 @@ describe('AliasField', () => {
       fn: 123,
       fn2: {
         '123': {
-          person: {
-            age: 123,
-          },
+          age: 123,
         },
       },
       person: {
@@ -240,5 +239,52 @@ describe('AliasField', () => {
       '  Value_aliased: Date!',
       '}',
     ]);
+  });
+
+  test('delayed type', () => {
+    const type = createType('custom', {
+      description:
+        'Register of a React Component of' +
+        ' a Former Field to be saved in DB.',
+      object: {
+        _kind: {
+          defaultValue: 'KIND123',
+          literal: 'KIND123',
+          optional: true,
+        },
+        oneList: {
+          array: { of: { object: { name: 'string' } } },
+          defaultValue: [{ name: 'Antonio' }],
+        },
+        aliased123: {
+          alias: {
+            type: { record: { type: 'any' } },
+            aggregate: [{ $keyBy: 'oneList.name' }],
+          },
+          optional: true,
+        },
+      },
+    });
+
+    const sut = type.parse({});
+
+    expect(sut).toEqual({
+      _kind: 'KIND123',
+      aliased123: {
+        Antonio: {
+          _kind: 'KIND123',
+          oneList: [
+            {
+              name: 'Antonio',
+            },
+          ],
+        },
+      },
+      oneList: [
+        {
+          name: 'Antonio',
+        },
+      ],
+    });
   });
 });

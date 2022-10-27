@@ -1,6 +1,6 @@
 {
   "name": "@backland/utils",
-  "version": "0.1.3-alpha.20221026180751.0",
+  "version": "0.1.3-alpha.20221027T161412-0300.48+79f6094",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -57,7 +57,7 @@
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@backland/babel-plugins": "0.1.3-alpha.20221026180751.0",
+    "@backland/babel-plugins": "0.1.3-alpha.20221027T161412-0300.48+79f6094",
     "@types/big.js": "6.1.6",
     "@types/ejson": "2.2.0",
     "@types/fs-extra": "9.0.13",
@@ -91,5 +91,6 @@
   ],
   "prettier": {
     "singleQuote": true
-  }
+  },
+  "gitHead": "79f609460a60a31025c31a438f19ef54a1cbcab8"
 }

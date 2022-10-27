@@ -4,6 +4,7 @@ import {
   NullableToPartial,
 } from '@backland/utils';
 
+import { ArrayFieldDef } from './ArrayField';
 import {
   CommonFieldDefinition,
   CursorType,
@@ -12,7 +13,6 @@ import {
   ListDefinition,
   ListDefinitionTruthy,
 } from './_fieldDefinitions';
-import { ArrayFieldDef } from './ArrayField';
 
 export type _ObjectFieldInputBase =
   | _GraphType

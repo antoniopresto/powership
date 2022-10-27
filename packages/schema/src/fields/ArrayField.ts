@@ -1,3 +1,4 @@
+import { Cast } from '@backland/utils';
 import { inspectObject } from '@backland/utils/lib/inspectObject';
 
 import { CircularDeps } from '../CircularDeps';
@@ -6,7 +7,6 @@ import { Infer } from '../Infer';
 import { arrayFieldParse } from './ArrayFieldParse';
 import { FieldType, FieldTypeParser, TAnyFieldType } from './FieldType';
 import { ObjectFieldInput } from './_parseFields';
-import { Cast } from '@backland/utils';
 
 export type ArrayFieldDef<Of = any> = {
   length?: number;

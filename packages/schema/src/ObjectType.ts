@@ -217,14 +217,12 @@ export class ObjectType<
     const errors: string[] = [];
     const parsed: any = {};
 
-    const partialList: {
+    const fieldInputsList: {
       composer: FieldComposer | undefined;
       fieldDef: FinalFieldDefinition;
       key: string;
       value: any;
     }[] = [];
-
-    const partialRecord: Record<string, any> = {};
 
     if (!input || typeof input !== 'object' || Array.isArray(input)) {
       throw new RuntimeError(
@@ -247,13 +245,12 @@ export class ObjectType<
 
       if (fieldDef.type === 'alias') {
         const instance = __getCachedFieldInstance(fieldDef);
-        return partialList.push({
+        return fieldInputsList.push({
           composer: instance.composer!,
           fieldDef,
           key: currField,
           value: undefined,
         });
-        return;
       }
 
       const value = input[currField];
@@ -267,8 +264,7 @@ export class ObjectType<
         return;
       }
 
-      partialRecord[currField] = value;
-      partialList.push({
+      fieldInputsList.push({
         composer: undefined,
         fieldDef,
         key: currField,
@@ -276,11 +272,38 @@ export class ObjectType<
       });
     });
 
-    partialList.forEach(({ key, fieldDef, value, composer }) => {
-      if (composer) {
-        value = composer.compose(partialRecord);
-        fieldDef = composer.def;
+    // parsing ignoring aliases
+    const notAliasFieldsResults = fieldInputsList.map((entry) => {
+      const { key, fieldDef, value } = entry;
+
+      const result = validateObjectFields({
+        definition: fieldDef,
+        fieldName: key,
+        fieldParserOptions: { excludeInvalidListItems },
+        value,
+      });
+
+      if (result.parsed !== undefined) {
+        parsed[key] = result.parsed;
       }
+
+      if (!entry.composer) {
+        errors.unshift(...result.errors);
+      }
+
+      return {
+        ...entry,
+        ...result,
+      };
+    });
+
+    // handling aliases
+    notAliasFieldsResults.forEach((field) => {
+      let { key, composer } = field;
+      if (!composer) return;
+
+      const value = composer.compose(parsed);
+      const fieldDef = composer.def;
 
       const result = validateObjectFields({
         definition: fieldDef,
