@@ -20,9 +20,9 @@ export const AccountsEntity = createEntity({
       name: 'accountId',
     },
     {
-      PK: ['.username'],
+      PK: ['.access.kind', '.access.value'],
       field: '_id2',
-      name: 'username',
+      name: 'access',
     },
   ],
   name: 'Account',

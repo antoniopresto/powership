@@ -27,6 +27,7 @@ import {
 import {
   createProxy,
   ensureArray,
+  getByPath,
   isProduction,
   simpleObjectClone,
   tupleEnum,
@@ -759,30 +760,42 @@ function _getIndexGraphTypes(input: {
 
   const { name: entityName, type } = entityOptions;
 
+  function findFieldDef(fieldName: string) {
+    let def: FinalFieldDefinition | undefined;
+    fieldName.split('.').forEach((part, index) => {
+      if (index === 0) {
+        def = getByPath(entityOutputDefinitionWithRelations, part);
+      } else if (def && def.type === 'object') {
+        def = getByPath(def.def, part);
+      }
+    });
+    return def;
+  }
+
   return parsedIndexKeys.reduce(
     (acc, next): Record<string, GraphType<{ object: any }>> => {
       const fields: ObjectDefinitionInput = {};
 
       next.PK.requiredFields.forEach((fieldName) => {
-        const def = entityOutputDefinitionWithRelations[fieldName];
+        const def = findFieldDef(fieldName);
         if (!def) {
           throw new RuntimeError(
             `Field "${fieldName}" defined for index ${next.index.name} not defined in the input type.`,
             { type }
           );
         }
-        fields[fieldName] = entityOutputDefinitionWithRelations[fieldName];
+        fields[fieldName] = def;
       });
 
       next.SK.requiredFields.forEach((fieldName) => {
-        const def = entityOutputDefinitionWithRelations[fieldName];
+        const def = findFieldDef(fieldName);
         if (!def) {
           throw new RuntimeError(
             `Field "${fieldName}" defined for index ${next.index.name} not defined in the input type.`,
             { type }
           );
         }
-        fields[fieldName] = fields[fieldName] || { ...def, optional: true };
+        fields[fieldName] = def;
       });
 
       const typeName = `${entityName}${capitalize(next.index.name)}Index`;

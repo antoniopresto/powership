@@ -1,4 +1,4 @@
-import { nonNullValues, textToBase64 } from '@backland/utils';
+import { getByPath, nonNullValues, textToBase64 } from "@backland/utils";
 import { RuntimeError } from '@backland/utils/lib/RuntimeError';
 import { encodeNumber } from '@backland/utils/lib/conust';
 import { devAssert } from '@backland/utils/lib/devAssert';
@@ -692,7 +692,7 @@ function pickIndexKeyPartsFromDocument(param: {
       const documentField = keyPart.slice(1);
       requiredFields.push(documentField);
 
-      let found = doc[documentField];
+      let found = getByPath(doc, documentField);
 
       if (found === undefined || found === null) {
         if (acceptNullable) return (nullableFound = { value: found });

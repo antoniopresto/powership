@@ -13,10 +13,10 @@ async function hash(params: PasswordHashParams): Promise<string> {
   return keyBuf.toString('base64');
 }
 
-export const PasswordType = createType('PasswordType', {
+export const PasswordType = createType('PasswordType', () => ({
   def: { max: 200, min: 7 },
   type: 'string',
-});
+}));
 
 hash.input = createSchema({
   password: PasswordType,
@@ -39,7 +39,7 @@ verify.input = createSchema({
 export const PasswordHash = {
   hash,
   type: PasswordType,
-  validate: PasswordType.parse,
+  validate: PasswordType.parse, // TODO not touch, salvar locais onde ja tocou
   verify,
 };
 
