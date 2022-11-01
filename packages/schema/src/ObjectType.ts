@@ -1,12 +1,12 @@
 import { IsKnown } from '@backland/utils';
-import { RuntimeError } from '@backland/utils/lib/RuntimeError';
-import { StrictMap } from '@backland/utils/lib/StrictMap';
-import { ensureArray } from '@backland/utils/lib/ensureArray';
-import { isProduction } from '@backland/utils/lib/env';
-import { expectedType } from '@backland/utils/lib/expectedType';
-import { getTypeName } from '@backland/utils/lib/getTypeName';
-import { invariantType } from '@backland/utils/lib/invariant';
-import { Serializable } from '@backland/utils/lib/typeUtils';
+import { RuntimeError } from '@backland/utils';
+import { StrictMap } from '@backland/utils';
+import { ensureArray } from '@backland/utils';
+import { isProduction } from '@backland/utils';
+import { expectedType } from '@backland/utils';
+import { getTypeName } from '@backland/utils';
+import { invariantType } from '@backland/utils';
+import { Serializable } from '@backland/utils';
 import type { GraphQLInterfaceType, GraphQLObjectType } from 'graphql';
 
 import { BacklandModules, CircularDeps } from './CircularDeps';

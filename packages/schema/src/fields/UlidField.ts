@@ -1,5 +1,5 @@
-import { expectedType } from '@backland/utils/lib/expectedType';
-import { ulid } from '@backland/utils/lib/ulid';
+import { expectedType } from '@backland/utils';
+import { ulid } from '@backland/utils';
 
 import { FieldType, FieldTypeParser } from './FieldType';
 

@@ -7,11 +7,11 @@ import {
   TopLevelFilterKey,
   TransporterFieldType,
 } from '@backland/transporter';
-import { RuntimeError } from '@backland/utils/lib/RuntimeError';
-import { devAssert } from '@backland/utils/lib/devAssert';
-import { getKeys } from '@backland/utils/lib/getKeys';
-import { getTypeName } from '@backland/utils/lib/getTypeName';
-import { escapeStringRegexp } from '@backland/utils/lib/scapeRegex';
+import { RuntimeError } from '@backland/utils';
+import { devAssert } from '@backland/utils';
+import { getKeys } from '@backland/utils';
+import { getTypeName } from '@backland/utils';
+import { escapeStringRegexp } from '@backland/utils';
 import { Filter } from 'mongodb';
 
 export function createMongoIndexBasedFilters(options: {

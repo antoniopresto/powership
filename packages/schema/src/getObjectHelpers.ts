@@ -1,4 +1,4 @@
-import { getKeys } from '@backland/utils/lib/getKeys';
+import { getKeys } from '@backland/utils';
 
 import type { FinalFieldDefinition } from './ObjectType';
 import { TAnyFieldType } from './fields/FieldType';

@@ -1,4 +1,4 @@
-import { expectedType } from '@backland/utils/lib/expectedType';
+import { expectedType } from '@backland/utils';
 
 import { FieldType, FieldTypeParser } from './FieldType';
 import { FieldTypeError } from './FieldTypeErrors';

@@ -1,4 +1,4 @@
-import { getByPath } from '@backland/utils/lib/getByPath';
+import { getByPath } from '@backland/utils';
 
 import { objectMetaFieldKey } from '../fields/MetaFieldField';
 

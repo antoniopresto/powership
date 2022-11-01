@@ -1,4 +1,4 @@
-import { getTypeName } from '@backland/utils/lib/getTypeName';
+import { getTypeName } from '@backland/utils';
 
 import { FieldType, FieldTypeParser } from './FieldType';
 export class BooleanField extends FieldType<boolean, 'boolean', undefined> {

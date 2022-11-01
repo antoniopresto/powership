@@ -1,5 +1,5 @@
 import { Cast } from '@backland/utils';
-import { inspectObject } from '@backland/utils/lib/inspectObject';
+import { inspectObject } from '@backland/utils';
 
 import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';

@@ -1,4 +1,4 @@
-import { jsonToTypescript } from '@backland/utils/lib/jsonToTypescript';
+import { jsonToTypescript } from '@backland/utils';
 
 import { ObjectDefinitionInput } from './TObjectConfig';
 import { ObjectLike } from './fields/IObjectLike';

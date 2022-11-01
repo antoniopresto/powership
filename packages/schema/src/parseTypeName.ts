@@ -1,4 +1,4 @@
-import { RuntimeError } from '@backland/utils/lib/RuntimeError';
+import { RuntimeError } from '@backland/utils';
 
 import { getObjectDefinitionMetaField } from './fields/MetaFieldField';
 import { FinalFieldDefinition } from './fields/_parseFields';

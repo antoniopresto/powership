@@ -1,4 +1,4 @@
-import { memoize } from '@backland/utils/lib/memoize';
+import { memoize } from '@backland/utils';
 
 import { AliasField } from './AliasField';
 import { AnyField } from './AnyField';

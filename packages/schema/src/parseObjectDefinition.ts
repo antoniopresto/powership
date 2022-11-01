@@ -1,9 +1,9 @@
-import { RuntimeError } from '@backland/utils/lib/RuntimeError';
-import { isProduction } from '@backland/utils/lib/env';
-import { getKeys } from '@backland/utils/lib/getKeys';
-import { getTypeName } from '@backland/utils/lib/getTypeName';
-import { inspectObject } from '@backland/utils/lib/inspectObject';
-import { simpleObjectClone } from '@backland/utils/lib/simpleObjectClone';
+import { RuntimeError } from '@backland/utils';
+import { isProduction } from '@backland/utils';
+import { getKeys } from '@backland/utils';
+import { getTypeName } from '@backland/utils';
+import { inspectObject } from '@backland/utils';
+import { simpleObjectClone } from '@backland/utils';
 
 import { GraphType } from './GraphType/GraphType';
 import {

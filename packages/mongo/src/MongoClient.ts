@@ -1,5 +1,5 @@
-import { RuntimeError } from '@backland/utils/lib/RuntimeError';
-import { Hope, hope } from '@backland/utils/lib/hoper';
+import { RuntimeError } from '@backland/utils';
+import { Hope, hope } from '@backland/utils';
 import * as mongodb from 'mongodb';
 
 export interface MongoClientOptions {

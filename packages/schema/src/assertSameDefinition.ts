@@ -1,4 +1,4 @@
-import { assertSame } from '@backland/utils/lib/assertSame';
+import { assertSame } from '@backland/utils';
 
 import { parseObjectDefinition } from './parseObjectDefinition';
 

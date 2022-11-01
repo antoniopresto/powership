@@ -1,6 +1,6 @@
-import { RuntimeError } from '@backland/utils/lib/RuntimeError';
-import { simpleObjectClone } from '@backland/utils/lib/simpleObjectClone';
-import { Merge } from '@backland/utils/lib/typeUtils';
+import { RuntimeError } from '@backland/utils';
+import { simpleObjectClone } from '@backland/utils';
+import { Merge } from '@backland/utils';
 
 import { createObjectType, isObject, ObjectType } from './ObjectType';
 import { ObjectLike } from './fields/IObjectLike';

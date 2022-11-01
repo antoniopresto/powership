@@ -1,7 +1,7 @@
 import path from 'path';
 
 import { Process } from '@backland/utils';
-import { Emitter, mitt } from '@backland/utils/lib/mitt';
+import { Emitter, mitt } from '@backland/utils';
 import { ensureFileSync, writeFileSync } from 'fs-extra';
 
 import { CircularDeps } from '../CircularDeps';
@@ -169,7 +169,7 @@ declare global {
   module '@backland/schema' {
     export * from '@backland/schema';
     import { ObjectFieldInput, ValidationCustomMessage, FieldDefinitionConfig } from '@backland/schema';
-    import { Merge } from '@backland/utils/lib/typeUtils';
+    import { Merge } from '@backland/utils';
   
     import {
       GraphQLField,

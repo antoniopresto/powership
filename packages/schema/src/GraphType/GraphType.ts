@@ -1,8 +1,8 @@
-import { RuntimeError } from '@backland/utils/lib/RuntimeError';
-import { StrictMap } from '@backland/utils/lib/StrictMap';
-import { assertSame } from '@backland/utils/lib/assertSame';
-import { isProduction } from '@backland/utils/lib/env';
-import { isBrowser } from '@backland/utils/lib/isBrowser';
+import { RuntimeError } from '@backland/utils';
+import { StrictMap } from '@backland/utils';
+import { assertSame } from '@backland/utils';
+import { isProduction } from '@backland/utils';
+import { isBrowser } from '@backland/utils';
 import type {
   GraphQLInterfaceType,
   GraphQLNamedInputType,

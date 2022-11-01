@@ -1,5 +1,5 @@
 import { inspectObject, tupleEnum } from '@backland/utils';
-import { NodeLogger } from '@backland/utils/lib/nodeLogger';
+import { NodeLogger } from '@backland/utils';
 
 import type { InvalidParsedIndexField } from './CollectionIndex';
 

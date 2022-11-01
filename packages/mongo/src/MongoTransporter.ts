@@ -21,8 +21,8 @@ import {
   UpdateOneConfig,
   UpdateOneResult,
 } from '@backland/transporter';
-import { NodeLogger } from '@backland/utils/lib/nodeLogger';
-import { simpleObjectClone } from '@backland/utils/lib/simpleObjectClone';
+import { NodeLogger } from '@backland/utils';
+import { simpleObjectClone } from '@backland/utils';
 import { Filter } from 'mongodb';
 
 import { MongoClient } from './MongoClient';

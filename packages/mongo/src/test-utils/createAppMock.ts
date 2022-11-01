@@ -1,5 +1,5 @@
 import { ObjectType } from '@backland/schema';
-import { notNull } from '@backland/utils/lib/invariant';
+import { notNull } from '@backland/utils';
 import { MongoMemoryServer } from 'mongodb-memory-server-core';
 
 import { MongoClient } from '../MongoClient';

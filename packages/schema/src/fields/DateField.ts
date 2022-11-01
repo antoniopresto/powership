@@ -1,5 +1,5 @@
-import { dateSerialize } from '@backland/utils/lib/dateSerialize';
-import { expectedType } from '@backland/utils/lib/expectedType';
+import { dateSerialize } from '@backland/utils';
+import { expectedType } from '@backland/utils';
 
 import { FieldType, FieldTypeParser } from './FieldType';
 

@@ -1,4 +1,4 @@
-import { RuntimeError } from '@backland/utils/lib/RuntimeError';
+import { RuntimeError } from '@backland/utils';
 
 import { CacheContext, MongoFindManyParams } from './IMongoDataLoader';
 import { getMongoDataloader } from './getMongoDataloader';

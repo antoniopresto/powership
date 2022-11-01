@@ -6,10 +6,10 @@ import {
   ObjectType,
 } from '@backland/schema';
 import { getTypeName } from '@backland/utils';
-import { slugify } from '@backland/utils/lib/slugify';
+import { slugify } from '@backland/utils';
 
 import { MongoTransporter } from '@backland/mongo';
-import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
+import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils/index';
 import { createEntity } from '../Entity';
 import { createEntityDefaultFields, Entity } from '../EntityInterfaces';
 import { createSchema } from '@backland/schema';

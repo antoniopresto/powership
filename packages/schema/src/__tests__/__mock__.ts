@@ -1,4 +1,4 @@
-import { tuple } from '@backland/utils/lib/typeUtils';
+import { tuple } from '@backland/utils';
 
 import { createType } from '../GraphType/GraphType';
 import { createObjectType } from '../ObjectType';

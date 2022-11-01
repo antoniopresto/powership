@@ -1,6 +1,6 @@
-import { getTypeName } from '@backland/utils/lib/getTypeName';
-import { inspectObject } from '@backland/utils/lib/inspectObject';
-import { uniq } from '@backland/utils/lib/uniq';
+import { getTypeName } from '@backland/utils';
+import { inspectObject } from '@backland/utils';
+import { uniq } from '@backland/utils';
 
 import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';

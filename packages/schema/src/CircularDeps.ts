@@ -1,9 +1,9 @@
 /*
  * Handles circular dependencies with type safety
  */
-import { RuntimeError } from '@backland/utils/lib/RuntimeError';
-import { dynamicRequire } from '@backland/utils/lib/dynamicRequire';
-import { isBrowser } from '@backland/utils/lib/isBrowser';
+import { RuntimeError } from '@backland/utils';
+import { dynamicRequire } from '@backland/utils';
+import { isBrowser } from '@backland/utils';
 
 import { fieldTypeNames } from './fields/fieldTypeNames';
 import type { FieldCreators } from './fields/fieldTypes';

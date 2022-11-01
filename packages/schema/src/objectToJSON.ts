@@ -1,11 +1,11 @@
 import { setByPath } from '@backland/utils';
-import { BJSON } from '@backland/utils/lib/BJSON';
-import { RuntimeError } from '@backland/utils/lib/RuntimeError';
-import { expectedType } from '@backland/utils/lib/expectedType';
-import { getByPath } from '@backland/utils/lib/getByPath';
-import { getKeys } from '@backland/utils/lib/getKeys';
-import { getTypeName } from '@backland/utils/lib/getTypeName';
-import { nonNullValues } from '@backland/utils/lib/invariant';
+import { BJSON } from '@backland/utils';
+import { RuntimeError } from '@backland/utils';
+import { expectedType } from '@backland/utils';
+import { getByPath } from '@backland/utils';
+import { getKeys } from '@backland/utils';
+import { getTypeName } from '@backland/utils';
+import { nonNullValues } from '@backland/utils';
 import { JSONSchema4 } from 'json-schema';
 
 import {

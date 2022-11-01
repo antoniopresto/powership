@@ -10,7 +10,7 @@ import {
   ObjectDefinitionInput,
   ObjectType,
 } from '@backland/schema';
-import { isMetaFieldKey } from '@backland/schema/lib/fields/MetaFieldField';
+import { isMetaFieldKey } from '@backland/schema';
 import {
   AnyCollectionIndexConfig,
   CollectionIndexConfig,
@@ -33,11 +33,11 @@ import {
   tupleEnum,
   ulid,
 } from '@backland/utils';
-import { RuntimeError } from '@backland/utils/lib/RuntimeError';
-import { devAssert } from '@backland/utils/lib/devAssert';
-import { nonNullValues, notNull } from '@backland/utils/lib/invariant';
-import { capitalize } from '@backland/utils/lib/stringCase';
-import { AnyFunction } from '@backland/utils/lib/typeUtils';
+import { RuntimeError } from '@backland/utils';
+import { devAssert } from '@backland/utils';
+import { nonNullValues, notNull } from '@backland/utils';
+import { capitalize } from '@backland/utils';
+import { AnyFunction } from '@backland/utils';
 import { hooks } from 'plugin-hooks';
 
 import {

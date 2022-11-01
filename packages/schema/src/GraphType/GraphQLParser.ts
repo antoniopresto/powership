@@ -1,10 +1,10 @@
 import { assertEqual, BJSON } from '@backland/utils';
-import { RuntimeError } from '@backland/utils/lib/RuntimeError';
-import { StrictMap } from '@backland/utils/lib/StrictMap';
-import { assertSame } from '@backland/utils/lib/assertSame';
-import { isProduction } from '@backland/utils/lib/env';
-import { hooks } from '@backland/utils/lib/hooks';
-import { nonNullValues } from '@backland/utils/lib/invariant';
+import { RuntimeError } from '@backland/utils';
+import { StrictMap } from '@backland/utils';
+import { assertSame } from '@backland/utils';
+import { isProduction } from '@backland/utils';
+import { hooks } from '@backland/utils';
+import { nonNullValues } from '@backland/utils';
 import {
   GraphQLBoolean,
   GraphQLEnumType,

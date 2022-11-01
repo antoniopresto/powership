@@ -1,5 +1,5 @@
-import { expectedType } from '@backland/utils/lib/expectedType';
-import { inspectObject } from '@backland/utils/lib/inspectObject';
+import { expectedType } from '@backland/utils';
+import { inspectObject } from '@backland/utils';
 
 import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';

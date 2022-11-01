@@ -1,7 +1,7 @@
-import { BJSON } from '@backland/utils/lib/BJSON';
-import { RuntimeError } from '@backland/utils/lib/RuntimeError';
-import { getTypeName } from '@backland/utils/lib/getTypeName';
-import { Serializable } from '@backland/utils/lib/typeUtils';
+import { BJSON } from '@backland/utils';
+import { RuntimeError } from '@backland/utils';
+import { getTypeName } from '@backland/utils';
+import { Serializable } from '@backland/utils';
 
 import { FieldType, FieldTypeParser } from './FieldType';
 

@@ -1,16 +1,16 @@
 import { CircularDeps } from '@backland/schema';
 import { Cast, MaybePromise } from '@backland/utils';
-import { RuntimeError } from '@backland/utils/lib/RuntimeError';
-import { devAssert } from '@backland/utils/lib/devAssert';
-import { getTypeName } from '@backland/utils/lib/getTypeName';
-import { MaybeArray, tuple } from '@backland/utils/lib/typeUtils';
+import { RuntimeError } from '@backland/utils';
+import { devAssert } from '@backland/utils';
+import { getTypeName } from '@backland/utils';
+import { MaybeArray, tuple } from '@backland/utils';
 import {
   Join,
   MatchKeysAndValues,
   NestedPaths,
   Query,
   UpdateDefinition,
-} from 'aggio/lib/Operations';
+} from 'aggio';
 
 import { CollectionIndexConfig, DocumentIndexField } from './CollectionIndex';
 

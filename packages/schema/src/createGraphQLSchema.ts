@@ -1,6 +1,6 @@
 import { BJSON, capitalize, notNull } from '@backland/utils';
-import { formatGraphQL } from '@backland/utils/lib/formatGraphQL';
-import { tupleEnum } from '@backland/utils/lib/typeUtils';
+import { formatGraphQL } from '@backland/utils';
+import { tupleEnum } from '@backland/utils';
 import type { GraphQLSchemaConfig } from 'graphql';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 import groupBy from 'lodash/groupBy';
