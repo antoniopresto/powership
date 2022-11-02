@@ -1,5 +1,9 @@
 import { FinalFieldDefinition } from '@backland/schema';
-import { DocumentBase, PaginationResult } from '@backland/transporter';
+import {
+  DocumentBase,
+  PaginationResult,
+  TransporterLoaderName,
+} from '@backland/transporter';
 import { tuple } from '@backland/utils';
 import { Parallel, Waterfall } from 'plugin-hooks';
 
@@ -72,6 +76,10 @@ export type EntityParserHookContext<E extends AnyEntity> = {
   entity: E;
 };
 
+export type _EntityLoaders<E extends Record<string, any>> = {
+  [M in TransporterLoaderName]: E[M];
+};
+
 export type EntityHooks<
   Doc extends DocumentBase = DocumentBase,
   E extends AnyEntity = AnyEntity
@@ -103,7 +111,11 @@ export type EntityHooks<
     }
   >;
 
+  initCreation: Parallel<EntityOptions, E>;
+
   postParse: Waterfall<EntityOperationInfoContext, EntityParserHookContext<E>>;
 
   preParse: Waterfall<EntityOperationInfoContext, EntityParserHookContext<E>>;
+
+  willResolve: Waterfall<_EntityLoaders<E>, EntityOperationInfoContext>;
 };

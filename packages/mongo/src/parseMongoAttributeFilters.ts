@@ -20,7 +20,7 @@ export function createMongoIndexBasedFilters(options: {
 }) {
   const { indexConfig, filter } = options;
   const { filters } = createDocumentIndexBasedFilters(filter, indexConfig);
-  return parseMongoAttributeFilters({ $and: filters });
+  return parseMongoAttributeFilters(filters);
 }
 
 export function parseMongoAttributeFilters(attFilter: FilterRecord) {

@@ -121,9 +121,9 @@ export class MongoTransporter implements Transporter {
       filter,
       indexConfig
     );
-    const $and = parseMongoAttributeFilters({ $and: filters });
+    const $and = parseMongoAttributeFilters(filters);
 
-    const firstFilterEntry = Object.entries(filters[0])[0];
+    const firstFilterEntry = Object.entries(filters)[0];
     const firstFilterKey = firstFilterEntry[0];
 
     if (after) {
@@ -137,9 +137,7 @@ export class MongoTransporter implements Transporter {
         indexConfig
       );
 
-      const startingFilter = parseMongoAttributeFilters({
-        $and: startingDocFilters,
-      });
+      const startingFilter = parseMongoAttributeFilters(startingDocFilters);
 
       const value = Object.values(startingFilter[0])[0];
 

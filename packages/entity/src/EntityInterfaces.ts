@@ -33,6 +33,10 @@ import {
 } from './EntityOptions';
 import { EntityHookOptions, EntityHooks } from './EntityPlugin';
 import { EntityOperationInfosRecord } from './entityOperationContextTypes';
+import {
+  AddIndexRelationsFn,
+  EntityIndexRelationsRecord,
+} from './indexRelations';
 import { EdgeType, PaginationType } from './paginationUtils';
 
 export type EntityGeneratedFields = ReturnType<
@@ -114,8 +118,12 @@ export type EntityFinalDefinition<InputDef> = InputDef extends {
   : never;
 
 type _Entity<Options extends EntityOptions> = {
+  __isBLEntity: true;
+
   _hooks: EntityHooks;
-  aliasPaths: string[]; // paths of found aliases in entity schemas or sub schemas
+  addIndexRelations: AddIndexRelationsFn<Options>;
+
+  aliasPaths: string[];
 
   clone: <O extends EntityOptions>(
     handler: ((originalOptions: Options) => O) | Partial<O>
@@ -148,6 +156,9 @@ type _Entity<Options extends EntityOptions> = {
       object: ObjectDefinitionInput;
     }>;
   };
+
+  // paths of found aliases in entity schemas or sub schemas
+  indexRelations: EntityIndexRelationsRecord;
 
   indexes: Options['indexes'];
 
@@ -202,7 +213,7 @@ type _Entity<Options extends EntityOptions> = {
     : never;
 
   usedOptions: Options;
-} & { createOne: CreateOne<Options> } & UnionToIntersection<
+} & { createOne: _EntityCreateOne<Options> } & UnionToIntersection<
     {
       // METHODS WITH FILTER BY INDEX
       [IndexKey in _key<Options['indexes']>]: {
@@ -243,27 +254,28 @@ type Utils<Loader, Options extends EntityOptions> = {
   };
 };
 
-type CreateOne<Options extends EntityOptions> = EntityTransporterMethod<
-  DocumentMethods<
-    //
-    // Doc with DefaultEntityFields as optional
-    {
-      [K in keyof _getDocType<Options> as K extends keyof EntityDefaultFields
-        ? never
-        : K]: _getDocType<Options>[K];
-    } & {
-      [K in keyof _getDocType<Options> as K extends keyof EntityDefaultFields
-        ? K
-        : never]?: _getDocType<Options>[K];
-    },
-    GetFieldsUsedInIndexes<Options['indexes'][number], 'PK'>,
-    GetFieldsUsedInIndexes<Options['indexes'][number], 'SK'>
-  >['createOne'] extends infer CreateOne
-    ? CreateOne extends (config: infer Config) => any
-      ? (config: Config) => Promise<CreateOneResult<_getDocType<Options>>>
+export type _EntityCreateOne<Options extends EntityOptions> =
+  EntityTransporterMethod<
+    DocumentMethods<
+      //
+      // Doc with DefaultEntityFields as optional
+      {
+        [K in keyof _getDocType<Options> as K extends keyof EntityDefaultFields
+          ? never
+          : K]: _getDocType<Options>[K];
+      } & {
+        [K in keyof _getDocType<Options> as K extends keyof EntityDefaultFields
+          ? K
+          : never]?: _getDocType<Options>[K];
+      },
+      GetFieldsUsedInIndexes<Options['indexes'][number], 'PK'>,
+      GetFieldsUsedInIndexes<Options['indexes'][number], 'SK'>
+    >['createOne'] extends infer CreateOne
+      ? CreateOne extends (config: infer Config) => any
+        ? (config: Config) => Promise<CreateOneResult<_getDocType<Options>>>
+        : never
       : never
-    : never
->;
+  >;
 
 type _get<LIST, K> = K extends keyof LIST ? LIST[K] : any;
 type _key<T> = Exclude<keyof T, keyof any[]>;

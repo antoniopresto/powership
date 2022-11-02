@@ -1,4 +1,3 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
 import { createSchema, Infer } from '@backland/schema';
 
 import { AccessTypeSchema, accessTypesEnum } from './AccessTypeSchema';

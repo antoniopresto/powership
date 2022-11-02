@@ -298,6 +298,7 @@ describe('Product', () => {
       PK: 'store1',
       SK: 'sku_batata',
       indexField: '_id1',
+      relatedTo: undefined,
     });
 
     const sut = await entity.findById({ id: id1, context: {} });

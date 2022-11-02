@@ -69,7 +69,7 @@ export function mountID(params: {
   const { indexField, entity, PK, SK, relatedTo } = params;
 
   const { prefix, postPK } = (() => {
-    if (!relatedTo) return { prefix: `${entity}:${indexField}`, postPK: '' };
+    if (!relatedTo) return { postPK: '', prefix: `${entity}:${indexField}` };
     // relatedTo:
     // allows parent entities to filter using $startsWith,
     // but only works if the child and parent entity have the same PK definition
@@ -77,8 +77,8 @@ export function mountID(params: {
     //  - parent has PK .accountId => will generate id: `accounts:123`
     //  - child  has PK .accountId => will generate id: `accounts:123${RELATION_SEPARATOR}${childEntityName}`
     return {
-      prefix: `${relatedTo}:${indexField}`,
       postPK: `${RELATION_SEPARATOR}${entity}`,
+      prefix: `${relatedTo}:${indexField}`,
     };
   })();
 
@@ -249,7 +249,6 @@ export function createDocumentIndexBasedFilters(
     }
 
     const items = joinPKAndSKAsIDFilter({
-      index,
       PK: PK.isFilter
         ? (PK.conditionFound as IndexFilter)
         : PK.valid
@@ -259,7 +258,6 @@ export function createDocumentIndexBasedFilters(
             { PK },
             { depth: 10 }
           ) as ''),
-
       SK: SK.nullableFound
         ? SK.nullableFound.value
         : SK.isFilter
@@ -273,6 +271,8 @@ export function createDocumentIndexBasedFilters(
           ) as ''),
 
       entity,
+
+      index,
 
       indexField: index.field,
     });
@@ -421,8 +421,8 @@ function joinPKAndSKAsIDFilter(options: {
   PK: IndexFilter | string;
   SK: IndexFilter | string | null | undefined;
   entity: string;
-  indexField: DocumentIndexField;
   index: AnyDocIndexItem;
+  indexField: DocumentIndexField;
 }): FilterRecord[] {
   let { PK, SK, entity, indexField, index } = options;
   const { relatedTo } = index;
@@ -495,13 +495,17 @@ function joinPKAndSKAsIDFilter(options: {
     );
 
     function _prefix(suffix: string) {
-      return mountID({
-        PK: suffix,
-        entity,
-        indexField,
-        relatedTo,
-        SK: null,
-      });
+      return (
+        mountID({
+          PK: suffix,
+          SK: null,
+          entity,
+          indexField,
+          relatedTo,
+        })
+          // removing PK separator "↠"
+          .slice(0, -1)
+      );
     }
 
     const SKFilter = SKValue === undefined ? {} : { [SKField]: SKValue };
@@ -513,7 +517,9 @@ function joinPKAndSKAsIDFilter(options: {
         }
 
         return {
-          [indexField]: { $startsWith: _prefix(pk_value) },
+          [indexField]: {
+            $startsWith: _prefix(pk_value),
+          },
           ...SKFilter,
         };
       }
@@ -925,8 +931,8 @@ export type DocumentIndexItem<Keys, TName extends Name> = Readonly<{
 
 // each relation is made at the same index field (_id, or _id1, etc)
 export type DocumentIndexRelation = {
-  name: string;
   entity: string;
+  name: string;
 };
 
 export type AnyDocIndexItem = DocumentIndexItem<string, Name>;

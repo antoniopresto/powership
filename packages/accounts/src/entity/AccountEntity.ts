@@ -10,6 +10,8 @@ const type = createType('Account', () => ({
 }));
 
 export const AccountsEntity = createEntity({
+  name: 'Account',
+  type,
   indexes: [
     // account PK is account#ulid
     // profile PK is profile#ulid(same from account)
@@ -19,14 +21,7 @@ export const AccountsEntity = createEntity({
       field: '_id',
       name: 'accountId',
     },
-    {
-      PK: ['.access.kind', '.access.value'],
-      field: '_id2',
-      name: 'access',
-    },
   ],
-  name: 'Account',
-  type,
 }) as unknown as AccountEntity;
 
 export type AccountDocument = EntityDocument<Account>;

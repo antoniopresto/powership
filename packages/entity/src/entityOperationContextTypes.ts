@@ -5,6 +5,7 @@ import {
 import { DeepWritable, simpleObjectClone } from '@backland/utils';
 
 import {
+  AnyEntity,
   EntityDocument,
   EntityLoaderConfig,
   EntityOperationInfoContext,
@@ -13,19 +14,22 @@ import { EntityOptions } from './EntityOptions';
 
 export function buildEntityOperationInfoContext<
   M extends TransporterLoaderName
->(method: M, options: Record<string, any>, entityOptions: EntityOptions) {
+>(input: { entity: AnyEntity; method: M; methodOptions: Record<string, any> }) {
+  const { method, methodOptions, entity } = input;
   const info = getOperationInfo(method);
 
-  const { upsert } = options as { upsert?: unknown };
+  const { upsert } = methodOptions as { upsert?: unknown };
 
   const isUpsert = info.isUpdate && upsert === true;
 
   return {
     ...(info as any),
-    entityOptions,
+    entity,
+    entityOptions: entity.usedOptions,
     isUpsert,
     loaderName: method,
-    options,
+    options: methodOptions,
+    shared: {},
   } as unknown as EntityOperationInfoContext<M>;
 }
 
@@ -123,6 +127,8 @@ export type EntityOperationInfosRecord = {
   [Method in keyof LoaderOperationsRecord]: Method extends unknown
     ? Method extends keyof LoaderOperationsRecord
       ? LoaderOperationsRecord[Method] & {
+          entity: AnyEntity;
+
           entityOptions: EntityOptions;
 
           getDocumentResults?: EntityDocument<any>[];
@@ -133,6 +139,8 @@ export type EntityOperationInfosRecord = {
           // start infer method
           // ================== //
           options: EntityLoaderConfig<Method>;
+
+          shared: Record<string, unknown>;
 
           // TOO MUCH for now
           // Indexes[number] extends infer IndexItem

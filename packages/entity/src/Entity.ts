@@ -7,10 +7,10 @@ import {
   FinalObjectDefinition,
   GraphType,
   isFieldTypeName,
+  isMetaFieldKey,
   ObjectDefinitionInput,
   ObjectType,
 } from '@backland/schema';
-import { isMetaFieldKey } from '@backland/schema';
 import {
   AnyCollectionIndexConfig,
   CollectionIndexConfig,
@@ -25,19 +25,20 @@ import {
   validateIndexNameAndField,
 } from '@backland/transporter';
 import {
+  AnyFunction,
+  capitalize,
   createProxy,
+  devAssert,
   ensureArray,
   getByPath,
   isProduction,
+  nonNullValues,
+  notNull,
+  RuntimeError,
   simpleObjectClone,
   tupleEnum,
   ulid,
 } from '@backland/utils';
-import { RuntimeError } from '@backland/utils';
-import { devAssert } from '@backland/utils';
-import { nonNullValues, notNull } from '@backland/utils';
-import { capitalize } from '@backland/utils';
-import { AnyFunction } from '@backland/utils';
 import { hooks } from 'plugin-hooks';
 
 import {
@@ -58,6 +59,12 @@ import {
 } from './EntityOptions';
 import { createEntityPlugin, EntityHooks } from './EntityPlugin';
 import { buildEntityOperationInfoContext } from './entityOperationContextTypes';
+import {
+  _indexRelations,
+  EntityIndexRelationConfig,
+  EntityIndexRelationsRecord,
+} from './indexRelations';
+import { indexRelationsPlugin } from './indexRelationsPlugin';
 import { PageInfoType } from './paginationUtils';
 import { aliasesPlugin } from './plugins/aliasesPlugin';
 import { applyFieldResolvers } from './plugins/applyFieldResolvers';
@@ -74,6 +81,7 @@ const extendMethodsEnum = tupleEnum(
   'addRelations',
   'setOption',
   'clone',
+  'addIndexRelations',
   'extend'
 );
 
@@ -98,12 +106,19 @@ export function createEntity<
     }, opt);
   });
 
-  const plugins = [applyFieldResolvers, versionPlugin, aliasesPlugin];
+  const plugins = [
+    applyFieldResolvers,
+    versionPlugin,
+    aliasesPlugin,
+    indexRelationsPlugin,
+  ];
   const resolvers: EntityFieldResolver<any, any, any, any>[] = [];
   let gettersWereCalled = false;
 
   const entity = createProxy(_createEntity, {
     onGet(k: any): any {
+      if (k === '__isBLEntity') return true;
+
       if (typeof k === 'string' && k in extendMethodsEnum) {
         // clone
         if (k === 'clone') {
@@ -144,6 +159,33 @@ export function createEntity<
                 [optionName]: value,
               };
             });
+            return entity;
+          };
+        }
+
+        if (k === 'addIndexRelations') {
+          return function addIndexRelations(
+            relations: EntityIndexRelationsRecord
+          ) {
+            const relationsList: [string, EntityIndexRelationConfig][] =
+              Object.entries(relations);
+
+            entityMutations.push(
+              //
+              (entity) => {
+                entity.indexRelations = {
+                  ...entity.indexRelations,
+                  ...relations,
+                };
+                return entity;
+              },
+              //
+              (opt) => {
+                _indexRelations(opt, relationsList);
+                return opt;
+              }
+            );
+
             return entity;
           };
         }
@@ -205,7 +247,12 @@ export function createEntity<
   });
 
   function _createEntity() {
+    entityOptions = { ...entityOptions }; // open proxy;
     gettersWereCalled = true;
+
+    const _hooks = _createHooks();
+
+    const _partial = {} as TEntity;
 
     // keep it here, because can be changed in the above "onGet"
     const {
@@ -214,8 +261,6 @@ export function createEntity<
       type,
       name: entityName,
     } = entityOptions;
-
-    const _hooks = _createHooks();
 
     plugins.forEach((plugin) => {
       try {
@@ -257,6 +302,7 @@ export function createEntity<
     const databaseDefinition = simpleObjectClone(
       entityOutputDefinitionWithRelations
     );
+
     _hooks.createDefinition.exec(databaseDefinition, {
       entityOptions,
       fields,
@@ -355,7 +401,13 @@ export function createEntity<
 
         const context = { operation, resolvers };
 
-        const resolver: AnyFunction = transporter[method].bind(transporter);
+        let resolver: AnyFunction = transporter[method].bind(transporter);
+
+        resolver = (await _hooks.willResolve.exec(
+          resolver as any,
+          operation as any
+        )) as any;
+
         let result = await resolver(operation.options);
 
         if (
@@ -510,13 +562,11 @@ export function createEntity<
       });
     });
 
-    transporterLoaderNames.forEach((method) => {
-      _createLoader({
-        indexInfo: parsedIndexKeys,
-        indexes: indexConfig.indexes,
-        method,
-        newMethodName: method,
-      });
+    _createLoader({
+      indexInfo: parsedIndexKeys,
+      indexes: indexConfig.indexes,
+      method: 'createOne',
+      newMethodName: 'createOne',
     });
 
     const edgeType = createType(`${entityName}_Edge`, {
@@ -548,20 +598,20 @@ export function createEntity<
 
     type TEntity = AnyEntity;
 
-    // @ts-ignore
-    const getters: {
-      [K in keyof TEntity]: any;
-    } = {
-      addHooks: () => ({}), // handled in proxy
+    Object.assign(_partial, {
+      addHooks: () => ({}),
+      // handled in proxy
       addRelations: () => ({}),
       aliasPaths: _objectAliasPaths(databaseDefinition),
       conditionsDefinition: conditionsType.__lazyGetter.objectType!.definition,
       databaseType,
       edgeType: edgeType,
-      extend: () => ({}), // handled in proxy
+      extend: () => ({}),
+      // handled in proxy
       getDocumentId,
       indexGraphTypes: indexGraphTypes,
       indexes: indexes,
+      usedOptions: entityOptions,
       inputDefinition: inputDef,
       // loaders: loaders,
       name: entityName,
@@ -576,9 +626,9 @@ export function createEntity<
       transporter: defaultTransporter || entityOptions.transporter,
       type: entityType,
       updateDefinition: updateDefinition,
-    };
+    });
 
-    Object.assign(entity, getters);
+    Object.assign(entity, _partial);
 
     return entityMutations.reduce((acc, next) => {
       return next(acc);
@@ -593,8 +643,10 @@ function _createHooks(): EntityHooks {
     beforeQuery: hooks.waterfall(),
     createDefinition: hooks.parallel(),
     filterResult: hooks.waterfall(),
+    initCreation: hooks.parallel(),
     postParse: hooks.waterfall(),
     preParse: hooks.waterfall(),
+    willResolve: hooks.waterfall(),
   };
 }
 
@@ -684,11 +736,11 @@ async function _parseOperationContext(input: {
 
   await defaultTransporter?.connect();
 
-  let operationInfoContext = buildEntityOperationInfoContext(
+  let operationInfoContext = buildEntityOperationInfoContext({
+    entity,
     method,
     methodOptions,
-    entityOptions
-  );
+  });
 
   if ('filter' in operationInfoContext.options) {
     operationInfoContext.options.filter = graphQLFilterToTransporterFilter(
