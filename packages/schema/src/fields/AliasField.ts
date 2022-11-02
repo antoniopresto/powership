@@ -1,4 +1,11 @@
-import { aggio, Aggregation, assertEqual, getByPath } from '@backland/utils';
+import {
+  aggio,
+  Aggregation,
+  assertEqual,
+  getByPath,
+  nonNullValues,
+  ObjectDotNotations,
+} from '@backland/utils';
 
 import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';
@@ -12,9 +19,18 @@ import {
 import { FieldInput } from './_parseFields';
 
 export type AliasFieldAggregation<Parent = any> = {
-  aggregate: Aggregation<Parent> | Readonly<Aggregation<Parent>>;
   type: FieldInput;
-};
+} & (
+  | {
+      from: ObjectDotNotations<Parent>;
+      aggregate: Aggregation<Parent> | Readonly<Aggregation<Parent>>;
+    }
+  | {
+      aggregate: Aggregation<Parent> | Readonly<Aggregation<Parent>>;
+      from?: undefined;
+    }
+  | { from: ObjectDotNotations<Parent>; aggregate?: undefined }
+);
 
 export type AliasFieldDef = string | AliasFieldAggregation;
 
@@ -58,6 +74,12 @@ export class AliasField<InputDef extends AliasFieldDef = any> extends FieldType<
         if (typeof this.def === 'string') {
           return getByPath(parent, this.def);
         }
+        if (this.def.from) {
+          parent = getByPath(parent, this.def.from);
+          if (!this.def.aggregate) return parent;
+        }
+
+        nonNullValues({ aggregate: this.def.aggregate });
         return aggio([parent], this.def.aggregate as Aggregation<any>);
       },
       def: this.utils.fieldType.asFinalFieldDef,
