@@ -21,9 +21,16 @@ import {
 } from './Transporter';
 
 export const PK_SK_SEPARATOR = '↠';
-export const ID_SEPARATOR_REGEX = new RegExp(PK_SK_SEPARATOR, 'g');
+export const RELATION_SEPARATOR = '≻';
 export const ID_KEY_SEPARATOR = '#';
 export const ID_SCAPE_CHAR = String.fromCharCode(0);
+
+export const SPECIAL_ID_CHARACTERS = [
+  PK_SK_SEPARATOR,
+  RELATION_SEPARATOR,
+  ID_KEY_SEPARATOR,
+  ID_KEY_SEPARATOR,
+];
 
 function WITHOUT_ESCAPING_SEPARATORS_JoinIndexPartsFoundInDocument(
   parts: string[]
@@ -684,7 +691,11 @@ function pickIndexKeyPartsFromDocument(param: {
   indexParts.forEach((keyPart) => {
     if (nullableFound) return;
 
-    if (keyPart.startsWith('#')) {
+    if (keyPart === RELATION_SEPARATOR) {
+      return stringParts.push(keyPart);
+    }
+
+    if (keyPart.startsWith(ID_KEY_SEPARATOR)) {
       return stringParts.push(keyPart.slice(1));
     }
 
@@ -805,6 +816,7 @@ export function validateIndexNameAndField(index: AnyCollectionIndexConfig) {
 
 export type IndexKeyHash<Keys = string> =
   | `#${string}`
+  | typeof RELATION_SEPARATOR
   | `.${Extract<Keys, string>}`;
 
 export type IndexPartKind = 'PK' | 'SK';
