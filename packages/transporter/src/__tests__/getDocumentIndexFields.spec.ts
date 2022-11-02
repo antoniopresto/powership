@@ -196,4 +196,60 @@ describe('getDocumentIndexFields', () => {
       valid: false,
     });
   });
+
+  describe('relatedTo', () => {
+    test('case 1', () => {
+      const oneField = getDocumentIndexFields(
+        { accountId: 1234, kind: 'phone', value: '+55119988788' },
+        {
+          entity: 'AccessType',
+          indexes: [
+            {
+              name: 'kind',
+              field: '_id',
+              PK: ['.accountId'],
+              SK: ['.kind', '.value'],
+              relatedTo: 'Account',
+            },
+          ],
+        }
+      );
+
+      expect(oneField).toEqual({
+        error: null,
+        firstIndex: {
+          key: '_id',
+          value: 'Account:_id#741234≻AccessType↠phone#+55119988788',
+        },
+        indexFields: {
+          _id: 'Account:_id#741234≻AccessType↠phone#+55119988788',
+          _idPK: '741234',
+          _idSK: 'phone#+55119988788',
+          id: '~!QWNjb3VudDpfaWQjNzQxMjM04om7QWNjZXNzVHlwZeKGoHBob25lIys1NTExOTk4ODc4OA==',
+        },
+        invalidFields: null,
+        parsedIndexKeys: [
+          {
+            PK: {
+              definition: ['.accountId'],
+              requiredFields: ['accountId'],
+            },
+            SK: {
+              definition: ['.kind', '.value'],
+              requiredFields: ['kind', 'value'],
+            },
+            entity: 'AccessType',
+            index: {
+              PK: ['.accountId'],
+              SK: ['.kind', '.value'],
+              field: '_id',
+              name: 'kind',
+              relatedTo: 'Account',
+            },
+          },
+        ],
+        valid: true,
+      });
+    });
+  });
 });
