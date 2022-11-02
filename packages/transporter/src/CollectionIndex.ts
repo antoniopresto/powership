@@ -240,9 +240,9 @@ export function createDocumentIndexBasedFilters(
                 entity,
                 indexField: index.field,
                 relatedTo: undefined,
-              })
-                // remove ending PK_SK_SEPARATOR "↠"
-                .slice(0, -1) + RELATION_SEPARATOR,
+              }).slice(0, -1) + // removing ending PK_SK_SEPARATOR "↠"
+              RELATION_SEPARATOR +
+              rel.entity,
           },
         });
       });
