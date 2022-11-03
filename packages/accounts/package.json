@@ -4,6 +4,7 @@
   "description": "Backland accounts",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
+  "private": true,
   "scripts": {
     "test": "jest",
     "build": "run-s clear && run-p declarations build:* && sleep 3",
