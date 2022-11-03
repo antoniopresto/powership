@@ -1,6 +1,5 @@
 import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
 
-jest.setTimeout(1000000);
 describe('AccountsPassword', () => {
   let mockApp: AppMock;
 

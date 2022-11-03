@@ -27,8 +27,6 @@ const itemRanking = {
   },
 } as const;
 
-jest.setTimeout(60000);
-
 describe('MongoTransporter', () => {
   let mockApp: AppMock;
   let transporter: MongoTransporter;

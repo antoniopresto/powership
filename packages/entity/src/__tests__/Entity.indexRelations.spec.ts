@@ -2,7 +2,6 @@ import { mockApp } from './mockApp';
 import { createType } from '@backland/schema';
 import { createEntity } from '../Entity';
 
-jest.setTimeout(999999999);
 describe('Entity.indexRelations', () => {
   const mock = mockApp();
 

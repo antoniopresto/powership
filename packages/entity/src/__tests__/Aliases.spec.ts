@@ -5,8 +5,6 @@ import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
 import { createEntity } from '../Entity';
 import { tupleEnum } from '@backland/utils';
 
-jest.setTimeout(9999999);
-
 describe('Aliases', () => {
   let mockApp: AppMock;
   let transporter: MongoTransporter;

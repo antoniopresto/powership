@@ -4,7 +4,9 @@
     <node-options value="" />
     <working-dir value="" />
     <jest-options value="--watchAll" />
-    <envs />
+    <envs>
+      <env name="TEST_TIMEOUT" value="99999999" />
+    </envs>
     <scope-kind value="ALL" />
     <method v="2" />
   </configuration>

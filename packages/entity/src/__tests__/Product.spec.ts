@@ -7,7 +7,6 @@ import { mountID } from '@backland/transporter';
 import { createEntity } from '../Entity';
 import { createEntityDefaultFields } from '../EntityInterfaces';
 
-jest.setTimeout(9999999);
 describe('Product', () => {
   let mockApp: AppMock;
   let transporter: MongoTransporter;
