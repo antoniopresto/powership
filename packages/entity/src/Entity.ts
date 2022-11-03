@@ -60,11 +60,11 @@ import {
 import { createEntityPlugin, EntityHooks } from './EntityPlugin';
 import { buildEntityOperationInfoContext } from './entityOperationContextTypes';
 import {
-  _indexRelations,
+  _addEntityIndexRelations,
   EntityIndexRelationConfig,
   EntityIndexRelationsRecord,
-} from './indexRelations';
-import { indexRelationsPlugin } from './indexRelationsPlugin';
+} from './indexRelations/addEntityIndexRelations';
+import { indexRelationsPlugin } from './indexRelations/indexRelationsPlugin';
 import { PageInfoType } from './paginationUtils';
 import { aliasesPlugin } from './plugins/aliasesPlugin';
 import { applyFieldResolvers } from './plugins/applyFieldResolvers';
@@ -181,7 +181,7 @@ export function createEntity<
               },
               //
               (opt) => {
-                _indexRelations(opt, relationsList);
+                _addEntityIndexRelations(opt, relationsList);
                 return opt;
               }
             );

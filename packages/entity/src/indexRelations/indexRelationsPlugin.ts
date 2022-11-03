@@ -5,10 +5,10 @@ import {
   _EntityCreateOne,
   EntityOperationInfoContext,
   isEntityContextOfLoader,
-} from './EntityInterfaces';
-import { EntityOptions } from './EntityOptions';
-import { createEntityPlugin } from './EntityPlugin';
-import { EntityIndexRelationConfig } from './indexRelations';
+} from '../EntityInterfaces';
+import { EntityOptions } from '../EntityOptions';
+import { createEntityPlugin } from '../EntityPlugin';
+import { EntityIndexRelationConfig } from './addEntityIndexRelations';
 
 type RelatedDocumentFound = {
   created?: DocumentBase;

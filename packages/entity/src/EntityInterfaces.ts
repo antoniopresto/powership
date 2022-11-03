@@ -36,7 +36,7 @@ import { EntityOperationInfosRecord } from './entityOperationContextTypes';
 import {
   AddIndexRelationsFn,
   EntityIndexRelationsRecord,
-} from './indexRelations';
+} from './indexRelations/addEntityIndexRelations';
 import { EdgeType, PaginationType } from './paginationUtils';
 
 export type EntityGeneratedFields = ReturnType<
