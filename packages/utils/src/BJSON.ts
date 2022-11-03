@@ -10,6 +10,15 @@ function withSEP(txt: string) {
 export const BJSON_UNDEFINED = withSEP('undef');
 export const BJSON_FUNCTION = withSEP('func');
 
+type Formatter<Type> = {
+  name: string;
+  tsName(): string;
+  getParams(value: Type): string[];
+  hydrate(...str: string[]): Type;
+  match(value: unknown): undefined | Type;
+  jsonReplacer?: string;
+};
+
 export class Serializer<Type> {
   static SEP = SEP;
   name: string;
@@ -17,17 +26,10 @@ export class Serializer<Type> {
   blockStart: string;
   blockEnd: string;
   paramSep: string;
+  formatter: Formatter<Type>;
 
-  constructor(
-    public formatter: {
-      name: string;
-      tsName(): string;
-      getParams(value: Type): string[];
-      hydrate(...str: string[]): Type;
-      match(value: unknown): undefined | Type;
-      jsonReplacer?: string;
-    }
-  ) {
+  constructor(formatter: Formatter<Type>) {
+    this.formatter = formatter;
     this.name = formatter.name;
     this.sep = Serializer.SEP;
     this.paramSep = this.sep;

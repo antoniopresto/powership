@@ -1,9 +1,16 @@
 export class EnumType {
-  constructor(public value: string) {}
+  value: string
+  constructor(value: string) {
+    this.value = value
+  }
 }
 
 export class VariableType {
-  constructor(public value: string) {}
+  value: string;
+
+  constructor(value: string) {
+    this.value = value;
+  }
 
   toJSON() {
     return `$${this.value}`;

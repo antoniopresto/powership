@@ -1,23 +1,22 @@
 import { getTypeName } from './getTypeName';
 
 export class InvalidExpectedTypeError extends Error {
-  constructor(
-    public fieldName: string,
-    public found: string,
-    public expected: string
-  ) {
+  fieldName: string;
+  found: string;
+  expected: string;
+
+  constructor(fieldName: string, found: string, expected: string) {
     super(
       `Expected ${fieldName} to be of type "${expected}", found ${found} instead.`
     );
+    this.expected = expected;
+    this.fieldName = fieldName;
+    this.found = found;
   }
 }
 
 export class InvalidExpectedTruthyError extends Error {
-  constructor(
-    public fieldName: string,
-    public value: any,
-    public foundType: string
-  ) {
+  constructor(fieldName: string, value: any, foundType: string) {
     super(
       `Expected ${fieldName} to be have a truthy value, found "${value}" of type ${foundType}.`
     );

@@ -1,11 +1,13 @@
 {
   "name": "@backland/utils",
-  "version": "0.1.3-alpha.20221027T161412-0300.48+79f6094",
+  "version": "0.1.3-alpha.20221103123213.0",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
   "main": "lib/index.js",
+  "module": "lib/module/index.js",
   "browser": {
+    "lib/module/index.js": "./lib/browser/module/index.js",
     "lib/index.js": "./lib/browser/index.js"
   },
   "scripts": {
@@ -17,6 +19,7 @@
     "clear": "rimraf lib",
     "prepublish": "run-s build fix && run-p test",
     "build:browser": "TARGET=browser npm run babild -- --out-dir lib/browser",
+    "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir lib/browser/module",
     "build:node": "TARGET=node npm run babild -- --out-dir lib",
     "build:module-node": "TARGET=module-node npm run babild -- --out-dir lib/module",
     "declarations": "tsc -p tsconfig.json",
@@ -53,7 +56,7 @@
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@backland/babel-plugins": "0.1.3-alpha.20221027T161412-0300.48+79f6094",
+    "@backland/babel-plugins": "0.1.3-alpha.20221103123213.0",
     "@types/big.js": "6.1.6",
     "@types/ejson": "2.2.0",
     "@types/fs-extra": "9.0.13",
@@ -88,5 +91,5 @@
   "prettier": {
     "singleQuote": true
   },
-  "gitHead": "79f609460a60a31025c31a438f19ef54a1cbcab8"
+  "gitHead": "f7673272ead29a4cb4f399d7d606d7ec1c599df0"
 }

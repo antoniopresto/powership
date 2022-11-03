@@ -27,8 +27,10 @@ export class QueryBuilder<S extends Record<string, any> = Record<string, any>> {
   edges = new Map<string, Function>();
   object: Record<string, any> = {};
   query = '';
+  builder: (data: GraphGetData<S>) => Array<any>;
 
-  constructor(public builder: (data: GraphGetData<S>) => Array<any>) {
+  constructor(builder: (data: GraphGetData<S>) => Array<any>) {
+    this.builder = builder;
     builder(this.build());
   }
 
