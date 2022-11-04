@@ -1,6 +1,6 @@
-import { mockApp } from './mockApp';
+import { mockApp } from '../../__tests__/mockApp';
 import { createType } from '@backland/schema';
-import { createEntity } from '../Entity';
+import { createEntity } from '../../Entity';
 
 describe('Entity.indexRelations', () => {
   const mock = mockApp();
