@@ -31,7 +31,7 @@ import {
   EntityFieldResolver,
   EntityOptions,
 } from './EntityOptions';
-import { EntityHookOptions, EntityHooks } from './EntityPlugin';
+import { EntityHooks } from './EntityPlugin';
 import { EntityOperationInfosRecord } from './entityOperationContextTypes';
 import {
   AddIndexRelationsFn,
@@ -301,7 +301,7 @@ type ExcludeExtend<E> = {
 
 type WithExtend<Options extends EntityOptions, Origin> = {
   addHooks: (
-    options: MaybeArray<EntityHookOptions>
+    options: MaybeArray<EntityHooks>
   ) => ExcludeExtend<Origin> & WithExtend<Options, ExcludeExtend<Origin>>;
 
   addRelations: <
@@ -414,7 +414,11 @@ function _EntityGeneratedFields<
   return parseObjectDefinition(input).definition as any;
 }
 
-export type EntityDocument<Document> = Merge<Document, EntityDefaultFields>;
+export type EntityDocument<Document extends DocumentBase = DocumentBase> = Omit<
+  Document,
+  keyof EntityDefaultFields
+> &
+  EntityDefaultFields;
 
 export type AnyEntityDocument<Doc extends DocumentBase = DocumentBase> =
   EntityDocument<Doc>;

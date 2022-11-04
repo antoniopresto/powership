@@ -219,13 +219,13 @@ describe('getDocumentIndexFields', () => {
         error: null,
         firstIndex: {
           key: '_id',
-          value: 'Account:_id#741234≻AccessType↠phone#+55119988788',
+          value: 'account:_id#741234≻accesstype↠phone#+55119988788',
         },
         indexFields: {
-          _id: 'Account:_id#741234≻AccessType↠phone#+55119988788',
+          _id: 'account:_id#741234≻accesstype↠phone#+55119988788',
           _idPK: '741234',
           _idSK: 'phone#+55119988788',
-          id: '~!QWNjb3VudDpfaWQjNzQxMjM04om7QWNjZXNzVHlwZeKGoHBob25lIys1NTExOTk4ODc4OA==',
+          id: '~!YWNjb3VudDpfaWQjNzQxMjM04om7YWNjZXNzdHlwZeKGoHBob25lIys1NTExOTk4ODc4OA==',
         },
         invalidFields: null,
         parsedIndexKeys: [
@@ -238,13 +238,13 @@ describe('getDocumentIndexFields', () => {
               definition: ['.kind', '.value'],
               requiredFields: ['kind', 'value'],
             },
-            entity: 'AccessType',
+            entity: 'accesstype',
             index: {
               PK: ['.accountId'],
               SK: ['.kind', '.value'],
               field: '_id',
               name: 'kind',
-              relatedTo: 'Account',
+              relatedTo: 'account',
             },
           },
         ],

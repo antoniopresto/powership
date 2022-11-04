@@ -28,11 +28,11 @@ describe('getDocumentIndexFields', () => {
           $or: [
             {
               _id: {
-                $startsWith: 'Account:_id#741234≻AccessType',
+                $startsWith: 'account:_id#741234≻accesstype',
               },
             },
             {
-              _id: 'Account:_id#741234↠antonio',
+              _id: 'account:_id#741234↠antonio',
             },
           ],
         },

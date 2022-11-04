@@ -14,27 +14,12 @@ import {
 } from './EntityInterfaces';
 import { EntityFieldResolver, EntityOptions } from './EntityOptions';
 
-export function createEntityPlugin<
-  Document extends DocumentBase = DocumentBase
->(
+export function createEntityPlugin(
   name: string,
-  handlers: HooksRemap<EntityHooks<Document>>
-): EntityPlugin<Document> {
-  const entries = Object.entries(handlers);
-
+  handler: EntityPlugin
+): EntityPlugin {
   function plugin(hooks) {
-    entries.forEach(([hookName, resolver]) => {
-      function handler(...args) {
-        // @ts-ignore
-        return resolver(...args);
-      }
-
-      Object.defineProperties(plugin, {
-        name: { value: `${name}_${hookName}` },
-      });
-
-      hooks[hookName].register(handler);
-    });
+    return handler(hooks);
   }
 
   Object.defineProperties(plugin, {
@@ -44,21 +29,8 @@ export function createEntityPlugin<
   return plugin;
 }
 
-export type EntityHookOptions<Document extends DocumentBase = DocumentBase> =
-  HooksRemap<EntityHooks<Document>>;
-
-export type HooksRemap<Hooks> = Hooks extends unknown
-  ? {
-      [K in keyof Hooks]?: Hooks[K] extends { register: infer Register }
-        ? Register extends (fn: infer FN) => any
-          ? FN
-          : never
-        : never;
-    }
-  : never;
-
-export interface EntityPlugin<Document extends DocumentBase = DocumentBase> {
-  (hooks: EntityHooks<Document>): unknown;
+export interface EntityPlugin {
+  (hooks: EntityHooks): unknown;
 }
 
 export const EntityHooksCreateDefinitionKind = tuple(
@@ -81,7 +53,7 @@ export type _EntityLoaders<E extends Record<string, any>> = {
 };
 
 export type EntityHooks<
-  Doc extends DocumentBase = DocumentBase,
+  Doc extends DocumentBase = EntityDocument<{ [K: string]: unknown }>,
   E extends AnyEntity = AnyEntity
 > = {
   beforeQuery: Waterfall<EntityOperationInfoContext, {}>;

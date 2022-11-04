@@ -4,36 +4,44 @@ import { NodeLogger } from '@backland/utils';
 
 import { createEntityPlugin } from '../EntityPlugin';
 
-export const applyFieldResolvers = createEntityPlugin('applyFieldResolvers', {
-  createDefinition(definition, context) {
-    if (context.kind !== 'outputDefinition') return;
-    const { resolvers } = context;
+export const applyFieldResolvers = createEntityPlugin(
+  'applyFieldResolvers',
+  (hooks) => {
+    //
+    hooks.createDefinition.register(function createDefinition(
+      definition,
+      context
+    ) {
+      if (context.kind !== 'outputDefinition') return;
+      const { resolvers } = context;
 
-    resolvers.forEach((resolver) => {
-      definition[resolver.name] = parseFieldDefinitionConfig(resolver.type);
+      resolvers.forEach((resolver) => {
+        definition[resolver.name] = parseFieldDefinitionConfig(resolver.type);
+      });
     });
-  },
-  //
-  async filterResult(payload, context) {
-    const hasItemsOrPagination = 'items' in payload || 'pagination' in payload;
-    if (!hasItemsOrPagination) return;
 
-    const {
-      resolvers,
-      operation: {
-        entityOptions: { name: entityName },
-      },
-    } = context;
+    //
+    hooks.filterResult.register(async function filterResult(payload, context) {
+      const hasItemsOrPagination =
+        'items' in payload || 'pagination' in payload;
+      if (!hasItemsOrPagination) return;
 
-    if (resolvers.length) {
+      const {
+        resolvers,
+        operation: {
+          entityOptions: { name: entityName },
+        },
+      } = context;
+
+      if (!resolvers.length) return;
       const isPagination = payload.kind === 'pagination';
 
-      let items =
+      const items =
         payload.kind === 'pagination'
           ? payload.pagination.edges
           : payload.items;
 
-      items = await Promise.all(
+      await Promise.all(
         items.map(async (originalDocument) => {
           if (!originalDocument || typeof originalDocument !== 'object') {
             return originalDocument;
@@ -64,15 +72,12 @@ export const applyFieldResolvers = createEntityPlugin('applyFieldResolvers', {
                   e
                 );
               }
-              node[field] = val;
+
+              node[field] = val; // ⬅️ mutating the original doc
             })
           );
-
-          return isPagination
-            ? { ...originalDocument, node }
-            : originalDocument;
         })
       );
-    }
-  },
-});
+    });
+  }
+);

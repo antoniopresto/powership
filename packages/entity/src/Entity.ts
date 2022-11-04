@@ -16,13 +16,13 @@ import {
   CollectionIndexConfig,
   getDocumentIndexFields,
   getParsedIndexKeys,
+  parseCollectionIndexConfig,
   ParsedDocumentIndexes,
   ParsedIndexKey,
   Transporter,
   TransporterLoader,
   TransporterLoaderName,
   transporterLoaderNames,
-  validateIndexNameAndField,
 } from '@backland/transporter';
 import {
   AnyFunction,
@@ -273,8 +273,6 @@ export function createEntity<
       }
     });
 
-    const entityNameLowercase = entityName.toLowerCase();
-
     const inputObjectType = nonNullValues({
       entityTypeObject: type.__lazyGetter.objectType,
     }).entityTypeObject;
@@ -333,7 +331,7 @@ export function createEntity<
     entity['transporter'] = defaultTransporter;
 
     const indexConfig: CollectionIndexConfig<any, string> = {
-      entity: entityNameLowercase,
+      entity: entityName,
       indexes,
     };
 
@@ -342,7 +340,7 @@ export function createEntity<
       entityOutputDefinitionWithRelations
     );
 
-    validateIndexNameAndField(indexConfig);
+    parseCollectionIndexConfig(indexConfig); // only validating the return has lower cased fields used in _ids
     const parsedIndexKeys = getParsedIndexKeys(indexConfig);
 
     // pre parse PK, SK and ID setters
@@ -562,11 +560,13 @@ export function createEntity<
       });
     });
 
-    _createLoader({
-      indexInfo: parsedIndexKeys,
-      indexes: indexConfig.indexes,
-      method: 'createOne',
-      newMethodName: 'createOne',
+    transporterLoaderNames.forEach((method) => {
+      _createLoader({
+        indexInfo: parsedIndexKeys,
+        indexes: indexConfig.indexes,
+        method,
+        newMethodName: method,
+      });
     });
 
     const edgeType = createType(`${entityName}_Edge`, {

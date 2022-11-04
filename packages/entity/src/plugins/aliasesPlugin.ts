@@ -4,8 +4,8 @@ import { isEntityContextOfLoader } from '../EntityInterfaces';
 import { createEntityPlugin } from '../EntityPlugin';
 import { aggioUpdate } from '../aggioUpdate';
 
-export const aliasesPlugin = createEntityPlugin('AliasesPlugin', {
-  async preParse(context, { entity }) {
+export const aliasesPlugin = createEntityPlugin('AliasesPlugin', (hooks) => {
+  hooks.preParse.register(async function preParse(context, { entity }) {
     if (!context.isUpdate) return;
     if (!entity.aliasPaths.length) return;
 
@@ -96,5 +96,5 @@ export const aliasesPlugin = createEntityPlugin('AliasesPlugin', {
         });
       })
     );
-  },
+  });
 });

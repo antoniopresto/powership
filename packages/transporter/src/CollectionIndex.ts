@@ -66,7 +66,9 @@ export function mountID(params: {
   indexField: string;
   relatedTo: string | undefined;
 }) {
-  const { indexField, entity, PK, SK, relatedTo } = params;
+  const { indexField, PK, SK } = params;
+  const entity = params.entity.toLowerCase();
+  const relatedTo = params.relatedTo?.toLowerCase();
 
   const { prefix, postPK } = (() => {
     if (!relatedTo) return { postPK: '', prefix: `${entity}:${indexField}` };
@@ -89,9 +91,11 @@ export function mountID(params: {
 
 export type GraphIBJSON = {
   // index name
-  e: string;
-  i: DocumentIndexField; // entity
-  v: string; // id value
+  input: string;
+  entity: string;
+  parent: GraphIBJSON | null; // related to (parent entity)
+  indexField: DocumentIndexField; // entity
+  idValue: string; // id value
 };
 
 export const GRAPH_ID_PREFIX = '~!';
@@ -103,25 +107,41 @@ export function mountGraphID(id: string) {
 
 export function parseGraphID(input: string): GraphIBJSON | null {
   try {
-    const v = input.startsWith(GRAPH_ID_PREFIX)
+    let idValue = input.startsWith(GRAPH_ID_PREFIX)
       ? base64ToText(input.slice(1))
       : input;
-    const [e, idRest] = v.split(':');
-    const [i, rest] = idRest.split(ID_KEY_SEPARATOR);
+
+    let parent: GraphIBJSON | null = null;
+    let childEntity: string | null = null;
+    const relParts = idValue.split(RELATION_SEPARATOR);
+
+    if (relParts.length > 1) {
+      parent = parseGraphID(
+        mountGraphID(relParts[0] + PK_SK_SEPARATOR) // remounting to change "input" on parseGraphID result
+      );
+      childEntity = relParts[1].split(PK_SK_SEPARATOR)[0];
+    }
+
+    let [e, idRest] = idValue.split(':');
+    const [indexField, rest] = idRest.split(ID_KEY_SEPARATOR);
+
+    const entity = childEntity || e;
 
     nonNullValues({
-      e,
-      i,
+      entity,
+      indexField,
       rest,
-      v,
+      idValue,
     });
 
-    assertDocumentIndexKey(i);
+    assertDocumentIndexKey(indexField);
 
     return {
-      e,
-      i,
-      v,
+      entity,
+      indexField,
+      idValue,
+      parent,
+      input,
     };
   } catch (e) {
     NodeLogger.logError(e);
@@ -148,9 +168,7 @@ export function createDocumentIndexBasedFilters(
   filter: IndexFilterRecord,
   indexConfig: AnyCollectionIndexConfig
 ): IndexBasedFilterParsed {
-  const { indexes, entity } = indexConfig;
-
-  validateIndexNameAndField(indexConfig);
+  const { indexes, entity } = parseCollectionIndexConfig(indexConfig);
 
   let filtersRecords: FilterRecord[] = [];
   let foundPK: IndexBasedFilterParsed['PK'] | undefined = undefined;
@@ -169,12 +187,12 @@ export function createDocumentIndexBasedFilters(
 
         if (id) {
           foundPK = {
-            key: id.i,
-            value: id.v,
+            key: id.indexField,
+            value: id.idValue,
           };
 
           return filtersRecords.push({
-            [id.i]: id.v,
+            [id.indexField]: id.idValue,
           });
         }
       }
@@ -242,7 +260,7 @@ export function createDocumentIndexBasedFilters(
                 relatedTo: undefined,
               }).slice(0, -1) + // removing ending PK_SK_SEPARATOR "↠"
               RELATION_SEPARATOR +
-              rel.entity,
+              rel.entity.toLowerCase(),
           },
         });
       });
@@ -302,9 +320,7 @@ export function createDocumentIndexBasedFilters(
 export function getDocumentIndexFields<
   Document extends Record<string, unknown>
 >(doc: Document, indexConfig: AnyCollectionIndexConfig): ParsedDocumentIndexes {
-  const { indexes, entity } = indexConfig;
-
-  validateIndexNameAndField(indexConfig);
+  const { indexes, entity } = parseCollectionIndexConfig(indexConfig);
 
   const indexFields: Record<string, string> = {};
   const invalidFields: InvalidParsedIndexField[] = [];
@@ -314,7 +330,7 @@ export function getDocumentIndexFields<
   const parsedIndexKeys: ParsedIndexKey[] = [];
 
   indexes.forEach((index) => {
-    const { relatedTo } = index;
+    const relatedTo = index.relatedTo?.toLowerCase();
 
     const PK = pickIndexKeyPartsFromDocument({
       acceptNullable: false,
@@ -871,26 +887,6 @@ export function getParsedIndexKeys(
   return parts.parsedIndexKeys;
 }
 
-export function validateIndexNameAndField(index: AnyCollectionIndexConfig) {
-  const { indexes } = index;
-
-  keyBy(
-    indexes as any,
-    (el) => el.field,
-    (key) => {
-      devAssert(`found two indexes with field "${key}"`, { indexes });
-    }
-  );
-
-  keyBy(
-    indexes as any,
-    (el) => el.name,
-    (key) => {
-      devAssert(`found two indexes with name "${key}"`, { indexes });
-    }
-  );
-}
-
 export type IndexKeyHash<Keys = string> =
   | `#${string}`
   | typeof RELATION_SEPARATOR
@@ -1051,4 +1047,50 @@ export function assertDocumentIndexKey(
       input
     );
   }
+}
+
+export function parseCollectionIndexConfig<T extends AnyCollectionIndexConfig>(
+  indexConfig: T
+): T {
+  const { indexes } = indexConfig;
+  const entity = indexConfig.entity.toLowerCase();
+
+  const parsed: AnyCollectionIndexConfig = {
+    indexes: indexes.map(
+      (el: DocumentIndexItem<any, any>): DocumentIndexItem<any, any> => {
+        return {
+          PK: el.PK,
+          SK: el.SK,
+          field: el.field,
+          name: el.name,
+          relatedTo: el.relatedTo?.toLowerCase(),
+          relations: el.relations?.map((rel) => {
+            return {
+              entity: rel.entity.toLowerCase(),
+              name: rel.name,
+            };
+          }),
+        };
+      }
+    ) as AnyCollectionIndexConfig['indexes'],
+    entity,
+  };
+
+  keyBy(
+    indexes as any,
+    (el) => el.field,
+    (key) => {
+      devAssert(`found two indexes with field "${key}"`, { indexes });
+    }
+  );
+
+  keyBy(
+    indexes as any,
+    (el) => el.name,
+    (key) => {
+      devAssert(`found two indexes with name "${key}"`, { indexes });
+    }
+  );
+
+  return parsed as T;
 }
