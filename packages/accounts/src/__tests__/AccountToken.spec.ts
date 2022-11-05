@@ -1,6 +1,6 @@
 import type * as Module from '../entity/TokenEntity';
 import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
-import { Token } from '../types/TokenSchema';
+import { Token } from '../types/TokenType';
 import { ms } from '@backland/utils';
 
 function _require() {

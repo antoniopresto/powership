@@ -2,7 +2,7 @@ import { createSchema } from '@backland/schema';
 
 import { usernameType } from '../utils/validateUserName';
 
-export const AccountSchema = createSchema({
+export const AccountType = createSchema({
   accountId: { ulid: { autoCreate: true } },
 
   username: usernameType,

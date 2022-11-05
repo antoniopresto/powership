@@ -1,13 +1,13 @@
 import { createEntity, EntityDefaultFields } from '@backland/entity';
 import { createType, Infer } from '@backland/schema';
 
-import { AccountSchema } from '../types/AccountSchema';
+import { AccountType } from '../types/AccountType';
 
 import { AccessTypeEntity } from './AccessTypeEntity';
 import { TokenEntity } from './TokenEntity';
 
 const type = createType('Account', () => ({
-  object: AccountSchema.definition,
+  object: AccountType.definition,
 }));
 
 export const AccountEntity = createEntity({

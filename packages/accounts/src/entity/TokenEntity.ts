@@ -2,13 +2,13 @@ import { createEntity, EntityDocument } from '@backland/entity';
 import { createType } from '@backland/schema';
 import { StringValue as MaxAgeValues, ms } from '@backland/utils';
 
-import { Token, TokenSchema } from '../types/TokenSchema';
+import { Token, TokenType } from '../types/TokenType';
 
 export let TokenName = 'AccountsToken';
 
 export const TokenEntity = createEntity(() => {
   const type = createType(TokenName, () => ({
-    object: TokenSchema.definition,
+    object: TokenType.definition,
   }));
 
   return {

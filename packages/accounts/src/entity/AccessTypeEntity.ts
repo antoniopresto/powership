@@ -1,10 +1,10 @@
 import { createEntity, EntityDocument } from '@backland/entity';
 
-import { AccessType, AccessTypeSchema } from '../types/AccessTypeSchema';
+import { AccessType, AccessType } from '../types/AccessType';
 
 export const AccessTypeEntity = createEntity({
   name: 'AccessType',
-  type: AccessTypeSchema,
+  type: AccessType,
   indexes: [
     {
       PK: ['.accountId'],

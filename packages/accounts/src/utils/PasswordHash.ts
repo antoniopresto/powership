@@ -39,7 +39,9 @@ verify.input = createSchema({
 export const PasswordHash = {
   hash,
   type: PasswordType,
-  validate: PasswordType.parse, // TODO not touch, salvar locais onde ja tocou
+  validate(value: string): string {
+    return PasswordType.parse(value);
+  },
   verify,
 };
 

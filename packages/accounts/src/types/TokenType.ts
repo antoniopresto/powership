@@ -13,7 +13,7 @@ export const tokenKindEnum = tupleEnum(
   'custom'
 );
 
-export const TokenSchema = createSchema({
+export const TokenType = createSchema({
   accountId: 'ID',
   kind: {
     description: 'Examples: 2fa, password_recovery',
@@ -29,4 +29,4 @@ export const TokenSchema = createSchema({
   value: { string: { max: 1000, min: 4 } },
 } as const);
 
-export type Token = Infer<typeof TokenSchema>;
+export type Token = Infer<typeof TokenType>;

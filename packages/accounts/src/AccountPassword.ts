@@ -13,8 +13,8 @@ import {
   AccountInput,
 } from './entity/AccountEntity';
 import { TokenDocument, TokenEntity } from './entity/TokenEntity';
-import { AccessType, accessTypesEnum } from './types/AccessTypeSchema';
-import { Token, tokenKindEnum } from './types/TokenSchema';
+import { AccessType, accessTypesEnum } from './types/AccessType';
+import { Token, tokenKindEnum } from './types/TokenType';
 import { PasswordHash } from './utils/PasswordHash';
 
 export interface PasswordHandlerOptions {

@@ -5,7 +5,7 @@ export const accessTypesEnum = tupleEnum('phone', 'email', 'oauth', 'custom');
 export const accessTypesList = Object.values(accessTypesEnum);
 export type AccessTypeKind = typeof accessTypesList[number];
 
-export const AccessTypeSchema = createType('AccessType', {
+export const AccessType = createType('AccessType', {
   object: {
     accountId: 'ID',
     meta: 'record?',
@@ -49,4 +49,4 @@ export const AccessTypeSchema = createType('AccessType', {
   },
 } as const);
 
-export type AccessType = Infer<typeof AccessTypeSchema>;
+export type AccessType = Infer<typeof AccessType>;
