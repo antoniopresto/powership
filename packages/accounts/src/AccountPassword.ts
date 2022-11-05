@@ -1,21 +1,24 @@
-import { ulid } from '@backland/utils';
 import crypto from 'crypto';
-import { AccessType, accessTypesEnum } from './types/AccessTypeSchema';
-import { AccountInput, AccountSchema } from './types/AccountSchema';
-import { PasswordHash } from './utils/PasswordHash';
-import { Token, tokenKindEnum } from './types/TokenSchema';
+
+import { Transporter } from '@backland/transporter';
+import { ulid } from '@backland/utils';
+
+import {
+  AccessTypeDocument,
+  AccessTypeEntity,
+} from './entity/AccessTypeEntity';
 import {
   AccountDocument,
   AccountEntity,
-  AccountsEntity,
+  AccountInput,
 } from './entity/AccountEntity';
 import { TokenDocument, TokenEntity } from './entity/TokenEntity';
+import { AccessType, accessTypesEnum } from './types/AccessTypeSchema';
+import { Token, tokenKindEnum } from './types/TokenSchema';
+import { PasswordHash } from './utils/PasswordHash';
 
-export interface PasswordHandlerOptions<
-  TEntity extends AccountEntity = AccountEntity
-> {
-  accountEntity?: TEntity;
-  tokenEntity?: TokenEntity;
+export interface PasswordHandlerOptions {
+  transporter?: Transporter;
 }
 
 export type CreateUserPasswordInput = {
@@ -26,20 +29,18 @@ export type CreateUserPasswordInput = {
   username: string;
 };
 
-export class AccountPassword<TEntity extends AccountEntity> {
-  private options: PasswordHandlerOptions<TEntity>;
-
-  accountEntity: AccountEntity;
-  tokenEntity: TokenEntity;
-
+export class AccountPassword<Options extends PasswordHandlerOptions> {
   get addHooks() {
-    return this.accountEntity.addHooks as TEntity['addHooks'];
+    return AccountEntity.addHooks as AccountEntity['addHooks'];
   }
 
-  constructor(options: PasswordHandlerOptions<TEntity>) {
-    this.options = options;
-    this.accountEntity = options.accountEntity || AccountsEntity;
-    this.tokenEntity = options.tokenEntity || TokenEntity;
+  constructor(options: Options) {
+    const { transporter } = options;
+    if (transporter) {
+      AccountEntity.setOption('transporter', transporter);
+      TokenEntity.setOption('transporter', transporter);
+      AccessTypeEntity.setOption('transporter', transporter);
+    }
   }
 
   /**
@@ -53,7 +54,6 @@ export class AccountPassword<TEntity extends AccountEntity> {
     request,
     ...cleanUser
   }: CreateUserPasswordInput): Promise<AccountDocument> {
-    const date = new Date();
     const accountId = ulid();
 
     const passwordToken: Token = {
@@ -64,32 +64,28 @@ export class AccountPassword<TEntity extends AccountEntity> {
       value: await PasswordHash.hash({ password }),
     };
 
-    const { error, item: _token } = await this.tokenEntity.createOne({
-      item: passwordToken,
-      context: {},
-    });
-    if (error || !_token) throw new Error(error || 'SIGNUP_FAILED');
-
     const emailAccess: AccessType = {
-      createdAt: date,
-      kind: accessTypesEnum.email,
-      updatedAt: date,
-      value: email.toLowerCase(),
+      accountId,
       verified: false,
+      data: {
+        kind: accessTypesEnum.email,
+        value: email.toLowerCase(),
+      },
     };
 
     const user: AccountInput = {
       ...cleanUser,
       accountId,
       access: [emailAccess],
+      tokens: [passwordToken],
       deactivated: false,
       permissions: [`admin_profile:${accountId}`],
       username,
     };
 
-    const ret = await this.accountEntity.createOne({
+    const ret = await AccountEntity.createOne({
       context: request || {},
-      item: AccountSchema.parse(user),
+      item: user,
     });
 
     if (!ret.item) {
@@ -108,18 +104,19 @@ export class AccountPassword<TEntity extends AccountEntity> {
   public async verifyEmail(input: {
     accountId: string;
     email: string;
-  }): Promise<AccountDocument> {
+  }): Promise<AccessTypeDocument> {
     const { accountId, email } = input;
 
-    const ret = await this.accountEntity.updateOne({
+    const ret = await AccessTypeEntity.updateOne({
+      filter: { accountId },
       condition: {
-        'access.value': email,
+        'data.kind': 'email',
+        'data.value': email.toLowerCase(),
       },
       context: {},
-      filter: { id: accountId },
       update: {
         $set: {
-          'access.$.verified': true,
+          verified: true,
         },
       },
     });
@@ -128,7 +125,7 @@ export class AccountPassword<TEntity extends AccountEntity> {
       throw new Error(ret.error || 'User not found');
     }
 
-    return ret.item as AccountDocument;
+    return ret.item;
   }
 
   /**
@@ -147,7 +144,7 @@ export class AccountPassword<TEntity extends AccountEntity> {
       value: await PasswordHash.hash({ password: newPassword }),
     };
 
-    const ret = await this.tokenEntity.updateOne({
+    const ret = await TokenEntity.updateOne({
       context: {},
       upsert: true,
       filter: {
@@ -185,7 +182,7 @@ export class AccountPassword<TEntity extends AccountEntity> {
       createdFor: email,
     };
 
-    const ret = await this.tokenEntity.updateOne({
+    const ret = await TokenEntity.updateOne({
       context: {},
       filter: { accountId: accountId, kind: tokenItem.kind, createdFor: email },
       upsert: true,
@@ -225,7 +222,7 @@ export class AccountPassword<TEntity extends AccountEntity> {
       value: token,
     };
 
-    const ret = await this.tokenEntity.updateOne({
+    const ret = await TokenEntity.updateOne({
       context: {},
       upsert: true,
       filter: {
@@ -254,8 +251,8 @@ export class AccountPassword<TEntity extends AccountEntity> {
     accountId: string,
     context: Record<string, any> = {}
   ): Promise<void> {
-    await this.tokenEntity.deleteMany({
-      context: {},
+    await TokenEntity.deleteMany({
+      context,
       filter: {
         accountId,
         kind: tokenKindEnum.password_recovery,
@@ -271,11 +268,11 @@ export class AccountPassword<TEntity extends AccountEntity> {
     context?: any;
   }): Promise<AccountDocument | null> => {
     return (
-      await this.accountEntity.findOne({
-        filter: { username } as any,
+      await AccountEntity.findOne({
+        filter: { username },
         context,
       })
-    ).item as unknown as AccountDocument | null;
+    ).item;
   };
 
   async userByPasswordLogin(input: {
@@ -284,13 +281,15 @@ export class AccountPassword<TEntity extends AccountEntity> {
   }): Promise<AccountDocument> {
     const { username, password } = input;
 
-    const foundUser = await this.findUser({ username });
+    const foundUser = await this.findUser({
+      username,
+    });
 
     if (!foundUser) {
       throw new Error('LOGIN_FAILED');
     }
 
-    const { item: token } = await this.tokenEntity.findOne({
+    const { item: token } = await TokenEntity.findOne({
       filter: {
         accountId: foundUser.accountId,
         kind: tokenKindEnum.password,

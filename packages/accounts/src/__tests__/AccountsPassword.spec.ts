@@ -1,4 +1,5 @@
 import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
+import { TokenEntity } from '../entity/TokenEntity';
 
 describe('AccountsPassword', () => {
   let mockApp: AppMock;
@@ -14,21 +15,11 @@ describe('AccountsPassword', () => {
   });
 
   function accounts() {
-    const { AccountsEntity } = require('../entity/AccountEntity');
-    const { TokenEntity } = require('../entity/TokenEntity');
     const { AccountPassword } =
       require('../AccountPassword') as typeof import('../AccountPassword');
 
-    AccountsEntity.setOption('transporter', mockApp.transporter);
-    TokenEntity.setOption('transporter', mockApp.transporter);
-
-    return new AccountPassword({});
+    return new AccountPassword({ transporter: mockApp.transporter });
   }
-
-  test('instantiate AccountsPassword', async () => {
-    const accountsPassword = accounts();
-    expect(accountsPassword.accountEntity).toBeTruthy();
-  });
 
   test('createUser', async () => {
     const accountsPassword = accounts();
@@ -40,7 +31,7 @@ describe('AccountsPassword', () => {
       request: {},
     });
 
-    const token = await accountsPassword.tokenEntity.findOne({
+    const token = await TokenEntity.findMany({
       filter: {
         accountId: account.accountId,
         kind: 'password',
@@ -49,8 +40,13 @@ describe('AccountsPassword', () => {
       context: {},
     });
 
-    expect(token).toMatchObject({
-      item: { accountId: account.accountId },
+    const { accountId } = account;
+    expect(token).toEqual({
+      items: [
+        expect.objectContaining({
+          _id: `account:_id#${accountId}≻accountstoken↠password#${accountId}`,
+        }),
+      ],
     });
 
     expect(account).toEqual(_expectedUser());
@@ -78,7 +74,11 @@ describe('AccountsPassword', () => {
       username: 'antoniopresto',
     });
 
-    expect(sut).toEqual(_expectedUser());
+    expect(sut).toMatchObject({
+      username: 'antoniopresto',
+    });
+
+    expect(sut.access).toBeUndefined(); // because login with username
   });
 
   test('verifyEmail', async () => {
@@ -91,15 +91,12 @@ describe('AccountsPassword', () => {
       request: {},
     });
 
-    const sut = await accountsPassword.verifyEmail({
-      accountId: user.id,
-      email: user.email,
+    const updated = await accountsPassword.verifyEmail({
+      accountId: user.accountId,
+      email: 'antonio@example.com',
     });
 
-    const exp = _expectedUser() as any;
-    exp.updatedBy = null;
-    exp.access[0].verified = true;
-    expect(sut).toEqual(exp);
+    expect(updated.verified).toBe(true);
   });
 });
 
@@ -113,18 +110,27 @@ function _expectedUser() {
     _idSK: '',
     _v: expect.stringMatching('01'),
     access: [
-      {
+      expect.objectContaining({
         createdAt: expect.any(Date),
-        kind: 'email',
         updatedAt: expect.any(Date),
-        value: 'antonio@example.com',
         verified: false,
-      },
+        data: {
+          kind: 'email',
+          value: 'antonio@example.com',
+        },
+      }),
+    ],
+    tokens: [
+      expect.objectContaining({
+        createdAt: expect.any(Date),
+        kind: 'password',
+        updatedAt: expect.any(Date),
+        value: expect.any(String),
+      }),
     ],
     accountId: expect.stringMatching('01'),
     createdAt: expect.any(Date),
     deactivated: false,
-    email: 'antonio@example.com',
     id: expect.stringMatching('='),
     permissions: [expect.stringMatching('admin_profile:01')],
     ulid: expect.stringMatching('01'),

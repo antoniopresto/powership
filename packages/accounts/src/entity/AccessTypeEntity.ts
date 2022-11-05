@@ -1,21 +1,18 @@
 import { createEntity, EntityDocument } from '@backland/entity';
 
-import { Account } from '../types/AccountSchema';
-import { AccessTypeSchema } from '../types/AccessTypeSchema';
+import { AccessType, AccessTypeSchema } from '../types/AccessTypeSchema';
 
-export const AccountsEntity = createEntity({
+export const AccessTypeEntity = createEntity({
   name: 'AccessType',
   type: AccessTypeSchema,
   indexes: [
-    // account PK is account#ulid
-    // profile PK is profile#ulid(same from account)
-    // secondary index has username as PK to performance login with username
     {
       PK: ['.accountId'],
       field: '_id',
       name: 'accountId',
+      relatedTo: 'Account',
     },
   ],
 });
 
-export type AccountDocument = EntityDocument<Account>;
+export type AccessTypeDocument = EntityDocument<AccessType>;

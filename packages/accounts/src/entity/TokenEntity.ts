@@ -1,8 +1,8 @@
 import { createEntity, EntityDocument } from '@backland/entity';
 import { createType } from '@backland/schema';
+import { StringValue as MaxAgeValues, ms } from '@backland/utils';
 
 import { Token, TokenSchema } from '../types/TokenSchema';
-import { ms, StringValue as MaxAgeValues } from '@backland/utils';
 
 export let TokenName = 'AccountsToken';
 
@@ -17,7 +17,8 @@ export const TokenEntity = createEntity(() => {
         PK: ['.accountId'],
         SK: ['.kind', '.createdFor'],
         field: '_id',
-        name: 'kind',
+        name: 'accountId',
+        relatedTo: 'Account',
       },
     ],
     name: TokenName,

@@ -1,15 +1,16 @@
-import { AnyEntity, createEntity, EntityDocument } from '@backland/entity';
-import { createType } from '@backland/schema';
+import { createEntity, EntityDefaultFields } from '@backland/entity';
+import { createType, Infer } from '@backland/schema';
 
-import { Account, AccountSchema } from '../types/AccountSchema';
+import { AccountSchema } from '../types/AccountSchema';
 
-export type AccountEntity = AnyEntity<Account>;
+import { AccessTypeEntity } from './AccessTypeEntity';
+import { TokenEntity } from './TokenEntity';
 
 const type = createType('Account', () => ({
   object: AccountSchema.definition,
 }));
 
-export const AccountsEntity = createEntity({
+export const AccountEntity = createEntity({
   name: 'Account',
   type,
   indexes: [
@@ -21,7 +22,21 @@ export const AccountsEntity = createEntity({
       field: '_id',
       name: 'accountId',
     },
+    {
+      PK: ['.username'],
+      field: '_id2',
+      name: 'username',
+    },
   ],
-}) as unknown as AccountEntity;
+}).addIndexRelations({
+  tokens: {
+    entity: TokenEntity,
+  },
+  access: {
+    entity: AccessTypeEntity,
+  },
+});
 
-export type AccountDocument = EntityDocument<Account>;
+export type AccountEntity = typeof AccountEntity;
+export type AccountDocument = Infer<typeof AccountEntity['type']>;
+export type AccountInput = Omit<AccountDocument, keyof EntityDefaultFields>;
