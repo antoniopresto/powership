@@ -44,7 +44,11 @@ describe('AccountsPassword', () => {
     expect(token).toEqual({
       items: [
         expect.objectContaining({
-          _id: `account:_id#${accountId}≻accountstoken↠password#${accountId}`,
+          _id: expect.stringMatching(
+            new RegExp(
+              `^account:_id#${accountId}≻accountstoken↠password#${accountId}#`
+            )
+          ),
         }),
       ],
     });
@@ -97,6 +101,95 @@ describe('AccountsPassword', () => {
     });
 
     expect(updated.verified).toBe(true);
+  });
+
+  test('changePassword', async () => {
+    const accountsPassword = accounts();
+
+    const user = await accountsPassword.createUser({
+      password: '1234567',
+      username: 'antoniopresto',
+      email: 'antonio@example.com',
+      request: {},
+    });
+
+    await accountsPassword.userByPasswordLogin({
+      password: '1234567',
+      username: 'antoniopresto',
+    });
+
+    await accountsPassword.setPassword({
+      newPassword: 'new1234',
+      accountId: user.accountId,
+    });
+
+    await expect(async () => {
+      await accountsPassword.userByPasswordLogin({
+        password: '1234567',
+        username: 'antoniopresto',
+      });
+    }).rejects.toThrow('LOGIN_FAILED');
+  });
+
+  test('addEmailVerificationToken', async () => {
+    const accountsPassword = accounts();
+
+    const user = await accountsPassword.createUser({
+      password: '1234567',
+      username: 'antoniopresto',
+      email: 'antonio@example.com',
+      request: {},
+    });
+
+    const sut = await accountsPassword.addEmailVerificationToken({
+      accountId: user.accountId,
+      email: 'antonio@example.com',
+    });
+
+    expect(sut).toMatchObject({
+      createdFor: 'antonio@example.com',
+      kind: 'email_verification',
+      value: expect.stringMatching(/.{40}/),
+    });
+  });
+
+  test('addResetPasswordToken', async () => {
+    const accountsPassword = accounts();
+
+    const sut = await accountsPassword.addResetPasswordToken({
+      accountId: '1234',
+    });
+
+    expect(sut).toMatchObject({
+      createdFor: '1234',
+      kind: 'password_recovery',
+      value: expect.stringMatching(/.{40}/),
+    });
+  });
+
+  test('removeAllResetPasswordTokens', async () => {
+    const accountsPassword = accounts();
+
+    await Promise.all([
+      accountsPassword.addResetPasswordToken({
+        accountId: '1234',
+      }),
+      accountsPassword.addResetPasswordToken({
+        accountId: '1234',
+      }),
+      accountsPassword.addResetPasswordToken({
+        accountId: '1234',
+      }),
+      accountsPassword.addResetPasswordToken({
+        accountId: '1234',
+      }),
+    ]);
+
+    const sut = await accountsPassword.removeAllResetPasswordTokens({
+      accountId: '1234',
+    });
+
+    expect(sut).toEqual({ deletedCount: 4 });
   });
 });
 

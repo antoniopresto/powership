@@ -1,7 +1,5 @@
-import crypto from 'crypto';
-
-import { Transporter } from '@backland/transporter';
-import { ulid } from '@backland/utils';
+import { DeleteManyResult, Transporter } from '@backland/transporter';
+import { NodeLogger, ulid } from '@backland/utils';
 
 import {
   AccessTypeDocument,
@@ -16,6 +14,7 @@ import { TokenDocument, TokenEntity } from './entity/TokenEntity';
 import { AccessType, accessTypesEnum } from './types/AccessType';
 import { Token, tokenKindEnum } from './types/TokenType';
 import { PasswordHash } from './utils/PasswordHash';
+import { generateRandomToken } from './utils/tokens';
 
 export interface PasswordHandlerOptions {
   transporter?: Transporter;
@@ -130,13 +129,15 @@ export class AccountPassword<Options extends PasswordHandlerOptions> {
 
   /**
    * Change the password for a user.
-   * @param accountId Id used to update the user.
-   * @param newPassword A new password for the user.
+   * @param input.accountId Id used to update the user.
+   * @param input.newPassword A new password for the user.
    */
-  public async setPassword(
-    accountId: string,
-    newPassword: string
-  ): Promise<TokenDocument> {
+  public async setPassword(input: {
+    accountId: string;
+    newPassword: string;
+  }): Promise<TokenDocument> {
+    const { accountId, newPassword } = input;
+
     const passwordToken: Token = {
       accountId: accountId,
       kind: tokenKindEnum.password,
@@ -153,7 +154,8 @@ export class AccountPassword<Options extends PasswordHandlerOptions> {
         createdFor: accountId,
       },
       update: {
-        $set: passwordToken,
+        $set: { value: passwordToken.value },
+        $setOnInsert: passwordToken,
       },
     });
 
@@ -161,20 +163,22 @@ export class AccountPassword<Options extends PasswordHandlerOptions> {
       throw new Error('User not found');
     }
 
-    return ret.item as TokenDocument;
+    return ret.item;
   }
 
   /**
    * Add an email verification token to a user.
-   * @param accountId Id used to update the user.
-   * @param email Which address of the user's to link the token to.
-   * @param token Random token used to verify the user email.
+   * @param input.accountId Id used to update the user.
+   * @param input.email Which address of the user's to link the token to.
+   * @param input.token Random token used to verify the user email.
    */
-  public async addEmailVerificationToken(
-    accountId: string,
-    email: string,
-    token: string
-  ): Promise<TokenDocument> {
+  public async addEmailVerificationToken(input: {
+    accountId: string;
+    email: string;
+    token?: string;
+  }): Promise<TokenDocument> {
+    const { accountId, email, token = generateRandomToken() } = input;
+
     const tokenItem: Token = {
       accountId: accountId,
       kind: tokenKindEnum.email_verification,
@@ -182,13 +186,11 @@ export class AccountPassword<Options extends PasswordHandlerOptions> {
       createdFor: email,
     };
 
-    const ret = await TokenEntity.updateOne({
+    // TODO clear old tokens
+
+    const ret = await TokenEntity.createOne({
       context: {},
-      filter: { accountId: accountId, kind: tokenItem.kind, createdFor: email },
-      upsert: true,
-      update: {
-        $set: tokenItem,
-      },
+      item: tokenItem,
     });
 
     if (!ret.item) {
@@ -206,13 +208,10 @@ export class AccountPassword<Options extends PasswordHandlerOptions> {
    */
   public async addResetPasswordToken(options: {
     accountId: string;
-    reason: string;
+    reason?: string;
     token?: string;
   }): Promise<TokenDocument> {
-    const { accountId, reason } = options;
-    const token =
-      options.token ||
-      (await PasswordHash.hash({ password: crypto.randomUUID() }));
+    const { accountId, reason, token = generateRandomToken() } = options;
 
     const tokenItem: Token = {
       accountId,
@@ -222,21 +221,54 @@ export class AccountPassword<Options extends PasswordHandlerOptions> {
       value: token,
     };
 
-    const ret = await TokenEntity.updateOne({
+    const ret = await TokenEntity.createOne({
       context: {},
-      upsert: true,
-      filter: {
-        accountId,
-        kind: tokenKindEnum.password_recovery,
-        createdFor: accountId,
-      },
-      update: {
-        $set: tokenItem,
-      },
+      item: tokenItem,
     });
 
+    if (ret.error) {
+      NodeLogger.logError(ret.error);
+    }
+
     if (!ret.item) {
-      throw new Error('User not found');
+      throw new Error('INVALID_OPERATION');
+    }
+
+    return ret.item as TokenDocument;
+  }
+
+  /**
+   * Add a session token to a user.
+   * @param options.accountId Id used to update the user.
+   * @param options.reason Reason to use for the token.
+   * @param options.token a random token
+   */
+  public async addSessionToken(options: {
+    accountId: string;
+    reason?: string;
+    token?: string;
+  }): Promise<TokenDocument> {
+    const { accountId, reason, token = generateRandomToken() } = options;
+
+    const tokenItem: Token = {
+      accountId,
+      createdFor: accountId,
+      kind: tokenKindEnum.session,
+      reason: reason,
+      value: token,
+    };
+
+    const ret = await TokenEntity.createOne({
+      context: {},
+      item: tokenItem,
+    });
+
+    if (ret.error) {
+      NodeLogger.logError(ret.error);
+    }
+
+    if (!ret.item) {
+      throw new Error('INVALID_OPERATION');
     }
 
     return ret.item as TokenDocument;
@@ -244,14 +276,16 @@ export class AccountPassword<Options extends PasswordHandlerOptions> {
 
   /**
    * Remove all the reset password tokens for a user.
-   * @param accountId Id used to update the user.
-   * @param context
+   * @param input.accountId Id used to update the user.
+   * @param input.context
    */
-  public async removeAllResetPasswordTokens(
-    accountId: string,
-    context: Record<string, any> = {}
-  ): Promise<void> {
-    await TokenEntity.deleteMany({
+  public async removeAllResetPasswordTokens(input: {
+    accountId: string;
+    context?: Record<string, any>;
+  }): Promise<DeleteManyResult> {
+    const { accountId, context = {} } = input;
+
+    return await TokenEntity.deleteMany({
       context,
       filter: {
         accountId,
@@ -315,4 +349,38 @@ export class AccountPassword<Options extends PasswordHandlerOptions> {
 
     return foundUser as AccountDocument;
   }
+
+  // /**
+  //  * @description Refresh a user token.
+  //  * @param {string} token - User session token.
+  //  * @param {boolean} isImpersonated - Should be true if impersonating another user.
+  //  * @param {User} user - The user object.
+  //  * @returns {Promise<Tokens>} - Return a new accessToken and refreshToken.
+  //  */
+  // createTokens({
+  //   token,
+  //   isImpersonated = false,
+  //   user,
+  // }: {
+  //   token: string;
+  //   isImpersonated?: boolean;
+  //   user: AccountDocument;
+  // }) {
+  //   const jwtData: AccountJwtData = {
+  //     token,
+  //     isImpersonated,
+  //     accountId: user.accountId,
+  //   };
+  //
+  //   const accessToken = signJWT({
+  //     payload: jwtData,
+  //     secret: ,
+  //   });
+  //
+  //   const refreshToken = signJWT({
+  //     secret: this.getSecretOrPrivateKey(),
+  //   });
+  //
+  //   return { accessToken, refreshToken };
+  // }
 }

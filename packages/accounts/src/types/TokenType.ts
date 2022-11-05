@@ -27,6 +27,15 @@ export const TokenType = createSchema({
       'Example: accountId, email, phone, 2fa service, etc',
   },
   value: { string: { max: 1000, min: 4 } },
+  meta: 'record?',
+  location: {
+    optional: true,
+    object: {
+      ip: 'string?',
+      device: 'string?',
+      meta: 'record?',
+    },
+  },
 } as const);
 
 export type Token = Infer<typeof TokenType>;
