@@ -19,7 +19,7 @@ import {
   TransporterLoaderName,
   TransporterLoadersRecord,
 } from '@backland/transporter';
-import { MaybeArray, Merge, UnionToIntersection } from '@backland/utils';
+import { UnionToIntersection } from '@backland/utils';
 
 import {
   EntityGraphQLConditionsType,
@@ -300,9 +300,7 @@ type ExcludeExtend<E> = {
 } & {};
 
 type WithExtend<Options extends EntityOptions, Origin> = {
-  addHooks: (
-    options: MaybeArray<EntityHooks>
-  ) => ExcludeExtend<Origin> & WithExtend<Options, ExcludeExtend<Origin>>;
+  addHooks: (options: (hooks: EntityHooks) => any) => Origin;
 
   addRelations: <
     Context extends LoaderContext,

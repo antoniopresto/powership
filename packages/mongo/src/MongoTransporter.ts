@@ -13,6 +13,7 @@ import {
   FindOneConfig,
   FindOneResult,
   getDocumentIndexFields,
+  mergeIndexRelationsResult,
   PaginationResult,
   parseUpdateExpression,
   Transporter,
@@ -117,11 +118,16 @@ export class MongoTransporter implements Transporter {
       condition,
     } = options;
 
-    const { filters, PK } = createDocumentIndexBasedFilters(
+    const { filters, relationFilters, PK } = createDocumentIndexBasedFilters(
       filter,
       indexConfig
     );
+
     const $and = parseMongoAttributeFilters(filters);
+
+    const relationsMongoFilters = relationFilters
+      ? parseMongoAttributeFilters({ $or: relationFilters })
+      : undefined;
 
     const firstFilterEntry = Object.entries(filters)[0];
     const firstFilterKey = firstFilterEntry[0];
@@ -165,6 +171,8 @@ export class MongoTransporter implements Transporter {
 
     return {
       PK,
+      relationFilters,
+      relationsMongoFilters,
       collection,
       collectionName: collection.collectionName,
       db: this._client.db,
@@ -179,6 +187,8 @@ export class MongoTransporter implements Transporter {
   }
 
   async findMany(options: FindManyConfig): Promise<FindManyResult> {
+    const { indexConfig } = options;
+
     const {
       onlyOne,
       collection,
@@ -186,32 +196,53 @@ export class MongoTransporter implements Transporter {
       projection,
       sort,
       first,
-      query, //
+      query,
+      relationsMongoFilters,
     } = this._parseQueryOptions(options);
 
-    let items: any[] = [];
+    async function _relationsQuery() {
+      return relationsMongoFilters
+        ? mongoFindMany(
+            {
+              query: { $and: relationsMongoFilters },
+              collection: collection.collectionName,
+              db,
+            },
+            options.context
+          )
+        : [];
+    }
 
-    if (onlyOne) {
-      const result = await mongoFindMany(
-        {
-          collection: collection.collectionName,
-          db,
-          onlyOne,
-          projection: projection,
-          query,
-          sort,
-        },
-        options.context
-      );
+    async function _mainEntityQuery() {
+      if (onlyOne) {
+        const result = await mongoFindMany(
+          {
+            collection: collection.collectionName,
+            db,
+            onlyOne,
+            projection: projection,
+            query,
+            sort,
+          },
+          options.context
+        );
 
-      if (result) {
-        items = onlyOne ? [result] : result;
+        if (result) {
+          return onlyOne ? [result] : result;
+        } else {
+          return [];
+        }
       }
-    } else {
-      items = await collection
+      return collection
         .find(query, { limit: first, projection, sort })
         .toArray();
     }
+
+    const all = (
+      await Promise.all([_mainEntityQuery(), _relationsQuery()])
+    ).flat();
+
+    const items = mergeIndexRelationsResult({ items: all, indexConfig });
 
     return { items };
   }

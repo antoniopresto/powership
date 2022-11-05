@@ -182,6 +182,107 @@ describe('Entity.indexRelations', () => {
     expect(created).toBeTruthy();
 
     const found = await accountEntity.findMany({
+      filter: { accountId: { $gte: '1' } },
+      context,
+    });
+
+    expect(found.items).toEqual([
+      {
+        _id: 'account:_id#123↠',
+        _idPK: '123',
+        _idSK: '',
+        _v: expect.any(String),
+        access: [
+          {
+            _id: 'account:_id#123≻accesstype↠',
+            _idPK: '123',
+            _idSK: '',
+            _v: expect.any(String),
+            accountId: '123',
+            createdAt: expect.any(Date),
+            id: expect.any(String),
+            kind: 'email',
+            ulid: expect.any(String),
+            updatedAt: expect.any(Date),
+            value: 'antonio@example.com',
+          },
+        ],
+        accountId: '123',
+        createdAt: expect.any(Date),
+        id: expect.any(String),
+        ulid: expect.any(String),
+        updatedAt: expect.any(Date),
+        username: 'antonio',
+      },
+      {
+        _id: 'account:_id#456↠',
+        _idPK: '456',
+        _idSK: '',
+        _v: expect.any(String),
+        access: [
+          {
+            _id: 'account:_id#456≻accesstype↠',
+            _idPK: '456',
+            _idSK: '',
+            _v: expect.any(String),
+            accountId: '456',
+            createdAt: expect.any(Date),
+            id: expect.any(String),
+            kind: 'email',
+            ulid: expect.any(String),
+            updatedAt: expect.any(Date),
+            value: 'rafaela@example.com',
+          },
+        ],
+        accountId: '456',
+        createdAt: expect.any(Date),
+        id: expect.any(String),
+        ulid: expect.any(String),
+        updatedAt: expect.any(Date),
+        username: 'rafaela',
+      },
+    ]);
+  });
+
+  test('findOne', async () => {
+    const { accountEntity } = _getMock();
+
+    const context = {};
+
+    const created = await Promise.all([
+      accountEntity.createOne({
+        item: {
+          accountId: '123',
+          username: 'antonio',
+          access: [
+            {
+              accountId: '123',
+              kind: 'email',
+              value: 'antonio@example.com',
+            },
+          ],
+        },
+        context,
+      }),
+      accountEntity.createOne({
+        item: {
+          accountId: '456',
+          username: 'rafaela',
+          access: [
+            {
+              accountId: '456',
+              kind: 'email',
+              value: 'rafaela@example.com',
+            },
+          ],
+        },
+        context,
+      }),
+    ]);
+
+    expect(created).toBeTruthy();
+
+    const found = await accountEntity.findMany({
       filter: { accountId: '123' },
       context,
     });

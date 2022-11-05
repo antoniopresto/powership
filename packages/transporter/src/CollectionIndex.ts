@@ -1,3 +1,4 @@
+import { createSchema } from '@backland/schema';
 import { getByPath, nonNullValues, textToBase64 } from '@backland/utils';
 import { RuntimeError } from '@backland/utils';
 import { encodeNumber } from '@backland/utils';
@@ -156,6 +157,9 @@ export type IndexBasedFilterParsed = {
     value: string;
   };
   filters: FilterRecord;
+  relationFilters: FilterRecord[] | undefined;
+  foundKeyPairs: IndexFilterKeyPairInfo[];
+  isFullKeyFilter: boolean; // true if (PK is string) && (SK is string or index.SK is undefined)
 };
 
 /**
@@ -177,6 +181,8 @@ export function createDocumentIndexBasedFilters(
   const filterKeys = new Set(Object.keys(filter));
 
   const relationFilters: FilterRecord[] = [];
+
+  const foundKeyPairs: IndexFilterKeyPairInfo[] = [];
 
   indexes.forEach((index) => {
     filterKeys.forEach((key) => {
@@ -266,7 +272,10 @@ export function createDocumentIndexBasedFilters(
       });
     }
 
-    const items = joinPKAndSKAsIDFilter({
+    const indexKeyPairInfo: IndexFilterKeyPairInfo = {
+      parsePK: PK,
+      parseSK: SK,
+
       PK: PK.isFilter
         ? (PK.conditionFound as IndexFilter)
         : PK.valid
@@ -276,6 +285,7 @@ export function createDocumentIndexBasedFilters(
             { PK },
             { depth: 10 }
           ) as ''),
+
       SK: SK.nullableFound
         ? SK.nullableFound.value
         : SK.isFilter
@@ -293,7 +303,10 @@ export function createDocumentIndexBasedFilters(
       index,
 
       indexField: index.field,
-    });
+    };
+
+    foundKeyPairs.push(indexKeyPairInfo);
+    const items = joinPKAndSKAsIDFilter(indexKeyPairInfo);
 
     filtersRecords.push(...items);
   });
@@ -306,14 +319,30 @@ export function createDocumentIndexBasedFilters(
     });
   }
 
+  let hasNotFullKeyFilter = false;
+
+  foundKeyPairs.forEach(({ index, SK, PK }) => {
+    if (hasNotFullKeyFilter) return;
+    const indexHasSK = !!index.SK?.length;
+    if (indexHasSK) {
+      if (!SK || typeof SK !== 'string') return (hasNotFullKeyFilter = true);
+    }
+    if (!PK || typeof PK !== 'string') {
+      return (hasNotFullKeyFilter = true);
+    }
+  });
+
+  const isFullKeyFilter = !hasNotFullKeyFilter;
+
   const mainEntityFilter =
     filtersRecords.length === 1 ? filtersRecords[0] : { $and: filtersRecords };
 
   return {
     PK: foundPK,
-    filters: relationFilters.length
-      ? { $or: [...relationFilters, mainEntityFilter] }
-      : mainEntityFilter,
+    filters: mainEntityFilter,
+    relationFilters: relationFilters.length ? relationFilters : undefined,
+    foundKeyPairs,
+    isFullKeyFilter,
   };
 }
 
@@ -433,13 +462,19 @@ export function getDocumentIndexFields<
   };
 }
 
-function joinPKAndSKAsIDFilter(options: {
+export type IndexFilterKeyPairInfo = {
   PK: IndexFilter | string;
   SK: IndexFilter | string | null | undefined;
   entity: string;
   index: AnyDocIndexItem;
   indexField: DocumentIndexField;
-}): FilterRecord[] {
+  parsePK: ParsedIndexPart;
+  parseSK: ParsedIndexPart;
+};
+
+function joinPKAndSKAsIDFilter(
+  options: IndexFilterKeyPairInfo
+): FilterRecord[] {
   let { PK, SK, entity, indexField, index } = options;
   const { relatedTo } = index;
   const SKField = `${indexField}SK`;
@@ -461,14 +496,27 @@ function joinPKAndSKAsIDFilter(options: {
     ];
   }
 
-  if (typeof PK === 'object' && (typeof SK === 'object' || !SK)) {
-    throw new RuntimeError(`Can't use PK and SK as filter at the same time.`, {
-      PK,
-      SK,
+  const $and: FilterRecord[] = [];
+
+  let _ensuredSameEntity = false;
+  function _ensureSameEntity() {
+    if (_ensuredSameEntity) return;
+    _ensuredSameEntity = true;
+
+    if ($and.find((el) => !!el[indexField]?.$startsWith)) return;
+
+    $and.unshift({
+      [indexField]: {
+        $startsWith: mountID({
+          entity,
+          indexField,
+          relatedTo: undefined,
+          PK: '',
+          SK: '',
+        }).slice(0, -1),
+      },
     });
   }
-
-  const $and: FilterRecord[] = [];
 
   if (typeof PK === 'string') {
     if (typeof SK === 'string') {
@@ -502,13 +550,11 @@ function joinPKAndSKAsIDFilter(options: {
     const comparator = keys[0];
     const pk_value = PKFilter[comparator];
 
-    const valueError = new RuntimeError(
-      `Invalid value for comparator ${comparator}`,
-      {
+    const valueError = () =>
+      new RuntimeError(`Invalid value for comparator ${comparator}`, {
         comparator,
         value: pk_value,
-      }
-    );
+      });
 
     function _prefix(suffix: string) {
       return (
@@ -529,7 +575,7 @@ function joinPKAndSKAsIDFilter(options: {
     switch (comparator) {
       case '$startsWith': {
         if (typeof pk_value !== 'string') {
-          throw valueError;
+          throw valueError();
         }
 
         return {
@@ -542,8 +588,10 @@ function joinPKAndSKAsIDFilter(options: {
 
       case '$between': {
         if (!(Array.isArray(pk_value) && pk_value.length === 2)) {
-          throw valueError;
+          throw valueError();
         }
+
+        _ensureSameEntity();
 
         return {
           [indexField]: {
@@ -566,7 +614,7 @@ function joinPKAndSKAsIDFilter(options: {
 
       case '$eq': {
         if (typeof pk_value !== 'string') {
-          throw valueError;
+          throw valueError();
         }
 
         if (SKValue === undefined) {
@@ -594,11 +642,13 @@ function joinPKAndSKAsIDFilter(options: {
       case '$lt':
       case '$lte': {
         if (typeof pk_value !== 'string') {
-          throw valueError;
+          throw valueError();
         }
 
+        _ensureSameEntity();
+
         return {
-          [comparator]: _prefix(pk_value),
+          [indexField]: { [comparator]: _prefix(pk_value) },
           ...SKFilter,
         };
       }
@@ -866,6 +916,7 @@ function pickIndexKeyPartsFromDocument(param: {
     isFilter: false,
     requiredFields,
     valid: !invalidFields.length,
+    PK_SK: indexPartKind,
   };
 
   if (nullableFound) {
@@ -975,6 +1026,7 @@ export type ParsedIndexPart = {
   nullableFound?: { value: null | undefined };
   requiredFields: string[];
   valid: boolean;
+  PK_SK: 'PK' | 'SK';
 };
 
 export type DocumentIndexFilterParsed = {
@@ -1049,9 +1101,37 @@ export function assertDocumentIndexKey(
   }
 }
 
+export const relationSchema = createSchema({
+  entity: { string: { min: 1 } },
+  name: { string: { min: 1 } },
+});
+
+export const indexItemSchema = createSchema({
+  PK: { array: { of: 'string', min: 1 } },
+  SK: { array: { of: 'string', min: 1 }, optional: true },
+  field: { string: { min: 1 } },
+  name: { string: { min: 1 } },
+  relatedTo: 'string?',
+  relations: { array: { of: relationSchema, min: 1 }, optional: true },
+});
+
+export const indexConfigSchema = createSchema({
+  entity: { string: { min: 1 } },
+  indexes: {
+    array: {
+      of: indexItemSchema,
+      min: 1,
+    },
+  },
+});
+
 export function parseCollectionIndexConfig<T extends AnyCollectionIndexConfig>(
   indexConfig: T
 ): T {
+  indexConfigSchema.parse(indexConfig, {
+    customErrorMessage: 'Invalid indexConfig',
+  });
+
   const { indexes } = indexConfig;
   const entity = indexConfig.entity.toLowerCase();
 

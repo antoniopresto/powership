@@ -1,20 +1,14 @@
-import {
-  AnyDocIndexItem,
-  CreateOneResult,
-  DocumentBase,
-  parseGraphID,
-} from '@backland/transporter';
-import { devAssert, groupBy, NodeLogger } from '@backland/utils';
+import { CreateOneResult, DocumentBase } from '@backland/transporter';
+import { devAssert, groupBy } from '@backland/utils';
 
 import {
   _EntityCreateOne,
-  AnyEntityDocument,
-  EntityDefaultFields,
   EntityOperationInfoContext,
   isEntityContextOfLoader,
 } from '../EntityInterfaces';
 import { EntityOptions } from '../EntityOptions';
 import { createEntityPlugin } from '../EntityPlugin';
+
 import { EntityIndexRelationConfig } from './addEntityIndexRelations';
 
 type RelatedDocumentFound = {
@@ -41,6 +35,9 @@ export const indexRelationsPlugin = createEntityPlugin(
       });
     });
 
+    // removing relation fields provided in createOne and saving in
+    // context to be inserted in the corresponding entities later
+    // TODO move to transporter
     hooks.preParse.register(function preParse(context, { entity }) {
       if (!isEntityContextOfLoader(context, 'createOne')) return;
 
@@ -76,85 +73,9 @@ export const indexRelationsPlugin = createEntityPlugin(
       };
     });
 
-    // setting relations in respective fields
-    hooks.filterResult.register(function filterResult(payload, context) {
-      if (!context.operation.isFind) return;
-
-      const relations = context.operation.entity.indexes
-        .map((index: AnyDocIndexItem) => {
-          return (index.relations || []).map((rel) => {
-            return {
-              rel,
-              index,
-            };
-          });
-        })
-        .flat();
-
-      if (!relations.length) return;
-
-      const {
-        operation: {
-          entityOptions: { name: entityName },
-        },
-      } = context;
-
-      const items =
-        payload.kind === 'pagination'
-          ? payload.pagination.edges.map((el) => el.node)
-          : payload.items;
-
-      const subDocPositions: number[] = [];
-      const docsByParent: Record<string, AnyEntityDocument[]> = {};
-
-      items.forEach((doc, pos) => {
-        const idInfo = parseGraphID(doc.id);
-
-        if (!idInfo) {
-          NodeLogger.logError(`Document without entity found.`, { id: doc.id });
-          return '';
-        }
-
-        if (idInfo.entity !== entityName.toLowerCase()) {
-          subDocPositions.push(pos);
-        }
-
-        if (!idInfo.parent) return;
-        const { input: parentId } = idInfo.parent;
-        docsByParent[parentId] = docsByParent[parentId] || [];
-        docsByParent[parentId].push(doc);
-      });
-
-      items.forEach((parentDoc) => {
-        const relDocs = docsByParent[parentDoc.id];
-        if (!relDocs?.length) return;
-
-        relations.forEach(({ rel, index }) => {
-          const indexField = `${index.field}PK`; // example: _idPK or _id2PK
-
-          const withSameField = relDocs.filter((relDoc) => {
-            return relDoc[indexField] === parentDoc[indexField];
-          });
-
-          const list = (parentDoc[rel.name] = parentDoc[rel.name] || []);
-
-          if (!Array.isArray(list)) {
-            NodeLogger.logError(`Item with relation field already defined.`, {
-              id: parentDoc.id,
-            });
-            return;
-          }
-
-          list.push(...withSameField);
-        });
-      });
-
-      subDocPositions.forEach((pos) => {
-        delete items[pos];
-      });
-    });
-
-    // intercepting create to create related items in input
+    // checking for items saved in context in the above hook to save in
+    // the corresponding entities
+    // TODO move logic to transporter
     hooks.willResolve.register(function willResolve(resolver, context): any {
       const relationsFound = _getCreateOneRelatedRelationsInContext(context);
       if (!Array.isArray(relationsFound)) return;

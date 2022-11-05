@@ -20,16 +20,17 @@ describe('ProductResolver.plugins', () => {
       name: 'Product2',
       transporter,
       type: ProductType,
-    }).addHooks({
-      createDefinition(definition) {
+    }).addHooks((hooks) => {
+      hooks.createDefinition.register(function cd(definition) {
         definition.WORKED = { type: 'int' };
-      },
-      preParse(context) {
+      });
+
+      hooks.preParse.register(function pp(context) {
         if (context.op === 'createOne') {
           context.options.item.WORKED = 123;
         }
         return context;
-      },
+      });
     });
 
     const created = await ProductEntity.createOne({

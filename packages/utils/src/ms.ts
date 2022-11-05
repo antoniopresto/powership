@@ -80,6 +80,8 @@ function msFn(value: StringValue | number, options?: Options): number | string {
   }
 }
 
+export { msFn as ms };
+
 /**
  * Parse the given string and return milliseconds.
  *

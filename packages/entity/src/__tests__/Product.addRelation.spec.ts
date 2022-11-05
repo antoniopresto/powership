@@ -75,7 +75,7 @@ describe('ProductResolver.addRelations', () => {
       filter: { id: created.item!.id },
       indexConfig: {
         indexes: ProductEntity.indexes,
-        name: ProductEntity.name,
+        entity: ProductEntity.name,
       },
       context: {},
     });

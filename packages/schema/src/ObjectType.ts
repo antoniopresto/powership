@@ -161,15 +161,21 @@ export class ObjectType<
       : never]: Infer<HandledInput>[K];
   };
 
-  parse(input: any, options?: any) {
-    const { customMessage } = options || {};
+  parse(input: any, options?: FieldParserOptionsObject) {
+    const { customMessage, customErrorMessage } = options || {};
     const { errors, parsed } = this.safeParse(input, options);
 
     if (errors.length) {
+      let e_message = errors.join(' \n');
+
+      if (this.id) {
+        e_message = `${this.id}: ${e_message}`;
+      }
+
       const err: any = parseValidationError(
         input,
-        customMessage,
-        errors.join(' \n')
+        customMessage || customErrorMessage,
+        e_message
       );
       err.isObjectValidationError = true;
       err.fieldErrors = errors;

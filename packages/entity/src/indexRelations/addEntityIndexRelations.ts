@@ -68,10 +68,20 @@ export function _addEntityIndexRelations(
 
   relations.forEach(([relName, rel]) => {
     const childOptions: EntityOptions = rel.entity.usedOptions;
-    //
-    childOptions.indexes.forEach((relIndex) => {
-      if (relIndex.relatedTo !== mainEntityName) return;
 
+    const relatedIndex = childOptions.indexes.filter((relIndex) => {
+      return relIndex.relatedTo?.toLowerCase() === mainEntityName.toLowerCase();
+    });
+
+    if (!relatedIndex.length) {
+      devAssert(
+        `No index with relatedTo: "${mainEntityName}" | "${mainEntityName.toLowerCase()}" found in entity ${
+          childOptions.name
+        }.`
+      );
+    }
+
+    relatedIndex.forEach((relIndex) => {
       const mainEntityIndex = mainEntityIndexes.find(
         (el) => el.field === relIndex.field
       );

@@ -1017,4 +1017,49 @@ describe('MongoTransporter', () => {
       spy.mockRestore();
     });
   });
+
+  test('case 101', async () => {
+    const collection = transporter.db.collection('users');
+    const spy = jest.spyOn(collection.constructor.prototype, 'find');
+
+    const context = {};
+
+    await transporter.findOne({
+      indexConfig: {
+        entity: 'account',
+        indexes: [
+          {
+            name: 'accountId',
+            PK: ['.accountId'],
+            field: '_id',
+          },
+        ],
+      },
+      filter: {
+        accountId: { $gte: '0' },
+      },
+      context,
+    });
+
+    expect(spy).toBeCalledWith(
+      {
+        $or: [
+          {
+            $and: [
+              {
+                _id: {
+                  $regex: '^account:_id#',
+                },
+              },
+              { _id: { $gte: 'account:_id#0' } },
+              { _idSK: '' },
+            ],
+          },
+        ],
+      },
+      { projection: undefined, sort: { _id: 1 } }
+    );
+
+    spy.mockRestore();
+  });
 });
