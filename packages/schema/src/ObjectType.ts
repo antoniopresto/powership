@@ -35,7 +35,10 @@ import {
   MetaFieldDef,
   objectMetaFieldKey,
 } from './fields/MetaFieldField';
-import { FieldTypeName } from './fields/_fieldDefinitions';
+import {
+  FieldTypeName,
+  SpecialObjectKeyEnum,
+} from './fields/_fieldDefinitions';
 import type {
   FieldAsString,
   FinalFieldDefinition,
@@ -212,11 +215,15 @@ export class ObjectType<
   ): { errors: string[]; parsed: unknown } {
     const {
       partial = false,
-      fields = Object.keys(this.definition),
       excludeInvalidListItems,
       includeHidden,
       allowUnspecified,
     } = options || {};
+
+    const objectDef = { ...this.definition } as Record<
+      string,
+      FinalFieldDefinition
+    >;
 
     if (this.__hidden && !includeHidden) return { errors: [], parsed: {} };
 
@@ -240,12 +247,49 @@ export class ObjectType<
     }
 
     input = { ...input };
+    const inputKeys = Object.keys(input);
 
-    (fields as string[]).forEach((currField): any => {
+    let fields = (options?.fields || Object.keys(this.definition)) as string[];
+
+    // === Start handling {[K: string}: any}|{[K: number}: any} ===
+    const anyStringKey = fields.find(
+      (field) => field === SpecialObjectKeyEnum.$string
+    );
+
+    const anyNumberKey = fields.find(
+      (field) => field === SpecialObjectKeyEnum.$number
+    );
+
+    if (anyNumberKey || anyStringKey) {
+      const allFieldsSet = new Set(fields);
+      const keysNotDefined = inputKeys.filter((k) => !allFieldsSet.has(k));
+      fields = fields.filter(
+        (k) => !SpecialObjectKeyEnum.list.includes(k as any)
+      );
+
+      if (anyStringKey) {
+        const def = objectDef[anyStringKey];
+
+        keysNotDefined.forEach((key) => {
+          objectDef[key] = def;
+        });
+      } else if (anyNumberKey) {
+        const def = objectDef[anyNumberKey];
+
+        keysNotDefined.forEach((key) => {
+          if (!key.match(/\d*/)) return;
+          objectDef[key] = def;
+        });
+      }
+    }
+    // === End handling {[K: string}: any}|{[K: number}: any} ===
+
+    fields.forEach((currField): any => {
+      if (currField.startsWith('$')) return; // special field
       if (isMetaFieldKey(currField)) return;
 
       // @ts-ignore
-      const fieldDef: FinalFieldDefinition = this.definition[currField];
+      const fieldDef: FinalFieldDefinition = objectDef[currField];
 
       if (!includeHidden && fieldDef.hidden) return;
 

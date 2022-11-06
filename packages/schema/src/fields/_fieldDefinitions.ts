@@ -6,6 +6,7 @@ import { PhoneFieldDef } from './PhoneField';
 import { RecordFieldDef } from './RecordField';
 import { UnknownFieldDef } from './UnknownField';
 import { ObjectFieldInput } from './_parseFields';
+import { tupleEnum } from '@backland/utils';
 
 export type CursorType = {
   PK: string;
@@ -47,6 +48,9 @@ export type _CommonFieldDefinition = {
 export type CommonFieldDefinition<T> = {
   type: T;
 } & _CommonFieldDefinition;
+
+export const SpecialObjectKeyEnum = tupleEnum(`$string`, `$number`);
+export type SpecialObjectKeys = typeof SpecialObjectKeyEnum.enum;
 
 export type FieldDefinitions = {
   ID:

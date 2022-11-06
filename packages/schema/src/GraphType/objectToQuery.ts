@@ -1,7 +1,7 @@
 export class EnumType {
-  value: string
+  value: string;
   constructor(value: string) {
-    this.value = value
+    this.value = value;
   }
 }
 

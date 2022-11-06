@@ -1,5 +1,6 @@
+import { Merge } from '@backland/utils';
+
 import { $oparam, t } from './t';
-import { Merge, L } from '@backland/utils';
 
 export type $merge_def = [$oparam, $oparam] | Readonly<[$oparam, $oparam]>;
 

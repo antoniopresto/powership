@@ -1,5 +1,6 @@
-import { $var } from './$var';
 import { tupleEnum } from '@backland/utils';
+
+import { $var } from './$var';
 
 export const $templateUtilsEnum = tupleEnum(
   'capitalize',

@@ -12,6 +12,7 @@ import {
   FieldTypeName,
   ListDefinition,
   ListDefinitionTruthy,
+  SpecialObjectKeys,
 } from './_fieldDefinitions';
 
 export type _ObjectFieldInputBase =
@@ -37,20 +38,33 @@ export interface ObjectDefinitionInput {
   [K: string]: ObjectFieldInput;
 }
 
-export type InferObjectDefinition<Def> = NullableToPartial<{
-  -readonly [K in keyof Def]: ToFinalField<Def[K]> extends infer Final
-    ? Final extends { def: any; type: 'alias' }
-      ? // handling aliasing
-        [Final['def']] extends [string]
-        ? GetFieldByDotNotation<
-            InferObjectDefinition<AllButNot<Def, K>>,
-            Final['def']
-          >
-        : InferField<Final['def']['type']>
-      : // infer schema field
-        InferField<Def[K]>
-    : any;
-}>;
+export type InferObjectDefinition<Def> = NullableToPartial<
+  {
+    -readonly [K in Exclude<keyof Def, SpecialObjectKeys>]: ToFinalField<
+      //
+      Def[K]
+    > extends infer Final
+      ? Final extends { def: any; type: 'alias' }
+        ? // handling aliasing
+          [Final['def']] extends [string]
+          ? GetFieldByDotNotation<
+              InferObjectDefinition<AllButNot<Def, K>>,
+              Final['def']
+            >
+          : InferField<Final['def']['type']>
+        : // infer schema field
+          InferField<Def[K]>
+      : any;
+  } & ParseSpecialObjectKeys<Def>
+>;
+
+export type ParseSpecialObjectKeys<T> = {
+  -readonly [K in keyof T as K extends `$string`
+    ? string
+    : K extends `$number`
+    ? number
+    : never]: InferField<T[K]>;
+} & {};
 
 export type InferField<Input> = GetI<ToFinalField<Input>>;
 

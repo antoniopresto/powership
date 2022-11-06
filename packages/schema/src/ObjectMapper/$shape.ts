@@ -1,5 +1,6 @@
-import { $oparam, t } from './t';
 import { NullableToPartial } from '@backland/utils';
+
+import { $oparam, t } from './t';
 
 export type $shape_def = { [K: string]: $oparam };
 

@@ -1,10 +1,10 @@
-import { $var } from './$var';
-import { $pick, $pick_def } from './$pick';
-import { $or, $or_def } from './$or';
-import { $type, $type_def } from './$type';
-import { $template, $template_def } from './$template';
-import { $shape } from './$shape';
 import { $merge, $merge_def } from './$merge';
+import { $or, $or_def } from './$or';
+import { $pick, $pick_def } from './$pick';
+import { $shape } from './$shape';
+import { $template, $template_def } from './$template';
+import { $type, $type_def } from './$type';
+import { $var } from './$var';
 
 // $op param
 export type $oparam_list = ($one_op | $var)[] | ReadonlyArray<$one_op | $var>;

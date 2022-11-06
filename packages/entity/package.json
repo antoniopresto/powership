@@ -1,6 +1,6 @@
 {
   "name": "@backland/entity",
-  "version": "0.1.3-alpha.20221103123213.0",
+  "version": "0.1.3-alpha.20221106T122907-0300.69+c8d90fc",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
   "author": "antoniopresto <antoniopresto@gmail.com>",
@@ -32,8 +32,8 @@
     "inference"
   ],
   "dependencies": {
-    "@backland/schema": "0.1.3-alpha.20221103123213.0",
-    "@backland/utils": "0.1.3-alpha.20221103123213.0",
+    "@backland/schema": "0.1.3-alpha.20221106T122907-0300.69+c8d90fc",
+    "@backland/utils": "0.1.3-alpha.20221106T122907-0300.69+c8d90fc",
     "dataloader": "2.1.0",
     "plugin-hooks": "^1.1.3",
     "sift": "16.0.0"
@@ -43,7 +43,7 @@
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@backland/babel-plugins": "0.1.3-alpha.20221103123213.0",
+    "@backland/babel-plugins": "0.1.3-alpha.20221106T122907-0300.69+c8d90fc",
     "@types/jest": "29.1.2",
     "@types/node": "18.8.3",
     "@typescript-eslint/eslint-plugin": "5.39.0",
@@ -72,5 +72,5 @@
     "lib/*",
     "README.md"
   ],
-  "gitHead": "f7673272ead29a4cb4f399d7d606d7ec1c599df0"
+  "gitHead": "c8d90fc9e615f44a1d4946081241f9f73687f5f9"
 }
