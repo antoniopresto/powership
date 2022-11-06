@@ -5,4 +5,4 @@ export * from './entity/TokenEntity';
 export * from './types/TokenType';
 export * from './types/AccessType';
 export * from './utils/PasswordHash';
-export * from './utils/tokens';
+export * from './utils/crypto';

@@ -14,7 +14,7 @@ import { TokenDocument, TokenEntity } from './entity/TokenEntity';
 import { AccessType, accessTypesEnum } from './types/AccessType';
 import { Token, tokenKindEnum } from './types/TokenType';
 import { PasswordHash } from './utils/PasswordHash';
-import { generateRandomToken } from './utils/tokens';
+import { generateRandomToken } from './utils/crypto';
 
 export interface PasswordHandlerOptions {
   transporter?: Transporter;
