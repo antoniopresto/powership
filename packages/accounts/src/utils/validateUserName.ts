@@ -1,4 +1,5 @@
 import { createType, tupleEnum } from 'backland';
+import { reservedUsernames } from './reservedUsernames';
 
 export const USERNAME_REGEX = /^[a-z0-9_]{3,16}$/;
 
@@ -29,7 +30,8 @@ export function validateUsername(username: string): string {
     throw new Error(USER_NAME_ERRORS.MORE_THAN_16);
   }
 
-  const invalid = username.match(/[^a-z0-9_]/gi);
+  const invalid =
+    username.match(/[^a-z0-9_]/gi) || reservedUsernames.includes(username);
 
   if (invalid) {
     throw new Error(USER_NAME_ERRORS.INVALID_CHARS);
