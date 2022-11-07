@@ -3,14 +3,28 @@ import { L, S } from '@backland/utils';
 // // ['a:', 'string', 'b:', 'int', c: {year: {literal: 1}}]
 // type X = SplitTokens<'a: string; b: int; c: {year: {literal: 1}}'>;
 
-export type SplitTokens<T extends string> =
+export type SplitTokens<Strings extends string[]> =
+//
+  Strings extends []
+    ? []
+    : Strings extends [infer Head, ...infer Tail]
+      ? Head extends string
+        ? Tail extends []
+          ? _SplitTokens<Head>
+          : Tail extends string[]
+            ? [..._SplitTokens<Head>, ...SplitTokens<Tail>]
+            : never
+        : never
+      : never;
+
+export type _SplitTokens<T extends string> =
   //
   L.Filter<
-    _SplitTokens<
+    __SplitTokens<
       //
-      _SplitTokens<
+      __SplitTokens<
         //
-        _SplitTokens<
+        __SplitTokens<
           //
           [T],
           '\n'
@@ -22,7 +36,7 @@ export type SplitTokens<T extends string> =
     ''
   >;
 
-export type _SplitTokens<Strings extends string[], R extends string> =
+export type __SplitTokens<Strings extends string[], R extends string> =
   //
   Strings extends []
     ? []
@@ -31,7 +45,7 @@ export type _SplitTokens<Strings extends string[], R extends string> =
       ? Tail extends []
         ? Split<Head, R>
         : Tail extends string[]
-        ? [...Split<Head, R>, ..._SplitTokens<Tail, R>]
+        ? [...Split<Head, R>, ...__SplitTokens<Tail, R>]
         : never
       : never
     : never;
