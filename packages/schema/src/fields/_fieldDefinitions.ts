@@ -1,3 +1,5 @@
+import { tupleEnum } from '@backland/utils';
+
 import { AliasFieldDef } from './AliasField';
 import { ArrayFieldDef } from './ArrayField';
 import { ObjectLike } from './IObjectLike';
@@ -6,7 +8,6 @@ import { PhoneFieldDef } from './PhoneField';
 import { RecordFieldDef } from './RecordField';
 import { UnknownFieldDef } from './UnknownField';
 import { ObjectFieldInput } from './_parseFields';
-import { tupleEnum } from '@backland/utils';
 
 export type CursorType = {
   PK: string;

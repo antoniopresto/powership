@@ -1,8 +1,13 @@
 import { createType } from '../GraphType/GraphType';
 import { objectMock } from '../mockObject';
+import { createObjectType } from '../ObjectType';
 
 describe('mockObject', () => {
   it('works', async () => {
+    const graphType = createType({
+      union: ['string', '[int]?'],
+    });
+
     const ProductType = createType('Product', {
       object: {
         sku: 'string',
@@ -23,6 +28,11 @@ describe('mockObject', () => {
         spotlight: 'boolean?',
         html: 'string?',
         lit: { literal: { a: 1 } },
+        objectType: createObjectType({
+          name: 'string',
+          list: { array: { of: 'string', min: 2 } },
+        }),
+        graphType,
       },
     } as const);
 
@@ -46,6 +56,11 @@ describe('mockObject', () => {
         thumbUrl: expect.any(String),
         title: expect.any(String),
         lit: { a: 1 },
+        objectType: {
+          name: expect.any(String),
+          list: [expect.any(String), expect.any(String)],
+        },
+        graphType: expect.anything(),
       }
     );
   });

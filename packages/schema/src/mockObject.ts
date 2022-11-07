@@ -15,8 +15,11 @@ import { FieldComposer } from './fields/FieldType';
 import { LiteralField } from './fields/LitarealField';
 import { createEmptyMetaField, isMetaFieldKey } from './fields/MetaFieldField';
 import { FieldTypeName } from './fields/_fieldDefinitions';
-import { FinalFieldDefinition } from './fields/_parseFields';
-import { __getCachedFieldInstance } from './parseObjectDefinition';
+import { FieldInput } from './fields/_parseFields';
+import {
+  __getCachedFieldInstance,
+  parseObjectField,
+} from './parseObjectDefinition';
 
 export type ObjectMockOptions = {
   maxArrayLength?: number;
@@ -24,15 +27,17 @@ export type ObjectMockOptions = {
   randomText?: () => string;
 };
 
-export function objectMock<T extends { [K: string]: FinalFieldDefinition }>(
+export function objectMock<T extends { [K: string]: FieldInput }>(
   definition: T,
   options?: ObjectMockOptions
 ): Infer<T> {
   const placeHolder: any = {};
 
   const composers: { composer: FieldComposer; key: string }[] = [];
-  Object.entries(definition).forEach(([key, def]) => {
+  Object.entries(definition).forEach(([key, fieldInput]) => {
     if (isMetaFieldKey(key)) return;
+    const def = parseObjectField(key, fieldInput);
+
     if (def.type === 'alias') {
       const instance = __getCachedFieldInstance(def);
       composers.push({ composer: instance.composer!, key });
@@ -48,7 +53,7 @@ export function objectMock<T extends { [K: string]: FinalFieldDefinition }>(
 }
 
 export function fieldToMock(
-  parsedField: FinalFieldDefinition,
+  fieldInput: FieldInput,
   options?: ObjectMockOptions
 ): any {
   const {
@@ -57,11 +62,16 @@ export function fieldToMock(
     randomNumber,
   } = options || {};
 
-  let { list, def, type } = parsedField;
+  let { list, def, type } = parseObjectField('temp', fieldInput);
 
   if (type === 'array') {
-    // FIXME min, max, exact, def.def can be a string, etc
-    return fieldToMock({ ...def, list: true }, options);
+    const min = def.min === undefined ? 1 : def.min;
+    const max = def.max === undefined ? Math.max(min, 1) : def.max;
+    const length = Math.min(min, max);
+
+    return [...Array(length)].map(() => {
+      return fieldToMock(def.of, options);
+    });
   }
 
   const values: { [L in FieldTypeName]: () => unknown } = {
