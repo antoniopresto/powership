@@ -12,7 +12,7 @@ type ValidKeyType = typeof validKeyTypes[number];
 
 export type RecordFieldDef = {
   keyType?: ValidKeyType;
-  type: FieldDefinitionConfig;
+  type?: FieldDefinitionConfig;
 };
 
 export type InferRecordFieldType<Def> = Def extends { keyType: 'int' | 'float' }
@@ -47,7 +47,7 @@ export class RecordField<Def extends RecordFieldDef> extends FieldType<
 
     let parser: TAnyFieldType;
     try {
-      parser = parseObjectField(`RecordField`, def.type, true);
+      parser = parseObjectField(`RecordField`, def?.type || 'any', true);
     } catch (e: any) {
       e.message = `RecordField: failed to create parser for record values: ${
         e.message

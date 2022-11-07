@@ -191,11 +191,11 @@ type _injectInfer<T> = T extends {
         T['type'] extends 'record'
         ? [Def] extends [undefined]
           ? { [K: string]: any }
-          : Def extends { keyType?: infer KeyType; type: infer Type }
+          : Def extends { keyType?: infer KeyType; type?: infer Type }
           ? {
               [K in KeyType extends 'int' | 'float'
                 ? number
-                : string]: InferField<Type>;
+                : string]: IsKnown<Type> extends 1 ? InferField<Type> : any;
             }
           : never
         : //
