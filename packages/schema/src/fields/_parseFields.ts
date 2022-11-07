@@ -169,8 +169,15 @@ type _injectInfer<T> = T extends {
   ? T & {
       // @ts-ignore FIXME deep excessive
       __infer: // === recursive object case ===
-
-      T['type'] extends 'array'
+      //
+      //
+      T extends { __infer: infer R }
+        ? IsKnown<R> extends 1
+          ? R
+          : never
+        : //
+        //
+        T['type'] extends 'array'
         ? Def extends ArrayFieldDef<infer Of>
           ? InferField<Of>[]
           : never
