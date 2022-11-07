@@ -1,6 +1,6 @@
 {
   "name": "@backland/accounts",
-  "version": "0.1.3-alpha.20221107163531.0",
+  "version": "0.1.3-alpha.20221107165516.0",
   "description": "Backland accounts",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
