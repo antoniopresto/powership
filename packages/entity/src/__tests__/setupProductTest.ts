@@ -109,7 +109,7 @@ type ProductEntity = Entity<{
       PK: ['.storeId'];
       SK: ['.sku'];
       field: '_id';
-      name: 'byStore';
+      name: string;
     }
   ];
   name: 'Product';
@@ -158,7 +158,7 @@ export function setupProductTest(): {
       name: 'Product',
       transporter,
       type: ProductType,
-    });
+    }) as unknown as ProductEntity;
 
     const mockObject = () =>
       objectMock(
@@ -236,7 +236,7 @@ export function setupProductTest(): {
       productPagination,
       shape,
       transporter,
-    };
+    } as unknown as Mock;
   }
 
   return {

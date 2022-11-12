@@ -1,7 +1,9 @@
-import { FieldAsString, ToFinalField } from '../fields/_parseFields';
-import { SplitTokens } from './SplitTokens';
 import { Merge } from '@backland/utils';
+
 import { Infer } from '../Infer';
+import { FieldAsString, ToFinalField } from '../fields/_parseFields';
+
+import { SplitTokens } from './SplitTokens';
 
 export function $<T extends _SimpleTokens[]>(...field: T): Parse<T> {
   return field as any;

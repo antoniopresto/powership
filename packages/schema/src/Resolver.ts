@@ -1,4 +1,4 @@
-import { MaybePromise } from '@backland/utils';
+import { Compute, IsKnown, MaybePromise } from '@backland/utils';
 import {
   GraphQLField,
   GraphQLFieldConfig,
@@ -210,11 +210,11 @@ export type ResolverResolve<Context, Source, TypeDef, ArgsDef> = (
   ) extends infer Args
     ? ((x: ToFinalField<TypeDef>['__infer']) => any) extends (x: infer R) => any
       ? (
-          parent: Source,
-          args: Args,
+          parent: Compute<Source>,
+          args: Compute<Args>,
           context: Context,
           info: GraphQLResolveInfo
-        ) => Promise<R> | R
+        ) => IsKnown<R> extends 1 ? Compute<Promise<R> | R> : any
       : (
           parent: Source,
           args: Record<string, unknown>,

@@ -4,6 +4,7 @@ import { createType, Infer } from '@backland/schema';
 import { AccountType } from '../types/AccountType';
 
 import { AccessTypeEntity } from './AccessTypeEntity';
+import { SessionEntity } from './SessionEntity';
 import { TokenEntity } from './TokenEntity';
 
 const type = createType('Account', () => ({
@@ -29,6 +30,9 @@ export const AccountEntity = createEntity({
     },
   ],
 }).addIndexRelations({
+  session: {
+    entity: SessionEntity,
+  },
   tokens: {
     entity: TokenEntity,
   },

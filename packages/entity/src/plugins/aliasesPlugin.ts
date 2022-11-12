@@ -40,6 +40,7 @@ export const aliasesPlugin = createEntityPlugin('AliasesPlugin', (hooks) => {
       }
     })();
 
+    // @ts-ignore
     context.getDocumentResults = dbDocuments;
 
     const {

@@ -1,12 +1,15 @@
-import { CreateOneResult, DocumentBase } from '@backland/transporter';
+import {
+  AnyCollectionIndexConfig,
+  CreateOne,
+  CreateOneResult,
+  DocumentBase,
+} from '@backland/transporter';
 import { devAssert, groupBy } from '@backland/utils';
 
 import {
-  _EntityCreateOne,
   EntityOperationInfoContext,
   isEntityContextOfLoader,
 } from '../EntityInterfaces';
-import { EntityOptions } from '../EntityOptions';
 import { createEntityPlugin } from '../EntityPlugin';
 
 import { EntityIndexRelationConfig } from './addEntityIndexRelations';
@@ -81,7 +84,13 @@ export const indexRelationsPlugin = createEntityPlugin(
       if (!Array.isArray(relationsFound)) return;
 
       const _resolver = async function _resolver(
-        config: Parameters<_EntityCreateOne<EntityOptions>>[0]
+        config: Parameters<
+          CreateOne<
+            DocumentBase,
+            DocumentBase,
+            AnyCollectionIndexConfig['indexes']
+          >
+        >[0]
       ) {
         function _undo() {
           return Promise.allSettled(
@@ -105,7 +114,7 @@ export const indexRelationsPlugin = createEntityPlugin(
 
               const res = await relationConfig.entity.createOne({
                 context: config.context,
-                item: doc,
+                item: doc as any,
                 replace: config.replace, // ⚠️
               });
 

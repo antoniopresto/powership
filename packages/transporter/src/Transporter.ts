@@ -139,7 +139,7 @@ export type FindManyConfig<
 
   condition?: FilterRecord<Doc>;
   consistent?: boolean;
-  context: LoaderContext;
+  context?: LoaderContext;
   filter: MethodFilter<PK, SK> extends infer R ? { [K in keyof R]: R[K] } : {};
   first?: number;
 
@@ -159,7 +159,7 @@ export type FindOneConfig<
 > = {
   condition?: FilterRecord<Doc>;
   consistent?: boolean;
-  context: LoaderContext;
+  context?: LoaderContext;
   filter: MethodFilter<PK, SK> | { [K in DocumentIndexField]?: string };
   indexConfig: CollectionIndexConfig<
     Doc,
@@ -175,7 +175,7 @@ export type FindByIdConfig<
 > = {
   condition?: FilterRecord<Doc>;
   consistent?: boolean;
-  context: LoaderContext;
+  context?: LoaderContext;
   id: string;
   indexConfig: CollectionIndexConfig<
     Doc,
@@ -191,7 +191,7 @@ export type CreateOneConfig<
 > = {
   condition?: FilterRecord<Doc>;
   // defaults to false
-  context: LoaderContext;
+  context?: LoaderContext;
   indexConfig: CollectionIndexConfig<
     Doc,
     PK | (SK extends undefined ? PK : SK)
@@ -206,7 +206,7 @@ export type UpdateOneConfig<
   SK extends string | undefined = string
 > = {
   condition?: FilterRecord<Doc>;
-  context: LoaderContext;
+  context?: LoaderContext;
   filter: MethodFilter<PK, SK> | { [K in DocumentIndexField]?: string };
   indexConfig: CollectionIndexConfig<
     Doc,
@@ -222,7 +222,7 @@ export type UpdateManyConfig<
   SK extends string | undefined = string
 > = {
   condition?: FilterRecord<Doc>;
-  context: LoaderContext;
+  context?: LoaderContext;
   filter: MethodFilter<PK, SK> | { [K in DocumentIndexField]?: string };
   indexConfig: CollectionIndexConfig<
     Doc,
@@ -238,7 +238,7 @@ export type DeleteManyConfig<
   SK extends string | undefined = string
 > = {
   condition?: FilterRecord<Doc>;
-  context: LoaderContext;
+  context?: LoaderContext;
   filter: MethodFilter<PK, SK> | { [K in DocumentIndexField]?: string };
   indexConfig: CollectionIndexConfig<
     Doc,
@@ -252,7 +252,7 @@ export type DeleteOneConfig<
   SK extends string | undefined = string
 > = {
   condition?: FilterRecord<Item>;
-  context: LoaderContext;
+  context?: LoaderContext;
   filter: MethodFilter<PK, SK> | { [K in DocumentIndexField]?: string };
   indexConfig: CollectionIndexConfig<
     Item,
@@ -436,102 +436,6 @@ export type DeleteOneResult<T extends DocumentBase = DocumentBase> = {
   item: T | null;
 };
 
-type DocumentOptions<T> = {
-  [K in keyof T as K extends 'indexConfig' ? never : K]: T[K];
-};
-
-export interface DocumentMethods<
-  Doc extends DocumentBase,
-  PK extends string,
-  SK extends string | undefined
-> {
-  createOne(
-    options: {
-      [K in keyof DocumentOptions<
-        CreateOneConfig<Doc, PK, SK>
-      >]: DocumentOptions<CreateOneConfig<Doc, PK, SK>>[K];
-    } & {}
-  ): Promise<{ [K in keyof CreateOneResult<Doc>]: CreateOneResult<Doc>[K] }>;
-
-  deleteMany(
-    options: {
-      [K in keyof DocumentOptions<
-        DeleteManyConfig<Doc, PK, SK>
-      >]: DocumentOptions<DeleteManyConfig<Doc, PK, SK>>[K];
-    } & {}
-  ): Promise<{ [K in keyof DeleteManyResult]: DeleteManyResult[K] } & {}>;
-
-  deleteOne(
-    options: {
-      [K in keyof DocumentOptions<
-        DeleteOneConfig<Doc, PK, SK>
-      >]: DocumentOptions<DeleteOneConfig<Doc, PK, SK>>[K];
-    } & {}
-  ): Promise<
-    { [K in keyof DeleteOneResult<Doc>]: DeleteOneResult<Doc>[K] } & {}
-  >;
-
-  findById(
-    options: {
-      [K in keyof DocumentOptions<
-        FindByIdConfig<Doc, PK, SK>
-      >]: DocumentOptions<FindByIdConfig<Doc, PK, SK>>[K];
-    } & {}
-  ): Promise<
-    {
-      [K in keyof FindOneResult<Doc>]: FindOneResult<Doc>[K];
-    } & {}
-  >;
-
-  findMany(
-    options: {
-      [K in keyof DocumentOptions<
-        FindManyConfig<Doc, PK, SK>
-      >]: DocumentOptions<FindManyConfig<Doc, PK, SK>>[K];
-    } & {}
-  ): Promise<{ [K in keyof FindManyResult<Doc>]: FindManyResult<Doc>[K] } & {}>;
-
-  findOne(
-    options: {
-      [K in keyof DocumentOptions<FindOneConfig<Doc, PK, SK>>]: DocumentOptions<
-        FindOneConfig<Doc, PK, SK>
-      >[K];
-    } & {}
-  ): Promise<
-    {
-      [K in keyof FindOneResult<Doc>]: FindOneResult<Doc>[K];
-    } & {}
-  >;
-
-  paginate(
-    options: {
-      [K in keyof DocumentOptions<
-        FindManyConfig<Doc, PK, SK>
-      >]: DocumentOptions<FindManyConfig<Doc, PK, SK>>[K];
-    } & {}
-  ): Promise<
-    { [K in keyof PaginationResult<Doc>]: PaginationResult<Doc>[K] } & {}
-  >;
-
-  updateMany(
-    options: {
-      [K in keyof DocumentOptions<
-        UpdateManyConfig<Doc, PK, SK>
-      >]: DocumentOptions<UpdateManyConfig<Doc, PK, SK>>[K];
-    } & {}
-  ): Promise<{ [K in keyof UpdateManyResult]: UpdateManyResult[K] } & {}>;
-
-  updateOne(
-    options: {
-      [K in keyof DocumentOptions<
-        UpdateOneConfig<Doc, PK, SK>
-      >]: DocumentOptions<UpdateOneConfig<Doc, PK, SK>>[K];
-    } & {}
-  ): Promise<
-    { [K in keyof UpdateOneResult<Doc>]: UpdateOneResult<Doc>[K] } & {}
-  >;
-}
-
 export interface Transporter {
   _client: any;
 
@@ -545,7 +449,7 @@ export interface Transporter {
 
   deleteOne(options: DeleteOneConfig): Promise<DeleteOneResult>;
 
-  findById(options: DocumentOptions<FindByIdConfig>): Promise<FindOneResult>;
+  findById(options: FindByIdConfig): Promise<FindOneResult>;
 
   findMany(options: FindManyConfig): Promise<FindManyResult>;
 

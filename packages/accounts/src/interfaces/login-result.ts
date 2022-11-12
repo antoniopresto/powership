@@ -1,8 +1,8 @@
-import { Tokens } from './tokens';
-import { User } from './user';
+import { AccountDocument } from '../entity/AccountEntity';
 
-export interface LoginResult {
+import { SessionTokens } from './sessionTokens';
+
+export interface LoginResult extends SessionTokens {
   sessionId: string;
-  tokens: Tokens;
-  user: User;
+  account: AccountDocument;
 }

@@ -1,7 +1,7 @@
 import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
 import { TokenEntity } from '../entity/TokenEntity';
 
-describe('AccountsPassword', () => {
+describe('Accounts', () => {
   let mockApp: AppMock;
 
   beforeEach(async () => {
@@ -15,16 +15,15 @@ describe('AccountsPassword', () => {
   });
 
   function accounts() {
-    const { AccountPassword } =
-      require('../AccountPassword') as typeof import('../AccountPassword');
+    const { Accounts } = require('../Accounts') as typeof import('../Accounts');
 
-    return new AccountPassword({ transporter: mockApp.transporter });
+    return new Accounts({ transporter: mockApp.transporter });
   }
 
   test('createUser', async () => {
     const accountsPassword = accounts();
 
-    const account = await accountsPassword.createUser({
+    const account = await accountsPassword.createAccount({
       password: '1234567',
       username: 'antoniopresto',
       email: 'antonio@example.com',
@@ -59,7 +58,7 @@ describe('AccountsPassword', () => {
   test('userByPasswordLogin', async () => {
     const accountsPassword = accounts();
 
-    await accountsPassword.createUser({
+    await accountsPassword.createAccount({
       password: '1234567',
       username: 'antoniopresto',
       email: 'antonio@example.com',
@@ -88,7 +87,7 @@ describe('AccountsPassword', () => {
   test('verifyEmail', async () => {
     const accountsPassword = accounts();
 
-    const user = await accountsPassword.createUser({
+    const user = await accountsPassword.createAccount({
       password: '1234567',
       username: 'antoniopresto',
       email: 'antonio@example.com',
@@ -106,7 +105,7 @@ describe('AccountsPassword', () => {
   test('changePassword', async () => {
     const accountsPassword = accounts();
 
-    const user = await accountsPassword.createUser({
+    const user = await accountsPassword.createAccount({
       password: '1234567',
       username: 'antoniopresto',
       email: 'antonio@example.com',
@@ -134,7 +133,7 @@ describe('AccountsPassword', () => {
   test('addEmailVerificationToken', async () => {
     const accountsPassword = accounts();
 
-    const user = await accountsPassword.createUser({
+    const user = await accountsPassword.createAccount({
       password: '1234567',
       username: 'antoniopresto',
       email: 'antonio@example.com',

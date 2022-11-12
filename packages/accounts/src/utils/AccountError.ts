@@ -6,7 +6,7 @@ export class AccountError extends Error {
 
   public code: AccountErrorCode;
 
-  constructor(message: string, code: AccountErrorCode) {
+  constructor(code: AccountErrorCode, message = 'ACCOUNT_ERROR') {
     super(message);
     this.code = code;
     Object.setPrototypeOf(this, new.target.prototype);
@@ -19,6 +19,12 @@ export class AccountError extends Error {
 
 export type AccountErrorCode = keyof typeof AccountErrorsKindEnum;
 
+export enum RequestErrors {
+  'InvalidRequest' = 'InvalidRequest',
+  'InvalidLocationInfoUserAgent' = 'InvalidLocationInfoUserAgent',
+  'InvalidLocationInfoIP' = 'InvalidLocationInfoIP',
+  'InvalidEncodedSession' = 'InvalidEncodedSession',
+}
 export enum AuthenticateWithServiceErrors {
   /**
    * Service is not registered on the server
@@ -63,7 +69,7 @@ export enum ImpersonateErrors {
    * If option `ambiguousErrorMessages` is true, this will never throw.
    */
   ImpersonatedUserNotFound = 'ImpersonatedUserNotFound',
-  // Thrown by FindSessionByAccessTokenErrors
+  // Thrown by FindSessionBysessionTokenErrors
   /**
    * Will throw if access token is missing.
    */
@@ -106,7 +112,7 @@ export enum LogoutErrors {
    * Session is not valid
    */
   InvalidSession = 'InvalidSession',
-  // Thrown by FindSessionByAccessTokenErrors
+  // Thrown by FindSessionBysessionTokenErrors
   /**
    * Will throw if access token is missing.
    */
@@ -121,7 +127,7 @@ export enum LogoutErrors {
   SessionNotFound = 'SessionNotFound',
 }
 
-export enum FindSessionByAccessTokenErrors {
+export enum FindSessionBysessionTokenErrors {
   /**
    * Will throw if access token is missing.
    */
@@ -145,7 +151,7 @@ export enum ResumeSessionErrors {
    * Session is not valid
    */
   InvalidSession = 'InvalidSession',
-  // Thrown by FindSessionByAccessTokenErrors
+  // Thrown by FindSessionBySessionTokenErrors
   /**
    * Will throw if access token is missing.
    */
@@ -166,6 +172,6 @@ export const AccountErrorsKindEnum = {
   ...ImpersonateErrors,
   ...RefreshTokensErrors,
   ...LogoutErrors,
-  ...FindSessionByAccessTokenErrors,
   ...ResumeSessionErrors,
+  ...RequestErrors,
 };

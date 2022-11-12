@@ -6,7 +6,6 @@ export const tokenKindEnum = tupleEnum(
   'email_verification',
   'phone_verification',
   'password_recovery',
-  'session',
   'magick_link',
   '2fa',
   'password',

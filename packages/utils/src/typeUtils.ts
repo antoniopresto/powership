@@ -2,6 +2,8 @@
 import { A, B, C, F, I, L, M, N, O, S, T, U } from 'ts-toolbelt';
 
 import { RuntimeError } from './RuntimeError';
+import { List } from 'ts-toolbelt/out/List/List';
+import { Overwrite } from 'ts-toolbelt/out/Object/Overwrite';
 
 export * from 'ts-toolbelt';
 export { T, L, B, A, U, C, N, F, M, I, O, S };
@@ -296,3 +298,5 @@ export class TypeAssertionError extends RuntimeError {
 
 export type As<T, L> = A.Cast<T, L>;
 export type Cast<T, L> = A.Cast<T, L>;
+export type Naked<L extends List> = Overwrite<Required<L>, L>;
+export type Compute<T> = A.Compute<T>;

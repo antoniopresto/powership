@@ -4,18 +4,18 @@ import { L, S } from '@backland/utils';
 // type X = SplitTokens<'a: string; b: int; c: {year: {literal: 1}}'>;
 
 export type SplitTokens<Strings extends string[]> =
-//
+  //
   Strings extends []
     ? []
     : Strings extends [infer Head, ...infer Tail]
-      ? Head extends string
-        ? Tail extends []
-          ? _SplitTokens<Head>
-          : Tail extends string[]
-            ? [..._SplitTokens<Head>, ...SplitTokens<Tail>]
-            : never
+    ? Head extends string
+      ? Tail extends []
+        ? _SplitTokens<Head>
+        : Tail extends string[]
+        ? [..._SplitTokens<Head>, ...SplitTokens<Tail>]
         : never
-      : never;
+      : never
+    : never;
 
 export type _SplitTokens<T extends string> =
   //

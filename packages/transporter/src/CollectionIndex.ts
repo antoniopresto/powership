@@ -8,7 +8,6 @@ import { inspectObject } from '@backland/utils';
 import { keyBy } from '@backland/utils';
 import { NodeLogger } from '@backland/utils';
 import { base64ToText } from '@backland/utils';
-import { Name } from '@backland/utils';
 
 import { CollectionErrors, EntityErrorKind } from './CollectionErrors';
 import {
@@ -90,11 +89,11 @@ export function mountID(params: {
   }`;
 }
 
-export type GraphIBJSON = {
+export type GraphIDJSON = {
   // index name
   input: string;
   entity: string;
-  parent: GraphIBJSON | null; // related to (parent entity)
+  parent: GraphIDJSON | null; // related to (parent entity)
   indexField: DocumentIndexField; // entity
   idValue: string; // id value
 };
@@ -106,13 +105,13 @@ export function mountGraphID(id: string) {
   return `${GRAPH_ID_PREFIX}${textToBase64(id)}`;
 }
 
-export function parseGraphID(input: string): GraphIBJSON | null {
+export function parseGraphID(input: string): GraphIDJSON | null {
   try {
     let idValue = input.startsWith(GRAPH_ID_PREFIX)
       ? base64ToText(input.slice(1))
       : input;
 
-    let parent: GraphIBJSON | null = null;
+    let parent: GraphIDJSON | null = null;
     let childEntity: string | null = null;
     const relParts = idValue.split(RELATION_SEPARATOR);
 
@@ -957,7 +956,10 @@ export const DocumentIndexRegex = /^(_id\d*)|(id)$/;
 
 // Definition for a document index
 
-export type DocumentIndexItem<Keys, TName extends Name> = Readonly<{
+export type DocumentIndexItem<
+  Keys extends string,
+  TName extends string
+> = Readonly<{
   PK: Readonly<
     [
       IndexKeyHash<Extract<Keys, string>>,
@@ -982,17 +984,20 @@ export type DocumentIndexRelation = {
   name: string;
 };
 
-export type AnyDocIndexItem = DocumentIndexItem<string, Name>;
+export type AnyDocIndexItem = DocumentIndexItem<string, string>;
 
-export type CollectionConfigIndexes<Doc> =
+export type CollectionConfigIndexes<
+  Doc extends DocumentBase,
+  K extends string = Extract<keyof Doc, string>
+> =
   | [
-      DocumentIndexItem<keyof Doc, Name>,
-      ...DocumentIndexItem<keyof Doc, Name>[]
+      DocumentIndexItem<K, string>, //
+      ...DocumentIndexItem<K, string>[]
     ]
   | Readonly<
       [
-        DocumentIndexItem<keyof Doc, Name>,
-        ...DocumentIndexItem<keyof Doc, Name>[]
+        DocumentIndexItem<K, string>, //
+        ...DocumentIndexItem<K, string>[]
       ]
     >;
 

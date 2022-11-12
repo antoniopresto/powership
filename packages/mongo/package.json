@@ -18,7 +18,7 @@
     "declarations": "tsc -p tsconfig.declarations.json",
     "babild": "babel 'src' --extensions '.ts,.tsx'"
   },
-  "description": "Backland db",
+  "description": "Backland mongo",
   "repository": {
     "type": "git",
     "url": "https://github.com/antoniopresto/backland/tree/master/packages/db"
