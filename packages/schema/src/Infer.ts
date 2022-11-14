@@ -12,25 +12,21 @@ import {
 
 export type Infer<T> = {
   0: any;
-  1: T extends { __infer: infer R }
-    ? IsKnown<R> extends 1
-      ? R
-      : never
-    : T extends
+  1: T extends
+    | {
+        type: 'literal';
+      }
+    | {
+        literal: any;
+      }
+    | Readonly<
         | {
             type: 'literal';
           }
         | {
             literal: any;
           }
-        | Readonly<
-            | {
-                type: 'literal';
-              }
-            | {
-                literal: any;
-              }
-          >
+      >
     ? ToFinalField<T>['__infer']
     : T extends ObjectLike
     ? InferField<{
