@@ -106,22 +106,25 @@ type Utils<
     LoaderConfig,
     OutputDefinition
   > = GetLoaderFilterDef<LoaderConfig, OutputDefinition>
-> = Compute<{
-  indexInfo: [ParsedIndexKey, ...ParsedIndexKey[]];
-  filterDef: FilterDef;
-  queryArgs: {
-    after: 'ID?';
-    condition: {
-      object: EntityGraphQLFieldConditionsType<OutputDefinition>;
-      optional: true;
+> = Compute<
+  {
+    indexInfo: [ParsedIndexKey, ...ParsedIndexKey[]];
+    filterDef: FilterDef;
+    queryArgs: {
+      after: 'ID?';
+      condition: {
+        object: EntityGraphQLFieldConditionsType<OutputDefinition>;
+        optional: true;
+      };
+      filter: { type: 'object'; def: FilterDef };
+      first: {
+        optional: true;
+        type: 'int';
+      };
     };
-    filter: { type: 'object'; def: FilterDef };
-    first: {
-      optional: true;
-      type: 'int';
-    };
-  };
-}>;
+  },
+  2
+>;
 
 type WithUtils<
   Loader,
@@ -186,8 +189,14 @@ export interface Entity<
         keyof Rels
       >]: InputDocumentDefinition[K];
     } & {
-      [K in keyof Rels]: Rels[K]['entity']['usedOptions']['type']['definition']['def'];
-    } & unknown,
+      [K in keyof Rels]: {
+        type: Compute<
+          Rels[K]['entity']['usedOptions']['type']['definition'],
+          1
+        >;
+        list: true;
+      };
+    } & {},
     Indexes
   >;
 

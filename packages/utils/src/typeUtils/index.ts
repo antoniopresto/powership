@@ -1,6 +1,9 @@
-import { RuntimeError } from './RuntimeError';
-export * from './ts-toolbet';
+import { RuntimeError } from '../RuntimeError';
+
 import type * as T from './ts-toolbet';
+
+export * from './ts-toolbet';
+export * from './Compute';
 
 export { T };
 
@@ -284,7 +287,7 @@ export const A_Z = tuple(
 export type A_Z = typeof A_Z[number];
 export type Name = `${A_Z}${string}`;
 
-export * from './IterationMap';
+export * from '../IterationMap';
 
 export class TypeAssertionError extends RuntimeError {
   constructor(message = 'UNEXPECTED_VALUE', details: any = undefined) {

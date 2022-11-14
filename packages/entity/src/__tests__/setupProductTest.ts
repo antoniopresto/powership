@@ -123,6 +123,7 @@ type Mock = {
 export function setupProductTest(): {
   getMocks(): Mock;
 } {
+  jest.setTimeout(20000);
   let mockApp: AppMock;
   let transporter!: MongoTransporter;
 

@@ -8,7 +8,6 @@ import type * as $List from 'ts-toolbelt/out/List/_api';
 import type * as $Misc from 'ts-toolbelt/out/Misc/_api';
 import type * as $Number from 'ts-toolbelt/out/Number/_api';
 import type { Overwrite } from 'ts-toolbelt/out/Object/Overwrite';
-import type { Depth } from 'ts-toolbelt/out/Object/_Internal';
 import type * as $Object from 'ts-toolbelt/out/Object/_api';
 import type * as $String from 'ts-toolbelt/out/String/_api';
 import type * as $Union from 'ts-toolbelt/out/Union/_api';
@@ -17,7 +16,6 @@ export * from 'ts-toolbelt';
 export type As<T, L> = A.Cast<T, L>;
 export type Cast<T, L> = A.Cast<T, L>;
 export type Naked<L extends List> = Overwrite<Required<L>, L>;
-export type Compute<T, D extends Depth = 'deep'> = A.Compute<T, D>;
 
 export type {
   T,
