@@ -7,6 +7,7 @@ import {
 import { ArrayFieldDef } from './ArrayField';
 import {
   CommonFieldDefinition,
+  ComputeFieldDefinition,
   CursorType,
   FieldDefinitions,
   FieldTypeName,
@@ -135,7 +136,11 @@ export type ShortenFinalFieldDefinition = {
 
 export type ToFinalField<Base> =
   //
-  _handleOptional<_handleList<_injectInfer<_toFinalField<Base>>>>;
+  ComputeFieldDefinition<
+    //
+    _handleOptional<_handleList<_injectInfer<_toFinalField<Base>>>>
+    //
+  >;
 
 type GetI<T> = T extends { __infer: infer I } ? I : never;
 

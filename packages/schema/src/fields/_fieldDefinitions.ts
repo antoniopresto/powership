@@ -32,6 +32,27 @@ export type ListDefinitionTruthy = ListDefinitionObject | true;
 export type FieldExampleFunction = () => string | Promise<string>;
 export type FieldExample = FieldExampleFunction | string;
 
+type _get<T, K> = K extends keyof T
+  ? T[K] extends unknown
+    ? T[K]
+    : never
+  : never;
+
+export type ComputeFieldDefinition<T> = T extends unknown
+  ? {
+      type: _get<T, 'type'>;
+      __infer: _get<T, '__infer'>;
+      def: _get<T, 'def'>;
+      defaultValue: _get<T, 'defaultValue'>;
+      description: _get<T, 'description'>;
+      example: _get<T, 'example'>;
+      hidden: _get<T, 'hidden'>;
+      list: _get<T, 'list'>;
+      name: _get<T, 'name'>;
+      optional: _get<T, 'optional'>;
+    }
+  : never;
+
 export type _CommonFieldDefinition = {
   __infer?: any;
   // used in generated types,like GraphQL.
