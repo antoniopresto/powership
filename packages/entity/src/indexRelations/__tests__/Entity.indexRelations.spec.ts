@@ -1,6 +1,8 @@
 import { mockApp } from '../../__tests__/mockApp';
 import { createType } from '@backland/schema';
 import { createEntity } from '../../Entity';
+import { assert, IsExact } from 'conditional-type-checks';
+import { EntityDefaultFields } from '../../EntityInterfaces';
 
 describe('Entity.indexRelations', () => {
   const mock = mockApp();
@@ -123,6 +125,24 @@ describe('Entity.indexRelations', () => {
       },
       context: {},
     });
+
+    type P = ReturnType<typeof accountEntity.parse>;
+    type T = NonNullable<typeof created.item>;
+
+    type ExpectedInput = {
+      accountId: string;
+      username: string;
+      access: {
+        accountId: string;
+        kind: string;
+        value: string;
+      }[];
+    };
+
+    type ExpectedOutput = EntityDefaultFields & ExpectedInput;
+
+    assert<IsExact<P, T>>(true);
+    assert<IsExact<ExpectedOutput, T>>(true);
 
     expect(created.item).toMatchObject({
       _id: 'account:_id#123↠',

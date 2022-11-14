@@ -14,6 +14,7 @@ import {
   LoaderContext,
   ParsedDocumentIndexes,
   ParsedIndexKey,
+  Transporter,
   TransporterLoaderName,
   TransporterLoadersRecord,
 } from '@backland/transporter';
@@ -106,25 +107,22 @@ type Utils<
     LoaderConfig,
     OutputDefinition
   > = GetLoaderFilterDef<LoaderConfig, OutputDefinition>
-> = Compute<
-  {
-    indexInfo: [ParsedIndexKey, ...ParsedIndexKey[]];
-    filterDef: FilterDef;
-    queryArgs: {
-      after: 'ID?';
-      condition: {
-        object: EntityGraphQLFieldConditionsType<OutputDefinition>;
-        optional: true;
-      };
-      filter: { type: 'object'; def: FilterDef };
-      first: {
-        optional: true;
-        type: 'int';
-      };
+> = {
+  indexInfo: [ParsedIndexKey, ...ParsedIndexKey[]];
+  filterDef: Compute<FilterDef>;
+  queryArgs: {
+    after: 'ID?';
+    condition: {
+      object: EntityGraphQLFieldConditionsType<OutputDefinition>;
+      optional: true;
     };
-  },
-  2
->;
+    filter: { type: 'object'; def: Compute<FilterDef> };
+    first: {
+      optional: true;
+      type: 'int';
+    };
+  };
+};
 
 type WithUtils<
   Loader,
@@ -134,66 +132,74 @@ type WithUtils<
   : Loader;
 
 export interface Entity<
-  InputDocumentDefinition extends ObjectDefinitionInput,
-  Indexes extends DocumentIndexesConfig,
-  //
-  // == variables ==
-  //
-  Options extends EntityOptions<
-    InputDocumentDefinition,
-    Indexes
-  > = EntityOptions<InputDocumentDefinition, Indexes>,
-  //
-  InputType extends GraphType<{ object: InputDocumentDefinition }> = GraphType<{
-    object: InputDocumentDefinition;
-  }>,
-  //
-  OutputDefinition extends InputDocumentDefinition &
-    Omit<
-      EntityGeneratedFieldsDefinition,
-      keyof InputDocumentDefinition
-    > = InputDocumentDefinition &
-    Omit<EntityGeneratedFieldsDefinition, keyof InputDocumentDefinition>,
-  //
-  OutputType extends GraphType<{
-    object: OutputDefinition;
-  }> = GraphType<{
-    object: OutputDefinition;
-  }>,
-  //
-  InputDoc extends Infer<InputType> = Infer<InputType>,
-  //
-  OutputDoc extends Infer<OutputType> = Infer<OutputType>
+  Input extends ObjectDefinitionInput,
+  Indexes extends DocumentIndexesConfig
 > {
   name: string;
-  usedOptions: Options;
-  inputDefinition: InputDocumentDefinition;
+  usedOptions: EntityOptions<Input, Indexes>;
+  inputDefinition: Input;
   indexes: Indexes;
+  outputDefinition: Cast<
+    Merge<EntityGeneratedFieldsDefinition, Input>,
+    ObjectDefinitionInput
+  >;
+  type: GraphType<{
+    object: Merge<EntityGeneratedFieldsDefinition, Input>;
+  }>;
+  inputType: GraphType<{ object: Input }>;
 
-  createOne: CreateOne<InputDoc, OutputDoc, Indexes>;
-  findOne: WithUtils<FindOne<OutputDoc, Indexes>, OutputDefinition>;
-  findMany: WithUtils<FindMany<OutputDoc, Indexes>, OutputDefinition>;
-  paginate: WithUtils<Paginate<OutputDoc, Indexes>, OutputDefinition>;
-  deleteMany: WithUtils<DeleteMany<OutputDoc, Indexes>, OutputDefinition>;
-  deleteOne: WithUtils<DeleteOne<OutputDoc, Indexes>, OutputDefinition>;
-  findById: WithUtils<FindById<OutputDoc, Indexes>, OutputDefinition>;
-  updateMany: WithUtils<UpdateMany<OutputDoc, Indexes>, OutputDefinition>;
-  updateOne: WithUtils<UpdateOne<OutputDoc, Indexes>, OutputDefinition>;
+  // __inputDoc, __outputDoc are empty values, used to register the inputDoc type,
+  __inputDoc: Infer<Input>;
+  __outputDoc: Compute<Merge<EntityDefaultFields, this['__inputDoc']>>;
+
+  createOne: CreateOne<this['__inputDoc'], this['__outputDoc'], Indexes>;
+  //
+  findOne: WithUtils<
+    FindOne<this['__outputDoc'], Indexes>,
+    this['outputDefinition']
+  >;
+  findMany: WithUtils<
+    FindMany<this['__outputDoc'], Indexes>,
+    this['outputDefinition']
+  >;
+  paginate: WithUtils<
+    Paginate<this['__outputDoc'], Indexes>,
+    this['outputDefinition']
+  >;
+  deleteMany: WithUtils<
+    DeleteMany<this['__outputDoc'], Indexes>,
+    this['outputDefinition']
+  >;
+  deleteOne: WithUtils<
+    DeleteOne<this['__outputDoc'], Indexes>,
+    this['outputDefinition']
+  >;
+  findById: WithUtils<
+    FindById<this['__outputDoc'], Indexes>,
+    this['outputDefinition']
+  >;
+  updateMany: WithUtils<
+    UpdateMany<this['__outputDoc'], Indexes>,
+    this['outputDefinition']
+  >;
+  updateOne: WithUtils<
+    UpdateOne<this['__outputDoc'], Indexes>,
+    this['outputDefinition']
+  >;
 
   addIndexRelations: <Rels extends EntityIndexRelationsRecord>(
     relations: Rels
   ) => Entity<
     {
-      [K in Exclude<
-        keyof InputDocumentDefinition,
-        keyof Rels
-      >]: InputDocumentDefinition[K];
+      [K in Exclude<keyof Input, keyof Rels>]: Input[K];
     } & {
       [K in keyof Rels]: {
-        type: Compute<
-          Rels[K]['entity']['usedOptions']['type']['definition'],
-          1
-        >;
+        type: GraphType<{
+          object: Compute<
+            Rels[K]['entity']['usedOptions']['type']['definition']['def'],
+            1
+          >;
+        }>;
         list: true;
       };
     } & {},
@@ -203,18 +209,18 @@ export interface Entity<
   aliasPaths: string[];
 
   conditionsDefinition: {
-    def: EntityGraphQLConditionsType<InputDocumentDefinition>;
+    def: EntityGraphQLConditionsType<Input>;
     type: 'object';
   };
 
-  databaseType: OutputType;
+  databaseType: this['type'];
 
-  edgeType: EdgeType<OutputType>;
+  edgeType: EdgeType<this['type']>;
 
   extendType: <T extends _EntityGraphType>(
     handler: (
-      helper: ExtendDefinitionResult<Options['type'], Options['type']>,
-      originalOptions: Options
+      helper: ExtendDefinitionResult<this['inputType'], this['inputType']>,
+      originalOptions: this['usedOptions']
     ) => T
   ) => Entity<
     T['definition']['def'] extends ObjectDefinitionInput
@@ -236,18 +242,18 @@ export interface Entity<
   // paths of found aliases in entity schemas or sub schemas
   indexRelations: EntityIndexRelationsRecord;
 
-  originType: InputType;
+  originType: GraphType<{ object: Input }>;
 
-  paginationType: PaginationType<OutputType>;
+  paginationType: PaginationType<this['type']>;
 
-  parse: (...args: Parameters<OutputType['parse']>) => OutputDoc;
+  parse: (...args: Parameters<this['type']['parse']>) => this['__outputDoc'];
 
   parseDocumentIndexes(doc: Record<string, any>): ParsedDocumentIndexes;
 
-  setOption: <Key extends keyof Options, V>(
+  setOption: <Key extends keyof this['usedOptions'], V>(
     optionName: Key,
     value: V
-  ) => Merge<Options, { [L in Key]: V }> extends infer R
+  ) => Merge<this['usedOptions'], { [L in Key]: V }> extends infer R
     ? R extends { type: { definition: { def: infer Def } }; indexes: infer In }
       ? Entity<
           Cast<Def, ObjectDefinitionInput>,
@@ -256,15 +262,11 @@ export interface Entity<
       : never
     : never;
 
-  transporter: Options['transporter'];
-
-  type: OutputType;
+  transporter: Transporter | undefined;
 
   updateDefinition: {
     // the definition used in (CRUD) update
-    [K in keyof InputDocumentDefinition]: ToFinalField<
-      InputDocumentDefinition[K]
-    > extends infer R
+    [K in keyof Input]: ToFinalField<Input[K]> extends infer R
       ? {
           [K in keyof R as K extends '__infer'
             ? never
@@ -273,26 +275,29 @@ export interface Entity<
       : never;
   };
 
-  addHooks: (
-    options: (hooks: EntityHooks) => any
-  ) => Entity<InputDocumentDefinition, Indexes>;
+  addHooks: (options: (hooks: EntityHooks) => any) => this;
 
   addRelations: <
     Context extends LoaderContext,
     Definition extends ObjectFieldInput,
     ArgsDef extends ObjectDefinitionInput | undefined
   >(
-    options: EntityFieldResolver<Context, Definition, ArgsDef, OutputDoc>
-  ) => Entity<InputDocumentDefinition, Indexes>;
+    options: EntityFieldResolver<
+      Context,
+      Definition,
+      ArgsDef,
+      this['__outputDoc']
+    >
+  ) => this;
 
   extend: <TransformerReturn>(
     transformer: (
-      current: ExcludeExtend<Entity<InputDocumentDefinition, Indexes>>,
+      current: ExcludeExtend<this>,
       utils: {
         extend: <V>(value: V) => ExtendDefinitionResult<V, V>;
       }
     ) => TransformerReturn
-  ) => Entity<InputDocumentDefinition, Indexes> extends infer Origin
+  ) => this extends infer Origin
     ? {
         [K in
           | keyof TransformerReturn

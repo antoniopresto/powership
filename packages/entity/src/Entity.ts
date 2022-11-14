@@ -263,8 +263,6 @@ export function createEntity(
 
     const _hooks = _createHooks();
 
-    const _partial = {} as TEntity;
-
     // keep it here, because can be changed in the above "onGet"
     const {
       indexes,
@@ -607,24 +605,20 @@ export function createEntity(
       return notNull(indexes.indexFields.id);
     }
 
-    type TEntity = AnyEntity;
-
-    Object.assign(_partial, {
-      addHooks: () => ({}),
-      // handled in proxy
-      addRelations: () => ({}),
+    Object.assign(entity, {
+      inputType: entityOptions.type,
+      addHooks: () => ({}), // handled in proxy
+      addRelations: () => ({}), // handled in proxy
       aliasPaths: _objectAliasPaths(databaseDefinition),
       conditionsDefinition: conditionsType.__lazyGetter.objectType!.definition,
       databaseType,
       edgeType: edgeType,
-      extend: () => ({}),
-      // handled in proxy
+      extend: () => ({}), // handled in proxy
       getDocumentId,
       indexGraphTypes: indexGraphTypes,
       indexes: indexes,
       usedOptions: entityOptions,
       inputDefinition: inputDef,
-      // loaders: loaders,
       name: entityName,
       originType: type,
       paginationType: getPaginationType(),
@@ -638,8 +632,6 @@ export function createEntity(
       type: entityType,
       updateDefinition: updateDefinition,
     });
-
-    Object.assign(entity, _partial);
 
     return entityMutations.reduce((acc, next) => {
       return next(acc);
