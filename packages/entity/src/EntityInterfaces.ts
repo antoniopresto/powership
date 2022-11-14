@@ -4,7 +4,6 @@ import {
   Infer,
   ObjectDefinitionInput,
   ObjectFieldInput,
-  parseObjectDefinition,
   ToFinalField,
 } from '@backland/schema';
 import {
@@ -40,33 +39,13 @@ import {
   EntityOptions,
 } from './EntityOptions';
 import { EntityHooks } from './EntityPlugin';
+import {
+  EntityDefaultFieldsDef,
+  EntityOptionalDefaultFieldsDef,
+} from './defaultFields';
 import { EntityOperationInfosRecord } from './entityOperationContextTypes';
 import { EntityIndexRelationsRecord } from './indexRelations/addEntityIndexRelations';
 import { EdgeType, PaginationType } from './paginationUtils';
-
-export type EntityGeneratedFieldsDefinition = ReturnType<
-  typeof createEntityDefaultFields
->;
-
-export const createEntityDefaultFields = () =>
-  _EntityGeneratedFields({
-    _v: {
-      hidden: true,
-      ulid: { autoCreate: true },
-    },
-    createdAt: { type: 'date' },
-    createdBy: {
-      optional: true,
-      type: 'string',
-    },
-    id: { type: 'string' },
-    ulid: { type: 'ulid' },
-    updatedAt: { type: 'date' },
-    updatedBy: {
-      optional: true,
-      type: 'string',
-    },
-  });
 
 type GetLoaderFilterDef<LoaderConfig, DocDef> =
   //
@@ -131,59 +110,70 @@ type WithUtils<
   ? ((config: Config) => Res) & Utils<Config, OutputDefinition>
   : Loader;
 
+export type EntityOutputDoc<Input extends ObjectDefinitionInput> = Cast<
+  Compute<Merge<EntityDefaultFields, Infer<Input>>>,
+  Record<string, any>
+>;
+
+export type EntityInputDoc<Input extends ObjectDefinitionInput> = Cast<
+  Compute<Merge<Partial<EntityDefaultFields>, Infer<Input>>>,
+  Record<string, any>
+>;
+
+export type EntityInputDef<Input extends ObjectDefinitionInput> = Cast<
+  Merge<EntityOptionalDefaultFieldsDef, Input>,
+  ObjectDefinitionInput
+>;
+
 export interface Entity<
   Input extends ObjectDefinitionInput,
   Indexes extends DocumentIndexesConfig
 > {
   name: string;
   usedOptions: EntityOptions<Input, Indexes>;
-  inputDefinition: Input;
+  objectDefinition: Input;
   indexes: Indexes;
   outputDefinition: Cast<
-    Merge<EntityGeneratedFieldsDefinition, Input>,
+    Merge<EntityDefaultFieldsDef, Input>,
     ObjectDefinitionInput
   >;
   type: GraphType<{
-    object: Merge<EntityGeneratedFieldsDefinition, Input>;
+    object: Merge<EntityDefaultFieldsDef, Input>;
   }>;
-  inputType: GraphType<{ object: Input }>;
-
-  // __inputDoc, __outputDoc are empty values, used to register the inputDoc type,
-  __inputDoc: Infer<Input>;
-  __outputDoc: Compute<Merge<EntityDefaultFields, this['__inputDoc']>>;
-
-  createOne: CreateOne<this['__inputDoc'], this['__outputDoc'], Indexes>;
-  //
+  inputType: GraphType<{
+    object: EntityInputDef<Input>;
+  }>;
+  createOne: CreateOne<EntityInputDoc<Input>, EntityOutputDoc<Input>, Indexes>;
   findOne: WithUtils<
-    FindOne<this['__outputDoc'], Indexes>,
+    FindOne<EntityOutputDoc<Input>, Indexes>,
     this['outputDefinition']
   >;
   findMany: WithUtils<
-    FindMany<this['__outputDoc'], Indexes>,
+    FindMany<EntityOutputDoc<Input>, Indexes>,
     this['outputDefinition']
   >;
   paginate: WithUtils<
-    Paginate<this['__outputDoc'], Indexes>,
+    Paginate<EntityOutputDoc<Input>, Indexes>,
     this['outputDefinition']
   >;
   deleteMany: WithUtils<
-    DeleteMany<this['__outputDoc'], Indexes>,
+    DeleteMany<EntityOutputDoc<Input>, Indexes>,
     this['outputDefinition']
   >;
   deleteOne: WithUtils<
-    DeleteOne<this['__outputDoc'], Indexes>,
+    DeleteOne<EntityOutputDoc<Input>, Indexes>,
     this['outputDefinition']
   >;
   findById: WithUtils<
-    FindById<this['__outputDoc'], Indexes>,
+    FindById<EntityOutputDoc<Input>, Indexes>,
     this['outputDefinition']
   >;
   updateMany: WithUtils<
-    UpdateMany<this['__outputDoc'], Indexes>,
+    UpdateMany<EntityOutputDoc<Input>, Indexes>,
     this['outputDefinition']
   >;
   updateOne: WithUtils<
-    UpdateOne<this['__outputDoc'], Indexes>,
+    UpdateOne<EntityOutputDoc<Input>, Indexes>,
     this['outputDefinition']
   >;
 
@@ -196,7 +186,7 @@ export interface Entity<
       [K in keyof Rels]: {
         type: GraphType<{
           object: Compute<
-            Rels[K]['entity']['usedOptions']['type']['definition']['def'],
+            Rels[K]['entity']['inputType']['definition']['def'],
             1
           >;
         }>;
@@ -246,7 +236,7 @@ export interface Entity<
 
   paginationType: PaginationType<this['type']>;
 
-  parse: (...args: Parameters<this['type']['parse']>) => this['__outputDoc'];
+  parse: (...args: Parameters<this['type']['parse']>) => EntityOutputDoc<Input>;
 
   parseDocumentIndexes(doc: Record<string, any>): ParsedDocumentIndexes;
 
@@ -286,7 +276,7 @@ export interface Entity<
       Context,
       Definition,
       ArgsDef,
-      this['__outputDoc']
+      EntityOutputDoc<Input>
     >
   ) => this;
 
@@ -343,25 +333,8 @@ export type EntityLoaderConfig<
     : never
   : any;
 
-function _EntityGeneratedFields<
-  T extends { [K in keyof EntityDefaultFields]: ObjectFieldInput }
->(
-  input: T
-): {
-  [K in keyof T]: {
-    [S in keyof ToFinalField<T[K]> as S extends '__infer'
-      ? never
-      : S]: ToFinalField<T[K]>[S];
-  } & {};
-} {
-  return parseObjectDefinition(input).definition as any;
-}
-
-export type EntityDocument<Document extends DocumentBase = DocumentBase> = Omit<
-  Document,
-  keyof EntityDefaultFields
-> &
-  EntityDefaultFields;
+export type EntityDocument<Document extends DocumentBase = DocumentBase> =
+  Compute<Merge<EntityDefaultFields, Document>>;
 
 export type AnyEntityDocument<Doc extends DocumentBase = DocumentBase> =
   EntityDocument<Doc>;

@@ -1,6 +1,7 @@
 import { createEntity } from '@backland/entity';
+import { Infer } from '@backland/schema';
 
-import { Session, SessionType } from '../types/SessionType';
+import { SessionType } from '../types/SessionType';
 
 export const SessionEntity = createEntity(() => {
   return {
@@ -9,7 +10,7 @@ export const SessionEntity = createEntity(() => {
     indexes: [
       {
         PK: ['.accountId'],
-        SK: ['.ulid', '.token'], // used ulid to get the latest sessions
+        SK: ['.ulid'], // used ulid to get the latest sessions
         field: '_id',
         name: 'accountId',
         relatedTo: 'Account',
@@ -18,4 +19,4 @@ export const SessionEntity = createEntity(() => {
   };
 });
 
-export type SessionInput = Session;
+export type SessionInput = Infer<typeof SessionEntity.inputType>;

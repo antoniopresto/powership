@@ -48,6 +48,7 @@ export function mergeIndexRelationsResult(input: {
     const { input: parentId } = idInfo.parent;
     docsByParent[parentId] = docsByParent[parentId] || [];
     docsByParent[parentId].push(doc);
+    return;
   });
 
   items.forEach((parentDoc) => {

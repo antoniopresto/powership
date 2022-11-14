@@ -266,11 +266,11 @@ describe('ProductResolver.addRelations', () => {
     ]);
 
     expect(
-      createType('Product2Input', {
-        object: ProductEntity.inputDefinition,
+      createType('Product2InputInput', {
+        object: ProductEntity.objectDefinition,
       }).print()
     ).toEqual([
-      'type Product2Input {',
+      'type Product2InputInput {',
       '  sku: String!',
       '  storeId: ID!',
       '  title: String!',
@@ -282,7 +282,7 @@ describe('ProductResolver.addRelations', () => {
       '  thumbUrl: String',
       '  breadcrumb: [BreadCrumb]',
       '  mapOfImages: [ProductImageMap]',
-      '  attributes: Product2Input_attributes',
+      '  attributes: Product2InputInput_attributes',
       '  currentPrice: Float!',
       '  priceFrom: Float',
       '  sellPrice: Float!',
@@ -317,7 +317,7 @@ describe('ProductResolver.addRelations', () => {
       '  allowZoom: Boolean',
       '}',
       '',
-      'scalar Product2Input_attributes',
+      'scalar Product2InputInput_attributes',
       '',
       'type Dimensions {',
       '  weight: String',
@@ -326,7 +326,7 @@ describe('ProductResolver.addRelations', () => {
       '  width: String',
       '}',
       '',
-      'input Product2InputInput {',
+      'input Product2InputInputInput {',
       '  sku: String!',
       '  storeId: ID!',
       '  title: String!',
@@ -338,7 +338,7 @@ describe('ProductResolver.addRelations', () => {
       '  thumbUrl: String',
       '  breadcrumb: [BreadCrumbInput]',
       '  mapOfImages: [ProductImageMapInput]',
-      '  attributes: Product2Input_attributes',
+      '  attributes: Product2InputInput_attributes',
       '  currentPrice: Float!',
       '  priceFrom: Float',
       '  sellPrice: Float!',

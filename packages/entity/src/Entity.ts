@@ -47,12 +47,12 @@ import {
 import {
   AnyEntity,
   AnyEntityDocument,
-  createEntityDefaultFields,
   Entity,
   EntityOperationInfoContext,
 } from './EntityInterfaces';
 import { EntityFieldResolver, EntityOptions } from './EntityOptions';
 import { createEntityPlugin, EntityHooks } from './EntityPlugin';
+import { createEntityDefaultFields } from './defaultFields';
 import { buildEntityOperationInfoContext } from './entityOperationContextTypes';
 import {
   _addEntityIndexRelations,
@@ -357,6 +357,7 @@ export function createEntity(
       entityOptions,
       hooks: _hooks,
       indexConfig,
+      entity,
     });
 
     const entityType = createType(`${entityName}Entity`, {
@@ -368,6 +369,14 @@ export function createEntity(
       entityOutputDefinitionWithRelations,
       parsedIndexKeys,
     });
+
+    const inputType = entityOptions.type
+      .clone()
+      .extendDefinition({
+        ...createEntityDefaultFields(true),
+        ...entityOptions.type.definition.def,
+      })
+      .graphType(`${entityName}Input`);
 
     function _createLoader(config: {
       indexInfo: ParsedIndexKey[];
@@ -606,7 +615,7 @@ export function createEntity(
     }
 
     Object.assign(entity, {
-      inputType: entityOptions.type,
+      inputType,
       addHooks: () => ({}), // handled in proxy
       addRelations: () => ({}), // handled in proxy
       aliasPaths: _objectAliasPaths(databaseDefinition),
@@ -618,7 +627,7 @@ export function createEntity(
       indexGraphTypes: indexGraphTypes,
       indexes: indexes,
       usedOptions: entityOptions,
-      inputDefinition: inputDef,
+      objectDefinition: inputDef,
       name: entityName,
       originType: type,
       paginationType: getPaginationType(),
@@ -658,8 +667,9 @@ function _registerPKSKHook(input: {
   entityOptions: EntityOptions;
   hooks: EntityHooks;
   indexConfig: AnyCollectionIndexConfig;
+  entity: AnyEntity;
 }) {
-  const { hooks, indexConfig } = input;
+  const { hooks, indexConfig, entity } = input;
 
   hooks.preParse.register(async function applyDefaultHooks(ctx) {
     async function _onUpdate(doc: Record<string, any>) {
@@ -692,7 +702,7 @@ function _registerPKSKHook(input: {
         doc.id = parsedIndexes.firstIndex.value;
       }
 
-      return doc;
+      return entity.inputType.parse(doc);
     }
 
     if (ctx.isUpdate) {

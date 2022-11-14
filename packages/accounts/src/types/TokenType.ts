@@ -1,4 +1,4 @@
-import { createSchema } from '@backland/schema';
+import { createType } from '@backland/schema';
 import { tupleEnum } from '@backland/utils';
 import { Infer } from 'backland';
 
@@ -12,27 +12,29 @@ export const tokenKindEnum = tupleEnum(
   'custom'
 );
 
-export const TokenType = createSchema({
-  accountId: 'ID',
-  kind: {
-    description: 'Examples: 2fa, password_recovery',
-    enum: tokenKindEnum.list,
-  },
-  reason: 'string?',
-  createdFor: {
-    string: { min: 2 },
-    description:
-      'Indicates for what that token was created. ' +
-      'Example: accountId, email, phone, 2fa service, etc',
-  },
-  value: { string: { max: 1000, min: 4 } },
-  meta: 'record?',
-  location: {
-    optional: true,
-    object: {
-      ip: 'string?',
-      device: 'string?',
-      meta: 'record?',
+export const TokenType = createType('AccountsToken', {
+  object: {
+    accountId: 'ID',
+    kind: {
+      description: 'Examples: 2fa, password_recovery',
+      enum: tokenKindEnum.list,
+    },
+    reason: 'string?',
+    createdFor: {
+      string: { min: 2 },
+      description:
+        'Indicates for what that token was created. ' +
+        'Example: accountId, email, phone, 2fa service, etc',
+    },
+    value: { string: { max: 1000, min: 4 } },
+    meta: 'record?',
+    location: {
+      optional: true,
+      object: {
+        ip: 'string?',
+        device: 'string?',
+        meta: 'record?',
+      },
     },
   },
 } as const);

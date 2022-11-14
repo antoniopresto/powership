@@ -1,6 +1,11 @@
-import { DeleteManyResult, Transporter } from '@backland/transporter';
+import {
+  DeleteManyResult,
+  LoaderContext,
+  Transporter,
+} from '@backland/transporter';
 import { NodeLogger, ulid } from '@backland/utils';
 
+import { SessionRequest, Sessions, SessionsOptions } from './Sessions';
 import {
   AccessTypeDocument,
   AccessTypeEntity,
@@ -10,14 +15,17 @@ import {
   AccountEntity,
   AccountInput,
 } from './entity/AccountEntity';
+import { SessionEntity } from './entity/SessionEntity';
 import { TokenDocument, TokenEntity } from './entity/TokenEntity';
+import { LoginResult } from './interfaces';
 import { AccessType, accessTypesEnum } from './types/AccessType';
 import { Token, tokenKindEnum } from './types/TokenType';
 import { PasswordHash } from './utils/PasswordHash';
-import { generateRandomToken } from './utils/crypto';
+import { createRandomToken } from './utils/crypto';
 
-export interface PasswordHandlerOptions {
-  transporter?: Transporter;
+export interface AccountsOptions {
+  transporter: Transporter;
+  sessions: SessionsOptions;
 }
 
 export type CreateUserPasswordInput = {
@@ -28,25 +36,27 @@ export type CreateUserPasswordInput = {
   username: string;
 };
 
-export class AccountPassword<Options extends PasswordHandlerOptions> {
+export class Accounts {
   get addHooks() {
     return AccountEntity.addHooks as AccountEntity['addHooks'];
   }
 
-  constructor(options: Options) {
+  sessions: Sessions;
+
+  constructor(options: AccountsOptions) {
     const { transporter } = options;
-    if (transporter) {
-      AccountEntity.setOption('transporter', transporter);
-      TokenEntity.setOption('transporter', transporter);
-      AccessTypeEntity.setOption('transporter', transporter);
-    }
+    this.sessions = new Sessions(options.sessions);
+    AccountEntity.setOption('transporter', transporter);
+    TokenEntity.setOption('transporter', transporter);
+    AccessTypeEntity.setOption('transporter', transporter);
+    SessionEntity.setOption('transporter', transporter);
   }
 
   /**
-   * Create a new user by providing an email and/or a username and password.
+   * Create a new account by providing an email and/or a username and password.
    * Emails are saved lowercased.
    */
-  public async createUser({
+  public async createAccount({
     password,
     email,
     username,
@@ -77,6 +87,7 @@ export class AccountPassword<Options extends PasswordHandlerOptions> {
       accountId,
       access: [emailAccess],
       tokens: [passwordToken],
+      session: [],
       deactivated: false,
       permissions: [`admin_profile:${accountId}`],
       username,
@@ -177,7 +188,7 @@ export class AccountPassword<Options extends PasswordHandlerOptions> {
     email: string;
     token?: string;
   }): Promise<TokenDocument> {
-    const { accountId, email, token = generateRandomToken() } = input;
+    const { accountId, email, token = createRandomToken() } = input;
 
     const tokenItem: Token = {
       accountId: accountId,
@@ -211,49 +222,12 @@ export class AccountPassword<Options extends PasswordHandlerOptions> {
     reason?: string;
     token?: string;
   }): Promise<TokenDocument> {
-    const { accountId, reason, token = generateRandomToken() } = options;
+    const { accountId, reason, token = createRandomToken() } = options;
 
     const tokenItem: Token = {
       accountId,
       createdFor: accountId,
       kind: tokenKindEnum.password_recovery,
-      reason: reason,
-      value: token,
-    };
-
-    const ret = await TokenEntity.createOne({
-      context: {},
-      item: tokenItem,
-    });
-
-    if (ret.error) {
-      NodeLogger.logError(ret.error);
-    }
-
-    if (!ret.item) {
-      throw new Error('INVALID_OPERATION');
-    }
-
-    return ret.item as TokenDocument;
-  }
-
-  /**
-   * Add a session token to a user.
-   * @param options.accountId Id used to update the user.
-   * @param options.reason Reason to use for the token.
-   * @param options.token a random token
-   */
-  public async addSessionToken(options: {
-    accountId: string;
-    reason?: string;
-    token?: string;
-  }): Promise<TokenDocument> {
-    const { accountId, reason, token = generateRandomToken() } = options;
-
-    const tokenItem: Token = {
-      accountId,
-      createdFor: accountId,
-      kind: tokenKindEnum.session,
       reason: reason,
       value: token,
     };
@@ -312,8 +286,10 @@ export class AccountPassword<Options extends PasswordHandlerOptions> {
   async userByPasswordLogin(input: {
     username: string;
     password: string;
-  }): Promise<AccountDocument> {
-    const { username, password } = input;
+    context: LoaderContext;
+    request: SessionRequest;
+  }): Promise<LoginResult> {
+    const { username, password, request, context } = input;
 
     const foundUser = await this.findUser({
       username,
@@ -347,40 +323,23 @@ export class AccountPassword<Options extends PasswordHandlerOptions> {
       throw new Error('LOGIN_FAILED');
     }
 
-    return foundUser as AccountDocument;
+    return await this.sessions.upsertRefreshTokenAndSessionDocument({
+      account: foundUser,
+      authToken: null,
+      connectionInfo: {
+        ip: request.requestIp,
+        userAgent: request.userAgent,
+      },
+      context,
+      request,
+    });
   }
 
-  // /**
-  //  * @description Refresh a user token.
-  //  * @param {string} token - User session token.
-  //  * @param {boolean} isImpersonated - Should be true if impersonating another user.
-  //  * @param {User} user - The user object.
-  //  * @returns {Promise<Tokens>} - Return a new accessToken and refreshToken.
-  //  */
-  // createTokens({
-  //   token,
-  //   isImpersonated = false,
-  //   user,
-  // }: {
-  //   token: string;
-  //   isImpersonated?: boolean;
-  //   user: AccountDocument;
-  // }) {
-  //   const jwtData: AccountJwtData = {
-  //     token,
-  //     isImpersonated,
-  //     accountId: user.accountId,
-  //   };
-  //
-  //   const accessToken = signJWT({
-  //     payload: jwtData,
-  //     secret: ,
-  //   });
-  //
-  //   const refreshToken = signJWT({
-  //     secret: this.getSecretOrPrivateKey(),
-  //   });
-  //
-  //   return { accessToken, refreshToken };
-  // }
+  get handleRequest() {
+    return this.sessions.handleRequest;
+  }
+  
+  get refreshTokens() {
+    return this.sessions.refreshTokens;
+  }
 }

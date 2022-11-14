@@ -5,7 +5,7 @@ import { MongoTransporter } from '@backland/mongo';
 import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
 import { mountID } from '@backland/transporter';
 import { createEntity } from '../Entity';
-import { createEntityDefaultFields } from '../EntityInterfaces';
+import { createEntityDefaultFields } from '../defaultFields';
 
 describe('Product', () => {
   let mockApp: AppMock;
@@ -71,7 +71,7 @@ describe('Product', () => {
     expect(typeof entity.parse).toEqual('function');
     expect(entity.originType).toEqual(options.type);
     const { __dschm__, ...def } = options.type.definition.def as any;
-    expect(entity.inputDefinition).toEqual(def);
+    expect(entity.objectDefinition).toEqual(def);
 
     expect(Object.keys(entity.type.definition.def).sort()).toEqual(
       Object.keys({

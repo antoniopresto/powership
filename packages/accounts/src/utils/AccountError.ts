@@ -1,4 +1,4 @@
-import { getByPath } from '@backland/utils';
+import { getByPath, NodeLogger } from '@backland/utils';
 
 export class AccountError extends Error {
   __isAccountError = true;
@@ -6,9 +6,10 @@ export class AccountError extends Error {
 
   public code: AccountErrorCode;
 
-  constructor(code: AccountErrorCode, message = 'ACCOUNT_ERROR') {
-    super(message);
+  constructor(code: AccountErrorCode, details: any = 'ACCOUNT_ERROR') {
+    super(code);
     this.code = code;
+    NodeLogger.logError(code, details);
     Object.setPrototypeOf(this, new.target.prototype);
   }
 

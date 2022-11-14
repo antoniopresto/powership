@@ -144,7 +144,15 @@ type Join<L, R> = {
   })[K];
 };
 
-export type Merge<L, R> = Omit<L, keyof R> extends infer P ? Join<P, R> : never;
+export type Merge<L, R> = {
+  [K in keyof L]: K extends keyof R
+    ? IsKnown<R[K]> extends 1
+      ? never
+      : L[K]
+    : L[K];
+} extends infer P
+  ? Join<P, R>
+  : never;
 
 export type ExtendListDeep<Dest, Extends> = Extends extends []
   ? Dest

@@ -1,5 +1,5 @@
 import { createEntity, EntityDefaultFields } from '@backland/entity';
-import { createType, Infer } from '@backland/schema';
+import { createType } from '@backland/schema';
 
 import { AccountType } from '../types/AccountType';
 
@@ -42,5 +42,5 @@ export const AccountEntity = createEntity({
 });
 
 export type AccountEntity = typeof AccountEntity;
-export type AccountDocument = Infer<typeof AccountEntity['type']>;
+export type AccountDocument = ReturnType<typeof AccountEntity['parse']>;
 export type AccountInput = Omit<AccountDocument, keyof EntityDefaultFields>;

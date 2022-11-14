@@ -11,7 +11,8 @@ import { getTypeName, slugify } from '@backland/utils';
 import { MongoTransporter } from '@backland/mongo';
 import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
 import { createEntity } from '../Entity';
-import { createEntityDefaultFields, Entity } from '../EntityInterfaces';
+import { Entity } from '../EntityInterfaces';
+import { createEntityDefaultFields } from '../defaultFields';
 
 export const BreadCrumbType = createType('BreadCrumb', {
   object: {
@@ -177,7 +178,7 @@ export function setupProductTest(): {
     );
 
     const productCreateResolver = createResolver({
-      args: ProductEntity.inputDefinition,
+      args: ProductEntity.objectDefinition,
       kind: 'mutation',
       name: 'productCreate',
       async resolve(_root, args, context) {

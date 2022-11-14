@@ -139,7 +139,8 @@ describe('Entity.indexRelations', () => {
       }[];
     };
 
-    type ExpectedOutput = EntityDefaultFields & ExpectedInput;
+    type ExpectedOutput = EntityDefaultFields &
+      Omit<ExpectedInput, 'access'> & { access: T['access'] };
 
     assert<IsExact<P, T>>(true);
     assert<IsExact<ExpectedOutput, T>>(true);

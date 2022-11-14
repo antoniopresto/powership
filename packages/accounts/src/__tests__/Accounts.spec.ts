@@ -1,5 +1,7 @@
 import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
 import { TokenEntity } from '../entity/TokenEntity';
+import { LoaderContext } from '@backland/transporter';
+import { SessionRequest } from '../Sessions';
 
 describe('Accounts', () => {
   let mockApp: AppMock;
@@ -14,14 +16,29 @@ describe('Accounts', () => {
     jest.resetModules();
   });
 
-  function accounts() {
+  function _accounts() {
     const { Accounts } = require('../Accounts') as typeof import('../Accounts');
 
-    return new Accounts({ transporter: mockApp.transporter });
+    return new Accounts({
+      transporter: mockApp.transporter,
+      sessions: { getTokenSecret: () => '987654321' },
+    });
+  }
+
+  function _request(): { context: LoaderContext; request: SessionRequest } {
+    return {
+      context: {},
+      request: {
+        requestIp: '12345678',
+        userAgent: 'IE',
+        loggedOnly: true,
+        onCallDestroySession() {},
+      },
+    };
   }
 
   test('createUser', async () => {
-    const accountsPassword = accounts();
+    const accountsPassword = _accounts();
 
     const account = await accountsPassword.createAccount({
       password: '1234567',
@@ -56,7 +73,7 @@ describe('Accounts', () => {
   });
 
   test('userByPasswordLogin', async () => {
-    const accountsPassword = accounts();
+    const accountsPassword = _accounts();
 
     await accountsPassword.createAccount({
       password: '1234567',
@@ -69,23 +86,28 @@ describe('Accounts', () => {
       accountsPassword.userByPasswordLogin({
         password: 'wrongpass',
         username: 'antoniopresto',
+        ..._request(),
       })
     ).rejects.toThrow('LOGIN_FAILED');
 
     const sut = await accountsPassword.userByPasswordLogin({
       password: '1234567',
       username: 'antoniopresto',
+      ..._request(),
     });
 
     expect(sut).toMatchObject({
-      username: 'antoniopresto',
+      authToken: expect.stringMatching(/\w{100,200}/),
+      account: {
+        username: 'antoniopresto',
+      },
     });
 
-    expect(sut.access).toBeUndefined(); // because login with username
+    expect(sut.account.session).toEqual([sut.sessionDocument]);
   });
 
   test('verifyEmail', async () => {
-    const accountsPassword = accounts();
+    const accountsPassword = _accounts();
 
     const user = await accountsPassword.createAccount({
       password: '1234567',
@@ -103,7 +125,7 @@ describe('Accounts', () => {
   });
 
   test('changePassword', async () => {
-    const accountsPassword = accounts();
+    const accountsPassword = _accounts();
 
     const user = await accountsPassword.createAccount({
       password: '1234567',
@@ -115,6 +137,7 @@ describe('Accounts', () => {
     await accountsPassword.userByPasswordLogin({
       password: '1234567',
       username: 'antoniopresto',
+      ..._request(),
     });
 
     await accountsPassword.setPassword({
@@ -126,12 +149,13 @@ describe('Accounts', () => {
       await accountsPassword.userByPasswordLogin({
         password: '1234567',
         username: 'antoniopresto',
+        ..._request(),
       });
     }).rejects.toThrow('LOGIN_FAILED');
   });
 
   test('addEmailVerificationToken', async () => {
-    const accountsPassword = accounts();
+    const accountsPassword = _accounts();
 
     const user = await accountsPassword.createAccount({
       password: '1234567',
@@ -153,7 +177,7 @@ describe('Accounts', () => {
   });
 
   test('addResetPasswordToken', async () => {
-    const accountsPassword = accounts();
+    const accountsPassword = _accounts();
 
     const sut = await accountsPassword.addResetPasswordToken({
       accountId: '1234',
@@ -167,7 +191,7 @@ describe('Accounts', () => {
   });
 
   test('removeAllResetPasswordTokens', async () => {
-    const accountsPassword = accounts();
+    const accountsPassword = _accounts();
 
     await Promise.all([
       accountsPassword.addResetPasswordToken({

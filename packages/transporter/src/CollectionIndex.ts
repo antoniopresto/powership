@@ -207,6 +207,8 @@ export function createDocumentIndexBasedFilters(
           [key]: value,
         });
       }
+
+      return;
     });
 
     const PK = pickIndexKeyPartsFromDocument({
@@ -329,6 +331,7 @@ export function createDocumentIndexBasedFilters(
     if (!PK || typeof PK !== 'string') {
       return (hasNotFullKeyFilter = true);
     }
+    return;
   });
 
   const isFullKeyFilter = !hasNotFullKeyFilter;
