@@ -6,41 +6,37 @@ import {
   ResolverResolve,
 } from '@backland/schema';
 import {
-  CollectionConfigIndexes,
   DocumentBase,
+  DocumentIndexesConfig,
   Transporter,
 } from '@backland/transporter';
+import { IsKnown } from '@backland/utils';
 
-import { EntityDefaultFields } from './EntityInterfaces';
-
-export interface EntityOptions<
-  TName extends string = string,
-  Type extends _EntityGraphType = _EntityGraphType,
-  TTransporter extends Transporter = Transporter
-> {
-  indexes: CollectionConfigIndexes<EntityDocFromType<Type>>;
-  name: TName;
-  transporter?: TTransporter;
-  type: Type;
-}
-
-export type AnyEntityOptions = EntityOptions<
-  'AnyEntityOptions',
-  GraphType<any>,
-  Transporter
->;
-
-export type EntityDocFromType<Type> = Type extends {
-  parse(...args: any[]): infer Result;
-}
-  ? Result extends {}
-    ? EntityDefaultFields & Result extends infer R
-      ? {
-          [K in keyof R]: R[K];
-        }
-      : never
-    : never
-  : never;
+export type EntityOptions<
+  InputDocumentDefinition extends ObjectDefinitionInput = ObjectDefinitionInput,
+  Indexes extends DocumentIndexesConfig<
+    keyof InputDocumentDefinition
+  > = DocumentIndexesConfig<keyof InputDocumentDefinition>
+> = IsKnown<InputDocumentDefinition> extends 1
+  ? IsKnown<Indexes> extends 1
+    ? {
+        indexes: Indexes;
+        name: string;
+        transporter?: Transporter;
+        type: GraphType<{ object: InputDocumentDefinition }>;
+      }
+    : {
+        indexes: any;
+        name: string;
+        transporter?: Transporter;
+        type: _EntityGraphType;
+      }
+  : {
+      indexes: any;
+      name: string;
+      transporter?: Transporter;
+      type: _EntityGraphType;
+    };
 
 export type EntityFieldResolver<
   Context,

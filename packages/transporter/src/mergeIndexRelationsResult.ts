@@ -16,7 +16,7 @@ export function mergeIndexRelationsResult(input: {
   const { entity, indexes } = parseCollectionIndexConfig(indexConfig);
 
   const relations = indexes
-    .map((index: DocumentIndexItem<any, any>) => {
+    .map((index: DocumentIndexItem<any>) => {
       return (index.relations || []).map((rel) => {
         return {
           rel,

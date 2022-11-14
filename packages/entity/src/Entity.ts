@@ -2,7 +2,6 @@ import {
   CircularDeps,
   createType,
   extendDefinition,
-  ExtendDefinitionResult,
   FinalFieldDefinition,
   FinalObjectDefinition,
   GraphType,
@@ -14,12 +13,12 @@ import {
 import {
   AnyCollectionIndexConfig,
   CollectionIndexConfig,
+  DocumentIndexesConfig,
   getDocumentIndexFields,
   getParsedIndexKeys,
   parseCollectionIndexConfig,
   ParsedDocumentIndexes,
   ParsedIndexKey,
-  Transporter,
   TransporterLoader,
   TransporterLoaderName,
   transporterLoaderNames,
@@ -52,11 +51,7 @@ import {
   Entity,
   EntityOperationInfoContext,
 } from './EntityInterfaces';
-import {
-  _EntityGraphType,
-  EntityFieldResolver,
-  EntityOptions,
-} from './EntityOptions';
+import { EntityFieldResolver, EntityOptions } from './EntityOptions';
 import { createEntityPlugin, EntityHooks } from './EntityPlugin';
 import { buildEntityOperationInfoContext } from './entityOperationContextTypes';
 import {
@@ -86,12 +81,22 @@ const extendMethodsEnum = tupleEnum(
 );
 
 export function createEntity<
-  Name extends string,
-  Type extends _EntityGraphType,
-  TTransport extends Transporter,
-  Options extends EntityOptions<Name, Type, TTransport>
->(configOptions: Options | (() => Options)): Entity<Options> {
-  const optionMutations: ((options: Options) => Options)[] = [];
+  InputDefinition extends ObjectDefinitionInput,
+  Indexes extends DocumentIndexesConfig,
+  Options extends EntityOptions<InputDefinition, Indexes> = EntityOptions<
+    InputDefinition,
+    Indexes
+  >
+>(
+  configOptions:
+    | EntityOptions<InputDefinition, Indexes>
+    | (() => EntityOptions<InputDefinition, Indexes>)
+): Entity<InputDefinition, Indexes>;
+
+export function createEntity(
+  configOptions: Record<string, any> | (() => Record<string, any>)
+): any {
+  const optionMutations: ((options: EntityOptions) => EntityOptions)[] = [];
   const entityMutations: ((entity: AnyEntity) => AnyEntity)[] = [];
 
   let entityOptions = createProxy(() => {
@@ -117,19 +122,23 @@ export function createEntity<
 
   const entity = createProxy(_createEntity, {
     onGet(k: any): any {
-      if (k === '__isBLEntity') return true;
+      if (k === '__$is_entity__') return true;
 
       if (typeof k === 'string' && k in extendMethodsEnum) {
         // clone
         if (k === 'clone') {
           return function cloneEntity(
-            handler: ((originalOptions: Options) => Options) | Options
+            handler:
+              | ((originalOptions: EntityOptions) => EntityOptions)
+              | EntityOptions
           ): AnyEntity {
-            return createEntity(() => {
+            const cb = () => {
               const newValue =
                 typeof handler === 'function'
-                  ? handler(entityOptions)
-                  : { ...entityOptions, ...handler };
+                  ? // @ts-ignore
+                    handler(entityOptions)
+                  : // @ts-ignore
+                    { ...entityOptions, ...handler };
 
               if (
                 gettersWereCalled &&
@@ -142,8 +151,11 @@ export function createEntity<
                 );
               }
 
-              return newValue;
-            }) as any;
+              return newValue as any;
+            };
+
+            // @ts-ignore
+            return createEntity(cb) as any;
           };
         }
 
@@ -181,6 +193,7 @@ export function createEntity<
               },
               //
               (opt) => {
+                // @ts-ignore
                 _addEntityIndexRelations(opt, relationsList);
                 return opt;
               }
@@ -192,18 +205,16 @@ export function createEntity<
 
         if (k === 'extendType') {
           return function extendType(
-            handler: (
-              helper: ExtendDefinitionResult<Options['type'], Options['type']>,
-              originalOptions: Options
-            ) => AnyEntity
+            handler: (helper: any, originalOptions: EntityOptions) => AnyEntity
           ): AnyEntity {
+            // @ts-ignore
             return createEntity(() => {
               const newType = handler(
                 extendDefinition(entityOptions.type),
                 entityOptions
               );
 
-              return { ...entityOptions, type: newType };
+              return { ...entityOptions, type: newType } as any;
             }) as any;
           };
         }

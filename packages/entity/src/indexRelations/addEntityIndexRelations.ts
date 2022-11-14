@@ -1,7 +1,6 @@
-import { GraphType } from '@backland/schema';
-import { areEqual, devAssert } from '@backland/utils';
+import { areEqual, devAssert, Writeable } from '@backland/utils';
 
-import { AnyEntity, Entity } from '../EntityInterfaces';
+import { AnyEntity } from '../EntityInterfaces';
 import { EntityOptions } from '../EntityOptions';
 
 export type EntityIndexRelationConfig<Entity = AnyEntity> = {
@@ -13,52 +12,6 @@ export type EntityIndexRelationsRecord<Entity = any> = Record<
   EntityIndexRelationConfig<Entity>
 >;
 
-export type AddIndexRelationsFn<Options extends EntityOptions = EntityOptions> =
-  <Rels extends EntityIndexRelationsRecord>(
-    relations: Rels
-  ) => Entity<
-    {
-      [K in keyof MergeTypeIndexRelations<
-        Options,
-        Rels
-      >]: MergeTypeIndexRelations<Options, Rels>[K];
-    } & {}
-  >;
-
-type _defFromOptions<T> = T extends { type: infer Type }
-  ? Type extends { definition: { def: infer Def } }
-    ? { [K in keyof Def]: Def[K] extends unknown ? Def[K] : never } & {}
-    : {}
-  : {};
-
-type _defFromRel<Rel> = Rel extends {
-  entity: { usedOptions: { type: infer Type } };
-}
-  ? {
-      list: true;
-      optional: true;
-      type: Type;
-      // optionalInput: true // TODO
-    }
-  : never;
-
-type _createType<Options, Rels> = GraphType<{
-  object: _defFromOptions<Options> extends infer O
-    ? { [K in keyof O as K extends keyof Rels ? never : K]: O[K] } & ({
-        [K in keyof Rels]: _defFromRel<Rels[K]>;
-      } & {})
-    : never;
-}>;
-
-export type MergeTypeIndexRelations<
-  Options extends EntityOptions,
-  Rels extends EntityIndexRelationsRecord
-> = {
-  [K in keyof Options]: K extends 'type'
-    ? _createType<Options, Rels>
-    : Options[K];
-};
-
 export function _addEntityIndexRelations(
   mainEntityOptions: EntityOptions,
   relations: [string, EntityIndexRelationConfig][]
@@ -67,7 +20,7 @@ export function _addEntityIndexRelations(
   const mainEntityIndexes = mainEntityOptions.indexes;
 
   relations.forEach(([relName, rel]) => {
-    const childOptions: EntityOptions = rel.entity.usedOptions;
+    const childOptions = rel.entity.usedOptions;
 
     const relatedIndex = childOptions.indexes.filter((relIndex) => {
       return relIndex.relatedTo?.toLowerCase() === mainEntityName.toLowerCase();
@@ -105,16 +58,18 @@ export function _addEntityIndexRelations(
         );
       }
 
-      // @ts-ignore
-      mainEntityIndex.relations = mainEntityIndex.relations || [];
+      const relations = (mainEntityIndex.relations =
+        mainEntityIndex.relations || []) as Writeable<
+        typeof mainEntityIndex.relations
+      >;
 
-      if (mainEntityIndex.relations.find((el) => el.name === relName)) {
+      if (relations.find((el) => el.name === relName)) {
         throw new Error(
           `Entity ${mainEntityName}: Relation with name "${relName}" already defined.`
         );
       }
 
-      mainEntityIndex.relations.push({
+      relations.push({
         entity: childOptions.name,
         name: relName,
       });

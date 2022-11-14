@@ -71,7 +71,7 @@ describe('ProductResolver.addRelations', () => {
 
     expect(num).toBe(1);
 
-    const dbDoc = await ProductEntity.transporter.findOne({
+    const dbDoc = await ProductEntity.transporter!.findOne({
       filter: { id: created.item!.id },
       indexConfig: {
         indexes: ProductEntity.indexes,

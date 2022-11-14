@@ -1,5 +1,5 @@
 import { createSchema } from '@backland/schema';
-import { getByPath, nonNullValues, textToBase64 } from '@backland/utils';
+import { $Any, getByPath, nonNullValues, textToBase64 } from '@backland/utils';
 import { RuntimeError } from '@backland/utils';
 import { encodeNumber } from '@backland/utils';
 import { devAssert } from '@backland/utils';
@@ -956,27 +956,20 @@ export const DocumentIndexRegex = /^(_id\d*)|(id)$/;
 
 // Definition for a document index
 
-export type DocumentIndexItem<
-  Keys extends string,
-  TName extends string
-> = Readonly<{
-  PK: Readonly<
-    [
-      IndexKeyHash<Extract<Keys, string>>,
-      ...IndexKeyHash<Extract<Keys, string>>[]
-    ]
-  >;
-  SK?: Readonly<
-    [
-      IndexKeyHash<Extract<Keys, string>>,
-      ...IndexKeyHash<Extract<Keys, string>>[]
-    ]
-  >;
+export interface IndexPKSKPartsListConfig<DocKeys extends $Any.Key = string>
+  extends ReadonlyArray<IndexKeyHash<Extract<DocKeys, string>>> {}
+
+export interface DocumentIndexesConfig<DocKeys extends $Any.Key = string>
+  extends ReadonlyArray<DocumentIndexItem<DocKeys>> {}
+
+export type DocumentIndexItem<DocKeys extends $Any.Key = string> = {
+  PK: IndexPKSKPartsListConfig<DocKeys>;
+  SK?: IndexPKSKPartsListConfig<DocKeys>;
   field: DocumentIndexField;
-  name: TName;
+  name: string;
   relatedTo?: string;
-  relations?: DocumentIndexRelation[]; // child entities related to that index
-}>;
+  relations?: ReadonlyArray<DocumentIndexRelation>; // child entities related to that index
+};
 
 // each relation is made at the same index field (_id, or _id1, etc)
 export type DocumentIndexRelation = {
@@ -984,22 +977,12 @@ export type DocumentIndexRelation = {
   name: string;
 };
 
-export type AnyDocIndexItem = DocumentIndexItem<string, string>;
+export type AnyDocIndexItem = DocumentIndexItem;
 
 export type CollectionConfigIndexes<
   Doc extends DocumentBase,
   K extends string = Extract<keyof Doc, string>
-> =
-  | [
-      DocumentIndexItem<K, string>, //
-      ...DocumentIndexItem<K, string>[]
-    ]
-  | Readonly<
-      [
-        DocumentIndexItem<K, string>, //
-        ...DocumentIndexItem<K, string>[]
-      ]
-    >;
+> = DocumentIndexItem<K>[] | ReadonlyArray<DocumentIndexItem<K>>;
 
 export type CollectionIndexConfig<
   Doc extends DocumentBase,
@@ -1142,7 +1125,7 @@ export function parseCollectionIndexConfig<T extends AnyCollectionIndexConfig>(
 
   const parsed: AnyCollectionIndexConfig = {
     indexes: indexes.map(
-      (el: DocumentIndexItem<any, any>): DocumentIndexItem<any, any> => {
+      (el: DocumentIndexItem<any>): DocumentIndexItem<any> => {
         return {
           PK: el.PK,
           SK: el.SK,

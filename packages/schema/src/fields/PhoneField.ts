@@ -1,17 +1,15 @@
-import { assertEqual } from '@backland/utils';
-import {
-  CountryCode,
-  getNumberType,
-  isValidNumber,
-  NumberType,
-} from 'libphonenumber-js';
+import { assertEqual, Compute } from '@backland/utils';
+import { getNumberType, isValidNumber } from 'libphonenumber-js';
 
 import { FieldType, FieldTypeParser } from './FieldType';
 import { createFieldTypeError } from './FieldTypeErrors';
 
+export type Country = Compute<import('libphonenumber-js').CountryCode>;
+export type PhoneNumberType = Compute<import('libphonenumber-js').NumberType>;
+
 export type PhoneValidationOptions = {
-  country?: CountryCode;
-  numberType?: NumberType;
+  country?: Country;
+  numberType?: PhoneNumberType;
 };
 
 export type PhoneFieldDef = PhoneValidationOptions | undefined;

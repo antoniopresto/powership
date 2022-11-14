@@ -1,6 +1,6 @@
 import { Compute } from '@backland/utils';
 
-import { DocumentIndexItem } from './CollectionIndex';
+import { DocumentIndexesConfig } from './CollectionIndex';
 import {
   CreateOneConfig,
   CreateOneResult,
@@ -21,7 +21,6 @@ import {
   UpdateOneResult,
 } from './Transporter';
 
-type IndexesConfig = ReadonlyArray<DocumentIndexItem<string, string>>;
 type IndexField<T, Else = never> = T extends `.${infer S}` ? S : Else;
 type _excludeIndexConfig<T> = {
   [K in keyof T as K extends 'indexConfig' ? never : K]: T[K];
@@ -29,7 +28,7 @@ type _excludeIndexConfig<T> = {
 
 export interface IndexMethods<
   Doc extends DocumentBase,
-  Indexes extends IndexesConfig
+  Indexes extends DocumentIndexesConfig
 > {
   createOne: CreateOne<Doc, Doc, Indexes>;
   findOne: FindOne<Doc, Indexes>;
@@ -45,7 +44,7 @@ export interface IndexMethods<
 export interface CreateOne<
   Input extends DocumentBase,
   Output extends DocumentBase,
-  Indexes extends IndexesConfig
+  Indexes extends DocumentIndexesConfig
 > {
   (
     options: Indexes[number] extends infer I
@@ -71,7 +70,7 @@ export interface CreateOne<
 
 export interface FindOne<
   Doc extends DocumentBase,
-  Indexes extends IndexesConfig
+  Indexes extends DocumentIndexesConfig
 > {
   (
     options: Indexes[number] extends infer I
@@ -97,7 +96,7 @@ export interface FindOne<
 
 export interface FindById<
   Doc extends DocumentBase,
-  Indexes extends IndexesConfig
+  Indexes extends DocumentIndexesConfig
 > {
   (
     options: Indexes[number] extends infer I
@@ -123,7 +122,7 @@ export interface FindById<
 
 export interface FindMany<
   Doc extends DocumentBase,
-  Indexes extends IndexesConfig
+  Indexes extends DocumentIndexesConfig
 > {
   (
     options: Indexes[number] extends infer I
@@ -149,7 +148,7 @@ export interface FindMany<
 
 export interface Paginate<
   Doc extends DocumentBase,
-  Indexes extends IndexesConfig
+  Indexes extends DocumentIndexesConfig
 > {
   (
     options: Indexes[number] extends infer I
@@ -175,7 +174,7 @@ export interface Paginate<
 
 export interface DeleteMany<
   Doc extends DocumentBase,
-  Indexes extends IndexesConfig
+  Indexes extends DocumentIndexesConfig
 > {
   (
     options: Indexes[number] extends infer I
@@ -201,7 +200,7 @@ export interface DeleteMany<
 
 export interface DeleteOne<
   Doc extends DocumentBase,
-  Indexes extends IndexesConfig
+  Indexes extends DocumentIndexesConfig
 > {
   (
     options: Indexes[number] extends infer I
@@ -227,7 +226,7 @@ export interface DeleteOne<
 
 export interface UpdateOne<
   Doc extends DocumentBase,
-  Indexes extends IndexesConfig
+  Indexes extends DocumentIndexesConfig
 > {
   (
     options: Indexes[number] extends infer I
@@ -253,7 +252,7 @@ export interface UpdateOne<
 
 export interface UpdateMany<
   Doc extends DocumentBase,
-  Indexes extends IndexesConfig
+  Indexes extends DocumentIndexesConfig
 > {
   (
     options: Indexes[number] extends infer I

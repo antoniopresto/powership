@@ -1,18 +1,17 @@
 import {
   createResolver,
+  createSchema,
   createType,
   GraphType,
   objectMock,
   ObjectType,
 } from '@backland/schema';
-import { getTypeName } from '@backland/utils';
-import { slugify } from '@backland/utils';
+import { getTypeName, slugify } from '@backland/utils';
 
 import { MongoTransporter } from '@backland/mongo';
-import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils/index';
+import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
 import { createEntity } from '../Entity';
 import { createEntityDefaultFields, Entity } from '../EntityInterfaces';
-import { createSchema } from '@backland/schema';
 
 export const BreadCrumbType = createType('BreadCrumb', {
   object: {
@@ -103,19 +102,17 @@ const productDef = {
 
 type ProductType = GraphType<typeof productDef>;
 
-type ProductEntity = Entity<{
-  indexes: [
+type ProductEntity = Entity<
+  typeof productDef['object'],
+  [
     {
       PK: ['.storeId'];
       SK: ['.sku'];
       field: '_id';
       name: string;
     }
-  ];
-  name: 'Product';
-  transporter;
-  type: ProductType;
-}>;
+  ]
+>;
 
 type Mock = {
   [K: string]: any;
@@ -212,7 +209,7 @@ export function setupProductTest(): {
       args: ProductEntity.paginate.queryArgs,
       name: 'paginate',
       async resolve(_, args, context) {
-        return ProductEntity.paginate({ ...args, context });
+        return await ProductEntity.paginate({ ...args, context });
       },
       type: ProductEntity.paginationType,
     });
