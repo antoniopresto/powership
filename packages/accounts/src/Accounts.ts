@@ -327,8 +327,8 @@ export class Accounts {
 
     const result = await this.sessions.upsertRefreshTokenAndSessionDocument({
       account: foundUser,
-      authToken: null,
       request,
+      op: 'insert',
     });
 
     request.authToken = result.refreshToken;

@@ -140,6 +140,7 @@ export class Sessions {
         authToken: parsedAuthToken,
         account,
         request,
+        op: 'update',
       });
     } catch (caughtError: any) {
       const error = await this.hooks.onUpsertSessionError.exec(
@@ -161,19 +162,29 @@ export class Sessions {
    *   - tokens are strings created by Sessions.createTokenString
    *       containing ParsedSessionToken data
    */
-  public async upsertRefreshTokenAndSessionDocument(input: {
-    authToken: ParsedSessionToken | null;
-    account: AccountDocument;
-    request: RefreshTokensInput['request'];
-  }): Promise<LoginResult> {
-    const { authToken, account, request } = input;
+  public async upsertRefreshTokenAndSessionDocument(
+    input: {
+      account: AccountDocument;
+      request: RefreshTokensInput['request'];
+    } & (
+      | { op: 'insert' }
+      | {
+          op: 'update';
+          authToken: ParsedSessionToken;
+        }
+    )
+  ): Promise<LoginResult> {
+    const { account, request } = input;
     const connectionInfo = this.getConnectionInfo(request);
 
     const accountId = account.accountId;
 
-    let usedSession: SessionDocument;
+    let usedSession: SessionDocument | undefined = undefined;
 
-    if (authToken) {
+    if (input.op === 'update') {
+      const { authToken, account, request } = input;
+      nonNullValues({ authToken, account, request });
+
       if (authToken.dataUAHash !== hashString(connectionInfo.userAgent)) {
         throw new AccountError('InvalidSession', 'AGENT_CHANGED');
       }
@@ -197,7 +208,9 @@ export class Sessions {
       }
 
       usedSession = updated.item;
-    } else {
+    }
+
+    if (input.op === 'insert') {
       const sessionInput: SessionInput = {
         accountId,
         token: '', // added below
@@ -228,6 +241,8 @@ export class Sessions {
 
       usedSession = created.item;
     }
+
+    usedSession = nonNullValues({ usedSession, op: input.op }).usedSession;
 
     if (usedSession.valid !== true) {
       throw new AccountError(
