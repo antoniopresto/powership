@@ -15,8 +15,8 @@ import type {
 import { SessionEntity as __SessionEntity } from './entity/SessionEntity';
 import { TokenEntity as __TokenEntity } from './entity/TokenEntity';
 import type { TokenDocument } from './entity/TokenEntity';
-import { LoginResult } from './interfaces';
 import { AccessType, accessTypesEnum } from './types/AccessType';
+import { LoginResult } from './types/LoginResult';
 import { Token, tokenKindEnum } from './types/TokenType';
 import { PasswordHash } from './utils/PasswordHash';
 import { createRandomToken } from './utils/crypto';

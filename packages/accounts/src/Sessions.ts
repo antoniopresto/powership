@@ -10,12 +10,9 @@ import { createHooks } from 'plugin-hooks';
 
 import { AccountDocument, AccountEntity } from './entity/AccountEntity';
 import { SessionEntity, SessionInput } from './entity/SessionEntity';
-import {
-  ConnectionInformation,
-  LoginResult,
-  SessionDocument,
-  User,
-} from './interfaces';
+import { ConnectionInformation } from './types/ConnectionInformation';
+import { LoginResult } from './types/LoginResult';
+import { SessionDocument } from './types/SessionType';
 import { AccountError } from './utils/AccountError';
 import {
   createSessionTokenString,
@@ -370,7 +367,7 @@ export type SessionRequest = {
   userAgent: string;
   onCallDestroySession(request: SessionRequest): unknown;
   loggedOnly: boolean;
-  user?: User;
+  user?: AccountDocument;
 };
 
 export type SessionHooksContext = {};

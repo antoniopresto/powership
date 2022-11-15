@@ -16,7 +16,7 @@ describe('Accounts', () => {
   });
 
   function _accounts() {
-    const { Accounts } = require('../Accounts') as typeof import('../Accounts');
+    const { Accounts } = require('../index') as typeof import('../index');
 
     return new Accounts({
       transporter: mockApp.transporter,

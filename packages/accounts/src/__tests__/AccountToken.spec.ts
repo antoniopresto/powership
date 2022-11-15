@@ -1,9 +1,8 @@
-import type * as Module from '../entity/TokenEntity';
 import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
 import { Token } from '../types/TokenType';
 
 function _require() {
-  return require('../entity/TokenEntity') as typeof Module;
+  return require('../index') as typeof import('../index');
 }
 
 describe('AccountToken', () => {
