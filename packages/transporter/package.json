@@ -1,6 +1,6 @@
 {
   "name": "@backland/transporter",
-  "version": "0.1.3-alpha.20221107165516.0",
+  "version": "0.1.3-alpha.20221115154716.0",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
   "author": "antoniopresto <antoniopresto@gmail.com>",
@@ -13,6 +13,7 @@
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint src --ext .ts --fix",
     "prepublish": "run-s build fix && run-p test",
+    "build-targets": "run-p build:*",
     "build:node": "TARGET=node npm run babild -- --out-dir lib",
     "build:module-node": "TARGET=module-node npm run babild -- --out-dir lib/module",
     "declarations": "tsc -p tsconfig.declarations.json",
@@ -32,8 +33,8 @@
     "inference"
   ],
   "dependencies": {
-    "@backland/schema": "0.1.3-alpha.20221107165516.0",
-    "@backland/utils": "0.1.3-alpha.20221107165516.0",
+    "@backland/schema": "0.1.3-alpha.20221115154716.0",
+    "@backland/utils": "0.1.3-alpha.20221115154716.0",
     "dataloader": "2.1.0",
     "plugin-hooks": "^1.1.3",
     "sift": "16.0.0"
@@ -43,9 +44,9 @@
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@backland/babel-plugins": "0.1.3-alpha.20221107165516.0",
+    "@backland/babel-plugins": "0.1.3-alpha.20221115154716.0",
     "@types/jest": "29.1.2",
-    "@types/node": "18.8.3",
+    "@types/node": "^16.18.3",
     "@typescript-eslint/eslint-plugin": "5.39.0",
     "@typescript-eslint/parser": "5.39.0",
     "conditional-type-checks": "1.0.6",

@@ -11,10 +11,11 @@
     "validate": "(cd packages/schema && npm run prepublish)",
     "lp": "lerna exec \"yalc publish\"",
     "link-all": "lerna link --force-local",
+    "all": "ts-node ./scripts/build.ts",
     "alpha-version": "lerna version prerelease --yes --no-git-tag-version --conventional-graduate --no-push --exact --preid=alpha.$(date +%Y%m%d%H%M%S) --force-publish",
-    "build": "nx run-many --target=build --projects=$(nx affected:libs --plain | sed 's/ /,/g')",
+    "build-changed": "nx run-many --target=build --projects=$(nx affected:libs --plain | sed 's/ /,/g')",
     "publish-alpha": "lerna exec --no-bail 'npm publish --tag=next'",
-    "alpha": "lerna publish --no-private --loglevel=verbose --force-publish --yes --no-verify-access --conventional-graduate --dist-tag next --canary --no-push --exact --preid=alpha.$(date +%Y%m%dT%H%M%S%z)"
+    "alpha": "run-s all alpha-version publish-alpha"
   },
   "devDependencies": {
     "@nrwl/cli": "14.7.13",
@@ -30,7 +31,12 @@
     "npm-run-all": "4.1.5",
     "nx": "14.7.13",
     "prettier": "2.4.0",
-    "typescript": "~4.8.2"
+    "typescript": "~4.8.2",
+    "shelljs": "^0.8.5",
+    "@types/shelljs": "^0.8.11",
+    "@types/node": "^16.18.3",
+    "@types/fs-extra": "^9.0.13",
+    "fs-extra": "^10.1.0"
   },
   "workspaces": {
     "packages": [

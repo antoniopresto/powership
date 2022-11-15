@@ -1,6 +1,5 @@
-import { createType } from '@backland/schema';
+import { createType, Infer } from '@backland/schema';
 import { tupleEnum } from '@backland/utils';
-import { Infer } from 'backland';
 
 export const tokenKindEnum = tupleEnum(
   'email_verification',

@@ -1,4 +1,5 @@
-import { createType, tupleEnum } from 'backland';
+import { createType } from '@backland/schema';
+import { tupleEnum } from '@backland/utils';
 
 import { reservedUsernames } from './reservedUsernames';
 
