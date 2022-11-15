@@ -1,7 +1,7 @@
-import { LoaderContext } from '@backland/transporter';
 import {
   hashString,
   NodeLogger,
+  nonNullValues,
   StringValue,
   ulid,
   Waterfall,
@@ -32,9 +32,7 @@ export type SessionDurationConfig = {
 
 export interface SessionsOptions {
   durations?: SessionDurationConfig;
-  getTokenSecret: (
-    input: Pick<RefreshTokensInput, 'request' | 'context' | 'connectionInfo'>
-  ) => string | Promise<string>;
+  getTokenSecret: (request: SessionRequest) => string | Promise<string>;
 }
 
 const _defaultSessionDuration = () =>
@@ -57,25 +55,25 @@ export class Sessions {
     this.hooks = createAccountSessionHooks(options);
     const self = this;
 
-    this.hooks.onRequest.register(function sessionHandler(request) {
-      return self.onRequest(request);
+    this.hooks.onRequest.register(async function sessionHandler(request) {
+      await self.trySetSession(request);
+      return request;
     });
   }
 
   handleRequest = async <T extends SessionRequest>(request: T): Promise<T> => {
-    return (await this.hooks.onRequest.exec(request, {})) as T;
+    return (await this.hooks.onRequest.exec(request, {})) as T; // the first hook handler is registered in constructor
   };
 
-  onRequest = async (request: SessionRequest) => {
-    await this.trySetSession(request);
+  getConnectionInfo = (request: SessionRequest): ConnectionInformation => {
+    return nonNullValues(
+      {
+        userAgent: request.userAgent,
+        ip: request.requestIp,
+      },
+      'Invalid ConnectionInformation in request.'
+    );
   };
-
-  public async destroy(req: SessionRequest): Promise<void> {
-    await req.onCallDestroySession(req);
-    delete req.authToken;
-    req.sessionDestroyed = true;
-  }
-
   /**
    * Checks for tokens in the provided session object and renew
    * tokens if session is valid
@@ -87,17 +85,12 @@ export class Sessions {
     if (sessionRequest.authToken) {
       const refreshInput: Omit<RefreshTokensInput, 'secret'> = {
         request: sessionRequest,
-        context: sessionRequest,
         authToken: sessionRequest.authToken,
-        connectionInfo: {
-          ip: sessionRequest.requestIp,
-          userAgent: sessionRequest.userAgent,
-        },
       };
 
       const result = await this.refreshTokens({
         ...refreshInput,
-        secret: await this.getTokenSecret(refreshInput),
+        secret: await this.getTokenSecret(sessionRequest),
       });
 
       const res = await this.hooks.onRefreshTokens.exec(
@@ -105,23 +98,20 @@ export class Sessions {
         sessionRequest
       );
 
-      sessionRequest.authToken = res.result.refreshToken;
-
-      return result;
+      return res.result;
     }
 
     return;
   }
 
   refreshTokens = async (input: RefreshTokensInput): Promise<LoginResult> => {
-    try {
-      const {
-        authToken, //
-        connectionInfo,
-        secret,
-        context,
-      } = input;
+    const {
+      authToken, //
+      secret,
+      request,
+    } = input;
 
+    try {
       let parsedAuthToken: ParsedSessionToken;
 
       try {
@@ -138,27 +128,26 @@ export class Sessions {
       }
 
       const { dataAID } = parsedAuthToken;
+      const filter = { id: dataAID.input };
 
       const { item: account } = await AccountEntity.findOne({
-        filter: { [dataAID.indexField]: dataAID.idValue },
-        context,
+        filter,
+        context: request,
       });
 
       if (!account) {
-        throw new AccountError('UserNotFound', 'User not found.');
+        throw new AccountError('UserNotFound', { filter });
       }
 
       return await this.upsertRefreshTokenAndSessionDocument({
         authToken: parsedAuthToken,
         account,
-        connectionInfo,
-        request: input.request,
-        context: input.context,
+        request,
       });
     } catch (caughtError: any) {
       const error = await this.hooks.onUpsertSessionError.exec(
         caughtError,
-        input.request
+        request
       );
 
       if (typeof error?.message === 'string') {
@@ -178,11 +167,10 @@ export class Sessions {
   public async upsertRefreshTokenAndSessionDocument(input: {
     authToken: ParsedSessionToken | null;
     account: AccountDocument;
-    connectionInfo: ConnectionInformation;
     request: RefreshTokensInput['request'];
-    context: RefreshTokensInput['context'];
   }): Promise<LoginResult> {
-    const { authToken, account, connectionInfo } = input;
+    const { authToken, account, request } = input;
+    const connectionInfo = this.getConnectionInfo(request);
 
     const accountId = account.accountId;
 
@@ -224,9 +212,9 @@ export class Sessions {
       sessionInput.id = SessionEntity.getDocumentId(sessionInput);
       sessionInput.token = createSessionTokenString({
         s: sessionInput.id,
-        a: accountId,
-        k: 'S',
+        a: account.id,
         connectionInfo,
+        k: 'S',
       });
 
       const created = await SessionEntity.createOne({
@@ -251,11 +239,7 @@ export class Sessions {
       );
     }
 
-    const secret = await this.getTokenSecret({
-      context: input.context,
-      request: input.request,
-      connectionInfo,
-    });
+    const secret = await this.getTokenSecret(request);
 
     const sessionToken = signAccountJWT({
       secret,
@@ -267,7 +251,7 @@ export class Sessions {
 
     const refreshTokenString = createSessionTokenString({
       s: usedSession.id,
-      a: usedSession.accountId,
+      a: account.id,
       k: 'R',
       connectionInfo,
     });
@@ -285,6 +269,9 @@ export class Sessions {
       usedSession,
     ];
 
+    request.authToken = refreshToken;
+    request.user = account;
+
     return {
       sessionDocument: usedSession,
       sessionToken,
@@ -293,6 +280,87 @@ export class Sessions {
       account,
     };
   }
+
+  logout = async (input: {
+    authToken: string;
+    request: SessionRequest;
+  }): Promise<boolean> => {
+    const { authToken, request } = input;
+
+    const { accountId } = nonNullValues(
+      { accountId: request.user?.accountId },
+      'No user found'
+    );
+
+    const invalidated = await this.invalidateSessions({
+      mode: 'one',
+      accountId,
+      request,
+      authToken,
+    });
+
+    return !!invalidated;
+  };
+
+  invalidateSessions = async (
+    input:
+      | {
+          accountId: string;
+          request: SessionRequest;
+        } & ({ authToken: string; mode: 'one' } | { mode: 'all' })
+  ): Promise<number> => {
+    const { request, accountId } = input;
+
+    const authToken = input.mode === 'one' ? input.authToken : undefined;
+
+    const filter = await (async () => {
+      if (authToken) {
+        const secret = await this.getTokenSecret(request);
+
+        try {
+          const jwtData = verifySessionJWT({
+            sessionToken: authToken,
+            secret,
+            config: {
+              ignoreExpiration: true,
+            },
+          });
+          const { dataSID } = parseSessionTokenString(jwtData.data, 'R');
+          return { id: dataSID.input, accountId };
+        } catch (e) {
+          if (request.user) {
+            // in case jwt verification failed, because secret changed, etc.
+            return { accountId: request.user.accountId };
+          }
+        }
+      }
+      return { accountId };
+    })();
+
+    const invalidated = await SessionEntity.updateMany({
+      filter,
+      condition: { valid: true, accountId },
+      update: {
+        $set: {
+          valid: false,
+        },
+      },
+    });
+
+    await request.onCallDestroySession(request);
+    delete request.authToken;
+    delete request.user;
+    request.sessionDestroyed = true;
+
+    if (!invalidated.modifiedCount) {
+      throw new AccountError(
+        'SessionNotFound',
+        invalidated.error || `No session found for account "${accountId}".`
+      );
+    }
+
+    return invalidated.modifiedCount;
+  };
 }
 
 export type SessionRequest = {
@@ -317,7 +385,7 @@ export function createAccountSessionHooks(_options: SessionsOptions) {
       }
 
       if (current.loggedOnly && !current.authToken) {
-        throw new AccountError('SessionNotFound');
+        throw new AccountError('Unauthorized');
       }
 
       if (typeof current.onCallDestroySession !== 'function') {
@@ -343,7 +411,7 @@ export function createAccountSessionHooks(_options: SessionsOptions) {
       SessionRequest,
       SessionHooksContext
     >,
-    onRefreshTokens: factory.parallel() as unknown as Waterfall<
+    onRefreshTokens: factory.waterfall() as unknown as Waterfall<
       SessionRequest & { result: LoginResult },
       SessionHooksContext
     >,
@@ -358,8 +426,6 @@ export type AccountSessionHooks = ReturnType<typeof createAccountSessionHooks>;
 
 export interface RefreshTokensInput {
   authToken: string; // refreshToken
-  connectionInfo: ConnectionInformation;
-  context: LoaderContext;
   request: SessionRequest;
   secret: string;
 }

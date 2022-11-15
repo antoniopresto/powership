@@ -30,11 +30,15 @@ export function parseMongoAttributeFilters(attFilter: FilterRecord) {
     const filter = attFilter[attribute];
     if (filter === undefined) return;
 
-    if (
-      typeof filter === 'string' ||
-      typeof filter === 'number' ||
-      filter === null
-    ) {
+    const is$filter = (() => {
+      if (attribute.startsWith('$')) return true;
+      if (filter === null) return false;
+      if (typeof filter !== 'object') return false;
+      if (Array.isArray(filter)) return false;
+      return Object.keys(filter).some((el) => el.startsWith('$'));
+    })();
+
+    if (!is$filter) {
       return $and.push({ [attribute]: filter });
     }
 

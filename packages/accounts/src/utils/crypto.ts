@@ -12,6 +12,7 @@ import {
 import * as jwt from 'jsonwebtoken';
 
 import { ConnectionInformation } from '../types/ConnectionInformation';
+import { AccountError } from './AccountError';
 
 /**
  * Generate a random token string
@@ -61,12 +62,26 @@ export function parseSessionTokenString(
 ): ParsedSessionToken {
   const tokenJSNON = base64ToText(token);
 
-  const { s, a, k, i, u, r } = AccountTokenStringData.parse(
-    BJSON.parse(tokenJSNON)
-  );
+  const { s, a, k, i, u, r } = (() => {
+    let object;
+    try {
+      object = BJSON.parse(tokenJSNON);
+    } catch (e) {
+      throw new AccountError('InvalidToken', {
+        msg: `Invalid token JSON`,
+        tokenJSNON,
+        token,
+      });
+    }
+
+    return AccountTokenStringData.parse(object);
+  })();
 
   if (k !== expectedKind) {
-    throw new Error(`kind !== kindS`);
+    throw new AccountError(
+      'InvalidToken',
+      `Expected kind "${expectedKind}", found "${k}"`
+    );
   }
 
   const dataSID = parseGraphID(s);

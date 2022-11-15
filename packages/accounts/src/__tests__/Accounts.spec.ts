@@ -2,6 +2,7 @@ import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
 import { TokenEntity } from '../entity/TokenEntity';
 import { LoaderContext } from '@backland/transporter';
 import { SessionRequest } from '../Sessions';
+import { SessionEntity } from '../entity/SessionEntity';
 
 describe('Accounts', () => {
   let mockApp: AppMock;
@@ -90,10 +91,12 @@ describe('Accounts', () => {
       })
     ).rejects.toThrow('LOGIN_FAILED');
 
+    const loginRequest = _request();
+
     const sut = await accountsPassword.userByPasswordLogin({
       password: '1234567',
       username: 'antoniopresto',
-      ..._request(),
+      ...loginRequest,
     });
 
     expect(sut).toMatchObject({
@@ -104,6 +107,10 @@ describe('Accounts', () => {
     });
 
     expect(sut.account.session).toEqual([sut.sessionDocument]);
+
+    expect(loginRequest.request.user).toMatchObject({
+      username: 'antoniopresto',
+    });
   });
 
   test('verifyEmail', async () => {
@@ -213,6 +220,183 @@ describe('Accounts', () => {
     });
 
     expect(sut).toEqual({ deletedCount: 4 });
+  });
+
+  describe('logout', () => {
+    test('logout', async () => {
+      const accountsPassword = _accounts();
+
+      const account = await accountsPassword.createAccount({
+        password: '1234567',
+        username: 'antoniopresto',
+        email: 'antonio@example.com',
+        request: {},
+      });
+
+      const loginRequest = _request();
+
+      const { authToken } = await accountsPassword.userByPasswordLogin({
+        password: '1234567',
+        username: 'antoniopresto',
+        ...loginRequest,
+      });
+
+      expect(loginRequest.request.user).toMatchObject({
+        username: 'antoniopresto',
+      });
+
+      const spyUpdate = jest.spyOn(SessionEntity, 'updateMany');
+
+      await accountsPassword.logout({
+        authToken,
+        request: loginRequest.request,
+      });
+
+      expect(spyUpdate).toBeCalledWith(
+        expect.objectContaining({
+          filter: {
+            id: expect.stringMatching(/^~!/),
+            accountId: account.accountId,
+          },
+        })
+      );
+
+      expect(loginRequest.request.user).toEqual(undefined);
+      spyUpdate.mockRestore();
+    });
+
+    test('logout with changed secret', async () => {
+      const accountsPassword = _accounts();
+
+      const account = await accountsPassword.createAccount({
+        password: '1234567',
+        username: 'antoniopresto',
+        email: 'antonio@example.com',
+        request: {},
+      });
+
+      const loginRequest = _request();
+
+      const { authToken } = await accountsPassword.userByPasswordLogin({
+        password: '1234567',
+        username: 'antoniopresto',
+        ...loginRequest,
+      });
+
+      expect(loginRequest.request.user).toMatchObject({
+        username: 'antoniopresto',
+      });
+
+      accountsPassword.sessions.getTokenSecret = () => 'invalid12344444';
+
+      const spyUpdate = jest.spyOn(SessionEntity, 'updateMany');
+
+      await accountsPassword.logout({
+        authToken,
+        request: loginRequest.request,
+      });
+
+      expect(spyUpdate).toBeCalledWith(
+        expect.objectContaining({
+          filter: {
+            accountId: account.accountId,
+          },
+        })
+      );
+
+      expect(loginRequest.request.user).toEqual(undefined);
+      spyUpdate.mockRestore();
+    });
+  });
+
+  describe('handleRequest', () => {
+    test('loggedOnly', async () => {
+      const accountsPassword = _accounts();
+
+      await accountsPassword.createAccount({
+        password: '1234567',
+        username: 'antoniopresto',
+        email: 'antonio@example.com',
+        request: {},
+      });
+
+      const loggedOnly = _request();
+      loggedOnly.request.loggedOnly = true;
+
+      await expect(
+        accountsPassword.handleRequest(loggedOnly.request)
+      ).rejects.toThrow('Unauthorized');
+    });
+
+    test('not loggedOnly', async () => {
+      const accountsPassword = _accounts();
+
+      await accountsPassword.createAccount({
+        password: '1234567',
+        username: 'antoniopresto',
+        email: 'antonio@example.com',
+        request: {},
+      });
+
+      const req = _request();
+      req.request.loggedOnly = false;
+
+      const next = await accountsPassword.handleRequest(req.request);
+      expect(next.user).toBeUndefined();
+      expect(next.sessionDestroyed).toBeUndefined();
+      expect(next.authToken).toBeUndefined();
+    });
+
+    test('invalid token', async () => {
+      const accountsPassword = _accounts();
+
+      await accountsPassword.createAccount({
+        password: '1234567',
+        username: 'antoniopresto',
+        email: 'antonio@example.com',
+        request: {},
+      });
+
+      const { request } = _request();
+      request.loggedOnly = false;
+
+      await accountsPassword.userByPasswordLogin({
+        password: '1234567',
+        username: 'antoniopresto',
+        request,
+      });
+
+      request.authToken = '12345';
+
+      await expect(accountsPassword.handleRequest(request)).rejects.toThrow(
+        'TokenVerificationFailed'
+      );
+    });
+
+    test('invalid token signature', async () => {
+      const accountsPassword = _accounts();
+
+      await accountsPassword.createAccount({
+        password: '1234567',
+        username: 'antoniopresto',
+        email: 'antonio@example.com',
+        request: {},
+      });
+
+      const { request } = _request();
+
+      await accountsPassword.userByPasswordLogin({
+        password: '1234567',
+        username: 'antoniopresto',
+        request,
+      });
+
+      accountsPassword.sessions.getTokenSecret = () => 'new_secret';
+
+      await expect(accountsPassword.handleRequest(request)).rejects.toThrow(
+        'TokenVerificationFailed'
+      );
+    });
   });
 });
 

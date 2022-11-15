@@ -286,10 +286,9 @@ export class Accounts {
   async userByPasswordLogin(input: {
     username: string;
     password: string;
-    context: LoaderContext;
     request: SessionRequest;
   }): Promise<LoginResult> {
-    const { username, password, request, context } = input;
+    const { username, password, request } = input;
 
     const foundUser = await this.findUser({
       username,
@@ -323,23 +322,26 @@ export class Accounts {
       throw new Error('LOGIN_FAILED');
     }
 
-    return await this.sessions.upsertRefreshTokenAndSessionDocument({
+    const result = await this.sessions.upsertRefreshTokenAndSessionDocument({
       account: foundUser,
       authToken: null,
-      connectionInfo: {
-        ip: request.requestIp,
-        userAgent: request.userAgent,
-      },
-      context,
       request,
     });
+
+    request.authToken = result.refreshToken;
+    request.user = result.account;
+    return result;
   }
 
   get handleRequest() {
     return this.sessions.handleRequest;
   }
-  
+
   get refreshTokens() {
     return this.sessions.refreshTokens;
+  }
+
+  get logout() {
+    return this.sessions.logout;
   }
 }

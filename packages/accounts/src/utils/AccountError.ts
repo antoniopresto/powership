@@ -21,6 +21,7 @@ export class AccountError extends Error {
 export type AccountErrorCode = keyof typeof AccountErrorsKindEnum;
 
 export enum RequestErrors {
+  'Unauthorized' = 'Unauthorized',
   'InvalidRequest' = 'InvalidRequest',
   'InvalidLocationInfoUserAgent' = 'InvalidLocationInfoUserAgent',
   'InvalidLocationInfoIP' = 'InvalidLocationInfoIP',
