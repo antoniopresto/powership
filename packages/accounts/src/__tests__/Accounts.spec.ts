@@ -1,8 +1,6 @@
 import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
-import { TokenEntity } from '../entity/TokenEntity';
 import { LoaderContext } from '@backland/transporter';
 import { SessionRequest } from '../Sessions';
-import { SessionEntity } from '../entity/SessionEntity';
 
 describe('Accounts', () => {
   let mockApp: AppMock;
@@ -48,7 +46,7 @@ describe('Accounts', () => {
       request: {},
     });
 
-    const token = await TokenEntity.findMany({
+    const token = await accountsPassword.TokenEntity.findMany({
       filter: {
         accountId: account.accountId,
         kind: 'password',
@@ -223,7 +221,7 @@ describe('Accounts', () => {
   });
 
   describe('logout', () => {
-    test('logout', async () => {
+    test('logout simple', async () => {
       const accountsPassword = _accounts();
 
       const account = await accountsPassword.createAccount({
@@ -245,7 +243,10 @@ describe('Accounts', () => {
         username: 'antoniopresto',
       });
 
-      const spyUpdate = jest.spyOn(SessionEntity, 'updateMany');
+      const spyUpdate = jest.spyOn(
+        accountsPassword.SessionEntity,
+        'updateMany'
+      );
 
       await accountsPassword.logout({
         authToken,
@@ -289,7 +290,10 @@ describe('Accounts', () => {
 
       accountsPassword.sessions.getTokenSecret = () => 'invalid12344444';
 
-      const spyUpdate = jest.spyOn(SessionEntity, 'updateMany');
+      const spyUpdate = jest.spyOn(
+        accountsPassword.SessionEntity,
+        'updateMany'
+      );
 
       await accountsPassword.logout({
         authToken,

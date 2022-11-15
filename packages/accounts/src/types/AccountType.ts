@@ -11,4 +11,3 @@ export const AccountType = createSchema({
 
   deactivated: { boolean: {}, defaultValue: false },
 } as const);
-

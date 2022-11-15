@@ -1,22 +1,20 @@
-import {
-  DeleteManyResult,
-  LoaderContext,
-  Transporter,
-} from '@backland/transporter';
+import { DeleteManyResult, Transporter } from '@backland/transporter';
 import { NodeLogger, ulid } from '@backland/utils';
 
 import { SessionRequest, Sessions, SessionsOptions } from './Sessions';
 import {
+  AccessTypeEntity as __AccessTypeEntity,
   AccessTypeDocument,
-  AccessTypeEntity,
 } from './entity/AccessTypeEntity';
-import {
+import { AccountEntity as __AccountEntity } from './entity/AccountEntity';
+import type {
   AccountDocument,
   AccountEntity,
   AccountInput,
 } from './entity/AccountEntity';
-import { SessionEntity } from './entity/SessionEntity';
-import { TokenDocument, TokenEntity } from './entity/TokenEntity';
+import { SessionEntity as __SessionEntity } from './entity/SessionEntity';
+import { TokenEntity as __TokenEntity } from './entity/TokenEntity';
+import type { TokenDocument } from './entity/TokenEntity';
 import { LoginResult } from './interfaces';
 import { AccessType, accessTypesEnum } from './types/AccessType';
 import { Token, tokenKindEnum } from './types/TokenType';
@@ -38,18 +36,23 @@ export type CreateUserPasswordInput = {
 
 export class Accounts {
   get addHooks() {
-    return AccountEntity.addHooks as AccountEntity['addHooks'];
+    return this.AccountEntity.addHooks as AccountEntity['addHooks'];
   }
 
   sessions: Sessions;
 
+  AccountEntity = __AccountEntity;
+  TokenEntity = __TokenEntity;
+  AccessTypeEntity = __AccessTypeEntity;
+  SessionEntity = __SessionEntity;
+
   constructor(options: AccountsOptions) {
     const { transporter } = options;
     this.sessions = new Sessions(options.sessions);
-    AccountEntity.setOption('transporter', transporter);
-    TokenEntity.setOption('transporter', transporter);
-    AccessTypeEntity.setOption('transporter', transporter);
-    SessionEntity.setOption('transporter', transporter);
+    this.AccountEntity.setOption('transporter', transporter);
+    this.TokenEntity.setOption('transporter', transporter);
+    this.AccessTypeEntity.setOption('transporter', transporter);
+    this.SessionEntity.setOption('transporter', transporter);
   }
 
   /**
@@ -93,7 +96,7 @@ export class Accounts {
       username,
     };
 
-    const ret = await AccountEntity.createOne({
+    const ret = await this.AccountEntity.createOne({
       context: request || {},
       item: user,
     });
@@ -117,7 +120,7 @@ export class Accounts {
   }): Promise<AccessTypeDocument> {
     const { accountId, email } = input;
 
-    const ret = await AccessTypeEntity.updateOne({
+    const ret = await this.AccessTypeEntity.updateOne({
       filter: { accountId },
       condition: {
         'data.kind': 'email',
@@ -156,7 +159,7 @@ export class Accounts {
       value: await PasswordHash.hash({ password: newPassword }),
     };
 
-    const ret = await TokenEntity.updateOne({
+    const ret = await this.TokenEntity.updateOne({
       context: {},
       upsert: true,
       filter: {
@@ -199,7 +202,7 @@ export class Accounts {
 
     // TODO clear old tokens
 
-    const ret = await TokenEntity.createOne({
+    const ret = await this.TokenEntity.createOne({
       context: {},
       item: tokenItem,
     });
@@ -232,7 +235,7 @@ export class Accounts {
       value: token,
     };
 
-    const ret = await TokenEntity.createOne({
+    const ret = await this.TokenEntity.createOne({
       context: {},
       item: tokenItem,
     });
@@ -259,7 +262,7 @@ export class Accounts {
   }): Promise<DeleteManyResult> {
     const { accountId, context = {} } = input;
 
-    return await TokenEntity.deleteMany({
+    return await this.TokenEntity.deleteMany({
       context,
       filter: {
         accountId,
@@ -276,7 +279,7 @@ export class Accounts {
     context?: any;
   }): Promise<AccountDocument | null> => {
     return (
-      await AccountEntity.findOne({
+      await this.AccountEntity.findOne({
         filter: { username },
         context,
       })
@@ -298,7 +301,7 @@ export class Accounts {
       throw new Error('LOGIN_FAILED');
     }
 
-    const { item: token } = await TokenEntity.findOne({
+    const { item: token } = await this.TokenEntity.findOne({
       filter: {
         accountId: foundUser.accountId,
         kind: tokenKindEnum.password,

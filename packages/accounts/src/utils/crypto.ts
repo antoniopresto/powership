@@ -12,6 +12,7 @@ import {
 import * as jwt from 'jsonwebtoken';
 
 import { ConnectionInformation } from '../types/ConnectionInformation';
+
 import { AccountError } from './AccountError';
 
 /**
