@@ -26,7 +26,7 @@ import {
   Paginate,
   UpdateMany,
   UpdateOne,
-} from '@backland/transporter/src/IndexMethods';
+} from '@backland/transporter';
 import { Cast, Compute, Merge } from '@backland/utils';
 
 import {
