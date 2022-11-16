@@ -30,7 +30,6 @@ describe('Accounts', () => {
       request: {
         requestIp: '12345678',
         userAgent: 'IE',
-        loggedOnly: true,
         onCallDestroySession() {},
       },
     };
@@ -314,24 +313,6 @@ describe('Accounts', () => {
   });
 
   describe('handleRequest', () => {
-    test('loggedOnly', async () => {
-      const accountsPassword = _accounts();
-
-      await accountsPassword.createAccount({
-        password: '1234567',
-        username: 'antoniopresto',
-        email: 'antonio@example.com',
-        request: {},
-      });
-
-      const loggedOnly = _request();
-      loggedOnly.request.loggedOnly = true;
-
-      await expect(
-        accountsPassword.handleRequest(loggedOnly.request)
-      ).rejects.toThrow('Unauthorized');
-    });
-
     test('not loggedOnly', async () => {
       const accountsPassword = _accounts();
 
@@ -343,7 +324,6 @@ describe('Accounts', () => {
       });
 
       const req = _request();
-      req.request.loggedOnly = false;
 
       const next = await accountsPassword.handleRequest(req.request);
       expect(next.user).toBeUndefined();
@@ -362,7 +342,6 @@ describe('Accounts', () => {
       });
 
       const { request } = _request();
-      request.loggedOnly = false;
 
       await accountsPassword.userByPasswordLogin({
         password: '1234567',

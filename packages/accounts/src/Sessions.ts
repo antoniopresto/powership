@@ -359,7 +359,7 @@ export class Sessions {
       },
     });
 
-    await request.onCallDestroySession(request);
+    await request.onCallDestroySession?.(request);
     delete request.authToken;
     delete request.user;
     request.sessionDestroyed = true;
@@ -380,8 +380,7 @@ export type SessionRequest = {
   sessionDestroyed?: boolean;
   requestIp: string;
   userAgent: string;
-  onCallDestroySession(request: SessionRequest): unknown;
-  loggedOnly: boolean;
+  onCallDestroySession: null | ((request: SessionRequest) => unknown);
   user?: AccountDocument;
 };
 
@@ -396,12 +395,14 @@ export function createAccountSessionHooks(_options: SessionsOptions) {
         throw new AccountError('InvalidRequest');
       }
 
-      if (current.loggedOnly && !current.authToken) {
-        throw new AccountError('Unauthorized');
-      }
-
-      if (typeof current.onCallDestroySession !== 'function') {
-        throw new AccountError('InvalidRequest');
+      if (
+        current.onCallDestroySession &&
+        typeof current.onCallDestroySession !== 'function'
+      ) {
+        throw new AccountError(
+          'InvalidRequest',
+          'Expected onCallDestroySession to be a function.'
+        );
       }
 
       if (!current.authToken) return ctx;
