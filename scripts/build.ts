@@ -1,6 +1,7 @@
 import spawn from 'child_process';
 import path from 'path';
 
+import chalk from 'chalk';
 import fs from 'fs-extra';
 import type { PackageJson } from 'nx/src/utils/package-json';
 
@@ -22,6 +23,10 @@ const ordered = [
 const all = ordered.map((el) => path.resolve(CWD, 'packages', el));
 const root = [CWD];
 
+const LOGS_FILE = path.resolve(CWD, `logs/build-${Date.now()}-${time().replace(/\D/g, '-')}.log`);
+fs.ensureFileSync(LOGS_FILE);
+const logStream = fs.createWriteStream(LOGS_FILE);
+
 type CommandString = `${'n' | 'ex'}${'s' | 'a'}:${string}`;
 
 const commands: [string[], CommandString[]][] = [
@@ -35,30 +40,43 @@ const commands: [string[], CommandString[]][] = [
 
 function time() {
   const date = new Date();
-  return date.toLocaleTimeString().split(' ')[0];
+  return date.toLocaleString();
 }
 
-function info(_path: string, cmd: string, data: string, mode: 'info' | 'error' = 'info') {
-  process.stdout.write(`${colours.fg.magenta} ${time()} ${_path.split('/').slice(-1)} ${cmd} ${data}`);
-  process.stdout.write(colours.reset);
+function log(mode: 'info' | 'error', ...rest) {
+  const text = rest.join(' ');
+
+  if (mode === 'info') {
+    process.stdout.write(`${chalk.bgWhite.black(time())} ${text}\n`);
+    logStream.write(`${time()} ${text}\n`);
+  } else {
+    process.stderr.write(`${chalk.bgRed.black(time())} ${text}\n`);
+    logStream.write(`====\n**ERROR**====\n${time()} ${text}\n`);
+    logStream.close(() => {
+      process.exit(2);
+    });
+  }
 }
 
-function errr(path: string, cmd: string, data: string) {
-  info(path, cmd, data, 'error');
+function info(_path: string, cmd: string, data: string) {
+  const text = `${_path.split('/').slice(-1)} ${cmd} ${data}`;
+  log('info', text);
+}
+
+function errr(_path: string, cmd: string, data: string) {
+  const text = `${_path.split('/').slice(-1)} ${cmd} ${data}`;
+  log('error', text);
 }
 
 const jsons: Record<string, PackageJson> = {};
 
 const logs: string[] = [];
-function lsave(_path: string, cmd: string, msg: string) {
-  logs.push(`${time()} ${_path.split('/').slice(-1)} ${cmd} ${msg}`);
-}
 
 function runCommand(packagePath: string, command: ParsedCommand) {
   const { mode, cmd, _cmd, isNPM } = command;
 
   if (isNPM && !jsons[packagePath].scripts?.[_cmd]) {
-    lsave(packagePath, cmd, 'skipped');
+    info(packagePath, cmd, 'skipped');
     return;
   }
 
@@ -66,41 +84,42 @@ function runCommand(packagePath: string, command: ParsedCommand) {
 
   if (mode === 'execSync') {
     const data = spawn.execSync(finalCMD, { encoding: 'utf8' });
-    lsave(packagePath, cmd, data);
     info(packagePath, cmd, data);
+    info(packagePath, cmd, 'FINISHED');
     return data;
   }
 
   return new Promise((resolve) => {
-    lsave(packagePath, cmd, 'started');
-
+    info(packagePath, cmd, 'started');
     const child = spawn.exec(finalCMD);
 
     if (!child?.stdout || !child?.stderr) {
       info(packagePath, cmd, 'child null');
-      lsave(packagePath, cmd, 'child null');
       throw new Error(typeof child.stderr + typeof child.stdout);
     }
 
     child.stdout.on('data', (data) => {
-      lsave(packagePath, cmd, data);
       info(packagePath, cmd, data);
     });
 
     child.stderr.on('data', (data) => {
-      lsave(packagePath, cmd, `==== ERROR ====\n${data}`);
-      info(packagePath, cmd, data, 'error');
-      process.exit(1);
+      if (command._cmd.match(/jest|test/)) {
+        // jest uses stderr to print logs 🤔 https://github.com/facebook/jest/pull/6583
+        info(packagePath, cmd, data);
+      } else {
+        errr(packagePath, cmd, data);
+      }
     });
 
     child.on('exit', function (code) {
-      lsave(packagePath, cmd, `exited with ${code}`);
+      info(packagePath, cmd, `exited with ${code}`);
+      info(packagePath, cmd, 'FINISHED');
       resolve(code);
     });
 
-    child.on('error', function (code) {
-      console.log(require('util').inspect(code, { depth: 10 }));
-      process.exit(1);
+    child.on('error', function (err) {
+      process.stderr.write(require('util').inspect(err, { depth: 10 }));
+      process.exit(2);
     });
   });
 }
@@ -143,6 +162,9 @@ if (!module.parent) {
     .then(() => {
       process.exit(0);
       console.info(logs.join('\n'));
+    })
+    .finally(() => {
+      logStream.close();
     });
 }
 
@@ -163,38 +185,6 @@ function parseCommand(command: CommandString) {
     mode,
   } as const;
 }
-const colours = {
-  reset: '\x1b[0m',
-  bright: '\x1b[1m',
-  dim: '\x1b[2m',
-  underscore: '\x1b[4m',
-  blink: '\x1b[5m',
-  reverse: '\x1b[7m',
-  hidden: '\x1b[8m',
-
-  fg: {
-    black: '\x1b[30m',
-    red: '\x1b[31m',
-    green: '\x1b[32m',
-    yellow: '\x1b[33m',
-    blue: '\x1b[34m',
-    magenta: '\x1b[35m',
-    cyan: '\x1b[36m',
-    white: '\x1b[37m',
-    crimson: '\x1b[38m', // Scarlet
-  },
-  bg: {
-    black: '\x1b[40m',
-    red: '\x1b[41m',
-    green: '\x1b[42m',
-    yellow: '\x1b[43m',
-    blue: '\x1b[44m',
-    magenta: '\x1b[45m',
-    cyan: '\x1b[46m',
-    white: '\x1b[47m',
-    crimson: '\x1b[48m',
-  },
-};
 
 function delay(time: number) {
   return new Promise((resolve) => setTimeout(resolve, time));

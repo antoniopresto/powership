@@ -75,3 +75,4 @@ webpack-stats.json
 __generated__
 lib/
 /.idea/
+/logs/
