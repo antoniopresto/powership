@@ -266,10 +266,9 @@ const AccessTypeSchema = createType({
     {
       object: {
         ...AccessTypeBase.definition,
-        sessionToken: 'string',
         kind: { literal: accessTypesEnum.oauth },
         provider: { description: 'Provider name', string: {} },
-        refreshToken: 'string',
+        authToken: 'string',
         value: { alias: 'provider' },
       },
     },

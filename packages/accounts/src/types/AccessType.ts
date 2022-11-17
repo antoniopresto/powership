@@ -29,10 +29,9 @@ export const AccessType = createType('AccessType', {
 
         {
           object: {
-            accessToken: 'string',
             kind: { literal: accessTypesEnum.oauth },
             provider: { description: 'Provider name', string: {} },
-            refreshToken: 'string',
+            authToken: 'string',
             value: { alias: 'provider' },
           },
         },

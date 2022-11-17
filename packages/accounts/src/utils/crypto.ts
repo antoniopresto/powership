@@ -34,15 +34,15 @@ export function signAccountJWT(input: {
 
 export function verifySessionJWT(input: {
   secret: jwt.Secret;
-  sessionToken: string;
+  authToken: string;
   config?: jwt.VerifyOptions;
 }): SessionJWTPayload {
-  const { secret, sessionToken, config } = input;
-  const payload = jwt.verify(sessionToken, secret, config);
+  const { secret, authToken, config } = input;
+  const payload = jwt.verify(authToken, secret, config);
   return SessionJWTPayloadType.parse(payload);
 }
 
-export function createSessionTokenString(input: AccountTokenStringInput) {
+export function createRandomAuthTokenString(input: AccountTokenStringInput) {
   const random = createRandomToken().slice(0, 43);
 
   const inputJSON: AccountTokenStringData = {
@@ -57,10 +57,10 @@ export function createSessionTokenString(input: AccountTokenStringInput) {
   return textToBase64(BJSON.stringify(sessionData));
 }
 
-export function parseSessionTokenString(
+export function parseAuthTokenString(
   token: string,
-  expectedKind: 'R' | 'S' // S = session, R = refreshToken (also used as authToken)
-): ParsedSessionToken {
+  expectedKind: 'A'
+): ParsedAuthToken {
   const tokenJSNON = base64ToText(token);
 
   const { s, a, k, i, u, r } = (() => {
@@ -85,37 +85,40 @@ export function parseSessionTokenString(
     );
   }
 
-  const dataSID = parseGraphID(s);
-  const dataAID = parseGraphID(a);
+  const sessionIDJSON = parseGraphID(s);
+  const accountIDJSON = parseGraphID(a);
 
-  if (!dataSID) throw new Error('UNEXPECTED_SESSION_GRAPH_ID');
-  if (!dataAID) throw new Error('UNEXPECTED_ACCOUNT_GRAPH_ID');
+  if (!sessionIDJSON) throw new Error('UNEXPECTED_SESSION_GRAPH_ID');
+  if (!accountIDJSON) throw new Error('UNEXPECTED_ACCOUNT_GRAPH_ID');
 
   return {
-    dataSID,
-    dataAID,
+    sessionIDJSON,
+    accountIDJSON,
     randomPart: r,
     dataIPHash: i,
     dataUAHash: u,
+    originalString: token,
   };
 }
 
-export type ParsedSessionToken = {
-  dataSID: GraphIDJSON;
-  dataAID: GraphIDJSON;
-  dataUAHash: number;
-  dataIPHash: number;
+export type ParsedAuthToken = {
+  sessionIDJSON: GraphIDJSON; // the data in session id (entity, index field, etc)
+  accountIDJSON: GraphIDJSON; // the data in account id (entity, index field, etc)
+  dataUAHash: number; // user agent hash
+  dataIPHash: number; // ip hash
   randomPart: string;
+  originalString: string;
 };
 
 export const AccountTokenStringData = createType('AccountTokenStringInput', {
   object: {
+    // see ParsedAuthToken
     s: 'string',
     a: 'string',
     r: 'string',
     i: 'int',
     u: 'int',
-    k: { enum: ['S', 'R'] }, // S = session, R = refreshToken (also used as authToken)
+    k: { enum: ['A'] }, // A = authToken
   },
 } as const);
 

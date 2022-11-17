@@ -331,7 +331,7 @@ export class Accounts {
       op: 'insert',
     });
 
-    request.authToken = result.refreshToken;
+    request.authToken = result.authToken;
     request.user = result.account;
     return result;
   }

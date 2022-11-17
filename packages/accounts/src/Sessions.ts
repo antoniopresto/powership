@@ -15,28 +15,19 @@ import { LoginResult } from './types/LoginResult';
 import { SessionDocument } from './types/SessionType';
 import { AccountError } from './utils/AccountError';
 import {
-  createSessionTokenString,
-  ParsedSessionToken,
-  parseSessionTokenString,
+  createRandomAuthTokenString,
+  parseAuthTokenString,
+  ParsedAuthToken,
   signAccountJWT,
   verifySessionJWT,
 } from './utils/crypto';
 
-export type SessionDurationConfig = {
-  sessionToken: StringValue;
-  refreshToken: StringValue;
-};
+export const DEFAULT_TOKEN_DURATION = '7d';
 
 export interface SessionsOptions {
-  durations?: SessionDurationConfig;
+  tokenDuration?: StringValue;
   getTokenSecret: (request: SessionRequest) => string | Promise<string>;
 }
-
-const _defaultSessionDuration = () =>
-  ({
-    sessionToken: '90m',
-    refreshToken: '7d',
-  } as const);
 
 export class Sessions {
   private options: Required<SessionsOptions>;
@@ -46,7 +37,7 @@ export class Sessions {
   getTokenSecret: NonNullable<SessionsOptions['getTokenSecret']>;
 
   constructor(options: SessionsOptions) {
-    this.options = { durations: _defaultSessionDuration(), ...options };
+    this.options = { tokenDuration: DEFAULT_TOKEN_DURATION, ...options };
     this.getTokenSecret = options.getTokenSecret;
 
     this.hooks = createAccountSessionHooks(options);
@@ -109,14 +100,14 @@ export class Sessions {
     } = input;
 
     try {
-      let parsedAuthToken: ParsedSessionToken;
+      let parsedAuthToken: ParsedAuthToken;
 
       try {
         const { data: tokenString } = verifySessionJWT({
-          sessionToken: authToken,
+          authToken: authToken,
           secret,
         });
-        parsedAuthToken = parseSessionTokenString(tokenString, 'R');
+        parsedAuthToken = parseAuthTokenString(tokenString, 'A');
       } catch (err) {
         throw new AccountError(
           'TokenVerificationFailed',
@@ -124,8 +115,8 @@ export class Sessions {
         );
       }
 
-      const { dataAID } = parsedAuthToken;
-      const filter = { id: dataAID.input };
+      const { accountIDJSON } = parsedAuthToken;
+      const filter = { id: accountIDJSON.input };
 
       const { item: account } = await AccountEntity.findOne({
         filter,
@@ -137,7 +128,7 @@ export class Sessions {
       }
 
       return await this.upsertRefreshTokenAndSessionDocument({
-        authToken: parsedAuthToken,
+        currentAuthTokenData: parsedAuthToken,
         account,
         request,
         op: 'update',
@@ -157,10 +148,10 @@ export class Sessions {
   };
 
   /**
-   * @description Creates a refreshToken
+   * @description Creates a authToken
    * @description Create a new session if existingSession is null
    *   - tokens are strings created by Sessions.createTokenString
-   *       containing ParsedSessionToken data
+   *       containing ParsedAuthToken data
    */
   public async upsertRefreshTokenAndSessionDocument(
     input: {
@@ -170,7 +161,7 @@ export class Sessions {
       | { op: 'insert' }
       | {
           op: 'update';
-          authToken: ParsedSessionToken;
+          currentAuthTokenData: ParsedAuthToken;
         }
     )
   ): Promise<LoginResult> {
@@ -179,22 +170,39 @@ export class Sessions {
 
     const accountId = account.accountId;
 
-    let usedSession: SessionDocument | undefined = undefined;
+    let updatedOrNewSession: SessionDocument | undefined = undefined;
+    let randomAuthTokenString: string | undefined = undefined;
 
     if (input.op === 'update') {
-      const { authToken, account, request } = input;
-      nonNullValues({ authToken, account, request });
+      const { currentAuthTokenData, account, request } = input;
+      nonNullValues({
+        currentAuthToken: currentAuthTokenData,
+        account,
+        request,
+      });
 
-      if (authToken.dataUAHash !== hashString(connectionInfo.userAgent)) {
+      if (
+        currentAuthTokenData.dataUAHash !== hashString(connectionInfo.userAgent)
+      ) {
         throw new AccountError('InvalidSession', 'AGENT_CHANGED');
       }
 
+      const currentSessionId = currentAuthTokenData.sessionIDJSON.input;
+
+      randomAuthTokenString = createRandomAuthTokenString({
+        s: currentSessionId,
+        a: account.id,
+        connectionInfo,
+        k: 'A',
+      });
+
       const updated = await SessionEntity.updateOne({
         filter: {
-          id: authToken.dataSID.input,
+          id: currentSessionId,
         },
         update: {
           $set: {
+            token: randomAuthTokenString,
             connectionInfo,
           },
         },
@@ -203,11 +211,12 @@ export class Sessions {
       if (!updated.item) {
         throw new AccountError(
           'SessionNotFound',
-          updated.error || `Session "${authToken.dataSID.input}" not found.`
+          updated.error ||
+            `Session "${currentAuthTokenData.sessionIDJSON.input}" not found.`
         );
       }
 
-      usedSession = updated.item;
+      updatedOrNewSession = updated.item;
     }
 
     if (input.op === 'insert') {
@@ -220,11 +229,12 @@ export class Sessions {
       };
 
       sessionInput.id = SessionEntity.getDocumentId(sessionInput);
-      sessionInput.token = createSessionTokenString({
+
+      randomAuthTokenString = sessionInput.token = createRandomAuthTokenString({
         s: sessionInput.id,
         a: account.id,
         connectionInfo,
-        k: 'S',
+        k: 'A',
       });
 
       const created = await SessionEntity.createOne({
@@ -239,56 +249,48 @@ export class Sessions {
         );
       }
 
-      usedSession = created.item;
+      updatedOrNewSession = created.item;
     }
 
-    usedSession = nonNullValues({ usedSession, op: input.op }).usedSession;
+    const nonNull = nonNullValues({
+      usedSession: updatedOrNewSession,
+      op: input.op,
+      randomAuthTokenString,
+    });
 
-    if (usedSession.valid !== true) {
+    updatedOrNewSession = nonNull.usedSession;
+    randomAuthTokenString = nonNull.randomAuthTokenString;
+
+    if (updatedOrNewSession.valid !== true) {
       throw new AccountError(
         'InvalidSession',
-        `Session ${usedSession.id} is marked with valid: ${usedSession.valid}.`
+        `Session ${updatedOrNewSession.id} is marked with valid: ${updatedOrNewSession.valid}.`
       );
     }
 
     const secret = await this.getTokenSecret(request);
 
-    const sessionToken = signAccountJWT({
+    const newSignedToken = signAccountJWT({
       secret,
-      data: usedSession.token,
+      data: randomAuthTokenString,
       config: {
-        expiresIn: this.options.durations.sessionToken,
-      },
-    });
-
-    const refreshTokenString = createSessionTokenString({
-      s: usedSession.id,
-      a: account.id,
-      k: 'R',
-      connectionInfo,
-    });
-
-    const refreshToken = signAccountJWT({
-      secret,
-      data: refreshTokenString,
-      config: {
-        expiresIn: this.options.durations.refreshToken,
+        expiresIn: this.options.tokenDuration,
       },
     });
 
     account.session = [
-      ...(account.session || []).filter((el) => el.id !== usedSession!.id),
-      usedSession,
+      ...(account.session || []).filter(
+        (el) => el.id !== updatedOrNewSession!.id
+      ),
+      updatedOrNewSession,
     ];
 
-    request.authToken = refreshToken;
+    request.authToken = newSignedToken;
     request.user = account;
 
     return {
-      sessionDocument: usedSession,
-      sessionToken,
-      refreshToken,
-      authToken: refreshToken,
+      sessionDocument: updatedOrNewSession,
+      authToken: newSignedToken,
       account,
     };
   }
@@ -331,14 +333,14 @@ export class Sessions {
 
         try {
           const jwtData = verifySessionJWT({
-            sessionToken: authToken,
+            authToken: authToken,
             secret,
             config: {
               ignoreExpiration: true,
             },
           });
-          const { dataSID } = parseSessionTokenString(jwtData.data, 'R');
-          return { id: dataSID.input, accountId };
+          const { sessionIDJSON } = parseAuthTokenString(jwtData.data, 'A');
+          return { id: sessionIDJSON.input, accountId };
         } catch (e) {
           if (request.user) {
             // in case jwt verification failed, because secret changed, etc.
@@ -438,7 +440,7 @@ export function createAccountSessionHooks(_options: SessionsOptions) {
 export type AccountSessionHooks = ReturnType<typeof createAccountSessionHooks>;
 
 export interface RefreshTokensInput {
-  authToken: string; // refreshToken
+  authToken: string;
   request: SessionRequest;
   secret: string;
 }

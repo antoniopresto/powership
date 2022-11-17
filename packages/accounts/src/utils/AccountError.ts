@@ -71,7 +71,7 @@ export enum ImpersonateErrors {
    * If option `ambiguousErrorMessages` is true, this will never throw.
    */
   ImpersonatedUserNotFound = 'ImpersonatedUserNotFound',
-  // Thrown by FindSessionBysessionTokenErrors
+  // Thrown by FindSessionByauthTokenErrors
   /**
    * Will throw if access token is missing.
    */
@@ -114,7 +114,7 @@ export enum LogoutErrors {
    * Session is not valid
    */
   InvalidSession = 'InvalidSession',
-  // Thrown by FindSessionBysessionTokenErrors
+  // Thrown by FindSessionByauthTokenErrors
   /**
    * Will throw if access token is missing.
    */
@@ -129,7 +129,7 @@ export enum LogoutErrors {
   SessionNotFound = 'SessionNotFound',
 }
 
-export enum FindSessionBysessionTokenErrors {
+export enum FindSessionByauthTokenErrors {
   /**
    * Will throw if access token is missing.
    */
@@ -153,7 +153,7 @@ export enum ResumeSessionErrors {
    * Session is not valid
    */
   InvalidSession = 'InvalidSession',
-  // Thrown by FindSessionBySessionTokenErrors
+  // Thrown by FindSessionByAuthTokenErrors
   /**
    * Will throw if access token is missing.
    */
