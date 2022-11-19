@@ -37,9 +37,9 @@ describe('ProductResolver', () => {
           IsExact<
             Args['filter'],
             {
-              // id?: string | undefined;
+              id?: string | undefined;
               sku?: string | undefined;
-              storeId: string;
+              storeId?: string;
             }
           >
         >(true);
@@ -57,8 +57,9 @@ describe('ProductResolver', () => {
     type ExpectedArgs = {
       after?: string | undefined;
       filter: {
+        id?: string | undefined;
         sku?: string | undefined;
-        storeId: string;
+        storeId?: string;
       };
       first?: number | undefined;
     };

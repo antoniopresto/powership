@@ -160,7 +160,7 @@ export abstract class FieldType<
       }
 
       if (input === undefined && !this.optional) {
-        throw createFieldTypeError('requiredMissing', { input });
+        throw createFieldTypeError('requiredField');
       }
 
       if (this.asFinalFieldDef.list) {

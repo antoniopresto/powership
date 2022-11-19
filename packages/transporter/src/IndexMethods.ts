@@ -221,7 +221,7 @@ export interface DeleteOne<
           : never
         : never
       : never
-  ): Promise<Compute<DeleteOneResult>>;
+  ): Promise<Compute<DeleteOneResult<Doc>>>;
 }
 
 export interface UpdateOne<

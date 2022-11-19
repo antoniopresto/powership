@@ -1,5 +1,10 @@
 import { CircularDeps } from '@backland/schema';
-import { Cast, MaybePromise } from '@backland/utils';
+import {
+  Cast,
+  Compute,
+  MaybePromise,
+  UnionToIntersection,
+} from '@backland/utils';
 import { RuntimeError } from '@backland/utils';
 import { devAssert } from '@backland/utils';
 import { getTypeName } from '@backland/utils';
@@ -120,11 +125,17 @@ export type LoaderContext = {
 export type MethodFilter<
   PK extends string,
   SK extends string | undefined
-> = IndexFilterRecord<PK, SK> extends infer F
-  ? F extends unknown
-    ? { [K in keyof F]: F[K] }
-    : {}
-  : {};
+> = Compute<
+  UnionToIntersection<
+    IndexFilterRecord<PK, SK> extends infer F
+      ? F extends unknown
+        ? { [K in keyof F]?: F[K] } & {
+            [K in DocumentIndexField]?: PKSKValueType;
+          }
+        : {}
+      : {}
+  >
+>;
 
 export type FindManyConfig<
   Doc extends DocumentBase = DocumentBase,
@@ -140,7 +151,7 @@ export type FindManyConfig<
   condition?: FilterRecord<Doc>;
   consistent?: boolean;
   context?: LoaderContext;
-  filter: MethodFilter<PK, SK> extends infer R ? { [K in keyof R]: R[K] } : {};
+  filter: MethodFilter<PK, SK>;
   first?: number;
 
   indexConfig: CollectionIndexConfig<
@@ -160,7 +171,7 @@ export type FindOneConfig<
   condition?: FilterRecord<Doc>;
   consistent?: boolean;
   context?: LoaderContext;
-  filter: MethodFilter<PK, SK> | { [K in DocumentIndexField]?: string };
+  filter: MethodFilter<PK, SK>;
   indexConfig: CollectionIndexConfig<
     Doc,
     PK | (SK extends undefined ? PK : SK)
@@ -207,7 +218,7 @@ export type UpdateOneConfig<
 > = {
   condition?: FilterRecord<Doc>;
   context?: LoaderContext;
-  filter: MethodFilter<PK, SK> | { [K in DocumentIndexField]?: string };
+  filter: MethodFilter<PK, SK>;
   indexConfig: CollectionIndexConfig<
     Doc,
     PK | (SK extends undefined ? PK : SK)
@@ -223,7 +234,7 @@ export type UpdateManyConfig<
 > = {
   condition?: FilterRecord<Doc>;
   context?: LoaderContext;
-  filter: MethodFilter<PK, SK> | { [K in DocumentIndexField]?: string };
+  filter: MethodFilter<PK, SK>;
   indexConfig: CollectionIndexConfig<
     Doc,
     PK | (SK extends undefined ? PK : SK)
@@ -239,7 +250,7 @@ export type DeleteManyConfig<
 > = {
   condition?: FilterRecord<Doc>;
   context?: LoaderContext;
-  filter: MethodFilter<PK, SK> | { [K in DocumentIndexField]?: string };
+  filter: MethodFilter<PK, SK>;
   indexConfig: CollectionIndexConfig<
     Doc,
     PK | (SK extends undefined ? PK : SK)
@@ -253,7 +264,7 @@ export type DeleteOneConfig<
 > = {
   condition?: FilterRecord<Item>;
   context?: LoaderContext;
-  filter: MethodFilter<PK, SK> | { [K in DocumentIndexField]?: string };
+  filter: MethodFilter<PK, SK>;
   indexConfig: CollectionIndexConfig<
     Item,
     PK | (SK extends undefined ? PK : SK)

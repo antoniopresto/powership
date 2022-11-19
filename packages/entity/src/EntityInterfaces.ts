@@ -53,20 +53,12 @@ type GetLoaderFilterDef<LoaderConfig, DocDef> =
     ? {
         [K in keyof Filter as K extends keyof DocDef
           ? K
-          : never]: K extends keyof DocDef ? DocDef[K] : never;
-      } extends infer R
-      ? {
-          // transforming optional args as optional field definitions
-          [K in keyof R]-?: [Extract<R[K], undefined>] extends [never]
-            ? ToFinalField<R[K]>
-            : Omit<
-                ToFinalField<Exclude<R[K], undefined>>,
-                '__infer' | 'optional'
-              > & { optional: true } extends infer F
-            ? { [K in keyof F]: F[K] } & {}
-            : never;
-        }
-      : never
+          : never]: K extends keyof DocDef
+          ? Omit<ToFinalField<DocDef[K]>, '__infer' | 'optional'> & {
+              optional: true;
+            }
+          : never;
+      }
     : never;
 
 export type EntityDefaultFields = {

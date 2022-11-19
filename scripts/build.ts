@@ -4,6 +4,8 @@ import path from 'path';
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import type { PackageJson } from 'nx/src/utils/package-json';
+import * as process from 'process';
+import { $ } from '@backland/utils';
 
 const CWD = process.cwd();
 const ENV = ['TEST_TIMEOUT=90000'].join(' ');
@@ -29,7 +31,20 @@ const logStream = fs.createWriteStream(LOGS_FILE);
 
 type CommandString = `${'n' | 'ex'}${'s' | 'a'}:${string}`;
 
-const commands: [string[], CommandString[]][] = [
+const argCommands = $(process.argv)(
+  //
+  (v) => v.filter((arg) => arg.match(/:/))
+)((v) =>
+  !v.length
+    ? null
+    : v.map((parts) => {
+        const [packageStr, mode, command] = parts;
+        const packages = packageStr.split(',');
+        return [packages, [`${mode}:${command}`]] as [string[], CommandString[]];
+      })
+)();
+
+const commands: [string[], CommandString[]][] = argCommands || [
   [root, ['exs:lerna link --force-local', 'exs:lerna bootstrap']],
   [all, ['na:clear']],
   [all, ['ns:declarations']],

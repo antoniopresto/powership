@@ -22,7 +22,7 @@ export class UnknownField extends FieldType<
       parse: (input) => {
         if (input === undefined) {
           if (this.optional) return input;
-          throw createFieldTypeError('requiredMissing', { input });
+          throw createFieldTypeError('requiredField');
         }
 
         if (types?.length) {

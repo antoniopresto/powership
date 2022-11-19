@@ -51,7 +51,7 @@ test('examples', async () => {
 
   expect(() =>
     userObject.parse({ name: 'antonio', letter: 'a', deliveryAddress: {} })
-  ).toThrow('➤ field "deliveryAddress": ➤ field "street": RequiredMissing');
+  ).toThrow('➤ field "deliveryAddress": ➤ field "street": RequiredField');
 
   const parsed = userObject.parse({
     name: 'antonio',

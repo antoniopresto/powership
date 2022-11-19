@@ -59,14 +59,47 @@ function ESCAPE_SEPARATORS_AND_JoinIndexPartsFoundInDocument(parts: string[]) {
     .join(ID_KEY_SEPARATOR);
 }
 
-export function mountID(params: {
-  PK: string;
-  SK: string | null;
+export type IndexToIDHelpers = {
+  /*
+  // example:
+  {
+      mountRelationCondition: (relatedIndex: string) => ({$startsWith: string}),
+      PKPart: 'users:_id#abc↠',
+      PKPartWithoutPKSKSeparator: 'users:_id#abc',
+      SKPart: '123',
+      documentIndexFields: {
+        _id: 'users:_id#abc↠123',
+        _idPK: 'abc',
+        _idSK: '123',
+      },
+      fullID: 'users:_id#abc↠123',
+      graphID: '~!dXNlcnM6X2lkI2FiY+KGoDEyMw==',
+      prefix: 'users:_id',
+    }
+   */
+  PKPartWithoutPKSKSeparator: string;
+  PKPart: string;
+  SKPart: string;
+  fullID: string;
+  graphID: string;
+  prefix: string;
+  mountRelationCondition: (relatedEntity: string) => { $startsWith: string };
+  documentIndexFields: {
+    [K in
+      | `${DocumentIndexField}`
+      | `${DocumentIndexField}PK`
+      | `${DocumentIndexField}SK`]?: string;
+  };
+};
+
+export function createIndexToIDHelpers(params: {
+  PKEscapedString: string;
+  SKEscapedString: string | null;
   entity: string;
-  indexField: string;
+  indexField: DocumentIndexField;
   relatedTo: string | undefined;
-}) {
-  const { indexField, PK, SK } = params;
+}): IndexToIDHelpers {
+  const { indexField, PKEscapedString, SKEscapedString } = params;
   const entity = params.entity.toLowerCase();
   const relatedTo = params.relatedTo?.toLowerCase();
 
@@ -84,9 +117,35 @@ export function mountID(params: {
     };
   })();
 
-  return `${prefix}${ID_KEY_SEPARATOR}${PK}${postPK}${PK_SK_SEPARATOR}${
-    SK === null ? '' : SK
-  }`;
+  const PKPartWithoutPKSKSeparator = `${prefix}${ID_KEY_SEPARATOR}${PKEscapedString}${postPK}`;
+
+  const PKPart = `${PKPartWithoutPKSKSeparator}${PK_SK_SEPARATOR}`;
+  const SKPart = `${SKEscapedString === null ? '' : SKEscapedString}`;
+  const fullID = `${PKPart}${SKPart}`;
+  const graphID = mountGraphID(fullID);
+
+  function mountRelationCondition(relatedEntity: string) {
+    return {
+      $startsWith: `${PKPartWithoutPKSKSeparator}${RELATION_SEPARATOR}${relatedEntity}`,
+    };
+  }
+
+  const documentIndexFields = {
+    [indexField]: fullID,
+    [`${indexField}PK`]: PKEscapedString,
+    [`${indexField}SK`]: SKEscapedString,
+  };
+
+  return {
+    PKPart,
+    SKPart,
+    fullID,
+    graphID,
+    PKPartWithoutPKSKSeparator,
+    mountRelationCondition,
+    prefix,
+    documentIndexFields,
+  };
 }
 
 export type GraphIDJSON = {
@@ -241,34 +300,29 @@ export function createDocumentIndexBasedFilters(
       );
     }
 
-    const PKString = WITHOUT_ESCAPING_SEPARATORS_JoinIndexPartsFoundInDocument(
-      PK.foundParts
-    );
+    const PKEscapedString =
+      WITHOUT_ESCAPING_SEPARATORS_JoinIndexPartsFoundInDocument(PK.foundParts);
 
-    const SKString = WITHOUT_ESCAPING_SEPARATORS_JoinIndexPartsFoundInDocument(
-      SK.foundParts
-    );
+    const SKEscapedString =
+      WITHOUT_ESCAPING_SEPARATORS_JoinIndexPartsFoundInDocument(SK.foundParts);
 
     foundPK = {
       key: index.field,
-      value: PKString,
+      value: PKEscapedString,
     };
 
     if (index.relations?.length) {
       index.relations.forEach((rel) => {
+        const indexIDHelpers = createIndexToIDHelpers({
+          PKEscapedString: PKEscapedString,
+          SKEscapedString: null,
+          entity,
+          indexField: index.field,
+          relatedTo: undefined,
+        });
+
         relationFilters.push({
-          [index.field]: {
-            $startsWith:
-              mountID({
-                PK: PKString,
-                SK: null,
-                entity,
-                indexField: index.field,
-                relatedTo: undefined,
-              }).slice(0, -1) + // removing ending PK_SK_SEPARATOR "↠"
-              RELATION_SEPARATOR +
-              rel.entity.toLowerCase(),
-          },
+          [index.field]: indexIDHelpers.mountRelationCondition(rel.entity),
         });
       });
     }
@@ -280,7 +334,7 @@ export function createDocumentIndexBasedFilters(
       PK: PK.isFilter
         ? (PK.conditionFound as IndexFilter)
         : PK.valid
-        ? PKString
+        ? PKEscapedString
         : (devAssert(
             `Error in PK, failed to mount filter.`,
             { PK },
@@ -292,7 +346,7 @@ export function createDocumentIndexBasedFilters(
         : SK.isFilter
         ? (SK.conditionFound as IndexFilter)
         : SK.valid
-        ? SKString
+        ? SKEscapedString
         : (devAssert(
             `Error in SK, failed to mount filter.`,
             { SK },
@@ -400,16 +454,16 @@ export function getDocumentIndexFields<
       SK.foundParts
     );
 
-    const hashedId = mountID({
-      PK: PKEscapedString,
-      SK: SKEscapedString,
+    const indexIDHelpers = createIndexToIDHelpers({
+      PKEscapedString,
+      SKEscapedString,
       entity: entity,
       indexField: index.field,
       relatedTo,
     });
 
     if (PK.valid && SK.valid && !firstIndex) {
-      firstIndex = { key: index.field, value: hashedId };
+      firstIndex = { key: index.field, value: indexIDHelpers.fullID };
     }
 
     if (SK.conditionFound || PK.conditionFound) {
@@ -421,11 +475,7 @@ export function getDocumentIndexFields<
       invalidFields.push(...PK.invalidFields, ...SK.invalidFields);
     }
 
-    indexFields[index.field] = hashedId;
-    // example _id2PK: "..."
-    indexFields[`${index.field}PK`] = PKEscapedString;
-    // example: "_id2SK": "..."
-    indexFields[`${index.field}SK`] = SKEscapedString;
+    Object.assign(indexFields, indexIDHelpers.documentIndexFields);
   });
 
   if (!valid || !firstIndex) {
@@ -487,13 +537,13 @@ function joinPKAndSKAsIDFilter(
   if (typeof PK === 'string' && typeof SK === 'string') {
     return [
       {
-        [indexField]: mountID({
-          PK,
-          SK,
+        [indexField]: createIndexToIDHelpers({
+          PKEscapedString: PK,
+          SKEscapedString: SK,
           entity,
           indexField: indexField,
           relatedTo,
-        }),
+        }).fullID,
       },
     ];
   }
@@ -509,13 +559,13 @@ function joinPKAndSKAsIDFilter(
 
     $and.unshift({
       [indexField]: {
-        $startsWith: mountID({
+        $startsWith: createIndexToIDHelpers({
           entity,
           indexField,
           relatedTo: undefined,
-          PK: '',
-          SK: '',
-        }).slice(0, -1),
+          PKEscapedString: '',
+          SKEscapedString: '',
+        }).PKPartWithoutPKSKSeparator,
       },
     });
   }
@@ -559,17 +609,13 @@ function joinPKAndSKAsIDFilter(
       });
 
     function _prefix(suffix: string) {
-      return (
-        mountID({
-          PK: suffix,
-          SK: null,
-          entity,
-          indexField,
-          relatedTo,
-        })
-          // removing PK separator "↠"
-          .slice(0, -1)
-      );
+      return createIndexToIDHelpers({
+        PKEscapedString: suffix,
+        SKEscapedString: null,
+        entity,
+        indexField,
+        relatedTo,
+      }).fullID.slice(0, -1);
     }
 
     const SKFilter = SKValue === undefined ? {} : { [SKField]: SKValue };
@@ -628,13 +674,13 @@ function joinPKAndSKAsIDFilter(
 
         return {
           [indexField]: {
-            [comparator]: mountID({
-              PK: pk_value,
-              SK: SKValue,
+            [comparator]: createIndexToIDHelpers({
+              PKEscapedString: pk_value,
+              SKEscapedString: SKValue,
               entity,
               indexField: indexField,
               relatedTo,
-            }),
+            }).fullID,
           },
         };
       }
@@ -707,13 +753,13 @@ function joinPKAndSKAsIDFilter(
 
         return {
           [indexField]: {
-            $startsWith: mountID({
-              PK: PKString,
-              SK: sk_value,
+            $startsWith: createIndexToIDHelpers({
+              PKEscapedString: PKString,
+              SKEscapedString: sk_value,
               entity,
               indexField: indexField,
               relatedTo,
-            }),
+            }).fullID,
           },
         };
       }
@@ -726,26 +772,26 @@ function joinPKAndSKAsIDFilter(
         return {
           [indexField]: {
             $between: [
-              mountID({
-                PK: PKString,
-                SK:
+              createIndexToIDHelpers({
+                PKEscapedString: PKString,
+                SKEscapedString:
                   typeof sk_value[0] === 'number'
                     ? encodeNumber(sk_value[0])
                     : sk_value[0],
                 entity,
                 indexField: indexField,
                 relatedTo,
-              }),
-              mountID({
-                PK: PKString,
-                SK:
+              }).fullID,
+              createIndexToIDHelpers({
+                PKEscapedString: PKString,
+                SKEscapedString:
                   typeof sk_value[1] === 'number'
                     ? encodeNumber(sk_value[1])
                     : sk_value[1],
                 entity,
                 indexField: indexField,
                 relatedTo,
-              }),
+              }).fullID,
             ],
           },
         };
@@ -758,13 +804,13 @@ function joinPKAndSKAsIDFilter(
 
         return {
           [indexField]: {
-            [comparator]: mountID({
-              PK: PKString,
-              SK: sk_value,
+            [comparator]: createIndexToIDHelpers({
+              PKEscapedString: PKString,
+              SKEscapedString: sk_value,
               entity,
               indexField: indexField,
               relatedTo,
-            }),
+            }).fullID,
           },
         };
       }
@@ -783,24 +829,24 @@ function joinPKAndSKAsIDFilter(
             {
               [indexField]: {
                 // otherwise will get items $lt, $gt, etc; from another PK
-                $startsWith: mountID({
-                  PK: PKString,
-                  SK: '',
+                $startsWith: createIndexToIDHelpers({
+                  PKEscapedString: PKString,
+                  SKEscapedString: '',
                   entity,
                   indexField: indexField,
                   relatedTo,
-                }),
+                }).fullID,
               },
             },
             {
               [indexField]: {
-                [comparator]: mountID({
-                  PK: PKString,
-                  SK: sk_value,
+                [comparator]: createIndexToIDHelpers({
+                  PKEscapedString: PKString,
+                  SKEscapedString: sk_value,
                   entity,
                   indexField: indexField,
                   relatedTo,
-                }),
+                }).fullID,
               },
             },
           ],

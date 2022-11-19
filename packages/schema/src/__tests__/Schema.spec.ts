@@ -87,7 +87,7 @@ describe('Object', () => {
     expect(userObject.parse(user)).toEqual(user);
 
     expect(() => userObject.parse({ ...user, age: undefined })).toThrow(
-      `➤ field "age": RequiredMissing`
+      `➤ field "age": RequiredField`
     );
 
     expect(() => userObject.parse({ ...user, enumArray: ['3'] })).toThrow(
@@ -126,7 +126,7 @@ describe('Object', () => {
     );
 
     expect(() => object.parse({ name: 'a', sub: {} })).toThrow(
-      '➤ field "sub": ➤ field "mySubField": RequiredMissing'
+      '➤ field "sub": ➤ field "mySubField": RequiredField'
     );
   });
 
@@ -149,7 +149,7 @@ describe('Object', () => {
     expect(myObject.definition.roles.def).toEqual(rolesObject.definition);
 
     expect(() => myObject.parse({ userId: '123' })).toThrow(
-      '➤ field "roles": RequiredMissing'
+      '➤ field "roles": RequiredField'
     );
 
     expect(() => myObject.parse({ userId: '123', roles: [] })).not.toThrow();

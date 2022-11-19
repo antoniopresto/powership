@@ -295,7 +295,8 @@ export function createEntity(
     };
 
     const fields = Object.keys(entityOutputDefinitionWithRelations);
-    let inputDef = inputObjectType.cleanDefinition();
+    let inputDef: Record<string, FinalFieldDefinition> =
+      inputObjectType.cleanDefinition();
 
     let updateDefinition = inputObjectType.clone().optional().def();
 
@@ -374,7 +375,7 @@ export function createEntity(
       .clone()
       .extendDefinition({
         ...createEntityDefaultFields(true),
-        ...entityOptions.type.definition.def,
+        ...inputDef,
       })
       .graphType(`${entityName}Input`);
 

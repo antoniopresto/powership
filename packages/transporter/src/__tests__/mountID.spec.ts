@@ -1,25 +1,53 @@
-import { mountID } from '../CollectionIndex';
+import { createIndexToIDHelpers } from '../CollectionIndex';
 
 describe('mountID', () => {
   test('simple', async () => {
-    const sut = mountID({
+    const sut = createIndexToIDHelpers({
       entity: 'users',
-      PK: 'abc',
-      SK: '123',
-      indexField: 'batata',
+      PKEscapedString: 'abc',
+      SKEscapedString: '123',
+      indexField: '_id',
       relatedTo: undefined,
     });
-    expect(sut).toBe('users:batata#abc↠123');
+
+    expect(sut).toEqual({
+      mountRelationCondition: expect.any(Function),
+      PKPart: 'users:_id#abc↠',
+      PKPartWithoutPKSKSeparator: 'users:_id#abc',
+      SKPart: '123',
+      documentIndexFields: {
+        _id: 'users:_id#abc↠123',
+        _idPK: 'abc',
+        _idSK: '123',
+      },
+      fullID: 'users:_id#abc↠123',
+      graphID: '~!dXNlcnM6X2lkI2FiY+KGoDEyMw==',
+      prefix: 'users:_id',
+    });
   });
 
   test('as child index', async () => {
-    const sut = mountID({
+    const sut = createIndexToIDHelpers({
       entity: 'banana',
-      PK: 'abc',
-      SK: '123',
+      PKEscapedString: 'abc',
+      SKEscapedString: '123',
       indexField: '_id',
       relatedTo: 'fruits',
     });
-    expect(sut).toBe('fruits:_id#abc≻banana↠123');
+
+    expect(sut).toEqual({
+      mountRelationCondition: expect.any(Function),
+      PKPart: 'fruits:_id#abc≻banana↠',
+      PKPartWithoutPKSKSeparator: 'fruits:_id#abc≻banana',
+      SKPart: '123',
+      documentIndexFields: {
+        _id: 'fruits:_id#abc≻banana↠123',
+        _idPK: 'abc',
+        _idSK: '123',
+      },
+      fullID: 'fruits:_id#abc≻banana↠123',
+      graphID: '~!ZnJ1aXRzOl9pZCNhYmPiibtiYW5hbmHihqAxMjM=',
+      prefix: 'fruits:_id',
+    });
   });
 });
