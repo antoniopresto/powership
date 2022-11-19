@@ -15,7 +15,8 @@
     "alpha-version": "lerna version prerelease --yes --no-git-tag-version --conventional-graduate --no-push --exact --preid=alpha.$(date +%Y%m%d%H%M%S) --force-publish",
     "build-changed": "nx run-many --target=build --projects=$(nx affected:libs --plain | sed 's/ /,/g')",
     "publish-alpha": "lerna exec --no-bail 'npm publish --tag=next'",
-    "alpha": "run-s all alpha-version publish-alpha"
+    "alpha": "run-s all alpha-version publish-alpha",
+    "alpha-publish": "run-s alpha-version publish-alpha"
   },
   "devDependencies": {
     "@nrwl/cli": "14.7.13",
