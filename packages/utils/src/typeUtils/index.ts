@@ -147,7 +147,7 @@ type Join<L, R> = {
 export type Merge<L, R> = {
   [K in keyof L]: K extends keyof R
     ? IsKnown<R[K]> extends 1
-      ? never
+      ? R[K]
       : L[K]
     : L[K];
 } extends infer P

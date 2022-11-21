@@ -166,7 +166,7 @@ describe('createGraphQLObject', () => {
         letter: { enum: ['a', 'b'] },
       } as const,
       async resolve() {
-        return {} as any;
+        return addLetterType.parse({});
       },
     });
 
@@ -344,14 +344,13 @@ describe('createGraphQLObject', () => {
             },
           },
         },
-        async resolve() {
-          return {
-            name: '1111',
-            age: 1,
-            addresses: [],
-            foo_bar: ['bar'],
-          };
-        },
+      }).resolver(async () => {
+        return {
+          name: '1111',
+          age: 1,
+          addresses: [],
+          foo_bar: ['bar'],
+        };
       });
 
       const object = createGraphQLSchema();

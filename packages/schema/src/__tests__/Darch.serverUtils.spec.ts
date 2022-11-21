@@ -29,21 +29,6 @@ describe('Backland aliases', () => {
     });
   });
 
-  test('createResolver', () => {
-    const sut = CircularDeps.createResolver;
-
-    type Arg = Parameters<typeof sut>[0]['kind'];
-    assert<IsExact<Arg, 'subscription' | 'query' | 'mutation' | undefined>>(
-      true
-    );
-
-    expect(typeof sut).toBe('function');
-    expect(sut.name).toBe('createResolver');
-    expect(CircularDeps.isPossibleArgsDef).toBe(
-      require('../Resolver').isPossibleArgsDef
-    );
-  });
-
   test('createType', () => {
     const sut = CircularDeps.createType;
 

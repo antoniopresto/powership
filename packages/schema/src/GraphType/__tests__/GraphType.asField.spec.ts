@@ -41,12 +41,7 @@ describe('GraphType.asField', () => {
       description: 'yeah',
       args: { option: { enum: ['a', 'b'] } },
       async resolve() {
-        return [
-          {
-            name: '',
-            age: 1,
-          },
-        ];
+        return userNodeNode.parse({});
       },
     } as const);
 

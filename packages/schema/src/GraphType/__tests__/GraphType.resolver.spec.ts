@@ -1,4 +1,4 @@
-import { MaybePromise, PromiseType } from '@backland/utils/lib/typeUtils';
+import { PromiseType } from '@backland/utils/lib/typeUtils';
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
@@ -24,12 +24,8 @@ describe('createResolver', () => {
       name: 'User',
       args: { id: 'ulid' },
       description: 'User resolver',
-      async resolve(_, { id }) {
-        return {
-          name: id,
-          id: id,
-        } as any;
-      },
+    }).resolver((_, { id }) => {
+      return t1.parse({ id });
     });
 
     type Return = PromiseType<ReturnType<typeof resolver.resolve>>;
@@ -90,10 +86,10 @@ describe('createResolver', () => {
       },
     });
 
-    type Return = ReturnType<typeof resolver.resolve>;
+    // type Return = ReturnType<typeof resolver.resolve>;
     type Args = Parameters<typeof resolver.resolve>[1];
 
-    assert<IsExact<Return, MaybePromise<{ age?: number; name: string }>>>(true);
+    // assert<IsExact<Return, MaybePromise<{ age?: number; name: string }>>>(true);
 
     assert<
       IsExact<

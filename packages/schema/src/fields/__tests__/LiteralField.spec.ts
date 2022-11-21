@@ -154,12 +154,11 @@ describe('LiteralField', () => {
       args: {
         limit: { literal: 1 } as const,
       },
-      async resolve(_, args) {
-        expect(args.limit).toBe(1);
-        assert<IsExact<typeof args.limit, 1>>(true);
+    }).resolver(async (_, args) => {
+      expect(args.limit).toBe(1);
+      assert<IsExact<typeof args.limit, 1>>(true);
 
-        return { valid: date };
-      },
+      return { valid: date };
     });
 
     const schema = createGraphQLSchema();
