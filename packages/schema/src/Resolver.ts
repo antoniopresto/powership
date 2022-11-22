@@ -204,6 +204,7 @@ interface CreateResolver<Context> {
       type: ResultType | Readonly<ResultType>;
       kind?: ResolverKind;
       args?: ArgsType | Readonly<ArgsType>;
+      resolve?: never;
     } & OptionalResolverConfig
   ): {
     resolver<Returns, Root = unknown>(
@@ -229,7 +230,7 @@ interface CreateResolver<Context> {
         info: GraphQLResolveInfo
       ) => MaybePromise<Returns>;
     } & OptionalResolverConfig
-  ): Resolver<Context, any, Returns, {}>;
+  ): Resolver<Context, any, Returns, {}> & { resolver?: never };
 
   <
     ResultType extends FieldInput,
@@ -248,7 +249,7 @@ interface CreateResolver<Context> {
         info: GraphQLResolveInfo
       ) => MaybePromise<Returns>;
     } & OptionalResolverConfig
-  ): Resolver<Context, any, Returns, _Args<ArgsType>>;
+  ): Resolver<Context, any, Returns, _Args<ArgsType>> & { resolver?: never };
 }
 
 export function createResolverFactory<
@@ -264,6 +265,10 @@ export function createResolverFactory<
   };
 }
 
-type _Args<ArgsType> = IsKnown<ArgsType> extends 1 ? Infer<ArgsType> : {};
+type _Args<ArgsType> = Exclude<ArgsType, undefined> extends infer R
+  ? IsKnown<R> extends 1
+    ? Infer<ToFinalField<{ object: R }>>
+    : {}
+  : {};
 
 export const createResolver = createResolverFactory();

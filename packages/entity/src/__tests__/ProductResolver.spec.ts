@@ -1,6 +1,6 @@
 import { CircularDeps, createResolver, Infer } from '@backland/schema';
 import { createGraphQLSchema } from '@backland/schema/lib/createGraphQLSchema';
-import { notNull, PromiseType } from '@backland/utils';
+import { notNull, NullableToPartial, PromiseType } from '@backland/utils';
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { PaginationResult } from '@backland/transporter';
@@ -30,7 +30,7 @@ describe('ProductResolver', () => {
       type: ProductEntity.paginationType,
       args: ProductEntity.paginate.queryArgs,
       name: 'paginate',
-      async resolve(_, args, context) {
+      resolve(_, args, context) {
         type Args = typeof args;
 
         assert<
@@ -73,7 +73,14 @@ describe('ProductResolver', () => {
     type Result = PromiseType<ReturnType<typeof productPagination.resolve>>;
     type EntityPagination = PaginationResult<TProduct>;
 
-    assert<EntityPagination extends Result ? true : false>(true);
+    type A = NullableToPartial<EntityPagination['edges'][number]['node']>;
+    type R = NullableToPartial<Result['edges'][number]['node']>;
+
+    type AP = NullableToPartial<EntityPagination['pageInfo']>;
+    type RP = NullableToPartial<Result['pageInfo']>;
+
+    assert<IsExact<A, R>>(true);
+    assert<IsExact<AP, RP>>(true);
   });
 
   test('findById', async function () {
