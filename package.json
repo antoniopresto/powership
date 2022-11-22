@@ -2,7 +2,7 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "dev": "(cd ./packages/site && yarn dev)",
+    "clean-all": "rm -rf node_modules && yarn install && lerna clean --yes && lerna bootstrap",
     "lerna": "lerna",
     "bootstrap": "lerna bootstrap",
     "fix": "lerna run fix",
@@ -28,16 +28,16 @@
     "eslint-config-prettier": "6.15.0",
     "eslint-plugin-eslint-comments": "3.2.0",
     "eslint-plugin-import": "2.22.1",
-    "lerna": "^5.5.2",
+    "lerna": "5.5.2",
     "npm-run-all": "4.1.5",
     "nx": "14.7.13",
     "prettier": "2.4.0",
-    "typescript": "~4.8.2",
-    "shelljs": "^0.8.5",
-    "@types/shelljs": "^0.8.11",
-    "@types/node": "^16.18.3",
-    "@types/fs-extra": "^9.0.13",
-    "fs-extra": "^10.1.0"
+    "typescript": "4.8.2",
+    "shelljs": "0.8.5",
+    "@types/shelljs": "0.8.11",
+    "@types/node": "16.18.3",
+    "@types/fs-extra": "9.0.13",
+    "fs-extra": "10.1.0"
   },
   "workspaces": {
     "packages": [
@@ -45,7 +45,10 @@
     ],
     "nohoist": [
       "**/@backland/**",
-      "**/backland**"
+      "**/backland**",
+      "typescript",
+      "backland",
+      "@backland**"
     ]
   }
 }
