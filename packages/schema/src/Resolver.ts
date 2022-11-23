@@ -197,7 +197,7 @@ export type OptionalResolverConfig<
   'resolve' | 'args' | 'type'
 >;
 
-interface CreateResolver<Context> {
+export interface CreateResolver<Context> {
   <ResultType extends ObjectFieldInput, ArgsType extends ObjectDefinitionInput>(
     config: {
       name: string;
