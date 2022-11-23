@@ -33,7 +33,7 @@
     "aggio": "0.0.114",
     "big.js": "6.2.1",
     "chalk": "5.1.0",
-    "deep-object-diff": "1.1.7",
+    "deep-object-diff": "1.1.9",
     "ejson": "2.2.3",
     "fast-copy": "3.0.0",
     "fast-equals": "4.0.3",
