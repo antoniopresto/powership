@@ -46,13 +46,20 @@ export type InferObjectDefinition<Def> = NullableToPartial<
       Def[K]
     > extends infer Final
       ? Final extends { def: any; type: 'alias' }
-        ? // handling aliasing
+        ? //
+          //  ==== START handling aliasing ===
           [Final['def']] extends [string]
           ? GetFieldByDotNotation<
               InferObjectDefinition<AllButNot<Def, K>>,
               Final['def']
-            >
-          : InferField<Final['def']['type']>
+            > extends infer F
+            ? F extends unknown
+              ? F
+              : never
+            : never
+          : // ==== END handling aliasing
+            //
+            InferField<Final['def']['type']>
         : // infer schema field
           InferField<Def[K]>
       : any;

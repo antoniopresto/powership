@@ -10,16 +10,33 @@ describe('AliasField', () => {
   it('works', async () => {
     const schema = createSchema({
       person: {
-        object: {
-          age: 'int',
-        },
+        union: [
+          {
+            object: {
+              deep: {
+                object: {
+                  age: { union: ['int', 'string', '[string]', '[int]'] },
+                },
+              },
+            },
+          },
+          {
+            object: {
+              deep: {
+                object: {
+                  age: { union: ['boolean', '[boolean]'] },
+                },
+              },
+            },
+          },
+        ],
       },
-      fn: { alias: 'person.age' },
+      fn: { alias: 'person.deep.age' },
       fn2: {
         alias: {
           type: 'record?',
           aggregate: [
-            { $pick: 'person' },
+            { $pick: 'person.deep' },
             {
               $keyBy: 'age',
             },
@@ -28,12 +45,18 @@ describe('AliasField', () => {
       },
     } as const);
 
-    const value = schema.parse({ person: { age: 123 } });
+    const value = schema.parse({ person: { deep: { age: 123 } } });
 
     assert<
       IsExact<
         typeof value,
-        { person: { age: number }; fn: number; fn2?: Record<string, any> }
+        {
+          person:
+            | { deep: { age: number | string | string[] | number[] } }
+            | { deep: { age: boolean | boolean[] } };
+          fn: number | string | string[] | number[] | boolean | boolean[];
+          fn2?: Record<string, any>;
+        }
       >
     >(true);
 
@@ -45,7 +68,7 @@ describe('AliasField', () => {
         },
       },
       person: {
-        age: 123,
+        deep: { age: 123 },
       },
     });
   });
