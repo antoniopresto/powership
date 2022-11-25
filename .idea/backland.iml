@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/temp" />
+      <excludeFolder url="file://$MODULE_DIR$/.tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/accounts/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/accounts/coverage" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/backland/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/backland/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/babel-plugins/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/utils/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/entity/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/transporter/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/schema/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/mongo/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/logs" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
