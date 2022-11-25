@@ -70,6 +70,26 @@ describe('Accounts', () => {
     expect(account).toEqual(_expectedUser());
   });
 
+  test('unique username', async () => {
+    const accountsPassword = _accounts();
+
+    await accountsPassword.createAccount({
+      password: '1234567',
+      username: 'antoniopresto',
+      email: 'antonio@example.com',
+      request: {},
+    });
+
+    await expect(
+      accountsPassword.createAccount({
+        password: '1234567',
+        username: 'antoniopresto',
+        email: 'antonio2222@example.com',
+        request: {},
+      })
+    ).rejects.toThrow("Can't create two documents with same index.");
+  });
+
   test('userByPasswordLogin', async () => {
     const accountsPassword = _accounts();
 

@@ -73,6 +73,6 @@ webpack-stats.json
 
 # Modern Relay
 __generated__
-lib/
-/.idea/
+lib
 /logs/
+.idea/workspace.xml

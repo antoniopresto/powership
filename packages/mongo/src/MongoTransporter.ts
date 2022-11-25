@@ -7,6 +7,7 @@ import {
   DeleteManyResult,
   DeleteOneConfig,
   DeleteOneResult,
+  DocumentIndexFields,
   FindByIdConfig,
   FindManyConfig,
   FindManyResult,
@@ -23,7 +24,6 @@ import {
   UpdateOneResult,
 } from '@backland/transporter';
 import { NodeLogger } from '@backland/utils';
-import { simpleObjectClone } from '@backland/utils';
 import { Filter } from 'mongodb';
 
 import { MongoClient } from './MongoClient';
@@ -59,7 +59,7 @@ export class MongoTransporter implements Transporter {
       created: false,
       item: null,
       updated: false,
-      // error: undefined,
+      error: null,
     };
 
     const indexMap = getDocumentIndexFields(itemInput, indexConfig);
@@ -72,9 +72,7 @@ export class MongoTransporter implements Transporter {
 
     const collection = this.getCollection(item);
 
-    const conditionExpression: Filter<any> = simpleObjectClone(
-      indexMap.indexFields
-    );
+    const conditionExpression: Filter<any> = {};
 
     if (options.condition) {
       conditionExpression.$and = conditionExpression.$and || [];
@@ -85,20 +83,80 @@ export class MongoTransporter implements Transporter {
 
     try {
       if (replace) {
+        const $or: Filter<any>[] = (conditionExpression.$or =
+          conditionExpression.$or || []);
+
+        const $and: Filter<any>[] = (conditionExpression.$and =
+          conditionExpression.$and || []);
+
+        $and.push(
+          ...parseMongoAttributeFilters({
+            _id: indexMap.uniqIndexCondition._id,
+          })
+        );
+
+        DocumentIndexFields.forEach((field) => {
+          const value = indexMap.indexFields[field];
+          if (!value) return;
+          $or.push(...parseMongoAttributeFilters({ [field]: value }));
+        });
+
         const result = await collection.replaceOne(conditionExpression, item, {
           hint: { _id: 1 },
           upsert: true,
         });
 
-        const updated = result?.matchedCount === 1;
+        const updated = result?.modifiedCount === 1;
+        const upsertedId = result?.upsertedId === 1;
 
-        res.created = !updated;
+        res.created = !!upsertedId;
         res.updated = updated;
-        res.item = item;
+        res.item = { ...item, _id: upsertedId || item._id };
       } else {
-        await collection.insertOne(item);
-        res.created = true;
-        res.item = item;
+        const $or: Filter<any>[] = (conditionExpression.$or =
+          conditionExpression.$or || []);
+
+        const $and: Filter<any>[] = (conditionExpression.$and =
+          conditionExpression.$and || []);
+
+        $and.push(
+          ...parseMongoAttributeFilters({
+            _id: indexMap.uniqIndexCondition._id,
+          })
+        );
+
+        DocumentIndexFields.forEach((field) => {
+          const value = indexMap.indexFields[field];
+          if (!value) return;
+          $or.push(...parseMongoAttributeFilters({ [field]: value }));
+        });
+
+        const result = await collection.findOneAndUpdate(
+          conditionExpression,
+          { $setOnInsert: item },
+          {
+            hint: { _id: 1 },
+            upsert: true,
+          }
+        );
+
+        const data = result.lastErrorObject || {};
+
+        if (data.updatedExisting) {
+          throw new Error(
+            `Can't create two documents with same index. Existing document found with condition: ${JSON.stringify(
+              indexMap.uniqIndexCondition,
+              null,
+              2
+            )}`
+          );
+        }
+
+        const created = !!data.upserted;
+
+        res.created = created;
+        res.updated = false;
+        res.item = created ? item : null;
       }
     } catch (e: any) {
       res.error = e.message;

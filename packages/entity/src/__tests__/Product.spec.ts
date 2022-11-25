@@ -237,10 +237,44 @@ describe('Product', () => {
       {
         PK: {
           definition: ['.storeId'],
+          parsed: {
+            PK_SK: 'PK',
+            foundParts: [],
+            indexField: '_id',
+            invalidFields: [
+              {
+                details: 'Expected string or number, found undefined.',
+                documentField: '.storeId',
+                indexField: '_id',
+                indexPartKind: 'PK',
+                reason: 'missing',
+              },
+            ],
+            isFilter: false,
+            requiredFields: ['storeId'],
+            valid: false,
+          },
           requiredFields: ['storeId'],
         },
         SK: {
           definition: ['.ulid'],
+          parsed: {
+            PK_SK: 'SK',
+            foundParts: [],
+            indexField: '_id',
+            invalidFields: [
+              {
+                details: 'Expected string or number, found undefined.',
+                documentField: '.ulid',
+                indexField: '_id',
+                indexPartKind: 'SK',
+                reason: 'missing',
+              },
+            ],
+            isFilter: false,
+            requiredFields: ['ulid'],
+            valid: false,
+          },
           requiredFields: ['ulid'],
         },
         entity: 'product',
@@ -254,10 +288,44 @@ describe('Product', () => {
       {
         PK: {
           definition: ['.storeId'],
+          parsed: {
+            PK_SK: 'PK',
+            foundParts: [],
+            indexField: '_id1',
+            invalidFields: [
+              {
+                details: 'Expected string or number, found undefined.',
+                documentField: '.storeId',
+                indexField: '_id1',
+                indexPartKind: 'PK',
+                reason: 'missing',
+              },
+            ],
+            isFilter: false,
+            requiredFields: ['storeId'],
+            valid: false,
+          },
           requiredFields: ['storeId'],
         },
         SK: {
           definition: ['.SKU'],
+          parsed: {
+            PK_SK: 'SK',
+            foundParts: [],
+            indexField: '_id1',
+            invalidFields: [
+              {
+                details: 'Expected string or number, found undefined.',
+                documentField: '.SKU',
+                indexField: '_id1',
+                indexPartKind: 'SK',
+                reason: 'missing',
+              },
+            ],
+            isFilter: false,
+            requiredFields: ['SKU'],
+            valid: false,
+          },
           requiredFields: ['SKU'],
         },
         entity: 'product',

@@ -43,10 +43,12 @@ describe('getDocumentIndexFields', () => {
         {
           PK: {
             definition: ['.name'],
+            parsed: expect.any(Object),
             requiredFields: ['name'],
           },
           SK: {
             definition: ['.age'],
+            parsed: expect.any(Object),
             requiredFields: ['age'],
           },
           entity: 'foo',
@@ -60,10 +62,12 @@ describe('getDocumentIndexFields', () => {
         {
           PK: {
             definition: ['.age'],
+            parsed: expect.any(Object),
             requiredFields: ['age'],
           },
           SK: {
             definition: ['.name'],
+            parsed: expect.any(Object),
             requiredFields: ['name'],
           },
           entity: 'foo',
@@ -76,6 +80,18 @@ describe('getDocumentIndexFields', () => {
         },
       ],
       valid: true,
+      uniqIndexCondition: {
+        $not: {
+          $or: [
+            {
+              _id: 'foo:_id#fulano↠715',
+            },
+            {
+              _id1: 'foo:_id1#715↠fulano',
+            },
+          ],
+        },
+      },
     });
   });
 
@@ -112,10 +128,12 @@ describe('getDocumentIndexFields', () => {
         {
           PK: {
             definition: ['.age', '.name'],
+            parsed: expect.any(Object),
             requiredFields: ['age', 'name'],
           },
           SK: {
             definition: ['#nice', '.age'],
+            parsed: expect.any(Object),
             requiredFields: ['age'],
           },
           entity: 'foo',
@@ -128,6 +146,15 @@ describe('getDocumentIndexFields', () => {
         },
       ],
       valid: true,
+      uniqIndexCondition: {
+        $not: {
+          $or: [
+            {
+              _id: 'foo:_id#5#NAME↠nice#5',
+            },
+          ],
+        },
+      },
     });
   });
 
@@ -178,10 +205,12 @@ describe('getDocumentIndexFields', () => {
         {
           PK: {
             definition: ['.age', '.name'],
+            parsed: expect.any(Object),
             requiredFields: ['age', 'name'],
           },
           SK: {
             definition: ['#nice', '.age'],
+            parsed: expect.any(Object),
             requiredFields: ['age'],
           },
           entity: 'foo',
@@ -232,10 +261,12 @@ describe('getDocumentIndexFields', () => {
           {
             PK: {
               definition: ['.accountId'],
+              parsed: expect.any(Object),
               requiredFields: ['accountId'],
             },
             SK: {
               definition: ['.kind', '.value'],
+              parsed: expect.any(Object),
               requiredFields: ['kind', 'value'],
             },
             entity: 'accesstype',
@@ -249,6 +280,15 @@ describe('getDocumentIndexFields', () => {
           },
         ],
         valid: true,
+        uniqIndexCondition: {
+          $not: {
+            $or: [
+              {
+                _id: 'account:_id#741234≻accesstype↠phone#+55119988788',
+              },
+            ],
+          },
+        },
       });
     });
   });

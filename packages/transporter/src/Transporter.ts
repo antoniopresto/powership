@@ -80,7 +80,6 @@ export type FilterRecord<Doc extends DocumentBase = DocumentBase> =
       $not?: RootFilterOperators<Doc>['$not'];
       $or?: RootFilterOperators<Doc>['$or'];
       _id?: string;
-      _id0?: string;
       _id1?: string;
       _id2?: string;
       _id3?: string;
