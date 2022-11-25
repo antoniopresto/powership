@@ -232,6 +232,15 @@ describe('MongoTransporter', () => {
 
       expect(notUpdated).toHaveProperty('updated', false);
 
+      const notUpdated2 = await _put({
+        item: itemUser.item,
+        condition: {
+          name: { $exists: false },
+        },
+      });
+
+      expect(notUpdated2).toHaveProperty('updated', false);
+
       const updated = await _put({
         item: { ...itemUser.item, name: 'updated' },
 

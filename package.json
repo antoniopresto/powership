@@ -16,7 +16,8 @@
     "build-changed": "nx run-many --target=build --projects=$(nx affected:libs --plain | sed 's/ /,/g')",
     "publish-alpha": "lerna exec --no-bail 'npm publish --tag=next'",
     "alpha": "run-s all alpha-version publish-alpha",
-    "alpha-publish": "run-s alpha-version publish-alpha"
+    "alpha-publish": "run-s alpha-version publish-alpha",
+    "lazy": "run-s 'all ns:build' alpha-version alpha-publish"
   },
   "devDependencies": {
     "@nrwl/cli": "14.7.13",

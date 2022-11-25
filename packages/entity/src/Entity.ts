@@ -159,10 +159,6 @@ export function createEntity(
           };
         }
 
-        if (gettersWereCalled) {
-          throw new Error(`${k} should be used right after entity creation.`);
-        }
-
         if (k === 'setOption') {
           return function setOption(optionName: string, value: any) {
             optionMutations.push((opt) => {

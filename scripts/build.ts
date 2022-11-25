@@ -31,20 +31,7 @@ const logStream = fs.createWriteStream(LOGS_FILE);
 
 type CommandString = `${'n' | 'ex'}${'s' | 'a'}:${string}`;
 
-const argCommands = $(process.argv)(
-  //
-  (v) => v.filter((arg) => arg.match(/:/))
-)((v) =>
-  !v.length
-    ? null
-    : v.map((parts) => {
-        const [packageStr, mode, command] = parts;
-        const packages = packageStr.split(',');
-        return [packages, [`${mode}:${command}`]] as [string[], CommandString[]];
-      })
-)();
-
-const commands: [string[], CommandString[]][] = argCommands || [
+const commands: [string[], CommandString[]][] = [
   [root, ['exs:lerna link --force-local', 'exs:lerna bootstrap']],
   [all, ['na:clear']],
   [all, ['ns:declarations']],

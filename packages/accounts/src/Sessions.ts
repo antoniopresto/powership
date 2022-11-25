@@ -1,12 +1,12 @@
 import {
   hashString,
+  hooks,
   NodeLogger,
   nonNullValues,
   StringValue,
   ulid,
   Waterfall,
 } from '@backland/utils';
-import { createHooks } from 'plugin-hooks';
 
 import { AccountDocument, AccountEntity } from './entity/AccountEntity';
 import { SessionEntity, SessionInput } from './entity/SessionEntity';
@@ -389,48 +389,44 @@ export type SessionRequest = {
 export type SessionHooksContext = {};
 
 export function createAccountSessionHooks(_options: SessionsOptions) {
-  const factory = createHooks<SessionRequest, SessionHooksContext>({
-    onPluginExecEnd(ctx) {
-      const current = ctx.current;
-
-      if (!current || typeof current !== 'object') {
-        throw new AccountError('InvalidRequest');
-      }
-
-      if (
-        current.onCallDestroySession &&
-        typeof current.onCallDestroySession !== 'function'
-      ) {
-        throw new AccountError(
-          'InvalidRequest',
-          'Expected onCallDestroySession to be a function.'
-        );
-      }
-
-      if (!current.authToken) return ctx;
-
-      if (typeof current.requestIp !== 'string') {
-        throw new AccountError('InvalidLocationInfoIP');
-      }
-
-      if (typeof current.userAgent !== 'string') {
-        throw new AccountError('InvalidLocationInfoUserAgent');
-      }
-
-      return ctx;
-    },
-  });
+  // function onPluginExecEnd(current: SessionRequest) { // TODO
+  //   if (!current || typeof current !== 'object') {
+  //     throw new AccountError('InvalidRequest');
+  //   }
+  //
+  //   if (
+  //     current.onCallDestroySession &&
+  //     typeof current.onCallDestroySession !== 'function'
+  //   ) {
+  //     throw new AccountError(
+  //       'InvalidRequest',
+  //       'Expected onCallDestroySession to be a function.'
+  //     );
+  //   }
+  //
+  //   if (!current.authToken) return current;
+  //
+  //   if (typeof current.requestIp !== 'string') {
+  //     throw new AccountError('InvalidLocationInfoIP');
+  //   }
+  //
+  //   if (typeof current.userAgent !== 'string') {
+  //     throw new AccountError('InvalidLocationInfoUserAgent');
+  //   }
+  //
+  //   return current;
+  // }
 
   return {
-    onRequest: factory.waterfall() as Waterfall<
+    onRequest: hooks.waterfall() as Waterfall<
       SessionRequest,
       SessionHooksContext
     >,
-    onRefreshTokens: factory.waterfall() as unknown as Waterfall<
+    onRefreshTokens: hooks.waterfall() as unknown as Waterfall<
       SessionRequest & { result: LoginResult },
       SessionHooksContext
     >,
-    onUpsertSessionError: factory.waterfall() as unknown as Waterfall<
+    onUpsertSessionError: hooks.waterfall() as unknown as Waterfall<
       Error,
       SessionRequest
     >,
