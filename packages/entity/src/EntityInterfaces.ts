@@ -259,10 +259,10 @@ export interface Entity<
 
   addHooks: (options: (hooks: EntityHooks) => any) => this;
 
-  addRelations: <
+  addRelation: <
     Context extends LoaderContext,
     Definition extends ObjectFieldInput,
-    ArgsDef extends ObjectDefinitionInput | undefined
+    ArgsDef extends ObjectDefinitionInput
   >(
     options: EntityFieldResolver<
       Context,
@@ -295,7 +295,7 @@ export interface Entity<
   __$is_entity__: true;
 }
 
-type ExtendMethodKeys = 'addHooks' | 'addRelations' | 'extend';
+type ExtendMethodKeys = 'addHooks' | 'addRelation' | 'extend';
 
 type ExcludeExtend<E> = {
   [K in keyof E as K extends ExtendMethodKeys ? never : K]: E[K];

@@ -73,7 +73,7 @@ const createUlid = () => ulidField.parse(undefined);
 const extendMethodsEnum = tupleEnum(
   'extendType',
   'addHooks',
-  'addRelations',
+  'addRelation',
   'setOption',
   'clone',
   'addIndexRelations',
@@ -229,8 +229,8 @@ export function createEntity(
           };
         }
 
-        if (k === 'addRelations') {
-          return function addRelations(resolver) {
+        if (k === 'addRelation') {
+          return function addRelation(resolver) {
             resolvers.push(...ensureArray(resolver));
             return entity;
           };
@@ -614,7 +614,7 @@ export function createEntity(
     Object.assign(entity, {
       inputType,
       addHooks: () => ({}), // handled in proxy
-      addRelations: () => ({}), // handled in proxy
+      addRelation: () => ({}), // handled in proxy
       aliasPaths: _objectAliasPaths(databaseDefinition),
       conditionsDefinition: conditionsType.__lazyGetter.objectType!.definition,
       databaseType,

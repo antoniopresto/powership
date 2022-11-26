@@ -6,7 +6,7 @@ import { createEntity } from '../Entity';
 import { setupProductTest } from './setupProductTest';
 import { PromiseType } from '@backland/utils';
 
-describe('ProductResolver.addRelations', () => {
+describe('ProductResolver.addRelation', () => {
   const { getMocks } = setupProductTest();
 
   test('works', async function () {
@@ -26,15 +26,16 @@ describe('ProductResolver.addRelations', () => {
       type: ProductType,
     });
 
-    ProductEntity.addRelations({
+    ProductEntity.addRelation({
       type: 'string',
       name: 'batata',
+      args:{},
       resolve() {
         return 'batata';
       },
     });
 
-    ProductEntity.addRelations({
+    ProductEntity.addRelation({
       type: '[string]',
       name: 'jaca',
       args: {
