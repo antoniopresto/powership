@@ -86,7 +86,7 @@ export function fieldToMock(
     email: () => {
       return `${slugify(randomText().toLowerCase())}@${slugify(
         randomText().toLowerCase()
-      )}.${randomItem('.com', '.net', '.com.br', '.co', '.sh')}`;
+      )}${randomItem('.com', '.net', '.com.br', '.co', '.sh')}`;
     },
     enum: () => (Array.isArray(def) ? def[0] : undefined),
     float: () => (randomNumber || randomFloat)(),

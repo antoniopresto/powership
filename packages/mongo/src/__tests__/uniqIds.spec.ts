@@ -1,8 +1,12 @@
 import { AppMock, createAppMock } from '../test-utils';
 import { MongoTransporter } from '../MongoTransporter';
-import { AnyCollectionIndexConfig } from '@backland/transporter';
-import { encodeNumber, ulid } from '@backland/utils';
-import { createObjectType, objectMock } from '@backland/schema';
+import {
+  AnyCollectionIndexConfig,
+  CollectionIndexConfig,
+} from '@backland/transporter';
+import { encodeNumber, T, ulid } from '@backland/utils';
+import { createObjectType, createType, objectMock } from '@backland/schema';
+import { accessTypesEnum } from '@backland/accounts';
 
 describe('uniqIds', () => {
   // afterEach();
@@ -39,7 +43,7 @@ describe('uniqIds', () => {
   };
 
   function _put(
-    config: Omit<
+    config: T.O.Optional<
       Parameters<MongoTransporter['createOne']>[0],
       'indexConfig' | 'context'
     >
@@ -246,5 +250,115 @@ describe('uniqIds', () => {
     expect(old.item).toBeTruthy();
 
     expect(c.item).toMatchObject({ PKV: m2.PKV });
+  });
+
+  test('accounts case', async () => {
+    const AccessType = createType('AccessType', {
+      object: {
+        accountId: 'ID',
+        meta: 'record?',
+        verified: 'boolean?',
+
+        data: {
+          union: [
+            {
+              object: {
+                kind: { literal: accessTypesEnum.email },
+                value: 'email',
+              },
+            },
+
+            {
+              object: {
+                kind: { literal: accessTypesEnum.phone },
+                value: accessTypesEnum.phone,
+              },
+            },
+
+            {
+              object: {
+                kind: { literal: accessTypesEnum.oauth },
+                provider: { description: 'Provider name', string: {} },
+                authToken: 'string',
+                value: { alias: 'provider' },
+              },
+            },
+
+            {
+              object: {
+                kind: { literal: accessTypesEnum.custom },
+                meta: 'record',
+                value: 'string',
+              },
+            },
+          ],
+        },
+      },
+    } as const);
+
+    function mock_it() {
+      return {
+        ...objectMock(AccessType.definition.def),
+        ulid: ulid(),
+      };
+    }
+
+    const indexConfig: CollectionIndexConfig<any, string> = {
+      entity: 'accessType',
+      indexes: [
+        {
+          PK: ['.accountId'],
+          SK: ['.data.kind', '.ulid'],
+          field: '_id',
+          name: 'accountId',
+          relatedTo: 'Account',
+        },
+        {
+          PK: ['.data.kind', '.data.value'],
+          field: '_id2',
+          name: 'kind_value',
+        },
+      ],
+    };
+
+    const m1 = mock_it();
+
+    const a = await _put({
+      item: m1,
+      indexConfig,
+    });
+
+    const b = await _put({
+      item: m1,
+      indexConfig,
+    });
+
+    expect(a).toEqual({
+      item: { ...m1, ...defaultFields() },
+      error: null,
+      created: true,
+      updated: false,
+    });
+
+    expect(b).toEqual({
+      item: null,
+      error: expect.stringMatching(
+        "Can't create two documents with same index."
+      ),
+      created: false,
+      updated: false,
+    });
+
+    function defaultFields() {
+      return {
+        _id: expect.any(String),
+        _idPK: expect.any(String),
+        _idSK: expect.any(String),
+        _id2: expect.any(String),
+        _id2PK: expect.any(String),
+        _id2SK: expect.any(String),
+        id: expect.any(String),
+      };
+    }
   });
 });
