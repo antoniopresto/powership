@@ -123,7 +123,7 @@ describe('Accounts', () => {
       },
     });
 
-    expect(sut.account.session).toEqual([sut.sessionDocument]);
+    expect(sut.account.sessions).toEqual([sut.sessionDocument]);
 
     expect(loginRequest.request.user).toMatchObject({
       username: 'antoniopresto',
@@ -412,7 +412,7 @@ function _expectedUser() {
     _idPK: expect.stringMatching('01'),
     _idSK: '',
     _v: expect.stringMatching('01'),
-    access: [
+    accessTypes: [
       expect.objectContaining({
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date),

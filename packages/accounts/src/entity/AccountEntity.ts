@@ -29,17 +29,10 @@ export const AccountEntity = createEntity({
       name: 'username',
     },
   ],
-}).addIndexRelations({
-  session: {
-    entity: SessionEntity,
-  },
-  tokens: {
-    entity: TokenEntity,
-  },
-  access: {
-    entity: AccessTypeEntity,
-  },
-});
+})
+  .addIndexRelation('sessions', SessionEntity)
+  .addIndexRelation('accessTypes', AccessTypeEntity)
+  .addIndexRelation('tokens', TokenEntity);
 
 export type AccountEntity = typeof AccountEntity;
 export type AccountDocument = ReturnType<typeof AccountEntity['parse']>;

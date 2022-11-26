@@ -10,6 +10,7 @@ import {
   CreateOne,
   DocumentBase,
   DocumentIndexesConfig,
+  IndexMethods,
   LoaderContext,
   ParsedDocumentIndexes,
   ParsedIndexKey,
@@ -27,7 +28,7 @@ import {
   UpdateMany,
   UpdateOne,
 } from '@backland/transporter';
-import { Cast, Compute, Merge } from '@backland/utils';
+import { Cast, Compute, GetFieldByDotNotation, Merge } from '@backland/utils';
 
 import {
   EntityGraphQLConditionsType,
@@ -44,7 +45,7 @@ import {
   EntityOptionalDefaultFieldsDef,
 } from './defaultFields';
 import { EntityOperationInfosRecord } from './entityOperationContextTypes';
-import { EntityIndexRelationsRecord } from './indexRelations/addEntityIndexRelations';
+import { EntityIndexRelationConfig } from './indexRelations/addEntityIndexRelations';
 import { EdgeType, PaginationType } from './paginationUtils';
 
 type GetLoaderFilterDef<LoaderConfig, DocDef> =
@@ -169,22 +170,13 @@ export interface Entity<
     this['outputDefinition']
   >;
 
-  addIndexRelations: <Rels extends EntityIndexRelationsRecord>(
-    relations: Rels
+  addIndexRelation: <E extends unknown, Name extends string>(
+    name: Name,
+    entity: E
   ) => Entity<
-    {
-      [K in Exclude<keyof Input, keyof Rels>]: Input[K];
-    } & {
-      [K in keyof Rels]: {
-        type: GraphType<{
-          object: Compute<
-            Rels[K]['entity']['inputType']['definition']['def'],
-            1
-          >;
-        }>;
-        list: true;
-      };
-    } & {},
+    Omit<Input, Name> & {
+      [L in Name]: { array: { of: GetFieldByDotNotation<E, 'inputType'> } };
+    },
     Indexes
   >;
 
@@ -222,7 +214,7 @@ export interface Entity<
   };
 
   // paths of found aliases in entity schemas or sub schemas
-  indexRelations: EntityIndexRelationsRecord;
+  indexRelations: { [K: string]: EntityIndexRelationConfig };
 
   originType: GraphType<{ object: Input }>;
 
@@ -235,14 +227,7 @@ export interface Entity<
   setOption: <Key extends keyof this['usedOptions'], V>(
     optionName: Key,
     value: V
-  ) => Merge<this['usedOptions'], { [L in Key]: V }> extends infer R
-    ? R extends { type: { definition: { def: infer Def } }; indexes: infer In }
-      ? Entity<
-          Cast<Def, ObjectDefinitionInput>,
-          Cast<In, DocumentIndexesConfig>
-        >
-      : never
-    : never;
+  ) => this;
 
   transporter: Transporter | undefined;
 
@@ -337,10 +322,15 @@ export type DocumentDefinitionAsLiterals<Doc> = {
   };
 } & {};
 
-export interface AnyEntity<Doc extends DocumentBase = DocumentBase>
+export interface _AnyEntity<Doc extends DocumentBase = DocumentBase>
   extends Entity<
     DocumentDefinitionAsLiterals<Omit<Doc, keyof EntityDefaultFields>>,
     DocumentIndexesConfig<keyof Omit<Doc, keyof EntityDefaultFields>>
   > {
+  //
+}
+export interface AnyEntity<Doc extends DocumentBase = DocumentBase>
+  extends Omit<_AnyEntity<Doc>, TransporterLoaderName>,
+    IndexMethods<Doc, DocumentIndexesConfig> {
   //
 }

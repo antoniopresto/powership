@@ -56,8 +56,7 @@ import { createEntityDefaultFields } from './defaultFields';
 import { buildEntityOperationInfoContext } from './entityOperationContextTypes';
 import {
   _addEntityIndexRelations,
-  EntityIndexRelationConfig,
-  EntityIndexRelationsRecord,
+  EntityIndexRelationInput,
 } from './indexRelations/addEntityIndexRelations';
 import { indexRelationsPlugin } from './indexRelations/indexRelationsPlugin';
 import { PageInfoType } from './paginationUtils';
@@ -76,7 +75,7 @@ const extendMethodsEnum = tupleEnum(
   'addRelation',
   'setOption',
   'clone',
-  'addIndexRelations',
+  'addIndexRelation',
   'extend'
 );
 
@@ -171,26 +170,22 @@ export function createEntity(
           };
         }
 
-        if (k === 'addIndexRelations') {
-          return function addIndexRelations(
-            relations: EntityIndexRelationsRecord
+        if (k === 'addIndexRelation') {
+          return function addIndexRelation(
+            name: string,
+            relationInput: EntityIndexRelationInput
           ) {
-            const relationsList: [string, EntityIndexRelationConfig][] =
-              Object.entries(relations);
+            const relation = { name, entity: relationInput };
 
             entityMutations.push(
               //
               (entity) => {
-                entity.indexRelations = {
-                  ...entity.indexRelations,
-                  ...relations,
-                };
+                entity.indexRelations[relation.name] = relation;
                 return entity;
               },
               //
-              (opt) => {
-                // @ts-ignore
-                _addEntityIndexRelations(opt, relationsList);
+              (opt: any) => {
+                _addEntityIndexRelations(opt, [[relation.name, relation]]);
                 return opt;
               }
             );
@@ -619,6 +614,7 @@ export function createEntity(
       conditionsDefinition: conditionsType.__lazyGetter.objectType!.definition,
       databaseType,
       edgeType: edgeType,
+      indexRelations: {},
       extend: () => ({}), // handled in proxy
       getDocumentId,
       indexGraphTypes: indexGraphTypes,

@@ -161,7 +161,7 @@ describe('Aliases', () => {
         verified: false,
       };
 
-      mock.access.push(access);
+      mock.accessTypes.push(access);
 
       await entity.createOne({
         item: mock,
@@ -196,7 +196,7 @@ describe('Aliases', () => {
         verified: false,
       };
 
-      mock.access.push(access);
+      mock.accessTypes.push(access);
 
       await entity.createOne({
         item: mock,

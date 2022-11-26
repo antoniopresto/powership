@@ -278,8 +278,8 @@ export class Sessions {
       },
     });
 
-    account.session = [
-      ...(account.session || []).filter(
+    account.sessions = [
+      ...(account.sessions || []).filter(
         (el) => el.id !== updatedOrNewSession!.id
       ),
       updatedOrNewSession,

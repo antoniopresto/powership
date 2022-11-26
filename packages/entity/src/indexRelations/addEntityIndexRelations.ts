@@ -3,19 +3,17 @@ import { areEqual, devAssert, Writeable } from '@backland/utils';
 import { AnyEntity } from '../EntityInterfaces';
 import { EntityOptions } from '../EntityOptions';
 
-export type EntityIndexRelationConfig<Entity = AnyEntity> = {
-  entity: Entity;
-};
+export type EntityIndexRelationInput = AnyEntity;
 
-export type EntityIndexRelationsRecord<Entity = any> = Record<
-  string,
-  EntityIndexRelationConfig<Entity>
->;
+export type EntityIndexRelationConfig = {
+  name: string;
+  entity: AnyEntity;
+};
 
 export function _addEntityIndexRelations(
   mainEntityOptions: EntityOptions,
   relations: [string, EntityIndexRelationConfig][]
-) {
+): any {
   const mainEntityName = mainEntityOptions.name;
   const mainEntityIndexes = mainEntityOptions.indexes;
 

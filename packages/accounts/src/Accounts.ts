@@ -88,9 +88,9 @@ export class Accounts {
     const user: AccountInput = {
       ...cleanUser,
       accountId,
-      access: [emailAccess],
+      accessTypes: [emailAccess],
       tokens: [passwordToken],
-      session: [],
+      sessions: [],
       deactivated: false,
       permissions: [`admin_profile:${accountId}`],
       username,

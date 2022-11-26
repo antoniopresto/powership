@@ -48,9 +48,7 @@ describe('Entity.indexRelations', () => {
           field: '_id',
         },
       ],
-    }).addIndexRelations({
-      access: { entity: accessEntity },
-    });
+    }).addIndexRelation('access', accessEntity);
 
     return { accessType, accessEntity, accountEntity, accountType };
   }
@@ -98,9 +96,7 @@ describe('Entity.indexRelations', () => {
             field: '_id',
           },
         ],
-      }).addIndexRelations({
-        access: { entity: accessEntity },
-      });
+      }).addIndexRelation('access', accessEntity);
 
       ett.name; // touch
     }).toThrow(
