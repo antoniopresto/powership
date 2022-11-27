@@ -620,7 +620,7 @@ export function createEntity(
       indexGraphTypes: indexGraphTypes,
       indexes: indexes,
       usedOptions: entityOptions,
-      objectDefinition: inputDef,
+      inputConfigTypeDefinition: inputDef,
       name: entityName,
       originType: type,
       paginationType: getPaginationType(),

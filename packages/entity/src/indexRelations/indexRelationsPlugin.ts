@@ -4,7 +4,7 @@ import {
   CreateOneResult,
   DocumentBase,
 } from '@backland/transporter';
-import { devAssert, groupBy } from '@backland/utils';
+import { devAssert, groupBy, hopper, NodeLogger } from '@backland/utils';
 
 import {
   EntityOperationInfoContext,
@@ -81,7 +81,7 @@ export const indexRelationsPlugin = createEntityPlugin(
     // TODO move logic to transporter
     hooks.willResolve.register(function willResolve(resolver, context): any {
       const relationsFound = _getCreateOneRelatedRelationsInContext(context);
-      if (!Array.isArray(relationsFound)) return;
+      if (!Array.isArray(relationsFound)) return; // If it is not createOne
 
       const _resolver = async function _resolver(
         config: Parameters<
@@ -92,25 +92,38 @@ export const indexRelationsPlugin = createEntityPlugin(
           >
         >[0]
       ) {
+        const hopeCreateOne = hopper<CreateOneResult<any>>();
+
         function _undo() {
           return Promise.allSettled(
             relationsFound!.map(async (rel) => {
               if (!rel.created) return;
 
-              const { _id } = rel.created;
+              const { id, _id } = rel.created;
 
-              rel.relationConfig.entity.deleteOne({
+              await rel.relationConfig.entity.deleteOne({
                 context: config.context,
-                filter: { _id },
+                filter: { id },
               });
+
+              return `Removed dependent relation after error: _id: ${_id}`;
             })
-          );
+          ).then((res) => {
+            res.forEach((r) =>
+              r.status === 'rejected'
+                ? NodeLogger.logCriticalError(r.reason)
+                : NodeLogger.logInfo(r)
+            );
+          });
         }
+
+        const errors: string[] = [];
 
         try {
           await Promise.all(
             relationsFound.map(async (input) => {
               const { relationConfig, doc } = input;
+              if (errors.length) return;
 
               const res = await relationConfig.entity.createOne({
                 context: config.context,
@@ -119,7 +132,7 @@ export const indexRelationsPlugin = createEntityPlugin(
               });
 
               if (res.error) {
-                input.error = res.error;
+                errors.push(res.error);
               }
 
               if (res.item) {
@@ -127,8 +140,18 @@ export const indexRelationsPlugin = createEntityPlugin(
               }
             })
           );
-        } catch (e) {
-          throw e;
+        } catch (e: any) {
+          errors.push(e.message);
+        }
+
+        if (errors.length) {
+          await _undo();
+          return await hopeCreateOne.resolve({
+            error: errors.join('\n'),
+            item: null,
+            created: false,
+            updated: false,
+          });
         }
 
         try {
@@ -142,11 +165,18 @@ export const indexRelationsPlugin = createEntityPlugin(
             });
           }
 
-          return created;
-        } catch (e) {
+          if (created.error) {
+            await _undo();
+          }
+
+          hopeCreateOne.resolve(created);
+        } catch (e: any) {
           await _undo();
+          hopeCreateOne.reject(e);
           throw e;
         }
+
+        return await hopeCreateOne;
       };
 
       // @ts-ignore

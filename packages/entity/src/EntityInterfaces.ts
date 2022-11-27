@@ -124,7 +124,7 @@ export interface Entity<
 > {
   name: string;
   usedOptions: EntityOptions<Input, Indexes>;
-  objectDefinition: Input;
+  inputConfigTypeDefinition: Input;
   indexes: Indexes;
   outputDefinition: Cast<
     Merge<EntityDefaultFieldsDef, Input>,

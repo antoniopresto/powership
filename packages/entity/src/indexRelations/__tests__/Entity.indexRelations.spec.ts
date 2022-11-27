@@ -3,6 +3,7 @@ import { createType } from '@backland/schema';
 import { createEntity } from '../../Entity';
 import { assert, IsExact } from 'conditional-type-checks';
 import { EntityDefaultFields } from '../../EntityInterfaces';
+import { ulid } from '@backland/utils';
 
 describe('Entity.indexRelations', () => {
   const mock = mockApp();
@@ -158,6 +159,159 @@ describe('Entity.indexRelations', () => {
       accountId: '123',
       username: 'antonio',
     });
+  });
+
+  test('create uniq related entity doc', async () => {
+    const accessType = createType('AccessType', {
+      object: {
+        accountId: 'ID',
+        meta: 'record?',
+        verified: 'boolean?',
+
+        data: {
+          union: [
+            {
+              object: {
+                kind: { literal: 'email' },
+                value: 'email',
+              },
+            },
+
+            {
+              object: {
+                kind: { literal: 'phone' },
+                value: 'phone',
+              },
+            },
+          ],
+        },
+      },
+    } as const);
+
+    const accessEntity = createEntity({
+      name: 'AccessType',
+      type: accessType,
+      transporter: mock.transporter,
+      indexes: [
+        {
+          PK: ['.accountId'],
+          SK: ['.data.kind', '.ulid'],
+          field: '_id',
+          name: 'accountId',
+          relatedTo: 'Account',
+        },
+        {
+          PK: ['.data.kind', '.data.value'],
+          field: '_id2',
+          name: 'kind_value',
+        },
+      ],
+    });
+
+    const accountType = createType('Account', {
+      object: {
+        accountId: 'string',
+        username: 'string',
+      },
+    });
+
+    const accountEntity = createEntity({
+      name: 'Account',
+      type: accountType,
+      transporter: mock.transporter,
+      indexes: [
+        {
+          name: 'accountId',
+          PK: ['.accountId'],
+          field: '_id',
+        },
+        {
+          PK: ['.username'],
+          field: '_id2',
+          name: 'username',
+        },
+      ],
+    }).addIndexRelation('access', accessEntity);
+
+    const accountId_a = ulid();
+
+    const a = await accountEntity.createOne({
+      item: {
+        accountId: accountId_a,
+        username: 'antonio',
+        access: [
+          {
+            accountId: accountId_a,
+            data: {
+              value: 'antonio@example.com',
+              kind: 'email',
+            },
+          },
+        ],
+      },
+    });
+
+    expect(a).toMatchObject({
+      error: null,
+      item: expect.any(Object),
+    });
+
+    const accountId_b = ulid();
+
+    const same_email_diff_username = await accountEntity.createOne({
+      item: {
+        accountId: accountId_b,
+        username: 'rafaela',
+        access: [
+          {
+            accountId: accountId_b,
+            data: {
+              value: 'antonio@example.com',
+              kind: 'email',
+            },
+          },
+        ],
+      },
+    });
+
+    expect(same_email_diff_username).toEqual({
+      created: false,
+      error: expect.stringMatching(
+        'accesstype:_id2#email#antonio@example.com↠'
+      ),
+      item: null,
+      updated: false,
+    });
+
+    const diff_email_same_username = await accountEntity.createOne({
+      item: {
+        accountId: accountId_b,
+        username: 'antonio',
+        access: [
+          {
+            accountId: accountId_b,
+            data: {
+              value: 'rafaela@example.com',
+              kind: 'email',
+            },
+          },
+        ],
+      },
+    });
+
+    expect(diff_email_same_username).toEqual({
+      created: false,
+      error: expect.stringMatching('account:_id2#antonio↠'),
+      item: null,
+      updated: false,
+    });
+
+    const accounts = await mock.transporter
+      .getCollection({})
+      .find({})
+      .toArray();
+
+    expect(accounts).toHaveLength(2); // first account first access
   });
 
   test('findMany', async () => {

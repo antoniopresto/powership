@@ -1,6 +1,7 @@
 import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
 import { LoaderContext } from '@backland/transporter';
 import { SessionRequest } from '../Sessions';
+import { MongoTransporter } from '@backland/mongo';
 
 describe('Accounts', () => {
   let mockApp: AppMock;
@@ -88,6 +89,50 @@ describe('Accounts', () => {
         request: {},
       })
     ).rejects.toThrow("Can't create two documents with same index.");
+  });
+
+  test('unique email', async () => {
+    const accountsPassword = _accounts();
+
+    await accountsPassword.createAccount({
+      password: '1234567',
+      username: 'antoniopresto',
+      email: 'antonio@example.com',
+      request: {},
+    });
+
+    await expect(
+      accountsPassword.createAccount({
+        password: '1234567',
+        username: 'rafaelameira', // another username
+        email: 'antonio@example.com', // same email
+        request: {},
+      })
+    ).rejects.toThrow("Can't create two documents with same index.");
+
+    await expect(
+      accountsPassword.createAccount({
+        password: '1234567',
+        username: 'antoniopresto', // same
+        email: 'rafaela@example.com', // another
+        request: {},
+      })
+    ).rejects.toThrow("Can't create two documents with same index.");
+
+    await expect(
+      accountsPassword.createAccount({
+        password: '1234567',
+        username: 'antoniopresto',
+        email: 'antonio@example.com',
+        request: {},
+      })
+    ).rejects.toThrow("Can't create two documents with same index.");
+
+    const transporter = accountsPassword.AccountEntity
+      .transporter as MongoTransporter;
+
+    const dbItems = await transporter.getCollection({}).find({}).toArray();
+    expect(dbItems.map((el) => el._id)).toHaveLength(3);
   });
 
   test('userByPasswordLogin', async () => {

@@ -29,7 +29,7 @@ describe('ProductResolver.addRelation', () => {
     ProductEntity.addRelation({
       type: 'string',
       name: 'batata',
-      args:{},
+      args: {},
       resolve() {
         return 'batata';
       },
@@ -268,7 +268,7 @@ describe('ProductResolver.addRelation', () => {
 
     expect(
       createType('Product2InputInput', {
-        object: ProductEntity.objectDefinition,
+        object: ProductEntity.inputConfigTypeDefinition,
       }).print()
     ).toEqual([
       'type Product2InputInput {',

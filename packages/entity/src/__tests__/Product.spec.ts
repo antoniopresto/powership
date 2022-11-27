@@ -71,7 +71,7 @@ describe('Product', () => {
     expect(typeof entity.parse).toEqual('function');
     expect(entity.originType).toEqual(options.type);
     const { __dschm__, ...def } = options.type.definition.def as any;
-    expect(entity.objectDefinition).toEqual(def);
+    expect(entity.inputConfigTypeDefinition).toEqual(def);
 
     expect(Object.keys(entity.type.definition.def).sort()).toEqual(
       Object.keys({
