@@ -1,5 +1,5 @@
 import { DeleteManyResult, Transporter } from '@backland/transporter';
-import { NodeLogger, ulid } from '@backland/utils';
+import { NodeLogger, ulid, uniqBy } from '@backland/utils';
 
 import { SessionRequest, Sessions, SessionsOptions } from './Sessions';
 import {
@@ -15,7 +15,11 @@ import type {
 import { SessionEntity as __SessionEntity } from './entity/SessionEntity';
 import { TokenEntity as __TokenEntity } from './entity/TokenEntity';
 import type { TokenDocument } from './entity/TokenEntity';
-import { AccessType, accessTypesEnum } from './types/AccessType';
+import {
+  AccessType,
+  accessTypesEnum,
+  AccessTypeUnion,
+} from './types/AccessType';
 import { LoginResult } from './types/LoginResult';
 import { Token, tokenKindEnum } from './types/TokenType';
 import { PasswordHash } from './utils/PasswordHash';
@@ -32,6 +36,7 @@ export type CreateUserPasswordInput = {
   password: string;
   request?: Record<string, any>;
   username: string;
+  extraContacts?: AccessTypeUnion[];
 };
 
 export class Accounts {
@@ -59,13 +64,18 @@ export class Accounts {
    * Create a new account by providing an email and/or a username and password.
    * Emails are saved lowercased.
    */
-  public async createAccount({
-    password,
-    email,
-    username,
-    request,
-    ...cleanUser
-  }: CreateUserPasswordInput): Promise<AccountDocument> {
+  public async createAccount(
+    input: CreateUserPasswordInput
+  ): Promise<AccountDocument> {
+    const {
+      password,
+      email,
+      username,
+      request,
+      extraContacts = [],
+      ...cleanUser
+    } = input;
+
     const accountId = ulid();
 
     const passwordToken: Token = {
@@ -85,10 +95,27 @@ export class Accounts {
       },
     };
 
+    const accessTypes = uniqBy(
+      extraContacts.filter(
+        (el) =>
+          !(
+            el.kind === emailAccess.data.kind &&
+            el.value === emailAccess.data.value
+          )
+      ),
+      (el) => `${el.kind}_${el.value}`
+    ).map((data) => {
+      return {
+        accountId,
+        verified: false,
+        data,
+      };
+    });
+
     const user: AccountInput = {
       ...cleanUser,
       accountId,
-      accessTypes: [emailAccess],
+      accessTypes: [emailAccess, ...accessTypes],
       tokens: [passwordToken],
       sessions: [],
       deactivated: false,

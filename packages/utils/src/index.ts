@@ -56,6 +56,7 @@ export * from './dynamicRequire';
 export * from './hashObject';
 export * from './createModulesProxy';
 export * from './ufo';
+export * from './createErrorClass';
 
 // @only-server
 export * from './logLevels';

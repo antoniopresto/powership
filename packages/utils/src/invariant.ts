@@ -5,6 +5,8 @@
 import { RuntimeError } from './RuntimeError';
 import { ensureArray } from './ensureArray';
 import { getTypeName } from './getTypeName';
+import { inspectObject } from './inspectObject';
+import { createErrorClass } from './createErrorClass';
 
 export function nonNullValues<T>(
   object: { [key in keyof T]: T[key] | null | undefined },
@@ -38,13 +40,17 @@ export function nonNullValues<T>(
 
 export function notNull<T>(
   input: T | null | undefined,
-  appendErrorMessage = ''
+  appendErrorMessage: string | Error = ''
 ): T {
   if (input === null || input === undefined) {
     let message = `Expected non null value, but received ${input}.`;
 
     if (appendErrorMessage) {
-      message = `${appendErrorMessage} ${message}`;
+      if (typeof appendErrorMessage === 'string') {
+        message = `${appendErrorMessage} ${message}`;
+      } else {
+        throw appendErrorMessage;
+      }
     }
 
     throw new RuntimeError(message, { input }, 2);
@@ -53,13 +59,23 @@ export function notNull<T>(
   return input;
 }
 
+export const InvariantError = createErrorClass('Invariant');
+
 export function invariant(
-  truthy: boolean,
-  errorMessage = '',
+  truthy: any,
+  errorMessage: string | Error = '',
   details: any = null
-) {
-  if (!truthy) {
-    throw new RuntimeError(errorMessage, details, 2);
+): asserts truthy {
+  if (truthy === undefined || truthy === null) {
+    if (typeof errorMessage === 'string') {
+      throw new InvariantError(errorMessage, inspectObject(details, {}));
+    } else {
+      if (errorMessage?.message) {
+        throw errorMessage;
+      } else {
+        throw new InvariantError();
+      }
+    }
   }
 }
 
