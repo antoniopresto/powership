@@ -23,7 +23,7 @@ export type DeepFreeze<O> = {
 };
 
 export type DeepWritable<T> = {
-  -readonly [K in keyof T]: T[K] extends Record<string, any>
+  -readonly [K in keyof T]: T[K] extends object
     ? { [L in keyof DeepWritable<T[K]>]: DeepWritable<T[K]>[L] }
     : T[K];
 };

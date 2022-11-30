@@ -78,7 +78,7 @@ describe('createResolver', () => {
       name: 'Users',
       args: {
         name: 'string',
-        addresses: { object: userAddress, list: true },
+        addresses: { type: userAddress, list: true },
         records: { record: { keyType: 'int', type: { enum: ['banana'] } } },
       } as const,
       resolve() {

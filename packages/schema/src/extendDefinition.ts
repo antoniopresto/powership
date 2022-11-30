@@ -1,64 +1,72 @@
 import {
   assertEqual,
-  BinKnown,
   ensureArray,
   getTypeName,
-  IsKnown,
   RuntimeError,
   simpleObjectClone,
+  O,
+  Merge,
+  A,
 } from '@backland/utils';
 
 import { CircularDeps } from './CircularDeps';
 import type { GraphType } from './GraphType/GraphType';
-import { ObjectType, parseObjectDefinition, ToFinalField } from './ObjectType';
+import { ObjectType, parseObjectDefinition } from './ObjectType';
 import { objectMetaFieldKey } from './fields/MetaFieldField';
-import { ObjectDefinitionInput, ParseFields } from './fields/_parseFields';
+import { ObjectDefinitionInput } from './fields/_parseFields';
+import {
+  DescribeField,
+  DescribeObjectDefinition,
+  SealedField,
+} from './fields/Infer';
 
-export interface ExtendDefinitionResult<Parsed, Origin> {
-  def(): InnerDef<Parsed>;
+export interface ExtendDefinitionResult<Input, Origin> {
+  definition: InnerDef<Input>;
 
-  exclude<K extends DefKeys<Parsed>>(
+  def(): this['definition'];
+
+  exclude<K extends keyof this['definition']>(
     keys: K | K[]
-  ): ExtendDefinitionResult<ExcludeField<InnerDef<Parsed>, K>, Origin>;
+  ): ExtendDefinitionResult<{ object: Omit<InnerDef<Input>, K> }, Origin>;
 
   extendDefinition<V extends ObjectDefinitionInput>(
-    value: V | ((current: InnerDef<Parsed>) => V)
+    value: V | ((current: this['definition']) => V)
   ): ExtendDefinitionResult<
-    _Override<InnerDef<Parsed>, ParseFields<V>>,
+    { object: Merge<InnerDef<Input>, DescribeObjectDefinition<V>> },
     Origin
   >;
 
-  graphType(
-    name: string
-  ): InnerDef<Parsed> extends {}
-    ? GraphType<{ object: InnerDef<Parsed> }>
-    : never;
+  graphType(name: string): GraphType<{ object: InnerDef<Input> }>;
 
-  objectType(
-    name?: string
-  ): InnerDef<Parsed> extends {} ? ObjectType<InnerDef<Parsed>> : never;
+  objectType(name?: string): ObjectType<InnerDef<Input>>;
 
-  only<K extends DefKeys<Parsed>>(
+  only<K extends keyof this['definition']>(
     keys: K | K[]
-  ): ExtendDefinitionResult<OnlyFields<InnerDef<Parsed>, K>, Origin>;
+  ): ExtendDefinitionResult<{ object: O.Pick<InnerDef<Input>, K> }, Origin>;
 
   optional(): ExtendDefinitionResult<
-    MakeFieldOptional<InnerDef<Parsed>, DefKeys<Parsed>>,
+    { object: MakeFieldOptional<InnerDef<Input>, keyof InnerDef<Input>> },
     Origin
   >;
 
-  optional<K extends DefKeys<Parsed>>(
-    keys: K | K[]
-  ): ExtendDefinitionResult<MakeFieldOptional<InnerDef<Parsed>, K>, Origin>;
+  optional<Op extends keyof InnerDef<Input>>(
+    keys: Op | Op[]
+  ): ExtendDefinitionResult<
+    { object: MakeFieldOptional<InnerDef<Input>, Op> },
+    Origin
+  >;
 
   required(): ExtendDefinitionResult<
-    MakeFieldRequired<InnerDef<Parsed>, DefKeys<Parsed>>,
+    { object: MakeFieldRequired<InnerDef<Input>, keyof InnerDef<Input>> },
     Origin
   >;
 
-  required<K extends DefKeys<Parsed>>(
-    keys: K | K[]
-  ): ExtendDefinitionResult<MakeFieldRequired<InnerDef<Parsed>, K>, Origin>;
+  required<Op extends keyof InnerDef<Input>>(
+    keys: Op | Op[]
+  ): ExtendDefinitionResult<
+    { object: MakeFieldRequired<InnerDef<Input>, Op> },
+    Origin
+  >;
 }
 
 export function extendDefinition<Input>(
@@ -85,6 +93,7 @@ export function extendDefinition<Input>(
   }
 
   if (CircularDeps.GraphType.is(obj)) {
+    // @ts-ignore
     return extendDefinition(obj.definition) as unknown as R;
   }
 
@@ -95,7 +104,7 @@ export function extendDefinition<Input>(
 
   let clone: any = simpleObjectClone(obj);
 
-  const res: ExtendDefinitionResult<Input, Input> = {
+  const res = {
     def() {
       if (objectMetaFieldKey in clone) {
         delete clone[objectMetaFieldKey];
@@ -109,6 +118,7 @@ export function extendDefinition<Input>(
       exclude.forEach((key) => {
         delete clone[key];
       });
+      // @ts-ignore
       return extendDefinition(clone);
     },
 
@@ -122,13 +132,13 @@ export function extendDefinition<Input>(
       return extendDefinition(clone);
     },
 
-    graphType(name): any {
+    graphType(name) {
       return name
         ? CircularDeps.createType(name, { object: res.def() as any })
         : CircularDeps.createType({ object: res.def() as any });
     },
 
-    objectType(name): any {
+    objectType(name) {
       return name
         ? CircularDeps.ObjectType.createObjectType(name, res.def() as any)
         : CircularDeps.ObjectType.createObjectType(res.def() as any);
@@ -185,71 +195,48 @@ export function extendDefinition<Input>(
     },
   };
 
-  return res;
+  return res as any;
 }
 
 export const extend = extendDefinition;
 
 export type InnerDef<Input> =
   //
-  Input extends { def: infer Def; type: 'object' }
-    ? InnerDef<ParseFields<Def>>
-    : Input extends { definition: infer Definition }
-    ? InnerDef<Definition>
-    : Input;
+  (
+    [Input] extends [object]
+      ? //
+        DescribeField<Input> extends infer R
+        ? 'type' extends keyof R
+          ? 'def' extends keyof R
+            ? R['type'] extends 'object'
+              ? R['def'] extends object
+                ? DescribeObjectDefinition<R['def']>
+                : {}
+              : {}
+            : {}
+          : {}
+        : {}
+      : {}
+  ) extends infer R
+    ? { [K in keyof R]: R[K] } & {}
+    : {};
 
-export type DefKeys<Input> =
-  //
-  Input extends { def: infer Def; type: 'object' }
-    ? DefKeys<Def>
-    : Input extends { definition: infer Definition }
-    ? DefKeys<Definition>
-    : keyof Input extends infer K
-    ? K extends string
-      ? K
-      : never
-    : never;
+export type MakeFieldOptional<
+  Object extends object,
+  OptionalField extends A.Key
+> = OverrideField<Object, OptionalField, { optional: true }>;
 
-export type MakeFieldOptional<Object, OptionalField> = OverrideField<
-  Object,
-  OptionalField,
-  { optional: true }
->;
+export type MakeFieldRequired<
+  Object extends object,
+  OptionalField extends A.Key
+> = OverrideField<Object, OptionalField, { optional: false }>;
 
-export type MakeFieldRequired<Object, Field> = OverrideField<
-  Object,
-  Field,
-  { optional: false }
->;
-
-export type ExcludeField<Object, Field> = [IsKnown<Field>] extends [0]
-  ? Object
-  : [Field] extends [keyof Object]
-  ? Object extends Record<string, unknown>
-    ? {
-        [K in keyof Object as K extends Field ? never : K]: Object[K];
-      }
-    : Object
-  : Object;
-
-export type OnlyFields<Object, Field> = [IsKnown<Field>] extends [0]
-  ? Object
-  : Object extends Record<string, unknown>
-  ? {
-      [K in keyof Object as K extends Field ? K : never]: Object[K];
-    }
-  : Object;
-
-type _Override<T, O> = {
-  [K in keyof BinKnown<O, Omit<T, keyof O> & O, T> as K extends string
-    ? K
-    : never]: BinKnown<O, Omit<T, keyof O> & O, T>[K];
-} & {};
-
-export type OverrideField<Object, Field, _Extend> = [IsKnown<Field>] extends [0]
-  ? Object
-  : {
-      [K in Exclude<keyof Object, '__infer'>]: K extends Field
-        ? _Override<ToFinalField<Object[K]>, _Extend>
-        : Object[K];
-    };
+export type OverrideField<
+  Object extends object,
+  Field extends A.Key,
+  Extend extends object
+> = {
+  [K in keyof Object as K extends string ? K : never]: K extends Field
+    ? SealedField<Omit<DescribeField<Object[K]>, keyof Extend> & Extend>
+    : Object[K];
+};

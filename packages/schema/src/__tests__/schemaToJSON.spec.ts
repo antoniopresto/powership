@@ -55,6 +55,7 @@ describe('objectToJSON', () => {
                   number: {
                     anyOf: [
                       {
+                        description: 'person name',
                         type: 'string',
                       },
                       {
@@ -63,6 +64,7 @@ describe('objectToJSON', () => {
                     ],
                   },
                   street: {
+                    description: 'person name',
                     type: 'string',
                   },
                 },

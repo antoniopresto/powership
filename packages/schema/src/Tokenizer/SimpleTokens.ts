@@ -1,9 +1,10 @@
 import { Merge } from '@backland/utils';
 
 import { Infer } from '../Infer';
-import { FieldAsString, ToFinalField } from '../fields/_parseFields';
+import { FieldAsString } from '../fields/_parseFields';
 
 import { SplitTokens } from './SplitTokens';
+import { DescribeField } from '../fields/Infer';
 
 export function $<T extends _SimpleTokens[]>(...field: T): Parse<T> {
   return field as any;
@@ -42,7 +43,7 @@ type ParsePair<K, V> = K extends unknown
     ? V extends unknown
       ? V extends FieldAsString
         ? {
-            [L in K]: ToFinalField<V>;
+            [L in K]: DescribeField<V>;
           }
         : never
       : never

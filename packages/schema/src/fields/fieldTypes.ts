@@ -87,8 +87,9 @@ export type FieldCreators = Readonly<{
   [K in FieldTypeName]: Types[K]['create'];
 }>;
 
-export const create: FieldCreators = Object.entries(types).reduce(
-  (acc, [key, { create }]) => {
+export const create: FieldCreators = Object.entries(types as any).reduce(
+  // @ts-ignore
+  (acc, [key, { create }]): any => {
     return {
       ...acc,
       [key]: create,

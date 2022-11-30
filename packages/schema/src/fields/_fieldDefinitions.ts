@@ -53,17 +53,18 @@ export type ComputeFieldDefinition<T> = T extends unknown
     }
   : never;
 
-export type _CommonFieldDefinition = {
-  __infer?: any;
-  // used in generated types,like GraphQL.
-  def?: any;
-  defaultValue?: any;
+export type CommonDefSafe = {
   description?: string;
   example?: FieldExample;
   hidden?: boolean;
-  list?: ListDefinition;
-  // used to infer types
   name?: string;
+};
+
+export type _CommonFieldDefinition = CommonDefSafe & {
+  // used in generated types,like GraphQL.
+  def?: any;
+  defaultValue?: any;
+  list?: ListDefinition;
   optional?: boolean;
 };
 

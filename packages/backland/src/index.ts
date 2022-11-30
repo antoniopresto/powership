@@ -6,4 +6,6 @@ export * from '@backland/entity';
 // @only-server
 export * from '@backland/transporter';
 // @only-server
+export * from '@backland/accounts';
+// @only-server
 export type { RootFilterOperators } from '@backland/transporter';

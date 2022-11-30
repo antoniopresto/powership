@@ -1,4 +1,4 @@
-import { ParseFields, parseObjectDefinition } from '@backland/schema';
+import { parseObjectDefinition } from '@backland/schema';
 
 export const createEntityDefaultFields = <Optional extends Readonly<boolean>>(
   optional: Optional = false as Optional
@@ -25,23 +25,22 @@ export const createEntityDefaultFields = <Optional extends Readonly<boolean>>(
 
 export type EntityOptionalDefaultFieldsDef = EntityDefaultFieldsDef<true>;
 
-export type EntityDefaultFieldsDef<Optional extends boolean = false> =
-  ParseFields<{
-    _v: {
-      hidden: true;
-      ulid: { autoCreate: true };
-      optional: Optional;
-    };
-    createdAt: { type: 'date'; optional: Optional };
-    createdBy: {
-      optional: true;
-      type: 'string';
-    };
-    id: { type: 'string'; optional: Optional };
-    ulid: { type: 'ulid'; optional: Optional };
-    updatedAt: { type: 'date'; optional: Optional };
-    updatedBy: {
-      optional: true;
-      type: 'string';
-    };
-  }>;
+export type EntityDefaultFieldsDef<Optional extends boolean = false> = {
+  _v: {
+    hidden: true;
+    ulid: { autoCreate: true };
+    optional: Optional;
+  };
+  createdAt: { type: 'date'; optional: Optional };
+  createdBy: {
+    optional: true;
+    type: 'string';
+  };
+  id: { type: 'string'; optional: Optional };
+  ulid: { type: 'ulid'; optional: Optional };
+  updatedAt: { type: 'date'; optional: Optional };
+  updatedBy: {
+    optional: true;
+    type: 'string';
+  };
+};

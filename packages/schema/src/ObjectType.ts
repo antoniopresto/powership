@@ -1,5 +1,4 @@
-import { IsKnown } from '@backland/utils';
-import { RuntimeError } from '@backland/utils';
+import { IsKnown, RuntimeError } from '@backland/utils';
 import { StrictMap } from '@backland/utils';
 import { ensureArray } from '@backland/utils';
 import { isProduction } from '@backland/utils';
@@ -17,7 +16,6 @@ import type {
   ParseTypeOptions,
 } from './GraphType/GraphQLParser';
 import { GraphQLParseMiddleware } from './GraphType/GraphQLParser';
-import type { Infer } from './Infer';
 import type { ObjectDefinitionInput } from './TObjectConfig';
 import {
   FieldParserOptionsObject,
@@ -28,6 +26,7 @@ import { assertSameDefinition } from './assertSameDefinition';
 import { extendDefinition, ExtendDefinitionResult } from './extendDefinition';
 import { FieldComposer } from './fields/FieldType';
 import { ObjectLike } from './fields/IObjectLike';
+import { InferObjectDefinition } from './fields/Infer';
 import {
   cleanMetaField,
   getObjectDefinitionMetaField,
@@ -43,7 +42,6 @@ import type {
   FieldAsString,
   FinalFieldDefinition,
   FinalObjectDefinition,
-  ParseFields,
 } from './fields/_parseFields';
 import { validateObjectFields } from './getObjectErrors';
 import { getObjectHelpers, ObjectHelpers } from './getObjectHelpers';
@@ -89,7 +87,7 @@ export class ObjectType<
   }
 
   private __definitionCache: any;
-  get definition(): ParseFields<HandledInput> {
+  get definition(): HandledInput {
     return (this.__definitionCache =
       this.__definitionCache ||
       (() => {
@@ -121,19 +119,24 @@ export class ObjectType<
   }
 
   // definition without metadata (name, etc)
-  cleanDefinition(): ParseFields<HandledInput> {
+  cleanDefinition(): HandledInput {
     return cleanMetaField(this.definition);
   }
 
-  edit(): ExtendDefinitionResult<HandledInput, HandledInput> {
+  edit(): ExtendDefinitionResult<
+    { type: 'object'; def: HandledInput },
+    { type: 'object'; def: HandledInput }
+  > {
     return extendDefinition(this) as any;
   }
 
   get meta(): MetaFieldDef {
+    // @ts-ignore
     return this.definition[objectMetaFieldKey].def;
   }
 
   __setMetaData(k: keyof MetaFieldDef, value: Serializable) {
+    // @ts-ignore
     this.definition[objectMetaFieldKey].def[k] = value;
   }
 
@@ -142,7 +145,7 @@ export class ObjectType<
     options?: {
       customMessage?: ValidationCustomMessage;
     } & FieldParserOptionsObject
-  ): Infer<HandledInput>;
+  ): InferObjectDefinition<HandledInput>;
 
   parse(
     input: any,
@@ -150,7 +153,7 @@ export class ObjectType<
       customMessage?: ValidationCustomMessage;
       partial: true;
     } & FieldParserOptionsObject
-  ): Partial<Infer<HandledInput>>;
+  ): Partial<InferObjectDefinition<HandledInput>>;
 
   parse<Fields extends (keyof HandledInput)[]>(
     input: any,
@@ -159,12 +162,15 @@ export class ObjectType<
       fields: Fields;
     } & FieldParserOptionsObject
   ): {
-    [K in keyof Infer<HandledInput> as K extends Fields[number]
+    [K in keyof InferObjectDefinition<HandledInput> as K extends Fields[number]
       ? K
-      : never]: Infer<HandledInput>[K];
+      : never]: InferObjectDefinition<HandledInput>[K];
   };
 
-  parse(input: any, options?: FieldParserOptionsObject) {
+  parse(
+    input: any,
+    options?: FieldParserOptionsObject
+  ): InferObjectDefinition<HandledInput> {
     const { customMessage, customErrorMessage } = options || {};
     const { errors, parsed } = this.safeParse(input, options);
 
@@ -191,11 +197,11 @@ export class ObjectType<
   softParse = <T = any>(
     input: any,
     options: FieldParserOptionsObject = {}
-  ): Infer<HandledInput> & { [K: string]: T } => {
+  ): InferObjectDefinition<HandledInput> & { [K: string]: T } => {
     return this.parse(input, { ...options, allowUnspecified: true });
   };
 
-  validate(input: any): input is Infer<HandledInput> {
+  validate(input: any): input is InferObjectDefinition<HandledInput> {
     try {
       this.parse(input);
       return true;
@@ -249,6 +255,7 @@ export class ObjectType<
     input = { ...input };
     const inputKeys = Object.keys(input);
 
+    // @ts-ignore
     let fields = (options?.fields || Object.keys(this.definition)) as string[];
 
     // === Start handling {[K: string}: any}|{[K: number}: any} ===
@@ -405,8 +412,11 @@ export class ObjectType<
     return this as any;
   }
 
-  clone(): ExtendDefinitionResult<this, this> {
-    return extendDefinition(this);
+  clone(): ExtendDefinitionResult<
+    { type: 'object'; def: HandledInput },
+    { type: 'object'; def: HandledInput }
+  > {
+    return extendDefinition(this) as any;
   }
 
   get id() {
@@ -440,7 +450,7 @@ export class ObjectType<
     }
 
     this.__setMetaData('id', id);
-    ObjectType.register.set(id, this);
+    ObjectType.register.set(id, this as any);
 
     return this as any;
   }
@@ -490,6 +500,7 @@ export class ObjectType<
     // @ts-ignore circular
     return CircularDeps.objectToTypescript(
       this.nonNullId,
+      // @ts-ignore
       this,
       options
     ) as any;
@@ -564,26 +575,9 @@ export class ObjectType<
     this.graphQLMiddleware.push(...ensureArray(middleware));
   };
 
-  toList = () => {
-    return {
-      def: this.definition as unknown as HandledInput,
-      list: true,
-      type: 'object' as 'object',
-    };
-  };
-
   toOptional = () => {
     return {
       def: this.definition as unknown as HandledInput,
-      optional: true,
-      type: 'object' as 'object',
-    };
-  };
-
-  toOptionalList = () => {
-    return {
-      def: this.definition as unknown as HandledInput,
-      list: true,
       optional: true,
       type: 'object' as 'object',
     };

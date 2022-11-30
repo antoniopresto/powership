@@ -296,9 +296,13 @@ describe('uniqIds', () => {
       },
     } as const);
 
+    const def = AccessType.clone((t) => {
+      return t.def();
+    });
+
     function mock_it() {
       return {
-        ...objectMock(AccessType.definition.def),
+        ...objectMock(def),
         ulid: ulid(),
       };
     }

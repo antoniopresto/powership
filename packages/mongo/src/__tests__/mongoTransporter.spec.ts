@@ -85,6 +85,7 @@ describe('MongoTransporter', () => {
         })
       ).toEqual({
         created: true,
+        error: null,
         item: {
           PK: 'ranking',
           SK: 0,
@@ -206,7 +207,7 @@ describe('MongoTransporter', () => {
       expect(await _put({ ...itemUser })).toEqual({
         created: false,
         item: null,
-        error: expect.stringMatching('duplicate'),
+        error: expect.stringMatching('Can\'t create two documents with same index'),
         updated: false,
       });
 

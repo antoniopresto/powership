@@ -1,4 +1,4 @@
-import { createType, ObjectType } from '@backland/schema';
+import { createType, ObjectType, parseField } from '@backland/schema';
 import { ULID_REGEX } from '@backland/schema/lib/fields/UlidField';
 
 import { MongoTransporter } from '@backland/mongo';
@@ -70,13 +70,14 @@ describe('Product', () => {
     expect(entity.indexGraphTypes).toMatchObject({});
     expect(typeof entity.parse).toEqual('function');
     expect(entity.originType).toEqual(options.type);
-    const { __dschm__, ...def } = options.type.definition.def as any;
+    const { __dschm__, ...def } = parseField(options.type.definition)
+      .def as any;
     expect(entity.inputConfigTypeDefinition).toEqual(def);
 
-    expect(Object.keys(entity.type.definition.def).sort()).toEqual(
+    expect(Object.keys(parseField(entity.type.definition).def).sort()).toEqual(
       Object.keys({
         ...createEntityDefaultFields(),
-        ...options.type.definition.def,
+        ...parseField(options.type.definition).def,
       }).sort()
     );
   });

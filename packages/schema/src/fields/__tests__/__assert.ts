@@ -7,7 +7,7 @@ import { IsExact } from 'conditional-type-checks';
 import { Infer } from '../../Infer';
 
 type Exact<A, B, Optional> = IsExact<
-  Infer<{ type: A }>,
+  Infer<A>,
   [Optional] extends [true] ? { type?: B } : { type: B }
 > extends true
   ? true
@@ -25,9 +25,7 @@ type ExactFields<A, B> = {
     : K]: A[K];
 };
 
-export function _assert<A, B, Optional = false>(
-  res: Exact<A, B, Optional>
-): Infer<{ type: A }> {
+export function _assert<A, B, Optional = false>(res: Exact<A, B, Optional>) {
   return [res] as any;
 }
 

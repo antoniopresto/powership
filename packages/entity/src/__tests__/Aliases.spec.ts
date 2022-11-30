@@ -286,38 +286,40 @@ const AccessTypeSchema = createType({
 
 type AccessType = Infer<typeof AccessTypeSchema>;
 
-const UserType = AccountType.edit()
-  .extendDefinition({
-    firstName: 'string',
-    lastName: 'string',
-    access: { array: { of: AccessTypeSchema } },
-    email: {
-      alias: {
-        type: 'email',
-        aggregate: [
-          { $pick: 'access' }, //
-          { $sort: { createdAt: -1 } },
-          { $matchOne: { kind: 'email' } },
-          { $pick: 'value' }, //
-        ],
+const UserType = AccountType.clone((t) =>
+  t
+    .extendDefinition({
+      firstName: 'string',
+      lastName: 'string',
+      access: { array: { of: AccessTypeSchema } },
+      email: {
+        alias: {
+          type: 'email',
+          aggregate: [
+            { $pick: 'access' }, //
+            { $sort: { createdAt: -1 } },
+            { $matchOne: { kind: 'email' } },
+            { $pick: 'value' }, //
+          ],
+        },
       },
-    },
 
-    phone: {
-      description: 'First user phone',
-      optional: true,
-      alias: {
-        type: 'phone',
-        aggregate: [
-          { $pick: 'access' }, //
-          { $sort: { createdAt: -1 } },
-          { $matchOne: { kind: 'phone' } },
-          { $pick: 'value' }, //
-        ],
+      phone: {
+        description: 'First user phone',
+        optional: true,
+        alias: {
+          type: 'phone',
+          aggregate: [
+            { $pick: 'access' }, //
+            { $sort: { createdAt: -1 } },
+            { $matchOne: { kind: 'phone' } },
+            { $pick: 'value' }, //
+          ],
+        },
       },
-    },
-  })
-  .graphType('User');
+    })
+    .graphType('User')
+);
 
 function _getEntity(transporter: MongoTransporter) {
   return createEntity({

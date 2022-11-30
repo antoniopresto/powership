@@ -15,6 +15,7 @@ import {
   createObjectType,
   FinalFieldDefinition,
   ObjectType,
+  parseField,
 } from '../ObjectType';
 import type { AnyResolver } from '../Resolver';
 import { FieldDefinitionConfig } from '../TObjectConfig';
@@ -23,7 +24,7 @@ import { FieldParserConfig, TAnyFieldType } from '../fields/FieldType';
 import { GraphTypeLike } from '../fields/IObjectLike';
 import { getObjectDefinitionId } from '../fields/MetaFieldField';
 import { ObjectField } from '../fields/ObjectField';
-import { ObjectFieldInput, ToFinalField } from '../fields/_parseFields';
+import { ObjectFieldInput } from '../fields/_parseFields';
 import type { ObjectToTypescriptOptions } from '../objectToTypescript';
 import { parseObjectField } from '../parseObjectDefinition';
 
@@ -41,7 +42,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
     this.register.clear();
   };
 
-  readonly definition: ToFinalField<Definition>;
+  readonly definition: Definition;
 
   get id(): string {
     if (this.optionalId) return this.optionalId;
@@ -129,7 +130,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
     } else {
       if (!isBrowser()) {
         CircularDeps.typesWriter?.BacklandWatchTypesPubSub.emit('created', {
-          graphType: this,
+          graphType: this as any,
         });
       }
       GraphType.register.set(name, this as any);
@@ -145,10 +146,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
     return this.__hidden;
   }
 
-  parse = (
-    input: any,
-    options?: FieldParserConfig
-  ): Infer<ToFinalField<Definition>> => {
+  parse = (input: any, options?: FieldParserConfig): Infer<Definition> => {
     const customMessage =
       options && typeof options === 'object' ? options.customMessage : options;
 
@@ -198,16 +196,10 @@ export class GraphType<Definition extends ObjectFieldInput> {
     }).interfaceType(...args) as any;
   };
 
-  edit(): ExtendDefinitionResult<
-    ToFinalField<Definition>,
-    ToFinalField<Definition>
-  > {
-    // @ts-ignore
-    return extendDefinition(this.definition) as any;
-  }
-
-  clone(): ExtendDefinitionResult<this, this> {
-    return extendDefinition(this);
+  clone<T>(handler: (input: ExtendDefinitionResult<this, this>) => T): T {
+    const parsed = parseField(this.definition);
+    const input: any = extendDefinition(parsed);
+    return handler(input);
   }
 
   print = (): string[] => {

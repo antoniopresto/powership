@@ -1,5 +1,3 @@
-import { createErrorClass, ErrorClassCreatorOptions } from '@backland/utils';
-
-const config: ErrorClassCreatorOptions = {};
+import { createErrorClass } from '@backland/utils';
 
 export const DuplicatedKeyError = createErrorClass('DocumentDuplication');

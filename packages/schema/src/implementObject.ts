@@ -17,7 +17,7 @@ export type ImplementObject<Dest, Extends> =
       ? Item extends ObjectType<infer ItemDef>
         ? ImplementObject<
             ObjectType<{
-              [K in keyof Merge<DestDef, ItemDef>]: Merge<DestDef, ItemDef>[K];
+              [K in keyof Merge<ItemDef,DestDef>]: Merge<ItemDef,DestDef >[K];
             }>,
             Rest
           >

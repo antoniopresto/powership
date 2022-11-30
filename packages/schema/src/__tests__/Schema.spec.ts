@@ -144,8 +144,9 @@ describe('Object', () => {
         list: true,
       },
     });
-
+    // @ts-ignore
     expect(myObject.definition.roles.type).toBe('object');
+    // @ts-ignore
     expect(myObject.definition.roles.def).toEqual(rolesObject.definition);
 
     expect(() => myObject.parse({ userId: '123' })).toThrow(
@@ -177,7 +178,7 @@ describe('Object', () => {
     const object2 = new ObjectType({
       userId: 'string',
       roles: {
-        object: rolesObject,
+        type: rolesObject,
         list: true,
       },
     });
@@ -201,7 +202,9 @@ describe('Object', () => {
         age: 'the age field',
       });
 
+    // @ts-ignore
     expect(object.definition.name.description).toEqual('the name field');
+    // @ts-ignore
     expect(object.definition.age.description).toEqual('the age field');
   });
 
@@ -238,7 +241,7 @@ describe('Object', () => {
       .objectType();
 
     type Final = Infer<typeof object2>;
-    assert<IsExact<Final, { age?: number[] | undefined }>>(true);
+    assert<IsExact<Final, { age?: number | undefined }>>(true);
 
     expect(object1.definition).not.toBe(object2.definition);
     expect(object2.definition).toEqual({

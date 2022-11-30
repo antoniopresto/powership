@@ -30,7 +30,7 @@ export type ObjectMockOptions = {
 export function objectMock<T extends { [K: string]: FieldInput }>(
   definition: T,
   options?: ObjectMockOptions
-): Infer<T> {
+): Infer<{ object: T }> {
   const placeHolder: any = {};
 
   const composers: { composer: FieldComposer; key: string }[] = [];

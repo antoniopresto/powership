@@ -9,6 +9,7 @@ import {
   isMetaFieldKey,
   ObjectDefinitionInput,
   ObjectType,
+  parseField,
 } from '@backland/schema';
 import {
   AnyCollectionIndexConfig,
@@ -498,7 +499,7 @@ export function createEntity(
           const graph = objectType.cleanDefinition();
           Object.entries(graph).forEach(([k, v]) => {
             all[k] = {
-              ...v,
+              ...parseField(v),
               optional: true,
             };
           });

@@ -31,7 +31,7 @@ test('examples', async () => {
 
       // using a previous object as field type
       optionalAddress: {
-        object: addressObject,
+        type: addressObject,
         optional: true,
       },
 

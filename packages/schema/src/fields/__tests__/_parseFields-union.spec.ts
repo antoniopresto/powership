@@ -2,6 +2,7 @@ import { assert, IsExact } from 'conditional-type-checks';
 
 import { ObjectType } from '../../ObjectType';
 import { InferField } from '../_parseFields';
+import { _assert, _assertFields } from './__assert';
 
 test('infer union types', () => {
   type TUnion = InferField<{
@@ -20,6 +21,7 @@ test('infer union types', () => {
     object: { name: { union: ['string', 'int'] } };
     optional: true;
   }>;
+
   assert<IsExact<TUnionListOptional, { name: string | number }[] | undefined>>(
     true
   );
@@ -99,7 +101,7 @@ test('infer union types', () => {
 
       // using a previous object as field type
       optionalAddress: {
-        object: SampleObject;
+        type: SampleObject;
         optional: true;
       };
 
@@ -108,20 +110,18 @@ test('infer union types', () => {
     };
   }>;
 
-  assert<
-    IsExact<
-      AddressObject,
-      {
-        age?: number | undefined;
-        deliveryAddress: TSampleObject;
-        email?: string | undefined;
-        letter: 'a' | 'b' | 'c';
-        letterOptionalList?: ('x' | 'y' | 'z')[] | undefined;
-        name: string;
-        notes?: number[] | undefined;
-        optionalAddress?: TSampleObject | undefined;
-        unionField?: string | number[] | undefined;
-      }
-    >
+  _assertFields<
+    AddressObject,
+    {
+      age?: number | undefined;
+      deliveryAddress: TSampleObject;
+      email?: string | undefined;
+      letter: 'a' | 'b' | 'c';
+      letterOptionalList?: ('x' | 'y' | 'z')[] | undefined;
+      name: string;
+      notes?: number[] | undefined;
+      optionalAddress?: TSampleObject | undefined;
+      unionField?: string | number[] | undefined;
+    }
   >(true);
 });

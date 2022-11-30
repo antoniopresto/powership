@@ -57,6 +57,7 @@ import { GraphQLDateType } from './GraphQLDateType';
 import { GraphQLNullType } from './GraphQLNullType';
 import { GraphQLPhoneType } from './GraphQLPhoneType';
 import { GraphQLUlidType } from './GraphQLUlidType';
+import { ObjectTypeLikeFieldDefinition } from '../fields/Infer';
 
 export function createHooks() {
   return {
@@ -132,7 +133,7 @@ export class GraphQLParser {
     fieldsRegister.clear();
   };
 
-  static objectIds = <T>(object: ObjectType<T>) => {
+  static objectIds = (object: ObjectTypeLikeFieldDefinition) => {
     if (!isObject(object)) {
       throw new RuntimeError(`Invalid Object.`, {
         object,
@@ -150,8 +151,8 @@ export class GraphQLParser {
     return { cacheId, object, objectId };
   };
 
-  static objectToGraphQL<T>(options: {
-    object: ObjectType<T>;
+  static objectToGraphQL(options: {
+    object: any;
     path?: string[]; // family tree of an object/field
   }): GraphQLParserResult {
     const { object, path } = options;
@@ -709,7 +710,7 @@ export class GraphQLParser {
               ...options,
               types: field.utils.fieldTypes.map((field, index) => {
                 if (!ObjectField.is(field)) throw field;
-                let object: ObjectType<any> = field.utils.object;
+                let object: any = field.utils.object;
                 if (!object.id) {
                   object = object.clone().objectType(`${subTypeName}_${index}`);
                 }

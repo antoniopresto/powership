@@ -1,10 +1,12 @@
 import {
+  DescribeField,
+  DescribeObjectDefinition,
   ExtendDefinitionResult,
   GraphType,
   Infer,
+  MakeFieldOptional,
   ObjectDefinitionInput,
   ObjectFieldInput,
-  ToFinalField,
 } from '@backland/schema';
 import {
   CreateOne,
@@ -48,14 +50,14 @@ import { EntityOperationInfosRecord } from './entityOperationContextTypes';
 import { EntityIndexRelationConfig } from './indexRelations/addEntityIndexRelations';
 import { EdgeType, PaginationType } from './paginationUtils';
 
-type GetLoaderFilterDef<LoaderConfig, DocDef> =
+export type GetLoaderFilterDef<LoaderConfig, DocDef> =
   //
   LoaderConfig extends { filter: infer Filter }
     ? {
         [K in keyof Filter as K extends keyof DocDef
           ? K
           : never]: K extends keyof DocDef
-          ? Omit<ToFinalField<DocDef[K]>, '__infer' | 'optional'> & {
+          ? Omit<DescribeField<DocDef[K]>, 'optional'> & {
               optional: true;
             }
           : never;
@@ -72,7 +74,7 @@ export type EntityDefaultFields = {
   updatedBy: string | undefined;
 };
 
-type Utils<
+export type EntityUtils<
   LoaderConfig,
   OutputDefinition extends ObjectDefinitionInput,
   FilterDef extends GetLoaderFilterDef<
@@ -96,20 +98,20 @@ type Utils<
   };
 };
 
-type WithUtils<
+export type _EntityWithUtils<
   Loader,
   OutputDefinition extends ObjectDefinitionInput
 > = Loader extends (config: infer Config) => infer Res
-  ? ((config: Config) => Res) & Utils<Config, OutputDefinition>
+  ? ((config: Config) => Res) & EntityUtils<Config, OutputDefinition>
   : Loader;
 
 export type EntityOutputDoc<Input extends ObjectDefinitionInput> = Cast<
-  Compute<Merge<EntityDefaultFields, Infer<Input>>>,
+  Compute<Merge<EntityDefaultFields, Infer<{object: Input}>>>,
   Record<string, any>
 >;
 
 export type EntityInputDoc<Input extends ObjectDefinitionInput> = Cast<
-  Compute<Merge<Partial<EntityDefaultFields>, Infer<Input>>>,
+  Compute<Merge<Partial<EntityDefaultFields>, Infer<{object: Input}>>>,
   Record<string, any>
 >;
 
@@ -137,35 +139,35 @@ export interface Entity<
     object: EntityInputDef<Input>;
   }>;
   createOne: CreateOne<EntityInputDoc<Input>, EntityOutputDoc<Input>, Indexes>;
-  findOne: WithUtils<
+  findOne: _EntityWithUtils<
     FindOne<EntityOutputDoc<Input>, Indexes>,
     this['outputDefinition']
   >;
-  findMany: WithUtils<
+  findMany: _EntityWithUtils<
     FindMany<EntityOutputDoc<Input>, Indexes>,
     this['outputDefinition']
   >;
-  paginate: WithUtils<
+  paginate: _EntityWithUtils<
     Paginate<EntityOutputDoc<Input>, Indexes>,
     this['outputDefinition']
   >;
-  deleteMany: WithUtils<
+  deleteMany: _EntityWithUtils<
     DeleteMany<EntityOutputDoc<Input>, Indexes>,
     this['outputDefinition']
   >;
-  deleteOne: WithUtils<
+  deleteOne: _EntityWithUtils<
     DeleteOne<EntityOutputDoc<Input>, Indexes>,
     this['outputDefinition']
   >;
-  findById: WithUtils<
+  findById: _EntityWithUtils<
     FindById<EntityOutputDoc<Input>, Indexes>,
     this['outputDefinition']
   >;
-  updateMany: WithUtils<
+  updateMany: _EntityWithUtils<
     UpdateMany<EntityOutputDoc<Input>, Indexes>,
     this['outputDefinition']
   >;
-  updateOne: WithUtils<
+  updateOne: _EntityWithUtils<
     UpdateOne<EntityOutputDoc<Input>, Indexes>,
     this['outputDefinition']
   >;
@@ -231,16 +233,9 @@ export interface Entity<
 
   transporter: Transporter | undefined;
 
-  updateDefinition: {
-    // the definition used in (CRUD) update
-    [K in keyof Input]: ToFinalField<Input[K]> extends infer R
-      ? {
-          [K in keyof R as K extends '__infer'
-            ? never
-            : K]: K extends 'optional' ? true : R[K];
-        }
-      : never;
-  };
+  updateDefinition: Compute<
+    MakeFieldOptional<DescribeObjectDefinition<Input>, keyof Input>
+  >;
 
   addHooks: (options: (hooks: EntityHooks) => any) => this;
 

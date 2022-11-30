@@ -3,11 +3,11 @@ import { isProduction } from '@backland/utils';
 import { getKeys } from '@backland/utils';
 import { getTypeName } from '@backland/utils';
 import { inspectObject } from '@backland/utils';
-import { simpleObjectClone } from '@backland/utils';
 
 import { GraphType } from './GraphType/GraphType';
 import {
   FieldAsString,
+  FieldInput,
   FinalFieldDefinitionStrict,
   isObject,
   ObjectType,
@@ -74,7 +74,6 @@ export function parseObjectField(fieldName, definition, options = {}) {
   if (typeof parsed === 'string') {
     return parsed;
   } else {
-    parsed = simpleObjectClone(parsed);
     if (asString) return parsed;
   }
 
@@ -96,6 +95,10 @@ export function parseObjectField(fieldName, definition, options = {}) {
     definition,
     parsed,
   });
+}
+
+export function parseField(definition: FieldInput): FinalFieldDefinition {
+  return parseObjectField('__parseField__', definition);
 }
 
 const stringifiableDefKeys = new Set([
@@ -313,7 +316,8 @@ export function parseFieldDefinitionConfig<
       }
     }
 
-    return simpleObjectClone(result);
+    // return simpleObjectClone(result);
+    return result;
   } catch (e) {
     debugger;
     console.error(e, definition);
@@ -354,17 +358,18 @@ export function parseObjectDefinition(
 
   keys.forEach(function (fieldName) {
     try {
-      const item = input[fieldName];
+      let field = input[fieldName];
 
-      if (isMetaField(item, fieldName)) {
-        return (meta = item);
+      if (isMetaField(field, fieldName)) {
+        return (meta = field);
       }
 
-      return (result[fieldName] = parseObjectField(
-        fieldName,
-        (input as any)[fieldName],
-        { deep }
-      ));
+      const cached = hasCachedFieldInstance(field);
+      if (cached) {
+        return (result[fieldName] = cached);
+      }
+
+      return (result[fieldName] = parseObjectField(fieldName, field, { deep }));
     } catch (err: any) {
       debugger;
       throw new RuntimeError(
@@ -516,7 +521,13 @@ export function __getCachedFieldInstance(
   return instanceFromDef;
 }
 
+function hasCachedFieldInstance(field: any): FinalFieldDefinition | null {
+  return !!field?.__cachedFieldInstance ? field : null;
+}
+
 function setCachedFieldInstance(field, instanceFromDef: TAnyFieldType) {
+  if (hasCachedFieldInstance(field)) return;
+
   Object.defineProperty(field, '__cachedFieldInstance', {
     configurable: false,
     enumerable: false,

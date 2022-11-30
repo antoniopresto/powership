@@ -10,7 +10,7 @@ describe('ProductResolver.edgeType', () => {
     const { ProductEntity, ProductType } = await getMocks();
 
     const updateDefinition = ProductEntity.updateDefinition;
-    type UD = Infer<typeof updateDefinition>;
+    type UD = Infer<{ object: typeof updateDefinition }>;
     assert<IsExact<UD, Partial<Infer<typeof ProductType>>>>(true);
 
     expect(

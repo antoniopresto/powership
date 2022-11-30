@@ -12,9 +12,9 @@ import { getInnerType } from './GraphType/getQueryTemplates';
 import { Infer } from './Infer';
 import {
   FieldInput,
+  InferField,
   ObjectDefinitionInput,
   ObjectFieldInput,
-  ToFinalField,
 } from './fields/_parseFields';
 
 export type ResolverContextBase = {
@@ -120,7 +120,7 @@ export type InferResolverArgs<ArgsDef> =
     : [ArgsDef] extends [undefined]
     ? Record<string, unknown>
     : [ArgsDef] extends [{ [K: string]: unknown }]
-    ? ToFinalField<{ def: ArgsDef; type: 'object' }>['__infer']
+    ? InferField<{ object: ArgsDef }>
     : Record<string, unknown>;
 
 export type ResolverKind = 'query' | 'mutation' | 'subscription';
@@ -160,7 +160,7 @@ export type ResolverResolve<Context, Source, TypeDef, ArgsDef> = (
         }
       : never
   ) extends infer Args
-    ? ((x: ToFinalField<TypeDef>['__infer']) => any) extends (x: infer R) => any
+    ? ((x: Infer<TypeDef>) => any) extends (x: infer R) => any
       ? (
           parent: Compute<Source>,
           args: Compute<Args>,
@@ -210,11 +210,11 @@ export interface CreateResolver<Context> {
     resolver<Returns, Root = unknown>(
       handler: (
         root: Root,
-        args: _Args<ArgsType>,
+        args: _ResolverArgs<ArgsType>,
         context: Context,
         info: GraphQLResolveInfo
       ) => MaybePromise<Returns>
-    ): Resolver<Context, Root, Returns, _Args<ArgsType>>;
+    ): Resolver<Context, Root, Returns, _ResolverArgs<ArgsType>>;
   };
 
   <ResultType extends FieldInput, Returns = unknown>(
@@ -244,12 +244,14 @@ export interface CreateResolver<Context> {
       args: ArgsType | Readonly<ArgsType>;
       resolve: <Root>(
         root: Root,
-        args: _Args<ArgsType>,
+        args: _ResolverArgs<ArgsType>,
         context: Context,
         info: GraphQLResolveInfo
       ) => MaybePromise<Returns>;
     } & OptionalResolverConfig
-  ): Resolver<Context, any, Returns, _Args<ArgsType>> & { resolver?: never };
+  ): Resolver<Context, any, Returns, _ResolverArgs<ArgsType>> & {
+    resolver?: never;
+  };
 }
 
 export function createResolverFactory<
@@ -265,9 +267,12 @@ export function createResolverFactory<
   };
 }
 
-type _Args<ArgsType> = Exclude<ArgsType, undefined> extends infer R
+export type _ResolverArgs<ArgsType> = Exclude<
+  ArgsType,
+  undefined
+> extends infer R
   ? IsKnown<R> extends 1
-    ? Infer<ToFinalField<{ object: R }>>
+    ? Infer<{ object: R }>
     : {}
   : {};
 

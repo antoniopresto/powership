@@ -2,7 +2,6 @@ import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../Infer';
 import { createObjectType, ObjectType } from '../ObjectType';
-import { EnumField } from '../fields/EnumField';
 import { _assertFields } from '../fields/__tests__/__assert';
 import { ParseStringDefinition } from '../parseStringDefinition';
 
@@ -40,22 +39,22 @@ describe('typings', () => {
       category: { enum: ['general', 'closed'] },
       categoryRO: { enum: ['general', 'closed'] } as const,
       '12Enum': { enum: ['1', '2'] },
-      enumTypeField: EnumField.create(['x', 'xx']),
+      // enumTypeField: EnumField.create(['x', 'xx']),
       otherObject,
       otherObjectList: {
-        object: otherObject,
+        type: otherObject,
         list: true,
       },
     } as const;
 
-    type T = Infer<typeof definition>;
+    type T = Infer<{ object: typeof definition }>;
 
     type Expected = {
       '12Enum': '1' | '2';
       age: number;
       category: 'general' | 'closed';
       categoryRO: 'general' | 'closed';
-      enumTypeField: 'x' | 'xx';
+      // enumTypeField: 'x' | 'xx';
       gender?: 'male' | 'female' | 'other' | undefined;
       name: string;
       nameList: string[];
@@ -107,7 +106,7 @@ describe('typings', () => {
     const object3 = createObjectType({
       classes: object2,
       classesListOptional: {
-        object: object2,
+        type: object2,
         list: true,
         optional: true,
       },
@@ -120,7 +119,7 @@ describe('typings', () => {
       count: number;
     };
 
-    type T3 = Infer<typeof object3>;
+    type T3 = Infer<{ type: typeof object3 }>;
 
     assert<IsExact<T3, S3>>(true);
   });
