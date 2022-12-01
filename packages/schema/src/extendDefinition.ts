@@ -3,6 +3,7 @@ import {
   assertEqual,
   ensureArray,
   getTypeName,
+  IsKnown,
   Merge,
   O,
   RuntimeError,
@@ -90,6 +91,10 @@ export function extendDefinition<Input>(
     typeof obj.def === 'object'
   ) {
     return extendDefinition(obj.def) as unknown as R;
+  }
+
+  if (obj['object'] && typeof obj['object'] === 'object') {
+    return extendDefinition(obj.object) as unknown as R;
   }
 
   if (CircularDeps.GraphType.is(obj)) {
@@ -214,20 +219,24 @@ export type InnerDef<Input> =
     [Input] extends [object]
       ? //
         DescribeField<Input> extends infer R
-        ? 'type' extends keyof R
-          ? 'def' extends keyof R
-            ? R['type'] extends 'object'
-              ? R['def'] extends object
-                ? DescribeObjectDefinition<R['def']>
-                : {}
-              : {}
-            : {}
-          : {}
-        : {}
-      : {}
+        ? IsKnown<R> extends 1
+          ? _InnerDef<R>
+          : DescribeObjectDefinition<Input>
+        : never
+      : never
   ) extends infer R
     ? { [K in keyof R]: R[K] } & {}
     : {};
+
+export type _InnerDef<R> = 'type' extends keyof R
+  ? 'def' extends keyof R
+    ? R['type'] extends 'object'
+      ? R['def'] extends object
+        ? DescribeObjectDefinition<R['def']>
+        : never
+      : never
+    : never
+  : never;
 
 export type MakeFieldOptional<
   Object extends object,

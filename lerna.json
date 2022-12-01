@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
-  "useNx": true,
+  "useNx": false,
   "useWorkspaces": true,
-  "version": "0.1.3-alpha.2022.11.30.23.08.37.0",
+  "version": "0.1.3-alpha.2022.11.30.23.08.37.22",
   "npmClient": "yarn"
 }
