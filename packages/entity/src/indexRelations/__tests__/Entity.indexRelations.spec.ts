@@ -1,11 +1,14 @@
 import { mockApp } from '../../__tests__/mockApp';
-import { createType } from '@backland/schema';
+import { createType, ObjectType } from '@backland/schema';
 import { createEntity } from '../../Entity';
 import { assert, IsExact } from 'conditional-type-checks';
 import { EntityDefaultFields } from '../../EntityInterfaces';
 import { ulid } from '@backland/utils';
 
 describe('Entity.indexRelations', () => {
+  afterEach(ObjectType.reset);
+  beforeEach(ObjectType.reset);
+
   const mock = mockApp();
 
   function _getMock() {

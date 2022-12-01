@@ -52,6 +52,7 @@ import {
   __getCachedFieldInstance,
   parseObjectDefinition,
 } from './parseObjectDefinition';
+import { parseField } from './parseObjectDefinition';
 import { withCache, WithCache } from './withCache';
 
 export * from './parseObjectDefinition';
@@ -120,7 +121,8 @@ export class ObjectType<
 
   // definition without metadata (name, etc)
   cleanDefinition(): HandledInput {
-    return cleanMetaField(this.definition);
+    // @ts-ignore
+    return cleanMetaField(this.clone((el) => el.def()));
   }
 
   edit(): ExtendDefinitionResult<
@@ -412,11 +414,17 @@ export class ObjectType<
     return this as any;
   }
 
-  clone(): ExtendDefinitionResult<
-    { type: 'object'; def: HandledInput },
-    { type: 'object'; def: HandledInput }
-  > {
-    return extendDefinition(this) as any;
+  clone<T>(
+    handler: (
+      input: ExtendDefinitionResult<
+        { object: HandledInput },
+        { object: HandledInput }
+      >
+    ) => T
+  ): T {
+    const parsed = parseField(this);
+    const input: any = extendDefinition(parsed);
+    return handler(input);
   }
 
   get id() {

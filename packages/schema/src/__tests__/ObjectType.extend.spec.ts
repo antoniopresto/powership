@@ -9,7 +9,7 @@ describe('ObjectType.extend', () => {
     await ObjectType.reset();
   });
 
-  it('works', async () => {
+  it('works', () => {
     const obj = createObjectType({
       name: 'string',
       address: {
@@ -26,7 +26,7 @@ describe('ObjectType.extend', () => {
       },
     });
 
-    const ext = obj.edit().optional().required('name').def();
+    const ext = obj.clone((it) => it.optional().required('name').def());
 
     const res = createType('Person', {
       object: ext,
@@ -47,19 +47,19 @@ describe('ObjectType.extend', () => {
 
     expect(ts).toEqual([
       'type Person {',
-      '  name: String!', // <- required
+      '  name: String!',
       '  address: [Person_address]',
       '}',
       '',
       '"""',
       'Union of:',
-      ' - { street:{ type: string }, number:{ def:[{ type: string },{ type: float }], type: union }}',
+      ' - { street:{ type: string }, number:{ def:[{ type: string },{ type: float }], type: union , optional:true}}',
       ' - { type: null }',
       '"""',
       'scalar Person_address',
       '',
       'input PersonInput {',
-      '  name: String!', // <- required
+      '  name: String!',
       '  address: [Person_address]',
       '}',
     ]);

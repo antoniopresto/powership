@@ -322,7 +322,9 @@ export function lazyCreateGraphTypeInitPayload(
 
     if (ObjectField.is(field) && ObjectType.is(field.utils.object)) {
       if (id && field.utils.object.id && field.utils.object.id !== id) {
-        field.utils.object = field.utils.object.clone().objectType(id);
+        field.utils.object = field.utils.object.clone((el) =>
+          el.objectType(id)
+        );
       } else if (id) {
         field.utils.object.identify(id);
       } else {

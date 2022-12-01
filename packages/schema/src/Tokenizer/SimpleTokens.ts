@@ -1,10 +1,10 @@
 import { Merge } from '@backland/utils';
 
 import { Infer } from '../Infer';
+import { DescribeField } from '../fields/Infer';
 import { FieldAsString } from '../fields/_parseFields';
 
 import { SplitTokens } from './SplitTokens';
-import { DescribeField } from '../fields/Infer';
 
 export function $<T extends _SimpleTokens[]>(...field: T): Parse<T> {
   return field as any;

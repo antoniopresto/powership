@@ -41,6 +41,7 @@ import { AliasField } from '../fields/AliasField';
 import { ArrayField } from '../fields/ArrayField';
 import type { CursorField } from '../fields/CursorField';
 import { TAnyFieldType } from '../fields/FieldType';
+import { ObjectTypeLikeFieldDefinition } from '../fields/Infer';
 import { LiteralField } from '../fields/LitarealField';
 import {
   cleanMetaField,
@@ -57,7 +58,6 @@ import { GraphQLDateType } from './GraphQLDateType';
 import { GraphQLNullType } from './GraphQLNullType';
 import { GraphQLPhoneType } from './GraphQLPhoneType';
 import { GraphQLUlidType } from './GraphQLUlidType';
-import { ObjectTypeLikeFieldDefinition } from '../fields/Infer';
 
 export function createHooks() {
   return {
@@ -592,8 +592,10 @@ export class GraphQLParser {
           parentName,
         });
 
-        // @ts-ignore
-        const def = ObjectType.is(field.def) ? field.def.definition : field.def;
+        const def = ObjectType.is(field.def)
+          ? field.def.clone((el) => el.def())
+          : field.def;
+
         // @ts-ignore
         const object = ObjectType.getOrSet(id, def);
 
@@ -712,7 +714,9 @@ export class GraphQLParser {
                 if (!ObjectField.is(field)) throw field;
                 let object: any = field.utils.object;
                 if (!object.id) {
-                  object = object.clone().objectType(`${subTypeName}_${index}`);
+                  object = object.clone((el) =>
+                    el.objectType(`${subTypeName}_${index}`)
+                  );
                 }
                 return object.graphqlType();
               }),

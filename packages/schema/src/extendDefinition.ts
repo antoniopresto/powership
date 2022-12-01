@@ -1,24 +1,24 @@
 import {
+  A,
   assertEqual,
   ensureArray,
   getTypeName,
+  Merge,
+  O,
   RuntimeError,
   simpleObjectClone,
-  O,
-  Merge,
-  A,
 } from '@backland/utils';
 
 import { CircularDeps } from './CircularDeps';
 import type { GraphType } from './GraphType/GraphType';
-import { ObjectType, parseObjectDefinition } from './ObjectType';
-import { objectMetaFieldKey } from './fields/MetaFieldField';
-import { ObjectDefinitionInput } from './fields/_parseFields';
+import { ObjectType, parseField, parseObjectDefinition } from './ObjectType';
 import {
   DescribeField,
   DescribeObjectDefinition,
   SealedField,
 } from './fields/Infer';
+import { objectMetaFieldKey } from './fields/MetaFieldField';
+import { ObjectDefinitionInput } from './fields/_parseFields';
 
 export interface ExtendDefinitionResult<Input, Origin> {
   definition: InnerDef<Input>;
@@ -102,7 +102,9 @@ export function extendDefinition<Input>(
     return extendDefinition(obj.definition) as unknown as R;
   }
 
-  let clone: any = simpleObjectClone(obj);
+  let clone: any = simpleObjectClone(
+    parseObjectDefinition(obj, { deep: { omitMeta: true } }).definition
+  );
 
   const res = {
     def() {
@@ -168,7 +170,10 @@ export function extendDefinition<Input>(
             }
           );
         }
-        clone[key].optional = true;
+        clone[key] = {
+          ...parseField(clone[key]),
+          optional: true,
+        };
       });
 
       return extendDefinition(clone);
@@ -188,7 +193,10 @@ export function extendDefinition<Input>(
             }
           );
         }
-        delete clone[key].optional;
+        clone[key] = {
+          ...parseField(clone[key]),
+          optional: false,
+        };
       });
 
       return extendDefinition(clone);

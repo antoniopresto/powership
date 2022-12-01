@@ -117,7 +117,13 @@ describe('createResolver', () => {
 
     expect(printSchema(object).split('\n')).toEqual([
       'type Query {',
-      '  users(name: String!, addresses: [UserAddressInput]!, records: UsersInput_records!): user!',
+      '  users(',
+      '    name: String!',
+      '',
+      '    """The user address"""',
+      '    addresses: [UserAddressInput]!',
+      '    records: UsersInput_records!',
+      '  ): user!',
       '}',
       '',
       'type user {',

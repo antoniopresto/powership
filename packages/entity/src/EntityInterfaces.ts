@@ -106,12 +106,12 @@ export type _EntityWithUtils<
   : Loader;
 
 export type EntityOutputDoc<Input extends ObjectDefinitionInput> = Cast<
-  Compute<Merge<EntityDefaultFields, Infer<{object: Input}>>>,
+  Compute<Merge<EntityDefaultFields, Infer<{ object: Input }>>>,
   Record<string, any>
 >;
 
 export type EntityInputDoc<Input extends ObjectDefinitionInput> = Cast<
-  Compute<Merge<Partial<EntityDefaultFields>, Infer<{object: Input}>>>,
+  Compute<Merge<Partial<EntityDefaultFields>, Infer<{ object: Input }>>>,
   Record<string, any>
 >;
 

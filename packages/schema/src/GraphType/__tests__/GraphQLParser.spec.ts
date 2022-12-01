@@ -102,16 +102,16 @@ describe('GraphQLParser', () => {
       integers: { type: 'int', list: true, optional: true },
     });
 
-    const object2 = object1
-      .clone()
-      .extendDefinition({
-        persons: {
-          type: object1,
-          list: true,
-        },
-      })
-      .objectType('otherPerson');
-
+    const object2 = object1.clone((el) =>
+      el
+        .extendDefinition({
+          persons: {
+            type: object1,
+            list: true,
+          },
+        })
+        .objectType('otherPerson')
+    );
     const s1 = GraphQLParser.objectToGraphQL({
       object: object1,
     });

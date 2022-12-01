@@ -17,7 +17,7 @@ export type ImplementObject<Dest, Extends> =
       ? Item extends ObjectType<infer ItemDef>
         ? ImplementObject<
             ObjectType<{
-              [K in keyof Merge<ItemDef,DestDef>]: Merge<ItemDef,DestDef >[K];
+              [K in keyof Merge<ItemDef, DestDef>]: Merge<ItemDef, DestDef>[K];
             }>,
             Rest
           >
@@ -49,7 +49,7 @@ export function implementObject<
     }
 
     // @ts-ignore
-    def = parent.clone().extendDefinition(def).def();
+    def = parent.clone((el) => el.extendDefinition(def).def());
 
     tree.push(parent.nonNullId);
   });

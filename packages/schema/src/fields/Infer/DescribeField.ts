@@ -1,8 +1,8 @@
-import { CommonDefSafe, FieldTypeName } from '../_fieldDefinitions';
-
 import { Compute, Merge, OnlyKnown } from '@backland/utils';
 
 import { ParseStringDefinition } from '../../parseStringDefinition';
+import { CommonDefSafe, FieldTypeName } from '../_fieldDefinitions';
+
 import { _FieldKV, _GetKey, GraphTypeKID, ObjectTypeKID } from './InferField';
 import { GraphTypeLikeFieldDefinition } from './InferGraphType';
 import { ObjectTypeLikeFieldDefinition } from './InferObjectType';

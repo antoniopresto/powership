@@ -25,7 +25,7 @@ const userObject = new ObjectType({
 } as const);
 
 describe('Object', () => {
-  beforeEach(() => {
+  afterEach(() => {
     ObjectType.register.clear();
   });
 
@@ -214,7 +214,7 @@ describe('Object', () => {
       age: 'int?',
     });
 
-    const object2 = object1.clone().objectType();
+    const object2 = object1.clone((el) => el.objectType());
 
     expect(object1.definition).not.toBe(object2.definition);
     expect(object1.definition).toEqual(object2.definition);
@@ -227,19 +227,19 @@ describe('Object', () => {
       age: 'int?',
     });
 
-    const object2 = object1
-      .clone()
-      .exclude('name')
-      .extendDefinition((current) => {
-        return {
-          age: {
-            ...current.age,
-            list: true,
-          },
-        };
-      })
-      .objectType();
-
+    const object2 = object1.clone((el) =>
+      el
+        .exclude('name')
+        .extendDefinition((current) => {
+          return {
+            age: {
+              ...current.age,
+              list: true,
+            },
+          };
+        })
+        .objectType()
+    );
     type Final = Infer<typeof object2>;
     assert<IsExact<Final, { age?: number | undefined }>>(true);
 
@@ -261,8 +261,8 @@ describe('Object', () => {
       email: 'email',
     });
 
-    const noName = object1.clone().exclude('name').objectType();
-    const noEmail = object1.clone().exclude(['email']).objectType();
+    const noName = object1.clone((el) => el.exclude('name').objectType());
+    const noEmail = object1.clone((el) => el.exclude(['email']).objectType());
 
     expect(object1.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
@@ -304,7 +304,9 @@ describe('Object', () => {
       email: 'email',
     });
 
-    const cloneNameAge = object1.clone().only(['name', 'age']).objectType();
+    const cloneNameAge = object1.clone((el) =>
+      el.only(['name', 'age']).objectType()
+    );
 
     expect(object1.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
@@ -344,18 +346,18 @@ describe('Object', () => {
       email: 'email',
     });
 
-    const clone = object1
-      .clone()
-      .only(['name', 'email'])
-      .exclude('email')
-      .extendDefinition((v) => {
-        return {
-          ...v,
-          emails: '[email]',
-        };
-      })
-      .objectType('identifyMe');
-
+    const clone = object1.clone((el) =>
+      el
+        .only(['name', 'email'])
+        .exclude('email')
+        .extendDefinition((v) => {
+          return {
+            ...v,
+            emails: '[email]',
+          };
+        })
+        .objectType('identifyMe')
+    );
     expect(object1.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
       age: {
@@ -396,7 +398,9 @@ describe('Object', () => {
       email: 'email',
     });
 
-    const clone = object1.clone().optional(['name', 'email']).objectType();
+    const clone = object1.clone((el) =>
+      el.optional(['name', 'email']).objectType()
+    );
 
     expect(object1.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
@@ -441,10 +445,9 @@ describe('Object', () => {
       email: 'email',
     });
 
-    const clone = object1
-      .clone()
-      .required(['name', 'email', 'age'])
-      .objectType();
+    const clone = object1.clone((el) =>
+      el.required(['name', 'email', 'age']).objectType()
+    );
 
     expect(object1.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
@@ -485,13 +488,13 @@ describe('Object', () => {
       age: 'int?',
     });
 
-    const withEmail = object1
-      .clone()
-      .extendDefinition({
-        email: 'email',
-      })
-      .objectType();
-
+    const withEmail = object1.clone((el) =>
+      el
+        .extendDefinition({
+          email: 'email',
+        })
+        .objectType()
+    );
     expect(object1.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
       age: {
@@ -571,7 +574,7 @@ describe('Object', () => {
       expect(object1.id).toBe('abc');
 
       // @ts-ignore
-      expect(object1.clone().objectType().id).toBe(null);
+      expect(object1.clone((el) => el.objectType().id)).toBe(null);
     });
   });
 

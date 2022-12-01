@@ -6,10 +6,7 @@ import {
   FinalObjectDefinition,
   GraphType,
   isFieldTypeName,
-  isMetaFieldKey,
   ObjectDefinitionInput,
-  ObjectType,
-  parseField,
 } from '@backland/schema';
 import {
   AnyCollectionIndexConfig,
@@ -290,7 +287,7 @@ export function createEntity(
     let inputDef: Record<string, FinalFieldDefinition> =
       inputObjectType.cleanDefinition();
 
-    let updateDefinition = inputObjectType.clone().optional().def();
+    let updateDefinition = inputObjectType.clone((t) => t.optional().def());
 
     _hooks.createDefinition.exec(updateDefinition, {
       entityOptions,
@@ -363,14 +360,14 @@ export function createEntity(
       parsedIndexKeys,
     });
 
-    const inputType = entityOptions.type
-      .clone()
-      .extendDefinition({
-        ...createEntityDefaultFields(true),
-        ...inputDef,
-      })
-      .graphType(`${entityName}Input`);
-
+    const inputType = entityOptions.type.clone((t) =>
+      t
+        .extendDefinition({
+          ...createEntityDefaultFields(true),
+          ...inputDef,
+        })
+        .graphType(`${entityName}Input`)
+    );
     function _createLoader(config: {
       indexInfo: ParsedIndexKey[];
       indexes: EntityOptions['indexes'];
@@ -468,43 +465,32 @@ export function createEntity(
 
       // create the filter with the index fields plus the "id" field
       function getFilterDef() {
-        function _addIDField(obj: object) {
-          const def: any = { id: { optional: true, type: 'ID' } };
-
-          Object.keys(obj).forEach((k) => {
-            if (isMetaFieldKey(k)) return;
-            def[k] = { ...obj[k], optional: true };
-          });
-
-          return def;
-        }
-
         if (indexInfo.length === 1) {
-          const obj = {
+          return {
+            id: { optional: true, type: 'ID' },
             ...indexGraphTypes[
               indexInfo[0].index.name
-            ].__lazyGetter.objectType!.cleanDefinition(),
+              // @ts-ignore
+            ].__lazyGetter.objectType!.clone((el) => el.optional().def()),
           };
-          return _addIDField(obj);
         }
 
-        const all: any = {};
+        const all: any = {
+          id: { optional: true, type: 'ID' },
+        };
 
         indexInfo.forEach(({ index: { name } }) => {
-          const objectType = indexGraphTypes[name].__lazyGetter
-            .objectType as unknown as ObjectType<{
-            a: 'any';
-          }>;
+          // @ts-ignore
+          const graph = indexGraphTypes[name].__lazyGetter.objectType.clone(
+            (el) => el.optional().def()
+          );
 
-          const graph = objectType.cleanDefinition();
           Object.entries(graph).forEach(([k, v]) => {
-            all[k] = {
-              ...parseField(v),
-              optional: true,
-            };
+            all[k] = v;
           });
         });
-        return _addIDField(all);
+
+        return all;
       }
 
       function getPaginationType() {
@@ -520,7 +506,6 @@ export function createEntity(
           },
           filter: {
             def: filter,
-
             type: 'object',
           },
           first: {
@@ -612,7 +597,9 @@ export function createEntity(
       addHooks: () => ({}), // handled in proxy
       addRelation: () => ({}), // handled in proxy
       aliasPaths: _objectAliasPaths(databaseDefinition),
-      conditionsDefinition: conditionsType.__lazyGetter.objectType!.definition,
+      conditionsDefinition: conditionsType.__lazyGetter.objectType!.clone(
+        (el) => el.def()
+      ),
       databaseType,
       edgeType: edgeType,
       indexRelations: {},

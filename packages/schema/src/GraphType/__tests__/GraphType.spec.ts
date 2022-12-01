@@ -340,4 +340,24 @@ describe('createType', () => {
       '',
     ]);
   });
+
+  test('asserts same definition', () => {
+    createType('BreadCrumb', {
+      object: {
+        id: 'ID',
+        active: 'boolean?',
+        name: 'string',
+        parentId: 'ID?',
+      },
+    });
+
+    createType('BreadCrumb', {
+      object: {
+        id: 'ID',
+        active: 'boolean?',
+        name: 'string',
+        parentId: 'ID?',
+      },
+    });
+  });
 });
