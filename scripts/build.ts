@@ -5,7 +5,6 @@ import chalk from 'chalk';
 import fs from 'fs-extra';
 import type { PackageJson } from 'nx/src/utils/package-json';
 import * as process from 'process';
-import { $ } from '@backland/utils';
 
 const CWD = process.cwd();
 const ENV = ['TEST_TIMEOUT=90000'].join(' ');
