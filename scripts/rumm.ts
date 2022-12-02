@@ -3,14 +3,13 @@ import path from 'path';
 
 import chalk from 'chalk';
 import fs from 'fs-extra';
-import type { PackageJson } from 'nx/src/utils/package-json';
 import * as process from 'process';
-import { MaybePromise } from '@backland/utils';
+import { MaybePromise, PackageJson } from '@backland/utils';
 
 const CWD = process.cwd();
 const ENV = ['TEST_TIMEOUT=90000'].join(' ');
 
-const packages = fs.readdirSync(path.resolve(CWD, 'packages')).filter((el) => el.indexOf('.') === -1);
+const packages = ['root', ...fs.readdirSync(path.resolve(CWD, 'packages')).filter((el) => el.indexOf('.') === -1)];
 
 const LOGS_FILE = path.resolve(CWD, `logs/build-${Date.now()}-${time().replace(/\D/g, '-')}.log`);
 fs.ensureFileSync(LOGS_FILE);
@@ -57,7 +56,11 @@ export function rumm(): { json: PackageJson; run: Rumm; saveJSON(): void }[] {
   const jsons: { path: string; json: PackageJson; dir: string }[] = [];
 
   packages.forEach((packageName) => {
-    const path_ = path.resolve(CWD, 'packages', packageName, 'package.json');
+    const path_ =
+      packageName === 'root'
+        ? path.resolve(CWD, 'package.json')
+        : path.resolve(CWD, 'packages', packageName, 'package.json');
+
     jsons.push({
       dir: path.resolve(CWD, 'packages', packageName),
       path: path_,

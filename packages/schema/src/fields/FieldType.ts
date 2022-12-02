@@ -18,6 +18,7 @@ import {
   FinalFieldDefinition,
   FinalFieldDefinitionStrict,
 } from './_parseFields';
+import { $inferableKey } from './Infer';
 export * from '../applyValidator';
 
 export type FieldTypeOptions = ListDefinitionObject & { [K: string]: unknown };
@@ -39,6 +40,7 @@ export abstract class FieldType<
   type: TypeName;
 
   readonly def: Def;
+  [$inferableKey]: Type;
 
   composer: FieldComposer<Record<string, any>, Type> | undefined;
 

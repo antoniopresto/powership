@@ -4,6 +4,7 @@ import { Infer } from '../Infer';
 import { createObjectType, ObjectType } from '../ObjectType';
 import { _assertFields } from '../fields/__tests__/__assert';
 import { ParseStringDefinition } from '../parseStringDefinition';
+import {EnumField} from "../fields/EnumField";
 
 describe('typings', () => {
   test('enum', () => {
@@ -39,7 +40,7 @@ describe('typings', () => {
       category: { enum: ['general', 'closed'] },
       categoryRO: { enum: ['general', 'closed'] } as const,
       '12Enum': { enum: ['1', '2'] },
-      // enumTypeField: EnumField.create(['x', 'xx']),
+      enumTypeField: EnumField.create(['x', 'xx']),
       otherObject,
       otherObjectList: {
         type: otherObject,
@@ -54,7 +55,7 @@ describe('typings', () => {
       age: number;
       category: 'general' | 'closed';
       categoryRO: 'general' | 'closed';
-      // enumTypeField: 'x' | 'xx';
+      enumTypeField: 'x' | 'xx';
       gender?: 'male' | 'female' | 'other' | undefined;
       name: string;
       nameList: string[];

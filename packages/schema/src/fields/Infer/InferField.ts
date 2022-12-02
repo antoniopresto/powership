@@ -9,6 +9,7 @@ import {
   ObjectTypeLikeFieldDefinition,
 } from './InferObjectType';
 import { InferString } from './InferString';
+import { $inferableKey } from './DescribeField';
 
 export type InferField<Input> =
   //
@@ -16,7 +17,9 @@ export type InferField<Input> =
     ? Known extends string
       ? InferString<Known>
       : Known extends object
-      ? _WithInferOptional<Known, _WithInferList<Known, _InferField<Known>>>
+      ? $inferableKey extends keyof Known
+        ? Known[$inferableKey]
+        : _WithInferOptional<Known, _WithInferList<Known, _InferField<Known>>>
       : never
     : never;
 

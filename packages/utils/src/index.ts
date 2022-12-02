@@ -57,6 +57,7 @@ export * from './hashObject';
 export * from './createModulesProxy';
 export * from './ufo';
 export * from './createErrorClass';
+export * from './PackageJson';
 
 // @only-server
 export * from './logLevels';

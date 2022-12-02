@@ -12,6 +12,9 @@ export type $sealedKey = typeof $sealedKey;
 export const $sealed = Symbol($sealedKey);
 export type $sealed = typeof $sealed;
 
+export const $inferableKey = '$inferable';
+export type $inferableKey = typeof $inferableKey;
+
 export type DescribeField<Input> = [$sealedKey] extends [keyof Input]
   ? Input
   : SealedField<
