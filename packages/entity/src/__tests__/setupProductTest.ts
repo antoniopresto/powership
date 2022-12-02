@@ -178,7 +178,7 @@ export function setupProductTest(): {
     );
 
     const productCreateResolver = createResolver({
-      args: ProductEntity.inputConfigTypeDefinition,
+      args: ProductEntity.inputDef.def(),
       kind: 'mutation',
       name: 'productCreate',
       async resolve(_root, args, context) {

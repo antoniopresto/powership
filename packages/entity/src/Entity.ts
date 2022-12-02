@@ -464,20 +464,25 @@ export function createEntity(
       };
 
       // create the filter with the index fields plus the "id" field
-      function getFilterDef() {
+      const filterExt = (function getFilterDef() {
         if (indexInfo.length === 1) {
-          return {
-            id: { optional: true, type: 'ID' },
-            ...indexGraphTypes[
-              indexInfo[0].index.name
-              // @ts-ignore
-            ].__lazyGetter.objectType!.clone((el) => el.optional().def()),
-          };
+          return indexGraphTypes[
+            indexInfo[0].index.name
+            // @ts-ignore
+          ].__lazyGetter.objectType!.clone((el) =>
+            el
+              .optional()
+              .extendDefinition({ id: { optional: true, type: 'ID' } })
+          );
         }
 
-        const all: any = {
-          id: { optional: true, type: 'ID' },
-        };
+        const ext = extendDefinition({
+          object: {
+            id: { optional: true, type: 'ID' },
+          },
+        });
+
+        const all = {};
 
         indexInfo.forEach(({ index: { name } }) => {
           // @ts-ignore
@@ -490,11 +495,10 @@ export function createEntity(
           });
         });
 
-        return all;
-      }
+        return ext.extendDefinition(all);
+      })();
 
       function getPaginationType() {
-        const filter = getFilterDef();
         return {
           after: {
             optional: true,
@@ -505,7 +509,7 @@ export function createEntity(
             type: conditionsType,
           },
           filter: {
-            def: filter,
+            def: filterExt.def(),
             type: 'object',
           },
           first: {
@@ -516,11 +520,7 @@ export function createEntity(
       }
 
       Object.defineProperties(loader, {
-        filterDef: {
-          get() {
-            return getFilterDef();
-          },
-        },
+        filterDef: { value: filterExt },
         indexInfo: { value: indexInfo },
         name: { value: newMethodName },
         queryArgs: {
@@ -608,7 +608,6 @@ export function createEntity(
       indexGraphTypes: indexGraphTypes,
       indexes: indexes,
       usedOptions: entityOptions,
-      inputConfigTypeDefinition: inputDef,
       name: entityName,
       originType: type,
       paginationType: getPaginationType(),
@@ -620,7 +619,26 @@ export function createEntity(
       },
       transporter: defaultTransporter || entityOptions.transporter,
       type: entityType,
-      updateDefinition: updateDefinition,
+    });
+
+    let _inputExt: any;
+    Object.defineProperties(entity, {
+      inputDef: {
+        get() {
+          return (_inputExt =
+            _inputExt || extendDefinition({ object: inputDef }));
+        },
+      },
+    });
+
+    let _updateExt: any;
+    Object.defineProperties(entity, {
+      updateDef: {
+        get() {
+          return (_updateExt =
+            _updateExt || extendDefinition({ object: updateDefinition }));
+        },
+      },
     });
 
     return entityMutations.reduce((acc, next) => {

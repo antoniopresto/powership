@@ -9,14 +9,16 @@ describe('ProductResolver.edgeType', () => {
   test('works', async function () {
     const { ProductEntity, ProductType } = await getMocks();
 
-    const updateDefinition = ProductEntity.updateDefinition;
+    const updateDefinition = ProductEntity.updateDef.def();
+
     type UD = Infer<{ object: typeof updateDefinition }>;
     assert<IsExact<UD, Partial<Infer<typeof ProductType>>>>(true);
 
     expect(
-      Object.entries(ProductEntity.updateDefinition).map(
-        ([key, { optional }]) => [key, optional]
-      )
+      Object.entries(updateDefinition).map(([key, { optional }]) => [
+        key,
+        optional,
+      ])
     ).toEqual([
       ['_v', true],
       ['sku', true],

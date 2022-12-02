@@ -19,7 +19,7 @@ import {
 } from '../ObjectType';
 import type { AnyResolver } from '../Resolver';
 import { FieldDefinitionConfig } from '../TObjectConfig';
-import { extendDefinition, ExtendDefinitionResult } from '../extendDefinition';
+import { extendDefinition, ExtendDefinition } from '../extendDefinition';
 import { FieldParserConfig, TAnyFieldType } from '../fields/FieldType';
 import { GraphTypeLike } from '../fields/IObjectLike';
 import { getObjectDefinitionId } from '../fields/MetaFieldField';
@@ -196,7 +196,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
     }).interfaceType(...args) as any;
   };
 
-  clone<T>(handler: (input: ExtendDefinitionResult<this, this>) => T): T {
+  clone<T>(handler: (input: ExtendDefinition<this, this>) => T): T {
     const parsed = parseField(this.definition);
     const input: any = extendDefinition(parsed);
     return handler(input);

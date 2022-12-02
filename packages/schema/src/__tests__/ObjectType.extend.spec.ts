@@ -53,7 +53,7 @@ describe('ObjectType.extend', () => {
       '',
       '"""',
       'Union of:',
-      ' - { street:{ type: string }, number:{ def:[{ type: string },{ type: float }], type: union , optional:true}}',
+      ' - { street:{ type: string }, number:{ def:[{ type: string },{ type: float }], type: union }}',
       ' - { type: null }',
       '"""',
       'scalar Person_address',

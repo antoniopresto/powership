@@ -4,33 +4,35 @@ import { Infer } from '../Infer';
 import { createObjectType, ObjectType } from '../ObjectType';
 import { objectMetaFieldKey } from '../fields/MetaFieldField';
 
-const userObject = new ObjectType({
-  name: 'string',
-  optional: 'string?',
-  age: 'int',
-  gender: {
-    type: 'enum',
-    def: ['male', 'female', 'other'],
-    optional: true,
-  },
+function _userObject() {
+  return new ObjectType({
+    name: 'string',
+    optional: 'string?',
+    age: 'int',
+    gender: {
+      type: 'enum',
+      def: ['male', 'female', 'other'],
+      optional: true,
+    },
 
-  category: { enum: ['general', 'closed'] },
-  '12Enum': { enum: ['1', '2'] },
+    category: { enum: ['general', 'closed'] },
+    '12Enum': { enum: ['1', '2'] },
 
-  enumArray: {
-    type: 'enum',
-    list: true,
-    def: ['1', '2'],
-  },
-} as const);
+    enumArray: {
+      type: 'enum',
+      list: true,
+      def: ['1', '2'],
+    },
+  } as const);
+}
 
-describe('Object', () => {
-  afterEach(() => {
-    ObjectType.register.clear();
+describe('Schema clone, etc', () => {
+  afterEach(async () => {
+    await ObjectType.register.clear();
   });
 
   it('handle definition', () => {
-    const sut = userObject.definition;
+    const sut = _userObject().definition;
 
     expect(sut).toEqual({
       '12Enum': {
@@ -83,6 +85,8 @@ describe('Object', () => {
       '12Enum': '1',
       enumArray: ['1', '2'],
     };
+
+    const userObject = _userObject();
 
     expect(userObject.parse(user)).toEqual(user);
 

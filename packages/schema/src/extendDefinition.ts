@@ -21,18 +21,18 @@ import {
 import { objectMetaFieldKey } from './fields/MetaFieldField';
 import { ObjectDefinitionInput } from './fields/_parseFields';
 
-export interface ExtendDefinitionResult<Input, Origin> {
+export interface ExtendDefinition<Input, Origin> {
   definition: InnerDef<Input>;
 
   def(): this['definition'];
 
   exclude<K extends keyof this['definition']>(
     keys: K | K[]
-  ): ExtendDefinitionResult<{ object: Omit<InnerDef<Input>, K> }, Origin>;
+  ): ExtendDefinition<{ object: Omit<InnerDef<Input>, K> }, Origin>;
 
   extendDefinition<V extends ObjectDefinitionInput>(
     value: V | ((current: this['definition']) => V)
-  ): ExtendDefinitionResult<
+  ): ExtendDefinition<
     { object: Merge<InnerDef<Input>, DescribeObjectDefinition<V>> },
     Origin
   >;
@@ -43,28 +43,28 @@ export interface ExtendDefinitionResult<Input, Origin> {
 
   only<K extends keyof this['definition']>(
     keys: K | K[]
-  ): ExtendDefinitionResult<{ object: O.Pick<InnerDef<Input>, K> }, Origin>;
+  ): ExtendDefinition<{ object: O.Pick<InnerDef<Input>, K> }, Origin>;
 
-  optional(): ExtendDefinitionResult<
+  optional(): ExtendDefinition<
     { object: MakeFieldOptional<InnerDef<Input>, keyof InnerDef<Input>> },
     Origin
   >;
 
   optional<Op extends keyof InnerDef<Input>>(
     keys: Op | Op[]
-  ): ExtendDefinitionResult<
+  ): ExtendDefinition<
     { object: MakeFieldOptional<InnerDef<Input>, Op> },
     Origin
   >;
 
-  required(): ExtendDefinitionResult<
+  required(): ExtendDefinition<
     { object: MakeFieldRequired<InnerDef<Input>, keyof InnerDef<Input>> },
     Origin
   >;
 
   required<Op extends keyof InnerDef<Input>>(
     keys: Op | Op[]
-  ): ExtendDefinitionResult<
+  ): ExtendDefinition<
     { object: MakeFieldRequired<InnerDef<Input>, Op> },
     Origin
   >;
@@ -72,7 +72,7 @@ export interface ExtendDefinitionResult<Input, Origin> {
 
 export function extendDefinition<Input>(
   input: Input
-): ExtendDefinitionResult<Input, Input> {
+): ExtendDefinition<Input, Input> {
   if (!input || typeof input !== 'object') {
     throw new RuntimeError(
       `Expected typeof input to be "object", found ${getTypeName(input)}`,
@@ -82,7 +82,7 @@ export function extendDefinition<Input>(
 
   let obj: Record<string, any> = input;
 
-  type R = ExtendDefinitionResult<Input, Input>;
+  type R = ExtendDefinition<Input, Input>;
 
   if (
     typeof obj === 'object' &&

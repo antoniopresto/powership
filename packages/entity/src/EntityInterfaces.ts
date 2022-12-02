@@ -1,7 +1,7 @@
 import {
   DescribeField,
   DescribeObjectDefinition,
-  ExtendDefinitionResult,
+  ExtendDefinition,
   GraphType,
   Infer,
   MakeFieldOptional,
@@ -83,7 +83,7 @@ export type EntityUtils<
   > = GetLoaderFilterDef<LoaderConfig, OutputDefinition>
 > = {
   indexInfo: [ParsedIndexKey, ...ParsedIndexKey[]];
-  filterDef: Compute<FilterDef>;
+  filterDef: ExtendDefinition<{ object: FilterDef }, { object: FilterDef }>;
   queryArgs: {
     after: 'ID?';
     condition: {
@@ -126,7 +126,11 @@ export interface Entity<
 > {
   name: string;
   usedOptions: EntityOptions<Input, Indexes>;
-  inputConfigTypeDefinition: Input;
+  inputDef: ExtendDefinition<{ object: Input }, { object: Input }>;
+  updateDef: ExtendDefinition<
+    { object: AllOptional<Input> },
+    { object: AllOptional<Input> }
+  >;
   indexes: Indexes;
   outputDefinition: Cast<
     Merge<EntityDefaultFieldsDef, Input>,
@@ -195,7 +199,7 @@ export interface Entity<
 
   extendType: <T extends _EntityGraphType>(
     handler: (
-      helper: ExtendDefinitionResult<this['inputType'], this['inputType']>,
+      helper: ExtendDefinition<this['inputType'], this['inputType']>,
       originalOptions: this['usedOptions']
     ) => T
   ) => Entity<
@@ -233,10 +237,6 @@ export interface Entity<
 
   transporter: Transporter | undefined;
 
-  updateDefinition: Compute<
-    MakeFieldOptional<DescribeObjectDefinition<Input>, keyof Input>
-  >;
-
   addHooks: (options: (hooks: EntityHooks) => any) => this;
 
   addRelation: <
@@ -256,7 +256,7 @@ export interface Entity<
     transformer: (
       current: ExcludeExtend<this>,
       utils: {
-        extend: <V>(value: V) => ExtendDefinitionResult<V, V>;
+        extend: <V>(value: V) => ExtendDefinition<V, V>;
       }
     ) => TransformerReturn
   ) => this extends infer Origin
@@ -329,3 +329,6 @@ export interface AnyEntity<Doc extends DocumentBase = DocumentBase>
     IndexMethods<Doc, DocumentIndexesConfig> {
   //
 }
+
+export type AllOptional<Input extends ObjectDefinitionInput> =
+  MakeFieldOptional<DescribeObjectDefinition<Input>, keyof Input>;

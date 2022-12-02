@@ -72,7 +72,7 @@ describe('Product', () => {
     expect(entity.originType).toEqual(options.type);
     const { __dschm__, ...def } = parseField(options.type.definition)
       .def as any;
-    expect(entity.inputConfigTypeDefinition).toEqual(def);
+    expect(entity.inputDef.def()).toEqual(def);
 
     expect(Object.keys(parseField(entity.type.definition).def).sort()).toEqual(
       Object.keys({
@@ -570,7 +570,7 @@ describe('Product', () => {
     });
 
     test('toFilterFields', async () => {
-      expect(entity.findOne.filterDef).toEqual({
+      expect(entity.findOne.filterDef.def()).toEqual({
         SKU: {
           def: {
             min: 3,

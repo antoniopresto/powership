@@ -23,7 +23,7 @@ import {
   ValidationCustomMessage,
 } from './applyValidator';
 import { assertSameDefinition } from './assertSameDefinition';
-import { extendDefinition, ExtendDefinitionResult } from './extendDefinition';
+import { extendDefinition, ExtendDefinition } from './extendDefinition';
 import { FieldComposer } from './fields/FieldType';
 import { ObjectLike } from './fields/IObjectLike';
 import { InferObjectDefinition } from './fields/Infer';
@@ -125,7 +125,7 @@ export class ObjectType<
     return cleanMetaField(this.clone((el) => el.def()));
   }
 
-  edit(): ExtendDefinitionResult<
+  edit(): ExtendDefinition<
     { type: 'object'; def: HandledInput },
     { type: 'object'; def: HandledInput }
   > {
@@ -416,7 +416,7 @@ export class ObjectType<
 
   clone<T>(
     handler: (
-      input: ExtendDefinitionResult<
+      input: ExtendDefinition<
         { object: HandledInput },
         { object: HandledInput }
       >
