@@ -346,7 +346,7 @@ export const FilterConditionsParsers: {
 
   $gte: CircularDeps.union(['string', 'float'] as const).parse,
 
-  $in: CircularDeps.unknown().toList().parse,
+  $in: CircularDeps.unknown().toList().parse as any,
 
   $lt: CircularDeps.union(['string', 'float'] as const).parse,
 

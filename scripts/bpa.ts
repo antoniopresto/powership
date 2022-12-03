@@ -9,21 +9,29 @@ const version = `0.0.0-alpha.${time}`;
  */
 const { map, root } = rumm();
 
+map(({ run }) => {
+  run('build');
+});
+
 map(({ saveJSON, json, run }) => {
   json.version = version;
-
   updateVersion(json, 'dependencies');
   updateVersion(json, 'peerDependencies');
   updateVersion(json, 'devDependencies');
   delete json.gitHead;
 
-  saveJSON();
   run('prettier ./package.json --write');
-  run('npm run build');
+
+  saveJSON();
+
   run('npm publish --tag=next');
 });
 
 root(`git commit -m "alpha version ${version}" && git push -f`);
+
+map(({ run }) => {
+  run('test');
+});
 
 function updateVersion(json: PackageJson, key: keyof PackageJson) {
   Object.keys(json[key] || {}).forEach((dep) => {

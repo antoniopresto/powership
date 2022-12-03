@@ -13,7 +13,7 @@ const packages = ['root', ...fs.readdirSync(path.resolve(CWD, 'packages')).filte
 
 const LOGS_FILE = path.resolve(CWD, `logs/build-${Date.now()}-${time().replace(/\D/g, '-')}.log`);
 fs.ensureFileSync(LOGS_FILE);
-const logStream = fs.createWriteStream(LOGS_FILE);
+// const logStream = fs.createWriteStream(LOGS_FILE);
 
 function time() {
   const date = new Date();
@@ -25,13 +25,13 @@ function log(mode: 'info' | 'error', ...rest) {
 
   if (mode === 'info') {
     process.stdout.write(`${chalk.bgWhite.black(time())} ${text}\n`);
-    logStream.write(`${time()} ${text}\n`);
+    // logStream.write(`${time()} ${text}\n`);
   } else {
     process.stderr.write(`${chalk.bgRed.black(time())} ${text}\n`);
-    logStream.write(`====\n**ERROR**====\n${time()} ${text}\n`);
-    logStream.close(() => {
-      process.exit(2);
-    });
+    // logStream.write(`====\n**ERROR**====\n${time()} ${text}\n`);
+    // logStream.close(() => {
+    //   process.exit(2);
+    // });
   }
 }
 
@@ -82,7 +82,13 @@ export function rumm() {
       },
       run(callback): any {
         if (typeof callback === 'string') {
-          const finalCMD = `(cd ${dir} && ${ENV} ${callback})`;
+          let command = callback;
+
+          if (json.scripts?.[command]) {
+            command = `npm run ${command}`;
+          }
+
+          const finalCMD = `(cd ${dir} && ${ENV} ${command})`;
           const data = spawn.execSync(finalCMD, { encoding: 'utf8' });
           info(packageName, callback, data);
           info(packageName, callback, 'FINISHED');
