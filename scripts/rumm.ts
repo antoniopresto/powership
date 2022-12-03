@@ -4,7 +4,7 @@ import path from 'path';
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import * as process from 'process';
-import { MaybePromise, PackageJson } from '@backland/utils';
+import { assertEqual, MaybePromise, PackageJson } from '@backland/utils';
 
 const CWD = process.cwd();
 const ENV = ['TEST_TIMEOUT=90000'].join(' ');
@@ -52,23 +52,27 @@ export type Rumm = <
   run: P
 ) => P extends string ? string : Mode extends 'sync' ? Promise<string> : Promise<number | null>;
 
-export function rumm(): { json: PackageJson; run: Rumm; saveJSON(): void }[] {
+export interface RummInstance {
+  list: { json: PackageJson; run: Rumm; saveJSON(): void }[];
+  map: this['list']['map'];
+  root: Rumm;
+}
+
+export function rumm() {
   const jsons: { path: string; json: PackageJson; dir: string }[] = [];
 
   packages.forEach((packageName) => {
-    const path_ =
-      packageName === 'root'
-        ? path.resolve(CWD, 'package.json')
-        : path.resolve(CWD, 'packages', packageName, 'package.json');
+    const dir = packageName === 'root' ? CWD : path.resolve(CWD, 'packages', packageName);
+    const jsonPath = path.resolve(dir, 'package.json');
 
     jsons.push({
-      dir: path.resolve(CWD, 'packages', packageName),
-      path: path_,
-      json: fs.readJSONSync(path_, { encoding: 'utf8' }),
+      dir,
+      path: jsonPath,
+      json: fs.readJSONSync(jsonPath, { encoding: 'utf8' }),
     });
   });
 
-  return jsons.map(({ json, path, dir }) => {
+  const list = jsons.map(({ json, path, dir }) => {
     const { name: packageName } = json;
     return {
       json,
@@ -146,4 +150,14 @@ export function rumm(): { json: PackageJson; run: Rumm; saveJSON(): void }[] {
       },
     };
   });
+
+  const [root, ...list_] = list;
+
+  assertEqual(root.json.name, 'root');
+
+  return {
+    root: root.run,
+    list: list_,
+    map: Array.prototype.map.bind(list_),
+  };
 }

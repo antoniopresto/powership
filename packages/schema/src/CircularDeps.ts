@@ -17,6 +17,11 @@ function getModules() {
         require('./GraphType/GraphType') as typeof import('./GraphType/GraphType'),
       server: false,
     },
+    fieldInstanceFromDef: {
+      module: () =>
+        require('./fieldInstanceFromDef') as typeof import('./fieldInstanceFromDef'),
+      server: false,
+    },
     MetaField: {
       module: () =>
         require('./fields/MetaFieldField') as typeof import('./fields/MetaFieldField'),

@@ -530,14 +530,19 @@ export class ObjectType<
   };
 
   static async reset() {
+    ObjectType.register.clear();
+
     const promises: any[] = [];
 
-    if (typeof window === 'undefined') {
+    try {
+      // only available server side or in tests
       const { GraphQLParser, GraphType } = CircularDeps;
       promises.push(GraphQLParser.reset(), GraphType.reset());
+    } catch (e) {
+      if (typeof window === 'undefined') {
+        throw e;
+      }
     }
-
-    promises.push(ObjectType.register.clear());
 
     await Promise.all(promises);
   }

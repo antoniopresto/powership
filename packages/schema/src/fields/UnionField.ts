@@ -43,7 +43,7 @@ export class UnionField<
     const hasOptional = this.utils.fieldTypes.some((el) => el.optional);
 
     if (hasOptional) {
-      this.optional = true;
+      this.toOptional()
     }
 
     this.parse = this.applyParser({

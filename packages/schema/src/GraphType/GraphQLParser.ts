@@ -251,7 +251,6 @@ export class GraphQLParser {
             fieldName,
             parentName: objectId,
             path: path || [objectId],
-            plainField,
           });
 
           hooks.onFieldResult.exec(field);
@@ -294,7 +293,6 @@ export class GraphQLParser {
               fieldName,
               parentName,
               path,
-              plainField: instance.asFinalFieldDef,
             })
           );
         });
@@ -390,10 +388,12 @@ export class GraphQLParser {
     fieldName: string;
     parentName: string;
     path: string[];
-    plainField: FinalFieldDefinition;
   }): ConvertFieldResult {
-    const { field, fieldName, parentName, plainField } = options;
-    const { optional, typeName } = field;
+    const { fieldName, parentName } = options;
+    const fieldClone = options.field;
+    const plainField = fieldClone.asFinalFieldDef;
+
+    const { optional, typeName } = fieldClone;
     const { description } = plainField;
 
     const path = [...options.path, fieldName];
@@ -417,7 +417,7 @@ export class GraphQLParser {
     fieldsRegister.set(cacheId, fieldParsed);
 
     const subTypeName = parseTypeName({
-      field,
+      field: fieldClone,
       fieldName,
       parentName,
     });
@@ -447,7 +447,7 @@ export class GraphQLParser {
       array() {
         const {
           utils: { listItemType: innerFieldType },
-        } = field as ArrayField<any>;
+        } = fieldClone as ArrayField<any>;
 
         const id = parseTypeName({
           field: innerFieldType,
@@ -460,7 +460,6 @@ export class GraphQLParser {
           fieldName,
           parentName,
           path,
-          plainField: innerFieldType.asFinalFieldDef,
         });
 
         return {
@@ -479,7 +478,7 @@ export class GraphQLParser {
         };
       },
       cursor(): any {
-        const cursor = field as CursorField;
+        const cursor = fieldClone as CursorField;
 
         return {
           inputType: cursor.utils.object.graphqlInputType,
@@ -501,9 +500,9 @@ export class GraphQLParser {
       enum() {
         function createEnum(options?: any) {
           const values: any = {};
-          assertEqual(field.type, 'enum');
+          assertEqual(fieldClone.type, 'enum');
 
-          field.def.forEach((key: string) => {
+          fieldClone.def.forEach((key: string) => {
             values[key] = {
               value: key,
             };
@@ -534,11 +533,11 @@ export class GraphQLParser {
         };
       },
       literal() {
-        if (!LiteralField.is(field)) throw new Error('ts');
-        const { description, def } = field;
+        if (!LiteralField.is(fieldClone)) throw new Error('ts');
+        const { description, def } = fieldClone;
 
         const recordName = parseTypeName({
-          field,
+          field: fieldClone,
           fieldName,
           parentName,
         });
@@ -584,17 +583,17 @@ export class GraphQLParser {
         };
       },
       object() {
-        assertEqual(field.type, 'object');
+        assertEqual(fieldClone.type, 'object');
 
         const id = parseTypeName({
-          field,
+          field: fieldClone,
           fieldName,
           parentName,
         });
 
-        const def = ObjectType.is(field.def)
-          ? field.def.clone((el) => el.def())
-          : field.def;
+        const def = ObjectType.is(fieldClone.def)
+          ? fieldClone.def.clone((el) => el.def())
+          : fieldClone.def;
 
         // @ts-ignore
         const object = ObjectType.getOrSet(id, def);
@@ -613,7 +612,7 @@ export class GraphQLParser {
       },
       record() {
         const recordName = parseTypeName({
-          field,
+          field: fieldClone,
           fieldName,
           parentName,
         });
@@ -625,11 +624,11 @@ export class GraphQLParser {
             name: recordName,
 
             parseValue(value) {
-              return field.parse(value);
+              return fieldClone.parse(value);
             },
 
             serialize(value) {
-              return field.parse(value);
+              return fieldClone.parse(value);
             },
           });
         }
@@ -660,7 +659,7 @@ export class GraphQLParser {
       },
 
       union() {
-        if (!UnionField.is(field)) throw field;
+        if (!UnionField.is(fieldClone)) throw fieldClone;
         let descriptions: string[] = [];
 
         // if all types are objects it can be used as normal GraphQL union
@@ -670,7 +669,7 @@ export class GraphQLParser {
         //    - https://github.com/graphql/graphql-spec/issues/488
         let areAllObjects = true;
 
-        field.utils.fieldTypes.forEach((field) => {
+        fieldClone.utils.fieldTypes.forEach((field) => {
           if (field.type !== 'object') areAllObjects = false;
           descriptions.push(describeField(field.definition));
         });
@@ -693,10 +692,10 @@ export class GraphQLParser {
           description,
           name: subTypeName,
           parseValue(value) {
-            return field.parse(value);
+            return fieldClone.parse(value);
           },
           serialize(value) {
-            return field.parse(value);
+            return fieldClone.parse(value);
           },
         });
 
@@ -710,7 +709,7 @@ export class GraphQLParser {
             return new GraphQLUnionType({
               name: subTypeName,
               ...options,
-              types: field.utils.fieldTypes.map((field, index) => {
+              types: fieldClone.utils.fieldTypes.map((field, index) => {
                 if (!ObjectField.is(field)) throw field;
                 let object: any = field.utils.object;
                 if (!object.id) {
@@ -746,11 +745,11 @@ export class GraphQLParser {
 
         let result = create[typeName]().inputType(...args);
 
-        if (field.list) {
+        if (fieldClone.list) {
           result = new GraphQLList(result);
         }
 
-        if (!optional && field.defaultValue === undefined) {
+        if (!optional && fieldClone.defaultValue === undefined) {
           result = new GraphQLNonNull(result);
         }
 
@@ -765,7 +764,7 @@ export class GraphQLParser {
 
         let result = create[typeName]().type(...args);
 
-        if (field.list) {
+        if (fieldClone.list) {
           result = new GraphQLList(result);
         }
 

@@ -19,6 +19,8 @@ import {
   FinalFieldDefinitionStrict,
 } from './_parseFields';
 import { $inferableKey } from './Infer';
+import { simpleObjectClone } from '@backland/utils';
+import { CircularDeps } from '../CircularDeps';
 export * from '../applyValidator';
 
 export type FieldTypeOptions = ListDefinitionObject & { [K: string]: unknown };
@@ -34,13 +36,21 @@ export abstract class FieldType<
   Type,
   TypeName extends FieldTypeName,
   Def extends FieldDefinitions[TypeName],
+  List extends 1 | 0 = 0,
+  Optional extends 1 | 0 = 0,
+  DefaultValue extends unknown | undefined = undefined,
   Options extends FieldTypeOptions = {}
 > {
   readonly typeName: TypeName;
   type: TypeName;
 
   readonly def: Def;
-  [$inferableKey]: Type;
+
+  [$inferableKey]: ([List] extends [1] ? Type[] : Type) extends infer R
+    ? [Optional] extends [1]
+      ? R | undefined
+      : R
+    : never;
 
   composer: FieldComposer<Record<string, any>, Type> | undefined;
 
@@ -84,10 +94,10 @@ export abstract class FieldType<
     return this.validate(input);
   }
 
-  optional = false;
-  list = false;
+  optional: [Optional] extends [1] ? true : false;
+  list: [List] extends [1] ? true : false;
+  defaultValue: DefaultValue;
   description?: string;
-  defaultValue?: any;
   hidden?: boolean;
 
   describe = (description: string): this => {
@@ -95,12 +105,34 @@ export abstract class FieldType<
     return this as any;
   };
 
-  toOptional(): this & { optional: true } {
+  describeField = (): {
+    def: Def;
+    defaultValue: DefaultValue;
+    description: string | undefined;
+    hidden: boolean;
+    list: [List] extends [1] ? true : false;
+    optional: [Optional] extends [1] ? true : false;
+    type: Type;
+  } => {
+    return this.asFinalFieldDef as any;
+  };
+
+  toOptional(): FieldType<Type, TypeName, Def, List, 1, DefaultValue, Options> {
+    // @ts-ignore
     this.optional = true;
     return this as any;
   }
 
-  toList(options?: ListDefinitionTruthy): this & { list: true } {
+  toRequired(): FieldType<Type, TypeName, Def, List, 0, DefaultValue, Options> {
+    // @ts-ignore
+    this.optional = false;
+    return this as any;
+  }
+
+  toList(
+    options?: ListDefinitionTruthy
+  ): FieldType<Type, TypeName, Def, 1, Optional, DefaultValue, Options> {
+    // @ts-ignore
     this.list = true;
     if (options && typeof options === 'object') {
       this.options = { ...this.options, ...options };
@@ -108,7 +140,10 @@ export abstract class FieldType<
     return this as any;
   }
 
-  setDefaultValue<T>(value: T): this & { defaultValue: T } {
+  setDefaultValue<T extends any>(
+    value: T
+  ): FieldType<Type, TypeName, Def, List, Optional, T, Options> {
+    // @ts-ignore
     this.defaultValue = value;
     return this as any;
   }
@@ -213,6 +248,40 @@ export abstract class FieldType<
   static create(..._args: any[]): TAnyFieldType {
     throw new Error('not implemented in abstract class.');
   }
+
+  clone = (): FieldType<
+    Type,
+    TypeName,
+    Def,
+    List,
+    Optional,
+    DefaultValue,
+    Options
+  > => {
+    const { def, defaultValue, ...rest } = this.asFinalFieldDef;
+
+    let field: FinalFieldDefinition;
+
+    if (rest.type === 'literal') {
+      field = {
+        ...(simpleObjectClone(rest) as any),
+        def,
+        defaultValue,
+      };
+    } else {
+      field = simpleObjectClone(rest) as any;
+
+      if (def !== undefined) {
+        field.def = simpleObjectClone(def);
+      }
+
+      if (defaultValue !== undefined) {
+        field.defaultValue = simpleObjectClone(def);
+      }
+    }
+
+    return CircularDeps.fieldInstanceFromDef(field) as any;
+  };
 }
 
 export function isFieldInstance(t: any): t is TAnyFieldType {
@@ -220,7 +289,13 @@ export function isFieldInstance(t: any): t is TAnyFieldType {
 }
 
 export type AllFieldTypes = {
-  [K in keyof FieldDefinitions]: FieldType<unknown, K, FieldDefinitions[K]>;
+  [K in keyof FieldDefinitions]: FieldType<
+    unknown,
+    K,
+    FieldDefinitions[K],
+    0,
+    0
+  >;
 };
 
 export type TAnyFieldType = AllFieldTypes[keyof AllFieldTypes];

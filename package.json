@@ -11,13 +11,7 @@
     "validate": "(cd packages/schema && npm run prepublish)",
     "lp": "lerna exec \"yalc publish\"",
     "link-all": "lerna link --force-local",
-    "all": "ts-node ./scripts/build.ts",
-    "alpha-version": "lerna version prerelease --yes --no-git-tag-version --conventional-graduate --no-push --exact --preid=alpha.$(date +%Y.%m.%d.%H.%M.%S) --force-publish",
-    "build-changed": "nx run-many --target=build --projects=$(nx affected:libs --plain | sed 's/ /,/g')",
-    "publish-alpha": "lerna exec --no-bail 'npm publish --tag=next'",
-    "alpha": "run-s all alpha-version publish-alpha",
-    "alpha-publish": "run-s alpha-version publish-alpha",
-    "bpa": "ts-node ./scripts/bpa.ts"
+    "alpha": "ts-node ./scripts/bpa.ts"
   },
   "devDependencies": {
     "@nrwl/cli": "14.7.13",

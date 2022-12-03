@@ -21,10 +21,12 @@ export function fieldInstanceFromDef(
   let field = fieldConstructor.create(definition.def);
 
   if (definition.list) {
+    // @ts-ignore
     field = field.toList(definition.list);
   }
 
   if (definition.optional) {
+    // @ts-ignore
     field = field.toOptional();
   }
 

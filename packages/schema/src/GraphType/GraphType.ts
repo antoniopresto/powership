@@ -168,7 +168,6 @@ export class GraphType<Definition extends ObjectFieldInput> {
       fieldName: this.id,
       parentName: this.id,
       path: [`Type_${this.id}`],
-      plainField: this.__lazyGetter.field.asFinalFieldDef,
     }) as any;
   };
 
