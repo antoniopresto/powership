@@ -256,10 +256,28 @@ export function createDocumentIndexBasedFilters(
   const foundKeyPairs: IndexFilterKeyPairInfo[] = [];
 
   indexes.forEach((index) => {
+    //
+
+    const indexFieldAsFilterKey = `${index.field}PK`;
+    const indexFieldAsFilterValue = filter[indexFieldAsFilterKey];
+    if (typeof indexFieldAsFilterValue === 'string') {
+      // for the case of a filter like "bananaPK", where
+      // "banana" is the index field.
+      filtersRecords.push({
+        [indexFieldAsFilterKey]: indexFieldAsFilterValue,
+      });
+      return (foundPK = {
+        key: indexFieldAsFilterKey,
+        value: indexFieldAsFilterValue,
+      });
+    }
+
     filterKeys.forEach((key) => {
       const value = filter[key];
 
-      if (key === 'id' && typeof value === 'string') {
+      if (typeof value !== 'string') return;
+
+      if (key === 'id') {
         const id = parseGraphID(value);
 
         if (id) {
@@ -274,7 +292,7 @@ export function createDocumentIndexBasedFilters(
         }
       }
 
-      if (typeof value === 'string' && indexFields.includes(key)) {
+      if (indexFields.includes(key)) {
         return filtersRecords.push({
           [key]: value,
         });
