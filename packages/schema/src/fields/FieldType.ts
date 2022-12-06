@@ -1,3 +1,6 @@
+import { simpleObjectClone } from '@backland/utils';
+
+import { CircularDeps } from '../CircularDeps';
 import {
   FieldParserOptionsObject,
   FieldTypeParser,
@@ -7,6 +10,7 @@ import {
 
 import { arrayFieldParse } from './ArrayFieldParse';
 import { createFieldTypeError, isFieldError } from './FieldTypeErrors';
+import { $inferableKey } from './Infer';
 import {
   FieldDefinitions,
   FieldTypeName,
@@ -18,9 +22,6 @@ import {
   FinalFieldDefinition,
   FinalFieldDefinitionStrict,
 } from './_parseFields';
-import { $inferableKey } from './Infer';
-import { simpleObjectClone } from '@backland/utils';
-import { CircularDeps } from '../CircularDeps';
 export * from '../applyValidator';
 
 export type FieldTypeOptions = ListDefinitionObject & { [K: string]: unknown };

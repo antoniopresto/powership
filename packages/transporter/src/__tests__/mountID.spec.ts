@@ -6,23 +6,28 @@ describe('mountID', () => {
       entity: 'users',
       PKEscapedString: 'abc',
       SKEscapedString: '123',
-      indexField: '_id',
+      indexConfig: {
+        name: '_id',
+        field: '_id',
+        PK: [],
+        SK: [],
+      },
       relatedTo: undefined,
     });
 
     expect(sut).toEqual({
       mountRelationCondition: expect.any(Function),
-      PKPart: 'users:_id#abc↠',
+      PKPart: 'users:_id#abc»',
       PKPartWithoutPKSKSeparator: 'users:_id#abc',
       SKPart: '123',
       documentIndexFields: {
-        _id: 'users:_id#abc↠123',
-        _idPK: 'abc',
+        _e: 'users',
+        _id: 'users:_id#abc»123',
+        _idPK: 'users:_id#abc»',
         _idSK: '123',
       },
-      fullID: 'users:_id#abc↠123',
-      graphID: '~!dXNlcnM6X2lkI2FiY+KGoDEyMw==',
-      prefix: 'users:_id',
+      fullID: 'users:_id#abc»123',
+      graphID: '~!dXNlcnM6X2lkI2FiY8K7MTIz',
     });
   });
 
@@ -31,23 +36,29 @@ describe('mountID', () => {
       entity: 'banana',
       PKEscapedString: 'abc',
       SKEscapedString: '123',
-      indexField: '_id',
+      indexConfig: {
+        name: '_id',
+        field: '_id',
+        PK: [],
+        SK: [],
+      },
       relatedTo: 'fruits',
     });
 
     expect(sut).toEqual({
       mountRelationCondition: expect.any(Function),
-      PKPart: 'fruits:_id#abc≻banana↠',
-      PKPartWithoutPKSKSeparator: 'fruits:_id#abc≻banana',
+      PKPart: 'fruits:_id#abc»banana«',
+      PKPartWithoutPKSKSeparator: 'fruits:_id#abc',
       SKPart: '123',
       documentIndexFields: {
-        _id: 'fruits:_id#abc≻banana↠123',
-        _idPK: 'abc',
+        _e: 'banana',
+        _id: 'fruits:_id#abc»banana«123',
+        _idPK: 'fruits:_id#abc»banana«',
         _idSK: '123',
+        _rt: ['fruits:_id#abc»'],
       },
-      fullID: 'fruits:_id#abc≻banana↠123',
-      graphID: '~!ZnJ1aXRzOl9pZCNhYmPiibtiYW5hbmHihqAxMjM=',
-      prefix: 'fruits:_id',
+      fullID: 'fruits:_id#abc»banana«123',
+      graphID: '~!ZnJ1aXRzOl9pZCNhYmPCu2JhbmFuYcKrMTIz',
     });
   });
 });

@@ -4,7 +4,7 @@ import path from 'path';
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import * as process from 'process';
-import { assertEqual, MaybePromise, PackageJson } from '@backland/utils';
+import { assertEqual, MaybePromise } from '@backland/utils';
 
 const CWD = process.cwd();
 const ENV = ['TEST_TIMEOUT=90000'].join(' ');
@@ -47,19 +47,19 @@ function errr(_path: string, cmd: string, data: string) {
 
 export type Rumm = <
   Mode extends 'sync' | 'async',
-  P extends ((json: PackageJson) => MaybePromise<string | { command: string; mode?: Mode }>) | string
+  P extends ((json: any) => MaybePromise<string | { command: string; mode?: Mode }>) | string
 >(
   run: P
 ) => P extends string ? string : Mode extends 'sync' ? Promise<string> : Promise<number | null>;
 
 export interface RummInstance {
-  list: { json: PackageJson; run: Rumm; saveJSON(): void }[];
+  list: { json: any; run: Rumm; saveJSON(): void }[];
   map: this['list']['map'];
   root: Rumm;
 }
 
 export function rumm() {
-  const jsons: { path: string; json: PackageJson; dir: string }[] = [];
+  const jsons: { path: string; json: any; dir: string }[] = [];
 
   packages.forEach((packageName) => {
     const dir = packageName === 'root' ? CWD : path.resolve(CWD, 'packages', packageName);
@@ -77,7 +77,7 @@ export function rumm() {
     return {
       json,
       saveJSON() {
-        fs.writeJSONSync(path, json);
+        fs.writeFileSync(path, JSON.stringify(json, null, 2));
         return;
       },
       run(callback): any {

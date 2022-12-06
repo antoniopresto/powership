@@ -56,10 +56,12 @@ export function mergeIndexRelationsResult(input: {
     if (!relDocs?.length) return;
 
     relations.forEach(({ rel, index }) => {
-      const indexField = `${index.field}PK`; // example: _idPK or _id2PK
+      const indexField = `${index.field}PK`;
 
       const withSameField = relDocs.filter((relDoc) => {
-        return relDoc[indexField] === parentDoc[indexField];
+        const p = parentDoc[indexField];
+        const relatedTo = relDoc._rt;
+        return relatedTo?.includes?.(p);
       });
 
       const parentFieldRef = (parentDoc[rel.name] = parentDoc[rel.name] || []);

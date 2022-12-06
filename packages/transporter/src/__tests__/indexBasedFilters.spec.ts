@@ -25,7 +25,7 @@ describe('getDocumentIndexFields', () => {
           value: '741234',
         },
         filters: {
-          _id: 'account:_id#741234↠antonio',
+          _id: 'account:_id#741234»antonio',
         },
         foundKeyPairs: [
           {
@@ -69,7 +69,7 @@ describe('getDocumentIndexFields', () => {
         relationFilters: [
           {
             _id: {
-              $startsWith: 'account:_id#741234≻accesstype',
+              $startsWith: 'account:_id#741234»accesstype«',
             },
           },
         ],
@@ -103,7 +103,7 @@ describe('getDocumentIndexFields', () => {
       },
       filters: {
         _id: {
-          $startsWith: 'account:_id#741234↠a',
+          $startsWith: 'account:_id#741234»a',
         },
       },
       foundKeyPairs: [
@@ -153,7 +153,7 @@ describe('getDocumentIndexFields', () => {
       relationFilters: [
         {
           _id: {
-            $startsWith: 'account:_id#741234≻accesstype',
+            $startsWith: 'account:_id#741234»accesstype«',
           },
         },
       ],
@@ -186,7 +186,7 @@ describe('getDocumentIndexFields', () => {
       },
       filters: {
         _id: {
-          $startsWith: 'account:_id#741234↠',
+          $startsWith: 'account:_id#741234»',
         },
       },
       foundKeyPairs: [
@@ -234,7 +234,7 @@ describe('getDocumentIndexFields', () => {
       relationFilters: [
         {
           _id: {
-            $startsWith: 'account:_id#741234≻accesstype',
+            $startsWith: 'account:_id#741234»accesstype«',
           },
         },
       ],

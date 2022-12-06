@@ -46,6 +46,7 @@ describe('Aliases', () => {
 
     expect(user).toEqual({
       item: {
+        _e: 'user',
         email: 'antonio@mail.com',
         access: [
           {
@@ -56,12 +57,12 @@ describe('Aliases', () => {
             verified: false,
           },
         ],
-        _id: 'user:_id#antonio↠',
-        _idPK: 'antonio',
+        _id: 'user:_id#antonio»',
+        _idPK: 'user:_id#antonio»',
         _v: expect.stringMatching(ULID_REGEX),
         _idSK: '',
         firstName: 'antonio',
-        id: '~!dXNlcjpfaWQjYW50b25pb+KGoA==',
+        id: '~!dXNlcjpfaWQjYW50b25pb8K7',
         lastName: 'Silva',
         ulid: expect.any(String),
         createdAt: expect.any(Date),
@@ -97,8 +98,9 @@ describe('Aliases', () => {
       expect(updated).toEqual({
         created: false,
         item: {
-          _id: 'user:_id#antonio↠',
-          _idPK: 'antonio',
+          _e: 'user',
+          _id: 'user:_id#antonio»',
+          _idPK: 'user:_id#antonio»',
           _idSK: '',
           _v: expect.any(String),
           access: [
@@ -113,7 +115,7 @@ describe('Aliases', () => {
           createdAt: expect.any(Date),
           email: 'antonio@newexample.com', // ⚠️ updated when update access[0].value
           firstName: 'antonio',
-          id: '~!dXNlcjpfaWQjYW50b25pb+KGoA==',
+          id: expect.any(String),
           lastName: 'Silva',
           ulid: expect.any(String),
           updatedAt: expect.any(Date),

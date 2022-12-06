@@ -69,7 +69,7 @@ function errr(_path: string, cmd: string, data: string) {
   log('error', text);
 }
 
-const jsons: Record<string, PackageJson> = {};
+const jsons: Record<string, any> = {};
 
 const logs: string[] = [];
 

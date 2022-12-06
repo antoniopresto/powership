@@ -20,10 +20,11 @@ describe('parseMongoUpdateExpression', () => {
   } as const;
 
   const commonFields = {
-    _id: 'user:_id#1↠',
-    _idPK: '1',
+    _id: 'user:_id#1»',
+    _idPK: 'user:_id#1»',
     _idSK: '',
-    id: '~!dXNlcjpfaWQjMeKGoA==',
+    id: '~!dXNlcjpfaWQjMcK7',
+    _e: 'user',
   };
 
   async function create() {
@@ -40,7 +41,7 @@ describe('parseMongoUpdateExpression', () => {
     exp: UpdateExpression<{ list: any[]; [K: string]: any }>
   ) {
     const res = await mockApp.transporter.updateOne({
-      filter: { _id: 'user:_id#1↠' },
+      filter: { _id: 'user:_id#1»' },
       update: exp as any,
       indexConfig,
       context: {},
@@ -117,7 +118,7 @@ describe('parseMongoUpdateExpression', () => {
       created: true,
       updated: false,
       item: {
-        _id: 'user:_id#1↠',
+        _id: 'user:_id#1»',
         address: {
           street: {
             numbers: [{ val: 1 }, { val: 2 }],
@@ -141,7 +142,7 @@ describe('parseMongoUpdateExpression', () => {
     expect(updated).toEqual({
       created: false,
       item: {
-        _id: 'user:_id#1↠',
+        _id: 'user:_id#1»',
         address: {
           street: {
             numbers: [

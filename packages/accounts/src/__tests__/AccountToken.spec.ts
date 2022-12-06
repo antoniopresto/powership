@@ -23,9 +23,9 @@ describe('AccountToken', () => {
     TokenEntity.setOption('transporter', mock.transporter);
 
     let token: Token = {
-      accountId: '123',
+      accountId: '444',
       kind: 'password',
-      createdFor: '123',
+      createdFor: 'CREATED_FOR_VALUE',
       value: 'pass12345',
     };
 
@@ -34,16 +34,23 @@ describe('AccountToken', () => {
       item: token,
     });
 
+    //         PK: ['.accountId'],
+    //         SK: ['.kind', '.createdFor', '.ulid'],
+    //         field: '_id',
+    //         name: 'accountId',
+    //         relatedTo: 'Account',
     expect(created).toEqual({
+      _e: 'accountstoken',
       _id: expect.stringMatching(
-        /^account:_id#123≻accountstoken↠password#123#/
+        /^account:_id#444»accountstoken«password#CREATED_FOR_VALUE#01/
       ),
-      _idPK: '123',
-      _idSK: expect.stringMatching(/^password#123/),
+      _idPK: 'account:_id#444»accountstoken«',
+      _idSK: expect.stringMatching(/^password#CREATED_FOR_VALUE#01[A-Z0-9]*$/),
+      _rt: ['account:_id#444»'],
       _v: expect.any(String),
-      accountId: '123',
+      accountId: '444',
       createdAt: expect.any(Date),
-      createdFor: '123',
+      createdFor: 'CREATED_FOR_VALUE',
       id: expect.any(String),
       kind: 'password',
       ulid: expect.any(String),

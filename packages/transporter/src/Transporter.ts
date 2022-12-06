@@ -17,7 +17,7 @@ import {
   UpdateDefinition,
 } from 'aggio';
 
-import { CollectionIndexConfig, DocumentIndexField } from './CollectionIndex';
+import { CollectionIndexConfig } from './CollectionIndex';
 
 export const FieldTypes = tuple(
   'String',
@@ -129,7 +129,7 @@ export type MethodFilter<
     IndexFilterRecord<PK, SK> extends infer F
       ? F extends unknown
         ? { [K in keyof F]?: F[K] } & {
-            [K in DocumentIndexField]?: PKSKValueType;
+            id?: PKSKValueType;
           }
         : {}
       : {}

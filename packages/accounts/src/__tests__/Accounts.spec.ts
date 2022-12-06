@@ -61,14 +61,62 @@ describe('Accounts', () => {
         expect.objectContaining({
           _id: expect.stringMatching(
             new RegExp(
-              `^account:_id#${accountId}≻accountstoken↠password#${accountId}#`
+              `^account:_id#${accountId}»accountstoken«password#${accountId}#`
             )
           ),
         }),
       ],
     });
 
-    expect(account).toEqual(_expectedUser());
+    //     {
+    //       PK: ['.accountId'],
+    //       field: '_id',
+    //       name: 'accountId',
+    //     },
+    //     {
+    //       PK: ['.username'],
+    //       field: '_id2',
+    //       name: 'username',
+    //     },
+
+    expect(account).toEqual({
+      _e: 'account',
+      _id: expect.stringMatching(/account:_id#01[A-Z0-9]*»/),
+      _id2: 'account:_id2#antoniopresto»',
+      _id2PK: 'account:_id2#antoniopresto»',
+      _id2SK: '',
+      // @ts-ignore
+      _idPK: account._id, // since the is no SK or parent related entity, should be equal to _id
+      _idSK: '',
+      _v: expect.stringMatching('01'),
+      accessTypes: [
+        expect.objectContaining({
+          createdAt: expect.any(Date),
+          updatedAt: expect.any(Date),
+          verified: false,
+          data: {
+            kind: 'email',
+            value: 'antonio@example.com',
+          },
+        }),
+      ],
+      tokens: [
+        expect.objectContaining({
+          createdAt: expect.any(Date),
+          kind: 'password',
+          updatedAt: expect.any(Date),
+          value: expect.any(String),
+        }),
+      ],
+      accountId: expect.stringMatching('01'),
+      createdAt: expect.any(Date),
+      deactivated: false,
+      id: expect.stringMatching('='),
+      permissions: [expect.stringMatching('admin_profile:01')],
+      ulid: expect.stringMatching('01'),
+      updatedAt: expect.any(Date),
+      username: 'antoniopresto',
+    });
   });
 
   test('unique username', async () => {
@@ -447,42 +495,3 @@ describe('Accounts', () => {
     });
   });
 });
-
-function _expectedUser() {
-  return {
-    _id: expect.stringMatching('account:_id#01'),
-    _id2: 'account:_id2#antoniopresto↠',
-    _id2PK: 'antoniopresto',
-    _id2SK: '',
-    _idPK: expect.stringMatching('01'),
-    _idSK: '',
-    _v: expect.stringMatching('01'),
-    accessTypes: [
-      expect.objectContaining({
-        createdAt: expect.any(Date),
-        updatedAt: expect.any(Date),
-        verified: false,
-        data: {
-          kind: 'email',
-          value: 'antonio@example.com',
-        },
-      }),
-    ],
-    tokens: [
-      expect.objectContaining({
-        createdAt: expect.any(Date),
-        kind: 'password',
-        updatedAt: expect.any(Date),
-        value: expect.any(String),
-      }),
-    ],
-    accountId: expect.stringMatching('01'),
-    createdAt: expect.any(Date),
-    deactivated: false,
-    id: expect.stringMatching('='),
-    permissions: [expect.stringMatching('admin_profile:01')],
-    ulid: expect.stringMatching('01'),
-    updatedAt: expect.any(Date),
-    username: 'antoniopresto',
-  };
-}

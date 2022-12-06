@@ -2,6 +2,7 @@ import { GetFieldByDotNotation, OnlyKnown } from '@backland/utils';
 
 import { FieldTypeName } from '../_fieldDefinitions';
 
+import { $inferableKey } from './DescribeField';
 import { InferFinalField } from './InferFinalField';
 import { GraphTypeLikeFieldDefinition, InferGraphType } from './InferGraphType';
 import {
@@ -9,7 +10,6 @@ import {
   ObjectTypeLikeFieldDefinition,
 } from './InferObjectType';
 import { InferString } from './InferString';
-import { $inferableKey } from './DescribeField';
 
 export type InferField<Input> =
   //

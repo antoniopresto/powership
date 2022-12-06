@@ -146,8 +146,8 @@ describe('Entity.indexRelations', () => {
     assert<IsExact<ExpectedOutput, T>>(true);
 
     expect(created.item).toMatchObject({
-      _id: 'account:_id#123↠',
-      _idPK: '123',
+      _id: 'account:_id#123»',
+      _idPK: 'account:_id#123»',
       _idSK: '',
       access: [
         {
@@ -280,7 +280,7 @@ describe('Entity.indexRelations', () => {
     expect(same_email_diff_username).toEqual({
       created: false,
       error: expect.stringMatching(
-        'accesstype:_id2#email#antonio@example.com↠'
+        'accesstype:_id2#email#antonio@example.com»'
       ),
       item: null,
       updated: false,
@@ -304,7 +304,7 @@ describe('Entity.indexRelations', () => {
 
     expect(diff_email_same_username).toEqual({
       created: false,
-      error: expect.stringMatching('account:_id2#antonio↠'),
+      error: expect.stringMatching('account:_id2#antonio»'),
       item: null,
       updated: false,
     });
@@ -314,7 +314,7 @@ describe('Entity.indexRelations', () => {
       .find({})
       .toArray();
 
-    expect(accounts).toHaveLength(2); // first account first access
+    expect(accounts).toHaveLength(2); // first account, first access
   });
 
   test('findMany', async () => {
@@ -362,15 +362,18 @@ describe('Entity.indexRelations', () => {
 
     expect(found.items).toEqual([
       {
-        _id: 'account:_id#123↠',
-        _idPK: '123',
+        _e: 'account',
+        _id: 'account:_id#123»',
+        _idPK: 'account:_id#123»',
         _idSK: '',
         _v: expect.any(String),
         access: [
           {
-            _id: 'account:_id#123≻accesstype↠',
-            _idPK: '123',
+            _e: 'accesstype',
+            _id: 'account:_id#123»accesstype«',
+            _idPK: 'account:_id#123»accesstype«',
             _idSK: '',
+            _rt: ['account:_id#123»'],
             _v: expect.any(String),
             accountId: '123',
             createdAt: expect.any(Date),
@@ -389,14 +392,17 @@ describe('Entity.indexRelations', () => {
         username: 'antonio',
       },
       {
-        _id: 'account:_id#456↠',
-        _idPK: '456',
+        _e: 'account',
+        _id: 'account:_id#456»',
+        _idPK: 'account:_id#456»',
         _idSK: '',
         _v: expect.any(String),
         access: [
           {
-            _id: 'account:_id#456≻accesstype↠',
-            _idPK: '456',
+            _e: 'accesstype',
+            _rt: ['account:_id#456»'],
+            _id: 'account:_id#456»accesstype«',
+            _idPK: 'account:_id#456»accesstype«',
             _idSK: '',
             _v: expect.any(String),
             accountId: '456',
@@ -463,14 +469,17 @@ describe('Entity.indexRelations', () => {
 
     expect(found.items).toEqual([
       {
-        _id: 'account:_id#123↠',
-        _idPK: '123',
+        _id: 'account:_id#123»',
+        _e: 'account',
+        _idPK: 'account:_id#123»',
         _idSK: '',
         _v: expect.any(String),
         access: [
           {
-            _id: 'account:_id#123≻accesstype↠',
-            _idPK: '123',
+            _e: 'accesstype',
+            _id: 'account:_id#123»accesstype«',
+            _idPK: 'account:_id#123»accesstype«',
+            _rt: ['account:_id#123»'],
             _idSK: '',
             _v: expect.any(String),
             accountId: '123',

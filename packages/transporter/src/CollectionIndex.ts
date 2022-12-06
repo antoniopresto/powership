@@ -1,11 +1,5 @@
 import { createSchema } from '@backland/schema';
-import {
-  $Any,
-  getByPath,
-  nonNullValues,
-  textToBase64,
-  tuple,
-} from '@backland/utils';
+import { $Any, getByPath, nonNullValues, textToBase64 } from '@backland/utils';
 import { RuntimeError } from '@backland/utils';
 import { encodeNumber } from '@backland/utils';
 import { devAssert } from '@backland/utils';
@@ -26,19 +20,19 @@ import {
   OneFilterOperation,
 } from './Transporter';
 
-export const PK_SK_SEPARATOR = '↠';
-export const RELATION_SEPARATOR = '≻';
+export const PK_SK_SEPARATOR = '»';
+export const RELATION_INDICATOR = '«';
 export const ID_KEY_SEPARATOR = '#';
 export const ID_SCAPE_CHAR = String.fromCharCode(0);
 
 export type PK_SK_SEPARATOR = typeof PK_SK_SEPARATOR;
-export type RELATION_SEPARATOR = typeof RELATION_SEPARATOR;
+export type RELATION_INDICATOR = typeof RELATION_INDICATOR;
 export type ID_KEY_SEPARATOR = typeof ID_KEY_SEPARATOR;
 export type ID_SCAPE_CHAR = typeof ID_SCAPE_CHAR;
 
 export const SPECIAL_ID_CHARACTERS = [
   PK_SK_SEPARATOR,
-  RELATION_SEPARATOR,
+  RELATION_INDICATOR,
   ID_KEY_SEPARATOR,
   ID_KEY_SEPARATOR,
 ];
@@ -59,33 +53,27 @@ function ESCAPE_SEPARATORS_AND_JoinIndexPartsFoundInDocument(parts: string[]) {
       // using $startsWith, for example.
       return part
         .toString()
-        .replace(/↠/g, `${ID_SCAPE_CHAR}↠`)
+        .replace(/»/g, `${ID_SCAPE_CHAR}»`)
         .replace(/#/g, `${ID_SCAPE_CHAR}#`);
     })
     .join(ID_KEY_SEPARATOR);
 }
-
-export type UniqIndexCondition = {
-  _id: { $startsWith: string };
-  $not: { $or: { [K in DocumentIndexField]?: string }[] };
-};
 
 export type IndexToIDHelpers = {
   /*
   // example:
   {
       mountRelationCondition: (relatedIndex: string) => ({$startsWith: string}),
-      PKPart: 'users:_id#abc↠',
+      PKPart: 'users:_id#abc»',
       PKPartWithoutPKSKSeparator: 'users:_id#abc',
       SKPart: '123',
       documentIndexFields: {
-        _id: 'users:_id#abc↠123',
-        _idPK: 'abc',
-        _idSK: '123',
+        _id: 'users:_id#abc»123',
+        PK: 'abc',
+        SK: '123',
       },
-      fullID: 'users:_id#abc↠123',
+      fullID: 'users:_id#abc»123',
       graphID: '~!dXNlcnM6X2lkI2FiY+KGoDEyMw==',
-      entityPrefix: 'users:_id',
     }
    */
   PKPartWithoutPKSKSeparator: string;
@@ -93,13 +81,9 @@ export type IndexToIDHelpers = {
   SKPart: string;
   fullID: string;
   graphID: string;
-  entityPrefix: string;
   mountRelationCondition: (relatedEntity: string) => { $startsWith: string };
   documentIndexFields: {
-    [K in
-      | `${DocumentIndexField}`
-      | `${DocumentIndexField}PK`
-      | `${DocumentIndexField}SK`]?: string;
+    [K: string]: string | null | string[];
   };
 };
 
@@ -107,49 +91,57 @@ export function createIndexToIDHelpers(params: {
   PKEscapedString: string;
   SKEscapedString: string | null;
   entity: string;
-  indexField: DocumentIndexField;
+  indexConfig: DocumentIndexItem;
   relatedTo: string | undefined;
 }): IndexToIDHelpers {
-  const { indexField, PKEscapedString, SKEscapedString } = params;
+  const {
+    indexConfig: { field: indexField },
+    PKEscapedString,
+    SKEscapedString,
+  } = params;
+
   const entity = params.entity.toLowerCase();
   const relatedTo = params.relatedTo?.toLowerCase();
 
-  const { entityPrefix, postPK } = (() => {
+  const { entityPrefix, pkSuffix } = (() => {
     if (!relatedTo)
       return {
-        postPK: '',
+        pkSuffix: ``,
         entityPrefix: `${entity}:${indexField}${ID_KEY_SEPARATOR}`,
       };
-    // relatedTo:
-    // allows parent entities to filter using $startsWith,
-    // but only works if the child and parent entity have the same PK definition
-    // example:
-    //  - parent has PK .accountId => will generate id: `accounts:123`
-    //  - child  has PK .accountId => will generate id: `accounts:123${RELATION_SEPARATOR}${childEntityName}`
+
     return {
-      postPK: `${RELATION_SEPARATOR}${entity}`,
+      pkSuffix: `${entity}${RELATION_INDICATOR}`,
       entityPrefix: `${relatedTo}:${indexField}${ID_KEY_SEPARATOR}`,
     };
   })();
 
-  const PKPartWithoutPKSKSeparator = `${entityPrefix}${PKEscapedString}${postPK}`;
+  const PKPartWithoutPKSKSeparator = `${entityPrefix}${PKEscapedString}`;
 
-  const PKPart = `${PKPartWithoutPKSKSeparator}${PK_SK_SEPARATOR}`;
+  const PKPart = `${PKPartWithoutPKSKSeparator}${PK_SK_SEPARATOR}${pkSuffix}`;
   const SKPart = `${SKEscapedString === null ? '' : SKEscapedString}`;
   const fullID = `${PKPart}${SKPart}`;
   const graphID = mountGraphID(fullID);
 
   function mountRelationCondition(relatedEntity: string) {
     return {
-      $startsWith: `${PKPartWithoutPKSKSeparator}${RELATION_SEPARATOR}${relatedEntity}`,
+      // account:_id#741234»accesstype«
+      $startsWith: `${PKPart}${relatedEntity}${RELATION_INDICATOR}`,
     };
   }
 
-  const documentIndexFields = {
+  const documentIndexFields: Record<string, string | string[] | null> = {
     [indexField]: fullID,
-    [`${indexField}PK`]: PKEscapedString,
+    [`${indexField}PK`]: PKPart,
     [`${indexField}SK`]: SKEscapedString,
+    _e: entity,
   };
+
+  if (relatedTo) {
+    documentIndexFields['_rt'] = [
+      `${PKPartWithoutPKSKSeparator}${PK_SK_SEPARATOR}`,
+    ];
+  }
 
   return {
     PKPart,
@@ -158,7 +150,6 @@ export function createIndexToIDHelpers(params: {
     graphID,
     PKPartWithoutPKSKSeparator,
     mountRelationCondition,
-    entityPrefix,
     documentIndexFields,
   };
 }
@@ -168,7 +159,7 @@ export type GraphIDJSON = {
   input: string;
   entity: string;
   parent: GraphIDJSON | null; // related to (parent entity)
-  indexField: DocumentIndexField; // entity
+  indexField: DocumentIndexFieldKey; // entity
   idValue: string; // id value
 };
 
@@ -187,13 +178,17 @@ export function parseGraphID(input: string): GraphIDJSON | null {
 
     let parent: GraphIDJSON | null = null;
     let childEntity: string | null = null;
-    const relParts = idValue.split(RELATION_SEPARATOR);
 
-    if (relParts.length > 1) {
-      parent = parseGraphID(
-        mountGraphID(relParts[0] + PK_SK_SEPARATOR) // remounting to change "input" on parseGraphID result
-      );
-      childEntity = relParts[1].split(PK_SK_SEPARATOR)[0];
+    const isRelation = idValue.endsWith(RELATION_INDICATOR);
+
+    if (isRelation) {
+      const relations = idValue.match(/»([^«]*)«/g) || [];
+      const lastRelation = relations[relations.length - 1];
+      childEntity = lastRelation.slice(1, -1); // '»456«'.slice(1,-1) //-> '456'
+      const parts = idValue.split(lastRelation);
+      const SK = parts.pop()?.replace(/«$/, '') || '';
+      const parentKey = `${parts.join(lastRelation)}${SK}»`; // FIXME
+      parent = parseGraphID(mountGraphID(parentKey));
     }
 
     let [e, idRest] = idValue.split(':');
@@ -207,8 +202,6 @@ export function parseGraphID(input: string): GraphIDJSON | null {
       rest,
       idValue,
     });
-
-    assertDocumentIndexKey(indexField);
 
     return {
       entity,
@@ -226,7 +219,7 @@ export function parseGraphID(input: string): GraphIDJSON | null {
 export type IndexBasedFilterParsed = {
   PK: {
     // first primaryKey condition found in filter
-    key: DocumentIndexField;
+    key: DocumentIndexFieldKey;
     value: string;
   };
   filters: FilterRecord;
@@ -246,6 +239,11 @@ export function createDocumentIndexBasedFilters(
   indexConfig: AnyCollectionIndexConfig
 ): IndexBasedFilterParsed {
   const { indexes, entity } = parseCollectionIndexConfig(indexConfig);
+
+  const indexFields: string[] = [
+    'id',
+    ...indexConfig.indexes.map((el) => el.field),
+  ];
 
   let filtersRecords: FilterRecord[] = [];
   let foundPK: IndexBasedFilterParsed['PK'] | undefined = undefined;
@@ -276,7 +274,7 @@ export function createDocumentIndexBasedFilters(
         }
       }
 
-      if (DocumentIndexRegex.test(key) && typeof value === 'string') {
+      if (typeof value === 'string' && indexFields.includes(key)) {
         return filtersRecords.push({
           [key]: value,
         });
@@ -332,7 +330,7 @@ export function createDocumentIndexBasedFilters(
           PKEscapedString: PKEscapedString,
           SKEscapedString: null,
           entity,
-          indexField: index.field,
+          indexConfig: index,
           relatedTo: undefined,
         });
 
@@ -424,11 +422,6 @@ export function getDocumentIndexFields<
 
   const indexFields: Record<string, string> = {};
 
-  const uniqIndexCondition: UniqIndexCondition = {
-    _id: { $startsWith: '' },
-    $not: { $or: [] },
-  };
-
   const invalidFields: InvalidParsedIndexField[] = [];
   let firstIndex: ParsedDocumentIndexes['firstIndex'] = null;
   let valid = true;
@@ -466,7 +459,7 @@ export function getDocumentIndexFields<
       PKEscapedString,
       SKEscapedString,
       entity: entity,
-      indexField: index.field,
+      indexConfig: index,
       relatedTo,
     });
 
@@ -485,10 +478,6 @@ export function getDocumentIndexFields<
       index,
     });
 
-    if (index.field === '_id' && PK.valid) {
-      uniqIndexCondition._id.$startsWith = indexIDHelpers.entityPrefix;
-    }
-
     if (PK.valid && SK.valid && !firstIndex) {
       firstIndex = { key: index.field, value: indexIDHelpers.fullID };
     }
@@ -503,9 +492,6 @@ export function getDocumentIndexFields<
     }
 
     Object.assign(indexFields, indexIDHelpers.documentIndexFields);
-    uniqIndexCondition.$not.$or.push({
-      [index.field]: indexIDHelpers.fullID,
-    });
   });
 
   if (!valid || !firstIndex) {
@@ -539,15 +525,10 @@ export function getDocumentIndexFields<
   // @ts-ignore
   indexFields.id = indexFields.id || mountGraphID(firstIndex.value);
 
-  nonNullValues({
-    'uniqIndexCondition._id.$startsWith': uniqIndexCondition._id.$startsWith,
-  });
-
   return {
     error: null,
     firstIndex,
     indexFields,
-    uniqIndexCondition,
     invalidFields: null,
     parsedIndexKeys,
     valid,
@@ -559,7 +540,7 @@ export type IndexFilterKeyPairInfo = {
   SK: IndexFilter | string | null | undefined;
   entity: string;
   index: AnyDocIndexItem;
-  indexField: DocumentIndexField;
+  indexField: DocumentIndexFieldKey;
   parsePK: ParsedIndexPart;
   parseSK: ParsedIndexPart;
 };
@@ -581,7 +562,7 @@ function joinPKAndSKAsIDFilter(
           PKEscapedString: PK,
           SKEscapedString: SK,
           entity,
-          indexField: indexField,
+          indexConfig: index,
           relatedTo,
         }).fullID,
       },
@@ -601,7 +582,7 @@ function joinPKAndSKAsIDFilter(
       [indexField]: {
         $startsWith: createIndexToIDHelpers({
           entity,
-          indexField,
+          indexConfig: index,
           relatedTo: undefined,
           PKEscapedString: '',
           SKEscapedString: '',
@@ -653,7 +634,7 @@ function joinPKAndSKAsIDFilter(
         PKEscapedString: suffix,
         SKEscapedString: null,
         entity,
-        indexField,
+        indexConfig: index,
         relatedTo,
       }).fullID.slice(0, -1);
     }
@@ -718,7 +699,7 @@ function joinPKAndSKAsIDFilter(
               PKEscapedString: pk_value,
               SKEscapedString: SKValue,
               entity,
-              indexField: indexField,
+              indexConfig: index,
               relatedTo,
             }).fullID,
           },
@@ -797,7 +778,7 @@ function joinPKAndSKAsIDFilter(
               PKEscapedString: PKString,
               SKEscapedString: sk_value,
               entity,
-              indexField: indexField,
+              indexConfig: index,
               relatedTo,
             }).fullID,
           },
@@ -819,7 +800,7 @@ function joinPKAndSKAsIDFilter(
                     ? encodeNumber(sk_value[0])
                     : sk_value[0],
                 entity,
-                indexField: indexField,
+                indexConfig: index,
                 relatedTo,
               }).fullID,
               createIndexToIDHelpers({
@@ -829,7 +810,7 @@ function joinPKAndSKAsIDFilter(
                     ? encodeNumber(sk_value[1])
                     : sk_value[1],
                 entity,
-                indexField: indexField,
+                indexConfig: index,
                 relatedTo,
               }).fullID,
             ],
@@ -848,7 +829,7 @@ function joinPKAndSKAsIDFilter(
               PKEscapedString: PKString,
               SKEscapedString: sk_value,
               entity,
-              indexField: indexField,
+              indexConfig: index,
               relatedTo,
             }).fullID,
           },
@@ -873,7 +854,7 @@ function joinPKAndSKAsIDFilter(
                   PKEscapedString: PKString,
                   SKEscapedString: '',
                   entity,
-                  indexField: indexField,
+                  indexConfig: index,
                   relatedTo,
                 }).fullID,
               },
@@ -884,7 +865,7 @@ function joinPKAndSKAsIDFilter(
                   PKEscapedString: PKString,
                   SKEscapedString: sk_value,
                   entity,
-                  indexField: indexField,
+                  indexConfig: index,
                   relatedTo,
                 }).fullID,
               },
@@ -922,8 +903,8 @@ function pickIndexKeyPartsFromDocument(param: {
   indexParts.forEach((keyPart) => {
     if (nullableFound) return;
 
-    if (keyPart === RELATION_SEPARATOR) {
-      return stringParts.push(keyPart);
+    if (keyPart === RELATION_INDICATOR) {
+      return stringParts.push(keyPart); // fixme
     }
 
     if (keyPart.startsWith(ID_KEY_SEPARATOR)) {
@@ -1028,16 +1009,12 @@ export function getParsedIndexKeys(
 
 export type IndexKeyHash<Keys = string> =
   | `#${string}`
-  | typeof RELATION_SEPARATOR
+  | typeof RELATION_INDICATOR
   | `.${Extract<Keys, string>}`;
 
 export type IndexPartKind = 'PK' | 'SK';
 
-export const DocumentIndexFields = tuple('id', `_id`, `_id1`, `_id2`, `_id3`);
-
-export type DocumentIndexField = typeof DocumentIndexFields[number];
-
-export const DocumentIndexRegex = /^(_id\d*)|(id)$/;
+export type DocumentIndexFieldKey = string;
 
 // Definition for a document index
 
@@ -1050,7 +1027,7 @@ export interface DocumentIndexesConfig<DocKeys extends $Any.Key = string>
 export type DocumentIndexItem<DocKeys extends $Any.Key = string> = {
   PK: IndexPKSKPartsListConfig<DocKeys>;
   SK?: IndexPKSKPartsListConfig<DocKeys>;
-  field: DocumentIndexField;
+  field: DocumentIndexFieldKey;
   name: string;
   relatedTo?: string;
   relations?: ReadonlyArray<DocumentIndexRelation>; // child entities related to that index
@@ -1134,7 +1111,6 @@ export type ParsedDocumentIndexes =
       };
 
       indexFields: Record<string, string>;
-      uniqIndexCondition: UniqIndexCondition;
 
       invalidFields: null;
 
@@ -1158,25 +1134,6 @@ export type ParsedDocumentIndexes =
 
       valid: false;
     };
-
-export function isDocumentIndexKey(
-  input: unknown
-): input is DocumentIndexField {
-  return typeof input === 'string' && DocumentIndexRegex.test(input);
-}
-
-export function assertDocumentIndexKey(
-  input: unknown
-): asserts input is DocumentIndexField {
-  if (!isDocumentIndexKey(input)) {
-    throw new CollectionErrors(
-      {
-        reason: 'INVALID_INDEX_KEY',
-      },
-      input
-    );
-  }
-}
 
 export const relationSchema = createSchema({
   entity: { string: { min: 1 } },

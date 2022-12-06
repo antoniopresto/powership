@@ -99,7 +99,7 @@ describe('uniqIds', () => {
 
     expect(a.item).toEqual({
       ...m1,
-      _id: `entity_foo:_id#${m1.ulid}↠`,
+      _id: `entity_foo:_id#${m1.ulid}»`,
       _idPK: m1.ulid,
       _idSK: '',
       _id2: expect.stringMatching(`entity_foo:_id2#${m1.PKV}`),
@@ -139,7 +139,7 @@ describe('uniqIds', () => {
 
     const m1_match = {
       ...m1,
-      _id: `entity_foo:_id#${m1.ulid}↠`,
+      _id: `entity_foo:_id#${m1.ulid}»`,
       _idPK: m1.ulid,
       _idSK: '',
       _id2: expect.stringMatching(`entity_foo:_id2#${m1.PKV}`),
@@ -184,7 +184,7 @@ describe('uniqIds', () => {
 
     const m1_match = {
       ...m1,
-      _id: `entity_foo:_id#${m1.ulid}↠`,
+      _id: `entity_foo:_id#${m1.ulid}»`,
       _idPK: m1.ulid,
       _idSK: '',
       _id2: expect.stringMatching(`entity_foo:_id2#${m1.PKV}`),
@@ -228,7 +228,7 @@ describe('uniqIds', () => {
 
     const m1_match = {
       ...m1,
-      _id: `entity_foo:_id#${m1.ulid}↠`,
+      _id: `entity_foo:_id#${m1.ulid}»`,
       _idPK: m1.ulid,
       _idSK: '',
       _id2: expect.stringMatching(`entity_foo:_id2#${m1.PKV}`),

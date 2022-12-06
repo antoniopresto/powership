@@ -4,7 +4,7 @@ import { Infer } from '../Infer';
 import { createObjectType, ObjectType } from '../ObjectType';
 import { _assertFields } from '../fields/__tests__/__assert';
 import { ParseStringDefinition } from '../parseStringDefinition';
-import {EnumField} from "../fields/EnumField";
+import { EnumField } from '../fields/EnumField';
 
 describe('typings', () => {
   test('enum', () => {

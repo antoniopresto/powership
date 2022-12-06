@@ -27,14 +27,15 @@ describe('getDocumentIndexFields', () => {
       error: null,
       firstIndex: {
         key: '_id',
-        value: 'foo:_id#fulano↠715',
+        value: 'foo:_id#fulano»715',
       },
       indexFields: {
-        _id: 'foo:_id#fulano↠715',
-        _id1: 'foo:_id1#715↠fulano',
-        _id1PK: '715',
+        _e: 'foo',
+        _id: 'foo:_id#fulano»715',
+        _id1: 'foo:_id1#715»fulano',
+        _id1PK: 'foo:_id1#715»',
         _id1SK: 'fulano',
-        _idPK: 'fulano',
+        _idPK: 'foo:_id#fulano»',
         _idSK: '715',
         id: expect.any(String),
       },
@@ -80,18 +81,6 @@ describe('getDocumentIndexFields', () => {
         },
       ],
       valid: true,
-      uniqIndexCondition: {
-        $not: {
-          $or: [
-            {
-              _id: 'foo:_id#fulano↠715',
-            },
-            {
-              _id1: 'foo:_id1#715↠fulano',
-            },
-          ],
-        },
-      },
     });
   });
 
@@ -115,11 +104,12 @@ describe('getDocumentIndexFields', () => {
       error: null,
       firstIndex: {
         key: '_id',
-        value: 'foo:_id#5#NAME↠nice#5',
+        value: 'foo:_id#5#NAME»nice#5',
       },
       indexFields: {
-        _id: 'foo:_id#5#NAME↠nice#5',
-        _idPK: '5#NAME',
+        _e: 'foo',
+        _id: 'foo:_id#5#NAME»nice#5',
+        _idPK: 'foo:_id#5#NAME»',
         _idSK: 'nice#5',
         id: expect.any(String),
       },
@@ -146,15 +136,6 @@ describe('getDocumentIndexFields', () => {
         },
       ],
       valid: true,
-      uniqIndexCondition: {
-        $not: {
-          $or: [
-            {
-              _id: 'foo:_id#5#NAME↠nice#5',
-            },
-          ],
-        },
-      },
     });
   });
 
@@ -248,13 +229,15 @@ describe('getDocumentIndexFields', () => {
         error: null,
         firstIndex: {
           key: '_id',
-          value: 'account:_id#741234≻accesstype↠phone#+55119988788',
+          value: 'account:_id#741234»accesstype«phone#+55119988788',
         },
         indexFields: {
-          _id: 'account:_id#741234≻accesstype↠phone#+55119988788',
-          _idPK: '741234',
+          _e: 'accesstype',
+          _id: 'account:_id#741234»accesstype«phone#+55119988788',
+          _idPK: 'account:_id#741234»accesstype«',
           _idSK: 'phone#+55119988788',
-          id: '~!YWNjb3VudDpfaWQjNzQxMjM04om7YWNjZXNzdHlwZeKGoHBob25lIys1NTExOTk4ODc4OA==',
+          _rt: ['account:_id#741234»'],
+          id: '~!YWNjb3VudDpfaWQjNzQxMjM0wrthY2Nlc3N0eXBlwqtwaG9uZSMrNTUxMTk5ODg3ODg=',
         },
         invalidFields: null,
         parsedIndexKeys: [
@@ -280,15 +263,6 @@ describe('getDocumentIndexFields', () => {
           },
         ],
         valid: true,
-        uniqIndexCondition: {
-          $not: {
-            $or: [
-              {
-                _id: 'account:_id#741234≻accesstype↠phone#+55119988788',
-              },
-            ],
-          },
-        },
       });
     });
   });

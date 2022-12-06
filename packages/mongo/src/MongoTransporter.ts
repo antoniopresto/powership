@@ -7,7 +7,6 @@ import {
   DeleteManyResult,
   DeleteOneConfig,
   DeleteOneResult,
-  DocumentIndexFields,
   FindByIdConfig,
   FindManyConfig,
   FindManyResult,
@@ -81,26 +80,21 @@ export class MongoTransporter implements Transporter {
       );
     }
 
+    const notRepeat$OR: Filter<any>[] = [];
+
+    indexMap.parsedIndexKeys.forEach(({ index: { field } }) => {
+      const value = indexMap.indexFields[field];
+      if (!value) return;
+      notRepeat$OR.push(...parseMongoAttributeFilters({ [field]: value }));
+    });
+
+    conditionExpression.$or = [
+      ...(conditionExpression.$or || []),
+      ...notRepeat$OR,
+    ];
+
     try {
       if (replace) {
-        const $or: Filter<any>[] = (conditionExpression.$or =
-          conditionExpression.$or || []);
-
-        const $and: Filter<any>[] = (conditionExpression.$and =
-          conditionExpression.$and || []);
-
-        $and.push(
-          ...parseMongoAttributeFilters({
-            _id: indexMap.uniqIndexCondition._id,
-          })
-        );
-
-        DocumentIndexFields.forEach((field) => {
-          const value = indexMap.indexFields[field];
-          if (!value) return;
-          $or.push(...parseMongoAttributeFilters({ [field]: value }));
-        });
-
         const result = await collection.replaceOne(conditionExpression, item, {
           hint: { _id: 1 },
           upsert: true,
@@ -113,24 +107,6 @@ export class MongoTransporter implements Transporter {
         res.updated = updated;
         res.item = { ...item, _id: upsertedId || item._id };
       } else {
-        const $or: Filter<any>[] = (conditionExpression.$or =
-          conditionExpression.$or || []);
-
-        const $and: Filter<any>[] = (conditionExpression.$and =
-          conditionExpression.$and || []);
-
-        $and.push(
-          ...parseMongoAttributeFilters({
-            _id: indexMap.uniqIndexCondition._id,
-          })
-        );
-
-        DocumentIndexFields.forEach((field) => {
-          const value = indexMap.indexFields[field];
-          if (!value) return;
-          $or.push(...parseMongoAttributeFilters({ [field]: value }));
-        });
-
         const result = await collection.findOneAndUpdate(
           conditionExpression,
           { $setOnInsert: item },
@@ -144,8 +120,8 @@ export class MongoTransporter implements Transporter {
 
         if (data.updatedExisting) {
           throw new Error(
-            `Can't create two documents with same index. Existing document found with condition: ${JSON.stringify(
-              indexMap.uniqIndexCondition,
+            `Can't create two documents with same index. Existing document found with ${JSON.stringify(
+              { notRepeat$OR, data },
               null,
               2
             )}`

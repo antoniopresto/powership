@@ -275,7 +275,7 @@ export function createEntity(
       entityTypeObject: type.__lazyGetter.objectType,
     }).entityTypeObject;
 
-    const entity = {} as any;
+    let entity = {} as any;
     const loaders: Record<string, any> = {};
 
     let entityOutputDefinitionWithRelations = {
@@ -414,8 +414,9 @@ export function createEntity(
           operation as any
         )) as any;
 
-        let result = await resolver(operation.options);
+        const p = resolver(operation.options);
 
+        let result = await p;
         if (
           !result.error &&
           operation.isUpdate &&
@@ -621,7 +622,12 @@ export function createEntity(
       type: entityType,
     });
 
+    entity = entityMutations.reduce((acc, next) => {
+      return next(acc);
+    }, entity);
+
     let _inputExt: any;
+    let _updateExt: any;
     Object.defineProperties(entity, {
       inputDef: {
         get() {
@@ -629,10 +635,7 @@ export function createEntity(
             _inputExt || extendDefinition({ object: inputDef }));
         },
       },
-    });
 
-    let _updateExt: any;
-    Object.defineProperties(entity, {
       updateDef: {
         get() {
           return (_updateExt =
@@ -641,9 +644,7 @@ export function createEntity(
       },
     });
 
-    return entityMutations.reduce((acc, next) => {
-      return next(acc);
-    }, entity);
+    return entity;
   }
 
   return entity;
