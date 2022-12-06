@@ -1,6 +1,6 @@
 {
   "name": "@backland/mongo",
-  "version": "0.0.0-alpha.20221203232541346",
+  "version": "0.0.0-alpha.20221206012947474",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
   "author": "antoniopresto <antoniopresto@gmail.com>",
@@ -34,9 +34,9 @@
     "inference"
   ],
   "dependencies": {
-    "@backland/schema": "0.0.0-alpha.20221203232541346",
-    "@backland/transporter": "0.0.0-alpha.20221203232541346",
-    "@backland/utils": "0.0.0-alpha.20221203232541346",
+    "@backland/schema": "0.0.0-alpha.20221206012947474",
+    "@backland/transporter": "0.0.0-alpha.20221206012947474",
+    "@backland/utils": "0.0.0-alpha.20221206012947474",
     "dataloader": "2.1.0",
     "plugin-hooks": "1.1.3",
     "sift": "16.0.0"
@@ -46,7 +46,7 @@
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@backland/babel-plugins": "0.0.0-alpha.20221203232541346",
+    "@backland/babel-plugins": "0.0.0-alpha.20221206012947474",
     "@types/jest": "29.1.2",
     "@types/node": "16.18.3",
     "@typescript-eslint/eslint-plugin": "5.39.0",
