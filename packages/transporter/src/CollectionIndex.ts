@@ -130,12 +130,18 @@ export function createIndexToIDHelpers(params: {
     };
   }
 
-  const documentIndexFields: Record<string, string | string[] | null> = {
-    [indexField]: fullID,
-    [`${indexField}PK`]: PKPart,
-    [`${indexField}SK`]: SKEscapedString,
-    _e: entity,
-  };
+  const documentIndexFields: Record<any, any> = (() => {
+    const _field = indexField.endsWith('PK')
+      ? indexField.slice(0, -2)
+      : indexField;
+
+    return {
+      [_field || 'PK']: fullID,
+      [`${_field}PK`]: PKPart,
+      [`${_field}SK`]: SKEscapedString,
+      _e: entity,
+    };
+  })();
 
   if (relatedTo) {
     documentIndexFields['_rt'] = [
@@ -922,7 +928,7 @@ function pickIndexKeyPartsFromDocument(param: {
     if (nullableFound) return;
 
     if (keyPart === RELATION_INDICATOR) {
-      return stringParts.push(keyPart); // fixme
+      return stringParts.push(keyPart);
     }
 
     if (keyPart.startsWith(ID_KEY_SEPARATOR)) {
