@@ -9,6 +9,7 @@ import {
 import { MongoTransporter } from '../MongoTransporter';
 
 import { AppMock, createAppMock } from '../test-utils';
+import { notNull } from '@backland/utils';
 
 const itemUser = {
   item: {
@@ -32,7 +33,7 @@ describe('MongoTransporter', () => {
   let transporter: MongoTransporter;
   const indexConfig: AnyCollectionIndexConfig = {
     entity: 'entity_foo',
-    indexes: [{ name: 'any', field: '_id', PK: ['.PK'], SK: ['.SK'] }],
+    indexes: [{ name: 'any', name: '_id', PK: ['.PK'], SK: ['.SK'] }],
   };
 
   function _put(
@@ -1040,6 +1041,95 @@ describe('MongoTransporter', () => {
     });
   });
 
+  describe('findById', () => {
+    it('should call findById', async () => {
+      const ctx = { __hola: '' };
+
+      const created = await transporter.createOne({
+        indexConfig,
+        context: {},
+        item: {
+          PK: 'users',
+          SK: 3,
+        },
+      });
+
+      const id = notNull(created.item?.id);
+
+      const found = await transporter.findById({
+        id,
+        indexConfig,
+        context: ctx,
+      });
+
+      expect(found.item).toEqual({
+      
+      });
+    });
+
+    it('should return single item with dataloader', async () => {
+      const collection = transporter.db.collection('users');
+      const spy = jest.spyOn(collection.constructor.prototype, 'find');
+
+      await Promise.all([
+        transporter.createOne({
+          indexConfig,
+          context: {},
+          item: {
+            PK: 'users',
+            SK: 3,
+          },
+        }),
+
+        transporter.createOne({
+          indexConfig,
+          context: {},
+          item: {
+            PK: 'users',
+            SK: 1000,
+          },
+        }),
+      ]);
+
+      const context = {};
+
+      const [g1, g2, g3] = await Promise.all([
+        transporter.findOne({
+          indexConfig,
+          filter: {
+            PK: 'users',
+            SK: 3,
+          },
+          context,
+        }),
+        transporter.findOne({
+          indexConfig,
+          filter: {
+            PK: 'users',
+            SK: 1000,
+          },
+          context,
+        }),
+        transporter.findOne({
+          filter: {
+            PK: 'users',
+            SK: 199,
+          },
+          indexConfig,
+          context,
+        }),
+      ]);
+
+      expect(g1.item).toHaveProperty('SK', 3);
+      expect(g2.item).toHaveProperty('SK', 1000);
+      expect(g3.item).toBeNull();
+
+      expect(spy).toBeCalledTimes(1);
+
+      spy.mockRestore();
+    });
+  });
+
   test('case 101', async () => {
     const collection = transporter.db.collection('users');
     const spy = jest.spyOn(collection.constructor.prototype, 'find');
@@ -1053,7 +1143,7 @@ describe('MongoTransporter', () => {
           {
             name: 'accountId',
             PK: ['.accountId'],
-            field: '_id',
+            name: '_id',
           },
         ],
       },

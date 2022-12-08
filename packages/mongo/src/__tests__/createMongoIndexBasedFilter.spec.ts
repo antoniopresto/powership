@@ -82,7 +82,7 @@ describe('createMongoIndexBasedFilter', () => {
           },
           {
             entity: 'my_entity',
-            indexes: [{ name: 'any', field: '_id', PK: ['.PK'], SK: ['.SK'] }],
+            indexes: [{ name: 'any', name: '_id', PK: ['.PK'], SK: ['.SK'] }],
           }
         );
 

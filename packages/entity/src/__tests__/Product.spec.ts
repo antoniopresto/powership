@@ -370,7 +370,7 @@ describe('Product', () => {
       indexConfig: {
         PK: [],
         SK: [],
-        field: '_id1',
+        name: '_id1',
         name: '_id1',
       },
       relatedTo: undefined,

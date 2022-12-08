@@ -1,7 +1,7 @@
 import { randomBytes } from 'crypto';
 
 import { createType, Infer } from '@backland/schema';
-import { GraphIDJSON, parseGraphID } from '@backland/transporter';
+import { GraphIDJSON, parseCursorString } from '@backland/transporter';
 import {
   base64ToText,
   BJSON,
@@ -85,8 +85,8 @@ export function parseAuthTokenString(
     );
   }
 
-  const sessionIDJSON = parseGraphID(s);
-  const accountIDJSON = parseGraphID(a);
+  const sessionIDJSON = parseCursorString(s);
+  const accountIDJSON = parseCursorString(a);
 
   if (!sessionIDJSON) throw new Error('UNEXPECTED_SESSION_GRAPH_ID');
   if (!accountIDJSON) throw new Error('UNEXPECTED_ACCOUNT_GRAPH_ID');

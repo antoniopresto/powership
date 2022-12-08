@@ -82,10 +82,10 @@ export class MongoTransporter implements Transporter {
 
     const notRepeat$OR: Filter<any>[] = [];
 
-    indexMap.parsedIndexKeys.forEach(({ index: { field } }) => {
-      const value = indexMap.indexFields[field];
+    indexMap.parsedIndexKeys.forEach(({ index: { name } }) => {
+      const value = indexMap.indexFields[name];
       if (!value) return;
-      notRepeat$OR.push(...parseMongoAttributeFilters({ [field]: value }));
+      notRepeat$OR.push(...parseMongoAttributeFilters({ [name]: value }));
     });
 
     conditionExpression.$or = [
