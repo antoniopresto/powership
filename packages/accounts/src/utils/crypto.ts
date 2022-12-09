@@ -1,7 +1,7 @@
 import { randomBytes } from 'crypto';
 
 import { createType, Infer } from '@backland/schema';
-import { GraphIDJSON, parseFilterCursor } from '@backland/transporter';
+import { ParsedIndexCursor, parseFilterCursor } from '@backland/transporter';
 import {
   base64ToText,
   BJSON,
@@ -85,15 +85,15 @@ export function parseAuthTokenString(
     );
   }
 
-  const sessionIDJSON = parseFilterCursor(s);
-  const accountIDJSON = parseFilterCursor(a);
+  const sessionCursor = parseFilterCursor(s);
+  const accountCursor = parseFilterCursor(a);
 
-  if (!sessionIDJSON) throw new Error('UNEXPECTED_SESSION_GRAPH_ID');
-  if (!accountIDJSON) throw new Error('UNEXPECTED_ACCOUNT_GRAPH_ID');
+  if (!sessionCursor) throw new Error('UNEXPECTED_SESSION_GRAPH_ID');
+  if (!accountCursor) throw new Error('UNEXPECTED_ACCOUNT_GRAPH_ID');
 
   return {
-    sessionIDJSON,
-    accountIDJSON,
+    sessionCursor,
+    accountCursor,
     randomPart: r,
     dataIPHash: i,
     dataUAHash: u,
@@ -102,8 +102,8 @@ export function parseAuthTokenString(
 }
 
 export type ParsedAuthToken = {
-  sessionIDJSON: GraphIDJSON; // the data in session id (entity, index field, etc)
-  accountIDJSON: GraphIDJSON; // the data in account id (entity, index field, etc)
+  sessionCursor: ParsedIndexCursor; // the data in session id (entity, index field, etc)
+  accountCursor: ParsedIndexCursor; // the data in account id (entity, index field, etc)
   dataUAHash: number; // user agent hash
   dataIPHash: number; // ip hash
   randomPart: string;

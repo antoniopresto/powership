@@ -115,8 +115,8 @@ export class Sessions {
         );
       }
 
-      const { accountIDJSON } = parsedAuthToken;
-      const filter = { id: accountIDJSON.input };
+      const { accountCursor } = parsedAuthToken;
+      const filter = { id: accountCursor.cursor };
 
       const { item: account } = await AccountEntity.findOne({
         filter,
@@ -187,7 +187,7 @@ export class Sessions {
         throw new AccountError('InvalidSession', 'AGENT_CHANGED');
       }
 
-      const currentSessionId = currentAuthTokenData.sessionIDJSON.input;
+      const currentSessionId = currentAuthTokenData.sessionCursor.cursor;
 
       randomAuthTokenString = createRandomAuthTokenString({
         s: currentSessionId,
@@ -212,7 +212,7 @@ export class Sessions {
         throw new AccountError(
           'SessionNotFound',
           updated.error ||
-            `Session "${currentAuthTokenData.sessionIDJSON.input}" not found.`
+            `Session "${currentAuthTokenData.sessionCursor.cursor}" not found.`
         );
       }
 
@@ -339,8 +339,8 @@ export class Sessions {
               ignoreExpiration: true,
             },
           });
-          const { sessionIDJSON } = parseAuthTokenString(jwtData.data, 'A');
-          return { id: sessionIDJSON.input, accountId };
+          const { sessionCursor } = parseAuthTokenString(jwtData.data, 'A');
+          return { id: sessionCursor.cursor, accountId };
         } catch (e) {
           if (request.user) {
             // in case jwt verification failed, because secret changed, etc.

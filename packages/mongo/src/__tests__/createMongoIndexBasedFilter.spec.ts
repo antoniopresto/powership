@@ -3,7 +3,6 @@ import {
   IndexFilterRecord,
   PKSKValueType,
   getDocumentIndexFields,
-  ID_SCAPE_CHAR,
 } from '@backland/transporter';
 
 import { createMongoIndexBasedFilters } from '../parseMongoAttributeFilters';
@@ -82,7 +81,7 @@ describe('createMongoIndexBasedFilter', () => {
           },
           {
             entity: 'my_entity',
-            indexes: [{ name: 'any', name: '_id', PK: ['.PK'], SK: ['.SK'] }],
+            indexes: [{ name: '_id', PK: ['.PK'], SK: ['.SK'] }],
           }
         );
 
@@ -203,9 +202,9 @@ describe('createMongoIndexBasedFilter', () => {
       });
 
       expect(query).toEqual([
-        { _id: { $regex: `^my_entity⋮_id⋮users${ID_SCAPE_CHAR}#123⋮` } },
+        { _id: { $regex: `^my_entity⋮_id⋮users1#123⋮` } },
         //
-        { _id: { $gte: `my_entity⋮_id⋮users${ID_SCAPE_CHAR}#123⋮abc` } },
+        { _id: { $gte: `my_entity⋮_id⋮users1#123⋮abc` } },
       ]);
     });
 
@@ -249,7 +248,7 @@ describe('createMongoIndexBasedFilter', () => {
 
   describe('query string SK', () => {
     it('should handle empty key condition', async () => {
-      expect(await get('users', { $startsWith: '' })).toHaveLength(6);
+      expect(await get('users', {})).toHaveLength(6);
     });
 
     it('should handle $startsWith', async () => {
@@ -433,7 +432,7 @@ describe('createMongoIndexBasedFilter', () => {
 
   describe('query number SK', () => {
     it('should handle empty key condition', async () => {
-      expect(await get('ranking', { $startsWith: '' })).toHaveLength(8);
+      expect(await get('ranking', {})).toHaveLength(8);
     });
 
     it('should handle $between', async () => {

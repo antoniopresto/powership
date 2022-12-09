@@ -19,8 +19,13 @@ export function createMongoIndexBasedFilters(options: {
   indexConfig: AnyCollectionIndexConfig;
 }) {
   const { indexConfig, filter } = options;
-  const { attributeFilter } = createDocumentIndexBasedFilters(filter, indexConfig);
-  return parseMongoAttributeFilters(attributeFilter);
+
+  const { indexFilter, attributeFilter } = createDocumentIndexBasedFilters(
+    filter,
+    indexConfig
+  );
+
+  return parseMongoAttributeFilters({ ...indexFilter, ...attributeFilter });
 }
 
 export function parseMongoAttributeFilters(attFilter: FilterRecord) {

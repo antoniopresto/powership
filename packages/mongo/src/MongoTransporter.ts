@@ -152,37 +152,27 @@ export class MongoTransporter implements Transporter {
       condition,
     } = options;
 
-    const { attributeFilter, relationFilters, PK } = createDocumentIndexBasedFilters(
-      filter,
-      indexConfig
-    );
+    const { attributeFilter, relationFilters, indexFilter } =
+      createDocumentIndexBasedFilters(filter, indexConfig);
 
-    const $and = parseMongoAttributeFilters(attributeFilter);
+    const $and = attributeFilter
+      ? parseMongoAttributeFilters(attributeFilter)
+      : [];
 
     const relationsMongoFilters = relationFilters
       ? parseMongoAttributeFilters({ $or: relationFilters })
       : undefined;
 
-    const firstFilterEntry = Object.entries(attributeFilter)[0];
-    const firstFilterKey = firstFilterEntry[0];
-
     if (after) {
-      const rule = sort === 'DESC' ? '$lt' : '$gt';
-
-      const {
-        attributeFilter: startingDocFilters,
-        PK: { key },
-      } = createDocumentIndexBasedFilters(
+      const { indexFilter } = createDocumentIndexBasedFilters(
         typeof after === 'string' ? { id: after } : after,
         indexConfig
       );
 
-      const startingFilter = parseMongoAttributeFilters(startingDocFilters);
-
-      const value = Object.values(startingFilter[0])[0];
+      const [key, value] = Object.entries(indexFilter)[0];
 
       $and.push({
-        [key]: { [rule]: value },
+        [key]: { [sort === 'DESC' ? '$lt' : '$gt']: value },
       });
     }
 
@@ -199,12 +189,14 @@ export class MongoTransporter implements Transporter {
 
     const collection = this.getCollection(filter);
 
+    const firstFilterEntry = Object.entries(indexFilter)[0];
+    const firstFilterKey = firstFilterEntry[0];
+
     const sortKey =
       firstFilterKey && firstFilterKey.startsWith('$') ? '_id' : firstFilterKey;
     const mongoSort = { [sortKey]: sort === 'DESC' ? -1 : 1 } as const;
 
     return {
-      PK,
       relationFilter: relationFilters,
       relationsMongoFilters,
       collection,

@@ -33,7 +33,7 @@ describe('MongoTransporter', () => {
   let transporter: MongoTransporter;
   const indexConfig: AnyCollectionIndexConfig = {
     entity: 'entity_foo',
-    indexes: [{ name: 'any', name: '_id', PK: ['.PK'], SK: ['.SK'] }],
+    indexes: [{ name: '_id', PK: ['.PK'], SK: ['.SK'] }],
   };
 
   function _put(
@@ -1062,9 +1062,7 @@ describe('MongoTransporter', () => {
         context: ctx,
       });
 
-      expect(found.item).toEqual({
-      
-      });
+      expect(found.item).toEqual({});
     });
 
     it('should return single item with dataloader', async () => {
@@ -1141,7 +1139,6 @@ describe('MongoTransporter', () => {
         entity: 'account',
         indexes: [
           {
-            name: 'accountId',
             PK: ['.accountId'],
             name: '_id',
           },

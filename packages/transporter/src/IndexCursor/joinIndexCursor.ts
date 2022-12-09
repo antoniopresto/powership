@@ -1,4 +1,4 @@
-import { inspectObject, isProduction, nonNullValues } from '@backland/utils';
+import { nonNullValues } from '@backland/utils';
 
 export interface InitIndexCursor {
   PK: string[];
@@ -102,16 +102,6 @@ export function _joinIndexCursorWithParent(
   init: InitIndexCursorWithParent,
   options: JoinKeyPartsOptions
 ) {
-  if (init.SK?.filter(Boolean).length) {
-    if (!isProduction()) {
-      console.warn(
-        `Index definition without a SK value defined found with a "relatedTo" defined. Found: ${inspectObject(
-          init
-        )}`
-      );
-    }
-  }
-
   const { entity, relatedTo } = nonNullValues(
     init,
     '_joinIndexCursorWithParent called with invalid parameters.'

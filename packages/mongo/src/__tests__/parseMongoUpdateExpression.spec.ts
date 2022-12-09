@@ -4,7 +4,7 @@ import { AppMock, createAppMock } from '../test-utils';
 import { MongoTransporter } from '../MongoTransporter';
 
 const mockUser = () => ({
-  _id: '1',
+  _id: 'user⋮_id⋮1⋮⋮',
   name: 'fulano',
   age: 20,
   list: ['a'],
@@ -29,7 +29,7 @@ describe('parseMongoUpdateExpression', () => {
 
   async function create() {
     const { item } = await mockApp.transporter.createOne({
-      item: mockUser(),
+      item: { ...mockUser(), _id: '1' },
       context: {},
       indexConfig,
     });

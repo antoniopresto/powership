@@ -733,8 +733,12 @@ function _getIndexFilter(
   }
 
   const PKAndSKAreStrings = indexes.find((item) => {
-    const pkValid = !item.PKPartParsed.isFilter && item.PKPartParsed.valid;
-    const skValid = !item.SKPartParsed.isFilter && item.SKPartParsed.valid;
+    const pkValid =
+      item.PKPartParsed?.isFilter === false && item.PKPartParsed.valid;
+
+    const skValid =
+      item.SKPartParsed?.isFilter === false && item.SKPartParsed.valid;
+
     return pkValid && skValid;
   });
 
@@ -748,7 +752,7 @@ function _getIndexFilter(
   }
 
   const PKIsString = indexes.find((item) => {
-    return !item.PKPartParsed.isFilter && item.PKPartParsed.valid;
+    return item.PKPartParsed?.isFilter === false && item.PKPartParsed.valid;
   });
 
   if (PKIsString) {
