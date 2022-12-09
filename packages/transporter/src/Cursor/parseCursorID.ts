@@ -1,12 +1,37 @@
 import {
   _joinCursorParts,
   _splitCursorParts,
+  INDEX_PART_SEP,
+  InitCursorID,
+  joinCursorID,
   ParsedCursorID,
 } from './joinCursorID';
 import { inspectObject, nonNullValues } from '@backland/utils';
 
-export function parseCursorID(init: string | string[]): ParsedCursorID {
-  const parts = Array.isArray(init) ? init : _splitCursorParts(init);
+export function parseCursorID(
+  init: string | string[] | InitCursorID
+): ParsedCursorID {
+  //
+  const { parts, fullID } = (() => {
+    if (typeof init === 'string')
+      return {
+        parts: _splitCursorParts(init),
+        fullID: init,
+      };
+
+    if (Array.isArray(init))
+      return {
+        parts: init,
+        fullID: _joinCursorParts(init),
+      };
+
+    const fullID = joinCursorID(init);
+
+    return {
+      fullID,
+      parts: _splitCursorParts(fullID),
+    };
+  })();
 
   const MIN_PARTS = 4;
   if (parts.length < MIN_PARTS) {
@@ -19,68 +44,93 @@ export function parseCursorID(init: string | string[]): ParsedCursorID {
     );
   }
 
-  const [entity, name, PK, SK, ...rest] = parts;
+  const isRelation = parts.length > 4;
 
-  const data = nonNullValues({ entity, name, PK, SK });
+  if (isRelation) {
+    try {
+      return _parseSubCursorID({
+        parts: parts,
+      });
+    } catch (e: any) {
+      e.message = `parseCursorID cannot parse child relation ${fullID} ${e.message}`;
+      throw e;
+    }
+  } else {
+    const [entity, name, PK, SK] = parts;
 
-  const fullID = Array.isArray(init) ? _joinCursorParts(init) : init;
+    const data = nonNullValues({ entity, name, PK, SK });
 
-  const current: ParsedCursorID = {
-    name: data.name,
-    entity: data.entity,
-    PK: data.PK.split('∙'),
-    SK: data.SK.length ? data.SK.split('∙') : [],
-    parent: null,
-    cursor: fullID,
-  };
+    const entityName = entity.toLowerCase();
 
-  if (!rest.length) {
-    return current;
-  }
+    const PKPartOpen = [
+      entityName,
+      INDEX_PART_SEP,
+      name,
+      INDEX_PART_SEP,
+      PK,
+    ].join('');
 
-  try {
-    return _parseSubCursorID({
-      fullID,
-      parent: current,
-      parts: rest,
-    });
-  } catch (e: any) {
-    e.message = `parseCursorID can not parse child relation ${fullID} ${e.message}`;
-    throw e;
+    return {
+      name: data.name,
+      entity: entityName,
+      PK: data.PK.split('∙'),
+      SK: data.SK.length ? data.SK.split('∙') : [],
+      parent: null,
+      PKPart: PKPartOpen + INDEX_PART_SEP,
+      PKPartOpen: PKPartOpen,
+      SKPart: SK,
+      cursor: _joinCursorParts([PKPartOpen, SK]),
+    };
   }
 }
 
 export function _parseSubCursorID(init: {
-  parent: ParsedCursorID;
   parts: string[];
-  fullID: string;
+  parent?: ParsedCursorID;
 }): ParsedCursorID {
-  const { parent, fullID, parts } = init;
+  const { parts } = init;
 
-  const [childEntity, PK, SK, ...childRest] = parts;
+  const { parent, childParts } = (() => {
+    if (init.parent) {
+      return {
+        parent: init.parent,
+        childParts: parts,
+      };
+    }
+
+    const parentParts = parts.slice(0, -3);
+    const childParts = parts.slice(-3);
+
+    return {
+      parent: parseCursorID(parentParts),
+      childParts: childParts,
+    };
+  })();
+
+  const [childEntity, PK, SK, ...childRest] = childParts;
 
   nonNullValues({
     childEntity,
     PK,
-    SK,
   });
 
   const child = parseCursorID([childEntity, parent.name, PK, SK]);
 
-  const childLength = _joinCursorParts([childEntity, PK, SK, ...childRest]);
+  const PKPartOpen = [parent.cursor, child.entity, INDEX_PART_SEP, PK].join('');
 
-  const parentID = parent.cursor.slice(0, childLength.length * -1);
+  const PKPart = PKPartOpen + INDEX_PART_SEP;
 
-  child.cursor = fullID;
-  parent.cursor = parentID;
+  child.PKPartOpen = PKPartOpen;
+  child.PKPart = PKPart;
+  child.cursor = `${PKPart}${child.SKPart}${INDEX_PART_SEP}`;
+
   child.parent = parent;
-  child.parentCursor = parentID;
+  child.parentCursor = parent.cursor;
 
   if (childRest.length) {
     return _parseSubCursorID({
-      parts: childRest,
+      parts: childParts,
       parent: child,
-      fullID: fullID,
     });
   }
 

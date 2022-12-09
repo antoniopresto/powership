@@ -16,7 +16,24 @@ export interface ParsedCursorID extends InitCursorID {
   name: string;
   parent: ParsedCursorID | null;
   cursor: string;
+  PKPartOpen: string;
+  PKPart: string;
+  SKPart: string;
 }
+
+export const CURSOR_CHARS = {
+  INDEX_PART_SEP: '⋮',
+  KEY_PART_SEP: '∙',
+  ESCAPE_INDEX_PART_SEP: '⦙',
+  ESCAPE_KEY_PART_SEP: '⦁',
+} as const;
+
+export const {
+  INDEX_PART_SEP,
+  ESCAPE_KEY_PART_SEP,
+  ESCAPE_INDEX_PART_SEP,
+  KEY_PART_SEP,
+} = CURSOR_CHARS;
 
 export function joinCursorID(init: InitCursorID) {
   if (init.parentCursor || init.relatedTo) {
@@ -44,8 +61,25 @@ export function joinCursorID(init: InitCursorID) {
   );
 }
 
+export function escapeCursorChars(init: string) {
+  return init
+    .replaceAll(INDEX_PART_SEP, ESCAPE_INDEX_PART_SEP)
+    .replaceAll(KEY_PART_SEP, ESCAPE_KEY_PART_SEP);
+}
+
+export function joinKeyParts(init: string[]) {
+  return init
+    .map((part) => {
+      return escapeCursorChars(part);
+    })
+    .join('∙');
+}
+
 export function joinPKSK(init: { PK: string[]; SK: string[] }) {
-  return [init.PK.join('∙'), init.SK.join('∙')].join('⋮');
+  return [
+    joinKeyParts(init.PK), //
+    joinKeyParts(init.SK),
+  ].join('⋮');
 }
 
 export interface InitCursorIDWithParent extends InitCursorID {
