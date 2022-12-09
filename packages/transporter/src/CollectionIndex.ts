@@ -1,6 +1,5 @@
 import { createSchema } from '@backland/schema';
 import { $Any, getByPath, nonNullValues, textToBase64 } from '@backland/utils';
-import { RuntimeError } from '@backland/utils';
 import { encodeNumber } from '@backland/utils';
 import { devAssert } from '@backland/utils';
 import { getKeys } from '@backland/utils';
@@ -9,8 +8,9 @@ import { keyBy } from '@backland/utils';
 import { NodeLogger } from '@backland/utils';
 import { base64ToText } from '@backland/utils';
 
-import { CursorID } from './Cursor';
 import { CollectionErrors, EntityErrorKind } from './CollectionErrors';
+import { IndexCursor, ParsedIndexCursor } from './IndexCursor';
+import { RELATION_PRECEDES } from './IndexCursor/joinIndexCursor';
 import {
   DocumentBase,
   FilterConditions,
@@ -21,136 +21,38 @@ import {
   OneFilterOperation,
 } from './Transporter';
 
-export type IndexToIDHelpers = {
-  PKPartOpen: string;
-  PKPart: string;
-  SKPart: string;
-  fullID: string;
-  graphID: string;
-  documentIndexFields: {
-    [K: string]: string | null | string[];
-  };
-};
-
-export function createIndexToIDHelpers(params: {
-  PKEscapedString: string;
-  SKEscapedString: string | null;
-  entity: string;
-  indexConfig: DocumentIndexItem;
-  relatedTo: string | undefined;
-}): IndexToIDHelpers {
-  const {
-    indexConfig: { name: indexField },
-    PKEscapedString,
-    SKEscapedString,
-  } = params;
-
-  const entity = params.entity.toLowerCase();
-  const relatedTo = params.relatedTo?.toLowerCase();
-
-  const {
-    cursor: fullID,
-    PKPart,
-    PKPartOpen,
-    SKPart,
-    parentCursor,
-  } = CursorID.parse({
-    entity,
-    relatedTo,
-    name: indexField,
-    PK: [PKEscapedString],
-    SK: SKEscapedString ? [SKEscapedString] : [],
-  });
-
-  const graphID = mountGraphID({ fullID });
-
-  const documentIndexFields: Record<any, any> = (() => {
-    const _field = indexField.endsWith('PK')
-      ? indexField.slice(0, -2)
-      : indexField;
-
-    return {
-      [_field || 'PK']: fullID,
-      [`${_field}PK`]: PKPart,
-      [`${_field}SK`]: SKEscapedString,
-      _e: entity,
-    };
-  })();
-
-  if (parentCursor) {
-    documentIndexFields['_rt'] = [parentCursor];
-  }
-
-  return {
-    PKPart,
-    SKPart,
-    fullID,
-    graphID,
-    PKPartOpen,
-    documentIndexFields,
-  };
-}
-
-export type GraphIDJSON = {
-  // index name
-  input: string;
-  entity: string;
-  parent: GraphIDJSON | null; // related to (parent entity)
-  indexField: DocumentIndexFieldKey; // entity
-  fullID: string; // id value
-  PK: string;
-  SK: string | null;
-};
-
 export const CURSOR_PREFIX = '~!';
 // a base64 encoded version of the id created by mountId
-export function mountGraphID({ fullID }: { fullID: string }) {
-  if (fullID.startsWith(CURSOR_PREFIX)) return fullID;
-  return `${CURSOR_PREFIX}${textToBase64(fullID)}`;
+export function mountGraphID({ cursor }: { cursor: string }) {
+  if (cursor.startsWith(CURSOR_PREFIX)) return cursor;
+  return `${CURSOR_PREFIX}${textToBase64(cursor)}`;
 }
 
-export function parseCursorString(initFullID: string): GraphIDJSON | null {
+export function parseFilterCursor(
+  initFullID: string
+): ParsedIndexCursor | null {
   try {
     let fullID = initFullID.startsWith(CURSOR_PREFIX)
       ? base64ToText(initFullID.slice(1))
       : initFullID;
-
-    const {
-      //
-      entity,
-      name,
-      PKPart,
-      SKPart,
-      parentCursor,
-    } = CursorID.parse(fullID);
-
-    const parent = parentCursor ? parseCursorString(parentCursor) : null;
-
-    return {
-      entity,
-      indexField: name,
-      fullID,
-      parent,
-      input: initFullID,
-      PK: PKPart,
-      SK: SKPart,
-    };
+    return IndexCursor.parse(fullID, { destination: 'document' });
   } catch (e) {
     NodeLogger.logError(e);
     throw new Error('INVALID_ID');
   }
 }
 
+export type IndexFilterFound =
+  | { _id?: string } & { [L in `${string}PK`]: string } & {
+      [L in `${string}SK`]: string;
+    };
+
+export type RelationsFilter = { [k: string]: string };
 export type IndexBasedFilterParsed = {
-  PK: {
-    // first primaryKey condition found in filter
-    key: DocumentIndexFieldKey;
-    value: string;
-  };
-  filters: FilterRecord;
-  relationFilters: FilterRecord[] | undefined;
+  indexFilter: IndexFilterFound;
+  attributeFilter: FilterRecord | undefined;
+  relationFilters: RelationsFilter[] | undefined;
   foundKeyPairs: IndexFilterKeyPairInfo[];
-  isFullKeyFilter: boolean; // true if (PK is string) && (SK is string or index.SK is undefined)
 };
 
 /**
@@ -163,197 +65,75 @@ export function createDocumentIndexBasedFilters(
   filter: IndexFilterRecord,
   indexConfig: AnyCollectionIndexConfig
 ): IndexBasedFilterParsed {
-  const { indexes, entity } = parseCollectionIndexConfig(indexConfig);
+  indexConfig = parseCollectionIndexConfig(indexConfig);
 
-  const indexFields: string[] = [
-    'id',
-    ...indexConfig.indexes.map((el) => el.name),
-  ];
-
-  let filtersRecords: FilterRecord[] = [];
-  let foundPK: IndexBasedFilterParsed['PK'] | undefined = undefined;
+  let attributeFilters: FilterRecord[] = [];
 
   nonNullValues({ filter });
-  const filterKeys = new Set(Object.keys(filter));
 
-  const relationFilters: FilterRecord[] = [];
-
+  const relationFilters: RelationsFilter[] = [];
   const foundKeyPairs: IndexFilterKeyPairInfo[] = [];
 
-  indexes.forEach((index) => {
-    //
+  const parsedIndexCursors = _parseIndexCursors(filter, indexConfig);
+  const foundIndexFilter = _getIndexFilter(filter, parsedIndexCursors);
 
-    const indexFieldAsFilterKey = index.name.endsWith('PK')
-      ? index.name
-      : `${index.name}PK`;
-    const indexFieldAsFilterValue = filter[indexFieldAsFilterKey];
+  parsedIndexCursors.forEach(
+    ({ index, parsedIndexCursor, PKPartParsed, SKPartParsed }) => {
+      const keyIsInIndexFilter = index.name in foundIndexFilter;
 
-    if (typeof indexFieldAsFilterValue === 'string') {
-      // for the case of a filter like "bananaPK", where
-      // "banana" is the index field.
-      filtersRecords.push({
-        [indexFieldAsFilterKey]: indexFieldAsFilterValue,
-      });
-
-      return (foundPK = foundPK || {
-        key: indexFieldAsFilterKey,
-        value: indexFieldAsFilterValue,
-      });
-    }
-
-    filterKeys.forEach((key) => {
-      const value = filter[key];
-
-      if (typeof value !== 'string') return;
-
-      if (key === 'id') {
-        const id = parseCursorString(value);
-
-        if (id) {
-          return (foundPK = foundPK || {
-            key: id.indexField,
-            value: id.fullID,
-          });
-        }
-      }
-
-      if (indexFields.includes(key)) {
-        return filtersRecords.push({
-          [key]: value,
-        });
-      }
-
-      return;
-    });
-
-    const PK = pickIndexKeyPartsFromDocument({
-      acceptNullable: false,
-      doc: filter,
-      indexField: index.name,
-      indexPartKind: 'PK',
-      indexParts: index.PK,
-    });
-
-    const SK = pickIndexKeyPartsFromDocument({
-      acceptNullable: true,
-      doc: filter,
-      indexField: index.name,
-      indexPartKind: 'SK',
-      indexParts: index.SK || [],
-    });
-
-    if (!PK.valid) {
-      const requiredByPK = [...PK.requiredFields].find((field) =>
-        filterKeys.has(field)
-      );
-
-      if (!requiredByPK) return;
-
-      return devAssert(
-        `Error in PK, failed to mount filter.`,
-        { PK },
-        { depth: 10 }
-      );
-    }
-
-    const parsedCursorID = CursorID.parse({
-      PK: PK.foundParts,
-      SK: SK.foundParts,
-      name: index.name,
-      relatedTo: index.relatedTo,
-      entity,
-    });
-
-    foundPK = foundPK || {
-      key: index.name,
-      value: parsedCursorID.PKPart,
-    };
-
-    if (index.relations?.length) {
-      index.relations.forEach((rel) => {
-        const $startsWith = CursorID.joinCursorPartsWithTrailingSeparator([
-          parsedCursorID.cursor,
-          rel.entity,
-        ]);
-
+      if (index.relations?.length) {
         relationFilters.push({
-          [index.name]: { $startsWith },
+          [`${index.name}PK`]: parsedIndexCursor.PKPartOpen + RELATION_PRECEDES,
         });
-      });
+      }
+
+      const indexKeyPairInfo: IndexFilterKeyPairInfo = {
+        parsePK: PKPartParsed,
+        parseSK: SKPartParsed,
+
+        PK: parsedIndexCursor.PKPart,
+
+        SK: SKPartParsed.nullableFound
+          ? SKPartParsed.nullableFound.value
+          : SKPartParsed.isFilter
+          ? (SKPartParsed.conditionFound as IndexFilter)
+          : SKPartParsed.valid
+          ? parsedIndexCursor.SKPart
+          : (devAssert(
+              `Error in SK, failed to mount filter.`,
+              { SKPartParsed },
+              { depth: 10 }
+            ) as ''),
+
+        entity: indexConfig.entity,
+
+        index,
+
+        indexField: index.name,
+      };
+
+      foundKeyPairs.push(indexKeyPairInfo);
+      const attrFilter =
+        !keyIsInIndexFilter && createSKFilter(indexKeyPairInfo);
+
+      if (attrFilter) {
+        attributeFilters.push(attrFilter);
+      }
     }
+  );
 
-    const indexKeyPairInfo: IndexFilterKeyPairInfo = {
-      parsePK: PK,
-      parseSK: SK,
-
-      PK: PK.isFilter
-        ? (PK.conditionFound as IndexFilter)
-        : PK.valid
-        ? parsedCursorID.PKPart
-        : (devAssert(
-            `Error in PK, failed to mount filter.`,
-            { PK },
-            { depth: 10 }
-          ) as ''),
-
-      SK: SK.nullableFound
-        ? SK.nullableFound.value
-        : SK.isFilter
-        ? (SK.conditionFound as IndexFilter)
-        : SK.valid
-        ? parsedCursorID.SKPart
-        : (devAssert(
-            `Error in SK, failed to mount filter.`,
-            { SK },
-            { depth: 10 }
-          ) as ''),
-
-      entity,
-
-      index,
-
-      indexField: index.name,
-    };
-
-    foundKeyPairs.push(indexKeyPairInfo);
-    const items = joinPKAndSKAsIDFilter(indexKeyPairInfo);
-
-    filtersRecords.push(...items);
-  });
-
-  if (!filtersRecords.length || !foundPK) {
-    throw new CollectionErrors({
-      filter,
-      possibleCondition: foundPK,
-      reason: !filterKeys.size ? 'EMPTY_FILTER' : 'INVALID_FILTER',
-    });
-  }
-
-  let hasNotFullKeyFilter = false;
-
-  foundKeyPairs.forEach(({ index, SK, PK }) => {
-    if (hasNotFullKeyFilter) return;
-    const indexHasSK = !!index.SK?.length;
-    if (indexHasSK) {
-      if (!SK || typeof SK !== 'string') return (hasNotFullKeyFilter = true);
-    }
-    if (!PK || typeof PK !== 'string') {
-      return (hasNotFullKeyFilter = true);
-    }
-    return;
-  });
-
-  const isFullKeyFilter = !hasNotFullKeyFilter;
-
-  const mainEntityFilter =
-    filtersRecords.length === 1 ? filtersRecords[0] : { $and: filtersRecords };
+  const mainEntityFilter = (() => {
+    if (!attributeFilters.length) return;
+    return attributeFilters.length === 1
+      ? attributeFilters[0]
+      : { $and: attributeFilters };
+  })();
 
   return {
-    PK: foundPK,
-    filters: mainEntityFilter,
+    indexFilter: foundIndexFilter,
+    attributeFilter: mainEntityFilter,
     relationFilters: relationFilters.length ? relationFilters : undefined,
     foundKeyPairs,
-    isFullKeyFilter,
   };
 }
 
@@ -362,7 +142,7 @@ export function getDocumentIndexFields<
 >(doc: Document, indexConfig: AnyCollectionIndexConfig): ParsedDocumentIndexes {
   const { indexes, entity } = parseCollectionIndexConfig(indexConfig);
 
-  const indexFields: Record<string, string> = {};
+  let indexFields = {} as CommonIndexFields;
 
   const invalidFields: InvalidParsedIndexField[] = [];
   let firstIndex: FirstIndexParsed = undefined as unknown as FirstIndexParsed; // 🤔because typescript is inferring as never in the end of this function;
@@ -389,21 +169,16 @@ export function getDocumentIndexFields<
       indexParts: index.SK || [],
     });
 
-    const parsedIndex = CursorID.parse({
-      entity,
-      relatedTo,
-      name: index.name,
-      SK: SK.foundParts,
-      PK: PK.foundParts,
-    });
-
-    const indexIDHelpers = createIndexToIDHelpers({
-      PKEscapedString: parsedIndex.PKPart,
-      SKEscapedString: parsedIndex.SKPart,
-      relatedTo,
-      entity,
-      indexConfig: index,
-    });
+    const parsedCursor = IndexCursor.parse(
+      {
+        entity,
+        relatedTo,
+        name: index.name,
+        SK: SK.foundParts,
+        PK: PK.foundParts,
+      },
+      { destination: 'document' }
+    );
 
     parsedIndexKeys.push({
       PK: {
@@ -422,10 +197,10 @@ export function getDocumentIndexFields<
 
     if (PK.valid && SK.valid && !firstIndex) {
       firstIndex = {
-        ...indexIDHelpers,
         ...index,
+        ...parsedCursor,
         key: index.name,
-        value: indexIDHelpers.PKPart,
+        value: parsedCursor.cursor,
       };
     }
 
@@ -438,7 +213,10 @@ export function getDocumentIndexFields<
       invalidFields.push(...PK.invalidFields, ...SK.invalidFields);
     }
 
-    Object.assign(indexFields, indexIDHelpers.documentIndexFields);
+    indexFields = {
+      ..._getDocumentIndexFields(parsedCursor),
+      ...indexFields,
+    };
   });
 
   if (!valid || !firstIndex) {
@@ -469,8 +247,6 @@ export function getDocumentIndexFields<
     };
   }
 
-  indexFields.id = indexFields.id || mountGraphID(firstIndex);
-
   return {
     error: null,
     firstIndex,
@@ -482,7 +258,7 @@ export function getDocumentIndexFields<
 }
 
 export type IndexFilterKeyPairInfo = {
-  PK: IndexFilter | string;
+  PK: string;
   SK: IndexFilter | string | null | undefined;
   entity: string;
   index: AnyDocIndexItem;
@@ -491,342 +267,98 @@ export type IndexFilterKeyPairInfo = {
   parseSK: ParsedIndexPart;
 };
 
-function joinPKAndSKAsIDFilter(
+function createSKFilter(
   options: IndexFilterKeyPairInfo
-): FilterRecord[] {
-  let { PK, SK, entity, indexField, index } = options;
-  const { relatedTo } = index;
+): FilterRecord | undefined {
+  let { SK, indexField } = options;
+
+  if (SK === undefined || SK === null) {
+    return undefined;
+  }
+
   const SKField = `${indexField}SK`;
 
-  if (PK && typeof PK === 'object' && typeof PK.$eq === 'string') PK = PK.$eq;
   if (SK && typeof SK === 'object' && typeof SK.$eq === 'string') SK = SK.$eq;
 
-  if (typeof PK === 'string' && typeof SK === 'string') {
-    return [
-      {
-        [indexField]: createIndexToIDHelpers({
-          PKEscapedString: PK,
-          SKEscapedString: SK,
-          entity,
-          indexConfig: index,
-          relatedTo,
-        }).fullID,
-      },
-    ];
+  if (typeof SK === 'string') {
+    return {
+      [SKField]: SK,
+    };
   }
 
-  const $and: FilterRecord[] = [];
+  let [[comparator, sk_value], ...rest] = Object.entries(SK);
 
-  let _ensuredSameEntity = false;
-  function _ensureSameEntity() {
-    if (_ensuredSameEntity) return;
-    _ensuredSameEntity = true;
-
-    if ($and.find((el) => !!el[indexField]?.$startsWith)) return;
-
-    $and.unshift({
-      [indexField]: {
-        $startsWith: createIndexToIDHelpers({
-          entity,
-          indexConfig: index,
-          relatedTo: undefined,
-          PKEscapedString: '',
-          SKEscapedString: '',
-        }).PKPartOpen,
-      },
-    });
+  if (rest.length) {
+    throw new Error(
+      `More than one condition to SK found: ${inspectObject({ SK })}`
+    );
   }
 
-  if (typeof PK === 'string') {
-    if (typeof SK === 'string') {
-      // make TS happy, the above ifs already handled it
-      throw new RuntimeError(`Expected SK to be an object`, { SK });
-    }
-
-    const filters = handleSKFilter(PK, SK);
-
-    $and.push(filters);
-  } else {
-    if (typeof SK !== 'string' && SK !== undefined && SK !== null) {
-      // make TS happy, the above ifs already handled it
-      throw new RuntimeError(`Expected SK to be a string`, { SK });
-    }
-
-    const filters = handlePKFilter(PK, SK);
-    $and.push(filters);
-  }
-
-  function handlePKFilter(
-    PKFilter: IndexFilter,
-    SKValue: string | null | undefined
-  ): FilterRecord {
-    const keys = getKeys(PKFilter);
-
-    if (keys.length !== 1) {
-      throw new RuntimeError('Invalid filter', { filter: PKFilter });
-    }
-
-    const comparator = keys[0];
-    const pk_value = PKFilter[comparator];
-
-    const valueError = () =>
-      new RuntimeError(`Invalid value for comparator ${comparator}`, {
-        comparator,
-        value: pk_value,
-      });
-
-    function _prefix(suffix: string) {
-      return createIndexToIDHelpers({
-        PKEscapedString: suffix,
-        SKEscapedString: null,
-        entity,
-        indexConfig: index,
-        relatedTo,
-      }).fullID.slice(0, -1);
-    }
-
-    const SKFilter = SKValue === undefined ? {} : { [SKField]: SKValue };
-
-    switch (comparator) {
-      case '$startsWith': {
-        if (typeof pk_value !== 'string') {
-          throw valueError();
-        }
-
-        return {
-          [indexField]: {
-            $startsWith: _prefix(pk_value),
-          },
-          ...SKFilter,
-        };
+  switch (comparator) {
+    case '$startsWith': {
+      if (!sk_value || typeof sk_value !== 'string') {
+        return devAssert('Expected $startsWith value to be a string.', {
+          sk_value,
+        });
       }
-
-      case '$between': {
-        if (!(Array.isArray(pk_value) && pk_value.length === 2)) {
-          throw valueError();
-        }
-
-        _ensureSameEntity();
-
-        return {
-          [indexField]: {
-            $between: [
-              _prefix(
-                typeof pk_value[0] === 'number'
-                  ? encodeNumber(pk_value[0])
-                  : pk_value[0]
-              ),
-              _prefix(
-                typeof pk_value[1] === 'number'
-                  ? encodeNumber(pk_value[1])
-                  : pk_value[1]
-              ),
-            ],
-          },
-          ...SKFilter,
-        };
-      }
-
-      case '$eq': {
-        if (typeof pk_value !== 'string') {
-          throw valueError();
-        }
-
-        if (SKValue === undefined) {
-          throw new RuntimeError(
-            `SK cannot be undefined in a $eq comparison. Use null for a nullable field.`,
-            { SK }
-          );
-        }
-
-        return {
-          [indexField]: {
-            [comparator]: createIndexToIDHelpers({
-              PKEscapedString: pk_value,
-              SKEscapedString: SKValue,
-              entity,
-              indexConfig: index,
-              relatedTo,
-            }).fullID,
-          },
-        };
-      }
-
-      case '$gt':
-      case '$gte':
-      case '$lt':
-      case '$lte': {
-        if (typeof pk_value !== 'string') {
-          throw valueError();
-        }
-
-        _ensureSameEntity();
-
-        return {
-          [indexField]: { [comparator]: _prefix(pk_value) },
-          ...SKFilter,
-        };
-      }
-
-      default: {
-        throw new Error(`invalid operator "${comparator}"`);
-      }
-    }
-  }
-
-  function handleSKFilter(
-    PKString: string,
-    SKValue: IndexFilter | null | undefined
-  ): FilterRecord {
-    //
-    let { sk_value, comparator } = (() => {
-      if (SKValue === null || SKValue === undefined) {
-        return {
-          comparator: SKValue === undefined ? '$startsWith' : '$eq',
-          sk_value: SKValue,
-        };
-      }
-
-      const keys = getKeys(SKValue);
-
-      if (keys.length !== 1) {
-        throw new RuntimeError('Invalid filter', { filter: SKValue });
-      }
-
-      const comparator = keys[0];
-      const sk_value = SKValue[comparator];
 
       return {
-        comparator,
-        sk_value,
+        [SKField]: {
+          $startsWith: sk_value,
+        },
       };
-    })();
+    }
 
-    const valueError = new RuntimeError(
-      `Invalid value for comparator ${comparator}.`,
-      {
-        SK: SKValue,
-        comparator,
-      }
-    );
-
-    switch (comparator) {
-      case '$startsWith': {
-        if (sk_value === undefined) sk_value = null;
-
-        if (typeof sk_value !== 'string' && sk_value !== null) {
-          throw valueError;
-        }
-
-        return {
-          [indexField]: {
-            $startsWith: createIndexToIDHelpers({
-              PKEscapedString: PKString,
-              SKEscapedString: sk_value,
-              entity,
-              indexConfig: index,
-              relatedTo,
-            }).fullID,
-          },
-        };
+    case '$between': {
+      if (!(Array.isArray(sk_value) && sk_value.length === 2)) {
+        return devAssert('Expected $between to be an array with length 2.', {
+          sk_value,
+        });
       }
 
-      case '$between': {
-        if (!(Array.isArray(sk_value) && sk_value.length === 2)) {
-          throw valueError;
-        }
+      return {
+        [SKField]: {
+          $between: sk_value,
+        },
+      };
+    }
 
-        return {
-          [indexField]: {
-            $between: [
-              createIndexToIDHelpers({
-                PKEscapedString: PKString,
-                SKEscapedString:
-                  typeof sk_value[0] === 'number'
-                    ? encodeNumber(sk_value[0])
-                    : sk_value[0],
-                entity,
-                indexConfig: index,
-                relatedTo,
-              }).fullID,
-              createIndexToIDHelpers({
-                PKEscapedString: PKString,
-                SKEscapedString:
-                  typeof sk_value[1] === 'number'
-                    ? encodeNumber(sk_value[1])
-                    : sk_value[1],
-                entity,
-                indexConfig: index,
-                relatedTo,
-              }).fullID,
-            ],
-          },
-        };
+    case '$eq': {
+      if (typeof sk_value !== 'string' && sk_value !== null) {
+        return devAssert('Expected $eq value to be string or null.', {
+          sk_value,
+        });
       }
 
-      case '$eq': {
-        if (typeof sk_value !== 'string' && sk_value !== null) {
-          throw valueError;
-        }
+      return {
+        [SKField]: {
+          [comparator]: sk_value,
+        },
+      };
+    }
 
-        return {
-          [indexField]: {
-            [comparator]: createIndexToIDHelpers({
-              PKEscapedString: PKString,
-              SKEscapedString: sk_value,
-              entity,
-              indexConfig: index,
-              relatedTo,
-            }).fullID,
-          },
-        };
+    case '$gt':
+    case '$gte':
+    case '$lt':
+    case '$lte': {
+      if (sk_value === undefined) sk_value = null;
+      if (typeof sk_value !== 'string' && sk_value !== null) {
+        return devAssert(`Expected ${comparator} value to be string or null.`, {
+          sk_value,
+        });
       }
 
-      case '$gt':
-      case '$gte':
-      case '$lt':
-      case '$lte': {
-        if (sk_value === undefined) sk_value = null;
-        if (typeof sk_value !== 'string' && sk_value !== null) {
-          throw valueError;
-        }
+      return {
+        [SKField]: {
+          [comparator]: sk_value,
+        },
+      };
+    }
 
-        return {
-          $and: [
-            {
-              [indexField]: {
-                // otherwise will get items $lt, $gt, etc; from another PK
-                $startsWith: createIndexToIDHelpers({
-                  PKEscapedString: PKString,
-                  SKEscapedString: '',
-                  entity,
-                  indexConfig: index,
-                  relatedTo,
-                }).fullID,
-              },
-            },
-            {
-              [indexField]: {
-                [comparator]: createIndexToIDHelpers({
-                  PKEscapedString: PKString,
-                  SKEscapedString: sk_value,
-                  entity,
-                  indexConfig: index,
-                  relatedTo,
-                }).fullID,
-              },
-            },
-          ],
-        };
-      }
-
-      default: {
-        throw new Error(`invalid operator "${comparator}"`);
-      }
+    default: {
+      throw new Error(`invalid operator "${comparator}"`);
     }
   }
-
-  return $and;
 }
 
 function pickIndexKeyPartsFromDocument(param: {
@@ -1041,9 +573,12 @@ export type ParsedIndexKey = {
   index: AnyDocIndexItem;
 };
 
-export interface FirstIndexParsed extends DocumentIndexItem, IndexToIDHelpers {
+export interface FirstIndexParsed
+  extends Omit<DocumentIndexItem, 'relatedTo'>,
+    ParsedIndexCursor {
   key: AnyDocIndexItem['name'];
   value: string;
+  relatedTo: string | null;
 }
 
 export type ParsedDocumentIndexes =
@@ -1052,7 +587,7 @@ export type ParsedDocumentIndexes =
       filtersFound?: DocumentIndexFilterParsed[];
       firstIndex: FirstIndexParsed;
 
-      indexFields: Record<string, string>;
+      indexFields: CommonIndexFields;
 
       invalidFields: null;
 
@@ -1144,4 +679,159 @@ export function parseCollectionIndexConfig<T extends AnyCollectionIndexConfig>(
   );
 
   return parsed as T;
+}
+
+export type CommonIndexFields = {
+  _c: string; // cursor
+  _e: string; // entity
+  _id: string; // full id
+  _rpk: string[]; // relatedTo
+} & {
+  [L in `${string}PK`]: string; // PK part
+} & {
+  [L in `${string}SK`]: string; // SK part
+} & { [K: string]: string };
+
+function _getDocumentIndexFields(
+  parsedIndex: ParsedIndexCursor
+): CommonIndexFields {
+  const { cursor, PKPart, SKPart, name, entity, parentPrefix } = parsedIndex;
+
+  const _c = mountGraphID({ cursor });
+
+  const _field =
+    name === 'PK' ? 'PK' : name.endsWith('PK') ? name.slice(0, -2) : name;
+
+  return {
+    _c,
+    _id: cursor,
+    [_field]: cursor,
+    _e: entity,
+    [`${_field}PK`]: PKPart,
+    [`${_field}SK`]: SKPart,
+    _rpk: parentPrefix ? [parentPrefix] : undefined,
+  } as CommonIndexFields;
+}
+
+function _getIndexFilter(
+  filters: Record<string, any>,
+  indexes: _ParseIndexCursors[]
+): IndexFilterFound {
+  for (let [key, value] of Object.entries(filters)) {
+    if (typeof value !== 'string') continue;
+
+    if (key === 'id') {
+      const idParsed = parseFilterCursor(value);
+      if (idParsed) {
+        return {
+          _id: idParsed.cursor,
+          [`${idParsed.name}PK`]: idParsed.PKPart,
+          [`${idParsed.name}SK`]: idParsed.SKPart,
+        };
+      }
+    }
+  }
+
+  const PKAndSKAreStrings = indexes.find((item) => {
+    const pkValid = !item.PKPartParsed.isFilter && item.PKPartParsed.valid;
+    const skValid = !item.SKPartParsed.isFilter && item.SKPartParsed.valid;
+    return pkValid && skValid;
+  });
+
+  if (PKAndSKAreStrings) {
+    const { parsedIndexCursor } = PKAndSKAreStrings;
+    return {
+      _id: parsedIndexCursor.cursor,
+      [`${parsedIndexCursor.name}PK`]: parsedIndexCursor.PKPart,
+      [`${parsedIndexCursor.name}SK`]: parsedIndexCursor.SKPart,
+    };
+  }
+
+  const PKIsString = indexes.find((item) => {
+    return !item.PKPartParsed.isFilter && item.PKPartParsed.valid;
+  });
+
+  if (PKIsString) {
+    const { parsedIndexCursor } = PKIsString;
+    return {
+      [`${parsedIndexCursor.name}PK`]: parsedIndexCursor.PKPart,
+    };
+  }
+
+  throw new Error(
+    `Failed to find an index condition in filter: ${inspectObject({
+      filters,
+      indexes,
+    })}`
+  );
+}
+
+export type _ParseIndexCursors = {
+  parsedIndexCursor: ParsedIndexCursor;
+  index: DocumentIndexItem;
+  PKPartParsed: ParsedIndexPart;
+  SKPartParsed: ParsedIndexPart;
+};
+
+function _parseIndexCursors(
+  filter: Record<string, any>,
+  { indexes, entity }: AnyCollectionIndexConfig
+): _ParseIndexCursors[] {
+  const filterKeys = new Set(Object.keys(filter));
+
+  return indexes.map((index: DocumentIndexItem) => {
+    const PK = pickIndexKeyPartsFromDocument({
+      acceptNullable: false,
+      doc: filter,
+      indexField: index.name,
+      indexPartKind: 'PK',
+      indexParts: index.PK,
+    });
+
+    if (PK.isFilter) {
+      throw new Error(
+        `PK cant be a filter. ${inspectObject({ filter, index })}`
+      );
+    }
+
+    const SK = pickIndexKeyPartsFromDocument({
+      acceptNullable: true,
+      doc: filter,
+      indexField: index.name,
+      indexPartKind: 'SK',
+      indexParts: index.SK || [],
+    });
+
+    if (!PK.valid) {
+      const requiredByPK = [...PK.requiredFields].find((field) =>
+        filterKeys.has(field)
+      );
+
+      if (!requiredByPK) return;
+
+      return devAssert(
+        `Error in PK, failed to mount filter.`,
+        { PK },
+        { depth: 10 }
+      );
+    }
+
+    return {
+      PKPartParsed: PK,
+      SKPartParsed: SK,
+      parsedIndexCursor: IndexCursor.parse(
+        {
+          PK: PK.foundParts,
+          SK: SK.foundParts,
+          name: index.name,
+          relatedTo: index.relatedTo,
+          entity,
+        },
+        {
+          destination: 'filter',
+        }
+      ),
+      index,
+    };
+  });
 }

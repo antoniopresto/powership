@@ -17,7 +17,7 @@ export const _testingIndexConfig: AnyCollectionIndexConfig = {
   indexes: [
     {
       PK: ['#'],
-      name: '_id',
+      field: '_id',
       name: 'temp',
     },
   ],

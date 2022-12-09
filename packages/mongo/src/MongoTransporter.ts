@@ -152,25 +152,25 @@ export class MongoTransporter implements Transporter {
       condition,
     } = options;
 
-    const { filters, relationFilters, PK } = createDocumentIndexBasedFilters(
+    const { attributeFilter, relationFilters, PK } = createDocumentIndexBasedFilters(
       filter,
       indexConfig
     );
 
-    const $and = parseMongoAttributeFilters(filters);
+    const $and = parseMongoAttributeFilters(attributeFilter);
 
     const relationsMongoFilters = relationFilters
       ? parseMongoAttributeFilters({ $or: relationFilters })
       : undefined;
 
-    const firstFilterEntry = Object.entries(filters)[0];
+    const firstFilterEntry = Object.entries(attributeFilter)[0];
     const firstFilterKey = firstFilterEntry[0];
 
     if (after) {
       const rule = sort === 'DESC' ? '$lt' : '$gt';
 
       const {
-        filters: startingDocFilters,
+        attributeFilter: startingDocFilters,
         PK: { key },
       } = createDocumentIndexBasedFilters(
         typeof after === 'string' ? { id: after } : after,
@@ -205,7 +205,7 @@ export class MongoTransporter implements Transporter {
 
     return {
       PK,
-      relationFilters,
+      relationFilter: relationFilters,
       relationsMongoFilters,
       collection,
       collectionName: collection.collectionName,

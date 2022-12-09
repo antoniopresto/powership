@@ -4,7 +4,7 @@ import {
   AnyCollectionIndexConfig,
   DocumentIndexItem,
   parseCollectionIndexConfig,
-  parseCursorString,
+  parseFilterCursor,
 } from './CollectionIndex';
 import { DocumentBase } from './Transporter';
 
@@ -32,7 +32,7 @@ export function mergeIndexRelationsResult(input: {
   const docsByParent: Record<string, DocumentBase[]> = {};
 
   items.forEach((doc, pos) => {
-    const idInfo = parseCursorString(doc.id);
+    const idInfo = parseFilterCursor(doc.id);
 
     if (!idInfo) {
       NodeLogger.logError(`Document without entity found.`, { id: doc.id });
@@ -43,11 +43,10 @@ export function mergeIndexRelationsResult(input: {
       subDocPositions.add(pos);
     }
 
-    if (!idInfo.parent) return;
+    if (!idInfo.parentPrefix) return;
 
-    const { input: parentId } = idInfo.parent;
-    docsByParent[parentId] = docsByParent[parentId] || [];
-    docsByParent[parentId].push(doc);
+    docsByParent[idInfo.parentPrefix] = docsByParent[idInfo.parentPrefix] || [];
+    docsByParent[idInfo.parentPrefix].push(doc);
     return;
   });
 
@@ -56,11 +55,11 @@ export function mergeIndexRelationsResult(input: {
     if (!relDocs?.length) return;
 
     relations.forEach(({ rel, index }) => {
-      const indexField = `${index.field}PK`;
+      const indexField = `${index.name}PK`;
 
       const withSameField = relDocs.filter((relDoc) => {
         const p = parentDoc[indexField];
-        const relatedTo = relDoc._rt;
+        const relatedTo = relDoc._rpk;
         return relatedTo?.includes?.(p);
       });
 

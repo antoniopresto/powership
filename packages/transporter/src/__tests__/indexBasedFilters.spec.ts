@@ -19,23 +19,15 @@ describe('getDocumentIndexFields', () => {
       );
 
       expect(oneField).toEqual({
-        PK: {
-          key: '_id',
-          value: '741234',
-        },
-        filters: {
-          _id: 'account:_id#741234»antonio',
-        },
         foundKeyPairs: [
           {
-            PK: '741234',
+            PK: 'account⋮_id⋮741234⋮',
             SK: 'antonio',
             entity: 'account',
             index: {
               PK: ['.accountId'],
               SK: ['.username'],
-              field: '_id',
-              name: 'kind',
+              name: '_id',
               relations: [
                 {
                   entity: 'accesstype',
@@ -64,12 +56,14 @@ describe('getDocumentIndexFields', () => {
             },
           },
         ],
-        isFullKeyFilter: true,
+        indexFilter: {
+          _id: 'account⋮_id⋮741234⋮antonio⋮',
+          _idPK: 'account⋮_id⋮741234⋮',
+          _idSK: 'antonio',
+        },
         relationFilters: [
           {
-            _id: {
-              $startsWith: 'account:_id#741234»accesstype«',
-            },
+            _idPK: 'account⋮_id⋮741234⊰',
           },
         ],
       });
@@ -92,21 +86,15 @@ describe('getDocumentIndexFields', () => {
       }
     );
 
-    expect(oneField.isFullKeyFilter).toBe(false);
-
     expect(oneField).toEqual({
-      PK: {
-        key: '_id',
-        value: '741234',
-      },
-      filters: {
-        _id: {
-          $startsWith: 'account:_id#741234»a',
+      attributeFilter: {
+        _idSK: {
+          $startsWith: 'a',
         },
       },
       foundKeyPairs: [
         {
-          PK: '741234',
+          PK: 'account⋮_id⋮741234⋮',
           SK: {
             $startsWith: 'a',
           },
@@ -114,8 +102,7 @@ describe('getDocumentIndexFields', () => {
           index: {
             PK: ['.accountId'],
             SK: ['.username'],
-            field: '_id',
-            name: 'kind',
+            name: '_id',
             relations: [
               {
                 entity: 'accesstype',
@@ -147,12 +134,12 @@ describe('getDocumentIndexFields', () => {
           },
         },
       ],
-      isFullKeyFilter: false,
+      indexFilter: {
+        _idPK: 'account⋮_id⋮741234⋮',
+      },
       relationFilters: [
         {
-          _id: {
-            $startsWith: 'account:_id#741234»accesstype«',
-          },
+          _idPK: 'account⋮_id⋮741234⊰',
         },
       ],
     });
@@ -174,28 +161,15 @@ describe('getDocumentIndexFields', () => {
       }
     );
 
-    expect(oneField.isFullKeyFilter).toBe(false);
-
     expect(oneField).toEqual({
-      PK: {
-        key: '_id',
-        value: '741234',
-      },
-      filters: {
-        _id: {
-          $startsWith: 'account:_id#741234»',
-        },
-      },
       foundKeyPairs: [
         {
-          PK: '741234',
-          SK: undefined,
+          PK: 'account⋮_id⋮741234⋮',
           entity: 'account',
           index: {
             PK: ['.accountId'],
             SK: ['.username'],
-            field: '_id',
-            name: 'kind',
+            name: '_id',
             relations: [
               {
                 entity: 'accesstype',
@@ -219,20 +193,20 @@ describe('getDocumentIndexFields', () => {
             indexField: '_id',
             invalidFields: [],
             isFilter: false,
-            nullableFound: {
-              value: undefined,
-            },
+            nullableFound: {},
             requiredFields: ['username'],
             valid: true,
           },
         },
       ],
-      isFullKeyFilter: false,
+      indexFilter: {
+        _id: 'account⋮_id⋮741234⋮⋮',
+        _idPK: 'account⋮_id⋮741234⋮',
+        _idSK: '',
+      },
       relationFilters: [
         {
-          _id: {
-            $startsWith: 'account:_id#741234»accesstype«',
-          },
+          _idPK: 'account⋮_id⋮741234⊰',
         },
       ],
     });

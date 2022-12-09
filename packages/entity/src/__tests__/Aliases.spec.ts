@@ -57,8 +57,8 @@ describe('Aliases', () => {
             verified: false,
           },
         ],
-        _id: 'user:_id#antonio»',
-        _idPK: 'user:_id#antonio»',
+        _id: 'user⋮_id⋮antonio⋮',
+        _idPK: 'user⋮_id⋮antonio⋮',
         _v: expect.stringMatching(ULID_REGEX),
         _idSK: '',
         firstName: 'antonio',
@@ -99,8 +99,8 @@ describe('Aliases', () => {
         created: false,
         item: {
           _e: 'user',
-          _id: 'user:_id#antonio»',
-          _idPK: 'user:_id#antonio»',
+          _id: 'user⋮_id⋮antonio⋮',
+          _idPK: 'user⋮_id⋮antonio⋮',
           _idSK: '',
           _v: expect.any(String),
           access: [

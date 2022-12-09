@@ -15,8 +15,8 @@ export const AccountEntity = createEntity({
   name: 'Account',
   type,
   indexes: [
-    // account PK is account#ulid
-    // profile PK is profile#ulid(same from account)
+    // account PK is account∙ulid
+    // profile PK is profile∙ulid(same from account)
     // secondary index has username as PK to performance login with username
     {
       PK: ['.accountId'],

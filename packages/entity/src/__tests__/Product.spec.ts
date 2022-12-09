@@ -155,11 +155,11 @@ describe('Product', () => {
         id: expect.any(String),
         _e: 'product',
         _v: expect.stringMatching(ULID_REGEX),
-        _id: expect.stringMatching(/^product:_id#store1»/),
-        _id1: expect.stringMatching(/^product:_id1#store1»sku0/),
-        _id1PK: 'product:_id1#store1»',
+        _id: expect.stringMatching(/^product⋮_id⋮store1⋮/),
+        _id1: expect.stringMatching(/^product⋮_id1⋮store1⋮sku0/),
+        _id1PK: 'product⋮_id1⋮store1⋮',
         _id1SK: 'sku0',
-        _idPK: 'product:_id#store1»',
+        _idPK: 'product⋮_id⋮store1⋮',
         _idSK: expect.stringMatching(ULID_REGEX),
         ulid: expect.stringMatching(ULID_REGEX),
         storeId: 'store1',
@@ -192,11 +192,11 @@ describe('Product', () => {
         SKU: 'sku0',
         _e: 'product',
         _v: expect.stringMatching(ULID_REGEX),
-        _id: expect.stringMatching(/^product:_id#store1»/),
-        _id1: expect.stringMatching(/^product:_id1#store1»sku0/),
-        _id1PK: 'product:_id1#store1»',
+        _id: expect.stringMatching(/^product⋮_id⋮store1⋮/),
+        _id1: expect.stringMatching(/^product⋮_id1⋮store1⋮sku0/),
+        _id1PK: 'product⋮_id1⋮store1⋮',
         _id1SK: 'sku0',
-        _idPK: 'product:_id#store1»',
+        _idPK: 'product⋮_id⋮store1⋮',
         id: expect.any(String),
         _idSK: expect.stringMatching(ULID_REGEX),
         ulid: expect.stringMatching(ULID_REGEX),
@@ -379,7 +379,7 @@ describe('Product', () => {
     const sut = await entity.findById({ id: id1, context: {} });
 
     expect(sut.item).toMatchObject({
-      _id: expect.stringMatching(/_id#store1»01/),
+      _id: expect.stringMatching(/_id∙store1⋮01/),
     });
   });
 
@@ -415,11 +415,11 @@ describe('Product', () => {
     });
 
     expect(orange.item).toMatchObject({
-      _id1: 'product:_id1#store1»sku_ORANGE',
+      _id1: 'product⋮_id1⋮store1⋮sku_ORANGE',
     });
 
     expect(apple.item).toMatchObject({
-      _id1: 'product:_id1#store1»sku_APPLE',
+      _id1: 'product⋮_id1⋮store1⋮sku_APPLE',
     });
   });
 
@@ -509,9 +509,9 @@ describe('Product', () => {
       item: {
         title: 'batata',
         SKU: 'sku_batata',
-        _id: expect.stringMatching(/product:_id#store1»01.*/),
-        _id1: 'product:_id1#store1»sku_batata',
-        _id1PK: 'product:_id#store1',
+        _id: expect.stringMatching(/product⋮_id⋮store1⋮01.*/),
+        _id1: 'product⋮_id1⋮store1⋮sku_batata',
+        _id1PK: 'product⋮_id⋮store1',
         _id1SK: 'sku_batata',
         _idPK: 'store1',
         createdBy: 'user1',

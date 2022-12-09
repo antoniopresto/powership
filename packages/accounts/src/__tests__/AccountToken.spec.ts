@@ -42,11 +42,11 @@ describe('AccountToken', () => {
     expect(created).toEqual({
       _e: 'accountstoken',
       _id: expect.stringMatching(
-        /^account:_id#444»accountstoken«password#CREATED_FOR_VALUE#01/
+        /^account⋮_id⋮444⋮accountstoken«password∙CREATED_FOR_VALUE∙01/
       ),
-      _idPK: 'account:_id#444»accountstoken«',
-      _idSK: expect.stringMatching(/^password#CREATED_FOR_VALUE#01[A-Z0-9]*$/),
-      _rt: ['account:_id#444»'],
+      _idPK: 'account⋮_id⋮444⋮accountstoken«',
+      _idSK: expect.stringMatching(/^password∙CREATED_FOR_VALUE#01[A-Z0-9]*$/),
+      _rpk: ['account⋮_id⋮444⋮'],
       _v: expect.any(String),
       accountId: '444',
       createdAt: expect.any(Date),
