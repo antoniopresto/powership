@@ -117,8 +117,8 @@ export function _joinCursorIDWithParent(init: InitCursorIDWithParent) {
   );
 }
 
-export function _joinCursorParts(parts: string[]) {
-  return parts.join('⋮') + '⋮';
+export function _joinCursorPartsWithTrailingSeparator(parts: string[]) {
+  return parts.map((el) => el.replace(/⋮$/, '')).join('⋮') + '⋮';
 }
 
 export function _splitCursorParts(init: string) {

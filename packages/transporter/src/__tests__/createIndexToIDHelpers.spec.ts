@@ -1,6 +1,6 @@
 import { createIndexToIDHelpers } from '../CollectionIndex';
 
-describe('mountID', () => {
+describe('createIndexToIDHelpers', () => {
   test('simple', async () => {
     const sut = createIndexToIDHelpers({
       entity: 'users',
@@ -8,7 +8,6 @@ describe('mountID', () => {
       SKEscapedString: '123',
       indexConfig: {
         name: '_id',
-        field: '_id',
         PK: [],
         SK: [],
       },
@@ -16,9 +15,8 @@ describe('mountID', () => {
     });
 
     expect(sut).toEqual({
-      mountRelationCondition: expect.any(Function),
-      PKPart: 'users:_id#abc»',
-      PKPartWithoutPKSKSeparator: 'users:_id#abc',
+     PKPart: 'users:_id#abc»',
+      PKPartOpen: 'users:_id#abc',
       SKPart: '123',
       documentIndexFields: {
         _e: 'users',
@@ -38,7 +36,6 @@ describe('mountID', () => {
       SKEscapedString: '123',
       indexConfig: {
         name: '_id',
-        field: '_id',
         PK: [],
         SK: [],
       },
@@ -46,9 +43,8 @@ describe('mountID', () => {
     });
 
     expect(sut).toEqual({
-      mountRelationCondition: expect.any(Function),
-      PKPart: 'fruits:_id#abc»banana«',
-      PKPartWithoutPKSKSeparator: 'fruits:_id#abc',
+     PKPart: 'fruits:_id#abc»banana«',
+      PKPartOpen: 'fruits:_id#abc',
       SKPart: '123',
       documentIndexFields: {
         _e: 'banana',

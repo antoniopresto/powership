@@ -8,14 +8,12 @@ describe('getDocumentIndexFields', () => {
         entity: 'foo',
         indexes: [
           {
-            name: 'foo',
-            field: '_id',
+            name: '_id',
             PK: ['.name'],
             SK: ['.age'],
           },
           {
             name: 'bar',
-            field: '_id1',
             PK: ['.age'],
             SK: ['.name'],
           },
@@ -91,8 +89,7 @@ describe('getDocumentIndexFields', () => {
         entity: 'foo',
         indexes: [
           {
-            name: 'foo',
-            field: '_id',
+            name: '_id',
             PK: ['.age', '.name'],
             SK: ['#nice', '.age'],
           },
@@ -146,8 +143,7 @@ describe('getDocumentIndexFields', () => {
         entity: 'foo',
         indexes: [
           {
-            name: 'foo',
-            field: '_id',
+            name: '_id',
             PK: ['.age', '.name'],
             SK: ['#nice', '.age'],
           },
@@ -216,7 +212,6 @@ describe('getDocumentIndexFields', () => {
           indexes: [
             {
               name: 'kind',
-              field: '_id',
               PK: ['.accountId'],
               SK: ['.kind', '.value'],
               relatedTo: 'Account',

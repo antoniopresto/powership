@@ -4,7 +4,7 @@ import {
   AnyCollectionIndexConfig,
   DocumentIndexItem,
   parseCollectionIndexConfig,
-  parseGraphID,
+  parseCursorString,
 } from './CollectionIndex';
 import { DocumentBase } from './Transporter';
 
@@ -32,7 +32,7 @@ export function mergeIndexRelationsResult(input: {
   const docsByParent: Record<string, DocumentBase[]> = {};
 
   items.forEach((doc, pos) => {
-    const idInfo = parseGraphID(doc.id);
+    const idInfo = parseCursorString(doc.id);
 
     if (!idInfo) {
       NodeLogger.logError(`Document without entity found.`, { id: doc.id });

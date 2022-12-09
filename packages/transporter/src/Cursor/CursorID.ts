@@ -1,4 +1,5 @@
 import {
+  _joinCursorPartsWithTrailingSeparator,
   escapeCursorChars,
   joinCursorID,
   joinKeyParts,
@@ -11,6 +12,7 @@ export type { InitCursorID, ParsedCursorID } from './joinCursorID';
 
 export const CursorID = {
   join: joinCursorID,
+  joinCursorPartsWithTrailingSeparator: _joinCursorPartsWithTrailingSeparator,
   joinPKSK,
   joinKeyParts,
   escape: escapeCursorChars,

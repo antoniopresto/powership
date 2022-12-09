@@ -18,8 +18,7 @@ describe('parseUpdateExpression', () => {
         entity: 'foo',
         indexes: [
           {
-            name: 'byId',
-            field: '_id',
+            name: '_id',
             PK: ['.foo'],
             SK: undefined,
           },
@@ -68,9 +67,8 @@ describe('parseUpdateExpression', () => {
           entity: 'foo',
           indexes: [
             {
-              name: 'byId',
               SK: undefined,
-              field: '_id',
+              name: '_id',
               PK: ['#user', '.username'],
             },
           ],
@@ -89,9 +87,8 @@ describe('parseUpdateExpression', () => {
           entity: 'foo',
           indexes: [
             {
-              field: '_id',
+              name: '_id',
               PK: ['#user', '.username'],
-              name: 'byId',
               SK: undefined,
             },
           ],
@@ -110,10 +107,9 @@ describe('parseUpdateExpression', () => {
           entity: 'foo',
           indexes: [
             {
-              field: '_id',
+              name: '_id',
               PK: ['#user', '.username'],
               SK: ['#user', '.email'],
-              name: 'byId',
             },
           ],
         }
@@ -133,9 +129,8 @@ describe('parseUpdateExpression', () => {
           entity: 'foo',
           indexes: [
             {
-              field: '_id',
+              name: '_id',
               PK: ['#user', '.username'],
-              name: 'byId',
               SK: undefined,
             },
           ],
@@ -162,9 +157,8 @@ describe('parseUpdateExpression', () => {
           entity: 'foo',
           indexes: [
             {
-              field: '_id',
+              name: '_id',
               PK: ['#user', '.username'],
-              name: 'byId',
               SK: undefined,
             },
           ],
@@ -198,9 +192,8 @@ describe('parseUpdateExpression', () => {
           entity: 'foo',
           indexes: [
             {
-              field: '_id',
+              name: '_id',
               PK: ['#user', '.username'],
-              name: 'byId',
               SK: undefined,
             },
           ],

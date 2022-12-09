@@ -1,5 +1,5 @@
 import {
-  _joinCursorParts,
+  _joinCursorPartsWithTrailingSeparator,
   _splitCursorParts,
   INDEX_PART_SEP,
   InitCursorID,
@@ -22,7 +22,7 @@ export function parseCursorID(
     if (Array.isArray(init))
       return {
         parts: init,
-        fullID: _joinCursorParts(init),
+        fullID: _joinCursorPartsWithTrailingSeparator(init),
       };
 
     const fullID = joinCursorID(init);
@@ -79,7 +79,7 @@ export function parseCursorID(
       PKPart: PKPartOpen + INDEX_PART_SEP,
       PKPartOpen: PKPartOpen,
       SKPart: SK,
-      cursor: _joinCursorParts([PKPartOpen, SK]),
+      cursor: _joinCursorPartsWithTrailingSeparator([PKPartOpen, SK]),
     };
   }
 }
