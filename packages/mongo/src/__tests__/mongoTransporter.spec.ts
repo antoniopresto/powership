@@ -91,10 +91,10 @@ describe('MongoTransporter', () => {
           PK: 'ranking',
           SK: 0,
           _e: 'entity_foo',
-          _id: 'entity_foo⋮_id⋮ranking⋮5',
+          _id: 'entity_foo⋮_id⋮ranking⋮5⋮',
           _idPK: 'entity_foo⋮_id⋮ranking⋮',
           _idSK: '5',
-          id: expect.any(String),
+          _c: expect.any(String),
         },
         updated: false,
       });
@@ -111,8 +111,7 @@ describe('MongoTransporter', () => {
         item: {
           PK: 'ranking',
           SK: 10,
-          _id: 'entity_foo⋮_id⋮ranking⋮721',
-          id: expect.any(String),
+          _id: 'entity_foo⋮_id⋮ranking⋮721⋮',
         },
         updated: false,
       });
@@ -130,7 +129,7 @@ describe('MongoTransporter', () => {
         item: {
           PK: 'ranking',
           SK: 12000000000000000000000000000000000000,
-          _id: 'entity_foo⋮_id⋮ranking⋮7z412',
+          _id: 'entity_foo⋮_id⋮ranking⋮7z412⋮',
           _idPK: 'entity_foo⋮_id⋮ranking⋮',
           _idSK: '7z412',
           id: expect.any(String),
@@ -154,10 +153,9 @@ describe('MongoTransporter', () => {
         item: {
           PK: 'users',
           SK: 'users',
-          _id: 'entity_foo⋮_id⋮users⋮users',
+          _id: 'entity_foo⋮_id⋮users⋮users⋮',
           _idPK: 'entity_foo⋮_id⋮users⋮',
           _idSK: 'users',
-          id: expect.any(String),
           _e: 'entity_foo',
         },
         updated: false,
@@ -176,7 +174,7 @@ describe('MongoTransporter', () => {
           PK: 'users',
           SK: '5',
           _e: 'entity_foo',
-          _id: 'entity_foo⋮_id⋮users⋮5',
+          _id: 'entity_foo⋮_id⋮users⋮5⋮',
           _idPK: 'entity_foo⋮_id⋮users⋮',
         },
         updated: false,
@@ -191,7 +189,7 @@ describe('MongoTransporter', () => {
         item: {
           PK: 'users',
           SK: '123',
-          _id: 'entity_foo⋮_id⋮users⋮123',
+          _id: 'entity_foo⋮_id⋮users⋮123⋮',
           email: 'fulano@gmail.com',
           name: 'fulano',
         },
@@ -204,7 +202,7 @@ describe('MongoTransporter', () => {
         item: {
           PK: 'users',
           SK: '123',
-          _id: 'entity_foo⋮_id⋮users⋮123',
+          _id: 'entity_foo⋮_id⋮users⋮123⋮',
           email: 'fulano@gmail.com',
           name: 'fulano',
         },
@@ -327,7 +325,7 @@ describe('MongoTransporter', () => {
       const update = (SK: string, update: UpdateExpression<any>) =>
         _update({
           filter: {
-            PK: { $eq: 'a' },
+            PK: 'a',
             SK: { $eq: SK },
           },
           update: update,
@@ -350,7 +348,7 @@ describe('MongoTransporter', () => {
       expect(await update('a', { $inc: { num: 1, newNum: 2 } })).toHaveProperty(
         'item',
         {
-          _id: 'entity_foo⋮_id⋮a⋮a',
+          _id: 'entity_foo⋮_id⋮a⋮a⋮',
           PK: 'a',
           SK: 'a',
           _e: 'entity_foo',
@@ -499,7 +497,7 @@ describe('MongoTransporter', () => {
         },
       });
 
-      expect(removed).toHaveProperty('item._id', 'entity_foo⋮_id⋮a⋮b');
+      expect(removed).toHaveProperty('item._id', 'entity_foo⋮_id⋮a⋮b⋮');
 
       const removed2 = await transporter.deleteOne({
         indexConfig,
@@ -807,11 +805,11 @@ describe('MongoTransporter', () => {
         {
           $and: [
             {
-              _id: 'entity_foo⋮_id⋮users⋮B',
+              _id: 'entity_foo⋮_id⋮users⋮B⋮',
             },
           ],
         },
-        { projection: ['sub.attr'], sort: { _id: 1 } }
+        { projection: ['sub.attr'], sort: { _idSK: 1 } }
       );
 
       expect(sut.items).toHaveLength(1);
@@ -841,17 +839,17 @@ describe('MongoTransporter', () => {
         {
           limit: 3,
           projection: ['sub.attr'],
-          sort: { _id: -1 },
+          sort: { _idSK: -1 },
         }
       );
 
       expect(sut.items).toHaveLength(3);
       expect(sut.items[0]).toEqual({
-        _id: 'entity_foo⋮_id⋮users⋮D',
+        _id: 'entity_foo⋮_id⋮users⋮D⋮',
         sub: { attr: 4 },
       });
       expect(sut.items[1]).toEqual({
-        _id: 'entity_foo⋮_id⋮users⋮C',
+        _id: 'entity_foo⋮_id⋮users⋮C⋮',
         sub: { attr: 3 },
       });
 

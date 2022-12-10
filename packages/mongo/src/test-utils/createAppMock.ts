@@ -24,7 +24,13 @@ export class AppMock {
       client: this.client,
       collection: 'users',
     });
-    await this.transporter.connect();
+    await this.transporter.connect().then((res) => {
+      res.collection('users').createIndexes([
+        {
+          key: { _idPK: 1 },
+        },
+      ]);
+    });
     return this;
   }
 

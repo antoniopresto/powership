@@ -280,7 +280,7 @@ describe('Entity.indexRelations', () => {
     expect(same_email_diff_username).toEqual({
       created: false,
       error: expect.stringMatching(
-        'accesstype⋮_id2⋮email∙antonio@example.com⋮'
+        "Can't create two documents with same index"
       ),
       item: null,
       updated: false,
@@ -356,7 +356,7 @@ describe('Entity.indexRelations', () => {
     expect(created).toBeTruthy();
 
     const found = await accountEntity.findMany({
-      filter: { accountId: { $gte: '1' } },
+      filter: { accountId: '123' },
       context,
     });
 
@@ -390,37 +390,7 @@ describe('Entity.indexRelations', () => {
         ulid: expect.any(String),
         updatedAt: expect.any(Date),
         username: 'antonio',
-      },
-      {
-        _e: 'account',
-        _id: 'account⋮_id⋮456⋮',
-        _idPK: 'account⋮_id⋮456⋮',
-        _idSK: '',
-        _v: expect.any(String),
-        access: [
-          {
-            _e: 'accesstype',
-            _rpk: ['account⋮_id⋮456⋮'],
-            _id: 'account⋮_id⋮456⋮accesstype«',
-            _idPK: 'account⋮_id⋮456⋮accesstype«',
-            _idSK: '',
-            _v: expect.any(String),
-            accountId: '456',
-            createdAt: expect.any(Date),
-            id: expect.any(String),
-            kind: 'email',
-            ulid: expect.any(String),
-            updatedAt: expect.any(Date),
-            value: 'rafaela@example.com',
-          },
-        ],
-        accountId: '456',
-        createdAt: expect.any(Date),
-        id: expect.any(String),
-        ulid: expect.any(String),
-        updatedAt: expect.any(Date),
-        username: 'rafaela',
-      },
+      }
     ]);
   });
 

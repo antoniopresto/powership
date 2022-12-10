@@ -184,16 +184,20 @@ export class MongoTransporter implements Transporter {
       $and.push(...mongoConditions);
     }
 
-    const query = { $and };
+    const mongoIndexFilters = parseMongoAttributeFilters(indexFilter);
+
+    const _and = $and.length
+      ? [...mongoIndexFilters, ...$and]
+      : mongoIndexFilters;
+
+    const query = _and.length > 1 ? { $and: _and } : _and[0];
+
     NodeLogger.logInfo({ query });
 
     const collection = this.getCollection(filter);
 
-    const firstFilterEntry = Object.entries(indexFilter)[0];
-    const firstFilterKey = firstFilterEntry[0];
-
-    const sortKey =
-      firstFilterKey && firstFilterKey.startsWith('$') ? '_id' : firstFilterKey;
+    const filterKeys = Object.keys(indexFilter);
+    const sortKey = filterKeys.find((el) => el.endsWith('SK')) || filterKeys[0];
     const mongoSort = { [sortKey]: sort === 'DESC' ? -1 : 1 } as const;
 
     return {
@@ -203,8 +207,6 @@ export class MongoTransporter implements Transporter {
       collectionName: collection.collectionName,
       db: this._client.db,
       first,
-      firstFilterEntry,
-      firstKey: firstFilterKey,
       onlyOne: first === 1,
       projection: projection,
       query,

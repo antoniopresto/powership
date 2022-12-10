@@ -93,17 +93,21 @@ export function createDocumentIndexBasedFilters(
 
         PK: parsedIndexCursor.PKPart,
 
-        SK: SKPartParsed.nullableFound
-          ? SKPartParsed.nullableFound.value
-          : SKPartParsed.isFilter
-          ? (SKPartParsed.conditionFound as IndexFilter)
-          : SKPartParsed.valid
-          ? parsedIndexCursor.SKPart
-          : (devAssert(
-              `Error in SK, failed to mount filter.`,
-              { SKPartParsed },
-              { depth: 10 }
-            ) as ''),
+        SK: (() => {
+          if (SKPartParsed.foundEmptyCondition) return undefined;
+
+          return SKPartParsed.nullableFound
+            ? SKPartParsed.nullableFound.value
+            : SKPartParsed.isFilter
+            ? (SKPartParsed.conditionFound as IndexFilter)
+            : SKPartParsed.valid
+            ? parsedIndexCursor.SKPart
+            : (devAssert(
+                `Error in SK, failed to mount filter.`,
+                { SKPartParsed },
+                { depth: 10 }
+              ) as '');
+        })(),
 
         entity: indexConfig.entity,
 
@@ -318,7 +322,9 @@ function createSKFilter(
 
       return {
         [SKField]: {
-          $between: sk_value,
+          $between: sk_value.map((el) =>
+            typeof el === 'string' ? el : encodeNumber(el)
+          ),
         },
       };
     }
@@ -374,6 +380,8 @@ function pickIndexKeyPartsFromDocument(param: {
   const invalidFields: ParsedIndexPart['invalidFields'] = [];
 
   const stringParts: string[] = [];
+
+  let foundEmptyCondition = false;
   let conditionFound: FilterConditions | undefined = undefined;
   let nullableFound: ParsedIndexPart['nullableFound'];
   const requiredFields: ParsedIndexPart['requiredFields'] = [];
@@ -405,6 +413,11 @@ function pickIndexKeyPartsFromDocument(param: {
 
       if (typeof found === 'object') {
         const keys = getKeys(found);
+
+        if (!keys.length && acceptNullable) {
+          foundEmptyCondition = true;
+          return (nullableFound = { value: undefined });
+        }
 
         if (keys.length === 1) {
           const $op = isFilterConditionKey(keys[0]) ? keys[0] : undefined;
@@ -462,12 +475,19 @@ function pickIndexKeyPartsFromDocument(param: {
     PK_SK: indexPartKind,
   };
 
+  if (foundEmptyCondition) {
+    result.foundEmptyCondition = foundEmptyCondition;
+  }
+
   if (nullableFound) {
     result.nullableFound = nullableFound;
   }
 
-  if (conditionFound) {
+  if (foundEmptyCondition || conditionFound) {
     result.isFilter = true;
+  }
+
+  if (conditionFound) {
     result.conditionFound = conditionFound;
   }
 
@@ -541,6 +561,7 @@ export type InvalidParsedIndexField = {
 
 export type ParsedIndexPart = {
   conditionFound?: OneFilterOperation;
+  foundEmptyCondition?: boolean;
   foundParts: string[];
   indexField: AnyDocIndexItem['name'];
   invalidFields: InvalidParsedIndexField[];
@@ -690,7 +711,7 @@ export type CommonIndexFields = {
   [L in `${string}PK`]: string; // PK part
 } & {
   [L in `${string}SK`]: string; // SK part
-} & { [K: string]: string };
+};
 
 function _getDocumentIndexFields(
   parsedIndex: ParsedIndexCursor
@@ -734,10 +755,10 @@ function _getIndexFilter(
 
   const PKAndSKAreStrings = indexes.find((item) => {
     const pkValid =
-      item.PKPartParsed?.isFilter === false && item.PKPartParsed.valid;
+      item?.PKPartParsed?.isFilter === false && item.PKPartParsed.valid;
 
     const skValid =
-      item.SKPartParsed?.isFilter === false && item.SKPartParsed.valid;
+      item?.SKPartParsed?.isFilter === false && item.SKPartParsed.valid;
 
     return pkValid && skValid;
   });

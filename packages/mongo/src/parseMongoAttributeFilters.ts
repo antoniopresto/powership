@@ -25,15 +25,30 @@ export function createMongoIndexBasedFilters(options: {
     indexConfig
   );
 
+  if (typeof indexFilter._id === 'string' && !attributeFilter) {
+    return [{ _id: indexFilter._id }];
+  }
+
   return parseMongoAttributeFilters({ ...indexFilter, ...attributeFilter });
 }
 
 export function parseMongoAttributeFilters(attFilter: FilterRecord) {
   const $and: Filter<any>[] = [];
 
-  getKeys(attFilter).forEach((attribute: string): any => {
-    const filter = attFilter[attribute];
+  const filterKeys = Object.keys(attFilter);
+
+  filterKeys.forEach((attribute: string): any => {
+    let filter = attFilter[attribute];
     if (filter === undefined) return;
+
+    if (
+      attribute.match(/(PK|SK)$/) &&
+      filterKeys.length === 1 &&
+      filter &&
+      typeof filter === 'string'
+    ) {
+      filter = { $startsWith: filter };
+    }
 
     const is$filter = (() => {
       if (attribute.startsWith('$')) return true;

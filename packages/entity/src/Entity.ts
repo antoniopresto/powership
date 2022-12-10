@@ -590,7 +590,7 @@ export function createEntity(
     function getDocumentId(doc): string {
       const indexes = getDocumentIndexFields(doc, indexConfig);
       if (indexes.error) throw indexes.error;
-      return notNull(indexes.indexFields.id);
+      return notNull(indexes.indexFields._c);
     }
 
     Object.assign(entity, {
