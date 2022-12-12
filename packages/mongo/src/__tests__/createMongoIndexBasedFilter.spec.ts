@@ -52,8 +52,7 @@ describe('createMongoIndexBasedFilter', () => {
 
   async function get(
     PK: PKSKValueType,
-    SK: PKSKValueType | IndexFilter | undefined,
-    first?: number
+    SK: PKSKValueType | IndexFilter | undefined
   ) {
     const $and = createMongoIndexBasedFilters({
       indexConfig,
@@ -69,13 +68,6 @@ describe('createMongoIndexBasedFilter', () => {
       .sort({ _idSK: 1 })
       .project(['_id', '_idPK', '_idSK', '_e', '_c', 'originalSK'])
       .toArray();
-    //
-    // return res.map((el) => {
-    //   return Object.entries(el).reduce((prev, [k, v]) => {
-    //     if (!keys.includes(k)) return prev;
-    //     return { ...prev, [k]: v };
-    //   }, {});
-    // });
   }
 
   beforeAll(async function () {
@@ -187,7 +179,7 @@ describe('createMongoIndexBasedFilter', () => {
           _idPK: 'my_entity⋮_id⋮users⦙123⋮',
         },
         {
-          _idSK: 'abc',
+          _idSK: { $eq: 'abc' },
         },
       ]);
     });

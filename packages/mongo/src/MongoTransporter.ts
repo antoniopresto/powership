@@ -15,6 +15,7 @@ import {
   getDocumentIndexFields,
   mergeIndexRelationsResult,
   PaginationResult,
+  parseIndexFieldName,
   parseUpdateExpression,
   Transporter,
   UpdateManyConfig,
@@ -22,7 +23,7 @@ import {
   UpdateOneConfig,
   UpdateOneResult,
 } from '@backland/transporter';
-import { AnyRecord, NodeLogger } from '@backland/utils';
+import { NodeLogger, nonNullValues } from '@backland/utils';
 import { Filter } from 'mongodb';
 
 import { MongoClient } from './MongoClient';
@@ -173,17 +174,39 @@ export class MongoTransporter implements Transporter {
       $and.push(..._relationFilters);
     }
 
+    const sortKey = (() => {
+      for (let idx of indexConfig.indexes) {
+        if (idx.SK?.length) {
+          return parseIndexFieldName(idx.name, 'SK');
+        }
+      }
+      return '_id';
+    })();
+
     if (after) {
       const { indexFilter } = createDocumentIndexBasedFilters(
         typeof after === 'string' ? { id: after } : after,
         indexConfig
       );
 
-      const [key, value] = Object.entries(indexFilter)[0];
-
-      $and.push({
-        [key]: { [sortInit === 'DESC' ? '$lt' : '$gt']: value },
-      });
+      if (typeof indexFilter[sortKey] === 'string') {
+        $and.push({
+          [sortKey]: {
+            [sortInit === 'DESC' ? '$lt' : '$gt']: indexFilter[sortKey],
+          },
+        });
+      } else {
+        $and.push({
+          _id: {
+            [sortInit === 'DESC' ? '$lt' : '$gt']: nonNullValues(
+              {
+                _id: indexFilter._id,
+              },
+              'Failed to mount "after" condition.'
+            )._id,
+          },
+        });
+      }
     }
 
     if (condition) {
@@ -197,8 +220,6 @@ export class MongoTransporter implements Transporter {
 
     const collection = this.getCollection(filter);
 
-    const filterKeys = Object.keys(indexFilter);
-    const sortKey = filterKeys.find((el) => el.endsWith('SK')) || filterKeys[0];
     const sortParsed = { [sortKey]: sortInit === 'DESC' ? -1 : 1 } as const;
     const onlyOne = first === 1;
     const db = this._client.db;

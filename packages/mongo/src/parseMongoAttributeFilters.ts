@@ -21,16 +21,19 @@ export function createMongoIndexBasedFilters(options: {
 }) {
   const { indexConfig, filter } = options;
 
-  const { indexFilter, attributeFilter } = createDocumentIndexBasedFilters(
+  let { indexFilter, relationFilters } = createDocumentIndexBasedFilters(
     filter,
     indexConfig
   );
 
-  if (typeof indexFilter._id === 'string' && !attributeFilter) {
-    return [{ _id: indexFilter._id }];
+  if (relationFilters?.length) {
+    indexFilter = relationFilters.reduce((acc, next) => {
+      const $or = [...(acc.$or || []), next];
+      return { ...acc, $or };
+    }, indexFilter as FilterRecord);
   }
 
-  return parseMongoAttributeFilters({ ...indexFilter, ...attributeFilter });
+  return parseMongoAttributeFilters(indexFilter);
 }
 
 export function parseMongoAttributeFilters(attFilter: FilterRecord) {

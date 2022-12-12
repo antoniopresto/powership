@@ -12,3 +12,4 @@ export * from './pickIndexKeyPartsFromDocument';
 export * from './parseFilterIndexFilterParts';
 export * from './createDocumentIndexBasedFilters';
 export * from './createDocumentIndexBasedFilters';
+export * from './encodeIndexValue';

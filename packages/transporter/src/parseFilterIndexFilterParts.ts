@@ -9,6 +9,7 @@ import {
   ParsedIndexPart,
   parseFilterCursor,
 } from './CollectionIndex';
+import { encodeIndexValue } from './encodeIndexValue';
 
 export type ParsedIndexFilterPart = {
   parsedIndexCursor: ParsedIndexCursor;
@@ -145,27 +146,29 @@ export function parseFilterIndexFilterParts(
             ) as '');
       })();
 
-      const indexFilter = (() => {
-        const PKName = parseIndexFieldName(index.name, 'PK');
-        const SKName = parseIndexFieldName(index.name, 'SK');
+      const indexFilter = encodeIndexValue(
+        (() => {
+          const PKName = parseIndexFieldName(index.name, 'PK');
+          const SKName = parseIndexFieldName(index.name, 'SK');
 
-        if (SKFilterValue === undefined) return { [PKName]: PKFilterValue };
+          if (SKFilterValue === undefined) return { [PKName]: PKFilterValue };
 
-        if (typeof SKFilterValue === 'string') {
+          if (typeof SKFilterValue === 'string') {
+            return {
+              ...finalFilterFound,
+              _id: parsedIndexCursor.cursor,
+              [PKName]: PKFilterValue,
+              [SKName]: SKFilterValue,
+            };
+          }
+
           return {
             ...finalFilterFound,
-            _id: parsedIndexCursor.cursor,
             [PKName]: PKFilterValue,
             [SKName]: SKFilterValue,
           };
-        }
-
-        return {
-          ...finalFilterFound,
-          [PKName]: PKFilterValue,
-          [SKName]: SKFilterValue,
-        };
-      })();
+        })()
+      );
 
       return {
         entity,

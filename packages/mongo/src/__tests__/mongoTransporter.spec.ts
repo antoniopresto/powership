@@ -33,10 +33,9 @@ describe('MongoTransporter', () => {
   let transporter: MongoTransporter;
 
   beforeEach(async function () {
-    let MongoTransporter, createAppMock;
+    let createAppMock;
 
     jest.isolateModules(() => {
-      MongoTransporter = require('../MongoTransporter').MongoTransporter;
       createAppMock = require('../test-utils').createAppMock;
     });
 
@@ -80,7 +79,7 @@ describe('MongoTransporter', () => {
           },
         ],
       },
-      { projection: undefined, sort: { _idSK: 1 } }
+      { projection: undefined, sort: { _id: 1 } }
     );
 
     spy.mockRestore();
@@ -958,45 +957,18 @@ describe('findMany', () => {
   });
 
   it('should handle first 1', async () => {
-    const created = await Promise.all([
-      transporter.createOne({
-        indexConfig,
-        context: {},
-        item: {
-          PK: 'users',
-          SK: ulid(),
-        },
-      }),
-      transporter.createOne({
-        indexConfig,
-        context: {},
-        item: {
-          PK: 'users',
-          SK: ulid(),
-        },
-      }),
-      transporter.createOne({
-        indexConfig,
-        context: {},
-        item: {
-          PK: 'users',
-          SK: ulid(),
-        },
-      }),
-    ]);
-
     const sut = await transporter.findMany({
       indexConfig,
       context: {},
       filter: {
         PK: 'users',
-        SK: { $startsWith: '01' },
+        SK: { $startsWith: 'A' },
       },
       first: 1,
     });
 
     expect(sut.items).toHaveLength(1);
-    expect(sut.items).toHaveProperty('0.SK', expect.stringMatching(/^01/));
+    expect(sut.items).toHaveProperty('0.SK', 'A');
   });
 
   it('should handle first 2', async () => {
@@ -1030,9 +1002,9 @@ describe('findMany', () => {
 
     expect(spy).toBeCalledWith(
       {
-        _id: 'entity_foo⋮_id⋮users⋮B⋮',
+        _id: 'entity_foo⋮PK⋮users⋮B⋮',
       },
-      { projection: ['sub.attr'], sort: { _idSK: 1 } }
+      { projection: ['sub.attr'], sort: { SK: 1 } }
     );
 
     expect(sut.items).toHaveLength(1);
@@ -1062,17 +1034,17 @@ describe('findMany', () => {
       {
         limit: 3,
         projection: ['sub.attr'],
-        sort: { _idSK: -1 },
+        sort: { SK: -1 },
       }
     );
 
     expect(sut.items).toHaveLength(3);
     expect(sut.items[0]).toEqual({
-      _id: 'entity_foo⋮_id⋮users⋮D⋮',
+      _id: 'entity_foo⋮PK⋮users⋮D⋮',
       sub: { attr: 4 },
     });
     expect(sut.items[1]).toEqual({
-      _id: 'entity_foo⋮_id⋮users⋮C⋮',
+      _id: 'entity_foo⋮PK⋮users⋮C⋮',
       sub: { attr: 3 },
     });
 
@@ -1177,10 +1149,9 @@ describe('findOne', () => {
   };
 
   beforeEach(async () => {
-    let MongoTransporter, createAppMock;
+    let createAppMock;
 
     jest.isolateModules(() => {
-      MongoTransporter = require('../MongoTransporter').MongoTransporter;
       createAppMock = require('../test-utils').createAppMock;
     });
 
