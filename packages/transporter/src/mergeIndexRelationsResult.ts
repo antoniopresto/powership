@@ -1,4 +1,4 @@
-import { NodeLogger } from '@backland/utils';
+import { inspectObject, NodeLogger } from '@backland/utils';
 
 import {
   AnyCollectionIndexConfig,
@@ -28,55 +28,37 @@ export function mergeIndexRelationsResult(input: {
 
   if (!relations.length) return items;
 
-  const subDocPositions = new Set<number>();
+  const mainDocs: DocumentBase[] = [];
   const docsByParent: Record<string, DocumentBase[]> = {};
 
-  items.forEach((doc, pos) => {
+  items.forEach((doc) => {
     const idInfo = parseFilterCursor(doc.id);
 
     if (!idInfo) {
       NodeLogger.logError(`Document without entity found.`, { id: doc.id });
-      return '';
+      return;
     }
 
-    if (idInfo.entity !== entity) {
-      subDocPositions.add(pos);
-    }
+    const PKKey = idInfo.PKFieldName;
+    const PKValue = idInfo.PKPart;
+    const KEY = `__${PKKey}_${PKValue}__`;
 
-    if (!idInfo.parentPrefix) return;
-
-    docsByParent[idInfo.parentPrefix] = docsByParent[idInfo.parentPrefix] || [];
-    docsByParent[idInfo.parentPrefix].push(doc);
-    return;
-  });
-
-  items.forEach((parentDoc) => {
-    const relDocs = docsByParent[parentDoc.id];
-    if (!relDocs?.length) return;
-
-    relations.forEach(({ rel, index }) => {
-      const indexField = `${index.name}PK`;
-
-      const withSameField = relDocs.filter((relDoc) => {
-        const p = parentDoc[indexField];
-        const relatedTo = relDoc._rpk;
-        return relatedTo?.includes?.(p);
+    if (idInfo.entity === entity) {
+      mainDocs.push(doc);
+      relations.forEach(({ rel }) => {
+        doc[rel.name] = docsByParent[KEY];
       });
-
-      const parentFieldRef = (parentDoc[rel.name] = parentDoc[rel.name] || []);
-
-      if (!Array.isArray(parentFieldRef)) {
-        NodeLogger.logError(`Document relation field already set.`, {
-          id: parentDoc.id,
-        });
-        return;
+    } else {
+      if (!idInfo.parentPrefix) {
+        throw new Error(
+          `Unknown entity returned as relation. ${inspectObject(idInfo)}`
+        );
       }
 
-      parentFieldRef.push(...withSameField);
-    });
+      docsByParent[KEY] = docsByParent[KEY] || [];
+      docsByParent[KEY].push(doc);
+    }
   });
 
-  return items.filter((_, index) => {
-    return !subDocPositions.has(index);
-  });
+  return mainDocs;
 }

@@ -46,6 +46,8 @@ describe('Aliases', () => {
 
     expect(user).toEqual({
       item: {
+        _c: '~!dXNlcuKLrl9pZOKLrmFudG9uaW/ii67ii64=',
+        id: '~!dXNlcuKLrl9pZOKLrmFudG9uaW/ii67ii64=',
         _e: 'user',
         email: 'antonio@mail.com',
         access: [
@@ -57,12 +59,11 @@ describe('Aliases', () => {
             verified: false,
           },
         ],
-        _id: 'user⋮_id⋮antonio⋮',
+        _id: 'user⋮_id⋮antonio⋮⋮',
         _idPK: 'user⋮_id⋮antonio⋮',
         _v: expect.stringMatching(ULID_REGEX),
         _idSK: '',
         firstName: 'antonio',
-        id: '~!dXNlcjpfaWQjYW50b25pb8K7',
         lastName: 'Silva',
         ulid: expect.any(String),
         createdAt: expect.any(Date),
@@ -95,14 +96,15 @@ describe('Aliases', () => {
         context: {},
       });
 
-      expect(updated).toEqual({
+      expect(updated).toMatchObject({
         created: false,
         item: {
           _e: 'user',
-          _id: 'user⋮_id⋮antonio⋮',
+          _id: 'user⋮_id⋮antonio⋮⋮',
           _idPK: 'user⋮_id⋮antonio⋮',
           _idSK: '',
           _v: expect.any(String),
+          _c: expect.any(String),
           access: [
             {
               createdAt: expect.any(Date),
@@ -330,8 +332,7 @@ function _getEntity(transporter: MongoTransporter) {
     type: UserType,
     indexes: [
       {
-        name: 'byUsername',
-        field: '_id',
+        name: '_id',
         PK: ['.username'],
       },
     ],

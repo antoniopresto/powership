@@ -16,12 +16,12 @@ describe('ProductResolver', () => {
     await expect(
       ProductEntity.findOne({ filter: {}, context: {} })
     ).rejects.toThrow(
-      `EMPTY_FILTER ➤ { filter: {}, possibleCondition: undefined, reason: 'EMPTY_FILTER' }`
+      `Failed to mount index based filter:`
     );
 
     await expect(
       ProductEntity.findOne({ filter: { batatas: '123' } as any, context: {} })
-    ).rejects.toThrow(`INVALID_FILTER ➤`);
+    ).rejects.toThrow(`Failed to mount index based filter:`);
 
     const res = await createOne();
     expect(res).toEqual(shape);

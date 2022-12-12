@@ -20,13 +20,11 @@ export const AccountEntity = createEntity({
     // secondary index has username as PK to performance login with username
     {
       PK: ['.accountId'],
-      field: '_id',
-      name: 'accountId',
+      name: '_id',
     },
     {
       PK: ['.username'],
-      field: '_id2',
-      name: 'username',
+      name: '_id2',
     },
   ],
 })

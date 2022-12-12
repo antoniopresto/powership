@@ -11,8 +11,7 @@ export const SessionEntity = createEntity(() => {
       {
         PK: ['.accountId'],
         SK: ['.ulid'], // used ulid to get the latest sessions
-        field: '_id',
-        name: 'accountId',
+        name: '_id',
         relatedTo: 'Account',
       },
     ],

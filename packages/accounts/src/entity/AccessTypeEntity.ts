@@ -9,14 +9,12 @@ export const AccessTypeEntity = createEntity({
     {
       PK: ['.accountId'],
       SK: ['.data.kind', '.ulid'],
-      field: '_id',
-      name: 'accountId',
+      name: '_id',
       relatedTo: 'Account',
     },
     {
       PK: ['.data.kind', '.data.value'],
-      field: '_id2',
-      name: 'kind_value',
+      name: '_id2',
     },
   ],
 });

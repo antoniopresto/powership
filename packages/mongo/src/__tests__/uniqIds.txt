@@ -29,14 +29,14 @@ describe('uniqIds', () => {
       {
         //
         name: 'second',
-        field: '_id2',
+        name: '_id2',
         PK: ['.PKV'],
         SK: ['.SKV'],
       },
       {
         //
         name: 'first',
-        field: '_id',
+        name: '_id',
         PK: ['.ulid'],
       },
     ],
@@ -313,13 +313,13 @@ describe('uniqIds', () => {
         {
           PK: ['.accountId'],
           SK: ['.data.kind', '.ulid'],
-          field: '_id',
+          name: '_id',
           name: 'accountId',
           relatedTo: 'Account',
         },
         {
           PK: ['.data.kind', '.data.value'],
-          field: '_id2',
+          name: '_id2',
           name: 'kind_value',
         },
       ],

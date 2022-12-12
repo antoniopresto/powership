@@ -5,7 +5,7 @@
     <working-dir value="" />
     <jest-options value="--watchAll" />
     <envs>
-      <env name="TEST_TIMEOUT" value="99999999" />
+      <env name="TEST_TIMEOUT" value="99999999 LOG_LEVEL=debug" />
     </envs>
     <scope-kind value="ALL" />
     <method v="2" />

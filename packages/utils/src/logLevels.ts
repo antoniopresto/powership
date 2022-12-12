@@ -4,6 +4,10 @@ import { Process } from './useProcess';
 
 export const LogLevels = tuple('error', 'info', 'crit', 'warning', 'debug');
 
+export const LogLevelNumbers = [0, 1, 2, '0', '1', '2'] as const;
+export type LogLevelNumber = typeof LogLevelNumbers[number];
+export type LogLevel = LogLevelNumber | TLogLevel | TLogLevel[];
+
 export type TLogLevel = typeof LogLevels[number];
 
 const LEVEL = Process.env.LOG_LEVEL || '';
@@ -12,8 +16,18 @@ if (!LEVEL && !isProduction()) {
   Process.env.LOG_LEVEL = '2';
 }
 
-export function getLogLevelInfo(): Set<TLogLevel> {
-  const env = Process.env.LOG_LEVEL;
+export function getLogLevelInfo(
+  env: LogLevel = Process.env.LOG_LEVEL
+): Set<TLogLevel> {
+  if (Array.isArray(env)) {
+    return new Set(env);
+  }
+
+  // @ts-ignore
+  if (LogLevels.includes(env)) return new Set<TLogLevel>(env);
+
+  env = `${env}`;
+
   const logInfo = env === '2';
   const logWarn = env === '1';
 

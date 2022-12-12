@@ -109,8 +109,7 @@ type ProductEntity = Entity<
     {
       PK: ['.storeId'];
       SK: ['.sku'];
-      field: '_id';
-      name: string;
+      name: '_id';
     }
   ]
 >;
@@ -150,8 +149,7 @@ export function setupProductTest(): {
         {
           PK: ['.storeId'],
           SK: ['.sku'],
-          field: '_id',
-          name: 'byStore',
+          name: '_id',
         },
       ],
       name: 'Product',

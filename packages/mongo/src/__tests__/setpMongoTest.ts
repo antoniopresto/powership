@@ -30,7 +30,7 @@ export function setupMongoTest(
   });
 
   afterEach(async function () {
-    await mockApp.reset();
+    await mockApp.reset().catch(console.error);
   });
 
   return {
@@ -42,8 +42,7 @@ export function setupMongoTest(
           {
             PK: ['.storeId'],
             SK: ['.sku'],
-            field: '_id',
-            name: 'byStore',
+            name: '_id',
           },
         ],
       } as const),

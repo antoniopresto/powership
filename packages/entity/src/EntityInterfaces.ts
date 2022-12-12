@@ -66,6 +66,7 @@ export type GetLoaderFilterDef<LoaderConfig, DocDef> =
 
 export type EntityDefaultFields = {
   _v: string;
+  _c: string;
   createdAt: Date;
   createdBy: string | undefined;
   id: string;

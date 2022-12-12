@@ -1,10 +1,7 @@
-import * as util from 'util';
+import { getLogLevelInfo, LogLevel, LogLevels, TLogLevel } from './logLevels';
+import { inspectObject } from './inspectObject';
 
-import { getLogLevelInfo, LogLevels, TLogLevel } from './logLevels';
-
-const ALLOWED_LOG_LEVELS = getLogLevelInfo();
-
-const logger: { [K in TLogLevel]: (...args: any[]) => void } = {
+export const _defaultLogger: { [K in TLogLevel]: (...args: any[]) => void } = {
   error: console.error,
   debug: console.debug,
   info: console.info,
@@ -12,97 +9,103 @@ const logger: { [K in TLogLevel]: (...args: any[]) => void } = {
   crit: console.error,
 };
 
-export class NodeLogger {
+export interface LoggerOptions {
+  prefix?: string;
+  level?: LogLevel;
+  logger?: typeof _defaultLogger;
+}
+
+export class Logger {
+  levels: Set<TLogLevel>;
+  logger: typeof _defaultLogger;
+
   private prefix: string;
 
-  static lastLogged: { data: any; extraInfo: any } | null = null; // util on tests;
+  lastLogged: { data: any; extraInfo: any } | null = null; // util on tests;
 
-  constructor(prefix = '') {
+  constructor(options: LoggerOptions = {}) {
+    const { level = 2, prefix = '', logger = _defaultLogger } = options;
+    this.logger = logger;
+
     this.prefix = prefix;
+
+    if (Array.isArray(level)) {
+      this.levels = new Set(level);
+    } else {
+      this.levels = getLogLevelInfo(level);
+    }
   }
 
-  object(object: Record<string, any>, depth = 5) {
-    return this.log('info', inspect(object, depth));
-  }
+  object = (object: Record<string, any>, depth = 5) => {
+    return this.log('info', [inspect(object, depth)]);
+  };
 
-  error(err: any, extraInfo?: any) {
+  error = (err: any, extraInfo?: any) => {
     this.log('error', err, extraInfo);
-  }
+  };
 
-  criticalError(err: any, extraInfo?: any) {
+  criticalError = (err: any, extraInfo?: any) => {
     return this.log('crit', err, extraInfo);
-  }
+  };
 
-  warn(data: any) {
+  warn = (...data: any[]) => {
     this.log('warning', data);
-  }
+  };
 
-  info(data: any) {
+  info = (...data: any[]) => {
     this.log('info', data);
-  }
+  };
 
-  debug(data: any) {
+  debug = (...data: any[]) => {
     this.log('debug', data);
-  }
+  };
 
-  log(level: TLogLevel, data: any, extraInfo?: any) {
-    NodeLogger.lastLogged = { data, extraInfo };
+  log = (level: TLogLevel, data: any[], extraInfo?: any) => {
+    this.lastLogged = { data, extraInfo };
 
     if (!LogLevels.includes(level)) {
       console.trace(`INVALID_LOG_LEVEL ${level}`);
       return;
     }
 
-    if (!ALLOWED_LOG_LEVELS.has(level)) return;
+    if (!this.levels.has(level)) return;
 
     let prefix = `${this.prefix}`;
 
     let payload: any[] = [prefix];
 
-    if (typeof data !== 'string') {
-      data = inspect(data);
+    for (let el of data) {
+      payload.push(typeof el == 'string' ? el : inspect(el));
     }
 
-    payload.push(data);
-
     try {
-      logger[level](payload.join('\n'), extraInfo);
+      this.logger[level](payload.join(' '), extraInfo);
     } catch (e) {
       console.trace(e);
     }
-  }
-
-  static logError = (err: any, extraInfo?: any) => {
-    const logger = new NodeLogger('');
-    logger.error(err, extraInfo);
   };
 
-  static logCriticalError = (err: any, extraInfo?: any) => {
-    const logger = new NodeLogger('');
-    logger.criticalError(err, extraInfo);
+  // for back compatibility
+  logError = (err: any, extraInfo?: any) => {
+    NodeLogger.error(err, extraInfo);
   };
 
-  static log = (level: TLogLevel, data: any) => {
-    const logger = new NodeLogger('');
-    logger.log(level, data);
+  logCriticalError = (err: any, extraInfo?: any) => {
+    NodeLogger.criticalError(err, extraInfo);
   };
 
-  static logWarning = (data: any) => {
-    const logger = new NodeLogger('');
-    logger.warn(data);
+  logWarning = (data: any) => {
+    NodeLogger.warn(data);
   };
 
-  static logInfo = (data: any) => {
-    const logger = new NodeLogger('');
-    logger.info(data);
-  };
-
-  static debug = (data: any) => {
-    const logger = new NodeLogger('');
-    logger.debug(data);
+  logInfo = (data: any) => {
+    NodeLogger.info(data);
   };
 }
 
+export const NodeLogger = new Logger();
+export const GlobalLogger = NodeLogger;
+
 export function inspect(arg: any, depth = 5) {
-  return util.inspect(arg, { depth });
+  return inspectObject(arg, { depth });
 }

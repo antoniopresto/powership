@@ -70,12 +70,12 @@ describe('Accounts', () => {
 
     //     {
     //       PK: ['.accountId'],
-    //       field: '_id',
+    //       name: '_id',
     //       name: 'accountId',
     //     },
     //     {
     //       PK: ['.username'],
-    //       field: '_id2',
+    //       name: '_id2',
     //       name: 'username',
     //     },
 

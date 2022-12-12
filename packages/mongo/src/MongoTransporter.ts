@@ -165,14 +165,15 @@ export class MongoTransporter implements Transporter {
 
     const $and = parseMongoAttributeFilters(indexFilter);
 
-    if (relationFilters?.length) {
-      const _relationFilters = parseMongoAttributeFilters(
+    const relationsQuery = (() => {
+      if (!relationFilters?.length) return undefined;
+
+      return parseMongoAttributeFilters(
         relationFilters.length > 1
           ? { $or: relationFilters }
           : relationFilters[0]
       );
-      $and.push(..._relationFilters);
-    }
+    })();
 
     const sortKey = (() => {
       for (let idx of indexConfig.indexes) {
@@ -225,17 +226,15 @@ export class MongoTransporter implements Transporter {
     const db = this._client.db;
 
     async function _relationsQuery() {
-      return [];
-      // return relationsMongoFilters
-      //   ? mongoFindMany(
-      //       {
-      //         query: { $and: relationsMongoFilters },
-      //         collection: collection.collectionName,
-      //         db,
-      //       },
-      //       options.context
-      //     )
-      //   : [];
+      if (!relationsQuery) return [];
+      return mongoFindMany(
+        {
+          query: relationsQuery,
+          collection: collection.collectionName,
+          db,
+        },
+        options.context
+      );
     }
 
     async function _mainEntityQuery() {

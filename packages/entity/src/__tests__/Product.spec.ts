@@ -3,66 +3,18 @@ import { ULID_REGEX } from '@backland/schema/lib/fields/UlidField';
 
 import { MongoTransporter } from '@backland/mongo';
 import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
-import { createIndexToIDHelpers } from '@backland/transporter';
 import { createEntity } from '../Entity';
 import { createEntityDefaultFields } from '../defaultFields';
 
 describe('Product', () => {
-  let mockApp: AppMock;
-  let transporter: MongoTransporter;
+  const { getEntity, getOptions, after, before } = mokit();
 
-  const type = createType('Product', {
-    object: {
-      title: { string: { min: 2 } },
-      storeId: { ID: { autoCreate: false } },
-      SKU: { string: { min: 3 } },
-      category: 'string?',
-    },
-  });
-
-  const _getOptions = () => {
-    return {
-      transporter,
-      name: 'Product',
-      indexes: [
-        {
-          name: 'byStore',
-          field: '_id',
-          PK: ['.storeId'],
-          SK: ['.ulid'],
-        },
-        {
-          name: 'byStoreAndSKU',
-          field: '_id1',
-          PK: ['.storeId'],
-          SK: ['.SKU'],
-        },
-      ],
-      type,
-    } as const;
-  };
-
-  function _getEntity() {
-    return createEntity(_getOptions());
-  }
-
-  beforeEach(async function () {
-    await ObjectType.reset();
-    mockApp = createAppMock();
-    await mockApp.start();
-    transporter = new MongoTransporter({
-      collection: 'temp1',
-      client: mockApp.client!,
-    });
-  });
-
-  afterEach(async function () {
-    await mockApp.reset();
-  });
+  beforeEach(before);
+  afterEach(after);
 
   test('properties', () => {
-    const entity = _getEntity();
-    const options = _getOptions();
+    const entity = getEntity();
+    const options = getOptions();
 
     expect(entity.name).toEqual('Product');
     expect(entity.indexes).toEqual(options.indexes);
@@ -83,12 +35,14 @@ describe('Product', () => {
   });
 
   it('create entity', async () => {
-    const entity = _getEntity();
+    const entity = getEntity();
     expect(typeof entity).toEqual('object');
   });
 
   it('TS distributed filter types', async () => {
-    const type = createType('Product', {
+    const { transporter } = getEntity();
+
+    const type = createType('Product2', {
       object: {
         title: { string: { min: 2 } },
         storeId: 'ID',
@@ -99,17 +53,15 @@ describe('Product', () => {
 
     const entity = createEntity({
       transporter,
-      name: 'Product',
+      name: 'Product2',
       indexes: [
         {
-          name: 'byStore',
-          field: '_id',
+          name: '_id',
           PK: ['.storeId'],
           SK: ['.ulid'],
         },
         {
-          name: 'byStoreAndSKU',
-          field: '_id1',
+          name: '_id1',
           PK: ['.category'],
           SK: ['.storeId'],
         },
@@ -126,7 +78,7 @@ describe('Product', () => {
   });
 
   it('create', async () => {
-    const entity = _getEntity();
+    const entity = getEntity();
 
     let product = await entity.findOne({
       filter: { storeId: 'store1' },
@@ -153,6 +105,7 @@ describe('Product', () => {
       item: {
         SKU: 'sku0',
         id: expect.any(String),
+        _c: expect.any(String),
         _e: 'product',
         _v: expect.stringMatching(ULID_REGEX),
         _id: expect.stringMatching(/^product⋮_id⋮store1⋮/),
@@ -171,7 +124,7 @@ describe('Product', () => {
   });
 
   it('byStore', async () => {
-    const entity = _getEntity();
+    const entity = getEntity();
 
     await entity.createOne({
       item: {
@@ -187,7 +140,7 @@ describe('Product', () => {
       context: {},
     });
 
-    expect(product).toEqual({
+    expect(product).toMatchObject({
       item: {
         SKU: 'sku0',
         _e: 'product',
@@ -209,7 +162,7 @@ describe('Product', () => {
   });
 
   it('findMany', async () => {
-    const entity = _getEntity();
+    const entity = getEntity();
 
     await entity.createOne({
       item: {
@@ -236,7 +189,7 @@ describe('Product', () => {
 
     expect(product.items).toHaveLength(2);
 
-    expect(entity.findOne.indexInfo).toEqual([
+    expect(entity.findOne.indexInfo).toMatchObject([
       {
         PK: {
           definition: ['.storeId'],
@@ -284,8 +237,7 @@ describe('Product', () => {
         index: {
           PK: ['.storeId'],
           SK: ['.ulid'],
-          field: '_id',
-          name: 'byStore',
+          name: '_id',
         },
       },
       {
@@ -335,15 +287,14 @@ describe('Product', () => {
         index: {
           PK: ['.storeId'],
           SK: ['.SKU'],
-          field: '_id1',
-          name: 'byStoreAndSKU',
+          name: '_id1',
         },
       },
     ]);
   });
 
   it('findById', async () => {
-    const entity = _getEntity();
+    const entity = getEntity();
 
     await entity.createOne({
       item: {
@@ -354,7 +305,7 @@ describe('Product', () => {
       context: {},
     });
 
-    await entity.createOne({
+    const created = await entity.createOne({
       item: {
         title: 'batata',
         SKU: 'sku_batata',
@@ -363,28 +314,17 @@ describe('Product', () => {
       context: {},
     });
 
-    const id1 = createIndexToIDHelpers({
-      entity: 'product',
-      PKEscapedString: 'store1',
-      SKEscapedString: 'sku_batata',
-      indexConfig: {
-        PK: [],
-        SK: [],
-        name: '_id1',
-        name: '_id1',
-      },
-      relatedTo: undefined,
-    }).fullID;
+    const cursor = created.item!.id;
 
-    const sut = await entity.findById({ id: id1, context: {} });
+    const sut = await entity.findById({ id: cursor, context: {} });
 
     expect(sut.item).toMatchObject({
-      _id: expect.stringMatching(/_id∙store1⋮01/),
+      _id: expect.stringMatching(/^product⋮_id⋮store1⋮01/),
     });
   });
 
   it('findOne', async () => {
-    const entity = _getEntity();
+    const entity = getEntity();
 
     await entity.createOne({
       item: {
@@ -424,7 +364,7 @@ describe('Product', () => {
   });
 
   it('update', async () => {
-    const entity = _getEntity();
+    const entity = getEntity();
 
     await entity.createOne({
       item: {
@@ -481,7 +421,7 @@ describe('Product', () => {
   });
 
   xit('upsert', async () => {
-    const entity = _getEntity();
+    const entity = getEntity();
 
     const update = await entity.updateOne({
       upsert: true,
@@ -527,7 +467,7 @@ describe('Product', () => {
   });
 
   it('delete', async () => {
-    const entity = _getEntity();
+    const entity = getEntity();
 
     const created = await entity.createOne({
       item: {
@@ -566,41 +506,99 @@ describe('Product', () => {
 
     expect(found).toMatchObject({ item: null });
   });
+});
 
-  describe('GraphQL utils', () => {
-    const entity = _getEntity();
+describe('Product GraphQL utils', () => {
+  const { getEntity, after, before } = mokit();
+  beforeEach(before);
+  afterEach(after);
 
-    test('indexGraphTypes', () => {
-      expect(entity.indexGraphTypes.byStoreAndSKU.id).toEqual(
-        'ProductByStoreAndSKUIndex'
-      );
+  test('indexGraphTypes', () => {
+    const entity = getEntity();
+    expect(entity.indexGraphTypes._id.clone((it) => it.def())).toEqual({
+      storeId: expect.objectContaining({ type: 'ID' }),
+      ulid: expect.objectContaining({ type: 'ulid' }),
     });
+  });
 
-    test('toFilterFields', async () => {
-      expect(entity.findOne.filterDef.def()).toEqual({
-        SKU: {
-          def: {
-            min: 3,
-          },
-          optional: true,
-          type: 'string',
+  test('toFilterFields', async () => {
+    const entity = getEntity();
+    expect(entity.findOne.filterDef.def()).toEqual({
+      SKU: {
+        def: {
+          min: 3,
         },
-        id: {
-          optional: true,
-          type: 'ID',
+        optional: true,
+        type: 'string',
+      },
+      id: {
+        optional: true,
+        type: 'ID',
+      },
+      storeId: {
+        def: {
+          autoCreate: false,
         },
-        storeId: {
-          def: {
-            autoCreate: false,
-          },
-          optional: true,
-          type: 'ID',
-        },
-        ulid: {
-          optional: true,
-          type: 'ulid',
-        },
-      });
+        optional: true,
+        type: 'ID',
+      },
+      ulid: {
+        optional: true,
+        type: 'ulid',
+      },
     });
   });
 });
+
+function mokit() {
+  const res = {
+    mockApp: {} as AppMock,
+    transporter: {} as MongoTransporter,
+    getOptions() {
+      return {
+        transporter: res.transporter,
+        name: 'Product',
+        indexes: [
+          {
+            name: '_id',
+            PK: ['.storeId'],
+            SK: ['.ulid'],
+          },
+          {
+            name: '_id1',
+            PK: ['.storeId'],
+            SK: ['.SKU'],
+          },
+        ],
+        type,
+      } as const;
+    },
+    getEntity() {
+      return createEntity(res.getOptions());
+    },
+    async before() {
+      await ObjectType.reset();
+      res.mockApp = createAppMock();
+      await res.mockApp.start();
+
+      res.transporter = new MongoTransporter({
+        collection: 'temp1',
+        client: res.mockApp.client!,
+      });
+    },
+    async after() {
+      await res.mockApp.reset();
+    },
+  };
+
+  const type = createType('Product', {
+    object: {
+      title: { string: { min: 2 } },
+      storeId: { ID: { autoCreate: false } },
+      SKU: { string: { min: 3 } },
+      category: 'string?',
+    },
+  });
+
+  return res;
+}

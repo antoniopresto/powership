@@ -13,8 +13,7 @@ describe('ProductResolver.plugins', () => {
         {
           PK: ['.storeId'],
           SK: ['.sku'],
-          field: '_id',
-          name: 'byStore',
+          name: '_id',
         },
       ],
       name: 'Product2',

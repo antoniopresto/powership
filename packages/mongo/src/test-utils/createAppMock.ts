@@ -1,9 +1,10 @@
 import { ObjectType } from '@backland/schema';
-import { notNull } from '@backland/utils';
+import { delay, inspectObject, notNull } from '@backland/utils';
 import { MongoMemoryServer } from 'mongodb-memory-server-core';
 
 import { MongoClient } from '../MongoClient';
 import { MongoTransporter } from '../MongoTransporter';
+import * as process from 'process';
 
 export class AppMock {
   client?: MongoClient;
@@ -27,23 +28,42 @@ export class AppMock {
       client: this.client,
       collection: 'users',
     });
-    await this.transporter.connect().then((res) => {
-      res.collection('users').createIndexes([
-        {
-          key: { _idPK: 1 },
-        },
-      ]);
-    });
+    await this.transporter
+      .connect()
+      .then((res) => {
+        res.collection('users').createIndexes([
+          {
+            key: { _idPK: 1 },
+          },
+        ]);
+      })
+      .catch((e) => {
+        process.stderr.write(inspectObject(e));
+      });
     return this;
   }
 
   async reset() {
-    await this.mongoServer?.stop({ doCleanup: true, force: true });
-    await ObjectType.reset();
+    try {
+      await ObjectType.reset();
+      const mongoServer = this.mongoServer;
+
+      (() => {
+        if (this.mongoServer?.state === 'running') {
+          delay(100).then(() => {
+            mongoServer
+              ?.stop({ doCleanup: true, force: true })
+              .catch(console.error);
+          });
+        }
+      })();
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   collection(name?: string) {
-    return this.client!.db.collection(name||this.collectionName);
+    return this.client!.db.collection(name || this.collectionName);
   }
 
   get db() {

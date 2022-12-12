@@ -36,7 +36,7 @@ describe('AccountToken', () => {
 
     //         PK: ['.accountId'],
     //         SK: ['.kind', '.createdFor', '.ulid'],
-    //         field: '_id',
+    //         name: '_id',
     //         name: 'accountId',
     //         relatedTo: 'Account',
     expect(created).toEqual({

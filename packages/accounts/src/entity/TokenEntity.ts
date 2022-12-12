@@ -10,8 +10,7 @@ export const TokenEntity = createEntity(() => {
       {
         PK: ['.accountId'],
         SK: ['.kind', '.createdFor', '.ulid'],
-        field: '_id',
-        name: 'accountId',
+        name: '_id',
         relatedTo: 'Account',
       },
     ],

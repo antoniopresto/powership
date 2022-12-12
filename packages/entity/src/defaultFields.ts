@@ -31,6 +31,11 @@ export type EntityDefaultFieldsDef<Optional extends boolean = false> = {
     ulid: { autoCreate: true };
     optional: Optional;
   };
+  _c: {
+    type: 'string';
+    optional: Optional;
+    description: 'Original document cursor. Aliased in field id.';
+  };
   createdAt: { type: 'date'; optional: Optional };
   createdBy: {
     optional: true;

@@ -34,20 +34,20 @@ export function _addEntityIndexRelations(
 
     relatedIndex.forEach((relIndex) => {
       const mainEntityIndex = mainEntityIndexes.find(
-        (el) => el.field === relIndex.field
+        (el) => el.name === relIndex.name
       );
 
       if (!mainEntityIndex) {
         throw new Error(
           `Failed to add relation to Entity "${mainEntityName}": there is no index` +
-            ` "${relIndex.field}" related with ${childOptions.name}`
+            ` "${relIndex.name}" related with ${childOptions.name}`
         );
       }
 
       if (!areEqual(mainEntityIndex.PK, relIndex.PK)) {
         devAssert(
           `Found different index configuration in relation "${relName}".` +
-            ` The index "${relIndex.field}" is different between the entities` +
+            ` The index "${relIndex.name}" is different between the entities` +
             ` "${mainEntityName}" and "${childOptions.name}"`,
           {
             [`${mainEntityName}`]: mainEntityIndex.PK,
@@ -56,10 +56,12 @@ export function _addEntityIndexRelations(
         );
       }
 
-      const relations = (mainEntityIndex.relations =
-        mainEntityIndex.relations || []) as Writeable<
-        typeof mainEntityIndex.relations
-      >;
+      if (!mainEntityIndex.relations) {
+        mainEntityIndex.relations = [];
+      }
+
+      const relations: Writeable<typeof mainEntityIndex.relations> =
+        mainEntityIndex.relations as any;
 
       if (relations.find((el) => el.name === relName)) {
         throw new Error(

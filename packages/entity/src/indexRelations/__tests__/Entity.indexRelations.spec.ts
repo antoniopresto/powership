@@ -4,6 +4,7 @@ import { createEntity } from '../../Entity';
 import { assert, IsExact } from 'conditional-type-checks';
 import { EntityDefaultFields } from '../../EntityInterfaces';
 import { ulid } from '@backland/utils';
+import { mergeIndexRelationsResult } from '@backland/transporter';
 
 describe('Entity.indexRelations', () => {
   afterEach(ObjectType.reset);
@@ -26,9 +27,8 @@ describe('Entity.indexRelations', () => {
       transporter: mock.transporter,
       indexes: [
         {
-          name: 'accountId',
           PK: ['.accountId'],
-          field: '_id',
+          name: '_id',
           relatedTo: 'Account',
         },
       ],
@@ -47,9 +47,8 @@ describe('Entity.indexRelations', () => {
       transporter: mock.transporter,
       indexes: [
         {
-          name: 'accountId',
           PK: ['.accountId'],
-          field: '_id',
+          name: '_id',
         },
       ],
     }).addIndexRelation('access', accessEntity);
@@ -72,9 +71,8 @@ describe('Entity.indexRelations', () => {
       transporter: mock.transporter,
       indexes: [
         {
-          name: 'accountId',
           PK: ['.accountId123'],
-          field: '_id',
+          name: '_id',
           relatedTo: 'Account',
         },
       ],
@@ -95,9 +93,8 @@ describe('Entity.indexRelations', () => {
         transporter: mock.transporter,
         indexes: [
           {
-            name: 'accountId',
             PK: ['.accountId'],
-            field: '_id',
+            name: '_id',
           },
         ],
       }).addIndexRelation('access', accessEntity);
@@ -146,7 +143,7 @@ describe('Entity.indexRelations', () => {
     assert<IsExact<ExpectedOutput, T>>(true);
 
     expect(created.item).toMatchObject({
-      _id: 'account⋮_id⋮123⋮',
+      _id: 'account⋮_id⋮123⋮⋮',
       _idPK: 'account⋮_id⋮123⋮',
       _idSK: '',
       access: [
@@ -199,14 +196,12 @@ describe('Entity.indexRelations', () => {
         {
           PK: ['.accountId'],
           SK: ['.data.kind', '.ulid'],
-          field: '_id',
-          name: 'accountId',
+          name: '_id',
           relatedTo: 'Account',
         },
         {
           PK: ['.data.kind', '.data.value'],
-          field: '_id2',
-          name: 'kind_value',
+          name: '_id2',
         },
       ],
     });
@@ -224,14 +219,12 @@ describe('Entity.indexRelations', () => {
       transporter: mock.transporter,
       indexes: [
         {
-          name: 'accountId',
           PK: ['.accountId'],
-          field: '_id',
+          name: '_id',
         },
         {
           PK: ['.username'],
-          field: '_id2',
-          name: 'username',
+          name: '_id2',
         },
       ],
     }).addIndexRelation('access', accessEntity);
@@ -390,7 +383,7 @@ describe('Entity.indexRelations', () => {
         ulid: expect.any(String),
         updatedAt: expect.any(Date),
         username: 'antonio',
-      }
+      },
     ]);
   });
 

@@ -61,6 +61,6 @@ function _inspectObject(obj: any, config: any): string {
   try {
     return JSON.stringify(obj, null, 2);
   } catch (e) {
-    return 'FILED TO INSPECT';
+    return 'FAILED TO INSPECT';
   }
 }

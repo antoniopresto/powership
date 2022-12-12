@@ -17,8 +17,7 @@ describe('ProductResolver.addRelation', () => {
         {
           PK: ['.storeId'],
           SK: ['.sku'],
-          field: '_id',
-          name: 'byStore',
+          name: '_id',
         },
       ],
       name: 'Product2',

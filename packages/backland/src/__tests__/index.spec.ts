@@ -18,8 +18,7 @@ describe('index', () => {
       type,
       indexes: [
         {
-          field: '_id',
-          name: 'byName',
+          name: '_id',
           PK: ['.name'],
         },
       ],

@@ -10,7 +10,8 @@ import {
   DocumentIndexesConfig,
   Transporter,
 } from '@backland/transporter';
-import { IsKnown } from '@backland/utils';
+
+import { IsKnown, LoggerOptions } from '@backland/utils';
 
 export type EntityOptions<
   InputDocumentDefinition extends ObjectDefinitionInput = ObjectDefinitionInput,
@@ -24,18 +25,21 @@ export type EntityOptions<
         name: string;
         transporter?: Transporter;
         type: GraphType<{ object: InputDocumentDefinition }>;
+        logs?: LoggerOptions;
       }
     : {
         indexes: any;
         name: string;
         transporter?: Transporter;
         type: _EntityGraphType;
+        logs?: LoggerOptions;
       }
   : {
       indexes: any;
       name: string;
       transporter?: Transporter;
       type: _EntityGraphType;
+      logs?: LoggerOptions;
     };
 
 export type EntityFieldResolver<

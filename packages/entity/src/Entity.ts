@@ -29,6 +29,7 @@ import {
   ensureArray,
   getByPath,
   isProduction,
+  Logger,
   nonNullValues,
   notNull,
   RuntimeError,
@@ -96,7 +97,7 @@ export function createEntity(
   const optionMutations: ((options: EntityOptions) => EntityOptions)[] = [];
   const entityMutations: ((entity: AnyEntity) => AnyEntity)[] = [];
 
-  let entityOptions = createProxy(() => {
+  let entityOptions: EntityOptions = createProxy(() => {
     const opt =
       typeof configOptions === 'function'
         ? //
@@ -114,6 +115,7 @@ export function createEntity(
     aliasesPlugin,
     indexRelationsPlugin,
   ];
+
   const resolvers: EntityFieldResolver<any, any, any, any>[] = [];
   let gettersWereCalled = false;
 
@@ -250,6 +252,11 @@ export function createEntity(
     entityOptions = { ...entityOptions }; // open proxy;
     gettersWereCalled = true;
 
+    const logger = new Logger({
+      prefix: `${entityOptions.name}Entity`,
+      ...entityOptions.logs,
+    });
+
     const _hooks = _createHooks();
 
     // keep it here, because can be changed in the above "onGet"
@@ -260,10 +267,14 @@ export function createEntity(
       name: entityName,
     } = entityOptions;
 
+    logger.info({ entityOptions });
+
     plugins.forEach((plugin) => {
       try {
         plugin(_hooks);
       } catch (e: any) {
+        logger.error(e);
+
         throw new RuntimeError(`Failed to apply plugin ${plugin?.name}`, {
           message: e.message,
           plugin,
@@ -278,7 +289,7 @@ export function createEntity(
     let entity = {} as any;
     const loaders: Record<string, any> = {};
 
-    let entityOutputDefinitionWithRelations = {
+    let entityOutputDefinitionWithRelations: any = {
       ...createEntityDefaultFields(),
       ...inputObjectType.cleanDefinition(),
     };
@@ -296,7 +307,7 @@ export function createEntity(
       resolvers,
     });
 
-    const databaseDefinition = simpleObjectClone(
+    const databaseDefinition: any = simpleObjectClone(
       entityOutputDefinitionWithRelations
     );
 
@@ -414,9 +425,14 @@ export function createEntity(
           operation as any
         )) as any;
 
+        logger.debug(`Call "${method}" with:`, operation.options);
+
         const p = resolver(operation.options);
 
         let result = await p;
+
+        logger.debug(`${method} result:`, result);
+
         if (
           !result.error &&
           operation.isUpdate &&
@@ -699,7 +715,7 @@ function _registerPKSKHook(input: {
       };
 
       if (!doc.id) {
-        doc.id = parsedIndexes.firstIndex.value;
+        doc.id = doc._c;
       }
 
       return entity.inputType.parse(doc);

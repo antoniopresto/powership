@@ -16,7 +16,7 @@ describe('parseMongoUpdateExpression', () => {
 
   const indexConfig = {
     entity: 'user',
-    indexes: [{ name: '_id', PK: ['#1'], field: '_id' }],
+    indexes: [{ name: '_id', PK: ['#1'] }],
   } as const;
 
   const commonFields = {

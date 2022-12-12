@@ -486,7 +486,7 @@ describe('updateOne', () => {
         filter: {
           PK: 'a',
           SK: 'a',
-          field: '_id',
+          name: '_id',
         },
         update: { $set: { newField: 1 } },
         condition: { num: { $gte: 1 } },
@@ -499,7 +499,7 @@ describe('updateOne', () => {
       filter: {
         PK: 'a',
         SK: 'a',
-        field: '_id',
+        name: '_id',
       },
       update: { $set: { newField: 1 } },
       condition: { num: { $gte: 0 } },
@@ -517,7 +517,7 @@ describe('updateOne', () => {
       filter: {
         PK: 'a',
         SK: '55555555_none_exists',
-        field: '_id',
+        name: '_id',
       },
       update: { $set: { newField: 1 } },
     };
@@ -573,7 +573,7 @@ describe('updateMany', () => {
       filter: {
         PK: 'a',
         SK: '55555555_none_exists',
-        field: '_id',
+        name: '_id',
       },
       update: { $set: { newField: 1 } },
     };
@@ -932,7 +932,7 @@ describe('findMany', () => {
 
         first: 1,
         sort: 'ASC',
-        after: { PK: 'users', SK: 'A', field: '_id' },
+        after: { PK: 'users', SK: 'A' },
 
         context: {},
       }),
