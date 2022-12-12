@@ -14,7 +14,10 @@ export class AppMock {
     return notNull(this._transporter);
   }
 
-  constructor() {}
+  collectionName: string;
+  constructor(collectionName = 'users') {
+    this.collectionName = collectionName;
+  }
 
   async start() {
     this.mongoServer = await MongoMemoryServer.create();
@@ -39,12 +42,12 @@ export class AppMock {
     await ObjectType.reset();
   }
 
-  collection(name = 'testing') {
-    return notNull(this.client).db.collection(name);
+  collection(name?: string) {
+    return this.client!.db.collection(name||this.collectionName);
   }
 
   get db() {
-    return notNull(this.client).db;
+    return this.client!.db;
   }
 }
 

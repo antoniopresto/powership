@@ -11,6 +11,11 @@ import {
   RELATION_PRECEDES,
   splitCursorParts,
 } from './joinIndexCursor';
+import { parseIndexFieldName } from '../parseIndexFieldName';
+import { FilterRecord } from '../Transporter';
+
+export const MIN_DOCUMENT_INDEX_KEY_PARTS = 4;
+export const MIN_FILTER_INDEX_KEY_PARTS = 3;
 
 export function parseIndexCursor(
   init: string | string[] | InitIndexCursor,
@@ -39,7 +44,11 @@ export function parseIndexCursor(
     };
   })();
 
-  const MIN_PARTS = 4;
+  const MIN_PARTS =
+    options.destination === 'filter'
+      ? MIN_FILTER_INDEX_KEY_PARTS
+      : MIN_DOCUMENT_INDEX_KEY_PARTS;
+
   if (parts.length < MIN_PARTS) {
     throw new Error(
       `Invalid cursor, missing parts. ${inspectObject({
@@ -54,45 +63,32 @@ export function parseIndexCursor(
 
   if (isRelation) {
     try {
-      return _parseSubIndexCursor({
-        parts: parts,
-      });
+      return _parseSubIndexCursor(
+        {
+          parts: parts,
+        },
+        options
+      );
     } catch (e: any) {
       e.message = `parseIndexCursor cannot parse child relation ${fullID} ${e.message}`;
       throw e;
     }
   } else {
     const [entity, name, PK, SK] = parts;
-
-    const data = nonNullValues({ entity, name, PK, SK });
-
-    const entityName = entity.toLowerCase();
-
-    const PKPartOpen = [
-      entityName,
-      INDEX_PART_SEP,
-      name,
-      INDEX_PART_SEP,
-      PK,
-    ].join('');
-
-    return {
-      name: data.name,
-      entity: entityName,
-      PKPart: PKPartOpen + INDEX_PART_SEP,
-      PKPartOpen: PKPartOpen,
-      SKPart: SK,
-      cursor: joinCursorPartsWithTrailingSeparator([PKPartOpen, SK]),
-      relatedTo: null,
-      parentPrefix: null,
-    };
+    return _partsToParsedIndexCursor(
+      { entity, name, PK, SK, relatedTo: undefined, parentPrefix: undefined },
+      options
+    );
   }
 }
 
-export function _parseSubIndexCursor(init: {
-  parts: string[];
-  parentPrefix?: string;
-}): ParsedIndexCursor {
+export function _parseSubIndexCursor(
+  init: {
+    parts: string[];
+    parentPrefix?: string;
+  },
+  options: ParseCursorOptions
+): ParsedIndexCursor {
   const { parts } = init;
 
   const { parentPrefix, childParts } = (() => {
@@ -127,23 +123,87 @@ export function _parseSubIndexCursor(init: {
   const PKPartOpen = [parentPrefix + childEntity].join('');
   const PKPart = PKPartOpen + INDEX_PART_SEP;
 
-  const child: ParsedIndexCursor = {
-    entity: childEntity,
-    name,
-    PKPart,
-    PKPartOpen,
-    SKPart,
-    cursor: joinCursorPartsWithTrailingSeparator([PKPart, SKPart]),
-    relatedTo: parentEntity,
-    parentPrefix,
-  };
+  const child = _partsToParsedIndexCursor(
+    {
+      parentPrefix,
+      relatedTo: parentEntity,
+      SK: SKPart,
+      PK: PKPart,
+      name,
+      entity: childEntity,
+    },
+    options
+  );
 
   if (childRest.length) {
-    return _parseSubIndexCursor({
-      parts: childParts,
-      parentPrefix: PKPartOpen + RELATION_PRECEDES,
-    });
+    return _parseSubIndexCursor(
+      {
+        parts: childParts,
+        parentPrefix: PKPartOpen + RELATION_PRECEDES,
+      },
+      options
+    );
   }
 
   return child;
+}
+
+function _partsToParsedIndexCursor(
+  init: {
+    name: string;
+    entity: string;
+    PK: string;
+    SK: string | undefined;
+    relatedTo: string | undefined;
+    parentPrefix: string | undefined;
+  },
+  options: ParseCursorOptions
+): ParsedIndexCursor {
+  const { name, entity, PK, SK, relatedTo, parentPrefix } = init;
+  const data = nonNullValues({ entity, name, PK });
+
+  const entityName = entity.toLowerCase();
+
+  const PKPartOpen = (() => {
+    if (parentPrefix) return [parentPrefix, entityName];
+    return [entityName, INDEX_PART_SEP, name, INDEX_PART_SEP, PK];
+  })().join('');
+
+  const PKFieldName = parseIndexFieldName(name, 'PK');
+  const SKFieldName = parseIndexFieldName(name, 'SK');
+
+  const cursor = joinCursorPartsWithTrailingSeparator([
+    PKPartOpen,
+    SK === undefined ? '' : SK,
+  ]);
+  
+  const PKPart = PKPartOpen + INDEX_PART_SEP;
+
+  const SKPart = (() => {
+    if (SK === undefined && options.destination === 'filter') return null;
+    return SK;
+  })();
+
+  const filter: FilterRecord = {
+    _id: cursor,
+    [PKFieldName]: PKPart,
+  };
+
+  if (SKPart !== null) {
+    filter[SKFieldName] = SKPart;
+  }
+
+  return {
+    name: data.name,
+    entity: entityName,
+    PKPart,
+    PKPartOpen: PKPartOpen,
+    SKPart,
+    cursor,
+    relatedTo: relatedTo || null,
+    parentPrefix: parentPrefix || null,
+    PKFieldName,
+    SKFieldName,
+    filter,
+  };
 }

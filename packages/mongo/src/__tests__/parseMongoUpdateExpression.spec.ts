@@ -4,7 +4,7 @@ import { AppMock, createAppMock } from '../test-utils';
 import { MongoTransporter } from '../MongoTransporter';
 
 const mockUser = () => ({
-  _id: 'user⋮_id⋮1⋮⋮',
+  _c: 'user⋮_id⋮1⋮⋮',
   name: 'fulano',
   age: 20,
   list: ['a'],
@@ -20,10 +20,10 @@ describe('parseMongoUpdateExpression', () => {
   } as const;
 
   const commonFields = {
-    _id: 'user⋮_id⋮1⋮',
+    _id: 'user⋮_id⋮1⋮⋮',
     _idPK: 'user⋮_id⋮1⋮',
     _idSK: '',
-    id: '~!dXNlcjpfaWQjMcK7',
+    _c: '~!dXNlcuKLrl9pZOKLrjHii67ii64=',
     _e: 'user',
   };
 
@@ -118,7 +118,7 @@ describe('parseMongoUpdateExpression', () => {
       created: true,
       updated: false,
       item: {
-        _id: 'user⋮_id⋮1⋮',
+        _id: 'user⋮_id⋮1⋮⋮',
         address: {
           street: {
             numbers: [{ val: 1 }, { val: 2 }],
@@ -142,7 +142,7 @@ describe('parseMongoUpdateExpression', () => {
     expect(updated).toEqual({
       created: false,
       item: {
-        _id: 'user⋮_id⋮1⋮',
+        _id: 'user⋮_id⋮1⋮⋮',
         address: {
           street: {
             numbers: [

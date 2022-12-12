@@ -22,7 +22,7 @@ import {
   UpdateOneConfig,
   UpdateOneResult,
 } from '@backland/transporter';
-import { NodeLogger } from '@backland/utils';
+import { AnyRecord, NodeLogger } from '@backland/utils';
 import { Filter } from 'mongodb';
 
 import { MongoClient } from './MongoClient';
@@ -82,16 +82,21 @@ export class MongoTransporter implements Transporter {
 
     const notRepeat$OR: Filter<any>[] = [];
 
-    indexMap.parsedIndexKeys.forEach(({ index: { name } }) => {
-      const value = indexMap.indexFields[name];
-      if (!value) return;
-      notRepeat$OR.push(...parseMongoAttributeFilters({ [name]: value }));
+    indexMap.parsedIndexKeys.forEach(({ PK, SK }) => {
+      notRepeat$OR.push({
+        [PK.destinationField.key]: PK.destinationField.value,
+        [SK.destinationField.key]: SK.destinationField.value,
+      });
     });
 
-    conditionExpression.$or = [
-      ...(conditionExpression.$or || []),
-      ...notRepeat$OR,
-    ];
+    if (notRepeat$OR.length === 1) {
+      Object.assign(conditionExpression, notRepeat$OR[0]);
+    } else {
+      conditionExpression.$or = [
+        ...(conditionExpression.$or || []),
+        ...notRepeat$OR,
+      ];
+    }
 
     try {
       if (replace) {
@@ -141,10 +146,10 @@ export class MongoTransporter implements Transporter {
     return res;
   }
 
-  _parseQueryOptions(options: FindManyConfig) {
+  async findMany(options: FindManyConfig): Promise<FindManyResult> {
     const {
       filter,
-      sort = DEFAULT_SORT,
+      sort: sortInit = DEFAULT_SORT,
       projection,
       first,
       after,
@@ -152,16 +157,21 @@ export class MongoTransporter implements Transporter {
       condition,
     } = options;
 
-    const { attributeFilter, relationFilters, indexFilter } =
-      createDocumentIndexBasedFilters(filter, indexConfig);
+    const { relationFilters, indexFilter } = createDocumentIndexBasedFilters(
+      filter,
+      indexConfig
+    );
 
-    const $and = attributeFilter
-      ? parseMongoAttributeFilters(attributeFilter)
-      : [];
+    const $and = parseMongoAttributeFilters(indexFilter);
 
-    const relationsMongoFilters = relationFilters
-      ? parseMongoAttributeFilters({ $or: relationFilters })
-      : undefined;
+    if (relationFilters?.length) {
+      const _relationFilters = parseMongoAttributeFilters(
+        relationFilters.length > 1
+          ? { $or: relationFilters }
+          : relationFilters[0]
+      );
+      $and.push(..._relationFilters);
+    }
 
     if (after) {
       const { indexFilter } = createDocumentIndexBasedFilters(
@@ -172,25 +182,16 @@ export class MongoTransporter implements Transporter {
       const [key, value] = Object.entries(indexFilter)[0];
 
       $and.push({
-        [key]: { [sort === 'DESC' ? '$lt' : '$gt']: value },
+        [key]: { [sortInit === 'DESC' ? '$lt' : '$gt']: value },
       });
     }
 
-    const mongoConditions = condition
-      ? parseMongoAttributeFilters(condition)
-      : undefined;
-
-    if (mongoConditions) {
-      $and.push(...mongoConditions);
+    if (condition) {
+      const _conditions = parseMongoAttributeFilters(condition);
+      $and.push(..._conditions);
     }
 
-    const mongoIndexFilters = parseMongoAttributeFilters(indexFilter);
-
-    const _and = $and.length
-      ? [...mongoIndexFilters, ...$and]
-      : mongoIndexFilters;
-
-    const query = _and.length > 1 ? { $and: _and } : _and[0];
+    const query = $and.length > 1 ? { $and } : $and[0];
 
     NodeLogger.logInfo({ query });
 
@@ -198,47 +199,22 @@ export class MongoTransporter implements Transporter {
 
     const filterKeys = Object.keys(indexFilter);
     const sortKey = filterKeys.find((el) => el.endsWith('SK')) || filterKeys[0];
-    const mongoSort = { [sortKey]: sort === 'DESC' ? -1 : 1 } as const;
-
-    return {
-      relationFilter: relationFilters,
-      relationsMongoFilters,
-      collection,
-      collectionName: collection.collectionName,
-      db: this._client.db,
-      first,
-      onlyOne: first === 1,
-      projection: projection,
-      query,
-      sort: mongoSort,
-    };
-  }
-
-  async findMany(options: FindManyConfig): Promise<FindManyResult> {
-    const { indexConfig } = options;
-
-    const {
-      onlyOne,
-      collection,
-      db,
-      projection,
-      sort,
-      first,
-      query,
-      relationsMongoFilters,
-    } = this._parseQueryOptions(options);
+    const sortParsed = { [sortKey]: sortInit === 'DESC' ? -1 : 1 } as const;
+    const onlyOne = first === 1;
+    const db = this._client.db;
 
     async function _relationsQuery() {
-      return relationsMongoFilters
-        ? mongoFindMany(
-            {
-              query: { $and: relationsMongoFilters },
-              collection: collection.collectionName,
-              db,
-            },
-            options.context
-          )
-        : [];
+      return [];
+      // return relationsMongoFilters
+      //   ? mongoFindMany(
+      //       {
+      //         query: { $and: relationsMongoFilters },
+      //         collection: collection.collectionName,
+      //         db,
+      //       },
+      //       options.context
+      //     )
+      //   : [];
     }
 
     async function _mainEntityQuery() {
@@ -250,7 +226,7 @@ export class MongoTransporter implements Transporter {
             onlyOne,
             projection: projection,
             query,
-            sort,
+            sort: sortParsed,
           },
           options.context
         );
@@ -262,7 +238,7 @@ export class MongoTransporter implements Transporter {
         }
       }
       return collection
-        .find(query, { limit: first, projection, sort })
+        .find(query, { limit: first, projection, sort: sortParsed })
         .toArray();
     }
 

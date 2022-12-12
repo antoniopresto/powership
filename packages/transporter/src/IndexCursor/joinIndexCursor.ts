@@ -1,8 +1,9 @@
 import { nonNullValues } from '@backland/utils';
+import { FilterRecord } from '../Transporter';
 
 export interface InitIndexCursor {
   PK: string[];
-  SK: string[];
+  SK: string[] | null;
   entity: string;
   name: string;
   relatedTo?: string;
@@ -24,7 +25,10 @@ export interface ParsedIndexCursor {
   cursor: string;
   PKPartOpen: string;
   PKPart: string;
-  SKPart: string;
+  PKFieldName: string;
+  SKFieldName: string;
+  filter: FilterRecord;
+  SKPart: string | null | undefined;
 }
 
 export const CURSOR_CHARS = {
@@ -85,11 +89,17 @@ export function joinKeyParts(init: string[], options: JoinKeyPartsOptions) {
 }
 
 export function joinPKSK(
-  init: { PK: string[]; SK: string[] },
+  init: { PK: string[]; SK: string[] | null },
   options: JoinKeyPartsOptions
 ) {
+  const PKPart = joinKeyParts(init.PK, options);
+
+  if (init.SK === null) {
+    return PKPart; // the case when destination is a filter and SK is not informed
+  }
+
   return [
-    joinKeyParts(init.PK, options), //
+    PKPart, //
     joinKeyParts(init.SK, options),
   ].join('⋮');
 }
@@ -116,12 +126,20 @@ export function _joinIndexCursorWithParent(
   return joinCursorPartsWithTrailingSeparator([
     parentCursor,
     entity.toLowerCase(),
-    joinKeyParts(init.SK, options),
+    init.SK === null ? null : joinKeyParts(init.SK, options),
   ]);
 }
 
-export function joinCursorPartsWithTrailingSeparator(parts: string[]) {
-  return parts.map((el) => el.replace(/(⋮*)$/, '')).join('⋮') + '⋮';
+export function joinCursorPartsWithTrailingSeparator(parts: (string | null)[]) {
+  const _parts: string[] = parts
+    .filter((el) => el !== null && el !== undefined)
+    .map((el) => el!.replace(/(⋮*)$/, ''));
+
+  const isLikePartialIndexFilter = _parts.length !== parts.length;
+
+  if (isLikePartialIndexFilter) return _parts.join('⋮');
+
+  return _parts.join('⋮') + '⋮';
 }
 
 export function splitCursorParts(init: string) {

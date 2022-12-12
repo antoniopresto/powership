@@ -1,4 +1,4 @@
-import { createDocumentIndexBasedFilters } from '../CollectionIndex';
+import { createDocumentIndexBasedFilters } from '../createDocumentIndexBasedFilters';
 
 describe('getDocumentIndexFields', () => {
   describe('relatedTo', () => {
@@ -18,44 +18,7 @@ describe('getDocumentIndexFields', () => {
         }
       );
 
-      expect(oneField).toEqual({
-        foundKeyPairs: [
-          {
-            PK: 'account⋮_id⋮741234⋮',
-            SK: 'antonio',
-            entity: 'account',
-            index: {
-              PK: ['.accountId'],
-              SK: ['.username'],
-              name: '_id',
-              relations: [
-                {
-                  entity: 'accesstype',
-                  name: 'access',
-                },
-              ],
-            },
-            indexField: '_id',
-            parsePK: {
-              PK_SK: 'PK',
-              foundParts: ['741234'],
-              indexField: '_id',
-              invalidFields: [],
-              isFilter: false,
-              requiredFields: ['accountId'],
-              valid: true,
-            },
-            parseSK: {
-              PK_SK: 'SK',
-              foundParts: ['antonio'],
-              indexField: '_id',
-              invalidFields: [],
-              isFilter: false,
-              requiredFields: ['username'],
-              valid: true,
-            },
-          },
-        ],
+      expect(oneField).toMatchObject({
         indexFilter: {
           _id: 'account⋮_id⋮741234⋮antonio⋮',
           _idPK: 'account⋮_id⋮741234⋮',
@@ -86,56 +49,12 @@ describe('getDocumentIndexFields', () => {
       }
     );
 
-    expect(oneField).toEqual({
-      attributeFilter: {
+    expect(oneField).toMatchObject({
+      indexFilter: {
+        _idPK: 'account⋮_id⋮741234⋮',
         _idSK: {
           $startsWith: 'a',
         },
-      },
-      foundKeyPairs: [
-        {
-          PK: 'account⋮_id⋮741234⋮',
-          SK: {
-            $startsWith: 'a',
-          },
-          entity: 'account',
-          index: {
-            PK: ['.accountId'],
-            SK: ['.username'],
-            name: '_id',
-            relations: [
-              {
-                entity: 'accesstype',
-                name: 'access',
-              },
-            ],
-          },
-          indexField: '_id',
-          parsePK: {
-            PK_SK: 'PK',
-            foundParts: ['741234'],
-            indexField: '_id',
-            invalidFields: [],
-            isFilter: false,
-            requiredFields: ['accountId'],
-            valid: true,
-          },
-          parseSK: {
-            PK_SK: 'SK',
-            conditionFound: {
-              $startsWith: 'a',
-            },
-            foundParts: [],
-            indexField: '_id',
-            invalidFields: [],
-            isFilter: true,
-            requiredFields: ['username'],
-            valid: true,
-          },
-        },
-      ],
-      indexFilter: {
-        _idPK: 'account⋮_id⋮741234⋮',
       },
       relationFilters: [
         {
@@ -161,48 +80,37 @@ describe('getDocumentIndexFields', () => {
       }
     );
 
-    expect(oneField).toEqual({
-      foundKeyPairs: [
+    expect(oneField).toMatchObject({
+      indexFilter: {
+        _idPK: 'account⋮_id⋮741234⋮',
+      },
+      relationFilters: [
         {
-          PK: 'account⋮_id⋮741234⋮',
-          entity: 'account',
-          index: {
-            PK: ['.accountId'],
-            SK: ['.username'],
-            name: '_id',
-            relations: [
-              {
-                entity: 'accesstype',
-                name: 'access',
-              },
-            ],
-          },
-          indexField: '_id',
-          parsePK: {
-            PK_SK: 'PK',
-            foundParts: ['741234'],
-            indexField: '_id',
-            invalidFields: [],
-            isFilter: false,
-            requiredFields: ['accountId'],
-            valid: true,
-          },
-          parseSK: {
-            PK_SK: 'SK',
-            foundParts: [],
-            indexField: '_id',
-            invalidFields: [],
-            isFilter: false,
-            nullableFound: {},
-            requiredFields: ['username'],
-            valid: true,
-          },
+          _idPK: 'account⋮_id⋮741234⊰',
         },
       ],
+    });
+  });
+
+  test('filtering by the final indexFieldName', () => {
+    const oneField = createDocumentIndexBasedFilters(
+      { _idPK: 'foooooo', _idSK: 555 },
+      {
+        entity: 'Account',
+        indexes: [
+          {
+            name: '_id',
+            PK: ['.accountId'],
+            SK: ['.username'],
+            relations: [{ name: 'access', entity: 'AccessType' }],
+          },
+        ],
+      }
+    );
+
+    expect(oneField).toMatchObject({
       indexFilter: {
-        _id: 'account⋮_id⋮741234⋮⋮',
         _idPK: 'account⋮_id⋮741234⋮',
-        _idSK: '',
       },
       relationFilters: [
         {
