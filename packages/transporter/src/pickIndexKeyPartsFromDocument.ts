@@ -37,6 +37,8 @@ export function pickIndexKeyPartsFromDocument(param: {
   let foundEmptyCondition = false;
   let conditionFound: FilterConditions | undefined = undefined;
   let nullableFound: ParsedIndexPart['nullableFound'];
+  let fullIndexFound: string | null = null;
+
   const requiredFields: ParsedIndexPart['requiredFields'] = [];
 
   if (destination === 'filter') {
@@ -45,10 +47,17 @@ export function pickIndexKeyPartsFromDocument(param: {
       indexPartKind
     );
 
-    if (typeof doc[destinationIndexFieldName] === 'string') {
-      // for when filtering the final field name like '_idPK' instead of
-      // searching by the fields that compose that indexField
-      indexParts = [`#${doc[destinationIndexFieldName]}`];
+    const value = doc[destinationIndexFieldName];
+
+    // for when filtering the final field name like '_idPK' instead of
+    // searching by the fields that compose that indexField
+    if (typeof value === 'number') {
+      fullIndexFound = encodeNumber(value);
+      indexParts = [`#${fullIndexFound}`];
+    }
+    if (typeof value === 'string') {
+      fullIndexFound = value;
+      indexParts = [`#${fullIndexFound}`];
     }
   }
 
@@ -139,6 +148,7 @@ export function pickIndexKeyPartsFromDocument(param: {
     requiredFields,
     valid: !invalidFields.length,
     PK_SK: indexPartKind,
+    fullIndexFound,
   };
 
   if (foundEmptyCondition) {

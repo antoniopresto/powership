@@ -1,10 +1,22 @@
-import {createSchema} from '@backland/schema';
-import {$Any, base64ToText, devAssert, keyBy, NodeLogger, textToBase64,} from '@backland/utils';
+import { createSchema } from '@backland/schema';
+import {
+  $Any,
+  base64ToText,
+  devAssert,
+  keyBy,
+  NodeLogger,
+  textToBase64,
+} from '@backland/utils';
 
-import {CollectionErrors} from './CollectionErrors';
-import {IndexCursor, ParsedIndexCursor} from './IndexCursor';
-import {DocumentBase, FilterConditions, FilterRecord, OneFilterOperation,} from './Transporter';
-import {parseIndexFieldName} from './parseIndexFieldName';
+import { CollectionErrors } from './CollectionErrors';
+import { IndexCursor, ParsedIndexCursor } from './IndexCursor';
+import {
+  DocumentBase,
+  FilterConditions,
+  FilterRecord,
+  OneFilterOperation,
+} from './Transporter';
+import { parseIndexFieldName } from './parseIndexFieldName';
 
 export const CURSOR_PREFIX = '~!';
 // a base64 encoded version of the id created by mountId
@@ -100,6 +112,7 @@ export type ParsedIndexPart = {
   conditionFound?: OneFilterOperation;
   foundEmptyCondition?: boolean;
   foundParts: string[];
+  fullIndexFound: string | null;
   indexField: AnyDocIndexItem['name'];
   invalidFields: InvalidParsedIndexField[];
   isFilter: boolean;
@@ -287,4 +300,3 @@ export function parseOneIndexDocumentFields(
 
   return { documentFields, PKField, SKField };
 }
-

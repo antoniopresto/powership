@@ -1,5 +1,5 @@
 import { IndexFilterRecord } from './Transporter';
-import { inspectObject, nonNullValues } from '@backland/utils';
+import { nonNullValues } from '@backland/utils';
 import { parseFilterIndexFilterParts } from './parseFilterIndexFilterParts';
 import { parseIndexFieldName } from './parseIndexFieldName';
 import { RELATION_PRECEDES } from './IndexCursor/joinIndexCursor';

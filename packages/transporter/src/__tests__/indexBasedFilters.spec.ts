@@ -110,11 +110,13 @@ describe('getDocumentIndexFields', () => {
 
     expect(oneField).toMatchObject({
       indexFilter: {
-        _idPK: 'account⋮_id⋮741234⋮',
+        _id: 'account⋮_id⋮foooooo⋮73555⋮',
+        _idPK: 'account⋮_id⋮foooooo⋮',
+        _idSK: '73555',
       },
       relationFilters: [
         {
-          _idPK: 'account⋮_id⋮741234⊰',
+          _idPK: 'account⋮_id⋮foooooo⊰',
         },
       ],
     });

@@ -1,5 +1,5 @@
 import { parseIndexFieldName } from '../parseIndexFieldName';
-import {getDocumentIndexFields} from "../getDocumentIndexFields";
+import { getDocumentIndexFields } from '../getDocumentIndexFields';
 
 describe('getDocumentIndexFields', () => {
   it('should mount PK', async () => {
@@ -67,6 +67,7 @@ describe('getDocumentIndexFields', () => {
             parsed: {
               PK_SK: 'PK',
               foundParts: ['fulano'],
+              fullIndexFound: null,
               indexField: '_id',
               invalidFields: [],
               isFilter: false,
@@ -84,6 +85,7 @@ describe('getDocumentIndexFields', () => {
             parsed: {
               PK_SK: 'SK',
               foundParts: ['715'],
+              fullIndexFound: null,
               indexField: '_id',
               invalidFields: [],
               isFilter: false,
@@ -120,6 +122,7 @@ describe('getDocumentIndexFields', () => {
             parsed: {
               PK_SK: 'PK',
               foundParts: ['715'],
+              fullIndexFound: null,
               indexField: '_id1',
               invalidFields: [],
               isFilter: false,
@@ -137,6 +140,7 @@ describe('getDocumentIndexFields', () => {
             parsed: {
               PK_SK: 'SK',
               foundParts: ['fulano'],
+              fullIndexFound: null,
               indexField: '_id1',
               invalidFields: [],
               isFilter: false,

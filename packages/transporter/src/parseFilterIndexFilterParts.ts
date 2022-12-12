@@ -107,6 +107,7 @@ export function parseFilterIndexFilterParts(
         const _SK = (() => {
           if (!index.SK?.length || !SK) return [];
           if (SK.isFilter) return null;
+          if (SK.fullIndexFound !== null) return [SK.fullIndexFound];
           if (SK.foundParts.length === index.SK.length) return SK.foundParts;
           return null;
         })();
