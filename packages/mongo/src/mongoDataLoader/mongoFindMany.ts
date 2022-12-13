@@ -3,6 +3,7 @@ import { RuntimeError } from '@backland/utils';
 import { CacheContext, MongoFindManyParams } from './IMongoDataLoader';
 import { getMongoDataloader } from './getMongoDataloader';
 import { parseMongoDLParams } from './parseMongoDLParams';
+import { DocumentBase } from '@backland/transporter';
 
 export function mongoLoadById(
   options: Omit<MongoFindManyParams, 'query' | 'sort' | 'onlyOne'> & {
@@ -46,7 +47,7 @@ export function mongoLoadByIds(
 export function mongoFindMany(
   options: MongoFindManyParams,
   context?: CacheContext | null
-) {
+): Promise<DocumentBase[]> {
   if (!context || typeof context !== 'object') {
     throw new RuntimeError(`Invalid context`, { context });
   }

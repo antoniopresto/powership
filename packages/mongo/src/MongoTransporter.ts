@@ -23,7 +23,12 @@ import {
   UpdateOneConfig,
   UpdateOneResult,
 } from '@backland/transporter';
-import { NodeLogger, nonNullValues } from '@backland/utils';
+import {
+  Logger,
+  LoggerOptions,
+  NodeLogger,
+  nonNullValues,
+} from '@backland/utils';
 import { Filter } from 'mongodb';
 
 import { MongoClient } from './MongoClient';
@@ -45,9 +50,19 @@ export class MongoTransporter implements Transporter {
     return this._client.connect(dbName);
   }
 
-  constructor(options: { client: MongoClient; collection: string }) {
+  logger: Logger;
+  get debug() {
+    return this.logger.debug;
+  }
+
+  constructor(options: {
+    client: MongoClient;
+    collection: string;
+    logger?: LoggerOptions;
+  }) {
     this._client = options.client;
     this.collection = options.collection;
+    this.logger = new Logger({ prefix: 'MongoTransporter', ...options.logger });
   }
 
   collection: string;
@@ -112,6 +127,7 @@ export class MongoTransporter implements Transporter {
         res.created = !!upsertedId;
         res.updated = updated;
         res.item = { ...item, _id: upsertedId || item._id };
+        this.debug('createOne', { result, conditionExpression, item, options });
       } else {
         const result = await collection.findOneAndUpdate(
           conditionExpression,
@@ -139,8 +155,10 @@ export class MongoTransporter implements Transporter {
         res.created = created;
         res.updated = false;
         res.item = created ? item : null;
+        this.debug('createOne', { result, conditionExpression, item, options });
       }
     } catch (e: any) {
+      this.logger.error('createOne', e);
       res.error = e.message;
     }
 
@@ -167,12 +185,7 @@ export class MongoTransporter implements Transporter {
 
     const relationsQuery = (() => {
       if (!relationFilters?.length) return undefined;
-
-      return parseMongoAttributeFilters(
-        relationFilters.length > 1
-          ? { $or: relationFilters }
-          : relationFilters[0]
-      );
+      return parseMongoAttributeFilters({ $or: relationFilters })[0];
     })();
 
     const sortKey = (() => {
@@ -226,7 +239,7 @@ export class MongoTransporter implements Transporter {
     const db = this._client.db;
 
     async function _relationsQuery() {
-      if (!relationsQuery) return [];
+      if (!relationsQuery?.length) return null;
       return mongoFindMany(
         {
           query: relationsQuery,
@@ -262,11 +275,41 @@ export class MongoTransporter implements Transporter {
         .toArray();
     }
 
-    const all = (
-      await Promise.all([_mainEntityQuery(), _relationsQuery()])
-    ).flat();
+    const { items, error, all } = await (async () => {
+      try {
+        const all = await Promise.all([_mainEntityQuery(), _relationsQuery()]);
 
-    const items = mergeIndexRelationsResult({ items: all, indexConfig });
+        const items = (() => {
+          const [main, relations] = all;
+          if (!relations) return main;
+
+          return mergeIndexRelationsResult({
+            items: [...main, ...relations],
+            indexConfig,
+          });
+        })();
+        return { items, error: null, all };
+      } catch (e) {
+        return { items: null, all: [], error: e };
+      }
+    })();
+
+    this.debug('findMany', {
+      error,
+      query,
+      mainEntity: all[0],
+      relationsQuery,
+      relations: all[1],
+      collection: collection.collectionName,
+      onlyOne,
+      projection,
+      sortParsed,
+      options,
+    });
+
+    if (!items) {
+      throw error;
+    }
 
     return { items };
   }

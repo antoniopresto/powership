@@ -44,7 +44,8 @@ export type IndexFilterFound =
       [L in `${string}SK`]?: string | FilterRecord;
     };
 
-export type RelationsFilter = { [k: string]: string };
+export type RelationsFilter = { [k: string]: { $startsWith: `${string}⊰` } };
+
 export type IndexBasedFilterParsed = {
   indexFilter: IndexFilterFound;
   relationFilters: RelationsFilter[] | undefined;

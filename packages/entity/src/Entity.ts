@@ -257,6 +257,8 @@ export function createEntity(
       ...entityOptions.logs,
     });
 
+    const { debug } = logger;
+
     const _hooks = _createHooks();
 
     // keep it here, because can be changed in the above "onGet"
@@ -266,8 +268,6 @@ export function createEntity(
       type,
       name: entityName,
     } = entityOptions;
-
-    logger.info({ entityOptions });
 
     plugins.forEach((plugin) => {
       try {
@@ -425,13 +425,11 @@ export function createEntity(
           operation as any
         )) as any;
 
-        logger.debug(`Call "${method}" with:`, operation.options);
-
         const p = resolver(operation.options);
 
         let result = await p;
 
-        logger.debug(`${method} result:`, result);
+        debug(`${method}`, { options: operation.options, result });
 
         if (
           !result.error &&

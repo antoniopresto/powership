@@ -4,7 +4,6 @@ import { createEntity } from '../../Entity';
 import { assert, IsExact } from 'conditional-type-checks';
 import { EntityDefaultFields } from '../../EntityInterfaces';
 import { ulid } from '@backland/utils';
-import { mergeIndexRelationsResult } from '@backland/transporter';
 
 describe('Entity.indexRelations', () => {
   afterEach(ObjectType.reset);

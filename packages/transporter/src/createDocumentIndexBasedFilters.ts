@@ -35,9 +35,11 @@ export function createDocumentIndexBasedFilters(
 
     indexConfig.indexes.forEach((index) => {
       if (index.relations?.length) {
+        const $startsWith =
+          `${parsedIndexCursors.cursor.PKPartOpen}${RELATION_PRECEDES}` as const;
+
         relationFilters.push({
-          [parseIndexFieldName(index.name, 'PK')]:
-            parsedIndexCursors.cursor.PKPartOpen + RELATION_PRECEDES,
+          [parseIndexFieldName(index.name, 'PK')]: { $startsWith },
         });
       }
     });
@@ -53,9 +55,11 @@ export function createDocumentIndexBasedFilters(
 
     parsedIndexCursors.parts.forEach(({ index, parsedIndexCursor }) => {
       if (index.relations?.length) {
+        const $startsWith =
+          `${parsedIndexCursor.PKPartOpen}${RELATION_PRECEDES}` as const;
+
         relationFilters.push({
-          [parseIndexFieldName(index.name, 'PK')]:
-            parsedIndexCursor.PKPartOpen + RELATION_PRECEDES,
+          [parseIndexFieldName(index.name, 'PK')]: { $startsWith },
         });
       }
     });

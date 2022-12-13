@@ -40,7 +40,11 @@ export function mergeIndexRelationsResult(input: {
     }
 
     const PKKey = idInfo.PKFieldName;
-    const PKValue = idInfo.PKPart;
+
+    const PKValue = idInfo.parentPrefix
+      ? idInfo.parentPrefix.slice(0, -1) // slicing the RELATION_PRECEDES
+      : idInfo.PKPart;
+
     const KEY = `__${PKKey}_${PKValue}__`;
 
     if (idInfo.entity === entity) {

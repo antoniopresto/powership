@@ -1,4 +1,4 @@
-import { RuntimeError } from '@backland/utils';
+import { Logger, RuntimeError } from '@backland/utils';
 import DataLoader from 'dataloader';
 import sift from 'sift';
 
@@ -8,6 +8,8 @@ import {
   MongoFindManyParams,
 } from './IMongoDataLoader';
 import { ParsedMongoDLParams, parseMongoDLParams } from './parseMongoDLParams';
+
+const logger = new Logger({ prefix: 'MongoDataLoader' });
 
 export class MongoDataLoader {
   private _dataloader: DataLoader<MongoDataLoaderKey, any, string>;
@@ -75,19 +77,37 @@ export class MongoDataLoader {
       condition.$or.push(el.query);
     });
 
-    let cursor = db
-      .collection(collection)
-      .find(condition, { projection, sort });
+    const result = await (async () => {
+      try {
+        let cursor = db
+          .collection(collection)
+          .find(condition, { projection, sort });
 
-    let queryResult = await cursor.toArray();
+        let queryResult = await cursor.toArray();
 
-    return queryList.map((key) => {
-      if (!queryResult || !queryResult.filter) return undefined;
+        const result = queryList.map((key) => {
+          if (!queryResult || !queryResult.filter) return undefined;
 
-      const curr = queryResult.filter(sift(key.query));
+          const curr = queryResult.filter(sift(key.query));
 
-      return key.onlyOne ? curr[0] : curr;
-    });
+          return key.onlyOne ? curr[0] : curr;
+        });
+
+        return {
+          result,
+          error: null,
+        };
+      } catch (e) {
+        return {
+          error: e as Error,
+        };
+      }
+    })();
+
+    logger.debug({ condition, result, projection, sort });
+
+    if (result.error) throw result.error;
+    return result.result;
   };
 
   // checks if the same dataloader is used to load more than one query config,
@@ -114,7 +134,9 @@ function ensureParsedParams(
 ): ParsedMongoDLParams[] {
   return opt.map((item) => {
     if (isParsed(item)) return item;
-    return parseMongoDLParams(item);
+    const parsed = parseMongoDLParams(item);
+    logger.debug({ parsed });
+    return parsed;
   });
 }
 
