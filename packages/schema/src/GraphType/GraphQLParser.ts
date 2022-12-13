@@ -1,10 +1,11 @@
-import { assertEqual, BJSON } from '@backland/utils';
-import { RuntimeError } from '@backland/utils';
-import { StrictMap } from '@backland/utils';
-import { assertSame } from '@backland/utils';
-import { isProduction } from '@backland/utils';
-import { hooks } from '@backland/utils';
-import { nonNullValues } from '@backland/utils';
+import {
+  assertEqual,
+  BJSON,
+  hooks,
+  nonNullValues,
+  RuntimeError,
+  StrictMap,
+} from '@backland/utils';
 import {
   GraphQLBoolean,
   GraphQLEnumType,
@@ -36,7 +37,6 @@ import {
 } from 'graphql/type/definition';
 
 import { __getCachedFieldInstance, isObject, ObjectType } from '../ObjectType';
-import { assertSameDefinition } from '../assertSameDefinition';
 import { AliasField } from '../fields/AliasField';
 import { ArrayField } from '../fields/ArrayField';
 import type { CursorField } from '../fields/CursorField';
@@ -161,16 +161,7 @@ export class GraphQLParser {
     const { implements: parents } = object.meta;
 
     if (resultsCache.has(cacheId)) {
-      const cached = resultsCache.get(cacheId);
-      if (!isProduction()) {
-        // @ts-ignore
-        assertSameDefinition(
-          cacheId,
-          cached.object.definition,
-          object.definition
-        );
-      }
-      return cached;
+      return resultsCache.get(cacheId);
     }
 
     // save reference for circular dependencies
@@ -401,15 +392,7 @@ export class GraphQLParser {
     const cacheId = path.join('--');
 
     if (resultsCache.has(cacheId)) {
-      const cached = fieldsRegister.get(cacheId);
-      if (!isProduction()) {
-        assertSame(
-          `Different definitions to the same field "${cacheId}"`,
-          cached.plainField,
-          plainField
-        );
-      }
-      return cached;
+      return fieldsRegister.get(cacheId);
     }
 
     // save reference for circular dependencies

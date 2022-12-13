@@ -1,7 +1,6 @@
 import { IsKnown, RuntimeError } from '@backland/utils';
 import { StrictMap } from '@backland/utils';
 import { ensureArray } from '@backland/utils';
-import { isProduction } from '@backland/utils';
 import { expectedType } from '@backland/utils';
 import { getTypeName } from '@backland/utils';
 import { invariantType } from '@backland/utils';
@@ -22,7 +21,6 @@ import {
   parseValidationError,
   ValidationCustomMessage,
 } from './applyValidator';
-import { assertSameDefinition } from './assertSameDefinition';
 import { extendDefinition, ExtendDefinition } from './extendDefinition';
 import { FieldComposer } from './fields/FieldType';
 import { ObjectLike } from './fields/IObjectLike';
@@ -452,11 +450,6 @@ export class ObjectType<
 
     expectedType({ id }, 'string', 'truthy');
 
-    if (ObjectType.register.has(id) && !isProduction()) {
-      const existing = ObjectType.register.get(id);
-      assertSameDefinition(id, existing.definition, this.definition);
-    }
-
     this.__setMetaData('id', id);
     ObjectType.register.set(id, this as any);
 
@@ -564,12 +557,6 @@ export class ObjectType<
       (ObjectType.register.get(id) as ObjectType<T>);
 
     if (existing) {
-      !isProduction() &&
-        assertSameDefinition(
-          id,
-          typeof def === 'function' ? def() : def,
-          existing.definition
-        );
       return existing;
     }
 

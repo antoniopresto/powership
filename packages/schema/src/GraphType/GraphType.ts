@@ -1,7 +1,5 @@
 import { RuntimeError } from '@backland/utils';
 import { StrictMap } from '@backland/utils';
-import { assertSame } from '@backland/utils';
-import { isProduction } from '@backland/utils';
 import { isBrowser } from '@backland/utils';
 import type {
   GraphQLInterfaceType,
@@ -117,16 +115,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
 
   identify = (name: string) => {
     if (GraphType.register.has(name)) {
-      const existing = GraphType.register.get(name);
-
-      if (!isProduction()) {
-        assertSame(
-          `Different type already registered with name "${name}"`,
-          // @ts-ignore
-          this.definition,
-          existing.definition
-        );
-      }
+      //
     } else {
       if (!isBrowser()) {
         CircularDeps.typesWriter?.BacklandWatchTypesPubSub.emit('created', {
