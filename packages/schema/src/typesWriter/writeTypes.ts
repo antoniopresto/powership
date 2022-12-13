@@ -7,7 +7,7 @@ import { ensureFileSync, writeFileSync } from 'fs-extra';
 import { CircularDeps } from '../CircularDeps';
 import { AnyResolver } from '../Resolver';
 import { GraphTypeLike } from '../fields/IObjectLike';
-import { LiteralField } from '../fields/LitarealField';
+import { LiteralField } from '../fields/LiteralField';
 
 const { serialize } = LiteralField.utils;
 

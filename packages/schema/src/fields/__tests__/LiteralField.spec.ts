@@ -7,7 +7,7 @@ import { createObjectType, ObjectType } from '../../ObjectType';
 import { createResolver } from '../../Resolver';
 import { createGraphQLSchema } from '../../createGraphQLSchema';
 import { objectToJSON } from '../../objectToJSON';
-import { LiteralField } from '../LitarealField';
+import { LiteralField } from '../LiteralField';
 
 describe('LiteralField', () => {
   afterEach(ObjectType.reset);

@@ -12,7 +12,7 @@ import {
 import { Infer } from './Infer';
 import { CursorField } from './fields/CursorField';
 import { FieldComposer } from './fields/FieldType';
-import { LiteralField } from './fields/LitarealField';
+import { LiteralField } from './fields/LiteralField';
 import { createEmptyMetaField, isMetaFieldKey } from './fields/MetaFieldField';
 import { FieldTypeName } from './fields/_fieldDefinitions';
 import { FieldInput } from './fields/_parseFields';

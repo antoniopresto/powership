@@ -13,7 +13,7 @@ import {
 } from 'graphql';
 
 import { ResolverKind, resolverKinds } from '../createGraphQLSchema';
-import { LiteralField } from '../fields/LitarealField';
+import { LiteralField } from '../fields/LiteralField';
 
 export type ParseQueryFieldOptions = {
   breadcrumb?: string[];

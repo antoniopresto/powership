@@ -1,4 +1,4 @@
-import { BJSON } from '@backland/utils';
+import { BJSON, inspectObject } from '@backland/utils';
 import { RuntimeError } from '@backland/utils';
 import { getTypeName } from '@backland/utils';
 import { Serializable } from '@backland/utils';
@@ -22,6 +22,12 @@ export class LiteralField<T extends Readonly<Serializable>> extends FieldType<
 
   static utils = {
     deserialize(def: LiteralFieldDef): any {
+      const isFinalDef = def && typeof def === 'object' && PROTO_KEY in def;
+
+      if (!isFinalDef) {
+        throw new Error(`Invalid LiteralFieldDef: ` + inspectObject(def));
+      }
+
       const typename = getTypeName(def.value);
 
       if (def[PROTO_KEY] === typename) return def.value;

@@ -49,9 +49,9 @@ export class GraphType<Definition extends ObjectFieldInput> {
 
     throw new RuntimeError(
       [
-        'The method you are trying to execute needs the used graphType identified.' +
-          ' Use ``myGraphType.identify("name")`` and try again.',
-        'You can also read that information from ``myGraphType.optionalId.`',
+        'The method you are trying to execute needs the graphType used to be identified.' +
+          ' Use ``myType.identify("name")`` and try again.',
+        'You can also read that information from ``myType.optionalId.``',
         '',
         '',
       ].join('\n'),

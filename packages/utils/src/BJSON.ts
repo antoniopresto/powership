@@ -219,6 +219,14 @@ export class BJSONConstructor {
   };
 
   parse = (input: string) => {
+    if (typeof input !== 'string') {
+      throw new Error(
+        `BJSON.parse: expected input to be of string type, found "${getTypeName(
+          input
+        )}"`
+      );
+    }
+
     return JSON.parse(input, (_key, value) => {
       for (let serializer of this.serializers) {
         const match = serializer.parse(value);

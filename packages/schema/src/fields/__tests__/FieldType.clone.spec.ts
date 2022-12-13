@@ -1,6 +1,6 @@
 import { CursorField } from '../CursorField';
 import { createObjectType, resetTypesCache } from '../../ObjectType';
-import { LiteralField } from '../LitarealField';
+import { LiteralField } from '../LiteralField';
 import { createType } from '../../GraphType/GraphType';
 import { ObjectField } from '../ObjectField';
 
@@ -21,6 +21,43 @@ describe('FieldType.clone', () => {
 
     expect(field.optional).toBeFalsy();
     expect(clone.optional).toBeTruthy();
+  });
+
+  test('LiteralFieldSchema', async () => {
+    const sut = createType('SUT', {
+      object: {
+        lit: {
+          union: [
+            { literal: 1 }, //
+            { literal: 2 },
+          ],
+        },
+      },
+    });
+
+    const ts = await sut.typescriptPrint();
+
+    expect(ts.split('\n')).toEqual([
+      'export interface SUT {',
+      '  lit: 1 | 2;',
+      '}',
+      '',
+    ]);
+
+    const gql = sut.print();
+
+    expect(gql).toEqual([
+      'type SUT {',
+      '  lit: SUT_lit!',
+      '}',
+      '',
+      '"""Union of 1 | 2"""',
+      'scalar SUT_lit',
+      '',
+      'input SUTInput {',
+      '  lit: SUT_lit!',
+      '}',
+    ]);
   });
 
   test('GraphType', async () => {

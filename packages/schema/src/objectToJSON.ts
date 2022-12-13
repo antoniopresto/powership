@@ -12,12 +12,13 @@ import {
   __getCachedFieldInstance,
   createObjectType,
   isObject,
+  parseField,
   parseObjectField,
 } from './ObjectType';
 import { ObjectDefinitionInput } from './TObjectConfig';
 import { AliasField } from './fields/AliasField';
 import { ObjectLike } from './fields/IObjectLike';
-import { LiteralField } from './fields/LitarealField';
+import { LiteralField } from './fields/LiteralField';
 import { E164_PHONE_REGEX } from './fields/PhoneField';
 import { FieldTypeName } from './fields/_fieldDefinitions';
 import {
@@ -78,7 +79,7 @@ export function objectToJSON(
     const field = definition[fieldName];
     if (field.hidden) return;
 
-    const parsedField = parseField({
+    const parsedField = parseGraphQLField({
       field,
       fieldName,
       options,
@@ -108,14 +109,14 @@ type ParsedField = {
   required: boolean;
 };
 
-function parseField(params: {
+function parseGraphQLField(params: {
   field: FinalFieldDefinition;
   fieldName: string;
   options: ObjectToJSONOptions;
   parentName: string | null;
 }): ParsedField {
-  const { field, fieldName, parentName, options } = params;
-
+  let { field, fieldName, parentName, options } = params;
+  field = parseField(field);
   const { ignoreDefaultValues } = options;
   let { type, list, optional, description, defaultValue } = field;
   const composers: ParsedField['composers'] = [];
@@ -142,7 +143,7 @@ function parseField(params: {
   }
 
   if (type === 'array' || list) {
-    const parsedListItem = parseField({
+    const parsedListItem = parseGraphQLField({
       field:
         type === 'array'
           ? parseObjectField(fieldName, field.def.of)
@@ -176,7 +177,7 @@ function parseField(params: {
           if (typeof type.def === 'string') {
             return getByPath(parent, type.def);
           } else {
-            return parseField({
+            return parseGraphQLField({
               field: type.utils.fieldType.asFinalFieldDef,
               fieldName,
               options,
@@ -296,8 +297,12 @@ function parseField(params: {
       expectedType({ def }, 'array');
 
       jsonItem.anyOf = def.map((type) => {
-        return parseField({ field: type, fieldName, options, parentName })
-          .jsonItem;
+        return parseGraphQLField({
+          field: type,
+          fieldName,
+          options,
+          parentName,
+        }).jsonItem;
       });
     },
     unknown() {

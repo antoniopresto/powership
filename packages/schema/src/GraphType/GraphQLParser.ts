@@ -42,7 +42,7 @@ import { ArrayField } from '../fields/ArrayField';
 import type { CursorField } from '../fields/CursorField';
 import { TAnyFieldType } from '../fields/FieldType';
 import { ObjectTypeLikeFieldDefinition } from '../fields/Infer';
-import { LiteralField } from '../fields/LitarealField';
+import { LiteralField } from '../fields/LiteralField';
 import {
   cleanMetaField,
   getObjectDefinitionMetaField,
@@ -784,8 +784,18 @@ export class GraphQLParser {
   }
 }
 
-export function describeField(field: FinalFieldDefinition) {
+export function describeField(field: FinalFieldDefinition): string {
   if (field.name) return field.name;
+
+  if (field.type === 'literal') {
+    const value = BJSON.stringify(LiteralField.utils.deserialize(field.def), {
+      quoteKeys(key) {
+        return ` ${key}`;
+      },
+    });
+
+    return `${value}`;
+  }
 
   return BJSON.stringify(field, {
     handler(payload) {

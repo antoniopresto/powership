@@ -16,7 +16,7 @@ import {
 import { FieldDefinitionConfig } from './TObjectConfig';
 import { fieldInstanceFromDef } from './fieldInstanceFromDef';
 import { isFieldInstance, TAnyFieldType } from './fields/FieldType';
-import { LiteralField } from './fields/LitarealField';
+import { LiteralField } from './fields/LiteralField';
 import {
   createEmptyMetaField,
   isMetaField,
