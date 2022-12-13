@@ -1,4 +1,5 @@
 import { rumm } from './rumm';
+import * as process from 'process';
 
 const time = new Date().toISOString().replace(/\D/g, '');
 const version = `0.0.0-alpha.${time}`;
@@ -8,7 +9,10 @@ const version = `0.0.0-alpha.${time}`;
  */
 const { map, root } = rumm();
 
+const skip_build = (process.env.skip_build || process.env.sb) !== undefined;
+
 map(({ run }) => {
+  if (skip_build) return;
   run('build');
 });
 
