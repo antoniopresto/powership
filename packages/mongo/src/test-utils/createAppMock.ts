@@ -1,10 +1,11 @@
+import * as process from 'process';
+
 import { ObjectType } from '@backland/schema';
 import { delay, inspectObject, notNull } from '@backland/utils';
 import { MongoMemoryServer } from 'mongodb-memory-server-core';
 
 import { MongoClient } from '../MongoClient';
 import { MongoTransporter } from '../MongoTransporter';
-import * as process from 'process';
 
 export class AppMock {
   client?: MongoClient;

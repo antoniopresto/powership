@@ -10,7 +10,6 @@ import {
   DocumentIndexesConfig,
   Transporter,
 } from '@backland/transporter';
-
 import { IsKnown, LoggerOptions } from '@backland/utils';
 
 export type EntityOptions<

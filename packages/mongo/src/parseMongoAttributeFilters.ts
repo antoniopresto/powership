@@ -12,8 +12,8 @@ import { devAssert } from '@backland/utils';
 import { getKeys } from '@backland/utils';
 import { getTypeName } from '@backland/utils';
 import { escapeStringRegexp } from '@backland/utils';
-import { Filter } from 'mongodb';
 import { skipper } from '@backland/utils/lib/skipper';
+import { Filter } from 'mongodb';
 
 export function createMongoIndexBasedFilters(options: {
   filter: IndexFilterRecord;

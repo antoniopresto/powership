@@ -35,7 +35,6 @@ describe('getDocumentIndexFields', () => {
         cursor: 'foo⋮_id⋮fulano⋮715⋮',
         entity: 'foo',
         filter: {
-          _id: 'foo⋮_id⋮fulano⋮715⋮',
           _idPK: 'foo⋮_id⋮fulano⋮',
           _idSK: '715',
         },

@@ -306,7 +306,17 @@ describe('Entity.indexRelations', () => {
       .find({})
       .toArray();
 
-    expect(accounts).toHaveLength(2); // first account, first access
+    expect(accounts).toEqual([
+      expect.objectContaining({
+        _idPK: expect.stringMatching(/account⋮_id⋮01.*⊰accesstype⋮/),
+        _idSK: expect.stringMatching(/email∙01/),
+      }),
+
+      expect.objectContaining({
+        _idPK: expect.stringMatching(/account⋮_id⋮01/),
+        _idSK: '',
+      }),
+    ]); // first account, first access
   });
 
   test('findMany', async () => {
@@ -354,18 +364,20 @@ describe('Entity.indexRelations', () => {
 
     expect(found.items).toEqual([
       {
+        _c: '~!YWNjb3VudOKLrl9pZOKLrjEyM+KLruKLrg==',
         _e: 'account',
-        _id: 'account⋮_id⋮123⋮',
+        _id: 'account⋮_id⋮123⋮⋮',
         _idPK: 'account⋮_id⋮123⋮',
         _idSK: '',
         _v: expect.any(String),
         access: [
           {
+            _c: '~!YWNjb3VudOKLrl9pZOKLrjEyM+KKsGFjY2Vzc3R5cGXii67ii64=',
             _e: 'accesstype',
-            _id: 'account⋮_id⋮123⋮accesstype«',
-            _idPK: 'account⋮_id⋮123⋮accesstype«',
+            _id: 'account⋮_id⋮123⊰accesstype⋮⋮',
+            _idPK: 'account⋮_id⋮123⊰accesstype⋮',
             _idSK: '',
-            _rpk: ['account⋮_id⋮123⋮'],
+            _rpk: ['account⋮_id⋮123⊰'],
             _v: expect.any(String),
             accountId: '123',
             createdAt: expect.any(Date),
@@ -431,17 +443,19 @@ describe('Entity.indexRelations', () => {
 
     expect(found.items).toEqual([
       {
-        _id: 'account⋮_id⋮123⋮',
+        _c: '~!YWNjb3VudOKLrl9pZOKLrjEyM+KLruKLrg==',
+        _id: 'account⋮_id⋮123⋮⋮',
         _e: 'account',
         _idPK: 'account⋮_id⋮123⋮',
         _idSK: '',
         _v: expect.any(String),
         access: [
           {
+            _c: '~!YWNjb3VudOKLrl9pZOKLrjEyM+KKsGFjY2Vzc3R5cGXii67ii64=',
             _e: 'accesstype',
-            _id: 'account⋮_id⋮123⋮accesstype«',
-            _idPK: 'account⋮_id⋮123⋮accesstype«',
-            _rpk: ['account⋮_id⋮123⋮'],
+            _id: 'account⋮_id⋮123⊰accesstype⋮⋮',
+            _idPK: 'account⋮_id⋮123⊰accesstype⋮',
+            _rpk: ['account⋮_id⋮123⊰'],
             _idSK: '',
             _v: expect.any(String),
             accountId: '123',

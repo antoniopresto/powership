@@ -1,4 +1,5 @@
 import { createDocumentIndexBasedFilters } from '../createDocumentIndexBasedFilters';
+import { escapeCursorChars, joinPKSK } from '../IndexCursor/joinIndexCursor';
 
 describe('getDocumentIndexFields', () => {
   describe('relatedTo', () => {
@@ -26,7 +27,7 @@ describe('getDocumentIndexFields', () => {
         },
         relationFilters: [
           {
-            _idPK: 'account⋮_id⋮741234⊰',
+            _idPK: { $startsWith: 'account⋮_id⋮741234⊰' },
           },
         ],
       });
@@ -58,7 +59,7 @@ describe('getDocumentIndexFields', () => {
       },
       relationFilters: [
         {
-          _idPK: 'account⋮_id⋮741234⊰',
+          _idPK: { $startsWith: 'account⋮_id⋮741234⊰' },
         },
       ],
     });
@@ -86,7 +87,7 @@ describe('getDocumentIndexFields', () => {
       },
       relationFilters: [
         {
-          _idPK: 'account⋮_id⋮741234⊰',
+          _idPK: { $startsWith: 'account⋮_id⋮741234⊰' },
         },
       ],
     });
@@ -116,9 +117,192 @@ describe('getDocumentIndexFields', () => {
       },
       relationFilters: [
         {
-          _idPK: 'account⋮_id⋮foooooo⊰',
+          _idPK: { $startsWith: 'account⋮_id⋮foooooo⊰' },
         },
       ],
+    });
+  });
+
+  test('filtering by second index', () => {
+    const oneField = createDocumentIndexBasedFilters(
+      { storeId: 'store1', SKU: 'sku_ORANGE' },
+      {
+        entity: 'Account',
+        indexes: [
+          {
+            name: '_id',
+            PK: ['.storeId'],
+            SK: ['.ulid'],
+          },
+          {
+            name: '_id1',
+            PK: ['.storeId'],
+            SK: ['.SKU'],
+          },
+        ],
+      }
+    );
+
+    expect(oneField).toEqual({
+      indexFilter: {
+        _id1PK: 'account⋮_id1⋮store1⋮',
+        _id1SK: 'sku_ORANGE',
+        _idPK: 'account⋮_id⋮store1⋮',
+      },
+      relationFilters: undefined,
+    });
+  });
+
+  describe('Partial fields search', () => {
+    test('filter with partial SK', () => {
+      const filterParsed = createDocumentIndexBasedFilters(
+        {
+          accountId: '0100000000',
+          kind: 'password',
+          createdFor: '0100000000',
+        },
+        {
+          entity: 'AccountsToken',
+          indexes: [
+            {
+              PK: ['.accountId'],
+              SK: ['.kind', '.createdFor', '.ulid'],
+              name: '_id',
+              relatedTo: 'Account',
+            },
+          ],
+        }
+      );
+
+      expect(filterParsed).toEqual({
+        indexFilter: {
+          _idPK: 'account⋮_id⋮0100000000⋮',
+          _idSK: {
+            $startsWith: 'password∙0100000000',
+          },
+        },
+      });
+    });
+
+    test('filter with partial SK with relation', () => {
+      const filterParsed = createDocumentIndexBasedFilters(
+        {
+          accountId: '0100000000',
+          kind: 'password',
+          createdFor: '0100000000',
+        },
+        {
+          entity: 'AccountsToken',
+          indexes: [
+            {
+              PK: ['.accountId'],
+              SK: ['.kind', '.createdFor', '.ulid'],
+              name: '_id',
+              relatedTo: 'Account',
+              relations: [{ name: 'subsub', entity: 'SubSub' }],
+            },
+          ],
+        }
+      );
+
+      expect(filterParsed).toEqual({
+        indexFilter: {
+          _idPK: 'account⋮_id⋮0100000000⋮',
+          _idSK: {
+            $startsWith: 'password∙0100000000',
+          },
+        },
+        relationFilters: [
+          {
+            _idPK: {
+              $startsWith: 'account⋮_id⋮0100000000⊰',
+            },
+          },
+        ],
+      });
+    });
+
+    describe('filter SK not searchable as $startsWith', () => {
+      const indexConfig = {
+        entity: 'AccountsToken',
+        indexes: [
+          {
+            PK: ['.accountId'],
+            SK: ['.kind', '.createdFor', '.ulid'],
+            name: '_id',
+          },
+        ],
+      } as const;
+
+      test('only first part', () => {
+        const filterParsed = createDocumentIndexBasedFilters(
+          {
+            accountId: '0100000000',
+            kind: 'password',
+            ulid: 'UULL123',
+          },
+          indexConfig
+        );
+
+        expect(filterParsed).toEqual({
+          indexFilter: {
+            _idPK: 'accountstoken⋮_id⋮0100000000⋮',
+            _idSK: {
+              $startsWith: 'password',
+            },
+          },
+        });
+      });
+
+      test('last SK part', () => {
+        const filterParsed = createDocumentIndexBasedFilters(
+          {
+            accountId: '0100000000',
+          },
+          indexConfig
+        );
+
+        expect(filterParsed).toEqual({
+          indexFilter: {
+            _idPK: 'accountstoken⋮_id⋮0100000000⋮',
+          },
+        });
+      });
+
+      test('with id of d', () => {
+        const accountId = escapeCursorChars(
+          joinPKSK(
+            {
+              SK: ['A', 'B'],
+              PK: ['0100000000', 'POTATOS', 'BANANAS'],
+            },
+            { destination: 'document' }
+          )
+        );
+
+        const filterParsed = createDocumentIndexBasedFilters(
+          {
+            accountId: accountId,
+          },
+          {
+            entity: 'AccountsToken',
+            indexes: [
+              {
+                PK: ['.accountId'],
+                SK: ['.kind', '.createdFor', '.ulid'],
+                name: '_id',
+                relatedTo: 'potatos',
+              },
+            ],
+          }
+        );
+
+        expect(filterParsed).toEqual({
+          indexFilter: {
+            _idPK: 'potatos⋮_id⋮0100000000⦁POTATOS∙BANANAS⦙A∙B⋮',
+          },
+        });
+      });
     });
   });
 });

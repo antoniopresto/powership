@@ -1,9 +1,9 @@
+import { DocumentBase } from '@backland/transporter';
 import { RuntimeError } from '@backland/utils';
 
 import { CacheContext, MongoFindManyParams } from './IMongoDataLoader';
 import { getMongoDataloader } from './getMongoDataloader';
 import { parseMongoDLParams } from './parseMongoDLParams';
-import { DocumentBase } from '@backland/transporter';
 
 export function mongoLoadById(
   options: Omit<MongoFindManyParams, 'query' | 'sort' | 'onlyOne'> & {

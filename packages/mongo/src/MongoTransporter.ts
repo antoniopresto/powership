@@ -239,7 +239,8 @@ export class MongoTransporter implements Transporter {
     const db = this._client.db;
 
     async function _relationsQuery() {
-      if (!relationsQuery?.length) return null;
+      if (!relationsQuery) return null;
+
       return mongoFindMany(
         {
           query: relationsQuery,

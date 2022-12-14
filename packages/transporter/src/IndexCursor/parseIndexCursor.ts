@@ -1,7 +1,6 @@
 import { inspectObject, nonNullValues } from '@backland/utils';
 
 import {
-  cursorPrefixToRelationPrefix,
   INDEX_PART_SEP,
   InitIndexCursor,
   joinCursorPartsWithTrailingSeparator,
@@ -106,9 +105,11 @@ export function _parseSubIndexCursor(
     const parentParts = parts.slice(0, -2);
     const childParts = parts.slice(-2);
 
-    const parentPrefix = cursorPrefixToRelationPrefix(
-      joinCursorPartsWithTrailingSeparator(parentParts)
-    );
+    const parentPrefix = ((value) => {
+      return value.endsWith('⊰')
+        ? value // when coming from filter
+        : value + '⊰'; //  when coming from a new document field
+    })(parentParts.join('⋮'));
 
     return { parentPrefix, childParts };
   })();
@@ -176,7 +177,7 @@ function _partsToParsedIndexCursor(
     PKPartOpen,
     SK === undefined ? '' : SK,
   ]);
-  
+
   const PKPart = PKPartOpen + INDEX_PART_SEP;
 
   const SKPart = (() => {
@@ -185,7 +186,6 @@ function _partsToParsedIndexCursor(
   })();
 
   const filter: FilterRecord = {
-    _id: cursor,
     [PKFieldName]: PKPart,
   };
 

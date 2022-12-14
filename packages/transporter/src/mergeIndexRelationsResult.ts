@@ -1,4 +1,4 @@
-import { inspectObject, NodeLogger } from '@backland/utils';
+import { NodeLogger } from '@backland/utils';
 
 import {
   AnyCollectionIndexConfig,
@@ -7,6 +7,7 @@ import {
   parseFilterCursor,
 } from './CollectionIndex';
 import { DocumentBase } from './Transporter';
+import { ParsedIndexCursor } from './IndexCursor';
 
 export function mergeIndexRelationsResult(input: {
   items: DocumentBase[];
@@ -28,41 +29,48 @@ export function mergeIndexRelationsResult(input: {
 
   if (!relations.length) return items;
 
-  const mainDocs: DocumentBase[] = [];
-  const docsByParent: Record<string, DocumentBase[]> = {};
+  type Item = { doc: DocumentBase; idInfo: ParsedIndexCursor; KEY: string };
 
-  items.forEach((doc) => {
-    const idInfo = parseFilterCursor(doc.id);
+  const payload = items.reduce<{ main: Item[]; child: Item[] }>(
+    (acc, doc) => {
+      const idInfo = parseFilterCursor(doc.id);
 
-    if (!idInfo) {
-      NodeLogger.logError(`Document without entity found.`, { id: doc.id });
-      return;
-    }
-
-    const PKKey = idInfo.PKFieldName;
-
-    const PKValue = idInfo.parentPrefix
-      ? idInfo.parentPrefix.slice(0, -1) // slicing the RELATION_PRECEDES
-      : idInfo.PKPart;
-
-    const KEY = `__${PKKey}_${PKValue}__`;
-
-    if (idInfo.entity === entity) {
-      mainDocs.push(doc);
-      relations.forEach(({ rel }) => {
-        doc[rel.name] = docsByParent[KEY];
-      });
-    } else {
-      if (!idInfo.parentPrefix) {
-        throw new Error(
-          `Unknown entity returned as relation. ${inspectObject(idInfo)}`
-        );
+      if (!idInfo) {
+        NodeLogger.logError(`Document without entity found.`, { id: doc.id });
+        return acc;
       }
 
-      docsByParent[KEY] = docsByParent[KEY] || [];
-      docsByParent[KEY].push(doc);
-    }
-  });
+      const PKKey = idInfo.PKFieldName;
 
-  return mainDocs;
+      const PKValue = idInfo.parentPrefix
+        ? idInfo.parentPrefix.slice(0, -1) // slicing the RELATION_PRECEDES
+        : idInfo.PKPartOpen;
+
+      const KEY = `${PKKey}##${PKValue}`;
+
+      if (idInfo.entity === entity) {
+        return {
+          ...acc,
+          main: [...acc.main, { doc, idInfo, KEY }],
+        };
+      }
+
+      return {
+        ...acc,
+        child: [...acc.child, { doc, idInfo, KEY }],
+      };
+    },
+    { main: [], child: [] }
+  );
+
+  return payload.main.map(({ doc, KEY }) => {
+    relations.forEach(({ rel }) => {
+      doc[rel.name] = payload.child
+        .filter((child) => {
+          return child.KEY === KEY && child.idInfo.entity === rel.entity;
+        })
+        .map((el) => el.doc);
+    });
+    return doc;
+  });
 }

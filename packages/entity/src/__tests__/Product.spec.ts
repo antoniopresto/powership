@@ -355,11 +355,11 @@ describe('Product', () => {
     });
 
     expect(orange.item).toMatchObject({
-      _id1: 'product⋮_id1⋮store1⋮sku_ORANGE',
+      _id1: 'product⋮_id1⋮store1⋮sku_ORANGE⋮',
     });
 
     expect(apple.item).toMatchObject({
-      _id1: 'product⋮_id1⋮store1⋮sku_APPLE',
+      _id1: 'product⋮_id1⋮store1⋮sku_APPLE⋮',
     });
   });
 

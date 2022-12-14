@@ -1,5 +1,6 @@
 import { joinIndexCursor } from './joinIndexCursor';
 import { parseIndexCursor } from './parseIndexCursor';
+import { parseFilterCursor } from '../CollectionIndex';
 
 describe('parseCursorString', () => {
   // afterEach();
@@ -30,7 +31,6 @@ describe('parseCursorString', () => {
       filter: {
         PK: 'profile⋮PK⋮antoniopresto∙A123⋮',
         SK: 'B456',
-        _id: 'profile⋮PK⋮antoniopresto∙A123⋮B456⋮',
       },
       name: 'PK',
       parentPrefix: null,
@@ -62,7 +62,6 @@ describe('parseCursorString', () => {
       filter: {
         PK: 'profile⋮PK⋮U7890⊰contacttype⋮',
         SK: 'email',
-        _id: 'profile⋮PK⋮U7890⊰contacttype⋮email⋮',
       },
       name: 'PK',
       parentPrefix: 'profile⋮PK⋮U7890⊰',
@@ -121,7 +120,8 @@ describe('parseCursorString', () => {
       parentPrefix: null,
       relatedTo: null,
     });
-  });  test('concatenating', () => {
+  });
+  test('concatenating', () => {
     const profileObject = {
       PK: ['antoniopresto', 'A123'],
       SK: ['B456'],
@@ -146,7 +146,6 @@ describe('parseCursorString', () => {
       filter: {
         PK: 'profile⋮PK⋮antoniopresto∙A123⋮',
         SK: 'B456',
-        _id: 'profile⋮PK⋮antoniopresto∙A123⋮B456⋮',
       },
       name: 'PK',
       parentPrefix: null,
@@ -178,7 +177,6 @@ describe('parseCursorString', () => {
       filter: {
         PK: 'profile⋮PK⋮U7890⊰contacttype⋮',
         SK: 'email',
-        _id: 'profile⋮PK⋮U7890⊰contacttype⋮email⋮',
       },
       name: 'PK',
       parentPrefix: 'profile⋮PK⋮U7890⊰',
@@ -236,6 +234,30 @@ describe('parseCursorString', () => {
       name: '_id',
       parentPrefix: null,
       relatedTo: null,
+    });
+  });
+
+  test('entity PKPart bug', () => {
+    const sut = parseFilterCursor(
+      '~!YWNjb3VudOKLrl9pZOKLrjAxR003Mjg1WlI3TVg3NlBOTUYzRzJNRDNQ4oqwYWNjZXNzdHlwZeKLrmVtYWls4oiZMDFHTTcyODYwWlA2U0hKUkFLSlZSV0pWUVbii64='
+    );
+
+    expect(sut).toEqual({
+      PKFieldName: '_idPK',
+      PKPart: 'account⋮_id⋮01GM7285ZR7MX76PNMF3G2MD3P⊰accesstype⋮',
+      PKPartOpen: 'account⋮_id⋮01GM7285ZR7MX76PNMF3G2MD3P⊰accesstype',
+      SKFieldName: '_idSK',
+      SKPart: 'email∙01GM72860ZP6SHJRAKJVRWJVQV',
+      cursor:
+        'account⋮_id⋮01GM7285ZR7MX76PNMF3G2MD3P⊰accesstype⋮email∙01GM72860ZP6SHJRAKJVRWJVQV⋮',
+      entity: 'accesstype',
+      filter: {
+        _idPK: 'account⋮_id⋮01GM7285ZR7MX76PNMF3G2MD3P⊰accesstype⋮',
+        _idSK: 'email∙01GM72860ZP6SHJRAKJVRWJVQV',
+      },
+      name: '_id',
+      parentPrefix: 'account⋮_id⋮01GM7285ZR7MX76PNMF3G2MD3P⊰',
+      relatedTo: 'account',
     });
   });
 });

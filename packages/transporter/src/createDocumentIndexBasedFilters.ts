@@ -53,10 +53,9 @@ export function createDocumentIndexBasedFilters(
       return { ...next.indexFilter, ...acc };
     }, {});
 
-    parsedIndexCursors.parts.forEach(({ index, parsedIndexCursor }) => {
+    parsedIndexCursors.parts.forEach(({ index, PKPartOpen }) => {
       if (index.relations?.length) {
-        const $startsWith =
-          `${parsedIndexCursor.PKPartOpen}${RELATION_PRECEDES}` as const;
+        const $startsWith = `${PKPartOpen}${RELATION_PRECEDES}` as const;
 
         relationFilters.push({
           [parseIndexFieldName(index.name, 'PK')]: { $startsWith },

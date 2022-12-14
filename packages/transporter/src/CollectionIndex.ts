@@ -86,7 +86,7 @@ export type AnyDocIndexItem = DocumentIndexItem;
 export type CollectionConfigIndexes<
   Doc extends DocumentBase,
   K extends string = Extract<keyof Doc, string>
-> = DocumentIndexItem<K>[] | ReadonlyArray<DocumentIndexItem<K>>;
+> = ReadonlyArray<DocumentIndexItem<K>>;
 
 export type CollectionIndexConfig<
   Doc extends DocumentBase,

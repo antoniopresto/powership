@@ -1,5 +1,4 @@
 import {
-  cursorPrefixToRelationPrefix,
   escapeCursorChars,
   joinCursorPartsWithTrailingSeparator,
   joinIndexCursor,
@@ -15,7 +14,6 @@ export const IndexCursor = {
   join: joinIndexCursor,
   joinCursorPartsWithTrailingSeparator,
   stripTrailingIndexSep,
-  prefixToRelationPrefix: cursorPrefixToRelationPrefix,
   joinPKSK,
   joinKeyParts,
   escape: escapeCursorChars,

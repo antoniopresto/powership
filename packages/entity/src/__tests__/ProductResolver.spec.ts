@@ -15,9 +15,7 @@ describe('ProductResolver', () => {
 
     await expect(
       ProductEntity.findOne({ filter: {}, context: {} })
-    ).rejects.toThrow(
-      `Failed to mount index based filter:`
-    );
+    ).rejects.toThrow(`Failed to mount index based filter:`);
 
     await expect(
       ProductEntity.findOne({ filter: { batatas: '123' } as any, context: {} })

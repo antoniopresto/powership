@@ -1,13 +1,48 @@
 import { getLogLevelInfo, LogLevel, LogLevels, TLogLevel } from './logLevels';
 import { inspectObject } from './inspectObject';
+import { AnyFunction } from './typeUtils';
 
-export const _defaultLogger: { [K in TLogLevel]: (...args: any[]) => void } = {
-  error: console.error,
-  debug: console.debug,
-  info: console.info,
-  warning: console.warn,
-  crit: console.error,
-};
+function stringify(write: AnyFunction, ...args: any[]) {
+  for (let val of args) {
+    write(typeof val === 'string' ? val : inspectObject(val));
+  }
+}
+
+export const _defaultLogger: { [K in TLogLevel]: (...args: any[]) => void } = ((
+  value
+) => {
+  const log = value?.stdout.write
+    ? (...args: any[]) => {
+        stringify(value.stdout.write.bind(value.stdout), '\n', ...args, '\n');
+      }
+    : undefined;
+
+  const err = value?.stderr.write
+    ? (...args: any[]) => {
+        stringify(value.stderr.write.bind(value.stderr), '\n', ...args, '\n');
+      }
+    : undefined;
+
+  const warn = value?.stdout.write
+    ? (...args: any[]) => {
+        stringify(value.stdout.write.bind(value.stdout), '\n', ...args, '\n');
+      }
+    : undefined;
+
+  const info = value?.stdout.write
+    ? (...args: any[]) => {
+        stringify(value.stdout.write.bind(value.stdout), '\n', ...args, '\n');
+      }
+    : undefined;
+
+  return {
+    error: err || console.error,
+    debug: log || console.debug,
+    info: info || console.info,
+    warning: warn || console.warn,
+    crit: err || console.error,
+  };
+})(typeof process === 'object' ? process : undefined);
 
 export interface LoggerOptions {
   prefix?: string;
@@ -37,30 +72,33 @@ export class Logger {
   }
 
   object = (object: Record<string, any>, depth = 5) => {
-    return this.log('info', [inspect(object, depth)]);
+    return this._log('info', [inspect(object, depth)]);
   };
 
   error = (err: any, extraInfo?: any) => {
-    this.log('error', err, extraInfo);
+    this._log('error', [err], extraInfo);
   };
 
   criticalError = (err: any, extraInfo?: any) => {
-    return this.log('crit', err, extraInfo);
+    return this._log('crit', [err], extraInfo);
   };
 
   warn = (...data: any[]) => {
-    this.log('warning', data);
+    this._log('warning', [data]);
   };
 
   info = (...data: any[]) => {
-    this.log('info', data);
+    this._log('info', [data]);
   };
 
   debug = (...data: any[]) => {
-    this.log('debug', data);
+    this._log('debug', [data]);
   };
 
-  log = (level: TLogLevel, data: any[], extraInfo?: any) => {
+  _log = (...args: [TLogLevel, any[], any] | [TLogLevel, any[]]) => {
+    const argsLength = args.length;
+    const [level, data, extraInfo] = args;
+
     this.lastLogged = { data, extraInfo };
 
     if (!LogLevels.includes(level)) {
@@ -74,12 +112,18 @@ export class Logger {
 
     let payload: any[] = [prefix];
 
-    for (let el of data) {
-      payload.push(typeof el == 'string' ? el : inspect(el));
+    if (Array.isArray(data)) {
+      for (let el of data) {
+        payload.push(typeof el == 'string' ? el : inspect(el));
+      }
+    } else {
+      payload.push(inspect(data));
     }
 
     try {
-      this.logger[level](payload.join(' '), extraInfo);
+      argsLength === 3
+        ? this.logger[level](payload.join(' '), extraInfo)
+        : this.logger[level](payload.join(' '));
     } catch (e) {
       console.trace(e);
     }

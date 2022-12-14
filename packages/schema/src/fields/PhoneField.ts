@@ -4,8 +4,8 @@ import { getNumberType, isValidNumber } from 'libphonenumber-js';
 import { FieldType, FieldTypeParser } from './FieldType';
 import { createFieldTypeError } from './FieldTypeErrors';
 
-export type Country = Compute<import('libphonenumber-js').CountryCode>;
-export type PhoneNumberType = Compute<import('libphonenumber-js').NumberType>;
+export type Country = import('libphonenumber-js').CountryCode;
+export type PhoneNumberType = import('libphonenumber-js').NumberType;
 
 export type PhoneValidationOptions = {
   country?: Country;

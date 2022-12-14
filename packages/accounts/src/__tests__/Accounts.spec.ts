@@ -59,9 +59,10 @@ describe('Accounts', () => {
     expect(token).toEqual({
       items: [
         expect.objectContaining({
+          _e: 'accountstoken',
           _id: expect.stringMatching(
             new RegExp(
-              `^account⋮_id⋮${accountId}⋮accountstoken⋮password∙${accountId}∙`
+              `^account⋮_id⋮${accountId}⊰accountstoken⋮password∙${accountId}∙`
             )
           ),
         }),
@@ -81,12 +82,8 @@ describe('Accounts', () => {
 
     expect(account).toMatchObject({
       _e: 'account',
-      // _id: expect.stringMatching(/account⋮_id⋮01[A-Z0-9]*⋮/),
-      // _id2: 'account⋮_id2⋮antoniopresto⋮',
-      // _id2PK: 'account⋮_id2⋮antoniopresto⋮',
-      // _id2SK: '',
       // @ts-ignore
-      _idPK: account._id, // since the is no SK or parent related entity, should be equal to _id
+      _idPK: account._id.slice(0, -1),
       _idSK: '',
       _v: expect.stringMatching('01'),
       accessTypes: [
@@ -111,7 +108,7 @@ describe('Accounts', () => {
       accountId: expect.stringMatching('01'),
       createdAt: expect.any(Date),
       deactivated: false,
-      id: expect.stringMatching('='),
+      id: expect.stringMatching('~!'),
       permissions: [expect.stringMatching('admin_profile:01')],
       ulid: expect.stringMatching('01'),
       updatedAt: expect.any(Date),
@@ -336,7 +333,7 @@ describe('Accounts', () => {
     test('logout simple', async () => {
       const accountsPassword = _accounts();
 
-      const account = await accountsPassword.createAccount({
+      await accountsPassword.createAccount({
         password: '1234567',
         username: 'antoniopresto',
         email: 'antonio@example.com',
@@ -367,10 +364,9 @@ describe('Accounts', () => {
 
       expect(spyUpdate).toBeCalledWith(
         expect.objectContaining({
-          filter: {
-            id: expect.stringMatching(/^~!/),
-            accountId: account.accountId,
-          },
+          filter: expect.objectContaining({
+            id: expect.stringMatching(/^account⋮_id⋮01.*session⋮01/),
+          }),
         })
       );
 

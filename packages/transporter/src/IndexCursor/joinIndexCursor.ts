@@ -1,4 +1,4 @@
-import { nonNullValues } from '@backland/utils';
+import { devAssert, nonNullValues } from '@backland/utils';
 import { FilterRecord } from '../Transporter';
 
 export interface InitIndexCursor {
@@ -74,10 +74,13 @@ export function joinIndexCursor(
   );
 }
 
+export const INDEX_PART_SEP_REGEX = new RegExp(`${INDEX_PART_SEP}`);
+export const KEY_PART_SEP_REGEX = new RegExp(`${KEY_PART_SEP}`);
+
 export function escapeCursorChars(init: string) {
   return init
-    .replaceAll(INDEX_PART_SEP, ESCAPE_INDEX_PART_SEP)
-    .replaceAll(KEY_PART_SEP, ESCAPE_KEY_PART_SEP);
+    .replace(INDEX_PART_SEP_REGEX, ESCAPE_INDEX_PART_SEP)
+    .replace(KEY_PART_SEP_REGEX, ESCAPE_KEY_PART_SEP);
 }
 
 export function joinKeyParts(init: string[], options: JoinKeyPartsOptions) {
@@ -113,8 +116,8 @@ export function _joinIndexCursorWithParent(
   options: JoinKeyPartsOptions
 ) {
   const { entity, relatedTo } = nonNullValues(
-    init,
-    '_joinIndexCursorWithParent called with invalid parameters.'
+    { entity: init.entity, relatedTo: init.relatedTo },
+    'joinIndexCursorWithParent called with invalid parameters.'
   );
 
   const parentCursor = joinCursorPartsWithTrailingSeparator([
@@ -143,14 +146,24 @@ export function joinCursorPartsWithTrailingSeparator(parts: (string | null)[]) {
 }
 
 export function splitCursorParts(init: string) {
-  const duplicateRelationsToKeep = init.replace(/⊰/g, '⊰⊰');
-  return stripTrailingIndexSep(duplicateRelationsToKeep).split(/[⋮⊰]/);
+  init = stripTrailingIndexSep(init);
+  const temp = init.split(/⋮/);
+  return temp
+    .map((el) => {
+      const parts = el.split('⊰');
+      if (parts.length === 2) {
+        return [parts[0] + '⊰', parts[1]];
+      }
+      if (parts.length > 2) devAssert(`Unexpected index part found ${el}.`);
+      return el;
+    })
+    .flat();
 }
 
 export function stripTrailingIndexSep(init: string) {
   return init.replace(/⋮$/, '');
 }
 
-export function cursorPrefixToRelationPrefix(init: string) {
-  return init.replace(/⋮$/, RELATION_PRECEDES);
+export function pushTrailingIndexSep(init: string) {
+  return init + '⋮';
 }

@@ -92,6 +92,7 @@ describe('Aliases', () => {
       const updated = await entity.updateOne({
         filter: { username: mock.username },
         condition: { 'access.kind': 'email' },
+        // @ts-ignore
         update: { $set: { 'access.0.value': 'antonio@newexample.com' } }, // fixme use position $
         context: {},
       });

@@ -2,20 +2,32 @@
  * Validates an object for keys with null or undefined values
  * @param object
  */
-import { RuntimeError } from './RuntimeError';
 import { createErrorClass } from './createErrorClass';
 import { ensureArray } from './ensureArray';
 import { getTypeName } from './getTypeName';
 import { inspectObject } from './inspectObject';
+
+function join(...parts: any[]) {
+  return (
+    parts
+      .filter((el) => typeof el === 'string' && el)
+      .map((el) => el.trim())
+      .join('\n       ➻ ') + '\n\n_ lines were trimmed _'
+  );
+}
 
 export function nonNullValues<T>(
   object: { [key in keyof T]: T[key] | null | undefined },
   customMessage = ''
 ): T {
   if (!object || typeof object !== 'object') {
-    throw new RuntimeError(`${object} is not a valid object`, {
-      input: object,
-    });
+    throw new ErrorPop(
+      join(
+        customMessage,
+        `${object} is not a valid object`,
+        inspectObject(object)
+      )
+    );
   }
 
   const errors: string[] = [];
@@ -29,10 +41,9 @@ export function nonNullValues<T>(
   });
 
   if (errors.length) {
-    if (customMessage) {
-      errors[0] = customMessage;
-    }
-    throw new RuntimeError(errors.join('\n'), { input: object }, 2);
+    throw new ErrorPop(
+      join(customMessage, errors.join('\n'), inspectObject(object))
+    );
   }
 
   return object as T;
@@ -43,17 +54,11 @@ export function notNull<T>(
   appendErrorMessage: string | Error = ''
 ): T {
   if (input === null || input === undefined) {
-    let message = `Expected non null value, but received ${input}.`;
+    const message = `Expected non null value, but received ${inspectObject(
+      input
+    )}.`;
 
-    if (appendErrorMessage) {
-      if (typeof appendErrorMessage === 'string') {
-        message = `${appendErrorMessage} ${message}`;
-      } else {
-        throw appendErrorMessage;
-      }
-    }
-
-    throw new RuntimeError(message, { input }, 2);
+    throw new ErrorPop(join(appendErrorMessage, message));
   }
 
   return input;
@@ -94,14 +99,23 @@ export function invariantType(
     const invalidNull = value === null && !typeArr.includes('null');
 
     if (invalidNull || !validType) {
-      throw new RuntimeError(
-        `Expected "${key}", to be of type "${type}", found ${foundType} ${value}`,
-        extraInfo,
-        skipLines,
-        depth
+      throw new ErrorPop(
+        `Expected "${key}", to be of type "${type}", found ${foundType} ${value} ${inspectObject(
+          extraInfo,
+          { depth }
+        )}`,
+        skipLines
       );
     }
   });
 
   return true;
+}
+
+export class ErrorPop extends Error {
+  framesToPop = 2;
+  constructor(message: string, framesToPop = 2) {
+    super(message);
+    this.framesToPop = framesToPop;
+  }
 }

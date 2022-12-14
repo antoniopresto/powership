@@ -1,4 +1,4 @@
-import { IndexCursor, ParsedIndexCursor } from './IndexCursor';
+import { ParsedIndexCursor } from './IndexCursor';
 import { FilterRecord, IndexFilter, IndexFilterRecord } from './Transporter';
 import { pickIndexKeyPartsFromDocument } from './pickIndexKeyPartsFromDocument';
 import { devAssert, inspectObject } from '@backland/utils';
@@ -10,9 +10,15 @@ import {
   parseFilterCursor,
 } from './CollectionIndex';
 import { encodeIndexValue } from './encodeIndexValue';
+import {
+  joinCursorPartsWithTrailingSeparator,
+  joinKeyParts,
+} from './IndexCursor/joinIndexCursor';
+import { parseIndexCursor } from './IndexCursor/parseIndexCursor';
 
 export type ParsedIndexFilterPart = {
-  parsedIndexCursor: ParsedIndexCursor;
+  entity: string;
+  PKPartOpen: string;
   index: DocumentIndexItem;
   PKPartParsed: ParsedIndexPart;
   SKPartParsed: ParsedIndexPart | null;
@@ -61,125 +67,133 @@ export function parseFilterIndexFilterParts(
   }
 
   const parsedParts = indexes
-    .map((index: DocumentIndexItem) => {
-      const PK = pickIndexKeyPartsFromDocument({
-        acceptNullable: false,
-        doc: filter,
-        indexField: index.name,
-        indexPartKind: 'PK',
-        indexParts: index.PK,
-        destination: 'filter',
-      });
+    .map(
+      (
+        index: DocumentIndexItem,
+        indexPosition
+      ): ParsedIndexFilterPart | undefined => {
+        const PK = pickIndexKeyPartsFromDocument({
+          acceptNullable: false,
+          doc: filter,
+          indexField: index.name,
+          indexPartKind: 'PK',
+          indexParts: index.PK,
+          destination: 'filter',
+        });
 
-      if (PK.isFilter) {
-        throw new Error(
-          `PK cant be a filter. ${inspectObject({ filter, index })}`
-        );
-      }
+        if (PK.isFilter) {
+          throw new Error(
+            `PK cant be a filter. ${inspectObject({ filter, index })}`
+          );
+        }
 
-      const indexHasSK = !!index.SK?.length;
+        const indexHasSK = !!index.SK?.length;
 
-      const SK = indexHasSK
-        ? pickIndexKeyPartsFromDocument({
-            acceptNullable: true,
-            doc: filter,
-            indexField: index.name,
-            indexPartKind: 'SK',
-            indexParts: index.SK || [],
-            destination: 'filter',
-          })
-        : null;
+        const SK = indexHasSK
+          ? pickIndexKeyPartsFromDocument({
+              acceptNullable: true,
+              doc: filter,
+              indexField: index.name,
+              indexPartKind: 'SK',
+              indexParts: index.SK || [],
+              destination: 'filter',
+            })
+          : null;
 
-      if (!PK.valid) {
-        const requiredByPK = [...PK.requiredFields].find((field) =>
-          filterKeys.has(field)
-        );
+        if (!PK.valid) {
+          const requiredByPK = [...PK.requiredFields].find((field) =>
+            filterKeys.has(field)
+          );
 
-        if (!requiredByPK) return;
+          if (!requiredByPK) return;
 
-        return devAssert(
-          `Error in PK, failed to mount filter.`,
-          { PK },
-          { depth: 10 }
-        );
-      }
+          return devAssert(
+            `Error in PK, failed to mount filter.`,
+            { PK },
+            { depth: 10 }
+          ) as never;
+        }
 
-      const parsedIndexCursor = (() => {
-        const _SK = (() => {
-          if (!index.SK?.length || !SK) return [];
-          if (SK.isFilter) return null;
-          if (SK.fullIndexFound !== null) return [SK.fullIndexFound];
-          if (SK.foundParts.length === index.SK.length) return SK.foundParts;
-          return null;
+        const { PKPartOpen, PKPart, PKFieldName, SKFieldName } =
+          parseIndexCursor(
+            {
+              PK: PK.foundParts,
+              SK: [],
+              entity,
+              name: index.name,
+              relatedTo: index.relatedTo,
+            },
+            { destination: 'filter' }
+          );
+
+        const SKFilterValue = (() => {
+          if (!SK) return ''; // index without SK
+          if (!SK.isFilter && !SK.foundParts.length) return undefined; // filter without SK
+          if (!SK?.valid) return undefined;
+
+          if (SK.isFilter) return SK.conditionFound as IndexFilter;
+
+          const partialSKStartsWithFilter = (() => {
+            if (!index.SK?.length) return null; // just for TS, already checked in indexHasSK
+            if (SK.foundParts.length === index.SK.length) return undefined;
+
+            return {
+              // the check `canContinueAsString` in
+              // pickIndexKeyPartsFromDocuments ensures that
+              // the start of the SK string is valid
+              // valid sk has valid parts
+
+              $startsWith: joinKeyParts(SK.foundParts, {
+                destination: 'filter',
+              }),
+            };
+          })();
+
+          if (partialSKStartsWithFilter) return partialSKStartsWithFilter;
+
+          if (SK.nullableFound) return SK.nullableFound.value;
+
+          return joinKeyParts(SK.foundParts, { destination: 'filter' });
         })();
 
-        return IndexCursor.parse(
-          {
-            PK: PK.foundParts,
-            SK: _SK,
-            name: index.name,
-            relatedTo: index.relatedTo,
-            entity,
-          },
-          {
-            destination: 'filter',
-          }
-        );
-      })();
+        const indexFilter = encodeIndexValue(
+          (() => {
+            if (SKFilterValue === undefined) {
+              return { ...finalFilterFound, [PKFieldName]: PKPart };
+            }
 
-      const PKFilterValue = parsedIndexCursor.PKPart;
+            if (indexPosition === 0 && typeof SKFilterValue === 'string') {
+              const _id = joinCursorPartsWithTrailingSeparator([
+                PKPartOpen,
+                SKFilterValue,
+              ]);
 
-      const SKFilterValue = (() => {
-        if (!SK) return ''; // index without SK
-        if (!SK.isFilter && !SK.foundParts.length) return undefined; // filter without SK
+              return {
+                ...finalFilterFound,
+                _id,
+                [PKFieldName]: PKPart,
+                [SKFieldName]: SKFilterValue,
+              };
+            }
 
-        return SK.nullableFound
-          ? SK.nullableFound.value
-          : SK.isFilter
-          ? (SK.conditionFound as IndexFilter)
-          : SK.valid
-          ? parsedIndexCursor.SKPart
-          : (devAssert(
-              `Error in SK, failed to mount filter.`,
-              { SK },
-              { depth: 10 }
-            ) as '');
-      })();
-
-      const indexFilter = encodeIndexValue(
-        (() => {
-          const PKName = parseIndexFieldName(index.name, 'PK');
-          const SKName = parseIndexFieldName(index.name, 'SK');
-
-          if (SKFilterValue === undefined) return { [PKName]: PKFilterValue };
-
-          if (typeof SKFilterValue === 'string') {
             return {
               ...finalFilterFound,
-              _id: parsedIndexCursor.cursor,
-              [PKName]: PKFilterValue,
-              [SKName]: SKFilterValue,
+              [PKFieldName]: PKPart,
+              [SKFieldName]: SKFilterValue,
             };
-          }
+          })()
+        );
 
-          return {
-            ...finalFilterFound,
-            [PKName]: PKFilterValue,
-            [SKName]: SKFilterValue,
-          };
-        })()
-      );
-
-      return {
-        entity,
-        index,
-        indexField: index.name,
-        PKPartParsed: PK,
-        SKPartParsed: SK,
-        parsedIndexCursor,
-        indexFilter,
-      };
-    })
+        return {
+          entity,
+          index,
+          PKPartParsed: PK,
+          SKPartParsed: SK,
+          PKPartOpen,
+          indexFilter,
+        };
+      }
+    )
     .filter(Boolean);
 
   if (!parsedParts.length) {
@@ -192,4 +206,12 @@ export function parseFilterIndexFilterParts(
   }
 
   return { isFinalParsedSearch: false, parts: parsedParts };
+}
+
+declare global {
+  interface Array<T> {
+    filter(
+      filter: BooleanConstructor
+    ): (T extends undefined ? never : T extends null ? never : T)[];
+  }
 }

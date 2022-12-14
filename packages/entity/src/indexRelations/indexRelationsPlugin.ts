@@ -3,8 +3,16 @@ import {
   CreateOne,
   CreateOneResult,
   DocumentBase,
+  parseFilterCursor,
 } from '@backland/transporter';
-import { devAssert, groupBy, hopper, NodeLogger } from '@backland/utils';
+import {
+  devAssert,
+  GlobalLogger,
+  groupBy,
+  hopper,
+  inspectObject,
+  NodeLogger,
+} from '@backland/utils';
 
 import {
   EntityOperationInfoContext,
@@ -101,10 +109,25 @@ export const indexRelationsPlugin = createEntityPlugin(
 
               const { id, _id } = rel.created;
 
-              await rel.relationConfig.entity.deleteOne({
+              const deleted = await rel.relationConfig.entity.deleteOne({
                 context: config.context,
                 filter: { id },
               });
+
+              if (deleted.item === null) {
+                const cursor = parseFilterCursor(id);
+
+                GlobalLogger.logCriticalError(
+                  new Error(
+                    `Failed to remove related document after creation error:\n${inspectObject(
+                      {
+                        cursor,
+                        rel,
+                      }
+                    )}`
+                  )
+                );
+              }
 
               return `Removed dependent relation after error: _id: ${_id}`;
             })
