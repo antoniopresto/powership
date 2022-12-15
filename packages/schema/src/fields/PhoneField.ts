@@ -1,4 +1,4 @@
-import { assertEqual, Compute } from '@backland/utils';
+import { assertEqual } from '@backland/utils';
 import { getNumberType, isValidNumber } from 'libphonenumber-js';
 
 import { FieldType, FieldTypeParser } from './FieldType';
