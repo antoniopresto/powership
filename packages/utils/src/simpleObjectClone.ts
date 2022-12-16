@@ -10,6 +10,9 @@ export function simpleObjectClone<T>(input: T, options = { sort: false }): T {
   }
 
   try {
+    if (input && typeof input === 'object') {
+      input = { ...input };
+    }
     const res = clone(input);
     return sort ? sortObject(res) : res;
   } catch (e: any) {

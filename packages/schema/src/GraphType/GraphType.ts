@@ -1,6 +1,9 @@
-import { RuntimeError } from '@backland/utils';
-import { StrictMap } from '@backland/utils';
-import { isBrowser } from '@backland/utils';
+import {
+  inspectObject,
+  isBrowser,
+  RuntimeError,
+  StrictMap,
+} from '@backland/utils';
 import type {
   GraphQLInterfaceType,
   GraphQLNamedInputType,
@@ -11,7 +14,9 @@ import { BacklandModules, CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';
 import {
   createObjectType,
+  FieldInput,
   FinalFieldDefinition,
+  ObjectDefinitionInput,
   ObjectType,
   parseField,
 } from '../ObjectType';
@@ -57,8 +62,10 @@ export class GraphType<Definition extends ObjectFieldInput> {
     );
   }
 
-  get optionalId(): string | undefined {
-    return this.__lazyGetter.id;
+  private _optionalId: string | undefined = undefined;
+
+  get optionalId() {
+    return this._optionalId;
   }
 
   constructor(
@@ -77,21 +84,27 @@ export class GraphType<Definition extends ObjectFieldInput> {
   constructor(...args: GraphTypeArgs) {
     const { initializer, idFromArgs } = lazyCreateGraphTypeInitPayload(
       args,
-      () => {
+      (payload) => {
+        this.beforeInitialize.forEach((next) => {
+          payload = next(payload);
+        });
+
         this.touched = true;
+
+        return payload;
       }
     );
 
     Object.defineProperty(this, '__lazyGetter', {
       get() {
-        return initializer();
+        return initializer(this);
       },
     });
 
     Object.defineProperty(this, 'definition', {
       enumerable: true,
       get() {
-        return initializer().definition;
+        return initializer(this).definition;
       },
     });
 
@@ -114,6 +127,8 @@ export class GraphType<Definition extends ObjectFieldInput> {
   private __hidden: boolean = false;
 
   identify = (name: string) => {
+    this._optionalId = name;
+
     if (GraphType.register.has(name)) {
       //
     } else {
@@ -136,14 +151,23 @@ export class GraphType<Definition extends ObjectFieldInput> {
   }
 
   parse = (input: any, options?: FieldParserConfig): Infer<Definition> => {
-    const customMessage =
-      options && typeof options === 'object' ? options.customMessage : options;
-
-    const _options = typeof options === 'object' ? options : {};
-    if (this.__hidden && !_options.includeHidden) return undefined as any;
-
     try {
-      return this.__lazyGetter.field.parse(input, customMessage) as any;
+      const field = this.__lazyGetter.field;
+
+      if (this.__lazyGetter.objectType) {
+        return this.__lazyGetter.objectType.parse(input, options as {}) as any;
+      }
+
+      const customMessage =
+        options && typeof options === 'object'
+          ? options.customMessage
+          : options;
+
+      const _options = typeof options === 'object' ? options : {};
+
+      if (this.__hidden && !_options.includeHidden) return undefined as any;
+
+      return field.parse(input, customMessage) as any;
     } catch (e: any) {
       e.message = `➤ ${this.optionalId || ''} ${e.message}`;
       throw e;
@@ -188,6 +212,49 @@ export class GraphType<Definition extends ObjectFieldInput> {
     const parsed = parseField(this.definition);
     const input: any = extendDefinition(parsed);
     return handler(input);
+  }
+
+  beforeInitialize: ((
+    definition: LazyParseGraphTypePayload
+  ) => LazyParseGraphTypePayload)[] = [];
+
+  mutateFields<Def extends ObjectDefinitionInput>(
+    callback: (input: ExtendDefinition<this, this>) => Def
+  ): GraphType<{ object: Def }> {
+    if (this.touched) {
+      throw new Error(
+        `Called "mutateFields" after type "${
+          this.optionalId || ''
+        }" was touched.`
+      );
+    }
+
+    if (this.optionalId) {
+      ObjectType.register.delete(this.optionalId);
+    }
+
+    this.beforeInitialize.push((payload) => {
+      if (payload.definition.type !== 'object') {
+        throw new Error(`mutateFields can only be used with object types.`);
+      }
+
+      try {
+        const input: any = extendDefinition(payload.definition);
+        payload.definition.def = callback(input);
+        payload.objectType = createObjectType({
+          [this.id]: this.definition,
+        }) as any;
+        (payload.field as ObjectField<any>).utils.object = payload.objectType;
+        return payload;
+      } catch (e: any) {
+        e.message = `Failed to execute mutateFields with the result from callback: ${inspectObject(
+          { callback }
+        )}`;
+        throw e;
+      }
+    });
+
+    return this as any;
   }
 
   print = (): string[] => {
@@ -278,7 +345,9 @@ export type GraphTypeArgs<Def extends ObjectFieldInput = ObjectFieldInput> =
 // used to lazy parse args to improve circular types usage
 export function lazyCreateGraphTypeInitPayload(
   args: GraphTypeArgs,
-  onLoad?: (payload: LazyParseGraphTypePayload) => any
+  onLoad?: (
+    payload: LazyParseGraphTypePayload
+  ) => LazyParseGraphTypePayload | void
 ) {
   let payload: LazyParseGraphTypePayload;
 
@@ -296,7 +365,7 @@ export function lazyCreateGraphTypeInitPayload(
     definitionInput = args[0];
   }
 
-  function initializer(): LazyParseGraphTypePayload {
+  function initializer(self: GraphType<FieldInput>): LazyParseGraphTypePayload {
     if (payload) return payload;
 
     const def =
@@ -336,7 +405,15 @@ export function lazyCreateGraphTypeInitPayload(
       objectType: field.utils?.object,
     };
 
-    onLoad?.(payload);
+    if (id) {
+      self.identify(id);
+    }
+
+    const res = onLoad?.(payload);
+
+    if (res !== undefined) {
+      return res;
+    }
 
     return payload;
   }

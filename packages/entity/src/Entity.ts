@@ -100,11 +100,13 @@ export function createEntity(
   const entityMutations: ((entity: AnyEntity) => AnyEntity)[] = [];
 
   let entityOptions: EntityOptions = createProxy(() => {
-    const opt =
+    const opt: EntityOptions =
       typeof configOptions === 'function'
         ? //
           configOptions()
         : configOptions;
+
+    opt.allowExtraFields = opt.allowExtraFields ?? true;
 
     return optionMutations.reduce((acc, next) => {
       return next(acc);
@@ -299,7 +301,6 @@ export function createEntity(
     parseCollectionIndexConfig(indexConfig); // only validating the return has lower cased fields used in _ids
 
     const entityOutputDefinitionWithRelations: any = {
-      ...parseEntityIndexFields(indexConfig),
       ...createEntityDefaultFields(),
       ...inputObjectType.cleanDefinition(),
     };
@@ -317,9 +318,13 @@ export function createEntity(
       resolvers,
     });
 
-    const databaseDefinition: any = simpleObjectClone(
-      entityOutputDefinitionWithRelations
-    );
+    const indexFieldsDefinition = parseEntityIndexFields(indexConfig);
+    const indexFieldKeys = Object.keys(indexFieldsDefinition);
+
+    const databaseDefinition: any = {
+      ...simpleObjectClone(entityOutputDefinitionWithRelations),
+      ...indexFieldsDefinition,
+    };
 
     _hooks.createDefinition.exec(databaseDefinition, {
       entityOptions,
@@ -329,7 +334,7 @@ export function createEntity(
     });
 
     // type without relations
-    const databaseType = createType(`${entityOptions.name}_withoutRelations`, {
+    const databaseType = createType(`${entityOptions.name}DatabaseInput`, {
       // without relations and other alterations
       object: databaseDefinition,
     });
@@ -417,6 +422,7 @@ export function createEntity(
           hooks: _hooks,
           method,
           methodOptions: configInput,
+          indexFieldKeys,
         });
 
         const context = { operation, resolvers };
@@ -730,8 +736,9 @@ function _registerPKSKHook(input: {
         doc.id = doc._c;
       }
 
-      const parsed = entity.inputType.parse(doc);
-      return { ...doc, ...parsed };
+      const { allowExtraFields } = entity.usedOptions;
+
+      return entity.inputType.parse(doc, { allowExtraFields });
     }
 
     if (ctx.isUpdate) {
@@ -765,6 +772,7 @@ async function _parseOperationContext(input: {
   hooks: EntityHooks;
   method: TransporterLoaderName;
   methodOptions: any;
+  indexFieldKeys: string[];
 }): Promise<EntityOperationInfoContext> {
   const {
     entityOptions,
@@ -773,8 +781,10 @@ async function _parseOperationContext(input: {
     hooks: hooks,
     databaseType,
     entity,
+    indexFieldKeys,
   } = input;
-  const { transporter: defaultTransporter } = entityOptions;
+
+  const { transporter: defaultTransporter, allowExtraFields } = entityOptions;
 
   await defaultTransporter?.connect();
 
@@ -815,9 +825,15 @@ async function _parseOperationContext(input: {
     }
 
     try {
-      operationInfoContext.options.item = databaseType.parse(
-        operationInfoContext.options.item
-      ) as AnyEntityDocument;
+      const parsed = databaseType.parse(operationInfoContext.options.item, {
+        allowExtraFields,
+        exclude: indexFieldKeys,
+      }) as AnyEntityDocument;
+
+      operationInfoContext.options.item = {
+        ...operationInfoContext.options.item,
+        ...parsed,
+      };
 
       operationInfoContext = await hooks.postParse.exec(
         // @ts-ignore

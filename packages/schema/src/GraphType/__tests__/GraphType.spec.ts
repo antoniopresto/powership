@@ -40,7 +40,7 @@ describe('createType', () => {
         name: 'string',
         age: 'int?',
       },
-    } as const);
+    } as const).touch();
 
     // expect(sut.definition.type).toEqual('object');
 
@@ -359,5 +359,63 @@ describe('createType', () => {
         parentId: 'ID?',
       },
     });
+  });
+
+  test('mutateFields', async () => {
+    createType('Xirifompila', {
+      object: {
+        id: 'ID',
+        active: 'boolean?',
+      },
+    }).touch();
+
+    const origin = createType('Xirifompila', {
+      object: {
+        id: 'ID',
+        active: 'boolean?',
+        name: 'string',
+        parentId: 'ID?',
+      },
+    });
+
+    expect(origin.touched).toBeFalsy();
+
+    const result = origin.mutateFields((it) => {
+      return {
+        ...it.def(),
+        id: 'int',
+      } as const;
+    });
+
+    const ts = await result.typescriptPrint();
+
+    expect(ts.split('\n')).toEqual([
+      'export interface Xirifompila {',
+      '  Xirifompila: {',
+      '    id: number;',
+      '    active?: boolean;',
+      '    name: string;',
+      '    parentId?: ID;',
+      '  };',
+      '}',
+      '',
+    ]);
+  });
+
+  test('parse with exclude', async () => {
+    const type = createType('Xirifompila', {
+      object: {
+        id: 'ID',
+        active: 'boolean?',
+      },
+    });
+
+    const parsed = type.parse({ active: true }, { exclude: ['id'] });
+
+    expect(parsed).toEqual({ active: true });
+
+    expect(() => {
+      return type.parse({ active: true });
+    }).toThrow('➤ field "id": RequiredField.');
   });
 });

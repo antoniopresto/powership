@@ -511,10 +511,15 @@ export function parseFlattenFieldDefinition(
   );
 }
 
+export const CACHED_FIELD_INSTANCE_KEY = '__cachedFieldInstance';
+
 export function __getCachedFieldInstance(
   field: FinalFieldDefinition & { [K: string]: any }
 ): TAnyFieldType {
-  if (field?.__cachedFieldInstance) return field.__cachedFieldInstance;
+  if (field?.[CACHED_FIELD_INSTANCE_KEY]) {
+    return field[CACHED_FIELD_INSTANCE_KEY];
+  }
+
   const parsed = parseFieldDefinitionConfig(field);
   const instanceFromDef = fieldInstanceFromDef(parsed);
   setCachedFieldInstance(parsed, instanceFromDef);
@@ -522,16 +527,38 @@ export function __getCachedFieldInstance(
 }
 
 function hasCachedFieldInstance(field: any): FinalFieldDefinition | null {
-  return !!field?.__cachedFieldInstance ? field : null;
+  return !!field?.[CACHED_FIELD_INSTANCE_KEY] ? field : null;
 }
 
 function setCachedFieldInstance(field, instanceFromDef: TAnyFieldType) {
   if (hasCachedFieldInstance(field)) return;
 
-  Object.defineProperty(field, '__cachedFieldInstance', {
+  Object.defineProperty(field, CACHED_FIELD_INSTANCE_KEY, {
     configurable: false,
     enumerable: false,
     value: instanceFromDef,
     writable: false,
   });
+}
+
+export function deleteCachedFieldInstance<T>(
+  def: T
+  // depth = 1,
+  // currentDepth = 0
+): T {
+  if (!def || typeof def !== 'object') return def;
+
+  const { [CACHED_FIELD_INSTANCE_KEY]: _, ...rest } = def as any;
+  return rest as any;
+
+  // if (currentDepth > depth) return def;
+  //
+  // Object.entries(rest).reduce((acc, [key, value]) => {
+  //   return {
+  //     ...acc,
+  //     [key]: value,
+  //   };
+  // }, rest);
+  //
+  // return rest;
 }

@@ -5,11 +5,13 @@ export type ValidationCustomMessage =
   | ((value: any, originalError: Error) => string | Error);
 
 export type FieldParserOptionsObject = {
-  allowUnspecified?: boolean; // include fields from input but not in schema
+  allowExtraFields?: boolean; // include fields from input but not in schema
   customErrorMessage?: ValidationCustomMessage;
   customMessage?: ValidationCustomMessage;
   excludeInvalidListItems?: boolean;
   includeHidden?: boolean;
+  partial?: boolean;
+  exclude?: string[];
 };
 
 export type FieldParserConfig =

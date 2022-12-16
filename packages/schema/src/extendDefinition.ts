@@ -12,7 +12,12 @@ import {
 
 import { CircularDeps } from './CircularDeps';
 import type { GraphType } from './GraphType/GraphType';
-import { ObjectType, parseField, parseObjectDefinition } from './ObjectType';
+import {
+  deleteCachedFieldInstance,
+  ObjectType,
+  parseField,
+  parseObjectDefinition,
+} from './ObjectType';
 import {
   DescribeField,
   DescribeObjectDefinition,
@@ -107,8 +112,12 @@ export function extendDefinition<Input>(
     return extendDefinition(obj.definition) as unknown as R;
   }
 
-  let clone: any = simpleObjectClone(
-    parseObjectDefinition(obj, { deep: { omitMeta: true } }).definition
+  let clone: any = deleteCachedFieldInstance(
+    simpleObjectClone(
+      parseObjectDefinition(deleteCachedFieldInstance(obj), {
+        deep: { omitMeta: true },
+      }).definition
+    )
   );
 
   const res = {

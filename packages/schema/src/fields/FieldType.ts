@@ -1,4 +1,4 @@
-import { simpleObjectClone } from '@backland/utils';
+import { inspectObject, simpleObjectClone } from '@backland/utils';
 
 import { CircularDeps } from '../CircularDeps';
 import {
@@ -32,6 +32,14 @@ export type FieldComposer<Schema = Record<string, any>, T = any> = {
   def: FinalFieldDefinitionStrict;
   validate(input: any, parent: Schema): T;
 };
+
+export const FieldsTypeCache = new Map<
+  string,
+  {
+    fieldType: TAnyFieldType;
+    defKeys: string[] | undefined;
+  }
+>();
 
 export abstract class FieldType<
   Type,
@@ -75,10 +83,38 @@ export abstract class FieldType<
     this.type = name;
     this.options = options as Options;
 
-    const defKeys = def ? Object.keys(def) : undefined;
+    const defKeys = def ? Object.keys(def).sort() : undefined;
 
     if (defKeys?.length) {
       this.def = def;
+    }
+
+    if (id) {
+      const existing = FieldsTypeCache.get(id);
+
+      if (existing) {
+        const existingKeys = existing.defKeys?.join(', ');
+
+        if (existing.fieldType.typeName !== this.typeName) {
+          throw new Error(
+            `Field with id "${id}" already registered with different type:\n "${inspectObject(
+              {
+                old: existing.fieldType.asFinalFieldDef,
+                current: this.asFinalFieldDef,
+              },
+              { depth: 2 }
+            )}"`
+          );
+        }
+
+        if (defKeys?.join(', ') !== existingKeys) {
+          throw new Error(
+            `Field with id "${id}" already registered with different fields:\n "${existingKeys}"`
+          );
+        }
+      }
+
+      FieldsTypeCache.set(id, { fieldType: this as any, defKeys });
     }
   }
 

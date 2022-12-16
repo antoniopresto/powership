@@ -150,7 +150,6 @@ export class ObjectType<
   parse(
     input: any,
     options?: {
-      customMessage?: ValidationCustomMessage;
       partial: true;
     } & FieldParserOptionsObject
   ): Partial<InferObjectDefinition<HandledInput>>;
@@ -165,6 +164,17 @@ export class ObjectType<
     [K in keyof InferObjectDefinition<HandledInput> as K extends Fields[number]
       ? K
       : never]: InferObjectDefinition<HandledInput>[K];
+  };
+
+  parse<Fields extends (keyof HandledInput)[]>(
+    input: any,
+    options: {
+      exclude: Fields;
+    } & FieldParserOptionsObject
+  ): {
+    [K in keyof InferObjectDefinition<HandledInput> as K extends Fields[number]
+      ? never
+      : K]: InferObjectDefinition<HandledInput>[K];
   };
 
   parse(
@@ -198,7 +208,7 @@ export class ObjectType<
     input: any,
     options: FieldParserOptionsObject = {}
   ): InferObjectDefinition<HandledInput> & { [K: string]: T } => {
-    return this.parse(input, { ...options, allowUnspecified: true });
+    return this.parse(input, { ...options, allowExtraFields: true });
   };
 
   validate(input: any): input is InferObjectDefinition<HandledInput> {
@@ -223,7 +233,8 @@ export class ObjectType<
       partial = false,
       excludeInvalidListItems,
       includeHidden,
-      allowUnspecified,
+      allowExtraFields,
+      exclude,
     } = options || {};
 
     const objectDef = { ...this.definition } as Record<
@@ -253,7 +264,13 @@ export class ObjectType<
     }
 
     input = { ...input };
-    const inputKeys = Object.keys(input);
+
+    const inputKeys = ((value) => {
+      if (exclude) {
+        return value.filter((el) => !exclude.includes(el));
+      }
+      return value;
+    })(Object.keys(input));
 
     // @ts-ignore
     let fields = (options?.fields || Object.keys(this.definition)) as string[];
@@ -294,6 +311,7 @@ export class ObjectType<
     fields.forEach((currField): any => {
       if (currField.startsWith('$')) return; // special field
       if (isMetaFieldKey(currField)) return;
+      if (exclude && exclude.includes(currField)) return;
 
       // @ts-ignore
       const fieldDef: FinalFieldDefinition = objectDef[currField];
@@ -376,7 +394,7 @@ export class ObjectType<
       errors.unshift(...result.errors);
     });
 
-    const resulting = allowUnspecified ? { ...input, ...parsed } : parsed;
+    const resulting = allowExtraFields ? { ...input, ...parsed } : parsed;
 
     return {
       errors,

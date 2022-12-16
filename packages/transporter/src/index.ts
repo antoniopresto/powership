@@ -14,4 +14,4 @@ export * from './parseFilterIndexFilterParts';
 export * from './createDocumentIndexBasedFilters';
 export * from './createDocumentIndexBasedFilters';
 export * from './encodeIndexValue';
-export {parseEntityIndexFields} from "./parseEntityIndexFields";
+export * from './parseEntityIndexFields';
