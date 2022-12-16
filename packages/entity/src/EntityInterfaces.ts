@@ -9,6 +9,7 @@ import {
   ObjectFieldInput,
 } from '@backland/schema';
 import {
+  CommonIndexFields,
   CreateOne,
   DocumentBase,
   DocumentIndexesConfig,
@@ -211,6 +212,8 @@ export interface Entity<
   >;
 
   getDocumentId(doc: Record<string, any>): string;
+
+  getIndexFields(doc: Record<string, any>): CommonIndexFields;
 
   readonly hasAliases: boolean;
 

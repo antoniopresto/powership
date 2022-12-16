@@ -4,7 +4,6 @@ import { ULID_REGEX } from '@backland/schema/lib/fields/UlidField';
 import { MongoTransporter } from '@backland/mongo';
 import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
 import { createEntity } from '../Entity';
-import { createEntityDefaultFields } from '../defaultFields';
 
 describe('Product', () => {
   const { getEntity, getOptions, after, before } = mokit();
@@ -26,12 +25,27 @@ describe('Product', () => {
       .def as any;
     expect(entity.inputDef.def()).toEqual(def);
 
-    expect(Object.keys(parseField(entity.type.definition).def).sort()).toEqual(
-      Object.keys({
-        ...createEntityDefaultFields(),
-        ...parseField(options.type.definition).def,
-      }).sort()
-    );
+    expect(Object.keys(parseField(entity.type.definition).def).sort()).toEqual([
+      'SKU',
+      '__dschm__',
+      '_c',
+      '_e',
+      '_id',
+      '_id1PK',
+      '_id1SK',
+      '_idPK',
+      '_idSK',
+      '_v',
+      'category',
+      'createdAt',
+      'createdBy',
+      'id',
+      'storeId',
+      'title',
+      'ulid',
+      'updatedAt',
+      'updatedBy',
+    ]);
   });
 
   it('create entity', async () => {

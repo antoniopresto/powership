@@ -18,6 +18,7 @@ describe('ProductResolver.hasMany', () => {
   }
 
   test('without limit', async function () {
+    Error.stackTraceLimit = 50;
     const { created, ProductEntity } = await mock();
 
     let sut = await ProductEntity.paginate({

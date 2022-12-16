@@ -22,7 +22,7 @@ describe('ProductResolver', () => {
     ).rejects.toThrow(`Failed to mount index based filter:`);
 
     const res = await createOne();
-    expect(res).toEqual(shape);
+    expect(res).toMatchObject(shape);
 
     const productPagination = createResolver({
       type: ProductEntity.paginationType,
@@ -233,6 +233,18 @@ describe('ProductResolver', () => {
       '}',
       '',
       'type ProductEntity {',
+      '  """',
+      '  The full string value of the first index following the RegExp format "^product⋮_id⋮.*"',
+      '  """',
+      '  _id: String!',
+      '',
+      '  """',
+      '  The _idPK field in the RegExp format "^product⋮_id⋮.*"',
+      '  """',
+      '  _idPK: String!',
+      '',
+      '  """The _idSK field."""',
+      '  _idSK: String!',
       '  createdAt: Date!',
       '  createdBy: String',
       '  id: String!',
@@ -306,6 +318,12 @@ describe('ProductResolver', () => {
       '}',
       '',
       'input ProductQueryConditionsInput {',
+      '  _c: QueryCondition',
+      '  _e: QueryCondition',
+      '  _id: QueryCondition',
+      '  _idPK: QueryCondition',
+      '  _idSK: QueryCondition',
+      '  _v: QueryCondition',
       '  createdAt: QueryCondition',
       '  createdBy: QueryCondition',
       '  id: QueryCondition',

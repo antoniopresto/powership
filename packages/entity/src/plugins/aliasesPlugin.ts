@@ -65,7 +65,10 @@ export const aliasesPlugin = createEntityPlugin('AliasesPlugin', (hooks) => {
           context.options
         );
 
-        const parsedMemoryUpdate = entity.databaseType.parse(memoryUpdate);
+        const parsedMemoryUpdate = entity.databaseType.parse({
+          ...memoryUpdate,
+          _id: dbDocument._id,
+        });
 
         const diffs = objectDiffPaths(dbDocument, parsedMemoryUpdate);
 

@@ -11,12 +11,14 @@ import {
 import {
   AnyCollectionIndexConfig,
   CollectionIndexConfig,
+  DocumentBase,
   DocumentIndexesConfig,
   getDocumentIndexFields,
   getParsedIndexKeys,
   parseCollectionIndexConfig,
   ParsedDocumentIndexes,
   ParsedIndexKey,
+  parseEntityIndexFields,
   TransporterLoader,
   TransporterLoaderName,
   transporterLoaderNames,
@@ -289,7 +291,15 @@ export function createEntity(
     let entity = {} as any;
     const loaders: Record<string, any> = {};
 
-    let entityOutputDefinitionWithRelations: any = {
+    const indexConfig: CollectionIndexConfig<any, string> = {
+      entity: entityName,
+      indexes,
+    };
+
+    parseCollectionIndexConfig(indexConfig); // only validating the return has lower cased fields used in _ids
+
+    const entityOutputDefinitionWithRelations: any = {
+      ...parseEntityIndexFields(indexConfig),
       ...createEntityDefaultFields(),
       ...inputObjectType.cleanDefinition(),
     };
@@ -340,17 +350,11 @@ export function createEntity(
 
     entity['transporter'] = defaultTransporter;
 
-    const indexConfig: CollectionIndexConfig<any, string> = {
-      entity: entityName,
-      indexes,
-    };
-
     const conditionsType = objectToGraphQLConditionType(
       `${entityName}QueryConditions`,
-      entityOutputDefinitionWithRelations
+      simpleObjectClone(entityOutputDefinitionWithRelations)
     );
 
-    parseCollectionIndexConfig(indexConfig); // only validating the return has lower cased fields used in _ids
     const parsedIndexKeys = getParsedIndexKeys(indexConfig);
 
     // pre parse PK, SK and ID setters
@@ -362,7 +366,7 @@ export function createEntity(
     });
 
     const entityType = createType(`${entityName}Entity`, {
-      object: entityOutputDefinitionWithRelations,
+      object: simpleObjectClone(entityOutputDefinitionWithRelations),
     });
 
     const indexGraphTypes = _getIndexGraphTypes({
@@ -374,7 +378,6 @@ export function createEntity(
     const inputType = entityOptions.type.clone((t) =>
       t
         .extendDefinition({
-          ...createEntityDefaultFields(true),
           ...inputDef,
         })
         .graphType(`${entityName}Input`)
@@ -601,6 +604,16 @@ export function createEntity(
       return createType(`${entityName}Connection`, definition);
     }
 
+    function getIndexFields(itemInput: DocumentBase) {
+      const indexMap = getDocumentIndexFields(itemInput, indexConfig);
+
+      if (indexMap.error) {
+        throw indexMap.error;
+      }
+
+      return indexMap.indexFields;
+    }
+
     function getDocumentId(doc): string {
       const indexes = getDocumentIndexFields(doc, indexConfig);
       if (indexes.error) throw indexes.error;
@@ -620,6 +633,7 @@ export function createEntity(
       indexRelations: {},
       extend: () => ({}), // handled in proxy
       getDocumentId,
+      getIndexFields,
       indexGraphTypes: indexGraphTypes,
       indexes: indexes,
       usedOptions: entityOptions,
@@ -716,7 +730,8 @@ function _registerPKSKHook(input: {
         doc.id = doc._c;
       }
 
-      return entity.inputType.parse(doc);
+      const parsed = entity.inputType.parse(doc);
+      return { ...doc, ...parsed };
     }
 
     if (ctx.isUpdate) {
@@ -811,6 +826,7 @@ async function _parseOperationContext(input: {
       );
     } catch (e: any) {
       e.info = operationInfoContext;
+      e.message = `Failed to parse document before saving:\n      ${e.message}`;
       throw e;
     }
   }

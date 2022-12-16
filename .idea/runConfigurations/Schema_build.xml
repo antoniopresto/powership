@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Schema build" type="js.build_tools.npm">
+    <package-json value="$PROJECT_DIR$/packages/schema/package.json" />
+    <command value="run" />
+    <scripts>
+      <script value="build" />
+    </scripts>
+    <node-interpreter value="$USER_HOME$/.nvm/versions/node/v14.20.1/bin/node" />
+    <envs />
+    <method v="2" />
+  </configuration>
+</component>

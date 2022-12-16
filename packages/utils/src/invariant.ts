@@ -71,7 +71,7 @@ export function invariant(
   errorMessage: string | Error = '',
   details: any = null
 ): asserts truthy {
-  if (truthy === undefined || truthy === null) {
+  if (!truthy) {
     if (typeof errorMessage === 'string') {
       throw new InvariantError(errorMessage, inspectObject(details, {}));
     } else {

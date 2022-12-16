@@ -74,7 +74,7 @@ export function parseIndexCursor(
     }
   } else {
     const [entity, name, PK, SK] = parts;
-    return _partsToParsedIndexCursor(
+    return indexToCursor(
       { entity, name, PK, SK, relatedTo: undefined, parentPrefix: undefined },
       options
     );
@@ -124,7 +124,7 @@ export function _parseSubIndexCursor(
   const PKPartOpen = [parentPrefix + childEntity].join('');
   const PKPart = PKPartOpen + INDEX_PART_SEP;
 
-  const child = _partsToParsedIndexCursor(
+  const child = indexToCursor(
     {
       parentPrefix,
       relatedTo: parentEntity,
@@ -149,7 +149,7 @@ export function _parseSubIndexCursor(
   return child;
 }
 
-function _partsToParsedIndexCursor(
+export function indexToCursor(
   init: {
     name: string;
     entity: string;

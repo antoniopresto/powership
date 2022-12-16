@@ -12,7 +12,6 @@ import { MongoTransporter } from '@backland/mongo';
 import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
 import { createEntity } from '../Entity';
 import { Entity } from '../EntityInterfaces';
-import { createEntityDefaultFields } from '../defaultFields';
 
 export const BreadCrumbType = createType('BreadCrumb', {
   object: {
@@ -53,7 +52,6 @@ export const StockType = createType('Stock', {
 
 const productDef = {
   object: {
-    _v: 'string',
     sku: 'string',
     storeId: 'ID',
     title: 'string',
@@ -161,9 +159,8 @@ export function setupProductTest(): {
       objectMock(
         ProductEntity.originType.__lazyGetter.objectType!.definition
       ) as any;
-    const defaultMock: any = objectMock(createEntityDefaultFields());
 
-    const shape = Object.entries({ ...defaultMock, ...mockObject() }).reduce(
+    const shape = Object.entries({ ...mockObject() }).reduce(
       (acc, [name, val]) => {
         const tn = getTypeName(val);
         const cons = eval(tn);

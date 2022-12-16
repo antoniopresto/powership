@@ -152,7 +152,7 @@ export class GraphQLParser {
   };
 
   static objectToGraphQL(options: {
-    object: any;
+    object: { [K in keyof ObjectType<any>]: any } & {};
     path?: string[]; // family tree of an object/field
   }): GraphQLParserResult {
     const { object, path } = options;
@@ -218,6 +218,7 @@ export class GraphQLParser {
 
         helpers.list.forEach(({ name: fieldName, instance, plainField }) => {
           if (isHiddenFieldName(fieldName)) return;
+          if (plainField.hidden) return;
 
           if (plainField.type === 'alias') {
             AliasField.assert(instance);

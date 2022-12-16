@@ -108,7 +108,6 @@ describe('ProductResolver.addRelation', () => {
         ([key, { optional }]) => [key, optional]
       )
     ).toEqual([
-      ['_v', true],
       ['sku', true],
       ['storeId', true],
       ['title', true],
@@ -135,6 +134,18 @@ describe('ProductResolver.addRelation', () => {
 
     expect(ProductEntity.type.print()).toEqual([
       'type Product2Entity {',
+      '  """',
+      '  The full string value of the first index following the RegExp format "^product2⋮_id⋮.*"',
+      '  """',
+      '  _id: String!',
+      '',
+      '  """',
+      '  The _idPK field in the RegExp format "^product2⋮_id⋮.*"',
+      '  """',
+      '  _idPK: String!',
+      '',
+      '  """The _idSK field."""',
+      '  _idSK: String!',
       '  createdAt: Date!',
       '  createdBy: String',
       '  id: String!',
@@ -203,6 +214,20 @@ describe('ProductResolver.addRelation', () => {
       '}',
       '',
       'input Product2EntityInput {',
+
+      '  """',
+      '  The full string value of the first index following the RegExp format "^product2⋮_id⋮.*"',
+      '  """',
+      '  _id: String!', // FIXME
+      '',
+      '  """',
+      '  The _idPK field in the RegExp format "^product2⋮_id⋮.*"',
+      '  """',
+      '  _idPK: String!', // FIXME
+      '',
+      '  """The _idSK field."""',
+      '  _idSK: String!', // FIXME
+
       '  createdAt: Date!',
       '  createdBy: String',
       '  id: String!',

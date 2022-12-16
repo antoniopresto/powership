@@ -20,7 +20,6 @@ describe('ProductResolver.edgeType', () => {
         optional,
       ])
     ).toEqual([
-      ['_v', true],
       ['sku', true],
       ['storeId', true],
       ['title', true],
