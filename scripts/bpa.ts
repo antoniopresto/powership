@@ -32,9 +32,11 @@ map(({ saveJSON, json, run }) => {
 
 root(`git add -A && git commit -m "alpha version ${version}" && git push -f`);
 
-map(({ run }) => {
-  run('test');
-});
+if (!skip_build) {
+  map(({ run }) => {
+    run('test');
+  });
+}
 
 function updateVersion(json: any, key: keyof any) {
   Object.keys(json[key] || {}).forEach((dep) => {
