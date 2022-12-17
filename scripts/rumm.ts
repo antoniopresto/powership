@@ -11,7 +11,17 @@ const ENV = {
   TEST_TIMEOUT: 90000,
 };
 
-const packages = ['root', ...fs.readdirSync(path.resolve(CWD, 'packages')).filter((el) => el.indexOf('.') === -1)];
+const packages = [
+  'root',
+  'babel-plugins',
+  'utils',
+  'schema',
+  'transporter',
+  'mongo',
+  'entity',
+  'accounts',
+  'backland', //
+];
 
 const LOGS_FILE = path.resolve(CWD, `logs/build-${Date.now()}-${time().replace(/\D/g, '-')}.log`);
 fs.ensureFileSync(LOGS_FILE);
