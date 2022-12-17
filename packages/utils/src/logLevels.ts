@@ -46,7 +46,7 @@ export function getLogLevelInfo(
   }
 
   if (!isProduction()) {
-    levels.push('debug');
+    // levels.push('debug');
   }
 
   return new Set(levels);
