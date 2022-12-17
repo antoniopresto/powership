@@ -27,6 +27,16 @@ export const TokenType = createType('AccountsToken', {
     },
     value: { string: { max: 1000, min: 4 } },
     meta: 'record?',
+    used: { boolean: {}, defaultValue: false, optional: true },
+    usageLocations: {
+      object: {
+        ip: 'string?',
+        device: 'string?',
+        meta: 'record?',
+      },
+      list: true,
+      optional: true,
+    },
     location: {
       optional: true,
       object: {
