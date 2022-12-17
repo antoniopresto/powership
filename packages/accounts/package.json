@@ -1,6 +1,6 @@
 {
   "name": "@backland/accounts",
-  "version": "0.0.0-alpha.20221217154237732",
+  "version": "0.0.0-alpha.20221217160659301",
   "description": "Backland accounts",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -29,15 +29,15 @@
   },
   "author": "@antoniopresto",
   "dependencies": {
-    "@backland/entity": "0.0.0-alpha.20221217154237732",
-    "@backland/schema": "0.0.0-alpha.20221217154237732",
-    "@backland/utils": "0.0.0-alpha.20221217154237732",
+    "@backland/entity": "0.0.0-alpha.20221217160659301",
+    "@backland/schema": "0.0.0-alpha.20221217160659301",
+    "@backland/utils": "0.0.0-alpha.20221217160659301",
     "jsonwebtoken": "8.5.1",
     "scrypt-kdf": "2.0.1"
   },
   "devDependencies": {
-    "@backland/babel-plugins": "0.0.0-alpha.20221217154237732",
-    "@backland/mongo": "0.0.0-alpha.20221217154237732",
+    "@backland/babel-plugins": "0.0.0-alpha.20221217160659301",
+    "@backland/mongo": "0.0.0-alpha.20221217160659301",
     "@types/jest": "29.1.2",
     "@types/jsonwebtoken": "8.5.9",
     "@types/node": "16.18.3",
