@@ -6,7 +6,7 @@ export const tokenKindEnum = tupleEnum(
   'phone_verification',
   'password_recovery',
   'magick_link',
-  '2fa',
+  'twoFactorAuth',
   'password',
   'custom'
 );
