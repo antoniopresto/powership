@@ -13,6 +13,11 @@ export const TokenEntity = createEntity(() => {
         name: '_id',
         relatedTo: 'Account',
       },
+      {
+        PK: ['.value'],
+        SK: ['.kind', '.accountId'],
+        name: '_id2',
+      },
     ],
   };
 });
