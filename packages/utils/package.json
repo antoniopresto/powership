@@ -1,6 +1,6 @@
 {
   "name": "@backland/utils",
-  "version": "0.0.0-alpha.20221217015336810",
+  "version": "0.0.0-alpha.20221217152606693",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -59,7 +59,7 @@
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@backland/babel-plugins": "0.0.0-alpha.20221217015336810",
+    "@backland/babel-plugins": "0.0.0-alpha.20221217152606693",
     "@types/big.js": "6.1.6",
     "@types/ejson": "2.2.0",
     "@types/fs-extra": "9.0.13",

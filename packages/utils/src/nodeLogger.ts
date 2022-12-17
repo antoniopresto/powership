@@ -1,12 +1,12 @@
+import { inspectObject } from './inspectObject';
 import {
   getLogLevelsRecord,
   LogLevel,
-  LogLevels,
   LogLevelName,
+  LogLevels,
 } from './logLevels';
-import { inspectObject } from './inspectObject';
-import { AnyFunction } from './typeUtils';
 import { getStack } from './stackTrace';
+import { AnyFunction } from './typeUtils';
 
 function stringify(write: AnyFunction, ...args: any[]) {
   for (let val of args) {

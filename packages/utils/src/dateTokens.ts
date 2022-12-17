@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
+import esLocale from 'dayjs/locale/es';
+import brLocale from 'dayjs/locale/pt-br';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import esLocale from 'dayjs/locale/es';
-import brLocale from 'dayjs/locale/pt-br';
 
 export const DateLocales = {
   es: esLocale,
