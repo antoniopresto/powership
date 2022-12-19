@@ -1,9 +1,9 @@
-import { rumm } from './rumm';
+import { runeach } from 'runeach';
 import { ulid } from '@backland/utils';
 
 const version = `0.0.0-alpha.${ulid()}`;
 
-rumm().map(({ saveJSON, json, run }) => {
+runeach().map(({ saveJSON, json, run }) => {
   json.version = version;
 
   Object.keys(json.dependencies || {}).forEach((dep) => {

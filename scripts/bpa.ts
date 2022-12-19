@@ -1,4 +1,4 @@
-import { rumm } from './rumm';
+import { runeach } from 'runeach';
 import * as process from 'process';
 
 const time = new Date().toISOString().replace(/\D/g, '');
@@ -7,7 +7,7 @@ const version = `0.0.0-alpha.${time}`;
 /**
  * Build, Publish Alpha
  */
-const { map, root } = rumm();
+const { map, root } = runeach();
 
 const skip_build = (process.env.skip_build || process.env.sb) !== undefined;
 

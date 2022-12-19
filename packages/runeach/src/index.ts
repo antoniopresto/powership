@@ -4,27 +4,29 @@ import path from 'path';
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import * as process from 'process';
-import { assertEqual, MaybePromise } from '@backland/utils';
+import { createType } from '@backland/schema';
+
+export type _MaybePromise<T> = T | Promise<T>;
 
 const CWD = process.cwd();
-const ENV = ['TEST_TIMEOUT=90000'].join(' ');
 
-const packages = [
-  'root',
-  'babel-plugins',
-  'utils',
-  'schema',
-  'transporter',
-  'mongo',
-  'entity',
-  'accounts',
-  'backland',
-  'helpers', //
-];
+const ConfigSchema = createType('RuneachConfig', {
+  object: {
+    packages: { array: { of: 'string', min: 1 } },
+  },
+} as const);
 
-const LOGS_FILE = path.resolve(CWD, `logs/build-${Date.now()}-${time().replace(/\D/g, '-')}.log`);
-fs.ensureFileSync(LOGS_FILE);
-// const logStream = fs.createWriteStream(LOGS_FILE);
+const config = (() => {
+  const rootJS = path.resolve(CWD, 'packages.js');
+  try {
+    const config = require(rootJS);
+    return ConfigSchema.parse(config);
+  } catch (e: any) {
+    throw new Error(`Failed to load runeach config: ${e.message}`);
+  }
+})();
+
+const { packages } = config;
 
 function time() {
   const date = new Date();
@@ -36,13 +38,8 @@ function log(mode: 'info' | 'error', ...rest) {
 
   if (mode === 'info') {
     process.stdout.write(`${chalk.bgWhite.black(time())} ${text}\n`);
-    // logStream.write(`${time()} ${text}\n`);
   } else {
     process.stderr.write(`${chalk.bgRed.black(time())} ${text}\n`);
-    // logStream.write(`====\n**ERROR**====\n${time()} ${text}\n`);
-    // logStream.close(() => {
-    //   process.exit(2);
-    // });
   }
 }
 
@@ -56,30 +53,48 @@ function errr(_path: string, cmd: string, data: string) {
   log('error', text);
 }
 
-export type Rumm = <
+export type Run = <
   Mode extends 'sync' | 'async',
-  P extends ((json: any) => MaybePromise<string | { command: string; mode?: Mode }>) | string
+  P extends
+    | ((json: any) => _MaybePromise<string | { command: string; mode?: Mode }>)
+    | string
 >(
   run: P
-) => P extends string ? string : Mode extends 'sync' ? Promise<string> : Promise<number | null>;
+) => P extends string
+  ? string
+  : Mode extends 'sync'
+  ? Promise<string>
+  : Promise<number | null>;
 
-export interface RummInstance {
-  list: { json: any; run: Rumm; saveJSON(): void }[];
+export interface RuneachInstance {
+  list: { json: any; run: Run; saveJSON(): void }[];
   map: this['list']['map'];
-  root: Rumm;
 }
 
-export function rumm() {
+export function runeach() {
   const jsons: { path: string; json: any; dir: string }[] = [];
 
   packages.forEach((packageName) => {
-    const dir = packageName === 'root' ? CWD : path.resolve(CWD, 'packages', packageName);
+    const dir =
+      packageName === 'root'
+        ? CWD //
+        : path.resolve(CWD, 'packages', packageName);
+
     const jsonPath = path.resolve(dir, 'package.json');
 
     jsons.push({
       dir,
       path: jsonPath,
-      json: fs.readJSONSync(jsonPath, { encoding: 'utf8' }),
+      json: (() => {
+        try {
+          return fs.readJSONSync(jsonPath, { encoding: 'utf8' });
+        } catch (e) {
+          info(CWD, 'Read root json', 'No root package found.');
+          return {
+            name: 'root',
+          };
+        }
+      })(),
     });
   });
 
@@ -99,7 +114,7 @@ export function rumm() {
             command = `npm run ${command}`;
           }
 
-          const finalCMD = `(cd ${dir} && ${ENV} ${command})`;
+          const finalCMD = `(cd ${dir} && ${command})`;
           const data = spawn.execSync(finalCMD, { encoding: 'utf8' });
           info(packageName, callback, data);
           info(packageName, callback, 'FINISHED');
@@ -121,7 +136,7 @@ export function rumm() {
             command = `npm run ${command}`;
           }
 
-          const finalCMD = `(cd ${dir} && ${ENV} ${command})`;
+          const finalCMD = `(cd ${dir} && ${command})`;
 
           if (mode === 'sync') {
             const data = spawn.execSync(finalCMD, { encoding: 'utf8' });
@@ -169,8 +184,6 @@ export function rumm() {
   });
 
   const [root, ...list_] = list;
-
-  assertEqual(root.json.name, 'root');
 
   return {
     root: root.run,
