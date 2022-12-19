@@ -1,15 +1,14 @@
 import { inspectObject } from './inspectObject';
+import { getStack } from './stackTrace';
 
 export type ErrorClassCreatorOptions = {
   publicName?: string;
-  defaultFramesToPop?: number;
   defaultShouldPublishStack?: false;
   errorGroup?: string;
 };
 
 function defaultOptions(): Required<ErrorClassCreatorOptions> {
   return {
-    defaultFramesToPop: 2,
     defaultShouldPublishStack: false,
     publicName: '',
     errorGroup: 'UNGROUPED',
@@ -27,12 +26,7 @@ export function createErrorClass(
     },
   } = Object;
 
-  let {
-    defaultFramesToPop,
-    defaultShouldPublishStack,
-    publicName,
-    errorGroup,
-  } = {
+  let { defaultShouldPublishStack, publicName, errorGroup } = {
     ...defaultOptions(),
     ...options,
   };
@@ -40,8 +34,6 @@ export function createErrorClass(
   const name = publicName || originalName;
 
   return class InvariantError extends Error {
-    framesToPop: number;
-
     __$name__ = name;
     errorGroup = errorGroup;
 
@@ -53,17 +45,17 @@ export function createErrorClass(
       return item?.$kind === name;
     };
 
+    __originalStack = '';
+
     constructor(
       message = '',
       details?: any,
-      framesToPop = defaultFramesToPop,
       shouldPublishStack = defaultShouldPublishStack
     ) {
       super(message);
 
       this.name = name;
       this.__$name__ = name;
-      this.framesToPop = framesToPop;
 
       const detailsMessage = [originalName, this.stack, details]
         .map((el) => (typeof el !== 'string' ? inspectObject(el) : el))
@@ -78,11 +70,42 @@ export function createErrorClass(
         }
       }
 
+      this.__originalStack = this.stack || '';
       if (!shouldPublishStack) {
         this.stack = '';
       }
 
       setPrototypeOf(this, InvariantError.prototype);
     }
+
+    identify = (name: string) => {
+      this.name = name;
+      this.__$name__ = name;
+      Object.defineProperty(this, 'name', {
+        value: name,
+      });
+    };
+
+    publicErrorMessage: string | undefined = undefined;
+
+    publish = (message?: string) => {
+      this.stack = this.__originalStack;
+      this.publicErrorMessage = message || this.message;
+    };
   };
+}
+
+export const CustomError = createErrorClass('CustomError');
+
+export function customError(options: {
+  message?: string;
+  details?: any;
+  stackFrom?: any;
+}) {
+  const { message, details } = options;
+  const error = new CustomError(message, details);
+  error.stack = getStack(
+    options.stackFrom === undefined ? customError : options.stackFrom
+  );
+  return error;
 }

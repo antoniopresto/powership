@@ -16,6 +16,8 @@ import {
   stringCase,
   ULID_REGEX,
   isPlainObject,
+  FinalObjectDefinition,
+  customError,
 } from 'backland';
 
 const record = create.record({ keyType: 'string', type: 'any' });
@@ -37,9 +39,9 @@ export type JSONToSchemaOptions = Infer<typeof JSONToSchemaOptions>;
 export function jsonToType(
   init: JSONToSchemaOptions
 ): GraphType<{ object: { $string: 'unknown' } }> {
-  const { name, json } = init;
+  const { name } = init;
 
-  const definition = valueToTypeDef(json, init);
+  const definition = valueToTypeDef(init);
   const type = createType(definition);
 
   if (name) {
@@ -53,8 +55,17 @@ export function jsonToSchemaDefinition(options: JSONToSchemaOptions): {
   [K: string]: FinalFieldDefinition;
 } {
   record.parse(options.json, 'jsonToSchema: Invalid input.');
-  // @ts-ignore
-  return valueToTypeDef(options.json, options).object;
+  const res = valueToTypeDef(options);
+
+  if ('object' in res && typeof res.object === 'object') {
+    return res.object as FinalObjectDefinition;
+  }
+
+  throw customError({
+    message: 'Invalid field',
+    details: res,
+    stackFrom: jsonToSchemaDefinition,
+  });
 }
 
 export function isCursorString(value: any): value is string {
@@ -137,7 +148,7 @@ export function valueToTypeDef(
 
       return {
         ...acc,
-        [key]: valueToTypeDef(subValue, options),
+        [key]: valueToTypeDef({ ...options, json: subValue }),
       };
     }, {});
   }
