@@ -6,6 +6,7 @@ import { CommonDefSafe, FieldTypeName } from '../_fieldDefinitions';
 import { _FieldKV, _GetKey, GraphTypeKID, ObjectTypeKID } from './InferField';
 import { GraphTypeLikeFieldDefinition } from './InferGraphType';
 import { ObjectTypeLikeFieldDefinition } from './InferObjectType';
+import { FinalFieldDefinition } from '../_parseFields';
 
 export const $sealedKey = '$sealed';
 export type $sealedKey = typeof $sealedKey;
@@ -44,6 +45,7 @@ export type SealedField<D extends object> = 'type' extends keyof D
   : D;
 
 export type $sealedDef = Compute<
+  // used as a field in schemas to march definition as sealed
   { literal: $sealed; optional: false; list: false } & CommonDefSafe
 >;
 
@@ -53,6 +55,25 @@ export type Seal<T extends object> = Merge<
 > extends infer R
   ? { [K in keyof R]: R[K] } & {}
   : never;
+
+export type DescribeWithoutSeal<T> = Omit<
+  DescribeField<T>,
+  $inferableKey | $sealedKey
+>;
+
+export type DescribeAndOverrideField<T, Override> =
+  DescribeWithoutSeal<T> extends infer R
+    ? R extends FinalFieldDefinition
+      ? SealedField<
+          Merge<
+            {
+              [K in keyof R as K extends keyof Override ? never : K]: R[K];
+            },
+            Override
+          >
+        >
+      : never
+    : never;
 
 export type DescribeObjectDefinition<Input> =
   //

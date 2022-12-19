@@ -1,26 +1,30 @@
+import { CircularDeps } from './CircularDeps';
+
+import { Infer } from './Infer';
+import { createType, GraphType } from './GraphType/GraphType';
+import { ULID_REGEX } from './fields/UlidField';
+
 import {
-  create,
   createObjectType,
-  createType,
-  EmailRegex,
-  entries,
   FieldTypeName,
   FinalFieldDefinition,
+  FinalObjectDefinition,
   FlattenFieldDefinition,
+} from './ObjectType';
+
+import {
+  customError,
+  EmailRegex,
+  entries,
   getTypeName,
-  GraphType,
   IndexCursor,
-  Infer,
   inspectObject,
+  isPlainObject,
   joinPathsCamelCase,
   stringCase,
-  ULID_REGEX,
-  isPlainObject,
-  FinalObjectDefinition,
-  customError,
-} from 'backland';
+} from '@backland/utils';
 
-const record = create.record({ keyType: 'string', type: 'any' });
+const record = CircularDeps.record({ keyType: 'string', type: 'any' });
 
 export const JSONFieldCase = Object.keys(stringCase).concat('camelCase') as (
   | keyof typeof stringCase
@@ -78,7 +82,7 @@ export function isCursorString(value: any): value is string {
   }
 }
 
-const phoneType = create.phone({});
+const phoneType = CircularDeps.phone({});
 
 export const valuesToBacklandTypeRecord: {
   [L in FieldTypeName]: (value: any) => boolean;

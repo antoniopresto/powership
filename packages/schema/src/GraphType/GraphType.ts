@@ -2,6 +2,7 @@ import {
   inspectObject,
   isBrowser,
   RuntimeError,
+  simpleObjectClone,
   StrictMap,
 } from '@backland/utils';
 import type {
@@ -22,7 +23,12 @@ import {
 } from '../ObjectType';
 import type { AnyResolver } from '../Resolver';
 import { FieldDefinitionConfig } from '../TObjectConfig';
-import { extendDefinition, ExtendDefinition } from '../extendDefinition';
+import {
+  extendDefinition,
+  ExtendDefinition,
+  MakeTypeOptional,
+  MakeTypeRequired,
+} from '../extendDefinition';
 import { FieldParserConfig, TAnyFieldType } from '../fields/FieldType';
 import { GraphTypeLike } from '../fields/IObjectLike';
 import { getObjectDefinitionId } from '../fields/MetaFieldField';
@@ -288,6 +294,54 @@ export class GraphType<Definition extends ObjectFieldInput> {
       object,
       options
     ) as any;
+  };
+
+  optional = (
+    name?: string
+  ): Definition extends unknown
+    ? GraphType<MakeTypeOptional<Definition>>
+    : never => {
+    const parsed = simpleObjectClone(parseField(this.definition));
+
+    const fieldName = (() => {
+      if (name) return name;
+      if (this.optionalId) {
+        return `${this.optionalId.replace(/Optional$/, '')}Optional`;
+      }
+      return undefined;
+    })();
+
+    const def = {
+      ...parsed,
+      optional: true,
+    };
+
+    if (fieldName) return createType(fieldName, def) as any;
+    return createType(def) as any;
+  };
+
+  required = (
+    name?: string
+  ): Definition extends unknown
+    ? GraphType<MakeTypeRequired<Definition>>
+    : never => {
+    const parsed = simpleObjectClone(parseField(this.definition));
+
+    const fieldName = (() => {
+      if (name) return name;
+      if (this.optionalId) {
+        return `${this.optionalId.replace(/(Optional|NotNull)$/, '')}NotNull`;
+      }
+      return undefined;
+    })();
+
+    const def = {
+      ...parsed,
+      optional: false,
+    };
+
+    if (fieldName) return createType(fieldName, def) as any;
+    return createType(def) as any;
   };
 
   /**

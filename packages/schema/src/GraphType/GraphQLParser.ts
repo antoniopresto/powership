@@ -493,8 +493,8 @@ export class GraphQLParser {
           });
 
           return new GraphQLEnumType({
-            ...options,
             name: subTypeName,
+            ...options,
             values,
           });
         }

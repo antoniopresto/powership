@@ -11,7 +11,6 @@ import {
 import { parseIndexFieldName } from './parseIndexFieldName';
 import { inspectObject } from '../inspectObject';
 import { nonNullValues } from '../invariant';
-import { FilterRecord } from '@backland/transporter';
 
 export const MIN_DOCUMENT_INDEX_KEY_PARTS = 4;
 export const MIN_FILTER_INDEX_KEY_PARTS = 3;
@@ -185,7 +184,7 @@ export function indexToCursor(
     return SK;
   })();
 
-  const filter: FilterRecord = {
+  const filter: Record<string, any> = {
     [PKFieldName]: PKPart,
   };
 

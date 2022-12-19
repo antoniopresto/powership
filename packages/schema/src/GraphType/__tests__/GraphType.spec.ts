@@ -418,4 +418,34 @@ describe('createType', () => {
       return type.parse({ active: true });
     }).toThrow('➤ field "id": RequiredField.');
   });
+
+  test('to optional', async () => {
+    const type = createType('User', {
+      object: {
+        id: 'ID',
+        active: 'boolean?',
+      },
+    });
+
+    const schem = createType('schem', {
+      object: {
+        user: type.optional(),
+      },
+    });
+
+    const ts = await schem.typescriptPrint();
+    const gql = schem.optional().graphQLInputType();
+
+    expect(ts.split('\n')).toEqual([
+      'export interface Schem {',
+      '  user?: {',
+      '    id: ID;',
+      '    active?: boolean;',
+      '  };',
+      '}',
+      '',
+    ]);
+
+    expect(gql.toString()).toEqual('schemInput');
+  });
 });

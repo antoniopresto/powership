@@ -19,6 +19,7 @@ import {
   parseObjectDefinition,
 } from './ObjectType';
 import {
+  DescribeAndOverrideField,
   DescribeField,
   DescribeObjectDefinition,
   SealedField,
@@ -256,6 +257,16 @@ export type MakeFieldRequired<
   Object extends object,
   OptionalField extends A.Key
 > = OverrideField<Object, OptionalField, { optional: false }>;
+
+export type MakeTypeOptional<Type> = DescribeAndOverrideField<
+  Type,
+  { optional: true }
+>;
+
+export type MakeTypeRequired<Type> = DescribeAndOverrideField<
+  Type,
+  { optional: false }
+>;
 
 export type OverrideField<
   Object extends object,
