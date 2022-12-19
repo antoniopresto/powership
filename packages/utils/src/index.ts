@@ -58,6 +58,7 @@ export * from './createModulesProxy';
 export * from './ufo';
 export * from './createErrorClass';
 export * from './PackageJson';
+export * from './lodash';
 
 // @only-server
 export * from './logLevels';

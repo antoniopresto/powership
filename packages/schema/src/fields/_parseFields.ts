@@ -8,6 +8,7 @@ import {
 } from './Infer/InferObjectType';
 import {
   CommonFieldDefinition,
+  CommonFieldOptions,
   FieldDefinitions,
   FieldTypeName,
 } from './_fieldDefinitions';
@@ -59,7 +60,8 @@ export type FlattenFieldDefinition = {
       ? FieldDefinitions[K] | {}
       : FieldDefinitions[K];
   };
-}[FieldTypeName];
+}[FieldTypeName] &
+  CommonFieldOptions;
 
 export type FieldAsString =
   | FieldTypeName

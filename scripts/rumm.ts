@@ -18,7 +18,8 @@ const packages = [
   'mongo',
   'entity',
   'accounts',
-  'backland', //
+  'backland',
+  'helpers', //
 ];
 
 const LOGS_FILE = path.resolve(CWD, `logs/build-${Date.now()}-${time().replace(/\D/g, '-')}.log`);

@@ -60,8 +60,7 @@ export type CommonDefSafe = {
   name?: string;
 };
 
-export type _CommonFieldDefinition = CommonDefSafe & {
-  // used in generated types,like GraphQL.
+export type CommonFieldOptions = CommonDefSafe & {
   def?: any;
   defaultValue?: any;
   list?: ListDefinition;
@@ -70,7 +69,7 @@ export type _CommonFieldDefinition = CommonDefSafe & {
 
 export type CommonFieldDefinition<T> = {
   type: T;
-} & _CommonFieldDefinition;
+} & CommonFieldOptions;
 
 export const SpecialObjectKeyEnum = tupleEnum(`$string`, `$number`);
 export type SpecialObjectKeys = typeof SpecialObjectKeyEnum.enum;

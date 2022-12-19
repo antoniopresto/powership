@@ -25,4 +25,7 @@ export const stringCase = {
   },
   undefined: (s: string) => stringCase.random(s),
   slugify: (s: string) => slugify(s),
+  camelCase,
 };
+
+export { camelCase };
