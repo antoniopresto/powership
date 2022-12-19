@@ -3,14 +3,13 @@ import {
   encodeNumber,
   getByPath,
   getKeys,
-  inspectObject,
+  inspectObject, parseIndexFieldName,
 } from '@backland/utils';
 import {
   IndexKeyHash,
   IndexPartKind,
   ParsedIndexPart,
 } from './CollectionIndex';
-import { parseIndexFieldName } from './parseIndexFieldName';
 
 export function pickIndexKeyPartsFromDocument(param: {
   acceptNullable: boolean;

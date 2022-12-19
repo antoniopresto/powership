@@ -59,7 +59,9 @@ export type Seal<T extends object> = Merge<
 export type DescribeWithoutSeal<T> = Omit<
   DescribeField<T>,
   $inferableKey | $sealedKey
->;
+> extends infer R
+  ? { [K in keyof R]: R[K] } & {}
+  : never;
 
 export type DescribeAndOverrideField<T, Override> =
   DescribeWithoutSeal<T> extends infer R

@@ -5,6 +5,7 @@ import chalk from 'chalk';
 import fs from 'fs-extra';
 import * as process from 'process';
 import { createType } from '@backland/schema';
+import { getStack } from '@backland/utils/lib/stackTrace';
 
 export type _MaybePromise<T> = T | Promise<T>;
 
@@ -16,13 +17,15 @@ const ConfigSchema = createType('RuneachConfig', {
   },
 } as const);
 
-const config = (() => {
+const config = (function getConfig() {
   const rootJS = path.resolve(CWD, 'packages.js');
   try {
     const config = require(rootJS);
     return ConfigSchema.parse(config);
   } catch (e: any) {
-    throw new Error(`Failed to load runeach config: ${e.message}`);
+    const error = Error(`Failed to load runeach config: ${e.message}`);
+    error.stack = getStack(getConfig);
+    throw error;
   }
 })();
 

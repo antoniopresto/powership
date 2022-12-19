@@ -19,7 +19,6 @@ import {
   parseObjectDefinition,
 } from './ObjectType';
 import {
-  DescribeAndOverrideField,
   DescribeField,
   DescribeObjectDefinition,
   SealedField,
@@ -27,18 +26,18 @@ import {
 import { objectMetaFieldKey } from './fields/MetaFieldField';
 import { ObjectDefinitionInput } from './fields/_parseFields';
 
-export interface ExtendDefinition<Input, Origin> {
+export interface ExtendObjectDefinition<Input, Origin> {
   definition: InnerDef<Input>;
 
   def(): this['definition'];
 
   exclude<K extends keyof this['definition']>(
     keys: K | K[]
-  ): ExtendDefinition<{ object: Omit<InnerDef<Input>, K> }, Origin>;
+  ): ExtendObjectDefinition<{ object: Omit<InnerDef<Input>, K> }, Origin>;
 
-  extendDefinition<V extends ObjectDefinitionInput>(
+  extendObjectDefinition<V extends ObjectDefinitionInput>(
     value: V | ((current: this['definition']) => V)
-  ): ExtendDefinition<
+  ): ExtendObjectDefinition<
     { object: Merge<InnerDef<Input>, DescribeObjectDefinition<V>> },
     Origin
   >;
@@ -49,36 +48,36 @@ export interface ExtendDefinition<Input, Origin> {
 
   only<K extends keyof this['definition']>(
     keys: K | K[]
-  ): ExtendDefinition<{ object: O.Pick<InnerDef<Input>, K> }, Origin>;
+  ): ExtendObjectDefinition<{ object: O.Pick<InnerDef<Input>, K> }, Origin>;
 
-  optional(): ExtendDefinition<
+  optional(): ExtendObjectDefinition<
     { object: MakeFieldOptional<InnerDef<Input>, keyof InnerDef<Input>> },
     Origin
   >;
 
   optional<Op extends keyof InnerDef<Input>>(
     keys: Op | Op[]
-  ): ExtendDefinition<
+  ): ExtendObjectDefinition<
     { object: MakeFieldOptional<InnerDef<Input>, Op> },
     Origin
   >;
 
-  required(): ExtendDefinition<
+  required(): ExtendObjectDefinition<
     { object: MakeFieldRequired<InnerDef<Input>, keyof InnerDef<Input>> },
     Origin
   >;
 
   required<Op extends keyof InnerDef<Input>>(
     keys: Op | Op[]
-  ): ExtendDefinition<
+  ): ExtendObjectDefinition<
     { object: MakeFieldRequired<InnerDef<Input>, Op> },
     Origin
   >;
 }
 
-export function extendDefinition<Input>(
+export function extendObjectDefinition<Input>(
   input: Input
-): ExtendDefinition<Input, Input> {
+): ExtendObjectDefinition<Input, Input> {
   if (!input || typeof input !== 'object') {
     throw new RuntimeError(
       `Expected typeof input to be "object", found ${getTypeName(input)}`,
@@ -88,7 +87,7 @@ export function extendDefinition<Input>(
 
   let obj: Record<string, any> = input;
 
-  type R = ExtendDefinition<Input, Input>;
+  type R = ExtendObjectDefinition<Input, Input>;
 
   if (
     typeof obj === 'object' &&
@@ -96,21 +95,21 @@ export function extendDefinition<Input>(
     obj.def &&
     typeof obj.def === 'object'
   ) {
-    return extendDefinition(obj.def) as unknown as R;
+    return extendObjectDefinition(obj.def) as unknown as R;
   }
 
   if (obj['object'] && typeof obj['object'] === 'object') {
-    return extendDefinition(obj.object) as unknown as R;
+    return extendObjectDefinition(obj.object) as unknown as R;
   }
 
   if (CircularDeps.GraphType.is(obj)) {
     // @ts-ignore
-    return extendDefinition(obj.definition) as unknown as R;
+    return extendObjectDefinition(obj.definition) as unknown as R;
   }
 
   if (CircularDeps.ObjectType.is(obj)) {
     // @ts-ignore
-    return extendDefinition(obj.definition) as unknown as R;
+    return extendObjectDefinition(obj.definition) as unknown as R;
   }
 
   let clone: any = deleteCachedFieldInstance(
@@ -136,17 +135,17 @@ export function extendDefinition<Input>(
         delete clone[key];
       });
       // @ts-ignore
-      return extendDefinition(clone);
+      return extendObjectDefinition(clone);
     },
 
-    extendDefinition(arg) {
+    extendObjectDefinition(arg) {
       const ext = typeof arg === 'function' ? arg(res.def()) : arg;
       assertEqual(getTypeName(ext), 'Object');
       clone = Object.assign(
         clone,
         parseObjectDefinition(ext, { omitMeta: true }).definition
       );
-      return extendDefinition(clone);
+      return extendObjectDefinition(clone);
     },
 
     graphType(name) {
@@ -168,7 +167,7 @@ export function extendDefinition<Input>(
           delete clone[key];
         }
       });
-      return extendDefinition(clone);
+      return extendObjectDefinition(clone);
     },
 
     optional(keys = Object.keys(clone)) {
@@ -191,7 +190,7 @@ export function extendDefinition<Input>(
         };
       });
 
-      return extendDefinition(clone);
+      return extendObjectDefinition(clone);
     },
 
     required(keys?: unknown) {
@@ -214,14 +213,12 @@ export function extendDefinition<Input>(
         };
       });
 
-      return extendDefinition(clone);
+      return extendObjectDefinition(clone);
     },
   };
 
   return res as any;
 }
-
-export const extend = extendDefinition;
 
 export type InnerDef<Input> =
   //
@@ -257,16 +254,6 @@ export type MakeFieldRequired<
   Object extends object,
   OptionalField extends A.Key
 > = OverrideField<Object, OptionalField, { optional: false }>;
-
-export type MakeTypeOptional<Type> = DescribeAndOverrideField<
-  Type,
-  { optional: true }
->;
-
-export type MakeTypeRequired<Type> = DescribeAndOverrideField<
-  Type,
-  { optional: false }
->;
 
 export type OverrideField<
   Object extends object,

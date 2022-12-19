@@ -2,10 +2,11 @@
  * Validates an object for keys with null or undefined values
  * @param object
  */
-import { createErrorClass } from './createErrorClass';
+import { createErrorClass, customError } from './createErrorClass';
 import { ensureArray } from './ensureArray';
 import { getTypeName } from './getTypeName';
 import { inspectObject } from './inspectObject';
+import { getStack } from './stackTrace';
 
 function join(...parts: any[]) {
   return (
@@ -21,13 +22,14 @@ export function nonNullValues<T>(
   customMessage = ''
 ): T {
   if (!object || typeof object !== 'object') {
-    throw new ErrorPop(
-      join(
+    throw customError({
+      message: join(
         customMessage,
         `${object} is not a valid object`,
         inspectObject(object)
-      )
-    );
+      ),
+      stackFrom: nonNullValues,
+    }).identify('NonNullValues');
   }
 
   const errors: string[] = [];
@@ -41,9 +43,10 @@ export function nonNullValues<T>(
   });
 
   if (errors.length) {
-    throw new ErrorPop(
-      join(customMessage, errors.join('\n'), inspectObject(object))
-    );
+    throw customError({
+      message: join(customMessage, errors.join('\n'), inspectObject(object)),
+      stackFrom: nonNullValues,
+    });
   }
 
   return object as T;
@@ -58,13 +61,25 @@ export function notNull<T>(
       input
     )}.`;
 
-    throw new ErrorPop(join(appendErrorMessage, message));
+    throw customError({
+      message: join(appendErrorMessage, message),
+      stackFrom: notNull,
+    });
   }
 
   return input;
 }
 
 export const InvariantError = createErrorClass('Invariant');
+
+export function wrapError<T>(callback: () => T, parent?: any): T {
+  try {
+    return callback();
+  } catch (e: any) {
+    e.stack = getStack(parent || wrapError);
+    throw e;
+  }
+}
 
 export function invariant(
   truthy: any,
@@ -88,8 +103,7 @@ export function invariantType(
   object: object,
   type: string | string[],
   extraInfo?: any,
-  depth = 2,
-  skipLines = 3
+  depth = 2
 ): boolean {
   const typeArr = ensureArray(type).map((el) => el.toLowerCase());
 
@@ -99,23 +113,15 @@ export function invariantType(
     const invalidNull = value === null && !typeArr.includes('null');
 
     if (invalidNull || !validType) {
-      throw new ErrorPop(
-        `Expected "${key}", to be of type "${type}", found ${foundType} ${value} ${inspectObject(
+      throw customError({
+        message: `Expected "${key}", to be of type "${type}", found ${foundType} ${value} ${inspectObject(
           extraInfo,
           { depth }
         )}`,
-        skipLines
-      );
+        stackFrom: invariantType,
+      });
     }
   });
 
   return true;
-}
-
-export class ErrorPop extends Error {
-  framesToPop = 2;
-  constructor(message: string, framesToPop = 2) {
-    super(message);
-    this.framesToPop = framesToPop;
-  }
 }

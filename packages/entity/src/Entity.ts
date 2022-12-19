@@ -1,7 +1,7 @@
 import {
   CircularDeps,
   createType,
-  extendDefinition,
+  extendObjectDefinition,
   FinalFieldDefinition,
   FinalObjectDefinition,
   GraphType,
@@ -205,7 +205,7 @@ export function createEntity(
             // @ts-ignore
             return createEntity(() => {
               const newType = handler(
-                extendDefinition(entityOptions.type),
+                extendObjectDefinition(entityOptions.type),
                 entityOptions
               );
 
@@ -238,7 +238,7 @@ export function createEntity(
         if (k === 'extend') {
           return function extend(cb) {
             entityMutations.push((entity) => {
-              const ext_utils = { extend: extendDefinition };
+              const ext_utils = { extend: extendObjectDefinition };
               const partial = cb(entity, ext_utils);
               if (!partial || typeof partial !== 'object') return entity;
               return { ...entity, ...partial };
@@ -382,7 +382,7 @@ export function createEntity(
 
     const inputType = entityOptions.type.clone((t) =>
       t
-        .extendDefinition({
+        .extendObjectDefinition({
           ...inputDef,
         })
         .graphType(`${entityName}Input`)
@@ -496,11 +496,11 @@ export function createEntity(
           ].__lazyGetter.objectType!.clone((el) =>
             el
               .optional()
-              .extendDefinition({ id: { optional: true, type: 'ID' } })
+              .extendObjectDefinition({ id: { optional: true, type: 'ID' } })
           );
         }
 
-        const ext = extendDefinition({
+        const ext = extendObjectDefinition({
           object: {
             id: { optional: true, type: 'ID' },
           },
@@ -519,7 +519,7 @@ export function createEntity(
           });
         });
 
-        return ext.extendDefinition(all);
+        return ext.extendObjectDefinition(all);
       })();
 
       function getPaginationType() {
@@ -666,14 +666,14 @@ export function createEntity(
       inputDef: {
         get() {
           return (_inputExt =
-            _inputExt || extendDefinition({ object: inputDef }));
+            _inputExt || extendObjectDefinition({ object: inputDef }));
         },
       },
 
       updateDef: {
         get() {
           return (_updateExt =
-            _updateExt || extendDefinition({ object: updateDefinition }));
+            _updateExt || extendObjectDefinition({ object: updateDefinition }));
         },
       },
     });

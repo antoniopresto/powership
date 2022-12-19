@@ -1,6 +1,6 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
-describe('extendDefinition', () => {
+describe('extendObjectDefinition', () => {
   // afterEach();
 
   test('works', async () => {
@@ -12,10 +12,10 @@ describe('extendDefinition', () => {
 //
 // import { createType } from '../GraphType/GraphType';
 // import { ObjectType } from '../ObjectType';
-// import {extendDefinition, InnerDef} from '../extendDefinition';
+// import {extendObjectDefinition, InnerDef} from '../extendObjectDefinition';
 // import {DescribeField} from "./Infer";
 //
-// describe('extendDefinition', () => {
+// describe('extendObjectDefinition', () => {
 //   afterEach(ObjectType.reset);
 //
 //   test('value', async () => {
@@ -26,7 +26,7 @@ describe('extendDefinition', () => {
 //       },
 //     });
 //
-//     const res = extendDefinition(type).def();
+//     const res = extendObjectDefinition(type).def();
 //     assert<IsExact<typeof res.age.type, 'int'>>(true);
 //     assert<IsExact<typeof res.name.type, 'string'>>(true);
 //
@@ -48,8 +48,8 @@ describe('extendDefinition', () => {
 //       },
 //     });
 //
-//     extendDefinition(type).only('name').def();
-//     const res = extendDefinition(type).only(['name']).def();
+//     extendObjectDefinition(type).only('name').def();
+//     const res = extendObjectDefinition(type).only(['name']).def();
 //
 //     // @ts-expect-error
 //     res.age?.type;
@@ -71,8 +71,8 @@ describe('extendDefinition', () => {
 //       },
 //     });
 //
-//     extendDefinition(type).exclude('name').def();
-//     const res = extendDefinition(type).exclude(['name']).def();
+//     extendObjectDefinition(type).exclude('name').def();
+//     const res = extendObjectDefinition(type).exclude(['name']).def();
 //
 //     // @ts-expect-error
 //     res.name?.type;
@@ -94,8 +94,8 @@ describe('extendDefinition', () => {
 //       },
 //     });
 //
-//     const res = extendDefinition(type).optional(['name']).def();
-//     extendDefinition(type).optional('name').def();
+//     const res = extendObjectDefinition(type).optional(['name']).def();
+//     extendObjectDefinition(type).optional('name').def();
 //
 //     assert<IsExact<typeof res.age.type, 'int'>>(true);
 //     assert<IsExact<typeof res.name.optional, true>>(true);
@@ -119,8 +119,8 @@ describe('extendDefinition', () => {
 //       },
 //     });
 //
-//     const res = extendDefinition(type)
-//       .extendDefinition({ a: '[string]' })
+//     const res = extendObjectDefinition(type)
+//       .extendObjectDefinition({ a: '[string]' })
 //       .def();
 //
 //     assert<IsExact<typeof res.a.type, 'string'>>(true);
@@ -153,9 +153,9 @@ describe('extendDefinition', () => {
 //       },
 //     });
 //
-//     const res = extendDefinition(type)
+//     const res = extendObjectDefinition(type)
 //       .only('name')
-//       .extendDefinition({ a: '[string]', x: '[int]?' })
+//       .extendObjectDefinition({ a: '[string]', x: '[int]?' })
 //       .exclude('x')
 //       .optional('a')
 //       .required('name')
@@ -196,9 +196,9 @@ describe('extendDefinition', () => {
 //     const t1 = createType('bar', t2);
 //     const type = createType('fooo', t1);
 //
-//     const res = extendDefinition(type)
+//     const res = extendObjectDefinition(type)
 //       .only('name')
-//       .extendDefinition({ a: '[string]', x: '[int]?' })
+//       .extendObjectDefinition({ a: '[string]', x: '[int]?' })
 //       .exclude('x')
 //       .optional('a')
 //       .required('name')

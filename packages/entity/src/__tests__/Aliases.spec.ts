@@ -293,7 +293,7 @@ type AccessType = Infer<typeof AccessTypeSchema>;
 
 const UserType = AccountType.clone((t) =>
   t
-    .extendDefinition({
+    .extendObjectDefinition({
       firstName: 'string',
       lastName: 'string',
       access: { array: { of: AccessTypeSchema } },

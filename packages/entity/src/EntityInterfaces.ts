@@ -1,7 +1,7 @@
 import {
   DescribeField,
   DescribeObjectDefinition,
-  ExtendDefinition,
+  ExtendObjectDefinition,
   GraphType,
   Infer,
   MakeFieldOptional,
@@ -85,7 +85,7 @@ export type EntityUtils<
   > = GetLoaderFilterDef<LoaderConfig, OutputDefinition>
 > = {
   indexInfo: [ParsedIndexKey, ...ParsedIndexKey[]];
-  filterDef: ExtendDefinition<{ object: FilterDef }, { object: FilterDef }>;
+  filterDef: ExtendObjectDefinition<{ object: FilterDef }, { object: FilterDef }>;
   queryArgs: {
     after: 'ID?';
     condition: {
@@ -128,8 +128,8 @@ export interface Entity<
 > {
   name: string;
   usedOptions: EntityOptions<Input, Indexes>;
-  inputDef: ExtendDefinition<{ object: Input }, { object: Input }>;
-  updateDef: ExtendDefinition<
+  inputDef: ExtendObjectDefinition<{ object: Input }, { object: Input }>;
+  updateDef: ExtendObjectDefinition<
     { object: AllOptional<Input> },
     { object: AllOptional<Input> }
   >;
@@ -201,7 +201,7 @@ export interface Entity<
 
   extendType: <T extends _EntityGraphType>(
     handler: (
-      helper: ExtendDefinition<this['inputType'], this['inputType']>,
+      helper: ExtendObjectDefinition<this['inputType'], this['inputType']>,
       originalOptions: this['usedOptions']
     ) => T
   ) => Entity<
@@ -260,7 +260,7 @@ export interface Entity<
     transformer: (
       current: ExcludeExtend<this>,
       utils: {
-        extend: <V>(value: V) => ExtendDefinition<V, V>;
+        extend: <V>(value: V) => ExtendObjectDefinition<V, V>;
       }
     ) => TransformerReturn
   ) => this extends infer Origin

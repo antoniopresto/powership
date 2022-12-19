@@ -240,7 +240,7 @@ describe('Schema clone, etc', () => {
       console.log(oldDef, el);
       return el
         .exclude('name')
-        .extendDefinition((current) => {
+        .extendObjectDefinition((current) => {
           return {
             age: {
               ...current.age,
@@ -360,7 +360,7 @@ describe('Schema clone, etc', () => {
       el
         .only(['name', 'email'])
         .exclude('email')
-        .extendDefinition((v) => {
+        .extendObjectDefinition((v) => {
           return {
             ...v,
             emails: '[email]',
@@ -500,7 +500,7 @@ describe('Schema clone, etc', () => {
 
     const withEmail = object1.clone((el) =>
       el
-        .extendDefinition({
+        .extendObjectDefinition({
           email: 'email',
         })
         .objectType()

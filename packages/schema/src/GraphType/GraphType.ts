@@ -2,7 +2,6 @@ import {
   inspectObject,
   isBrowser,
   RuntimeError,
-  simpleObjectClone,
   StrictMap,
 } from '@backland/utils';
 import type {
@@ -24,11 +23,9 @@ import {
 import type { AnyResolver } from '../Resolver';
 import { FieldDefinitionConfig } from '../TObjectConfig';
 import {
-  extendDefinition,
-  ExtendDefinition,
-  MakeTypeOptional,
-  MakeTypeRequired,
-} from '../extendDefinition';
+  extendObjectDefinition,
+  ExtendObjectDefinition,
+} from '../extendObjectDefinition';
 import { FieldParserConfig, TAnyFieldType } from '../fields/FieldType';
 import { GraphTypeLike } from '../fields/IObjectLike';
 import { getObjectDefinitionId } from '../fields/MetaFieldField';
@@ -38,6 +35,7 @@ import type { ObjectToTypescriptOptions } from '../objectToTypescript';
 import { parseObjectField } from '../parseObjectDefinition';
 
 import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
+import { extendType, ExtendType } from '../extendType';
 
 export class GraphType<Definition extends ObjectFieldInput> {
   static __isGraphType = true;
@@ -214,9 +212,14 @@ export class GraphType<Definition extends ObjectFieldInput> {
     }).interfaceType(...args) as any;
   };
 
-  clone<T>(handler: (input: ExtendDefinition<this, this>) => T): T {
+  clone<T>(handler: (input: ExtendObjectDefinition<this, this>) => T): T {
     const parsed = parseField(this.definition);
-    const input: any = extendDefinition(parsed);
+    const input: any = extendObjectDefinition(parsed);
+    return handler(input);
+  }
+
+  override<T>(handler: (input: ExtendType<this>) => T): T {
+    const input = extendType(this.definition) as any;
     return handler(input);
   }
 
@@ -225,7 +228,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   ) => LazyParseGraphTypePayload)[] = [];
 
   mutateFields<Def extends ObjectDefinitionInput>(
-    callback: (input: ExtendDefinition<this, this>) => Def
+    callback: (input: ExtendObjectDefinition<this, this>) => Def
   ): GraphType<{ object: Def }> {
     if (this.touched) {
       throw new Error(
@@ -245,7 +248,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
       }
 
       try {
-        const input: any = extendDefinition(payload.definition);
+        const input: any = extendObjectDefinition(payload.definition);
         payload.definition.def = callback(input);
         payload.objectType = createObjectType({
           [this.id]: this.definition,
@@ -294,54 +297,6 @@ export class GraphType<Definition extends ObjectFieldInput> {
       object,
       options
     ) as any;
-  };
-
-  optional = (
-    name?: string
-  ): Definition extends unknown
-    ? GraphType<MakeTypeOptional<Definition>>
-    : never => {
-    const parsed = simpleObjectClone(parseField(this.definition));
-
-    const fieldName = (() => {
-      if (name) return name;
-      if (this.optionalId) {
-        return `${this.optionalId.replace(/Optional$/, '')}Optional`;
-      }
-      return undefined;
-    })();
-
-    const def = {
-      ...parsed,
-      optional: true,
-    };
-
-    if (fieldName) return createType(fieldName, def) as any;
-    return createType(def) as any;
-  };
-
-  required = (
-    name?: string
-  ): Definition extends unknown
-    ? GraphType<MakeTypeRequired<Definition>>
-    : never => {
-    const parsed = simpleObjectClone(parseField(this.definition));
-
-    const fieldName = (() => {
-      if (name) return name;
-      if (this.optionalId) {
-        return `${this.optionalId.replace(/(Optional|NotNull)$/, '')}NotNull`;
-      }
-      return undefined;
-    })();
-
-    const def = {
-      ...parsed,
-      optional: false,
-    };
-
-    if (fieldName) return createType(fieldName, def) as any;
-    return createType(def) as any;
   };
 
   /**

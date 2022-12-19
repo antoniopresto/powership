@@ -5,6 +5,7 @@ import {
   keyBy,
   mountGraphID,
   ParsedIndexCursor,
+  parseIndexFieldName,
 } from '@backland/utils';
 
 import { CollectionErrors } from './CollectionErrors';
@@ -14,7 +15,6 @@ import {
   FilterRecord,
   OneFilterOperation,
 } from './Transporter';
-import { parseIndexFieldName } from './parseIndexFieldName';
 
 export type IndexFilterFound =
   | { _id?: string } & { [L in `${string}PK`]: string } & {

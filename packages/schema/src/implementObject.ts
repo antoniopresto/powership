@@ -49,7 +49,7 @@ export function implementObject<
     }
 
     // @ts-ignore
-    def = parent.clone((el) => el.extendDefinition(def).def());
+    def = parent.clone((el) => el.extendObjectDefinition(def).def());
 
     tree.push(parent.nonNullId);
   });

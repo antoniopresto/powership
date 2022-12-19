@@ -1,5 +1,5 @@
-import { parseIndexFieldName } from '../parseIndexFieldName';
 import { getDocumentIndexFields } from '../getDocumentIndexFields';
+import { parseIndexFieldName } from '@backland/utils';
 
 describe('getDocumentIndexFields', () => {
   it('should mount PK', async () => {

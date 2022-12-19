@@ -12,7 +12,8 @@ export * from './mockObject';
 export * from './fields/FieldType';
 export * from './fields/fieldTypes';
 export * from './fields/FieldTypeErrors';
-export * from './extendDefinition';
+export * from './extendObjectDefinition';
+export * from './extendType';
 export * from './isHiddenFieldName';
 
 // @only-server

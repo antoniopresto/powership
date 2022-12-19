@@ -104,7 +104,7 @@ describe('GraphQLParser', () => {
 
     const object2 = object1.clone((el) =>
       el
-        .extendDefinition({
+        .extendObjectDefinition({
           persons: {
             type: object1,
             list: true,

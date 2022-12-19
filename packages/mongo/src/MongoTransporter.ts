@@ -15,7 +15,6 @@ import {
   getDocumentIndexFields,
   mergeIndexRelationsResult,
   PaginationResult,
-  parseIndexFieldName,
   parseUpdateExpression,
   Transporter,
   UpdateManyConfig,
@@ -28,6 +27,7 @@ import {
   LoggerOptions,
   NodeLogger,
   nonNullValues,
+  parseIndexFieldName,
 } from '@backland/utils';
 import { Filter } from 'mongodb';
 

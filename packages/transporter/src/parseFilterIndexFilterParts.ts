@@ -8,8 +8,8 @@ import {
   ParsedIndexCursor,
   parseFilterCursor,
   parseIndexCursor,
+  parseIndexFieldName,
 } from '@backland/utils';
-import { parseIndexFieldName } from './parseIndexFieldName';
 import {
   AnyCollectionIndexConfig,
   DocumentIndexItem,

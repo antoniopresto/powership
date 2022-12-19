@@ -64,7 +64,7 @@ describe('createType', () => {
 
     const monkey = Urso.clone((t) =>
       t
-        .extendDefinition({
+        .extendObjectDefinition({
           jumps: 'boolean',
         })
         .graphType('monkey')
@@ -429,12 +429,15 @@ describe('createType', () => {
 
     const schem = createType('schem', {
       object: {
-        user: type.optional(),
+        user: type.override((el) => el.optional().graphType('UserInput')),
       },
     });
 
     const ts = await schem.typescriptPrint();
-    const gql = schem.optional().graphQLInputType();
+
+    const gql = schem
+      .override((it) => it.optional().graphType('SchemInput'))
+      .graphQLInputType();
 
     expect(ts.split('\n')).toEqual([
       'export interface Schem {',

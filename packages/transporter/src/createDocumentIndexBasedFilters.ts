@@ -1,7 +1,10 @@
 import { IndexFilterRecord } from './Transporter';
-import { nonNullValues, RELATION_PRECEDES } from '@backland/utils';
+import {
+  nonNullValues,
+  parseIndexFieldName,
+  RELATION_PRECEDES,
+} from '@backland/utils';
 import { parseFilterIndexFilterParts } from './parseFilterIndexFilterParts';
-import { parseIndexFieldName } from './parseIndexFieldName';
 import { getDocumentIndexFields } from './getDocumentIndexFields';
 import {
   AnyCollectionIndexConfig,

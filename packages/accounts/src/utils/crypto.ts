@@ -1,11 +1,12 @@
 import { randomBytes } from 'crypto';
 
 import { createType, Infer } from '@backland/schema';
-import { ParsedIndexCursor, parseFilterCursor } from '@backland/transporter';
 import {
   base64ToText,
   BJSON,
   hashString,
+  ParsedIndexCursor,
+  parseFilterCursor,
   StringValue,
   textToBase64,
 } from '@backland/utils';

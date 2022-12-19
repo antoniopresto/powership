@@ -21,7 +21,7 @@ import {
   parseValidationError,
   ValidationCustomMessage,
 } from './applyValidator';
-import { extendDefinition, ExtendDefinition } from './extendDefinition';
+import { extendObjectDefinition, ExtendObjectDefinition } from './extendObjectDefinition';
 import { FieldComposer } from './fields/FieldType';
 import { ObjectLike } from './fields/IObjectLike';
 import { InferObjectDefinition } from './fields/Infer';
@@ -123,11 +123,11 @@ export class ObjectType<
     return cleanMetaField(this.clone((el) => el.def()));
   }
 
-  edit(): ExtendDefinition<
+  edit(): ExtendObjectDefinition<
     { type: 'object'; def: HandledInput },
     { type: 'object'; def: HandledInput }
   > {
-    return extendDefinition(this) as any;
+    return extendObjectDefinition(this) as any;
   }
 
   get meta(): MetaFieldDef {
@@ -432,14 +432,14 @@ export class ObjectType<
 
   clone<T>(
     handler: (
-      input: ExtendDefinition<
+      input: ExtendObjectDefinition<
         { object: HandledInput },
         { object: HandledInput }
       >
     ) => T
   ): T {
     const parsed = parseField(this);
-    const input: any = extendDefinition(parsed);
+    const input: any = extendObjectDefinition(parsed);
     return handler(input);
   }
 

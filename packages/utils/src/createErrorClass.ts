@@ -84,6 +84,7 @@ export function createErrorClass(
       Object.defineProperty(this, 'name', {
         value: name,
       });
+      return this;
     };
 
     publicErrorMessage: string | undefined = undefined;
@@ -91,6 +92,7 @@ export function createErrorClass(
     publish = (message?: string) => {
       this.stack = this.__originalStack;
       this.publicErrorMessage = message || this.message;
+      return this;
     };
   };
 }
