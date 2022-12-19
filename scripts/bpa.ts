@@ -27,7 +27,7 @@ map(({ saveJSON, json, run }) => {
 
   saveJSON();
 
-  run('npm publish --tag=next');
+  run('npm publish --tag=next --access public');
 });
 
 root(`git add -A && git commit -m "alpha version ${version}" && git push -f`);
