@@ -1,5 +1,5 @@
 import { createDocumentIndexBasedFilters } from '../createDocumentIndexBasedFilters';
-import { escapeCursorChars, joinPKSK } from '../IndexCursor/joinIndexCursor';
+import { escapeCursorChars, joinPKSK } from '@backland/utils';
 
 describe('getDocumentIndexFields', () => {
   describe('relatedTo', () => {

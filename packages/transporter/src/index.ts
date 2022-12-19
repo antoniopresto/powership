@@ -5,7 +5,6 @@ export * from './parseUpdateExpression';
 export * from './CollectionErrors';
 export * from './mergeIndexRelationsResult';
 export * from './IndexMethods';
-export * from './IndexCursor';
 export * from './parseIndexFieldName';
 
 export * from './getDocumentIndexFields';

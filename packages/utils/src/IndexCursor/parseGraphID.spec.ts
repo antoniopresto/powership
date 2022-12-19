@@ -1,6 +1,6 @@
 import { joinIndexCursor } from './joinIndexCursor';
 import { parseIndexCursor } from './parseIndexCursor';
-import { parseFilterCursor } from '../CollectionIndex';
+import {parseFilterCursor} from "@backland/transporter";
 
 describe('parseCursorString', () => {
   // afterEach();

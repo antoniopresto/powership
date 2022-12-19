@@ -1,13 +1,15 @@
-import { NodeLogger } from '@backland/utils';
+import {
+  NodeLogger,
+  ParsedIndexCursor,
+  parseFilterCursor,
+} from '@backland/utils';
 
 import {
   AnyCollectionIndexConfig,
   DocumentIndexItem,
   parseCollectionIndexConfig,
-  parseFilterCursor,
 } from './CollectionIndex';
 import { DocumentBase } from './Transporter';
-import { ParsedIndexCursor } from './IndexCursor';
 
 export function mergeIndexRelationsResult(input: {
   items: DocumentBase[];

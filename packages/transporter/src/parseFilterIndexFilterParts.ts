@@ -1,20 +1,21 @@
-import { ParsedIndexCursor } from './IndexCursor';
 import { FilterRecord, IndexFilter, IndexFilterRecord } from './Transporter';
 import { pickIndexKeyPartsFromDocument } from './pickIndexKeyPartsFromDocument';
-import { devAssert, inspectObject } from '@backland/utils';
+import {
+  devAssert,
+  inspectObject,
+  joinCursorPartsWithTrailingSeparator,
+  joinKeyParts,
+  ParsedIndexCursor,
+  parseFilterCursor,
+  parseIndexCursor,
+} from '@backland/utils';
 import { parseIndexFieldName } from './parseIndexFieldName';
 import {
   AnyCollectionIndexConfig,
   DocumentIndexItem,
   ParsedIndexPart,
-  parseFilterCursor,
 } from './CollectionIndex';
 import { encodeIndexValue } from './encodeIndexValue';
-import {
-  joinCursorPartsWithTrailingSeparator,
-  joinKeyParts,
-} from './IndexCursor/joinIndexCursor';
-import { parseIndexCursor } from './IndexCursor/parseIndexCursor';
 
 export type ParsedIndexFilterPart = {
   entity: string;

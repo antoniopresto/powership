@@ -10,6 +10,7 @@ import { parseIndexCursor } from './parseIndexCursor';
 
 export type { InitIndexCursor, ParsedIndexCursor } from './joinIndexCursor';
 
+
 export const IndexCursor = {
   join: joinIndexCursor,
   joinCursorPartsWithTrailingSeparator,

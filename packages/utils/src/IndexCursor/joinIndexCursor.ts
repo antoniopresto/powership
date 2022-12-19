@@ -1,5 +1,5 @@
-import { devAssert, nonNullValues } from '@backland/utils';
-import { FilterRecord } from '../Transporter';
+import { nonNullValues } from '../invariant';
+import { devAssert } from '../devAssert';
 
 export interface InitIndexCursor {
   PK: string[];
@@ -27,7 +27,7 @@ export interface ParsedIndexCursor {
   PKPart: string;
   PKFieldName: string;
   SKFieldName: string;
-  filter: FilterRecord;
+  filter: Record<string, any>;
   SKPart: string | null | undefined;
 }
 

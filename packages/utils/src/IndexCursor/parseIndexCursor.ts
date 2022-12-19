@@ -1,5 +1,3 @@
-import { inspectObject, nonNullValues } from '@backland/utils';
-
 import {
   INDEX_PART_SEP,
   InitIndexCursor,
@@ -10,8 +8,10 @@ import {
   RELATION_PRECEDES,
   splitCursorParts,
 } from './joinIndexCursor';
-import { parseIndexFieldName } from '../parseIndexFieldName';
-import { FilterRecord } from '../Transporter';
+import { parseIndexFieldName } from './parseIndexFieldName';
+import { inspectObject } from '../inspectObject';
+import { nonNullValues } from '../invariant';
+import { FilterRecord } from '@backland/transporter';
 
 export const MIN_DOCUMENT_INDEX_KEY_PARTS = 4;
 export const MIN_FILTER_INDEX_KEY_PARTS = 3;
