@@ -27,7 +27,7 @@ export interface ExtendType<Input> {
   ): ExtendType<Omit<this['definition'], keyof V> & V>;
 
   graphType(
-    name: string
+    name?: string
   ): GraphType<Cast<this['definition'], FinalFieldDefinition>>;
 
   objectType(
@@ -42,6 +42,10 @@ export interface ExtendType<Input> {
   optional(): ExtendType<MakeTypeOptional<this['definition']>>;
 
   required(): ExtendType<MakeTypeRequired<this['definition']>>;
+
+  list(): ExtendType<MakeTypeList<this['definition']>>;
+
+  single(): ExtendType<MakeTypeSingle<this['definition']>>;
 }
 
 export function extendType<Input>(input: Input): ExtendType<Input> {
@@ -94,10 +98,25 @@ export function extendType<Input>(input: Input): ExtendType<Input> {
         optional: true,
       });
     },
+
     required() {
       return extendType({
         ...clone,
         optional: false,
+      });
+    },
+
+    list() {
+      return extendType({
+        ...clone,
+        list: true,
+      });
+    },
+
+    single() {
+      return extendType({
+        ...clone,
+        list: false,
       });
     },
   };
@@ -113,4 +132,11 @@ export type MakeTypeOptional<Type> = DescribeAndOverrideField<
 export type MakeTypeRequired<Type> = DescribeAndOverrideField<
   Type,
   { optional: false }
+>;
+
+export type MakeTypeList<Type> = DescribeAndOverrideField<Type, { list: true }>;
+
+export type MakeTypeSingle<Type> = DescribeAndOverrideField<
+  Type,
+  { list: false }
 >;

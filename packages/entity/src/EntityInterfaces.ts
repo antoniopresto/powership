@@ -85,7 +85,10 @@ export type EntityUtils<
   > = GetLoaderFilterDef<LoaderConfig, OutputDefinition>
 > = {
   indexInfo: [ParsedIndexKey, ...ParsedIndexKey[]];
-  filterDef: ExtendObjectDefinition<{ object: FilterDef }, { object: FilterDef }>;
+  filterDef: ExtendObjectDefinition<
+    { object: FilterDef },
+    { object: FilterDef }
+  >;
   queryArgs: {
     after: 'ID?';
     condition: {

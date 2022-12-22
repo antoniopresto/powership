@@ -35,7 +35,14 @@ import type { ObjectToTypescriptOptions } from '../objectToTypescript';
 import { parseObjectField } from '../parseObjectDefinition';
 
 import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
-import { extendType, ExtendType } from '../extendType';
+import {
+  extendType,
+  ExtendType,
+  MakeTypeList,
+  MakeTypeOptional,
+  MakeTypeRequired,
+  MakeTypeSingle,
+} from '../extendType';
 
 export class GraphType<Definition extends ObjectFieldInput> {
   static __isGraphType = true;
@@ -297,6 +304,46 @@ export class GraphType<Definition extends ObjectFieldInput> {
       object,
       options
     ) as any;
+  };
+
+  optionalType = (
+    name?: string
+  ): Definition extends unknown
+    ? GraphType<MakeTypeOptional<Definition>>
+    : never => {
+    const finalName =
+      name || this.optionalId ? `${this.optionalId}Optional` : undefined;
+    return this.override((it) => it.optional()).graphType(finalName) as any;
+  };
+
+  requiredType = (
+    name?: string
+  ): Definition extends unknown
+    ? GraphType<MakeTypeRequired<Definition>>
+    : never => {
+    const finalName =
+      name || this.optionalId ? `${this.optionalId}Optional` : undefined;
+    return this.override((it) => it.required()).graphType(finalName) as any;
+  };
+
+  listType = (
+    name?: string
+  ): Definition extends unknown
+    ? GraphType<MakeTypeList<Definition>>
+    : never => {
+    const finalName =
+      name || this.optionalId ? `${this.optionalId}List` : undefined;
+    return this.override((it) => it.list()).graphType(finalName) as any;
+  };
+
+  singleType = (
+    name?: string
+  ): Definition extends unknown
+    ? GraphType<MakeTypeSingle<Definition>>
+    : never => {
+    const finalName =
+      name || this.optionalId ? `${this.optionalId}Item` : undefined;
+    return this.override((it) => it.single()).graphType(finalName) as any;
   };
 
   /**

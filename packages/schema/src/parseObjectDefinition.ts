@@ -31,6 +31,30 @@ import {
   parseStringDefinition,
 } from './parseStringDefinition';
 
+export interface ParserHook {
+  (field: FinalFieldDefinition): FinalFieldDefinition;
+}
+
+export const _parserHooks: ParserHook[] = [];
+
+export interface RemoveParserHook {
+  (): ParserHook[];
+}
+export function setParserHook(hook: ParserHook): RemoveParserHook {
+  _parserHooks.push(hook);
+
+  function remove() {
+    _parserHooks.find((el, index) => {
+      if (el !== hook) return false;
+      delete _parserHooks[index];
+      return true;
+    });
+    return _parserHooks;
+  }
+
+  return remove;
+}
+
 export function parseObjectField<
   T extends FieldDefinitionConfig,
   Options extends ParseFieldOptions
@@ -70,6 +94,10 @@ export function parseObjectField(fieldName, definition, options = {}) {
   if (deep?.asString) asString = true;
 
   let parsed = parseFieldDefinitionConfig(definition, { deep, omitMeta });
+
+  if (_parserHooks.length) {
+    _parserHooks.forEach((cb) => cb(parsed));
+  }
 
   if (typeof parsed === 'string') {
     return parsed;
