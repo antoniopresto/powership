@@ -1,5 +1,5 @@
-import { nonNullValues } from '../invariant';
 import { devAssert } from '../devAssert';
+import { nonNullValues } from '../invariant';
 
 export interface InitIndexCursor {
   PK: string[];

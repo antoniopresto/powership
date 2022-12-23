@@ -1,7 +1,8 @@
-import { base64ToText, textToBase64 } from '../textToBase64';
 import { NodeLogger } from '../nodeLogger';
-import { ParsedIndexCursor } from './joinIndexCursor';
+import { base64ToText, textToBase64 } from '../textToBase64';
+
 import { IndexCursor } from './IndexCursor';
+import { ParsedIndexCursor } from './joinIndexCursor';
 
 export const CURSOR_PREFIX = '~!';
 

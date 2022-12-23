@@ -1,6 +1,6 @@
 import { joinIndexCursor } from './joinIndexCursor';
-import { parseIndexCursor } from './parseIndexCursor';
 import { parseFilterCursor } from './parseFilterCursor';
+import { parseIndexCursor } from './parseIndexCursor';
 
 describe('parseCursorString', () => {
   // afterEach();

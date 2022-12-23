@@ -1,6 +1,6 @@
 {
   "name": "@backland/utils",
-  "version": "0.0.0-alpha.20221219193950991",
+  "version": "0.0.0-alpha.20221223001209682",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -31,7 +31,7 @@
   "keywords": [],
   "dependencies": {
     "graphql-parse-resolve-info": "4.12.3",
-    "aggio": "0.0.114",
+    "aggio": "0.0.115",
     "big.js": "6.2.1",
     "chalk": "5.1.0",
     "deep-object-diff": "1.1.9",
@@ -60,7 +60,7 @@
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@backland/babel-plugins": "0.0.0-alpha.20221219193950991",
+    "@backland/babel-plugins": "0.0.0-alpha.20221223001209682",
     "@types/big.js": "6.1.6",
     "@types/ejson": "2.2.0",
     "@types/fs-extra": "9.0.13",

@@ -1,3 +1,6 @@
+import { inspectObject } from '../inspectObject';
+import { nonNullValues } from '../invariant';
+
 import {
   INDEX_PART_SEP,
   InitIndexCursor,
@@ -9,8 +12,6 @@ import {
   splitCursorParts,
 } from './joinIndexCursor';
 import { parseIndexFieldName } from './parseIndexFieldName';
-import { inspectObject } from '../inspectObject';
-import { nonNullValues } from '../invariant';
 
 export const MIN_DOCUMENT_INDEX_KEY_PARTS = 4;
 export const MIN_FILTER_INDEX_KEY_PARTS = 3;
