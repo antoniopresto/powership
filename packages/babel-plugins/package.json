@@ -1,6 +1,6 @@
 {
   "name": "@backland/babel-plugins",
-  "version": "0.0.0-alpha.20221223194744493",
+  "version": "0.0.0-alpha.20221223235757325",
   "main": "lib",
   "sideEffects": false,
   "typings": "lib",

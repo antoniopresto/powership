@@ -9,8 +9,8 @@ const version = `0.0.0-alpha.${time}`;
  */
 const { map, root } = runeach();
 
-const fastMode = process.env.unsafe !== undefined;
-const skipBuild = process.env.skip_build !== undefined;
+const fastMode = process.env.fast !== undefined;
+const skipBuild = process.env.sb !== undefined;
 
 map(({ run }) => {
   if (skipBuild) return;
