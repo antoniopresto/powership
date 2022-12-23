@@ -1,6 +1,6 @@
 {
   "name": "@backland/helpers",
-  "version": "0.0.0-alpha.20221223001209682",
+  "version": "0.0.0-alpha.20221223194744493",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
   "author": "antoniopresto <antoniopresto@gmail.com>",
@@ -8,9 +8,9 @@
   "sideEffects": false,
   "scripts": {
     "test": "echo ok",
-    "build": "run-s clear && run-p declarations build:* && sleep 3",
+    "build": "run-s clear && run-p declarations build:*",
     "clear": "rimraf lib",
-    "fix": "run-s fix:* && sleep 3 ",
+    "fix": "run-s fix:* ",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint src --ext .ts --fix",
     "prepublish": "run-s build fix && run-p test",
@@ -34,7 +34,7 @@
     "inference"
   ],
   "dependencies": {
-    "backland": "0.0.0-alpha.20221223001209682",
+    "backland": "0.0.0-alpha.20221223194744493",
     "highlight.js": "11.7.0"
   },
   "devDependencies": {
@@ -42,8 +42,8 @@
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@backland/babel-plugins": "0.0.0-alpha.20221223001209682",
-    "@backland/mongo": "0.0.0-alpha.20221223001209682",
+    "@backland/babel-plugins": "0.0.0-alpha.20221223194744493",
+    "@backland/mongo": "0.0.0-alpha.20221223194744493",
     "@types/jest": "29.1.2",
     "@types/node": "16.18.3",
     "@typescript-eslint/eslint-plugin": "5.39.0",

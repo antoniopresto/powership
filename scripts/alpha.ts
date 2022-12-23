@@ -1,4 +1,4 @@
-import { runeach } from 'runeach';
+import { runeach } from 'run-each-package';
 import { ulid } from '@backland/utils';
 
 const version = `0.0.0-alpha.${ulid()}`;

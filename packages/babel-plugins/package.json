@@ -1,6 +1,6 @@
 {
   "name": "@backland/babel-plugins",
-  "version": "0.0.0-alpha.20221223001209682",
+  "version": "0.0.0-alpha.20221223194744493",
   "main": "lib",
   "sideEffects": false,
   "typings": "lib",
@@ -11,7 +11,7 @@
     "build": "rm -rf lib && tsc && tsc -p tsconfig.module.json",
     "prepublish": "npm run fix && npm run build",
     "build-targets": "run-p build",
-    "fix": "run-s fix:* && sleep 3",
+    "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint src --ext .ts --fix"
   },

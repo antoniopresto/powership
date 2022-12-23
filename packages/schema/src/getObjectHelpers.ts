@@ -32,6 +32,8 @@ export function getObjectHelpers(object: any): ObjectHelpers {
 
     const instance = __getCachedFieldInstance(field);
 
+    if (instance.asFinalFieldDef.hidden) return;
+
     list.push({
       instance,
       name: fieldName,

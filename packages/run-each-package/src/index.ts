@@ -23,7 +23,7 @@ const config = (function getConfig() {
     const config = require(rootJS);
     return ConfigSchema.parse(config);
   } catch (e: any) {
-    const error = Error(`Failed to load runeach config: ${e.message}`);
+    const error = Error(`Failed to load run-each-package config: ${e.message}`);
     error.stack = getStack(getConfig);
     throw error;
   }
@@ -194,3 +194,5 @@ export function runeach() {
     map: Array.prototype.map.bind(list_),
   };
 }
+
+export default runeach;

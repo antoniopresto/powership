@@ -1,6 +1,6 @@
 {
   "name": "@backland/utils",
-  "version": "0.0.0-alpha.20221223001209682",
+  "version": "0.0.0-alpha.20221223194744493",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -13,8 +13,8 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "run-s clear && run-p declarations build:* && sleep 3",
-    "fix": "run-s fix:* && sleep 3",
+    "build": "run-s clear && run-p declarations build:*",
+    "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint src --ext .ts --fix",
     "clear": "rimraf lib",
@@ -60,7 +60,7 @@
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@backland/babel-plugins": "0.0.0-alpha.20221223001209682",
+    "@backland/babel-plugins": "0.0.0-alpha.20221223194744493",
     "@types/big.js": "6.1.6",
     "@types/ejson": "2.2.0",
     "@types/fs-extra": "9.0.13",

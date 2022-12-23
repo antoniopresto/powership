@@ -176,7 +176,9 @@ export class GraphType<Definition extends ObjectFieldInput> {
 
       const _options = typeof options === 'object' ? options : {};
 
-      if (this.__hidden && !_options.includeHidden) return undefined as any;
+      const { includeHidden = true } = _options;
+
+      if (this.__hidden && !includeHidden) return undefined as any;
 
       return field.parse(input, customMessage) as any;
     } catch (e: any) {
@@ -311,9 +313,9 @@ export class GraphType<Definition extends ObjectFieldInput> {
   ): Definition extends unknown
     ? GraphType<MakeTypeOptional<Definition>>
     : never => {
-    const finalName =
-      name || this.optionalId ? `${this.optionalId}Optional` : undefined;
-    return this.override((it) => it.optional()).graphType(finalName) as any;
+    let _id = name || this.optionalId;
+    _id = _id ? `${_id}Optional` : undefined;
+    return this.override((it) => it.optional()).graphType(_id) as any;
   };
 
   requiredType = (
@@ -321,9 +323,9 @@ export class GraphType<Definition extends ObjectFieldInput> {
   ): Definition extends unknown
     ? GraphType<MakeTypeRequired<Definition>>
     : never => {
-    const finalName =
-      name || this.optionalId ? `${this.optionalId}Optional` : undefined;
-    return this.override((it) => it.required()).graphType(finalName) as any;
+    let _id = name || this.optionalId;
+    _id = _id ? `${_id}NotNull` : undefined;
+    return this.override((it) => it.required()).graphType(_id) as any;
   };
 
   listType = (
@@ -331,9 +333,9 @@ export class GraphType<Definition extends ObjectFieldInput> {
   ): Definition extends unknown
     ? GraphType<MakeTypeList<Definition>>
     : never => {
-    const finalName =
-      name || this.optionalId ? `${this.optionalId}List` : undefined;
-    return this.override((it) => it.list()).graphType(finalName) as any;
+    let _id = name || this.optionalId;
+    _id = _id ? `${_id}List` : undefined;
+    return this.override((it) => it.list()).graphType(_id) as any;
   };
 
   singleType = (
@@ -341,9 +343,9 @@ export class GraphType<Definition extends ObjectFieldInput> {
   ): Definition extends unknown
     ? GraphType<MakeTypeSingle<Definition>>
     : never => {
-    const finalName =
-      name || this.optionalId ? `${this.optionalId}Item` : undefined;
-    return this.override((it) => it.single()).graphType(finalName) as any;
+    let _id = name || this.optionalId;
+    _id = _id ? `${_id}Item` : undefined;
+    return this.override((it) => it.single()).graphType(_id) as any;
   };
 
   /**

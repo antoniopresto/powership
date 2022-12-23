@@ -1,4 +1,4 @@
-import { runeach } from 'runeach';
+import { runeach } from 'run-each-package';
 import * as process from 'process';
 
 const time = new Date().toISOString().replace(/\D/g, '');

@@ -205,7 +205,8 @@ export abstract class FieldType<
         options = _options;
       }
 
-      const { customErrorMessage: customMessage, includeHidden } = options;
+      const { customErrorMessage: customMessage, includeHidden = true } =
+        options;
 
       // keep it secret
       if (this.hidden && !includeHidden) return undefined;

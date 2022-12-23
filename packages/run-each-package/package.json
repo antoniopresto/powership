@@ -1,6 +1,6 @@
 {
-  "name": "runeach",
-  "version": "0.0.0-alpha.20221223001209682",
+  "name": "run-each-package",
+  "version": "0.0.0-alpha.20221223194744493",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -9,8 +9,8 @@
   "sideEffects": false,
   "scripts": {
     "test": "echo ok",
-    "build": "run-s clear && run-p declarations build:* && sleep 3",
-    "fix": "run-s fix:* && sleep 3",
+    "build": "run-s clear && run-p declarations build:*",
+    "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint src --ext .ts --fix",
     "clear": "rimraf lib",
@@ -25,14 +25,14 @@
   "keywords": [],
   "dependencies": {
     "fs-extra": "^11.1.0",
-    "@backland/schema": "0.0.0-alpha.20221223001209682"
+    "@backland/schema": "0.0.0-alpha.20221223194744493"
   },
   "devDependencies": {
     "@babel/cli": "7.19.3",
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@backland/babel-plugins": "0.0.0-alpha.20221223001209682",
+    "@backland/babel-plugins": "0.0.0-alpha.20221223194744493",
     "@types/node": "16.18.3",
     "@typescript-eslint/eslint-plugin": "5.39.0",
     "@typescript-eslint/parser": "5.39.0",

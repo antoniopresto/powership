@@ -10,6 +10,6 @@ module.exports = {
     'accounts',
     'backland',
     'helpers',
-    'runeach',
+    'run-each-package',
   ],
 };

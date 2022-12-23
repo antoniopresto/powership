@@ -232,7 +232,7 @@ export class ObjectType<
     const {
       partial = false,
       excludeInvalidListItems,
-      includeHidden,
+      includeHidden = true,
       allowExtraFields,
       exclude,
     } = options || {};
