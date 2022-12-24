@@ -58,6 +58,15 @@ function getModules() {
       server: true,
     },
 
+    awesomePhoneValidator: {
+      // @only-server
+      module: () =>
+        // @only-server
+        require('awesome-phonenumber') as typeof import('awesome-phonenumber'),
+
+      server: true,
+    },
+
     clientUtils: {
       // @only-server
       module: () =>

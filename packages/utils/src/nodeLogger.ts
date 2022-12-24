@@ -17,37 +17,68 @@ function stringify(write: AnyFunction, ...args: any[]) {
 export type LoggerMethods = { [K in LogLevelName]: (...args: any[]) => void };
 
 export const _defaultLogger: LoggerMethods = ((value) => {
-  const log = value?.stdout.write
-    ? (...args: any[]) => {
-        stringify(value.stdout.write.bind(value.stdout), '\n', ...args, '\n');
-      }
-    : undefined;
+  const partial = (() => {
+    if (typeof window === 'undefined' && typeof process === 'object') {
+      const log = value?.stdout.write
+        ? (...args: any[]) => {
+            stringify(
+              value.stdout.write.bind(value.stdout),
+              '\n',
+              ...args,
+              '\n'
+            );
+          }
+        : undefined;
 
-  const err = value?.stderr.write
-    ? (...args: any[]) => {
-        stringify(value.stderr.write.bind(value.stderr), '\n', ...args, '\n');
-      }
-    : undefined;
+      const err = value?.stderr.write
+        ? (...args: any[]) => {
+            stringify(
+              value.stderr.write.bind(value.stderr),
+              '\n',
+              ...args,
+              '\n'
+            );
+          }
+        : undefined;
 
-  const warn = value?.stdout.write
-    ? (...args: any[]) => {
-        stringify(value.stdout.write.bind(value.stdout), '\n', ...args, '\n');
-      }
-    : undefined;
+      const warn = value?.stdout.write
+        ? (...args: any[]) => {
+            stringify(
+              value.stdout.write.bind(value.stdout),
+              '\n',
+              ...args,
+              '\n'
+            );
+          }
+        : undefined;
 
-  const info = value?.stdout.write
-    ? (...args: any[]) => {
-        stringify(value.stdout.write.bind(value.stdout), '\n', ...args, '\n');
-      }
-    : undefined;
+      const info = value?.stdout.write
+        ? (...args: any[]) => {
+            stringify(
+              value.stdout.write.bind(value.stdout),
+              '\n',
+              ...args,
+              '\n'
+            );
+          }
+        : undefined;
 
-  const partial = {
-    error: err || console.error,
-    debug: log || console.debug,
-    info: info || console.info,
-    warning: warn || console.warn,
-    crit: err || console.error,
-  } as const;
+      return {
+        info,
+        warn,
+        log,
+        err,
+      };
+    } else {
+      return {
+        error: console.error,
+        debug: console.debug,
+        info: console.info,
+        warning: console.warn,
+        crit: console.error,
+      };
+    }
+  })();
 
   return {
     ...LogLevels.reduce((acc, next) => {

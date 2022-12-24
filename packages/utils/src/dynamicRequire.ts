@@ -4,7 +4,8 @@ export function dynamicRequire(request: string, _module?: NodeModule) {
   } catch (e) {}
 
   try {
-    return require(request);
+    const req = eval('require');
+    return req(request);
   } catch (e) {}
 
   return null;
