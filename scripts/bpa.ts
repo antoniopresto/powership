@@ -9,7 +9,7 @@ const version = `0.0.0-alpha.${time}`;
  */
 const { map, root } = runeach();
 
-const fastMode = process.env.fast !== undefined;
+const unsafeMode = process.env.unsafe !== undefined;
 const skipBuild = process.env.sb !== undefined;
 
 map(({ run }) => {
@@ -29,14 +29,14 @@ map(({ saveJSON, json, run }) => {
   saveJSON();
 
   let publish = 'npm publish --tag=next --access public';
-  if (fastMode) publish += ` --ignore-scripts`;
+  if (unsafeMode) publish += ` --ignore-scripts`;
 
   run(publish);
 });
 
 root(`git add -A && git commit -m "alpha version ${version}" && git push -f`);
 
-if (!fastMode) {
+if (!unsafeMode) {
   map(({ run }) => {
     run('test');
   });
