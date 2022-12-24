@@ -1,15 +1,18 @@
 import { assertEqual } from '@backland/utils';
-import { getNumberType, isValidNumber } from 'libphonenumber-js';
+import {
+  parsePhoneNumber,
+  PhoneNumberTypes,
+  ParsedPhoneNumber,
+} from 'awesome-phonenumber';
 
 import { FieldType, FieldTypeParser } from './FieldType';
 import { createFieldTypeError } from './FieldTypeErrors';
 
-export type Country = import('libphonenumber-js').CountryCode;
-export type PhoneNumberType = import('libphonenumber-js').NumberType;
+export type { PhoneNumberTypes, ParsedPhoneNumber };
 
 export type PhoneValidationOptions = {
-  country?: Country;
-  numberType?: PhoneNumberType;
+  regionCode?: string;
+  numberType?: PhoneNumberTypes;
 };
 
 export type PhoneFieldDef = PhoneValidationOptions | undefined;
@@ -20,7 +23,7 @@ export function validatePhoneNumber(
   input: unknown,
   options: PhoneValidationOptions = {}
 ) {
-  const { country, numberType } = options;
+  const { regionCode, numberType } = options;
 
   if (typeof input !== 'string') {
     throw createFieldTypeError('unexpectedType', {
@@ -29,13 +32,15 @@ export function validatePhoneNumber(
     });
   }
 
-  let isValid = isValidNumber(input, country);
+  let { valid, type } = parsePhoneNumber(input, {
+    regionCode: regionCode,
+  });
 
-  if (isValid && numberType) {
-    isValid = getNumberType(input, country) === numberType;
+  if (valid && numberType) {
+    valid = type === numberType;
   }
 
-  if (!isValid) {
+  if (!valid) {
     throw createFieldTypeError('invalidPhone', {
       expected: 'VALID_PHONE_NUMBER',
       found: input,
