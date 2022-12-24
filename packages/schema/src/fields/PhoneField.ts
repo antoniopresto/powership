@@ -68,8 +68,13 @@ export function validatePhoneNumber(
     return customPhoneValidator(input, options);
   }
 
-  const hasAPV = !!CircularDeps.awesomePhoneValidator
-    ?.parsePhoneNumber as boolean;
+  const hasAPV = (() => {
+    try {
+      return !!CircularDeps.awesomePhoneValidator?.parsePhoneNumber as boolean;
+    } catch (e) {
+      return false;
+    }
+  })();
 
   if (hasAPV) return _backendValidatePhoneNumber(input, options);
 
@@ -85,11 +90,9 @@ export function validatePhoneNumber(
     );
   }
 
-  const trimmed = input.trim();
+  if (!E164_PHONE_REGEX.test(input)) throw Error('Expected phone number.');
 
-  if (!trimmed) throw Error('Expected phone number.');
-
-  return trimmed;
+  return input;
 }
 
 export class PhoneField extends FieldType<string, 'phone', PhoneFieldDef> {
