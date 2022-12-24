@@ -31,7 +31,7 @@
   "keywords": [],
   "dependencies": {
     "graphql-parse-resolve-info": "4.12.3",
-    "aggio": "0.0.115",
+    "aggio": "0.2.0",
     "big.js": "6.2.1",
     "chalk": "5.1.0",
     "deep-object-diff": "1.1.9",

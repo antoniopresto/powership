@@ -1,6 +1,6 @@
 import { getTypeName } from '@backland/utils';
 import { RuntimeError } from '@backland/utils';
-import { Join, NestedPaths } from 'aggio';
+import type { Join, NestedPaths } from 'aggio';
 
 import { AnyCollectionIndexConfig } from './CollectionIndex';
 import { UpdateExpression } from './Transporter';

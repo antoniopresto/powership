@@ -9,7 +9,7 @@ import { RuntimeError } from '@backland/utils';
 import { devAssert } from '@backland/utils';
 import { getTypeName } from '@backland/utils';
 import { MaybeArray, tuple } from '@backland/utils';
-import {
+import type {
   Join,
   MatchKeysAndValues,
   NestedPaths,
