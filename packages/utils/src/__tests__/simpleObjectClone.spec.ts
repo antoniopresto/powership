@@ -77,7 +77,7 @@ describe('simpleObjectClone', () => {
           const typeName = getTypeName(value);
           if (['Object', 'Array'].includes(typeName)) return;
           if (['String', 'Number'].includes(typeName)) return value?.toString();
-          return serializer?.formatter?.tsName() || typeName;
+          return serializer?.formatter?.tsName(value) || typeName;
         },
       }
     );

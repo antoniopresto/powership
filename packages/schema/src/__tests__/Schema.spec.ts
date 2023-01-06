@@ -3,7 +3,6 @@ import { assert, IsExact } from 'conditional-type-checks';
 import { Infer } from '../Infer';
 import { createObjectType, ObjectType, resetTypesCache } from '../ObjectType';
 import { objectMetaFieldKey } from '../fields/MetaFieldField';
-import { simpleObjectClone } from '@backland/utils';
 
 function _userObject() {
   return new ObjectType({
@@ -234,10 +233,7 @@ describe('Schema clone, etc', () => {
       age: 'int?',
     });
 
-    console.log(object1.definition);
-    const oldDef = simpleObjectClone(object1.definition);
     const object2 = object1.clone((el) => {
-      console.log(oldDef, el);
       return el
         .exclude('name')
         .extendObjectDefinition((current) => {
@@ -251,7 +247,7 @@ describe('Schema clone, etc', () => {
         .objectType();
     });
     type Final = Infer<typeof object2>;
-    assert<IsExact<Final, { age?: number | undefined }>>(true);
+    assert<IsExact<Final, { age?: number[] | undefined }>>(true);
 
     expect(object1.definition).not.toBe(object2.definition);
     expect(object2.definition).toEqual({

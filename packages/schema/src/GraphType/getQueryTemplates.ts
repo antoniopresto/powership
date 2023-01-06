@@ -49,11 +49,16 @@ export type SchemaQueryTemplatesResult = {
   };
 };
 
+export type SchemaQueryTemplatesOptions = {
+  depthLimit?: number;
+  includeDeprecatedFields?: boolean;
+};
+
 export function getSchemaQueryTemplates(
   schema: GraphQLSchema,
-  options: { depthLimit?: number; includeDeprecatedFields?: boolean } = {}
+  options: SchemaQueryTemplatesOptions = {}
 ): SchemaQueryTemplatesResult {
-  const { depthLimit = 100, includeDeprecatedFields = true } = options;
+  const { depthLimit = 5000, includeDeprecatedFields = true } = options;
 
   const query = schema.getQueryType();
   const mutation = schema.getMutationType();
@@ -156,15 +161,9 @@ export function getQueryTemplates(
     fullQuery += `${kind} ${fieldQuery}`;
   }
 
-  const fragments = prettifyQuery(
-    Object.values(fieldStrings.fragments).join('\n'),
-    'mainQuery'
-  );
-  fullQuery = fragments + fullQuery;
-
   if (format) {
     fullQuery = prettifyQuery(fullQuery, 'mainQuery');
-    fieldQuery = fragments + prettifyQuery(fieldQuery, 'fieldQuery');
+    fieldQuery = prettifyQuery(fieldQuery, 'fieldQuery');
   }
 
   fullQuery += `\n`;
@@ -294,7 +293,6 @@ export function processField(config: {
 type FieldsToStringResult = {
   allArgs: Record<string, ParsedArgs>;
   argsParsed: ParsedArgs;
-  fragments: Record<string, string>;
   query: string;
 };
 
@@ -335,7 +333,6 @@ function fieldsToString(config: {
   const self: FieldsToStringResult = {
     allArgs,
     argsParsed,
-    fragments: {},
     query: '',
   };
 
@@ -344,7 +341,6 @@ function fieldsToString(config: {
   if (field.isObject) {
     Object.entries(fields || {}).forEach(([name, field]) => {
       const _breadcrumb = [...breadcrumb, name];
-      const fragmentName = field.hash + `Fragment`;
 
       if (!field.isObject && !field.isUnion) {
         const {
@@ -381,12 +377,8 @@ function fieldsToString(config: {
         } = child;
 
         self.query += ` ${name}${innerArgsString} { `;
-        self.query += ` ...${fragmentName} `;
+        self.query += child.query;
         self.query += ` } `;
-
-        self.fragments[
-          fragmentName
-        ] = `fragment ${fragmentName} on ${field.innerTypeString} { ${child.query} }\n`;
       }
 
       if (field.isUnion) {
@@ -421,15 +413,9 @@ function fieldsToString(config: {
           argsStrings ? `${argsStrings.join()}` : ''
         } { `;
 
-        self.query += ` ...${fragmentName}${
-          topArgsStrings ? `${topArgsStrings.join()}` : ''
-        } `;
+        self.query += childQuery;
 
         self.query += ` } `;
-
-        self.fragments[
-          fragmentName
-        ] = `fragment ${fragmentName}  on ${field.innerTypeString} { __typeName ${childQuery} }\n`;
       }
     });
   } else {

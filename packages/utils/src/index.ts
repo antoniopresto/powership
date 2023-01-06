@@ -60,6 +60,7 @@ export * from './createErrorClass';
 export * from './PackageJson';
 export * from './lodash';
 export * from './IndexCursor';
+export * from './simpleObjectHash';
 
 // @only-server
 export * from './logLevels';

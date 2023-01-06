@@ -255,8 +255,7 @@ export const A_Z = tuple(
   'w',
   'x',
   'y',
-  'z',
-  '_'
+  'z'
 );
 
 export type A_Z = typeof A_Z[number];
@@ -269,3 +268,9 @@ export class TypeAssertionError extends RuntimeError {
     super(message, details);
   }
 }
+
+export type PartialRequired<T, Optionals extends keyof T> = {
+  [P in keyof T as P extends Optionals ? never : P]-?: T[P];
+} & ({ [K in Optionals]?: T[K] } & {});
+
+export const noop = Object.freeze(Object.create(null)) as {};

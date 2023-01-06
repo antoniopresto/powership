@@ -4,6 +4,12 @@ export type CreateProxyOptions<T> = {
   onHas?: <K extends keyof T>(field: K) => boolean | null;
 };
 
+export function proxyRealValue<T>(obj: T): T {
+  // @ts-ignore
+  if (obj?.__proxyRealValue__) return obj.__proxyRealValue__;
+  return obj;
+}
+
 export function createProxy<T extends Record<string, any>>(
   thunk: () => T,
   options?: CreateProxyOptions<T>
@@ -22,11 +28,16 @@ export function createProxy<T extends Record<string, any>>(
     {},
     {
       get(_o, k: any) {
+        if (k === '__proxyRealValue__') return run();
+        if (k === '__isBProxy__') return true;
+
         if (options?.onGet) {
           const res: any = options.onGet(k);
           if (res !== null) return res;
         }
+
         const realValue = run();
+
         return realValue[k];
       },
       set(_o, k: any, v: any) {

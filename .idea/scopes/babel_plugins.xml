@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="babel-plugins" pattern="file[backland]:packages/babel-plugins/*" />
+</component>

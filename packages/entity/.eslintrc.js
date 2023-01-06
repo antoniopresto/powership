@@ -12,10 +12,7 @@ module.exports = {
     '*.js',
     '**/__tests__/*',
   ],
-  plugins: [
-    'import',
-    'eslint-comments',
-  ],
+  plugins: ['import', 'eslint-comments'],
   extends: [
     'plugin:eslint-comments/recommended',
     'plugin:import/typescript',
@@ -23,6 +20,8 @@ module.exports = {
   ],
   globals: { BigInt: true, console: true, WebAssembly: true },
   rules: {
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': 'error',
     'eslint-comments/no-unlimited-disable': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],

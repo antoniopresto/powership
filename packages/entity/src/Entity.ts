@@ -564,18 +564,15 @@ export function createEntity(
         parsedIndexKeys.find((el) => el.index.name === indexName)
       );
 
-      const capitalizedIndexName = capitalize(indexName);
-
       transporterLoaderNames.forEach((method) => {
         if (method === 'createOne') return;
-        const methodName = `${method}${capitalizedIndexName}`;
         _createLoader({
           indexInfo: [indexInfo],
           indexes: [
             indexConfig.indexes.find((index) => index.name === indexName)!,
           ],
           method,
-          newMethodName: methodName,
+          newMethodName: method,
         });
       });
     });

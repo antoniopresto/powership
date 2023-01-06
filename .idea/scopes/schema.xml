@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="schema" pattern="file[backland]:packages/schema/*" />
+</component>

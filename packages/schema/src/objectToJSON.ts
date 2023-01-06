@@ -242,7 +242,7 @@ function parseGraphQLField(params: {
           if (['Object', 'Array'].includes(typeName)) return;
           if (typeName === 'String') return JSON.stringify(value);
           if (typeName === 'Number') return value;
-          return serializer?.formatter?.tsName() || typeName;
+          return serializer?.formatter?.tsName(value) || typeName;
         },
         quoteValues: (str) => `${str}`,
       });

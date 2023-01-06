@@ -1,5 +1,6 @@
 import { dateSerialize } from './dateSerialize';
-import { getTypeName } from './getTypeName';
+import { describeType, getTypeName } from './getTypeName';
+import { inspectObject } from './inspectObject';
 
 export const SEP = 'ː';
 
@@ -12,7 +13,7 @@ export const BJSON_FUNCTION = withSEP('func');
 
 type Formatter<Type> = {
   name: string;
-  tsName(): string;
+  tsName(value: Type): string;
   getParams(value: Type): string[];
   hydrate(...str: string[]): Type;
   match(value: unknown): undefined | Type;
@@ -243,7 +244,7 @@ export class BJSONConstructor {
   }
 
   tsName(value: string) {
-    return this.getSerializer(value)?.formatter.tsName();
+    return this.getSerializer(value)?.formatter.tsName(value);
   }
 }
 
@@ -262,8 +263,28 @@ export type StringifyOptions = {
   key?: string | number;
 };
 
-// some parts from meteor ejson
+const maxErr = new RegExp('Maximum call stack size exceeded', 'g');
+
 export function stringify(
+  value: any,
+  options: StringifyOptions = {}
+): string | undefined {
+  try {
+    return _stringify(value, options);
+  } catch (error: any) {
+    const isMaxStack = maxErr.test(error.message);
+    if (isMaxStack) {
+      throw new Error(
+        `Converting circular structure to JSON:\n${inspectObject(
+          describeType(value)
+        )}`
+      );
+    }
+    throw error;
+  }
+}
+// some parts from meteor ejson
+export function _stringify(
   value: any,
   options: StringifyOptions = {}
 ): string | undefined {

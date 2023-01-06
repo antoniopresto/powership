@@ -18,7 +18,15 @@ const ConfigSchema = createType('RuneachConfig', {
 } as const);
 
 const config = (function getConfig() {
-  const rootJS = path.resolve(CWD, 'packages.js');
+  const RUN_PACKAGES = process.env.packages;
+
+  if (RUN_PACKAGES) {
+    return ConfigSchema.parse({
+      packages: RUN_PACKAGES.split(',').map((el) => el.trim()),
+    });
+  }
+
+  const rootJS = path.resolve(CWD, 'run-each.config.js');
   try {
     const config = require(rootJS);
     return ConfigSchema.parse(config);
@@ -68,11 +76,6 @@ export type Run = <
   : Mode extends 'sync'
   ? Promise<string>
   : Promise<number | null>;
-
-export interface RuneachInstance {
-  list: { json: any; run: Run; saveJSON(): void }[];
-  map: this['list']['map'];
-}
 
 export function runeach() {
   const jsons: { path: string; json: any; dir: string }[] = [];

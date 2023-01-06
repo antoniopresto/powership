@@ -1,7 +1,6 @@
 import { runeach } from 'run-each-package';
-import { ulid } from '@backland/utils';
 
-const version = `0.0.0-alpha.${ulid()}`;
+const version = `0.0.0-alpha.${Date.now()}`;
 
 runeach().map(({ saveJSON, json, run }) => {
   json.version = version;
@@ -23,5 +22,4 @@ runeach().map(({ saveJSON, json, run }) => {
   });
   saveJSON();
   run('prettier ./package.json --write');
-  run('npm publish --tag=next');
 });

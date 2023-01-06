@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="helpers" pattern="file[backland]:packages/helpers/*" />
+</component>

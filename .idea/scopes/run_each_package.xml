@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="run-each-package" pattern="file[backland]:packages/run-each-package/*" />
+</component>

@@ -58,6 +58,7 @@ import { GraphQLDateType } from './GraphQLDateType';
 import { GraphQLNullType } from './GraphQLNullType';
 import { GraphQLPhoneType } from './GraphQLPhoneType';
 import { GraphQLUlidType } from './GraphQLUlidType';
+import { ObjectHelpers } from "../getObjectHelpers";
 
 export function createHooks() {
   return {
@@ -199,7 +200,7 @@ export class GraphQLParser {
       };
 
       options.fields = () => {
-        const helpers = object.helpers();
+        const helpers: ObjectHelpers = object.helpers();
         const objectMiddleware = object.graphQLMiddleware || [];
 
         const builders: ConvertFieldResult[] = [];

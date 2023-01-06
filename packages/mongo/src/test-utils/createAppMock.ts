@@ -21,26 +21,30 @@ export class AppMock {
     this.collectionName = collectionName;
   }
 
-  async start() {
-    this.mongoServer = await MongoMemoryServer.create();
-    const url = this.mongoServer.getUri();
-    this.client = new MongoClient(url);
-    this._transporter = new MongoTransporter({
-      client: this.client,
-      collection: 'users',
-    });
-    await this.transporter
-      .connect()
-      .then((res) => {
-        res.collection('users').createIndexes([
-          {
-            key: { _idPK: 1 },
-          },
-        ]);
-      })
-      .catch((e) => {
-        process.stderr.write(inspectObject(e));
+  async start(withTransporter = true) {
+    if (withTransporter) {
+      this.mongoServer = await MongoMemoryServer.create();
+      const url = this.mongoServer.getUri();
+      this.client = new MongoClient(url);
+      this._transporter = new MongoTransporter({
+        client: this.client,
+        collection: 'users',
       });
+
+      await this.transporter
+        .connect()
+        .then((res) => {
+          res.collection('users').createIndexes([
+            {
+              key: { _idPK: 1 },
+            },
+          ]);
+        })
+        .catch((e) => {
+          process.stderr.write(inspectObject(e));
+        });
+    }
+
     return this;
   }
 

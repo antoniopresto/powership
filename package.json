@@ -12,7 +12,8 @@
     "lp": "lerna exec \"yalc publish\"",
     "link-all": "lerna link --force-local",
     "alpha": "ts-node ./scripts/bpa.ts",
-    "exec": "node --preserve-symlinks -r ts-node/register ./scripts/run-all.ts"
+    "exec": "node --preserve-symlinks -r ts-node/register ./scripts/run-all.ts",
+    "alpha-version": "ts-node ./scripts/alpha-version.ts"
   },
   "devDependencies": {
     "@nrwl/cli": "14.7.13",

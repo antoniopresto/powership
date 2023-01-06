@@ -7,9 +7,15 @@ import {
   resolversTypescriptParts,
 } from '../createGraphQLSchema';
 
-import { getSchemaQueryTemplates } from './getQueryTemplates';
+import {
+  getSchemaQueryTemplates,
+  SchemaQueryTemplatesOptions,
+} from './getQueryTemplates';
 
-export async function generateClientUtils(schema: GraphQLSchemaWithUtils) {
+export async function generateClientUtils(
+  schema: GraphQLSchemaWithUtils,
+  options?: SchemaQueryTemplatesOptions
+) {
   const [tsParts, queryTemplates] = await Promise.all([
     resolversTypescriptParts({
       name: 'GraphQLInterfaces',
@@ -17,7 +23,7 @@ export async function generateClientUtils(schema: GraphQLSchemaWithUtils) {
       resolvers: schema.utils.resolvers,
     }),
 
-    getSchemaQueryTemplates(schema),
+    getSchemaQueryTemplates(schema, options),
   ]);
 
   const header = [

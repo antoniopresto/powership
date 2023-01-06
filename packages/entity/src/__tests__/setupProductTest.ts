@@ -118,7 +118,7 @@ type Mock = {
   ProductType: ProductType;
 };
 
-export function setupProductTest(): {
+export function setupProductTest(withTransporter = true): {
   getMocks(): Mock;
 } {
   jest.setTimeout(20000);
@@ -129,10 +129,12 @@ export function setupProductTest(): {
     await ObjectType.reset();
     mockApp = createAppMock();
     await mockApp.start();
-    transporter = new MongoTransporter({
-      client: mockApp.client!,
-      collection: 'temp1',
-    });
+    if (withTransporter) {
+      transporter = new MongoTransporter({
+        client: mockApp.client!,
+        collection: 'temp1',
+      });
+    }
   });
 
   afterEach(async function () {
@@ -190,7 +192,8 @@ export function setupProductTest(): {
 
         const result = await ProductEntity.createOne({
           context,
-          item,
+          // @ts-ignore
+          item, // FIXME args.breadcrumb inferring as single breadcrumb
         });
 
         if (!result.item) {
