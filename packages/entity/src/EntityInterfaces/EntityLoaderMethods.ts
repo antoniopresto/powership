@@ -11,11 +11,11 @@ import {
   UpdateOne,
 } from '@backland/transporter';
 
-import { EntityGraphQLFieldConditionsType } from '../EntityFilterConditionType';
+import { EntityFilterConditionsDefinition } from '../EntityFilterConditionType';
 
-import { EntityTypesContext } from './Context';
+import { AnyEntityTypesContext } from './Context';
 
-export type EntityLoaderMethods<Context extends EntityTypesContext<any, any>> =
+export type EntityLoaderMethods<Context extends AnyEntityTypesContext> =
   _EntityLoaderMethods<Context> extends infer Methods
     ? {
         [K in keyof Methods]: Methods[K] extends (
@@ -30,7 +30,7 @@ export type EntityLoaderMethods<Context extends EntityTypesContext<any, any>> =
 
 export interface _EntityLoaderUtils<
   Options extends Record<string, any>,
-  Context extends EntityTypesContext<any, any>
+  Context extends AnyEntityTypesContext
 > {
   indexInfo: Context['indexes'];
 
@@ -40,7 +40,7 @@ export interface _EntityLoaderUtils<
     ? {
         after: 'ID?';
         condition: {
-          object: EntityGraphQLFieldConditionsType<Context['outputDefinition']>;
+          object: EntityFilterConditionsDefinition<Context['outputDefinition']>;
           optional: true;
         };
         filter: { type: 'object'; def: FilterDef };
@@ -54,30 +54,29 @@ export interface _EntityLoaderUtils<
   __filterDef: _GetLoaderFilterDef<Options, Context['outputDefinition']>;
 }
 
-export type _EntityLoaderMethods<Context extends EntityTypesContext<any, any>> =
-  {
-    createOne: CreateOne<
-      Context['documentCreationInput'],
-      Context['document'],
-      Context['indexes']
-    >;
+export type _EntityLoaderMethods<Context extends AnyEntityTypesContext> = {
+  createOne: CreateOne<
+    Context['documentCreationInput'],
+    Context['document'],
+    Context['indexes']
+  >;
 
-    findOne: FindOne<Context['document'], Context['indexes']>;
+  findOne: FindOne<Context['document'], Context['indexes']>;
 
-    findMany: FindMany<Context['document'], Context['indexes']>;
+  findMany: FindMany<Context['document'], Context['indexes']>;
 
-    paginate: Paginate<Context['document'], Context['indexes']>;
+  paginate: Paginate<Context['document'], Context['indexes']>;
 
-    deleteMany: DeleteMany<Context['document'], Context['indexes']>;
+  deleteMany: DeleteMany<Context['document'], Context['indexes']>;
 
-    deleteOne: DeleteOne<Context['document'], Context['indexes']>;
+  deleteOne: DeleteOne<Context['document'], Context['indexes']>;
 
-    findById: FindById<Context['document'], Context['indexes']>;
+  findById: FindById<Context['document'], Context['indexes']>;
 
-    updateMany: UpdateMany<Context['document'], Context['indexes']>;
+  updateMany: UpdateMany<Context['document'], Context['indexes']>;
 
-    updateOne: UpdateOne<Context['document'], Context['indexes']>;
-  };
+  updateOne: UpdateOne<Context['document'], Context['indexes']>;
+};
 
 export type _GetLoaderFilterDef<LoaderConfig, DocDef> =
   //

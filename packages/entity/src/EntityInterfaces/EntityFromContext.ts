@@ -4,34 +4,36 @@ import {
   ParsedDocumentIndexes,
   Transporter,
 } from '@backland/transporter';
-import { GetFieldByDotNotation, Merge } from '@backland/utils';
+import { GetFieldByDotNotation } from '@backland/utils';
 
-import { EntityGraphQLConditionsType } from '../EntityFilterConditionType';
+import { EntityFilterConditionsDefinition } from '../EntityFilterConditionType';
 import { EntityHooks } from '../EntityPlugin';
 import { EntityDocumentBaseDef } from '../defaultFields';
 import { EntityIndexRelationConfig } from '../indexRelations/addEntityIndexRelations';
 import { EdgeType, PaginationType } from '../paginationUtils';
 
 import { EntityAddRelation } from './AddRelation';
-import { EntityTypesContext } from './Context';
+import { AnyEntityTypesContext, EntityTypesContext } from './Context';
 import { EntityLoaderMethods } from './EntityLoaderMethods';
 import { ExtendEntity } from './ExtendEntity';
 
-export interface EntityFromContext<Context extends EntityTypesContext<any, any>>
+export interface EntityFromContext<Context extends AnyEntityTypesContext>
   extends EntityLoaderMethods<Context> {
   name: string;
 
   originType: GraphType<{ object: Context['originDefinition'] }>;
 
   inputType: GraphType<{
-    object: Merge<EntityDocumentBaseDef<true>, Context['originDefinition']>;
+    object: Omit<
+      EntityDocumentBaseDef<true>,
+      keyof Context['originDefinition']
+    > &
+      Context['originDefinition'];
   }>;
 
   usedOptions: Context['options'];
 
   indexes: Context['indexes'];
-
-  outputDefinition: Context['outputDefinition'];
 
   type: GraphType<{
     object: Context['outputDefinition'];
@@ -51,10 +53,9 @@ export interface EntityFromContext<Context extends EntityTypesContext<any, any>>
 
   aliasPaths: string[];
 
-  conditionsDefinition: {
-    def: EntityGraphQLConditionsType<Context['originDefinition']>;
-    type: 'object';
-  };
+  conditionsDefinition: EntityFilterConditionsDefinition<
+    Context['originDefinition']
+  >;
 
   databaseType: this['type'];
 
@@ -97,6 +98,7 @@ export interface EntityFromContext<Context extends EntityTypesContext<any, any>>
   hooks: EntityHooks;
 
   __isEntity: true;
+  __context: Context;
 }
 
 export interface EntityIndexRelations {

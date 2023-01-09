@@ -59,3 +59,7 @@ export interface EntityTypesContext<InputDef, Indexes> {
    */
   document: this['documentBase'] extends infer D ? EntityDocument<D> : {};
 }
+
+export type AnyEntityTypesContext = {
+  [K in keyof EntityTypesContext<any, any>]: any;
+} & {};

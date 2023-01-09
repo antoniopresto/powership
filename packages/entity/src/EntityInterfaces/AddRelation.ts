@@ -3,11 +3,11 @@ import { LoaderContext } from '@backland/transporter';
 
 import { EntityFieldResolver } from '../EntityOptions';
 
-import { EntityTypesContext } from './Context';
+import { AnyEntityTypesContext } from './Context';
 
 export interface EntityAddRelation<
   Parent,
-  EContext extends EntityTypesContext<any, any>
+  EContext extends AnyEntityTypesContext
 > {
   <
     Context extends LoaderContext,

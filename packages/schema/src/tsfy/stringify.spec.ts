@@ -7,46 +7,46 @@ import { tsfy } from './tsfy';
 describe('stringify', () => {
   afterEach(resetTypesCache);
 
-  test('works', () => {
-    const sut = tsfy([123]);
-    expect(sut.getParts().body).toEqual('[123]');
+  test('works', async () => {
+    const sut = await tsfy([123]).getParts();
+    expect(sut.body).toEqual('[123]');
   });
 
-  test('array', () => {
-    const sut = tsfy([123, 'abc']);
-    expect(sut.getParts().body).toEqual('[123, "abc"]');
+  test('array', async () => {
+    const sut = await tsfy([123, 'abc']).getParts();
+    expect(sut.body).toEqual('[123, "abc"]');
   });
 
-  test('object', () => {
-    const sut = tsfy({ a: 1, b: 2 });
-    expect(sut.getParts().body).toEqual('{"a":1,"b":2}');
+  test('object', async () => {
+    const sut = await tsfy({ a: 1, b: 2 }).getParts();
+    expect(sut.body).toEqual('{"a":1,"b":2,}');
   });
 
-  test('custom', () => {
+  test('custom', async () => {
     class Foo {
       bla = 2;
     }
     const foo = new Foo();
 
-    const sut = tsfy(foo);
+    const sut = await tsfy(foo).getParts();
 
-    expect(sut.getParts().body).toEqual('any /*Foo*/');
+    expect(sut.body).toEqual('any /*Foo*/');
   });
 
-  test('objectType', () => {
+  test('objectType', async () => {
     const obj = createObjectType({
       name: 'string',
       age: 'int',
     });
 
-    const sut = tsfy(obj);
+    const sut = await tsfy(obj).getParts();
 
-    expect(sut.getParts().body).toEqual(
-      'ObjectType<{"name":{"type":"string"},"age":{"type":"int"},}>'
+    expect(sut.body).toEqual(
+      'ObjectType<{"name":{"type":"string",},"age":{"type":"int",},}>'
     );
   });
 
-  test('graphType', () => {
+  test('graphType', async () => {
     const objectType = createObjectType({
       name: 'string',
       age: 'int',
@@ -59,25 +59,28 @@ describe('stringify', () => {
       },
     });
 
-    const sut = tsfy({ graphType, objectType }).toString();
+    const sut = await tsfy({ graphType, objectType }).toString();
+
     const pretty = CircularDeps.prettier.format(sut, {
       parser: 'typescript',
     });
 
     expect(pretty.split('\n')).toEqual([
       'export type TUserType = GraphType<{',
-      '  def: { id: { type: "ID" }; data: { def: T320565; type: "object" } };',
       '  type: "object";',
+      '  def: {',
+      '    id: { type: "ID" };',
+      '    data: {',
+      '      type: "object";',
+      '      def: { name: { type: "string" }; age: { type: "int" } };',
+      '    };',
+      '  };',
       '}>;',
-      '',
-      'type T118298 = { type: "string" };',
-      'type T158952 = { type: "int" };',
-      'type T320565 = { name: T118298; age: T158952 };',
       '',
     ]);
   });
 
-  test('options.many', () => {
+  test('options.many', async () => {
     const objectType = createObjectType('UserData', {
       name: 'string',
       age: 'int',
@@ -90,25 +93,25 @@ describe('stringify', () => {
       },
     });
 
-    const sut = tsfy([graphType, objectType], {
+    const sut = await tsfy([graphType, objectType], {
       many: true,
     }).toString({ prettier: true });
 
     expect(sut.split('\n')).toEqual([
-      'export type TUserType = GraphType<{',
-      '  def: {',
-      '    id: { type: "ID" };',
-      '    data: {',
-      '      def: { name: { type: "string" }; age: { type: "int" } };',
-      '      type: "object";',
-      '    };',
-      '  };',
-      '  type: "object";',
-      '}>;',
-      '',
       'export type TUserDataObject = ObjectType<{',
       '  name: { type: "string" };',
       '  age: { type: "int" };',
+      '}>;',
+      '',
+      'export type TUserType = GraphType<{',
+      '  type: "object";',
+      '  def: {',
+      '    id: { type: "ID" };',
+      '    data: {',
+      '      type: "object";',
+      '      def: { name: { type: "string" }; age: { type: "int" } };',
+      '    };',
+      '  };',
       '}>;',
       '',
     ]);

@@ -61,11 +61,7 @@ export function objectToJSON(
     additionalProperties: false,
     properties: topProperties,
     required,
-    title: parseTypeName({
-      field: { def: object, type: 'object' },
-      fieldName: '',
-      parentName: parentName,
-    }),
+    title: parentName,
     type: 'object',
   };
 

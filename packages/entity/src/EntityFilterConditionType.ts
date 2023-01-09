@@ -63,10 +63,10 @@ export type EntityFilterConditionType = typeof Def extends infer R
 export type EntityGraphQLConditionsType<T> = T extends {
   [K: string]: ObjectFieldInput;
 }
-  ? GraphType<{ object: EntityGraphQLFieldConditionsType<T> }>
+  ? GraphType<{ object: EntityFilterConditionsDefinition<T> }>
   : never;
 
-export type EntityGraphQLFieldConditionsType<T> = {
+export type EntityFilterConditionsDefinition<T> = {
   [K in keyof T]: typeof EntityFilterConditionType;
 };
 

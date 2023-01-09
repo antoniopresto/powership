@@ -1,6 +1,6 @@
 import { deepEqual } from 'fast-equals';
 
-import { TypeAssertionError } from './typeUtils';
+import { inspectObject } from './inspectObject';
 
 export function areEqual(a: any, b: any) {
   return deepEqual(a, b);
@@ -23,6 +23,6 @@ export function assertEqual<ToBe extends Readonly<Assertable>>(
   details = {}
 ): asserts value is ToBe extends Assertable ? ToBe : never {
   if (!areEqual(value, toBe)) {
-    throw new TypeAssertionError(message, details);
+    throw new Error(message + `\ndetails:` + inspectObject(details));
   }
 }

@@ -2,6 +2,7 @@ import {
   describeType,
   ensureArray,
   hashString,
+  MaybePromise,
   noop,
   PartialRequired,
   proxyRealValue,
@@ -46,13 +47,16 @@ export function tsfy(input: any, config?: TSFYConfig) {
     return [input];
   })();
 
-  function getParts() {
-    const body = (() => {
-      function runPart(part: any) {
-        const ref = parseTSfyValue(part, context);
+  async function getParts() {
+    const body: string = await (async () => {
+      //
+      async function runPart(part: any) {
+        const ref = await parseTSfyValue(part, context);
         return resolvePart(ref, undefined, 0);
       }
-      return entries.map(runPart).join('\n');
+
+      const parts = await awaitAll(entries.map(runPart));
+      return parts.join('\n');
     })();
 
     Object.values(context.header).forEach((el) => header.add(el));
@@ -60,9 +64,9 @@ export function tsfy(input: any, config?: TSFYConfig) {
     return { header, body, footer };
   }
 
-  function toString(options?: { prettier?: boolean; name?: string }) {
+  async function toString(options?: { prettier?: boolean; name?: string }) {
     const { name, prettier } = options || {};
-    const { footer, header, body } = getParts();
+    const { footer, header, body } = await getParts();
 
     if (name) {
       return [
@@ -163,11 +167,14 @@ export function tsfy(input: any, config?: TSFYConfig) {
 
 export type TSFYPart = string | TSFYRef | TSFYPart[];
 
-export function parseTSfyValue(rootValue: any, context: TSFYContext): TSFYRef {
+export async function parseTSfyValue(
+  rootValue: any,
+  context: TSFYContext
+): Promise<TSFYRef> {
   rootValue = proxyRealValue(rootValue);
   //
   const typeDescription = describeType(rootValue);
-  const identifier = getIdentifier(rootValue);
+  const identifier = getTSFyIdentifier(rootValue);
   const hash = typeDescription.hash();
 
   const existing = context.refs[hash];
@@ -180,7 +187,7 @@ export function parseTSfyValue(rootValue: any, context: TSFYContext): TSFYRef {
   }
 
   if (context.config.customParser) {
-    const parsed = context.config.customParser({
+    const parsed = await context.config.customParser({
       context,
       typeDescription,
       hash,
@@ -202,18 +209,18 @@ export function parseTSfyValue(rootValue: any, context: TSFYContext): TSFYRef {
   }
 
   if (ObjectType.is(rootValue)) {
-    const child = parseTSfyValue(rootValue.definition, context);
+    const child = await parseTSfyValue(rootValue.definition, context);
     currentRef.parts = ['ObjectType<', ...ensureArray(child), '>'];
     return currentRef;
   }
 
   if (GraphType.is(rootValue)) {
-    const child = parseTSfyValue(rootValue.definition, context);
+    const child = await parseTSfyValue(rootValue.definition, context);
     currentRef.parts = ['GraphType<', ...ensureArray(child), '>'];
     return currentRef;
   }
 
-  (() => {
+  await (async () => {
     switch (typename) {
       case 'Function': {
         context.header[hash] =
@@ -232,12 +239,15 @@ export function parseTSfyValue(rootValue: any, context: TSFYContext): TSFYRef {
         }
 
         const lastIndex = rootValue.length - 1;
-        const child = (rootValue as any[]).map((element, index) => {
-          const part = parseTSfyValue(element, context);
-          const res = ensureArray(part);
-          if (index !== lastIndex) return [...res, ', '];
-          return res;
-        });
+
+        const child = await awaitAll(
+          (rootValue as any[]).map(async (element, index) => {
+            const part = await parseTSfyValue(element, context);
+            const res = ensureArray(part);
+            if (index !== lastIndex) return [...res, ', '];
+            return res;
+          })
+        );
 
         currentRef.parts = ['[', ...ensureArray(child), ']'];
         return currentRef;
@@ -253,18 +263,16 @@ export function parseTSfyValue(rootValue: any, context: TSFYContext): TSFYRef {
 
         currentRef.parts.push('{');
 
-        const lastIndex = pairs.length - 1;
-        pairs.forEach(([key, value], index) => {
-          if (key === '__dschm__') return;
-          if (value?.hidden === true && isFieldTypeName(value.type)) {
-            return;
-          }
-          const valueRes = parseTSfyValue(value, context);
-          currentRef.parts.push(`${JSON.stringify(key)}:`, valueRes);
-          if (index !== lastIndex) {
-            currentRef.parts.push(',');
-          }
-        });
+        await awaitAll(
+          pairs.map(async ([key, value]) => {
+            if (key === '__dschm__') return;
+            if (value?.hidden === true && isFieldTypeName(value.type)) {
+              return;
+            }
+            const valueRes = await parseTSfyValue(value, context);
+            currentRef.parts.push(`${JSON.stringify(key)}:`, valueRes, ',');
+          })
+        );
 
         currentRef.parts.push('}');
         return currentRef;
@@ -289,7 +297,7 @@ export function parseTSfyValue(rootValue: any, context: TSFYContext): TSFYRef {
   return currentRef;
 }
 
-function getIdentifier(value: any) {
+export function getTSFyIdentifier(value: any) {
   if (!value) return undefined;
   if (typeof value !== 'object') return undefined;
 
@@ -384,5 +392,12 @@ export type TSFyHandlerUtils = {
 };
 
 export interface TSFYCustomHandler {
-  (utils: TSFyHandlerUtils): TSFYRef | undefined;
+  (utils: TSFyHandlerUtils): MaybePromise<TSFYRef | undefined>;
+}
+
+async function awaitAll<T>(promises: MaybePromise<T>[]): Promise<T[]> {
+  for (const key in promises) {
+    promises[key] = await promises[key];
+  }
+  return promises as any;
 }

@@ -1,5 +1,3 @@
-import { RuntimeError } from '../RuntimeError';
-
 import type * as T from './ts-toolbet';
 
 export * from './ts-toolbet';
@@ -262,12 +260,6 @@ export type A_Z = typeof A_Z[number];
 export type Name = `${A_Z}${string}`;
 
 export * from '../IterationMap';
-
-export class TypeAssertionError extends RuntimeError {
-  constructor(message = 'UNEXPECTED_VALUE', details: any = undefined) {
-    super(message, details);
-  }
-}
 
 export type PartialRequired<T, Optionals extends keyof T> = {
   [P in keyof T as P extends Optionals ? never : P]-?: T[P];

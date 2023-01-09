@@ -5,13 +5,10 @@ import {
   ObjectDefinitionInput,
 } from '@backland/schema';
 
-import { EntityTypesContext } from './Context';
+import { AnyEntityTypesContext } from './Context';
 import { _ExcludeExtend } from './EntityFromContext';
 
-export interface ExtendEntity<
-  Parent,
-  Context extends EntityTypesContext<any, any>
-> {
+export interface ExtendEntity<Parent, Context extends AnyEntityTypesContext> {
   /**
    * Extend current entity
    * @param transformer

@@ -293,19 +293,17 @@ export class GraphType<Definition extends ObjectFieldInput> {
   typescriptPrint = (
     options?: ObjectToTypescriptOptions & { name?: string }
   ): Promise<string> => {
+    const name = options?.name || this.id;
+
     // @ts-ignore
     const object =
       this.__lazyGetter.objectType ||
       createObjectType({
-        [this.id]: this.definition,
+        [name]: this.definition,
       });
 
     // @ts-ignore circular
-    return CircularDeps.objectToTypescript(
-      options?.name || this.id,
-      object,
-      options
-    ) as any;
+    return CircularDeps.objectToTypescript(name, object, options) as any;
   };
 
   optionalType = (
