@@ -3,6 +3,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import { BJSON } from './BJSON';
 import { proxyRealValue } from './createProxy';
 import { simpleObjectHash } from './simpleObjectHash';
+import { tupleEnum } from './typeUtils';
 
 export function getTypeName(input: any): string {
   const simple = getNativeConstructorType(input);
@@ -10,29 +11,48 @@ export function getTypeName(input: any): string {
   return describeConstructor(input).constructorName;
 }
 
-export function getNativeConstructorType(input) {
-  if (input === undefined) return 'Undefined';
-  if (input === null) return 'Null';
-  if (typeof input === 'string') return 'String';
-  if (typeof input === 'boolean') return 'Boolean';
-  if (typeof input === 'bigint') return 'BigInt';
-  if (typeof input === 'symbol') return 'Symbol';
-  if (Array.isArray(input)) return 'Array';
+export const KNOWN_CONSTRUCTOR_NAMES = tupleEnum(
+  'Undefined',
+  'Null',
+  'String',
+  'Boolean',
+  'BigInt',
+  'Symbol',
+  'Array',
+  'NaN',
+  'Infinity',
+  'Number',
+  'Object',
+  'Function'
+);
+
+export type NATIVE_TYPE_NAME = typeof KNOWN_CONSTRUCTOR_NAMES.enum;
+
+export function getNativeConstructorType(input): NATIVE_TYPE_NAME | undefined {
+  if (input === undefined) return KNOWN_CONSTRUCTOR_NAMES['Undefined'];
+  if (input === null) return KNOWN_CONSTRUCTOR_NAMES['Null'];
+  if (typeof input === 'string') return KNOWN_CONSTRUCTOR_NAMES['String'];
+  if (typeof input === 'boolean') return KNOWN_CONSTRUCTOR_NAMES['Boolean'];
+  if (typeof input === 'bigint') return KNOWN_CONSTRUCTOR_NAMES['BigInt'];
+  if (typeof input === 'symbol') return KNOWN_CONSTRUCTOR_NAMES['Symbol'];
+  if (Array.isArray(input)) return KNOWN_CONSTRUCTOR_NAMES['Array'];
 
   if (typeof input === 'number') {
-    if (isNaN(input)) return 'NaN';
-    if (input === Infinity) return 'Infinity';
-    return 'Number';
+    if (isNaN(input)) return KNOWN_CONSTRUCTOR_NAMES['NaN'];
+    if (input === Infinity) return KNOWN_CONSTRUCTOR_NAMES['Infinity'];
+    return KNOWN_CONSTRUCTOR_NAMES['Number'];
   }
 
   return undefined;
 }
 
+export type NATIVE_TYPE_OF = Lowercase<NATIVE_TYPE_NAME>;
+
 /**
  * Returns a string representation of the constructor of the given value if a simple native type.
  * @param input {any} The value to get the constructor name of.
  */
-export function getNativeTypeOf(input) {
+export function getNativeTypeOf(input): NATIVE_TYPE_OF | undefined {
   if (input === undefined) return 'undefined';
   if (input === null) return 'object';
   if (typeof input === 'string') return 'string';
@@ -67,9 +87,13 @@ export function describeConstructor(value): ConstructorDescription {
         const nativeConstructor = getNativeConstructorType(value);
         if (nativeConstructor) return nativeConstructor;
 
-        if (iowp) return 'Object';
+        if (iowp) {
+          return KNOWN_CONSTRUCTOR_NAMES['Object'];
+        }
 
-        if (typeof value === 'function') return 'Function';
+        if (typeof value === 'function') {
+          return KNOWN_CONSTRUCTOR_NAMES['Function'];
+        }
 
         const named = constructorBody()
           ?.match(/(function|class) ?([^({)]*)/)?.[2]
@@ -178,5 +202,5 @@ declare global {
 export type ConstructorDescription = {
   isObjectWithoutPrototype: boolean;
   native: boolean;
-  constructorName: string;
+  constructorName: NATIVE_TYPE_NAME | string;
 };

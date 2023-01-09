@@ -153,6 +153,81 @@ export function createEntity(
     return entity;
   }
 
+  function cloneEntity(
+    handler: ((originalOptions: EntityOptions) => EntityOptions) | EntityOptions
+  ): AnyEntity {
+    const cb = () => {
+      const newValue =
+        typeof handler === 'function'
+          ? // @ts-ignore
+            handler(entityOptions)
+          : // @ts-ignore
+            { ...entityOptions, ...handler };
+
+      if (
+        gettersWereCalled &&
+        newValue.name === entityOptions.name &&
+        !isProduction()
+      ) {
+        console.warn(
+          `entity.clone: the cloned entity has the same name "${entityOptions.name}". \n
+                You may encounter unexpected behavior if the entity has already been used.`
+        );
+      }
+
+      return newValue as any;
+    };
+
+    // @ts-ignore
+    return createEntity(cb) as any;
+  }
+
+  function setOption(optionName: string, value: any) {
+    optionMutations.push((opt) => {
+      return {
+        ...opt,
+        [optionName]: value,
+      };
+    });
+    return entity;
+  }
+
+  function addIndexRelation(
+    name: string,
+    relationInput: EntityIndexRelationInput
+  ) {
+    const relation = { name, entity: relationInput };
+
+    entityMutations.push(
+      //
+      (current) => {
+        indexRelations[relation.name] = relation;
+        return current;
+      },
+      //
+      (opt: any) => {
+        _addEntityIndexRelations(opt, [[relation.name, relation]]);
+        return opt;
+      }
+    );
+
+    return entity;
+  }
+
+  function extendType(
+    handler: (helper: any, originalOptions: EntityOptions) => AnyEntity
+  ): AnyEntity {
+    // @ts-ignore
+    return createEntity(() => {
+      const newType = handler(
+        extendObjectDefinition(entityOptions.type),
+        entityOptions
+      );
+
+      return { ...entityOptions, type: newType } as any;
+    }) as any;
+  }
+
   const indexRelations: EntityIndexRelations = {};
 
   const entity = createProxy(_createEntity, {
@@ -162,88 +237,19 @@ export function createEntity(
       if (typeof k === 'string' && k in extendMethodsEnum) {
         // clone
         if (k === 'clone') {
-          return function cloneEntity(
-            handler:
-              | ((originalOptions: EntityOptions) => EntityOptions)
-              | EntityOptions
-          ): AnyEntity {
-            const cb = () => {
-              const newValue =
-                typeof handler === 'function'
-                  ? // @ts-ignore
-                    handler(entityOptions)
-                  : // @ts-ignore
-                    { ...entityOptions, ...handler };
-
-              if (
-                gettersWereCalled &&
-                newValue.name === entityOptions.name &&
-                !isProduction()
-              ) {
-                console.warn(
-                  `entity.clone: the cloned entity has the same name "${entityOptions.name}". \n
-                You may encounter unexpected behavior if the entity has already been used.`
-                );
-              }
-
-              return newValue as any;
-            };
-
-            // @ts-ignore
-            return createEntity(cb) as any;
-          };
+          return cloneEntity;
         }
 
         if (k === 'setOption') {
-          return function setOption(optionName: string, value: any) {
-            optionMutations.push((opt) => {
-              return {
-                ...opt,
-                [optionName]: value,
-              };
-            });
-            return entity;
-          };
+          return setOption;
         }
 
         if (k === 'addIndexRelation') {
-          return function addIndexRelation(
-            name: string,
-            relationInput: EntityIndexRelationInput
-          ) {
-            const relation = { name, entity: relationInput };
-
-            entityMutations.push(
-              //
-              (current) => {
-                indexRelations[relation.name] = relation;
-                return current;
-              },
-              //
-              (opt: any) => {
-                _addEntityIndexRelations(opt, [[relation.name, relation]]);
-                return opt;
-              }
-            );
-
-            return entity;
-          };
+          return addIndexRelation;
         }
 
         if (k === 'extendType') {
-          return function extendType(
-            handler: (helper: any, originalOptions: EntityOptions) => AnyEntity
-          ): AnyEntity {
-            // @ts-ignore
-            return createEntity(() => {
-              const newType = handler(
-                extendObjectDefinition(entityOptions.type),
-                entityOptions
-              );
-
-              return { ...entityOptions, type: newType } as any;
-            }) as any;
-          };
+          return extendType;
         }
 
         if (k === 'addHooks') {
@@ -645,6 +651,11 @@ export function createEntity(
 
     Object.assign(entityResult, {
       inputType,
+      extendType,
+      addIndexRelation,
+      setOption,
+      cloneEntity,
+      __isEntity: true,
       addHooks, // handled in proxy
       addRelation, // handled in proxy
       aliasPaths: _objectAliasPaths(databaseDefinition),
@@ -963,4 +974,8 @@ function _objectAliasPaths(
   });
 
   return found;
+}
+
+export function isEntity(value): value is AnyEntity {
+  return (value as AnyEntity | undefined)?.__isEntity === true;
 }

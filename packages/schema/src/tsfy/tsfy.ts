@@ -3,7 +3,9 @@ import {
   ensureArray,
   hashString,
   noop,
+  PartialRequired,
   proxyRealValue,
+  TypeDescription,
 } from '@backland/utils';
 
 import { CircularDeps } from '../CircularDeps';
@@ -20,15 +22,13 @@ export type TSFYConfig = {
   iterationLimit?: number;
   many?: boolean;
   groupInTypeThreshold?: number;
+  customParser?: TSFYCustomHandler;
 };
 
 export function tsfy(input: any, config?: TSFYConfig) {
-  const {
-    context = createTSFYContext(),
-    iterationLimit = tsfy_defaults.iterationLimit,
-    many = false,
-    groupInTypeThreshold = 2,
-  } = config || {};
+  const context = createTSFYContext(config || {});
+
+  const { groupInTypeThreshold, iterationLimit, many } = context.config;
 
   const header = new Set<string>();
   const footer = new Set<string>();
@@ -49,7 +49,7 @@ export function tsfy(input: any, config?: TSFYConfig) {
   function getParts() {
     const body = (() => {
       function runPart(part: any) {
-        const ref = createTSFYRef(part, context);
+        const ref = parseTSfyValue(part, context);
         return resolvePart(ref, undefined, 0);
       }
       return entries.map(runPart).join('\n');
@@ -163,40 +163,54 @@ export function tsfy(input: any, config?: TSFYConfig) {
 
 export type TSFYPart = string | TSFYRef | TSFYPart[];
 
-export function createTSFYRef(rootValue: any, context: TSFYContext): TSFYRef {
+export function parseTSfyValue(rootValue: any, context: TSFYContext): TSFYRef {
   rootValue = proxyRealValue(rootValue);
   //
-  const description = describeType(rootValue);
+  const typeDescription = describeType(rootValue);
   const identifier = getIdentifier(rootValue);
-  const hash = description.hash();
+  const hash = typeDescription.hash();
 
   const existing = context.refs[hash];
-  const ref = createRef(hash, identifier);
+  const currentRef = createTSfyRef(hash, identifier);
 
   if (existing !== undefined) {
     existing.count++;
   } else {
-    context.refs[hash] = ref;
+    context.refs[hash] = currentRef;
   }
 
-  const { typename, native } = description;
+  if (context.config.customParser) {
+    const parsed = context.config.customParser({
+      context,
+      typeDescription,
+      hash,
+      identifier,
+      existing,
+      currentRef,
+      value: rootValue,
+    });
+
+    if (parsed !== undefined) return parsed;
+  }
+
+  const { typename, native } = typeDescription;
 
   if (native && typename !== 'Object') {
-    const body = description.toString();
-    ref.result = body;
-    return ref;
+    const body = typeDescription.toString();
+    currentRef.result = body;
+    return currentRef;
   }
 
   if (ObjectType.is(rootValue)) {
-    const child = createTSFYRef(rootValue.definition, context);
-    ref.parts = ['ObjectType<', ...ensureArray(child), '>'];
-    return ref;
+    const child = parseTSfyValue(rootValue.definition, context);
+    currentRef.parts = ['ObjectType<', ...ensureArray(child), '>'];
+    return currentRef;
   }
 
   if (GraphType.is(rootValue)) {
-    const child = createTSFYRef(rootValue.definition, context);
-    ref.parts = ['GraphType<', ...ensureArray(child), '>'];
-    return ref;
+    const child = parseTSfyValue(rootValue.definition, context);
+    currentRef.parts = ['GraphType<', ...ensureArray(child), '>'];
+    return currentRef;
   }
 
   (() => {
@@ -204,40 +218,40 @@ export function createTSFYRef(rootValue: any, context: TSFYContext): TSFYRef {
       case 'Function': {
         context.header[hash] =
           'export type AnyFunction = (...args: any[]) => any; ';
-        ref.result = 'AnyFunction';
+        currentRef.result = 'AnyFunction';
 
-        return ref;
+        return currentRef;
       }
 
       case 'Array': {
         if (!Array.isArray(rootValue)) throw noop;
 
         if (!rootValue.length) {
-          ref.result = '[]';
-          return ref;
+          currentRef.result = '[]';
+          return currentRef;
         }
 
         const lastIndex = rootValue.length - 1;
         const child = (rootValue as any[]).map((element, index) => {
-          const part = createTSFYRef(element, context);
+          const part = parseTSfyValue(element, context);
           const res = ensureArray(part);
           if (index !== lastIndex) return [...res, ', '];
           return res;
         });
 
-        ref.parts = ['[', ...ensureArray(child), ']'];
-        return ref;
+        currentRef.parts = ['[', ...ensureArray(child), ']'];
+        return currentRef;
       }
 
       case 'Object': {
         const pairs: [string, any][] = Object.entries(rootValue);
 
         if (!pairs.length) {
-          ref.result = '{}';
-          return ref;
+          currentRef.result = '{}';
+          return currentRef;
         }
 
-        ref.parts.push('{');
+        currentRef.parts.push('{');
 
         const lastIndex = pairs.length - 1;
         pairs.forEach(([key, value], index) => {
@@ -245,15 +259,15 @@ export function createTSFYRef(rootValue: any, context: TSFYContext): TSFYRef {
           if (value?.hidden === true && isFieldTypeName(value.type)) {
             return;
           }
-          const valueRes = createTSFYRef(value, context);
-          ref.parts.push(`${JSON.stringify(key)}:`, valueRes);
+          const valueRes = parseTSfyValue(value, context);
+          currentRef.parts.push(`${JSON.stringify(key)}:`, valueRes);
           if (index !== lastIndex) {
-            ref.parts.push(',');
+            currentRef.parts.push(',');
           }
         });
 
-        ref.parts.push('}');
-        return ref;
+        currentRef.parts.push('}');
+        return currentRef;
       }
 
       default: {
@@ -262,17 +276,17 @@ export function createTSFYRef(rootValue: any, context: TSFYContext): TSFYRef {
         const { native, typename } = described;
 
         if (!native) {
-          ref.result = `any /*${typename}*/`;
+          currentRef.result = `any /*${typename}*/`;
         } else {
-          ref.result = typename;
+          currentRef.result = typename;
         }
 
-        return ref;
+        return currentRef;
       }
     }
   })();
 
-  return ref;
+  return currentRef;
 }
 
 function getIdentifier(value: any) {
@@ -308,9 +322,10 @@ export type TSFYRef = {
 export type TSFYContext = {
   refs: Record<string, TSFYRef>;
   header: Record<string, string>;
+  config: PartialRequired<TSFYConfig, 'customParser'>;
 };
 
-function createRef(hash: string, identifier?: string): TSFYRef {
+export function createTSfyRef(hash: string, identifier?: string): TSFYRef {
   const ref: TSFYRef = {
     identifier,
     hash,
@@ -322,11 +337,28 @@ function createRef(hash: string, identifier?: string): TSFYRef {
   return ref;
 }
 
-export function createTSFYContext(): TSFYContext {
-  return {
+export function createTSFYContext(config: TSFYConfig): TSFYContext {
+  const {
+    iterationLimit = tsfy_defaults.iterationLimit,
+    many = false,
+    groupInTypeThreshold = 2,
+  } = config || {};
+
+  const context: TSFYContext = {
     refs: {},
     header: {},
+    config: {
+      context: undefined as any,
+      groupInTypeThreshold,
+      iterationLimit,
+      many,
+      ...config,
+    },
   };
+
+  context.config.context = context;
+
+  return context;
 }
 
 export type TSFyChunkDefinition = {
@@ -341,27 +373,16 @@ export type TSFyTypeDef = {
   header?: Record<string, string>;
 };
 
-export function createTSFyTypeDefinition(config: TSFyTypeDef) {
-  return {
-    ...config,
-    __kind: 'TSFyTypeDefinition',
-  } as const;
-}
+export type TSFyHandlerUtils = {
+  identifier: string | undefined;
+  typeDescription: TypeDescription;
+  hash: string;
+  context: TSFYContext;
+  existing: TSFYRef | undefined;
+  currentRef: TSFYRef;
+  value: any;
+};
 
-export function withTSFYDefinition<Value>(
-  value: Value,
-  definition: TSFyTypeDef
-): Value & { tsfyDefinition: TSFyTypeDef } {
-  let _definition;
-
-  Object.defineProperties(value, {
-    tsfyDefinition: {
-      get() {
-        return (_definition =
-          _definition || createTSFyTypeDefinition(definition));
-      },
-    },
-  });
-
-  return value as any;
+export interface TSFYCustomHandler {
+  (utils: TSFyHandlerUtils): TSFYRef | undefined;
 }
