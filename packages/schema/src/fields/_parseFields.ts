@@ -1,11 +1,11 @@
 import {
   GraphTypeInTypeFieldDefinition,
   GraphTypeLikeFieldDefinition,
-} from './Infer/InferGraphType';
+} from './Infer';
 import {
   ObjectInTypeFieldDefinition,
   ObjectTypeLikeFieldDefinition,
-} from './Infer/InferObjectType';
+} from './Infer';
 import {
   CommonFieldDefinition,
   CommonFieldOptions,

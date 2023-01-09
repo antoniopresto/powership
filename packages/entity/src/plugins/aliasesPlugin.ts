@@ -1,8 +1,8 @@
 import { delay, ensureArray, objectDiffPaths } from '@backland/utils';
 
-import { isEntityContextOfLoader } from '../EntityInterfaces';
 import { createEntityPlugin } from '../EntityPlugin';
 import { aggioUpdate } from '../aggioUpdate';
+import { isEntityContextOfLoader } from '../entityOperationContextTypes';
 
 export const aliasesPlugin = createEntityPlugin('AliasesPlugin', (hooks) => {
   hooks.preParse.register(async function preParse(context, { entity }) {

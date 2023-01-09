@@ -47,14 +47,17 @@ import {
 } from './EntityFilterConditionType';
 import {
   AnyEntity,
-  AnyEntityDocument,
   Entity,
-  EntityOperationInfoContext,
+  EntityDocumentBase,
+  EntityIndexRelations,
 } from './EntityInterfaces';
 import { EntityFieldResolver, EntityOptions } from './EntityOptions';
 import { createEntityPlugin, EntityHooks } from './EntityPlugin';
-import { createEntityDefaultFields } from './defaultFields';
-import { buildEntityOperationInfoContext } from './entityOperationContextTypes';
+import { createEntityDocumentBase } from './defaultFields';
+import {
+  buildEntityOperationInfoContext,
+  EntityOperationInfoContext,
+} from './entityOperationContextTypes';
 import {
   _addEntityIndexRelations,
   EntityIndexRelationInput,
@@ -123,9 +126,38 @@ export function createEntity(
   const resolvers: EntityFieldResolver<any, any, any, any>[] = [];
   let gettersWereCalled = false;
 
+  function extendEntity(cb) {
+    entityMutations.push((entity) => {
+      const ext_utils = { extend: extendObjectDefinition };
+      const partial = cb(entity, ext_utils);
+      if (!partial || typeof partial !== 'object') return entity;
+      return { ...entity, ...partial };
+    });
+    return entity;
+  }
+
+  function addHooks(hooksToAdd) {
+    plugins.push(
+      ...ensureArray(hooksToAdd).map((hookConfig, index) => {
+        return createEntityPlugin(
+          `${entityOptions.name}MainPlugin_${index}`,
+          hookConfig
+        );
+      })
+    );
+    return entity;
+  }
+
+  function addRelation(resolver) {
+    resolvers.push(...ensureArray(resolver));
+    return entity;
+  }
+
+  const indexRelations: EntityIndexRelations = {};
+
   const entity = createProxy(_createEntity, {
     onGet(k: any): any {
-      if (k === '__$is_entity__') return true;
+      if (k === '__isEntity') return true;
 
       if (typeof k === 'string' && k in extendMethodsEnum) {
         // clone
@@ -183,9 +215,9 @@ export function createEntity(
 
             entityMutations.push(
               //
-              (entity) => {
-                entity.indexRelations[relation.name] = relation;
-                return entity;
+              (current) => {
+                indexRelations[relation.name] = relation;
+                return current;
               },
               //
               (opt: any) => {
@@ -215,36 +247,15 @@ export function createEntity(
         }
 
         if (k === 'addHooks') {
-          return function addHooks(hooks) {
-            plugins.push(
-              ...ensureArray(hooks).map((hookConfig, index) => {
-                return createEntityPlugin(
-                  `${entityOptions.name}MainPlugin_${index}`,
-                  hookConfig
-                );
-              })
-            );
-            return entity;
-          };
+          return addHooks;
         }
 
         if (k === 'addRelation') {
-          return function addRelation(resolver) {
-            resolvers.push(...ensureArray(resolver));
-            return entity;
-          };
+          return addRelation;
         }
 
         if (k === 'extend') {
-          return function extend(cb) {
-            entityMutations.push((entity) => {
-              const ext_utils = { extend: extendObjectDefinition };
-              const partial = cb(entity, ext_utils);
-              if (!partial || typeof partial !== 'object') return entity;
-              return { ...entity, ...partial };
-            });
-            return entity;
-          };
+          return extendEntity;
         }
       }
 
@@ -286,11 +297,11 @@ export function createEntity(
       }
     });
 
-    const inputObjectType = nonNullValues({
+    const inputDefinitionClone = nonNullValues({
       entityTypeObject: type.__lazyGetter.objectType,
-    }).entityTypeObject;
+    }).entityTypeObject!.clone((it) => it);
 
-    let entity = {} as any;
+    let entityResult = {} as any;
     const loaders: Record<string, any> = {};
 
     const indexConfig: CollectionIndexConfig<any, string> = {
@@ -300,36 +311,43 @@ export function createEntity(
 
     parseCollectionIndexConfig(indexConfig); // only validating the return has lower cased fields used in _ids
 
-    const entityOutputDefinitionWithRelations: any = {
-      ...createEntityDefaultFields(),
-      ...inputObjectType.cleanDefinition(),
-    };
-
-    const fields = Object.keys(entityOutputDefinitionWithRelations);
-    let inputDef: Record<string, FinalFieldDefinition> =
-      inputObjectType.cleanDefinition();
-
-    let updateDefinition = inputObjectType.clone((t) => t.optional().def());
-
-    _hooks.createDefinition.exec(updateDefinition, {
-      entityOptions,
-      fields,
-      kind: 'updateDefinition',
-      resolvers,
-    });
-
     const indexFieldsDefinition = parseEntityIndexFields(indexConfig);
     const indexFieldKeys = Object.keys(indexFieldsDefinition);
 
-    const databaseDefinition: any = {
-      ...simpleObjectClone(entityOutputDefinitionWithRelations),
+    const commons = extendObjectDefinition({
+      ...createEntityDocumentBase(),
       ...indexFieldsDefinition,
-    };
+    });
+
+    function getOutputDefinition(
+      partials: boolean
+    ): Record<string, FinalFieldDefinition> {
+      const base: any = (partials ? commons.optional() : commons).def();
+
+      return {
+        ...base,
+        ...inputDefinitionClone.def(),
+      };
+    }
+
+    const entityOutputDefinitionWithRelations = getOutputDefinition(false);
+    const outputTypeDefinition = getOutputDefinition(false);
+    const databaseDefinition = getOutputDefinition(false);
+    const inputDefinition = getOutputDefinition(true);
+
+    const fields = Object.keys(outputTypeDefinition);
 
     _hooks.createDefinition.exec(databaseDefinition, {
       entityOptions,
       fields,
       kind: 'databaseDefinition',
+      resolvers,
+    });
+
+    _hooks.createDefinition.exec(outputTypeDefinition, {
+      entityOptions,
+      fields,
+      kind: 'outputDefinition',
       resolvers,
     });
 
@@ -339,25 +357,27 @@ export function createEntity(
       object: databaseDefinition,
     });
 
-    _hooks.createDefinition.exec(entityOutputDefinitionWithRelations, {
-      entityOptions,
-      fields,
-      kind: 'outputDefinition',
-      resolvers,
-    });
+    const updateDefinition = databaseType.clone((t) => t.optional().def());
 
-    _hooks.createDefinition.exec(inputDef, {
+    _hooks.createDefinition.exec(inputDefinition, {
       entityOptions,
       fields,
       kind: 'inputDefinition',
       resolvers,
     });
 
-    entity['transporter'] = defaultTransporter;
+    _hooks.createDefinition.exec(updateDefinition, {
+      entityOptions,
+      fields,
+      kind: 'updateDefinition',
+      resolvers,
+    });
+
+    entityResult['transporter'] = defaultTransporter;
 
     const conditionsType = objectToGraphQLConditionType(
       `${entityName}QueryConditions`,
-      simpleObjectClone(entityOutputDefinitionWithRelations)
+      simpleObjectClone(outputTypeDefinition)
     );
 
     const parsedIndexKeys = getParsedIndexKeys(indexConfig);
@@ -367,11 +387,11 @@ export function createEntity(
       entityOptions,
       hooks: _hooks,
       indexConfig,
-      entity,
+      entity: entityResult,
     });
 
     const entityType = createType(`${entityName}Entity`, {
-      object: simpleObjectClone(entityOutputDefinitionWithRelations),
+      object: simpleObjectClone(outputTypeDefinition),
     });
 
     const indexGraphTypes = _getIndexGraphTypes({
@@ -383,17 +403,17 @@ export function createEntity(
     const inputType = entityOptions.type.clone((t) =>
       t
         .extendObjectDefinition({
-          ...inputDef,
+          ...inputDefinition,
         })
         .graphType(`${entityName}Input`)
     );
     function _createLoader(config: {
       indexInfo: ParsedIndexKey[];
-      indexes: EntityOptions['indexes'];
+      loaderIndexes: EntityOptions['indexes'];
       method: TransporterLoaderName;
       newMethodName: string;
     }) {
-      const { indexInfo, indexes, newMethodName, method } = config;
+      const { indexInfo, loaderIndexes, newMethodName, method } = config;
 
       const loader: TransporterLoader = async function loader(...args) {
         if (args.length !== 1) {
@@ -411,13 +431,13 @@ export function createEntity(
           context: args[0].context,
           indexConfig: {
             ...indexConfig,
-            indexes,
+            loaderIndexes: loaderIndexes,
           },
         };
 
         const operation = await _parseOperationContext({
           databaseType,
-          entity,
+          entity: entityResult,
           entityOptions,
           hooks: _hooks,
           method,
@@ -443,7 +463,7 @@ export function createEntity(
         if (
           !result.error &&
           operation.isUpdate &&
-          entity.aliasPaths.length &&
+          entityResult.aliasPaths.length &&
           !result.item
         ) {
           // checking for updates that have failed to update aliases
@@ -555,7 +575,7 @@ export function createEntity(
       });
 
       loaders[newMethodName] = loader;
-      entity[newMethodName] = loader;
+      entityResult[newMethodName] = loader;
     }
 
     indexConfig.indexes.forEach((index) => {
@@ -568,8 +588,8 @@ export function createEntity(
         if (method === 'createOne') return;
         _createLoader({
           indexInfo: [indexInfo],
-          indexes: [
-            indexConfig.indexes.find((index) => index.name === indexName)!,
+          loaderIndexes: [
+            indexConfig.indexes.find((_index) => _index.name === indexName)!,
           ],
           method,
           newMethodName: method,
@@ -580,7 +600,7 @@ export function createEntity(
     transporterLoaderNames.forEach((method) => {
       _createLoader({
         indexInfo: parsedIndexKeys,
-        indexes: indexConfig.indexes,
+        loaderIndexes: indexConfig.indexes,
         method,
         newMethodName: method,
       });
@@ -593,7 +613,7 @@ export function createEntity(
       },
     });
 
-    function getPaginationType() {
+    function _getConnectionType() {
       const definition = {
         object: {
           edges: {
@@ -618,23 +638,23 @@ export function createEntity(
     }
 
     function getDocumentId(doc): string {
-      const indexes = getDocumentIndexFields(doc, indexConfig);
-      if (indexes.error) throw indexes.error;
-      return notNull(indexes.indexFields._c);
+      const _indexes = getDocumentIndexFields(doc, indexConfig);
+      if (_indexes.error) throw _indexes.error;
+      return notNull(_indexes.indexFields._c);
     }
 
-    Object.assign(entity, {
+    Object.assign(entityResult, {
       inputType,
-      addHooks: () => ({}), // handled in proxy
-      addRelation: () => ({}), // handled in proxy
+      addHooks, // handled in proxy
+      addRelation, // handled in proxy
       aliasPaths: _objectAliasPaths(databaseDefinition),
       conditionsDefinition: conditionsType.__lazyGetter.objectType!.clone(
         (el) => el.def()
       ),
       databaseType,
       edgeType: edgeType,
-      indexRelations: {},
-      extend: () => ({}), // handled in proxy
+      indexRelations,
+      extend: extendEntity, // handled in proxy
       getDocumentId,
       getIndexFields,
       indexGraphTypes: indexGraphTypes,
@@ -642,7 +662,7 @@ export function createEntity(
       usedOptions: entityOptions,
       name: entityName,
       originType: type,
-      paginationType: getPaginationType(),
+      paginationType: _getConnectionType(),
       parse: entityType.parse,
       parseDocumentIndexes: function parseDocumentIndexes(
         doc
@@ -653,21 +673,21 @@ export function createEntity(
       type: entityType,
     });
 
-    entity = entityMutations.reduce((acc, next) => {
+    entityResult = entityMutations.reduce((acc, next) => {
       return next(acc);
-    }, entity);
+    }, entityResult);
 
     let _inputExt: any;
     let _updateExt: any;
-    Object.defineProperties(entity, {
-      inputDef: {
+    Object.defineProperties(entityResult.extend, {
+      input: {
         get() {
           return (_inputExt =
-            _inputExt || extendObjectDefinition({ object: inputDef }));
+            _inputExt || extendObjectDefinition({ object: inputDefinition }));
         },
       },
 
-      updateDef: {
+      update: {
         get() {
           return (_updateExt =
             _updateExt || extendObjectDefinition({ object: updateDefinition }));
@@ -675,7 +695,7 @@ export function createEntity(
       },
     });
 
-    return entity;
+    return entityResult;
   }
 
   return entity;
@@ -700,9 +720,9 @@ function _registerPKSKHook(input: {
   indexConfig: AnyCollectionIndexConfig;
   entity: AnyEntity;
 }) {
-  const { hooks, indexConfig, entity } = input;
+  const { indexConfig, entity } = input;
 
-  hooks.preParse.register(async function applyDefaultHooks(ctx) {
+  input.hooks.preParse.register(async function applyDefaultHooks(ctx) {
     async function _onUpdate(doc: Record<string, any>) {
       doc.updatedAt = new Date();
       doc.updatedBy =
@@ -775,7 +795,7 @@ async function _parseOperationContext(input: {
     entityOptions,
     methodOptions,
     method,
-    hooks: hooks,
+    hooks: _hooks,
     databaseType,
     entity,
     indexFieldKeys,
@@ -803,7 +823,7 @@ async function _parseOperationContext(input: {
   }
 
   if (operationInfoContext.isUpdate) {
-    operationInfoContext = await hooks.preParse.exec(
+    operationInfoContext = await _hooks.preParse.exec(
       // @ts-ignore
       operationInfoContext,
       { entity }
@@ -811,7 +831,7 @@ async function _parseOperationContext(input: {
   }
 
   if ('item' in operationInfoContext.options) {
-    operationInfoContext = await hooks.preParse.exec(
+    operationInfoContext = await _hooks.preParse.exec(
       // @ts-ignore
       operationInfoContext,
       { entity }
@@ -825,14 +845,14 @@ async function _parseOperationContext(input: {
       const parsed = databaseType.parse(operationInfoContext.options.item, {
         allowExtraFields,
         exclude: indexFieldKeys,
-      }) as AnyEntityDocument;
+      }) as EntityDocumentBase;
 
       operationInfoContext.options.item = {
         ...operationInfoContext.options.item,
         ...parsed,
       };
 
-      operationInfoContext = await hooks.postParse.exec(
+      operationInfoContext = await _hooks.postParse.exec(
         // @ts-ignore
         operationInfoContext,
         { entity }
@@ -845,7 +865,7 @@ async function _parseOperationContext(input: {
   }
 
   if ('filter' in operationInfoContext.options) {
-    operationInfoContext = await hooks.beforeQuery.exec(
+    operationInfoContext = await _hooks.beforeQuery.exec(
       // @ts-ignore
       operationInfoContext,
       {}

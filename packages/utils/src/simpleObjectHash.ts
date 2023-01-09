@@ -1,8 +1,8 @@
+import { BJSON } from './BJSON';
+import { proxyRealValue } from './createProxy';
+import { describeConstructor, getNativeConstructorType } from './getTypeName';
 import { hashString, stringHash } from './hashString';
 import { sortObject } from './sortObject';
-import { BJSON } from './BJSON';
-import { describeConstructor, getNativeConstructorType } from './getTypeName';
-import { proxyRealValue } from './createProxy';
 
 export function simpleObjectHash(value: any): string {
   const nativeTof = getNativeConstructorType(value);

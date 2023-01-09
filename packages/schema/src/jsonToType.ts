@@ -1,17 +1,3 @@
-import { CircularDeps } from './CircularDeps';
-
-import { Infer } from './Infer';
-import { createType, GraphType } from './GraphType/GraphType';
-import { ULID_REGEX } from './fields/UlidField';
-
-import {
-  createObjectType,
-  FieldTypeName,
-  FinalFieldDefinition,
-  FinalObjectDefinition,
-  FlattenFieldDefinition,
-} from './ObjectType';
-
 import {
   customError,
   EmailRegex,
@@ -23,6 +9,18 @@ import {
   joinPathsCamelCase,
   stringCase,
 } from '@backland/utils';
+
+import { CircularDeps } from './CircularDeps';
+import { createType, GraphType } from './GraphType/GraphType';
+import { Infer } from './Infer';
+import {
+  createObjectType,
+  FieldTypeName,
+  FinalFieldDefinition,
+  FinalObjectDefinition,
+  FlattenFieldDefinition,
+} from './ObjectType';
+import { ULID_REGEX } from './fields/UlidField';
 
 const record = CircularDeps.record({ keyType: 'string', type: 'any' });
 

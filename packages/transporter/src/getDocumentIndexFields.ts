@@ -1,4 +1,5 @@
 import { devAssert, IndexCursor, inspectObject } from '@backland/utils';
+
 import { CollectionErrors, EntityErrorKind } from './CollectionErrors';
 import {
   AnyCollectionIndexConfig,

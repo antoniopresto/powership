@@ -14,11 +14,11 @@ import {
   parseFilterCursor,
 } from '@backland/utils';
 
+import { createEntityPlugin } from '../EntityPlugin';
 import {
   EntityOperationInfoContext,
   isEntityContextOfLoader,
-} from '../EntityInterfaces';
-import { createEntityPlugin } from '../EntityPlugin';
+} from '../entityOperationContextTypes';
 
 import { EntityIndexRelationConfig } from './addEntityIndexRelations';
 

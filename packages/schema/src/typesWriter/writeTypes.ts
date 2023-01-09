@@ -30,6 +30,7 @@ const typesRecord: Record<string, GraphTypeLike> = {};
 const resolversRecord: Record<string, AnyResolver> = {};
 const customTypeRecord: Record<string, CustomTypesWriterEvent> = {};
 
+// APLICAR AOS RESOLVERS DA ENTITY, etc
 BacklandWatchTypesPubSub.on('created', async (event) => {
   if (event.graphType?.optionalId) {
     typesRecord[`${event.graphType.id}`] = event.graphType;

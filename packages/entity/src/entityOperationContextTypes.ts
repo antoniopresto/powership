@@ -8,7 +8,6 @@ import {
   AnyEntity,
   EntityDocument,
   EntityLoaderConfig,
-  EntityOperationInfoContext,
 } from './EntityInterfaces';
 import { EntityOptions } from './EntityOptions';
 
@@ -163,3 +162,16 @@ export type EntityOperationInfosRecord = {
       : never
     : never;
 };
+
+export type EntityOperationInfoContext<
+  LoaderName extends TransporterLoaderName = TransporterLoaderName
+> = EntityOperationInfosRecord[LoaderName];
+
+export function isEntityContextOfLoader<
+  LoaderName extends TransporterLoaderName
+>(
+  t: EntityOperationInfoContext,
+  name: LoaderName
+): t is EntityOperationInfoContext<LoaderName> {
+  return t.loaderName === name;
+}

@@ -60,16 +60,17 @@ export function _addEntityIndexRelations(
         mainEntityIndex.relations = [];
       }
 
-      const relations: Writeable<typeof mainEntityIndex.relations> =
-        mainEntityIndex.relations as any;
+      const _relations = mainEntityIndex.relations as Writeable<
+        typeof mainEntityIndex.relations
+      >;
 
-      if (relations.find((el) => el.name === relName)) {
+      if (_relations.find((el) => el.name === relName)) {
         throw new Error(
           `Entity ${mainEntityName}: Relation with name "${relName}" already defined.`
         );
       }
 
-      relations.push({
+      _relations.push({
         entity: childOptions.name,
         name: relName,
       });

@@ -112,6 +112,10 @@ type ProductEntity = Entity<
   ]
 >;
 
+const p = {} as ProductEntity;
+
+p.findOne;
+
 type Mock = {
   [K: string]: any;
   ProductEntity: ProductEntity;
@@ -175,7 +179,7 @@ export function setupProductTest(withTransporter = true): {
     );
 
     const productCreateResolver = createResolver({
-      args: ProductEntity.inputDef.def(),
+      args: ProductEntity.extend.input.def(),
       kind: 'mutation',
       name: 'productCreate',
       async resolve(_root, args, context) {

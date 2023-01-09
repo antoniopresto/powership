@@ -1,5 +1,5 @@
-import { describeType, getTypeName } from './getTypeName';
 import { proxyRealValue } from './createProxy';
+import { describeType, getTypeName } from './getTypeName';
 
 export function sortObject<O>(object: O): O {
   object = proxyRealValue(object);

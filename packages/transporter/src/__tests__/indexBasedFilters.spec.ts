@@ -176,7 +176,7 @@ describe('getDocumentIndexFields', () => {
 
       expect(filterParsed).toEqual({
         indexFilter: {
-          _idPK: 'account⋮_id⋮0100000000⋮',
+          _idPK: 'account⋮_id⋮0100000000⊰accountstoken⋮',
           _idSK: {
             $startsWith: 'password∙0100000000',
           },
@@ -207,7 +207,7 @@ describe('getDocumentIndexFields', () => {
 
       expect(filterParsed).toEqual({
         indexFilter: {
-          _idPK: 'account⋮_id⋮0100000000⋮',
+          _idPK: 'account⋮_id⋮0100000000⊰accountstoken⋮',
           _idSK: {
             $startsWith: 'password∙0100000000',
           },
@@ -215,7 +215,7 @@ describe('getDocumentIndexFields', () => {
         relationFilters: [
           {
             _idPK: {
-              $startsWith: 'account⋮_id⋮0100000000⊰',
+              $startsWith: 'account⋮_id⋮0100000000⊰accountstoken⊰',
             },
           },
         ],
@@ -299,7 +299,7 @@ describe('getDocumentIndexFields', () => {
 
         expect(filterParsed).toEqual({
           indexFilter: {
-            _idPK: 'potatos⋮_id⋮0100000000⦁POTATOS∙BANANAS⦙A∙B⋮',
+            _idPK: 'potatos⋮_id⋮0100000000⦁POTATOS∙BANANAS⦙A∙B⊰accountstoken⋮',
           },
         });
       });

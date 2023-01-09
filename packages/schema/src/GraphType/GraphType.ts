@@ -26,6 +26,14 @@ import {
   extendObjectDefinition,
   ExtendObjectDefinition,
 } from '../extendObjectDefinition';
+import {
+  extendType,
+  ExtendType,
+  MakeTypeList,
+  MakeTypeOptional,
+  MakeTypeRequired,
+  MakeTypeSingle,
+} from '../extendType';
 import { FieldParserConfig, TAnyFieldType } from '../fields/FieldType';
 import { GraphTypeLike } from '../fields/IObjectLike';
 import { getObjectDefinitionId } from '../fields/MetaFieldField';
@@ -35,14 +43,6 @@ import type { ObjectToTypescriptOptions } from '../objectToTypescript';
 import { parseObjectField } from '../parseObjectDefinition';
 
 import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
-import {
-  extendType,
-  ExtendType,
-  MakeTypeList,
-  MakeTypeOptional,
-  MakeTypeRequired,
-  MakeTypeSingle,
-} from '../extendType';
 
 export class GraphType<Definition extends ObjectFieldInput> {
   static __isGraphType = true;

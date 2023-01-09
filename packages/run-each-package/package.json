@@ -1,6 +1,6 @@
 {
   "name": "run-each-package",
-  "version": "0.0.0-alpha.1672930534219",
+  "version": "0.0.0-alpha.20230109003349091",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -25,14 +25,14 @@
   "keywords": [],
   "dependencies": {
     "fs-extra": "^11.1.0",
-    "@backland/schema": "0.0.0-alpha.1672930534219"
+    "@backland/schema": "0.0.0-alpha.20230109003349091"
   },
   "devDependencies": {
     "@babel/cli": "7.19.3",
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@backland/babel-plugins": "0.0.0-alpha.1672930534219",
+    "@backland/babel-plugins": "0.0.0-alpha.20230109003349091",
     "@types/node": "16.18.3",
     "@typescript-eslint/eslint-plugin": "5.39.0",
     "@typescript-eslint/parser": "5.39.0",

@@ -1,8 +1,8 @@
 import clone from 'fast-copy';
 
 import { RuntimeError } from './RuntimeError';
-import { sortObject } from './sortObject';
 import { proxyRealValue } from './createProxy';
+import { sortObject } from './sortObject';
 
 export function simpleObjectClone<T>(input: T, options = { sort: false }): T {
   input = proxyRealValue(input);

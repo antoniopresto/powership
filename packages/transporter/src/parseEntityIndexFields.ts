@@ -1,11 +1,11 @@
-import { AnyCollectionIndexConfig, CommonIndexFields } from './CollectionIndex';
 import { FieldInput, ObjectDefinitionInput } from '@backland/schema';
-
 import {
   INDEX_PART_SEP,
   parseIndexFieldName,
   RELATION_PRECEDES,
 } from '@backland/utils';
+
+import { AnyCollectionIndexConfig, CommonIndexFields } from './CollectionIndex';
 
 export function parseEntityIndexFields(indexConfig: AnyCollectionIndexConfig) {
   const { indexes } = indexConfig;

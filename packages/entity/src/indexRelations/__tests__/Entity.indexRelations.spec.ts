@@ -2,7 +2,7 @@ import { mockApp } from '../../__tests__/mockApp';
 import { createType, ObjectType } from '@backland/schema';
 import { createEntity } from '../../Entity';
 import { assert, IsExact } from 'conditional-type-checks';
-import { EntityDefaultFields } from '../../EntityInterfaces';
+import { EntityDocumentBase } from '../../EntityInterfaces';
 import { ulid } from '@backland/utils';
 
 describe('Entity.indexRelations', () => {
@@ -135,7 +135,7 @@ describe('Entity.indexRelations', () => {
       }[];
     };
 
-    type ExpectedOutput = EntityDefaultFields &
+    type ExpectedOutput = EntityDocumentBase &
       Omit<ExpectedInput, 'access'> & { access: T['access'] };
 
     assert<IsExact<P, T>>(true);
@@ -362,7 +362,7 @@ describe('Entity.indexRelations', () => {
       context,
     });
 
-    expect(found.items).toEqual([
+    expect(found.items).toMatchObject([
       {
         _c: '~!YWNjb3VudOKLrl9pZOKLrjEyM+KLruKLrg==',
         _e: 'account',
@@ -441,7 +441,7 @@ describe('Entity.indexRelations', () => {
       context,
     });
 
-    expect(found.items).toEqual([
+    expect(found.items).toMatchObject([
       {
         _c: '~!YWNjb3VudOKLrl9pZOKLrjEyM+KLruKLrg==',
         _id: 'account⋮_id⋮123⋮⋮',

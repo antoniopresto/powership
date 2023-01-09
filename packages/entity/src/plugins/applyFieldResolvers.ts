@@ -73,7 +73,9 @@ export const applyFieldResolvers = createEntityPlugin(
                 );
               }
 
-              node[field] = val; // ⬅️ mutating the original doc
+              if (node != null) {
+                node[field] = val; // ⬅️ mutating the original doc
+              }
             })
           );
         })

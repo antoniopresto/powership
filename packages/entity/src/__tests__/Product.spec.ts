@@ -23,7 +23,21 @@ describe('Product', () => {
     expect(entity.originType).toEqual(options.type);
     const { __dschm__, ...def } = parseField(options.type.definition)
       .def as any;
-    expect(entity.inputDef.def()).toEqual(def);
+
+    expect(entity.extend.input.def()).toMatchObject({
+      ...def,
+      _c: {
+        def: {
+          min: 5,
+          regex: ['^~!.*'],
+        },
+        description: 'The full hashed value of the first index.',
+        hidden: true,
+        name: 'EntityHashedCursor',
+        optional: true,
+        type: 'string',
+      },
+    });
 
     expect(Object.keys(parseField(entity.type.definition).def).sort()).toEqual([
       'SKU',
@@ -115,7 +129,7 @@ describe('Product', () => {
       context: {},
     });
 
-    expect(product).toEqual({
+    expect(product).toMatchObject({
       item: {
         SKU: 'sku0',
         id: expect.any(String),

@@ -2,31 +2,23 @@ import { Compute, Merge, OnlyKnown } from '@backland/utils';
 
 import { ParseStringDefinition } from '../../parseStringDefinition';
 import { CommonDefSafe, FieldTypeName } from '../_fieldDefinitions';
+import { FinalFieldDefinition } from '../_parseFields';
 
 import { _FieldKV, _GetKey, GraphTypeKID, ObjectTypeKID } from './InferField';
 import { GraphTypeLikeFieldDefinition } from './InferGraphType';
 import { ObjectTypeLikeFieldDefinition } from './InferObjectType';
-import { FinalFieldDefinition } from '../_parseFields';
 
-export const $sealedKey = '$sealed';
+export const $sealedKey = '___sealed';
 export type $sealedKey = typeof $sealedKey;
 export const $sealed = Symbol($sealedKey);
 export type $sealed = typeof $sealed;
 
-export const $inferableKey = '$inferable';
+export const $inferableKey = '___inferable';
 export type $inferableKey = typeof $inferableKey;
 
 export type DescribeField<Input> = [$sealedKey] extends [keyof Input]
   ? Input
-  : SealedField<
-      Merge<
-        {
-          list: _GetKey<Input, 'list'>;
-          optional: _GetKey<Input, 'optional'>;
-        },
-        _DescribeField<Input>
-      >
-    > extends infer R
+  : SealedField<_DescribeField<Input>> extends infer R
   ? { [K in keyof R]: R[K] } & {}
   : never;
 
@@ -41,7 +33,7 @@ export type _DescribeField<Input> =
     : never;
 
 export type SealedField<D extends object> = 'type' extends keyof D
-  ? Seal<Merge<D, CommonDefSafe>>
+  ? Seal<Merge<CommonDefSafe, D>>
   : D;
 
 export type $sealedDef = Compute<
@@ -101,6 +93,8 @@ export type _DescribeObject<Input extends object> =
           ? {
               type: 'object';
               def: DescribeObjectDefinition<Input['definition']>;
+              list: _GetKey<Input, 'list'>;
+              optional: _GetKey<Input, 'optional'>;
             }
           : never
         : //
@@ -108,6 +102,8 @@ export type _DescribeObject<Input extends object> =
         ? {
             type: K;
             def: V;
+            list: _GetKey<Input, 'list'>;
+            optional: _GetKey<Input, 'optional'>;
           }
         : //
         K extends 'type'
@@ -119,16 +115,20 @@ export type _DescribeObject<Input extends object> =
           ? {
               type: V;
               def: _GetKey<Input, 'def'>;
-              list: [true] extends [_GetKey<Input, 'list'>] ? true : false;
-              optional: [true] extends [_GetKey<Input, 'optional'>]
-                ? true
-                : false;
+              list: _GetKey<Input, 'list'>;
+              optional: _GetKey<Input, 'optional'>;
             }
           : //
 
           // {type: GraphType,  .... }
           Input[K] extends GraphTypeLikeFieldDefinition
-          ? DescribeField<Input[K]['definition']>
+          ? Merge<
+              DescribeField<Input[K]['definition']>,
+              _OmitUndefined<{
+                list: _GetKey<Input, 'list'>;
+                optional: _GetKey<Input, 'optional'>;
+              }>
+            >
           : //
 
           // {type: ObjectType,  .... }
@@ -136,9 +136,15 @@ export type _DescribeObject<Input extends object> =
           ? {
               type: 'object';
               def: DescribeObjectDefinition<Input[K]['definition']>;
+              list: _GetKey<Input, 'list'>;
+              optional: _GetKey<Input, 'optional'>;
             }
           : never
         : //
           never
       : never
     : never;
+
+export type _OmitUndefined<T> = {
+  [K in keyof T as T[K] extends undefined ? never : K]: T[K];
+} & {};

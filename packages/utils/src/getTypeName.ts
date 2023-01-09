@@ -1,7 +1,8 @@
-import { proxyRealValue } from './createProxy';
-import { BJSON } from './BJSON';
-import { simpleObjectHash } from './simpleObjectHash';
 import isPlainObject from 'lodash/isPlainObject';
+
+import { BJSON } from './BJSON';
+import { proxyRealValue } from './createProxy';
+import { simpleObjectHash } from './simpleObjectHash';
 
 export function getTypeName(input: any): string {
   const simple = getNativeConstructorType(input);

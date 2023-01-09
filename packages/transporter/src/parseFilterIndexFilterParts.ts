@@ -1,5 +1,3 @@
-import { FilterRecord, IndexFilter, IndexFilterRecord } from './Transporter';
-import { pickIndexKeyPartsFromDocument } from './pickIndexKeyPartsFromDocument';
 import {
   devAssert,
   inspectObject,
@@ -10,12 +8,15 @@ import {
   parseIndexCursor,
   parseIndexFieldName,
 } from '@backland/utils';
+
 import {
   AnyCollectionIndexConfig,
   DocumentIndexItem,
   ParsedIndexPart,
 } from './CollectionIndex';
+import { FilterRecord, IndexFilter, IndexFilterRecord } from './Transporter';
 import { encodeIndexValue } from './encodeIndexValue';
+import { pickIndexKeyPartsFromDocument } from './pickIndexKeyPartsFromDocument';
 
 export type ParsedIndexFilterPart = {
   entity: string;

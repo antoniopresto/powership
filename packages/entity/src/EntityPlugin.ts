@@ -7,12 +7,10 @@ import {
 import { tuple } from '@backland/utils';
 import { Parallel, Waterfall } from 'plugin-hooks';
 
-import {
-  AnyEntity,
-  EntityDocument,
-  EntityOperationInfoContext,
-} from './EntityInterfaces';
+import { AnyEntity } from './EntityInterfaces';
+import { EntityDocument } from './EntityInterfaces';
 import { EntityFieldResolver, EntityOptions } from './EntityOptions';
+import { EntityOperationInfoContext } from './entityOperationContextTypes';
 
 export function createEntityPlugin(
   name: string,

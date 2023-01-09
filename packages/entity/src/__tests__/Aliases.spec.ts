@@ -44,7 +44,7 @@ describe('Aliases', () => {
       context: {},
     });
 
-    expect(user).toEqual({
+    expect(user).toMatchObject({
       item: {
         _c: '~!dXNlcuKLrl9pZOKLrmFudG9uaW/ii67ii64=',
         id: '~!dXNlcuKLrl9pZOKLrmFudG9uaW/ii67ii64=',

@@ -17,6 +17,6 @@ export const AccessTypeEntity = createEntity({
       name: '_id2',
     },
   ],
-});
+} as const);
 
 export type AccessTypeDocument = EntityDocument<AccessType>;

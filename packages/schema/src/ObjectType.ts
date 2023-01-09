@@ -21,7 +21,10 @@ import {
   parseValidationError,
   ValidationCustomMessage,
 } from './applyValidator';
-import { extendObjectDefinition, ExtendObjectDefinition } from './extendObjectDefinition';
+import {
+  extendObjectDefinition,
+  ExtendObjectDefinition,
+} from './extendObjectDefinition';
 import { FieldComposer } from './fields/FieldType';
 import { ObjectLike } from './fields/IObjectLike';
 import { InferObjectDefinition } from './fields/Infer';

@@ -1,11 +1,11 @@
 import spawn from 'child_process';
 import path from 'path';
-
-import chalk from 'chalk';
-import fs from 'fs-extra';
 import * as process from 'process';
+
 import { createType } from '@backland/schema';
 import { getStack } from '@backland/utils/lib/stackTrace';
+import chalk from 'chalk';
+import fs from 'fs-extra';
 
 export type _MaybePromise<T> = T | Promise<T>;
 

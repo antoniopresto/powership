@@ -2,13 +2,14 @@ import {
   describeType,
   ensureArray,
   hashString,
-  proxyRealValue,
   noop,
-  uniq,
+  proxyRealValue,
 } from '@backland/utils';
 
-import { GraphType, isFieldTypeName, ObjectType } from '@backland/schema';
 import { CircularDeps } from '../CircularDeps';
+import { GraphType } from '../GraphType/GraphType';
+import { ObjectType } from '../ObjectType';
+import { isFieldTypeName } from '../fields/fieldTypes';
 
 export const tsfy_defaults = {
   iterationLimit: 5000,
@@ -204,6 +205,7 @@ export function createTSFYRef(rootValue: any, context: TSFYContext): TSFYRef {
         context.header[hash] =
           'export type AnyFunction = (...args: any[]) => any; ';
         ref.result = 'AnyFunction';
+
         return ref;
       }
 
@@ -277,7 +279,7 @@ function getIdentifier(value: any) {
   if (!value) return undefined;
   if (typeof value !== 'object') return undefined;
 
-  if (value.__$is_entity__ === true) {
+  if (value.__isEntity === true) {
     return `T${value.name}Entity`;
   }
 
@@ -325,4 +327,41 @@ export function createTSFYContext(): TSFYContext {
     refs: {},
     header: {},
   };
+}
+
+export type TSFyChunkDefinition = {
+  value?: string;
+  identifier?: string;
+  functionArguments?: TSFyTypeDef[];
+  functionResult?: TSFyTypeDef;
+};
+
+export type TSFyTypeDef = {
+  body: (TSFyChunkDefinition | string)[];
+  header?: Record<string, string>;
+};
+
+export function createTSFyTypeDefinition(config: TSFyTypeDef) {
+  return {
+    ...config,
+    __kind: 'TSFyTypeDefinition',
+  } as const;
+}
+
+export function withTSFYDefinition<Value>(
+  value: Value,
+  definition: TSFyTypeDef
+): Value & { tsfyDefinition: TSFyTypeDef } {
+  let _definition;
+
+  Object.defineProperties(value, {
+    tsfyDefinition: {
+      get() {
+        return (_definition =
+          _definition || createTSFyTypeDefinition(definition));
+      },
+    },
+  });
+
+  return value as any;
 }

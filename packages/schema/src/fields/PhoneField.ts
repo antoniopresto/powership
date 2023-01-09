@@ -1,9 +1,10 @@
 import { assertEqual, isProduction } from '@backland/utils';
-import type { PhoneNumberTypes, ParsedPhoneNumber } from 'awesome-phonenumber';
+import type { ParsedPhoneNumber, PhoneNumberTypes } from 'awesome-phonenumber';
+
+import { CircularDeps } from '../CircularDeps';
 
 import { FieldType, FieldTypeParser } from './FieldType';
 import { createFieldTypeError } from './FieldTypeErrors';
-import { CircularDeps } from '../CircularDeps';
 
 export type { PhoneNumberTypes, ParsedPhoneNumber };
 

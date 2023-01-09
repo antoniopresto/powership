@@ -1,8 +1,8 @@
 import { parseObjectDefinition } from '@backland/schema';
 
-export const createEntityDefaultFields = <Optional extends Readonly<boolean>>(
+export const createEntityDocumentBase = <Optional extends Readonly<boolean>>(
   optional: Optional = false as Optional
-): EntityDefaultFieldsDef<Optional> =>
+): EntityDocumentBaseDef<Optional> =>
   parseObjectDefinition({
     _v: {
       hidden: true,
@@ -23,9 +23,7 @@ export const createEntityDefaultFields = <Optional extends Readonly<boolean>>(
     },
   }).definition as any;
 
-export type EntityOptionalDefaultFieldsDef = EntityDefaultFieldsDef<true>;
-
-export type EntityDefaultFieldsDef<Optional extends boolean = false> = {
+export type EntityDocumentBaseDef<Optional extends boolean = false> = {
   _v: {
     hidden: true;
     ulid: { autoCreate: true };

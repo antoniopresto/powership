@@ -51,6 +51,7 @@ import { ObjectField } from '../fields/ObjectField';
 import { UnionField } from '../fields/UnionField';
 import { FieldTypeName } from '../fields/_fieldDefinitions';
 import { FinalFieldDefinition } from '../fields/_parseFields';
+import { ObjectHelpers } from '../getObjectHelpers';
 import { isHiddenFieldName } from '../isHiddenFieldName';
 import { parseTypeName } from '../parseTypeName';
 
@@ -58,7 +59,6 @@ import { GraphQLDateType } from './GraphQLDateType';
 import { GraphQLNullType } from './GraphQLNullType';
 import { GraphQLPhoneType } from './GraphQLPhoneType';
 import { GraphQLUlidType } from './GraphQLUlidType';
-import { ObjectHelpers } from "../getObjectHelpers";
 
 export function createHooks() {
   return {
@@ -152,14 +152,15 @@ export class GraphQLParser {
     return { cacheId, object, objectId };
   };
 
-  static objectToGraphQL(options: {
+  static objectToGraphQL(init: {
     object: { [K in keyof ObjectType<any>]: any } & {};
     path?: string[]; // family tree of an object/field
   }): GraphQLParserResult {
-    const { object, path } = options;
+    const { path } = init;
+    const objectInput = init.object;
 
-    const { cacheId, objectId } = this.objectIds(object);
-    const { implements: parents } = object.meta;
+    const { cacheId, objectId } = this.objectIds(objectInput);
+    const { implements: parents } = objectInput.meta;
 
     if (resultsCache.has(cacheId)) {
       return resultsCache.get(cacheId);
@@ -175,7 +176,7 @@ export class GraphQLParser {
         interfaces?: ThunkReadonlyArray<GraphQLInterfaceType>;
       },
 
-      getType: (data: ConvertFieldResult) => T
+      _getType: (data: ConvertFieldResult) => T
     ) => {
       const { interfaces: currentInterfacesOption } = options;
 
@@ -200,8 +201,8 @@ export class GraphQLParser {
       };
 
       options.fields = () => {
-        const helpers: ObjectHelpers = object.helpers();
-        const objectMiddleware = object.graphQLMiddleware || [];
+        const helpers: ObjectHelpers = objectInput.helpers();
+        const objectMiddleware = objectInput.graphQLMiddleware || [];
 
         const builders: ConvertFieldResult[] = [];
         const hooks = createHooks();
@@ -254,12 +255,12 @@ export class GraphQLParser {
         function _useConvertFieldResult(next: ConvertFieldResult) {
           const field: GraphQLFieldConfig<any, any> = {
             description: next.description,
-            type: getType(next) as any,
+            type: _getType(next) as any,
           };
 
           const origin =
             // @ts-ignore
-            (object.definition[next.fieldName] as FinalFieldDefinition) ||
+            (objectInput.definition[next.fieldName] as FinalFieldDefinition) ||
             undefined;
 
           if (origin?.hidden) return;
@@ -300,16 +301,16 @@ export class GraphQLParser {
     };
 
     function getType(_options: ParseTypeOptions = {}) {
-      const options = { fields: {}, name: objectId, ..._options };
-      const { name } = options;
+      const __options = { fields: {}, name: objectId, ..._options };
+      const { name } = __options;
 
       if (graphqlTypesRegister.has(name)) {
         return graphqlTypesRegister.get(name);
       }
 
-      buildFields(options, (el) => el.type());
-      const result = new GraphQLObjectType(options);
-      graphqlTypesRegister.set(options.name, result);
+      buildFields(__options, (el) => el.type());
+      const result = new GraphQLObjectType(__options);
+      graphqlTypesRegister.set(__options.name, result);
 
       return result;
     }
@@ -367,7 +368,7 @@ export class GraphQLParser {
       getType,
       inputToString: getInputSDL,
       interfaceType,
-      object: object as any,
+      object: objectInput as any,
       typeToString: getSDL,
     };
 
@@ -376,20 +377,20 @@ export class GraphQLParser {
     return graphqlParsed;
   }
 
-  static fieldToGraphQL(options: {
+  static fieldToGraphQL(init: {
     field: TAnyFieldType;
     fieldName: string;
     parentName: string;
     path: string[];
   }): ConvertFieldResult {
-    const { fieldName, parentName } = options;
-    const fieldClone = options.field;
+    const { fieldName, parentName } = init;
+    const fieldClone = init.field;
     const plainField = fieldClone.asFinalFieldDef;
 
     const { optional, typeName } = fieldClone;
     const { description } = plainField;
 
-    const path = [...options.path, fieldName];
+    const path = [...init.path, fieldName];
 
     const cacheId = path.join('--');
 
@@ -410,7 +411,7 @@ export class GraphQLParser {
     const self = this;
 
     // @ts-ignore
-    const create: {
+    const creators: {
       [T in FieldTypeName]: () => Omit<
         ConvertFieldResult,
         'typeName' | 'fieldName' | 'path' | 'plainField' | 'composers'
@@ -728,17 +729,17 @@ export class GraphQLParser {
           throw new Error(`can't handle alias in convertField.`);
         }
 
-        let result = create[typeName]().inputType(...args);
+        let _result = creators[typeName]().inputType(...args);
 
         if (fieldClone.list) {
-          result = new GraphQLList(result);
+          _result = new GraphQLList(_result);
         }
 
         if (!optional && fieldClone.defaultValue === undefined) {
-          result = new GraphQLNonNull(result);
+          _result = new GraphQLNonNull(_result);
         }
 
-        return result;
+        return _result;
       },
       plainField,
       type(...args) {
@@ -747,17 +748,17 @@ export class GraphQLParser {
           throw new Error(`can't handle alias in convertField.`);
         }
 
-        let result = create[typeName]().type(...args);
+        let _result = creators[typeName]().type(...args);
 
         if (fieldClone.list) {
-          result = new GraphQLList(result);
+          _result = new GraphQLList(_result);
         }
 
-        if (!optional && isNullableType(result)) {
-          result = new GraphQLNonNull(result);
+        if (!optional && isNullableType(_result)) {
+          _result = new GraphQLNonNull(_result);
         }
 
-        return result;
+        return _result;
       },
 
       typeName,

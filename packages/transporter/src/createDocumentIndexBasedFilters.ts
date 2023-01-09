@@ -1,11 +1,9 @@
-import { IndexFilterRecord } from './Transporter';
 import {
   nonNullValues,
   parseIndexFieldName,
   RELATION_PRECEDES,
 } from '@backland/utils';
-import { parseFilterIndexFilterParts } from './parseFilterIndexFilterParts';
-import { getDocumentIndexFields } from './getDocumentIndexFields';
+
 import {
   AnyCollectionIndexConfig,
   IndexBasedFilterParsed,
@@ -13,6 +11,9 @@ import {
   ParsedIndexKey,
   RelationsFilter,
 } from './CollectionIndex';
+import { IndexFilterRecord } from './Transporter';
+import { getDocumentIndexFields } from './getDocumentIndexFields';
+import { parseFilterIndexFilterParts } from './parseFilterIndexFilterParts';
 
 /**
  * Receives a document indexConfig and a key-value filter and converts to

@@ -1,15 +1,17 @@
-import { FilterConditions, isFilterConditionKey } from './Transporter';
 import {
   encodeNumber,
   getByPath,
   getKeys,
-  inspectObject, parseIndexFieldName,
+  inspectObject,
+  parseIndexFieldName,
 } from '@backland/utils';
+
 import {
   IndexKeyHash,
   IndexPartKind,
   ParsedIndexPart,
 } from './CollectionIndex';
+import { FilterConditions, isFilterConditionKey } from './Transporter';
 
 export function pickIndexKeyPartsFromDocument(param: {
   acceptNullable: boolean;

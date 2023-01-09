@@ -198,14 +198,14 @@ function get(key: string) {
 
   const modules = getModules();
 
-  Object.entries(modules).forEach(([key, value]) => {
-    if (cache.has(key)) return;
+  Object.entries(modules).forEach(([_key, value]) => {
+    if (cache.has(_key)) return;
 
     // parser -> parser
     // parser -> vizinho
 
     if (isBrowser() && value.server) {
-      cache.set(key, undefined);
+      cache.set(_key, undefined);
       return;
     }
 
@@ -216,12 +216,12 @@ function get(key: string) {
 
     let mainModule = moduleObject.default ? moduleObject.default : moduleObject;
 
-    if (mainModule?.[key]) {
-      mainModule = mainModule[key];
+    if (mainModule?.[_key]) {
+      mainModule = mainModule[_key];
     }
 
     Object.entries(moduleObject || {}).forEach(([subKey, subModule]) => {
-      if (subKey !== key) {
+      if (subKey !== _key) {
         cache.set(subKey, subModule);
       }
 
@@ -233,7 +233,7 @@ function get(key: string) {
       }
     });
 
-    cache.set(key, mainModule);
+    cache.set(_key, mainModule);
   });
 
   const fieldTypes = modules.fieldTypes.module();

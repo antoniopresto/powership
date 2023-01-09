@@ -186,7 +186,9 @@ describe('createType', () => {
 
     assert<IsExact<Return, { foo: number }[]>>(true);
 
-    expect(() => sut.parse([{ name: 1 }])).toThrow('at position 0');
+    expect(() => sut.parse([{ name: 1 }])).toThrow(
+      'Expected object, found Array'
+    );
 
     expect(sut.graphQLType().toString()).toEqual('[Foo]!');
     expect(sut.graphQLInputType().toString()).toEqual('[FooInput]!');
@@ -230,7 +232,9 @@ describe('createType', () => {
 
     assert<IsExact<Return, { foo: number }[] | undefined>>(true);
 
-    expect(() => sut.parse([{ name: 1 }])).toThrow('field "foo"');
+    expect(() => sut.parse([{ name: 1 }])).toThrow(
+      'Expected object, found Array'
+    );
 
     expect(sut.graphQLType().toString()).toEqual('[Foo]');
     expect(sut.graphQLInputType().toString()).toEqual('[FooInput]');

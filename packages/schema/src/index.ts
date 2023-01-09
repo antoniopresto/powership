@@ -18,6 +18,10 @@ export * from './isHiddenFieldName';
 
 // @only-server
 export * from './Resolver';
+
+// @only-server
+export * from './tsfy/tsfy';
+
 // @only-server
 export * from './createGraphQLSchema';
 // @only-server
