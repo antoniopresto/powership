@@ -32,6 +32,7 @@ export const JSONToSchemaOptions = createObjectType({
   examples: 'boolean?',
   name: 'string?',
   json: { record: { type: 'any', keyType: 'string' } },
+  url: 'string?',
 });
 
 export type JSONToSchemaOptions = Infer<typeof JSONToSchemaOptions>;

@@ -15,6 +15,7 @@ export async function backlandUtilsResolver(input: BacklandUtilsResolverInit) {
     json,
     examples = true,
     name = 'Example',
+    url,
     ...options
   } = JSONToSchemaOptions.parse(input);
 
@@ -36,7 +37,7 @@ export async function backlandUtilsResolver(input: BacklandUtilsResolverInit) {
   });
 
   const resBody = [
-    renderForm(json),
+    renderForm({ json, url }),
 
     `<h1>Definition</h1>`,
     `<pre><code class="language-json">${jsonCode.value}</code></pre>`,
@@ -55,10 +56,12 @@ export async function backlandUtilsResolver(input: BacklandUtilsResolverInit) {
   };
 }
 
-function renderForm(example: Record<string, any> = { a: 1, b: [1, 2, '3'] }) {
+function renderForm(init: { json: Record<string, any>; url?: string }) {
+  const { json, url = '/r/backland/toschema' } = init;
+
   return [
     '<h1>Parse new JSON:</h1>',
-    '<form action="/r/backland/toschema" method="POST">',
+    `<form action="${url}" method="POST">`,
     //
     '<label>Type Name: <input name="name" value="Example" ></input></label>',
     //
@@ -73,7 +76,7 @@ function renderForm(example: Record<string, any> = { a: 1, b: [1, 2, '3'] }) {
     '<br>',
     '<br>',
     '<textarea planeholder="JSON" name="json" style="width: 595px; height: 163px;">',
-    JSON.stringify(example, null, 2),
+    JSON.stringify(json, null, 2),
     '</textarea>',
     //
     '<br>',
