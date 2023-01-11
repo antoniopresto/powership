@@ -31,6 +31,7 @@ import {
   ensureArray,
   getByPath,
   isProduction,
+  lazyGetters,
   Logger,
   nonNullValues,
   notNull,
@@ -363,7 +364,8 @@ export function createEntity(
       object: databaseDefinition,
     });
 
-    const updateDefinition = databaseType.clone((t) => t.optional().def());
+    const updateDefinitionBase = databaseType.clone((t) => t.optional());
+    const updateDefinition = updateDefinitionBase.def();
 
     _hooks.createDefinition.exec(inputDefinition, {
       entityOptions,
@@ -413,6 +415,7 @@ export function createEntity(
         })
         .graphType(`${entityName}Input`)
     );
+
     function _createLoader(config: {
       indexInfo: ParsedIndexKey[];
       loaderIndexes: EntityOptions['indexes'];
@@ -688,22 +691,9 @@ export function createEntity(
       return next(acc);
     }, entityResult);
 
-    let _inputExt: any;
-    let _updateExt: any;
-    Object.defineProperties(entityResult.extend, {
-      input: {
-        get() {
-          return (_inputExt =
-            _inputExt || extendObjectDefinition({ object: inputDefinition }));
-        },
-      },
-
-      update: {
-        get() {
-          return (_updateExt =
-            _updateExt || extendObjectDefinition({ object: updateDefinition }));
-        },
-      },
+    lazyGetters(entityResult, {
+      extendInput: () => extendObjectDefinition({ object: inputDefinition }),
+      extendUpdate: extendObjectDefinition({ object: updateDefinition }),
     });
 
     return entityResult;

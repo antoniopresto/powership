@@ -179,7 +179,7 @@ export function setupProductTest(withTransporter = true): {
     );
 
     const productCreateResolver = createResolver({
-      args: ProductEntity.extend.input.def(),
+      args: ProductEntity.extendInput.def(),
       kind: 'mutation',
       name: 'productCreate',
       async resolve(_root, args, context) {

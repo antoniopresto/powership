@@ -24,7 +24,7 @@ describe('Product', () => {
     const { __dschm__, ...def } = parseField(options.type.definition)
       .def as any;
 
-    expect(entity.extend.input.def()).toMatchObject({
+    expect(entity.extendInput.def()).toMatchObject({
       ...def,
       _c: {
         def: {

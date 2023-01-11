@@ -106,7 +106,7 @@ describe('ProductResolver.addRelation', () => {
     });
 
     expect(
-      Object.entries(ProductEntity.extend.update.def()).map(
+      Object.entries(ProductEntity.extendUpdate.def()).map(
         ([key, { optional }]) => [key, optional]
       )
     ).toEqual([
@@ -306,7 +306,7 @@ describe('ProductResolver.addRelation', () => {
 
     expect(
       createType('Product2InputInput', {
-        object: ProductEntity.extend.input.def(),
+        object: ProductEntity.extendInput.def(),
       }).print()
     ).toEqual([
       'type Product2InputInput {',

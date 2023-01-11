@@ -1,4 +1,10 @@
-import { GraphType, ObjectDefinitionInput } from '@backland/schema';
+import {
+  DescribeObjectDefinition,
+  ExtendObjectDefinition,
+  GraphType,
+  MakeFieldOptional,
+  ObjectDefinitionInput,
+} from '@backland/schema';
 import {
   CommonIndexFields,
   ParsedDocumentIndexes,
@@ -38,6 +44,16 @@ export interface EntityFromContext<Context extends AnyEntityTypesContext>
   type: GraphType<{
     object: Context['outputDefinition'];
   }>;
+
+  extendInput: ExtendObjectDefinition<
+    Context['originDefinition'],
+    Context['originDefinition']
+  >;
+  
+  extendUpdate: ExtendObjectDefinition<
+    { object: _AllOptional<Context['originDefinition']> },
+    { object: _AllOptional<Context['originDefinition']> }
+  >;
 
   addIndexRelation: <E extends unknown, Name extends string>(
     name: Name,
@@ -93,7 +109,7 @@ export interface EntityFromContext<Context extends AnyEntityTypesContext>
 
   addHooks: (options: (hooks: EntityHooks) => any) => this;
 
-  extend: ExtendEntity<this, Context>;
+  extend: ExtendEntity<this>;
 
   hooks: EntityHooks;
 
@@ -110,6 +126,9 @@ export type _ExtendMethodKeys = 'addHooks' | 'addRelation' | 'extend';
 export type _ExcludeExtend<E> = {
   [K in keyof E as K extends _ExtendMethodKeys ? never : K]: E[K];
 } & {};
+
+export type _AllOptional<Input extends ObjectDefinitionInput> =
+  MakeFieldOptional<DescribeObjectDefinition<Input>, keyof Input>;
 
 // extendType: <T extends _EntityGraphType>(
 //   handler: (

@@ -1,14 +1,8 @@
-import {
-  DescribeObjectDefinition,
-  ExtendObjectDefinition,
-  MakeFieldOptional,
-  ObjectDefinitionInput,
-} from '@backland/schema';
+import { ExtendObjectDefinition } from '@backland/schema';
 
-import { AnyEntityTypesContext } from './Context';
 import { _ExcludeExtend } from './EntityFromContext';
 
-export interface ExtendEntity<Parent, Context extends AnyEntityTypesContext> {
+export interface ExtendEntity<Parent> {
   /**
    * Extend current entity
    * @param transformer
@@ -31,17 +25,4 @@ export interface ExtendEntity<Parent, Context extends AnyEntityTypesContext> {
           : never;
       }
     : never;
-
-  input: ExtendObjectDefinition<
-    Context['originDefinition'],
-    Context['originDefinition']
-  >;
-
-  update: ExtendObjectDefinition<
-    { object: _AllOptional<Context['originDefinition']> },
-    { object: _AllOptional<Context['originDefinition']> }
-  >;
 }
-
-export type _AllOptional<Input extends ObjectDefinitionInput> =
-  MakeFieldOptional<DescribeObjectDefinition<Input>, keyof Input>;

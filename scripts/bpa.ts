@@ -1,5 +1,6 @@
-import { runeach } from 'run-each-package';
 import * as process from 'process';
+
+import { runeach } from 'run-each-package';
 
 const time = new Date().toISOString().replace(/\D/g, '');
 const version = `0.0.0-alpha.${time}`;
@@ -28,8 +29,7 @@ map(({ saveJSON, json, run }) => {
 
   saveJSON();
 
-  let publish = 'npm publish --tag=next --access public';
-  if (unsafeMode) publish += ` --ignore-scripts`;
+  let publish = 'npm publish --tag=next --access public --ignore-scripts';
 
   run(publish);
 });

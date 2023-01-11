@@ -2,8 +2,6 @@ import spawn from 'child_process';
 import path from 'path';
 import * as process from 'process';
 
-import { createType } from '@backland/schema';
-import { getStack } from '@backland/utils/lib/stackTrace';
 import chalk from 'chalk';
 import fs from 'fs-extra';
 
@@ -11,28 +9,27 @@ export type _MaybePromise<T> = T | Promise<T>;
 
 const CWD = process.cwd();
 
-const ConfigSchema = createType('RuneachConfig', {
-  object: {
-    packages: { array: { of: 'string', min: 1 } },
-  },
-} as const);
+// const ConfigSchema = createType('RuneachConfig', {
+//   object: {
+//     packages: { array: { of: 'string', min: 1 } },
+//   },
+// } as const);
 
 const config = (function getConfig() {
   const RUN_PACKAGES = process.env.packages;
 
   if (RUN_PACKAGES) {
-    return ConfigSchema.parse({
-      packages: RUN_PACKAGES.split(',').map((el) => el.trim()),
-    });
+    // return ConfigSchema.parse({
+    return { packages: RUN_PACKAGES.split(',').map((el) => el.trim()) };
+    // });
   }
 
   const rootJS = path.resolve(CWD, 'run-each.config.js');
   try {
     const config = require(rootJS);
-    return ConfigSchema.parse(config);
+    return config;
   } catch (e: any) {
     const error = Error(`Failed to load run-each-package config: ${e.message}`);
-    error.stack = getStack(getConfig);
     throw error;
   }
 })();
@@ -63,19 +60,6 @@ function errr(_path: string, cmd: string, data: string) {
   const text = `${_path.split('/').slice(-1)} ${cmd} ${data}`;
   log('error', text);
 }
-
-export type Run = <
-  Mode extends 'sync' | 'async',
-  P extends
-    | ((json: any) => _MaybePromise<string | { command: string; mode?: Mode }>)
-    | string
->(
-  run: P
-) => P extends string
-  ? string
-  : Mode extends 'sync'
-  ? Promise<string>
-  : Promise<number | null>;
 
 export function runeach() {
   const jsons: { path: string; json: any; dir: string }[] = [];

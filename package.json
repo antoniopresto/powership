@@ -13,28 +13,26 @@
     "link-all": "lerna link --force-local",
     "alpha": "ts-node ./scripts/bpa.ts",
     "exec": "node --preserve-symlinks -r ts-node/register ./scripts/run-all.ts",
-    "alpha-version": "ts-node ./scripts/alpha-version.ts"
+    "alpha-version": "linkall && ts-node ./scripts/alpha-version.ts"
   },
   "devDependencies": {
-    "@nrwl/cli": "14.7.13",
-    "@nrwl/nx-cloud": "latest",
-    "@nrwl/workspace": "14.7.13",
+    "ts-node": "10.9.1",
+    "@types/fs-extra": "9.0.13",
+    "@types/node": "16.18.3",
+    "@types/shelljs": "0.8.11",
     "@typescript-eslint/eslint-plugin": "4.15.2",
     "@typescript-eslint/parser": "4.15.2",
     "eslint": "7.20.0",
     "eslint-config-prettier": "6.15.0",
     "eslint-plugin-eslint-comments": "3.2.0",
     "eslint-plugin-import": "2.22.1",
-    "lerna": "6.1.0",
+    "fs-extra": "10.1.0",
+    "lerna": "^6.4.0",
     "npm-run-all": "4.1.5",
-    "nx": "14.7.13",
     "prettier": "2.4.0",
-    "typescript": "4.8.2",
+    "run-each-package": "latest",
     "shelljs": "0.8.5",
-    "@types/shelljs": "0.8.11",
-    "@types/node": "16.18.3",
-    "@types/fs-extra": "9.0.13",
-    "fs-extra": "10.1.0"
+    "typescript": "4.8.2"
   },
   "workspaces": {
     "packages": [

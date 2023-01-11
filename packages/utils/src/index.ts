@@ -61,6 +61,7 @@ export * from './PackageJson';
 export * from './lodash';
 export * from './IndexCursor';
 export * from './simpleObjectHash';
+export * from './lazyGetters';
 
 // @only-server
 export * from './logLevels';

@@ -1,11 +1,15 @@
 {
   "name": "run-each-package",
-  "version": "0.0.0-alpha.20230110184357565",
+  "version": "0.0.0-alpha.20230111021833378",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
+  "bin": {
+    "run": "./lib/bin.js",
+    "linkall": "./lib/linkall.js"
+  },
   "sideEffects": false,
   "scripts": {
     "test": "echo ok",
@@ -24,15 +28,14 @@
   "description": "run command in each package",
   "keywords": [],
   "dependencies": {
-    "fs-extra": "^11.1.0",
-    "@backland/schema": "0.0.0-alpha.20230110184357565"
+    "fs-extra": "^11.1.0"
   },
   "devDependencies": {
     "@babel/cli": "7.19.3",
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@backland/babel-plugins": "0.0.0-alpha.20230110184357565",
+    "@backland/babel-plugins": "0.0.0-alpha.20230111021833378",
     "@types/node": "16.18.3",
     "@typescript-eslint/eslint-plugin": "5.39.0",
     "@typescript-eslint/parser": "5.39.0",
