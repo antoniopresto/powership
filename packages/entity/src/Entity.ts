@@ -31,7 +31,6 @@ import {
   ensureArray,
   getByPath,
   isProduction,
-  lazyGetters,
   Logger,
   nonNullValues,
   notNull,
@@ -685,16 +684,13 @@ export function createEntity(
       },
       transporter: defaultTransporter || entityOptions.transporter,
       type: entityType,
+      extendInput: extendObjectDefinition({ object: inputDefinition }),
+      extendUpdate: extendObjectDefinition({ object: updateDefinition }),
     });
 
     entityResult = entityMutations.reduce((acc, next) => {
       return next(acc);
     }, entityResult);
-
-    lazyGetters(entityResult, {
-      extendInput: () => extendObjectDefinition({ object: inputDefinition }),
-      extendUpdate: () => extendObjectDefinition({ object: updateDefinition }),
-    });
 
     return entityResult;
   }
