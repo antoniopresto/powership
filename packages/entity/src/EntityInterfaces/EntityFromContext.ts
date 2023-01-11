@@ -49,7 +49,7 @@ export interface EntityFromContext<Context extends AnyEntityTypesContext>
     Context['originDefinition'],
     Context['originDefinition']
   >;
-  
+
   extendUpdate: ExtendObjectDefinition<
     { object: _AllOptional<Context['originDefinition']> },
     { object: _AllOptional<Context['originDefinition']> }

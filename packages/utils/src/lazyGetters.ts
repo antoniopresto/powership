@@ -13,7 +13,7 @@ export function lazyGetters<Obj, Getters extends { [K: string]: unknown }>(
       get() {
         if (resolved) return value;
         resolved = true;
-        value = typeof getter === 'function' ? getter() : getter;
+        return (value = typeof getter === 'function' ? getter() : getter);
       },
     });
   });

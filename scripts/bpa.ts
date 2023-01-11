@@ -10,7 +10,6 @@ const version = `0.0.0-alpha.${time}`;
  */
 const { map, root } = runeach();
 
-const unsafeMode = process.env.unsafe !== undefined;
 const skipBuild = process.env.sb !== undefined;
 
 map(({ run }) => {
@@ -35,12 +34,6 @@ map(({ saveJSON, json, run }) => {
 });
 
 root(`git add -A && git commit -m "alpha version ${version}" && git push -f`);
-
-if (!unsafeMode) {
-  map(({ run }) => {
-    run('test');
-  });
-}
 
 function updateVersion(json: any, key: keyof any) {
   Object.keys(json[key] || {}).forEach((dep) => {

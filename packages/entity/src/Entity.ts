@@ -693,7 +693,7 @@ export function createEntity(
 
     lazyGetters(entityResult, {
       extendInput: () => extendObjectDefinition({ object: inputDefinition }),
-      extendUpdate: extendObjectDefinition({ object: updateDefinition }),
+      extendUpdate: () => extendObjectDefinition({ object: updateDefinition }),
     });
 
     return entityResult;
