@@ -651,6 +651,9 @@ export function createEntity(
       return notNull(_indexes.indexFields._c);
     }
 
+    const extendInput = extendObjectDefinition({ object: inputDefinition });
+    const extendUpdate = extendObjectDefinition({ object: updateDefinition });
+
     Object.assign(entityResult, {
       inputType,
       extendType,
@@ -684,8 +687,8 @@ export function createEntity(
       },
       transporter: defaultTransporter || entityOptions.transporter,
       type: entityType,
-      extendInput: extendObjectDefinition({ object: inputDefinition }),
-      extendUpdate: extendObjectDefinition({ object: updateDefinition }),
+      extendInput,
+      extendUpdate,
     });
 
     entityResult = entityMutations.reduce((acc, next) => {
