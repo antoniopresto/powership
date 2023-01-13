@@ -16,27 +16,27 @@ export const defaultTypesDest = path.resolve(
 );
 
 export interface TSFyWriterConfig extends TSFYConfig {
-  wrapper?: [string, string];
+  wrappers?: [string, string][];
   dest?: string;
   writeThrottleMS?: number;
   prettify?: boolean;
+  moduleName?: string; // default to backland
 }
 
 export function tsfyWriter(options: TSFyWriterConfig = {}) {
   const {
-    wrapper = ['', ''],
+    wrappers,
     dest = defaultTypesDest,
     writeThrottleMS = 3000,
+    moduleName = 'backland',
   } = options;
 
-  wrapper[0] = `${default_wrapper[0]}\n${wrapper[0]}`;
-  wrapper[1] = `${default_wrapper[1]}\n${wrapper[1]}`;
-
-  options.wrapper = wrapper;
   options.dest = dest;
   options.writeThrottleMS = writeThrottleMS;
   const context = createTSFYContext({ ...options });
   options.context = context;
+
+  const wrapper = moduleWrapper({ moduleName, extra: wrappers });
 
   const store = createStore<string, any>();
 
@@ -79,19 +79,22 @@ export function tsfyWriter(options: TSFyWriterConfig = {}) {
     };
   }
 
+  function toString() {
+    const values = store.entries.map((el) => el[1]);
+
+    return tsfy(values, { ...options, context, many: true })
+      .toString({
+        prettier: options?.prettify ?? true,
+      })
+      .then((res) => {
+        const wrapped = wrapper(res);
+        return wrapped;
+      });
+  }
+
   function writeAll() {
     delayRef = setTimeout(() => {
-      const values = store.entries.map((el) => el[1]);
-
-      tsfy(values, { ...options, context, many: true })
-        .toString({
-          wrapper,
-          prettier: options?.prettify ?? true,
-        })
-        .then((res) => {
-          fs.writeFileSync(dest, res);
-        })
-        .catch(console.error);
+      toString().catch(console.error);
     }, writeThrottleMS);
   }
 
@@ -112,6 +115,7 @@ export function tsfyWriter(options: TSFyWriterConfig = {}) {
   }
 
   return {
+    toString,
     listen,
     add,
     remove,
@@ -119,17 +123,28 @@ export function tsfyWriter(options: TSFyWriterConfig = {}) {
   };
 }
 
-const default_wrapper = [
-  `
-/* tslint-disable */
-/* tslint:disable */
-/* eslint-disable */
-declare global {
-  module 'backland' {
-    export * from 'backland';
-    import { GraphType, ObjectType } from 'backland';
-    `,
+export function moduleWrapper(init: {
+  extra?: [string, string][];
+  moduleName: string;
+}) {
+  const { extra, moduleName } = init;
 
-  `}
-  }`,
-] as [string, string];
+  return function wrap(body: string) {
+    return [
+      '/* tslint-disable */',
+      '/* tslint:disable */',
+      '/* eslint-disable */',
+      'declare global {',
+      `  module '${moduleName}' {`,
+      `    export * from '${moduleName}';`,
+      extra?.map(([open]) => open).join('\n'),
+      `    import { GraphType, ObjectType } from 'backland';`,
+
+      body,
+      extra?.map(([_, closer]) => closer).join('\n'),
+      `}\n}`,
+    ]
+      .filter((el) => typeof el === 'string')
+      .join('\n');
+  };
+}
