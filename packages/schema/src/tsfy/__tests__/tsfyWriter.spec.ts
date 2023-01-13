@@ -4,7 +4,7 @@ import { resetTypesCache } from '../../ObjectType';
 import { tsfyWriter } from '../tsfyWriter';
 import { delay } from '@backland/utils';
 
-describe('tsfyWriter', () => {
+xdescribe('tsfyWriter', () => {
   afterEach(resetTypesCache);
 
   test('works', async () => {

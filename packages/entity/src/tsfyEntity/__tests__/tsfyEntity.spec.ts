@@ -1,5 +1,7 @@
 import { tsfyEntity } from '../tsfyEntity';
 import { UserEntity } from './demo/UserEntity';
+import { tsfyEntitiesWriter } from '../tsfyEntitiesWriter';
+import { delay } from '@backland/utils';
 
 describe('tsfyEntity', () => {
   // afterEach();
@@ -69,6 +71,13 @@ describe('tsfyEntity', () => {
       '  age: number;',
       '}',
       '',
+      'declare function createEntity(config: {',
+      '  name: "User";',
+      '  [K: string]: unknown;',
+      '}): TUserEntity;',
+      '',
+      'export type TUserEntity = EntityFromContext<UserEntity_EntityTypesContext>;',
+      '',
       'type T197624 = { type: "string" };',
       'type T188109 = { type: "int" };',
       'type T845687 = [".name"];',
@@ -79,5 +88,13 @@ describe('tsfyEntity', () => {
       'type T194747 = { regex: T981254 };',
       '',
     ]);
+  });
+
+  test('writer', async () => {
+    const sut = tsfyEntitiesWriter({ writeThrottleMS: 10 });
+    sut.listen();
+
+    sut.add(UserEntity);
+    await delay(500);
   });
 });

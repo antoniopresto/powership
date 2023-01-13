@@ -611,19 +611,27 @@ export class ObjectType<
 
 export const BacklandObject = ObjectType;
 
-export function createObjectType<
+export type ObjectTypeFromInput<
   DefinitionInput extends Readonly<ObjectDefinitionInput>
->(fields: Readonly<DefinitionInput>): ObjectType<DefinitionInput>;
+> = IsKnown<DefinitionInput> extends 1
+  ? [DefinitionInput] extends [ObjectDefinitionInput]
+    ? ObjectType<DefinitionInput>
+    : never
+  : any;
 
 export function createObjectType<
   DefinitionInput extends Readonly<ObjectDefinitionInput>
->(name: string, fields: DefinitionInput): ObjectType<DefinitionInput>;
+>(fields: Readonly<DefinitionInput>): ObjectTypeFromInput<DefinitionInput>;
+
+export function createObjectType<
+  DefinitionInput extends Readonly<ObjectDefinitionInput>
+>(name: string, fields: DefinitionInput): ObjectTypeFromInput<DefinitionInput>;
 
 export function createObjectType<
   DefinitionInput extends Readonly<ObjectDefinitionInput>
 >(
   ...args: [string, DefinitionInput] | [DefinitionInput]
-): ObjectType<DefinitionInput> {
+): ObjectTypeFromInput<DefinitionInput> {
   const fields = args.length === 2 ? args[1] : args[0];
 
   const id = args.length === 2 ? args[0] : undefined;
@@ -633,7 +641,10 @@ export function createObjectType<
   }
 
   const idFromDefinition = getObjectDefinitionMetaField(fields)?.def?.id;
-  if (idFromDefinition) return ObjectType.getOrSet(idFromDefinition, fields);
+
+  if (idFromDefinition) {
+    return ObjectType.getOrSet(idFromDefinition, fields) as any;
+  }
 
   return new ObjectType(fields) as any;
 }

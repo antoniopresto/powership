@@ -368,6 +368,7 @@ export function createTSFYContext(config: TSFYConfig): TSFYContext {
       many,
       ...config,
     },
+    ...config.context,
   };
 
   context.config.context = context;

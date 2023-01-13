@@ -5,6 +5,7 @@ import { Process, simpleObjectHash } from '@backland/utils';
 import { ensureFileSync } from 'fs-extra';
 
 import { GraphType } from '../GraphType/GraphType';
+import { ObjectType } from '../ObjectType';
 
 import { createStore } from './Store';
 import { createTSFYContext, tsfy, TSFYConfig } from './tsfy';
@@ -23,15 +24,21 @@ export interface TSFyWriterConfig extends TSFYConfig {
 
 export function tsfyWriter(options: TSFyWriterConfig = {}) {
   const {
-    wrapper = default_wrapper,
+    wrapper = ['', ''],
     dest = defaultTypesDest,
     writeThrottleMS = 3000,
   } = options;
 
-  const store = createStore<string, any>();
+  wrapper[0] = `${default_wrapper[0]}\n${wrapper[0]}`;
+  wrapper[1] = `${default_wrapper[1]}\n${wrapper[1]}`;
 
+  options.wrapper = wrapper;
+  options.dest = dest;
+  options.writeThrottleMS = writeThrottleMS;
   const context = createTSFYContext({ ...options });
   options.context = context;
+
+  const store = createStore<string, any>();
 
   let delayRef: any = undefined;
 
@@ -43,10 +50,17 @@ export function tsfyWriter(options: TSFyWriterConfig = {}) {
     if (GraphType.is(value) && value.optionalId) {
       const id = value.optionalId;
 
-      // FIXME
       context.header[
-        `hash_declare_${id}`
-      ] = `declare function createType(name: '${id}', options: any): T${id}Type;`;
+        `hash_declare_type_${id}`
+      ] = `declare function createType(name: '${id}', ...params: unknown[]): T${id}Type;`;
+    }
+
+    if (ObjectType.is(value) && value.id) {
+      const id = value.id;
+
+      context.header[
+        `hash_declare_object_${id}`
+      ] = `declare function createObject(name: '${id}', ...params: unknown[]): T${id}Object;`;
     }
 
     return {
