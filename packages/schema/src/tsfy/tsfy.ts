@@ -64,21 +64,27 @@ export function tsfy(input: any, config?: TSFYConfig) {
     return { header, body, footer };
   }
 
-  async function toString(options?: { prettier?: boolean; name?: string }) {
-    const { name, prettier } = options || {};
+  async function toString(options?: {
+    prettier?: boolean;
+    name?: string;
+    wrapper?: [string, string];
+  }) {
+    const { name, prettier, wrapper = ['', ''] } = options || {};
     const { footer, header, body } = await getParts();
 
     if (name) {
       return [
+        wrapper[0],
         ...header.values(),
         `export type ${name} = ${body};`,
         ...footer.values(),
+        wrapper[1],
       ]
         .filter(Boolean)
         .join('\n');
     }
 
-    const res = [...header.values(), ...footer.values()]
+    const res = [wrapper[0], ...header.values(), ...footer.values(), wrapper[1]]
       .filter(Boolean)
       .join('\n');
 

@@ -10,7 +10,7 @@
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-/generated
+/src/generated
 
 # dependencies
 /node_modules

@@ -1,8 +1,8 @@
-import { CircularDeps } from '../CircularDeps';
-import { createType } from '../GraphType/GraphType';
-import { createObjectType, resetTypesCache } from '../ObjectType';
+import { CircularDeps } from '../../CircularDeps';
+import { createType } from '../../GraphType/GraphType';
+import { createObjectType, resetTypesCache } from '../../ObjectType';
 
-import { tsfy } from './tsfy';
+import { tsfy } from '../tsfy';
 
 describe('stringify', () => {
   afterEach(resetTypesCache);

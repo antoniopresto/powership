@@ -12,7 +12,7 @@
     "resolveJsonModule": true,
     "strict": true,
     "skipLibCheck": true,
-     "strictPropertyInitialization": false,
+    "strictPropertyInitialization": false,
     "forceConsistentCasingInFileNames": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
@@ -20,7 +20,8 @@
     "noFallthroughCasesInSwitch": true,
     "downlevelIteration": true,
     "isolatedModules": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "typeRoots": ["node_modules/@types", "src/generated"]
   },
   "include": ["./src/**/*"]
 }
