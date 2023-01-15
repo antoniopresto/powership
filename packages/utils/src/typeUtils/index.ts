@@ -266,3 +266,13 @@ export type PartialRequired<T, Optionals extends keyof T> = {
 } & ({ [K in Optionals]?: T[K] } & {});
 
 export const noop = Object.freeze(Object.create(null)) as {};
+
+export type ObjectEntries<T> =
+  //
+  {
+    [K in Extract<keyof T, string>]: [K, T[K]];
+  }[Extract<keyof T, string>][];
+
+export function entries<O extends object>(init: O): ObjectEntries<O> {
+  return Object.entries(init) as any;
+}

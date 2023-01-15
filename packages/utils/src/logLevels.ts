@@ -1,4 +1,5 @@
 import { isProduction } from './env';
+import { entries } from './typeUtils';
 import { Process } from './useProcess';
 
 export const LogLevelsEnum = {
@@ -12,16 +13,6 @@ export const LogLevelsEnum = {
   debug: 7,
   none: 100,
 } as const;
-
-export type ObjectEntries<T> =
-  //
-  {
-    [K in Extract<keyof T, string>]: [K, T[K]];
-  }[Extract<keyof T, string>][];
-
-export function entries<O extends object>(init: O): ObjectEntries<O> {
-  return Object.entries(init) as any;
-}
 
 export const LogLevelEntries = entries(LogLevelsEnum);
 export const LogLevels = LogLevelEntries.map((el) => el[0]);

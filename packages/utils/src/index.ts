@@ -62,6 +62,10 @@ export * from './lodash';
 export * from './IndexCursor';
 export * from './simpleObjectHash';
 export * from './lazyGetters';
+export * from './hooks';
+export * from './Store';
+export * from './AppConfig';
+export * from './awaitSync';
 
 // @only-server
 export * from './logLevels';
@@ -75,7 +79,5 @@ export * from './big';
 export * from './jsonToTypescript';
 // @only-server
 export * from './formatGraphQL';
-// @only-server
-export * from './hooks';
 
 export { TU };
