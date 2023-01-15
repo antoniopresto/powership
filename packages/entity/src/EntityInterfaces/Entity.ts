@@ -1,5 +1,4 @@
 import { DocumentIndexItem } from '@backland/transporter';
-import { AnyFunction } from '@backland/utils';
 
 import { EntityTypesContext } from './Context';
 import { EntityFromContext } from './EntityFromContext';
@@ -14,7 +13,5 @@ export type _AnyEntity = EntityFromContext<
 >;
 
 export type AnyEntity = {
-  [K in keyof _AnyEntity]: _AnyEntity[K] extends AnyFunction
-    ? AnyFunction
-    : any;
-} & {};
+  [K in keyof _AnyEntity]: any;
+};

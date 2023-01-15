@@ -15,7 +15,6 @@ export * from './fields/FieldTypeErrors';
 export * from './extendObjectDefinition';
 export * from './extendType';
 export * from './isHiddenFieldName';
-export * from './tsfy/Store';
 
 // @only-server
 export * from './Resolver';

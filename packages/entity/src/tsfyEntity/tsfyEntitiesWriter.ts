@@ -1,24 +1,28 @@
 import { tsfyWriter, TSFyWriterConfig } from '@backland/schema';
 
-import { tsFyEntityParser } from './tsfyEntity';
+import { EntityStore } from '../EntityStore';
+
+import { tsFyEntityParser } from './tsfyEntityParser';
 
 export interface TsfyEntitiesWriterConfig extends TSFyWriterConfig {}
 
 export function tsfyEntitiesWriter(config: TsfyEntitiesWriterConfig = {}) {
-  const { wrapper = ['', ''] } = config;
+  const { wrappers = [] } = config;
 
-  wrapper[0] += `
-    import {
+  wrappers.push([
+    `
+     import {
       EntityDocument,
       EntityDocumentInput,
       EntityFromContext,
     } from '@backland/entity';
-
-  `;
+    `,
+    '',
+  ]);
 
   return tsfyWriter({
     ...config,
-    wrapper,
+    wrappers,
     async customParser(ctx) {
       if (config?.customParser) {
         const res = await config.customParser(ctx);
@@ -28,3 +32,7 @@ export function tsfyEntitiesWriter(config: TsfyEntitiesWriterConfig = {}) {
     },
   });
 }
+
+export const EntityTypeWriter = tsfyEntitiesWriter({
+  store: EntityStore,
+});

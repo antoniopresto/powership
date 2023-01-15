@@ -34,6 +34,7 @@ import {
   Logger,
   nonNullValues,
   notNull,
+  proxyRealValue,
   RuntimeError,
   simpleObjectClone,
   tupleEnum,
@@ -53,6 +54,7 @@ import {
 } from './EntityInterfaces';
 import { EntityFieldResolver, EntityOptions } from './EntityOptions';
 import { createEntityPlugin, EntityHooks } from './EntityPlugin';
+import { registerEntity } from './EntityStore';
 import { createEntityDocumentBase } from './defaultFields';
 import {
   buildEntityOperationInfoContext,
@@ -697,6 +699,15 @@ export function createEntity(
 
     return entityResult;
   }
+
+  setTimeout(() => {
+    try {
+      const value = proxyRealValue(entity);
+      registerEntity(value);
+    } catch (e) {
+      // break on tests
+    }
+  }, 100);
 
   return entity;
 }

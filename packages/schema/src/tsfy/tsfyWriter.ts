@@ -1,13 +1,11 @@
-import * as fs from 'fs';
 import path from 'path';
 
-import { Process, simpleObjectHash } from '@backland/utils';
+import { createStore, Process, simpleObjectHash, Store } from '@backland/utils';
 import { ensureFileSync } from 'fs-extra';
 
 import { GraphType } from '../GraphType/GraphType';
 import { ObjectType } from '../ObjectType';
 
-import { createStore } from './Store';
 import { createTSFYContext, tsfy, TSFYConfig } from './tsfy';
 
 export const defaultTypesDest = path.resolve(
@@ -21,6 +19,7 @@ export interface TSFyWriterConfig extends TSFYConfig {
   writeThrottleMS?: number;
   prettify?: boolean;
   moduleName?: string; // default to backland
+  store?: Store<Record<string, any>>;
 }
 
 export function tsfyWriter(options: TSFyWriterConfig = {}) {
@@ -29,16 +28,17 @@ export function tsfyWriter(options: TSFyWriterConfig = {}) {
     dest = defaultTypesDest,
     writeThrottleMS = 3000,
     moduleName = 'backland',
+    store = createStore(),
   } = options;
 
   options.dest = dest;
   options.writeThrottleMS = writeThrottleMS;
+  options.store = store;
+
   const context = createTSFYContext({ ...options });
   options.context = context;
 
   const wrapper = moduleWrapper({ moduleName, extra: wrappers });
-
-  const store = createStore<string, any>();
 
   let delayRef: any = undefined;
 

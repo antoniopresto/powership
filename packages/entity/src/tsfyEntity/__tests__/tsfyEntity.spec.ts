@@ -1,4 +1,4 @@
-import { tsfyEntity } from '../tsfyEntity';
+import { tsfyEntities } from '../tsfyEntities';
 import { UserEntity } from './demo/UserEntity';
 import { tsfyEntitiesWriter } from '../tsfyEntitiesWriter';
 import { delay } from '@backland/utils';
@@ -7,7 +7,7 @@ describe('tsfyEntity', () => {
   // afterEach();
 
   test('works', async () => {
-    const sut = await tsfyEntity({ entities: [UserEntity] }).toString({
+    const sut = await tsfyEntities({ entities: [UserEntity] }).toString({
       prettier: true,
     });
 

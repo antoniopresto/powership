@@ -1,6 +1,6 @@
 {
   "name": "@backland/transporter",
-  "version": "0.0.0-alpha.20230113014358127",
+  "version": "0.0.0-alpha.20230115222351934",
   "main": "lib/index.js",
   "sideEffects": false,
   "module": "lib/module/index.js",
@@ -34,8 +34,8 @@
     "inference"
   ],
   "dependencies": {
-    "@backland/schema": "0.0.0-alpha.20230113014358127",
-    "@backland/utils": "0.0.0-alpha.20230113014358127",
+    "@backland/schema": "0.0.0-alpha.20230115222351934",
+    "@backland/utils": "0.0.0-alpha.20230115222351934",
     "dataloader": "2.1.0",
     "plugin-hooks": "1.1.3",
     "sift": "16.0.0"
@@ -45,7 +45,7 @@
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@backland/babel-plugins": "0.0.0-alpha.20230113014358127",
+    "@backland/babel-plugins": "0.0.0-alpha.20230115222351934",
     "@types/jest": "29.1.2",
     "@types/node": "16.18.3",
     "@typescript-eslint/eslint-plugin": "5.39.0",
