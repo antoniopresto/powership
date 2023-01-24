@@ -165,10 +165,6 @@ export class GraphType<Definition extends ObjectFieldInput> {
     try {
       const field = this.__lazyGetter.field;
 
-      if (this.__lazyGetter.objectType) {
-        return this.__lazyGetter.objectType.parse(input, options as {}) as any;
-      }
-
       const customMessage =
         options && typeof options === 'object'
           ? options.customMessage
@@ -388,7 +384,6 @@ export type LazyParseGraphTypePayload = {
     | ObjectFieldInput
     | ((utils: BacklandModules) => ObjectFieldInput);
   field: TAnyFieldType;
-  // object lazy created when the corresponding getter in GraphType is called
   id: string | undefined;
   idFromArgs: string | undefined;
   objectType?: ObjectType<any>;
@@ -433,7 +428,17 @@ export function lazyCreateGraphTypeInitPayload(
       returnInstance: true,
     }) as TAnyFieldType & { utils: { object?: any } };
 
-    if (ObjectField.is(field) && ObjectType.is(field.utils.object)) {
+    const {
+      asFinalFieldDef: { list, optional },
+    } = field;
+
+    const canUseObject =
+      !list &&
+      !optional &&
+      ObjectField.is(field) &&
+      ObjectType.is(field.utils.object);
+
+    if (canUseObject) {
       if (id && field.utils.object.id && field.utils.object.id !== id) {
         field.utils.object = field.utils.object.clone((el) =>
           el.objectType(id)
@@ -458,7 +463,7 @@ export function lazyCreateGraphTypeInitPayload(
       // id can be from inner type, like an object type with id or defined in an argument of createType
       id,
       idFromArgs,
-      objectType: field.utils?.object,
+      objectType: canUseObject ? field.utils?.object : undefined,
     };
 
     if (id) {

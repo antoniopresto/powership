@@ -31,7 +31,6 @@
   },
   "dependencies": {
     "@backland/entity": "^0.1.22",
-    "@backland/mongo": "^0.1.22",
     "@backland/schema": "^0.1.22",
     "@backland/transporter": "^0.1.22",
     "@backland/utils": "^0.1.22"

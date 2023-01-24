@@ -108,8 +108,7 @@ export function extendType<Input>(input: Input): ExtendType<Input> {
 
     list() {
       return extendType({
-        ...clone,
-        list: true,
+        array: { of: clone },
       });
     },
 
@@ -134,7 +133,7 @@ export type MakeTypeRequired<Type> = DescribeAndOverrideField<
   { optional: false }
 >;
 
-export type MakeTypeList<Type> = DescribeAndOverrideField<Type, { list: true }>;
+export type MakeTypeList<Type> = { array: { of: Type } };
 
 export type MakeTypeSingle<Type> = DescribeAndOverrideField<
   Type,

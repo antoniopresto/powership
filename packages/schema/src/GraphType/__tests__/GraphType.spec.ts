@@ -5,6 +5,8 @@ import { CircularDeps } from '../../CircularDeps';
 import { Infer } from '../../Infer';
 import { createObjectType, ObjectType } from '../../ObjectType';
 import { createType, GraphType } from '../GraphType';
+import { createGraphQLSchema } from '../../createGraphQLSchema';
+import { createResolver } from '../../Resolver';
 
 describe('createType', () => {
   beforeEach(ObjectType.reset);
@@ -454,5 +456,100 @@ describe('createType', () => {
     ]);
 
     expect(gql.toString()).toEqual('schemInput');
+  });
+
+  test('.listType()', () => {
+    const sut = createType('User', {
+      object: {
+        name: 'string',
+        age: 'int',
+      },
+    });
+
+    const listType = sut.listType();
+
+    expect(listType.parse([])).toEqual([]);
+  });
+
+  test('.optionalType()', () => {
+    const sut = createType('User', {
+      object: {
+        name: 'string',
+        age: 'int',
+      },
+    });
+
+    const optionalType = sut.optionalType();
+
+    expect(optionalType.parse({ name: 'aa', age: 1 })).toEqual({
+      name: 'aa',
+      age: 1,
+    });
+
+    expect(optionalType.parse(undefined)).toEqual(undefined);
+  });
+
+  test('.optionalType().listType() GraphQL', () => {
+    const graphType = createType('User', {
+      object: {
+        name: 'string',
+        age: 'int',
+      },
+    });
+
+    const listOptionalListResolver = createResolver({
+      name: 'list_optional_list',
+      type: graphType.listType().optionalType('list_optional').listType(),
+      args: {},
+    }).resolver(() => {
+      return {};
+    });
+
+    const graphTypeResolver = createResolver({
+      name: 'graphType',
+      type: graphType,
+      args: {},
+    }).resolver(() => {
+      return {};
+    });
+
+    const usersOptionalResolver = createResolver({
+      name: 'usersOptional',
+      type: graphType.optionalType(),
+      args: {},
+    }).resolver(() => {
+      return {};
+    });
+
+    const usersListResolver = createResolver({
+      name: 'usersList',
+      type: graphType.listType(),
+      args: {},
+    }).resolver(() => {
+      return {};
+    });
+
+    const schemaString = printSchema(
+      createGraphQLSchema([
+        listOptionalListResolver,
+        graphTypeResolver,
+        usersOptionalResolver,
+        usersListResolver,
+      ])
+    );
+
+    expect(schemaString.split('\n')).toEqual([
+      'type Query {',
+      '  list_optional_list: [[User!]]!',
+      '  graphType: User!',
+      '  usersOptional: User',
+      '  usersList: [User!]!',
+      '}',
+      '',
+      'type User {',
+      '  name: String!',
+      '  age: Int!',
+      '}',
+    ]);
   });
 });
