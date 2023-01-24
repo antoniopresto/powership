@@ -42,7 +42,9 @@ export function parseEntityIndexFields(indexConfig: AnyCollectionIndexConfig) {
         description: `The full string value of the first index following the RegExp format "${PKRegex}"`,
       },
       [PKName]: {
-        name: `Entity${indexConfig.entity}${PKName}`,
+        name: `Entity${indexConfig.entity}${
+          PKName === '_id' ? '_id_' : PKName // to not repeat name
+        }`,
         string: { regex: [PKRegex] },
         description: `The ${PKName} field in the RegExp format "${PKRegex}"`,
       },

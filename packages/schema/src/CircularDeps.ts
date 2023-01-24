@@ -17,6 +17,10 @@ function getModules() {
         require('./GraphType/GraphType') as typeof import('./GraphType/GraphType'),
       server: false,
     },
+    tsfy: {
+      module: () => require('./tsfy') as typeof import('./tsfy'),
+      server: false,
+    },
     fieldInstanceFromDef: {
       module: () =>
         require('./fieldInstanceFromDef') as typeof import('./fieldInstanceFromDef'),
@@ -54,6 +58,15 @@ function getModules() {
       module: () =>
         // @only-server
         require('./GraphType/GraphQLParser') as typeof import('./GraphType/GraphQLParser'),
+
+      server: true,
+    },
+
+    fs: {
+      // @only-server
+      module: () =>
+        // @only-server
+        require('fs-extra') as typeof import('fs-extra'),
 
       server: true,
     },

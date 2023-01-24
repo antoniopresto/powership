@@ -1,7 +1,12 @@
+import { DotNotations } from 'aggio';
+
+import { ensureArray } from './ensureArray';
+import { getByPath, GetFieldByDotNotation } from './getByPath';
 import { hooks as Hooks, Parallel } from './hooks';
+import { simpleObjectHash } from './simpleObjectHash';
 import { ObjectEntries } from './typeUtils';
 
-export type InternalEvent = 'PRUNING' | 'INITIAL';
+export type InternalEvent = 'PRUNING' | 'INITIAL' | 'CLEAR';
 
 export type EventMetadataObjectBase = { [K: string]: unknown };
 export type EventMetadataBase = EventMetadataObjectBase | InternalEvent;
@@ -38,7 +43,21 @@ export interface StoreOptions<
 > {
   values?: ObjectEntries<Dict>;
   maxLength?: number;
+  hashBy?: DotNotations<Dict[keyof Dict]>[];
 }
+
+export interface GroupByOptions {
+  onMany?: 'error' | 'last' | 'first';
+  onNull?: string;
+}
+
+export type RecordBy<Dict extends Record<string, any>, Field extends string> = {
+  [K in GetFieldByDotNotation<Dict[keyof Dict], Field> extends infer Key
+    ? Key extends string | number
+      ? Key
+      : string
+    : never]: Dict[keyof Dict][];
+};
 
 export interface Store<
   Dict extends Record<string, unknown> = Record<string, unknown>,
@@ -48,6 +67,8 @@ export interface Store<
     string
   >]
 > {
+  hashBy: string[] | null;
+
   hooks: {
     get: Parallel<Nullable<StoreEvent<K, V>>, undefined>;
     set: Parallel<StoreEvent<K, V>, undefined>;
@@ -62,11 +83,15 @@ export interface Store<
   onRemove: this['hooks']['remove']['register'];
   onMissingKeyError: this['hooks']['missingKeyError']['register'];
   entries: [K, V][];
+  values: V[];
+  keys: K[];
 
   remove<Key extends K>(
     key: Key,
     eventOptions?: StoreEventOptions
   ): Nullable<StoreEvent<Key, Dict[Key]>>;
+
+  delete: this['remove'];
 
   set<Key extends K>(
     key: Key,
@@ -74,9 +99,40 @@ export interface Store<
     eventOptions?: StoreEventOptions
   ): StoreEvent<Key, Dict[Key]>;
 
+  add(
+    value: Dict[keyof Dict],
+    eventOptions?: StoreEventOptions
+  ): StoreEvent<keyof Dict, Dict[keyof Dict]>;
+
   get<Key extends K>(key: Key, options?: StoreEventOptions): Dict[Key];
 
+  getOptional<Key extends K>(
+    key: Key,
+    options?: StoreEventOptions
+  ): Dict[Key] | undefined;
+
   has<Key extends K>(key: Key, options?: StoreEventOptions): Key | undefined;
+
+  clear(): number;
+
+  groupBy<Group extends DotNotations<Dict[keyof Dict]>>(
+    groups: Group[] | Group,
+    options?: GroupByOptions
+  ): {
+    [K: string]: Dict[keyof Dict][];
+  };
+
+  recordBy<Group extends DotNotations<Dict[keyof Dict]>>(
+    groups: Group[] | Group,
+    options?: GroupByOptions
+  ): Store<RecordBy<Dict, Group>>;
+
+  keyBy(
+    groups: DotNotations<Dict[keyof Dict]>[] | DotNotations<Dict[keyof Dict]>,
+    options?: GroupByOptions
+  ): {
+    [K: string]: Dict[keyof Dict];
+  };
 
   length: number;
 }
@@ -84,11 +140,13 @@ export interface Store<
 export function createStore<
   Dict extends Record<string, unknown> = Record<string, unknown>
 >(init?: ObjectEntries<Dict> | StoreOptions<Dict>): Store<Dict> {
-  const { values, maxLength = 20000 } = Array.isArray(init)
-    ? { values: init }
-    : init || {};
+  const {
+    values,
+    maxLength = 20000,
+    hashBy = null,
+  } = Array.isArray(init) ? { values: init } : init || {};
 
-  const entries: [any, any][] = [];
+  const entries: [keyof Dict, any][] = [];
   let indexes = {} as Record<any, number>;
 
   const hooks: Store['hooks'] = {
@@ -153,6 +211,21 @@ export function createStore<
     return res;
   }
 
+  function add(value: any, eventOptions?: StoreEventOptions) {
+    const key = (() => {
+      if (hashBy) {
+        return hashBy
+          .map((part) => {
+            return getByPath(value, part);
+          })
+          .join('#');
+      }
+      return simpleObjectHash(value);
+    })();
+
+    return set(key, eventOptions);
+  }
+
   function get(key: any, eventOptions?: StoreEventOptions) {
     const index = indexes[key];
     const value = entries[index]?.[1];
@@ -203,7 +276,82 @@ export function createStore<
     return res;
   }
 
+  function clear() {
+    const current = entries.length;
+    entries.forEach(function clearItem([key]) {
+      remove(key, { meta: 'CLEAR' });
+    });
+    return current;
+  }
+
+  const groupBy: Store['groupBy'] = function groupBy(groups, { onNull } = {}) {
+    const res = Object.create(null);
+    groups = ensureArray(groups);
+
+    groups.forEach((group) => {
+      entries.forEach(([, value]) => {
+        const key = (getByPath(value, group) ?? onNull) + '';
+        res[key] = res[key] || [];
+        res[key].push(value);
+      });
+    });
+
+    return res;
+  };
+
+  const keyBy: Store['keyBy'] = function keyBy(groups, options) {
+    const errors: string[] = [];
+    const { onMany = 'last' } = options || {};
+
+    const _grouped = groupBy(groups, options);
+
+    const res = Object.create(null);
+
+    Object.entries(_grouped).forEach(([key, items]) => {
+      if (items.length > 1) {
+        switch (onMany) {
+          case 'error': {
+            return errors.push(`Found ${items.length} items with key "${key}"`);
+          }
+          case 'first': {
+            return (res[key] = items[0]);
+          }
+          case 'last': {
+            return (res[key] = items[items.length - 1]);
+          }
+        }
+      }
+
+      res[key] = items[0];
+    });
+
+    if (errors.length) {
+      throw new Error(errors.join('\n'));
+    }
+    return res;
+  };
+
+  const recordBy: Store['recordBy'] = function recordBy(paths, options) {
+    const groups = groupBy(paths, options);
+    const groupKey = ensureArray(paths).join('#');
+
+    const store = createStore();
+
+    Object.entries(groups).forEach(([key, values]) => {
+      values.forEach((value) => {
+        Object.defineProperty(value, groupKey, {
+          value: key,
+          enumerable: false,
+        });
+        store.set(key, values);
+      });
+    });
+
+    return store as any;
+  };
+
   const res: Store<any, any> = {
+    hashBy,
     hooks,
     onGet: hooks.get.register,
     onSet: hooks.set.register,
@@ -212,14 +360,41 @@ export function createStore<
     entries,
     remove,
     set,
+    add,
     get,
     has,
+    clear,
+    groupBy,
+    keyBy,
+    recordBy,
+    getOptional(key, options) {
+      try {
+        return get(key, options);
+      } catch (e) {
+        return undefined;
+      }
+    },
+    delete: remove,
     length: entries.length,
+    keys: undefined as any,
+    values: undefined as any,
   };
 
-  Object.defineProperty(res, 'length', {
-    get() {
-      return entries.length;
+  Object.defineProperties(res, {
+    length: {
+      get() {
+        return entries.length;
+      },
+    },
+    keys: {
+      get() {
+        return entries.map((el) => el[0]);
+      },
+    },
+    values: {
+      get() {
+        return entries.map((el) => el[1]);
+      },
     },
   });
 

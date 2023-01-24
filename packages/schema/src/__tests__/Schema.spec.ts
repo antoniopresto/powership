@@ -566,7 +566,7 @@ describe('Schema clone, etc', () => {
 
       expect(ObjectType.register.get('abc')).toBe(object1);
       expect(() => ObjectType.register.get('yyy')).toThrow(
-        'There is no item with key "yyy"'
+        'Missing value for key "yyy"'
       );
     });
 

@@ -15,16 +15,13 @@ export * from './fields/FieldTypeErrors';
 export * from './extendObjectDefinition';
 export * from './extendType';
 export * from './isHiddenFieldName';
+export * from './tsfy';
 
 // @only-server
 export * from './Resolver';
 
 // @only-server
-export * from './tsfy/tsfy';
-// @only-server
-export * from './tsfy/tsfyWriter';
-
-// @only-server
 export * from './createGraphQLSchema';
+
 // @only-server
 export type { ResolverKind } from './createGraphQLSchema';

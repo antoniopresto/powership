@@ -1,10 +1,14 @@
 import { BJSON } from './BJSON';
 import { proxyRealValue } from './createProxy';
 import { describeConstructor, getNativeConstructorType } from './getTypeName';
-import { hashString, stringHash } from './hashString';
+import { hashName, hashString, stringHash } from './hashString';
 import { sortObject } from './sortObject';
 
 export function simpleObjectHash(value: any): string {
+  return hashName(_simpleObjectHash(value));
+}
+
+export function _simpleObjectHash(value: any): string {
   const nativeTof = getNativeConstructorType(value);
   if (nativeTof) return `__literal__${nativeTof}:${value}`;
 

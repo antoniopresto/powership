@@ -1,5 +1,4 @@
-import { IsKnown, RuntimeError } from '@backland/utils';
-import { StrictMap } from '@backland/utils';
+import { createStore, IsKnown, RuntimeError } from '@backland/utils';
 import { ensureArray } from '@backland/utils';
 import { expectedType } from '@backland/utils';
 import { getTypeName } from '@backland/utils';
@@ -561,7 +560,7 @@ export class ObjectType<
     await Promise.all(promises);
   }
 
-  static register = new StrictMap<string, ObjectLike>();
+  static register = createStore<Record<string, ObjectLike>>();
 
   /**
    * Get an Object with the provided id

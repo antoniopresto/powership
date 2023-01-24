@@ -1,10 +1,10 @@
 import {
   assertEqual,
   BJSON,
+  createStore,
   hooks,
   nonNullValues,
   RuntimeError,
-  StrictMap,
 } from '@backland/utils';
 import {
   GraphQLBoolean,
@@ -108,9 +108,9 @@ export interface ConvertFieldResult {
   typeName: string;
 }
 
-const resultsCache = new StrictMap<string, GraphQLParserResult>();
-const graphqlTypesRegister = new StrictMap<string, any>();
-const fieldsRegister = new StrictMap<string, ConvertFieldResult>();
+const resultsCache = createStore<Record<string, GraphQLParserResult>>();
+const graphqlTypesRegister = createStore<Record<string, any>>();
+const fieldsRegister = createStore<Record<string, ConvertFieldResult>>();
 
 function wrapCreationWithCache(name: string, create: (...args: any[]) => any) {
   return function creator(...args) {

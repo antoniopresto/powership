@@ -1,8 +1,8 @@
 import {
+  createStore,
   inspectObject,
   isBrowser,
   RuntimeError,
-  StrictMap,
 } from '@backland/utils';
 import type {
   GraphQLInterfaceType,
@@ -48,8 +48,8 @@ export class GraphType<Definition extends ObjectFieldInput> {
   static __isGraphType = true;
   readonly __isGraphType = true;
 
-  static register = new StrictMap<string, GraphTypeLike>();
-  static resolvers = new StrictMap<string, AnyResolver>();
+  static register = createStore<Record<string, GraphTypeLike>>();
+  static resolvers = createStore<Record<string, AnyResolver>>();
 
   static reset = async () => {
     this.resolvers.clear();
@@ -248,7 +248,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
     }
 
     if (this.optionalId) {
-      ObjectType.register.delete(this.optionalId);
+      ObjectType.register.remove(this.optionalId);
     }
 
     this.beforeInitialize.push((payload) => {

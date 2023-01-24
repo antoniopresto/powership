@@ -66,6 +66,7 @@ export * from './hooks';
 export * from './Store';
 export * from './AppConfig';
 export * from './awaitSync';
+export * from './merge';
 
 // @only-server
 export * from './logLevels';

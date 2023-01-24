@@ -59,7 +59,7 @@ export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
     GraphType,
   } = CircularDeps;
 
-  const registeredResolvers = [...GraphType.resolvers.values()];
+  const registeredResolvers = GraphType.resolvers.entries.map((el) => el[1]);
 
   let resolvers: AnyResolver[] = Array.isArray(args[0])
     ? args[0]
