@@ -1,6 +1,6 @@
 {
   "name": "run-each-package",
-  "version": "0.0.0-alpha.20230124041512104",
+  "version": "0.0.1",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -35,7 +35,7 @@
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@backland/babel-plugins": "0.0.0-alpha.20230124041512104",
+    "@backland/babel-plugins": "^0.0.1",
     "@types/node": "16.18.3",
     "@typescript-eslint/eslint-plugin": "5.39.0",
     "@typescript-eslint/parser": "5.39.0",
