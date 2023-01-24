@@ -1,6 +1,6 @@
 {
   "name": "backland",
-  "version": "0.0.0-alpha.20230124035926052",
+  "version": "0.0.0-alpha.20230124041512104",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
   "browser": {
@@ -30,11 +30,11 @@
     "url": "https://github.com/antoniopresto/backland/tree/master/packages/db"
   },
   "dependencies": {
-    "@backland/entity": "0.0.0-alpha.20230124035926052",
-    "@backland/mongo": "0.0.0-alpha.20230124035926052",
-    "@backland/schema": "0.0.0-alpha.20230124035926052",
-    "@backland/transporter": "0.0.0-alpha.20230124035926052",
-    "@backland/utils": "0.0.0-alpha.20230124035926052"
+    "@backland/entity": "0.0.0-alpha.20230124041512104",
+    "@backland/mongo": "0.0.0-alpha.20230124041512104",
+    "@backland/schema": "0.0.0-alpha.20230124041512104",
+    "@backland/transporter": "0.0.0-alpha.20230124041512104",
+    "@backland/utils": "0.0.0-alpha.20230124041512104"
   },
   "devDependencies": {
     "@babel/cli": "7.19.3",
@@ -42,7 +42,7 @@
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@backland/babel-plugins": "0.0.0-alpha.20230124035926052",
+    "@backland/babel-plugins": "0.0.0-alpha.20230124041512104",
     "@types/babel__core": "7.1.19",
     "@types/babel__helper-plugin-utils": "7.10.0",
     "@types/jest": "29.1.2",
