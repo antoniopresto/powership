@@ -1,6 +1,7 @@
 import { runeach } from 'run-each-package';
 
-const version = `0.0.0-alpha.${Date.now()}`;
+const { v } = process.env;
+const version = v || `0.0.0-alpha.${Date.now()}`;
 
 runeach().map(({ saveJSON, json, run }) => {
   json.version = version;
