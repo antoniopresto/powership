@@ -114,7 +114,8 @@ export abstract class FieldType<
         }
       }
 
-      FieldsTypeCache.set(id, { fieldType: this as any, defKeys });
+      FieldsTypeCache.set(id, { fieldType: this as any,
+defKeys });
     }
   }
 
@@ -172,7 +173,8 @@ export abstract class FieldType<
     // @ts-ignore
     this.list = true;
     if (options && typeof options === 'object') {
-      this.options = { ...this.options, ...options };
+      this.options = { ...this.options,
+...options };
     }
     return this as any;
   }

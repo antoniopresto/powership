@@ -27,7 +27,8 @@ export function parseEntityIndexFields(indexConfig: AnyCollectionIndexConfig) {
       _c: {
         hidden: true,
         name: `EntityHashedCursor`,
-        string: { min: 5, regex: ['^~!.*'] },
+        string: { min: 5,
+regex: ['^~!.*'] },
         description: `The full hashed value of the first index.`,
       },
       _e: {
@@ -67,6 +68,7 @@ export function parseEntityIndexFields(indexConfig: AnyCollectionIndexConfig) {
       };
     }
 
-    return { ...acc, ...fields };
+    return { ...acc,
+...fields };
   }, {} as ObjectDefinitionInput);
 }

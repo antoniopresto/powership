@@ -13,7 +13,8 @@ const $eq = {
 } as const;
 
 const Def = {
-  between: { optional: true, union: ['[string]', '[float]'] },
+  between: { optional: true,
+union: ['[string]', '[float]'] },
   contains: {
     optional: true,
     union: ['string', 'float', 'boolean', 'null'],
@@ -27,7 +28,8 @@ const Def = {
   matchString: 'string?',
   ne: $eq,
   startsWith: 'string?',
-  type: { enum: FieldTypes, optional: true },
+  type: { enum: FieldTypes,
+optional: true },
 } as const;
 
 type _Def = typeof Def extends infer R

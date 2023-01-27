@@ -1,7 +1,6 @@
 import { ObjectType } from '@backland/schema';
 
 import { MongoTransporter } from '../MongoTransporter';
-
 import { AppMock, createAppMock } from '../test-utils';
 
 const defaultOptions = () => ({

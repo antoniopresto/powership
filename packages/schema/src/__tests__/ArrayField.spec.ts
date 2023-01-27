@@ -1,12 +1,13 @@
+import { assert, IsExact } from 'conditional-type-checks';
+import { GraphQLSchema, printSchema } from 'graphql';
+
+import { createType } from '../GraphType/GraphType';
 import {
   createSchema,
   ObjectType,
   parseObjectDefinition,
   parseObjectField,
 } from '../ObjectType';
-import { createType } from '../GraphType/GraphType';
-import { assert, IsExact } from 'conditional-type-checks';
-import { GraphQLSchema, printSchema } from 'graphql';
 
 describe('ArrayField', () => {
   afterEach(ObjectType.reset);

@@ -2,6 +2,7 @@ import { assert, IsExact } from 'conditional-type-checks';
 
 import { ObjectType } from '../../ObjectType';
 import { InferField } from '../_parseFields';
+
 import { _assert, _assertFields } from './__assert';
 
 test('infer union types', () => {

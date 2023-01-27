@@ -17,13 +17,15 @@ export class DateField extends FieldType<
   parse: FieldTypeParser<Date>;
 
   constructor(def: DateFieldDef = {}) {
-    super({ def: def, name: 'date' });
+    super({ def: def,
+name: 'date' });
     const { min, max, autoCreate } = def;
 
     let minTime = 0;
     let maxTime = 0;
 
-    expectedType({ max, min }, 'date', true);
+    expectedType({ max,
+min }, 'date', true);
 
     if (min !== undefined) {
       minTime = min.getTime();

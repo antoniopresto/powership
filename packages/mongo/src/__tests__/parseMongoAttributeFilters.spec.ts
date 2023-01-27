@@ -4,7 +4,8 @@ describe('parseMongoAttributeFilters', () => {
   test('key value', () => {
     expect(parseMongoAttributeFilters({ a: 1 })).toEqual([{ a: 1 }]);
 
-    expect(parseMongoAttributeFilters({ a: 1, b: '22' })).toEqual([
+    expect(parseMongoAttributeFilters({ a: 1,
+b: '22' })).toEqual([
       { a: 1 },
       { b: '22' },
     ]);

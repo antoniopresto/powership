@@ -29,7 +29,8 @@ export function createMongoIndexBasedFilters(options: {
   if (relationFilters?.length) {
     indexFilter = relationFilters.reduce((acc, next) => {
       const $or = [...(acc.$or || []), next];
-      return { ...acc, $or };
+      return { ...acc,
+$or };
     }, indexFilter as FilterRecord);
   }
 
@@ -107,7 +108,8 @@ export function parseMongoAttributeFilters(attFilter: FilterRecord) {
       }
 
       if (getTypeName(filter) !== 'Object') {
-        devAssert(`Invalid filter`, { attribute, filter });
+        devAssert(`Invalid filter`, { attribute,
+filter });
       }
 
       const keys: (TopLevelFilterKey | AttributeFilterKey | string)[] =

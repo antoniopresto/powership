@@ -4,7 +4,8 @@ describe('dateTokens', () => {
   // afterEach();
 
   test('works', async () => {
-    const tokens = dateTokens({ date: '2022-09-25', locale: 'pt-br' });
+    const tokens = dateTokens({ date: '2022-09-25',
+locale: 'pt-br' });
 
     expect(tokens).toEqual({
       DD: '25',

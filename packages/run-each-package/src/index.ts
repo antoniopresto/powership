@@ -116,10 +116,12 @@ export function runeach() {
 
           let { command, mode } = ((): { command: string; mode: string } => {
             if (typeof config === 'string') {
-              return { command: config, mode: 'async' };
+              return { command: config,
+mode: 'async' };
             }
 
-            return { mode: 'async', ...config };
+            return { mode: 'async',
+...config };
           })();
 
           if (json.scripts?.[command]) {

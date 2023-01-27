@@ -115,7 +115,9 @@ export class Contextify {
     return function require(moduleName: string) {
       const filename = self.resolveModule(moduleName, currentDirname);
 
-      const mocked = mock?.({ moduleName, filename, payload });
+      const mocked = mock?.({ moduleName,
+filename,
+payload });
 
       if (mocked !== undefined) {
         transitiveCache[filename] = mocked;

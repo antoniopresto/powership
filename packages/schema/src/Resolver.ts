@@ -261,7 +261,8 @@ export function createResolverFactory<
     if (config.resolve) return _createResolver(config);
     return {
       resolver(resolve) {
-        return _createResolver({ ...config, resolve });
+        return _createResolver({ ...config,
+resolve });
       },
     };
   };

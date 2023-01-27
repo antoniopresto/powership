@@ -1,4 +1,5 @@
 import { createEntity } from '../../../Entity';
+
 import { UserType } from './UserType';
 
 export const UserEntity = createEntity({

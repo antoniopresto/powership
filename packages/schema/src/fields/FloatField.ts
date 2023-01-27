@@ -15,11 +15,13 @@ export class FloatField extends FieldType<
   parse: FieldTypeParser<number>;
 
   constructor(def: FloatFieldDef = {}) {
-    super({ def: def, name: 'float' });
+    super({ def: def,
+name: 'float' });
 
     const { min, max } = def;
 
-    expectedType({ max, min }, 'number', true);
+    expectedType({ max,
+min }, 'number', true);
 
     this.parse = this.applyParser({
       parse: (input: number) => {

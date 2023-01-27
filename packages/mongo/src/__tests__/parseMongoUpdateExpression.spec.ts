@@ -1,7 +1,7 @@
 import { UpdateExpression } from '@backland/transporter';
 
-import { AppMock, createAppMock } from '../test-utils';
 import { MongoTransporter } from '../MongoTransporter';
+import { AppMock, createAppMock } from '../test-utils';
 
 const mockUser = () => ({
   _c: 'user⋮_id⋮1⋮⋮',
@@ -16,7 +16,8 @@ describe('parseMongoUpdateExpression', () => {
 
   const indexConfig = {
     entity: 'user',
-    indexes: [{ name: '_id', PK: ['#1'] }],
+    indexes: [{ name: '_id',
+PK: ['#1'] }],
   } as const;
 
   const commonFields = {
@@ -29,7 +30,8 @@ describe('parseMongoUpdateExpression', () => {
 
   async function create() {
     const { item } = await mockApp.transporter.createOne({
-      item: { ...mockUser(), _id: '1' },
+      item: { ...mockUser(),
+_id: '1' },
       context: {},
       indexConfig,
     });
@@ -69,7 +71,8 @@ describe('parseMongoUpdateExpression', () => {
   test('$set', async () => {
     await create();
 
-    const sut = await update({ $set: { a: 1, c: 2 } });
+    const sut = await update({ $set: { a: 1,
+c: 2 } });
 
     expect(sut).toEqual({
       ...mockUser(),
@@ -133,7 +136,8 @@ describe('parseMongoUpdateExpression', () => {
       filter: { a: '1' },
       condition: { 'address.street.numbers.val': 2 },
       update: {
-        $set: { name: 'updated', 'address.street.numbers.$.val': 3 },
+        $set: { name: 'updated',
+'address.street.numbers.$.val': 3 },
       },
       context: {},
       indexConfig,
@@ -193,7 +197,8 @@ describe('parseMongoUpdateExpression', () => {
     const user = mockUser();
     user.list.push('newItem');
 
-    expect(sut).toEqual({ ...user, ...commonFields });
+    expect(sut).toEqual({ ...user,
+...commonFields });
   });
 
   test('$prepend', async () => {
@@ -238,15 +243,20 @@ describe('parseMongoUpdateExpression', () => {
       ...commonFields,
       list: ['b', 'c', 'd', 'e'],
     });
-    expect(await sut(1)).toEqual({ ...commonFields, list: ['b', 'd', 'e'] });
-    expect(await sut(1)).toEqual({ ...commonFields, list: ['b', 'e'] });
-    expect(await sut(1)).toEqual({ ...commonFields, list: ['b'] });
+    expect(await sut(1)).toEqual({ ...commonFields,
+list: ['b', 'd', 'e'] });
+    expect(await sut(1)).toEqual({ ...commonFields,
+list: ['b', 'e'] });
+    expect(await sut(1)).toEqual({ ...commonFields,
+list: ['b'] });
   });
 
   test('$remove object property', async () => {
     await create();
 
-    await update({ $set: { obj: { a: { b: 1, c: 2, d: 3 } } } });
+    await update({ $set: { obj: { a: { b: 1,
+c: 2,
+d: 3 } } } });
 
     expect(await update({ $remove: ['obj.a.b'] })).toHaveProperty('obj.a', {
       c: 2,
@@ -407,7 +417,9 @@ describe('parseMongoUpdateExpression', () => {
     test('$remove object property', async () => {
       await create();
 
-      await update({ $set: { obj: { a: { b: 1, c: 2, d: 3 } } } });
+      await update({ $set: { obj: { a: { b: 1,
+c: 2,
+d: 3 } } } });
 
       expect(await update({ $remove: ['obj.a.b'] })).toHaveProperty('obj.a', {
         c: 2,

@@ -1,10 +1,10 @@
 import { createType } from '@backland/schema';
+import { PromiseType } from '@backland/utils';
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { createEntity } from '../Entity';
 
 import { setupProductTest } from './setupProductTest';
-import { PromiseType } from '@backland/utils';
 
 describe('ProductResolver.addRelation', () => {
   const { getMocks } = setupProductTest();

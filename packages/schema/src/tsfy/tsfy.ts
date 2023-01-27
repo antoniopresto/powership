@@ -64,7 +64,9 @@ export function tsfy(input: any, config?: TSFYConfig): TSFyResult {
 
     Object.values(context.header).forEach((el) => header.add(el));
 
-    return { header, body, footer };
+    return { header,
+body,
+footer };
   }
 
   async function toString(options?: {

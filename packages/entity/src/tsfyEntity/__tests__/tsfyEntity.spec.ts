@@ -1,7 +1,9 @@
-import { tsfyEntities } from '../tsfyEntities';
-import { UserEntity } from './demo/UserEntity';
-import { tsfyEntitiesWriter } from '../tsfyEntitiesWriter';
 import { delay } from '@backland/utils';
+
+import { tsfyEntities } from '../tsfyEntities';
+import { tsfyEntitiesWriter } from '../tsfyEntitiesWriter';
+
+import { UserEntity } from './demo/UserEntity';
 
 describe('tsfyEntity', () => {
   // afterEach();

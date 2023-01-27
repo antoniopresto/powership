@@ -1,5 +1,6 @@
-import { parseEntityIndexFields } from '../parseEntityIndexFields';
 import { createType, ObjectType } from '@backland/schema';
+
+import { parseEntityIndexFields } from '../parseEntityIndexFields';
 
 describe('parseEntityIndexFields', () => {
   afterEach(ObjectType.reset);
@@ -12,7 +13,8 @@ describe('parseEntityIndexFields', () => {
           name: '_id',
           PK: ['.accountId'],
           SK: ['.username'],
-          relations: [{ name: 'access', entity: 'AccessType' }],
+          relations: [{ name: 'access',
+entity: 'AccessType' }],
         },
       ],
     });

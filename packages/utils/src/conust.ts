@@ -228,7 +228,8 @@ function getMagnitudeParams(
     magnitudePositive = true;
   }
 
-  return { magnitude, magnitudePositive };
+  return { magnitude,
+magnitudePositive };
 }
 
 function writeMagnitude(

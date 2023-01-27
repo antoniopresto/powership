@@ -93,7 +93,8 @@ export function parseObjectField(fieldName, definition, options = {}) {
   if (deep?.omitMeta) omitMeta = true;
   if (deep?.asString) asString = true;
 
-  let parsed = parseFieldDefinitionConfig(definition, { deep, omitMeta });
+  let parsed = parseFieldDefinitionConfig(definition, { deep,
+omitMeta });
 
   if (_parserHooks.length) {
     _parserHooks.forEach((cb) => cb(parsed));

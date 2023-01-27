@@ -133,7 +133,8 @@ export function createEntity(
       const ext_utils = { extend: extendObjectDefinition };
       const partial = cb(entity, ext_utils);
       if (!partial || typeof partial !== 'object') return entity;
-      return { ...entity, ...partial };
+      return { ...entity,
+...partial };
     });
     return entity;
   }
@@ -164,7 +165,8 @@ export function createEntity(
           ? // @ts-ignore
             handler(entityOptions)
           : // @ts-ignore
-            { ...entityOptions, ...handler };
+            { ...entityOptions,
+...handler };
 
       if (
         gettersWereCalled &&
@@ -198,7 +200,8 @@ export function createEntity(
     name: string,
     relationInput: EntityIndexRelationInput
   ) {
-    const relation = { name, entity: relationInput };
+    const relation = { name,
+entity: relationInput };
 
     entityMutations.push(
       //
@@ -226,7 +229,8 @@ export function createEntity(
         entityOptions
       );
 
-      return { ...entityOptions, type: newType } as any;
+      return { ...entityOptions,
+type: newType } as any;
     }) as any;
   }
 
@@ -461,7 +465,8 @@ export function createEntity(
           indexFieldKeys,
         });
 
-        const context = { operation, resolvers };
+        const context = { operation,
+resolvers };
 
         let resolver: AnyFunction = transporter[method].bind(transporter);
 
@@ -474,7 +479,8 @@ export function createEntity(
 
         let result = await p;
 
-        debug(`${method}`, { options: operation.options, result });
+        debug(`${method}`, { options: operation.options,
+result });
 
         if (
           !result.error &&
@@ -498,7 +504,8 @@ export function createEntity(
 
         if (result.item) {
           const res = await _hooks.filterResult.exec(
-            { items: [result.item], kind: 'items' },
+            { items: [result.item],
+kind: 'items' },
             context
           );
           if (res.kind === 'items') result.item = res.items[0];
@@ -506,7 +513,8 @@ export function createEntity(
 
         if (result.items) {
           const res = await _hooks.filterResult.exec(
-            { items: result.items, kind: 'items' },
+            { items: result.items,
+kind: 'items' },
             context
           );
           if (res.kind === 'items') result.items = res.items;
@@ -514,7 +522,8 @@ export function createEntity(
 
         if (result.edges) {
           const res = await _hooks.filterResult.exec(
-            { kind: 'pagination', pagination: result },
+            { kind: 'pagination',
+pagination: result },
             context
           );
           if (res.kind === 'pagination') result = res.pagination;
@@ -532,13 +541,15 @@ export function createEntity(
           ].__lazyGetter.objectType!.clone((el) =>
             el
               .optional()
-              .extendObjectDefinition({ id: { optional: true, type: 'ID' } })
+              .extendObjectDefinition({ id: { optional: true,
+type: 'ID' } })
           );
         }
 
         const ext = extendObjectDefinition({
           object: {
-            id: { optional: true, type: 'ID' },
+            id: { optional: true,
+type: 'ID' },
           },
         });
 

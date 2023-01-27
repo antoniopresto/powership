@@ -1,7 +1,7 @@
-import { CursorField } from '../CursorField';
-import { createObjectType, resetTypesCache } from '../../ObjectType';
-import { LiteralField } from '../LiteralField';
 import { createType } from '../../GraphType/GraphType';
+import { createObjectType, resetTypesCache } from '../../ObjectType';
+import { CursorField } from '../CursorField';
+import { LiteralField } from '../LiteralField';
 import { ObjectField } from '../ObjectField';
 
 describe('FieldType.clone', () => {
@@ -64,7 +64,8 @@ describe('FieldType.clone', () => {
     const obj = createObjectType('OB', {
       name: 'string',
       un: {
-        union: [{ object: { a: 'string', b: { literal: 2 } } }],
+        union: [{ object: { a: 'string',
+b: { literal: 2 } } }],
         description: 'My name is un',
       },
     });

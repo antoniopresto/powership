@@ -1,6 +1,5 @@
 import { MongoClient } from '../MongoClient';
 import { MongoDataLoader } from '../mongoDataLoader/MongoDataLoader';
-
 import { AppMock, createAppMock } from '../test-utils';
 
 const USERS = {
@@ -66,7 +65,8 @@ describe('MongoEntity.DataLoader', () => {
           { _id: USERS.Cacau },
         ],
       },
-      { projection: {}, sort: {} }
+      { projection: {},
+sort: {} }
     );
 
     expect(spy).toBeCalledTimes(1);
@@ -161,7 +161,8 @@ describe('MongoEntity.DataLoader', () => {
           { name: { $ne: 'H' } },
         ],
       },
-      { projection: {}, sort: { name: -1 } }
+      { projection: {},
+sort: { name: -1 } }
     );
 
     expect(spy).toBeCalledTimes(1);
@@ -205,7 +206,8 @@ describe('MongoEntity.DataLoader', () => {
           { name: { $ne: 'H' } },
         ],
       },
-      { sort: undefined, projection: { index: 0 } }
+      { sort: undefined,
+projection: { index: 0 } }
     );
 
     expect(data[0][0].index).toBeUndefined();

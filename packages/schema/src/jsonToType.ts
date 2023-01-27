@@ -22,7 +22,8 @@ import {
 } from './ObjectType';
 import { ULID_REGEX } from './fields/UlidField';
 
-const record = CircularDeps.record({ keyType: 'string', type: 'any' });
+const record = CircularDeps.record({ keyType: 'string',
+type: 'any' });
 
 export const JSONFieldCase = Object.keys(stringCase).concat('camelCase') as (
   | keyof typeof stringCase
@@ -30,10 +31,12 @@ export const JSONFieldCase = Object.keys(stringCase).concat('camelCase') as (
 )[];
 
 export const JSONToSchemaOptions = createObjectType({
-  fieldCase: { enum: JSONFieldCase, optional: true },
+  fieldCase: { enum: JSONFieldCase,
+optional: true },
   examples: 'boolean?',
   name: 'string?',
-  json: { record: { type: 'any', keyType: 'string' } },
+  json: { record: { type: 'any',
+keyType: 'string' } },
 });
 
 export type JSONToSchemaOptions = Infer<typeof JSONToSchemaOptions>;
@@ -43,7 +46,8 @@ export function jsonToType(
 ): GraphType<{ object: { $string: 'unknown' } }> {
   const { name } = init;
 
-  const definition = valueToTypeDef({ ...init, value: init.json });
+  const definition = valueToTypeDef({ ...init,
+value: init.json });
   const type = createType(definition);
 
   if (name) {
@@ -57,7 +61,8 @@ export function jsonToSchemaDefinition(options: JSONToSchemaOptions): {
   [K: string]: FinalFieldDefinition;
 } {
   record.parse(options.json, 'jsonToSchema: Invalid input.');
-  const res = valueToTypeDef({ ...options, value: options.json });
+  const res = valueToTypeDef({ ...options,
+value: options.json });
 
   if ('object' in res && typeof res.object === 'object') {
     return res.object as FinalObjectDefinition;
@@ -140,7 +145,8 @@ export function valueToTypeDef(
 
   if ('array' in field) {
     const child = (value as any[]).map((el) => {
-      return valueToTypeDef({ ...options, value: el });
+      return valueToTypeDef({ ...options,
+value: el });
     });
     field.array.of = (function iife() {
       if (!child.length) return 'unknown';
@@ -160,7 +166,8 @@ export function valueToTypeDef(
 
       return {
         ...acc,
-        [key]: valueToTypeDef({ ...options, value: subValue }),
+        [key]: valueToTypeDef({ ...options,
+value: subValue }),
       };
     }, {});
   }

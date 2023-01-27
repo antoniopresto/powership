@@ -15,7 +15,8 @@ describe('Backland aliases', () => {
 
     expect(
       CircularDeps.object({
-        name: { string: {}, defaultValue: 'Antonio' },
+        name: { string: {},
+defaultValue: 'Antonio' },
       }).definition
     ).toEqual({
       def: {

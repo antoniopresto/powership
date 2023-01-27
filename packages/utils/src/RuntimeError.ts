@@ -40,7 +40,8 @@ export class RuntimeError extends Error {
     } = prepareArgs(_config as any);
 
     if (details) {
-      const detailsString = inspectObject(details, { tabSize: 0, depth })
+      const detailsString = inspectObject(details, { tabSize: 0,
+depth })
         //
         .slice(0, limitStackTrace);
 

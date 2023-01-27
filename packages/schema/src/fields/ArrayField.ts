@@ -32,7 +32,8 @@ export class ArrayField<T extends ArrayFieldDef> extends FieldType<
   }
 
   constructor(def: T) {
-    super({ def: def, name: 'array' });
+    super({ def: def,
+name: 'array' });
     const { parseObjectField } = CircularDeps;
 
     try {

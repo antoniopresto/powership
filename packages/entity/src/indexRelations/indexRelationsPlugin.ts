@@ -232,6 +232,8 @@ function _setCreateOneRelatedDocumentsInContext(
 ) {
   context.shared.createOneRelatedDocsFound = [
     ...(_getCreateOneRelatedRelationsInContext(context) || []),
-    { doc, field, relationConfig },
+    { doc,
+field,
+relationConfig },
   ];
 }

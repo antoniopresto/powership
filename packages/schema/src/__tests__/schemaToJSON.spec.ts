@@ -34,7 +34,8 @@ describe('objectToJSON', () => {
       },
     })
       .describe('My Custom Object')
-      .describe({ name: 'person name', pointers: 'some pointers' });
+      .describe({ name: 'person name',
+pointers: 'some pointers' });
 
     const sut = objectToJSON('MyTypeABX', object);
 

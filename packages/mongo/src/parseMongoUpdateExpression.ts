@@ -75,7 +75,8 @@ export function parseMongoUpdateExpression(
       case '$prepend': {
         item.entries.forEach(([k, value]) => {
           _set({
-            $push: { [k]: { ..._mergeEach(value), $position: 0 } },
+            $push: { [k]: { ..._mergeEach(value),
+$position: 0 } },
           });
         });
         break;

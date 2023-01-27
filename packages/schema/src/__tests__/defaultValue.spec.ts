@@ -11,7 +11,8 @@ describe('defaultValue', () => {
 
   test('TS print as required', () => {
     const object = createObjectType('Item', {
-      name: { string: {}, defaultValue: 'hy' },
+      name: { string: {},
+defaultValue: 'hy' },
     });
 
     const sut = GraphQLParser.objectToGraphQL({
@@ -28,7 +29,8 @@ describe('defaultValue', () => {
   test('.graphQLType print with defaultValue', () => {
     const object = createType('User', {
       object: {
-        name: { string: {}, defaultValue: 'hy' },
+        name: { string: {},
+defaultValue: 'hy' },
         age: 'int?',
       },
     });
@@ -51,7 +53,8 @@ describe('defaultValue', () => {
   test('parses correctly', () => {
     const object = createType('User', {
       object: {
-        name: { string: {}, defaultValue: 'hy' },
+        name: { string: {},
+defaultValue: 'hy' },
         age: 'int?',
       },
     });
@@ -66,7 +69,8 @@ describe('defaultValue', () => {
   test('parse resolver arg with default as typescript optional', async () => {
     const object = createType('User', {
       object: {
-        name: { string: {}, defaultValue: 'hy' },
+        name: { string: {},
+defaultValue: 'hy' },
         age: 'int?',
       },
     });

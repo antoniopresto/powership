@@ -1,9 +1,10 @@
-import { mockApp } from '../../__tests__/mockApp';
 import { createType, ObjectType } from '@backland/schema';
-import { createEntity } from '../../Entity';
-import { assert, IsExact } from 'conditional-type-checks';
-import { EntityDocumentBase } from '../../EntityInterfaces';
 import { ulid } from '@backland/utils';
+import { assert, IsExact } from 'conditional-type-checks';
+
+import { createEntity } from '../../Entity';
+import { EntityDocumentBase } from '../../EntityInterfaces';
+import { mockApp } from '../../__tests__/mockApp';
 
 describe('Entity.indexRelations', () => {
   afterEach(ObjectType.reset);
@@ -52,7 +53,10 @@ describe('Entity.indexRelations', () => {
       ],
     }).addIndexRelation('access', accessEntity);
 
-    return { accessType, accessEntity, accountEntity, accountType };
+    return { accessType,
+accessEntity,
+accountEntity,
+accountType };
   }
 
   test('validate PK to be equal in relation', async () => {
@@ -81,7 +85,8 @@ describe('Entity.indexRelations', () => {
       object: {
         accountId: 'string',
         username: 'string',
-        access: { array: { of: accessType, min: 1 } },
+        access: { array: { of: accessType,
+min: 1 } },
       },
     });
 

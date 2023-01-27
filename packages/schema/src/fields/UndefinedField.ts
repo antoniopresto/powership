@@ -10,7 +10,8 @@ export class UndefinedField extends FieldType<
   parse: FieldTypeParser<undefined>;
 
   constructor() {
-    super({ def: undefined, name: 'undefined' });
+    super({ def: undefined,
+name: 'undefined' });
     this.parse = this.applyParser({
       parse: (input) => {
         if (typeof input !== 'undefined') {

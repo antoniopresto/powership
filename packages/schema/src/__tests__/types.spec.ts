@@ -2,9 +2,9 @@ import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../Infer';
 import { createObjectType, ObjectType } from '../ObjectType';
+import { EnumField } from '../fields/EnumField';
 import { _assertFields } from '../fields/__tests__/__assert';
 import { ParseStringDefinition } from '../parseStringDefinition';
-import { EnumField } from '../fields/EnumField';
 
 describe('typings', () => {
   test('enum', () => {
@@ -36,7 +36,8 @@ describe('typings', () => {
       nameListOptional: '[string]?',
       optional: 'string?',
       age: 'int',
-      gender: { enum: ['male', 'female', 'other'], optional: true },
+      gender: { enum: ['male', 'female', 'other'],
+optional: true },
       category: { enum: ['general', 'closed'] },
       categoryRO: { enum: ['general', 'closed'] } as const,
       '12Enum': { enum: ['1', '2'] },

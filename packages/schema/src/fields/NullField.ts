@@ -6,7 +6,8 @@ export class NullField extends FieldType<string, 'null', undefined> {
   parse: FieldTypeParser<string>;
 
   constructor() {
-    super({ def: undefined, name: 'null' });
+    super({ def: undefined,
+name: 'null' });
 
     this.parse = this.applyParser({
       parse(input: string) {

@@ -7,9 +7,13 @@ const definitions = getKeys(types)
   .map((type) => {
     return [
       [type, { type }],
-      [`${type}?`, { type, optional: true }],
-      [`[${type}]`, { type, list: true }],
-      [`[${type}]?`, { type, optional: true, list: true }],
+      [`${type}?`, { type,
+optional: true }],
+      [`[${type}]`, { type,
+list: true }],
+      [`[${type}]?`, { type,
+optional: true,
+list: true }],
     ] as const;
   })
   .flat();

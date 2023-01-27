@@ -1,8 +1,8 @@
+import { delay } from '@backland/utils';
+
 import { createType } from '../../GraphType/GraphType';
 import { resetTypesCache } from '../../ObjectType';
-
 import { tsfyWriter } from '../tsfyWriter';
-import { delay } from '@backland/utils';
 
 xdescribe('tsfyWriter', () => {
   afterEach(resetTypesCache);

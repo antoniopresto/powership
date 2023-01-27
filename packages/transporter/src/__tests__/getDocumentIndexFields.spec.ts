@@ -1,10 +1,12 @@
-import { getDocumentIndexFields } from '../getDocumentIndexFields';
 import { parseIndexFieldName } from '@backland/utils';
+
+import { getDocumentIndexFields } from '../getDocumentIndexFields';
 
 describe('getDocumentIndexFields', () => {
   it('should mount PK', async () => {
     const sut = getDocumentIndexFields(
-      { name: 'fulano', age: 5 },
+      { name: 'fulano',
+age: 5 },
       {
         entity: 'foo',
         indexes: [
@@ -184,7 +186,8 @@ describe('getDocumentIndexFields', () => {
 
   it('should mount PK + SK', async () => {
     const oneField = getDocumentIndexFields(
-      { name: 'NAME', age: 0 },
+      { name: 'NAME',
+age: 0 },
       {
         entity: 'foo',
         indexes: [
@@ -282,7 +285,8 @@ describe('getDocumentIndexFields', () => {
 
   it('should mount PK + SK when index name is "PK"', async () => {
     const oneField = getDocumentIndexFields(
-      { name: 'NAME', age: 0 },
+      { name: 'NAME',
+age: 0 },
       {
         entity: 'foo',
         indexes: [
@@ -404,7 +408,9 @@ describe('getDocumentIndexFields', () => {
   describe('relatedTo', () => {
     test('case 1', () => {
       const oneField = getDocumentIndexFields(
-        { accountId: 1234, kind: 'phone', value: '+55119988788' },
+        { accountId: 1234,
+kind: 'phone',
+value: '+55119988788' },
         {
           entity: 'AccessType',
           indexes: [

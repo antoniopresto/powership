@@ -1,12 +1,14 @@
+import { printType } from 'graphql/utilities';
+
 import { createObjectType, resetTypesCache } from '../../ObjectType';
 import { createType } from '../GraphType';
-import { printType } from 'graphql/utilities';
 
 describe('GraphQLParse.hiddenFields', () => {
   const person = createObjectType('Person', {
     name: 'string',
     age: 'int?',
-    addresses: { record: { type: 'string', keyType: 'int' } },
+    addresses: { record: { type: 'string',
+keyType: 'int' } },
     password: {
       hidden: true,
       string: {},
@@ -71,10 +73,14 @@ describe('GraphQLParse.hiddenFields', () => {
 
   it('Should require type in parse', async () => {
     expect(() => {
-      person.parse({ name: 'antonio', addresses: {}, password: undefined });
+      person.parse({ name: 'antonio',
+addresses: {},
+password: undefined });
     }).toThrow('field "password": RequiredField.');
 
-    const res = person.parse({ name: 'antonio', addresses: {}, password: '1' });
+    const res = person.parse({ name: 'antonio',
+addresses: {},
+password: '1' });
 
     expect(res).toEqual({
       addresses: {},

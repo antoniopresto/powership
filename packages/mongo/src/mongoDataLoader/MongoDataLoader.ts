@@ -81,7 +81,8 @@ export class MongoDataLoader {
       try {
         let cursor = db
           .collection(collection)
-          .find(condition, { projection, sort });
+          .find(condition, { projection,
+sort });
 
         let queryResult = await cursor.toArray();
 
@@ -104,7 +105,10 @@ export class MongoDataLoader {
       }
     })();
 
-    logger.debug({ condition, result, projection, sort });
+    logger.debug({ condition,
+result,
+projection,
+sort });
 
     if (result.error) throw result.error;
     return result.result;

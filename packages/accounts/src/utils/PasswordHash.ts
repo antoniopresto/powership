@@ -14,7 +14,8 @@ async function hash(params: PasswordHashParams): Promise<string> {
 }
 
 export const PasswordType = createType('PasswordType', () => ({
-  def: { max: 200, min: 7 },
+  def: { max: 200,
+min: 7 },
   type: 'string',
 }));
 

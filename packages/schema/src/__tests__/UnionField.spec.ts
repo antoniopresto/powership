@@ -2,8 +2,8 @@ import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../Infer';
 import { createObjectType } from '../ObjectType';
-import { UnionField } from '../fields/UnionField';
 import { DescribeField } from '../fields/Infer';
+import { UnionField } from '../fields/UnionField';
 
 describe('Union', () => {
   it('parses', () => {
@@ -394,7 +394,8 @@ describe('Union', () => {
     // });
 
     it('infer object union with optional as optional', () => {
-      const u = { type: 'union', def: ['int?', 'string'] } as const;
+      const u = { type: 'union',
+def: ['int?', 'string'] } as const;
       type P = DescribeField<typeof u>;
 
       // assert<IsExact<true, P['optional']>>(true);

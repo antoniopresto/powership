@@ -210,7 +210,8 @@ export class ObjectType<
     input: any,
     options: FieldParserOptionsObject = {}
   ): InferObjectDefinition<HandledInput> & { [K: string]: T } => {
-    return this.parse(input, { ...options, allowExtraFields: true });
+    return this.parse(input, { ...options,
+allowExtraFields: true });
   };
 
   validate(input: any): input is InferObjectDefinition<HandledInput> {
@@ -244,7 +245,8 @@ export class ObjectType<
       FinalFieldDefinition
     >;
 
-    if (this.__hidden && !includeHidden) return { errors: [], parsed: {} };
+    if (this.__hidden && !includeHidden) return { errors: [],
+parsed: {} };
 
     const errors: string[] = [];
     const parsed: any = {};
@@ -396,7 +398,8 @@ export class ObjectType<
       errors.unshift(...result.errors);
     });
 
-    const resulting = allowExtraFields ? { ...input, ...parsed } : parsed;
+    const resulting = allowExtraFields ? { ...input,
+...parsed } : parsed;
 
     return {
       errors,

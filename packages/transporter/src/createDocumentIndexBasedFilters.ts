@@ -53,7 +53,8 @@ export function createDocumentIndexBasedFilters(
     };
   } else {
     const indexFilter = parsedIndexCursors.parts.reduce((acc, next) => {
-      return { ...next.indexFilter, ...acc };
+      return { ...next.indexFilter,
+...acc };
     }, {});
 
     parsedIndexCursors.parts.forEach(({ index, PKPartOpen }) => {

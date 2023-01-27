@@ -9,7 +9,8 @@ export function encodeIndexValue(value: any) {
   }
   if (typeof value === 'object') {
     return Object.entries(value).reduce((acc, [k, v]) => {
-      return { ...acc, [k]: encodeIndexValue(v) };
+      return { ...acc,
+[k]: encodeIndexValue(v) };
     }, {});
   }
   return value;

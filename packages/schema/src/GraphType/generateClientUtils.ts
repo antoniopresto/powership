@@ -95,7 +95,8 @@ export async function generateClientUtils(
         inputName,
         argsDef
           ? { object: argsDef }
-          : { record: { keyType: 'string', type: 'unknown' } }
+          : { record: { keyType: 'string',
+type: 'unknown' } }
       )},\n`;
 
       const resolverQueries = queryTemplates.queryByResolver[kind][name];

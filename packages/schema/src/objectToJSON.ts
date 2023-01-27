@@ -143,7 +143,8 @@ function parseGraphQLField(params: {
       field:
         type === 'array'
           ? parseObjectField(fieldName, field.def.of)
-          : { ...field, list: false },
+          : { ...field,
+list: false },
       fieldName,
       options,
       parentName,
@@ -313,5 +314,7 @@ function parseGraphQLField(params: {
 
   typeParsers[type]();
 
-  return { composers, jsonItem, required };
+  return { composers,
+jsonItem,
+required };
 }

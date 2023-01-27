@@ -208,7 +208,10 @@ export class BJSONConstructor {
           (el) => el.formatter.match(value) !== undefined
         );
 
-        const handled = handler?.({ ...options, value, self, serializer });
+        const handled = handler?.({ ...options,
+value,
+self,
+serializer });
         if (handled !== undefined) return handled;
         if (!serializer) return undefined;
 
@@ -298,7 +301,8 @@ export function _stringify(
 
   const info = { key: options?.key ?? undefined };
 
-  const handled = defaultHandler?.({ value, options });
+  const handled = defaultHandler?.({ value,
+options });
   if (handled !== undefined) return quoteValues(handled, info);
 
   switch (typeName) {
@@ -324,7 +328,8 @@ export function _stringify(
       let length = value.length;
 
       for (let i = 0; i < length; i += 1) {
-        partial[i] = stringify(value[i], { ...options, key: i }) || 'null';
+        partial[i] = stringify(value[i], { ...options,
+key: i }) || 'null';
       } // Join all the elements together, separated with commas, and wrap
       // them in brackets.
 
@@ -353,7 +358,8 @@ export function _stringify(
       let keys = Object.keys(value);
 
       keys.forEach(function (k) {
-        v = stringify(value[k], { ...options, key: k });
+        v = stringify(value[k], { ...options,
+key: k });
 
         if (v) {
           partial.push(quoteKeys(k) + ':' + v);

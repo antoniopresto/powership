@@ -1,6 +1,6 @@
 import { createType } from '../GraphType/GraphType';
-import { objectMock } from '../mockObject';
 import { createObjectType } from '../ObjectType';
+import { objectMock } from '../mockObject';
 
 describe('mockObject', () => {
   it('works', async () => {
@@ -16,7 +16,8 @@ describe('mockObject', () => {
         shortDescription: 'string?',
         brand: 'string',
         detailsUrl: 'string?',
-        alcoholic: { boolean: true, defaultValue: false },
+        alcoholic: { boolean: true,
+defaultValue: false },
         thumbUrl: 'string?',
         attributes: 'record?',
         currentPrice: 'float',
@@ -30,7 +31,8 @@ describe('mockObject', () => {
         lit: { literal: { a: 1 } },
         objectType: createObjectType({
           name: 'string',
-          list: { array: { of: 'string', min: 2 } },
+          list: { array: { of: 'string',
+min: 2 } },
         }),
         graphType,
       },

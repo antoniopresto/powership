@@ -1,11 +1,13 @@
-import { createDocumentIndexBasedFilters } from '../createDocumentIndexBasedFilters';
 import { escapeCursorChars, joinPKSK } from '@backland/utils';
+
+import { createDocumentIndexBasedFilters } from '../createDocumentIndexBasedFilters';
 
 describe('getDocumentIndexFields', () => {
   describe('relatedTo', () => {
     test('case 1', () => {
       const oneField = createDocumentIndexBasedFilters(
-        { accountId: 1234, username: 'antonio' },
+        { accountId: 1234,
+username: 'antonio' },
         {
           entity: 'Account',
           indexes: [
@@ -13,7 +15,8 @@ describe('getDocumentIndexFields', () => {
               name: '_id',
               PK: ['.accountId'],
               SK: ['.username'],
-              relations: [{ name: 'access', entity: 'AccessType' }],
+              relations: [{ name: 'access',
+entity: 'AccessType' }],
             },
           ],
         }
@@ -36,7 +39,8 @@ describe('getDocumentIndexFields', () => {
 
   test('isFullKeyFilter false - sk is filter', () => {
     const oneField = createDocumentIndexBasedFilters(
-      { accountId: 1234, username: { $startsWith: 'a' } },
+      { accountId: 1234,
+username: { $startsWith: 'a' } },
       {
         entity: 'Account',
         indexes: [
@@ -44,7 +48,8 @@ describe('getDocumentIndexFields', () => {
             name: '_id',
             PK: ['.accountId'],
             SK: ['.username'],
-            relations: [{ name: 'access', entity: 'AccessType' }],
+            relations: [{ name: 'access',
+entity: 'AccessType' }],
           },
         ],
       }
@@ -75,7 +80,8 @@ describe('getDocumentIndexFields', () => {
             name: '_id',
             PK: ['.accountId'],
             SK: ['.username'],
-            relations: [{ name: 'access', entity: 'AccessType' }],
+            relations: [{ name: 'access',
+entity: 'AccessType' }],
           },
         ],
       }
@@ -95,7 +101,8 @@ describe('getDocumentIndexFields', () => {
 
   test('filtering by the final indexFieldName', () => {
     const oneField = createDocumentIndexBasedFilters(
-      { _idPK: 'foooooo', _idSK: 555 },
+      { _idPK: 'foooooo',
+_idSK: 555 },
       {
         entity: 'Account',
         indexes: [
@@ -103,7 +110,8 @@ describe('getDocumentIndexFields', () => {
             name: '_id',
             PK: ['.accountId'],
             SK: ['.username'],
-            relations: [{ name: 'access', entity: 'AccessType' }],
+            relations: [{ name: 'access',
+entity: 'AccessType' }],
           },
         ],
       }
@@ -125,7 +133,8 @@ describe('getDocumentIndexFields', () => {
 
   test('filtering by second index', () => {
     const oneField = createDocumentIndexBasedFilters(
-      { storeId: 'store1', SKU: 'sku_ORANGE' },
+      { storeId: 'store1',
+SKU: 'sku_ORANGE' },
       {
         entity: 'Account',
         indexes: [
@@ -199,7 +208,8 @@ describe('getDocumentIndexFields', () => {
               SK: ['.kind', '.createdFor', '.ulid'],
               name: '_id',
               relatedTo: 'Account',
-              relations: [{ name: 'subsub', entity: 'SubSub' }],
+              relations: [{ name: 'subsub',
+entity: 'SubSub' }],
             },
           ],
         }

@@ -49,7 +49,8 @@ const stringDefTypes = {
 
 const typeDefs = {
   enumStringArray: ['a', 'b', 'c'],
-  fieldDefAsType: StringField.create({ max: 2, min: 1 }).toList().toOptional(),
+  fieldDefAsType: StringField.create({ max: 2,
+min: 1 }).toList().toOptional(),
 
   objectObjectAsType: {
     list: true,
@@ -117,9 +118,11 @@ export const ProductType = createType('Product', {
     shortDescription: 'string?',
     brand: 'string',
     detailsUrl: 'string?',
-    alcoholic: { boolean: true, defaultValue: false },
+    alcoholic: { boolean: true,
+defaultValue: false },
     thumbUrl: 'string?',
-    breadcrumb: { type: BreadCrumbType, list: true },
+    breadcrumb: { type: BreadCrumbType,
+list: true },
     mapOfImages: {
       type: ProductImageMapType,
       list: true,

@@ -158,7 +158,8 @@ export function createStore<
 
   if (values) {
     values.map(([k, v]) => {
-      set(k, v, { silently: true, meta: 'INITIAL' });
+      set(k, v, { silently: true,
+meta: 'INITIAL' });
     });
     _reindex();
   }

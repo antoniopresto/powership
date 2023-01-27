@@ -78,7 +78,8 @@ export class QueryBuilder<S extends Record<string, any> = Record<string, any>> {
 
           setWith(this.object, newKey, json);
         } catch (e) {
-          throw new RuntimeError(`failed to convert args`, { args, entry });
+          throw new RuntimeError(`failed to convert args`, { args,
+entry });
         }
       }
     });

@@ -40,7 +40,8 @@ export function objectMock<T extends { [K: string]: FieldInput }>(
 
     if (def.type === 'alias') {
       const instance = __getCachedFieldInstance(def);
-      composers.push({ composer: instance.composer!, key });
+      composers.push({ composer: instance.composer!,
+key });
     }
     placeHolder[key] = fieldToMock(def, options);
   });

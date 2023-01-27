@@ -15,10 +15,12 @@ export class IntField extends FieldType<
   parse: FieldTypeParser<number>;
 
   constructor(def: IntFieldDef = {}) {
-    super({ def: def, name: 'int' });
+    super({ def: def,
+name: 'int' });
     const { min, max } = def;
 
-    expectedType({ max, min }, 'number', true);
+    expectedType({ max,
+min }, 'number', true);
 
     this.parse = this.applyParser({
       parse: (input: number) => {

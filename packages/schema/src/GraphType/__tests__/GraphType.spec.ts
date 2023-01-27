@@ -4,9 +4,9 @@ import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 import { CircularDeps } from '../../CircularDeps';
 import { Infer } from '../../Infer';
 import { createObjectType, ObjectType } from '../../ObjectType';
-import { createType, GraphType } from '../GraphType';
-import { createGraphQLSchema } from '../../createGraphQLSchema';
 import { createResolver } from '../../Resolver';
+import { createGraphQLSchema } from '../../createGraphQLSchema';
+import { createType, GraphType } from '../GraphType';
 
 describe('createType', () => {
   beforeEach(ObjectType.reset);
@@ -176,7 +176,8 @@ describe('createType', () => {
       foo: 'int',
     });
 
-    const sut = new GraphType({ type: object, list: true });
+    const sut = new GraphType({ type: object,
+list: true });
 
     type Expected = { foo: number }[];
     type Return = ReturnType<typeof sut.parse>;
@@ -211,7 +212,8 @@ describe('createType', () => {
       foo: 'int',
     });
 
-    const sut = new GraphType({ type: object, optional: true });
+    const sut = new GraphType({ type: object,
+optional: true });
 
     type Return = ReturnType<typeof sut.parse>;
 
@@ -228,7 +230,9 @@ describe('createType', () => {
       foo: 'int',
     });
 
-    const sut = new GraphType({ type: object, optional: true, list: true });
+    const sut = new GraphType({ type: object,
+optional: true,
+list: true });
 
     type Return = ReturnType<typeof sut.parse>;
 
@@ -481,7 +485,8 @@ describe('createType', () => {
 
     const optionalType = sut.optionalType();
 
-    expect(optionalType.parse({ name: 'aa', age: 1 })).toEqual({
+    expect(optionalType.parse({ name: 'aa',
+age: 1 })).toEqual({
       name: 'aa',
       age: 1,
     });
