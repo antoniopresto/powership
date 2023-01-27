@@ -46,8 +46,8 @@ export interface EntityFromContext<Context extends AnyEntityTypesContext>
   }>;
 
   extendInput: ExtendObjectDefinition<
-    Context['originDefinition'],
-    Context['originDefinition']
+    { object: Context['originDefinition'] },
+    { object: Context['originDefinition'] }
   >;
 
   extendUpdate: ExtendObjectDefinition<
@@ -129,15 +129,3 @@ export type _ExcludeExtend<E> = {
 
 export type _AllOptional<Input extends ObjectDefinitionInput> =
   MakeFieldOptional<DescribeObjectDefinition<Input>, keyof Input>;
-
-// extendType: <T extends _EntityGraphType>(
-//   handler: (
-//     helper: ExtendObjectDefinition<this['inputType'], this['inputType']>,
-//     originalOptions: this['usedOptions']
-//   ) => T
-// ) => Entity<
-//   T['definition']['def'] extends ObjectDefinitionInput
-//     ? T['definition']['def']
-//     : {},
-//   Indexes
-// >;

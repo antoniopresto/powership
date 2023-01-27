@@ -322,15 +322,19 @@ export function createEntity(
     const indexFieldsDefinition = parseEntityIndexFields(indexConfig);
     const indexFieldKeys = Object.keys(indexFieldsDefinition);
 
-    const commons = extendObjectDefinition({
+    const indexAndEntityExpectedFieldsDefinition = extendObjectDefinition({
       ...createEntityDocumentBase(),
       ...indexFieldsDefinition,
     });
 
     function getOutputDefinition(
-      partials: boolean
+      optionalIndexAndDefaultFields: boolean
     ): Record<string, FinalFieldDefinition> {
-      const base: any = (partials ? commons.optional() : commons).def();
+      const base: any = (
+        optionalIndexAndDefaultFields
+          ? indexAndEntityExpectedFieldsDefinition.optional()
+          : indexAndEntityExpectedFieldsDefinition
+      ).def();
 
       return {
         ...base,
@@ -341,7 +345,8 @@ export function createEntity(
     const entityOutputDefinitionWithRelations = getOutputDefinition(false);
     const outputTypeDefinition = getOutputDefinition(false);
     const databaseDefinition = getOutputDefinition(false);
-    const inputDefinition = getOutputDefinition(true);
+    const inputDefinition =
+      inputDefinitionClone.def() as unknown as FinalObjectDefinition;
 
     const fields = Object.keys(outputTypeDefinition);
 
@@ -365,8 +370,9 @@ export function createEntity(
       object: databaseDefinition,
     });
 
-    const updateDefinitionBase = databaseType.clone((t) => t.optional());
-    const updateDefinition = updateDefinitionBase.def();
+    const updateDefinitionBase = entityOptions.type.clone((t) => t.optional());
+    const updateDefinition =
+      updateDefinitionBase.def() as unknown as FinalObjectDefinition;
 
     _hooks.createDefinition.exec(inputDefinition, {
       entityOptions,
