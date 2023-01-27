@@ -1,5 +1,5 @@
 {
-  "name": "run-each-package",
+  "name": "runmate",
   "version": "0.1.22",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",

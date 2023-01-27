@@ -29,7 +29,7 @@ const config = (function getConfig() {
     const config = require(rootJS);
     return config;
   } catch (e: any) {
-    const error = Error(`Failed to load run-each-package config: ${e.message}`);
+    const error = Error(`Failed to load runcli config: ${e.message}`);
     throw error;
   }
 })();
@@ -116,12 +116,10 @@ export function runeach() {
 
           let { command, mode } = ((): { command: string; mode: string } => {
             if (typeof config === 'string') {
-              return { command: config,
-mode: 'async' };
+              return { command: config, mode: 'async' };
             }
 
-            return { mode: 'async',
-...config };
+            return { mode: 'async', ...config };
           })();
 
           if (json.scripts?.[command]) {

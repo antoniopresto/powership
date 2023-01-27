@@ -1,4 +1,4 @@
-import { runeach } from 'run-each-package';
+import { runeach } from 'runcli';
 
 const { v } = process.env;
 const version = v || `0.0.0-alpha.${Date.now()}`;

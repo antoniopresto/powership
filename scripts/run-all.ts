@@ -1,4 +1,4 @@
-import { runeach } from 'run-each-package';
+import { runeach } from 'runcli';
 import * as process from 'process';
 
 const { map } = runeach();

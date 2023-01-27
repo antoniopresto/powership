@@ -1,6 +1,6 @@
 import * as process from 'process';
 
-import { runeach } from 'run-each-package';
+import { runeach } from 'runcli';
 
 const { v: CUSTOM_VERSION } = process.env;
 const time = new Date().toISOString().replace(/\D/g, '');

@@ -17,7 +17,7 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/mongo/lib" />
       <excludeFolder url="file://$MODULE_DIR$/logs" />
       <excludeFolder url="file://$MODULE_DIR$/packages/helpers/lib" />
-      <excludeFolder url="file://$MODULE_DIR$/packages/run-each-package/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/runmate/lib" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
