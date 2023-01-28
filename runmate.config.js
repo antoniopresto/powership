@@ -10,6 +10,6 @@ module.exports = {
     'accounts',
     'backland',
     'helpers',
-    'run-each-package',
+    'runmate',
   ],
 };

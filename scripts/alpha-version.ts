@@ -1,9 +1,9 @@
-import { runeach } from 'runcli';
+import { runeach } from 'runmate';
 
 const { v } = process.env;
 const version = v || `0.0.0-alpha.${Date.now()}`;
 
-runeach().map(({ saveJSON, json, run }) => {
+runmate().map(({ saveJSON, json, run }) => {
   json.version = version;
 
   Object.keys(json.dependencies || {}).forEach((dep) => {

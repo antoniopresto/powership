@@ -1,7 +1,7 @@
-import { runeach } from 'runcli';
+import { runeach } from 'runmate';
 import * as process from 'process';
 
-const { map } = runeach();
+const { map } = runmate();
 
 map(({ run }) => {
   process.env.c?.split(',').forEach((c) => {

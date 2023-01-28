@@ -44,17 +44,5 @@
     "prettier-plugin-multiline-arrays": "^1.1.3",
     "rimraf": "3.0.2",
     "ts-jest": "29.0.3"
-  },
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ],
-    "nohoist": [
-      "**/@backland/**",
-      "**/backland**",
-      "typescript",
-      "backland",
-      "@backland**"
-    ]
   }
 }

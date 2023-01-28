@@ -1,6 +1,6 @@
 import * as process from 'process';
 
-import { runeach } from 'runcli';
+import { runeach } from 'runmate';
 
 const { v: CUSTOM_VERSION } = process.env;
 const time = new Date().toISOString().replace(/\D/g, '');
@@ -9,7 +9,7 @@ const version = CUSTOM_VERSION || `0.0.0-alpha.${time}`;
 /**
  * Build, Publish Alpha
  */
-const { map, root } = runeach();
+const { map, root } = runmate();
 
 const skipBuild = process.env.sb !== undefined;
 
