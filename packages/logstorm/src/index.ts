@@ -11,7 +11,6 @@ import type {
 import { AsyncPlugin, createAsyncPlugin } from 'plugin-hooks';
 
 export type {
-  Logger,
   LogLevel,
   LogLevelDesc,
   LogLevelNames,
@@ -20,14 +19,22 @@ export type {
   RootLogger,
 };
 
-export const loggerMethodNames: { [K in LogMethodName]: K } = {
-  debug: 'debug',
-  error: 'error',
-  info: 'info',
-  log: 'log',
-  trace: 'trace',
-  warn: 'warn',
-};
+//  TRACE: 0;
+//         DEBUG: 1;
+//         INFO: 2;
+//         WARN: 3;
+//         ERROR: 4;
+//         SILENT: 5;
+
+const loggerMethodNames = [
+  'trace',
+  'debug',
+  'log', // alias to debug
+  'info',
+  'warn',
+  'error',
+  // 'silent',
+] as const;
 
 export function createLogger(
   name: string,
@@ -42,15 +49,32 @@ export function createLogger(
     plugin(logger.hooks);
   }
 
-  Object.values(loggerMethodNames).forEach((methodName) => {
+  loggerMethodNames.forEach((methodName) => {
     const original = logger[methodName];
+    const lazyMethodName = `lazy${methodName
+      .slice(0, 1)
+      .toUpperCase()}${methodName.slice(1)}`;
 
-    logger[methodName] = async function unnamed(this: any, ...args: any[]) {
+    async function fn(this: any, ...args: any[]) {
+      if (typeof args[0]?.__logstormCallback__ === 'function') {
+        args = await args[0].__logstormCallback__();
+      }
+
       const changed = await logger.hooks.willLog.dispatch(
         { values: args, method: methodName },
         {}
       );
+
       return original.apply(this, changed.values);
+    }
+
+    logger[methodName] = fn;
+
+    logger[lazyMethodName] = function lazyLog(this: any, cb) {
+      if (typeof cb !== 'function') {
+        console.error(`expected ${lazyMethodName} callback to be a function.`);
+      }
+      return fn({ __logstormCallback__: cb });
     };
   });
 
@@ -59,9 +83,19 @@ export function createLogger(
 
 export const logstorm = createLogger('global');
 
+export type LogArgument = any;
+
 export type LogStorm = { [K in keyof LogMethods]: LogMethods[K] } & {
   hooks: LogStormHooks;
-};
+} & {
+  [K in `lazy${Capitalize<LogMethodName>}`]: (
+    getArguments: () => MaybePromise<LogArgument[]>
+  ) => MaybePromise<void>;
+} & ({
+    [K in Exclude<keyof Logger, LogMethodName>]: Logger[K];
+  } & {}) extends infer R
+  ? { [K in keyof R]: R[K] } & {}
+  : never;
 
 export type LogStormHooks = {
   willLog: AsyncPlugin<{ method: LogMethodName; values: any[] }, {}>;

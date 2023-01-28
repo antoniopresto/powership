@@ -17,5 +17,18 @@ describe('logstorm', () => {
       values,
       method,
     }).toEqual({ method: 'log', values: ['foo', 'bar'] });
+
+    await logstorm.lazyLog(() => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve([1, 2, 3]);
+        }, 50);
+      });
+    });
+
+    expect({
+      values,
+      method,
+    }).toEqual({ method: 'log', values: [1, 2, 3] });
   });
 });

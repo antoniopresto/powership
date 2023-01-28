@@ -1,6 +1,6 @@
 # logstorm
 
-logstorm provides a logging library built on top of loglevel. 
+logstorm provides a logging library built on top of loglevel.
 
 It allows for custom plugin hooks to be added to the logging process and also provides a global logger instance.
 
@@ -32,6 +32,11 @@ const customLogger = createLogger('custom', plugin);
 customLogger.info('This message will have a plugin added to it');
 
 logstorm.debug('This is a debug message from the global logger');
+
+// You can use the lazy* methods to run expensive tasks, and return a
+//   list of arguments to the logger.
+//   In this example, the callback should return a list of arguments for logger.info
+logger.lazyInfo(() => Promise.resolve([JSON.stringify(value, null, 2)]));
 ```
 
 # Usage
