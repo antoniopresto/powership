@@ -8,7 +8,6 @@ module.exports = {
   extends: ['plugin:eslint-comments/recommended', 'plugin:import/typescript', 'prettier'],
   globals: { BigInt: true, console: true, WebAssembly: true },
   rules: {
-    'object-property-newline': 'warn',
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': 'warn',
     'eslint-comments/no-unlimited-disable': 'off',

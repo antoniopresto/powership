@@ -18,6 +18,7 @@
       <excludeFolder url="file://$MODULE_DIR$/logs" />
       <excludeFolder url="file://$MODULE_DIR$/packages/helpers/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/runmate/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/logstorm/lib" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
