@@ -3890,10 +3890,10 @@ log-update@^1.0.2:
     ansi-escapes "^1.0.0"
     cli-cursor "^1.0.2"
 
-logstorm@1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/logstorm/-/logstorm-1.2.2.tgz#b77bcc7c8ee9f0fd731a8bcae3aac14b19f02435"
-  integrity sha512-61ih9ZFTFlHSdiA+UaNx9USGMd/RaFVJ159M2d7nwh6UJEbXnXWkrEUvICBeK5B20duIMEEFFj1wklU4bG8umg==
+logstorm@1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/logstorm/-/logstorm-1.2.3.tgz#48c61ca8d0154fd57c09035c08a55d1cddae634d"
+  integrity sha512-4/RpREDO8ffKiqOF/Kz9SK8cy7QzlKkrSw6Mc5Jc+mmd33aKJeYQ+ZBpKMQgismlcc8JzkXNNlkXYU6Dt/+Mrg==
   dependencies:
     plugin-hooks "2.0.0"
 

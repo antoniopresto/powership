@@ -4,6 +4,8 @@ import nodePath from 'path';
 import chalk from 'chalk';
 import { Waterfall, waterfall } from 'plugin-hooks';
 
+import { runmateLogger } from './runmateLogger';
+
 export interface RunCommandOptions {
   command: string;
   plugin?: (hooks: RunCommandHooks) => any;
@@ -39,24 +41,20 @@ export async function runCommand(
                   )}`
                 : c_command_medium;
 
-            const tab = '  ';
-
             hooks.willStart.register(function data() {
-              process.stdout.write(`\n${chalk.cyan(description)} started\n\n`);
+              runmateLogger.log(`\n${chalk.cyan(description)} started\n\n`);
             });
 
             hooks.onStdoutData.register(function data(currentValue) {
-              process.stdout.write(
-                tab + currentValue.data.split('\n').join('\n' + tab)
-              );
+              runmateLogger.log(currentValue.data);
             });
 
             hooks.onStderrData.register(function data(currentValue) {
-              process.stderr.write(chalk.red(currentValue.data));
+              runmateLogger.error(chalk.red(currentValue.data));
             });
 
             hooks.onClose.register(function data() {
-              process.stdout.write(
+              runmateLogger.log(
                 chalk.green(
                   `finished in ${Date.now() - started}ms (${description})\n\n`
                 )
