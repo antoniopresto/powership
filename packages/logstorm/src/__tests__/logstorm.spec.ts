@@ -4,9 +4,11 @@ describe('logstorm', () => {
   // afterEach();
 
   test('works', async () => {
+    logstorm.level = 'trace';
+
     let values, method;
 
-    logstorm.hooks.willLog((ctx) => {
+    logstorm.hooks.willPrint((ctx) => {
       values = ctx.values;
       method = ctx.method;
     });
@@ -16,7 +18,13 @@ describe('logstorm', () => {
     expect({
       values,
       method,
-    }).toEqual({ method: 'log', values: ['foo', 'bar'] });
+    }).toEqual({
+      method: 'log',
+      values: ['➤ ', expect.stringMatching(/\n$/), ' ', 'foo', 'bar'],
+    });
+
+    logstorm.color = 'cyan';
+    logstorm.name = 'Potatoes';
 
     await logstorm.lazyDebug(() => {
       return new Promise((resolve) => {
@@ -29,6 +37,9 @@ describe('logstorm', () => {
     expect({
       values,
       method,
-    }).toEqual({ method: 'debug', values: [1, 2, 3] });
+    }).toEqual({
+      method: 'debug',
+      values: ['➤ ', expect.stringMatching(/\n$/), ' ', 1, 2, 3],
+    });
   });
 });
