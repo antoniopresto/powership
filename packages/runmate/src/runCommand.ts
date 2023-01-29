@@ -1,4 +1,5 @@
 import { ChildProcess, exec, ExecOptions } from 'child_process';
+import nodePath from 'path';
 
 import chalk from 'chalk';
 import { Waterfall, waterfall } from 'plugin-hooks';
@@ -13,6 +14,8 @@ export async function runCommand(
 ): Promise<0> {
   let childRef: ChildProcess | null = null;
 
+  let started = Date.now();
+
   const hooks: RunCommandHooks | undefined = {
     onStderrData: waterfall(),
     onStdoutData: waterfall(),
@@ -22,41 +25,53 @@ export async function runCommand(
     onError: waterfall(),
   };
 
+  options =
+    typeof options === 'string'
+      ? {
+          command: options,
+          plugin(hooks) {
+            const c_command_medium = command.replace(/(.{20})(.+)/, `$1…`);
+
+            const tab = '  ';
+
+            hooks.willStart.register(function data(currentValue) {
+              process.stdout.write(`\n➤ ${currentValue.command}\n`);
+            });
+
+            hooks.onStdoutData.register(function data(currentValue) {
+              process.stdout.write(
+                tab + currentValue.data.split('\n').join('\n' + tab)
+              );
+            });
+
+            hooks.onStderrData.register(function data(currentValue) {
+              process.stderr.write(chalk.red(currentValue.data));
+            });
+
+            hooks.onClose.register(function data(currentValue) {
+              let cmd =
+                typeof execOptions?.cwd === 'string'
+                  ? `${c_command_medium} in ./${nodePath.relative(
+                      process.cwd(),
+                      execOptions.cwd
+                    )}`
+                  : c_command_medium;
+
+              process.stdout.write(
+                `\n${chalk.cyan(
+                  chalk.underline(`$ ${cmd}`)
+                )}: finished with code ${currentValue.code} in ${
+                  Date.now() - started
+                }ms\n\n`
+              );
+            });
+          },
+        }
+      : options;
+
+  let { command, plugin } = options;
+
   try {
-    options =
-      typeof options === 'string'
-        ? {
-            command: options,
-            plugin(hooks) {
-              const c_command_medium = command.replace(/(.{20})(.+)/, `$1…`);
-
-              hooks.willStart.register(function data(currentValue) {
-                process.stdout.write(`\n➤ ${currentValue.command}\n`);
-              });
-
-              hooks.onStdoutData.register(function data(currentValue) {
-                process.stdout.write(currentValue.data);
-              });
-
-              hooks.onStderrData.register(function data(currentValue) {
-                process.stderr.write(
-                  `➤ ${chalk.red(c_command_medium)} ` + currentValue.data + '\n'
-                );
-              });
-
-              hooks.onClose.register(function data(currentValue) {
-                const cmd = chalk.green(c_command_medium);
-
-                process.stderr.write(
-                  `\n➤ ${cmd} finished with code ${currentValue.code}\n\n`
-                );
-              });
-            },
-          }
-        : options;
-
-    let { command, plugin } = options;
-
     hooks && (await plugin?.(hooks));
 
     if (hooks) {
@@ -85,8 +100,9 @@ export async function runCommand(
       });
     });
   } catch (e: any) {
+    childRef?.kill(1);
     await hooks.onError.exec({ error: e }, childRef);
-    throw e;
+    throw new Error(`Failed to execute command ${command}`);
   }
 }
 

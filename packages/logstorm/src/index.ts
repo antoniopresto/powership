@@ -1,3 +1,5 @@
+import * as process from 'process';
+
 import { getLogger } from 'loglevel';
 import type {
   Logger,
@@ -33,7 +35,7 @@ const loggerMethodNames = [
   'info',
   'warn',
   'error',
-  // 'silent',
+  'silent',
 ] as const;
 
 export function createLogger(
@@ -41,6 +43,15 @@ export function createLogger(
   plugin?: (hooks: LogStormHooks) => any
 ): LogStorm {
   const logger = getLogger(name) as unknown as LogStorm;
+
+  try {
+    const logLevel = process.env.LOG_LEVEL?.match(/^\d$/)
+      ? +process.env.LOG_LEVEL
+      : process.env.LOG_LEVEL;
+
+    logger.setLevel(logLevel as any);
+  } catch (e) {}
+
   logger.hooks = {
     willLog: createAsyncPlugin(),
   };
@@ -49,7 +60,10 @@ export function createLogger(
     plugin(logger.hooks);
   }
 
-  loggerMethodNames.forEach((methodName) => {
+  loggerMethodNames.forEach((_methodName) => {
+    if (_methodName === 'silent') return;
+    const methodName = _methodName;
+
     const original = logger[methodName];
     const lazyMethodName = `lazy${methodName
       .slice(0, 1)

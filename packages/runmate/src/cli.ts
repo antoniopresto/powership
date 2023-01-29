@@ -1,81 +1,128 @@
 #!/usr/bin/env node
 
-import nodePath from 'path';
-import process from 'process';
-
 import chalk from 'chalk';
-import { glob } from 'glob';
+import { logstorm } from 'logstorm';
 import Vorpal, { CommandInstance } from 'vorpal';
 
-import { runCommand } from './runCommand';
+import { runInFiles } from './runInFiles';
+import { runInPackages } from './runInPackages';
 
-const self = new Vorpal();
+const self = new Vorpal().delimiter(chalk.cyan('runmate'));
 
 self
-  .delimiter(chalk.cyan('runmate'))
   .command(
-    'foreach <pattern> [command...]', //
-    ''
+    'foreach <pattern> <command> [chunkSize]', //
+    'run foreach ./packages/*/ "ls" 3 - Will run command ls in each folder inside packages, 3 is the number of parallel executions'
   )
-  .option('-p', 'Run commands in parallel')
   .action(async function run(this: CommandInstance, args): Promise<any> {
-    console.log(require('util').inspect(args, { depth: 10 }));
+    //
+    await logstorm.lazyDebug(() => [
+      'Received args: \n',
+      JSON.stringify(args, null, 2),
+    ]);
 
-    const { command, pattern } = args as unknown as {
-      command: string[];
+    const {
+      command,
+      pattern,
+      chunkSize = 1,
+    } = args as unknown as {
+      command: string;
       pattern: string;
-      options: Record<string, any>;
+      chunkSize?: number;
     };
 
     if (!pattern || !command.length) {
       throw new Error(`pattern and command are required parameters.`);
     }
 
-    const files = glob.sync(pattern, {
-      absolute: true,
-      cwd: process.cwd(),
-    });
-
-    for (let file of files) {
-      const cwd = nodePath.dirname(file);
-      await runCommand(command.join(' '), {
-        cwd,
+    try {
+      await runInFiles({
+        chunkSize: +chunkSize,
+        command: command,
+        pattern,
       });
+    } catch (e: any) {
+      console.error(chalk.red(e.message));
+    }
+  });
+
+self
+  .command(
+    'packages <command> [chunkSize]', //
+    'Example:\nrun packages "npm install" 3 // where 3 is a optional number of parallel executions size'
+  )
+  .action(async function run(this: CommandInstance, args): Promise<any> {
+    //
+    await logstorm.lazyDebug(() => [
+      'Received args: \n',
+      JSON.stringify(args, null, 2),
+    ]);
+
+    const { command, chunkSize = 1 } = args as unknown as {
+      command: string;
+      chunkSize?: number;
+    };
+
+    if (!command.length) {
+      throw new Error(`pattern and command are required parameters.`);
     }
 
-    // files.map();
+    try {
+      await runInPackages(
+        `./packages/*/`,
+        async (utils) => {
+          await utils.run(command);
+        },
+        {
+          chunkSize: +chunkSize,
+        }
+      );
+    } catch (e: any) {
+      console.error(chalk.red(e.message));
+    }
+  });
 
-    // const commandInstance = this;
+self
+  .command(
+    'link [packageManager]', //
+    'Link packages'
+  )
+  .action(async function run(this: CommandInstance, args): Promise<any> {
+    //
+    await logstorm.lazyDebug(() => [
+      'Received args: \n',
+      JSON.stringify(args, null, 2),
+    ]);
 
-    // const promise = this.prompt(
-    //   [
-    //     {
-    //       type: 'input',
-    //       name: 'username',
-    //       message: 'Username: ',
-    //     },
-    //     {
-    //       type: 'password',
-    //       name: 'password',
-    //       message: 'Password: ',
-    //     },
-    //   ]
-    //   // function (answers) {
-    //   //   // You can use callbacks...
-    //   // }
-    // );
-    //
-    // promise.then(function (answers) {
-    //   if (answers.username === 'root' && answers.password === 'vorpal') {
-    //     commandInstance.log('Successful login.');
-    //   } else {
-    //     commandInstance.log(
-    //       'Login failed! Try username "root" and password "vorpal"!'
-    //     );
-    //   }
-    // });
-    //
-    // return promise;
+    const { packageManager = 'yarn' } = args;
+
+    const packages = new Set<string>();
+
+    await runInPackages(
+      './packages/*/',
+      async ({ json, run }) => {
+        packages.add(json.name);
+        await run(`${packageManager} link`);
+      },
+      {}
+    );
+
+    await runInPackages(
+      './packages/*/',
+      async ({ json, run }) => {
+        const deps = {
+          ...json.dependencies,
+          ...json.devDependencies,
+          ...json.peerDependencies,
+        };
+
+        Object.keys(deps).forEach((dep) => {
+          if (!packages.has(dep)) return;
+          run(`${packageManager} link ${dep}`);
+        });
+      },
+      {}
+    );
   });
 
 self.show().parse(process.argv);

@@ -1,6 +1,6 @@
 {
   "name": "runmate",
-  "version": "0.1.23",
+  "version": "1.2.4",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -30,10 +30,13 @@
   "dependencies": {
     "@types/chalk": "2.2.0",
     "@types/glob": "8.0.1",
+    "@types/lodash": "4.14.191",
     "@types/vorpal": "1.12.2",
     "chalk": "4.1.2",
     "fs-extra": "^11.1.0",
     "glob": "8.1.0",
+    "lodash": "4.17.21",
+    "logstorm": "1.2.1",
     "plugin-hooks": "^1.1.111",
     "vorpal": "1.12.0"
   },
