@@ -41,8 +41,8 @@ export async function runCommand(
 
             const tab = '  ';
 
-            hooks.willStart.register(function data(currentValue) {
-              process.stdout.write(`\n➤ ${chalk.cyan(description)} started:\n`);
+            hooks.willStart.register(function data() {
+              process.stdout.write(`\n${chalk.cyan(description)} started\n\n`);
             });
 
             hooks.onStdoutData.register(function data(currentValue) {
@@ -55,13 +55,11 @@ export async function runCommand(
               process.stderr.write(chalk.red(currentValue.data));
             });
 
-            hooks.onClose.register(function data(currentValue) {
+            hooks.onClose.register(function data() {
               process.stdout.write(
-                `\n${chalk.cyan(
-                  chalk.underline(`$ ${description}`)
-                )}: finished with code ${currentValue.code} in ${
-                  Date.now() - started
-                }ms\n\n`
+                chalk.green(
+                  `finished in ${Date.now() - started}ms (${description})\n\n`
+                )
               );
             });
           },
