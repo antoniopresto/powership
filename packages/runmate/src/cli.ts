@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
 import chalk from 'chalk';
-import { logstorm } from 'logstorm';
 import Vorpal, { CommandInstance } from 'vorpal';
 
 import { runInFiles } from './runInFiles';
 import { runInPackages } from './runInPackages';
+import { runmateLogger } from './runmateLogger';
 
 const self = new Vorpal().delimiter(chalk.cyan('runmate'));
 
@@ -16,7 +16,7 @@ self
   )
   .action(async function run(this: CommandInstance, args): Promise<any> {
     //
-    await logstorm.lazyDebug(() => [
+    await runmateLogger.lazyDebug(() => [
       'Received args: \n',
       JSON.stringify(args, null, 2),
     ]);
@@ -53,7 +53,7 @@ self
   )
   .action(async function run(this: CommandInstance, args): Promise<any> {
     //
-    await logstorm.lazyDebug(() => [
+    await runmateLogger.lazyDebug(() => [
       'Received args: \n',
       JSON.stringify(args, null, 2),
     ]);
@@ -89,7 +89,7 @@ self
   )
   .action(async function run(this: CommandInstance, args): Promise<any> {
     //
-    await logstorm.lazyDebug(() => [
+    await runmateLogger.lazyDebug(() => [
       'Received args: \n',
       JSON.stringify(args, null, 2),
     ]);
