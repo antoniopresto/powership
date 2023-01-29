@@ -17,13 +17,11 @@ export class StringField extends FieldType<
   parse: FieldTypeParser<string>;
 
   constructor(def: StringFieldDef = {}) {
-    super({ def: def,
-name: 'string' });
+    super({ def: def, name: 'string' });
 
     const { min, max, regex } = def;
 
-    expectedType({ max,
-min }, 'number', true);
+    expectedType({ max, min }, 'number', true);
     expectedType({ regex }, 'array', true);
 
     const regExp = regex && new RegExp(regex[0], regex[1]);

@@ -85,8 +85,7 @@ export function parseFilterIndexFilterParts(
 
         if (PK.isFilter) {
           throw new Error(
-            `PK cant be a filter. ${inspectObject({ filter,
-index })}`
+            `PK cant be a filter. ${inspectObject({ filter, index })}`
           );
         }
 
@@ -162,8 +161,7 @@ index })}`
         const indexFilter = encodeIndexValue(
           (() => {
             if (SKFilterValue === undefined) {
-              return { ...finalFilterFound,
-[PKFieldName]: PKPart };
+              return { ...finalFilterFound, [PKFieldName]: PKPart };
             }
 
             if (indexPosition === 0 && typeof SKFilterValue === 'string') {
@@ -209,8 +207,7 @@ index })}`
     );
   }
 
-  return { isFinalParsedSearch: false,
-parts: parsedParts };
+  return { isFinalParsedSearch: false, parts: parsedParts };
 }
 
 declare global {

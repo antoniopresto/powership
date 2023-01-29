@@ -478,8 +478,7 @@ describe('FieldTypes', () => {
       });
 
       expect(() =>
-        RecordField.create({ type: 'float',
-keyType: 'int' }).parse({ a: '1' })
+        RecordField.create({ type: 'float', keyType: 'int' }).parse({ a: '1' })
       ).toThrow(
         'Unexpected record key `a`. Expected value to be of type "number", found string instead.'
       );

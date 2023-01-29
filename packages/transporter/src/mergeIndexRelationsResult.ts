@@ -53,21 +53,16 @@ export function mergeIndexRelationsResult(input: {
       if (idInfo.entity === entity) {
         return {
           ...acc,
-          main: [...acc.main, { doc,
-idInfo,
-KEY }],
+          main: [...acc.main, { doc, idInfo, KEY }],
         };
       }
 
       return {
         ...acc,
-        child: [...acc.child, { doc,
-idInfo,
-KEY }],
+        child: [...acc.child, { doc, idInfo, KEY }],
       };
     },
-    { main: [],
-child: [] }
+    { main: [], child: [] }
   );
 
   return payload.main.map(({ doc, KEY }) => {

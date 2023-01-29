@@ -14,9 +14,7 @@ describe('generateQuery', () => {
       type: Item,
       name: 'getItem',
       args: {
-        min: { int: {},
-optional: true,
-defaultValue: 0 },
+        min: { int: {}, optional: true, defaultValue: 0 },
       },
       async resolve() {
         return { value: 1 };
@@ -53,18 +51,15 @@ defaultValue: 0 },
     const ProductType = createType('Product', {
       object: {
         sku: 'string',
-        breadcrumb: { type: Breadcrumb,
-list: true },
+        breadcrumb: { type: Breadcrumb, list: true },
       },
     } as const);
 
     createResolver({
       name: 'parents',
-      type: { type: ProductType,
-list: true },
+      type: { type: ProductType, list: true },
       args: {
-        id: { type: 'ID',
-defaultValue: 155 },
+        id: { type: 'ID', defaultValue: 155 },
       },
       async resolve() {
         return [];

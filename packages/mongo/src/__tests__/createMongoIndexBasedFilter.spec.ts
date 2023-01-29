@@ -40,13 +40,11 @@ describe('createMongoIndexBasedFilter', () => {
       })
     ).toEqual('my_entity⋮_id⋮users⋮5⋮');
 
-    expect(hashQueryKey({ PK: 'users',
-SK: 2 })).toEqual(
+    expect(hashQueryKey({ PK: 'users', SK: 2 })).toEqual(
       'my_entity⋮_id⋮users⋮712⋮'
     );
 
-    expect(hashQueryKey({ PK: 'users',
-SK: '2' })).toEqual(
+    expect(hashQueryKey({ PK: 'users', SK: '2' })).toEqual(
       'my_entity⋮_id⋮users⋮2⋮'
     );
   });
@@ -83,9 +81,7 @@ SK: '2' })).toEqual(
           },
           {
             entity: 'my_entity',
-            indexes: [{ name: '_id',
-PK: ['.PK'],
-SK: ['.SK'] }],
+            indexes: [{ name: '_id', PK: ['.PK'], SK: ['.SK'] }],
           }
         );
 
@@ -665,39 +661,23 @@ SK: ['.SK'] }],
 });
 
 const ITEMS = [
-  { PK: 'ranking',
-SK: -0.001 },
-  { PK: 'ranking',
-SK: -1e-12 },
-  { PK: 'ranking',
-SK: 0 },
-  { PK: 'ranking',
-SK: 0.007 },
-  { PK: 'ranking',
-SK: 10000 },
-  { PK: 'ranking',
-SK: 11 },
-  { PK: 'ranking',
-SK: 2 },
-  { PK: 'ranking',
-SK: 33 },
-  { PK: 'users',
-SK: 'antonio' },
-  { PK: 'users',
-SK: 'cacau' },
-  { PK: 'users',
-SK: 'cacau2' }, //my_entity⋮_id⋮users⋮cacau2
-  { PK: 'users',
-SK: 'cacauZ' },
-  { PK: 'users',
-SK: 'maggie' },
-  { PK: 'users',
-SK: 'rafaela' },
+  { PK: 'ranking', SK: -0.001 },
+  { PK: 'ranking', SK: -1e-12 },
+  { PK: 'ranking', SK: 0 },
+  { PK: 'ranking', SK: 0.007 },
+  { PK: 'ranking', SK: 10000 },
+  { PK: 'ranking', SK: 11 },
+  { PK: 'ranking', SK: 2 },
+  { PK: 'ranking', SK: 33 },
+  { PK: 'users', SK: 'antonio' },
+  { PK: 'users', SK: 'cacau' },
+  { PK: 'users', SK: 'cacau2' }, //my_entity⋮_id⋮users⋮cacau2
+  { PK: 'users', SK: 'cacauZ' },
+  { PK: 'users', SK: 'maggie' },
+  { PK: 'users', SK: 'rafaela' },
 ];
 
 const indexConfig = {
   entity: 'my_entity',
-  indexes: [{ name: '_id',
-PK: ['.PK'],
-SK: ['.SK'] }],
+  indexes: [{ name: '_id', PK: ['.PK'], SK: ['.SK'] }],
 } as const;

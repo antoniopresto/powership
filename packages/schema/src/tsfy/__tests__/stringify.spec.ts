@@ -17,8 +17,7 @@ describe('stringify', () => {
   });
 
   test('object', async () => {
-    const sut = await tsfy({ a: 1,
-b: 2 }).getParts();
+    const sut = await tsfy({ a: 1, b: 2 }).getParts();
     expect(sut.body).toEqual('{"a":1,"b":2,}');
   });
 
@@ -59,8 +58,7 @@ b: 2 }).getParts();
       },
     });
 
-    const sut = await tsfy({ graphType,
-objectType }).toString();
+    const sut = await tsfy({ graphType, objectType }).toString();
 
     const pretty = CircularDeps.prettier.format(sut, {
       parser: 'typescript',

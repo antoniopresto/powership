@@ -74,11 +74,8 @@ describe('GraphQLParser', () => {
       name: 'string',
       age: 'int?',
       booleans: '[boolean]',
-      floats: { type: 'float',
-optional: true },
-      integers: { type: 'int',
-list: true,
-optional: true },
+      floats: { type: 'float', optional: true },
+      integers: { type: 'int', list: true, optional: true },
     });
 
     const sut = GraphQLParser.objectToGraphQL({
@@ -101,11 +98,8 @@ optional: true },
       name: 'string',
       age: 'int?',
       booleans: '[boolean]',
-      floats: { type: 'float',
-optional: true },
-      integers: { type: 'int',
-list: true,
-optional: true },
+      floats: { type: 'float', optional: true },
+      integers: { type: 'int', list: true, optional: true },
     });
 
     const object2 = object1.clone((el) =>
@@ -158,8 +152,7 @@ optional: true },
 
   it('Should convert enums', () => {
     const object1 = createObjectType('person', {
-      sex: { enum: ['m', 'n'],
-list: true },
+      sex: { enum: ['m', 'n'], list: true },
     });
 
     const object2 = createObjectType('persons', {
@@ -199,8 +192,7 @@ list: true },
     });
 
     const object2 = createObjectType('persons', {
-      createdAt: { date: {},
-description: 'dates of ...' },
+      createdAt: { date: {}, description: 'dates of ...' },
       persons: object1,
     });
 
@@ -342,8 +334,7 @@ description: 'dates of ...' },
     });
 
     const type1 = createObjectType('Type1', {
-      owner: { union: ['string', 'int'],
-name: 'HappyFamily' },
+      owner: { union: ['string', 'int'], name: 'HappyFamily' },
     });
 
     expect(type1.graphqlPrint().split('\n')).toEqual([
@@ -359,8 +350,7 @@ name: 'HappyFamily' },
   it('Should reuse types', () => {
     const person = createObjectType('Person', {
       name: 'string',
-      age: { type: 'int',
-defaultValue: 10 },
+      age: { type: 'int', defaultValue: 10 },
     });
 
     const robot = createObjectType('Robot', {
@@ -370,8 +360,7 @@ defaultValue: 10 },
     });
 
     const type1 = createObjectType('Type1', {
-      owner: { union: [robot, person],
-name: 'HappyFamily' },
+      owner: { union: [robot, person], name: 'HappyFamily' },
     });
 
     const type2 = createObjectType('Type2', {
@@ -379,9 +368,7 @@ name: 'HappyFamily' },
     });
 
     const query = createObjectType('Query', {
-      type1: { type: type1,
-list: true,
-optional: true },
+      type1: { type: type1, list: true, optional: true },
       type2: type2,
       person: person,
       robot: robot,

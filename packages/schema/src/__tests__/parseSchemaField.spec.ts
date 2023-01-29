@@ -434,8 +434,7 @@ describe('parseObjectField', () => {
         true
       );
 
-      expect(field.parse({ name: 'a' })).toEqual({ name: 'a',
-age: 123 });
+      expect(field.parse({ name: 'a' })).toEqual({ name: 'a', age: 123 });
     });
   });
 });

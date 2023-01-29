@@ -1,11 +1,9 @@
-
 import { MongoTransporter } from '@backland/mongo';
 import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
 import { createSchema, createType, Infer, ULID_REGEX } from '@backland/schema';
 import { tupleEnum } from '@backland/utils';
 
 import { createEntity } from '../Entity';
-
 
 describe('Aliases', () => {
   let mockApp: AppMock;
@@ -238,9 +236,7 @@ describe('Aliases', () => {
 export const AccountType = createType('Account', {
   object: {
     username: 'string',
-    providers: { string: {},
-list: true,
-optional: true },
+    providers: { string: {}, list: true, optional: true },
   },
 } as const);
 
@@ -276,8 +272,7 @@ const AccessTypeSchema = createType({
       object: {
         ...AccessTypeBase.definition,
         kind: { literal: accessTypesEnum.oauth },
-        provider: { description: 'Provider name',
-string: {} },
+        provider: { description: 'Provider name', string: {} },
         authToken: 'string',
         value: { alias: 'provider' },
       },

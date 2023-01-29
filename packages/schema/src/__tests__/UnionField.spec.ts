@@ -394,8 +394,7 @@ describe('Union', () => {
     // });
 
     it('infer object union with optional as optional', () => {
-      const u = { type: 'union',
-def: ['int?', 'string'] } as const;
+      const u = { type: 'union', def: ['int?', 'string'] } as const;
       type P = DescribeField<typeof u>;
 
       // assert<IsExact<true, P['optional']>>(true);

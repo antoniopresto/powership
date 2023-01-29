@@ -90,13 +90,11 @@ describe('Schema clone, etc', () => {
 
     expect(userObject.parse(user)).toEqual(user);
 
-    expect(() => userObject.parse({ ...user,
-age: undefined })).toThrow(
+    expect(() => userObject.parse({ ...user, age: undefined })).toThrow(
       `➤ field "age": RequiredField`
     );
 
-    expect(() => userObject.parse({ ...user,
-enumArray: ['3'] })).toThrow(
+    expect(() => userObject.parse({ ...user, enumArray: ['3'] })).toThrow(
       "➤ field \"enumArray\": accepted: '1' or '2', found 3. at position 0."
     );
   });
@@ -116,8 +114,7 @@ enumArray: ['3'] })).toThrow(
         name: 'a',
         sub: { mySubField: 'foo' },
       })
-    ).toEqual({ name: 'a',
-sub: { mySubField: 'foo' } });
+    ).toEqual({ name: 'a', sub: { mySubField: 'foo' } });
 
     expect(() =>
       object.parse({
@@ -128,13 +125,11 @@ sub: { mySubField: 'foo' } });
       '➤ field "sub": ➤ field "mySubField": accepted: \'foo\', found INVALID.'
     );
 
-    expect(() => object.parse({ name: 'a',
-sub: 1 })).toThrow(
+    expect(() => object.parse({ name: 'a', sub: 1 })).toThrow(
       '➤ field "sub": Invalid input. Expected object, found Number.'
     );
 
-    expect(() => object.parse({ name: 'a',
-sub: {} })).toThrow(
+    expect(() => object.parse({ name: 'a', sub: {} })).toThrow(
       '➤ field "sub": ➤ field "mySubField": RequiredField'
     );
   });
@@ -162,11 +157,9 @@ sub: {} })).toThrow(
       '➤ field "roles": RequiredField'
     );
 
-    expect(() => myObject.parse({ userId: '123',
-roles: [] })).not.toThrow();
+    expect(() => myObject.parse({ userId: '123', roles: [] })).not.toThrow();
 
-    expect(() => myObject.parse({ userId: '123',
-roles: [1] })).toThrow(
+    expect(() => myObject.parse({ userId: '123', roles: [1] })).toThrow(
       '➤ field "roles": Invalid input. Expected object, found Number at position 0.'
     );
   });
@@ -544,8 +537,7 @@ roles: [1] })).toThrow(
       createObjectType({
         age: 'int',
         weight: 'float',
-      }).parse({ age: '32',
-weight: '83' })
+      }).parse({ age: '32', weight: '83' })
     ).toEqual({
       age: 32,
       weight: 83,

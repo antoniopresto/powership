@@ -15,8 +15,7 @@ export class UnknownField extends FieldType<
   parse: FieldTypeParser<any>;
 
   constructor(def?: UnknownFieldDef) {
-    super({ def: def,
-name: 'unknown' });
+    super({ def: def, name: 'unknown' });
     const { types } = def || {};
 
     this.parse = this.applyParser({

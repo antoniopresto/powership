@@ -20,8 +20,7 @@ export class EmailField extends FieldType<
   parse: FieldTypeParser<string>;
 
   constructor(def: EmailDef = {}) {
-    super({ def: def,
-name: 'email' });
+    super({ def: def, name: 'email' });
 
     let { regex: _regex = emailRegex } = def;
 

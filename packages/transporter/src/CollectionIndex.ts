@@ -167,16 +167,11 @@ export const relationSchema = createSchema({
 });
 
 export const indexItemSchema = createSchema({
-  PK: { array: { of: 'string',
-min: 1 } },
-  SK: { array: { of: 'string',
-min: 1 },
-optional: true },
+  PK: { array: { of: 'string', min: 1 } },
+  SK: { array: { of: 'string', min: 1 }, optional: true },
   name: { string: { min: 1 } },
   relatedTo: 'string?',
-  relations: { array: { of: relationSchema,
-min: 1 },
-optional: true },
+  relations: { array: { of: relationSchema, min: 1 }, optional: true },
 });
 
 export const indexConfigSchema = createSchema({
@@ -281,7 +276,5 @@ export function parseOneIndexDocumentFields(
     documentFields._rpk = [parentPrefix];
   }
 
-  return { documentFields,
-PKField,
-SKField };
+  return { documentFields, PKField, SKField };
 }

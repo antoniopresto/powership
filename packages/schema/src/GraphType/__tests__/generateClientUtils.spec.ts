@@ -22,8 +22,7 @@ describe('schema.getGraphQLTypescript', () => {
     });
 
     createResolver({
-      type: { type: UserType,
-list: true },
+      type: { type: UserType, list: true },
       name: 'findUsers',
       description: 'find users resolver',
       args: { limit: 'int' },

@@ -17,8 +17,7 @@ describe('objectToTypescript', () => {
       ulids: '[ulid]?',
       dates: '[date]',
       id: '[ID]?',
-      sex: { union: [{ enum: ['m', 'f', 'o'],
-optional: true }] },
+      sex: { union: [{ enum: ['m', 'f', 'o'], optional: true }] },
       addresses: {
         union: [
           {
@@ -47,8 +46,7 @@ optional: true }] },
       },
     } as const)
       .describe('My Custom Object')
-      .describe({ name: 'person name',
-pointers: 'some pointers' });
+      .describe({ name: 'person name', pointers: 'some pointers' });
 
     const ts = await objectToTypescript('MyObject', object);
 

@@ -129,7 +129,7 @@ export function createLogger(
       }
 
       if (prefix) {
-        args.unshift('➤ ', prefix, ' ');
+        args.unshift('➤ ', prefix);
       }
 
       const changed = await self.hooks.willPrint.dispatch(

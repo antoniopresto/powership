@@ -12,8 +12,7 @@ export class IDField extends FieldType<string, 'ID', IDFieldDef> {
   parse: FieldTypeParser<string>;
 
   constructor(def: IDFieldDef = {}) {
-    super({ def: def,
-name: 'ID' });
+    super({ def: def, name: 'ID' });
     const { autoCreate } = def;
 
     const createId = CircularDeps.ulid({ autoCreate: true }).parse;

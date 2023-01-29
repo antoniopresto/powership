@@ -73,13 +73,10 @@ export function getSchemaQueryTemplates(
   };
 
   const items = [
-    query ? { kind: resolverKinds.query,
-value: query } : undefined,
-    mutation ? { kind: resolverKinds.mutation,
-value: mutation } : undefined,
+    query ? { kind: resolverKinds.query, value: query } : undefined,
+    mutation ? { kind: resolverKinds.mutation, value: mutation } : undefined,
     subscription
-      ? { kind: resolverKinds.subscription,
-value: subscription }
+      ? { kind: resolverKinds.subscription, value: subscription }
       : undefined,
   ].filter(Boolean);
 
@@ -171,10 +168,7 @@ export function getQueryTemplates(
 
   fullQuery += `\n`;
 
-  return { ...fieldStrings,
-fieldQuery,
-fields: payload,
-fullQuery };
+  return { ...fieldStrings, fieldQuery, fields: payload, fullQuery };
 }
 
 export interface PrintQueryResult extends FieldsToStringResult {
@@ -260,8 +254,7 @@ export function processField(config: {
   const { hash: key } = hashField(graphQLField);
 
   if (cache[key] !== undefined) {
-    return { cache,
-payload: cache[key] };
+    return { cache, payload: cache[key] };
   }
 
   const payload = getFieldPayload({
@@ -294,8 +287,7 @@ payload: cache[key] };
     });
   }
 
-  return { cache,
-payload };
+  return { cache, payload };
 }
 
 type FieldsToStringResult = {
@@ -499,8 +491,7 @@ function parseArgs(config: ArgsToStringConfig): ParsedArgs {
     });
   });
 
-  return { strings: parsedArgsToString(vars),
-vars };
+  return { strings: parsedArgsToString(vars), vars };
 }
 
 type ParsedArgsStrings = ReturnType<typeof parsedArgsToString>;

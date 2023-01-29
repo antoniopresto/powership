@@ -64,8 +64,7 @@ describe('FieldType.clone', () => {
     const obj = createObjectType('OB', {
       name: 'string',
       un: {
-        union: [{ object: { a: 'string',
-b: { literal: 2 } } }],
+        union: [{ object: { a: 'string', b: { literal: 2 } } }],
         description: 'My name is un',
       },
     });

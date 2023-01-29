@@ -3,7 +3,6 @@ import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
 import { createType, ObjectType, parseField } from '@backland/schema';
 import { ULID_REGEX } from '@backland/schema/lib/fields/UlidField';
 
-
 import { createEntity } from '../Entity';
 
 describe('Product', () => {
@@ -98,8 +97,7 @@ describe('Product', () => {
       type,
     });
 
-    await entity.findOne({ filter: { storeId: '123' },
-context: {} });
+    await entity.findOne({ filter: { storeId: '123' }, context: {} });
 
     await entity.findOne({
       filter: { category: '456' },
@@ -346,8 +344,7 @@ context: {} });
 
     const cursor = created.item!.id;
 
-    const sut = await entity.findById({ id: cursor,
-context: {} });
+    const sut = await entity.findById({ id: cursor, context: {} });
 
     expect(sut.item).toMatchObject({
       _id: expect.stringMatching(/^product⋮_id⋮store1⋮01/),
@@ -376,14 +373,12 @@ context: {} });
     });
 
     const apple = await entity.findOne({
-      filter: { storeId: 'store1',
-SKU: 'sku_APPLE' },
+      filter: { storeId: 'store1', SKU: 'sku_APPLE' },
       context: {},
     });
 
     const orange = await entity.findOne({
-      filter: { storeId: 'store1',
-SKU: 'sku_ORANGE' },
+      filter: { storeId: 'store1', SKU: 'sku_ORANGE' },
       context: {},
     });
 
@@ -419,10 +414,8 @@ SKU: 'sku_ORANGE' },
 
     await expect(
       entity.updateOne({
-        filter: { SKU: 'sku_batata',
-storeId: 'store1' },
-        update: { $set: { SKU: 'sku_batata2',
-storeId: 'store12' } },
+        filter: { SKU: 'sku_batata', storeId: 'store1' },
+        update: { $set: { SKU: 'sku_batata2', storeId: 'store12' } },
         context: {
           userId() {
             return 'user1';
@@ -432,10 +425,8 @@ storeId: 'store12' } },
     ).rejects.toThrow('Use $setOnInsert when updating using {"upsert": true}');
 
     const update = await entity.updateOne({
-      filter: { SKU: 'sku_batata',
-storeId: 'store1' },
-      update: { $set: { category: 'updated',
-category_2: 'added' } },
+      filter: { SKU: 'sku_batata', storeId: 'store1' },
+      update: { $set: { category: 'updated', category_2: 'added' } },
       context: {
         userId() {
           return 'user1';
@@ -462,8 +453,7 @@ category_2: 'added' } },
 
     const update = await entity.updateOne({
       upsert: true,
-      filter: { SKU: 'sku_batata',
-storeId: 'store1' },
+      filter: { SKU: 'sku_batata', storeId: 'store1' },
       update: {
         $set: {
           category: 'updated',
@@ -523,8 +513,7 @@ storeId: 'store1' },
 
     const id = created.item!.id;
 
-    let found = await entity.findById({ id,
-context: {} });
+    let found = await entity.findById({ id, context: {} });
 
     expect(found).toMatchObject({
       item: {},
@@ -541,8 +530,7 @@ context: {} });
       },
     });
 
-    found = await entity.findById({ id,
-context: {} });
+    found = await entity.findById({ id, context: {} });
 
     expect(found).toMatchObject({ item: null });
   });

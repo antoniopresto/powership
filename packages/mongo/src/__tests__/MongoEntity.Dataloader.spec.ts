@@ -65,8 +65,7 @@ describe('MongoEntity.DataLoader', () => {
           { _id: USERS.Cacau },
         ],
       },
-      { projection: {},
-sort: {} }
+      { projection: {}, sort: {} }
     );
 
     expect(spy).toBeCalledTimes(1);
@@ -161,8 +160,7 @@ sort: {} }
           { name: { $ne: 'H' } },
         ],
       },
-      { projection: {},
-sort: { name: -1 } }
+      { projection: {}, sort: { name: -1 } }
     );
 
     expect(spy).toBeCalledTimes(1);
@@ -206,8 +204,7 @@ sort: { name: -1 } }
           { name: { $ne: 'H' } },
         ],
       },
-      { sort: undefined,
-projection: { index: 0 } }
+      { sort: undefined, projection: { index: 0 } }
     );
 
     expect(data[0][0].index).toBeUndefined();

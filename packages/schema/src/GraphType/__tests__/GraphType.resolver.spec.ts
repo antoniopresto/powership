@@ -13,8 +13,7 @@ describe('createResolver', () => {
 
   it('Should create a Resolver', () => {
     const UserType = createBacklandObject('User', {
-      name: { string: {},
-description: 'the user name' },
+      name: { string: {}, description: 'the user name' },
       id: 'ulid',
     });
 
@@ -79,10 +78,8 @@ description: 'the user name' },
       name: 'Users',
       args: {
         name: 'string',
-        addresses: { type: userAddress,
-list: true },
-        records: { record: { keyType: 'int',
-type: { enum: ['banana'] } } },
+        addresses: { type: userAddress, list: true },
+        records: { record: { keyType: 'int', type: { enum: ['banana'] } } },
       } as const,
       resolve() {
         return {} as any;

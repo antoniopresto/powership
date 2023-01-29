@@ -112,11 +112,9 @@ describe('ProductType', () => {
 
   test('parse list', async () => {
     const sut = createObjectType('Product2', {
-      breadcrumbs: { type: BreadCrumbType,
-list: true },
+      breadcrumbs: { type: BreadCrumbType, list: true },
       breadcrumbSolo: { type: BreadCrumbType },
-      breadcrumbSoloOptional: { type: BreadCrumbType,
-optional: true },
+      breadcrumbSoloOptional: { type: BreadCrumbType, optional: true },
       mapOfImagesListOptional: {
         type: ProductImageMapType,
         list: true,

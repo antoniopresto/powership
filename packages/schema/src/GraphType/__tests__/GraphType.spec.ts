@@ -176,8 +176,7 @@ describe('createType', () => {
       foo: 'int',
     });
 
-    const sut = new GraphType({ type: object,
-list: true });
+    const sut = new GraphType({ type: object, list: true });
 
     type Expected = { foo: number }[];
     type Return = ReturnType<typeof sut.parse>;
@@ -212,8 +211,7 @@ list: true });
       foo: 'int',
     });
 
-    const sut = new GraphType({ type: object,
-optional: true });
+    const sut = new GraphType({ type: object, optional: true });
 
     type Return = ReturnType<typeof sut.parse>;
 
@@ -230,9 +228,7 @@ optional: true });
       foo: 'int',
     });
 
-    const sut = new GraphType({ type: object,
-optional: true,
-list: true });
+    const sut = new GraphType({ type: object, optional: true, list: true });
 
     type Return = ReturnType<typeof sut.parse>;
 
@@ -485,8 +481,7 @@ list: true });
 
     const optionalType = sut.optionalType();
 
-    expect(optionalType.parse({ name: 'aa',
-age: 1 })).toEqual({
+    expect(optionalType.parse({ name: 'aa', age: 1 })).toEqual({
       name: 'aa',
       age: 1,
     });

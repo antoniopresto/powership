@@ -13,8 +13,7 @@ describe('parseEntityIndexFields', () => {
           name: '_id',
           PK: ['.accountId'],
           SK: ['.username'],
-          relations: [{ name: 'access',
-entity: 'AccessType' }],
+          relations: [{ name: 'access', entity: 'AccessType' }],
         },
       ],
     });

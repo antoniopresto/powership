@@ -116,8 +116,7 @@ export function _joinIndexCursorWithParent(
   options: JoinKeyPartsOptions
 ) {
   const { entity, relatedTo } = nonNullValues(
-    { entity: init.entity,
-relatedTo: init.relatedTo },
+    { entity: init.entity, relatedTo: init.relatedTo },
     'joinIndexCursorWithParent called with invalid parameters.'
   );
 

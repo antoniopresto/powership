@@ -10,7 +10,6 @@ import {
 } from '@backland/schema';
 import { getTypeName, slugify } from '@backland/utils';
 
-
 import { createEntity } from '../Entity';
 import { Entity } from '../EntityInterfaces';
 
@@ -60,8 +59,7 @@ const productDef = {
     shortDescription: 'string?',
     brand: 'string',
     detailsUrl: 'string?',
-    alcoholic: { boolean: true,
-defaultValue: false },
+    alcoholic: { boolean: true, defaultValue: false },
     thumbUrl: 'string?',
     breadcrumb: {
       type: BreadCrumbType,
@@ -215,8 +213,7 @@ export function setupProductTest(withTransporter = true): {
       args: ProductEntity.paginate.queryArgs,
       name: 'paginate',
       async resolve(_, args, context) {
-        return await ProductEntity.paginate({ ...args,
-context });
+        return await ProductEntity.paginate({ ...args, context });
       },
       type: ProductEntity.paginationType,
     });
@@ -224,8 +221,7 @@ context });
     function createOne(override?: Record<string, any>) {
       return productCreateResolver.resolve(
         {},
-        { ...mockObject(),
-...override },
+        { ...mockObject(), ...override },
         { userId: () => '123' },
         {} as any
       );
