@@ -3,11 +3,13 @@
 import chalk from 'chalk';
 import Vorpal, { CommandInstance } from 'vorpal';
 
+import { defaultPackagesGlobPattern } from './defaultPackagesGlobPattern';
+import { packageRunner } from './packageRunner';
+import { packageVersion } from './packageVersion';
 import { runInFiles } from './runInFiles';
-import { runInPackages } from './runInPackages';
 import { runmateLogger } from './runmateLogger';
 
-const self = new Vorpal().delimiter(chalk.cyan('runmate'));
+const self = new Vorpal();
 
 self
   .command(
@@ -68,8 +70,9 @@ self
     }
 
     try {
-      await runInPackages(
-        `./packages/*/`,
+      const runner = await packageRunner(defaultPackagesGlobPattern);
+
+      await runner.run(
         async (utils) => {
           await utils.run(command);
         },
@@ -96,33 +99,55 @@ self
 
     const { packageManager = 'yarn' } = args;
 
-    const packages = new Set<string>();
+    const localPackageNames = new Set<string>();
 
-    await runInPackages(
-      './packages/*/',
-      async ({ json, run }) => {
-        packages.add(json.name);
-        await run(`${packageManager} link`);
-      },
-      {}
-    );
+    const runner = await packageRunner(defaultPackagesGlobPattern);
 
-    await runInPackages(
-      './packages/*/',
-      async ({ json, run }) => {
-        const deps = {
-          ...json.dependencies,
-          ...json.devDependencies,
-          ...json.peerDependencies,
-        };
+    await runner.run(async ({ json, run }) => {
+      localPackageNames.add(json.name);
+      await run(`${packageManager} link`);
+    });
 
-        Object.keys(deps).forEach((dep) => {
-          if (!packages.has(dep)) return;
-          run(`${packageManager} link ${dep}`);
-        });
-      },
-      {}
-    );
+    await runner.run(({ json, run }) => {
+      const deps = {
+        ...json.dependencies,
+        ...json.devDependencies,
+        ...json.peerDependencies,
+        ...json.optionalDependencies,
+      };
+
+      Object.keys(deps).forEach((dep) => {
+        if (!localPackageNames.has(dep)) return;
+        run(`${packageManager} link ${dep}`);
+      });
+    });
+  });
+
+self
+  .command(
+    'version <releaseTypeOrVersion> [pattern]', //
+    [
+      'Update package versions.',
+      'Examples: ',
+      '➜  version 1.0.0',
+      '➜  version minor',
+      '➜  version major ./packages/utils',
+    ].join('\n')
+  )
+  .action(async function run(this: CommandInstance, args): Promise<any> {
+    //
+    await runmateLogger.lazyDebug(() => [
+      'Received args: \n',
+      JSON.stringify(args, null, 2),
+    ]);
+
+    const { releaseTypeOrVersion, pattern } = args;
+
+    try {
+      await packageVersion(releaseTypeOrVersion, pattern);
+    } catch (e: any) {
+      console.error(chalk.red(e.message));
+    }
   });
 
 self.show().parse(process.argv);

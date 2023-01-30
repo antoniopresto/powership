@@ -1,30 +1,26 @@
-import { runInPackages } from '../runInPackages';
+import { packageRunner, PackageRunnerUtils } from '../packageRunner';
+import nodePath from 'path';
+
+const cwd = nodePath.resolve(__dirname, '../../../../');
 
 describe('runInPackages', () => {
   // afterEach();
 
   test('works', async () => {
-    const utils: any[] = [];
+    const runner = await packageRunner('./packages/**/*', {
+      cwd,
+    });
 
-    await runInPackages(
-      './packages/**/*',
-      (_utils) => {
-        utils.push(_utils);
-      },
-      {
-        cwd: __dirname,
-      }
-    );
+    const utils: PackageRunnerUtils[] = [];
 
-    expect(utils).toMatchObject([
-      {
-        json: {
-          author: 'antoniopresto <antoniopresto@gmail.com>',
-        },
-        run: expect.any(Function),
-        saveJSON: expect.any(Function),
-      },
-      {},
+    await runner.run((_utils) => {
+      utils.push(_utils);
+    });
+
+    expect(utils.slice(0, 3).map((el) => el.json.name)).toEqual([
+      '@backland/babel-plugins',
+      '@backland/utils',
+      '@backland/schema',
     ]);
   });
 });
