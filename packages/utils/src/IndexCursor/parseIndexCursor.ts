@@ -75,12 +75,7 @@ export function parseIndexCursor(
   } else {
     const [entity, name, PK, SK] = parts;
     return indexToCursor(
-      { entity,
-name,
-PK,
-SK,
-relatedTo: undefined,
-parentPrefix: undefined },
+      { entity, name, PK, SK, relatedTo: undefined, parentPrefix: undefined },
       options
     );
   }
@@ -116,8 +111,7 @@ export function _parseSubIndexCursor(
         : value + '⊰'; //  when coming from a new document field
     })(parentParts.join('⋮'));
 
-    return { parentPrefix,
-childParts };
+    return { parentPrefix, childParts };
   })();
 
   const [parentEntity, name] = splitCursorParts(parentPrefix);
@@ -167,9 +161,7 @@ export function indexToCursor(
   options: ParseCursorOptions
 ): ParsedIndexCursor {
   const { name, entity, PK, SK, relatedTo, parentPrefix } = init;
-  const data = nonNullValues({ entity,
-name,
-PK });
+  const data = nonNullValues({ entity, name, PK });
 
   const entityName = entity.toLowerCase();
 

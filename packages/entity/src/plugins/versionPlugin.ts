@@ -8,8 +8,7 @@ export const versionPlugin = createEntityPlugin(
       context
     ) {
       if (context.kind !== 'databaseDefinition') return;
-      definition._v = { def: { autoCreate: true },
-type: 'ulid' };
+      definition._v = { def: { autoCreate: true }, type: 'ulid' };
     });
   }
 );

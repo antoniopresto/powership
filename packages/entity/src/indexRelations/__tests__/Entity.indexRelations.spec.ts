@@ -53,10 +53,7 @@ describe('Entity.indexRelations', () => {
       ],
     }).addIndexRelation('access', accessEntity);
 
-    return { accessType,
-accessEntity,
-accountEntity,
-accountType };
+    return { accessType, accessEntity, accountEntity, accountType };
   }
 
   test('validate PK to be equal in relation', async () => {
@@ -85,8 +82,7 @@ accountType };
       object: {
         accountId: 'string',
         username: 'string',
-        access: { array: { of: accessType,
-min: 1 } },
+        access: { array: { of: accessType, min: 1 } },
       },
     });
 

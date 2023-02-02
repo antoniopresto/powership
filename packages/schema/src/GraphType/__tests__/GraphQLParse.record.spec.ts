@@ -11,13 +11,11 @@ describe('GraphQLParse.record', () => {
   const person = createObjectType('Person', {
     name: 'string',
     age: 'int?',
-    addresses: { record: { type: 'string',
-keyType: 'int' } },
+    addresses: { record: { type: 'string', keyType: 'int' } },
   });
 
   const record1 = createObjectType('rec1', {
-    addresses: { record: { type: '[string]',
-keyType: 'int' } },
+    addresses: { record: { type: '[string]', keyType: 'int' } },
   }).graphqlInputType();
 
   const schema = new GraphQLSchema({

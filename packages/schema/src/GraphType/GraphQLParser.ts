@@ -149,9 +149,7 @@ export class GraphQLParser {
 
     const cacheId = `${[objectId].filter(Boolean).join()}`;
     //
-    return { cacheId,
-object,
-objectId };
+    return { cacheId, object, objectId };
   };
 
   static objectToGraphQL(init: {
@@ -303,9 +301,7 @@ objectId };
     };
 
     function getType(_options: ParseTypeOptions = {}) {
-      const __options = { fields: {},
-name: objectId,
-..._options };
+      const __options = { fields: {}, name: objectId, ..._options };
       const { name } = __options;
 
       if (graphqlTypesRegister.has(name)) {
@@ -322,9 +318,7 @@ name: objectId,
     function getInputType(
       _options: ParseInputTypeOptions = {}
     ): GraphQLInputObjectType {
-      const options = { fields: {},
-name: `${objectId}Input`,
-..._options };
+      const options = { fields: {}, name: `${objectId}Input`, ..._options };
       const { name } = options;
 
       if (graphqlTypesRegister.has(name)) {
@@ -338,9 +332,7 @@ name: `${objectId}Input`,
     }
 
     function interfaceType(_options: ParseInterfaceOptions = {}) {
-      const options = { fields: {},
-name: `${objectId}Interface`,
-..._options };
+      const options = { fields: {}, name: `${objectId}Interface`, ..._options };
       const { name } = options;
 
       if (graphqlTypesRegister.has(name)) {
@@ -426,8 +418,7 @@ name: `${objectId}Interface`,
       >;
     } = {
       ID() {
-        return { inputType: () => GraphQLID,
-type: () => GraphQLID };
+        return { inputType: () => GraphQLID, type: () => GraphQLID };
       },
       alias() {
         return {} as any; // handled in object parser;
@@ -437,8 +428,7 @@ type: () => GraphQLID };
           'Any',
           () => new GraphQLScalarType({ name: 'Any' })
         );
-        return { inputType: create,
-type: create };
+        return { inputType: create, type: create };
       },
       array() {
         const {
@@ -598,8 +588,7 @@ type: create };
           object,
         });
 
-        return { inputType: res.getInputType,
-type: res.getType };
+        return { inputType: res.getInputType, type: res.getType };
       },
       phone() {
         return {
@@ -652,8 +641,7 @@ type: res.getType };
           'Undefined',
           () => new GraphQLScalarType({ name: 'Undefined' })
         );
-        return { inputType: create,
-type: create };
+        return { inputType: create, type: create };
       },
 
       union() {

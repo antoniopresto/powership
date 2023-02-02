@@ -13,8 +13,7 @@ export class UlidField extends FieldType<string, 'ulid', UlidDef | undefined> {
   parse: FieldTypeParser<string>;
 
   constructor(def: UlidDef = {}) {
-    super({ def: def,
-name: 'ulid' });
+    super({ def: def, name: 'ulid' });
 
     const { autoCreate } = def;
     expectedType({ autoCreate }, 'boolean', true);

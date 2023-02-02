@@ -94,8 +94,7 @@ export function getDocumentIndexFields<
     }
 
     if (SK.conditionFound || PK.conditionFound) {
-      throw devAssert('Conditions found in document.', { PK,
-SK });
+      throw devAssert('Conditions found in document.', { PK, SK });
     }
 
     if (!PK.valid || !SK.valid) {

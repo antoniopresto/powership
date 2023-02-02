@@ -61,15 +61,13 @@ describe('simpleObjectClone', () => {
     const value = [
       new Date(),
       /abc/,
-      { a: 1,
-b: { c: new Date() } },
+      { a: 1, b: { c: new Date() } },
       null,
       undefined,
     ];
 
     const str = BJSON.stringify(
-      { 12: value,
-b: false },
+      { 12: value, b: false },
       {
         quoteValues: (str, { key }) => {
           return key === 'b' ? `${str}____` : `${str}`;

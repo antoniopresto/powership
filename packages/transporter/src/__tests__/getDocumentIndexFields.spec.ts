@@ -5,8 +5,7 @@ import { getDocumentIndexFields } from '../getDocumentIndexFields';
 describe('getDocumentIndexFields', () => {
   it('should mount PK', async () => {
     const sut = getDocumentIndexFields(
-      { name: 'fulano',
-age: 5 },
+      { name: 'fulano', age: 5 },
       {
         entity: 'foo',
         indexes: [
@@ -186,8 +185,7 @@ age: 5 },
 
   it('should mount PK + SK', async () => {
     const oneField = getDocumentIndexFields(
-      { name: 'NAME',
-age: 0 },
+      { name: 'NAME', age: 0 },
       {
         entity: 'foo',
         indexes: [
@@ -285,8 +283,7 @@ age: 0 },
 
   it('should mount PK + SK when index name is "PK"', async () => {
     const oneField = getDocumentIndexFields(
-      { name: 'NAME',
-age: 0 },
+      { name: 'NAME', age: 0 },
       {
         entity: 'foo',
         indexes: [
@@ -408,9 +405,7 @@ age: 0 },
   describe('relatedTo', () => {
     test('case 1', () => {
       const oneField = getDocumentIndexFields(
-        { accountId: 1234,
-kind: 'phone',
-value: '+55119988788' },
+        { accountId: 1234, kind: 'phone', value: '+55119988788' },
         {
           entity: 'AccessType',
           indexes: [

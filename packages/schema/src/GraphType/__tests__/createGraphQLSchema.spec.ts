@@ -231,10 +231,8 @@ describe('createGraphQLObject', () => {
         type: gt2,
         name: 'getNumbers',
         args: {
-          min: { int: {},
-defaultValue: 0 },
-          letters: { type: 'string',
-defaultValue: 'batata' },
+          min: { int: {}, defaultValue: 0 },
+          letters: { type: 'string', defaultValue: 'batata' },
         },
         async resolve() {
           return [];
@@ -242,8 +240,7 @@ defaultValue: 'batata' },
       });
 
       const UserType = createType('User', {
-        object: { name: 'string',
-age: 'int?' },
+        object: { name: 'string', age: 'int?' },
       });
 
       const GTA = createType('getAllUsersPayload', {
@@ -323,8 +320,7 @@ age: 'int?' },
         object: {
           name: 'string',
           age: 'int',
-          foo_bar: { enum: ['foo', 'bar'],
-list: true },
+          foo_bar: { enum: ['foo', 'bar'], list: true },
           addresses: {
             list: true,
             object: {
@@ -339,10 +335,8 @@ list: true },
         type: user,
         name: 'getUser',
         args: {
-          min: { int: {},
-defaultValue: 0 },
-          letters: { type: 'string',
-defaultValue: 'batata' },
+          min: { int: {}, defaultValue: 0 },
+          letters: { type: 'string', defaultValue: 'batata' },
           points: {
             object: {
               lat: 'string',

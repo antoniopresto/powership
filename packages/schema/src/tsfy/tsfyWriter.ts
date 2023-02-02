@@ -38,8 +38,7 @@ export function tsfyWriter(options: TSFyWriterConfig = {}) {
   const context = createTSFYContext({ ...options });
   options.context = context;
 
-  const wrapper = moduleWrapper({ moduleName,
-extra: wrappers });
+  const wrapper = moduleWrapper({ moduleName, extra: wrappers });
 
   let delayRef: any = undefined;
 
@@ -83,9 +82,7 @@ extra: wrappers });
   function toString() {
     const values = store.entries.map((el) => el[1]);
 
-    return tsfy(values, { ...options,
-context,
-many: true })
+    return tsfy(values, { ...options, context, many: true })
       .toString({
         prettier: options?.prettify ?? true,
       })

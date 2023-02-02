@@ -12,8 +12,7 @@ export class EnumField<
   }
 
   constructor(def: T) {
-    super({ def: def,
-name: 'enum' });
+    super({ def: def, name: 'enum' });
 
     this.parse = this.applyParser({
       parse: (input: any) => {

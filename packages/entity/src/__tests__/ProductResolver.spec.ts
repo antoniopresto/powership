@@ -4,7 +4,6 @@ import { PaginationResult } from '@backland/transporter';
 import { notNull, NullableToPartial, PromiseType } from '@backland/utils';
 import { assert, IsExact } from 'conditional-type-checks';
 
-
 import { setupProductTest } from './setupProductTest';
 
 describe('ProductResolver', () => {
@@ -14,13 +13,11 @@ describe('ProductResolver', () => {
     const { shape, ProductEntity, createOne } = getMocks();
 
     await expect(
-      ProductEntity.findOne({ filter: {},
-context: {} })
+      ProductEntity.findOne({ filter: {}, context: {} })
     ).rejects.toThrow(`Failed to mount index based filter:`);
 
     await expect(
-      ProductEntity.findOne({ filter: { batatas: '123' } as any,
-context: {} })
+      ProductEntity.findOne({ filter: { batatas: '123' } as any, context: {} })
     ).rejects.toThrow(`Failed to mount index based filter:`);
 
     const res = await createOne();

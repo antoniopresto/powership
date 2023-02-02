@@ -124,9 +124,7 @@ export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
       return printSchema(schema);
     },
     queryExamples(options) {
-      return queryExamples({ grouped,
-schema,
-...options });
+      return queryExamples({ grouped, schema, ...options });
     },
     queryTemplates() {
       return getSchemaQueryTemplates(schema);
@@ -232,8 +230,7 @@ export async function resolversTypescriptParts(
     parser: 'typescript',
   }) as any;
 
-  return { code,
-lines };
+  return { code, lines };
 }
 
 export async function resolversToTypescript(
@@ -351,9 +348,7 @@ async function convertType(options: {
 
   const comments = description ? `\n/** ${description} **/\n` : '';
 
-  return { code,
-comments,
-description: description || '' };
+  return { code, comments, description: description || '' };
 }
 
 function queryExamples({
@@ -383,8 +378,7 @@ function queryExamples({
       const resolver = notNull(resolvers.find((el) => el.name === name));
       const argsDef = resolver.argsType.__lazyGetter.objectType?.definition;
       const argsExamples: any = argsDef
-        ? objectMock(argsDef, { randomNumber,
-randomText })
+        ? objectMock(argsDef, { randomNumber, randomText })
         : '';
 
       examples += `${kind} ${name}${capitalize(kind)} { ${name}`;

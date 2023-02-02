@@ -57,8 +57,7 @@ export class AppMock {
         if (this.mongoServer?.state === 'running') {
           delay(100).then(() => {
             mongoServer
-              ?.stop({ doCleanup: true,
-force: true })
+              ?.stop({ doCleanup: true, force: true })
               .catch(console.error);
           });
         }

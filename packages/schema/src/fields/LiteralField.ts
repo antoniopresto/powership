@@ -64,8 +64,7 @@ export class LiteralField<T extends Readonly<Serializable>> extends FieldType<
   };
 
   constructor(def: T) {
-    super({ def: LiteralField.utils.toDef(def),
-name: 'literal' });
+    super({ def: LiteralField.utils.toDef(def), name: 'literal' });
     const expected = this.def.value;
 
     this.parse = this.applyParser({

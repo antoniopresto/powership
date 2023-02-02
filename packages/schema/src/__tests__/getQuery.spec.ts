@@ -6,8 +6,7 @@ describe('graphGet', () => {
       return [
         data.name,
         data.items[0].inner1[0].final, //
-        data.author({ full: true,
-search: { antonio: '🥂' } }).username,
+        data.author({ full: true, search: { antonio: '🥂' } }).username,
         data.author.age,
         data.author.address.street,
         data.author.address.zipcode,

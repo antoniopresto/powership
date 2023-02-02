@@ -10,7 +10,6 @@ import { Collection } from 'mongodb';
 import type { MongoTransporter } from '../MongoTransporter';
 import type { AppMock } from '../test-utils';
 
-
 const itemUser = {
   item: {
     PK: 'users',
@@ -79,8 +78,7 @@ describe('MongoTransporter', () => {
           },
         ],
       },
-      { projection: undefined,
-sort: { _id: 1 } }
+      { projection: undefined, sort: { _id: 1 } }
     );
 
     spy.mockRestore();
@@ -92,9 +90,7 @@ describe('createOne', () => {
   let transporter: MongoTransporter;
   const indexConfig: AnyCollectionIndexConfig = {
     entity: 'entity_foo',
-    indexes: [{ name: '_id',
-PK: ['.PK'],
-SK: ['.SK'] }],
+    indexes: [{ name: '_id', PK: ['.PK'], SK: ['.SK'] }],
   };
 
   beforeEach(async () => {
@@ -253,8 +249,7 @@ SK: ['.SK'] }],
     });
 
     // replace
-    expect(await _put({ ...itemUser,
-replace: true })).toMatchObject({
+    expect(await _put({ ...itemUser, replace: true })).toMatchObject({
       created: false,
       item: {
         PK: 'users',
@@ -277,8 +272,7 @@ replace: true })).toMatchObject({
     });
 
     // not replace
-    expect(await _put({ ...itemUser,
-replace: false })).toEqual({
+    expect(await _put({ ...itemUser, replace: false })).toEqual({
       created: false,
       item: null,
       error: expect.stringMatching(
@@ -311,8 +305,7 @@ replace: false })).toEqual({
     expect(notUpdated2).toHaveProperty('updated', false);
 
     const updated = await _put({
-      item: { ...itemUser.item,
-name: 'updated' },
+      item: { ...itemUser.item, name: 'updated' },
 
       replace: true,
       condition: {
@@ -375,9 +368,7 @@ describe('updateOne', () => {
   let transporter: MongoTransporter;
   const indexConfig: AnyCollectionIndexConfig = {
     entity: 'entity_foo',
-    indexes: [{ name: '_id',
-PK: ['.PK'],
-SK: ['.SK'] }],
+    indexes: [{ name: '_id', PK: ['.PK'], SK: ['.SK'] }],
   };
 
   beforeEach(async () => {
@@ -459,8 +450,7 @@ SK: ['.SK'] }],
       ['b', 'c', 'd', 'e']
     );
 
-    expect(await update('a', { $inc: { num: 1,
-newNum: 2 } })).toHaveProperty(
+    expect(await update('a', { $inc: { num: 1, newNum: 2 } })).toHaveProperty(
       'item',
       expect.objectContaining({
         _id: 'entity_foo⋮_id⋮a⋮a⋮',
@@ -500,9 +490,7 @@ newNum: 2 } })).toHaveProperty(
         update: { $set: { newField: 1 } },
         condition: { num: { $gte: 1 } },
       })
-    ).toEqual({ item: null,
-created: false,
-updated: false });
+    ).toEqual({ item: null, created: false, updated: false });
 
     const updated = await transporter.updateOne({
       indexConfig,
@@ -537,9 +525,7 @@ updated: false });
       ...config,
     });
 
-    expect(up1).toEqual({ item: null,
-created: false,
-updated: false });
+    expect(up1).toEqual({ item: null, created: false, updated: false });
 
     const up2 = await transporter.updateOne({
       ...config,
@@ -557,9 +543,7 @@ describe('updateMany', () => {
   let transporter: MongoTransporter;
   const indexConfig: AnyCollectionIndexConfig = {
     entity: 'entity_foo',
-    indexes: [{ name: '_id',
-PK: ['.PK'],
-SK: ['.SK'] }],
+    indexes: [{ name: '_id', PK: ['.PK'], SK: ['.SK'] }],
   };
   beforeEach(async () => {
     let MongoTransporter, createAppMock;
@@ -619,9 +603,7 @@ describe('deleteOne', () => {
   let transporter: MongoTransporter;
   const indexConfig: AnyCollectionIndexConfig = {
     entity: 'entity_foo',
-    indexes: [{ name: '_id',
-PK: ['.PK'],
-SK: ['.SK'] }],
+    indexes: [{ name: '_id', PK: ['.PK'], SK: ['.SK'] }],
   };
   beforeEach(async () => {
     let MongoTransporter, createAppMock;
@@ -738,9 +720,7 @@ describe('deleteMany', () => {
   let transporter: MongoTransporter;
   const indexConfig: AnyCollectionIndexConfig = {
     entity: 'entity_foo',
-    indexes: [{ name: '_id',
-PK: ['.PK'],
-SK: ['.SK'] }],
+    indexes: [{ name: '_id', PK: ['.PK'], SK: ['.SK'] }],
   };
 
   beforeEach(async () => {
@@ -860,9 +840,7 @@ describe('findMany', () => {
 
   const indexConfig: AnyCollectionIndexConfig = {
     entity: 'entity_foo',
-    indexes: [{ name: 'PK',
-PK: ['.PK'],
-SK: ['.SK'] }],
+    indexes: [{ name: 'PK', PK: ['.PK'], SK: ['.SK'] }],
   };
 
   afterAll(async function () {
@@ -940,8 +918,7 @@ SK: ['.SK'] }],
 
       first: 1,
       sort: 'DESC',
-      after: { PK: 'users',
-SK: 'D' },
+      after: { PK: 'users', SK: 'D' },
     });
 
     const [sortAsc, sortDesc] = await Promise.all([
@@ -954,8 +931,7 @@ SK: 'D' },
 
         first: 1,
         sort: 'ASC',
-        after: { PK: 'users',
-SK: 'A' },
+        after: { PK: 'users', SK: 'A' },
 
         context: {},
       }),
@@ -969,8 +945,7 @@ SK: 'A' },
 
         first: 1,
         sort: 'DESC',
-        after: { PK: 'users',
-SK: 'D' },
+        after: { PK: 'users', SK: 'D' },
 
         context: {},
       }),
@@ -1028,8 +1003,7 @@ SK: 'D' },
       {
         _id: 'entity_foo⋮PK⋮users⋮B⋮',
       },
-      { projection: ['sub.attr'],
-sort: { SK: 1 } }
+      { projection: ['sub.attr'], sort: { SK: 1 } }
     );
 
     expect(sut.items).toHaveLength(1);
@@ -1170,9 +1144,7 @@ describe('findOne', () => {
   let transporter: MongoTransporter;
   const indexConfig: AnyCollectionIndexConfig = {
     entity: 'entity_foo',
-    indexes: [{ name: '_id',
-PK: ['.PK'],
-SK: ['.SK'] }],
+    indexes: [{ name: '_id', PK: ['.PK'], SK: ['.SK'] }],
   };
 
   beforeEach(async () => {
@@ -1289,9 +1261,7 @@ describe('findById', () => {
   let transporter: MongoTransporter;
   const indexConfig: AnyCollectionIndexConfig = {
     entity: 'entity_foo',
-    indexes: [{ name: '_id',
-PK: ['.PK'],
-SK: ['.SK'] }],
+    indexes: [{ name: '_id', PK: ['.PK'], SK: ['.SK'] }],
   };
 
   beforeEach(async () => {

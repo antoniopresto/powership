@@ -13,8 +13,7 @@ describe('aggioUpdate', () => {
       _doc(),
       {
         $set: { name: 'updated' },
-        $inc: { age: -1,
-'listing.3.age': 1 },
+        $inc: { age: -1, 'listing.3.age': 1 },
       },
       _testingIndexConfig
     );

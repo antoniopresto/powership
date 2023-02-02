@@ -45,15 +45,12 @@ test('examples', async () => {
     } as const // "as const" is needed to TS to infer types correctly
   );
 
-  expect(() => userObject.parse({ name: 'Antonio',
-letter: 'x' })).toThrow(
+  expect(() => userObject.parse({ name: 'Antonio', letter: 'x' })).toThrow(
     `field "letter": accepted: 'a' or 'b' or 'c', found x.`
   );
 
   expect(() =>
-    userObject.parse({ name: 'antonio',
-letter: 'a',
-deliveryAddress: {} })
+    userObject.parse({ name: 'antonio', letter: 'a', deliveryAddress: {} })
   ).toThrow('➤ field "deliveryAddress": ➤ field "street": RequiredField');
 
   const parsed = userObject.parse({

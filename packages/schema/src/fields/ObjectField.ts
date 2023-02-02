@@ -25,8 +25,7 @@ export class ObjectField<
   }
 
   constructor(def: DefinitionInput) {
-    super({ def: def,
-name: 'object' });
+    super({ def: def, name: 'object' });
 
     this.utils = {
       // @ts-ignore circular
