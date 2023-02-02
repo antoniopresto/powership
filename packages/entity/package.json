@@ -1,6 +1,6 @@
 {
   "name": "@backland/entity",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
   "author": "antoniopresto <antoniopresto@gmail.com>",

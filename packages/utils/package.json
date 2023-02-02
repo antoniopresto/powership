@@ -1,6 +1,6 @@
 {
   "name": "@backland/utils",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
