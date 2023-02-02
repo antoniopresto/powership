@@ -41,16 +41,24 @@ export async function packageVersion(
   })();
 
   const updated = await runner.run((utils) => {
-    const originalVersion = utils.json.version;
-    const newVersion = getNewVersion(utils.json.version, releaseTypeOrVersion);
+    const { json } = utils;
+    const originalVersion = json.version;
+    const newVersion = getNewVersion(json.version, releaseTypeOrVersion);
 
     if (!newVersion) {
       throw new Error(
-        `Failed to update version "${releaseTypeOrVersion}" for ${utils.json.name}@${utils.json.version}`
+        `Failed to update version "${releaseTypeOrVersion}" for ${json.name}@${json.version}`
       );
     }
 
-    utils.json.version = newVersion;
+    const deps = {
+      ...json.dependencies,
+      ...json.devDependencies,
+      ...json.peerDependencies,
+      ...json.optionalDependencies,
+    };
+
+    json.version = newVersion;
     utils.saveJSON();
 
     console.info(

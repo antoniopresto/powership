@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 
+import { inspect } from 'util';
+
 import chalk from 'chalk';
-import Vorpal, { CommandInstance } from 'vorpal';
+import { Command } from 'commander';
 
 import { defaultPackagesGlobPattern } from './defaultPackagesGlobPattern';
 import { packageRunner } from './packageRunner';
@@ -9,72 +11,35 @@ import { packageVersion } from './packageVersion';
 import { runInFiles } from './runInFiles';
 import { runmateLogger } from './runmateLogger';
 
-const self = new Vorpal();
+const program = new Command();
 
-self
-  .command(
-    'foreach <pattern> <command> [chunkSize]', //
-    'run foreach ./packages/*/ "ls" 3 - Will run command ls in each folder inside packages, 3 is the number of parallel executions'
+program
+  .command('packages')
+  .argument('command', 'Command to execute')
+  .alias('p')
+  .description('Run command in each package in ./packages folder')
+  .option('-s, --src <src>', 'Source directory or glob pattern')
+  .option('-c, --chunk-size [chunkSize]', 'Chunk size of parallel executions')
+  .option(
+    '-no-ff, --no-fail-fast, --no-ff, --noff',
+    'Disable exit on first error'
   )
-  .action(async function run(this: CommandInstance, args): Promise<any> {
+  .action(async function run(commandArg, options): Promise<any> {
+    const { src, chunkSize, failFast } = options;
     //
     await runmateLogger.lazyDebug(() => [
       'Received args: \n',
-      JSON.stringify(args, null, 2),
+      inspect({ commandArg, ...options }),
     ]);
 
-    const {
-      command,
-      pattern,
-      chunkSize = 1,
-    } = args as unknown as {
-      command: string;
-      pattern: string;
-      chunkSize?: number;
-    };
-
-    if (!pattern || !command.length) {
-      throw new Error(`pattern and command are required parameters.`);
-    }
-
     try {
-      await runInFiles({
-        chunkSize: +chunkSize,
-        command: command,
-        pattern,
+      const runner = await packageRunner(src || defaultPackagesGlobPattern, {
+        failFast,
       });
-    } catch (e: any) {
-      console.error(chalk.red(e.message));
-    }
-  });
-
-self
-  .command(
-    'packages <command> [chunkSize]', //
-    'Example:\nrun packages "npm install" 3 // where 3 is a optional number of parallel executions size'
-  )
-  .action(async function run(this: CommandInstance, args): Promise<any> {
-    //
-    await runmateLogger.lazyDebug(() => [
-      'Received args: \n',
-      JSON.stringify(args, null, 2),
-    ]);
-
-    const { command, chunkSize = 1 } = args as unknown as {
-      command: string;
-      chunkSize?: number;
-    };
-
-    if (!command.length) {
-      throw new Error(`pattern and command are required parameters.`);
-    }
-
-    try {
-      const runner = await packageRunner(defaultPackagesGlobPattern);
 
       await runner.run(
         async (utils) => {
-          await utils.run(command);
+          await utils.run(commandArg);
         },
         {
           chunkSize: +chunkSize,
@@ -85,27 +50,54 @@ self
     }
   });
 
-self
-  .command(
-    'link [packageManager]', //
-    'Link packages'
-  )
-  .action(async function run(this: CommandInstance, args): Promise<any> {
+program
+  .command('each')
+  .argument('src', 'Folder pattern')
+  .argument('command')
+  .option('-c, --chunk-size [chunkSize]', 'Chunk size of parallel executions')
+  .alias('e')
+  .action(async function run(src, command, { chunkSize }): Promise<any> {
     //
     await runmateLogger.lazyDebug(() => [
       'Received args: \n',
-      JSON.stringify(args, null, 2),
+      JSON.stringify({ src, command, chunkSize }, null, 2),
     ]);
 
-    const { packageManager = 'yarn' } = args;
+    try {
+      await runInFiles({
+        chunkSize: +chunkSize,
+        command: command,
+        pattern: src,
+      });
+    } catch (e: any) {
+      console.error(chalk.red(e.message));
+    }
+  });
+
+program
+  .command(
+    'link' //
+  )
+  .description('Link packages')
+  .option('--manager <manager>')
+  .option('-s, --src <packages>', 'Packages glob pattern.')
+  .alias('l')
+  .action(async function run({ manager, pattern }): Promise<any> {
+    //
+    await runmateLogger.lazyDebug(() => [
+      'Received args: \n',
+      JSON.stringify({ manager, pattern }, null, 2),
+    ]);
+
+    manager = 'packageManager' || 'yarn';
 
     const localPackageNames = new Set<string>();
 
-    const runner = await packageRunner(defaultPackagesGlobPattern);
+    const runner = await packageRunner(pattern || defaultPackagesGlobPattern);
 
     await runner.run(async ({ json, run }) => {
       localPackageNames.add(json.name);
-      await run(`${packageManager} link`);
+      await run(`${manager} link`);
     });
 
     await runner.run(({ json, run }) => {
@@ -118,14 +110,16 @@ self
 
       Object.keys(deps).forEach((dep) => {
         if (!localPackageNames.has(dep)) return;
-        run(`${packageManager} link ${dep}`);
+        run(`${manager} link ${dep}`);
       });
     });
   });
 
-self
+program
   .command(
-    'version <releaseTypeOrVersion> [pattern]', //
+    'version <releaseTypeOrVersion> [pattern]' //
+  )
+  .description(
     [
       'Update package versions.',
       'Examples: ',
@@ -134,14 +128,13 @@ self
       '➜  version major ./packages/utils',
     ].join('\n')
   )
-  .action(async function run(this: CommandInstance, args): Promise<any> {
+  .alias('v')
+  .action(async function run(releaseTypeOrVersion, pattern): Promise<any> {
     //
     await runmateLogger.lazyDebug(() => [
       'Received args: \n',
-      JSON.stringify(args, null, 2),
+      JSON.stringify({ releaseTypeOrVersion }, null, 2),
     ]);
-
-    const { releaseTypeOrVersion, pattern } = args;
 
     try {
       await packageVersion(releaseTypeOrVersion, pattern);
@@ -150,4 +143,4 @@ self
     }
   });
 
-self.show().parse(process.argv);
+program.parse();

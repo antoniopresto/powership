@@ -1,6 +1,6 @@
 {
   "name": "@backland/schema",
-  "version": "0.1.22",
+  "version": "0.2.0",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
   "sideEffects": false,

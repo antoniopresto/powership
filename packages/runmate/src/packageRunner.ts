@@ -24,10 +24,12 @@ export function getPackageRunnerUtils(jsonPath: string) {
       writePackageJSON(jsonPath, json);
     },
     run(command: string) {
+      const cwd = nodePath.dirname(jsonPath);
       if (json.scripts?.[command]) {
         command = `npm run ${command}`;
       }
-      return runCommand(command, { cwd: nodePath.dirname(jsonPath) });
+      runmateLogger.info({ command, cwd });
+      return runCommand(command, { cwd });
     },
   };
 }
@@ -37,6 +39,7 @@ export type PackageRunnerUtils = ReturnType<typeof getPackageRunnerUtils>;
 export interface PackageRunnerOptions {
   cwd?: string;
   cache?: boolean | Record<string, any>;
+  failFast?: boolean;
 }
 
 export interface PackageRunOptions {
@@ -61,7 +64,11 @@ export async function packageRunner(
   options: PackageRunnerOptions = {}
 ): Promise<PackageRunner> {
   //
-  const { cwd = process.cwd(), cache: cacheOption = true } = options;
+  const {
+    cwd = process.cwd(),
+    cache: cacheOption = true,
+    failFast: failFastRoot = true,
+  } = options;
 
   const cache = (() => {
     if (!cacheOption) return undefined;
@@ -120,7 +127,7 @@ export async function packageRunner(
     callback: (utils: PackageRunnerUtils) => any,
     runOptions: PackageRunOptions = {}
   ) {
-    const { chunkSize = 3, failFast = true } = runOptions;
+    const { chunkSize = 3, failFast = failFastRoot } = runOptions;
 
     const chunks = chunk(depTree, chunkSize);
 
