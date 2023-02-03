@@ -50,8 +50,12 @@ export const applyFieldResolvers = createEntityPlugin(
           const node = isPagination ? originalDocument.node : originalDocument;
 
           await Promise.allSettled(
-            resolvers.map(async ({ resolve, name }) => {
+            resolvers.map(async ({ resolve, name, args }) => {
               const field = notNull(name);
+              
+              if(args && Object.keys(args).length){
+                throw new Error(`Args in relations are not supported at the moment.`)
+              }
 
               let val: any = null;
               try {
