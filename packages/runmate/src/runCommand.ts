@@ -10,6 +10,7 @@ export interface RunCommandOptions {
   command: string;
   plugin?: (hooks: RunCommandHooks) => any;
 }
+
 export async function runCommand(
   options: RunCommandOptions | string,
   execOptions?: ExecOptions
@@ -66,6 +67,16 @@ export async function runCommand(
 
   let { command, plugin } = options;
 
+  const configFile = await getConfigFile(
+    execOptions?.cwd?.toString() || process.cwd()
+  );
+
+  const configCommand = configFile?.commands?.[command];
+
+  if (typeof configCommand === 'string') {
+    command = configCommand;
+  }
+
   try {
     hooks && (await plugin?.(hooks));
 
@@ -98,6 +109,16 @@ export async function runCommand(
     childRef?.kill(1);
     await hooks.onError.exec({ error: e }, childRef);
     throw new Error(`Failed to execute command ${command}`);
+  }
+}
+
+async function getConfigFile(
+  cwd: string
+): Promise<{ commands?: Record<string, string> }> {
+  try {
+    return require(nodePath.resolve(cwd, '.runmaterc.js'));
+  } catch (e) {
+    return {};
   }
 }
 

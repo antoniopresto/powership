@@ -1,12 +1,10 @@
 import nodePath from 'path';
 
-import fs from 'fs-extra';
 import semver from 'semver/preload';
 
-import { PackageJson } from './ICommons';
 import { defaultPackagesGlobPattern } from './defaultPackagesGlobPattern';
 import { readPackageJSON, writePackageJSON } from './handleJSON';
-import { packageRunner } from './packageRunner';
+import { packageRunner, PackageRunnerUtils } from './packageRunner';
 
 export const ReleaseTypes = [
   'major',
@@ -21,6 +19,13 @@ export const ReleaseTypes = [
 export type ReleaseType = typeof ReleaseTypes[number];
 
 export const ReleaseTypeset = new Set(ReleaseTypes);
+
+export const packageJSONDependencyKeys = [
+  'optionalDependencies',
+  'peerDependencies',
+  'devDependencies',
+  'dependencies',
+] as const;
 
 export async function packageVersion(
   releaseTypeOrVersion: ReleaseType | string,
@@ -40,31 +45,52 @@ export async function packageVersion(
     }
   })();
 
-  const updated = await runner.run((utils) => {
-    const { json } = utils;
-    const originalVersion = json.version;
-    const newVersion = getNewVersion(json.version, releaseTypeOrVersion);
+  const updates: {
+    name: string;
+    newVersion: string;
+    utils: PackageRunnerUtils;
+  }[] = [];
+
+  await runner.run((utils) => {
+    const {
+      json: { name, version },
+    } = utils;
+
+    const newVersion = getNewVersion(version, releaseTypeOrVersion);
 
     if (!newVersion) {
       throw new Error(
-        `Failed to update version "${releaseTypeOrVersion}" for ${json.name}@${json.version}`
+        `Failed to update version "${releaseTypeOrVersion}" for ${name}@${version}`
       );
     }
 
-    const deps = {
-      ...json.dependencies,
-      ...json.devDependencies,
-      ...json.peerDependencies,
-      ...json.optionalDependencies,
-    };
-
-    json.version = newVersion;
-    utils.saveJSON();
-
-    console.info(
-      `Updated ${utils.json.name} from version ${originalVersion} to ${newVersion}`
-    );
+    updates.push({ name, newVersion, utils });
   });
+
+  await Promise.all(
+    updates.map(({ utils: { json, saveJSON }, newVersion, name }) => {
+      const deps = {
+        ...json.optionalDependencies,
+        ...json.peerDependencies,
+        ...json.devDependencies,
+        ...json.dependencies,
+      };
+
+      Object.entries(deps).forEach(([depName]) => {
+        const localDep = updates.find((el) => el.name === depName);
+        if (!localDep) return;
+        packageJSONDependencyKeys.forEach((key) => {
+          if (json[key]?.[depName]) {
+            // @ts-ignore
+            json[key][depName] = localDep.newVersion;
+          }
+        });
+      });
+
+      json.version = newVersion;
+      saveJSON();
+    })
+  );
 
   if (rootJSON) {
     const newVersion = getNewVersion(rootJSON.version, releaseTypeOrVersion);
@@ -74,7 +100,7 @@ export async function packageVersion(
     }
   }
 
-  return updated;
+  return updates;
 }
 
 export function getNewVersion(

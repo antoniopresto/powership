@@ -24,20 +24,7 @@ describe('Product', () => {
     const { __dschm__, ...def } = parseField(options.type.definition)
       .def as any;
 
-    expect(entity.extendInput.def()).toMatchObject({
-      ...def,
-      _c: {
-        def: {
-          min: 5,
-          regex: ['^~!.*'],
-        },
-        description: 'The full hashed value of the first index.',
-        hidden: true,
-        name: 'EntityHashedCursor',
-        optional: true,
-        type: 'string',
-      },
-    });
+    expect(entity.extendInput.def()).toEqual(def);
 
     expect(Object.keys(parseField(entity.type.definition).def).sort()).toEqual([
       'SKU',

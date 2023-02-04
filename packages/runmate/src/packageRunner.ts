@@ -108,20 +108,22 @@ export async function packageRunner(
 
   const depTree = new DepTree(utils.map((el) => el.json)).find();
 
-  runmateLogger.info(
-    'Found packages:\n',
-    depTree
-      .map((el) => {
-        let txt = `${el.name}: `;
-        if (!el.dependents.length) {
-          txt += `0 dependents.`;
-        } else {
-          txt += `dependents: ${el.dependents.join(', ')}.`;
-        }
-        return ` ➜  ${txt}`;
-      })
-      .join('\n')
-  );
+  runmateLogger.lazyInfo(() => {
+    return [
+      'Found packages:\n',
+      depTree
+        .map((el) => {
+          let txt = `${el.name}: `;
+          if (!el.dependents.length) {
+            txt += `0 dependents.`;
+          } else {
+            txt += `dependents: ${el.dependents.join(', ')}.`;
+          }
+          return `➜  ${txt}`;
+        })
+        .join('\n'),
+    ];
+  });
 
   const run: PackageRunner['run'] = async function run(
     callback: (utils: PackageRunnerUtils) => any,

@@ -52,26 +52,17 @@ export const applyFieldResolvers = createEntityPlugin(
           await Promise.allSettled(
             resolvers.map(async ({ resolve, name, args }) => {
               const field = notNull(name);
-              
-              if(args && Object.keys(args).length){
-                throw new Error(`Args in relations are not supported at the moment.`)
-              }
 
               let val: any = null;
               try {
                 val = await resolve(
                   node,
-                  {}, // TODO
+                  args,
                   context.operation.options.context,
-                  createProxy(() => {
-                    console.error(
-                      'GraphQLResolveInfo not available in field resolvers.'
-                    );
-                    return {} as any;
-                  })
+                  _fakeGraphQLResolveInfo
                 );
               } catch (e) {
-                NodeLogger.logError(
+                NodeLogger.error(
                   `Failed to resolve "${name}" for entity ${entityName}`,
                   e
                 );
@@ -87,3 +78,7 @@ export const applyFieldResolvers = createEntityPlugin(
     });
   }
 );
+
+const _fakeGraphQLResolveInfo = createProxy(() => {
+  throw new Error('GraphQLResolveInfo not available in field resolvers.');
+});

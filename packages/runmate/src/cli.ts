@@ -2,34 +2,37 @@
 
 import { inspect } from 'util';
 
+import { mapper } from '@backland/utils';
 import chalk from 'chalk';
 import { Command } from 'commander';
 
 import { defaultPackagesGlobPattern } from './defaultPackagesGlobPattern';
 import { packageRunner } from './packageRunner';
-import { packageVersion } from './packageVersion';
+import { packageJSONDependencyKeys, packageVersion } from './packageVersion';
 import { runInFiles } from './runInFiles';
 import { runmateLogger } from './runmateLogger';
+
+let lifeline = setInterval(() => {}, 1000);
 
 const program = new Command();
 
 program
-  .command('packages')
-  .argument('command', 'Command to execute')
-  .alias('p')
-  .description('Run command in each package in ./packages folder')
+  .argument('<command...>')
+  .description(
+    'Run command in each package in ./packages folder or in `--src` option folder'
+  )
   .option('-s, --src <src>', 'Source directory or glob pattern')
   .option('-c, --chunk-size [chunkSize]', 'Chunk size of parallel executions')
   .option(
     '-no-ff, --no-fail-fast, --no-ff, --noff',
     'Disable exit on first error'
   )
-  .action(async function run(commandArg, options): Promise<any> {
+  .action(async function run(commands: string[], options): Promise<any> {
     const { src, chunkSize, failFast } = options;
     //
     await runmateLogger.lazyDebug(() => [
       'Received args: \n',
-      inspect({ commandArg, ...options }),
+      inspect({ commands, ...options }),
     ]);
 
     try {
@@ -39,7 +42,7 @@ program
 
       await runner.run(
         async (utils) => {
-          await utils.run(commandArg);
+          await utils.run(commands.join(' '));
         },
         {
           chunkSize: +chunkSize,
@@ -47,6 +50,8 @@ program
       );
     } catch (e: any) {
       console.error(chalk.red(e.message));
+    } finally {
+      clearInterval(lifeline);
     }
   });
 
@@ -71,6 +76,8 @@ program
       });
     } catch (e: any) {
       console.error(chalk.red(e.message));
+    } finally {
+      clearInterval(lifeline);
     }
   });
 
@@ -89,30 +96,32 @@ program
       JSON.stringify({ manager, pattern }, null, 2),
     ]);
 
-    manager = 'packageManager' || 'yarn';
+    manager = manager || 'yarn';
 
     const localPackageNames = new Set<string>();
+    try {
+      const runner = await packageRunner(pattern || defaultPackagesGlobPattern);
 
-    const runner = await packageRunner(pattern || defaultPackagesGlobPattern);
-
-    await runner.run(async ({ json, run }) => {
-      localPackageNames.add(json.name);
-      await run(`${manager} link`);
-    });
-
-    await runner.run(({ json, run }) => {
-      const deps = {
-        ...json.dependencies,
-        ...json.devDependencies,
-        ...json.peerDependencies,
-        ...json.optionalDependencies,
-      };
-
-      Object.keys(deps).forEach((dep) => {
-        if (!localPackageNames.has(dep)) return;
-        run(`${manager} link ${dep}`);
+      await runner.run(async ({ json, run }) => {
+        localPackageNames.add(json.name);
+        await run(`${manager} link`);
       });
-    });
+
+      await runner.run(({ json, run }) => {
+        const deps = mapper(
+          packageJSONDependencyKeys.map((name) => json[name])
+        ).combine();
+
+        Object.keys(deps).forEach((dep) => {
+          if (!localPackageNames.has(dep)) return;
+          run(`${manager} link ${dep}`);
+        });
+      });
+    } catch (e: any) {
+      console.error(chalk.red(e.message));
+    } finally {
+      clearInterval(lifeline);
+    }
   });
 
 program
@@ -140,6 +149,8 @@ program
       await packageVersion(releaseTypeOrVersion, pattern);
     } catch (e: any) {
       console.error(chalk.red(e.message));
+    } finally {
+      clearInterval(lifeline);
     }
   });
 

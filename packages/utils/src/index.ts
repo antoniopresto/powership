@@ -67,6 +67,7 @@ export * from './Store';
 export * from './AppConfig';
 export * from './awaitSync';
 export * from './merge';
+export * from './mapper';
 
 // @only-server
 export * from './logLevels';

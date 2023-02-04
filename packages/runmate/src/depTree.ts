@@ -1,5 +1,3 @@
-import semver from 'semver/preload';
-
 import { PackageJson } from './ICommons';
 
 export interface PackageItem extends PackageJson {
@@ -10,13 +8,26 @@ export interface PackageItem extends PackageJson {
 export class DepTree {
   seen = new Map<string, PackageItem>();
   packageValues: PackageItem[] = [];
+  packageByName = new Map<string, PackageItem>();
+
+  // dependencyEntryNames = [
+  //   'dependencies',
+  //   'devDependencies',
+  //   'optionalDependencies',
+  //   'peerDependencies',
+  //   'devDependencies',
+  // ];
 
   constructor(value: PackageJson[]) {
-    this.packageValues = value.map((el, index) => ({
-      ...el,
-      index,
-      dependents: [],
-    }));
+    this.packageValues = value.map((json, index) => {
+      const item: PackageItem = {
+        ...json,
+        index,
+        dependents: [],
+      };
+      this.packageByName.set(json.name, item);
+      return item;
+    });
   }
 
   find = (): PackageItem[] => {
@@ -54,21 +65,13 @@ export class DepTree {
       ...dependencies,
     };
 
-    for (let [depName, depVersion] of Object.entries(deps)) {
-      //
-      const localCompatibleVersion = this.packageValues.find((localPackage) => {
-        if (localPackage.name !== depName) return;
-        return semver.satisfies(localPackage.version, depVersion);
-      });
+    const entries = Object.entries(deps);
 
-      if (!localCompatibleVersion) continue;
-
-      const item = this.traverse(
-        localCompatibleVersion,
-        localCompatibleVersion.index
-      );
-
-      item.dependents.push(name);
+    for (let [depName] of entries) {
+      const localDep = this.packageByName.get(depName);
+      if (!localDep) continue;
+      const usedLocalDep = this.traverse(localDep, localDep.index);
+      usedLocalDep.dependents.push(name);
     }
 
     return current;
