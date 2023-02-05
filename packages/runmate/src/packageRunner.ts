@@ -17,19 +17,26 @@ export function clearPackageRunnerCache() {
 
 export function getPackageRunnerUtils(jsonPath: string) {
   const json = readPackageJSON(jsonPath);
+  const cwd = nodePath.dirname(jsonPath);
 
   return {
+    ...json,
     json,
+    cwd,
     saveJSON() {
       writePackageJSON(jsonPath, json);
     },
-    run(command: string) {
-      const cwd = nodePath.dirname(jsonPath);
-      if (json.scripts?.[command]) {
-        command = `npm run ${command}`;
+    async run(command: string) {
+      try {
+        if (json.scripts?.[command]) {
+          command = `npm run ${command}`;
+        }
+        runmateLogger.info({ command, cwd });
+        return await runCommand(command, { cwd });
+      } catch (e: any) {
+        const message = `Failed to run command in package "${json.name}": ${e.message}`;
+        throw new Error(message);
       }
-      runmateLogger.info({ command, cwd });
-      return runCommand(command, { cwd });
     },
   };
 }
@@ -52,11 +59,16 @@ export interface PackageRunnerResult {
 }
 
 export interface PackageRunner {
-  run(
-    callback: (utils: PackageRunnerUtils) => any,
+  run: PackageRunnerRun;
+  utils: PackageRunnerUtils[];
+  packages: Record<string, PackageRunnerUtils>;
+}
+
+export interface PackageRunnerRun {
+  (
+    callback: ((utils: PackageRunnerUtils) => any) | string,
     runOptions?: PackageRunOptions
   ): Promise<PackageRunnerResult>;
-  utils: PackageRunnerUtils[];
 }
 
 export async function packageRunner(
@@ -108,7 +120,7 @@ export async function packageRunner(
 
   const depTree = new DepTree(utils.map((el) => el.json)).find();
 
-  runmateLogger.lazyInfo(() => {
+  runmateLogger.lazyDebug(() => {
     return [
       'Found packages:\n',
       depTree
@@ -125,11 +137,9 @@ export async function packageRunner(
     ];
   });
 
-  const run: PackageRunner['run'] = async function run(
-    callback: (utils: PackageRunnerUtils) => any,
-    runOptions: PackageRunOptions = {}
-  ) {
-    const { chunkSize = 3, failFast = failFastRoot } = runOptions;
+  const run: PackageRunner['run'] = async function run(command, runOptions) {
+    let { chunkSize, failFast = failFastRoot } = runOptions || {};
+    chunkSize = chunkSize || 1;
 
     const chunks = chunk(depTree, chunkSize);
 
@@ -147,12 +157,16 @@ export async function packageRunner(
         chunkItems.map(async (item) => {
           const util = utils[item.index];
           try {
-            await callback(util);
+            await (typeof command === 'function'
+              ? command(util)
+              : util.run(command));
           } catch (e: any) {
-            const message = `Failed to run command in package "${item.name}": ${e.message}`;
-            result.errors.push({ json: item, message });
+            result.errors.push({
+              json: item,
+              message: e.message,
+            });
             if (failFast) {
-              throw new Error(message);
+              throw e;
             }
           }
         })
@@ -162,5 +176,17 @@ export async function packageRunner(
     return result;
   };
 
-  return { run, utils };
+  const packages = reduceObject(utils, (item) => ({ [item.name]: item }));
+
+  return { run, utils, packages };
+}
+
+export function reduceObject<Result, O extends object>(
+  items: O[],
+  reducer: (object: O) => Partial<Result>
+): Result {
+  return items.reduce(
+    (acc, next) => ({ ...acc, ...reducer(next) }),
+    {} as Result
+  );
 }

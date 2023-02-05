@@ -9,7 +9,7 @@
   "scripts": {
     "test": "echo ok",
     "build": "rm -rf lib && tsc && tsc -p tsconfig.module.json",
-    "prepare": "npm run fix && npm run build",
+    "//prepare": "npm run fix && npm run build",
     "build-targets": "run-p build",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",

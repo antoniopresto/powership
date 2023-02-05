@@ -72,12 +72,12 @@ function getModules() {
 
       server: true,
     },
-
-    awesomePhoneValidator: {
+  
+    parsePhoneNumberServerSide: {
       // @only-server
       module: () =>
         // @only-server
-        require('awesome-phonenumber') as typeof import('awesome-phonenumber'),
+        require('@backland/utils/lib/parsePhoneNumber') as typeof import('@backland/utils/lib/parsePhoneNumber'),
 
       server: true,
     },

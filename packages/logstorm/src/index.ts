@@ -59,7 +59,7 @@ export interface LogStorm extends LogMethods {
 
 export function createLogger(
   name: string,
-  level: LogLevel = getProcess().env.LOG_LEVEL || DEFAULT_LOG_LEVEL,
+  level = _getDefaultLogLevel(),
   options: LogstormOptions = {}
 ): LogStorm {
   //
@@ -234,90 +234,23 @@ function getColor(color: unknown): string | false {
   return false;
 }
 
-// function getStack(parent?: any) {
-//   const err = new Error();
-//
-//   captureStackTrace(err, parent === undefined ? getStack : parent);
-//
-//   return err.stack || '';
-// }
-//
-// function captureStackTrace(error: any, parent?: any) {
-//   if (typeof Error.captureStackTrace === 'function') {
-//     return Error.captureStackTrace(error, parent);
-//   }
-//
-//   const container = new Error();
-//
-//   Object.defineProperty(error, 'stack', {
-//     configurable: true,
-//     get() {
-//       const { stack } = container;
-//       Object.defineProperty(this, 'stack', { value: stack });
-//       return stack;
-//     },
-//   });
-// }
-//
-//
-// function getLogger(parentFunction?: any): ConsoleLogger {
-//   if (options.logger) return options.logger as any;
-//
-//   if (
-//     typeof process === 'object' &&
-//     typeof process?.stdout?.write === 'function'
-//   ) {
-//     const out = (value: string) => {
-//       try {
-//         process.stdout.write(value);
-//       } catch (e) {
-//         console.log(value);
-//       }
-//     };
-//
-//     const error = (value: string) => {
-//       try {
-//         process.stderr.write(value);
-//       } catch (e) {
-//         console.log(value);
-//       }
-//     };
-//
-//     const inspect = ((): typeof import('util').inspect => {
-//       try {
-//         return require('util').inspect;
-//       } catch (e) {
-//         return ((v) => v) as any;
-//       }
-//     })();
-//
-//     const toString = (data: any[]) => {
-//       return data.map((el) => inspect(el)).join(' ');
-//     };
-//
-//     const Logger: ConsoleLogger = {
-//       warn(...data) {
-//         out(toString(data));
-//       },
-//       log(...data) {
-//         out(toString(data));
-//       },
-//       trace(...data) {
-//         out(toString(data) + '\n' + getStack(parentFunction));
-//       },
-//       info(...data) {
-//         out(toString(data));
-//       },
-//       error(...data) {
-//         error(toString(data) + '\n' + getStack(parentFunction));
-//       },
-//       debug(...data) {
-//         out(toString(data) + '\n' + getStack(parentFunction));
-//       },
-//     };
-//
-//     return Logger;
-//   }
-//
-//   return console as any;
-// }
+function _getDefaultLogLevel(): LogLevel {
+  const {
+    env: { LOGSTORM_LEVEL, LOG_LEVEL },
+  } = getProcess();
+
+  const level = (LOGSTORM_LEVEL || LOG_LEVEL)?.toLowerCase().trim();
+
+  if (level) {
+    if (level in logLevels) {
+      return level;
+    }
+    console.warn(
+      `Logstorm: value "${
+        LOGSTORM_LEVEL || LOG_LEVEL
+      }" from process.env is not a valid log level.`
+    );
+  }
+
+  return DEFAULT_LOG_LEVEL;
+}

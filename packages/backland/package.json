@@ -17,7 +17,7 @@
     "fix": "run-s fix:* ",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint src --ext .ts --fix",
-    "prepare": "run-s build fix && run-p test",
+    "//prepare": "run-s build fix && run-p test",
     "build-targets": "run-p build:*",
     "build:browser": "TARGET=browser npm run babild -- --out-dir lib/browser",
     "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir lib/browser/module",

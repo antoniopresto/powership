@@ -1,4 +1,4 @@
-import { ChildProcess, exec, ExecOptions } from 'child_process';
+import { ChildProcess, ExecOptions, spawn } from 'child_process';
 import nodePath from 'path';
 
 import chalk from 'chalk';
@@ -84,7 +84,11 @@ export async function runCommand(
       command = (await hooks?.willStart.exec({ command })).command;
     }
 
-    const child = (childRef = exec(command, { ...execOptions }));
+    const child = (childRef = spawn(command, {
+      ...execOptions,
+      stdio: 'inherit',
+      shell: true,
+    }));
 
     child.stdout?.on('data', async function (data) {
       await hooks?.onStdoutData.exec({ data }, child);

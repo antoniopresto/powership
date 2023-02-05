@@ -1,6 +1,5 @@
 import { ParsedUpdateExpression } from '@backland/transporter';
-import { RuntimeError } from '@backland/utils';
-import merge from 'lodash.merge';
+import { merge, RuntimeError } from '@backland/utils';
 import type { UpdateFilter } from 'mongodb';
 
 export function parseMongoUpdateExpression(

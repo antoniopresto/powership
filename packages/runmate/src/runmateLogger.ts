@@ -1,6 +1,9 @@
 import { createLogger } from 'logstorm';
 
-export const runmateLogger = createLogger('runmate', 'trace', {
+const level: any = process.env.LOG_LEVEL || 'trace';
+
+export const runmateLogger = createLogger('runmate', level, {
   color: 'cyan',
   time: true,
 });
+

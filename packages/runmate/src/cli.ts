@@ -2,7 +2,6 @@
 
 import { inspect } from 'util';
 
-import { mapper } from '@backland/utils';
 import chalk from 'chalk';
 import { Command } from 'commander';
 
@@ -12,8 +11,6 @@ import { packageJSONDependencyKeys, packageVersion } from './packageVersion';
 import { runInFiles } from './runInFiles';
 import { runmateLogger } from './runmateLogger';
 
-let lifeline = setInterval(() => {}, 1000);
-
 const program = new Command();
 
 program
@@ -21,18 +18,54 @@ program
   .description(
     'Run command in each package in ./packages folder or in `--src` option folder'
   )
-  .option('-s, --src <src>', 'Source directory or glob pattern')
-  .option('-c, --chunk-size [chunkSize]', 'Chunk size of parallel executions')
+  .option(
+    '-s, --src <src>',
+    'Source directory or glob pattern',
+    './packages/*/'
+  )
+  .option('-c, --chunk-size', 'Chunk size of parallel executions', '1')
   .option(
     '-no-ff, --no-fail-fast, --no-ff, --noff',
     'Disable exit on first error'
   )
-  .action(async function run(commands: string[], options): Promise<any> {
-    const { src, chunkSize, failFast } = options;
-    //
+  .option(
+    '--npc, --no-package-name-command',
+    'Disable execution in package if first argument is a package name.'
+  )
+  .option('--ignore <names>', 'Packages to skip execution.')
+  .option('--packages <names>', 'Run command only in specified packages.')
+  .action(async function run(
+    commands: string[],
+    options?: {
+      src?: string;
+      chunkSize: string;
+      failFast: boolean;
+      ignore?: string;
+      packages?: string;
+      packageNameCommand: boolean;
+    }
+  ): Promise<any> {
+    const {
+      //
+      src,
+      chunkSize = 1,
+      failFast,
+      ignore,
+      packages,
+      packageNameCommand,
+    } = options || {};
+
+    const ignoreList = ignore?.split(/, ?/);
+    const packagesExclusiveList = packages?.split(/, ?/);
+
     await runmateLogger.lazyDebug(() => [
       'Received args: \n',
-      inspect({ commands, ...options }),
+      inspect({
+        commands,
+        ignoreList,
+        packagesExclusiveList,
+        ...options,
+      }),
     ]);
 
     try {
@@ -40,8 +73,31 @@ program
         failFast,
       });
 
+      if (packageNameCommand !== false) {
+        const firstCommand = commands[0].trim();
+
+        const commandIsPackageName = runner.utils.find((el) => {
+          return (
+            el.name === firstCommand || el.name.split('/')[1] === firstCommand
+          );
+        });
+
+        if (commandIsPackageName) {
+          const restCommand = commands.slice(1).join(' ');
+          if (restCommand) {
+            return await commandIsPackageName.run(restCommand);
+          }
+        }
+      }
+
       await runner.run(
         async (utils) => {
+          if (packagesExclusiveList?.length) {
+            if (!packagesExclusiveList.includes(utils.name)) return;
+          }
+
+          if (ignoreList?.includes(utils.name)) return;
+
           await utils.run(commands.join(' '));
         },
         {
@@ -49,23 +105,25 @@ program
         }
       );
     } catch (e: any) {
-      console.error(chalk.red(e.message));
-    } finally {
-      clearInterval(lifeline);
+      console.error(chalk.red(e));
     }
   });
 
 program
   .command('each')
-  .argument('src', 'Folder pattern')
-  .argument('command')
-  .option('-c, --chunk-size [chunkSize]', 'Chunk size of parallel executions')
+  .alias('packages')
+  .argument('[command...]')
+  .option('-s, --src', 'Folder pattern', './packages/*/')
+  .option('-c, --chunk-size', 'Chunk size of parallel executions', '1')
   .alias('e')
-  .action(async function run(src, command, { chunkSize }): Promise<any> {
+  .action(async function run(commands: string[], options): Promise<any> {
+    const { chunkSize, src } = options;
+    const command = commands.join(' ');
+
     //
     await runmateLogger.lazyDebug(() => [
       'Received args: \n',
-      JSON.stringify({ src, command, chunkSize }, null, 2),
+      JSON.stringify({ src, command, chunkSize, options }, null, 2),
     ]);
 
     try {
@@ -75,52 +133,54 @@ program
         pattern: src,
       });
     } catch (e: any) {
-      console.error(chalk.red(e.message));
-    } finally {
-      clearInterval(lifeline);
+      console.error(chalk.red(e));
     }
   });
 
 program
-  .command(
-    'link' //
+  .command('link')
+  .description(
+    'Executes `link` or any other command in every dependency/dependent package.'
   )
-  .description('Link packages')
-  .option('--manager <manager>')
   .option('-s, --src <packages>', 'Packages glob pattern.')
   .alias('l')
-  .action(async function run({ manager, pattern }): Promise<any> {
-    //
+  .action(async function run(options): Promise<any> {
+    const { src } = options || {};
+
     await runmateLogger.lazyDebug(() => [
       'Received args: \n',
-      JSON.stringify({ manager, pattern }, null, 2),
+      JSON.stringify(options, null, 2),
     ]);
 
-    manager = manager || 'yarn';
-
-    const localPackageNames = new Set<string>();
+    const localPackages = new Map<string, string>();
     try {
-      const runner = await packageRunner(pattern || defaultPackagesGlobPattern);
+      const runner = await packageRunner(src || defaultPackagesGlobPattern);
 
-      await runner.run(async ({ json, run }) => {
-        localPackageNames.add(json.name);
-        await run(`${manager} link`);
+      await runner.run(async (utils) => {
+        localPackages.set(utils.name, utils.cwd);
       });
 
-      await runner.run(({ json, run }) => {
-        const deps = mapper(
-          packageJSONDependencyKeys.map((name) => json[name])
-        ).combine();
+      await runner.run(async ({ json, cwd, run }) => {
+        const deps: Record<string, string> = {};
 
-        Object.keys(deps).forEach((dep) => {
-          if (!localPackageNames.has(dep)) return;
-          run(`${manager} link ${dep}`);
+        packageJSONDependencyKeys.map((name) => {
+          Object.assign(deps, json[name]);
         });
+
+        const toLink: string[] = [];
+
+        for (const dependency of Object.keys(deps)) {
+          if (localPackages.has(dependency)) {
+            toLink.push(localPackages.get(dependency)!);
+          }
+        }
+
+        if (toLink.length) {
+          await run(`npm link ${toLink.join(' ')} --legacy-peer-deps`);
+        }
       });
     } catch (e: any) {
-      console.error(chalk.red(e.message));
-    } finally {
-      clearInterval(lifeline);
+      console.error(chalk.red(e));
     }
   });
 
@@ -148,9 +208,7 @@ program
     try {
       await packageVersion(releaseTypeOrVersion, pattern);
     } catch (e: any) {
-      console.error(chalk.red(e.message));
-    } finally {
-      clearInterval(lifeline);
+      console.error(chalk.red(e));
     }
   });
 

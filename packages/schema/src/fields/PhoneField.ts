@@ -32,7 +32,7 @@ export function _backendValidatePhoneNumber(
     });
   }
 
-  let { valid, type } = CircularDeps.awesomePhoneValidator.parsePhoneNumber(
+  let { valid, type } = CircularDeps.parsePhoneNumberServerSide.parsePhoneNumber(
     input,
     {
       regionCode: regionCode,

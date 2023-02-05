@@ -5,6 +5,7 @@ import { glob } from 'glob';
 import chunk from 'lodash/chunk';
 
 import { runCommand } from './runCommand';
+import {inspect} from "util";
 
 export interface RunInFilesOptions {
   command: string;
@@ -27,7 +28,7 @@ export async function runInFiles(options: RunInFilesOptions) {
       });
     } catch (e: any) {
       throw new Error(
-        `Failed to find files with the provided pattern: ${e.message}`
+        `Failed to find files with the provided pattern: ${inspect(e)}`
       );
     }
   })();
@@ -37,7 +38,7 @@ export async function runInFiles(options: RunInFilesOptions) {
   for (let chunkItem of chunks) {
     await Promise.all(
       chunkItem.map(async (file) => {
-        const cwd = nodePath.dirname(file);
+        const cwd = nodePath.extname(file) ? nodePath.dirname(file) : file;
 
         const code = await runCommand(command, {
           cwd,
