@@ -6,4 +6,3 @@ export const runmateLogger = createLogger('runmate', level, {
   color: 'cyan',
   time: true,
 });
-

@@ -43,7 +43,7 @@ export async function runCommand(
                 : c_command_medium;
 
             hooks.willStart.register(function data() {
-              runmateLogger.log(`\n${chalk.cyan(description)} started\n\n`);
+              runmateLogger.log(`\n\nrun ${chalk.cyan(description)} started\n`);
             });
 
             hooks.onStdoutData.register(function data(currentValue) {
@@ -57,7 +57,7 @@ export async function runCommand(
             hooks.onClose.register(function data() {
               runmateLogger.log(
                 chalk.green(
-                  `finished in ${Date.now() - started}ms (${description})\n\n`
+                  `finished in ${Date.now() - started}ms (${description})\n`
                 )
               );
             });

@@ -71,7 +71,7 @@ export function validatePhoneNumber(
 
   const hasAPV = (() => {
     try {
-      return !!CircularDeps.awesomePhoneValidator?.parsePhoneNumber as boolean;
+      return !!CircularDeps.parsePhoneNumberServerSide?.parsePhoneNumber as boolean;
     } catch (e) {
       return false;
     }

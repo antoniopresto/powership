@@ -1,4 +1,5 @@
 import nodePath from 'path';
+import { inspect } from 'util';
 
 import { existsSync } from 'fs-extra';
 import { glob } from 'glob';
@@ -9,6 +10,7 @@ import { readPackageJSON, writePackageJSON } from './handleJSON';
 import { runCommand } from './runCommand';
 import { runmateLogger } from './runmateLogger';
 
+
 let packageRunnerCache = {};
 
 export function clearPackageRunnerCache() {
@@ -18,11 +20,17 @@ export function clearPackageRunnerCache() {
 export function getPackageRunnerUtils(jsonPath: string) {
   const json = readPackageJSON(jsonPath);
   const cwd = nodePath.dirname(jsonPath);
+  const basename = nodePath.basename(cwd);
 
   return {
     ...json,
     json,
     cwd,
+    basename,
+    names: new Set([
+      json.name,
+      basename,
+    ]),
     saveJSON() {
       writePackageJSON(jsonPath, json);
     },
@@ -31,10 +39,12 @@ export function getPackageRunnerUtils(jsonPath: string) {
         if (json.scripts?.[command]) {
           command = `npm run ${command}`;
         }
-        runmateLogger.info({ command, cwd });
+
         return await runCommand(command, { cwd });
       } catch (e: any) {
-        const message = `Failed to run command in package "${json.name}": ${e.message}`;
+        const message = `Failed to run command in package "${json.name}": ${
+          e.message || inspect(e)
+        }`;
         throw new Error(message);
       }
     },
@@ -52,6 +62,7 @@ export interface PackageRunnerOptions {
 export interface PackageRunOptions {
   chunkSize?: number; // default 3
   failFast?: boolean; // default to true
+  from?: string;
 }
 
 export interface PackageRunnerResult {
@@ -117,6 +128,7 @@ export async function packageRunner(
   }
 
   const utils = files.map((file) => getPackageRunnerUtils(file));
+  const packages = reduceObject(utils, (item) => ({ [item.name]: item }));
 
   const depTree = new DepTree(utils.map((el) => el.json)).find();
 
@@ -138,7 +150,7 @@ export async function packageRunner(
   });
 
   const run: PackageRunner['run'] = async function run(command, runOptions) {
-    let { chunkSize, failFast = failFastRoot } = runOptions || {};
+    let { chunkSize, failFast = failFastRoot, from } = runOptions || {};
     chunkSize = chunkSize || 1;
 
     const chunks = chunk(depTree, chunkSize);
@@ -151,11 +163,24 @@ export async function packageRunner(
       errors: [],
     };
 
+    let canRun = !from;
+
     for (let chunkItems of chunks) {
       await method.call(
         Promise,
         chunkItems.map(async (item) => {
+          const { names } = packages[item.name];
+
+          if (from) {
+            canRun = canRun || names.has(from);
+            if (!canRun) {
+              console.info(`Skipped "${names.values()}"`);
+              return;
+            }
+          }
+
           const util = utils[item.index];
+
           try {
             await (typeof command === 'function'
               ? command(util)
@@ -175,8 +200,6 @@ export async function packageRunner(
 
     return result;
   };
-
-  const packages = reduceObject(utils, (item) => ({ [item.name]: item }));
 
   return { run, utils, packages };
 }

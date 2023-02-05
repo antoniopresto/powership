@@ -1,11 +1,11 @@
 import nodePath from 'path';
 import process from 'process';
+import { inspect } from 'util';
 
 import { glob } from 'glob';
 import chunk from 'lodash/chunk';
 
 import { runCommand } from './runCommand';
-import {inspect} from "util";
 
 export interface RunInFilesOptions {
   command: string;

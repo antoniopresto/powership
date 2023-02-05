@@ -12,11 +12,36 @@ export const LogMethodNames = [
 
 export const logLevels = {
   trace: new Set(LogMethodNames),
-  debug: new Set(['debug', 'log', 'info', 'warn', 'error', 'fatal'] as const),
-  log: new Set(['log', 'info', 'warn', 'error', 'fatal'] as const),
-  info: new Set(['info', 'warn', 'error', 'fatal'] as const),
-  warn: new Set(['warn', 'error', 'fatal'] as const),
-  error: new Set(['error', 'fatal'] as const),
+  debug: new Set([
+    'debug',
+    'log',
+    'info',
+    'warn',
+    'error',
+    'fatal',
+  ] as const),
+  log: new Set([
+    'log',
+    'info',
+    'warn',
+    'error',
+    'fatal',
+  ] as const),
+  info: new Set([
+    'info',
+    'warn',
+    'error',
+    'fatal',
+  ] as const),
+  warn: new Set([
+    'warn',
+    'error',
+    'fatal',
+  ] as const),
+  error: new Set([
+    'error',
+    'fatal',
+  ] as const),
   fatal: new Set(['fatal'] as const),
   silent: new Set([] as string[]),
 } as const;
@@ -32,6 +57,8 @@ export type ConsoleLogger = typeof console extends infer L
   : never;
 
 export interface LogstormOptions {
+  prefix?: string | boolean;
+
   /**
    * Defaults to the global `console`
    */
@@ -55,6 +82,7 @@ export interface LogStorm extends LogMethods {
   logger: ConsoleLogger;
   color: string | false;
   time: boolean;
+  prefix: string | boolean;
 }
 
 export function createLogger(
@@ -74,6 +102,7 @@ export function createLogger(
     level: checkLogLevel(level),
     time: options.time ?? true,
     color: getColor(options.color),
+    prefix: options.prefix ?? true,
   };
 
   const chalk = (() => {
@@ -103,7 +132,13 @@ export function createLogger(
 
       let time = '';
       const prefix = (() => {
-        let pre = `${self.name === 'LogStorm' ? '' : self.name}`;
+        if (self.prefix === false) return false;
+        if (self.prefix === true) {
+          self.prefix = '';
+        }
+
+        let pre =
+          self.prefix || options.prefix || self.name === 'LogStorm' ? '' : name;
 
         if (self.time) {
           time = new Date().toISOString();
@@ -113,23 +148,39 @@ export function createLogger(
           pre = `${time} ${
             typeof colorize === 'function' ? colorize(pre) : pre
           }`;
-          pre += '\n';
+          pre += ' ';
         } else {
-          pre = time + '\n';
+          pre = time + ' ';
         }
 
-        return pre;
+        return pre.trim();
       })();
 
       if (typeof args[0]?.__logstormCallback__ === 'function') {
         args = await args[0].__logstormCallback__();
       }
 
-      if (colorize && prefix) {
-      }
-
       if (prefix) {
-        args.unshift('➤ ', prefix);
+        const prelines = (() => {
+          if (typeof args[0] !== 'string') return null;
+
+          let newLines = '';
+          let i = 0;
+
+          while (args[0][i] === '\n') {
+            newLines += '\n';
+            i++;
+          }
+
+          return newLines;
+        })();
+
+        if (prelines) {
+          args[0] = args[0].slice(prelines.length);
+          args.unshift(`${prelines}➤ ${prefix}\n`);
+        } else {
+          args.unshift('➤ ', prefix);
+        }
       }
 
       const changed = await self.hooks.willPrint.dispatch(
