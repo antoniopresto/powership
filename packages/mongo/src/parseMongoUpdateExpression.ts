@@ -1,5 +1,6 @@
 import { ParsedUpdateExpression } from '@backland/transporter';
-import { merge, RuntimeError } from '@backland/utils';
+import { RuntimeError } from '@backland/utils';
+import merge from 'lodash/merge';
 import type { UpdateFilter } from 'mongodb';
 
 export function parseMongoUpdateExpression(
@@ -19,136 +20,209 @@ export function parseMongoUpdateExpression(
   (operations as _ExampleUpdate[]).forEach(function (item) {
     switch (item.operator) {
       case '$set': {
-        item.entries.forEach(([key, value]) => {
-          _set({
-            $set: { [key]: value },
-          });
-        });
+        item.entries.forEach(
+          ([
+            key,
+            value,
+          ]) => {
+            _set({
+              $set: { [key]: value },
+            });
+          }
+        );
         break;
       }
 
       case '$setOnInsert': {
-        item.entries.forEach(([k, value]) => {
-          update.push({
-            $set: {
-              [k]: {
-                $ifNull: [`$${k}`, value],
+        item.entries.forEach(
+          ([
+            k,
+            value,
+          ]) => {
+            update.push({
+              $set: {
+                [k]: {
+                  $ifNull: [
+                    `$${k}`,
+                    value,
+                  ],
+                },
               },
-            },
-          });
-        });
+            });
+          }
+        );
         break;
       }
 
       case '$setIfNull': {
-        item.entries.forEach(([k, value]) => {
-          update.push(stageSetIfNull(k, value));
-        });
+        item.entries.forEach(
+          ([
+            k,
+            value,
+          ]) => {
+            update.push(stageSetIfNull(k, value));
+          }
+        );
         break;
       }
 
       case '$inc': {
-        item.entries.forEach(([k, value]) => {
-          update.push({
-            $set: {
-              [k]: {
-                $sum: [`$${k}`, value],
+        item.entries.forEach(
+          ([
+            k,
+            value,
+          ]) => {
+            update.push({
+              $set: {
+                [k]: {
+                  $sum: [
+                    `$${k}`,
+                    value,
+                  ],
+                },
               },
-            },
-          });
-        });
+            });
+          }
+        );
         break;
       }
 
       case '$append': {
-        item.entries.forEach(([k, value]) => {
-          _set({
-            $push: {
-              [k]: { ..._mergeEach(value) },
-            },
-          });
-        });
+        item.entries.forEach(
+          ([
+            k,
+            value,
+          ]) => {
+            _set({
+              $push: {
+                [k]: { ..._mergeEach(value) },
+              },
+            });
+          }
+        );
         break;
       }
 
       case '$prepend': {
-        item.entries.forEach(([k, value]) => {
-          _set({
-            $push: { [k]: { ..._mergeEach(value), $position: 0 } },
-          });
-        });
+        item.entries.forEach(
+          ([
+            k,
+            value,
+          ]) => {
+            _set({
+              $push: { [k]: { ..._mergeEach(value), $position: 0 } },
+            });
+          }
+        );
         break;
       }
 
       case '$pull': {
-        item.entries.forEach(([k, value]) => {
-          _set({
-            $pull: {
-              [k]: { $in: _mergeEach(value, '$in').$in },
-            },
-          });
-        });
+        item.entries.forEach(
+          ([
+            k,
+            value,
+          ]) => {
+            _set({
+              $pull: {
+                [k]: { $in: _mergeEach(value, '$in').$in },
+              },
+            });
+          }
+        );
         break;
       }
 
       case '$addToSet': {
-        item.entries.forEach(([key, value]) => {
-          _set({
-            $addToSet: { [key]: _mergeEach(value) },
-          });
-        });
+        item.entries.forEach(
+          ([
+            key,
+            value,
+          ]) => {
+            _set({
+              $addToSet: { [key]: _mergeEach(value) },
+            });
+          }
+        );
         break;
       }
 
       case '$remove': {
-        item.entries.forEach(([, path]) => {
-          if (typeof path !== 'string') return;
+        item.entries.forEach(
+          ([
+            ,
+            path,
+          ]) => {
+            if (typeof path !== 'string') return;
 
-          const [, indexParent, indexEnd] = path.match(/(\D*)\.(\d*)$/) || [];
-          const index = indexEnd !== undefined ? +indexEnd : undefined;
+            const [
+              ,
+              indexParent,
+              indexEnd,
+            ] = path.match(/(\D*)\.(\d*)$/) || [];
+            const index = indexEnd !== undefined ? +indexEnd : undefined;
 
-          if (typeof index === 'number' && index >= 0) {
-            path = indexParent;
-            const temp = `temp[[${path}]]`;
-            const nextIndex = index + 1;
-            const max = 999999999;
+            if (typeof index === 'number' && index >= 0) {
+              path = indexParent;
+              const temp = `temp[[${path}]]`;
+              const nextIndex = index + 1;
+              const max = 999999999;
 
-            if (index == 0) {
-              update.push({
-                $set: {
-                  [path]: { $slice: [`$${path}`, 1, max] },
-                },
-              });
-            } else {
-              update.push(
-                {
-                  $set: {
-                    [temp]: { $slice: [`$${path}`, 0, index] },
-                  },
-                },
-
-                {
+              if (index == 0) {
+                update.push({
                   $set: {
                     [path]: {
-                      $concatArrays: [
-                        `$${temp}`,
-                        { $slice: [`$${path}`, nextIndex, max] },
+                      $slice: [
+                        `$${path}`,
+                        1,
+                        max,
                       ],
                     },
                   },
-                },
+                });
+              } else {
+                update.push(
+                  {
+                    $set: {
+                      [temp]: {
+                        $slice: [
+                          `$${path}`,
+                          0,
+                          index,
+                        ],
+                      },
+                    },
+                  },
 
-                { $unset: [temp] }
-              );
+                  {
+                    $set: {
+                      [path]: {
+                        $concatArrays: [
+                          `$${temp}`,
+                          {
+                            $slice: [
+                              `$${path}`,
+                              nextIndex,
+                              max,
+                            ],
+                          },
+                        ],
+                      },
+                    },
+                  },
+
+                  { $unset: [temp] }
+                );
+              }
+            } else {
+              update.push({
+                $set: {
+                  [path]: '$$REMOVE',
+                },
+              });
             }
-          } else {
-            update.push({
-              $set: {
-                [path]: '$$REMOVE',
-              },
-            });
           }
-        });
+        );
         break;
       }
 
@@ -179,7 +253,10 @@ function stageSetIfNull(field: string, value: any) {
       [field]: {
         $cond: [
           {
-            $ifNull: [`$${field}`, false],
+            $ifNull: [
+              `$${field}`,
+              false,
+            ],
           },
           `$${field}`,
           value,

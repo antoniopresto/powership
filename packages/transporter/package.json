@@ -13,7 +13,7 @@
     "fix": "run-s fix:* ",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint src --ext .ts --fix",
-    "prepublish": "run-s build fix && run-p test",
+    "prepublishOnly": "run-s build fix && run-p test",
     "build-targets": "run-p build:*",
     "build:node": "TARGET=node npm run babild -- --out-dir lib",
     "build:module-node": "TARGET=module-node npm run babild -- --out-dir lib/module",

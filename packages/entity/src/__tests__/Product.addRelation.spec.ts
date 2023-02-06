@@ -99,8 +99,6 @@ describe('ProductResolver.addRelation', () => {
 
     expect(found.item).toMatchObject({
       ...created.item,
-      updatedBy: null,
-      createdBy: null,
       batata: 'batata',
       jaca: ['jaca'],
     });
