@@ -595,14 +595,6 @@ export class ObjectType<
     this.graphQLMiddleware.push(...ensureArray(middleware));
   };
 
-  toOptional = () => {
-    return {
-      def: this.definition as unknown as HandledInput,
-      optional: true,
-      type: 'object' as 'object',
-    };
-  };
-
   static is(input: any): input is ObjectType<ObjectDefinitionInput> {
     return isObject(input);
   }

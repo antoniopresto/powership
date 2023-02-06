@@ -25,12 +25,9 @@ export const TokenType = createType('AccountsToken', {
         'Indicates for what that token was created. ' +
         'Example: accountId, email, phone, 2fa service, etc',
     },
-    value: { string: { max: 1000,
-min: 4 } },
+    value: { string: { max: 1000, min: 4 } },
     meta: 'record?',
-    used: { boolean: {},
-defaultValue: false,
-optional: true },
+    used: { boolean: {}, defaultValue: false, optional: true },
     usageLocations: {
       object: {
         ip: 'string?',

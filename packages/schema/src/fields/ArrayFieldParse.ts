@@ -55,7 +55,7 @@ export function arrayFieldParse(config: {
 
   input.forEach((item, key) => {
     try {
-      const parsed = parser(item);
+      const parsed = parser(item, parserOptions);
       values.push(parsed);
     } catch (originalError: any) {
       if (excludeInvalidListItems) {

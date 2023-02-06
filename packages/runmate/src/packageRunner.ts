@@ -10,7 +10,6 @@ import { readPackageJSON, writePackageJSON } from './handleJSON';
 import { runCommand } from './runCommand';
 import { runmateLogger } from './runmateLogger';
 
-
 let packageRunnerCache = {};
 
 export function clearPackageRunnerCache() {
@@ -27,10 +26,7 @@ export function getPackageRunnerUtils(jsonPath: string) {
     json,
     cwd,
     basename,
-    names: new Set([
-      json.name,
-      basename,
-    ]),
+    names: new Set([json.name, basename]),
     saveJSON() {
       writePackageJSON(jsonPath, json);
     },
@@ -174,7 +170,7 @@ export async function packageRunner(
           if (from) {
             canRun = canRun || names.has(from);
             if (!canRun) {
-              console.info(`Skipped "${names.values()}"`);
+              console.info(`Skipped "${[...names.values()]}"`);
               return;
             }
           }

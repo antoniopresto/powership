@@ -72,7 +72,7 @@ function getModules() {
 
       server: true,
     },
-  
+
     parsePhoneNumberServerSide: {
       // @only-server
       module: () =>

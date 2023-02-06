@@ -208,12 +208,7 @@ export function createEntity(
       },
       //
       (opt: any) => {
-        _addEntityIndexRelations(opt, [
-          [
-            relation.name,
-            relation,
-          ],
-        ]);
+        _addEntityIndexRelations(opt, [[relation.name, relation]]);
         return opt;
       }
     );
@@ -555,14 +550,9 @@ export function createEntity(
             (el) => el.optional().def()
           );
 
-          Object.entries(graph).forEach(
-            ([
-              k,
-              v,
-            ]) => {
-              all[k] = v;
-            }
-          );
+          Object.entries(graph).forEach(([k, v]) => {
+            all[k] = v;
+          });
         });
 
         return ext.extendObjectDefinition(all);
@@ -970,36 +960,24 @@ function _objectAliasPaths(
 ) {
   const isArray = Array.isArray(def);
 
-  Object.entries(def).forEach(
-    ([
-      k,
-      v,
-    ]) => {
-      const currentPath = isArray ? `${parent}[${k}]` : `${parent}.${k}`;
+  Object.entries(def).forEach(([k, v]) => {
+    const currentPath = isArray ? `${parent}[${k}]` : `${parent}.${k}`;
 
-      if (v.type === 'alias') {
-        found.push(
-          ...(parent
-            ? [
-                currentPath,
-                k,
-              ]
-            : [k])
-        );
-      }
-
-      if (v.type === 'object') {
-        _objectAliasPaths(v.def, found, currentPath);
-      }
-
-      if (Array.isArray(v.def)) {
-        v.def.forEach((el) => {
-          if (!isFieldTypeName(el?.type)) return;
-          _objectAliasPaths(el, found, currentPath);
-        });
-      }
+    if (v.type === 'alias') {
+      found.push(...(parent ? [currentPath, k] : [k]));
     }
-  );
+
+    if (v.type === 'object') {
+      _objectAliasPaths(v.def, found, currentPath);
+    }
+
+    if (Array.isArray(v.def)) {
+      v.def.forEach((el) => {
+        if (!isFieldTypeName(el?.type)) return;
+        _objectAliasPaths(el, found, currentPath);
+      });
+    }
+  });
 
   return found;
 }

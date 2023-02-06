@@ -32,12 +32,10 @@ export function _backendValidatePhoneNumber(
     });
   }
 
-  let { valid, type } = CircularDeps.parsePhoneNumberServerSide.parsePhoneNumber(
-    input,
-    {
+  let { valid, type } =
+    CircularDeps.parsePhoneNumberServerSide.parsePhoneNumber(input, {
       regionCode: regionCode,
-    }
-  );
+    });
 
   if (valid && numberType) {
     valid = type === numberType;
@@ -71,7 +69,8 @@ export function validatePhoneNumber(
 
   const hasAPV = (() => {
     try {
-      return !!CircularDeps.parsePhoneNumberServerSide?.parsePhoneNumber as boolean;
+      return !!CircularDeps.parsePhoneNumberServerSide
+        ?.parsePhoneNumber as boolean;
     } catch (e) {
       return false;
     }

@@ -16,7 +16,9 @@ describe('createType', () => {
       object: {
         name: 'string',
         age: 'int?',
-        ee: { enum: ['open', 'closed'] },
+        ee: {
+          enum: ['open', 'closed'],
+        },
       },
     } as const);
 
@@ -188,9 +190,9 @@ describe('createType', () => {
 
     assert<IsExact<Return, { foo: number }[]>>(true);
 
-    expect(() => sut.parse([{ name: 1 }])).toThrow(
-      'Expected object, found Array'
-    );
+    expect(() => {
+      sut.parse([{ name: 1 }]);
+    }).toThrow('➤  Foo: ➤ field "foo": RequiredField. at position 0');
 
     expect(sut.graphQLType().toString()).toEqual('[Foo]!');
     expect(sut.graphQLInputType().toString()).toEqual('[FooInput]!');
@@ -235,7 +237,7 @@ describe('createType', () => {
     assert<IsExact<Return, { foo: number }[] | undefined>>(true);
 
     expect(() => sut.parse([{ name: 1 }])).toThrow(
-      'Expected object, found Array'
+      '➤  Foo: ➤ field "foo": RequiredField. at position 0'
     );
 
     expect(sut.graphQLType().toString()).toEqual('[Foo]');
@@ -419,6 +421,11 @@ describe('createType', () => {
     const parsed = type.parse({ active: true }, { exclude: ['id'] });
 
     expect(parsed).toEqual({ active: true });
+
+    const typeList = type.listType();
+
+    const parsedList = typeList.parse([{ active: true }], { exclude: ['id'] });
+    expect(parsedList).toEqual([{ active: true }]);
 
     expect(() => {
       return type.parse({ active: true });

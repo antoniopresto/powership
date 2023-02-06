@@ -2,7 +2,7 @@ import isPlainObject from 'lodash/isPlainObject';
 
 import { BJSON } from './BJSON';
 import { proxyRealValue } from './createProxy';
-import { simpleObjectHash } from './simpleObjectHash';
+import { hashObject } from './hashObject';
 import { tupleEnum } from './typeUtils';
 
 export function getTypeName(input: any): string {
@@ -62,7 +62,6 @@ export function getNativeTypeOf(input): NATIVE_TYPE_OF | undefined {
   if (typeof input === 'number') return 'number';
   if (isObjectWithoutPrototype(input)) return 'object';
   if (isPlainObject(input)) return 'object';
-
   return undefined;
 }
 
@@ -162,7 +161,7 @@ export function describeType(value) {
 
   let _hash: string;
   function hash() {
-    return (_hash = _hash ?? simpleObjectHash(value));
+    return (_hash = _hash ?? hashObject(value));
   }
 
   return {
@@ -173,6 +172,7 @@ export function describeType(value) {
     nativeTypeOf,
     native: !!nativeTypeOf,
     hash,
+    plusString: value + '',
   };
 }
 

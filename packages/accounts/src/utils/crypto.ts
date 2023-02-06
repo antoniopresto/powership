@@ -136,8 +136,7 @@ export const SessionJWTPayloadType = createType('JWTPayloadType', {
   object: {
     iss: 'string?',
     sub: 'string?',
-    aud: { union: ['string', '[string]'],
-optional: true },
+    aud: { union: ['string', '[string]'], optional: true },
     exp: 'float?',
     nbf: 'float?',
     iat: 'float?',

@@ -33,8 +33,8 @@ export class ObjectField<
     };
 
     this.parse = this.applyParser({
-      parse: (input) => {
-        return this.utils.object.parse(input);
+      parse: (input, _options) => {
+        return this.utils.object.parse(input, _options);
       },
     });
   }

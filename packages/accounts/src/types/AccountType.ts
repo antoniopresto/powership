@@ -9,6 +9,5 @@ export const AccountType = createSchema({
 
   permissions: '[string]',
 
-  deactivated: { boolean: {},
-defaultValue: false },
+  deactivated: { boolean: {}, defaultValue: false },
 } as const);

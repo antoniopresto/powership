@@ -14,10 +14,8 @@ import { BacklandModules, CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';
 import {
   createObjectType,
-  FieldInput,
   FinalFieldDefinition,
   ObjectDefinitionInput,
-  ObjectType,
   parseField,
 } from '../ObjectType';
 import type { AnyResolver } from '../Resolver';
@@ -36,13 +34,11 @@ import {
 } from '../extendType';
 import { FieldParserConfig, TAnyFieldType } from '../fields/FieldType';
 import { GraphTypeLike } from '../fields/IObjectLike';
-import { getObjectDefinitionId } from '../fields/MetaFieldField';
-import { ObjectField } from '../fields/ObjectField';
 import { ObjectFieldInput } from '../fields/_parseFields';
 import type { ObjectToTypescriptOptions } from '../objectToTypescript';
-import { parseObjectField } from '../parseObjectDefinition';
 
 import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
+import { initGraphType } from './initGraphType';
 
 export class GraphType<Definition extends ObjectFieldInput> {
   static __isGraphType = true;
@@ -93,35 +89,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   );
 
   constructor(...args: GraphTypeArgs) {
-    const { initializer, idFromArgs } = lazyCreateGraphTypeInitPayload(
-      args,
-      (payload) => {
-        this.beforeInitialize.forEach((next) => {
-          payload = next(payload);
-        });
-
-        this.touched = true;
-
-        return payload;
-      }
-    );
-
-    Object.defineProperty(this, '__lazyGetter', {
-      get() {
-        return initializer(this);
-      },
-    });
-
-    Object.defineProperty(this, 'definition', {
-      enumerable: true,
-      get() {
-        return initializer(this).definition;
-      },
-    });
-
-    if (idFromArgs) {
-      this.identify(idFromArgs);
-    }
+    initGraphType(this, args);
   }
 
   // used to lazy process input definition to improve circular dependency in types
@@ -162,23 +130,26 @@ export class GraphType<Definition extends ObjectFieldInput> {
   }
 
   parse = (input: any, options?: FieldParserConfig): Infer<Definition> => {
+    const field = this.__lazyGetter.field;
+
     try {
-      const field = this.__lazyGetter.field;
-
-      const customMessage =
-        options && typeof options === 'object'
-          ? options.customMessage
-          : options;
-
       const _options = typeof options === 'object' ? options : {};
 
       const { includeHidden = true } = _options;
 
       if (this.__hidden && !includeHidden) return undefined as any;
 
-      return field.parse(input, customMessage) as any;
+      return field.parse(input, _options) as any;
     } catch (e: any) {
-      e.message = `➤ ${this.optionalId || ''} ${e.message}`;
+      let message = e.message;
+
+      if (field.list) {
+        message = `➤  ${message}`;
+      } else {
+        message = `➤ ${this.optionalId || ''} ${e.message}`;
+      }
+
+      e.message = message;
       throw e;
     }
   };
@@ -244,7 +215,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
     }
 
     if (this.optionalId) {
-      ObjectType.register.remove(this.optionalId);
+      // ObjectType.register.remove(this.optionalId); // FIXME
     }
 
     this.beforeInitialize.push((payload) => {
@@ -258,7 +229,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
         payload.objectType = createObjectType({
           [this.id]: this.definition,
         }) as any;
-        (payload.field as ObjectField<any>).utils.object = payload.objectType;
+        (payload.field as any).utils.object = payload.objectType;
         return payload;
       } catch (e: any) {
         e.message = `Failed to execute mutateFields with the result from callback: ${inspectObject(
@@ -386,106 +357,12 @@ export type LazyParseGraphTypePayload = {
   field: TAnyFieldType;
   id: string | undefined;
   idFromArgs: string | undefined;
-  objectType?: ObjectType<any>;
+  objectType?: any;
 };
 
 export type GraphTypeArgs<Def extends ObjectFieldInput = ObjectFieldInput> =
   | [string, Def | ((utils: BacklandModules) => Def)]
   | [Def | ((utils: BacklandModules) => Def)];
-
-// used to lazy parse args to improve circular types usage
-export function lazyCreateGraphTypeInitPayload(
-  args: GraphTypeArgs,
-  onLoad?: (
-    payload: LazyParseGraphTypePayload
-  ) => LazyParseGraphTypePayload | void
-) {
-  let payload: LazyParseGraphTypePayload;
-
-  let id: string | undefined = undefined;
-
-  let definitionInput:
-    | ObjectFieldInput
-    | ((utils: BacklandModules) => ObjectFieldInput);
-
-  let idFromArgs;
-  if (args.length === 2) {
-    idFromArgs = id = args[0];
-    definitionInput = args[1];
-  } else {
-    definitionInput = args[0];
-  }
-
-  function initializer(self: GraphType<FieldInput>): LazyParseGraphTypePayload {
-    if (payload) return payload;
-
-    const def =
-      typeof definitionInput === 'function'
-        ? definitionInput(CircularDeps)
-        : definitionInput;
-
-    const field = parseObjectField('temp', def, {
-      returnInstance: true,
-    }) as TAnyFieldType & { utils: { object?: any } };
-
-    const {
-      asFinalFieldDef: { list, optional },
-    } = field;
-
-    const canUseObject =
-      !list &&
-      !optional &&
-      ObjectField.is(field) &&
-      ObjectType.is(field.utils.object);
-
-    if (canUseObject) {
-      if (id && field.utils.object.id && field.utils.object.id !== id) {
-        field.utils.object = field.utils.object.clone((el) =>
-          el.objectType(id)
-        );
-      } else if (id) {
-        field.utils.object.identify(id);
-      } else {
-        // @ts-ignore (deep)
-        id = getObjectDefinitionId(
-          field.utils.object.definition,
-          true // make nullable, the error below about undefined name is more clear
-        );
-      }
-    }
-
-    payload = {
-      definition: field.asFinalFieldDef,
-
-      definitionInput,
-
-      field,
-      // id can be from inner type, like an object type with id or defined in an argument of createType
-      id,
-      idFromArgs,
-      objectType: canUseObject ? field.utils?.object : undefined,
-    };
-
-    if (id) {
-      self.identify(id);
-    }
-
-    const res = onLoad?.(payload);
-
-    if (res !== undefined) {
-      return res;
-    }
-
-    return payload;
-  }
-
-  return {
-    // id can also be from inner type, like an object type with id
-    definitionInput,
-    idFromArgs,
-    initializer,
-  };
-}
 
 export function createType<Definition extends ObjectFieldInput>(
   definition: Definition | ((utils: BacklandModules) => Definition)

@@ -24,8 +24,7 @@ export const AccessTypeUnion = createType('AccessTypeUnion', {
     {
       object: {
         kind: { literal: accessTypesEnum.oauth },
-        provider: { description: 'Provider name',
-string: {} },
+        provider: { description: 'Provider name', string: {} },
         authToken: 'string',
         value: { alias: 'provider' },
       },

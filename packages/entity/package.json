@@ -1,6 +1,6 @@
 {
   "name": "@backland/entity",
-  "version": "0.2.4",
+  "version": "0.2.6",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
   "author": "antoniopresto <antoniopresto@gmail.com>",
@@ -34,9 +34,9 @@
     "inference"
   ],
   "dependencies": {
-    "@backland/schema": "0.2.4",
-    "@backland/transporter": "0.2.4",
-    "@backland/utils": "0.2.4",
+    "@backland/schema": "0.2.6",
+    "@backland/transporter": "0.2.6",
+    "@backland/utils": "0.2.6",
     "dataloader": "2.1.0",
     "plugin-hooks": "1.1.3",
     "sift": "16.0.0"
@@ -46,8 +46,8 @@
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@backland/babel-plugins": "0.2.4",
-    "@backland/mongo": "0.2.4",
+    "@backland/babel-plugins": "0.2.6",
+    "@backland/mongo": "0.2.6",
     "@types/jest": "29.1.2",
     "@types/node": "16.18.3",
     "@typescript-eslint/eslint-plugin": "5.39.0",

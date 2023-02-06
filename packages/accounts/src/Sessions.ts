@@ -37,8 +37,7 @@ export class Sessions {
   getTokenSecret: NonNullable<SessionsOptions['getTokenSecret']>;
 
   constructor(options: SessionsOptions) {
-    this.options = { tokenDuration: DEFAULT_TOKEN_DURATION,
-...options };
+    this.options = { tokenDuration: DEFAULT_TOKEN_DURATION, ...options };
     this.getTokenSecret = options.getTokenSecret;
 
     this.hooks = createAccountSessionHooks(options);
@@ -83,8 +82,7 @@ export class Sessions {
       });
 
       const res = await this.hooks.onRefreshTokens.exec(
-        { ...sessionRequest,
-result },
+        { ...sessionRequest, result },
         sessionRequest
       );
 
@@ -342,8 +340,7 @@ result },
             },
           });
           const { sessionCursor } = parseAuthTokenString(jwtData.data, 'A');
-          return { id: sessionCursor.cursor,
-accountId };
+          return { id: sessionCursor.cursor, accountId };
         } catch (e) {
           if (request.user) {
             // in case jwt verification failed, because secret changed, etc.
@@ -356,8 +353,7 @@ accountId };
 
     const invalidated = await SessionEntity.updateMany({
       filter,
-      condition: { valid: true,
-accountId },
+      condition: { valid: true, accountId },
       update: {
         $set: {
           valid: false,
