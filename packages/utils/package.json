@@ -1,6 +1,6 @@
 {
   "name": "@backland/utils",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -41,7 +41,7 @@
     "fast-equals": "4.0.3",
     "fs-extra": "10.1.0",
     "graphql": "16.6.0",
-    "graphql-parse-resolve-info": "4.12.3",
+    "graphql-parse-resolve-info": "4.13.0",
     "hoper": "1.0.8",
     "json-schema-to-typescript": "11.0.2",
     "lodash": "4.17.21",
@@ -56,11 +56,12 @@
     "winston-slack-webhook-transport": "2.2.2"
   },
   "devDependencies": {
+    "10": "^0.0.1",
     "@babel/cli": "7.19.3",
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@backland/babel-plugins": "0.2.6",
+    "@backland/babel-plugins": "0.2.7",
     "@types/big.js": "6.1.6",
     "@types/ejson": "2.2.0",
     "@types/fs-extra": "9.0.13",

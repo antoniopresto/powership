@@ -1,5 +1,9 @@
 import { assertEqual, isProduction } from '@backland/utils';
-import type { ParsedPhoneNumber, PhoneNumberTypes } from 'awesome-phonenumber';
+//
+import type {
+  ParsedPhoneNumber,
+  PhoneNumberTypes,
+} from '@backland/utils/lib/parsePhoneNumber';
 
 import { CircularDeps } from '../CircularDeps';
 

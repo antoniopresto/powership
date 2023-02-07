@@ -15,7 +15,7 @@ import type {
   NestedPaths,
   Query,
   UpdateDefinition,
-} from 'aggio';
+} from '@backland/utils';
 
 import { CollectionIndexConfig } from './CollectionIndex';
 

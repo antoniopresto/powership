@@ -1,6 +1,6 @@
 {
   "name": "@backland/helpers",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
   "author": "antoniopresto <antoniopresto@gmail.com>",
@@ -34,16 +34,17 @@
     "inference"
   ],
   "dependencies": {
-    "backland": "0.2.6",
+    "backland": "0.2.7",
     "highlight.js": "11.7.0"
   },
   "devDependencies": {
+    "10": "^0.0.1",
     "@babel/cli": "7.19.3",
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@backland/babel-plugins": "0.2.6",
-    "@backland/mongo": "0.2.6",
+    "@backland/babel-plugins": "0.2.7",
+    "@backland/mongo": "0.2.7",
     "@types/jest": "29.1.2",
     "@types/node": "16.18.3",
     "@typescript-eslint/eslint-plugin": "5.39.0",

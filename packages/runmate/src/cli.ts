@@ -14,6 +14,7 @@ import { runmateLogger } from './runmateLogger';
 const program = new Command();
 
 program
+  .command('packages', { isDefault: true })
   .argument('<command...>')
   .description(
     'Run command in each package in ./packages folder or in `--src` option folder'
@@ -267,5 +268,7 @@ program
       console.error(chalk.red(e));
     }
   });
+
+program.version('> Runmate ' + require('../package.json').version);
 
 program.parse();
