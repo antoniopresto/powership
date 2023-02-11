@@ -5,6 +5,7 @@ import chalk from 'chalk';
 import { Waterfall, waterfall } from 'plugin-hooks';
 
 import { runmateLogger } from './runmateLogger';
+import { delayPromise } from './printWithScroll';
 
 export interface RunCommandOptions {
   command: string;
@@ -100,6 +101,8 @@ export async function runCommand(
 
     return new Promise((resolve, reject) => {
       child.on('close', async (code) => {
+        await delayPromise(10);
+
         await hooks?.onClose.exec({ code }, child);
 
         if (code === 0) {

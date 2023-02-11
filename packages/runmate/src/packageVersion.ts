@@ -16,7 +16,7 @@ export const ReleaseTypes = [
   'prerelease',
 ] as const;
 
-export type ReleaseType = (typeof ReleaseTypes)[number];
+export type ReleaseType = typeof ReleaseTypes[number];
 
 export const ReleaseTypeset = new Set(ReleaseTypes);
 
@@ -68,7 +68,7 @@ export async function packageVersion(
   });
 
   await Promise.all(
-    updates.map(({ utils: { json, saveJSON }, newVersion, name }) => {
+    updates.map(({ utils: { json, saveJSON }, newVersion }) => {
       const deps = {
         ...json.optionalDependencies,
         ...json.peerDependencies,

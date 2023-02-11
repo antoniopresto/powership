@@ -19,8 +19,8 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/helpers/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/logstorm/lib" />
       <excludeFolder url="file://$MODULE_DIR$/packages/runmate/lib" />
-      <excludeFolder url="file://$MODULE_DIR$/packages/entity/generated" />
       <excludeFolder url="file://$MODULE_DIR$/packages/entity/coverage" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/entity/generated" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "name": "Backland",
+  "entryPointStrategy": "packages",
+  "entryPoints": [
+    "packages/accounts",
+    "packages/babel-plugins",
+    "packages/backland",
+    "packages/entity",
+    "packages/utils",
+    "packages/helpers",
+    "packages/logstorm",
+    "packages/mongo",
+    "packages/runmate",
+    "packages/schema",
+    "packages/transporter"
+  ]
+}
