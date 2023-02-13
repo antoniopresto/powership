@@ -29,10 +29,7 @@ export function createAggioIndexBasedFilters(options: {
 
   if (relationFilters?.length) {
     indexFilter = relationFilters.reduce((acc, next) => {
-      const $or = [
-        ...(acc.$or || []),
-        next,
-      ];
+      const $or = [...(acc.$or || []), next];
       return { ...acc, $or };
     }, indexFilter as FilterRecord);
   }

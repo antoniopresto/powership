@@ -1,7 +1,7 @@
 {
   "name": "backland",
   "private": true,
-  "version": "0.2.8-alpha1",
+  "version": "0.2.10",
   "scripts": {
     "clean-all": "rm -rf node_modules && yarn install && lerna clean --yes && lerna bootstrap",
     "lerna": "lerna",
@@ -15,7 +15,7 @@
     "alpha": "ts-node ./scripts/bpa.ts",
     "exec": "node --preserve-symlinks -r ts-node/register ./scripts/run-all.ts",
     "alpha-version": "linkall && ts-node ./scripts/alpha-version.ts",
-    "doc": "typedoc --plugin typedoc-plugin-markdown --out docs"
+    "doc": "typedoc"
   },
   "devDependencies": {
     "@backland/babel-plugins": "0.2.4",
