@@ -1,5 +1,8 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
+.idea
+/lib
+
 # VisualStudioCode.gitignore
 # See https://github.com/github/gitignore/blob/master/Global/VisualStudioCode.gitignore
 .vscode/*
@@ -7,13 +10,10 @@
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+/src/generated
 
-.env
-
-lerna-debug.log
-./.run
 # dependencies
-node_modules
+/node_modules
 
 # testing
 /coverage
@@ -75,6 +75,3 @@ webpack-stats.json
 
 # Modern Relay
 __generated__
-lib
-/logs/
-.idea/workspace.xml

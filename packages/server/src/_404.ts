@@ -1,0 +1,26 @@
+export function _404() {
+  return [
+    '<!DOCTYPE html>',
+    '<html lang="en">',
+    '  <head>',
+    '    <meta charset="UTF-8" />',
+    '    <title>Not Found</title>',
+    '  </head>',
+    '  <body style="margin: 0;">',
+    '    <div',
+    '      style="',
+    '        background: white;',
+    '        width: 100vw;',
+    '        height: 100vh;',
+    '        display: flex;',
+    '        align-items: center;',
+    '        justify-content: center;',
+    '      "',
+    '    >',
+    '<h1 style="text-align: center; font-size: 3em">🫙<br>NOT FOUND</h1>',
+    '    </div>',
+    '  </body>',
+    '</html>',
+    '',
+  ].join('\n');
+}
