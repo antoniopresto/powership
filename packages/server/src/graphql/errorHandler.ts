@@ -1,6 +1,7 @@
-import { isHttpError } from '../BaseRequestHandler';
-import { AnyFunction, ulid } from 'solarwind';
+import { AnyFunction, ulid } from '@swind/utils';
 import { GraphQLObjectType, GraphQLSchema } from 'graphql';
+
+import { isHttpError } from '../BaseRequestHandler';
 
 // Mark field/type/schema
 export const Processed = Symbol();

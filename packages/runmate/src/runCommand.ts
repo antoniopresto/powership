@@ -4,8 +4,8 @@ import nodePath from 'path';
 import chalk from 'chalk';
 import { Waterfall, waterfall } from 'plugin-hooks';
 
-import { runmateLogger } from './runmateLogger';
 import { delayPromise } from './printWithScroll';
+import { runmateLogger } from './runmateLogger';
 
 export interface RunCommandOptions {
   command: string;

@@ -17,14 +17,23 @@ describe('objectToTypescript', () => {
       ulids: '[ulid]?',
       dates: '[date]',
       id: '[ID]?',
-      sex: { union: [{ enum: ['m', 'f', 'o'], optional: true }] },
+      sex: {
+        union: [
+          {
+            enum: ['m', 'f', 'o'],
+            optional: true,
+          },
+        ],
+      },
       addresses: {
         union: [
           {
             object: {
               kind: { enum: ['home'] },
               street: 'string',
-              number: { union: ['string', 'float'] },
+              number: {
+                union: ['string', 'float'],
+              },
             },
             optional: true,
             list: true,
@@ -33,7 +42,9 @@ describe('objectToTypescript', () => {
           {
             object: {
               kind: { enum: ['work'] },
-              week_days: { enum: ['0', '1', '2', '3', '4', '5', '6'] },
+              week_days: {
+                enum: ['0', '1', '2', '3', '4', '5', '6'],
+              },
               name: {
                 object: {
                   firstName: 'string',

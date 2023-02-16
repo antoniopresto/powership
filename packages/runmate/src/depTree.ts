@@ -31,9 +31,12 @@ export class DepTree {
   }
 
   find = (): PackageItem[] => {
-    return this.packageValues
-      .map((el, index) => this.traverse(el, index))
-      .sort((a, b) => b.dependents.length - a.dependents.length);
+    return (
+      this.packageValues
+        .map((el, index) => this.traverse(el, index))
+        // fixme if a package has only 1 dependent and this dependent is the first, it will brake the pipeline
+        .sort((a, b) => b.dependents.length - a.dependents.length)
+    );
   };
 
   private traverse = (input: PackageJson, index: number): PackageItem => {

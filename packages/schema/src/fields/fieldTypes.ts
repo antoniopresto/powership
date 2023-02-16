@@ -89,7 +89,14 @@ export type FieldCreators = Readonly<{
 
 export const create: FieldCreators = Object.entries(types as any).reduce(
   // @ts-ignore
-  (acc, [key, { create }]): any => {
+  (
+    acc,
+    [
+      key,
+      // @ts-ignore
+      { create },
+    ]
+  ): any => {
     return {
       ...acc,
       [key]: create,

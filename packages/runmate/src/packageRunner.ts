@@ -36,6 +36,10 @@ export function getPackageRunnerUtils(jsonPath: string) {
           command = `npm run ${command}`;
         }
 
+        command = command.replace(/__cwd/g, cwd);
+        command = command.replace(/__basename/g, basename);
+        command = command.replace(/__name/g, json.name);
+
         return await runCommand(command, { cwd });
       } catch (e: any) {
         const message = `Failed to run command in package "${json.name}": ${

@@ -1,8 +1,4 @@
-import {
-  Cast,
-  GetFieldByDotNotation,
-  NullableToPartial,
-} from '@swind/utils';
+import { Cast, GetFieldByDotNotation, NullableToPartial } from '@swind/utils';
 
 import { CommonFieldDefinition } from '../_fieldDefinitions';
 

@@ -26,9 +26,11 @@ describe('FieldTypes', () => {
       expect(() => StringField.create({ max: 2 }).parse('123')).toThrow(
         '3 is more than the max string length 2.'
       );
-      expect(StringField.create({ regex: ['^MIN.$', 'i'] }).parse('mine')).toBe(
-        'mine'
-      );
+      expect(
+        StringField.create({
+          regex: ['^MIN.$', 'i'],
+        }).parse('mine')
+      ).toBe('mine');
       expect(() =>
         StringField.create({ regex: ['MIN.'] }).parse('mine')
       ).toThrowError(`RegexMismatch`);
@@ -339,7 +341,9 @@ describe('FieldTypes', () => {
 
     test('types', () => {
       const def = {
-        name: { enum: ['a', 'x'] },
+        name: {
+          enum: ['a', 'x'],
+        },
         nameFromType: EnumField.create(['a', 'x']).toList().toOptional(),
         defObject: {
           type: 'enum',
@@ -468,7 +472,11 @@ describe('FieldTypes', () => {
       );
 
       expect(
-        RecordField.create({ type: { union: ['int', 'boolean'] } }).parse({
+        RecordField.create({
+          type: {
+            union: ['int', 'boolean'],
+          },
+        }).parse({
           a: '1',
           b: true,
         })
@@ -504,7 +512,13 @@ describe('FieldTypes', () => {
             keyType: 'int',
             type: {
               record: {
-                type: { object: { name: { union: ['string', '[int]?'] } } },
+                type: {
+                  object: {
+                    name: {
+                      union: ['string', '[int]?'],
+                    },
+                  },
+                },
               },
             },
           },

@@ -152,11 +152,16 @@ describe('GraphQLParser', () => {
 
   it('Should convert enums', () => {
     const object1 = createObjectType('person', {
-      sex: { enum: ['m', 'n'], list: true },
+      sex: {
+        enum: ['m', 'n'],
+        list: true,
+      },
     });
 
     const object2 = createObjectType('persons', {
-      sex: { enum: ['m', 'n'] },
+      sex: {
+        enum: ['m', 'n'],
+      },
       persons: object1,
     });
 
@@ -270,7 +275,9 @@ describe('GraphQLParser', () => {
     });
 
     const Task = createObjectType('Task', {
-      owner: { union: [robot, person] },
+      owner: {
+        union: [robot, person],
+      },
     });
 
     const sut = GraphQLParser.objectToGraphQL({
@@ -310,7 +317,9 @@ describe('GraphQLParser', () => {
     });
 
     const Task = createObjectType('Task', {
-      owner: { union: [robot, person] },
+      owner: {
+        union: [robot, person],
+      },
     });
 
     const sut = GraphQLParser.objectToGraphQL({
@@ -334,7 +343,10 @@ describe('GraphQLParser', () => {
     });
 
     const type1 = createObjectType('Type1', {
-      owner: { union: ['string', 'int'], name: 'HappyFamily' },
+      owner: {
+        union: ['string', 'int'],
+        name: 'HappyFamily',
+      },
     });
 
     expect(type1.graphqlPrint().split('\n')).toEqual([
@@ -360,11 +372,16 @@ describe('GraphQLParser', () => {
     });
 
     const type1 = createObjectType('Type1', {
-      owner: { union: [robot, person], name: 'HappyFamily' },
+      owner: {
+        union: [robot, person],
+        name: 'HappyFamily',
+      },
     });
 
     const type2 = createObjectType('Type2', {
-      owner: { union: [robot, person] },
+      owner: {
+        union: [robot, person],
+      },
     });
 
     const query = createObjectType('Query', {

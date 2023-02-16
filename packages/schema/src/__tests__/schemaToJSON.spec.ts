@@ -10,7 +10,9 @@ describe('objectToJSON', () => {
       bool: 'boolean?',
       ulids: '[ulid]?',
       dates: '[date]',
-      sex: { enum: ['m', 'f', 'o'] },
+      sex: {
+        enum: ['m', 'f', 'o'],
+      },
       addresses: {
         type: 'union',
         def: [
@@ -18,7 +20,9 @@ describe('objectToJSON', () => {
             object: {
               kind: { enum: ['home'] },
               street: 'string',
-              number: { union: ['string', 'float'] },
+              number: {
+                union: ['string', 'float'],
+              },
             },
             optional: true,
             list: true,
@@ -27,7 +31,9 @@ describe('objectToJSON', () => {
           {
             object: {
               kind: { enum: ['work'] },
-              weekDays: { enum: ['0', '1', '2', '3', '4', '5', '6'] },
+              weekDays: {
+                enum: ['0', '1', '2', '3', '4', '5', '6'],
+              },
             },
           },
         ],

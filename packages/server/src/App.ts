@@ -2,6 +2,10 @@ import * as HTTP from 'http';
 import type { AddressInfo } from 'net';
 
 import { hope, Hope, NodeLogger } from '@swind/utils';
+import { Compute, nonNullValues } from '@swind/utils';
+import { InternalServerError, NotFound } from 'http-errors';
+import { createAsyncPlugin } from 'plugin-hooks';
+
 import { AppLogger } from './AppLogger';
 import { AppRequest } from './AppRequest';
 import { AppResponse } from './AppResponse';
@@ -10,10 +14,6 @@ import { UnhandledSymbol } from './Symbol';
 import { _404 } from './_404';
 import { parseHTTPBody } from './bodyParserHandler';
 import { createHandler } from './createHandler';
-import { AnyFunction, Compute, isProduction, nonNullValues } from 'solarwind';
-import { InternalServerError, NotFound } from 'http-errors';
-import { createAsyncPlugin } from 'plugin-hooks';
-import { log } from '@0k/backend/log';
 
 export type AppDefinition = {
   handlers: Handler<any>[];
@@ -30,7 +30,9 @@ export class App {
 
         AppLogger.error(error);
 
-        const httpError = isHttpError(error) ? error : new InternalServerError();
+        const httpError = isHttpError(error)
+          ? error
+          : new InternalServerError();
 
         const errorResponse = AppResponse.create(httpError);
 
@@ -215,7 +217,10 @@ export class App {
           httpMethod: httpServerRequest.method,
         });
 
-        const requestBody = await parseHTTPBody(httpServerRequest, httpServerResponse);
+        const requestBody = await parseHTTPBody(
+          httpServerRequest,
+          httpServerResponse
+        );
 
         const appRequest = AppRequest.create({
           body: requestBody,
@@ -287,7 +292,7 @@ export class App {
 
   private _startHandlers = () => {
     const handlerByName: { [K: string]: Handler } = {};
-    this.handlers.forEach((appHandler, num) => {
+    this.handlers.forEach((appHandler) => {
       const { hooks, name } = appHandler;
 
       if (handlerByName[name] && handlerByName[name] !== appHandler) {
@@ -298,7 +303,9 @@ export class App {
 
       Object.entries(hooks).forEach(([hookName, handler]) => {
         try {
-          Object.defineProperty(handler, 'name', { value: `${name}_${hookName}` });
+          Object.defineProperty(handler, 'name', {
+            value: `${name}_${hookName}`,
+          });
         } catch (e) {}
 
         this.hooks[hookName].pushMiddleware(handler);
@@ -308,14 +315,18 @@ export class App {
   };
 }
 
-export type Handler<Data extends Record<string, any> | undefined = {} | undefined> = {
+export type Handler<
+  Data extends Record<string, any> | undefined = {} | undefined
+> = {
   name: string;
   hooks: AppHooksRecord;
   data: Data;
 };
 
 export type AppHooksRecord = {
-  [K in keyof AppHooks]?: Parameters<AppHooks[K]>[0] extends infer Register ? Register : never;
+  [K in keyof AppHooks]?: Parameters<AppHooks[K]>[0] extends infer Register
+    ? Register
+    : never;
 };
 
 export type AppHooks = ReturnType<typeof createHooks>;
@@ -354,7 +365,8 @@ function createHooks() {
 
 export type AppServerInfo = Compute<{ server: HTTP.Server } & AddressInfo>;
 
-export type AppStartResult = App & AppServerInfo & { withServer: AppServerInfo };
+export type AppStartResult = App &
+  AppServerInfo & { withServer: AppServerInfo };
 
 export interface CloseResponseFunction {
   (response?: AppResponse | AppResponse['statusCode']): void;

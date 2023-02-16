@@ -1,10 +1,5 @@
 import { CircularDeps } from '@swind/schema';
-import {
-  Cast,
-  Compute,
-  MaybePromise,
-  UnionToIntersection,
-} from '@swind/utils';
+import { Cast, Compute, MaybePromise, UnionToIntersection } from '@swind/utils';
 import { RuntimeError } from '@swind/utils';
 import { devAssert } from '@swind/utils';
 import { getTypeName } from '@swind/utils';

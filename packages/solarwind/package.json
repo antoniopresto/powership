@@ -1,6 +1,6 @@
 {
   "name": "solarwind",
-  "version": "0.2.12",
+  "version": "0.2.14",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
   "browser": {
@@ -30,10 +30,10 @@
     "url": "https://github.com/antoniopresto/solarwind/tree/master/packages/db"
   },
   "dependencies": {
-    "@swind/entity": "0.2.12",
-    "@swind/schema": "0.2.12",
-    "@swind/transporter": "0.2.12",
-    "@swind/utils": "0.2.12"
+    "@swind/entity": "0.2.14",
+    "@swind/schema": "0.2.14",
+    "@swind/transporter": "0.2.14",
+    "@swind/utils": "0.2.14"
   },
   "devDependencies": {
     "@babel/cli": "7.19.3",
@@ -41,7 +41,7 @@
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@swind/babel-plugins": "0.2.12",
+    "@swind/babel-plugins": "0.2.14",
     "@types/babel__core": "7.1.19",
     "@types/babel__helper-plugin-utils": "7.10.0",
     "@types/jest": "29.1.2",

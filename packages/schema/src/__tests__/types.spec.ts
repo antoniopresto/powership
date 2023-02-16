@@ -27,7 +27,9 @@ describe('typings', () => {
   test('TypeFromObjectDefinition', () => {
     const otherObject = new ObjectType({
       name: 'string',
-      status: { enum: ['open', 'closed'] },
+      status: {
+        enum: ['open', 'closed'],
+      },
     } as const);
 
     const definition = {
@@ -36,10 +38,19 @@ describe('typings', () => {
       nameListOptional: '[string]?',
       optional: 'string?',
       age: 'int',
-      gender: { enum: ['male', 'female', 'other'], optional: true },
-      category: { enum: ['general', 'closed'] },
-      categoryRO: { enum: ['general', 'closed'] } as const,
-      '12Enum': { enum: ['1', '2'] },
+      gender: {
+        enum: ['male', 'female', 'other'],
+        optional: true,
+      },
+      category: {
+        enum: ['general', 'closed'],
+      },
+      categoryRO: {
+        enum: ['general', 'closed'],
+      } as const,
+      '12Enum': {
+        enum: ['1', '2'],
+      },
       enumTypeField: EnumField.create(['x', 'xx']),
       otherObject,
       otherObjectList: {
@@ -90,7 +101,9 @@ describe('typings', () => {
 
     const object2 = createObjectType({
       people: object1,
-      status: { enum: ['open', 'closed'] },
+      status: {
+        enum: ['open', 'closed'],
+      },
       names: '[string]?',
     } as const);
 

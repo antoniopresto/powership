@@ -15,14 +15,10 @@ describe('examples', () => {
       object: {
         street: 'string',
         number: {
-          union: [
-            'string',
-            'int?',
-          ],
+          union: ['string', 'int?'],
         },
       },
     });
-
 
     const UserType = createType(
       {
@@ -34,28 +30,17 @@ describe('examples', () => {
 
           // declaring a union field - will infer as `string | undefined | number[]`
           unionField: {
-            union: [
-              'string?',
-              '[int]?',
-            ],
+            union: ['string?', '[int]?'],
           },
 
           // represents an enum
           letter: {
-            enum: [
-              'a',
-              'b',
-              'c',
-            ],
+            enum: ['a', 'b', 'c'],
           },
 
           // more detailed way to define enums
           letterOptionalList: {
-            enum: [
-              'x',
-              'y',
-              'z',
-            ],
+            enum: ['x', 'y', 'z'],
             optional: true,
             list: true,
           },
@@ -83,9 +68,9 @@ describe('examples', () => {
         .extendObjectDefinition({ storeId: 'ID', ownerId: 'string' })
         .graphType('Store')
     );
-  
+
     // type TStoreType = Infer<typeof StoreType>;
-  
+
     const storeTS = await StoreType.typescriptPrint();
 
     expect(storeTS.split('\n')).toEqual([
@@ -130,10 +115,7 @@ describe('examples', () => {
         },
         {
           name: 'id2',
-          PK: [
-            '.ownerId',
-            '.storeId',
-          ],
+          PK: ['.ownerId', '.storeId'],
         },
       ],
     });

@@ -1,8 +1,10 @@
-import { CircularDeps, GraphQLSchemaWithUtils } from 'solarwind';
+import { CircularDeps, GraphQLSchemaWithUtils } from '@swind/schema';
 
 export let gql_utils = '';
 
-export async function generateTypes(schema: GraphQLSchemaWithUtils): Promise<string> {
+export async function generateTypes(
+  schema: GraphQLSchemaWithUtils
+): Promise<string> {
   //
   if (gql_utils) return gql_utils;
 

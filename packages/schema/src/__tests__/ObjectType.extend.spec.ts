@@ -17,7 +17,9 @@ describe('ObjectType.extend', () => {
           {
             object: {
               street: 'string',
-              number: { union: ['string', 'float'] },
+              number: {
+                union: ['string', 'float'],
+              },
             },
           },
           'null',

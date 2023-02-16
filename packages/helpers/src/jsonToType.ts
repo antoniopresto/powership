@@ -123,14 +123,9 @@ export function valueToTypeDef(
 
   const typename: FieldTypeName = (function iifeTypename() {
     return (
-      solarwindValueTypeCheckEntries.find(
-        ([
-          ,
-          check,
-        ]) => {
-          return check(value);
-        }
-      )?.[0] || 'unknown'
+      solarwindValueTypeCheckEntries.find(([, check]) => {
+        return check(value);
+      })?.[0] || 'unknown'
     );
   })();
 
@@ -153,29 +148,20 @@ export function valueToTypeDef(
   }
 
   if (typename === 'object') {
-    field[typename] = entries(value).reduce(
-      (
-        acc,
-        [
-          key,
-          subValue,
-        ]
-      ) => {
-        if (fieldCase) {
-          if (fieldCase === 'camelCase') {
-            key = joinPathsCamelCase(key);
-          } else {
-            key = stringCase[fieldCase](key);
-          }
+    field[typename] = entries(value).reduce((acc, [key, subValue]) => {
+      if (fieldCase) {
+        if (fieldCase === 'camelCase') {
+          key = joinPathsCamelCase(key);
+        } else {
+          key = stringCase[fieldCase](key);
         }
+      }
 
-        return {
-          ...acc,
-          [key]: valueToTypeDef({ ...options, value: subValue }),
-        };
-      },
-      {}
-    );
+      return {
+        ...acc,
+        [key]: valueToTypeDef({ ...options, value: subValue }),
+      };
+    }, {});
   }
 
   return field;

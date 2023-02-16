@@ -1,4 +1,4 @@
-import { SolarwindModules, CircularDeps } from '../CircularDeps';
+import { CircularDeps, SolarwindModules } from '../CircularDeps';
 import { ObjectType } from '../ObjectType';
 import { TAnyFieldType } from '../fields/FieldType';
 import { getObjectDefinitionId } from '../fields/MetaFieldField';

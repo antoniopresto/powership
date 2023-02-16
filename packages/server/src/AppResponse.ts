@@ -1,3 +1,5 @@
+import { ms } from '@swind/utils';
+
 import { AppLogger } from './AppLogger';
 import {
   AppResponseStatus,
@@ -5,7 +7,6 @@ import {
   HeaderRecordInit,
 } from './BaseRequestHandler';
 import { UnhandledSymbol } from './Symbol';
-import { ms } from 'solarwind';
 
 export type AppResponseInit = {
   body?: string | Record<string, any> | UnhandledSymbol;

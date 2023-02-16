@@ -47,7 +47,9 @@ describe('implementObject', () => {
   it('Should extend definition', async () => {
     const nodeType = createObjectType('Node', {
       id: 'ID',
-      status: { enum: ['published', 'draft'] },
+      status: {
+        enum: ['published', 'draft'],
+      },
     } as const);
 
     const pageNodeType = createObjectType('PageNode', {
@@ -90,7 +92,9 @@ describe('implementObject', () => {
   it('Should create graphql type', async () => {
     const nodeType = createObjectType('Node', {
       id: 'ID',
-      status: { enum: ['published', 'draft'] },
+      status: {
+        enum: ['published', 'draft'],
+      },
     } as const);
 
     const pageNodeType = createObjectType('PageNode', {

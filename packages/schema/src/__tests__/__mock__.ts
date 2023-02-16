@@ -9,7 +9,9 @@ const object1 = createObjectType({
   age: 'int?',
   favorites: '[string]',
   name: 'string',
-  sex: { enum: ['m', 'f', 'o'] },
+  sex: {
+    enum: ['m', 'f', 'o'],
+  },
 } as const);
 
 const object2 = createObjectType({

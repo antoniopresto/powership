@@ -163,7 +163,9 @@ describe('createGraphQLObject', () => {
       name: 'Numbers',
       kind: 'mutation',
       args: {
-        letter: { enum: ['a', 'b'] },
+        letter: {
+          enum: ['a', 'b'],
+        },
       } as const,
       async resolve() {
         return addLetterType.parse({});
@@ -320,7 +322,10 @@ describe('createGraphQLObject', () => {
         object: {
           name: 'string',
           age: 'int',
-          foo_bar: { enum: ['foo', 'bar'], list: true },
+          foo_bar: {
+            enum: ['foo', 'bar'],
+            list: true,
+          },
           addresses: {
             list: true,
             object: {

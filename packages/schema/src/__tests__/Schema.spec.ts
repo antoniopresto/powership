@@ -15,8 +15,12 @@ function _userObject() {
       optional: true,
     },
 
-    category: { enum: ['general', 'closed'] },
-    '12Enum': { enum: ['1', '2'] },
+    category: {
+      enum: ['general', 'closed'],
+    },
+    '12Enum': {
+      enum: ['1', '2'],
+    },
 
     enumArray: {
       type: 'enum',
@@ -138,7 +142,9 @@ describe('Schema clone, etc', () => {
     const rolesObject = new ObjectType({
       name: 'string',
       permissions: '[string]',
-      status: { enum: ['open', 'closed'] },
+      status: {
+        enum: ['open', 'closed'],
+      },
     } as const);
 
     const myObject = new ObjectType({
@@ -168,7 +174,9 @@ describe('Schema clone, etc', () => {
     const rolesObject = new ObjectType({
       name: 'string',
       permissions: '[string]',
-      status: { enum: ['open', 'closed'] },
+      status: {
+        enum: ['open', 'closed'],
+      },
     } as const);
 
     const object1 = new ObjectType({

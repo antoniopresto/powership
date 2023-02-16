@@ -1,11 +1,17 @@
 import { getTypeName } from '@swind/utils';
+import { inspectObject, isProduction } from '@swind/utils';
+import {
+  HttpError,
+  InternalServerError,
+  isHttpError,
+  PreconditionFailed,
+} from 'http-errors';
+import { StatusCodes as StatusCodesEnum } from 'http-status-codes';
+import qs, { ParsedQs } from 'qs';
+
 import { AppLogger } from './AppLogger';
 import { UnhandledSymbol } from './Symbol';
 import { createRouteMatcher, RouteMatcher } from './routeMatch';
-import { inspectObject, isProduction } from 'solarwind';
-import { HttpError, InternalServerError, isHttpError, PreconditionFailed } from 'http-errors';
-import { StatusCodes as StatusCodesEnum } from 'http-status-codes';
-import qs, { ParsedQs } from 'qs';
 
 export { HttpError, isHttpError };
 
@@ -179,7 +185,9 @@ export class BaseRequestHandler extends BaseRequest {
     );
   };
 
-  static createRouteMatcher<Path extends string>(routePattern: Path): RouteMatcher<Path> {
+  static createRouteMatcher<Path extends string>(
+    routePattern: Path
+  ): RouteMatcher<Path> {
     return createRouteMatcher(routePattern);
   }
 
@@ -234,7 +242,9 @@ export class BaseRequestHandler extends BaseRequest {
     return {};
   }
 
-  static headersNamed(headers: BaseRequestHandlerInit['headers']): HeaderNamed[] {
+  static headersNamed(
+    headers: BaseRequestHandlerInit['headers']
+  ): HeaderNamed[] {
     const parsed = BaseRequestHandler.parseHeaders(headers);
 
     // @ts-ignore

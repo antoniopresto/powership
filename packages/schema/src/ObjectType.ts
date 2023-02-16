@@ -6,7 +6,7 @@ import { invariantType } from '@swind/utils';
 import { Serializable } from '@swind/utils';
 import type { GraphQLInterfaceType, GraphQLObjectType } from 'graphql';
 
-import { SolarwindModules, CircularDeps } from './CircularDeps';
+import { CircularDeps, SolarwindModules } from './CircularDeps';
 import type {
   GraphQLParserResult,
   ParseInputTypeOptions,

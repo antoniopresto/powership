@@ -179,8 +179,12 @@ program
   .option('--clean', 'Clean node_modules before link.')
   .option('-c, --chunkSize <packages>', 'Parallel executions size.', '10')
   .alias('l')
+  .option(
+    '--from <name>',
+    'Run command only in specified package and after in the dependency tree.'
+  )
   .action(async function run(options): Promise<any> {
-    const { src, chunkSize = 10, clean } = options || {};
+    const { src, chunkSize = 10, clean, from } = options || {};
 
     await runmateLogger.lazyDebug(() => [
       'Received args: \n',
@@ -198,6 +202,7 @@ program
         await runner.run('rm -rf node_modules', {
           failFast: false,
           chunkSize,
+          from,
         });
       }
 
@@ -205,46 +210,38 @@ program
         localPackages.set(utils.name, utils);
       });
 
-      async function linkAll() {
-        await runner.run(
-          async ({ json, run }) => {
-            const deps: Record<string, string> = {};
+      await runner.run(
+        async ({ json, run }) => {
+          const deps: Record<string, string> = {};
 
-            packageJSONDependencyKeys.forEach((name) => {
-              const depDeps = json[name] || {};
-              Object.assign(deps, depDeps);
+          packageJSONDependencyKeys.forEach((name) => {
+            const depDeps = json[name] || {};
+            Object.assign(deps, depDeps);
 
-              Object.keys(depDeps).forEach((subKey) => {
-                const local = localPackages.get(subKey);
-                if (!local) return;
+            Object.keys(depDeps).forEach((subKey) => {
+              const local = localPackages.get(subKey);
+              if (!local) return;
 
-                packageJSONDependencyKeys.forEach((subDepKey) => {
-                  Object.assign(deps, local[subDepKey]);
-                });
+              packageJSONDependencyKeys.forEach((subDepKey) => {
+                Object.assign(deps, local[subDepKey]);
               });
             });
+          });
 
-            const toLink: string[] = [];
+          const toLink: string[] = [];
 
-            for (const dependency of Object.keys(deps)) {
-              if (localPackages.has(dependency)) {
-                toLink.push(localPackages.get(dependency)!.cwd);
-              }
+          for (const dependency of Object.keys(deps)) {
+            if (localPackages.has(dependency)) {
+              toLink.push(localPackages.get(dependency)!.cwd);
             }
+          }
 
-            if (toLink.length) {
-              await run(`npm link ${toLink.join(' ')} --legacy-peer-deps`);
-            }
-          },
-          { chunkSize: +chunkSize }
-        );
-      }
-
-      await linkAll();
-      await runner.run('npm install --no-link --no-package-lock', {
-        chunkSize,
-        failFast: false,
-      });
+          if (toLink.length) {
+            await run(`npm link ${toLink.join(' ')} --legacy-peer-deps`);
+          }
+        },
+        { chunkSize: +chunkSize, from }
+      );
     } catch (e: any) {
       console.error(chalk.red(e));
     }
@@ -253,9 +250,9 @@ program
 program
   .command('publish [version]')
   .option('-s, --src <packages>', 'Packages glob pattern.')
-  .option('-ns, --no-scripts', 'Ignores the prepublish scripts.')
-  .option('-dr, --dry-run', 'Ignores the publication.')
-  .action(async function run(options): Promise<any> {
+  .option('--no-scripts', 'Ignores the prepublish scripts.')
+  .option('--dry-run', 'Ignores the publication.')
+  .action(async function run(version, options): Promise<any> {
     const { src, scripts, dryRun } = options || {};
 
     await runmateLogger.lazyDebug(() => [
@@ -264,6 +261,10 @@ program
     ]);
 
     try {
+      if (version) {
+        await packageVersion(version, src);
+      }
+
       const runner = await packageRunner(src || defaultPackagesGlobPattern, {
         failFast: false,
       });

@@ -1,7 +1,11 @@
-import { AppLogger } from './AppLogger';
-import { BaseRequestHandler, HeaderRecordInit, RequestBody } from './BaseRequestHandler';
-
 import { Unauthorized } from 'http-errors';
+
+import { AppLogger } from './AppLogger';
+import {
+  BaseRequestHandler,
+  HeaderRecordInit,
+  RequestBody,
+} from './BaseRequestHandler';
 
 export type AppRequestInit = {
   locals?: Record<string, unknown>;

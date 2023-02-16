@@ -15,7 +15,9 @@ describe('AliasField', () => {
             object: {
               deep: {
                 object: {
-                  age: { union: ['int', 'string', '[string]', '[int]'] },
+                  age: {
+                    union: ['int', 'string', '[string]', '[int]'],
+                  },
                 },
               },
             },
@@ -24,7 +26,9 @@ describe('AliasField', () => {
             object: {
               deep: {
                 object: {
-                  age: { union: ['boolean', '[boolean]'] },
+                  age: {
+                    union: ['boolean', '[boolean]'],
+                  },
                 },
               },
             },

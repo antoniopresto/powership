@@ -1,4 +1,4 @@
-import { IsKnown } from 'solarwind';
+import { IsKnown } from '@swind/utils';
 import UrlPattern from 'url-pattern';
 
 /**
@@ -31,15 +31,14 @@ export interface RouteMatcher<Path extends string> {
 export type AlphaNumeric = string | number;
 
 // extract route params from a string literal
-export type ExtractRouteParams<
-  Path extends string
-> = Path extends `:${infer Param}/${infer Rest}`
-  ? Param | ExtractRouteParams<Rest>
-  : Path extends `:${infer Param}`
-  ? Param
-  : Path extends `${string}:${infer Rest}`
-  ? ExtractRouteParams<`:${Rest}`>
-  : never;
+export type ExtractRouteParams<Path extends string> =
+  Path extends `:${infer Param}/${infer Rest}`
+    ? Param | ExtractRouteParams<Rest>
+    : Path extends `:${infer Param}`
+    ? Param
+    : Path extends `${string}:${infer Rest}`
+    ? ExtractRouteParams<`:${Rest}`>
+    : never;
 
 // used to infer if a route needs a params object
 export type GetRouteParams<Path extends string> = IsKnown<Path> extends 0

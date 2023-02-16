@@ -55,7 +55,9 @@ describe('Union', () => {
     const subObject = createObjectType({ name: 'string' });
 
     const sut = createObjectType({
-      foo: { union: ['[string]?', subObject] },
+      foo: {
+        union: ['[string]?', subObject],
+      },
     } as const);
 
     expect(sut.parse({ foo: undefined })).toEqual({ foo: undefined });
@@ -80,7 +82,9 @@ describe('Union', () => {
 
   test('types', () => {
     const def = {
-      uu: { union: ['int?', 'boolean'] },
+      uu: {
+        union: ['int?', 'boolean'],
+      },
 
       // nameFromType: UnionField.create(['string']).toList().toOptional(),
 
@@ -126,8 +130,22 @@ describe('Union', () => {
 
   test('complex parsing', () => {
     const object = createObjectType({
-      union1: { union: ['boolean', { enum: ['true', 'false'] }] },
-      union1Optional: { union: ['boolean?', { enum: ['true', 'false'] }] },
+      union1: {
+        union: [
+          'boolean',
+          {
+            enum: ['true', 'false'],
+          },
+        ],
+      },
+      union1Optional: {
+        union: [
+          'boolean?',
+          {
+            enum: ['true', 'false'],
+          },
+        ],
+      },
       union1OptionalList: {
         union: [
           'boolean?',
@@ -155,22 +173,42 @@ describe('Union', () => {
       },
       union3: {
         type: 'union',
-        def: [{ enum: ['true', 'false'] }, 'boolean'],
+        def: [
+          {
+            enum: ['true', 'false'],
+          },
+          'boolean',
+        ],
       },
       union3Optional: {
         type: 'union',
-        def: [{ enum: ['true', 'false'] }, 'boolean'],
+        def: [
+          {
+            enum: ['true', 'false'],
+          },
+          'boolean',
+        ],
         optional: true,
       },
       union3ListOptional: {
         type: 'union',
-        def: [{ enum: ['true', 'false'] }, 'boolean'],
+        def: [
+          {
+            enum: ['true', 'false'],
+          },
+          'boolean',
+        ],
         optional: true,
         list: true,
       },
       union4ListOptional: {
         type: 'union',
-        def: [{ enum: ['true', 'false'] }, 'boolean?'],
+        def: [
+          {
+            enum: ['true', 'false'],
+          },
+          'boolean?',
+        ],
 
         list: true,
       },
@@ -394,7 +432,10 @@ describe('Union', () => {
     // });
 
     it('infer object union with optional as optional', () => {
-      const u = { type: 'union', def: ['int?', 'string'] } as const;
+      const u = {
+        type: 'union',
+        def: ['int?', 'string'],
+      } as const;
       type P = DescribeField<typeof u>;
 
       // assert<IsExact<true, P['optional']>>(true);

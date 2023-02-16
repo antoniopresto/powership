@@ -6,7 +6,9 @@ import { objectToTypescript } from '../objectToTypescript';
 test('examples', async () => {
   const addressObject = createObjectType({
     street: 'string',
-    number: { union: ['string', 'int?'] },
+    number: {
+      union: ['string', 'int?'],
+    },
   });
 
   const userObject = createObjectType(
@@ -17,10 +19,14 @@ test('examples', async () => {
       notes: '[int]?',
 
       // declaring a union field - will infer as `string | undefined | number[]`
-      unionField: { union: ['string?', '[int]?'] },
+      unionField: {
+        union: ['string?', '[int]?'],
+      },
 
       // represents an enum
-      letter: { enum: ['a', 'b', 'c'] },
+      letter: {
+        enum: ['a', 'b', 'c'],
+      },
 
       // more detailed way to define enums
       letterOptionalList: {

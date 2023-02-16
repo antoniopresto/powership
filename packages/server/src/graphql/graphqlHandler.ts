@@ -1,15 +1,17 @@
 import nodePath from 'path';
 
-import { solarwindUtilsResolver } from '@swind/helpers';
+import { createGraphQLSchema, Resolver } from '@swind/schema';
+import { AnyRecord, isProduction } from '@swind/utils';
+import { graphql } from 'graphql';
+import { renderPlaygroundPage } from 'graphql-playground-html';
+
+import { Handler } from '../App';
 import { AppLogger } from '../AppLogger';
-import { maskErrors } from './errorHandler';
 import { createRouteHandler } from '../createRouteHandler';
 
-import { renderPlaygroundPage } from 'graphql-playground-html';
-import { createGraphQLSchema, Resolver } from '@swind/schema';
-import { AnyRecord, isProduction, Logger } from 'solarwind';
-import { generateTypes } from '@0k/backend/core/coreAppHandlers/graphql/generateTypes';
-import { graphql } from 'graphql';
+import { maskErrors } from './errorHandler';
+import '@swind/schema';
+import { generateTypes } from './generateTypes';
 
 export type ResolversRecord = Record<string, Resolver<any, any, any, any>>;
 
@@ -21,7 +23,7 @@ export type GraphqlHandlerOptions<Resolvers extends ResolversRecord> = {
 
 export function createGraphQLHandlers<Resolvers extends ResolversRecord>(
   definition: GraphqlHandlerOptions<Resolvers>
-) {
+): Handler[] {
   const { resolvers, path = '/graphql', playgroundAPIUrl = path } = definition;
 
   const IS_PROD = isProduction();
@@ -66,50 +68,62 @@ export function createGraphQLHandlers<Resolvers extends ResolversRecord>(
   );
 
   const typesPath = nodePath.join(path, 'types');
-  const utilsPath = nodePath.join(path, 'utils');
+  // const utilsPath = nodePath.join(path, 'utils');
   const mockPath = nodePath.join(path, 'mock');
 
-  const typesHandler = createRouteHandler(typesPath, async function ({ response, close }) {
-    response.body = await generateTypes(schema);
-    response.statusCode = 200;
-    response.headers.append('Content-Type', 'text/typescript');
-    return close(response);
-  });
-
-  const mockHandler = createRouteHandler(mockPath, async function ({ response, close }) {
-    if (IS_PROD) {
-      response.statusCode = 'METHOD_NOT_ALLOWED';
-      response.body = 'NOT_ALLOWED_IN_PRODUCTION';
+  const typesHandler = createRouteHandler(
+    typesPath,
+    async function ({ response, close }) {
+      response.body = await generateTypes(schema);
+      response.statusCode = 200;
+      response.headers.append('Content-Type', 'text/typescript');
       return close(response);
     }
+  );
 
-    response.body = '';
+  const mockHandler = createRouteHandler(
+    mockPath,
+    async function ({ response, close }) {
+      if (IS_PROD) {
+        response.statusCode = 'METHOD_NOT_ALLOWED';
+        response.body = 'NOT_ALLOWED_IN_PRODUCTION';
+        return close(response);
+      }
 
-    response.statusCode = 200;
-    response.headers.append('Content-type', 'text/html');
-    close(response);
-  });
+      response.body = '';
 
-  const utilsHandler = createRouteHandler(utilsPath, async function ({ response, request, close }) {
-    const body: any = request.body;
+      response.statusCode = 200;
+      response.headers.append('Content-type', 'text/html');
+      close(response);
+    }
+  );
 
-    const json = typeof body.json === 'string' ? JSON.parse(body.json.trim()) : body.json || {};
-
-    const page = await solarwindUtilsResolver({
-      ...body,
-      json,
-      url: request.urlObject.pathname,
-    });
-
-    response.body = page.body;
-    response.headers.set('Content-Type', page.headers['Content-Type']);
-    response.statusCode = page.statusCode;
-
-    return close(response);
-  });
+  // const utilsHandler = createRouteHandler(
+  //   utilsPath,
+  //   async function ({ response, request, close }) {
+  //     const body: any = request.body;
+  //
+  //     const json =
+  //       typeof body.json === 'string'
+  //         ? JSON.parse(body.json.trim())
+  //         : body.json || {};
+  //
+  //     const page = await solarwindUtilsResolver({
+  //       ...body,
+  //       json,
+  //       url: request.urlObject.pathname,
+  //     });
+  //
+  //     response.body = page.body;
+  //     response.headers.set('Content-Type', page.headers['Content-Type']);
+  //     response.statusCode = page.statusCode;
+  //
+  //     return close(response);
+  //   }
+  // );
 
   return [
-    utilsHandler,
+    // utilsHandler,
     typesHandler,
     mockHandler,
     graphQLHandler, //

@@ -1,4 +1,4 @@
-import { createErrorClass } from 'solarwind';
+import { createErrorClass } from '@swind/utils';
 
 export const NotImplementedError = createErrorClass('NotImplemented');
 

@@ -37,7 +37,11 @@ describe('GraphType.asField', () => {
       name: 'userNodeNode',
       kind: 'subscription',
       description: 'yeah',
-      args: { option: { enum: ['a', 'b'] } },
+      args: {
+        option: {
+          enum: ['a', 'b'],
+        },
+      },
       async resolve() {
         return userNodeNode.parse({});
       },

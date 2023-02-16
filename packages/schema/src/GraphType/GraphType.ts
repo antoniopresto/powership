@@ -10,7 +10,7 @@ import type {
   GraphQLNamedType,
 } from 'graphql';
 
-import { SolarwindModules, CircularDeps } from '../CircularDeps';
+import { CircularDeps, SolarwindModules } from '../CircularDeps';
 import { Infer } from '../Infer';
 import {
   createObjectType,

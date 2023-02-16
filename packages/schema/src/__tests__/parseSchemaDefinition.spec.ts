@@ -12,7 +12,9 @@ describe('parseObjectDefinition', () => {
       stringOptional: 'string?',
       arrayString: '[string]',
       arrayStringOptional: '[string]?',
-      enum: { enum: ['a', 'b'] },
+      enum: {
+        enum: ['a', 'b'],
+      },
       fieldType: EnumField.create(['a', 'x']),
       fieldTypeOptional: EnumField.create(['a', 'x']).toOptional(),
       fieldTypeOptionalList: EnumField.create(['a', 'x']).toList().toOptional(),
@@ -112,11 +114,15 @@ describe('parseObjectDefinition', () => {
   it('parse object', () => {
     const otherObject = new ObjectType({
       foo: 'string',
-      status: { enum: ['open', 'closed'] },
+      status: {
+        enum: ['open', 'closed'],
+      },
     } as const);
 
     const sass = {
-      union: { union: [{ object: { points: '[float]?' } }, 'int'] },
+      union: {
+        union: [{ object: { points: '[float]?' } }, 'int'],
+      },
       names: '[string]?',
       age: 'int',
     } as const;
