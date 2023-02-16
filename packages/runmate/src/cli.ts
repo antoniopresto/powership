@@ -205,38 +205,79 @@ program
         localPackages.set(utils.name, utils);
       });
 
-      await runner.run(
-        async ({ json, run }) => {
-          const deps: Record<string, string> = {};
+      async function linkAll() {
+        await runner.run(
+          async ({ json, run }) => {
+            const deps: Record<string, string> = {};
 
-          packageJSONDependencyKeys.forEach((name) => {
-            const depDeps = json[name] || {};
-            Object.assign(deps, depDeps);
+            packageJSONDependencyKeys.forEach((name) => {
+              const depDeps = json[name] || {};
+              Object.assign(deps, depDeps);
 
-            Object.keys(depDeps).forEach((subKey) => {
-              const local = localPackages.get(subKey);
-              if (!local) return;
+              Object.keys(depDeps).forEach((subKey) => {
+                const local = localPackages.get(subKey);
+                if (!local) return;
 
-              packageJSONDependencyKeys.forEach((subDepKey) => {
-                Object.assign(deps, local[subDepKey]);
+                packageJSONDependencyKeys.forEach((subDepKey) => {
+                  Object.assign(deps, local[subDepKey]);
+                });
               });
             });
-          });
 
-          const toLink: string[] = [];
+            const toLink: string[] = [];
 
-          for (const dependency of Object.keys(deps)) {
-            if (localPackages.has(dependency)) {
-              toLink.push(localPackages.get(dependency)!.cwd);
+            for (const dependency of Object.keys(deps)) {
+              if (localPackages.has(dependency)) {
+                toLink.push(localPackages.get(dependency)!.cwd);
+              }
             }
-          }
 
-          if (toLink.length) {
-            await run(`npm link ${toLink.join(' ')} --legacy-peer-deps`);
-          }
-        },
-        { chunkSize: +chunkSize }
-      );
+            if (toLink.length) {
+              await run(`npm link ${toLink.join(' ')} --legacy-peer-deps`);
+            }
+          },
+          { chunkSize: +chunkSize }
+        );
+      }
+
+      await linkAll();
+      await runner.run('npm install --no-link --no-package-lock', {
+        chunkSize,
+        failFast: false,
+      });
+    } catch (e: any) {
+      console.error(chalk.red(e));
+    }
+  });
+
+program
+  .command('publish [version]')
+  .option('-s, --src <packages>', 'Packages glob pattern.')
+  .option('-ns, --no-scripts', 'Ignores the prepublish scripts.')
+  .option('-dr, --dry-run', 'Ignores the publication.')
+  .action(async function run(options): Promise<any> {
+    const { src, scripts, dryRun } = options || {};
+
+    await runmateLogger.lazyDebug(() => [
+      'Received args: \n',
+      JSON.stringify(options, null, 2),
+    ]);
+
+    try {
+      const runner = await packageRunner(src || defaultPackagesGlobPattern, {
+        failFast: false,
+      });
+
+      if (scripts) {
+        await runner.run('npm publish --dry-run', {
+          failFast: true,
+          chunkSize: 1,
+        });
+      }
+
+      if (!dryRun) {
+        await runner.run('npm publish');
+      }
     } catch (e: any) {
       console.error(chalk.red(e));
     }

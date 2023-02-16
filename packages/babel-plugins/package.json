@@ -1,6 +1,6 @@
 {
   "name": "@swind/babel-plugins",
-  "version": "0.2.10",
+  "version": "0.2.12",
   "main": "lib",
   "sideEffects": false,
   "typings": "lib",
