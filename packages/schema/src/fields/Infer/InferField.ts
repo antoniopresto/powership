@@ -1,4 +1,4 @@
-import { GetFieldByDotNotation, OnlyKnown } from '@backland/utils';
+import { GetFieldByDotNotation, OnlyKnown } from '@swind/utils';
 
 import { FieldTypeName } from '../_fieldDefinitions';
 
@@ -85,7 +85,7 @@ export type _FieldKV<Input extends object> =
       : never
     : never;
 
-export type ObjectTypeKID = '__isBacklandObject';
+export type ObjectTypeKID = '__isSolarwindObject';
 export type GraphTypeKID = '__isGraphType';
 
 export type _GetKey<T, Key extends string> = GetFieldByDotNotation<T, Key>;

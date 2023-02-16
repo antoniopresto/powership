@@ -1,3 +1,0 @@
-<component name="DependencyValidationManager">
-  <scope name="mongo" pattern="file[backland]:packages/mongo/*" />
-</component>

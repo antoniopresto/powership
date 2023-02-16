@@ -1,6 +1,6 @@
-import { ResolverContextBase } from '@backland/schema/lib/Resolver';
+import { ResolverContextBase } from '@swind/schema/lib/Resolver';
 import { AppRequest } from './AppRequest';
-import { createResolverFactory } from 'backland';
+import { createResolverFactory } from 'solarwind';
 
 export interface ResolverContext extends ResolverContextBase, AppRequest {}
 

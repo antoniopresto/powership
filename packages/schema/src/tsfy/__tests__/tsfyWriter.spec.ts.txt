@@ -1,4 +1,4 @@
-import { delay } from '@backland/utils';
+import { delay } from '@swind/utils';
 
 import { createType } from '../../GraphType/GraphType';
 import { resetTypesCache } from '../../ObjectType';

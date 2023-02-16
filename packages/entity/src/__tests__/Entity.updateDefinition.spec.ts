@@ -1,4 +1,4 @@
-import { createType, Infer } from '@backland/schema';
+import { createType, Infer } from '@swind/schema';
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { setupProductTest } from './setupProductTest';

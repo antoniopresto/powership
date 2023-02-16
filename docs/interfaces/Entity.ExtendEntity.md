@@ -1,4 +1,4 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / ExtendEntity
+[Solarwind](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / ExtendEntity
 
 # Interface: ExtendEntity<Parent\>
 

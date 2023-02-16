@@ -1,5 +1,5 @@
-import { createEntity, EntityDocumentBase } from '@backland/entity';
-import { createType } from '@backland/schema';
+import { createEntity, EntityDocumentBase } from '@swind/entity';
+import { createType } from '@swind/schema';
 
 import { AccountType } from '../types/AccountType';
 

@@ -1,407 +1,407 @@
-[Backland](../README.md) / [Modules](../modules.md) / Backland
+[Solarwind](../README.md) / [Modules](../modules.md) / Solarwind
 
-# Module: Backland
+# Module: Solarwind
 
 ## Table of contents
 
 ### References
 
-- [InferField](Backland.md#inferfield)
+- [InferField](Solarwind.md#inferfield)
 
 ### Classes
 
-- [AliasField](../classes/Backland.AliasField.md)
-- [AnyField](../classes/Backland.AnyField.md)
-- [BooleanField](../classes/Backland.BooleanField.md)
-- [CollectionErrors](../classes/Backland.CollectionErrors.md)
-- [CursorField](../classes/Backland.CursorField.md)
-- [DateField](../classes/Backland.DateField.md)
-- [EmailField](../classes/Backland.EmailField.md)
-- [EnumField](../classes/Backland.EnumField.md)
-- [FieldType](../classes/Backland.FieldType.md)
-- [FieldTypeError](../classes/Backland.FieldTypeError.md)
-- [FloatField](../classes/Backland.FloatField.md)
-- [GraphType](../classes/Backland.GraphType.md)
-- [IDField](../classes/Backland.IDField.md)
-- [IntField](../classes/Backland.IntField.md)
-- [LiteralField](../classes/Backland.LiteralField.md)
-- [MetaField](../classes/Backland.MetaField.md)
-- [NullField](../classes/Backland.NullField.md)
-- [ObjectField](../classes/Backland.ObjectField.md)
-- [ObjectType](../classes/Backland.ObjectType.md)
-- [RecordField](../classes/Backland.RecordField.md)
-- [StringField](../classes/Backland.StringField.md)
-- [UlidField](../classes/Backland.UlidField.md)
-- [UndefinedField](../classes/Backland.UndefinedField.md)
-- [UnionField](../classes/Backland.UnionField.md)
-- [UnknownField](../classes/Backland.UnknownField.md)
+- [AliasField](../classes/Solarwind.AliasField.md)
+- [AnyField](../classes/Solarwind.AnyField.md)
+- [BooleanField](../classes/Solarwind.BooleanField.md)
+- [CollectionErrors](../classes/Solarwind.CollectionErrors.md)
+- [CursorField](../classes/Solarwind.CursorField.md)
+- [DateField](../classes/Solarwind.DateField.md)
+- [EmailField](../classes/Solarwind.EmailField.md)
+- [EnumField](../classes/Solarwind.EnumField.md)
+- [FieldType](../classes/Solarwind.FieldType.md)
+- [FieldTypeError](../classes/Solarwind.FieldTypeError.md)
+- [FloatField](../classes/Solarwind.FloatField.md)
+- [GraphType](../classes/Solarwind.GraphType.md)
+- [IDField](../classes/Solarwind.IDField.md)
+- [IntField](../classes/Solarwind.IntField.md)
+- [LiteralField](../classes/Solarwind.LiteralField.md)
+- [MetaField](../classes/Solarwind.MetaField.md)
+- [NullField](../classes/Solarwind.NullField.md)
+- [ObjectField](../classes/Solarwind.ObjectField.md)
+- [ObjectType](../classes/Solarwind.ObjectType.md)
+- [RecordField](../classes/Solarwind.RecordField.md)
+- [StringField](../classes/Solarwind.StringField.md)
+- [UlidField](../classes/Solarwind.UlidField.md)
+- [UndefinedField](../classes/Solarwind.UndefinedField.md)
+- [UnionField](../classes/Solarwind.UnionField.md)
+- [UnknownField](../classes/Solarwind.UnknownField.md)
 
 ### Interfaces
 
-- [CreateOne](../interfaces/Backland.CreateOne.md)
-- [CreateResolver](../interfaces/Backland.CreateResolver.md)
-- [DeleteMany](../interfaces/Backland.DeleteMany.md)
-- [DeleteOne](../interfaces/Backland.DeleteOne.md)
-- [DocumentIndexFieldsParsed](../interfaces/Backland.DocumentIndexFieldsParsed.md)
-- [DocumentIndexesConfig](../interfaces/Backland.DocumentIndexesConfig.md)
-- [Entity](../interfaces/Backland.Entity.md)
-- [EntityAddRelation](../interfaces/Backland.EntityAddRelation.md)
-- [EntityFromContext](../interfaces/Backland.EntityFromContext.md)
-- [EntityIndexRelations](../interfaces/Backland.EntityIndexRelations.md)
-- [EntityPlugin](../interfaces/Backland.EntityPlugin.md)
-- [EntityTypesContext](../interfaces/Backland.EntityTypesContext.md)
-- [ExtendEntity](../interfaces/Backland.ExtendEntity.md)
-- [ExtendObjectDefinition](../interfaces/Backland.ExtendObjectDefinition.md)
-- [ExtendType](../interfaces/Backland.ExtendType.md)
-- [FindById](../interfaces/Backland.FindById.md)
-- [FindMany](../interfaces/Backland.FindMany.md)
-- [FindOne](../interfaces/Backland.FindOne.md)
-- [FirstIndexParsed](../interfaces/Backland.FirstIndexParsed.md)
-- [GraphTypeInTypeFieldDefinition](../interfaces/Backland.GraphTypeInTypeFieldDefinition.md)
-- [GraphTypeLike](../interfaces/Backland.GraphTypeLike.md)
-- [GraphTypeLikeFieldDefinition](../interfaces/Backland.GraphTypeLikeFieldDefinition.md)
-- [IndexMethods](../interfaces/Backland.IndexMethods.md)
-- [IndexPKSKPartsListConfig](../interfaces/Backland.IndexPKSKPartsListConfig.md)
-- [LiteralFieldDef](../interfaces/Backland.LiteralFieldDef.md)
-- [ObjectDefinitionInput](../interfaces/Backland.ObjectDefinitionInput.md)
-- [ObjectInTypeFieldDefinition](../interfaces/Backland.ObjectInTypeFieldDefinition.md)
-- [ObjectLike](../interfaces/Backland.ObjectLike.md)
-- [ObjectTypeLikeFieldDefinition](../interfaces/Backland.ObjectTypeLikeFieldDefinition.md)
-- [Paginate](../interfaces/Backland.Paginate.md)
-- [ParserHook](../interfaces/Backland.ParserHook.md)
-- [RemoveParserHook](../interfaces/Backland.RemoveParserHook.md)
-- [TSFYCustomHandler](../interfaces/Backland.TSFYCustomHandler.md)
-- [TSFyResult](../interfaces/Backland.TSFyResult.md)
-- [TSFyWriterConfig](../interfaces/Backland.TSFyWriterConfig.md)
-- [Transporter](../interfaces/Backland.Transporter.md)
-- [UpdateMany](../interfaces/Backland.UpdateMany.md)
-- [UpdateOne](../interfaces/Backland.UpdateOne.md)
-- [\_EntityLoaderUtils](../interfaces/Backland._EntityLoaderUtils.md)
+- [CreateOne](../interfaces/Solarwind.CreateOne.md)
+- [CreateResolver](../interfaces/Solarwind.CreateResolver.md)
+- [DeleteMany](../interfaces/Solarwind.DeleteMany.md)
+- [DeleteOne](../interfaces/Solarwind.DeleteOne.md)
+- [DocumentIndexFieldsParsed](../interfaces/Solarwind.DocumentIndexFieldsParsed.md)
+- [DocumentIndexesConfig](../interfaces/Solarwind.DocumentIndexesConfig.md)
+- [Entity](../interfaces/Solarwind.Entity.md)
+- [EntityAddRelation](../interfaces/Solarwind.EntityAddRelation.md)
+- [EntityFromContext](../interfaces/Solarwind.EntityFromContext.md)
+- [EntityIndexRelations](../interfaces/Solarwind.EntityIndexRelations.md)
+- [EntityPlugin](../interfaces/Solarwind.EntityPlugin.md)
+- [EntityTypesContext](../interfaces/Solarwind.EntityTypesContext.md)
+- [ExtendEntity](../interfaces/Solarwind.ExtendEntity.md)
+- [ExtendObjectDefinition](../interfaces/Solarwind.ExtendObjectDefinition.md)
+- [ExtendType](../interfaces/Solarwind.ExtendType.md)
+- [FindById](../interfaces/Solarwind.FindById.md)
+- [FindMany](../interfaces/Solarwind.FindMany.md)
+- [FindOne](../interfaces/Solarwind.FindOne.md)
+- [FirstIndexParsed](../interfaces/Solarwind.FirstIndexParsed.md)
+- [GraphTypeInTypeFieldDefinition](../interfaces/Solarwind.GraphTypeInTypeFieldDefinition.md)
+- [GraphTypeLike](../interfaces/Solarwind.GraphTypeLike.md)
+- [GraphTypeLikeFieldDefinition](../interfaces/Solarwind.GraphTypeLikeFieldDefinition.md)
+- [IndexMethods](../interfaces/Solarwind.IndexMethods.md)
+- [IndexPKSKPartsListConfig](../interfaces/Solarwind.IndexPKSKPartsListConfig.md)
+- [LiteralFieldDef](../interfaces/Solarwind.LiteralFieldDef.md)
+- [ObjectDefinitionInput](../interfaces/Solarwind.ObjectDefinitionInput.md)
+- [ObjectInTypeFieldDefinition](../interfaces/Solarwind.ObjectInTypeFieldDefinition.md)
+- [ObjectLike](../interfaces/Solarwind.ObjectLike.md)
+- [ObjectTypeLikeFieldDefinition](../interfaces/Solarwind.ObjectTypeLikeFieldDefinition.md)
+- [Paginate](../interfaces/Solarwind.Paginate.md)
+- [ParserHook](../interfaces/Solarwind.ParserHook.md)
+- [RemoveParserHook](../interfaces/Solarwind.RemoveParserHook.md)
+- [TSFYCustomHandler](../interfaces/Solarwind.TSFYCustomHandler.md)
+- [TSFyResult](../interfaces/Solarwind.TSFyResult.md)
+- [TSFyWriterConfig](../interfaces/Solarwind.TSFyWriterConfig.md)
+- [Transporter](../interfaces/Solarwind.Transporter.md)
+- [UpdateMany](../interfaces/Solarwind.UpdateMany.md)
+- [UpdateOne](../interfaces/Solarwind.UpdateOne.md)
+- [\_EntityLoaderUtils](../interfaces/Solarwind._EntityLoaderUtils.md)
 
 ### Type Aliases
 
-- [$inferableKey](Backland.md#$inferablekey)
-- [$sealed](Backland.md#$sealed)
-- [$sealedDef](Backland.md#$sealeddef)
-- [$sealedKey](Backland.md#$sealedkey)
-- [AliasFieldAggregation](Backland.md#aliasfieldaggregation)
-- [AliasFieldDef](Backland.md#aliasfielddef)
-- [AllFieldTypes](Backland.md#allfieldtypes)
-- [AllFilterOperations](Backland.md#allfilteroperations)
-- [AllFinalFieldDefinitions](Backland.md#allfinalfielddefinitions)
-- [AllIndexFilter](Backland.md#allindexfilter)
-- [AnyCollectionIndexConfig](Backland.md#anycollectionindexconfig)
-- [AnyDocIndexItem](Backland.md#anydocindexitem)
-- [AnyEntity](Backland.md#anyentity)
-- [AnyEntityTypesContext](Backland.md#anyentitytypescontext)
-- [AnyResolver](Backland.md#anyresolver)
-- [ArrayOperationRecord](Backland.md#arrayoperationrecord)
-- [AttributeFilterKey](Backland.md#attributefilterkey)
-- [BacklandObjectDefinition](Backland.md#backlandobjectdefinition)
-- [CollectionConfigIndexes](Backland.md#collectionconfigindexes)
-- [CollectionIndexConfig](Backland.md#collectionindexconfig)
-- [CommonDefSafe](Backland.md#commondefsafe)
-- [CommonFieldDefinition](Backland.md#commonfielddefinition)
-- [CommonFieldOptions](Backland.md#commonfieldoptions)
-- [CommonIndexFields](Backland.md#commonindexfields)
-- [ComputeFieldDefinition](Backland.md#computefielddefinition)
-- [CreateGraphQLObjectOptions](Backland.md#creategraphqlobjectoptions)
-- [CreateOneConfig](Backland.md#createoneconfig)
-- [CreateOneResult](Backland.md#createoneresult)
-- [CursorType](Backland.md#cursortype)
-- [DateFieldDef](Backland.md#datefielddef)
-- [DeleteManyConfig](Backland.md#deletemanyconfig)
-- [DeleteManyResult](Backland.md#deletemanyresult)
-- [DeleteOneConfig](Backland.md#deleteoneconfig)
-- [DeleteOneResult](Backland.md#deleteoneresult)
-- [DescribeAndOverrideField](Backland.md#describeandoverridefield)
-- [DescribeField](Backland.md#describefield)
-- [DescribeObjectDefinition](Backland.md#describeobjectdefinition)
-- [DescribeWithoutSeal](Backland.md#describewithoutseal)
-- [DocumentBase](Backland.md#documentbase)
-- [DocumentIndexFieldKey](Backland.md#documentindexfieldkey)
-- [DocumentIndexFilterParsed](Backland.md#documentindexfilterparsed)
-- [DocumentIndexItem](Backland.md#documentindexitem)
-- [DocumentIndexRelation](Backland.md#documentindexrelation)
-- [EdgeType](Backland.md#edgetype)
-- [EntityDocument](Backland.md#entitydocument)
-- [EntityDocumentBase](Backland.md#entitydocumentbase)
-- [EntityDocumentInput](Backland.md#entitydocumentinput)
-- [EntityErrorDetails](Backland.md#entityerrordetails)
-- [EntityErrorKind](Backland.md#entityerrorkind)
-- [EntityErrorKindEnum](Backland.md#entityerrorkindenum)
-- [EntityFieldResolver](Backland.md#entityfieldresolver)
-- [EntityFilters](Backland.md#entityfilters)
-- [EntityHooks](Backland.md#entityhooks)
-- [EntityHooksCreateDefinitionKind](Backland.md#entityhookscreatedefinitionkind)
-- [EntityLoaderConfig](Backland.md#entityloaderconfig)
-- [EntityLoaderMethods](Backland.md#entityloadermethods)
-- [EntityOptions](Backland.md#entityoptions)
-- [EntityParserHookContext](Backland.md#entityparserhookcontext)
-- [FieldAsString](Backland.md#fieldasstring)
-- [FieldComposer](Backland.md#fieldcomposer)
-- [FieldCreators](Backland.md#fieldcreators)
-- [FieldDefinitionConfig](Backland.md#fielddefinitionconfig)
-- [FieldDefinitions](Backland.md#fielddefinitions)
-- [FieldExample](Backland.md#fieldexample)
-- [FieldExampleFunction](Backland.md#fieldexamplefunction)
-- [FieldInput](Backland.md#fieldinput)
-- [FieldInputLikeRequiredKey](Backland.md#fieldinputlikerequiredkey)
-- [FieldParserConfig](Backland.md#fieldparserconfig)
-- [FieldParserOptionsObject](Backland.md#fieldparseroptionsobject)
-- [FieldTypeErrorCode](Backland.md#fieldtypeerrorcode)
-- [FieldTypeName](Backland.md#fieldtypename)
-- [FieldTypeOptions](Backland.md#fieldtypeoptions)
-- [FieldTypeParser](Backland.md#fieldtypeparser)
-- [FilterConditions](Backland.md#filterconditions)
-- [FilterRecord](Backland.md#filterrecord)
-- [FinalFieldDefinition](Backland.md#finalfielddefinition)
-- [FinalFieldDefinitionStrict](Backland.md#finalfielddefinitionstrict)
-- [FinalObjectDefinition](Backland.md#finalobjectdefinition)
-- [FindByIdConfig](Backland.md#findbyidconfig)
-- [FindManyConfig](Backland.md#findmanyconfig)
-- [FindManyResult](Backland.md#findmanyresult)
-- [FindOneConfig](Backland.md#findoneconfig)
-- [FindOneResult](Backland.md#findoneresult)
-- [FlattenFieldDefinition](Backland.md#flattenfielddefinition)
-- [FloatFieldDef](Backland.md#floatfielddef)
-- [GraphQLSchemaWithUtils](Backland.md#graphqlschemawithutils)
-- [GraphTypeArgs](Backland.md#graphtypeargs)
-- [GraphTypeKID](Backland.md#graphtypekid)
-- [GroupedResolvers](Backland.md#groupedresolvers)
-- [IDFieldDef](Backland.md#idfielddef)
-- [ImplementObject](Backland.md#implementobject)
-- [IndexBasedFilterParsed](Backland.md#indexbasedfilterparsed)
-- [IndexFilter](Backland.md#indexfilter)
-- [IndexFilterFound](Backland.md#indexfilterfound)
-- [IndexFilterRecord](Backland.md#indexfilterrecord)
-- [IndexKeyHash](Backland.md#indexkeyhash)
-- [IndexPartKind](Backland.md#indexpartkind)
-- [Infer](Backland.md#infer)
-- [InferFinalField](Backland.md#inferfinalfield)
-- [InferGraphType](Backland.md#infergraphtype)
-- [InferObjectDefinition](Backland.md#inferobjectdefinition)
-- [InferObjectType](Backland.md#inferobjecttype)
-- [InferRecordFieldType](Backland.md#inferrecordfieldtype)
-- [InferResolverArgs](Backland.md#inferresolverargs)
-- [InferString](Backland.md#inferstring)
-- [InferTypeName](Backland.md#infertypename)
-- [InnerDef](Backland.md#innerdef)
-- [IntFieldDef](Backland.md#intfielddef)
-- [InvalidParsedIndexField](Backland.md#invalidparsedindexfield)
-- [LazyParseGraphTypePayload](Backland.md#lazyparsegraphtypepayload)
-- [ListDefinition](Backland.md#listdefinition)
-- [ListDefinitionObject](Backland.md#listdefinitionobject)
-- [ListDefinitionTruthy](Backland.md#listdefinitiontruthy)
-- [LoaderContext](Backland.md#loadercontext)
-- [MakeFieldOptional](Backland.md#makefieldoptional)
-- [MakeFieldRequired](Backland.md#makefieldrequired)
-- [MakeTypeList](Backland.md#maketypelist)
-- [MakeTypeOptional](Backland.md#maketypeoptional)
-- [MakeTypeRequired](Backland.md#maketyperequired)
-- [MakeTypeSingle](Backland.md#maketypesingle)
-- [MetaFieldDef](Backland.md#metafielddef)
-- [MethodFilter](Backland.md#methodfilter)
-- [OHas](Backland.md#ohas)
-- [OPick](Backland.md#opick)
-- [OWritable](Backland.md#owritable)
-- [ObjectFieldInput](Backland.md#objectfieldinput)
-- [ObjectMockOptions](Backland.md#objectmockoptions)
-- [ObjectTypeFromInput](Backland.md#objecttypefrominput)
-- [ObjectTypeKID](Backland.md#objecttypekid)
-- [OneFilterOperation](Backland.md#onefilteroperation)
-- [OptionalResolverConfig](Backland.md#optionalresolverconfig)
-- [OverrideField](Backland.md#overridefield)
-- [PKSKValueType](Backland.md#pkskvaluetype)
-- [PageInfo](Backland.md#pageinfo)
-- [PaginationResult](Backland.md#paginationresult)
-- [PaginationType](Backland.md#paginationtype)
-- [ParseFieldOptions](Backland.md#parsefieldoptions)
-- [ParseSpecialObjectKeys](Backland.md#parsespecialobjectkeys)
-- [ParsedDocumentIndexes](Backland.md#parseddocumentindexes)
-- [ParsedIndexFilterPart](Backland.md#parsedindexfilterpart)
-- [ParsedIndexKey](Backland.md#parsedindexkey)
-- [ParsedIndexPart](Backland.md#parsedindexpart)
-- [ParsedUpdateExpression](Backland.md#parsedupdateexpression)
-- [QuerySort](Backland.md#querysort)
-- [RecordFieldDef](Backland.md#recordfielddef)
-- [RelationsFilter](Backland.md#relationsfilter)
-- [Resolver](Backland.md#resolver)
-- [ResolverContextBase](Backland.md#resolvercontextbase)
-- [ResolverKind](Backland.md#resolverkind)
-- [ResolverResolve](Backland.md#resolverresolve)
-- [ResolversToTypeScriptOptions](Backland.md#resolverstotypescriptoptions)
-- [RootFilterOperators](Backland.md#rootfilteroperators)
-- [Seal](Backland.md#seal)
-- [SealedField](Backland.md#sealedfield)
-- [ShortenFinalFieldDefinition](Backland.md#shortenfinalfielddefinition)
-- [SpecialObjectKeys](Backland.md#specialobjectkeys)
-- [StringFieldDef](Backland.md#stringfielddef)
-- [TAnyFieldType](Backland.md#tanyfieldtype)
-- [TSFYConfig](Backland.md#tsfyconfig)
-- [TSFYContext](Backland.md#tsfycontext)
-- [TSFYPart](Backland.md#tsfypart)
-- [TSFYRef](Backland.md#tsfyref)
-- [TSFyChunkDefinition](Backland.md#tsfychunkdefinition)
-- [TSFyHandlerUtils](Backland.md#tsfyhandlerutils)
-- [TSFyTypeDef](Backland.md#tsfytypedef)
-- [TopLevelFilterKey](Backland.md#toplevelfilterkey)
-- [TransporterFieldType](Backland.md#transporterfieldtype)
-- [TransporterLoader](Backland.md#transporterloader)
-- [TransporterLoaderName](Backland.md#transporterloadername)
-- [TransporterLoadersRecord](Backland.md#transporterloadersrecord)
-- [Types](Backland.md#types)
-- [UnknownFieldDef](Backland.md#unknownfielddef)
-- [UpdateExpression](Backland.md#updateexpression)
-- [UpdateExpressionKey](Backland.md#updateexpressionkey)
-- [UpdateManyConfig](Backland.md#updatemanyconfig)
-- [UpdateManyResult](Backland.md#updatemanyresult)
-- [UpdateOneConfig](Backland.md#updateoneconfig)
-- [UpdateOneResult](Backland.md#updateoneresult)
-- [ValidationCustomMessage](Backland.md#validationcustommessage)
-- [\_AllOptional](Backland.md#_alloptional)
-- [\_AnyEntity](Backland.md#_anyentity)
-- [\_DescribeField](Backland.md#_describefield)
-- [\_DescribeObject](Backland.md#_describeobject)
-- [\_EntityLoaderMethods](Backland.md#_entityloadermethods)
-- [\_EntityLoaders](Backland.md#_entityloaders)
-- [\_ExcludeExtend](Backland.md#_excludeextend)
-- [\_ExtendMethodKeys](Backland.md#_extendmethodkeys)
-- [\_FieldKV](Backland.md#_fieldkv)
-- [\_GetAliasFields](Backland.md#_getaliasfields)
-- [\_GetKey](Backland.md#_getkey)
-- [\_GetLoaderFilterDef](Backland.md#_getloaderfilterdef)
-- [\_GetParts](Backland.md#_getparts)
-- [\_InferAlias](Backland.md#_inferalias)
-- [\_InferAliasFields](Backland.md#_inferaliasfields)
-- [\_InferField](Backland.md#_inferfield)
-- [\_InferFinalField](Backland.md#_inferfinalfield)
-- [\_InferObjectDefinition](Backland.md#_inferobjectdefinition)
-- [\_InferSpecialObjectKeys](Backland.md#_inferspecialobjectkeys)
-- [\_InnerDef](Backland.md#_innerdef)
-- [\_ObjectFieldInputBase](Backland.md#_objectfieldinputbase)
-- [\_OmitUndefined](Backland.md#_omitundefined)
-- [\_ResolverArgs](Backland.md#_resolverargs)
-- [\_ShortenFinalFieldDefinitionFieldAsString](Backland.md#_shortenfinalfielddefinitionfieldasstring)
-- [\_ToString](Backland.md#_tostring)
-- [\_WithInferList](Backland.md#_withinferlist)
-- [\_WithInferOptional](Backland.md#_withinferoptional)
+- [$inferableKey](Solarwind.md#$inferablekey)
+- [$sealed](Solarwind.md#$sealed)
+- [$sealedDef](Solarwind.md#$sealeddef)
+- [$sealedKey](Solarwind.md#$sealedkey)
+- [AliasFieldAggregation](Solarwind.md#aliasfieldaggregation)
+- [AliasFieldDef](Solarwind.md#aliasfielddef)
+- [AllFieldTypes](Solarwind.md#allfieldtypes)
+- [AllFilterOperations](Solarwind.md#allfilteroperations)
+- [AllFinalFieldDefinitions](Solarwind.md#allfinalfielddefinitions)
+- [AllIndexFilter](Solarwind.md#allindexfilter)
+- [AnyCollectionIndexConfig](Solarwind.md#anycollectionindexconfig)
+- [AnyDocIndexItem](Solarwind.md#anydocindexitem)
+- [AnyEntity](Solarwind.md#anyentity)
+- [AnyEntityTypesContext](Solarwind.md#anyentitytypescontext)
+- [AnyResolver](Solarwind.md#anyresolver)
+- [ArrayOperationRecord](Solarwind.md#arrayoperationrecord)
+- [AttributeFilterKey](Solarwind.md#attributefilterkey)
+- [SolarwindObjectDefinition](Solarwind.md#solarwindobjectdefinition)
+- [CollectionConfigIndexes](Solarwind.md#collectionconfigindexes)
+- [CollectionIndexConfig](Solarwind.md#collectionindexconfig)
+- [CommonDefSafe](Solarwind.md#commondefsafe)
+- [CommonFieldDefinition](Solarwind.md#commonfielddefinition)
+- [CommonFieldOptions](Solarwind.md#commonfieldoptions)
+- [CommonIndexFields](Solarwind.md#commonindexfields)
+- [ComputeFieldDefinition](Solarwind.md#computefielddefinition)
+- [CreateGraphQLObjectOptions](Solarwind.md#creategraphqlobjectoptions)
+- [CreateOneConfig](Solarwind.md#createoneconfig)
+- [CreateOneResult](Solarwind.md#createoneresult)
+- [CursorType](Solarwind.md#cursortype)
+- [DateFieldDef](Solarwind.md#datefielddef)
+- [DeleteManyConfig](Solarwind.md#deletemanyconfig)
+- [DeleteManyResult](Solarwind.md#deletemanyresult)
+- [DeleteOneConfig](Solarwind.md#deleteoneconfig)
+- [DeleteOneResult](Solarwind.md#deleteoneresult)
+- [DescribeAndOverrideField](Solarwind.md#describeandoverridefield)
+- [DescribeField](Solarwind.md#describefield)
+- [DescribeObjectDefinition](Solarwind.md#describeobjectdefinition)
+- [DescribeWithoutSeal](Solarwind.md#describewithoutseal)
+- [DocumentBase](Solarwind.md#documentbase)
+- [DocumentIndexFieldKey](Solarwind.md#documentindexfieldkey)
+- [DocumentIndexFilterParsed](Solarwind.md#documentindexfilterparsed)
+- [DocumentIndexItem](Solarwind.md#documentindexitem)
+- [DocumentIndexRelation](Solarwind.md#documentindexrelation)
+- [EdgeType](Solarwind.md#edgetype)
+- [EntityDocument](Solarwind.md#entitydocument)
+- [EntityDocumentBase](Solarwind.md#entitydocumentbase)
+- [EntityDocumentInput](Solarwind.md#entitydocumentinput)
+- [EntityErrorDetails](Solarwind.md#entityerrordetails)
+- [EntityErrorKind](Solarwind.md#entityerrorkind)
+- [EntityErrorKindEnum](Solarwind.md#entityerrorkindenum)
+- [EntityFieldResolver](Solarwind.md#entityfieldresolver)
+- [EntityFilters](Solarwind.md#entityfilters)
+- [EntityHooks](Solarwind.md#entityhooks)
+- [EntityHooksCreateDefinitionKind](Solarwind.md#entityhookscreatedefinitionkind)
+- [EntityLoaderConfig](Solarwind.md#entityloaderconfig)
+- [EntityLoaderMethods](Solarwind.md#entityloadermethods)
+- [EntityOptions](Solarwind.md#entityoptions)
+- [EntityParserHookContext](Solarwind.md#entityparserhookcontext)
+- [FieldAsString](Solarwind.md#fieldasstring)
+- [FieldComposer](Solarwind.md#fieldcomposer)
+- [FieldCreators](Solarwind.md#fieldcreators)
+- [FieldDefinitionConfig](Solarwind.md#fielddefinitionconfig)
+- [FieldDefinitions](Solarwind.md#fielddefinitions)
+- [FieldExample](Solarwind.md#fieldexample)
+- [FieldExampleFunction](Solarwind.md#fieldexamplefunction)
+- [FieldInput](Solarwind.md#fieldinput)
+- [FieldInputLikeRequiredKey](Solarwind.md#fieldinputlikerequiredkey)
+- [FieldParserConfig](Solarwind.md#fieldparserconfig)
+- [FieldParserOptionsObject](Solarwind.md#fieldparseroptionsobject)
+- [FieldTypeErrorCode](Solarwind.md#fieldtypeerrorcode)
+- [FieldTypeName](Solarwind.md#fieldtypename)
+- [FieldTypeOptions](Solarwind.md#fieldtypeoptions)
+- [FieldTypeParser](Solarwind.md#fieldtypeparser)
+- [FilterConditions](Solarwind.md#filterconditions)
+- [FilterRecord](Solarwind.md#filterrecord)
+- [FinalFieldDefinition](Solarwind.md#finalfielddefinition)
+- [FinalFieldDefinitionStrict](Solarwind.md#finalfielddefinitionstrict)
+- [FinalObjectDefinition](Solarwind.md#finalobjectdefinition)
+- [FindByIdConfig](Solarwind.md#findbyidconfig)
+- [FindManyConfig](Solarwind.md#findmanyconfig)
+- [FindManyResult](Solarwind.md#findmanyresult)
+- [FindOneConfig](Solarwind.md#findoneconfig)
+- [FindOneResult](Solarwind.md#findoneresult)
+- [FlattenFieldDefinition](Solarwind.md#flattenfielddefinition)
+- [FloatFieldDef](Solarwind.md#floatfielddef)
+- [GraphQLSchemaWithUtils](Solarwind.md#graphqlschemawithutils)
+- [GraphTypeArgs](Solarwind.md#graphtypeargs)
+- [GraphTypeKID](Solarwind.md#graphtypekid)
+- [GroupedResolvers](Solarwind.md#groupedresolvers)
+- [IDFieldDef](Solarwind.md#idfielddef)
+- [ImplementObject](Solarwind.md#implementobject)
+- [IndexBasedFilterParsed](Solarwind.md#indexbasedfilterparsed)
+- [IndexFilter](Solarwind.md#indexfilter)
+- [IndexFilterFound](Solarwind.md#indexfilterfound)
+- [IndexFilterRecord](Solarwind.md#indexfilterrecord)
+- [IndexKeyHash](Solarwind.md#indexkeyhash)
+- [IndexPartKind](Solarwind.md#indexpartkind)
+- [Infer](Solarwind.md#infer)
+- [InferFinalField](Solarwind.md#inferfinalfield)
+- [InferGraphType](Solarwind.md#infergraphtype)
+- [InferObjectDefinition](Solarwind.md#inferobjectdefinition)
+- [InferObjectType](Solarwind.md#inferobjecttype)
+- [InferRecordFieldType](Solarwind.md#inferrecordfieldtype)
+- [InferResolverArgs](Solarwind.md#inferresolverargs)
+- [InferString](Solarwind.md#inferstring)
+- [InferTypeName](Solarwind.md#infertypename)
+- [InnerDef](Solarwind.md#innerdef)
+- [IntFieldDef](Solarwind.md#intfielddef)
+- [InvalidParsedIndexField](Solarwind.md#invalidparsedindexfield)
+- [LazyParseGraphTypePayload](Solarwind.md#lazyparsegraphtypepayload)
+- [ListDefinition](Solarwind.md#listdefinition)
+- [ListDefinitionObject](Solarwind.md#listdefinitionobject)
+- [ListDefinitionTruthy](Solarwind.md#listdefinitiontruthy)
+- [LoaderContext](Solarwind.md#loadercontext)
+- [MakeFieldOptional](Solarwind.md#makefieldoptional)
+- [MakeFieldRequired](Solarwind.md#makefieldrequired)
+- [MakeTypeList](Solarwind.md#maketypelist)
+- [MakeTypeOptional](Solarwind.md#maketypeoptional)
+- [MakeTypeRequired](Solarwind.md#maketyperequired)
+- [MakeTypeSingle](Solarwind.md#maketypesingle)
+- [MetaFieldDef](Solarwind.md#metafielddef)
+- [MethodFilter](Solarwind.md#methodfilter)
+- [OHas](Solarwind.md#ohas)
+- [OPick](Solarwind.md#opick)
+- [OWritable](Solarwind.md#owritable)
+- [ObjectFieldInput](Solarwind.md#objectfieldinput)
+- [ObjectMockOptions](Solarwind.md#objectmockoptions)
+- [ObjectTypeFromInput](Solarwind.md#objecttypefrominput)
+- [ObjectTypeKID](Solarwind.md#objecttypekid)
+- [OneFilterOperation](Solarwind.md#onefilteroperation)
+- [OptionalResolverConfig](Solarwind.md#optionalresolverconfig)
+- [OverrideField](Solarwind.md#overridefield)
+- [PKSKValueType](Solarwind.md#pkskvaluetype)
+- [PageInfo](Solarwind.md#pageinfo)
+- [PaginationResult](Solarwind.md#paginationresult)
+- [PaginationType](Solarwind.md#paginationtype)
+- [ParseFieldOptions](Solarwind.md#parsefieldoptions)
+- [ParseSpecialObjectKeys](Solarwind.md#parsespecialobjectkeys)
+- [ParsedDocumentIndexes](Solarwind.md#parseddocumentindexes)
+- [ParsedIndexFilterPart](Solarwind.md#parsedindexfilterpart)
+- [ParsedIndexKey](Solarwind.md#parsedindexkey)
+- [ParsedIndexPart](Solarwind.md#parsedindexpart)
+- [ParsedUpdateExpression](Solarwind.md#parsedupdateexpression)
+- [QuerySort](Solarwind.md#querysort)
+- [RecordFieldDef](Solarwind.md#recordfielddef)
+- [RelationsFilter](Solarwind.md#relationsfilter)
+- [Resolver](Solarwind.md#resolver)
+- [ResolverContextBase](Solarwind.md#resolvercontextbase)
+- [ResolverKind](Solarwind.md#resolverkind)
+- [ResolverResolve](Solarwind.md#resolverresolve)
+- [ResolversToTypeScriptOptions](Solarwind.md#resolverstotypescriptoptions)
+- [RootFilterOperators](Solarwind.md#rootfilteroperators)
+- [Seal](Solarwind.md#seal)
+- [SealedField](Solarwind.md#sealedfield)
+- [ShortenFinalFieldDefinition](Solarwind.md#shortenfinalfielddefinition)
+- [SpecialObjectKeys](Solarwind.md#specialobjectkeys)
+- [StringFieldDef](Solarwind.md#stringfielddef)
+- [TAnyFieldType](Solarwind.md#tanyfieldtype)
+- [TSFYConfig](Solarwind.md#tsfyconfig)
+- [TSFYContext](Solarwind.md#tsfycontext)
+- [TSFYPart](Solarwind.md#tsfypart)
+- [TSFYRef](Solarwind.md#tsfyref)
+- [TSFyChunkDefinition](Solarwind.md#tsfychunkdefinition)
+- [TSFyHandlerUtils](Solarwind.md#tsfyhandlerutils)
+- [TSFyTypeDef](Solarwind.md#tsfytypedef)
+- [TopLevelFilterKey](Solarwind.md#toplevelfilterkey)
+- [TransporterFieldType](Solarwind.md#transporterfieldtype)
+- [TransporterLoader](Solarwind.md#transporterloader)
+- [TransporterLoaderName](Solarwind.md#transporterloadername)
+- [TransporterLoadersRecord](Solarwind.md#transporterloadersrecord)
+- [Types](Solarwind.md#types)
+- [UnknownFieldDef](Solarwind.md#unknownfielddef)
+- [UpdateExpression](Solarwind.md#updateexpression)
+- [UpdateExpressionKey](Solarwind.md#updateexpressionkey)
+- [UpdateManyConfig](Solarwind.md#updatemanyconfig)
+- [UpdateManyResult](Solarwind.md#updatemanyresult)
+- [UpdateOneConfig](Solarwind.md#updateoneconfig)
+- [UpdateOneResult](Solarwind.md#updateoneresult)
+- [ValidationCustomMessage](Solarwind.md#validationcustommessage)
+- [\_AllOptional](Solarwind.md#_alloptional)
+- [\_AnyEntity](Solarwind.md#_anyentity)
+- [\_DescribeField](Solarwind.md#_describefield)
+- [\_DescribeObject](Solarwind.md#_describeobject)
+- [\_EntityLoaderMethods](Solarwind.md#_entityloadermethods)
+- [\_EntityLoaders](Solarwind.md#_entityloaders)
+- [\_ExcludeExtend](Solarwind.md#_excludeextend)
+- [\_ExtendMethodKeys](Solarwind.md#_extendmethodkeys)
+- [\_FieldKV](Solarwind.md#_fieldkv)
+- [\_GetAliasFields](Solarwind.md#_getaliasfields)
+- [\_GetKey](Solarwind.md#_getkey)
+- [\_GetLoaderFilterDef](Solarwind.md#_getloaderfilterdef)
+- [\_GetParts](Solarwind.md#_getparts)
+- [\_InferAlias](Solarwind.md#_inferalias)
+- [\_InferAliasFields](Solarwind.md#_inferaliasfields)
+- [\_InferField](Solarwind.md#_inferfield)
+- [\_InferFinalField](Solarwind.md#_inferfinalfield)
+- [\_InferObjectDefinition](Solarwind.md#_inferobjectdefinition)
+- [\_InferSpecialObjectKeys](Solarwind.md#_inferspecialobjectkeys)
+- [\_InnerDef](Solarwind.md#_innerdef)
+- [\_ObjectFieldInputBase](Solarwind.md#_objectfieldinputbase)
+- [\_OmitUndefined](Solarwind.md#_omitundefined)
+- [\_ResolverArgs](Solarwind.md#_resolverargs)
+- [\_ShortenFinalFieldDefinitionFieldAsString](Solarwind.md#_shortenfinalfielddefinitionfieldasstring)
+- [\_ToString](Solarwind.md#_tostring)
+- [\_WithInferList](Solarwind.md#_withinferlist)
+- [\_WithInferOptional](Solarwind.md#_withinferoptional)
 
 ### Variables
 
-- [$inferableKey](Backland.md#$inferablekey-1)
-- [$sealed](Backland.md#$sealed-1)
-- [$sealedKey](Backland.md#$sealedkey-1)
-- [AttributeFilterKeys](Backland.md#attributefilterkeys)
-- [BacklandObject](Backland.md#backlandobject)
-- [CACHED\_FIELD\_INSTANCE\_KEY](Backland.md#cached_field_instance_key)
-- [CircularDeps](Backland.md#circulardeps)
-- [DEFAULT\_SORT](Backland.md#default_sort)
-- [EntityErrorKind](Backland.md#entityerrorkind-1)
-- [EntityHooksCreateDefinitionKind](Backland.md#entityhookscreatedefinitionkind-1)
-- [EntityStore](Backland.md#entitystore)
-- [FieldTypeErrorCodes](Backland.md#fieldtypeerrorcodes)
-- [FieldTypes](Backland.md#fieldtypes)
-- [FieldsTypeCache](Backland.md#fieldstypecache)
-- [FilterConditionsParsers](Backland.md#filterconditionsparsers)
-- [PageInfoType](Backland.md#pageinfotype)
-- [SpecialObjectKeyEnum](Backland.md#specialobjectkeyenum)
-- [TopLevelFilterKeys](Backland.md#toplevelfilterkeys)
-- [ULID\_REGEX](Backland.md#ulid_regex)
-- [\_parserHooks](Backland.md#_parserhooks)
-- [create](Backland.md#create)
-- [defaultTypesDest](Backland.md#defaulttypesdest)
-- [indexConfigSchema](Backland.md#indexconfigschema)
-- [indexItemSchema](Backland.md#indexitemschema)
-- [isFieldTypeName](Backland.md#isfieldtypename)
-- [objectMetaFieldKey](Backland.md#objectmetafieldkey)
-- [relationSchema](Backland.md#relationschema)
-- [resolverKinds](Backland.md#resolverkinds)
-- [transporterLoaderNames](Backland.md#transporterloadernames)
-- [tsfy\_defaults](Backland.md#tsfy_defaults)
-- [types](Backland.md#types-1)
+- [$inferableKey](Solarwind.md#$inferablekey-1)
+- [$sealed](Solarwind.md#$sealed-1)
+- [$sealedKey](Solarwind.md#$sealedkey-1)
+- [AttributeFilterKeys](Solarwind.md#attributefilterkeys)
+- [SolarwindObject](Solarwind.md#solarwindobject)
+- [CACHED\_FIELD\_INSTANCE\_KEY](Solarwind.md#cached_field_instance_key)
+- [CircularDeps](Solarwind.md#circulardeps)
+- [DEFAULT\_SORT](Solarwind.md#default_sort)
+- [EntityErrorKind](Solarwind.md#entityerrorkind-1)
+- [EntityHooksCreateDefinitionKind](Solarwind.md#entityhookscreatedefinitionkind-1)
+- [EntityStore](Solarwind.md#entitystore)
+- [FieldTypeErrorCodes](Solarwind.md#fieldtypeerrorcodes)
+- [FieldTypes](Solarwind.md#fieldtypes)
+- [FieldsTypeCache](Solarwind.md#fieldstypecache)
+- [FilterConditionsParsers](Solarwind.md#filterconditionsparsers)
+- [PageInfoType](Solarwind.md#pageinfotype)
+- [SpecialObjectKeyEnum](Solarwind.md#specialobjectkeyenum)
+- [TopLevelFilterKeys](Solarwind.md#toplevelfilterkeys)
+- [ULID\_REGEX](Solarwind.md#ulid_regex)
+- [\_parserHooks](Solarwind.md#_parserhooks)
+- [create](Solarwind.md#create)
+- [defaultTypesDest](Solarwind.md#defaulttypesdest)
+- [indexConfigSchema](Solarwind.md#indexconfigschema)
+- [indexItemSchema](Solarwind.md#indexitemschema)
+- [isFieldTypeName](Solarwind.md#isfieldtypename)
+- [objectMetaFieldKey](Solarwind.md#objectmetafieldkey)
+- [relationSchema](Solarwind.md#relationschema)
+- [resolverKinds](Solarwind.md#resolverkinds)
+- [transporterLoaderNames](Solarwind.md#transporterloadernames)
+- [tsfy\_defaults](Solarwind.md#tsfy_defaults)
+- [types](Solarwind.md#types-1)
 
 ### Functions
 
-- [\_\_getCachedFieldInstance](Backland.md#__getcachedfieldinstance)
-- [\_ensureTransporterMethodsImplementation](Backland.md#_ensuretransportermethodsimplementation)
-- [assertFieldFilter](Backland.md#assertfieldfilter)
-- [cleanMetaField](Backland.md#cleanmetafield)
-- [createAggioIndexBasedFilters](Backland.md#createaggioindexbasedfilters)
-- [createBacklandObject](Backland.md#createbacklandobject)
-- [createDocumentIndexBasedFilters](Backland.md#createdocumentindexbasedfilters)
-- [createEmptyMetaField](Backland.md#createemptymetafield)
-- [createEntity](Backland.md#createentity)
-- [createEntityPlugin](Backland.md#createentityplugin)
-- [createFieldTypeError](Backland.md#createfieldtypeerror)
-- [createGraphQLSchema](Backland.md#creategraphqlschema)
-- [createObjectType](Backland.md#createobjecttype)
-- [createResolver](Backland.md#createresolver)
-- [createResolverFactory](Backland.md#createresolverfactory)
-- [createSchema](Backland.md#createschema)
-- [createTSFYContext](Backland.md#createtsfycontext)
-- [createTSfyRef](Backland.md#createtsfyref)
-- [createType](Backland.md#createtype)
-- [deleteCachedFieldInstance](Backland.md#deletecachedfieldinstance)
-- [encodeIndexValue](Backland.md#encodeindexvalue)
-- [extendObjectDefinition](Backland.md#extendobjectdefinition)
-- [extendType](Backland.md#extendtype)
-- [fieldToMock](Backland.md#fieldtomock)
-- [getDocumentIndexFields](Backland.md#getdocumentindexfields)
-- [getObjectDefinitionId](Backland.md#getobjectdefinitionid)
-- [getObjectDefinitionMetaField](Backland.md#getobjectdefinitionmetafield)
-- [getParsedIndexKeys](Backland.md#getparsedindexkeys)
-- [getResolver](Backland.md#getresolver)
-- [getTSFyIdentifier](Backland.md#gettsfyidentifier)
-- [getType](Backland.md#gettype)
-- [implementObject](Backland.md#implementobject-1)
-- [isEntity](Backland.md#isentity)
-- [isFieldError](Backland.md#isfielderror)
-- [isFieldInstance](Backland.md#isfieldinstance)
-- [isFilterConditionKey](Backland.md#isfilterconditionkey)
-- [isHiddenFieldName](Backland.md#ishiddenfieldname)
-- [isMetaField](Backland.md#ismetafield)
-- [isMetaFieldKey](Backland.md#ismetafieldkey)
-- [isObject](Backland.md#isobject)
-- [isObjectAsTypeDefinition](Backland.md#isobjectastypedefinition)
-- [isObjectValidationError](Backland.md#isobjectvalidationerror)
-- [isPossibleArgsDef](Backland.md#ispossibleargsdef)
-- [mergeIndexRelationsResult](Backland.md#mergeindexrelationsresult)
-- [moduleWrapper](Backland.md#modulewrapper)
-- [objectMock](Backland.md#objectmock)
-- [parseAggioAttributeFilters](Backland.md#parseaggioattributefilters)
-- [parseAggioUpdateExpression](Backland.md#parseaggioupdateexpression)
-- [parseCollectionIndexConfig](Backland.md#parsecollectionindexconfig)
-- [parseEntityIndexFields](Backland.md#parseentityindexfields)
-- [parseField](Backland.md#parsefield)
-- [parseFieldDefinitionConfig](Backland.md#parsefielddefinitionconfig)
-- [parseFilterIndexFilterParts](Backland.md#parsefilterindexfilterparts)
-- [parseFlattenFieldDefinition](Backland.md#parseflattenfielddefinition)
-- [parseObjectDefinition](Backland.md#parseobjectdefinition)
-- [parseObjectField](Backland.md#parseobjectfield)
-- [parseOneIndexDocumentFields](Backland.md#parseoneindexdocumentfields)
-- [parseUpdateExpression](Backland.md#parseupdateexpression)
-- [parseValidationError](Backland.md#parsevalidationerror)
-- [pickIndexKeyPartsFromDocument](Backland.md#pickindexkeypartsfromdocument)
-- [registerEntity](Backland.md#registerentity)
-- [resetTypesCache](Backland.md#resettypescache)
-- [resolversToTypescript](Backland.md#resolverstotypescript)
-- [resolversTypescriptParts](Backland.md#resolverstypescriptparts)
-- [setParserHook](Backland.md#setparserhook)
-- [tsfy](Backland.md#tsfy)
-- [tsfyWriter](Backland.md#tsfywriter)
+- [\_\_getCachedFieldInstance](Solarwind.md#__getcachedfieldinstance)
+- [\_ensureTransporterMethodsImplementation](Solarwind.md#_ensuretransportermethodsimplementation)
+- [assertFieldFilter](Solarwind.md#assertfieldfilter)
+- [cleanMetaField](Solarwind.md#cleanmetafield)
+- [createAggioIndexBasedFilters](Solarwind.md#createaggioindexbasedfilters)
+- [createSolarwindObject](Solarwind.md#createsolarwindobject)
+- [createDocumentIndexBasedFilters](Solarwind.md#createdocumentindexbasedfilters)
+- [createEmptyMetaField](Solarwind.md#createemptymetafield)
+- [createEntity](Solarwind.md#createentity)
+- [createEntityPlugin](Solarwind.md#createentityplugin)
+- [createFieldTypeError](Solarwind.md#createfieldtypeerror)
+- [createGraphQLSchema](Solarwind.md#creategraphqlschema)
+- [createObjectType](Solarwind.md#createobjecttype)
+- [createResolver](Solarwind.md#createresolver)
+- [createResolverFactory](Solarwind.md#createresolverfactory)
+- [createSchema](Solarwind.md#createschema)
+- [createTSFYContext](Solarwind.md#createtsfycontext)
+- [createTSfyRef](Solarwind.md#createtsfyref)
+- [createType](Solarwind.md#createtype)
+- [deleteCachedFieldInstance](Solarwind.md#deletecachedfieldinstance)
+- [encodeIndexValue](Solarwind.md#encodeindexvalue)
+- [extendObjectDefinition](Solarwind.md#extendobjectdefinition)
+- [extendType](Solarwind.md#extendtype)
+- [fieldToMock](Solarwind.md#fieldtomock)
+- [getDocumentIndexFields](Solarwind.md#getdocumentindexfields)
+- [getObjectDefinitionId](Solarwind.md#getobjectdefinitionid)
+- [getObjectDefinitionMetaField](Solarwind.md#getobjectdefinitionmetafield)
+- [getParsedIndexKeys](Solarwind.md#getparsedindexkeys)
+- [getResolver](Solarwind.md#getresolver)
+- [getTSFyIdentifier](Solarwind.md#gettsfyidentifier)
+- [getType](Solarwind.md#gettype)
+- [implementObject](Solarwind.md#implementobject-1)
+- [isEntity](Solarwind.md#isentity)
+- [isFieldError](Solarwind.md#isfielderror)
+- [isFieldInstance](Solarwind.md#isfieldinstance)
+- [isFilterConditionKey](Solarwind.md#isfilterconditionkey)
+- [isHiddenFieldName](Solarwind.md#ishiddenfieldname)
+- [isMetaField](Solarwind.md#ismetafield)
+- [isMetaFieldKey](Solarwind.md#ismetafieldkey)
+- [isObject](Solarwind.md#isobject)
+- [isObjectAsTypeDefinition](Solarwind.md#isobjectastypedefinition)
+- [isObjectValidationError](Solarwind.md#isobjectvalidationerror)
+- [isPossibleArgsDef](Solarwind.md#ispossibleargsdef)
+- [mergeIndexRelationsResult](Solarwind.md#mergeindexrelationsresult)
+- [moduleWrapper](Solarwind.md#modulewrapper)
+- [objectMock](Solarwind.md#objectmock)
+- [parseAggioAttributeFilters](Solarwind.md#parseaggioattributefilters)
+- [parseAggioUpdateExpression](Solarwind.md#parseaggioupdateexpression)
+- [parseCollectionIndexConfig](Solarwind.md#parsecollectionindexconfig)
+- [parseEntityIndexFields](Solarwind.md#parseentityindexfields)
+- [parseField](Solarwind.md#parsefield)
+- [parseFieldDefinitionConfig](Solarwind.md#parsefielddefinitionconfig)
+- [parseFilterIndexFilterParts](Solarwind.md#parsefilterindexfilterparts)
+- [parseFlattenFieldDefinition](Solarwind.md#parseflattenfielddefinition)
+- [parseObjectDefinition](Solarwind.md#parseobjectdefinition)
+- [parseObjectField](Solarwind.md#parseobjectfield)
+- [parseOneIndexDocumentFields](Solarwind.md#parseoneindexdocumentfields)
+- [parseUpdateExpression](Solarwind.md#parseupdateexpression)
+- [parseValidationError](Solarwind.md#parsevalidationerror)
+- [pickIndexKeyPartsFromDocument](Solarwind.md#pickindexkeypartsfromdocument)
+- [registerEntity](Solarwind.md#registerentity)
+- [resetTypesCache](Solarwind.md#resettypescache)
+- [resolversToTypescript](Solarwind.md#resolverstotypescript)
+- [resolversTypescriptParts](Solarwind.md#resolverstypescriptparts)
+- [setParserHook](Solarwind.md#setparserhook)
+- [tsfy](Solarwind.md#tsfy)
+- [tsfyWriter](Solarwind.md#tsfywriter)
 
 ## References
 
 ### InferField
 
-Renames and re-exports [Infer](Backland.md#infer)
+Renames and re-exports [Infer](Solarwind.md#infer)
 
 ## Type Aliases
 
 ### $inferableKey
 
-Ƭ **$inferableKey**: typeof [`$inferableKey`](Backland.md#$inferablekey-1)
+Ƭ **$inferableKey**: typeof [`$inferableKey`](Solarwind.md#$inferablekey-1)
 
 #### Defined in
 
@@ -413,7 +413,7 @@ ___
 
 ### $sealed
 
-Ƭ **$sealed**: typeof [`$sealed`](Backland.md#$sealed-1)
+Ƭ **$sealed**: typeof [`$sealed`](Solarwind.md#$sealed-1)
 
 #### Defined in
 
@@ -425,7 +425,7 @@ ___
 
 ### $sealedDef
 
-Ƭ **$sealedDef**: `Compute`<{ `list`: ``false`` ; `literal`: [`$sealed`](Backland.md#$sealed-1) ; `optional`: ``false``  } & [`CommonDefSafe`](Backland.md#commondefsafe)\>
+Ƭ **$sealedDef**: `Compute`<{ `list`: ``false`` ; `literal`: [`$sealed`](Solarwind.md#$sealed-1) ; `optional`: ``false``  } & [`CommonDefSafe`](Solarwind.md#commondefsafe)\>
 
 #### Defined in
 
@@ -435,7 +435,7 @@ ___
 
 ### $sealedKey
 
-Ƭ **$sealedKey**: typeof [`$sealedKey`](Backland.md#$sealedkey-1)
+Ƭ **$sealedKey**: typeof [`$sealedKey`](Solarwind.md#$sealedkey-1)
 
 #### Defined in
 
@@ -447,7 +447,7 @@ ___
 
 ### AliasFieldAggregation
 
-Ƭ **AliasFieldAggregation**<`Parent`\>: { `type`: [`FieldInput`](Backland.md#fieldinput)  } & { `aggregate`: `Aggregation`<`Parent`\> \| `Readonly`<`Aggregation`<`Parent`\>\> ; `from`: `ObjectDotNotations`<`Parent`\>  } \| { `aggregate`: `Aggregation`<`Parent`\> \| `Readonly`<`Aggregation`<`Parent`\>\> ; `from?`: `undefined`  } \| { `aggregate?`: `undefined` ; `from`: `ObjectDotNotations`<`Parent`\>  }
+Ƭ **AliasFieldAggregation**<`Parent`\>: { `type`: [`FieldInput`](Solarwind.md#fieldinput)  } & { `aggregate`: `Aggregation`<`Parent`\> \| `Readonly`<`Aggregation`<`Parent`\>\> ; `from`: `ObjectDotNotations`<`Parent`\>  } \| { `aggregate`: `Aggregation`<`Parent`\> \| `Readonly`<`Aggregation`<`Parent`\>\> ; `from?`: `undefined`  } \| { `aggregate?`: `undefined` ; `from`: `ObjectDotNotations`<`Parent`\>  }
 
 #### Type parameters
 
@@ -463,7 +463,7 @@ ___
 
 ### AliasFieldDef
 
-Ƭ **AliasFieldDef**: `string` \| [`AliasFieldAggregation`](Backland.md#aliasfieldaggregation)
+Ƭ **AliasFieldDef**: `string` \| [`AliasFieldAggregation`](Solarwind.md#aliasfieldaggregation)
 
 #### Defined in
 
@@ -491,17 +491,17 @@ ___
 | :------ | :------ |
 | `$between` | [`string`, `string`] \| [`number`, `number`] |
 | `$contains` | `string` \| `number` \| `boolean` \| ``null`` |
-| `$eq` | [`PKSKValueType`](Backland.md#pkskvaluetype) \| `boolean` |
+| `$eq` | [`PKSKValueType`](Solarwind.md#pkskvaluetype) \| `boolean` |
 | `$exists` | `boolean` |
-| `$gt` | [`PKSKValueType`](Backland.md#pkskvaluetype) |
-| `$gte` | [`PKSKValueType`](Backland.md#pkskvaluetype) |
+| `$gt` | [`PKSKValueType`](Solarwind.md#pkskvaluetype) |
+| `$gte` | [`PKSKValueType`](Solarwind.md#pkskvaluetype) |
 | `$in` | `unknown`[] |
-| `$lt` | [`PKSKValueType`](Backland.md#pkskvaluetype) |
-| `$lte` | [`PKSKValueType`](Backland.md#pkskvaluetype) |
+| `$lt` | [`PKSKValueType`](Solarwind.md#pkskvaluetype) |
+| `$lte` | [`PKSKValueType`](Solarwind.md#pkskvaluetype) |
 | `$matchString` | `string` |
-| `$ne` | [`PKSKValueType`](Backland.md#pkskvaluetype) \| `boolean` |
+| `$ne` | [`PKSKValueType`](Solarwind.md#pkskvaluetype) \| `boolean` |
 | `$startsWith` | `string` |
-| `$type` | [`TransporterFieldType`](Backland.md#transporterfieldtype) |
+| `$type` | [`TransporterFieldType`](Solarwind.md#transporterfieldtype) |
 
 #### Defined in
 
@@ -528,12 +528,12 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `$between` | [`string`, `string`] \| [`number`, `number`] |
-| `$eq` | [`PKSKValueType`](Backland.md#pkskvaluetype) |
-| `$gt` | [`PKSKValueType`](Backland.md#pkskvaluetype) |
-| `$gte` | [`PKSKValueType`](Backland.md#pkskvaluetype) |
-| `$lt` | [`PKSKValueType`](Backland.md#pkskvaluetype) |
-| `$lte` | [`PKSKValueType`](Backland.md#pkskvaluetype) |
-| `$startsWith` | [`PKSKValueType`](Backland.md#pkskvaluetype) |
+| `$eq` | [`PKSKValueType`](Solarwind.md#pkskvaluetype) |
+| `$gt` | [`PKSKValueType`](Solarwind.md#pkskvaluetype) |
+| `$gte` | [`PKSKValueType`](Solarwind.md#pkskvaluetype) |
+| `$lt` | [`PKSKValueType`](Solarwind.md#pkskvaluetype) |
+| `$lte` | [`PKSKValueType`](Solarwind.md#pkskvaluetype) |
+| `$startsWith` | [`PKSKValueType`](Solarwind.md#pkskvaluetype) |
 
 #### Defined in
 
@@ -543,7 +543,7 @@ ___
 
 ### AnyCollectionIndexConfig
 
-Ƭ **AnyCollectionIndexConfig**: [`CollectionIndexConfig`](Backland.md#collectionindexconfig)<[`DocumentBase`](Backland.md#documentbase), `string`\>
+Ƭ **AnyCollectionIndexConfig**: [`CollectionIndexConfig`](Solarwind.md#collectionindexconfig)<[`DocumentBase`](Solarwind.md#documentbase), `string`\>
 
 #### Defined in
 
@@ -553,7 +553,7 @@ ___
 
 ### AnyDocIndexItem
 
-Ƭ **AnyDocIndexItem**: [`DocumentIndexItem`](Backland.md#documentindexitem)
+Ƭ **AnyDocIndexItem**: [`DocumentIndexItem`](Solarwind.md#documentindexitem)
 
 #### Defined in
 
@@ -583,7 +583,7 @@ ___
 
 ### AnyResolver
 
-Ƭ **AnyResolver**: [`Resolver`](Backland.md#resolver)<`any`, `any`, `any`, `any`\>
+Ƭ **AnyResolver**: [`Resolver`](Solarwind.md#resolver)<`any`, `any`, `any`, `any`\>
 
 #### Defined in
 
@@ -610,7 +610,7 @@ ___
 
 ### AttributeFilterKey
 
-Ƭ **AttributeFilterKey**: typeof [`AttributeFilterKeys`](Backland.md#attributefilterkeys)[`number`]
+Ƭ **AttributeFilterKey**: typeof [`AttributeFilterKeys`](Solarwind.md#attributefilterkeys)[`number`]
 
 #### Defined in
 
@@ -618,9 +618,9 @@ packages/transporter/lib/Transporter.d.ts:164
 
 ___
 
-### BacklandObjectDefinition
+### SolarwindObjectDefinition
 
-Ƭ **BacklandObjectDefinition**: [`ObjectDefinitionInput`](../interfaces/Backland.ObjectDefinitionInput.md)
+Ƭ **SolarwindObjectDefinition**: [`ObjectDefinitionInput`](../interfaces/Solarwind.ObjectDefinitionInput.md)
 
 #### Defined in
 
@@ -630,13 +630,13 @@ ___
 
 ### CollectionConfigIndexes
 
-Ƭ **CollectionConfigIndexes**<`Doc`, `K`\>: `ReadonlyArray`<[`DocumentIndexItem`](Backland.md#documentindexitem)<`K`\>\>
+Ƭ **CollectionConfigIndexes**<`Doc`, `K`\>: `ReadonlyArray`<[`DocumentIndexItem`](Solarwind.md#documentindexitem)<`K`\>\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Backland.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Solarwind.md#documentbase) |
 | `K` | extends `string` = `Extract`<keyof `Doc`, `string`\> |
 
 #### Defined in
@@ -653,7 +653,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Backland.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Solarwind.md#documentbase) |
 | `EntityName` | extends `string` |
 
 #### Type declaration
@@ -661,7 +661,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `entity` | `Readonly`<`EntityName`\> |
-| `indexes` | [`CollectionConfigIndexes`](Backland.md#collectionconfigindexes)<`Doc`\> |
+| `indexes` | [`CollectionConfigIndexes`](Solarwind.md#collectionconfigindexes)<`Doc`\> |
 
 #### Defined in
 
@@ -678,7 +678,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `description?` | `string` |
-| `example?` | [`FieldExample`](Backland.md#fieldexample) |
+| `example?` | [`FieldExample`](Solarwind.md#fieldexample) |
 | `hidden?` | `boolean` |
 | `name?` | `string` |
 
@@ -690,7 +690,7 @@ ___
 
 ### CommonFieldDefinition
 
-Ƭ **CommonFieldDefinition**<`T`\>: { `type`: `T`  } & [`CommonFieldOptions`](Backland.md#commonfieldoptions)
+Ƭ **CommonFieldDefinition**<`T`\>: { `type`: `T`  } & [`CommonFieldOptions`](Solarwind.md#commonfieldoptions)
 
 #### Type parameters
 
@@ -706,7 +706,7 @@ ___
 
 ### CommonFieldOptions
 
-Ƭ **CommonFieldOptions**: [`CommonDefSafe`](Backland.md#commondefsafe) & { `def?`: `any` ; `defaultValue?`: `any` ; `list?`: [`ListDefinition`](Backland.md#listdefinition) ; `optional?`: `boolean`  }
+Ƭ **CommonFieldOptions**: [`CommonDefSafe`](Solarwind.md#commondefsafe) & { `def?`: `any` ; `defaultValue?`: `any` ; `list?`: [`ListDefinition`](Solarwind.md#listdefinition) ; `optional?`: `boolean`  }
 
 #### Defined in
 
@@ -758,7 +758,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Backland.md#documentbase) = [`DocumentBase`](Backland.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Solarwind.md#documentbase) = [`DocumentBase`](Solarwind.md#documentbase) |
 | `PK` | extends `string` = `string` |
 | `SK` | extends `string` \| `undefined` = `string` |
 
@@ -766,9 +766,9 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `condition?` | [`FilterRecord`](Backland.md#filterrecord)<`Doc`\> |
-| `context?` | [`LoaderContext`](Backland.md#loadercontext) |
-| `indexConfig` | [`CollectionIndexConfig`](Backland.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
+| `condition?` | [`FilterRecord`](Solarwind.md#filterrecord)<`Doc`\> |
+| `context?` | [`LoaderContext`](Solarwind.md#loadercontext) |
+| `indexConfig` | [`CollectionIndexConfig`](Solarwind.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 | `item` | `Doc` |
 | `replace?` | `boolean` |
 
@@ -852,7 +852,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Backland.md#documentbase) = [`DocumentBase`](Backland.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Solarwind.md#documentbase) = [`DocumentBase`](Solarwind.md#documentbase) |
 | `PK` | extends `string` = `string` |
 | `SK` | extends `string` \| `undefined` = `string` |
 
@@ -860,10 +860,10 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `condition?` | [`FilterRecord`](Backland.md#filterrecord)<`Doc`\> |
-| `context?` | [`LoaderContext`](Backland.md#loadercontext) |
-| `filter` | [`MethodFilter`](Backland.md#methodfilter)<`PK`, `SK`\> |
-| `indexConfig` | [`CollectionIndexConfig`](Backland.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
+| `condition?` | [`FilterRecord`](Solarwind.md#filterrecord)<`Doc`\> |
+| `context?` | [`LoaderContext`](Solarwind.md#loadercontext) |
+| `filter` | [`MethodFilter`](Solarwind.md#methodfilter)<`PK`, `SK`\> |
+| `indexConfig` | [`CollectionIndexConfig`](Solarwind.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 
 #### Defined in
 
@@ -896,7 +896,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Item` | extends [`DocumentBase`](Backland.md#documentbase) = [`DocumentBase`](Backland.md#documentbase) |
+| `Item` | extends [`DocumentBase`](Solarwind.md#documentbase) = [`DocumentBase`](Solarwind.md#documentbase) |
 | `PK` | extends `string` = `string` |
 | `SK` | extends `string` \| `undefined` = `string` |
 
@@ -904,10 +904,10 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `condition?` | [`FilterRecord`](Backland.md#filterrecord)<`Item`\> |
-| `context?` | [`LoaderContext`](Backland.md#loadercontext) |
-| `filter` | [`MethodFilter`](Backland.md#methodfilter)<`PK`, `SK`\> |
-| `indexConfig` | [`CollectionIndexConfig`](Backland.md#collectionindexconfig)<`Item`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
+| `condition?` | [`FilterRecord`](Solarwind.md#filterrecord)<`Item`\> |
+| `context?` | [`LoaderContext`](Solarwind.md#loadercontext) |
+| `filter` | [`MethodFilter`](Solarwind.md#methodfilter)<`PK`, `SK`\> |
+| `indexConfig` | [`CollectionIndexConfig`](Solarwind.md#collectionindexconfig)<`Item`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 
 #### Defined in
 
@@ -923,7 +923,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`DocumentBase`](Backland.md#documentbase) = [`DocumentBase`](Backland.md#documentbase) |
+| `T` | extends [`DocumentBase`](Solarwind.md#documentbase) = [`DocumentBase`](Solarwind.md#documentbase) |
 
 #### Type declaration
 
@@ -939,7 +939,7 @@ ___
 
 ### DescribeAndOverrideField
 
-Ƭ **DescribeAndOverrideField**<`T`, `Override`\>: [`DescribeWithoutSeal`](Backland.md#describewithoutseal)<`T`\> extends infer R ? `R` extends [`FinalFieldDefinition`](Backland.md#finalfielddefinition) ? [`SealedField`](Backland.md#sealedfield)<`Merge`<{ [K in keyof R as K extends keyof Override ? never : K]: R[K] }, `Override`\>\> : `never` : `never`
+Ƭ **DescribeAndOverrideField**<`T`, `Override`\>: [`DescribeWithoutSeal`](Solarwind.md#describewithoutseal)<`T`\> extends infer R ? `R` extends [`FinalFieldDefinition`](Solarwind.md#finalfielddefinition) ? [`SealedField`](Solarwind.md#sealedfield)<`Merge`<{ [K in keyof R as K extends keyof Override ? never : K]: R[K] }, `Override`\>\> : `never` : `never`
 
 #### Type parameters
 
@@ -956,7 +956,7 @@ ___
 
 ### DescribeField
 
-Ƭ **DescribeField**<`Input`\>: [[`$sealedKey`](Backland.md#$sealedkey-1)] extends [keyof `Input`] ? `Input` : [`SealedField`](Backland.md#sealedfield)<[`_DescribeField`](Backland.md#_describefield)<`Input`\>\> extends infer R ? { [K in keyof R]: R[K] } & {} : `never`
+Ƭ **DescribeField**<`Input`\>: [[`$sealedKey`](Solarwind.md#$sealedkey-1)] extends [keyof `Input`] ? `Input` : [`SealedField`](Solarwind.md#sealedfield)<[`_DescribeField`](Solarwind.md#_describefield)<`Input`\>\> extends infer R ? { [K in keyof R]: R[K] } & {} : `never`
 
 #### Type parameters
 
@@ -972,7 +972,7 @@ ___
 
 ### DescribeObjectDefinition
 
-Ƭ **DescribeObjectDefinition**<`Input`\>: [`$sealedKey`](Backland.md#$sealedkey-1) extends keyof `Input` ? `Input` : [`Input`] extends [`object`] ? [`Seal`](Backland.md#seal)<{ -readonly [K in keyof Input]: DescribeField<Input[K]\> }\> : [`Seal`](Backland.md#seal)<{}\>
+Ƭ **DescribeObjectDefinition**<`Input`\>: [`$sealedKey`](Solarwind.md#$sealedkey-1) extends keyof `Input` ? `Input` : [`Input`] extends [`object`] ? [`Seal`](Solarwind.md#seal)<{ -readonly [K in keyof Input]: DescribeField<Input[K]\> }\> : [`Seal`](Solarwind.md#seal)<{}\>
 
 #### Type parameters
 
@@ -988,7 +988,7 @@ ___
 
 ### DescribeWithoutSeal
 
-Ƭ **DescribeWithoutSeal**<`T`\>: `Omit`<[`DescribeField`](Backland.md#describefield)<`T`\>, [`$inferableKey`](Backland.md#$inferablekey-1) \| [`$sealedKey`](Backland.md#$sealedkey-1)\> extends infer R ? { [K in keyof R]: R[K] } & {} : `never`
+Ƭ **DescribeWithoutSeal**<`T`\>: `Omit`<[`DescribeField`](Solarwind.md#describefield)<`T`\>, [`$inferableKey`](Solarwind.md#$inferablekey-1) \| [`$sealedKey`](Solarwind.md#$sealedkey-1)\> extends infer R ? { [K in keyof R]: R[K] } & {} : `never`
 
 #### Type parameters
 
@@ -1030,10 +1030,10 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `PK` | [`FilterConditions`](Backland.md#filterconditions) \| `string` |
-| `SK` | [`FilterConditions`](Backland.md#filterconditions) \| `string` |
+| `PK` | [`FilterConditions`](Solarwind.md#filterconditions) \| `string` |
+| `SK` | [`FilterConditions`](Solarwind.md#filterconditions) \| `string` |
 | `entity` | `string` |
-| `key` | [`AnyDocIndexItem`](Backland.md#anydocindexitem)[``"name"``] |
+| `key` | [`AnyDocIndexItem`](Solarwind.md#anydocindexitem)[``"name"``] |
 
 #### Defined in
 
@@ -1055,11 +1055,11 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `PK` | [`IndexPKSKPartsListConfig`](../interfaces/Backland.IndexPKSKPartsListConfig.md)<`DocKeys`\> |
-| `SK?` | [`IndexPKSKPartsListConfig`](../interfaces/Backland.IndexPKSKPartsListConfig.md)<`DocKeys`\> |
-| `name` | [`DocumentIndexFieldKey`](Backland.md#documentindexfieldkey) |
+| `PK` | [`IndexPKSKPartsListConfig`](../interfaces/Solarwind.IndexPKSKPartsListConfig.md)<`DocKeys`\> |
+| `SK?` | [`IndexPKSKPartsListConfig`](../interfaces/Solarwind.IndexPKSKPartsListConfig.md)<`DocKeys`\> |
+| `name` | [`DocumentIndexFieldKey`](Solarwind.md#documentindexfieldkey) |
 | `relatedTo?` | `string` |
-| `relations?` | `ReadonlyArray`<[`DocumentIndexRelation`](Backland.md#documentindexrelation)\> |
+| `relations?` | `ReadonlyArray`<[`DocumentIndexRelation`](Solarwind.md#documentindexrelation)\> |
 
 #### Defined in
 
@@ -1086,7 +1086,7 @@ ___
 
 ### EdgeType
 
-Ƭ **EdgeType**<`T`\>: [`GraphType`](../classes/Backland.GraphType.md)<{ `object`: { `cursor`: ``"string"`` ; `node`: `T` extends [`GraphTypeLike`](../interfaces/Backland.GraphTypeLike.md) ? `T` : ``"null"``  }  }\>
+Ƭ **EdgeType**<`T`\>: [`GraphType`](../classes/Solarwind.GraphType.md)<{ `object`: { `cursor`: ``"string"`` ; `node`: `T` extends [`GraphTypeLike`](../interfaces/Solarwind.GraphTypeLike.md) ? `T` : ``"null"``  }  }\>
 
 #### Type parameters
 
@@ -1102,7 +1102,7 @@ ___
 
 ### EntityDocument
 
-Ƭ **EntityDocument**<`Shape`\>: `IsKnown`<`Shape`\> extends ``1`` ? `Merge`<[`EntityDocumentBase`](Backland.md#entitydocumentbase), `Shape`\> : [`EntityDocumentBase`](Backland.md#entitydocumentbase) & { `[K: string]`: `unknown`;  }
+Ƭ **EntityDocument**<`Shape`\>: `IsKnown`<`Shape`\> extends ``1`` ? `Merge`<[`EntityDocumentBase`](Solarwind.md#entitydocumentbase), `Shape`\> : [`EntityDocumentBase`](Solarwind.md#entitydocumentbase) & { `[K: string]`: `unknown`;  }
 
 #### Type parameters
 
@@ -1141,7 +1141,7 @@ ___
 
 ### EntityDocumentInput
 
-Ƭ **EntityDocumentInput**<`Shape`\>: `IsKnown`<`Shape`\> extends ``1`` ? `Merge`<`Partial`<[`EntityDocumentBase`](Backland.md#entitydocumentbase)\>, `Shape`\> : `Partial`<[`EntityDocumentBase`](Backland.md#entitydocumentbase)\> & { `[K: string]`: `unknown`;  }
+Ƭ **EntityDocumentInput**<`Shape`\>: `IsKnown`<`Shape`\> extends ``1`` ? `Merge`<`Partial`<[`EntityDocumentBase`](Solarwind.md#entitydocumentbase)\>, `Shape`\> : `Partial`<[`EntityDocumentBase`](Solarwind.md#entitydocumentbase)\> & { `[K: string]`: `unknown`;  }
 
 #### Type parameters
 
@@ -1167,8 +1167,8 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `invalidFields?` | [`InvalidParsedIndexField`](Backland.md#invalidparsedindexfield)[] |
-| `reason` | [`EntityErrorKind`](Backland.md#entityerrorkind-1) |
+| `invalidFields?` | [`InvalidParsedIndexField`](Solarwind.md#invalidparsedindexfield)[] |
+| `reason` | [`EntityErrorKind`](Solarwind.md#entityerrorkind-1) |
 
 #### Defined in
 
@@ -1178,7 +1178,7 @@ ___
 
 ### EntityErrorKind
 
-Ƭ **EntityErrorKind**: keyof [`EntityErrorKindEnum`](Backland.md#entityerrorkindenum)
+Ƭ **EntityErrorKind**: keyof [`EntityErrorKindEnum`](Solarwind.md#entityerrorkindenum)
 
 #### Defined in
 
@@ -1190,7 +1190,7 @@ ___
 
 ### EntityErrorKindEnum
 
-Ƭ **EntityErrorKindEnum**: typeof [`EntityErrorKind`](Backland.md#entityerrorkind-1)
+Ƭ **EntityErrorKindEnum**: typeof [`EntityErrorKind`](Solarwind.md#entityerrorkind-1)
 
 #### Defined in
 
@@ -1207,8 +1207,8 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `Context` | `Context` |
-| `TypeDef` | extends [`ObjectFieldInput`](Backland.md#objectfieldinput) |
-| `ArgsDef` | extends [`ObjectDefinitionInput`](../interfaces/Backland.ObjectDefinitionInput.md) \| `undefined` |
+| `TypeDef` | extends [`ObjectFieldInput`](Solarwind.md#objectfieldinput) |
+| `ArgsDef` | extends [`ObjectDefinitionInput`](../interfaces/Solarwind.ObjectDefinitionInput.md) \| `undefined` |
 | `Root` | `Root` |
 
 #### Type declaration
@@ -1217,7 +1217,7 @@ ___
 | :------ | :------ |
 | `args?` | `ArgsDef` |
 | `name` | `string` |
-| `resolve` | [`ResolverResolve`](Backland.md#resolverresolve)<`Context`, `Root`, `TypeDef`, `ArgsDef`\> |
+| `resolve` | [`ResolverResolve`](Solarwind.md#resolverresolve)<`Context`, `Root`, `TypeDef`, `ArgsDef`\> |
 | `type` | `TypeDef` |
 
 #### Defined in
@@ -1250,20 +1250,20 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Backland.md#documentbase) = [`EntityDocument`](Backland.md#entitydocument)<{ `[K: string]`: `unknown`;  }\> |
-| `E` | extends [`AnyEntity`](Backland.md#anyentity) = [`AnyEntity`](Backland.md#anyentity) |
+| `Doc` | extends [`DocumentBase`](Solarwind.md#documentbase) = [`EntityDocument`](Solarwind.md#entitydocument)<{ `[K: string]`: `unknown`;  }\> |
+| `E` | extends [`AnyEntity`](Solarwind.md#anyentity) = [`AnyEntity`](Solarwind.md#anyentity) |
 
 #### Type declaration
 
 | Name | Type |
 | :------ | :------ |
 | `beforeQuery` | `Waterfall`<`EntityOperationInfoContext`, {}\> |
-| `createDefinition` | `Parallel`<`Record`<`string`, [`FinalFieldDefinition`](Backland.md#finalfielddefinition)\>, { `entityOptions`: [`EntityOptions`](Backland.md#entityoptions) ; `fields`: `string`[] ; `kind`: [`EntityHooksCreateDefinitionKind`](Backland.md#entityhookscreatedefinitionkind-1) ; `resolvers`: [`EntityFieldResolver`](Backland.md#entityfieldresolver)<`any`, `any`, `any`, `any`\>[]  }\> |
-| `filterResult` | `Waterfall`<{ `items`: [`EntityDocument`](Backland.md#entitydocument)<`Doc`\>[] ; `kind`: ``"items"``  } \| { `kind`: ``"pagination"`` ; `pagination`: [`PaginationResult`](Backland.md#paginationresult)<[`EntityDocument`](Backland.md#entitydocument)<`Doc`\>\>  }, { `operation`: `EntityOperationInfoContext` ; `resolvers`: [`EntityFieldResolver`](Backland.md#entityfieldresolver)<`any`, `any`, `any`, `any`\>[]  }\> |
-| `initCreation` | `Parallel`<[`EntityOptions`](Backland.md#entityoptions), `E`\> |
-| `postParse` | `Waterfall`<`EntityOperationInfoContext`, [`EntityParserHookContext`](Backland.md#entityparserhookcontext)<`E`\>\> |
-| `preParse` | `Waterfall`<`EntityOperationInfoContext`, [`EntityParserHookContext`](Backland.md#entityparserhookcontext)<`E`\>\> |
-| `willResolve` | `Waterfall`<[`_EntityLoaders`](Backland.md#_entityloaders)<`E`\>, `EntityOperationInfoContext`\> |
+| `createDefinition` | `Parallel`<`Record`<`string`, [`FinalFieldDefinition`](Solarwind.md#finalfielddefinition)\>, { `entityOptions`: [`EntityOptions`](Solarwind.md#entityoptions) ; `fields`: `string`[] ; `kind`: [`EntityHooksCreateDefinitionKind`](Solarwind.md#entityhookscreatedefinitionkind-1) ; `resolvers`: [`EntityFieldResolver`](Solarwind.md#entityfieldresolver)<`any`, `any`, `any`, `any`\>[]  }\> |
+| `filterResult` | `Waterfall`<{ `items`: [`EntityDocument`](Solarwind.md#entitydocument)<`Doc`\>[] ; `kind`: ``"items"``  } \| { `kind`: ``"pagination"`` ; `pagination`: [`PaginationResult`](Solarwind.md#paginationresult)<[`EntityDocument`](Solarwind.md#entitydocument)<`Doc`\>\>  }, { `operation`: `EntityOperationInfoContext` ; `resolvers`: [`EntityFieldResolver`](Solarwind.md#entityfieldresolver)<`any`, `any`, `any`, `any`\>[]  }\> |
+| `initCreation` | `Parallel`<[`EntityOptions`](Solarwind.md#entityoptions), `E`\> |
+| `postParse` | `Waterfall`<`EntityOperationInfoContext`, [`EntityParserHookContext`](Solarwind.md#entityparserhookcontext)<`E`\>\> |
+| `preParse` | `Waterfall`<`EntityOperationInfoContext`, [`EntityParserHookContext`](Solarwind.md#entityparserhookcontext)<`E`\>\> |
+| `willResolve` | `Waterfall`<[`_EntityLoaders`](Solarwind.md#_entityloaders)<`E`\>, `EntityOperationInfoContext`\> |
 
 #### Defined in
 
@@ -1273,7 +1273,7 @@ ___
 
 ### EntityHooksCreateDefinitionKind
 
-Ƭ **EntityHooksCreateDefinitionKind**: typeof [`EntityHooksCreateDefinitionKind`](Backland.md#entityhookscreatedefinitionkind-1)[`number`]
+Ƭ **EntityHooksCreateDefinitionKind**: typeof [`EntityHooksCreateDefinitionKind`](Solarwind.md#entityhookscreatedefinitionkind-1)[`number`]
 
 #### Defined in
 
@@ -1285,14 +1285,14 @@ ___
 
 ### EntityLoaderConfig
 
-Ƭ **EntityLoaderConfig**<`Method`, `Context`\>: [`TransporterLoadersRecord`](Backland.md#transporterloadersrecord)[`Method`] extends (`config`: infer Config) => `any` ? `Config` & { `context`: `Context`  } extends infer R ? { [K in keyof R as K extends "context" ? never : K]: R[K] } & { `context`: `Context`  } : `never` : `any`
+Ƭ **EntityLoaderConfig**<`Method`, `Context`\>: [`TransporterLoadersRecord`](Solarwind.md#transporterloadersrecord)[`Method`] extends (`config`: infer Config) => `any` ? `Config` & { `context`: `Context`  } extends infer R ? { [K in keyof R as K extends "context" ? never : K]: R[K] } & { `context`: `Context`  } : `never` : `any`
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Method` | extends [`TransporterLoaderName`](Backland.md#transporterloadername) |
-| `Context` | extends [`LoaderContext`](Backland.md#loadercontext) = `Record`<`string`, `any`\> |
+| `Method` | extends [`TransporterLoaderName`](Solarwind.md#transporterloadername) |
+| `Context` | extends [`LoaderContext`](Solarwind.md#loadercontext) = `Record`<`string`, `any`\> |
 
 #### Defined in
 
@@ -1302,13 +1302,13 @@ ___
 
 ### EntityLoaderMethods
 
-Ƭ **EntityLoaderMethods**<`Context`\>: [`_EntityLoaderMethods`](Backland.md#_entityloadermethods)<`Context`\> extends infer Methods ? { [K in keyof Methods]: Methods[K] extends Function ? Options extends Record<string, any\> ? Function & \_EntityLoaderUtils<Options, Context\> : Methods[K] : Methods[K] } & {} : `never`
+Ƭ **EntityLoaderMethods**<`Context`\>: [`_EntityLoaderMethods`](Solarwind.md#_entityloadermethods)<`Context`\> extends infer Methods ? { [K in keyof Methods]: Methods[K] extends Function ? Options extends Record<string, any\> ? Function & \_EntityLoaderUtils<Options, Context\> : Methods[K] : Methods[K] } & {} : `never`
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Context` | extends [`AnyEntityTypesContext`](Backland.md#anyentitytypescontext) |
+| `Context` | extends [`AnyEntityTypesContext`](Solarwind.md#anyentitytypescontext) |
 
 #### Defined in
 
@@ -1324,8 +1324,8 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `InputDocumentDefinition` | extends [`ObjectDefinitionInput`](../interfaces/Backland.ObjectDefinitionInput.md) = [`ObjectDefinitionInput`](../interfaces/Backland.ObjectDefinitionInput.md) |
-| `Indexes` | extends [`DocumentIndexesConfig`](../interfaces/Backland.DocumentIndexesConfig.md) = [`DocumentIndexesConfig`](../interfaces/Backland.DocumentIndexesConfig.md) |
+| `InputDocumentDefinition` | extends [`ObjectDefinitionInput`](../interfaces/Solarwind.ObjectDefinitionInput.md) = [`ObjectDefinitionInput`](../interfaces/Solarwind.ObjectDefinitionInput.md) |
+| `Indexes` | extends [`DocumentIndexesConfig`](../interfaces/Solarwind.DocumentIndexesConfig.md) = [`DocumentIndexesConfig`](../interfaces/Solarwind.DocumentIndexesConfig.md) |
 
 #### Type declaration
 
@@ -1335,8 +1335,8 @@ ___
 | `indexes` | `Indexes` |
 | `logs?` | `LoggerOptions` |
 | `name` | `string` |
-| `transporter?` | [`Transporter`](../interfaces/Backland.Transporter.md) |
-| `type` | [`GraphType`](../classes/Backland.GraphType.md)<{ `object`: `InputDocumentDefinition`  }\> |
+| `transporter?` | [`Transporter`](../interfaces/Solarwind.Transporter.md) |
+| `type` | [`GraphType`](../classes/Solarwind.GraphType.md)<{ `object`: `InputDocumentDefinition`  }\> |
 
 #### Defined in
 
@@ -1352,7 +1352,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `E` | extends [`AnyEntity`](Backland.md#anyentity) |
+| `E` | extends [`AnyEntity`](Solarwind.md#anyentity) |
 
 #### Type declaration
 
@@ -1369,7 +1369,7 @@ ___
 
 ### FieldAsString
 
-Ƭ **FieldAsString**: [`FieldTypeName`](Backland.md#fieldtypename) \| \`${FieldTypeName}?\` \| \`[${FieldTypeName}]\` \| \`[${FieldTypeName}]?\`
+Ƭ **FieldAsString**: [`FieldTypeName`](Solarwind.md#fieldtypename) \| \`${FieldTypeName}?\` \| \`[${FieldTypeName}]\` \| \`[${FieldTypeName}]?\`
 
 #### Defined in
 
@@ -1393,7 +1393,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `compose` | (`schema`: `Schema`) => `T` |
-| `def` | [`FinalFieldDefinitionStrict`](Backland.md#finalfielddefinitionstrict) |
+| `def` | [`FinalFieldDefinitionStrict`](Solarwind.md#finalfielddefinitionstrict) |
 | `validate` | (`input`: `any`, `parent`: `Schema`) => `T` |
 
 #### Defined in
@@ -1414,7 +1414,7 @@ ___
 
 ### FieldDefinitionConfig
 
-Ƭ **FieldDefinitionConfig**: [`ObjectFieldInput`](Backland.md#objectfieldinput)
+Ƭ **FieldDefinitionConfig**: [`ObjectFieldInput`](Solarwind.md#objectfieldinput)
 
 #### Defined in
 
@@ -1431,7 +1431,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `ID` | { `autoCreate?`: `boolean`  } \| `undefined` |
-| `alias` | [`AliasFieldDef`](Backland.md#aliasfielddef) |
+| `alias` | [`AliasFieldDef`](Solarwind.md#aliasfielddef) |
 | `any` | `undefined` |
 | `array` | `ArrayFieldDef` |
 | `boolean` | `undefined` |
@@ -1442,16 +1442,16 @@ ___
 | `float` | { `max?`: `number` ; `min?`: `number`  } \| `undefined` |
 | `int` | { `max?`: `number` ; `min?`: `number`  } \| `undefined` |
 | `literal` | `Readonly`<`unknown`\> |
-| `meta` | [`MetaFieldDef`](Backland.md#metafielddef) |
+| `meta` | [`MetaFieldDef`](Solarwind.md#metafielddef) |
 | `null` | `undefined` |
-| `object` | { `[K: string]`: [`ObjectFieldInput`](Backland.md#objectfieldinput);  } \| `Readonly`<{ `[K: string]`: [`ObjectFieldInput`](Backland.md#objectfieldinput);  }\> \| [`ObjectLike`](../interfaces/Backland.ObjectLike.md) |
+| `object` | { `[K: string]`: [`ObjectFieldInput`](Solarwind.md#objectfieldinput);  } \| `Readonly`<{ `[K: string]`: [`ObjectFieldInput`](Solarwind.md#objectfieldinput);  }\> \| [`ObjectLike`](../interfaces/Solarwind.ObjectLike.md) |
 | `phone` | `PhoneFieldDef` |
-| `record` | [`RecordFieldDef`](Backland.md#recordfielddef) \| `undefined` |
+| `record` | [`RecordFieldDef`](Solarwind.md#recordfielddef) \| `undefined` |
 | `string` | { `max?`: `number` ; `min?`: `number` ; `regex?`: [`string`] \| [`string`, `string`] \| `Readonly`<[`string`] \| [`string`, `string`]\>  } \| `undefined` |
 | `ulid` | { `autoCreate?`: `boolean`  } \| `undefined` |
 | `undefined` | `undefined` |
-| `union` | [`ObjectFieldInput`](Backland.md#objectfieldinput)[] \| `Readonly`<[`ObjectFieldInput`](Backland.md#objectfieldinput)[]\> |
-| `unknown` | [`UnknownFieldDef`](Backland.md#unknownfielddef) \| `undefined` |
+| `union` | [`ObjectFieldInput`](Solarwind.md#objectfieldinput)[] \| `Readonly`<[`ObjectFieldInput`](Solarwind.md#objectfieldinput)[]\> |
+| `unknown` | [`UnknownFieldDef`](Solarwind.md#unknownfielddef) \| `undefined` |
 
 #### Defined in
 
@@ -1461,7 +1461,7 @@ ___
 
 ### FieldExample
 
-Ƭ **FieldExample**: [`FieldExampleFunction`](Backland.md#fieldexamplefunction) \| `string`
+Ƭ **FieldExample**: [`FieldExampleFunction`](Solarwind.md#fieldexamplefunction) \| `string`
 
 #### Defined in
 
@@ -1489,7 +1489,7 @@ ___
 
 ### FieldInput
 
-Ƭ **FieldInput**: [`ObjectFieldInput`](Backland.md#objectfieldinput)
+Ƭ **FieldInput**: [`ObjectFieldInput`](Solarwind.md#objectfieldinput)
 
 #### Defined in
 
@@ -1499,7 +1499,7 @@ ___
 
 ### FieldInputLikeRequiredKey
 
-Ƭ **FieldInputLikeRequiredKey**: [`ObjectTypeKID`](Backland.md#objecttypekid) \| [`GraphTypeKID`](Backland.md#graphtypekid) \| [`FieldTypeName`](Backland.md#fieldtypename) \| ``"type"``
+Ƭ **FieldInputLikeRequiredKey**: [`ObjectTypeKID`](Solarwind.md#objecttypekid) \| [`GraphTypeKID`](Solarwind.md#graphtypekid) \| [`FieldTypeName`](Solarwind.md#fieldtypename) \| ``"type"``
 
 #### Defined in
 
@@ -1509,7 +1509,7 @@ ___
 
 ### FieldParserConfig
 
-Ƭ **FieldParserConfig**: [`ValidationCustomMessage`](Backland.md#validationcustommessage) \| [`FieldParserOptionsObject`](Backland.md#fieldparseroptionsobject)
+Ƭ **FieldParserConfig**: [`ValidationCustomMessage`](Solarwind.md#validationcustommessage) \| [`FieldParserOptionsObject`](Solarwind.md#fieldparseroptionsobject)
 
 #### Defined in
 
@@ -1526,8 +1526,8 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `allowExtraFields?` | `boolean` |
-| `customErrorMessage?` | [`ValidationCustomMessage`](Backland.md#validationcustommessage) |
-| `customMessage?` | [`ValidationCustomMessage`](Backland.md#validationcustommessage) |
+| `customErrorMessage?` | [`ValidationCustomMessage`](Solarwind.md#validationcustommessage) |
+| `customMessage?` | [`ValidationCustomMessage`](Solarwind.md#validationcustommessage) |
 | `exclude?` | `string`[] |
 | `excludeInvalidListItems?` | `boolean` |
 | `includeHidden?` | `boolean` |
@@ -1541,7 +1541,7 @@ ___
 
 ### FieldTypeErrorCode
 
-Ƭ **FieldTypeErrorCode**: typeof [`FieldTypeErrorCodes`](Backland.md#fieldtypeerrorcodes)[`number`]
+Ƭ **FieldTypeErrorCode**: typeof [`FieldTypeErrorCodes`](Solarwind.md#fieldtypeerrorcodes)[`number`]
 
 #### Defined in
 
@@ -1551,7 +1551,7 @@ ___
 
 ### FieldTypeName
 
-Ƭ **FieldTypeName**: `Extract`<keyof [`FieldDefinitions`](Backland.md#fielddefinitions), `string`\>
+Ƭ **FieldTypeName**: `Extract`<keyof [`FieldDefinitions`](Solarwind.md#fielddefinitions), `string`\>
 
 #### Defined in
 
@@ -1561,7 +1561,7 @@ ___
 
 ### FieldTypeOptions
 
-Ƭ **FieldTypeOptions**: [`ListDefinitionObject`](Backland.md#listdefinitionobject) & { `[K: string]`: `unknown`;  }
+Ƭ **FieldTypeOptions**: [`ListDefinitionObject`](Solarwind.md#listdefinitionobject) & { `[K: string]`: `unknown`;  }
 
 #### Defined in
 
@@ -1571,7 +1571,7 @@ ___
 
 ### FieldTypeParser
 
-Ƭ **FieldTypeParser**<`Type`\>: (`input`: `any`, `config?`: [`FieldParserConfig`](Backland.md#fieldparserconfig)) => `Type`
+Ƭ **FieldTypeParser**<`Type`\>: (`input`: `any`, `config?`: [`FieldParserConfig`](Solarwind.md#fieldparserconfig)) => `Type`
 
 #### Type parameters
 
@@ -1588,7 +1588,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `input` | `any` |
-| `config?` | [`FieldParserConfig`](Backland.md#fieldparserconfig) |
+| `config?` | [`FieldParserConfig`](Solarwind.md#fieldparserconfig) |
 
 ##### Returns
 
@@ -1608,7 +1608,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Backland.md#documentbase) = [`DocumentBase`](Backland.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Solarwind.md#documentbase) = [`DocumentBase`](Solarwind.md#documentbase) |
 
 #### Defined in
 
@@ -1618,13 +1618,13 @@ ___
 
 ### FilterRecord
 
-Ƭ **FilterRecord**<`Doc`\>: [`EntityFilters`](Backland.md#entityfilters)<`Doc`\> \| { `$and?`: [`RootFilterOperators`](Backland.md#rootfilteroperators)<`Doc`\>[``"$and"``] ; `$not?`: [`RootFilterOperators`](Backland.md#rootfilteroperators)<`Doc`\>[``"$not"``] ; `$or?`: [`RootFilterOperators`](Backland.md#rootfilteroperators)<`Doc`\>[``"$or"``] ; `_id?`: `string` ; `_id1?`: `string` ; `_id2?`: `string` ; `_id3?`: `string` ; `id?`: `string`  } & [`EntityFilters`](Backland.md#entityfilters)<`Doc`\>
+Ƭ **FilterRecord**<`Doc`\>: [`EntityFilters`](Solarwind.md#entityfilters)<`Doc`\> \| { `$and?`: [`RootFilterOperators`](Solarwind.md#rootfilteroperators)<`Doc`\>[``"$and"``] ; `$not?`: [`RootFilterOperators`](Solarwind.md#rootfilteroperators)<`Doc`\>[``"$not"``] ; `$or?`: [`RootFilterOperators`](Solarwind.md#rootfilteroperators)<`Doc`\>[``"$or"``] ; `_id?`: `string` ; `_id1?`: `string` ; `_id2?`: `string` ; `_id3?`: `string` ; `id?`: `string`  } & [`EntityFilters`](Solarwind.md#entityfilters)<`Doc`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Backland.md#documentbase) = [`DocumentBase`](Backland.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Solarwind.md#documentbase) = [`DocumentBase`](Solarwind.md#documentbase) |
 
 #### Defined in
 
@@ -1634,7 +1634,7 @@ ___
 
 ### FinalFieldDefinition
 
-Ƭ **FinalFieldDefinition**: { [K in FieldTypeName]: CommonFieldDefinition<K\> }[[`FieldTypeName`](Backland.md#fieldtypename)]
+Ƭ **FinalFieldDefinition**: { [K in FieldTypeName]: CommonFieldDefinition<K\> }[[`FieldTypeName`](Solarwind.md#fieldtypename)]
 
 #### Defined in
 
@@ -1644,7 +1644,7 @@ ___
 
 ### FinalFieldDefinitionStrict
 
-Ƭ **FinalFieldDefinitionStrict**: [`AllFinalFieldDefinitions`](Backland.md#allfinalfielddefinitions)[keyof [`AllFinalFieldDefinitions`](Backland.md#allfinalfielddefinitions)]
+Ƭ **FinalFieldDefinitionStrict**: [`AllFinalFieldDefinitions`](Solarwind.md#allfinalfielddefinitions)[keyof [`AllFinalFieldDefinitions`](Solarwind.md#allfinalfielddefinitions)]
 
 #### Defined in
 
@@ -1658,7 +1658,7 @@ ___
 
 #### Index signature
 
-▪ [K: `string`]: [`FinalFieldDefinition`](Backland.md#finalfielddefinition)
+▪ [K: `string`]: [`FinalFieldDefinition`](Solarwind.md#finalfielddefinition)
 
 #### Defined in
 
@@ -1674,7 +1674,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Backland.md#documentbase) = [`DocumentBase`](Backland.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Solarwind.md#documentbase) = [`DocumentBase`](Solarwind.md#documentbase) |
 | `PK` | extends `string` = `string` |
 | `SK` | extends `string` \| `undefined` = `string` |
 
@@ -1682,11 +1682,11 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `condition?` | [`FilterRecord`](Backland.md#filterrecord)<`Doc`\> |
+| `condition?` | [`FilterRecord`](Solarwind.md#filterrecord)<`Doc`\> |
 | `consistent?` | `boolean` |
-| `context?` | [`LoaderContext`](Backland.md#loadercontext) |
+| `context?` | [`LoaderContext`](Solarwind.md#loadercontext) |
 | `id` | `string` |
-| `indexConfig` | [`CollectionIndexConfig`](Backland.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
+| `indexConfig` | [`CollectionIndexConfig`](Solarwind.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 | `projection?` | `string`[] |
 
 #### Defined in
@@ -1703,7 +1703,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Backland.md#documentbase) = [`DocumentBase`](Backland.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Solarwind.md#documentbase) = [`DocumentBase`](Solarwind.md#documentbase) |
 | `PK` | extends `string` = `string` |
 | `SK` | extends `string` \| `undefined` = `string` |
 
@@ -1711,15 +1711,15 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `after?` | [`IndexFilterRecord`](Backland.md#indexfilterrecord)<`PK`, `SK`\> extends infer R ? { [K in keyof R]: R[K] } : {} \| `string` |
-| `condition?` | [`FilterRecord`](Backland.md#filterrecord)<`Doc`\> |
+| `after?` | [`IndexFilterRecord`](Solarwind.md#indexfilterrecord)<`PK`, `SK`\> extends infer R ? { [K in keyof R]: R[K] } : {} \| `string` |
+| `condition?` | [`FilterRecord`](Solarwind.md#filterrecord)<`Doc`\> |
 | `consistent?` | `boolean` |
-| `context?` | [`LoaderContext`](Backland.md#loadercontext) |
-| `filter` | [`MethodFilter`](Backland.md#methodfilter)<`PK`, `SK`\> |
+| `context?` | [`LoaderContext`](Solarwind.md#loadercontext) |
+| `filter` | [`MethodFilter`](Solarwind.md#methodfilter)<`PK`, `SK`\> |
 | `first?` | `number` |
-| `indexConfig` | [`CollectionIndexConfig`](Backland.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
+| `indexConfig` | [`CollectionIndexConfig`](Solarwind.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 | `projection?` | `string`[] |
-| `sort?` | [`QuerySort`](Backland.md#querysort) |
+| `sort?` | [`QuerySort`](Solarwind.md#querysort) |
 
 #### Defined in
 
@@ -1735,7 +1735,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Backland.md#documentbase) = [`DocumentBase`](Backland.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Solarwind.md#documentbase) = [`DocumentBase`](Solarwind.md#documentbase) |
 
 #### Type declaration
 
@@ -1757,7 +1757,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Backland.md#documentbase) = [`DocumentBase`](Backland.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Solarwind.md#documentbase) = [`DocumentBase`](Solarwind.md#documentbase) |
 | `PK` | extends `string` = `string` |
 | `SK` | extends `string` \| `undefined` = `string` |
 
@@ -1765,11 +1765,11 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `condition?` | [`FilterRecord`](Backland.md#filterrecord)<`Doc`\> |
+| `condition?` | [`FilterRecord`](Solarwind.md#filterrecord)<`Doc`\> |
 | `consistent?` | `boolean` |
-| `context?` | [`LoaderContext`](Backland.md#loadercontext) |
-| `filter` | [`MethodFilter`](Backland.md#methodfilter)<`PK`, `SK`\> |
-| `indexConfig` | [`CollectionIndexConfig`](Backland.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
+| `context?` | [`LoaderContext`](Solarwind.md#loadercontext) |
+| `filter` | [`MethodFilter`](Solarwind.md#methodfilter)<`PK`, `SK`\> |
+| `indexConfig` | [`CollectionIndexConfig`](Solarwind.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 | `projection?` | `string`[] |
 
 #### Defined in
@@ -1786,7 +1786,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Backland.md#documentbase) = [`DocumentBase`](Backland.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Solarwind.md#documentbase) = [`DocumentBase`](Solarwind.md#documentbase) |
 
 #### Type declaration
 
@@ -1802,7 +1802,7 @@ ___
 
 ### FlattenFieldDefinition
 
-Ƭ **FlattenFieldDefinition**: { [type in FieldTypeName]: { [K in type]: [FieldDefinitions[K]] extends [undefined] ? FieldDefinitions[K] \| Object : FieldDefinitions[K] } }[[`FieldTypeName`](Backland.md#fieldtypename)] & [`CommonFieldOptions`](Backland.md#commonfieldoptions)
+Ƭ **FlattenFieldDefinition**: { [type in FieldTypeName]: { [K in type]: [FieldDefinitions[K]] extends [undefined] ? FieldDefinitions[K] \| Object : FieldDefinitions[K] } }[[`FieldTypeName`](Solarwind.md#fieldtypename)] & [`CommonFieldOptions`](Solarwind.md#commonfieldoptions)
 
 #### Defined in
 
@@ -1829,7 +1829,7 @@ ___
 
 ### GraphQLSchemaWithUtils
 
-Ƭ **GraphQLSchemaWithUtils**: `GraphQLSchema` & { `utils`: { `generateClientUtils`: () => `Promise`<`string`\> ; `grouped`: [`GroupedResolvers`](Backland.md#groupedresolvers) ; `print`: () => `string` ; `queryExamples`: (`options?`: [`ObjectMockOptions`](Backland.md#objectmockoptions) & { `resolver?`: `string`  }) => `string` ; `queryTemplates`: () => `SchemaQueryTemplatesResult` ; `registeredResolvers`: [`AnyResolver`](Backland.md#anyresolver)[] ; `resolvers`: [`AnyResolver`](Backland.md#anyresolver)[] ; `typescript`: (`options?`: [`ResolversToTypeScriptOptions`](Backland.md#resolverstotypescriptoptions)) => `Promise`<`string`\> ; `usedConfig`: `GraphQLSchemaConfig`  }  }
+Ƭ **GraphQLSchemaWithUtils**: `GraphQLSchema` & { `utils`: { `generateClientUtils`: () => `Promise`<`string`\> ; `grouped`: [`GroupedResolvers`](Solarwind.md#groupedresolvers) ; `print`: () => `string` ; `queryExamples`: (`options?`: [`ObjectMockOptions`](Solarwind.md#objectmockoptions) & { `resolver?`: `string`  }) => `string` ; `queryTemplates`: () => `SchemaQueryTemplatesResult` ; `registeredResolvers`: [`AnyResolver`](Solarwind.md#anyresolver)[] ; `resolvers`: [`AnyResolver`](Solarwind.md#anyresolver)[] ; `typescript`: (`options?`: [`ResolversToTypeScriptOptions`](Solarwind.md#resolverstotypescriptoptions)) => `Promise`<`string`\> ; `usedConfig`: `GraphQLSchemaConfig`  }  }
 
 #### Defined in
 
@@ -1839,13 +1839,13 @@ ___
 
 ### GraphTypeArgs
 
-Ƭ **GraphTypeArgs**<`Def`\>: [`string`, `Def` \| (`utils`: `BacklandModules`) => `Def`] \| [`Def` \| (`utils`: `BacklandModules`) => `Def`]
+Ƭ **GraphTypeArgs**<`Def`\>: [`string`, `Def` \| (`utils`: `SolarwindModules`) => `Def`] \| [`Def` \| (`utils`: `SolarwindModules`) => `Def`]
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Def` | extends [`ObjectFieldInput`](Backland.md#objectfieldinput) = [`ObjectFieldInput`](Backland.md#objectfieldinput) |
+| `Def` | extends [`ObjectFieldInput`](Solarwind.md#objectfieldinput) = [`ObjectFieldInput`](Solarwind.md#objectfieldinput) |
 
 #### Defined in
 
@@ -1891,7 +1891,7 @@ ___
 
 ### ImplementObject
 
-Ƭ **ImplementObject**<`Dest`, `Extends`\>: `Extends` extends [] ? `Dest` : `Extends` extends [infer Item, ...(infer Rest)] ? `Dest` extends [`ObjectType`](../classes/Backland.ObjectType.md)<infer DestDef\> ? `Item` extends [`ObjectType`](../classes/Backland.ObjectType.md)<infer ItemDef\> ? [`ImplementObject`](Backland.md#implementobject)<[`ObjectType`](../classes/Backland.ObjectType.md)<{ [K in keyof Merge<ItemDef, DestDef\>]: Merge<ItemDef, DestDef\>[K] }\>, `Rest`\> : `never` : `never` : `never`
+Ƭ **ImplementObject**<`Dest`, `Extends`\>: `Extends` extends [] ? `Dest` : `Extends` extends [infer Item, ...(infer Rest)] ? `Dest` extends [`ObjectType`](../classes/Solarwind.ObjectType.md)<infer DestDef\> ? `Item` extends [`ObjectType`](../classes/Solarwind.ObjectType.md)<infer ItemDef\> ? [`ImplementObject`](Solarwind.md#implementobject)<[`ObjectType`](../classes/Solarwind.ObjectType.md)<{ [K in keyof Merge<ItemDef, DestDef\>]: Merge<ItemDef, DestDef\>[K] }\>, `Rest`\> : `never` : `never` : `never`
 
 #### Type parameters
 
@@ -1914,8 +1914,8 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `indexFilter` | [`IndexFilterFound`](Backland.md#indexfilterfound) |
-| `relationFilters` | [`RelationsFilter`](Backland.md#relationsfilter)[] \| `undefined` |
+| `indexFilter` | [`IndexFilterFound`](Solarwind.md#indexfilterfound) |
+| `relationFilters` | [`RelationsFilter`](Solarwind.md#relationsfilter)[] \| `undefined` |
 
 #### Defined in
 
@@ -1988,7 +1988,7 @@ ___
 
 ### Infer
 
-Ƭ **Infer**<`Input`\>: `OnlyKnown`<`Input`\> extends infer Known ? `Known` extends `string` ? [`InferString`](Backland.md#inferstring)<`Known`\> : `Known` extends `object` ? [`$inferableKey`](Backland.md#$inferablekey-1) extends keyof `Known` ? `Known`[[`$inferableKey`](Backland.md#$inferablekey-1)] : [`_WithInferOptional`](Backland.md#_withinferoptional)<`Known`, [`_WithInferList`](Backland.md#_withinferlist)<`Known`, [`_InferField`](Backland.md#_inferfield)<`Known`\>\>\> : `never` : `never`
+Ƭ **Infer**<`Input`\>: `OnlyKnown`<`Input`\> extends infer Known ? `Known` extends `string` ? [`InferString`](Solarwind.md#inferstring)<`Known`\> : `Known` extends `object` ? [`$inferableKey`](Solarwind.md#$inferablekey-1) extends keyof `Known` ? `Known`[[`$inferableKey`](Solarwind.md#$inferablekey-1)] : [`_WithInferOptional`](Solarwind.md#_withinferoptional)<`Known`, [`_WithInferList`](Solarwind.md#_withinferlist)<`Known`, [`_InferField`](Solarwind.md#_inferfield)<`Known`\>\>\> : `never` : `never`
 
 #### Type parameters
 
@@ -2004,13 +2004,13 @@ ___
 
 ### InferFinalField
 
-Ƭ **InferFinalField**<`TypeName`, `Def`\>: [`_InferFinalField`](Backland.md#_inferfinalfield)<`TypeName`, `Def`\>
+Ƭ **InferFinalField**<`TypeName`, `Def`\>: [`_InferFinalField`](Solarwind.md#_inferfinalfield)<`TypeName`, `Def`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `TypeName` | extends [`FieldTypeName`](Backland.md#fieldtypename) |
+| `TypeName` | extends [`FieldTypeName`](Solarwind.md#fieldtypename) |
 | `Def` | `never` |
 
 #### Defined in
@@ -2021,7 +2021,7 @@ ___
 
 ### InferGraphType
 
-Ƭ **InferGraphType**<`Input`\>: `Input` extends `unknown` ? `Input` extends [`GraphTypeLikeFieldDefinition`](../interfaces/Backland.GraphTypeLikeFieldDefinition.md) ? [`Infer`](Backland.md#infer)<`Input`[``"definition"``]\> : `never` : `never`
+Ƭ **InferGraphType**<`Input`\>: `Input` extends `unknown` ? `Input` extends [`GraphTypeLikeFieldDefinition`](../interfaces/Solarwind.GraphTypeLikeFieldDefinition.md) ? [`Infer`](Solarwind.md#infer)<`Input`[``"definition"``]\> : `never` : `never`
 
 #### Type parameters
 
@@ -2037,7 +2037,7 @@ ___
 
 ### InferObjectDefinition
 
-Ƭ **InferObjectDefinition**<`Input`\>: [`Input`] extends [`object`] ? `NullableToPartial`<[`_InferObjectDefinition`](Backland.md#_inferobjectdefinition)<{ -readonly [K in keyof Input as K extends \`$${string}\` ? never : K]: Input[K] }\> & [`ParseSpecialObjectKeys`](Backland.md#parsespecialobjectkeys)<`Input`\>\> : `never`
+Ƭ **InferObjectDefinition**<`Input`\>: [`Input`] extends [`object`] ? `NullableToPartial`<[`_InferObjectDefinition`](Solarwind.md#_inferobjectdefinition)<{ -readonly [K in keyof Input as K extends \`$${string}\` ? never : K]: Input[K] }\> & [`ParseSpecialObjectKeys`](Solarwind.md#parsespecialobjectkeys)<`Input`\>\> : `never`
 
 #### Type parameters
 
@@ -2053,7 +2053,7 @@ ___
 
 ### InferObjectType
 
-Ƭ **InferObjectType**<`T`\>: `T` extends `unknown` ? `T` extends [`ObjectTypeLikeFieldDefinition`](../interfaces/Backland.ObjectTypeLikeFieldDefinition.md) ? [`InferObjectDefinition`](Backland.md#inferobjectdefinition)<`T`[``"definition"``]\> : `never` : `never`
+Ƭ **InferObjectType**<`T`\>: `T` extends `unknown` ? `T` extends [`ObjectTypeLikeFieldDefinition`](../interfaces/Solarwind.ObjectTypeLikeFieldDefinition.md) ? [`InferObjectDefinition`](Solarwind.md#inferobjectdefinition)<`T`[``"definition"``]\> : `never` : `never`
 
 #### Type parameters
 
@@ -2069,7 +2069,7 @@ ___
 
 ### InferRecordFieldType
 
-Ƭ **InferRecordFieldType**<`Def`\>: `Def` extends { `keyType`: ``"int"`` \| ``"float"``  } ? { `[K: number]`: [`Infer`](Backland.md#infer)<`Def` extends { `type`: [`FieldDefinitionConfig`](Backland.md#fielddefinitionconfig)  } ? `Def`[``"type"``] : ``"any"``\>;  } : { `[K: string]`: [`Infer`](Backland.md#infer)<`Def` extends { `type`: [`FieldDefinitionConfig`](Backland.md#fielddefinitionconfig)  } ? `Def`[``"type"``] : ``"any"``\>;  }
+Ƭ **InferRecordFieldType**<`Def`\>: `Def` extends { `keyType`: ``"int"`` \| ``"float"``  } ? { `[K: number]`: [`Infer`](Solarwind.md#infer)<`Def` extends { `type`: [`FieldDefinitionConfig`](Solarwind.md#fielddefinitionconfig)  } ? `Def`[``"type"``] : ``"any"``\>;  } : { `[K: string]`: [`Infer`](Solarwind.md#infer)<`Def` extends { `type`: [`FieldDefinitionConfig`](Solarwind.md#fielddefinitionconfig)  } ? `Def`[``"type"``] : ``"any"``\>;  }
 
 #### Type parameters
 
@@ -2085,7 +2085,7 @@ ___
 
 ### InferResolverArgs
 
-Ƭ **InferResolverArgs**<`ArgsDef`\>: [`ArgsDef`] extends [`never`] ? `Record`<`string`, `unknown`\> : [`ArgsDef`] extends [`undefined`] ? `Record`<`string`, `unknown`\> : [`ArgsDef`] extends [{ `[K: string]`: `unknown`;  }] ? [`Infer`](Backland.md#infer)<{ `object`: `ArgsDef`  }\> : `Record`<`string`, `unknown`\>
+Ƭ **InferResolverArgs**<`ArgsDef`\>: [`ArgsDef`] extends [`never`] ? `Record`<`string`, `unknown`\> : [`ArgsDef`] extends [`undefined`] ? `Record`<`string`, `unknown`\> : [`ArgsDef`] extends [{ `[K: string]`: `unknown`;  }] ? [`Infer`](Solarwind.md#infer)<{ `object`: `ArgsDef`  }\> : `Record`<`string`, `unknown`\>
 
 #### Type parameters
 
@@ -2101,7 +2101,7 @@ ___
 
 ### InferString
 
-Ƭ **InferString**<`Input`\>: `Input` extends \`${infer Start}?\` ? [`InferString`](Backland.md#inferstring)<`Start`\> \| `undefined` : `Input` extends \`[${infer Start}]\` ? [`InferString`](Backland.md#inferstring)<`Start`\>[] : `Input` extends [`FieldTypeName`](Backland.md#fieldtypename) ? [`InferTypeName`](Backland.md#infertypename)<`Input`\> : `Input` extends \`[${infer Type}]\` ? [`InferString`](Backland.md#inferstring)<`Type`\>[] : `never`
+Ƭ **InferString**<`Input`\>: `Input` extends \`${infer Start}?\` ? [`InferString`](Solarwind.md#inferstring)<`Start`\> \| `undefined` : `Input` extends \`[${infer Start}]\` ? [`InferString`](Solarwind.md#inferstring)<`Start`\>[] : `Input` extends [`FieldTypeName`](Solarwind.md#fieldtypename) ? [`InferTypeName`](Solarwind.md#infertypename)<`Input`\> : `Input` extends \`[${infer Type}]\` ? [`InferString`](Solarwind.md#inferstring)<`Type`\>[] : `never`
 
 #### Type parameters
 
@@ -2117,7 +2117,7 @@ ___
 
 ### InferTypeName
 
-Ƭ **InferTypeName**<`Type`\>: `Type` extends `unknown` ? `Type` extends [`FieldTypeName`](Backland.md#fieldtypename) ? `Type` extends ``"any"`` ? `any` : `Type` extends ``"boolean"`` ? `boolean` : `Type` extends ``"cursor"`` ? [`CursorType`](Backland.md#cursortype) : `Type` extends ``"phone"`` ? `string` : `Type` extends ``"null"`` ? ``null`` : `Type` extends ``"undefined"`` ? `undefined` : `Type` extends ``"unknown"`` ? `unknown` : `Type` extends ``"string"`` ? `string` : `Type` extends ``"date"`` ? `Date` : `Type` extends ``"email"`` ? `string` : `Type` extends ``"float"`` ? `number` : `Type` extends ``"record"`` ? { `[K: string]`: `any`;  } : `Type` extends ``"int"`` ? `number` : `Type` extends ``"ulid"`` ? `string` : `Type` extends ``"ID"`` ? `string` : `never` : `never` : `never`
+Ƭ **InferTypeName**<`Type`\>: `Type` extends `unknown` ? `Type` extends [`FieldTypeName`](Solarwind.md#fieldtypename) ? `Type` extends ``"any"`` ? `any` : `Type` extends ``"boolean"`` ? `boolean` : `Type` extends ``"cursor"`` ? [`CursorType`](Solarwind.md#cursortype) : `Type` extends ``"phone"`` ? `string` : `Type` extends ``"null"`` ? ``null`` : `Type` extends ``"undefined"`` ? `undefined` : `Type` extends ``"unknown"`` ? `unknown` : `Type` extends ``"string"`` ? `string` : `Type` extends ``"date"`` ? `Date` : `Type` extends ``"email"`` ? `string` : `Type` extends ``"float"`` ? `number` : `Type` extends ``"record"`` ? { `[K: string]`: `any`;  } : `Type` extends ``"int"`` ? `number` : `Type` extends ``"ulid"`` ? `string` : `Type` extends ``"ID"`` ? `string` : `never` : `never` : `never`
 
 #### Type parameters
 
@@ -2133,7 +2133,7 @@ ___
 
 ### InnerDef
 
-Ƭ **InnerDef**<`Input`\>: [`Input`] extends [`object`] ? [`DescribeField`](Backland.md#describefield)<`Input`\> extends infer R ? `IsKnown`<`R`\> extends ``1`` ? [`_InnerDef`](Backland.md#_innerdef)<`R`\> : [`DescribeObjectDefinition`](Backland.md#describeobjectdefinition)<`Input`\> : `never` : `never` extends infer R ? { [K in keyof R]: R[K] } & {} : {}
+Ƭ **InnerDef**<`Input`\>: [`Input`] extends [`object`] ? [`DescribeField`](Solarwind.md#describefield)<`Input`\> extends infer R ? `IsKnown`<`R`\> extends ``1`` ? [`_InnerDef`](Solarwind.md#_innerdef)<`R`\> : [`DescribeObjectDefinition`](Solarwind.md#describeobjectdefinition)<`Input`\> : `never` : `never` extends infer R ? { [K in keyof R]: R[K] } & {} : {}
 
 #### Type parameters
 
@@ -2174,8 +2174,8 @@ ___
 | :------ | :------ |
 | `details` | `string` |
 | `documentField` | `string` |
-| `indexField` | [`AnyDocIndexItem`](Backland.md#anydocindexitem)[``"name"``] |
-| `indexPartKind` | [`IndexPartKind`](Backland.md#indexpartkind) |
+| `indexField` | [`AnyDocIndexItem`](Solarwind.md#anydocindexitem)[``"name"``] |
+| `indexPartKind` | [`IndexPartKind`](Solarwind.md#indexpartkind) |
 | `reason` | ``"missing"`` \| ``"invalid"`` |
 
 #### Defined in
@@ -2192,9 +2192,9 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `definition` | [`FinalFieldDefinition`](Backland.md#finalfielddefinition) |
-| `definitionInput` | [`ObjectFieldInput`](Backland.md#objectfieldinput) \| (`utils`: `BacklandModules`) => [`ObjectFieldInput`](Backland.md#objectfieldinput) |
-| `field` | [`TAnyFieldType`](Backland.md#tanyfieldtype) |
+| `definition` | [`FinalFieldDefinition`](Solarwind.md#finalfielddefinition) |
+| `definitionInput` | [`ObjectFieldInput`](Solarwind.md#objectfieldinput) \| (`utils`: `SolarwindModules`) => [`ObjectFieldInput`](Solarwind.md#objectfieldinput) |
+| `field` | [`TAnyFieldType`](Solarwind.md#tanyfieldtype) |
 | `id` | `string` \| `undefined` |
 | `idFromArgs` | `string` \| `undefined` |
 | `objectType?` | `any` |
@@ -2207,7 +2207,7 @@ ___
 
 ### ListDefinition
 
-Ƭ **ListDefinition**: [`ListDefinitionObject`](Backland.md#listdefinitionobject) \| `boolean`
+Ƭ **ListDefinition**: [`ListDefinitionObject`](Solarwind.md#listdefinitionobject) \| `boolean`
 
 #### Defined in
 
@@ -2235,7 +2235,7 @@ ___
 
 ### ListDefinitionTruthy
 
-Ƭ **ListDefinitionTruthy**: [`ListDefinitionObject`](Backland.md#listdefinitionobject) \| ``true``
+Ƭ **ListDefinitionTruthy**: [`ListDefinitionObject`](Solarwind.md#listdefinitionobject) \| ``true``
 
 #### Defined in
 
@@ -2265,7 +2265,7 @@ ___
 
 ### MakeFieldOptional
 
-Ƭ **MakeFieldOptional**<`Object`, `OptionalField`\>: [`OverrideField`](Backland.md#overridefield)<`Object`, `OptionalField`, { `optional`: ``true``  }\>
+Ƭ **MakeFieldOptional**<`Object`, `OptionalField`\>: [`OverrideField`](Solarwind.md#overridefield)<`Object`, `OptionalField`, { `optional`: ``true``  }\>
 
 #### Type parameters
 
@@ -2282,7 +2282,7 @@ ___
 
 ### MakeFieldRequired
 
-Ƭ **MakeFieldRequired**<`Object`, `OptionalField`\>: [`OverrideField`](Backland.md#overridefield)<`Object`, `OptionalField`, { `optional`: ``false``  }\>
+Ƭ **MakeFieldRequired**<`Object`, `OptionalField`\>: [`OverrideField`](Solarwind.md#overridefield)<`Object`, `OptionalField`, { `optional`: ``false``  }\>
 
 #### Type parameters
 
@@ -2322,7 +2322,7 @@ ___
 
 ### MakeTypeOptional
 
-Ƭ **MakeTypeOptional**<`Type`\>: [`DescribeAndOverrideField`](Backland.md#describeandoverridefield)<`Type`, { `optional`: ``true``  }\>
+Ƭ **MakeTypeOptional**<`Type`\>: [`DescribeAndOverrideField`](Solarwind.md#describeandoverridefield)<`Type`, { `optional`: ``true``  }\>
 
 #### Type parameters
 
@@ -2338,7 +2338,7 @@ ___
 
 ### MakeTypeRequired
 
-Ƭ **MakeTypeRequired**<`Type`\>: [`DescribeAndOverrideField`](Backland.md#describeandoverridefield)<`Type`, { `optional`: ``false``  }\>
+Ƭ **MakeTypeRequired**<`Type`\>: [`DescribeAndOverrideField`](Solarwind.md#describeandoverridefield)<`Type`, { `optional`: ``false``  }\>
 
 #### Type parameters
 
@@ -2354,7 +2354,7 @@ ___
 
 ### MakeTypeSingle
 
-Ƭ **MakeTypeSingle**<`Type`\>: [`DescribeAndOverrideField`](Backland.md#describeandoverridefield)<`Type`, { `list`: ``false``  }\>
+Ƭ **MakeTypeSingle**<`Type`\>: [`DescribeAndOverrideField`](Solarwind.md#describeandoverridefield)<`Type`, { `list`: ``false``  }\>
 
 #### Type parameters
 
@@ -2392,7 +2392,7 @@ ___
 
 ### MethodFilter
 
-Ƭ **MethodFilter**<`PK`, `SK`\>: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](Backland.md#indexfilterrecord)<`PK`, `SK`\> extends infer F ? `F` extends `unknown` ? { [K in keyof F]?: F[K] } & { `id?`: [`PKSKValueType`](Backland.md#pkskvaluetype)  } : {} : {}\>\>
+Ƭ **MethodFilter**<`PK`, `SK`\>: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](Solarwind.md#indexfilterrecord)<`PK`, `SK`\> extends infer F ? `F` extends `unknown` ? { [K in keyof F]?: F[K] } & { `id?`: [`PKSKValueType`](Solarwind.md#pkskvaluetype)  } : {} : {}\>\>
 
 #### Type parameters
 
@@ -2459,7 +2459,7 @@ ___
 
 ### ObjectFieldInput
 
-Ƭ **ObjectFieldInput**: [`_ObjectFieldInputBase`](Backland.md#_objectfieldinputbase) \| [`FlattenFieldDefinition`](Backland.md#flattenfielddefinition)
+Ƭ **ObjectFieldInput**: [`_ObjectFieldInputBase`](Solarwind.md#_objectfieldinputbase) \| [`FlattenFieldDefinition`](Solarwind.md#flattenfielddefinition)
 
 #### Defined in
 
@@ -2487,13 +2487,13 @@ ___
 
 ### ObjectTypeFromInput
 
-Ƭ **ObjectTypeFromInput**<`DefinitionInput`\>: `IsKnown`<`DefinitionInput`\> extends ``1`` ? [`DefinitionInput`] extends [[`ObjectDefinitionInput`](../interfaces/Backland.ObjectDefinitionInput.md)] ? [`ObjectType`](../classes/Backland.ObjectType.md)<`DefinitionInput`\> : `never` : `any`
+Ƭ **ObjectTypeFromInput**<`DefinitionInput`\>: `IsKnown`<`DefinitionInput`\> extends ``1`` ? [`DefinitionInput`] extends [[`ObjectDefinitionInput`](../interfaces/Solarwind.ObjectDefinitionInput.md)] ? [`ObjectType`](../classes/Solarwind.ObjectType.md)<`DefinitionInput`\> : `never` : `any`
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `DefinitionInput` | extends `Readonly`<[`ObjectDefinitionInput`](../interfaces/Backland.ObjectDefinitionInput.md)\> |
+| `DefinitionInput` | extends `Readonly`<[`ObjectDefinitionInput`](../interfaces/Solarwind.ObjectDefinitionInput.md)\> |
 
 #### Defined in
 
@@ -2503,7 +2503,7 @@ ___
 
 ### ObjectTypeKID
 
-Ƭ **ObjectTypeKID**: ``"__isBacklandObject"``
+Ƭ **ObjectTypeKID**: ``"__isSolarwindObject"``
 
 #### Defined in
 
@@ -2513,7 +2513,7 @@ ___
 
 ### OneFilterOperation
 
-Ƭ **OneFilterOperation**: { [K in keyof AllFilterOperations]: { [L in K]: AllFilterOperations[K] } }[keyof [`AllFilterOperations`](Backland.md#allfilteroperations)]
+Ƭ **OneFilterOperation**: { [K in keyof AllFilterOperations]: { [L in K]: AllFilterOperations[K] } }[keyof [`AllFilterOperations`](Solarwind.md#allfilteroperations)]
 
 #### Defined in
 
@@ -2569,7 +2569,7 @@ ___
 
 ### PageInfo
 
-Ƭ **PageInfo**: [`Infer`](Backland.md#infer)<typeof [`PageInfoType`](Backland.md#pageinfotype)\>
+Ƭ **PageInfo**: [`Infer`](Solarwind.md#infer)<typeof [`PageInfoType`](Solarwind.md#pageinfotype)\>
 
 #### Defined in
 
@@ -2585,7 +2585,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Backland.md#documentbase) = [`DocumentBase`](Backland.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Solarwind.md#documentbase) = [`DocumentBase`](Solarwind.md#documentbase) |
 
 #### Type declaration
 
@@ -2606,7 +2606,7 @@ ___
 
 ### PaginationType
 
-Ƭ **PaginationType**<`T`\>: [`GraphType`](../classes/Backland.GraphType.md)<{ `object`: { `edges`: { `list`: ``true`` ; `type`: [`EdgeType`](Backland.md#edgetype)<`T`\>  } ; `pageInfo`: typeof [`PageInfoType`](Backland.md#pageinfotype)  }  }\>
+Ƭ **PaginationType**<`T`\>: [`GraphType`](../classes/Solarwind.GraphType.md)<{ `object`: { `edges`: { `list`: ``true`` ; `type`: [`EdgeType`](Solarwind.md#edgetype)<`T`\>  } ; `pageInfo`: typeof [`PageInfoType`](Solarwind.md#pageinfotype)  }  }\>
 
 #### Type parameters
 
@@ -2659,7 +2659,7 @@ ___
 
 ### ParsedDocumentIndexes
 
-Ƭ **ParsedDocumentIndexes**: { `error`: ``null`` ; `filtersFound?`: [`DocumentIndexFilterParsed`](Backland.md#documentindexfilterparsed)[] ; `firstIndex`: [`FirstIndexParsed`](../interfaces/Backland.FirstIndexParsed.md) ; `indexFields`: [`CommonIndexFields`](Backland.md#commonindexfields) ; `invalidFields`: ``null`` ; `parsedIndexKeys`: [`ParsedIndexKey`](Backland.md#parsedindexkey)[] ; `valid`: ``true``  } \| { `error`: [`CollectionErrors`](../classes/Backland.CollectionErrors.md) ; `firstIndex`: [`FirstIndexParsed`](../interfaces/Backland.FirstIndexParsed.md) \| ``null`` ; `indexFields`: ``null`` ; `invalidFields`: [`ParsedIndexPart`](Backland.md#parsedindexpart)[``"invalidFields"``] ; `parsedIndexKeys`: [`ParsedIndexKey`](Backland.md#parsedindexkey)[] ; `uniqIndexCondition?`: `undefined` ; `valid`: ``false``  }
+Ƭ **ParsedDocumentIndexes**: { `error`: ``null`` ; `filtersFound?`: [`DocumentIndexFilterParsed`](Solarwind.md#documentindexfilterparsed)[] ; `firstIndex`: [`FirstIndexParsed`](../interfaces/Solarwind.FirstIndexParsed.md) ; `indexFields`: [`CommonIndexFields`](Solarwind.md#commonindexfields) ; `invalidFields`: ``null`` ; `parsedIndexKeys`: [`ParsedIndexKey`](Solarwind.md#parsedindexkey)[] ; `valid`: ``true``  } \| { `error`: [`CollectionErrors`](../classes/Solarwind.CollectionErrors.md) ; `firstIndex`: [`FirstIndexParsed`](../interfaces/Solarwind.FirstIndexParsed.md) \| ``null`` ; `indexFields`: ``null`` ; `invalidFields`: [`ParsedIndexPart`](Solarwind.md#parsedindexpart)[``"invalidFields"``] ; `parsedIndexKeys`: [`ParsedIndexKey`](Solarwind.md#parsedindexkey)[] ; `uniqIndexCondition?`: `undefined` ; `valid`: ``false``  }
 
 #### Defined in
 
@@ -2676,11 +2676,11 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `PKPartOpen` | `string` |
-| `PKPartParsed` | [`ParsedIndexPart`](Backland.md#parsedindexpart) |
-| `SKPartParsed` | [`ParsedIndexPart`](Backland.md#parsedindexpart) \| ``null`` |
+| `PKPartParsed` | [`ParsedIndexPart`](Solarwind.md#parsedindexpart) |
+| `SKPartParsed` | [`ParsedIndexPart`](Solarwind.md#parsedindexpart) \| ``null`` |
 | `entity` | `string` |
-| `index` | [`DocumentIndexItem`](Backland.md#documentindexitem) |
-| `indexFilter` | [`IndexFilterRecord`](Backland.md#indexfilterrecord) |
+| `index` | [`DocumentIndexItem`](Solarwind.md#documentindexitem) |
+| `indexFilter` | [`IndexFilterRecord`](Solarwind.md#indexfilterrecord) |
 
 #### Defined in
 
@@ -2696,23 +2696,23 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `PK` | { `definition`: `Readonly`<[`AnyDocIndexItem`](Backland.md#anydocindexitem)[``"PK"``]\> ; `destinationField`: { `key`: `string` ; `value`: `string`  } ; `parsed`: [`ParsedIndexPart`](Backland.md#parsedindexpart) ; `requiredFields`: `string`[]  } |
-| `PK.definition` | `Readonly`<[`AnyDocIndexItem`](Backland.md#anydocindexitem)[``"PK"``]\> |
+| `PK` | { `definition`: `Readonly`<[`AnyDocIndexItem`](Solarwind.md#anydocindexitem)[``"PK"``]\> ; `destinationField`: { `key`: `string` ; `value`: `string`  } ; `parsed`: [`ParsedIndexPart`](Solarwind.md#parsedindexpart) ; `requiredFields`: `string`[]  } |
+| `PK.definition` | `Readonly`<[`AnyDocIndexItem`](Solarwind.md#anydocindexitem)[``"PK"``]\> |
 | `PK.destinationField` | { `key`: `string` ; `value`: `string`  } |
 | `PK.destinationField.key` | `string` |
 | `PK.destinationField.value` | `string` |
-| `PK.parsed` | [`ParsedIndexPart`](Backland.md#parsedindexpart) |
+| `PK.parsed` | [`ParsedIndexPart`](Solarwind.md#parsedindexpart) |
 | `PK.requiredFields` | `string`[] |
-| `SK` | { `definition`: `Readonly`<[`AnyDocIndexItem`](Backland.md#anydocindexitem)[``"SK"``]\> ; `destinationField`: { `key`: `string` ; `value`: `string`  } ; `parsed`: [`ParsedIndexPart`](Backland.md#parsedindexpart) ; `requiredFields`: `string`[]  } |
-| `SK.definition` | `Readonly`<[`AnyDocIndexItem`](Backland.md#anydocindexitem)[``"SK"``]\> |
+| `SK` | { `definition`: `Readonly`<[`AnyDocIndexItem`](Solarwind.md#anydocindexitem)[``"SK"``]\> ; `destinationField`: { `key`: `string` ; `value`: `string`  } ; `parsed`: [`ParsedIndexPart`](Solarwind.md#parsedindexpart) ; `requiredFields`: `string`[]  } |
+| `SK.definition` | `Readonly`<[`AnyDocIndexItem`](Solarwind.md#anydocindexitem)[``"SK"``]\> |
 | `SK.destinationField` | { `key`: `string` ; `value`: `string`  } |
 | `SK.destinationField.key` | `string` |
 | `SK.destinationField.value` | `string` |
-| `SK.parsed` | [`ParsedIndexPart`](Backland.md#parsedindexpart) |
+| `SK.parsed` | [`ParsedIndexPart`](Solarwind.md#parsedindexpart) |
 | `SK.requiredFields` | `string`[] |
 | `entity` | `string` |
-| `index` | [`AnyDocIndexItem`](Backland.md#anydocindexitem) |
-| `indexFieldsParsed` | [`DocumentIndexFieldsParsed`](../interfaces/Backland.DocumentIndexFieldsParsed.md) |
+| `index` | [`AnyDocIndexItem`](Solarwind.md#anydocindexitem) |
+| `indexFieldsParsed` | [`DocumentIndexFieldsParsed`](../interfaces/Solarwind.DocumentIndexFieldsParsed.md) |
 
 #### Defined in
 
@@ -2729,12 +2729,12 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `PK_SK` | ``"PK"`` \| ``"SK"`` |
-| `conditionFound?` | [`OneFilterOperation`](Backland.md#onefilteroperation) |
+| `conditionFound?` | [`OneFilterOperation`](Solarwind.md#onefilteroperation) |
 | `foundEmptyCondition?` | `boolean` |
 | `foundParts` | `string`[] |
 | `fullIndexFound` | `string` \| ``null`` |
-| `indexField` | [`AnyDocIndexItem`](Backland.md#anydocindexitem)[``"name"``] |
-| `invalidFields` | [`InvalidParsedIndexField`](Backland.md#invalidparsedindexfield)[] |
+| `indexField` | [`AnyDocIndexItem`](Solarwind.md#anydocindexitem)[``"name"``] |
+| `invalidFields` | [`InvalidParsedIndexField`](Solarwind.md#invalidparsedindexfield)[] |
 | `isFilter` | `boolean` |
 | `nullableFound?` | { `value`: ``null`` \| `undefined`  } |
 | `nullableFound.value` | ``null`` \| `undefined` |
@@ -2749,7 +2749,7 @@ ___
 
 ### ParsedUpdateExpression
 
-Ƭ **ParsedUpdateExpression**<`TSchema`\>: [`UpdateExpression`](Backland.md#updateexpression)<`TSchema`\> extends infer UX ? keyof `UX` extends infer OP ? `OP` extends keyof `UX` ? `UX`[`OP`] extends infer V ? { `entries`: [`Join`<`NestedPaths`<`TSchema`\>, ``"."``\>, `V`][] ; `operator`: `OP` ; `valueConstructorName`: `string`  } : `any` : `any` : `any` : `any`
+Ƭ **ParsedUpdateExpression**<`TSchema`\>: [`UpdateExpression`](Solarwind.md#updateexpression)<`TSchema`\> extends infer UX ? keyof `UX` extends infer OP ? `OP` extends keyof `UX` ? `UX`[`OP`] extends infer V ? { `entries`: [`Join`<`NestedPaths`<`TSchema`\>, ``"."``\>, `V`][] ; `operator`: `OP` ; `valueConstructorName`: `string`  } : `any` : `any` : `any` : `any`
 
 #### Type parameters
 
@@ -2782,7 +2782,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `keyType?` | `ValidKeyType` |
-| `type?` | [`FieldDefinitionConfig`](Backland.md#fielddefinitionconfig) |
+| `type?` | [`FieldDefinitionConfig`](Solarwind.md#fielddefinitionconfig) |
 
 #### Defined in
 
@@ -2806,7 +2806,7 @@ ___
 
 ### Resolver
 
-Ƭ **Resolver**<`Context`, `Root`, `Type`, `Args`\>: `Compute`<[`OptionalResolverConfig`](Backland.md#optionalresolverconfig)<`Root`, `Context`, `Args`\> & { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: `Args`, `context`: `Context`, `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Type`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  }, ``1``\>
+Ƭ **Resolver**<`Context`, `Root`, `Type`, `Args`\>: `Compute`<[`OptionalResolverConfig`](Solarwind.md#optionalresolverconfig)<`Root`, `Context`, `Args`\> & { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: `Args`, `context`: `Context`, `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Type`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  }, ``1``\>
 
 #### Type parameters
 
@@ -2849,7 +2849,7 @@ ___
 
 ### ResolverResolve
 
-Ƭ **ResolverResolve**<`Context`, `Source`, `TypeDef`, `ArgsDef`\>: (`x`: [`InferResolverArgs`](Backland.md#inferresolverargs)<`ArgsDef`\>) => `any` extends (`x`: infer R) => `any` ? { [K in keyof R]: R[K] } : `never` extends infer Args ? (`x`: [`Infer`](Backland.md#infer)<`TypeDef`\>) => `any` extends (`x`: infer R) => `any` ? (`parent`: `Compute`<`Source`\>, `args`: `Compute`<`Args`\>, `context`: `Context`, `info`: `GraphQLResolveInfo`) => `IsKnown`<`R`\> extends ``1`` ? `Compute`<`Promise`<`R`\> \| `R`\> : `any` : (`parent`: `Source`, `args`: `Record`<`string`, `unknown`\>, `context`: `Context`, `info`: `GraphQLResolveInfo`) => `Promise`<`any`\> \| `any` : `never` extends infer R ? `R` : `never`
+Ƭ **ResolverResolve**<`Context`, `Source`, `TypeDef`, `ArgsDef`\>: (`x`: [`InferResolverArgs`](Solarwind.md#inferresolverargs)<`ArgsDef`\>) => `any` extends (`x`: infer R) => `any` ? { [K in keyof R]: R[K] } : `never` extends infer Args ? (`x`: [`Infer`](Solarwind.md#infer)<`TypeDef`\>) => `any` extends (`x`: infer R) => `any` ? (`parent`: `Compute`<`Source`\>, `args`: `Compute`<`Args`\>, `context`: `Context`, `info`: `GraphQLResolveInfo`) => `IsKnown`<`R`\> extends ``1`` ? `Compute`<`Promise`<`R`\> \| `R`\> : `any` : (`parent`: `Source`, `args`: `Record`<`string`, `unknown`\>, `context`: `Context`, `info`: `GraphQLResolveInfo`) => `Promise`<`any`\> \| `any` : `never` extends infer R ? `R` : `never`
 
 #### Type parameters
 
@@ -2876,7 +2876,7 @@ ___
 | :------ | :------ |
 | `name` | `string` |
 | `options?` | `ObjectToTypescriptOptions` |
-| `resolvers` | [`AnyResolver`](Backland.md#anyresolver)[] |
+| `resolvers` | [`AnyResolver`](Solarwind.md#anyresolver)[] |
 
 #### Defined in
 
@@ -2892,15 +2892,15 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Backland.md#documentbase) = `Record`<`string`, `any`\> |
+| `Doc` | extends [`DocumentBase`](Solarwind.md#documentbase) = `Record`<`string`, `any`\> |
 
 #### Type declaration
 
 | Name | Type |
 | :------ | :------ |
-| `$and?` | [`FilterRecord`](Backland.md#filterrecord)<`Doc`\>[] |
-| `$not?` | [`FilterRecord`](Backland.md#filterrecord)<`Doc`\> |
-| `$or?` | [`FilterRecord`](Backland.md#filterrecord)<`Doc`\>[] |
+| `$and?` | [`FilterRecord`](Solarwind.md#filterrecord)<`Doc`\>[] |
+| `$not?` | [`FilterRecord`](Solarwind.md#filterrecord)<`Doc`\> |
+| `$or?` | [`FilterRecord`](Solarwind.md#filterrecord)<`Doc`\>[] |
 
 #### Defined in
 
@@ -2910,7 +2910,7 @@ ___
 
 ### Seal
 
-Ƭ **Seal**<`T`\>: `Merge`<`T`, { `$sealed`: [`$sealedDef`](Backland.md#$sealeddef)  }\> extends infer R ? { [K in keyof R]: R[K] } & {} : `never`
+Ƭ **Seal**<`T`\>: `Merge`<`T`, { `$sealed`: [`$sealedDef`](Solarwind.md#$sealeddef)  }\> extends infer R ? { [K in keyof R]: R[K] } & {} : `never`
 
 #### Type parameters
 
@@ -2926,7 +2926,7 @@ ___
 
 ### SealedField
 
-Ƭ **SealedField**<`D`\>: ``"type"`` extends keyof `D` ? [`Seal`](Backland.md#seal)<`Merge`<[`CommonDefSafe`](Backland.md#commondefsafe), `D`\>\> : `D`
+Ƭ **SealedField**<`D`\>: ``"type"`` extends keyof `D` ? [`Seal`](Solarwind.md#seal)<`Merge`<[`CommonDefSafe`](Solarwind.md#commondefsafe), `D`\>\> : `D`
 
 #### Type parameters
 
@@ -2942,7 +2942,7 @@ ___
 
 ### ShortenFinalFieldDefinition
 
-Ƭ **ShortenFinalFieldDefinition**: { [Type in FieldTypeName]: { [K in \_ShortenFinalFieldDefinitionFieldAsString<Type\>]: K \| { [L in K]: FieldDefinitions[Type] \| Object } }[\_ShortenFinalFieldDefinitionFieldAsString<Type\>] }[[`FieldTypeName`](Backland.md#fieldtypename)]
+Ƭ **ShortenFinalFieldDefinition**: { [Type in FieldTypeName]: { [K in \_ShortenFinalFieldDefinitionFieldAsString<Type\>]: K \| { [L in K]: FieldDefinitions[Type] \| Object } }[\_ShortenFinalFieldDefinitionFieldAsString<Type\>] }[[`FieldTypeName`](Solarwind.md#fieldtypename)]
 
 #### Defined in
 
@@ -2980,7 +2980,7 @@ ___
 
 ### TAnyFieldType
 
-Ƭ **TAnyFieldType**: [`AllFieldTypes`](Backland.md#allfieldtypes)[keyof [`AllFieldTypes`](Backland.md#allfieldtypes)]
+Ƭ **TAnyFieldType**: [`AllFieldTypes`](Solarwind.md#allfieldtypes)[keyof [`AllFieldTypes`](Solarwind.md#allfieldtypes)]
 
 #### Defined in
 
@@ -2996,8 +2996,8 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `context?` | [`TSFYContext`](Backland.md#tsfycontext) |
-| `customParser?` | [`TSFYCustomHandler`](../interfaces/Backland.TSFYCustomHandler.md) |
+| `context?` | [`TSFYContext`](Solarwind.md#tsfycontext) |
+| `customParser?` | [`TSFYCustomHandler`](../interfaces/Solarwind.TSFYCustomHandler.md) |
 | `groupInTypeThreshold?` | `number` |
 | `iterationLimit?` | `number` |
 | `many?` | `boolean` |
@@ -3016,9 +3016,9 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `config` | `PartialRequired`<[`TSFYConfig`](Backland.md#tsfyconfig), ``"customParser"``\> |
+| `config` | `PartialRequired`<[`TSFYConfig`](Solarwind.md#tsfyconfig), ``"customParser"``\> |
 | `header` | `Record`<`string`, `string`\> |
-| `refs` | `Record`<`string`, [`TSFYRef`](Backland.md#tsfyref)\> |
+| `refs` | `Record`<`string`, [`TSFYRef`](Solarwind.md#tsfyref)\> |
 
 #### Defined in
 
@@ -3028,7 +3028,7 @@ ___
 
 ### TSFYPart
 
-Ƭ **TSFYPart**: `string` \| [`TSFYRef`](Backland.md#tsfyref) \| [`TSFYPart`](Backland.md#tsfypart)[]
+Ƭ **TSFYPart**: `string` \| [`TSFYRef`](Solarwind.md#tsfyref) \| [`TSFYPart`](Solarwind.md#tsfypart)[]
 
 #### Defined in
 
@@ -3047,7 +3047,7 @@ ___
 | `count` | `number` |
 | `hash` | `string` |
 | `identifier` | `string` \| `undefined` |
-| `parts` | [`TSFYPart`](Backland.md#tsfypart)[] |
+| `parts` | [`TSFYPart`](Solarwind.md#tsfypart)[] |
 | `result?` | `string` |
 
 #### Defined in
@@ -3064,8 +3064,8 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `functionArguments?` | [`TSFyTypeDef`](Backland.md#tsfytypedef)[] |
-| `functionResult?` | [`TSFyTypeDef`](Backland.md#tsfytypedef) |
+| `functionArguments?` | [`TSFyTypeDef`](Solarwind.md#tsfytypedef)[] |
+| `functionResult?` | [`TSFyTypeDef`](Solarwind.md#tsfytypedef) |
 | `identifier?` | `string` |
 | `value?` | `string` |
 
@@ -3083,9 +3083,9 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `context` | [`TSFYContext`](Backland.md#tsfycontext) |
-| `currentRef` | [`TSFYRef`](Backland.md#tsfyref) |
-| `existing` | [`TSFYRef`](Backland.md#tsfyref) \| `undefined` |
+| `context` | [`TSFYContext`](Solarwind.md#tsfycontext) |
+| `currentRef` | [`TSFYRef`](Solarwind.md#tsfyref) |
+| `existing` | [`TSFYRef`](Solarwind.md#tsfyref) \| `undefined` |
 | `hash` | `string` |
 | `identifier` | `string` \| `undefined` |
 | `typeDescription` | `TypeDescription` |
@@ -3105,7 +3105,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `body` | ([`TSFyChunkDefinition`](Backland.md#tsfychunkdefinition) \| `string`)[] |
+| `body` | ([`TSFyChunkDefinition`](Solarwind.md#tsfychunkdefinition) \| `string`)[] |
 | `header?` | `Record`<`string`, `string`\> |
 
 #### Defined in
@@ -3116,7 +3116,7 @@ ___
 
 ### TopLevelFilterKey
 
-Ƭ **TopLevelFilterKey**: typeof [`TopLevelFilterKeys`](Backland.md#toplevelfilterkeys)[`number`]
+Ƭ **TopLevelFilterKey**: typeof [`TopLevelFilterKeys`](Solarwind.md#toplevelfilterkeys)[`number`]
 
 #### Defined in
 
@@ -3126,7 +3126,7 @@ ___
 
 ### TransporterFieldType
 
-Ƭ **TransporterFieldType**: typeof [`FieldTypes`](Backland.md#fieldtypes)[`number`]
+Ƭ **TransporterFieldType**: typeof [`FieldTypes`](Solarwind.md#fieldtypes)[`number`]
 
 #### Defined in
 
@@ -3136,7 +3136,7 @@ ___
 
 ### TransporterLoader
 
-Ƭ **TransporterLoader**: [`TransporterLoadersRecord`](Backland.md#transporterloadersrecord)[[`TransporterLoaderName`](Backland.md#transporterloadername)]
+Ƭ **TransporterLoader**: [`TransporterLoadersRecord`](Solarwind.md#transporterloadersrecord)[[`TransporterLoaderName`](Solarwind.md#transporterloadername)]
 
 #### Defined in
 
@@ -3146,7 +3146,7 @@ ___
 
 ### TransporterLoaderName
 
-Ƭ **TransporterLoaderName**: typeof [`transporterLoaderNames`](Backland.md#transporterloadernames)[`number`]
+Ƭ **TransporterLoaderName**: typeof [`transporterLoaderNames`](Solarwind.md#transporterloadernames)[`number`]
 
 #### Defined in
 
@@ -3166,7 +3166,7 @@ ___
 
 ### Types
 
-Ƭ **Types**: typeof [`types`](Backland.md#types-1)
+Ƭ **Types**: typeof [`types`](Solarwind.md#types-1)
 
 #### Defined in
 
@@ -3204,11 +3204,11 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `$addToSet?` | [`ArrayOperationRecord`](Backland.md#arrayoperationrecord)<`TSchema`\> |
-| `$append?` | [`ArrayOperationRecord`](Backland.md#arrayoperationrecord)<`TSchema`\> |
+| `$addToSet?` | [`ArrayOperationRecord`](Solarwind.md#arrayoperationrecord)<`TSchema`\> |
+| `$append?` | [`ArrayOperationRecord`](Solarwind.md#arrayoperationrecord)<`TSchema`\> |
 | `$inc?` | `UpdateDefinition`<`TSchema`\>[``"$inc"``] |
-| `$prepend?` | [`ArrayOperationRecord`](Backland.md#arrayoperationrecord)<`TSchema`\> |
-| `$pull?` | [`ArrayOperationRecord`](Backland.md#arrayoperationrecord)<`TSchema`, ``"$in"``\> |
+| `$prepend?` | [`ArrayOperationRecord`](Solarwind.md#arrayoperationrecord)<`TSchema`\> |
+| `$pull?` | [`ArrayOperationRecord`](Solarwind.md#arrayoperationrecord)<`TSchema`, ``"$in"``\> |
 | `$remove?` | `MaybeArray`<\`${Join<NestedPaths<TSchema\>, "."\>}${\`.${string}\` \| ""}\`\> |
 | `$set?` | `UpdateDefinition`<`TSchema`\>[``"$set"``] |
 | `$setIfNull?` | `UpdateDefinition`<`TSchema`\>[``"$set"``] |
@@ -3222,7 +3222,7 @@ ___
 
 ### UpdateExpressionKey
 
-Ƭ **UpdateExpressionKey**: `Extract`<keyof [`UpdateExpression`](Backland.md#updateexpression)<`any`\>, `string`\>
+Ƭ **UpdateExpressionKey**: `Extract`<keyof [`UpdateExpression`](Solarwind.md#updateexpression)<`any`\>, `string`\>
 
 #### Defined in
 
@@ -3238,7 +3238,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Backland.md#documentbase) = [`DocumentBase`](Backland.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Solarwind.md#documentbase) = [`DocumentBase`](Solarwind.md#documentbase) |
 | `PK` | extends `string` = `string` |
 | `SK` | extends `string` \| `undefined` = `string` |
 
@@ -3246,11 +3246,11 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `condition?` | [`FilterRecord`](Backland.md#filterrecord)<`Doc`\> |
-| `context?` | [`LoaderContext`](Backland.md#loadercontext) |
-| `filter` | [`MethodFilter`](Backland.md#methodfilter)<`PK`, `SK`\> |
-| `indexConfig` | [`CollectionIndexConfig`](Backland.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
-| `update` | [`UpdateExpression`](Backland.md#updateexpression)<`Doc`\> |
+| `condition?` | [`FilterRecord`](Solarwind.md#filterrecord)<`Doc`\> |
+| `context?` | [`LoaderContext`](Solarwind.md#loadercontext) |
+| `filter` | [`MethodFilter`](Solarwind.md#methodfilter)<`PK`, `SK`\> |
+| `indexConfig` | [`CollectionIndexConfig`](Solarwind.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
+| `update` | [`UpdateExpression`](Solarwind.md#updateexpression)<`Doc`\> |
 | `upsert?` | `boolean` |
 
 #### Defined in
@@ -3285,7 +3285,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Backland.md#documentbase) = [`DocumentBase`](Backland.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Solarwind.md#documentbase) = [`DocumentBase`](Solarwind.md#documentbase) |
 | `PK` | extends `string` = `string` |
 | `SK` | extends `string` \| `undefined` = `string` |
 
@@ -3293,11 +3293,11 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `condition?` | [`FilterRecord`](Backland.md#filterrecord)<`Doc`\> |
-| `context?` | [`LoaderContext`](Backland.md#loadercontext) |
-| `filter` | [`MethodFilter`](Backland.md#methodfilter)<`PK`, `SK`\> |
-| `indexConfig` | [`CollectionIndexConfig`](Backland.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
-| `update` | [`UpdateExpression`](Backland.md#updateexpression)<`Doc`\> |
+| `condition?` | [`FilterRecord`](Solarwind.md#filterrecord)<`Doc`\> |
+| `context?` | [`LoaderContext`](Solarwind.md#loadercontext) |
+| `filter` | [`MethodFilter`](Solarwind.md#methodfilter)<`PK`, `SK`\> |
+| `indexConfig` | [`CollectionIndexConfig`](Solarwind.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
+| `update` | [`UpdateExpression`](Solarwind.md#updateexpression)<`Doc`\> |
 | `upsert?` | `boolean` |
 
 #### Defined in
@@ -3314,7 +3314,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`DocumentBase`](Backland.md#documentbase) = [`DocumentBase`](Backland.md#documentbase) |
+| `T` | extends [`DocumentBase`](Solarwind.md#documentbase) = [`DocumentBase`](Solarwind.md#documentbase) |
 
 #### Type declaration
 
@@ -3343,13 +3343,13 @@ ___
 
 ### \_AllOptional
 
-Ƭ **\_AllOptional**<`Input`\>: [`MakeFieldOptional`](Backland.md#makefieldoptional)<[`DescribeObjectDefinition`](Backland.md#describeobjectdefinition)<`Input`\>, keyof `Input`\>
+Ƭ **\_AllOptional**<`Input`\>: [`MakeFieldOptional`](Solarwind.md#makefieldoptional)<[`DescribeObjectDefinition`](Solarwind.md#describeobjectdefinition)<`Input`\>, keyof `Input`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Input` | extends [`ObjectDefinitionInput`](../interfaces/Backland.ObjectDefinitionInput.md) |
+| `Input` | extends [`ObjectDefinitionInput`](../interfaces/Solarwind.ObjectDefinitionInput.md) |
 
 #### Defined in
 
@@ -3359,7 +3359,7 @@ ___
 
 ### \_AnyEntity
 
-Ƭ **\_AnyEntity**: [`EntityFromContext`](../interfaces/Backland.EntityFromContext.md)<[`EntityTypesContext`](../interfaces/Backland.EntityTypesContext.md)<{}, [`DocumentIndexItem`](Backland.md#documentindexitem)[]\>\>
+Ƭ **\_AnyEntity**: [`EntityFromContext`](../interfaces/Solarwind.EntityFromContext.md)<[`EntityTypesContext`](../interfaces/Solarwind.EntityTypesContext.md)<{}, [`DocumentIndexItem`](Solarwind.md#documentindexitem)[]\>\>
 
 #### Defined in
 
@@ -3369,7 +3369,7 @@ ___
 
 ### \_DescribeField
 
-Ƭ **\_DescribeField**<`Input`\>: `OnlyKnown`<`Input`\> extends infer Known ? `Known` extends `string` ? `ParseStringDefinition`<`Known`\> : `Known` extends `object` ? [`_DescribeObject`](Backland.md#_describeobject)<`Known`\> : `never` : `never`
+Ƭ **\_DescribeField**<`Input`\>: `OnlyKnown`<`Input`\> extends infer Known ? `Known` extends `string` ? `ParseStringDefinition`<`Known`\> : `Known` extends `object` ? [`_DescribeObject`](Solarwind.md#_describeobject)<`Known`\> : `never` : `never`
 
 #### Type parameters
 
@@ -3385,7 +3385,7 @@ ___
 
 ### \_DescribeObject
 
-Ƭ **\_DescribeObject**<`Input`\>: [`_FieldKV`](Backland.md#_fieldkv)<`Input`\> extends [infer K, infer V] ? `K` extends keyof `Input` ? `K` extends [`GraphTypeKID`](Backland.md#graphtypekid) ? ``"definition"`` extends keyof `Input` ? [`DescribeField`](Backland.md#describefield)<`Input`[``"definition"``]\> : `never` : `K` extends [`ObjectTypeKID`](Backland.md#objecttypekid) ? ``"definition"`` extends keyof `Input` ? { `def`: [`DescribeObjectDefinition`](Backland.md#describeobjectdefinition)<`Input`[``"definition"``]\> ; `list`: [`_GetKey`](Backland.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Backland.md#_getkey)<`Input`, ``"optional"``\> ; `type`: ``"object"``  } : `never` : `K` extends [`FieldTypeName`](Backland.md#fieldtypename) ? { `def`: `V` ; `list`: [`_GetKey`](Backland.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Backland.md#_getkey)<`Input`, ``"optional"``\> ; `type`: `K`  } : `K` extends ``"type"`` ? `V` extends [`FieldTypeName`](Backland.md#fieldtypename) ? { `def`: [`_GetKey`](Backland.md#_getkey)<`Input`, ``"def"``\> ; `list`: [`_GetKey`](Backland.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Backland.md#_getkey)<`Input`, ``"optional"``\> ; `type`: `V`  } : `Input`[`K`] extends [`GraphTypeLikeFieldDefinition`](../interfaces/Backland.GraphTypeLikeFieldDefinition.md) ? `Merge`<[`DescribeField`](Backland.md#describefield)<`Input`[`K`][``"definition"``]\>, [`_OmitUndefined`](Backland.md#_omitundefined)<{ `list`: [`_GetKey`](Backland.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Backland.md#_getkey)<`Input`, ``"optional"``\>  }\>\> : `Input`[`K`] extends [`ObjectTypeLikeFieldDefinition`](../interfaces/Backland.ObjectTypeLikeFieldDefinition.md) ? { `def`: [`DescribeObjectDefinition`](Backland.md#describeobjectdefinition)<`Input`[`K`][``"definition"``]\> ; `list`: [`_GetKey`](Backland.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Backland.md#_getkey)<`Input`, ``"optional"``\> ; `type`: ``"object"``  } : `never` : `never` : `never` : `never`
+Ƭ **\_DescribeObject**<`Input`\>: [`_FieldKV`](Solarwind.md#_fieldkv)<`Input`\> extends [infer K, infer V] ? `K` extends keyof `Input` ? `K` extends [`GraphTypeKID`](Solarwind.md#graphtypekid) ? ``"definition"`` extends keyof `Input` ? [`DescribeField`](Solarwind.md#describefield)<`Input`[``"definition"``]\> : `never` : `K` extends [`ObjectTypeKID`](Solarwind.md#objecttypekid) ? ``"definition"`` extends keyof `Input` ? { `def`: [`DescribeObjectDefinition`](Solarwind.md#describeobjectdefinition)<`Input`[``"definition"``]\> ; `list`: [`_GetKey`](Solarwind.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Solarwind.md#_getkey)<`Input`, ``"optional"``\> ; `type`: ``"object"``  } : `never` : `K` extends [`FieldTypeName`](Solarwind.md#fieldtypename) ? { `def`: `V` ; `list`: [`_GetKey`](Solarwind.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Solarwind.md#_getkey)<`Input`, ``"optional"``\> ; `type`: `K`  } : `K` extends ``"type"`` ? `V` extends [`FieldTypeName`](Solarwind.md#fieldtypename) ? { `def`: [`_GetKey`](Solarwind.md#_getkey)<`Input`, ``"def"``\> ; `list`: [`_GetKey`](Solarwind.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Solarwind.md#_getkey)<`Input`, ``"optional"``\> ; `type`: `V`  } : `Input`[`K`] extends [`GraphTypeLikeFieldDefinition`](../interfaces/Solarwind.GraphTypeLikeFieldDefinition.md) ? `Merge`<[`DescribeField`](Solarwind.md#describefield)<`Input`[`K`][``"definition"``]\>, [`_OmitUndefined`](Solarwind.md#_omitundefined)<{ `list`: [`_GetKey`](Solarwind.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Solarwind.md#_getkey)<`Input`, ``"optional"``\>  }\>\> : `Input`[`K`] extends [`ObjectTypeLikeFieldDefinition`](../interfaces/Solarwind.ObjectTypeLikeFieldDefinition.md) ? { `def`: [`DescribeObjectDefinition`](Solarwind.md#describeobjectdefinition)<`Input`[`K`][``"definition"``]\> ; `list`: [`_GetKey`](Solarwind.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Solarwind.md#_getkey)<`Input`, ``"optional"``\> ; `type`: ``"object"``  } : `never` : `never` : `never` : `never`
 
 #### Type parameters
 
@@ -3407,21 +3407,21 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Context` | extends [`AnyEntityTypesContext`](Backland.md#anyentitytypescontext) |
+| `Context` | extends [`AnyEntityTypesContext`](Solarwind.md#anyentitytypescontext) |
 
 #### Type declaration
 
 | Name | Type |
 | :------ | :------ |
-| `createOne` | [`CreateOne`](../interfaces/Backland.CreateOne.md)<`Context`[``"documentCreationInput"``], `Context`[``"document"``], `Context`[``"indexes"``]\> |
-| `deleteMany` | [`DeleteMany`](../interfaces/Backland.DeleteMany.md)<`Context`[``"document"``], `Context`[``"indexes"``]\> |
-| `deleteOne` | [`DeleteOne`](../interfaces/Backland.DeleteOne.md)<`Context`[``"document"``], `Context`[``"indexes"``]\> |
-| `findById` | [`FindById`](../interfaces/Backland.FindById.md)<`Context`[``"document"``], `Context`[``"indexes"``]\> |
-| `findMany` | [`FindMany`](../interfaces/Backland.FindMany.md)<`Context`[``"document"``], `Context`[``"indexes"``]\> |
-| `findOne` | [`FindOne`](../interfaces/Backland.FindOne.md)<`Context`[``"document"``], `Context`[``"indexes"``]\> |
-| `paginate` | [`Paginate`](../interfaces/Backland.Paginate.md)<`Context`[``"document"``], `Context`[``"indexes"``]\> |
-| `updateMany` | [`UpdateMany`](../interfaces/Backland.UpdateMany.md)<`Context`[``"document"``], `Context`[``"indexes"``]\> |
-| `updateOne` | [`UpdateOne`](../interfaces/Backland.UpdateOne.md)<`Context`[``"document"``], `Context`[``"indexes"``]\> |
+| `createOne` | [`CreateOne`](../interfaces/Solarwind.CreateOne.md)<`Context`[``"documentCreationInput"``], `Context`[``"document"``], `Context`[``"indexes"``]\> |
+| `deleteMany` | [`DeleteMany`](../interfaces/Solarwind.DeleteMany.md)<`Context`[``"document"``], `Context`[``"indexes"``]\> |
+| `deleteOne` | [`DeleteOne`](../interfaces/Solarwind.DeleteOne.md)<`Context`[``"document"``], `Context`[``"indexes"``]\> |
+| `findById` | [`FindById`](../interfaces/Solarwind.FindById.md)<`Context`[``"document"``], `Context`[``"indexes"``]\> |
+| `findMany` | [`FindMany`](../interfaces/Solarwind.FindMany.md)<`Context`[``"document"``], `Context`[``"indexes"``]\> |
+| `findOne` | [`FindOne`](../interfaces/Solarwind.FindOne.md)<`Context`[``"document"``], `Context`[``"indexes"``]\> |
+| `paginate` | [`Paginate`](../interfaces/Solarwind.Paginate.md)<`Context`[``"document"``], `Context`[``"indexes"``]\> |
+| `updateMany` | [`UpdateMany`](../interfaces/Solarwind.UpdateMany.md)<`Context`[``"document"``], `Context`[``"indexes"``]\> |
+| `updateOne` | [`UpdateOne`](../interfaces/Solarwind.UpdateOne.md)<`Context`[``"document"``], `Context`[``"indexes"``]\> |
 
 #### Defined in
 
@@ -3473,7 +3473,7 @@ ___
 
 ### \_FieldKV
 
-Ƭ **\_FieldKV**<`Input`\>: keyof `Input` extends infer K ? `K` extends `unknown` ? `K` extends keyof `Input` ? `K` extends [`FieldInputLikeRequiredKey`](Backland.md#fieldinputlikerequiredkey) ? [`K`, `Input`[`K`]] : `never` : `never` : `never` : `never`
+Ƭ **\_FieldKV**<`Input`\>: keyof `Input` extends infer K ? `K` extends `unknown` ? `K` extends keyof `Input` ? `K` extends [`FieldInputLikeRequiredKey`](Solarwind.md#fieldinputlikerequiredkey) ? [`K`, `Input`[`K`]] : `never` : `never` : `never` : `never`
 
 #### Type parameters
 
@@ -3557,7 +3557,7 @@ ___
 
 ### \_InferAlias
 
-Ƭ **\_InferAlias**<`Input`, `Parent`\>: `Input` extends `string` ? `GetFieldByDotNotation`<`Parent`, `Input`\> : `Input` extends `object` ? keyof `Input` extends infer K ? `K` extends `unknown` ? `K` extends keyof `Input` ? `K` extends ``"type"`` ? [`Infer`](Backland.md#infer)<`Input`[`K`]\> : `K` extends ``"alias"`` ? [`_InferAlias`](Backland.md#_inferalias)<`Input`[`K`], `Parent`\> : `never` : `never` : `never` : `never` : `never`
+Ƭ **\_InferAlias**<`Input`, `Parent`\>: `Input` extends `string` ? `GetFieldByDotNotation`<`Parent`, `Input`\> : `Input` extends `object` ? keyof `Input` extends infer K ? `K` extends `unknown` ? `K` extends keyof `Input` ? `K` extends ``"type"`` ? [`Infer`](Solarwind.md#infer)<`Input`[`K`]\> : `K` extends ``"alias"`` ? [`_InferAlias`](Solarwind.md#_inferalias)<`Input`[`K`], `Parent`\> : `never` : `never` : `never` : `never` : `never`
 
 #### Type parameters
 
@@ -3591,7 +3591,7 @@ ___
 
 ### \_InferField
 
-Ƭ **\_InferField**<`Input`\>: [`_FieldKV`](Backland.md#_fieldkv)<`Input`\> extends [infer K, infer V] ? `K` extends keyof `Input` ? `K` extends [`GraphTypeKID`](Backland.md#graphtypekid) ? [`InferGraphType`](Backland.md#infergraphtype)<`Input`\> : `K` extends [`ObjectTypeKID`](Backland.md#objecttypekid) ? [`InferObjectType`](Backland.md#inferobjecttype)<`Input`\> : `K` extends [`FieldTypeName`](Backland.md#fieldtypename) ? [`InferFinalField`](Backland.md#inferfinalfield)<`K`, `V`\> : `K` extends ``"type"`` ? `V` extends [`FieldTypeName`](Backland.md#fieldtypename) ? [`InferFinalField`](Backland.md#inferfinalfield)<`V`, [`_GetKey`](Backland.md#_getkey)<`Input`, ``"def"``\>\> : `Input`[`K`] extends [`GraphTypeLikeFieldDefinition`](../interfaces/Backland.GraphTypeLikeFieldDefinition.md) ? [`InferGraphType`](Backland.md#infergraphtype)<`Input`[`K`]\> : `Input`[`K`] extends [`ObjectTypeLikeFieldDefinition`](../interfaces/Backland.ObjectTypeLikeFieldDefinition.md) ? [`InferObjectType`](Backland.md#inferobjecttype)<`Input`[`K`]\> : `never` : `never` : `never` : `never`
+Ƭ **\_InferField**<`Input`\>: [`_FieldKV`](Solarwind.md#_fieldkv)<`Input`\> extends [infer K, infer V] ? `K` extends keyof `Input` ? `K` extends [`GraphTypeKID`](Solarwind.md#graphtypekid) ? [`InferGraphType`](Solarwind.md#infergraphtype)<`Input`\> : `K` extends [`ObjectTypeKID`](Solarwind.md#objecttypekid) ? [`InferObjectType`](Solarwind.md#inferobjecttype)<`Input`\> : `K` extends [`FieldTypeName`](Solarwind.md#fieldtypename) ? [`InferFinalField`](Solarwind.md#inferfinalfield)<`K`, `V`\> : `K` extends ``"type"`` ? `V` extends [`FieldTypeName`](Solarwind.md#fieldtypename) ? [`InferFinalField`](Solarwind.md#inferfinalfield)<`V`, [`_GetKey`](Solarwind.md#_getkey)<`Input`, ``"def"``\>\> : `Input`[`K`] extends [`GraphTypeLikeFieldDefinition`](../interfaces/Solarwind.GraphTypeLikeFieldDefinition.md) ? [`InferGraphType`](Solarwind.md#infergraphtype)<`Input`[`K`]\> : `Input`[`K`] extends [`ObjectTypeLikeFieldDefinition`](../interfaces/Solarwind.ObjectTypeLikeFieldDefinition.md) ? [`InferObjectType`](Solarwind.md#inferobjecttype)<`Input`[`K`]\> : `never` : `never` : `never` : `never`
 
 #### Type parameters
 
@@ -3607,7 +3607,7 @@ ___
 
 ### \_InferFinalField
 
-Ƭ **\_InferFinalField**<`TypeName`, `Def`\>: `TypeName` extends ``"literal"`` ? `Def` : `TypeName` extends ``"array"`` ? [`Def`] extends [`ArrayFieldDef`<infer Of\>] ? [`Infer`](Backland.md#infer)<`Of`\>[] : `never` : `TypeName` extends ``"object"`` ? [`Def`] extends [`object`] ? [`InferObjectDefinition`](Backland.md#inferobjectdefinition)<`Def`\> : `never` : `TypeName` extends ``"enum"`` ? [`Def`] extends [`ReadonlyArray`<infer Item\>] ? `Item` : `never` : `TypeName` extends ``"union"`` ? [`Def`] extends [`ReadonlyArray`<infer Item\>] ? [`Infer`](Backland.md#infer)<`Item`\> : `never` : `TypeName` extends ``"record"`` ? [`Def`] extends [{ `keyType?`: infer KeyType ; `type?`: infer Type  }] ? { [K in KeyType extends "int" \| "float" ? number : string]: Infer<Type\> } : { `[K: string]`: `any`;  } : `TypeName` extends ``"literal"`` ? `Def` : [`InferTypeName`](Backland.md#infertypename)<`TypeName`\>
+Ƭ **\_InferFinalField**<`TypeName`, `Def`\>: `TypeName` extends ``"literal"`` ? `Def` : `TypeName` extends ``"array"`` ? [`Def`] extends [`ArrayFieldDef`<infer Of\>] ? [`Infer`](Solarwind.md#infer)<`Of`\>[] : `never` : `TypeName` extends ``"object"`` ? [`Def`] extends [`object`] ? [`InferObjectDefinition`](Solarwind.md#inferobjectdefinition)<`Def`\> : `never` : `TypeName` extends ``"enum"`` ? [`Def`] extends [`ReadonlyArray`<infer Item\>] ? `Item` : `never` : `TypeName` extends ``"union"`` ? [`Def`] extends [`ReadonlyArray`<infer Item\>] ? [`Infer`](Solarwind.md#infer)<`Item`\> : `never` : `TypeName` extends ``"record"`` ? [`Def`] extends [{ `keyType?`: infer KeyType ; `type?`: infer Type  }] ? { [K in KeyType extends "int" \| "float" ? number : string]: Infer<Type\> } : { `[K: string]`: `any`;  } : `TypeName` extends ``"literal"`` ? `Def` : [`InferTypeName`](Solarwind.md#infertypename)<`TypeName`\>
 
 #### Type parameters
 
@@ -3624,7 +3624,7 @@ ___
 
 ### \_InferObjectDefinition
 
-Ƭ **\_InferObjectDefinition**<`Input`\>: [`_GetAliasFields`](Backland.md#_getaliasfields)<`Input`\> extends infer Aliases ? { [K in Exclude<keyof Input, keyof Aliases\>]: Infer<Input[K]\> } & [`_InferSpecialObjectKeys`](Backland.md#_inferspecialobjectkeys)<`Input`\> extends infer Parent ? [`_InferAliasFields`](Backland.md#_inferaliasfields)<`Cast`<`Aliases`, `object`\>, `Cast`<`Parent`, `object`\>\> & `Parent` : `never` : `never`
+Ƭ **\_InferObjectDefinition**<`Input`\>: [`_GetAliasFields`](Solarwind.md#_getaliasfields)<`Input`\> extends infer Aliases ? { [K in Exclude<keyof Input, keyof Aliases\>]: Infer<Input[K]\> } & [`_InferSpecialObjectKeys`](Solarwind.md#_inferspecialobjectkeys)<`Input`\> extends infer Parent ? [`_InferAliasFields`](Solarwind.md#_inferaliasfields)<`Cast`<`Aliases`, `object`\>, `Cast`<`Parent`, `object`\>\> & `Parent` : `never` : `never`
 
 #### Type parameters
 
@@ -3656,7 +3656,7 @@ ___
 
 ### \_InnerDef
 
-Ƭ **\_InnerDef**<`R`\>: ``"type"`` extends keyof `R` ? ``"def"`` extends keyof `R` ? `R`[``"type"``] extends ``"object"`` ? `R`[``"def"``] extends `object` ? [`DescribeObjectDefinition`](Backland.md#describeobjectdefinition)<`R`[``"def"``]\> : `never` : `never` : `never` : `never`
+Ƭ **\_InnerDef**<`R`\>: ``"type"`` extends keyof `R` ? ``"def"`` extends keyof `R` ? `R`[``"type"``] extends ``"object"`` ? `R`[``"def"``] extends `object` ? [`DescribeObjectDefinition`](Solarwind.md#describeobjectdefinition)<`R`[``"def"``]\> : `never` : `never` : `never` : `never`
 
 #### Type parameters
 
@@ -3672,7 +3672,7 @@ ___
 
 ### \_ObjectFieldInputBase
 
-Ƭ **\_ObjectFieldInputBase**: [`GraphTypeLikeFieldDefinition`](../interfaces/Backland.GraphTypeLikeFieldDefinition.md) \| [`ObjectTypeLikeFieldDefinition`](../interfaces/Backland.ObjectTypeLikeFieldDefinition.md) \| [`ObjectInTypeFieldDefinition`](../interfaces/Backland.ObjectInTypeFieldDefinition.md) \| [`GraphTypeInTypeFieldDefinition`](../interfaces/Backland.GraphTypeInTypeFieldDefinition.md) \| [`FinalFieldDefinition`](Backland.md#finalfielddefinition) \| [`FieldAsString`](Backland.md#fieldasstring)
+Ƭ **\_ObjectFieldInputBase**: [`GraphTypeLikeFieldDefinition`](../interfaces/Solarwind.GraphTypeLikeFieldDefinition.md) \| [`ObjectTypeLikeFieldDefinition`](../interfaces/Solarwind.ObjectTypeLikeFieldDefinition.md) \| [`ObjectInTypeFieldDefinition`](../interfaces/Solarwind.ObjectInTypeFieldDefinition.md) \| [`GraphTypeInTypeFieldDefinition`](../interfaces/Solarwind.GraphTypeInTypeFieldDefinition.md) \| [`FinalFieldDefinition`](Solarwind.md#finalfielddefinition) \| [`FieldAsString`](Solarwind.md#fieldasstring)
 
 #### Defined in
 
@@ -3698,7 +3698,7 @@ ___
 
 ### \_ResolverArgs
 
-Ƭ **\_ResolverArgs**<`ArgsType`\>: `Exclude`<`ArgsType`, `undefined`\> extends infer R ? `IsKnown`<`R`\> extends ``1`` ? [`Infer`](Backland.md#infer)<{ `object`: `R`  }\> : {} : {}
+Ƭ **\_ResolverArgs**<`ArgsType`\>: `Exclude`<`ArgsType`, `undefined`\> extends infer R ? `IsKnown`<`R`\> extends ``1`` ? [`Infer`](Solarwind.md#infer)<{ `object`: `R`  }\> : {} : {}
 
 #### Type parameters
 
@@ -3720,7 +3720,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`FieldTypeName`](Backland.md#fieldtypename) |
+| `T` | extends [`FieldTypeName`](Solarwind.md#fieldtypename) |
 
 #### Defined in
 
@@ -3757,7 +3757,7 @@ ___
 
 ### \_WithInferList
 
-Ƭ **\_WithInferList**<`FieldDefinition`, `InferredValue`\>: [``true``] extends [[`_GetKey`](Backland.md#_getkey)<`FieldDefinition`, ``"list"``\>] ? `InferredValue`[] : `InferredValue`
+Ƭ **\_WithInferList**<`FieldDefinition`, `InferredValue`\>: [``true``] extends [[`_GetKey`](Solarwind.md#_getkey)<`FieldDefinition`, ``"list"``\>] ? `InferredValue`[] : `InferredValue`
 
 #### Type parameters
 
@@ -3774,7 +3774,7 @@ ___
 
 ### \_WithInferOptional
 
-Ƭ **\_WithInferOptional**<`FieldDefinition`, `InferredValue`\>: [``true``] extends [[`_GetKey`](Backland.md#_getkey)<`FieldDefinition`, ``"optional"``\>] ? `InferredValue` \| `undefined` : `InferredValue`
+Ƭ **\_WithInferOptional**<`FieldDefinition`, `InferredValue`\>: [``true``] extends [[`_GetKey`](Solarwind.md#_getkey)<`FieldDefinition`, ``"optional"``\>] ? `InferredValue` \| `undefined` : `InferredValue`
 
 #### Type parameters
 
@@ -3835,9 +3835,9 @@ packages/transporter/lib/Transporter.d.ts:163
 
 ___
 
-### BacklandObject
+### SolarwindObject
 
-• `Const` **BacklandObject**: typeof [`ObjectType`](../classes/Backland.ObjectType.md)
+• `Const` **SolarwindObject**: typeof [`ObjectType`](../classes/Solarwind.ObjectType.md)
 
 #### Defined in
 
@@ -3857,7 +3857,7 @@ ___
 
 ### CircularDeps
 
-• `Const` **CircularDeps**: `BacklandModules`
+• `Const` **CircularDeps**: `SolarwindModules`
 
 #### Defined in
 
@@ -3931,7 +3931,7 @@ ___
 
 ### FieldsTypeCache
 
-• `Const` **FieldsTypeCache**: `Map`<`string`, { `defKeys`: `string`[] \| `undefined` ; `fieldType`: [`TAnyFieldType`](Backland.md#tanyfieldtype)  }\>
+• `Const` **FieldsTypeCache**: `Map`<`string`, { `defKeys`: `string`[] \| `undefined` ; `fieldType`: [`TAnyFieldType`](Solarwind.md#tanyfieldtype)  }\>
 
 #### Defined in
 
@@ -3951,7 +3951,7 @@ ___
 
 ### PageInfoType
 
-• `Const` **PageInfoType**: [`GraphType`](../classes/Backland.GraphType.md)<{ `object`: { `endCursor`: ``"string?"`` ; `hasNextPage`: ``"boolean"`` ; `hasPreviousPage`: ``"boolean"`` ; `startCursor`: ``"string?"``  }  }\>
+• `Const` **PageInfoType**: [`GraphType`](../classes/Solarwind.GraphType.md)<{ `object`: { `endCursor`: ``"string?"`` ; `hasNextPage`: ``"boolean"`` ; `hasPreviousPage`: ``"boolean"`` ; `startCursor`: ``"string?"``  }  }\>
 
 #### Defined in
 
@@ -3991,7 +3991,7 @@ ___
 
 ### \_parserHooks
 
-• `Const` **\_parserHooks**: [`ParserHook`](../interfaces/Backland.ParserHook.md)[]
+• `Const` **\_parserHooks**: [`ParserHook`](../interfaces/Solarwind.ParserHook.md)[]
 
 #### Defined in
 
@@ -4001,7 +4001,7 @@ ___
 
 ### create
 
-• `Const` **create**: [`FieldCreators`](Backland.md#fieldcreators)
+• `Const` **create**: [`FieldCreators`](Solarwind.md#fieldcreators)
 
 #### Defined in
 
@@ -4113,28 +4113,28 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `ID` | typeof [`IDField`](../classes/Backland.IDField.md) |
-| `alias` | typeof [`AliasField`](../classes/Backland.AliasField.md) |
-| `any` | typeof [`AnyField`](../classes/Backland.AnyField.md) |
+| `ID` | typeof [`IDField`](../classes/Solarwind.IDField.md) |
+| `alias` | typeof [`AliasField`](../classes/Solarwind.AliasField.md) |
+| `any` | typeof [`AnyField`](../classes/Solarwind.AnyField.md) |
 | `array` | typeof `ArrayField` |
-| `boolean` | typeof [`BooleanField`](../classes/Backland.BooleanField.md) |
-| `cursor` | typeof [`CursorField`](../classes/Backland.CursorField.md) |
-| `date` | typeof [`DateField`](../classes/Backland.DateField.md) |
-| `email` | typeof [`EmailField`](../classes/Backland.EmailField.md) |
-| `enum` | typeof [`EnumField`](../classes/Backland.EnumField.md) |
-| `float` | typeof [`FloatField`](../classes/Backland.FloatField.md) |
-| `int` | typeof [`IntField`](../classes/Backland.IntField.md) |
-| `literal` | typeof [`LiteralField`](../classes/Backland.LiteralField.md) |
-| `meta` | typeof [`MetaField`](../classes/Backland.MetaField.md) |
-| `null` | typeof [`NullField`](../classes/Backland.NullField.md) |
-| `object` | typeof [`ObjectField`](../classes/Backland.ObjectField.md) |
+| `boolean` | typeof [`BooleanField`](../classes/Solarwind.BooleanField.md) |
+| `cursor` | typeof [`CursorField`](../classes/Solarwind.CursorField.md) |
+| `date` | typeof [`DateField`](../classes/Solarwind.DateField.md) |
+| `email` | typeof [`EmailField`](../classes/Solarwind.EmailField.md) |
+| `enum` | typeof [`EnumField`](../classes/Solarwind.EnumField.md) |
+| `float` | typeof [`FloatField`](../classes/Solarwind.FloatField.md) |
+| `int` | typeof [`IntField`](../classes/Solarwind.IntField.md) |
+| `literal` | typeof [`LiteralField`](../classes/Solarwind.LiteralField.md) |
+| `meta` | typeof [`MetaField`](../classes/Solarwind.MetaField.md) |
+| `null` | typeof [`NullField`](../classes/Solarwind.NullField.md) |
+| `object` | typeof [`ObjectField`](../classes/Solarwind.ObjectField.md) |
 | `phone` | typeof `PhoneField` |
-| `record` | typeof [`RecordField`](../classes/Backland.RecordField.md) |
-| `string` | typeof [`StringField`](../classes/Backland.StringField.md) |
-| `ulid` | typeof [`UlidField`](../classes/Backland.UlidField.md) |
-| `undefined` | typeof [`UndefinedField`](../classes/Backland.UndefinedField.md) |
-| `union` | typeof [`UnionField`](../classes/Backland.UnionField.md) |
-| `unknown` | typeof [`UnknownField`](../classes/Backland.UnknownField.md) |
+| `record` | typeof [`RecordField`](../classes/Solarwind.RecordField.md) |
+| `string` | typeof [`StringField`](../classes/Solarwind.StringField.md) |
+| `ulid` | typeof [`UlidField`](../classes/Solarwind.UlidField.md) |
+| `undefined` | typeof [`UndefinedField`](../classes/Solarwind.UndefinedField.md) |
+| `union` | typeof [`UnionField`](../classes/Solarwind.UnionField.md) |
+| `unknown` | typeof [`UnknownField`](../classes/Solarwind.UnknownField.md) |
 
 #### Defined in
 
@@ -4144,7 +4144,7 @@ packages/schema/lib/fields/fieldTypes.d.ts:44
 
 ### \_\_getCachedFieldInstance
 
-▸ **__getCachedFieldInstance**(`field`): [`TAnyFieldType`](Backland.md#tanyfieldtype)
+▸ **__getCachedFieldInstance**(`field`): [`TAnyFieldType`](Solarwind.md#tanyfieldtype)
 
 #### Parameters
 
@@ -4154,7 +4154,7 @@ packages/schema/lib/fields/fieldTypes.d.ts:44
 
 #### Returns
 
-[`TAnyFieldType`](Backland.md#tanyfieldtype)
+[`TAnyFieldType`](Solarwind.md#tanyfieldtype)
 
 #### Defined in
 
@@ -4238,8 +4238,8 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `options` | `Object` |
-| `options.filter` | [`IndexFilterRecord`](Backland.md#indexfilterrecord)<`string`, `string`\> |
-| `options.indexConfig` | [`AnyCollectionIndexConfig`](Backland.md#anycollectionindexconfig) |
+| `options.filter` | [`IndexFilterRecord`](Solarwind.md#indexfilterrecord)<`string`, `string`\> |
+| `options.indexConfig` | [`AnyCollectionIndexConfig`](Solarwind.md#anycollectionindexconfig) |
 
 #### Returns
 
@@ -4251,15 +4251,15 @@ packages/transporter/lib/parseAggioAttributeFilters.d.ts:4
 
 ___
 
-### createBacklandObject
+### createSolarwindObject
 
-▸ **createBacklandObject**<`DefinitionInput`\>(`fields`): [`ObjectTypeFromInput`](Backland.md#objecttypefrominput)<`DefinitionInput`\>
+▸ **createSolarwindObject**<`DefinitionInput`\>(`fields`): [`ObjectTypeFromInput`](Solarwind.md#objecttypefrominput)<`DefinitionInput`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `DefinitionInput` | extends `Readonly`<[`ObjectDefinitionInput`](../interfaces/Backland.ObjectDefinitionInput.md)\> |
+| `DefinitionInput` | extends `Readonly`<[`ObjectDefinitionInput`](../interfaces/Solarwind.ObjectDefinitionInput.md)\> |
 
 #### Parameters
 
@@ -4269,19 +4269,19 @@ ___
 
 #### Returns
 
-[`ObjectTypeFromInput`](Backland.md#objecttypefrominput)<`DefinitionInput`\>
+[`ObjectTypeFromInput`](Solarwind.md#objecttypefrominput)<`DefinitionInput`\>
 
 #### Defined in
 
 packages/schema/lib/ObjectType.d.ts:116
 
-▸ **createBacklandObject**<`DefinitionInput`\>(`name`, `fields`): [`ObjectTypeFromInput`](Backland.md#objecttypefrominput)<`DefinitionInput`\>
+▸ **createSolarwindObject**<`DefinitionInput`\>(`name`, `fields`): [`ObjectTypeFromInput`](Solarwind.md#objecttypefrominput)<`DefinitionInput`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `DefinitionInput` | extends `Readonly`<[`ObjectDefinitionInput`](../interfaces/Backland.ObjectDefinitionInput.md)\> |
+| `DefinitionInput` | extends `Readonly`<[`ObjectDefinitionInput`](../interfaces/Solarwind.ObjectDefinitionInput.md)\> |
 
 #### Parameters
 
@@ -4292,7 +4292,7 @@ packages/schema/lib/ObjectType.d.ts:116
 
 #### Returns
 
-[`ObjectTypeFromInput`](Backland.md#objecttypefrominput)<`DefinitionInput`\>
+[`ObjectTypeFromInput`](Solarwind.md#objecttypefrominput)<`DefinitionInput`\>
 
 #### Defined in
 
@@ -4302,7 +4302,7 @@ ___
 
 ### createDocumentIndexBasedFilters
 
-▸ **createDocumentIndexBasedFilters**(`filter`, `indexConfig`): [`IndexBasedFilterParsed`](Backland.md#indexbasedfilterparsed)
+▸ **createDocumentIndexBasedFilters**(`filter`, `indexConfig`): [`IndexBasedFilterParsed`](Solarwind.md#indexbasedfilterparsed)
 
 Receives a document indexConfig and a key-value filter and converts to
 an index based search filter.
@@ -4311,12 +4311,12 @@ an index based search filter.
 
 | Name | Type |
 | :------ | :------ |
-| `filter` | [`IndexFilterRecord`](Backland.md#indexfilterrecord)<`string`, `string`\> |
-| `indexConfig` | [`AnyCollectionIndexConfig`](Backland.md#anycollectionindexconfig) |
+| `filter` | [`IndexFilterRecord`](Solarwind.md#indexfilterrecord)<`string`, `string`\> |
+| `indexConfig` | [`AnyCollectionIndexConfig`](Solarwind.md#anycollectionindexconfig) |
 
 #### Returns
 
-[`IndexBasedFilterParsed`](Backland.md#indexbasedfilterparsed)
+[`IndexBasedFilterParsed`](Solarwind.md#indexbasedfilterparsed)
 
 #### Defined in
 
@@ -4326,11 +4326,11 @@ ___
 
 ### createEmptyMetaField
 
-▸ **createEmptyMetaField**(): [`MetaField`](../classes/Backland.MetaField.md)[``"asFinalFieldDef"``]
+▸ **createEmptyMetaField**(): [`MetaField`](../classes/Solarwind.MetaField.md)[``"asFinalFieldDef"``]
 
 #### Returns
 
-[`MetaField`](../classes/Backland.MetaField.md)[``"asFinalFieldDef"``]
+[`MetaField`](../classes/Solarwind.MetaField.md)[``"asFinalFieldDef"``]
 
 #### Defined in
 
@@ -4340,25 +4340,25 @@ ___
 
 ### createEntity
 
-▸ **createEntity**<`InputDefinition`, `Indexes`, `Options`\>(`configOptions`): [`Entity`](../interfaces/Backland.Entity.md)<`InputDefinition`, `Indexes`\>
+▸ **createEntity**<`InputDefinition`, `Indexes`, `Options`\>(`configOptions`): [`Entity`](../interfaces/Solarwind.Entity.md)<`InputDefinition`, `Indexes`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `InputDefinition` | extends [`ObjectDefinitionInput`](../interfaces/Backland.ObjectDefinitionInput.md) |
-| `Indexes` | extends [`DocumentIndexesConfig`](../interfaces/Backland.DocumentIndexesConfig.md)<`string`, `Indexes`\> |
-| `Options` | extends [`EntityOptions`](Backland.md#entityoptions)<`InputDefinition`, `Indexes`\> = [`EntityOptions`](Backland.md#entityoptions)<`InputDefinition`, `Indexes`\> |
+| `InputDefinition` | extends [`ObjectDefinitionInput`](../interfaces/Solarwind.ObjectDefinitionInput.md) |
+| `Indexes` | extends [`DocumentIndexesConfig`](../interfaces/Solarwind.DocumentIndexesConfig.md)<`string`, `Indexes`\> |
+| `Options` | extends [`EntityOptions`](Solarwind.md#entityoptions)<`InputDefinition`, `Indexes`\> = [`EntityOptions`](Solarwind.md#entityoptions)<`InputDefinition`, `Indexes`\> |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `configOptions` | [`EntityOptions`](Backland.md#entityoptions)<`InputDefinition`, `Indexes`\> \| () => [`EntityOptions`](Backland.md#entityoptions)<`InputDefinition`, `Indexes`\> |
+| `configOptions` | [`EntityOptions`](Solarwind.md#entityoptions)<`InputDefinition`, `Indexes`\> \| () => [`EntityOptions`](Solarwind.md#entityoptions)<`InputDefinition`, `Indexes`\> |
 
 #### Returns
 
-[`Entity`](../interfaces/Backland.Entity.md)<`InputDefinition`, `Indexes`\>
+[`Entity`](../interfaces/Solarwind.Entity.md)<`InputDefinition`, `Indexes`\>
 
 #### Defined in
 
@@ -4368,18 +4368,18 @@ ___
 
 ### createEntityPlugin
 
-▸ **createEntityPlugin**(`name`, `handler`): [`EntityPlugin`](../interfaces/Backland.EntityPlugin.md)
+▸ **createEntityPlugin**(`name`, `handler`): [`EntityPlugin`](../interfaces/Solarwind.EntityPlugin.md)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `name` | `string` |
-| `handler` | [`EntityPlugin`](../interfaces/Backland.EntityPlugin.md) |
+| `handler` | [`EntityPlugin`](../interfaces/Solarwind.EntityPlugin.md) |
 
 #### Returns
 
-[`EntityPlugin`](../interfaces/Backland.EntityPlugin.md)
+[`EntityPlugin`](../interfaces/Solarwind.EntityPlugin.md)
 
 #### Defined in
 
@@ -4389,7 +4389,7 @@ ___
 
 ### createFieldTypeError
 
-▸ **createFieldTypeError**(`code`, `details?`): [`FieldTypeError`](../classes/Backland.FieldTypeError.md)
+▸ **createFieldTypeError**(`code`, `details?`): [`FieldTypeError`](../classes/Solarwind.FieldTypeError.md)
 
 #### Parameters
 
@@ -4400,7 +4400,7 @@ ___
 
 #### Returns
 
-[`FieldTypeError`](../classes/Backland.FieldTypeError.md)
+[`FieldTypeError`](../classes/Solarwind.FieldTypeError.md)
 
 #### Defined in
 
@@ -4410,7 +4410,7 @@ ___
 
 ### createGraphQLSchema
 
-▸ **createGraphQLSchema**<`T`\>(`resolvers?`, `config?`): `T` extends { `__isResolver`: `any`  } ? [`GraphQLSchemaWithUtils`](Backland.md#graphqlschemawithutils) : `never`
+▸ **createGraphQLSchema**<`T`\>(`resolvers?`, `config?`): `T` extends { `__isResolver`: `any`  } ? [`GraphQLSchemaWithUtils`](Solarwind.md#graphqlschemawithutils) : `never`
 
 #### Type parameters
 
@@ -4427,13 +4427,13 @@ ___
 
 #### Returns
 
-`T` extends { `__isResolver`: `any`  } ? [`GraphQLSchemaWithUtils`](Backland.md#graphqlschemawithutils) : `never`
+`T` extends { `__isResolver`: `any`  } ? [`GraphQLSchemaWithUtils`](Solarwind.md#graphqlschemawithutils) : `never`
 
 #### Defined in
 
 packages/schema/lib/createGraphQLSchema.d.ts:35
 
-▸ **createGraphQLSchema**<`Config`\>(`config?`): `Config` extends [`CreateGraphQLObjectOptions`](Backland.md#creategraphqlobjectoptions) ? [`GraphQLSchemaWithUtils`](Backland.md#graphqlschemawithutils) : `never`
+▸ **createGraphQLSchema**<`Config`\>(`config?`): `Config` extends [`CreateGraphQLObjectOptions`](Solarwind.md#creategraphqlobjectoptions) ? [`GraphQLSchemaWithUtils`](Solarwind.md#graphqlschemawithutils) : `never`
 
 #### Type parameters
 
@@ -4449,7 +4449,7 @@ packages/schema/lib/createGraphQLSchema.d.ts:35
 
 #### Returns
 
-`Config` extends [`CreateGraphQLObjectOptions`](Backland.md#creategraphqlobjectoptions) ? [`GraphQLSchemaWithUtils`](Backland.md#graphqlschemawithutils) : `never`
+`Config` extends [`CreateGraphQLObjectOptions`](Solarwind.md#creategraphqlobjectoptions) ? [`GraphQLSchemaWithUtils`](Solarwind.md#graphqlschemawithutils) : `never`
 
 #### Defined in
 
@@ -4459,13 +4459,13 @@ ___
 
 ### createObjectType
 
-▸ **createObjectType**<`DefinitionInput`\>(`fields`): [`ObjectTypeFromInput`](Backland.md#objecttypefrominput)<`DefinitionInput`\>
+▸ **createObjectType**<`DefinitionInput`\>(`fields`): [`ObjectTypeFromInput`](Solarwind.md#objecttypefrominput)<`DefinitionInput`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `DefinitionInput` | extends `Readonly`<[`ObjectDefinitionInput`](../interfaces/Backland.ObjectDefinitionInput.md)\> |
+| `DefinitionInput` | extends `Readonly`<[`ObjectDefinitionInput`](../interfaces/Solarwind.ObjectDefinitionInput.md)\> |
 
 #### Parameters
 
@@ -4475,19 +4475,19 @@ ___
 
 #### Returns
 
-[`ObjectTypeFromInput`](Backland.md#objecttypefrominput)<`DefinitionInput`\>
+[`ObjectTypeFromInput`](Solarwind.md#objecttypefrominput)<`DefinitionInput`\>
 
 #### Defined in
 
 packages/schema/lib/ObjectType.d.ts:116
 
-▸ **createObjectType**<`DefinitionInput`\>(`name`, `fields`): [`ObjectTypeFromInput`](Backland.md#objecttypefrominput)<`DefinitionInput`\>
+▸ **createObjectType**<`DefinitionInput`\>(`name`, `fields`): [`ObjectTypeFromInput`](Solarwind.md#objecttypefrominput)<`DefinitionInput`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `DefinitionInput` | extends `Readonly`<[`ObjectDefinitionInput`](../interfaces/Backland.ObjectDefinitionInput.md)\> |
+| `DefinitionInput` | extends `Readonly`<[`ObjectDefinitionInput`](../interfaces/Solarwind.ObjectDefinitionInput.md)\> |
 
 #### Parameters
 
@@ -4498,7 +4498,7 @@ packages/schema/lib/ObjectType.d.ts:116
 
 #### Returns
 
-[`ObjectTypeFromInput`](Backland.md#objecttypefrominput)<`DefinitionInput`\>
+[`ObjectTypeFromInput`](Solarwind.md#objecttypefrominput)<`DefinitionInput`\>
 
 #### Defined in
 
@@ -4514,14 +4514,14 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `ResultType` | extends [`ObjectFieldInput`](Backland.md#objectfieldinput) |
-| `ArgsType` | extends [`ObjectDefinitionInput`](../interfaces/Backland.ObjectDefinitionInput.md) |
+| `ResultType` | extends [`ObjectFieldInput`](Solarwind.md#objectfieldinput) |
+| `ArgsType` | extends [`ObjectDefinitionInput`](../interfaces/Solarwind.ObjectDefinitionInput.md) |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `config` | { `args?`: `ArgsType` \| `Readonly`<`ArgsType`\> ; `kind?`: `ResolverKind` ; `name`: `string` ; `resolve?`: `undefined` ; `type`: `ResultType` \| `Readonly`<`ResultType`\>  } & [`OptionalResolverConfig`](Backland.md#optionalresolverconfig)<`any`, `any`, `any`\> |
+| `config` | { `args?`: `ArgsType` \| `Readonly`<`ArgsType`\> ; `kind?`: `ResolverKind` ; `name`: `string` ; `resolve?`: `undefined` ; `type`: `ResultType` \| `Readonly`<`ResultType`\>  } & [`OptionalResolverConfig`](Solarwind.md#optionalresolverconfig)<`any`, `any`, `any`\> |
 
 #### Returns
 
@@ -4529,54 +4529,54 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `resolver` | <Returns, Root\>(`handler`: (`root`: `Root`, `args`: [`_ResolverArgs`](Backland.md#_resolverargs)<`ArgsType`\>, `context`: [`ResolverContextBase`](Backland.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\>) => { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: [`_ResolverArgs`](Backland.md#_resolverargs)<`ArgsType`\>, `context`: [`ResolverContextBase`](Backland.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  } |
+| `resolver` | <Returns, Root\>(`handler`: (`root`: `Root`, `args`: [`_ResolverArgs`](Solarwind.md#_resolverargs)<`ArgsType`\>, `context`: [`ResolverContextBase`](Solarwind.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\>) => { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: [`_ResolverArgs`](Solarwind.md#_resolverargs)<`ArgsType`\>, `context`: [`ResolverContextBase`](Solarwind.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  } |
 
 #### Defined in
 
 packages/schema/lib/Resolver.d.ts:40
 
-▸ **createResolver**<`ResultType`, `Returns`\>(`config`): { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: {}, `context`: [`ResolverContextBase`](Backland.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  } & { `resolver?`: `undefined`  }
+▸ **createResolver**<`ResultType`, `Returns`\>(`config`): { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: {}, `context`: [`ResolverContextBase`](Solarwind.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  } & { `resolver?`: `undefined`  }
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `ResultType` | extends [`ObjectFieldInput`](Backland.md#objectfieldinput) |
+| `ResultType` | extends [`ObjectFieldInput`](Solarwind.md#objectfieldinput) |
 | `Returns` | `unknown` |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `config` | { `args?`: `undefined` ; `kind?`: `ResolverKind` ; `name`: `string` ; `resolve`: <Root\>(`root`: `Root`, `args`: {}, `context`: [`ResolverContextBase`](Backland.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\> ; `type`: `ResultType` \| `Readonly`<`ResultType`\>  } & [`OptionalResolverConfig`](Backland.md#optionalresolverconfig)<`any`, `any`, `any`\> |
+| `config` | { `args?`: `undefined` ; `kind?`: `ResolverKind` ; `name`: `string` ; `resolve`: <Root\>(`root`: `Root`, `args`: {}, `context`: [`ResolverContextBase`](Solarwind.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\> ; `type`: `ResultType` \| `Readonly`<`ResultType`\>  } & [`OptionalResolverConfig`](Solarwind.md#optionalresolverconfig)<`any`, `any`, `any`\> |
 
 #### Returns
 
-{ `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: {}, `context`: [`ResolverContextBase`](Backland.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  } & { `resolver?`: `undefined`  }
+{ `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: {}, `context`: [`ResolverContextBase`](Solarwind.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  } & { `resolver?`: `undefined`  }
 
 #### Defined in
 
 packages/schema/lib/Resolver.d.ts:49
 
-▸ **createResolver**<`ResultType`, `ArgsType`, `Returns`\>(`config`): { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: [`_ResolverArgs`](Backland.md#_resolverargs)<`ArgsType`\>, `context`: [`ResolverContextBase`](Backland.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  } & { `resolver?`: `undefined`  }
+▸ **createResolver**<`ResultType`, `ArgsType`, `Returns`\>(`config`): { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: [`_ResolverArgs`](Solarwind.md#_resolverargs)<`ArgsType`\>, `context`: [`ResolverContextBase`](Solarwind.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  } & { `resolver?`: `undefined`  }
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `ResultType` | extends [`ObjectFieldInput`](Backland.md#objectfieldinput) |
-| `ArgsType` | extends [`ObjectDefinitionInput`](../interfaces/Backland.ObjectDefinitionInput.md) |
+| `ResultType` | extends [`ObjectFieldInput`](Solarwind.md#objectfieldinput) |
+| `ArgsType` | extends [`ObjectDefinitionInput`](../interfaces/Solarwind.ObjectDefinitionInput.md) |
 | `Returns` | `unknown` |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `config` | { `args`: `ArgsType` \| `Readonly`<`ArgsType`\> ; `kind?`: `ResolverKind` ; `name`: `string` ; `resolve`: <Root\>(`root`: `Root`, `args`: [`_ResolverArgs`](Backland.md#_resolverargs)<`ArgsType`\>, `context`: [`ResolverContextBase`](Backland.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\> ; `type`: `ResultType` \| `Readonly`<`ResultType`\>  } & [`OptionalResolverConfig`](Backland.md#optionalresolverconfig)<`any`, `any`, `any`\> |
+| `config` | { `args`: `ArgsType` \| `Readonly`<`ArgsType`\> ; `kind?`: `ResolverKind` ; `name`: `string` ; `resolve`: <Root\>(`root`: `Root`, `args`: [`_ResolverArgs`](Solarwind.md#_resolverargs)<`ArgsType`\>, `context`: [`ResolverContextBase`](Solarwind.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\> ; `type`: `ResultType` \| `Readonly`<`ResultType`\>  } & [`OptionalResolverConfig`](Solarwind.md#optionalresolverconfig)<`any`, `any`, `any`\> |
 
 #### Returns
 
-{ `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: [`_ResolverArgs`](Backland.md#_resolverargs)<`ArgsType`\>, `context`: [`ResolverContextBase`](Backland.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  } & { `resolver?`: `undefined`  }
+{ `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: [`_ResolverArgs`](Solarwind.md#_resolverargs)<`ArgsType`\>, `context`: [`ResolverContextBase`](Solarwind.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  } & { `resolver?`: `undefined`  }
 
 #### Defined in
 
@@ -4586,17 +4586,17 @@ ___
 
 ### createResolverFactory
 
-▸ **createResolverFactory**<`Context`\>(): [`CreateResolver`](../interfaces/Backland.CreateResolver.md)<`Context`\>
+▸ **createResolverFactory**<`Context`\>(): [`CreateResolver`](../interfaces/Solarwind.CreateResolver.md)<`Context`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Context` | extends [`ResolverContextBase`](Backland.md#resolvercontextbase) |
+| `Context` | extends [`ResolverContextBase`](Solarwind.md#resolvercontextbase) |
 
 #### Returns
 
-[`CreateResolver`](../interfaces/Backland.CreateResolver.md)<`Context`\>
+[`CreateResolver`](../interfaces/Solarwind.CreateResolver.md)<`Context`\>
 
 #### Defined in
 
@@ -4606,13 +4606,13 @@ ___
 
 ### createSchema
 
-▸ **createSchema**<`DefinitionInput`\>(`fields`): [`ObjectTypeFromInput`](Backland.md#objecttypefrominput)<`DefinitionInput`\>
+▸ **createSchema**<`DefinitionInput`\>(`fields`): [`ObjectTypeFromInput`](Solarwind.md#objecttypefrominput)<`DefinitionInput`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `DefinitionInput` | extends `Readonly`<[`ObjectDefinitionInput`](../interfaces/Backland.ObjectDefinitionInput.md)\> |
+| `DefinitionInput` | extends `Readonly`<[`ObjectDefinitionInput`](../interfaces/Solarwind.ObjectDefinitionInput.md)\> |
 
 #### Parameters
 
@@ -4622,19 +4622,19 @@ ___
 
 #### Returns
 
-[`ObjectTypeFromInput`](Backland.md#objecttypefrominput)<`DefinitionInput`\>
+[`ObjectTypeFromInput`](Solarwind.md#objecttypefrominput)<`DefinitionInput`\>
 
 #### Defined in
 
 packages/schema/lib/ObjectType.d.ts:116
 
-▸ **createSchema**<`DefinitionInput`\>(`name`, `fields`): [`ObjectTypeFromInput`](Backland.md#objecttypefrominput)<`DefinitionInput`\>
+▸ **createSchema**<`DefinitionInput`\>(`name`, `fields`): [`ObjectTypeFromInput`](Solarwind.md#objecttypefrominput)<`DefinitionInput`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `DefinitionInput` | extends `Readonly`<[`ObjectDefinitionInput`](../interfaces/Backland.ObjectDefinitionInput.md)\> |
+| `DefinitionInput` | extends `Readonly`<[`ObjectDefinitionInput`](../interfaces/Solarwind.ObjectDefinitionInput.md)\> |
 
 #### Parameters
 
@@ -4645,7 +4645,7 @@ packages/schema/lib/ObjectType.d.ts:116
 
 #### Returns
 
-[`ObjectTypeFromInput`](Backland.md#objecttypefrominput)<`DefinitionInput`\>
+[`ObjectTypeFromInput`](Solarwind.md#objecttypefrominput)<`DefinitionInput`\>
 
 #### Defined in
 
@@ -4655,17 +4655,17 @@ ___
 
 ### createTSFYContext
 
-▸ **createTSFYContext**(`config`): [`TSFYContext`](Backland.md#tsfycontext)
+▸ **createTSFYContext**(`config`): [`TSFYContext`](Solarwind.md#tsfycontext)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `config` | [`TSFYConfig`](Backland.md#tsfyconfig) |
+| `config` | [`TSFYConfig`](Solarwind.md#tsfyconfig) |
 
 #### Returns
 
-[`TSFYContext`](Backland.md#tsfycontext)
+[`TSFYContext`](Solarwind.md#tsfycontext)
 
 #### Defined in
 
@@ -4675,7 +4675,7 @@ ___
 
 ### createTSfyRef
 
-▸ **createTSfyRef**(`hash`, `identifier?`): [`TSFYRef`](Backland.md#tsfyref)
+▸ **createTSfyRef**(`hash`, `identifier?`): [`TSFYRef`](Solarwind.md#tsfyref)
 
 #### Parameters
 
@@ -4686,7 +4686,7 @@ ___
 
 #### Returns
 
-[`TSFYRef`](Backland.md#tsfyref)
+[`TSFYRef`](Solarwind.md#tsfyref)
 
 #### Defined in
 
@@ -4696,46 +4696,46 @@ ___
 
 ### createType
 
-▸ **createType**<`Definition`\>(`definition`): [`GraphType`](../classes/Backland.GraphType.md)<`Definition`\>
+▸ **createType**<`Definition`\>(`definition`): [`GraphType`](../classes/Solarwind.GraphType.md)<`Definition`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Definition` | extends [`ObjectFieldInput`](Backland.md#objectfieldinput) |
+| `Definition` | extends [`ObjectFieldInput`](Solarwind.md#objectfieldinput) |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `definition` | `Definition` \| (`utils`: `BacklandModules`) => `Definition` |
+| `definition` | `Definition` \| (`utils`: `SolarwindModules`) => `Definition` |
 
 #### Returns
 
-[`GraphType`](../classes/Backland.GraphType.md)<`Definition`\>
+[`GraphType`](../classes/Solarwind.GraphType.md)<`Definition`\>
 
 #### Defined in
 
 packages/schema/lib/GraphType/GraphType.d.ts:117
 
-▸ **createType**<`Definition`\>(`name`, `definition`): [`GraphType`](../classes/Backland.GraphType.md)<`Definition`\>
+▸ **createType**<`Definition`\>(`name`, `definition`): [`GraphType`](../classes/Solarwind.GraphType.md)<`Definition`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Definition` | extends [`ObjectFieldInput`](Backland.md#objectfieldinput) |
+| `Definition` | extends [`ObjectFieldInput`](Solarwind.md#objectfieldinput) |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `name` | `string` |
-| `definition` | `Definition` \| (`utils`: `BacklandModules`) => `Definition` |
+| `definition` | `Definition` \| (`utils`: `SolarwindModules`) => `Definition` |
 
 #### Returns
 
-[`GraphType`](../classes/Backland.GraphType.md)<`Definition`\>
+[`GraphType`](../classes/Solarwind.GraphType.md)<`Definition`\>
 
 #### Defined in
 
@@ -4791,7 +4791,7 @@ ___
 
 ### extendObjectDefinition
 
-▸ **extendObjectDefinition**<`Input`\>(`input`): [`ExtendObjectDefinition`](../interfaces/Backland.ExtendObjectDefinition.md)<`Input`, `Input`\>
+▸ **extendObjectDefinition**<`Input`\>(`input`): [`ExtendObjectDefinition`](../interfaces/Solarwind.ExtendObjectDefinition.md)<`Input`, `Input`\>
 
 #### Type parameters
 
@@ -4807,7 +4807,7 @@ ___
 
 #### Returns
 
-[`ExtendObjectDefinition`](../interfaces/Backland.ExtendObjectDefinition.md)<`Input`, `Input`\>
+[`ExtendObjectDefinition`](../interfaces/Solarwind.ExtendObjectDefinition.md)<`Input`, `Input`\>
 
 #### Defined in
 
@@ -4817,7 +4817,7 @@ ___
 
 ### extendType
 
-▸ **extendType**<`Input`\>(`input`): [`ExtendType`](../interfaces/Backland.ExtendType.md)<`Input`\>
+▸ **extendType**<`Input`\>(`input`): [`ExtendType`](../interfaces/Solarwind.ExtendType.md)<`Input`\>
 
 #### Type parameters
 
@@ -4833,7 +4833,7 @@ ___
 
 #### Returns
 
-[`ExtendType`](../interfaces/Backland.ExtendType.md)<`Input`\>
+[`ExtendType`](../interfaces/Solarwind.ExtendType.md)<`Input`\>
 
 #### Defined in
 
@@ -4849,8 +4849,8 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `fieldInput` | [`ObjectFieldInput`](Backland.md#objectfieldinput) |
-| `options?` | [`ObjectMockOptions`](Backland.md#objectmockoptions) |
+| `fieldInput` | [`ObjectFieldInput`](Solarwind.md#objectfieldinput) |
+| `options?` | [`ObjectMockOptions`](Solarwind.md#objectmockoptions) |
 
 #### Returns
 
@@ -4864,7 +4864,7 @@ ___
 
 ### getDocumentIndexFields
 
-▸ **getDocumentIndexFields**<`Document`\>(`doc`, `indexConfig`): [`ParsedDocumentIndexes`](Backland.md#parseddocumentindexes)
+▸ **getDocumentIndexFields**<`Document`\>(`doc`, `indexConfig`): [`ParsedDocumentIndexes`](Solarwind.md#parseddocumentindexes)
 
 #### Type parameters
 
@@ -4877,11 +4877,11 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `doc` | `Document` |
-| `indexConfig` | [`AnyCollectionIndexConfig`](Backland.md#anycollectionindexconfig) |
+| `indexConfig` | [`AnyCollectionIndexConfig`](Solarwind.md#anycollectionindexconfig) |
 
 #### Returns
 
-[`ParsedDocumentIndexes`](Backland.md#parseddocumentindexes)
+[`ParsedDocumentIndexes`](Solarwind.md#parseddocumentindexes)
 
 #### Defined in
 
@@ -4928,7 +4928,7 @@ ___
 
 ### getObjectDefinitionMetaField
 
-▸ **getObjectDefinitionMetaField**(`input`): [`MetaField`](../classes/Backland.MetaField.md)[``"asFinalFieldDef"``] \| `undefined`
+▸ **getObjectDefinitionMetaField**(`input`): [`MetaField`](../classes/Solarwind.MetaField.md)[``"asFinalFieldDef"``] \| `undefined`
 
 #### Parameters
 
@@ -4938,7 +4938,7 @@ ___
 
 #### Returns
 
-[`MetaField`](../classes/Backland.MetaField.md)[``"asFinalFieldDef"``] \| `undefined`
+[`MetaField`](../classes/Solarwind.MetaField.md)[``"asFinalFieldDef"``] \| `undefined`
 
 #### Defined in
 
@@ -4948,17 +4948,17 @@ ___
 
 ### getParsedIndexKeys
 
-▸ **getParsedIndexKeys**(`indexConfig`): [`ParsedIndexKey`](Backland.md#parsedindexkey)[]
+▸ **getParsedIndexKeys**(`indexConfig`): [`ParsedIndexKey`](Solarwind.md#parsedindexkey)[]
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `indexConfig` | [`AnyCollectionIndexConfig`](Backland.md#anycollectionindexconfig) |
+| `indexConfig` | [`AnyCollectionIndexConfig`](Solarwind.md#anycollectionindexconfig) |
 
 #### Returns
 
-[`ParsedIndexKey`](Backland.md#parsedindexkey)[]
+[`ParsedIndexKey`](Solarwind.md#parsedindexkey)[]
 
 #### Defined in
 
@@ -4968,7 +4968,7 @@ ___
 
 ### getResolver
 
-▸ **getResolver**(`name`): [`AnyResolver`](Backland.md#anyresolver)
+▸ **getResolver**(`name`): [`AnyResolver`](Solarwind.md#anyresolver)
 
 #### Parameters
 
@@ -4978,7 +4978,7 @@ ___
 
 #### Returns
 
-[`AnyResolver`](Backland.md#anyresolver)
+[`AnyResolver`](Solarwind.md#anyresolver)
 
 #### Defined in
 
@@ -5008,7 +5008,7 @@ ___
 
 ### getType
 
-▸ **getType**(`name`): [`GraphTypeLike`](../interfaces/Backland.GraphTypeLike.md)
+▸ **getType**(`name`): [`GraphTypeLike`](../interfaces/Solarwind.GraphTypeLike.md)
 
 #### Parameters
 
@@ -5018,7 +5018,7 @@ ___
 
 #### Returns
 
-[`GraphTypeLike`](../interfaces/Backland.GraphTypeLike.md)
+[`GraphTypeLike`](../interfaces/Solarwind.GraphTypeLike.md)
 
 #### Defined in
 
@@ -5028,14 +5028,14 @@ ___
 
 ### implementObject
 
-▸ **implementObject**<`Def`, `Parents`\>(`name`, `definition`, `...parents`): [`ImplementObject`](Backland.md#implementobject)<[`ObjectType`](../classes/Backland.ObjectType.md)<`Def`\>, `Parents`\>
+▸ **implementObject**<`Def`, `Parents`\>(`name`, `definition`, `...parents`): [`ImplementObject`](Solarwind.md#implementobject)<[`ObjectType`](../classes/Solarwind.ObjectType.md)<`Def`\>, `Parents`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Def` | extends [`ObjectDefinitionInput`](../interfaces/Backland.ObjectDefinitionInput.md) |
-| `Parents` | extends readonly [`ObjectLike`](../interfaces/Backland.ObjectLike.md)[] |
+| `Def` | extends [`ObjectDefinitionInput`](../interfaces/Solarwind.ObjectDefinitionInput.md) |
+| `Parents` | extends readonly [`ObjectLike`](../interfaces/Solarwind.ObjectLike.md)[] |
 
 #### Parameters
 
@@ -5047,7 +5047,7 @@ ___
 
 #### Returns
 
-[`ImplementObject`](Backland.md#implementobject)<[`ObjectType`](../classes/Backland.ObjectType.md)<`Def`\>, `Parents`\>
+[`ImplementObject`](Solarwind.md#implementobject)<[`ObjectType`](../classes/Solarwind.ObjectType.md)<`Def`\>, `Parents`\>
 
 #### Defined in
 
@@ -5282,19 +5282,19 @@ ___
 
 ### mergeIndexRelationsResult
 
-▸ **mergeIndexRelationsResult**(`input`): [`DocumentBase`](Backland.md#documentbase)[]
+▸ **mergeIndexRelationsResult**(`input`): [`DocumentBase`](Solarwind.md#documentbase)[]
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `input` | `Object` |
-| `input.indexConfig` | [`AnyCollectionIndexConfig`](Backland.md#anycollectionindexconfig) |
-| `input.items` | [`DocumentBase`](Backland.md#documentbase)[] |
+| `input.indexConfig` | [`AnyCollectionIndexConfig`](Solarwind.md#anycollectionindexconfig) |
+| `input.items` | [`DocumentBase`](Solarwind.md#documentbase)[] |
 
 #### Returns
 
-[`DocumentBase`](Backland.md#documentbase)[]
+[`DocumentBase`](Solarwind.md#documentbase)[]
 
 #### Defined in
 
@@ -5338,7 +5338,7 @@ ___
 
 ### objectMock
 
-▸ **objectMock**<`T`\>(`definition`, `options?`): [`Infer`](Backland.md#infer)<{ `object`: `T`  }\>
+▸ **objectMock**<`T`\>(`definition`, `options?`): [`Infer`](Solarwind.md#infer)<{ `object`: `T`  }\>
 
 #### Type parameters
 
@@ -5351,11 +5351,11 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `definition` | `T` |
-| `options?` | [`ObjectMockOptions`](Backland.md#objectmockoptions) |
+| `options?` | [`ObjectMockOptions`](Solarwind.md#objectmockoptions) |
 
 #### Returns
 
-[`Infer`](Backland.md#infer)<{ `object`: `T`  }\>
+[`Infer`](Solarwind.md#infer)<{ `object`: `T`  }\>
 
 #### Defined in
 
@@ -5371,7 +5371,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `attFilter` | [`FilterRecord`](Backland.md#filterrecord)<[`DocumentBase`](Backland.md#documentbase)\> |
+| `attFilter` | [`FilterRecord`](Solarwind.md#filterrecord)<[`DocumentBase`](Solarwind.md#documentbase)\> |
 
 #### Returns
 
@@ -5411,7 +5411,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`AnyCollectionIndexConfig`](Backland.md#anycollectionindexconfig) |
+| `T` | extends [`AnyCollectionIndexConfig`](Solarwind.md#anycollectionindexconfig) |
 
 #### Parameters
 
@@ -5431,17 +5431,17 @@ ___
 
 ### parseEntityIndexFields
 
-▸ **parseEntityIndexFields**(`indexConfig`): [`ObjectDefinitionInput`](../interfaces/Backland.ObjectDefinitionInput.md)
+▸ **parseEntityIndexFields**(`indexConfig`): [`ObjectDefinitionInput`](../interfaces/Solarwind.ObjectDefinitionInput.md)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `indexConfig` | [`AnyCollectionIndexConfig`](Backland.md#anycollectionindexconfig) |
+| `indexConfig` | [`AnyCollectionIndexConfig`](Solarwind.md#anycollectionindexconfig) |
 
 #### Returns
 
-[`ObjectDefinitionInput`](../interfaces/Backland.ObjectDefinitionInput.md)
+[`ObjectDefinitionInput`](../interfaces/Solarwind.ObjectDefinitionInput.md)
 
 #### Defined in
 
@@ -5451,17 +5451,17 @@ ___
 
 ### parseField
 
-▸ **parseField**(`definition`): [`FinalFieldDefinition`](Backland.md#finalfielddefinition)
+▸ **parseField**(`definition`): [`FinalFieldDefinition`](Solarwind.md#finalfielddefinition)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `definition` | [`ObjectFieldInput`](Backland.md#objectfieldinput) |
+| `definition` | [`ObjectFieldInput`](Solarwind.md#objectfieldinput) |
 
 #### Returns
 
-[`FinalFieldDefinition`](Backland.md#finalfielddefinition)
+[`FinalFieldDefinition`](Solarwind.md#finalfielddefinition)
 
 #### Defined in
 
@@ -5471,14 +5471,14 @@ ___
 
 ### parseFieldDefinitionConfig
 
-▸ **parseFieldDefinitionConfig**<`T`, `Options`\>(`definition`, `options?`): [`Options`[``"asString"``]] extends [``true``] ? [`FieldAsString`](Backland.md#fieldasstring) \| [`FinalFieldDefinition`](Backland.md#finalfielddefinition) \| [`ShortenFinalFieldDefinition`](Backland.md#shortenfinalfielddefinition) : [`FinalFieldDefinition`](Backland.md#finalfielddefinition)
+▸ **parseFieldDefinitionConfig**<`T`, `Options`\>(`definition`, `options?`): [`Options`[``"asString"``]] extends [``true``] ? [`FieldAsString`](Solarwind.md#fieldasstring) \| [`FinalFieldDefinition`](Solarwind.md#finalfielddefinition) \| [`ShortenFinalFieldDefinition`](Solarwind.md#shortenfinalfielddefinition) : [`FinalFieldDefinition`](Solarwind.md#finalfielddefinition)
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`ObjectFieldInput`](Backland.md#objectfieldinput) |
-| `Options` | extends [`ParseFieldOptions`](Backland.md#parsefieldoptions) |
+| `T` | extends [`ObjectFieldInput`](Solarwind.md#objectfieldinput) |
+| `Options` | extends [`ParseFieldOptions`](Solarwind.md#parsefieldoptions) |
 
 #### Parameters
 
@@ -5489,7 +5489,7 @@ ___
 
 #### Returns
 
-[`Options`[``"asString"``]] extends [``true``] ? [`FieldAsString`](Backland.md#fieldasstring) \| [`FinalFieldDefinition`](Backland.md#finalfielddefinition) \| [`ShortenFinalFieldDefinition`](Backland.md#shortenfinalfielddefinition) : [`FinalFieldDefinition`](Backland.md#finalfielddefinition)
+[`Options`[``"asString"``]] extends [``true``] ? [`FieldAsString`](Solarwind.md#fieldasstring) \| [`FinalFieldDefinition`](Solarwind.md#finalfielddefinition) \| [`ShortenFinalFieldDefinition`](Solarwind.md#shortenfinalfielddefinition) : [`FinalFieldDefinition`](Solarwind.md#finalfielddefinition)
 
 #### Defined in
 
@@ -5499,18 +5499,18 @@ ___
 
 ### parseFilterIndexFilterParts
 
-▸ **parseFilterIndexFilterParts**(`filter`, `indexConfig`): { `isFinalParsedSearch`: ``false`` ; `parts`: [`ParsedIndexFilterPart`](Backland.md#parsedindexfilterpart)[]  } \| { `cursor`: `ParsedIndexCursor` ; `isFinalParsedSearch`: ``true``  }
+▸ **parseFilterIndexFilterParts**(`filter`, `indexConfig`): { `isFinalParsedSearch`: ``false`` ; `parts`: [`ParsedIndexFilterPart`](Solarwind.md#parsedindexfilterpart)[]  } \| { `cursor`: `ParsedIndexCursor` ; `isFinalParsedSearch`: ``true``  }
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `filter` | `Record`<`string`, `any`\> |
-| `indexConfig` | [`AnyCollectionIndexConfig`](Backland.md#anycollectionindexconfig) |
+| `indexConfig` | [`AnyCollectionIndexConfig`](Solarwind.md#anycollectionindexconfig) |
 
 #### Returns
 
-{ `isFinalParsedSearch`: ``false`` ; `parts`: [`ParsedIndexFilterPart`](Backland.md#parsedindexfilterpart)[]  } \| { `cursor`: `ParsedIndexCursor` ; `isFinalParsedSearch`: ``true``  }
+{ `isFinalParsedSearch`: ``false`` ; `parts`: [`ParsedIndexFilterPart`](Solarwind.md#parsedindexfilterpart)[]  } \| { `cursor`: `ParsedIndexCursor` ; `isFinalParsedSearch`: ``true``  }
 
 #### Defined in
 
@@ -5520,18 +5520,18 @@ ___
 
 ### parseFlattenFieldDefinition
 
-▸ **parseFlattenFieldDefinition**(`input`, `options?`): [`FinalFieldDefinition`](Backland.md#finalfielddefinition) \| ``false``
+▸ **parseFlattenFieldDefinition**(`input`, `options?`): [`FinalFieldDefinition`](Solarwind.md#finalfielddefinition) \| ``false``
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `input` | `any` |
-| `options?` | [`ParseFieldOptions`](Backland.md#parsefieldoptions) |
+| `options?` | [`ParseFieldOptions`](Solarwind.md#parsefieldoptions) |
 
 #### Returns
 
-[`FinalFieldDefinition`](Backland.md#finalfielddefinition) \| ``false``
+[`FinalFieldDefinition`](Solarwind.md#finalfielddefinition) \| ``false``
 
 #### Defined in
 
@@ -5548,7 +5548,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `input` | `Record`<`string`, `any`\> |
-| `options?` | `Omit`<[`ParseFieldOptions`](Backland.md#parsefieldoptions), ``"returnInstance"``\> |
+| `options?` | `Omit`<[`ParseFieldOptions`](Solarwind.md#parsefieldoptions), ``"returnInstance"``\> |
 
 #### Returns
 
@@ -5562,14 +5562,14 @@ ___
 
 ### parseObjectField
 
-▸ **parseObjectField**<`T`, `Options`\>(`fieldName`, `definition`, `options`): [`Options`[``"returnInstance"``]] extends [``true``] ? [`TAnyFieldType`](Backland.md#tanyfieldtype) : [`Options`[``"asString"``]] extends [``true``] ? [`FieldAsString`](Backland.md#fieldasstring) : [`FinalFieldDefinition`](Backland.md#finalfielddefinition)
+▸ **parseObjectField**<`T`, `Options`\>(`fieldName`, `definition`, `options`): [`Options`[``"returnInstance"``]] extends [``true``] ? [`TAnyFieldType`](Solarwind.md#tanyfieldtype) : [`Options`[``"asString"``]] extends [``true``] ? [`FieldAsString`](Solarwind.md#fieldasstring) : [`FinalFieldDefinition`](Solarwind.md#finalfielddefinition)
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`ObjectFieldInput`](Backland.md#objectfieldinput) |
-| `Options` | extends [`ParseFieldOptions`](Backland.md#parsefieldoptions) |
+| `T` | extends [`ObjectFieldInput`](Solarwind.md#objectfieldinput) |
+| `Options` | extends [`ParseFieldOptions`](Solarwind.md#parsefieldoptions) |
 
 #### Parameters
 
@@ -5581,19 +5581,19 @@ ___
 
 #### Returns
 
-[`Options`[``"returnInstance"``]] extends [``true``] ? [`TAnyFieldType`](Backland.md#tanyfieldtype) : [`Options`[``"asString"``]] extends [``true``] ? [`FieldAsString`](Backland.md#fieldasstring) : [`FinalFieldDefinition`](Backland.md#finalfielddefinition)
+[`Options`[``"returnInstance"``]] extends [``true``] ? [`TAnyFieldType`](Solarwind.md#tanyfieldtype) : [`Options`[``"asString"``]] extends [``true``] ? [`FieldAsString`](Solarwind.md#fieldasstring) : [`FinalFieldDefinition`](Solarwind.md#finalfielddefinition)
 
 #### Defined in
 
 packages/schema/lib/parseObjectDefinition.d.ts:15
 
-▸ **parseObjectField**<`T`\>(`fieldName`, `definition`): [`FinalFieldDefinition`](Backland.md#finalfielddefinition)
+▸ **parseObjectField**<`T`\>(`fieldName`, `definition`): [`FinalFieldDefinition`](Solarwind.md#finalfielddefinition)
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`ObjectFieldInput`](Backland.md#objectfieldinput) |
+| `T` | extends [`ObjectFieldInput`](Solarwind.md#objectfieldinput) |
 
 #### Parameters
 
@@ -5604,13 +5604,13 @@ packages/schema/lib/parseObjectDefinition.d.ts:15
 
 #### Returns
 
-[`FinalFieldDefinition`](Backland.md#finalfielddefinition)
+[`FinalFieldDefinition`](Solarwind.md#finalfielddefinition)
 
 #### Defined in
 
 packages/schema/lib/parseObjectDefinition.d.ts:16
 
-▸ **parseObjectField**<`T`\>(`fieldName`, `definition`, `options`): [`TAnyFieldType`](Backland.md#tanyfieldtype)
+▸ **parseObjectField**<`T`\>(`fieldName`, `definition`, `options`): [`TAnyFieldType`](Solarwind.md#tanyfieldtype)
 
 **`Deprecated`**
 
@@ -5620,7 +5620,7 @@ use the object options instead of true
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`ObjectFieldInput`](Backland.md#objectfieldinput) |
+| `T` | extends [`ObjectFieldInput`](Solarwind.md#objectfieldinput) |
 
 #### Parameters
 
@@ -5632,7 +5632,7 @@ use the object options instead of true
 
 #### Returns
 
-[`TAnyFieldType`](Backland.md#tanyfieldtype)
+[`TAnyFieldType`](Solarwind.md#tanyfieldtype)
 
 #### Defined in
 
@@ -5642,7 +5642,7 @@ ___
 
 ### parseOneIndexDocumentFields
 
-▸ **parseOneIndexDocumentFields**(`parsedIndex`): [`DocumentIndexFieldsParsed`](../interfaces/Backland.DocumentIndexFieldsParsed.md)
+▸ **parseOneIndexDocumentFields**(`parsedIndex`): [`DocumentIndexFieldsParsed`](../interfaces/Solarwind.DocumentIndexFieldsParsed.md)
 
 #### Parameters
 
@@ -5652,7 +5652,7 @@ ___
 
 #### Returns
 
-[`DocumentIndexFieldsParsed`](../interfaces/Backland.DocumentIndexFieldsParsed.md)
+[`DocumentIndexFieldsParsed`](../interfaces/Solarwind.DocumentIndexFieldsParsed.md)
 
 #### Defined in
 
@@ -5662,7 +5662,7 @@ ___
 
 ### parseUpdateExpression
 
-▸ **parseUpdateExpression**<`Schema`\>(`updateExpression`, `indexConfig`): [`ParsedUpdateExpression`](Backland.md#parsedupdateexpression)<`Schema`\>[]
+▸ **parseUpdateExpression**<`Schema`\>(`updateExpression`, `indexConfig`): [`ParsedUpdateExpression`](Solarwind.md#parsedupdateexpression)<`Schema`\>[]
 
 #### Type parameters
 
@@ -5674,12 +5674,12 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `updateExpression` | [`UpdateExpression`](Backland.md#updateexpression)<`Schema`\> |
-| `indexConfig` | [`AnyCollectionIndexConfig`](Backland.md#anycollectionindexconfig) |
+| `updateExpression` | [`UpdateExpression`](Solarwind.md#updateexpression)<`Schema`\> |
+| `indexConfig` | [`AnyCollectionIndexConfig`](Solarwind.md#anycollectionindexconfig) |
 
 #### Returns
 
-[`ParsedUpdateExpression`](Backland.md#parsedupdateexpression)<`Schema`\>[]
+[`ParsedUpdateExpression`](Solarwind.md#parsedupdateexpression)<`Schema`\>[]
 
 #### Defined in
 
@@ -5696,7 +5696,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `input` | `any` |
-| `customMessage` | `undefined` \| [`ValidationCustomMessage`](Backland.md#validationcustommessage) |
+| `customMessage` | `undefined` \| [`ValidationCustomMessage`](Solarwind.md#validationcustommessage) |
 | `originalError` | `string` \| `Error` & { `[K: string]`: `any`;  } |
 
 #### Returns
@@ -5711,7 +5711,7 @@ ___
 
 ### pickIndexKeyPartsFromDocument
 
-▸ **pickIndexKeyPartsFromDocument**(`param`): [`ParsedIndexPart`](Backland.md#parsedindexpart)
+▸ **pickIndexKeyPartsFromDocument**(`param`): [`ParsedIndexPart`](Solarwind.md#parsedindexpart)
 
 #### Parameters
 
@@ -5722,12 +5722,12 @@ ___
 | `param.destination` | ``"filter"`` \| ``"document"`` |
 | `param.doc` | `Record`<`string`, `any`\> |
 | `param.indexField` | `string` |
-| `param.indexPartKind` | [`IndexPartKind`](Backland.md#indexpartkind) |
-| `param.indexParts` | readonly [`IndexKeyHash`](Backland.md#indexkeyhash)<`string`\>[] |
+| `param.indexPartKind` | [`IndexPartKind`](Solarwind.md#indexpartkind) |
+| `param.indexParts` | readonly [`IndexKeyHash`](Solarwind.md#indexkeyhash)<`string`\>[] |
 
 #### Returns
 
-[`ParsedIndexPart`](Backland.md#parsedindexpart)
+[`ParsedIndexPart`](Solarwind.md#parsedindexpart)
 
 #### Defined in
 
@@ -5743,7 +5743,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `entity` | [`AnyEntity`](Backland.md#anyentity) |
+| `entity` | [`AnyEntity`](Solarwind.md#anyentity) |
 
 #### Returns
 
@@ -5777,7 +5777,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `params` | [`ResolversToTypeScriptOptions`](Backland.md#resolverstotypescriptoptions) |
+| `params` | [`ResolversToTypeScriptOptions`](Solarwind.md#resolverstotypescriptoptions) |
 
 #### Returns
 
@@ -5797,7 +5797,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `params` | [`ResolversToTypeScriptOptions`](Backland.md#resolverstotypescriptoptions) |
+| `params` | [`ResolversToTypeScriptOptions`](Solarwind.md#resolverstotypescriptoptions) |
 
 #### Returns
 
@@ -5811,17 +5811,17 @@ ___
 
 ### setParserHook
 
-▸ **setParserHook**(`hook`): [`RemoveParserHook`](../interfaces/Backland.RemoveParserHook.md)
+▸ **setParserHook**(`hook`): [`RemoveParserHook`](../interfaces/Solarwind.RemoveParserHook.md)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `hook` | [`ParserHook`](../interfaces/Backland.ParserHook.md) |
+| `hook` | [`ParserHook`](../interfaces/Solarwind.ParserHook.md) |
 
 #### Returns
 
-[`RemoveParserHook`](../interfaces/Backland.RemoveParserHook.md)
+[`RemoveParserHook`](../interfaces/Solarwind.RemoveParserHook.md)
 
 #### Defined in
 
@@ -5831,18 +5831,18 @@ ___
 
 ### tsfy
 
-▸ **tsfy**(`input`, `config?`): [`TSFyResult`](../interfaces/Backland.TSFyResult.md)
+▸ **tsfy**(`input`, `config?`): [`TSFyResult`](../interfaces/Solarwind.TSFyResult.md)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `input` | `any` |
-| `config?` | [`TSFYConfig`](Backland.md#tsfyconfig) |
+| `config?` | [`TSFYConfig`](Solarwind.md#tsfyconfig) |
 
 #### Returns
 
-[`TSFyResult`](../interfaces/Backland.TSFyResult.md)
+[`TSFyResult`](../interfaces/Solarwind.TSFyResult.md)
 
 #### Defined in
 
@@ -5858,7 +5858,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `options?` | [`TSFyWriterConfig`](../interfaces/Backland.TSFyWriterConfig.md) |
+| `options?` | [`TSFyWriterConfig`](../interfaces/Solarwind.TSFyWriterConfig.md) |
 
 #### Returns
 

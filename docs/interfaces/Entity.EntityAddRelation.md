@@ -1,4 +1,4 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / EntityAddRelation
+[Solarwind](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / EntityAddRelation
 
 # Interface: EntityAddRelation<Parent, EContext\>
 

@@ -3,9 +3,9 @@ import {
   ObjectDefinitionInput,
   ObjectFieldInput,
   ResolverResolve,
-} from '@backland/schema';
-import { DocumentIndexesConfig, Transporter } from '@backland/transporter';
-import { LoggerOptions } from '@backland/utils';
+} from '@swind/schema';
+import { DocumentIndexesConfig, Transporter } from '@swind/transporter';
+import { LoggerOptions } from '@swind/utils';
 
 export type EntityOptions<
   InputDocumentDefinition extends ObjectDefinitionInput = ObjectDefinitionInput,

@@ -1,12 +1,12 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md) / TSFyWriterConfig
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md) / TSFyWriterConfig
 
 # Interface: TSFyWriterConfig
 
-[Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md).TSFyWriterConfig
+[Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md).TSFyWriterConfig
 
 ## Hierarchy
 
-- [`TSFYConfig`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#tsfyconfig)
+- [`TSFYConfig`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#tsfyconfig)
 
   ↳ **`TSFyWriterConfig`**
 
@@ -14,23 +14,23 @@
 
 ### Properties
 
-- [context](Backland_Schema___A_Super_Portable_TypeScript_validation_library.TSFyWriterConfig.md#context)
-- [customParser](Backland_Schema___A_Super_Portable_TypeScript_validation_library.TSFyWriterConfig.md#customparser)
-- [dest](Backland_Schema___A_Super_Portable_TypeScript_validation_library.TSFyWriterConfig.md#dest)
-- [groupInTypeThreshold](Backland_Schema___A_Super_Portable_TypeScript_validation_library.TSFyWriterConfig.md#groupintypethreshold)
-- [iterationLimit](Backland_Schema___A_Super_Portable_TypeScript_validation_library.TSFyWriterConfig.md#iterationlimit)
-- [many](Backland_Schema___A_Super_Portable_TypeScript_validation_library.TSFyWriterConfig.md#many)
-- [moduleName](Backland_Schema___A_Super_Portable_TypeScript_validation_library.TSFyWriterConfig.md#modulename)
-- [prettify](Backland_Schema___A_Super_Portable_TypeScript_validation_library.TSFyWriterConfig.md#prettify)
-- [store](Backland_Schema___A_Super_Portable_TypeScript_validation_library.TSFyWriterConfig.md#store)
-- [wrappers](Backland_Schema___A_Super_Portable_TypeScript_validation_library.TSFyWriterConfig.md#wrappers)
-- [writeThrottleMS](Backland_Schema___A_Super_Portable_TypeScript_validation_library.TSFyWriterConfig.md#writethrottlems)
+- [context](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.TSFyWriterConfig.md#context)
+- [customParser](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.TSFyWriterConfig.md#customparser)
+- [dest](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.TSFyWriterConfig.md#dest)
+- [groupInTypeThreshold](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.TSFyWriterConfig.md#groupintypethreshold)
+- [iterationLimit](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.TSFyWriterConfig.md#iterationlimit)
+- [many](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.TSFyWriterConfig.md#many)
+- [moduleName](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.TSFyWriterConfig.md#modulename)
+- [prettify](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.TSFyWriterConfig.md#prettify)
+- [store](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.TSFyWriterConfig.md#store)
+- [wrappers](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.TSFyWriterConfig.md#wrappers)
+- [writeThrottleMS](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.TSFyWriterConfig.md#writethrottlems)
 
 ## Properties
 
 ### context
 
-• `Optional` **context**: [`TSFYContext`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#tsfycontext)
+• `Optional` **context**: [`TSFYContext`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#tsfycontext)
 
 #### Inherited from
 
@@ -44,7 +44,7 @@ ___
 
 ### customParser
 
-• `Optional` **customParser**: [`TSFYCustomHandler`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.TSFYCustomHandler.md)
+• `Optional` **customParser**: [`TSFYCustomHandler`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.TSFYCustomHandler.md)
 
 #### Inherited from
 

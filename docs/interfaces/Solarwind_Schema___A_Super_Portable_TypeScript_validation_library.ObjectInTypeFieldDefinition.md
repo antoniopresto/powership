@@ -1,12 +1,12 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md) / ObjectInTypeFieldDefinition
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md) / ObjectInTypeFieldDefinition
 
 # Interface: ObjectInTypeFieldDefinition
 
-[Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md).ObjectInTypeFieldDefinition
+[Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md).ObjectInTypeFieldDefinition
 
 ## Hierarchy
 
-- [`CommonFieldDefinition`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#commonfielddefinition)<[`ObjectTypeLikeFieldDefinition`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectTypeLikeFieldDefinition.md)\>
+- [`CommonFieldDefinition`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#commonfielddefinition)<[`ObjectTypeLikeFieldDefinition`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectTypeLikeFieldDefinition.md)\>
 
   ↳ **`ObjectInTypeFieldDefinition`**
 
@@ -14,15 +14,15 @@
 
 ### Properties
 
-- [def](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectInTypeFieldDefinition.md#def)
-- [defaultValue](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectInTypeFieldDefinition.md#defaultvalue)
-- [description](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectInTypeFieldDefinition.md#description)
-- [example](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectInTypeFieldDefinition.md#example)
-- [hidden](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectInTypeFieldDefinition.md#hidden)
-- [list](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectInTypeFieldDefinition.md#list)
-- [name](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectInTypeFieldDefinition.md#name)
-- [optional](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectInTypeFieldDefinition.md#optional)
-- [type](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectInTypeFieldDefinition.md#type)
+- [def](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectInTypeFieldDefinition.md#def)
+- [defaultValue](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectInTypeFieldDefinition.md#defaultvalue)
+- [description](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectInTypeFieldDefinition.md#description)
+- [example](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectInTypeFieldDefinition.md#example)
+- [hidden](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectInTypeFieldDefinition.md#hidden)
+- [list](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectInTypeFieldDefinition.md#list)
+- [name](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectInTypeFieldDefinition.md#name)
+- [optional](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectInTypeFieldDefinition.md#optional)
+- [type](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectInTypeFieldDefinition.md#type)
 
 ## Properties
 
@@ -70,7 +70,7 @@ ___
 
 ### example
 
-• `Optional` **example**: [`FieldExample`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldexample)
+• `Optional` **example**: [`FieldExample`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldexample)
 
 #### Inherited from
 
@@ -98,7 +98,7 @@ ___
 
 ### list
 
-• `Optional` **list**: [`ListDefinition`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#listdefinition)
+• `Optional` **list**: [`ListDefinition`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#listdefinition)
 
 #### Inherited from
 
@@ -140,7 +140,7 @@ ___
 
 ### type
 
-• **type**: [`ObjectTypeLikeFieldDefinition`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectTypeLikeFieldDefinition.md)
+• **type**: [`ObjectTypeLikeFieldDefinition`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectTypeLikeFieldDefinition.md)
 
 #### Inherited from
 

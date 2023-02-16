@@ -8,7 +8,7 @@ import {
   isPlainObject,
   joinPathsCamelCase,
   stringCase,
-} from '@backland/utils';
+} from '@swind/utils';
 
 import { CircularDeps } from './CircularDeps';
 import { createType, GraphType } from './GraphType/GraphType';
@@ -82,7 +82,7 @@ export function isCursorString(value: any): value is string {
 
 const phoneType = CircularDeps.phone({});
 
-export const valuesToBacklandTypeRecord: {
+export const valuesToSolarwindTypeRecord: {
   [L in FieldTypeName]: (value: any) => boolean;
 } = {
   null: (value) => value === null,
@@ -113,8 +113,8 @@ export const valuesToBacklandTypeRecord: {
   enum: () => false,
 };
 
-export const backlandValueTypeCheckEntries = entries(
-  valuesToBacklandTypeRecord
+export const solarwindValueTypeCheckEntries = entries(
+  valuesToSolarwindTypeRecord
 );
 
 export function valueToTypeDef(
@@ -124,7 +124,7 @@ export function valueToTypeDef(
 
   const typename: FieldTypeName = (function iifeTypename() {
     return (
-      backlandValueTypeCheckEntries.find(([, check]) => {
+      solarwindValueTypeCheckEntries.find(([, check]) => {
         return check(value);
       })?.[0] || 'unknown'
     );

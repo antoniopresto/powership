@@ -1,4 +1,4 @@
-import { tsfyWriter, TSFyWriterConfig } from '@backland/schema';
+import { tsfyWriter, TSFyWriterConfig } from '@swind/schema';
 
 import { EntityStore } from '../EntityStore';
 
@@ -15,7 +15,7 @@ export function tsfyEntitiesWriter(config: TsfyEntitiesWriterConfig = {}) {
       EntityDocument,
       EntityDocumentInput,
       EntityFromContext,
-    } from '@backland/entity';
+    } from '@swind/entity';
     `,
     '',
   ]);

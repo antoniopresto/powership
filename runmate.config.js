@@ -8,7 +8,7 @@ module.exports = {
     'mongo',
     'entity',
     'accounts',
-    'backland',
+    'solarwind',
     'helpers',
     'runmate',
   ],

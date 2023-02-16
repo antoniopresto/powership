@@ -4,7 +4,7 @@ import {
   createType,
   createEntity,
   // Infer,
-} from 'backland';
+} from 'solarwind';
 //
 
 describe('examples', () => {

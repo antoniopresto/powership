@@ -1,4 +1,4 @@
-[Backland](../README.md) / [Modules](../modules.md) / Babel Plugins
+[Solarwind](../README.md) / [Modules](../modules.md) / Babel Plugins
 
 # Module: Babel Plugins
 

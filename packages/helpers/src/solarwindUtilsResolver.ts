@@ -1,4 +1,4 @@
-import { Infer } from 'backland';
+import { Infer } from 'solarwind';
 
 import {
   JSONFieldCase,
@@ -11,10 +11,10 @@ import {
   RenderHighlightPageInit,
 } from './renderHighlightPage';
 
-export type BacklandUtilsResolverInit = Infer<typeof JSONToSchemaOptions>;
+export type SolarwindUtilsResolverInit = Infer<typeof JSONToSchemaOptions>;
 
-export async function backlandUtilsResolver(
-  input: BacklandUtilsResolverInit,
+export async function solarwindUtilsResolver(
+  input: SolarwindUtilsResolverInit,
   onPageInit?: (options: RenderHighlightPageInit) => RenderHighlightPageInit
 ) {
   const {
@@ -75,7 +75,7 @@ export async function backlandUtilsResolver(
 }
 
 function renderForm(init: { json: string; url?: string }) {
-  const { json, url = '/r/backland/toschema' } = init;
+  const { json, url = '/r/solarwind/toschema' } = init;
 
   return [
     '<h1>Parse new JSON:</h1>',

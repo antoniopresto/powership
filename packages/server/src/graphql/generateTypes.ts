@@ -1,4 +1,4 @@
-import { CircularDeps, GraphQLSchemaWithUtils } from 'backland';
+import { CircularDeps, GraphQLSchemaWithUtils } from 'solarwind';
 
 export let gql_utils = '';
 
@@ -18,7 +18,7 @@ export async function generateTypes(schema: GraphQLSchemaWithUtils): Promise<str
 }
 
 const extendedUtils = `
-import type { Compute } from '@backland/utils';
+import type { Compute } from '@swind/utils';
 
 export type Ulid = string;
 

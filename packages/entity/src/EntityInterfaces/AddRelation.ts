@@ -1,5 +1,5 @@
-import { ObjectDefinitionInput, ObjectFieldInput } from '@backland/schema';
-import { LoaderContext } from '@backland/transporter';
+import { ObjectDefinitionInput, ObjectFieldInput } from '@swind/schema';
+import { LoaderContext } from '@swind/transporter';
 
 import { EntityFieldResolver } from '../EntityOptions';
 

@@ -1,24 +1,24 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / ParserHook
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / ParserHook
 
 # Interface: ParserHook
 
-[Backland](../modules/Backland.md).ParserHook
+[Solarwind](../modules/Solarwind.md).ParserHook
 
 ## Callable
 
 ### ParserHook
 
-▸ **ParserHook**(`field`): [`FinalFieldDefinition`](../modules/Backland.md#finalfielddefinition)
+▸ **ParserHook**(`field`): [`FinalFieldDefinition`](../modules/Solarwind.md#finalfielddefinition)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `field` | [`FinalFieldDefinition`](../modules/Backland.md#finalfielddefinition) |
+| `field` | [`FinalFieldDefinition`](../modules/Solarwind.md#finalfielddefinition) |
 
 #### Returns
 
-[`FinalFieldDefinition`](../modules/Backland.md#finalfielddefinition)
+[`FinalFieldDefinition`](../modules/Solarwind.md#finalfielddefinition)
 
 #### Defined in
 

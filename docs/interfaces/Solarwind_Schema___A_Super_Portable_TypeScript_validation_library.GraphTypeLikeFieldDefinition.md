@@ -1,15 +1,15 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md) / GraphTypeLikeFieldDefinition
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md) / GraphTypeLikeFieldDefinition
 
 # Interface: GraphTypeLikeFieldDefinition
 
-[Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md).GraphTypeLikeFieldDefinition
+[Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md).GraphTypeLikeFieldDefinition
 
 ## Table of contents
 
 ### Properties
 
-- [\_\_isGraphType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLikeFieldDefinition.md#__isgraphtype)
-- [definition](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLikeFieldDefinition.md#definition)
+- [\_\_isGraphType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLikeFieldDefinition.md#__isgraphtype)
+- [definition](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLikeFieldDefinition.md#definition)
 
 ## Properties
 

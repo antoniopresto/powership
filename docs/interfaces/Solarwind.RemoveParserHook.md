@@ -1,18 +1,18 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / RemoveParserHook
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / RemoveParserHook
 
 # Interface: RemoveParserHook
 
-[Backland](../modules/Backland.md).RemoveParserHook
+[Solarwind](../modules/Solarwind.md).RemoveParserHook
 
 ## Callable
 
 ### RemoveParserHook
 
-▸ **RemoveParserHook**(): [`ParserHook`](Backland.ParserHook.md)[]
+▸ **RemoveParserHook**(): [`ParserHook`](Solarwind.ParserHook.md)[]
 
 #### Returns
 
-[`ParserHook`](Backland.ParserHook.md)[]
+[`ParserHook`](Solarwind.ParserHook.md)[]
 
 #### Defined in
 

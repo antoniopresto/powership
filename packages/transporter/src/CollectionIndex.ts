@@ -1,4 +1,4 @@
-import { createSchema } from '@backland/schema';
+import { createSchema } from '@swind/schema';
 import {
   $Any,
   devAssert,
@@ -6,7 +6,7 @@ import {
   mountGraphID,
   ParsedIndexCursor,
   parseIndexFieldName,
-} from '@backland/utils';
+} from '@swind/utils';
 
 import { CollectionErrors } from './CollectionErrors';
 import {

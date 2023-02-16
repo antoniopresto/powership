@@ -1,8 +1,8 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / ObjectType
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / ObjectType
 
 # Class: ObjectType<Input, HandledInput\>
 
-[Backland](../modules/Backland.md).ObjectType
+[Solarwind](../modules/Solarwind.md).ObjectType
 
 ## Type parameters
 
@@ -15,51 +15,51 @@
 
 ### Constructors
 
-- [constructor](Backland.ObjectType.md#constructor)
+- [constructor](Solarwind.ObjectType.md#constructor)
 
 ### Properties
 
-- [\_\_withCache](Backland.ObjectType.md#__withcache)
-- [addGraphQLMiddleware](Backland.ObjectType.md#addgraphqlmiddleware)
-- [graphQLMiddleware](Backland.ObjectType.md#graphqlmiddleware)
-- [graphqlInputType](Backland.ObjectType.md#graphqlinputtype)
-- [graphqlInterfaceType](Backland.ObjectType.md#graphqlinterfacetype)
-- [graphqlPrint](Backland.ObjectType.md#graphqlprint)
-- [graphqlType](Backland.ObjectType.md#graphqltype)
-- [graphqlTypeToString](Backland.ObjectType.md#graphqltypetostring)
-- [helpers](Backland.ObjectType.md#helpers)
-- [implement](Backland.ObjectType.md#implement)
-- [inputDefinition](Backland.ObjectType.md#inputdefinition)
-- [softParse](Backland.ObjectType.md#softparse)
-- [toGraphQL](Backland.ObjectType.md#tographql)
-- [typescriptPrint](Backland.ObjectType.md#typescriptprint)
-- [\_\_isBacklandObject](Backland.ObjectType.md#__isbacklandobject)
-- [getOrSet](Backland.ObjectType.md#getorset)
-- [register](Backland.ObjectType.md#register)
+- [\_\_withCache](Solarwind.ObjectType.md#__withcache)
+- [addGraphQLMiddleware](Solarwind.ObjectType.md#addgraphqlmiddleware)
+- [graphQLMiddleware](Solarwind.ObjectType.md#graphqlmiddleware)
+- [graphqlInputType](Solarwind.ObjectType.md#graphqlinputtype)
+- [graphqlInterfaceType](Solarwind.ObjectType.md#graphqlinterfacetype)
+- [graphqlPrint](Solarwind.ObjectType.md#graphqlprint)
+- [graphqlType](Solarwind.ObjectType.md#graphqltype)
+- [graphqlTypeToString](Solarwind.ObjectType.md#graphqltypetostring)
+- [helpers](Solarwind.ObjectType.md#helpers)
+- [implement](Solarwind.ObjectType.md#implement)
+- [inputDefinition](Solarwind.ObjectType.md#inputdefinition)
+- [softParse](Solarwind.ObjectType.md#softparse)
+- [toGraphQL](Solarwind.ObjectType.md#tographql)
+- [typescriptPrint](Solarwind.ObjectType.md#typescriptprint)
+- [\_\_isSolarwindObject](Solarwind.ObjectType.md#__issolarwindobject)
+- [getOrSet](Solarwind.ObjectType.md#getorset)
+- [register](Solarwind.ObjectType.md#register)
 
 ### Accessors
 
-- [\_\_isBacklandObject](Backland.ObjectType.md#__isbacklandobject-1)
-- [definition](Backland.ObjectType.md#definition)
-- [description](Backland.ObjectType.md#description)
-- [hidden](Backland.ObjectType.md#hidden)
-- [id](Backland.ObjectType.md#id)
-- [meta](Backland.ObjectType.md#meta)
-- [nonNullId](Backland.ObjectType.md#nonnullid)
+- [\_\_isSolarwindObject](Solarwind.ObjectType.md#__issolarwindobject-1)
+- [definition](Solarwind.ObjectType.md#definition)
+- [description](Solarwind.ObjectType.md#description)
+- [hidden](Solarwind.ObjectType.md#hidden)
+- [id](Solarwind.ObjectType.md#id)
+- [meta](Solarwind.ObjectType.md#meta)
+- [nonNullId](Solarwind.ObjectType.md#nonnullid)
 
 ### Methods
 
-- [\_\_setMetaData](Backland.ObjectType.md#__setmetadata)
-- [cleanDefinition](Backland.ObjectType.md#cleandefinition)
-- [clone](Backland.ObjectType.md#clone)
-- [describe](Backland.ObjectType.md#describe)
-- [edit](Backland.ObjectType.md#edit)
-- [identify](Backland.ObjectType.md#identify)
-- [parse](Backland.ObjectType.md#parse)
-- [safeParse](Backland.ObjectType.md#safeparse)
-- [validate](Backland.ObjectType.md#validate)
-- [is](Backland.ObjectType.md#is)
-- [reset](Backland.ObjectType.md#reset)
+- [\_\_setMetaData](Solarwind.ObjectType.md#__setmetadata)
+- [cleanDefinition](Solarwind.ObjectType.md#cleandefinition)
+- [clone](Solarwind.ObjectType.md#clone)
+- [describe](Solarwind.ObjectType.md#describe)
+- [edit](Solarwind.ObjectType.md#edit)
+- [identify](Solarwind.ObjectType.md#identify)
+- [parse](Solarwind.ObjectType.md#parse)
+- [safeParse](Solarwind.ObjectType.md#safeparse)
+- [validate](Solarwind.ObjectType.md#validate)
+- [is](Solarwind.ObjectType.md#is)
+- [reset](Solarwind.ObjectType.md#reset)
 
 ## Constructors
 
@@ -78,7 +78,7 @@
 
 | Name | Type |
 | :------ | :------ |
-| `objectDef` | `HandledInput` \| (`modules`: `BacklandModules`) => `HandledInput` |
+| `objectDef` | `HandledInput` \| (`modules`: `SolarwindModules`) => `HandledInput` |
 
 #### Defined in
 
@@ -258,17 +258,17 @@ ___
 
 ### implement
 
-• **implement**: <Parents\>(`name`: `string`, ...`parents`: `Parents`) => [`ImplementObject`](../modules/Backland.md#implementobject)<[`ObjectType`](Backland.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>, `Parents`\>
+• **implement**: <Parents\>(`name`: `string`, ...`parents`: `Parents`) => [`ImplementObject`](../modules/Solarwind.md#implementobject)<[`ObjectType`](Solarwind.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>, `Parents`\>
 
 #### Type declaration
 
-▸ <`Parents`\>(`name`, `...parents`): [`ImplementObject`](../modules/Backland.md#implementobject)<[`ObjectType`](Backland.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>, `Parents`\>
+▸ <`Parents`\>(`name`, `...parents`): [`ImplementObject`](../modules/Solarwind.md#implementobject)<[`ObjectType`](Solarwind.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>, `Parents`\>
 
 ##### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Parents` | extends readonly [`ObjectLike`](../interfaces/Backland.ObjectLike.md)[] |
+| `Parents` | extends readonly [`ObjectLike`](../interfaces/Solarwind.ObjectLike.md)[] |
 
 ##### Parameters
 
@@ -279,7 +279,7 @@ ___
 
 ##### Returns
 
-[`ImplementObject`](../modules/Backland.md#implementobject)<[`ObjectType`](Backland.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>, `Parents`\>
+[`ImplementObject`](../modules/Solarwind.md#implementobject)<[`ObjectType`](Solarwind.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>, `Parents`\>
 
 #### Defined in
 
@@ -289,7 +289,7 @@ ___
 
 ### inputDefinition
 
-• **inputDefinition**: [`ObjectDefinitionInput`](../interfaces/Backland.ObjectDefinitionInput.md) \| (`modules`: `BacklandModules`) => [`ObjectDefinitionInput`](../interfaces/Backland.ObjectDefinitionInput.md)
+• **inputDefinition**: [`ObjectDefinitionInput`](../interfaces/Solarwind.ObjectDefinitionInput.md) \| (`modules`: `SolarwindModules`) => [`ObjectDefinitionInput`](../interfaces/Solarwind.ObjectDefinitionInput.md)
 
 #### Defined in
 
@@ -299,11 +299,11 @@ ___
 
 ### softParse
 
-• **softParse**: <T\>(`input`: `any`, `options?`: [`FieldParserOptionsObject`](../modules/Backland.md#fieldparseroptionsobject)) => [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`HandledInput`\> & { `[K: string]`: `T`;  }
+• **softParse**: <T\>(`input`: `any`, `options?`: [`FieldParserOptionsObject`](../modules/Solarwind.md#fieldparseroptionsobject)) => [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`HandledInput`\> & { `[K: string]`: `T`;  }
 
 #### Type declaration
 
-▸ <`T`\>(`input`, `options?`): [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`HandledInput`\> & { `[K: string]`: `T`;  }
+▸ <`T`\>(`input`, `options?`): [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`HandledInput`\> & { `[K: string]`: `T`;  }
 
 ##### Type parameters
 
@@ -316,11 +316,11 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `input` | `any` |
-| `options?` | [`FieldParserOptionsObject`](../modules/Backland.md#fieldparseroptionsobject) |
+| `options?` | [`FieldParserOptionsObject`](../modules/Solarwind.md#fieldparseroptionsobject) |
 
 ##### Returns
 
-[`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`HandledInput`\> & { `[K: string]`: `T`;  }
+[`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`HandledInput`\> & { `[K: string]`: `T`;  }
 
 #### Defined in
 
@@ -376,9 +376,9 @@ packages/schema/lib/ObjectType.d.ts:97
 
 ___
 
-### \_\_isBacklandObject
+### \_\_isSolarwindObject
 
-▪ `Static` **\_\_isBacklandObject**: `boolean`
+▪ `Static` **\_\_isSolarwindObject**: `boolean`
 
 #### Defined in
 
@@ -388,11 +388,11 @@ ___
 
 ### getOrSet
 
-▪ `Static` **getOrSet**: <T\>(`id`: `string`, `def`: `T` \| () => `T`) => [`ObjectType`](Backland.ObjectType.md)<`T`, `_HandleInput`<`T`\>\>
+▪ `Static` **getOrSet**: <T\>(`id`: `string`, `def`: `T` \| () => `T`) => [`ObjectType`](Solarwind.ObjectType.md)<`T`, `_HandleInput`<`T`\>\>
 
 #### Type declaration
 
-▸ <`T`\>(`id`, `def`): [`ObjectType`](Backland.ObjectType.md)<`T`, `_HandleInput`<`T`\>\>
+▸ <`T`\>(`id`, `def`): [`ObjectType`](Solarwind.ObjectType.md)<`T`, `_HandleInput`<`T`\>\>
 
 Get an Object with the provided id
    or set a new Object in the register if not found.
@@ -401,7 +401,7 @@ Get an Object with the provided id
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`ObjectDefinitionInput`](../interfaces/Backland.ObjectDefinitionInput.md) |
+| `T` | extends [`ObjectDefinitionInput`](../interfaces/Solarwind.ObjectDefinitionInput.md) |
 
 ##### Parameters
 
@@ -412,7 +412,7 @@ Get an Object with the provided id
 
 ##### Returns
 
-[`ObjectType`](Backland.ObjectType.md)<`T`, `_HandleInput`<`T`\>\>
+[`ObjectType`](Solarwind.ObjectType.md)<`T`, `_HandleInput`<`T`\>\>
 
 #### Defined in
 
@@ -422,7 +422,7 @@ ___
 
 ### register
 
-▪ `Static` **register**: `Store`<`Record`<`string`, [`ObjectLike`](../interfaces/Backland.ObjectLike.md)\>, `string`, [`ObjectLike`](../interfaces/Backland.ObjectLike.md)\>
+▪ `Static` **register**: `Store`<`Record`<`string`, [`ObjectLike`](../interfaces/Solarwind.ObjectLike.md)\>, `string`, [`ObjectLike`](../interfaces/Solarwind.ObjectLike.md)\>
 
 #### Defined in
 
@@ -430,9 +430,9 @@ packages/schema/lib/ObjectType.d.ts:102
 
 ## Accessors
 
-### \_\_isBacklandObject
+### \_\_isSolarwindObject
 
-• `get` **__isBacklandObject**(): ``true``
+• `get` **__isSolarwindObject**(): ``true``
 
 #### Returns
 
@@ -518,11 +518,11 @@ ___
 
 ### meta
 
-• `get` **meta**(): [`MetaFieldDef`](../modules/Backland.md#metafielddef)
+• `get` **meta**(): [`MetaFieldDef`](../modules/Solarwind.md#metafielddef)
 
 #### Returns
 
-[`MetaFieldDef`](../modules/Backland.md#metafielddef)
+[`MetaFieldDef`](../modules/Solarwind.md#metafielddef)
 
 #### Defined in
 
@@ -552,7 +552,7 @@ packages/schema/lib/ObjectType.d.ts:88
 
 | Name | Type |
 | :------ | :------ |
-| `k` | keyof [`MetaFieldDef`](../modules/Backland.md#metafielddef) |
+| `k` | keyof [`MetaFieldDef`](../modules/Solarwind.md#metafielddef) |
 | `value` | `Serializable` |
 
 #### Returns
@@ -593,7 +593,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `handler` | (`input`: [`ExtendObjectDefinition`](../interfaces/Backland.ExtendObjectDefinition.md)<{ `object`: `HandledInput`  }, { `object`: `HandledInput`  }\>) => `T` |
+| `handler` | (`input`: [`ExtendObjectDefinition`](../interfaces/Solarwind.ExtendObjectDefinition.md)<{ `object`: `HandledInput`  }, { `object`: `HandledInput`  }\>) => `T` |
 
 #### Returns
 
@@ -607,7 +607,7 @@ ___
 
 ### describe
 
-▸ **describe**(`...descriptions`): [`ObjectType`](Backland.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>
+▸ **describe**(`...descriptions`): [`ObjectType`](Solarwind.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>
 
 #### Parameters
 
@@ -617,7 +617,7 @@ ___
 
 #### Returns
 
-[`ObjectType`](Backland.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>
+[`ObjectType`](Solarwind.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>
 
 #### Defined in
 
@@ -627,11 +627,11 @@ ___
 
 ### edit
 
-▸ **edit**(): [`ExtendObjectDefinition`](../interfaces/Backland.ExtendObjectDefinition.md)<{ `def`: `HandledInput` ; `type`: ``"object"``  }, { `def`: `HandledInput` ; `type`: ``"object"``  }\>
+▸ **edit**(): [`ExtendObjectDefinition`](../interfaces/Solarwind.ExtendObjectDefinition.md)<{ `def`: `HandledInput` ; `type`: ``"object"``  }, { `def`: `HandledInput` ; `type`: ``"object"``  }\>
 
 #### Returns
 
-[`ExtendObjectDefinition`](../interfaces/Backland.ExtendObjectDefinition.md)<{ `def`: `HandledInput` ; `type`: ``"object"``  }, { `def`: `HandledInput` ; `type`: ``"object"``  }\>
+[`ExtendObjectDefinition`](../interfaces/Solarwind.ExtendObjectDefinition.md)<{ `def`: `HandledInput` ; `type`: ``"object"``  }, { `def`: `HandledInput` ; `type`: ``"object"``  }\>
 
 #### Defined in
 
@@ -641,7 +641,7 @@ ___
 
 ### identify
 
-▸ **identify**<`ID`\>(`id`): [`ObjectType`](Backland.ObjectType.md)<`Input`, `HandledInput`\> & { `id`: `ID`  }
+▸ **identify**<`ID`\>(`id`): [`ObjectType`](Solarwind.ObjectType.md)<`Input`, `HandledInput`\> & { `id`: `ID`  }
 
 #### Type parameters
 
@@ -657,7 +657,7 @@ ___
 
 #### Returns
 
-[`ObjectType`](Backland.ObjectType.md)<`Input`, `HandledInput`\> & { `id`: `ID`  }
+[`ObjectType`](Solarwind.ObjectType.md)<`Input`, `HandledInput`\> & { `id`: `ID`  }
 
 #### Defined in
 
@@ -667,35 +667,35 @@ ___
 
 ### parse
 
-▸ **parse**(`input`, `options?`): [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`HandledInput`\>
+▸ **parse**(`input`, `options?`): [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`HandledInput`\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `input` | `any` |
-| `options?` | { `customMessage?`: [`ValidationCustomMessage`](../modules/Backland.md#validationcustommessage)  } & [`FieldParserOptionsObject`](../modules/Backland.md#fieldparseroptionsobject) |
+| `options?` | { `customMessage?`: [`ValidationCustomMessage`](../modules/Solarwind.md#validationcustommessage)  } & [`FieldParserOptionsObject`](../modules/Solarwind.md#fieldparseroptionsobject) |
 
 #### Returns
 
-[`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`HandledInput`\>
+[`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`HandledInput`\>
 
 #### Defined in
 
 packages/schema/lib/ObjectType.d.ts:49
 
-▸ **parse**(`input`, `options?`): `Partial`<[`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`HandledInput`\>\>
+▸ **parse**(`input`, `options?`): `Partial`<[`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`HandledInput`\>\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `input` | `any` |
-| `options?` | { `partial`: ``true``  } & [`FieldParserOptionsObject`](../modules/Backland.md#fieldparseroptionsobject) |
+| `options?` | { `partial`: ``true``  } & [`FieldParserOptionsObject`](../modules/Solarwind.md#fieldparseroptionsobject) |
 
 #### Returns
 
-`Partial`<[`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`HandledInput`\>\>
+`Partial`<[`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`HandledInput`\>\>
 
 #### Defined in
 
@@ -714,7 +714,7 @@ packages/schema/lib/ObjectType.d.ts:52
 | Name | Type |
 | :------ | :------ |
 | `input` | `any` |
-| `options` | { `customMessage?`: [`ValidationCustomMessage`](../modules/Backland.md#validationcustommessage) ; `fields`: `Fields`  } & [`FieldParserOptionsObject`](../modules/Backland.md#fieldparseroptionsobject) |
+| `options` | { `customMessage?`: [`ValidationCustomMessage`](../modules/Solarwind.md#validationcustommessage) ; `fields`: `Fields`  } & [`FieldParserOptionsObject`](../modules/Solarwind.md#fieldparseroptionsobject) |
 
 #### Returns
 
@@ -737,7 +737,7 @@ packages/schema/lib/ObjectType.d.ts:55
 | Name | Type |
 | :------ | :------ |
 | `input` | `any` |
-| `options` | { `exclude`: `Fields`  } & [`FieldParserOptionsObject`](../modules/Backland.md#fieldparseroptionsobject) |
+| `options` | { `exclude`: `Fields`  } & [`FieldParserOptionsObject`](../modules/Solarwind.md#fieldparseroptionsobject) |
 
 #### Returns
 
@@ -758,7 +758,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `input` | `any` |
-| `options?` | { `customMessage?`: [`ValidationCustomMessage`](../modules/Backland.md#validationcustommessage) ; `excludeInvalidListItems?`: `boolean` ; `fields?`: keyof `HandledInput`[] ; `partial?`: `boolean`  } & [`FieldParserOptionsObject`](../modules/Backland.md#fieldparseroptionsobject) |
+| `options?` | { `customMessage?`: [`ValidationCustomMessage`](../modules/Solarwind.md#validationcustommessage) ; `excludeInvalidListItems?`: `boolean` ; `fields?`: keyof `HandledInput`[] ; `partial?`: `boolean`  } & [`FieldParserOptionsObject`](../modules/Solarwind.md#fieldparseroptionsobject) |
 
 #### Returns
 

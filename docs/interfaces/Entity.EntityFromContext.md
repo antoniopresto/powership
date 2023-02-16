@@ -1,4 +1,4 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / EntityFromContext
+[Solarwind](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / EntityFromContext
 
 # Interface: EntityFromContext<Context\>
 

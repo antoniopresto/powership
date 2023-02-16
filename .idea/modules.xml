@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/backland.iml" filepath="$PROJECT_DIR$/.idea/backland.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/backland-monorepo.iml" filepath="$PROJECT_DIR$/.idea/backland-monorepo.iml" />
     </modules>
   </component>
 </project>

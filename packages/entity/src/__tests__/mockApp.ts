@@ -1,6 +1,6 @@
-import { MongoTransporter } from '@backland/mongo';
-import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
-import { ObjectType } from '@backland/schema';
+import { MongoTransporter } from '@swind/mongo';
+import { AppMock, createAppMock } from '@swind/mongo/lib/test-utils';
+import { ObjectType } from '@swind/schema';
 
 export function mockApp() {
   const res = {} as { mockApp: AppMock; transporter: MongoTransporter };

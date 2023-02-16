@@ -1,4 +1,4 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / AccountsOptions
+[Solarwind](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / AccountsOptions
 
 # Interface: AccountsOptions
 

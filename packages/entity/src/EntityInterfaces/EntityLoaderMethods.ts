@@ -1,4 +1,4 @@
-import { DescribeField, ExtendObjectDefinition } from '@backland/schema';
+import { DescribeField, ExtendObjectDefinition } from '@swind/schema';
 import {
   CreateOne,
   DeleteMany,
@@ -9,7 +9,7 @@ import {
   Paginate,
   UpdateMany,
   UpdateOne,
-} from '@backland/transporter';
+} from '@swind/transporter';
 
 import { EntityFilterConditionsDefinition } from '../EntityFilterConditionType';
 

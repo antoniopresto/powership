@@ -1,12 +1,12 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / FirstIndexParsed
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / FirstIndexParsed
 
 # Interface: FirstIndexParsed
 
-[Backland](../modules/Backland.md).FirstIndexParsed
+[Solarwind](../modules/Solarwind.md).FirstIndexParsed
 
 ## Hierarchy
 
-- `Omit`<[`DocumentIndexItem`](../modules/Backland.md#documentindexitem), ``"relatedTo"``\>
+- `Omit`<[`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem), ``"relatedTo"``\>
 
 - `ParsedIndexCursor`
 
@@ -16,19 +16,19 @@
 
 ### Properties
 
-- [PK](Backland.FirstIndexParsed.md#pk)
-- [SK](Backland.FirstIndexParsed.md#sk)
-- [key](Backland.FirstIndexParsed.md#key)
-- [name](Backland.FirstIndexParsed.md#name)
-- [relatedTo](Backland.FirstIndexParsed.md#relatedto)
-- [relations](Backland.FirstIndexParsed.md#relations)
-- [value](Backland.FirstIndexParsed.md#value)
+- [PK](Solarwind.FirstIndexParsed.md#pk)
+- [SK](Solarwind.FirstIndexParsed.md#sk)
+- [key](Solarwind.FirstIndexParsed.md#key)
+- [name](Solarwind.FirstIndexParsed.md#name)
+- [relatedTo](Solarwind.FirstIndexParsed.md#relatedto)
+- [relations](Solarwind.FirstIndexParsed.md#relations)
+- [value](Solarwind.FirstIndexParsed.md#value)
 
 ## Properties
 
 ### PK
 
-• **PK**: [`IndexPKSKPartsListConfig`](Backland.IndexPKSKPartsListConfig.md)<`string`\>
+• **PK**: [`IndexPKSKPartsListConfig`](Solarwind.IndexPKSKPartsListConfig.md)<`string`\>
 
 #### Inherited from
 
@@ -42,7 +42,7 @@ ___
 
 ### SK
 
-• `Optional` **SK**: [`IndexPKSKPartsListConfig`](Backland.IndexPKSKPartsListConfig.md)<`string`\>
+• `Optional` **SK**: [`IndexPKSKPartsListConfig`](Solarwind.IndexPKSKPartsListConfig.md)<`string`\>
 
 #### Inherited from
 
@@ -94,7 +94,7 @@ ___
 
 ### relations
 
-• `Optional` **relations**: readonly [`DocumentIndexRelation`](../modules/Backland.md#documentindexrelation)[]
+• `Optional` **relations**: readonly [`DocumentIndexRelation`](../modules/Solarwind.md#documentindexrelation)[]
 
 #### Inherited from
 

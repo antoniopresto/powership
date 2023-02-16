@@ -1,5 +1,5 @@
-import { BJSON } from '@backland/utils';
-import { hashObject } from '@backland/utils';
+import { BJSON } from '@swind/utils';
+import { hashObject } from '@swind/utils';
 import { ObjectId } from 'mongodb';
 
 import { MongoDataLoaderKey, MongoFindManyParams } from './IMongoDataLoader';

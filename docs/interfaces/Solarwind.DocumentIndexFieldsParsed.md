@@ -1,16 +1,16 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / DocumentIndexFieldsParsed
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / DocumentIndexFieldsParsed
 
 # Interface: DocumentIndexFieldsParsed
 
-[Backland](../modules/Backland.md).DocumentIndexFieldsParsed
+[Solarwind](../modules/Solarwind.md).DocumentIndexFieldsParsed
 
 ## Table of contents
 
 ### Properties
 
-- [PKField](Backland.DocumentIndexFieldsParsed.md#pkfield)
-- [SKField](Backland.DocumentIndexFieldsParsed.md#skfield)
-- [documentFields](Backland.DocumentIndexFieldsParsed.md#documentfields)
+- [PKField](Solarwind.DocumentIndexFieldsParsed.md#pkfield)
+- [SKField](Solarwind.DocumentIndexFieldsParsed.md#skfield)
+- [documentFields](Solarwind.DocumentIndexFieldsParsed.md#documentfields)
 
 ## Properties
 
@@ -36,7 +36,7 @@ ___
 
 ### documentFields
 
-• **documentFields**: [`CommonIndexFields`](../modules/Backland.md#commonindexfields)
+• **documentFields**: [`CommonIndexFields`](../modules/Solarwind.md#commonindexfields)
 
 #### Defined in
 

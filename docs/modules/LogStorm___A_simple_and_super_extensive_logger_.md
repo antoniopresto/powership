@@ -1,4 +1,4 @@
-[Backland](../README.md) / [Modules](../modules.md) / LogStorm - A simple and super extensive logger.
+[Solarwind](../README.md) / [Modules](../modules.md) / LogStorm - A simple and super extensive logger.
 
 # Module: LogStorm - A simple and super extensive logger.
 

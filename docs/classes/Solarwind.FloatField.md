@@ -1,12 +1,12 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / FloatField
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / FloatField
 
 # Class: FloatField
 
-[Backland](../modules/Backland.md).FloatField
+[Solarwind](../modules/Solarwind.md).FloatField
 
 ## Hierarchy
 
-- [`FieldType`](Backland.FieldType.md)<`number`, ``"float"``, [`FloatFieldDef`](../modules/Backland.md#floatfielddef) \| `undefined`\>
+- [`FieldType`](Solarwind.FieldType.md)<`number`, ``"float"``, [`FloatFieldDef`](../modules/Solarwind.md#floatfielddef) \| `undefined`\>
 
   ↳ **`FloatField`**
 
@@ -14,45 +14,45 @@
 
 ### Constructors
 
-- [constructor](Backland.FloatField.md#constructor)
+- [constructor](Solarwind.FloatField.md#constructor)
 
 ### Properties
 
-- [\_\_\_inferable](Backland.FloatField.md#___inferable)
-- [\_\_isFieldType](Backland.FloatField.md#__isfieldtype)
-- [applyParser](Backland.FloatField.md#applyparser)
-- [clone](Backland.FloatField.md#clone)
-- [composer](Backland.FloatField.md#composer)
-- [def](Backland.FloatField.md#def)
-- [defaultValue](Backland.FloatField.md#defaultvalue)
-- [describe](Backland.FloatField.md#describe)
-- [describeField](Backland.FloatField.md#describefield)
-- [description](Backland.FloatField.md#description)
-- [hidden](Backland.FloatField.md#hidden)
-- [id](Backland.FloatField.md#id)
-- [list](Backland.FloatField.md#list)
-- [name](Backland.FloatField.md#name)
-- [optional](Backland.FloatField.md#optional)
-- [options](Backland.FloatField.md#options)
-- [parse](Backland.FloatField.md#parse)
-- [toString](Backland.FloatField.md#tostring)
-- [type](Backland.FloatField.md#type)
-- [typeName](Backland.FloatField.md#typename)
-- [create](Backland.FloatField.md#create)
+- [\_\_\_inferable](Solarwind.FloatField.md#___inferable)
+- [\_\_isFieldType](Solarwind.FloatField.md#__isfieldtype)
+- [applyParser](Solarwind.FloatField.md#applyparser)
+- [clone](Solarwind.FloatField.md#clone)
+- [composer](Solarwind.FloatField.md#composer)
+- [def](Solarwind.FloatField.md#def)
+- [defaultValue](Solarwind.FloatField.md#defaultvalue)
+- [describe](Solarwind.FloatField.md#describe)
+- [describeField](Solarwind.FloatField.md#describefield)
+- [description](Solarwind.FloatField.md#description)
+- [hidden](Solarwind.FloatField.md#hidden)
+- [id](Solarwind.FloatField.md#id)
+- [list](Solarwind.FloatField.md#list)
+- [name](Solarwind.FloatField.md#name)
+- [optional](Solarwind.FloatField.md#optional)
+- [options](Solarwind.FloatField.md#options)
+- [parse](Solarwind.FloatField.md#parse)
+- [toString](Solarwind.FloatField.md#tostring)
+- [type](Solarwind.FloatField.md#type)
+- [typeName](Solarwind.FloatField.md#typename)
+- [create](Solarwind.FloatField.md#create)
 
 ### Accessors
 
-- [asFinalFieldDef](Backland.FloatField.md#asfinalfielddef)
-- [definition](Backland.FloatField.md#definition)
+- [asFinalFieldDef](Solarwind.FloatField.md#asfinalfielddef)
+- [definition](Solarwind.FloatField.md#definition)
 
 ### Methods
 
-- [is](Backland.FloatField.md#is)
-- [setDefaultValue](Backland.FloatField.md#setdefaultvalue)
-- [toList](Backland.FloatField.md#tolist)
-- [toOptional](Backland.FloatField.md#tooptional)
-- [toRequired](Backland.FloatField.md#torequired)
-- [validate](Backland.FloatField.md#validate)
+- [is](Solarwind.FloatField.md#is)
+- [setDefaultValue](Solarwind.FloatField.md#setdefaultvalue)
+- [toList](Solarwind.FloatField.md#tolist)
+- [toOptional](Solarwind.FloatField.md#tooptional)
+- [toRequired](Solarwind.FloatField.md#torequired)
+- [validate](Solarwind.FloatField.md#validate)
 
 ## Constructors
 
@@ -64,7 +64,7 @@
 
 | Name | Type |
 | :------ | :------ |
-| `def?` | [`FloatFieldDef`](../modules/Backland.md#floatfielddef) |
+| `def?` | [`FloatFieldDef`](../modules/Solarwind.md#floatfielddef) |
 
 #### Overrides
 
@@ -82,7 +82,7 @@ packages/schema/lib/fields/FloatField.d.ts:8
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[___inferable](Backland.FieldType.md#___inferable)
+[FieldType](Solarwind.FieldType.md).[___inferable](Solarwind.FieldType.md#___inferable)
 
 #### Defined in
 
@@ -96,7 +96,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[__isFieldType](Backland.FieldType.md#__isfieldtype)
+[FieldType](Solarwind.FieldType.md).[__isFieldType](Solarwind.FieldType.md#__isfieldtype)
 
 #### Defined in
 
@@ -106,11 +106,11 @@ ___
 
 ### applyParser
 
-• **applyParser**: <Type_1\>(`parser`: { `parse`: (`input`: `any`, `_options`: [`FieldParserOptionsObject`](../modules/Backland.md#fieldparseroptionsobject)) => `Type_1` ; `preParse?`: (`input`: `any`) => `Type_1`  }) => [`FieldTypeParser`](../modules/Backland.md#fieldtypeparser)<`Type_1`\>
+• **applyParser**: <Type_1\>(`parser`: { `parse`: (`input`: `any`, `_options`: [`FieldParserOptionsObject`](../modules/Solarwind.md#fieldparseroptionsobject)) => `Type_1` ; `preParse?`: (`input`: `any`) => `Type_1`  }) => [`FieldTypeParser`](../modules/Solarwind.md#fieldtypeparser)<`Type_1`\>
 
 #### Type declaration
 
-▸ <`Type_1`\>(`parser`): [`FieldTypeParser`](../modules/Backland.md#fieldtypeparser)<`Type_1`\>
+▸ <`Type_1`\>(`parser`): [`FieldTypeParser`](../modules/Solarwind.md#fieldtypeparser)<`Type_1`\>
 
 ##### Type parameters
 
@@ -123,16 +123,16 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `parser` | `Object` |
-| `parser.parse` | (`input`: `any`, `_options`: [`FieldParserOptionsObject`](../modules/Backland.md#fieldparseroptionsobject)) => `Type_1` |
+| `parser.parse` | (`input`: `any`, `_options`: [`FieldParserOptionsObject`](../modules/Solarwind.md#fieldparseroptionsobject)) => `Type_1` |
 | `parser.preParse?` | (`input`: `any`) => `Type_1` |
 
 ##### Returns
 
-[`FieldTypeParser`](../modules/Backland.md#fieldtypeparser)<`Type_1`\>
+[`FieldTypeParser`](../modules/Solarwind.md#fieldtypeparser)<`Type_1`\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[applyParser](Backland.FieldType.md#applyparser)
+[FieldType](Solarwind.FieldType.md).[applyParser](Solarwind.FieldType.md#applyparser)
 
 #### Defined in
 
@@ -142,19 +142,19 @@ ___
 
 ### clone
 
-• **clone**: () => [`FieldType`](Backland.FieldType.md)<`number`, ``"float"``, `undefined` \| [`FloatFieldDef`](../modules/Backland.md#floatfielddef), ``0``, ``0``, `undefined`, {}\>
+• **clone**: () => [`FieldType`](Solarwind.FieldType.md)<`number`, ``"float"``, `undefined` \| [`FloatFieldDef`](../modules/Solarwind.md#floatfielddef), ``0``, ``0``, `undefined`, {}\>
 
 #### Type declaration
 
-▸ (): [`FieldType`](Backland.FieldType.md)<`number`, ``"float"``, `undefined` \| [`FloatFieldDef`](../modules/Backland.md#floatfielddef), ``0``, ``0``, `undefined`, {}\>
+▸ (): [`FieldType`](Solarwind.FieldType.md)<`number`, ``"float"``, `undefined` \| [`FloatFieldDef`](../modules/Solarwind.md#floatfielddef), ``0``, ``0``, `undefined`, {}\>
 
 ##### Returns
 
-[`FieldType`](Backland.FieldType.md)<`number`, ``"float"``, `undefined` \| [`FloatFieldDef`](../modules/Backland.md#floatfielddef), ``0``, ``0``, `undefined`, {}\>
+[`FieldType`](Solarwind.FieldType.md)<`number`, ``"float"``, `undefined` \| [`FloatFieldDef`](../modules/Solarwind.md#floatfielddef), ``0``, ``0``, `undefined`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[clone](Backland.FieldType.md#clone)
+[FieldType](Solarwind.FieldType.md).[clone](Solarwind.FieldType.md#clone)
 
 #### Defined in
 
@@ -164,11 +164,11 @@ ___
 
 ### composer
 
-• **composer**: `undefined` \| [`FieldComposer`](../modules/Backland.md#fieldcomposer)<`Record`<`string`, `any`\>, `number`\>
+• **composer**: `undefined` \| [`FieldComposer`](../modules/Solarwind.md#fieldcomposer)<`Record`<`string`, `any`\>, `number`\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[composer](Backland.FieldType.md#composer)
+[FieldType](Solarwind.FieldType.md).[composer](Solarwind.FieldType.md#composer)
 
 #### Defined in
 
@@ -178,11 +178,11 @@ ___
 
 ### def
 
-• `Readonly` **def**: `undefined` \| [`FloatFieldDef`](../modules/Backland.md#floatfielddef)
+• `Readonly` **def**: `undefined` \| [`FloatFieldDef`](../modules/Solarwind.md#floatfielddef)
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[def](Backland.FieldType.md#def)
+[FieldType](Solarwind.FieldType.md).[def](Solarwind.FieldType.md#def)
 
 #### Defined in
 
@@ -196,7 +196,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[defaultValue](Backland.FieldType.md#defaultvalue)
+[FieldType](Solarwind.FieldType.md).[defaultValue](Solarwind.FieldType.md#defaultvalue)
 
 #### Defined in
 
@@ -206,11 +206,11 @@ ___
 
 ### describe
 
-• **describe**: (`description`: `string`) => [`FloatField`](Backland.FloatField.md)
+• **describe**: (`description`: `string`) => [`FloatField`](Solarwind.FloatField.md)
 
 #### Type declaration
 
-▸ (`description`): [`FloatField`](Backland.FloatField.md)
+▸ (`description`): [`FloatField`](Solarwind.FloatField.md)
 
 ##### Parameters
 
@@ -220,11 +220,11 @@ ___
 
 ##### Returns
 
-[`FloatField`](Backland.FloatField.md)
+[`FloatField`](Solarwind.FloatField.md)
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[describe](Backland.FieldType.md#describe)
+[FieldType](Solarwind.FieldType.md).[describe](Solarwind.FieldType.md#describe)
 
 #### Defined in
 
@@ -234,7 +234,7 @@ ___
 
 ### describeField
 
-• **describeField**: () => { `def`: `undefined` \| [`FloatFieldDef`](../modules/Backland.md#floatfielddef) ; `defaultValue`: `undefined` ; `description`: `undefined` \| `string` ; `hidden`: `boolean` ; `list`: ``false`` ; `optional`: ``false`` ; `type`: `number`  }
+• **describeField**: () => { `def`: `undefined` \| [`FloatFieldDef`](../modules/Solarwind.md#floatfielddef) ; `defaultValue`: `undefined` ; `description`: `undefined` \| `string` ; `hidden`: `boolean` ; `list`: ``false`` ; `optional`: ``false`` ; `type`: `number`  }
 
 #### Type declaration
 
@@ -246,7 +246,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `def` | `undefined` \| [`FloatFieldDef`](../modules/Backland.md#floatfielddef) |
+| `def` | `undefined` \| [`FloatFieldDef`](../modules/Solarwind.md#floatfielddef) |
 | `defaultValue` | `undefined` |
 | `description` | `undefined` \| `string` |
 | `hidden` | `boolean` |
@@ -256,7 +256,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[describeField](Backland.FieldType.md#describefield)
+[FieldType](Solarwind.FieldType.md).[describeField](Solarwind.FieldType.md#describefield)
 
 #### Defined in
 
@@ -270,7 +270,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[description](Backland.FieldType.md#description)
+[FieldType](Solarwind.FieldType.md).[description](Solarwind.FieldType.md#description)
 
 #### Defined in
 
@@ -284,7 +284,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[hidden](Backland.FieldType.md#hidden)
+[FieldType](Solarwind.FieldType.md).[hidden](Solarwind.FieldType.md#hidden)
 
 #### Defined in
 
@@ -298,7 +298,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[id](Backland.FieldType.md#id)
+[FieldType](Solarwind.FieldType.md).[id](Solarwind.FieldType.md#id)
 
 #### Defined in
 
@@ -312,7 +312,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[list](Backland.FieldType.md#list)
+[FieldType](Solarwind.FieldType.md).[list](Solarwind.FieldType.md#list)
 
 #### Defined in
 
@@ -326,7 +326,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[name](Backland.FieldType.md#name)
+[FieldType](Solarwind.FieldType.md).[name](Solarwind.FieldType.md#name)
 
 #### Defined in
 
@@ -340,7 +340,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[optional](Backland.FieldType.md#optional)
+[FieldType](Solarwind.FieldType.md).[optional](Solarwind.FieldType.md#optional)
 
 #### Defined in
 
@@ -354,7 +354,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[options](Backland.FieldType.md#options)
+[FieldType](Solarwind.FieldType.md).[options](Solarwind.FieldType.md#options)
 
 #### Defined in
 
@@ -364,11 +364,11 @@ ___
 
 ### parse
 
-• **parse**: [`FieldTypeParser`](../modules/Backland.md#fieldtypeparser)<`number`\>
+• **parse**: [`FieldTypeParser`](../modules/Solarwind.md#fieldtypeparser)<`number`\>
 
 #### Overrides
 
-[FieldType](Backland.FieldType.md).[parse](Backland.FieldType.md#parse)
+[FieldType](Solarwind.FieldType.md).[parse](Solarwind.FieldType.md#parse)
 
 #### Defined in
 
@@ -400,7 +400,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[type](Backland.FieldType.md#type)
+[FieldType](Solarwind.FieldType.md).[type](Solarwind.FieldType.md#type)
 
 #### Defined in
 
@@ -414,7 +414,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[typeName](Backland.FieldType.md#typename)
+[FieldType](Solarwind.FieldType.md).[typeName](Solarwind.FieldType.md#typename)
 
 #### Defined in
 
@@ -424,25 +424,25 @@ ___
 
 ### create
 
-▪ `Static` **create**: (`def?`: [`FloatFieldDef`](../modules/Backland.md#floatfielddef)) => [`FloatField`](Backland.FloatField.md)
+▪ `Static` **create**: (`def?`: [`FloatFieldDef`](../modules/Solarwind.md#floatfielddef)) => [`FloatField`](Solarwind.FloatField.md)
 
 #### Type declaration
 
-▸ (`def?`): [`FloatField`](Backland.FloatField.md)
+▸ (`def?`): [`FloatField`](Solarwind.FloatField.md)
 
 ##### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `def?` | [`FloatFieldDef`](../modules/Backland.md#floatfielddef) |
+| `def?` | [`FloatFieldDef`](../modules/Solarwind.md#floatfielddef) |
 
 ##### Returns
 
-[`FloatField`](Backland.FloatField.md)
+[`FloatField`](Solarwind.FloatField.md)
 
 #### Overrides
 
-[FieldType](Backland.FieldType.md).[create](Backland.FieldType.md#create)
+[FieldType](Solarwind.FieldType.md).[create](Solarwind.FieldType.md#create)
 
 #### Defined in
 
@@ -452,11 +452,11 @@ packages/schema/lib/fields/FloatField.d.ts:9
 
 ### asFinalFieldDef
 
-• `get` **asFinalFieldDef**(): [`AllFinalFieldDefinitions`](../modules/Backland.md#allfinalfielddefinitions)[`TypeName`]
+• `get` **asFinalFieldDef**(): [`AllFinalFieldDefinitions`](../modules/Solarwind.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Returns
 
-[`AllFinalFieldDefinitions`](../modules/Backland.md#allfinalfielddefinitions)[`TypeName`]
+[`AllFinalFieldDefinitions`](../modules/Solarwind.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Inherited from
 
@@ -470,11 +470,11 @@ ___
 
 ### definition
 
-• `get` **definition**(): [`AllFinalFieldDefinitions`](../modules/Backland.md#allfinalfielddefinitions)[`TypeName`]
+• `get` **definition**(): [`AllFinalFieldDefinitions`](../modules/Solarwind.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Returns
 
-[`AllFinalFieldDefinitions`](../modules/Backland.md#allfinalfielddefinitions)[`TypeName`]
+[`AllFinalFieldDefinitions`](../modules/Solarwind.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Inherited from
 
@@ -502,7 +502,7 @@ input is number
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[is](Backland.FieldType.md#is)
+[FieldType](Solarwind.FieldType.md).[is](Solarwind.FieldType.md#is)
 
 #### Defined in
 
@@ -512,7 +512,7 @@ ___
 
 ### setDefaultValue
 
-▸ **setDefaultValue**<`T`\>(`value`): [`FieldType`](Backland.FieldType.md)<`number`, ``"float"``, `undefined` \| [`FloatFieldDef`](../modules/Backland.md#floatfielddef), ``0``, ``0``, `T`, {}\>
+▸ **setDefaultValue**<`T`\>(`value`): [`FieldType`](Solarwind.FieldType.md)<`number`, ``"float"``, `undefined` \| [`FloatFieldDef`](../modules/Solarwind.md#floatfielddef), ``0``, ``0``, `T`, {}\>
 
 #### Type parameters
 
@@ -528,11 +528,11 @@ ___
 
 #### Returns
 
-[`FieldType`](Backland.FieldType.md)<`number`, ``"float"``, `undefined` \| [`FloatFieldDef`](../modules/Backland.md#floatfielddef), ``0``, ``0``, `T`, {}\>
+[`FieldType`](Solarwind.FieldType.md)<`number`, ``"float"``, `undefined` \| [`FloatFieldDef`](../modules/Solarwind.md#floatfielddef), ``0``, ``0``, `T`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[setDefaultValue](Backland.FieldType.md#setdefaultvalue)
+[FieldType](Solarwind.FieldType.md).[setDefaultValue](Solarwind.FieldType.md#setdefaultvalue)
 
 #### Defined in
 
@@ -542,21 +542,21 @@ ___
 
 ### toList
 
-▸ **toList**(`options?`): [`FieldType`](Backland.FieldType.md)<`number`, ``"float"``, `undefined` \| [`FloatFieldDef`](../modules/Backland.md#floatfielddef), ``1``, ``0``, `undefined`, {}\>
+▸ **toList**(`options?`): [`FieldType`](Solarwind.FieldType.md)<`number`, ``"float"``, `undefined` \| [`FloatFieldDef`](../modules/Solarwind.md#floatfielddef), ``1``, ``0``, `undefined`, {}\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `options?` | [`ListDefinitionTruthy`](../modules/Backland.md#listdefinitiontruthy) |
+| `options?` | [`ListDefinitionTruthy`](../modules/Solarwind.md#listdefinitiontruthy) |
 
 #### Returns
 
-[`FieldType`](Backland.FieldType.md)<`number`, ``"float"``, `undefined` \| [`FloatFieldDef`](../modules/Backland.md#floatfielddef), ``1``, ``0``, `undefined`, {}\>
+[`FieldType`](Solarwind.FieldType.md)<`number`, ``"float"``, `undefined` \| [`FloatFieldDef`](../modules/Solarwind.md#floatfielddef), ``1``, ``0``, `undefined`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[toList](Backland.FieldType.md#tolist)
+[FieldType](Solarwind.FieldType.md).[toList](Solarwind.FieldType.md#tolist)
 
 #### Defined in
 
@@ -566,15 +566,15 @@ ___
 
 ### toOptional
 
-▸ **toOptional**(): [`FieldType`](Backland.FieldType.md)<`number`, ``"float"``, `undefined` \| [`FloatFieldDef`](../modules/Backland.md#floatfielddef), ``0``, ``1``, `undefined`, {}\>
+▸ **toOptional**(): [`FieldType`](Solarwind.FieldType.md)<`number`, ``"float"``, `undefined` \| [`FloatFieldDef`](../modules/Solarwind.md#floatfielddef), ``0``, ``1``, `undefined`, {}\>
 
 #### Returns
 
-[`FieldType`](Backland.FieldType.md)<`number`, ``"float"``, `undefined` \| [`FloatFieldDef`](../modules/Backland.md#floatfielddef), ``0``, ``1``, `undefined`, {}\>
+[`FieldType`](Solarwind.FieldType.md)<`number`, ``"float"``, `undefined` \| [`FloatFieldDef`](../modules/Solarwind.md#floatfielddef), ``0``, ``1``, `undefined`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[toOptional](Backland.FieldType.md#tooptional)
+[FieldType](Solarwind.FieldType.md).[toOptional](Solarwind.FieldType.md#tooptional)
 
 #### Defined in
 
@@ -584,15 +584,15 @@ ___
 
 ### toRequired
 
-▸ **toRequired**(): [`FieldType`](Backland.FieldType.md)<`number`, ``"float"``, `undefined` \| [`FloatFieldDef`](../modules/Backland.md#floatfielddef), ``0``, ``0``, `undefined`, {}\>
+▸ **toRequired**(): [`FieldType`](Solarwind.FieldType.md)<`number`, ``"float"``, `undefined` \| [`FloatFieldDef`](../modules/Solarwind.md#floatfielddef), ``0``, ``0``, `undefined`, {}\>
 
 #### Returns
 
-[`FieldType`](Backland.FieldType.md)<`number`, ``"float"``, `undefined` \| [`FloatFieldDef`](../modules/Backland.md#floatfielddef), ``0``, ``0``, `undefined`, {}\>
+[`FieldType`](Solarwind.FieldType.md)<`number`, ``"float"``, `undefined` \| [`FloatFieldDef`](../modules/Solarwind.md#floatfielddef), ``0``, ``0``, `undefined`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[toRequired](Backland.FieldType.md#torequired)
+[FieldType](Solarwind.FieldType.md).[toRequired](Solarwind.FieldType.md#torequired)
 
 #### Defined in
 
@@ -616,7 +616,7 @@ input is number
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[validate](Backland.FieldType.md#validate)
+[FieldType](Solarwind.FieldType.md).[validate](Solarwind.FieldType.md#validate)
 
 #### Defined in
 

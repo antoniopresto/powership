@@ -1,4 +1,4 @@
-import { createStore } from '@backland/utils';
+import { createStore } from '@swind/utils';
 
 import { AnyEntity } from './EntityInterfaces';
 

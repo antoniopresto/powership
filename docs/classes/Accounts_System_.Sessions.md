@@ -1,4 +1,4 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / Sessions
+[Solarwind](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / Sessions
 
 # Class: Sessions
 

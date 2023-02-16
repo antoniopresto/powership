@@ -1,4 +1,4 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / EntityPlugin
+[Solarwind](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / EntityPlugin
 
 # Interface: EntityPlugin
 

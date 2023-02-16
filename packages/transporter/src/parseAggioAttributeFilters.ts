@@ -1,9 +1,9 @@
-import { RuntimeError } from '@backland/utils';
-import { devAssert, Query } from '@backland/utils';
-import { getKeys } from '@backland/utils';
-import { getTypeName } from '@backland/utils';
-import { escapeStringRegexp } from '@backland/utils';
-import { skipper } from '@backland/utils/lib/skipper';
+import { RuntimeError } from '@swind/utils';
+import { devAssert, Query } from '@swind/utils';
+import { getKeys } from '@swind/utils';
+import { getTypeName } from '@swind/utils';
+import { escapeStringRegexp } from '@swind/utils';
+import { skipper } from '@swind/utils/lib/skipper';
 
 import { AnyCollectionIndexConfig } from './CollectionIndex';
 import {

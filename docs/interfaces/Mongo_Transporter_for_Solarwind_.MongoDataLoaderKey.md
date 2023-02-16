@@ -1,21 +1,21 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Mongo Transporter for Backland.](../modules/Mongo_Transporter_for_Backland_.md) / MongoDataLoaderKey
+[Solarwind](../README.md) / [Modules](../modules.md) / [Mongo Transporter for Solarwind.](../modules/Mongo_Transporter_for_Solarwind_.md) / MongoDataLoaderKey
 
 # Interface: MongoDataLoaderKey
 
-[Mongo Transporter for Backland.](../modules/Mongo_Transporter_for_Backland_.md).MongoDataLoaderKey
+[Mongo Transporter for Solarwind.](../modules/Mongo_Transporter_for_Solarwind_.md).MongoDataLoaderKey
 
 ## Table of contents
 
 ### Properties
 
-- [collection](Mongo_Transporter_for_Backland_.MongoDataLoaderKey.md#collection)
-- [dataloaderHash](Mongo_Transporter_for_Backland_.MongoDataLoaderKey.md#dataloaderhash)
-- [db](Mongo_Transporter_for_Backland_.MongoDataLoaderKey.md#db)
-- [onlyOne](Mongo_Transporter_for_Backland_.MongoDataLoaderKey.md#onlyone)
-- [projection](Mongo_Transporter_for_Backland_.MongoDataLoaderKey.md#projection)
-- [query](Mongo_Transporter_for_Backland_.MongoDataLoaderKey.md#query)
-- [queryHash](Mongo_Transporter_for_Backland_.MongoDataLoaderKey.md#queryhash)
-- [sort](Mongo_Transporter_for_Backland_.MongoDataLoaderKey.md#sort)
+- [collection](Mongo_Transporter_for_Solarwind_.MongoDataLoaderKey.md#collection)
+- [dataloaderHash](Mongo_Transporter_for_Solarwind_.MongoDataLoaderKey.md#dataloaderhash)
+- [db](Mongo_Transporter_for_Solarwind_.MongoDataLoaderKey.md#db)
+- [onlyOne](Mongo_Transporter_for_Solarwind_.MongoDataLoaderKey.md#onlyone)
+- [projection](Mongo_Transporter_for_Solarwind_.MongoDataLoaderKey.md#projection)
+- [query](Mongo_Transporter_for_Solarwind_.MongoDataLoaderKey.md#query)
+- [queryHash](Mongo_Transporter_for_Solarwind_.MongoDataLoaderKey.md#queryhash)
+- [sort](Mongo_Transporter_for_Solarwind_.MongoDataLoaderKey.md#sort)
 
 ## Properties
 

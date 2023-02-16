@@ -1,4 +1,4 @@
-import { Merge } from '@backland/utils';
+import { Merge } from '@swind/utils';
 
 import { $oparam, t } from './t';
 

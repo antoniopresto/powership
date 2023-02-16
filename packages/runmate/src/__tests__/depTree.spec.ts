@@ -23,9 +23,9 @@ describe('depTree', () => {
       .map((el) => el.name);
 
     expect(sut).toEqual([
-      '@backland/babel-plugins',
-      '@backland/utils',
-      '@backland/schema',
+      '@swind/babel-plugins',
+      '@swind/utils',
+      '@swind/schema',
     ]);
   });
 });

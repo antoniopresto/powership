@@ -1,7 +1,7 @@
-import { CircularDeps, createResolver, Infer } from '@backland/schema';
-import { createGraphQLSchema } from '@backland/schema/lib/createGraphQLSchema';
-import { PaginationResult } from '@backland/transporter';
-import { notNull, NullableToPartial, PromiseType } from '@backland/utils';
+import { CircularDeps, createResolver, Infer } from '@swind/schema';
+import { createGraphQLSchema } from '@swind/schema/lib/createGraphQLSchema';
+import { PaginationResult } from '@swind/transporter';
+import { notNull, NullableToPartial, PromiseType } from '@swind/utils';
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { setupProductTest } from './setupProductTest';

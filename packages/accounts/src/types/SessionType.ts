@@ -1,5 +1,5 @@
-import { EntityDocument } from '@backland/entity';
-import { createType, Infer } from '@backland/schema';
+import { EntityDocument } from '@swind/entity';
+import { createType, Infer } from '@swind/schema';
 
 export const SessionConnectionInfo = createType('SessionConnectionInfo', {
   object: {

@@ -1,4 +1,4 @@
-import { Compute, Merge, OnlyKnown } from '@backland/utils';
+import { Compute, Merge, OnlyKnown } from '@swind/utils';
 
 import { ParseStringDefinition } from '../../parseStringDefinition';
 import { CommonDefSafe, FieldTypeName } from '../_fieldDefinitions';

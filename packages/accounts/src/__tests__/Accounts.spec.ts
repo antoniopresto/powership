@@ -1,6 +1,6 @@
-import { MongoTransporter } from '@backland/mongo';
-import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
-import { LoaderContext } from '@backland/transporter';
+import { MongoTransporter } from '@swind/mongo';
+import { AppMock, createAppMock } from '@swind/mongo/lib/test-utils';
+import { LoaderContext } from '@swind/transporter';
 
 import { SessionRequest } from '../Sessions';
 

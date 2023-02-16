@@ -8,8 +8,8 @@ module.exports = {
   modulePathIgnorePatterns: ['node_modules', 'testing.d.ts'],
   moduleNameMapper: pathsToModuleNameMapper(
     {
-      '@backland/schema': ['./index.ts'],
-      '@backland/schema/*': ['./*'],
+      '@swind/schema': ['./index.ts'],
+      '@swind/schema/*': ['./*'],
     },
     {
       prefix: '<rootDir>/src/',

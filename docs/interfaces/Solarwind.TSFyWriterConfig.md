@@ -1,12 +1,12 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / TSFyWriterConfig
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / TSFyWriterConfig
 
 # Interface: TSFyWriterConfig
 
-[Backland](../modules/Backland.md).TSFyWriterConfig
+[Solarwind](../modules/Solarwind.md).TSFyWriterConfig
 
 ## Hierarchy
 
-- [`TSFYConfig`](../modules/Backland.md#tsfyconfig)
+- [`TSFYConfig`](../modules/Solarwind.md#tsfyconfig)
 
   ↳ **`TSFyWriterConfig`**
 
@@ -14,23 +14,23 @@
 
 ### Properties
 
-- [context](Backland.TSFyWriterConfig.md#context)
-- [customParser](Backland.TSFyWriterConfig.md#customparser)
-- [dest](Backland.TSFyWriterConfig.md#dest)
-- [groupInTypeThreshold](Backland.TSFyWriterConfig.md#groupintypethreshold)
-- [iterationLimit](Backland.TSFyWriterConfig.md#iterationlimit)
-- [many](Backland.TSFyWriterConfig.md#many)
-- [moduleName](Backland.TSFyWriterConfig.md#modulename)
-- [prettify](Backland.TSFyWriterConfig.md#prettify)
-- [store](Backland.TSFyWriterConfig.md#store)
-- [wrappers](Backland.TSFyWriterConfig.md#wrappers)
-- [writeThrottleMS](Backland.TSFyWriterConfig.md#writethrottlems)
+- [context](Solarwind.TSFyWriterConfig.md#context)
+- [customParser](Solarwind.TSFyWriterConfig.md#customparser)
+- [dest](Solarwind.TSFyWriterConfig.md#dest)
+- [groupInTypeThreshold](Solarwind.TSFyWriterConfig.md#groupintypethreshold)
+- [iterationLimit](Solarwind.TSFyWriterConfig.md#iterationlimit)
+- [many](Solarwind.TSFyWriterConfig.md#many)
+- [moduleName](Solarwind.TSFyWriterConfig.md#modulename)
+- [prettify](Solarwind.TSFyWriterConfig.md#prettify)
+- [store](Solarwind.TSFyWriterConfig.md#store)
+- [wrappers](Solarwind.TSFyWriterConfig.md#wrappers)
+- [writeThrottleMS](Solarwind.TSFyWriterConfig.md#writethrottlems)
 
 ## Properties
 
 ### context
 
-• `Optional` **context**: [`TSFYContext`](../modules/Backland.md#tsfycontext)
+• `Optional` **context**: [`TSFYContext`](../modules/Solarwind.md#tsfycontext)
 
 #### Inherited from
 
@@ -44,7 +44,7 @@ ___
 
 ### customParser
 
-• `Optional` **customParser**: [`TSFYCustomHandler`](Backland.TSFYCustomHandler.md)
+• `Optional` **customParser**: [`TSFYCustomHandler`](Solarwind.TSFYCustomHandler.md)
 
 #### Inherited from
 

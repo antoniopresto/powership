@@ -1,18 +1,18 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md) / GraphTypeLike
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md) / GraphTypeLike
 
 # Interface: GraphTypeLike
 
-[Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md).GraphTypeLike
+[Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md).GraphTypeLike
 
 ## Table of contents
 
 ### Properties
 
-- [\_\_isGraphType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLike.md#__isgraphtype)
-- [\_\_lazyGetter](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLike.md#__lazygetter)
-- [definition](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLike.md#definition)
-- [id](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLike.md#id)
-- [optionalId](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLike.md#optionalid)
+- [\_\_isGraphType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLike.md#__isgraphtype)
+- [\_\_lazyGetter](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLike.md#__lazygetter)
+- [definition](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLike.md#definition)
+- [id](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLike.md#id)
+- [optionalId](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLike.md#optionalid)
 
 ## Properties
 
@@ -28,7 +28,7 @@ ___
 
 ### \_\_lazyGetter
 
-• **\_\_lazyGetter**: [`LazyParseGraphTypePayload`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#lazyparsegraphtypepayload)
+• **\_\_lazyGetter**: [`LazyParseGraphTypePayload`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#lazyparsegraphtypepayload)
 
 #### Defined in
 
@@ -38,7 +38,7 @@ ___
 
 ### definition
 
-• **definition**: [`FinalFieldDefinition`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#finalfielddefinition)
+• **definition**: [`FinalFieldDefinition`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#finalfielddefinition)
 
 #### Defined in
 

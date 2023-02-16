@@ -1,8 +1,8 @@
 import {
   _ensureTransporterMethodsImplementation,
   TransporterLoaderName,
-} from '@backland/transporter';
-import { DeepWritable, simpleObjectClone } from '@backland/utils';
+} from '@swind/transporter';
+import { DeepWritable, simpleObjectClone } from '@swind/utils';
 
 import {
   AnyEntity,

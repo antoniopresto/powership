@@ -1,4 +1,4 @@
-[Backland](../README.md) / [Modules](../modules.md) / RunMate - A command line utility to run scripts in multiple files.
+[Solarwind](../README.md) / [Modules](../modules.md) / RunMate - A command line utility to run scripts in multiple files.
 
 # Module: RunMate - A command line utility to run scripts in multiple files.
 

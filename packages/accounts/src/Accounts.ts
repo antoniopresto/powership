@@ -1,5 +1,5 @@
-import { DeleteManyResult, Transporter } from '@backland/transporter';
-import { NodeLogger, ulid, uniqBy } from '@backland/utils';
+import { DeleteManyResult, Transporter } from '@swind/transporter';
+import { NodeLogger, ulid, uniqBy } from '@swind/utils';
 
 import { SessionRequest, Sessions, SessionsOptions } from './Sessions';
 import {

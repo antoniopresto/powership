@@ -1,7 +1,7 @@
 import * as process from 'process';
 
-import { ObjectType } from '@backland/schema';
-import { delay, inspectObject, notNull } from '@backland/utils';
+import { ObjectType } from '@swind/schema';
+import { delay, inspectObject, notNull } from '@swind/utils';
 import { MongoMemoryServer } from 'mongodb-memory-server-core';
 
 import { MongoClient } from '../MongoClient';

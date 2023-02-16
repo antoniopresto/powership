@@ -1,5 +1,5 @@
 export type ___ = 1;
-// import { S, L } from '@backland/utils';
+// import { S, L } from '@swind/utils';
 // import { SplitTokens } from "./SplitTokens";
 //
 // export type Tokenizer<T extends string> = T extends unknown

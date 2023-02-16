@@ -1,4 +1,4 @@
-import { MaybePromise } from '@backland/utils/lib/typeUtils';
+import { MaybePromise } from '@swind/utils/lib/typeUtils';
 import { assert, IsExact } from 'conditional-type-checks';
 import { graphql, printSchema } from 'graphql';
 

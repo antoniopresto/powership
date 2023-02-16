@@ -1,4 +1,4 @@
-import { NullableToPartial } from '@backland/utils';
+import { NullableToPartial } from '@swind/utils';
 
 import { $oparam, t } from './t';
 

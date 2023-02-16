@@ -1,8 +1,8 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / IndexPKSKPartsListConfig
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / IndexPKSKPartsListConfig
 
 # Interface: IndexPKSKPartsListConfig<DocKeys\>
 
-[Backland](../modules/Backland.md).IndexPKSKPartsListConfig
+[Solarwind](../modules/Solarwind.md).IndexPKSKPartsListConfig
 
 ## Type parameters
 
@@ -12,6 +12,6 @@
 
 ## Hierarchy
 
-- `ReadonlyArray`<[`IndexKeyHash`](../modules/Backland.md#indexkeyhash)<`Extract`<`DocKeys`, `string`\>\>\>
+- `ReadonlyArray`<[`IndexKeyHash`](../modules/Solarwind.md#indexkeyhash)<`Extract`<`DocKeys`, `string`\>\>\>
 
   ↳ **`IndexPKSKPartsListConfig`**

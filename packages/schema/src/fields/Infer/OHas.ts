@@ -1,4 +1,4 @@
-import type { O } from '@backland/utils';
+import type { O } from '@swind/utils';
 
 export type OHas<Obj, K> = Obj extends object
   ? K extends string

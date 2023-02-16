@@ -7,7 +7,7 @@ import {
   GraphType,
   isFieldTypeName,
   ObjectDefinitionInput,
-} from '@backland/schema';
+} from '@swind/schema';
 import {
   AnyCollectionIndexConfig,
   CollectionIndexConfig,
@@ -22,7 +22,7 @@ import {
   TransporterLoader,
   TransporterLoaderName,
   transporterLoaderNames,
-} from '@backland/transporter';
+} from '@swind/transporter';
 import {
   AnyFunction,
   capitalize,
@@ -39,7 +39,7 @@ import {
   simpleObjectClone,
   tupleEnum,
   ulid,
-} from '@backland/utils';
+} from '@swind/utils';
 import { hooks } from 'plugin-hooks';
 
 import {

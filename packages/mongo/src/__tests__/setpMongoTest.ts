@@ -1,4 +1,4 @@
-import { ObjectType } from '@backland/schema';
+import { ObjectType } from '@swind/schema';
 
 import { MongoTransporter } from '../MongoTransporter';
 import { AppMock, createAppMock } from '../test-utils';

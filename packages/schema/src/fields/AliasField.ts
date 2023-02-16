@@ -5,7 +5,7 @@ import {
   getByPath,
   nonNullValues,
   ObjectDotNotations,
-} from '@backland/utils';
+} from '@swind/utils';
 
 import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';

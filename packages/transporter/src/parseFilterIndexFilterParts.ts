@@ -7,7 +7,7 @@ import {
   parseFilterCursor,
   parseIndexCursor,
   parseIndexFieldName,
-} from '@backland/utils';
+} from '@swind/utils';
 
 import {
   AnyCollectionIndexConfig,

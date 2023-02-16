@@ -1,4 +1,4 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / \_EntityLoaderUtils
+[Solarwind](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / \_EntityLoaderUtils
 
 # Interface: \_EntityLoaderUtils<Options, Context\>
 

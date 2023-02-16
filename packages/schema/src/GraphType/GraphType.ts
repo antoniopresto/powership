@@ -3,14 +3,14 @@ import {
   inspectObject,
   isBrowser,
   RuntimeError,
-} from '@backland/utils';
+} from '@swind/utils';
 import type {
   GraphQLInterfaceType,
   GraphQLNamedInputType,
   GraphQLNamedType,
 } from 'graphql';
 
-import { BacklandModules, CircularDeps } from '../CircularDeps';
+import { SolarwindModules, CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';
 import {
   createObjectType,
@@ -112,7 +112,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
       //
     } else {
       if (!isBrowser()) {
-        CircularDeps.typesWriter?.BacklandWatchTypesPubSub.emit('created', {
+        CircularDeps.typesWriter?.SolarwindWatchTypesPubSub.emit('created', {
           graphType: this as any,
         });
       }
@@ -353,7 +353,7 @@ export type LazyParseGraphTypePayload = {
   definition: FinalFieldDefinition;
   definitionInput:
     | ObjectFieldInput
-    | ((utils: BacklandModules) => ObjectFieldInput);
+    | ((utils: SolarwindModules) => ObjectFieldInput);
   field: TAnyFieldType;
   id: string | undefined;
   idFromArgs: string | undefined;
@@ -361,16 +361,16 @@ export type LazyParseGraphTypePayload = {
 };
 
 export type GraphTypeArgs<Def extends ObjectFieldInput = ObjectFieldInput> =
-  | [string, Def | ((utils: BacklandModules) => Def)]
-  | [Def | ((utils: BacklandModules) => Def)];
+  | [string, Def | ((utils: SolarwindModules) => Def)]
+  | [Def | ((utils: SolarwindModules) => Def)];
 
 export function createType<Definition extends ObjectFieldInput>(
-  definition: Definition | ((utils: BacklandModules) => Definition)
+  definition: Definition | ((utils: SolarwindModules) => Definition)
 ): GraphType<Definition>;
 
 export function createType<Definition extends ObjectFieldInput>(
   name: string,
-  definition: Definition | ((utils: BacklandModules) => Definition)
+  definition: Definition | ((utils: SolarwindModules) => Definition)
 ): GraphType<Definition>;
 
 export function createType(...args: any[]) {

@@ -1,21 +1,21 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / TSFyResult
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / TSFyResult
 
 # Interface: TSFyResult
 
-[Backland](../modules/Backland.md).TSFyResult
+[Solarwind](../modules/Solarwind.md).TSFyResult
 
 ## Table of contents
 
 ### Properties
 
-- [getParts](Backland.TSFyResult.md#getparts)
-- [toString](Backland.TSFyResult.md#tostring)
+- [getParts](Solarwind.TSFyResult.md#getparts)
+- [toString](Solarwind.TSFyResult.md#tostring)
 
 ## Properties
 
 ### getParts
 
-• **getParts**: [`_GetParts`](../modules/Backland.md#_getparts)
+• **getParts**: [`_GetParts`](../modules/Solarwind.md#_getparts)
 
 #### Defined in
 
@@ -25,7 +25,7 @@ ___
 
 ### toString
 
-• **toString**: [`_ToString`](../modules/Backland.md#_tostring)
+• **toString**: [`_ToString`](../modules/Solarwind.md#_tostring)
 
 #### Defined in
 

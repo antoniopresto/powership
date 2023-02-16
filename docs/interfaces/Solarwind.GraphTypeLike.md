@@ -1,18 +1,18 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / GraphTypeLike
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / GraphTypeLike
 
 # Interface: GraphTypeLike
 
-[Backland](../modules/Backland.md).GraphTypeLike
+[Solarwind](../modules/Solarwind.md).GraphTypeLike
 
 ## Table of contents
 
 ### Properties
 
-- [\_\_isGraphType](Backland.GraphTypeLike.md#__isgraphtype)
-- [\_\_lazyGetter](Backland.GraphTypeLike.md#__lazygetter)
-- [definition](Backland.GraphTypeLike.md#definition)
-- [id](Backland.GraphTypeLike.md#id)
-- [optionalId](Backland.GraphTypeLike.md#optionalid)
+- [\_\_isGraphType](Solarwind.GraphTypeLike.md#__isgraphtype)
+- [\_\_lazyGetter](Solarwind.GraphTypeLike.md#__lazygetter)
+- [definition](Solarwind.GraphTypeLike.md#definition)
+- [id](Solarwind.GraphTypeLike.md#id)
+- [optionalId](Solarwind.GraphTypeLike.md#optionalid)
 
 ## Properties
 
@@ -28,7 +28,7 @@ ___
 
 ### \_\_lazyGetter
 
-• **\_\_lazyGetter**: [`LazyParseGraphTypePayload`](../modules/Backland.md#lazyparsegraphtypepayload)
+• **\_\_lazyGetter**: [`LazyParseGraphTypePayload`](../modules/Solarwind.md#lazyparsegraphtypepayload)
 
 #### Defined in
 
@@ -38,7 +38,7 @@ ___
 
 ### definition
 
-• **definition**: [`FinalFieldDefinition`](../modules/Backland.md#finalfielddefinition)
+• **definition**: [`FinalFieldDefinition`](../modules/Solarwind.md#finalfielddefinition)
 
 #### Defined in
 

@@ -1,5 +1,5 @@
-import { createType, ObjectType } from '@backland/schema';
-import { ulid } from '@backland/utils';
+import { createType, ObjectType } from '@swind/schema';
+import { ulid } from '@swind/utils';
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { createEntity } from '../../Entity';

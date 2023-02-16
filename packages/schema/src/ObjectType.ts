@@ -1,12 +1,12 @@
-import { createStore, IsKnown, RuntimeError } from '@backland/utils';
-import { ensureArray } from '@backland/utils';
-import { expectedType } from '@backland/utils';
-import { getTypeName } from '@backland/utils';
-import { invariantType } from '@backland/utils';
-import { Serializable } from '@backland/utils';
+import { createStore, IsKnown, RuntimeError } from '@swind/utils';
+import { ensureArray } from '@swind/utils';
+import { expectedType } from '@swind/utils';
+import { getTypeName } from '@swind/utils';
+import { invariantType } from '@swind/utils';
+import { Serializable } from '@swind/utils';
 import type { GraphQLInterfaceType, GraphQLObjectType } from 'graphql';
 
-import { BacklandModules, CircularDeps } from './CircularDeps';
+import { SolarwindModules, CircularDeps } from './CircularDeps';
 import type {
   GraphQLParserResult,
   ParseInputTypeOptions,
@@ -66,11 +66,11 @@ export class ObjectType<
   Input,
   HandledInput extends _HandleInput<Input> = _HandleInput<Input>
 > {
-  get __isBacklandObject(): true {
+  get __isSolarwindObject(): true {
     return true;
   }
 
-  static __isBacklandObject: boolean = true;
+  static __isSolarwindObject: boolean = true;
 
   __withCache: WithCache<{
     helpers: ObjectHelpers;
@@ -78,10 +78,10 @@ export class ObjectType<
 
   inputDefinition:
     | ObjectDefinitionInput
-    | ((modules: BacklandModules) => ObjectDefinitionInput);
+    | ((modules: SolarwindModules) => ObjectDefinitionInput);
 
   constructor(
-    objectDef: HandledInput | ((modules: BacklandModules) => HandledInput)
+    objectDef: HandledInput | ((modules: SolarwindModules) => HandledInput)
   ) {
     this.inputDefinition = objectDef as ObjectDefinitionInput;
     this.__withCache = withCache(this);
@@ -600,7 +600,7 @@ export class ObjectType<
   }
 }
 
-export const BacklandObject = ObjectType;
+export const SolarwindObject = ObjectType;
 
 export type ObjectTypeFromInput<
   DefinitionInput extends Readonly<ObjectDefinitionInput>
@@ -640,7 +640,7 @@ export function createObjectType<
   return new ObjectType(fields) as any;
 }
 
-export const createBacklandObject = createObjectType;
+export const createSolarwindObject = createObjectType;
 export const createSchema = createObjectType;
 export const resetTypesCache = ObjectType.reset;
 

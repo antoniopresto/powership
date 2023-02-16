@@ -2,7 +2,7 @@
  * Used to represent an object as another object field
  */
 
-import { TypeLike } from '@backland/utils';
+import { TypeLike } from '@swind/utils';
 
 import { CircularDeps } from '../CircularDeps';
 import type { ObjectDefinitionInput } from '../ObjectType';

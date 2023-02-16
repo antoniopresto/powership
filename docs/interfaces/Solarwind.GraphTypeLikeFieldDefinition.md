@@ -1,15 +1,15 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / GraphTypeLikeFieldDefinition
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / GraphTypeLikeFieldDefinition
 
 # Interface: GraphTypeLikeFieldDefinition
 
-[Backland](../modules/Backland.md).GraphTypeLikeFieldDefinition
+[Solarwind](../modules/Solarwind.md).GraphTypeLikeFieldDefinition
 
 ## Table of contents
 
 ### Properties
 
-- [\_\_isGraphType](Backland.GraphTypeLikeFieldDefinition.md#__isgraphtype)
-- [definition](Backland.GraphTypeLikeFieldDefinition.md#definition)
+- [\_\_isGraphType](Solarwind.GraphTypeLikeFieldDefinition.md#__isgraphtype)
+- [definition](Solarwind.GraphTypeLikeFieldDefinition.md#definition)
 
 ## Properties
 

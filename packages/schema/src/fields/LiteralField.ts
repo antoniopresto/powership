@@ -1,7 +1,7 @@
-import { BJSON, inspectObject } from '@backland/utils';
-import { RuntimeError } from '@backland/utils';
-import { getTypeName } from '@backland/utils';
-import { Serializable } from '@backland/utils';
+import { BJSON, inspectObject } from '@swind/utils';
+import { RuntimeError } from '@swind/utils';
+import { getTypeName } from '@swind/utils';
+import { Serializable } from '@swind/utils';
 
 import { FieldType, FieldTypeParser } from './FieldType';
 

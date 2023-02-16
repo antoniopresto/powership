@@ -1,20 +1,20 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Mongo Transporter for Backland.](../modules/Mongo_Transporter_for_Backland_.md) / MongoDataLoader
+[Solarwind](../README.md) / [Modules](../modules.md) / [Mongo Transporter for Solarwind.](../modules/Mongo_Transporter_for_Solarwind_.md) / MongoDataLoader
 
 # Class: MongoDataLoader
 
-[Mongo Transporter for Backland.](../modules/Mongo_Transporter_for_Backland_.md).MongoDataLoader
+[Mongo Transporter for Solarwind.](../modules/Mongo_Transporter_for_Solarwind_.md).MongoDataLoader
 
 ## Table of contents
 
 ### Constructors
 
-- [constructor](Mongo_Transporter_for_Backland_.MongoDataLoader.md#constructor)
+- [constructor](Mongo_Transporter_for_Solarwind_.MongoDataLoader.md#constructor)
 
 ### Methods
 
-- [fetchData](Mongo_Transporter_for_Backland_.MongoDataLoader.md#fetchdata)
-- [findMany](Mongo_Transporter_for_Backland_.MongoDataLoader.md#findmany)
-- [loadManyQueries](Mongo_Transporter_for_Backland_.MongoDataLoader.md#loadmanyqueries)
+- [fetchData](Mongo_Transporter_for_Solarwind_.MongoDataLoader.md#fetchdata)
+- [findMany](Mongo_Transporter_for_Solarwind_.MongoDataLoader.md#findmany)
+- [loadManyQueries](Mongo_Transporter_for_Solarwind_.MongoDataLoader.md#loadmanyqueries)
 
 ## Constructors
 
@@ -26,7 +26,7 @@
 
 | Name | Type |
 | :------ | :------ |
-| `options` | [`MongoDataLoaderOptions`](../modules/Mongo_Transporter_for_Backland_.md#mongodataloaderoptions) |
+| `options` | [`MongoDataLoaderOptions`](../modules/Mongo_Transporter_for_Solarwind_.md#mongodataloaderoptions) |
 
 #### Defined in
 
@@ -42,7 +42,7 @@
 
 | Name | Type |
 | :------ | :------ |
-| `queryList` | readonly [`MongoDataLoaderKey`](../interfaces/Mongo_Transporter_for_Backland_.MongoDataLoaderKey.md)[] |
+| `queryList` | readonly [`MongoDataLoaderKey`](../interfaces/Mongo_Transporter_for_Solarwind_.MongoDataLoaderKey.md)[] |
 
 #### Returns
 
@@ -56,17 +56,17 @@ ___
 
 ### findMany
 
-▸ **findMany**(`params`): `Promise`<`any`\> & { `__usedParameters`: { `_isParsed`: `boolean` = true; `dataLoaderKey`: [`MongoDataLoaderKey`](../interfaces/Mongo_Transporter_for_Backland_.MongoDataLoaderKey.md) ; `dataloaderHash`: `string` ; `queryHash`: `string`  }  }
+▸ **findMany**(`params`): `Promise`<`any`\> & { `__usedParameters`: { `_isParsed`: `boolean` = true; `dataLoaderKey`: [`MongoDataLoaderKey`](../interfaces/Mongo_Transporter_for_Solarwind_.MongoDataLoaderKey.md) ; `dataloaderHash`: `string` ; `queryHash`: `string`  }  }
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `params` | [`MongoFindManyParams`](../interfaces/Mongo_Transporter_for_Backland_.MongoFindManyParams.md) \| { `_isParsed`: `boolean` = true; `dataLoaderKey`: [`MongoDataLoaderKey`](../interfaces/Mongo_Transporter_for_Backland_.MongoDataLoaderKey.md) ; `dataloaderHash`: `string` ; `queryHash`: `string`  } |
+| `params` | [`MongoFindManyParams`](../interfaces/Mongo_Transporter_for_Solarwind_.MongoFindManyParams.md) \| { `_isParsed`: `boolean` = true; `dataLoaderKey`: [`MongoDataLoaderKey`](../interfaces/Mongo_Transporter_for_Solarwind_.MongoDataLoaderKey.md) ; `dataloaderHash`: `string` ; `queryHash`: `string`  } |
 
 #### Returns
 
-`Promise`<`any`\> & { `__usedParameters`: { `_isParsed`: `boolean` = true; `dataLoaderKey`: [`MongoDataLoaderKey`](../interfaces/Mongo_Transporter_for_Backland_.MongoDataLoaderKey.md) ; `dataloaderHash`: `string` ; `queryHash`: `string`  }  }
+`Promise`<`any`\> & { `__usedParameters`: { `_isParsed`: `boolean` = true; `dataLoaderKey`: [`MongoDataLoaderKey`](../interfaces/Mongo_Transporter_for_Solarwind_.MongoDataLoaderKey.md) ; `dataloaderHash`: `string` ; `queryHash`: `string`  }  }
 
 #### Defined in
 
@@ -76,17 +76,17 @@ ___
 
 ### loadManyQueries
 
-▸ **loadManyQueries**(`options`): `Promise`<`any`\> & { `__usedParameters`: { `_isParsed`: `boolean` = true; `dataLoaderKey`: [`MongoDataLoaderKey`](../interfaces/Mongo_Transporter_for_Backland_.MongoDataLoaderKey.md) ; `dataloaderHash`: `string` ; `queryHash`: `string`  }[]  }
+▸ **loadManyQueries**(`options`): `Promise`<`any`\> & { `__usedParameters`: { `_isParsed`: `boolean` = true; `dataLoaderKey`: [`MongoDataLoaderKey`](../interfaces/Mongo_Transporter_for_Solarwind_.MongoDataLoaderKey.md) ; `dataloaderHash`: `string` ; `queryHash`: `string`  }[]  }
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `options` | { `_isParsed`: `boolean` = true; `dataLoaderKey`: [`MongoDataLoaderKey`](../interfaces/Mongo_Transporter_for_Backland_.MongoDataLoaderKey.md) ; `dataloaderHash`: `string` ; `queryHash`: `string`  }[] \| [`MongoFindManyParams`](../interfaces/Mongo_Transporter_for_Backland_.MongoFindManyParams.md)[] |
+| `options` | { `_isParsed`: `boolean` = true; `dataLoaderKey`: [`MongoDataLoaderKey`](../interfaces/Mongo_Transporter_for_Solarwind_.MongoDataLoaderKey.md) ; `dataloaderHash`: `string` ; `queryHash`: `string`  }[] \| [`MongoFindManyParams`](../interfaces/Mongo_Transporter_for_Solarwind_.MongoFindManyParams.md)[] |
 
 #### Returns
 
-`Promise`<`any`\> & { `__usedParameters`: { `_isParsed`: `boolean` = true; `dataLoaderKey`: [`MongoDataLoaderKey`](../interfaces/Mongo_Transporter_for_Backland_.MongoDataLoaderKey.md) ; `dataloaderHash`: `string` ; `queryHash`: `string`  }[]  }
+`Promise`<`any`\> & { `__usedParameters`: { `_isParsed`: `boolean` = true; `dataLoaderKey`: [`MongoDataLoaderKey`](../interfaces/Mongo_Transporter_for_Solarwind_.MongoDataLoaderKey.md) ; `dataloaderHash`: `string` ; `queryHash`: `string`  }[]  }
 
 #### Defined in
 

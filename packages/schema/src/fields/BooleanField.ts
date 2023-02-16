@@ -1,4 +1,4 @@
-import { getTypeName } from '@backland/utils';
+import { getTypeName } from '@swind/utils';
 
 import { FieldType, FieldTypeParser } from './FieldType';
 

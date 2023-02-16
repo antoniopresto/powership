@@ -1,4 +1,4 @@
-import { Compute, IsKnown, MaybePromise } from '@backland/utils';
+import { Compute, IsKnown, MaybePromise } from '@swind/utils';
 import {
   GraphQLField,
   GraphQLFieldConfig,
@@ -106,7 +106,7 @@ function _createResolver(options: any): Resolver<any, any, any, any> {
 
   GraphType.resolvers.set(name, result);
 
-  CircularDeps.typesWriter?.BacklandWatchTypesPubSub.emit('created', {
+  CircularDeps.typesWriter?.SolarwindWatchTypesPubSub.emit('created', {
     resolver: result,
   });
 

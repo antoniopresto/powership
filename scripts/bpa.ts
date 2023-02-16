@@ -45,7 +45,7 @@ root(`git add -A && git commit -m "published version ${version}" && git push -f`
 
 function updateVersion(json: any, key: keyof any) {
   Object.keys(json[key] || {}).forEach((dep) => {
-    if (dep.match(/backland/)) {
+    if (dep.match(/solarwind/)) {
       json[key]![dep] = version;
     }
   });

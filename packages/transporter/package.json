@@ -1,5 +1,5 @@
 {
-  "name": "@backland/transporter",
+  "name": "@swind/transporter",
   "version": "0.2.10",
   "main": "lib/index.js",
   "sideEffects": false,
@@ -20,10 +20,10 @@
     "declarations": "tsc -p tsconfig.declarations.json",
     "babild": "babel 'src' --extensions '.ts,.tsx'"
   },
-  "description": "Backland db",
+  "description": "Solarwind db",
   "repository": {
     "type": "git",
-    "url": "https://github.com/antoniopresto/backland/tree/master/packages/db"
+    "url": "https://github.com/antoniopresto/solarwind/tree/master/packages/db"
   },
   "keywords": [
     "typescript",
@@ -34,8 +34,8 @@
     "inference"
   ],
   "dependencies": {
-    "@backland/schema": "0.2.10",
-    "@backland/utils": "0.2.10",
+    "@swind/schema": "0.2.10",
+    "@swind/utils": "0.2.10",
     "dataloader": "2.1.0",
     "plugin-hooks": "1.1.3",
     "sift": "16.0.0"
@@ -45,7 +45,7 @@
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@backland/babel-plugins": "0.2.10",
+    "@swind/babel-plugins": "0.2.10",
     "@types/jest": "29.1.2",
     "@types/node": "16.18.3",
     "@typescript-eslint/eslint-plugin": "5.39.0",
@@ -79,7 +79,7 @@
   "typedoc": {
     "entryPoint": "./src/index.ts",
     "readmeFile": "./README.md",
-    "displayName": "Transporter - Base to connect any Database to Backland.",
+    "displayName": "Transporter - Base to connect any Database to Solarwind.",
     "tsconfig": "./tsconfig.module.json"
   }
 }

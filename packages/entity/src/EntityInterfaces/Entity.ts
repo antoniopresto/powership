@@ -1,4 +1,4 @@
-import { DocumentIndexItem } from '@backland/transporter';
+import { DocumentIndexItem } from '@swind/transporter';
 
 import { EntityTypesContext } from './Context';
 import { EntityFromContext } from './EntityFromContext';

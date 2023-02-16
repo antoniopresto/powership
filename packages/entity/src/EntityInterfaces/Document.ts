@@ -1,4 +1,4 @@
-import { IsKnown, Merge } from '@backland/utils';
+import { IsKnown, Merge } from '@swind/utils';
 
 export type EntityDocumentBase = {
   _v: string;

@@ -1,8 +1,8 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / EntityTypesContext
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / EntityTypesContext
 
 # Interface: EntityTypesContext<InputDef, Indexes\>
 
-[Backland](../modules/Backland.md).EntityTypesContext
+[Solarwind](../modules/Solarwind.md).EntityTypesContext
 
 ## Type parameters
 
@@ -15,19 +15,19 @@
 
 ### Properties
 
-- [document](Backland.EntityTypesContext.md#document)
-- [documentBase](Backland.EntityTypesContext.md#documentbase)
-- [documentCreationInput](Backland.EntityTypesContext.md#documentcreationinput)
-- [indexes](Backland.EntityTypesContext.md#indexes)
-- [options](Backland.EntityTypesContext.md#options)
-- [originDefinition](Backland.EntityTypesContext.md#origindefinition)
-- [outputDefinition](Backland.EntityTypesContext.md#outputdefinition)
+- [document](Solarwind.EntityTypesContext.md#document)
+- [documentBase](Solarwind.EntityTypesContext.md#documentbase)
+- [documentCreationInput](Solarwind.EntityTypesContext.md#documentcreationinput)
+- [indexes](Solarwind.EntityTypesContext.md#indexes)
+- [options](Solarwind.EntityTypesContext.md#options)
+- [originDefinition](Solarwind.EntityTypesContext.md#origindefinition)
+- [outputDefinition](Solarwind.EntityTypesContext.md#outputdefinition)
 
 ## Properties
 
 ### document
 
-• **document**: `IsKnown`<`InputDef`\> extends ``1`` ? [`InputDef`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `InputDef` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}
+• **document**: `IsKnown`<`InputDef`\> extends ``1`` ? [`InputDef`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `InputDef` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}
 
 #### Defined in
 
@@ -37,7 +37,7 @@ ___
 
 ### documentBase
 
-• **documentBase**: `IsKnown`<`InputDef`\> extends ``1`` ? [`InputDef`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `InputDef` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {}
+• **documentBase**: `IsKnown`<`InputDef`\> extends ``1`` ? [`InputDef`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `InputDef` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {}
 
 #### Defined in
 
@@ -47,7 +47,7 @@ ___
 
 ### documentCreationInput
 
-• **documentCreationInput**: `IsKnown`<`InputDef`\> extends ``1`` ? [`InputDef`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `InputDef` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocumentInput`](../modules/Backland.md#entitydocumentinput)<`D`\> : {}
+• **documentCreationInput**: `IsKnown`<`InputDef`\> extends ``1`` ? [`InputDef`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `InputDef` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocumentInput`](../modules/Solarwind.md#entitydocumentinput)<`D`\> : {}
 
 #### Defined in
 
@@ -57,7 +57,7 @@ ___
 
 ### indexes
 
-• **indexes**: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []
+• **indexes**: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []
 
 #### Defined in
 
@@ -67,7 +67,7 @@ ___
 
 ### options
 
-• **options**: [`EntityOptions`](../modules/Backland.md#entityoptions)<`IsKnown`<`InputDef`\> extends ``1`` ? [`InputDef`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `InputDef` : {} : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>
+• **options**: [`EntityOptions`](../modules/Solarwind.md#entityoptions)<`IsKnown`<`InputDef`\> extends ``1`` ? [`InputDef`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `InputDef` : {} : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>
 
 #### Defined in
 
@@ -77,7 +77,7 @@ ___
 
 ### originDefinition
 
-• **originDefinition**: `IsKnown`<`InputDef`\> extends ``1`` ? [`InputDef`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `InputDef` : {} : {}
+• **originDefinition**: `IsKnown`<`InputDef`\> extends ``1`` ? [`InputDef`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `InputDef` : {} : {}
 
 #### Defined in
 
@@ -87,7 +87,7 @@ ___
 
 ### outputDefinition
 
-• **outputDefinition**: `IsKnown`<`InputDef`\> extends ``1`` ? [`InputDef`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `InputDef` : {} : {} extends `D` ? `D` extends `object` ? `MergeFlat`<`Omit`<`EntityDocumentBaseDef`<``false``\>, keyof `D`\>, `D`, `BuiltIn`, `undefined`\> : `never` : {}
+• **outputDefinition**: `IsKnown`<`InputDef`\> extends ``1`` ? [`InputDef`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `InputDef` : {} : {} extends `D` ? `D` extends `object` ? `MergeFlat`<`Omit`<`EntityDocumentBaseDef`<``false``\>, keyof `D`\>, `D`, `BuiltIn`, `undefined`\> : `never` : {}
 
 #### Defined in
 

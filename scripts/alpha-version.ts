@@ -7,17 +7,17 @@ runmate().map(({ saveJSON, json, run }) => {
   json.version = version;
 
   Object.keys(json.dependencies || {}).forEach((dep) => {
-    if (dep.match(/backland/)) {
+    if (dep.match(/solarwind/)) {
       json.dependencies![dep] = version;
     }
   });
   Object.keys(json.peerDependencies || {}).forEach((dep) => {
-    if (dep.match(/backland/)) {
+    if (dep.match(/solarwind/)) {
       json.peerDependencies![dep] = version;
     }
   });
   Object.keys(json.devDependencies || {}).forEach((dep) => {
-    if (dep.match(/backland/)) {
+    if (dep.match(/solarwind/)) {
       json.devDependencies![dep] = version;
     }
   });

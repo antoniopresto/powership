@@ -1,4 +1,4 @@
-import { parseObjectDefinition } from '@backland/schema';
+import { parseObjectDefinition } from '@swind/schema';
 
 export const createEntityDocumentBase = <Optional extends Readonly<boolean>>(
   optional: Optional = false as Optional

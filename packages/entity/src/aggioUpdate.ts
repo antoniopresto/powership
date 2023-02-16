@@ -3,14 +3,14 @@ import {
   FilterRecord,
   parseUpdateExpression,
   UpdateExpression,
-} from '@backland/transporter';
+} from '@swind/transporter';
 import {
   createDB,
   ensureArray,
   inspectObject,
   TDocument,
   UpdateDefinition,
-} from '@backland/utils';
+} from '@swind/utils';
 
 export const _testingIndexConfig: AnyCollectionIndexConfig = {
   entity: 'temp',

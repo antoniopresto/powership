@@ -1,5 +1,5 @@
-import { createEntity } from '@backland/entity';
-import { Infer } from '@backland/schema';
+import { createEntity } from '@swind/entity';
+import { Infer } from '@swind/schema';
 
 import { SessionType } from '../types/SessionType';
 

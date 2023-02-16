@@ -1,12 +1,12 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / CursorField
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / CursorField
 
 # Class: CursorField
 
-[Backland](../modules/Backland.md).CursorField
+[Solarwind](../modules/Solarwind.md).CursorField
 
 ## Hierarchy
 
-- [`FieldType`](Backland.FieldType.md)<[`CursorType`](../modules/Backland.md#cursortype), ``"cursor"``, `undefined`\>
+- [`FieldType`](Solarwind.FieldType.md)<[`CursorType`](../modules/Solarwind.md#cursortype), ``"cursor"``, `undefined`\>
 
   ↳ **`CursorField`**
 
@@ -14,46 +14,46 @@
 
 ### Constructors
 
-- [constructor](Backland.CursorField.md#constructor)
+- [constructor](Solarwind.CursorField.md#constructor)
 
 ### Properties
 
-- [\_\_\_inferable](Backland.CursorField.md#___inferable)
-- [\_\_isFieldType](Backland.CursorField.md#__isfieldtype)
-- [applyParser](Backland.CursorField.md#applyparser)
-- [clone](Backland.CursorField.md#clone)
-- [composer](Backland.CursorField.md#composer)
-- [def](Backland.CursorField.md#def)
-- [defaultValue](Backland.CursorField.md#defaultvalue)
-- [describe](Backland.CursorField.md#describe)
-- [describeField](Backland.CursorField.md#describefield)
-- [description](Backland.CursorField.md#description)
-- [hidden](Backland.CursorField.md#hidden)
-- [id](Backland.CursorField.md#id)
-- [list](Backland.CursorField.md#list)
-- [name](Backland.CursorField.md#name)
-- [optional](Backland.CursorField.md#optional)
-- [options](Backland.CursorField.md#options)
-- [parse](Backland.CursorField.md#parse)
-- [type](Backland.CursorField.md#type)
-- [typeName](Backland.CursorField.md#typename)
-- [utils](Backland.CursorField.md#utils)
-- [create](Backland.CursorField.md#create)
+- [\_\_\_inferable](Solarwind.CursorField.md#___inferable)
+- [\_\_isFieldType](Solarwind.CursorField.md#__isfieldtype)
+- [applyParser](Solarwind.CursorField.md#applyparser)
+- [clone](Solarwind.CursorField.md#clone)
+- [composer](Solarwind.CursorField.md#composer)
+- [def](Solarwind.CursorField.md#def)
+- [defaultValue](Solarwind.CursorField.md#defaultvalue)
+- [describe](Solarwind.CursorField.md#describe)
+- [describeField](Solarwind.CursorField.md#describefield)
+- [description](Solarwind.CursorField.md#description)
+- [hidden](Solarwind.CursorField.md#hidden)
+- [id](Solarwind.CursorField.md#id)
+- [list](Solarwind.CursorField.md#list)
+- [name](Solarwind.CursorField.md#name)
+- [optional](Solarwind.CursorField.md#optional)
+- [options](Solarwind.CursorField.md#options)
+- [parse](Solarwind.CursorField.md#parse)
+- [type](Solarwind.CursorField.md#type)
+- [typeName](Solarwind.CursorField.md#typename)
+- [utils](Solarwind.CursorField.md#utils)
+- [create](Solarwind.CursorField.md#create)
 
 ### Accessors
 
-- [asFinalFieldDef](Backland.CursorField.md#asfinalfielddef)
-- [definition](Backland.CursorField.md#definition)
+- [asFinalFieldDef](Solarwind.CursorField.md#asfinalfielddef)
+- [definition](Solarwind.CursorField.md#definition)
 
 ### Methods
 
-- [is](Backland.CursorField.md#is)
-- [setDefaultValue](Backland.CursorField.md#setdefaultvalue)
-- [toList](Backland.CursorField.md#tolist)
-- [toOptional](Backland.CursorField.md#tooptional)
-- [toRequired](Backland.CursorField.md#torequired)
-- [validate](Backland.CursorField.md#validate)
-- [object](Backland.CursorField.md#object)
+- [is](Solarwind.CursorField.md#is)
+- [setDefaultValue](Solarwind.CursorField.md#setdefaultvalue)
+- [toList](Solarwind.CursorField.md#tolist)
+- [toOptional](Solarwind.CursorField.md#tooptional)
+- [toRequired](Solarwind.CursorField.md#torequired)
+- [validate](Solarwind.CursorField.md#validate)
+- [object](Solarwind.CursorField.md#object)
 
 ## Constructors
 
@@ -73,11 +73,11 @@ packages/schema/lib/fields/CursorField.d.ts:123
 
 ### \_\_\_inferable
 
-• **\_\_\_inferable**: [`CursorType`](../modules/Backland.md#cursortype)
+• **\_\_\_inferable**: [`CursorType`](../modules/Solarwind.md#cursortype)
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[___inferable](Backland.FieldType.md#___inferable)
+[FieldType](Solarwind.FieldType.md).[___inferable](Solarwind.FieldType.md#___inferable)
 
 #### Defined in
 
@@ -91,7 +91,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[__isFieldType](Backland.FieldType.md#__isfieldtype)
+[FieldType](Solarwind.FieldType.md).[__isFieldType](Solarwind.FieldType.md#__isfieldtype)
 
 #### Defined in
 
@@ -101,11 +101,11 @@ ___
 
 ### applyParser
 
-• **applyParser**: <Type_1\>(`parser`: { `parse`: (`input`: `any`, `_options`: [`FieldParserOptionsObject`](../modules/Backland.md#fieldparseroptionsobject)) => `Type_1` ; `preParse?`: (`input`: `any`) => `Type_1`  }) => [`FieldTypeParser`](../modules/Backland.md#fieldtypeparser)<`Type_1`\>
+• **applyParser**: <Type_1\>(`parser`: { `parse`: (`input`: `any`, `_options`: [`FieldParserOptionsObject`](../modules/Solarwind.md#fieldparseroptionsobject)) => `Type_1` ; `preParse?`: (`input`: `any`) => `Type_1`  }) => [`FieldTypeParser`](../modules/Solarwind.md#fieldtypeparser)<`Type_1`\>
 
 #### Type declaration
 
-▸ <`Type_1`\>(`parser`): [`FieldTypeParser`](../modules/Backland.md#fieldtypeparser)<`Type_1`\>
+▸ <`Type_1`\>(`parser`): [`FieldTypeParser`](../modules/Solarwind.md#fieldtypeparser)<`Type_1`\>
 
 ##### Type parameters
 
@@ -118,16 +118,16 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `parser` | `Object` |
-| `parser.parse` | (`input`: `any`, `_options`: [`FieldParserOptionsObject`](../modules/Backland.md#fieldparseroptionsobject)) => `Type_1` |
+| `parser.parse` | (`input`: `any`, `_options`: [`FieldParserOptionsObject`](../modules/Solarwind.md#fieldparseroptionsobject)) => `Type_1` |
 | `parser.preParse?` | (`input`: `any`) => `Type_1` |
 
 ##### Returns
 
-[`FieldTypeParser`](../modules/Backland.md#fieldtypeparser)<`Type_1`\>
+[`FieldTypeParser`](../modules/Solarwind.md#fieldtypeparser)<`Type_1`\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[applyParser](Backland.FieldType.md#applyparser)
+[FieldType](Solarwind.FieldType.md).[applyParser](Solarwind.FieldType.md#applyparser)
 
 #### Defined in
 
@@ -137,19 +137,19 @@ ___
 
 ### clone
 
-• **clone**: () => [`FieldType`](Backland.FieldType.md)<[`CursorType`](../modules/Backland.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
+• **clone**: () => [`FieldType`](Solarwind.FieldType.md)<[`CursorType`](../modules/Solarwind.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
 
 #### Type declaration
 
-▸ (): [`FieldType`](Backland.FieldType.md)<[`CursorType`](../modules/Backland.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
+▸ (): [`FieldType`](Solarwind.FieldType.md)<[`CursorType`](../modules/Solarwind.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
 
 ##### Returns
 
-[`FieldType`](Backland.FieldType.md)<[`CursorType`](../modules/Backland.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
+[`FieldType`](Solarwind.FieldType.md)<[`CursorType`](../modules/Solarwind.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[clone](Backland.FieldType.md#clone)
+[FieldType](Solarwind.FieldType.md).[clone](Solarwind.FieldType.md#clone)
 
 #### Defined in
 
@@ -159,11 +159,11 @@ ___
 
 ### composer
 
-• **composer**: `undefined` \| [`FieldComposer`](../modules/Backland.md#fieldcomposer)<`Record`<`string`, `any`\>, [`CursorType`](../modules/Backland.md#cursortype)\>
+• **composer**: `undefined` \| [`FieldComposer`](../modules/Solarwind.md#fieldcomposer)<`Record`<`string`, `any`\>, [`CursorType`](../modules/Solarwind.md#cursortype)\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[composer](Backland.FieldType.md#composer)
+[FieldType](Solarwind.FieldType.md).[composer](Solarwind.FieldType.md#composer)
 
 #### Defined in
 
@@ -177,7 +177,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[def](Backland.FieldType.md#def)
+[FieldType](Solarwind.FieldType.md).[def](Solarwind.FieldType.md#def)
 
 #### Defined in
 
@@ -191,7 +191,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[defaultValue](Backland.FieldType.md#defaultvalue)
+[FieldType](Solarwind.FieldType.md).[defaultValue](Solarwind.FieldType.md#defaultvalue)
 
 #### Defined in
 
@@ -201,11 +201,11 @@ ___
 
 ### describe
 
-• **describe**: (`description`: `string`) => [`CursorField`](Backland.CursorField.md)
+• **describe**: (`description`: `string`) => [`CursorField`](Solarwind.CursorField.md)
 
 #### Type declaration
 
-▸ (`description`): [`CursorField`](Backland.CursorField.md)
+▸ (`description`): [`CursorField`](Solarwind.CursorField.md)
 
 ##### Parameters
 
@@ -215,11 +215,11 @@ ___
 
 ##### Returns
 
-[`CursorField`](Backland.CursorField.md)
+[`CursorField`](Solarwind.CursorField.md)
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[describe](Backland.FieldType.md#describe)
+[FieldType](Solarwind.FieldType.md).[describe](Solarwind.FieldType.md#describe)
 
 #### Defined in
 
@@ -229,7 +229,7 @@ ___
 
 ### describeField
 
-• **describeField**: () => { `def`: `undefined` ; `defaultValue`: `undefined` ; `description`: `undefined` \| `string` ; `hidden`: `boolean` ; `list`: ``false`` ; `optional`: ``false`` ; `type`: [`CursorType`](../modules/Backland.md#cursortype)  }
+• **describeField**: () => { `def`: `undefined` ; `defaultValue`: `undefined` ; `description`: `undefined` \| `string` ; `hidden`: `boolean` ; `list`: ``false`` ; `optional`: ``false`` ; `type`: [`CursorType`](../modules/Solarwind.md#cursortype)  }
 
 #### Type declaration
 
@@ -247,11 +247,11 @@ ___
 | `hidden` | `boolean` |
 | `list` | ``false`` |
 | `optional` | ``false`` |
-| `type` | [`CursorType`](../modules/Backland.md#cursortype) |
+| `type` | [`CursorType`](../modules/Solarwind.md#cursortype) |
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[describeField](Backland.FieldType.md#describefield)
+[FieldType](Solarwind.FieldType.md).[describeField](Solarwind.FieldType.md#describefield)
 
 #### Defined in
 
@@ -265,7 +265,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[description](Backland.FieldType.md#description)
+[FieldType](Solarwind.FieldType.md).[description](Solarwind.FieldType.md#description)
 
 #### Defined in
 
@@ -279,7 +279,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[hidden](Backland.FieldType.md#hidden)
+[FieldType](Solarwind.FieldType.md).[hidden](Solarwind.FieldType.md#hidden)
 
 #### Defined in
 
@@ -293,7 +293,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[id](Backland.FieldType.md#id)
+[FieldType](Solarwind.FieldType.md).[id](Solarwind.FieldType.md#id)
 
 #### Defined in
 
@@ -307,7 +307,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[list](Backland.FieldType.md#list)
+[FieldType](Solarwind.FieldType.md).[list](Solarwind.FieldType.md#list)
 
 #### Defined in
 
@@ -321,7 +321,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[name](Backland.FieldType.md#name)
+[FieldType](Solarwind.FieldType.md).[name](Solarwind.FieldType.md#name)
 
 #### Defined in
 
@@ -335,7 +335,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[optional](Backland.FieldType.md#optional)
+[FieldType](Solarwind.FieldType.md).[optional](Solarwind.FieldType.md#optional)
 
 #### Defined in
 
@@ -349,7 +349,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[options](Backland.FieldType.md#options)
+[FieldType](Solarwind.FieldType.md).[options](Solarwind.FieldType.md#options)
 
 #### Defined in
 
@@ -359,11 +359,11 @@ ___
 
 ### parse
 
-• **parse**: [`FieldTypeParser`](../modules/Backland.md#fieldtypeparser)<[`CursorType`](../modules/Backland.md#cursortype)\>
+• **parse**: [`FieldTypeParser`](../modules/Solarwind.md#fieldtypeparser)<[`CursorType`](../modules/Solarwind.md#cursortype)\>
 
 #### Overrides
 
-[FieldType](Backland.FieldType.md).[parse](Backland.FieldType.md#parse)
+[FieldType](Solarwind.FieldType.md).[parse](Solarwind.FieldType.md#parse)
 
 #### Defined in
 
@@ -377,7 +377,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[type](Backland.FieldType.md#type)
+[FieldType](Solarwind.FieldType.md).[type](Solarwind.FieldType.md#type)
 
 #### Defined in
 
@@ -391,7 +391,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[typeName](Backland.FieldType.md#typename)
+[FieldType](Solarwind.FieldType.md).[typeName](Solarwind.FieldType.md#typename)
 
 #### Defined in
 
@@ -407,7 +407,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `object` | [`ObjectType`](Backland.ObjectType.md)<{ `PK`: { `description`: ``"Primary Key"`` ; `string`: {}  } ; `SK`: { `description`: ``"Secondary or Sort Key"`` ; `optional`: ``true`` ; `string`: {}  } ; `after`: { `optional`: ``true`` ; `string`: {}  } ; `fields`: { `list`: ``true`` ; `optional`: ``true`` ; `string`: {}  } ; `limit`: { `int`: {} ; `optional`: ``true``  } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` ; `optional`: ``true`` ; `string`: {}  } ; `sep`: { `description`: ``"Composite key separator"`` ; `optional`: ``true`` ; `string`: {}  } ; `version`: { `description`: ``"The Cursor format version"`` ; `string`: {}  }  }, { `PK`: { `description`: ``"Primary Key"`` ; `string`: {}  } ; `SK`: { `description`: ``"Secondary or Sort Key"`` ; `optional`: ``true`` ; `string`: {}  } ; `after`: { `optional`: ``true`` ; `string`: {}  } ; `fields`: { `list`: ``true`` ; `optional`: ``true`` ; `string`: {}  } ; `limit`: { `int`: {} ; `optional`: ``true``  } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` ; `optional`: ``true`` ; `string`: {}  } ; `sep`: { `description`: ``"Composite key separator"`` ; `optional`: ``true`` ; `string`: {}  } ; `version`: { `description`: ``"The Cursor format version"`` ; `string`: {}  }  }\> |
+| `object` | [`ObjectType`](Solarwind.ObjectType.md)<{ `PK`: { `description`: ``"Primary Key"`` ; `string`: {}  } ; `SK`: { `description`: ``"Secondary or Sort Key"`` ; `optional`: ``true`` ; `string`: {}  } ; `after`: { `optional`: ``true`` ; `string`: {}  } ; `fields`: { `list`: ``true`` ; `optional`: ``true`` ; `string`: {}  } ; `limit`: { `int`: {} ; `optional`: ``true``  } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` ; `optional`: ``true`` ; `string`: {}  } ; `sep`: { `description`: ``"Composite key separator"`` ; `optional`: ``true`` ; `string`: {}  } ; `version`: { `description`: ``"The Cursor format version"`` ; `string`: {}  }  }, { `PK`: { `description`: ``"Primary Key"`` ; `string`: {}  } ; `SK`: { `description`: ``"Secondary or Sort Key"`` ; `optional`: ``true`` ; `string`: {}  } ; `after`: { `optional`: ``true`` ; `string`: {}  } ; `fields`: { `list`: ``true`` ; `optional`: ``true`` ; `string`: {}  } ; `limit`: { `int`: {} ; `optional`: ``true``  } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` ; `optional`: ``true`` ; `string`: {}  } ; `sep`: { `description`: ``"Composite key separator"`` ; `optional`: ``true`` ; `string`: {}  } ; `version`: { `description`: ``"The Cursor format version"`` ; `string`: {}  }  }\> |
 
 #### Defined in
 
@@ -417,19 +417,19 @@ ___
 
 ### create
 
-▪ `Static` **create**: () => [`CursorField`](Backland.CursorField.md)
+▪ `Static` **create**: () => [`CursorField`](Solarwind.CursorField.md)
 
 #### Type declaration
 
-▸ (): [`CursorField`](Backland.CursorField.md)
+▸ (): [`CursorField`](Solarwind.CursorField.md)
 
 ##### Returns
 
-[`CursorField`](Backland.CursorField.md)
+[`CursorField`](Solarwind.CursorField.md)
 
 #### Overrides
 
-[FieldType](Backland.FieldType.md).[create](Backland.FieldType.md#create)
+[FieldType](Solarwind.FieldType.md).[create](Solarwind.FieldType.md#create)
 
 #### Defined in
 
@@ -439,11 +439,11 @@ packages/schema/lib/fields/CursorField.d.ts:124
 
 ### asFinalFieldDef
 
-• `get` **asFinalFieldDef**(): [`AllFinalFieldDefinitions`](../modules/Backland.md#allfinalfielddefinitions)[`TypeName`]
+• `get` **asFinalFieldDef**(): [`AllFinalFieldDefinitions`](../modules/Solarwind.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Returns
 
-[`AllFinalFieldDefinitions`](../modules/Backland.md#allfinalfielddefinitions)[`TypeName`]
+[`AllFinalFieldDefinitions`](../modules/Solarwind.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Inherited from
 
@@ -457,11 +457,11 @@ ___
 
 ### definition
 
-• `get` **definition**(): [`AllFinalFieldDefinitions`](../modules/Backland.md#allfinalfielddefinitions)[`TypeName`]
+• `get` **definition**(): [`AllFinalFieldDefinitions`](../modules/Solarwind.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Returns
 
-[`AllFinalFieldDefinitions`](../modules/Backland.md#allfinalfielddefinitions)[`TypeName`]
+[`AllFinalFieldDefinitions`](../modules/Solarwind.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Inherited from
 
@@ -489,7 +489,7 @@ input is CursorType
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[is](Backland.FieldType.md#is)
+[FieldType](Solarwind.FieldType.md).[is](Solarwind.FieldType.md#is)
 
 #### Defined in
 
@@ -499,7 +499,7 @@ ___
 
 ### setDefaultValue
 
-▸ **setDefaultValue**<`T`\>(`value`): [`FieldType`](Backland.FieldType.md)<[`CursorType`](../modules/Backland.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``0``, `T`, {}\>
+▸ **setDefaultValue**<`T`\>(`value`): [`FieldType`](Solarwind.FieldType.md)<[`CursorType`](../modules/Solarwind.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``0``, `T`, {}\>
 
 #### Type parameters
 
@@ -515,11 +515,11 @@ ___
 
 #### Returns
 
-[`FieldType`](Backland.FieldType.md)<[`CursorType`](../modules/Backland.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``0``, `T`, {}\>
+[`FieldType`](Solarwind.FieldType.md)<[`CursorType`](../modules/Solarwind.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``0``, `T`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[setDefaultValue](Backland.FieldType.md#setdefaultvalue)
+[FieldType](Solarwind.FieldType.md).[setDefaultValue](Solarwind.FieldType.md#setdefaultvalue)
 
 #### Defined in
 
@@ -529,21 +529,21 @@ ___
 
 ### toList
 
-▸ **toList**(`options?`): [`FieldType`](Backland.FieldType.md)<[`CursorType`](../modules/Backland.md#cursortype), ``"cursor"``, `undefined`, ``1``, ``0``, `undefined`, {}\>
+▸ **toList**(`options?`): [`FieldType`](Solarwind.FieldType.md)<[`CursorType`](../modules/Solarwind.md#cursortype), ``"cursor"``, `undefined`, ``1``, ``0``, `undefined`, {}\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `options?` | [`ListDefinitionTruthy`](../modules/Backland.md#listdefinitiontruthy) |
+| `options?` | [`ListDefinitionTruthy`](../modules/Solarwind.md#listdefinitiontruthy) |
 
 #### Returns
 
-[`FieldType`](Backland.FieldType.md)<[`CursorType`](../modules/Backland.md#cursortype), ``"cursor"``, `undefined`, ``1``, ``0``, `undefined`, {}\>
+[`FieldType`](Solarwind.FieldType.md)<[`CursorType`](../modules/Solarwind.md#cursortype), ``"cursor"``, `undefined`, ``1``, ``0``, `undefined`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[toList](Backland.FieldType.md#tolist)
+[FieldType](Solarwind.FieldType.md).[toList](Solarwind.FieldType.md#tolist)
 
 #### Defined in
 
@@ -553,15 +553,15 @@ ___
 
 ### toOptional
 
-▸ **toOptional**(): [`FieldType`](Backland.FieldType.md)<[`CursorType`](../modules/Backland.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``1``, `undefined`, {}\>
+▸ **toOptional**(): [`FieldType`](Solarwind.FieldType.md)<[`CursorType`](../modules/Solarwind.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``1``, `undefined`, {}\>
 
 #### Returns
 
-[`FieldType`](Backland.FieldType.md)<[`CursorType`](../modules/Backland.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``1``, `undefined`, {}\>
+[`FieldType`](Solarwind.FieldType.md)<[`CursorType`](../modules/Solarwind.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``1``, `undefined`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[toOptional](Backland.FieldType.md#tooptional)
+[FieldType](Solarwind.FieldType.md).[toOptional](Solarwind.FieldType.md#tooptional)
 
 #### Defined in
 
@@ -571,15 +571,15 @@ ___
 
 ### toRequired
 
-▸ **toRequired**(): [`FieldType`](Backland.FieldType.md)<[`CursorType`](../modules/Backland.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
+▸ **toRequired**(): [`FieldType`](Solarwind.FieldType.md)<[`CursorType`](../modules/Solarwind.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
 
 #### Returns
 
-[`FieldType`](Backland.FieldType.md)<[`CursorType`](../modules/Backland.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
+[`FieldType`](Solarwind.FieldType.md)<[`CursorType`](../modules/Solarwind.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[toRequired](Backland.FieldType.md#torequired)
+[FieldType](Solarwind.FieldType.md).[toRequired](Solarwind.FieldType.md#torequired)
 
 #### Defined in
 
@@ -603,7 +603,7 @@ input is CursorType
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[validate](Backland.FieldType.md#validate)
+[FieldType](Solarwind.FieldType.md).[validate](Solarwind.FieldType.md#validate)
 
 #### Defined in
 
@@ -613,11 +613,11 @@ ___
 
 ### object
 
-▸ `Static` **object**(): [`ObjectType`](Backland.ObjectType.md)<{ `PK`: { `description`: ``"Primary Key"`` ; `string`: {}  } ; `SK`: { `description`: ``"Secondary or Sort Key"`` ; `optional`: ``true`` ; `string`: {}  } ; `after`: { `optional`: ``true`` ; `string`: {}  } ; `fields`: { `list`: ``true`` ; `optional`: ``true`` ; `string`: {}  } ; `limit`: { `int`: {} ; `optional`: ``true``  } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` ; `optional`: ``true`` ; `string`: {}  } ; `sep`: { `description`: ``"Composite key separator"`` ; `optional`: ``true`` ; `string`: {}  } ; `version`: { `description`: ``"The Cursor format version"`` ; `string`: {}  }  }, { `PK`: { `description`: ``"Primary Key"`` ; `string`: {}  } ; `SK`: { `description`: ``"Secondary or Sort Key"`` ; `optional`: ``true`` ; `string`: {}  } ; `after`: { `optional`: ``true`` ; `string`: {}  } ; `fields`: { `list`: ``true`` ; `optional`: ``true`` ; `string`: {}  } ; `limit`: { `int`: {} ; `optional`: ``true``  } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` ; `optional`: ``true`` ; `string`: {}  } ; `sep`: { `description`: ``"Composite key separator"`` ; `optional`: ``true`` ; `string`: {}  } ; `version`: { `description`: ``"The Cursor format version"`` ; `string`: {}  }  }\>
+▸ `Static` **object**(): [`ObjectType`](Solarwind.ObjectType.md)<{ `PK`: { `description`: ``"Primary Key"`` ; `string`: {}  } ; `SK`: { `description`: ``"Secondary or Sort Key"`` ; `optional`: ``true`` ; `string`: {}  } ; `after`: { `optional`: ``true`` ; `string`: {}  } ; `fields`: { `list`: ``true`` ; `optional`: ``true`` ; `string`: {}  } ; `limit`: { `int`: {} ; `optional`: ``true``  } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` ; `optional`: ``true`` ; `string`: {}  } ; `sep`: { `description`: ``"Composite key separator"`` ; `optional`: ``true`` ; `string`: {}  } ; `version`: { `description`: ``"The Cursor format version"`` ; `string`: {}  }  }, { `PK`: { `description`: ``"Primary Key"`` ; `string`: {}  } ; `SK`: { `description`: ``"Secondary or Sort Key"`` ; `optional`: ``true`` ; `string`: {}  } ; `after`: { `optional`: ``true`` ; `string`: {}  } ; `fields`: { `list`: ``true`` ; `optional`: ``true`` ; `string`: {}  } ; `limit`: { `int`: {} ; `optional`: ``true``  } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` ; `optional`: ``true`` ; `string`: {}  } ; `sep`: { `description`: ``"Composite key separator"`` ; `optional`: ``true`` ; `string`: {}  } ; `version`: { `description`: ``"The Cursor format version"`` ; `string`: {}  }  }\>
 
 #### Returns
 
-[`ObjectType`](Backland.ObjectType.md)<{ `PK`: { `description`: ``"Primary Key"`` ; `string`: {}  } ; `SK`: { `description`: ``"Secondary or Sort Key"`` ; `optional`: ``true`` ; `string`: {}  } ; `after`: { `optional`: ``true`` ; `string`: {}  } ; `fields`: { `list`: ``true`` ; `optional`: ``true`` ; `string`: {}  } ; `limit`: { `int`: {} ; `optional`: ``true``  } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` ; `optional`: ``true`` ; `string`: {}  } ; `sep`: { `description`: ``"Composite key separator"`` ; `optional`: ``true`` ; `string`: {}  } ; `version`: { `description`: ``"The Cursor format version"`` ; `string`: {}  }  }, { `PK`: { `description`: ``"Primary Key"`` ; `string`: {}  } ; `SK`: { `description`: ``"Secondary or Sort Key"`` ; `optional`: ``true`` ; `string`: {}  } ; `after`: { `optional`: ``true`` ; `string`: {}  } ; `fields`: { `list`: ``true`` ; `optional`: ``true`` ; `string`: {}  } ; `limit`: { `int`: {} ; `optional`: ``true``  } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` ; `optional`: ``true`` ; `string`: {}  } ; `sep`: { `description`: ``"Composite key separator"`` ; `optional`: ``true`` ; `string`: {}  } ; `version`: { `description`: ``"The Cursor format version"`` ; `string`: {}  }  }\>
+[`ObjectType`](Solarwind.ObjectType.md)<{ `PK`: { `description`: ``"Primary Key"`` ; `string`: {}  } ; `SK`: { `description`: ``"Secondary or Sort Key"`` ; `optional`: ``true`` ; `string`: {}  } ; `after`: { `optional`: ``true`` ; `string`: {}  } ; `fields`: { `list`: ``true`` ; `optional`: ``true`` ; `string`: {}  } ; `limit`: { `int`: {} ; `optional`: ``true``  } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` ; `optional`: ``true`` ; `string`: {}  } ; `sep`: { `description`: ``"Composite key separator"`` ; `optional`: ``true`` ; `string`: {}  } ; `version`: { `description`: ``"The Cursor format version"`` ; `string`: {}  }  }, { `PK`: { `description`: ``"Primary Key"`` ; `string`: {}  } ; `SK`: { `description`: ``"Secondary or Sort Key"`` ; `optional`: ``true`` ; `string`: {}  } ; `after`: { `optional`: ``true`` ; `string`: {}  } ; `fields`: { `list`: ``true`` ; `optional`: ``true`` ; `string`: {}  } ; `limit`: { `int`: {} ; `optional`: ``true``  } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` ; `optional`: ``true`` ; `string`: {}  } ; `sep`: { `description`: ``"Composite key separator"`` ; `optional`: ``true`` ; `string`: {}  } ; `version`: { `description`: ``"The Cursor format version"`` ; `string`: {}  }  }\>
 
 #### Defined in
 

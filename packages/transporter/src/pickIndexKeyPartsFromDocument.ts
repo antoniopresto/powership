@@ -4,7 +4,7 @@ import {
   getKeys,
   inspectObject,
   parseIndexFieldName,
-} from '@backland/utils';
+} from '@swind/utils';
 
 import {
   IndexKeyHash,

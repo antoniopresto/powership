@@ -4,13 +4,13 @@ import {
   GraphType,
   MakeFieldOptional,
   ObjectDefinitionInput,
-} from '@backland/schema';
+} from '@swind/schema';
 import {
   CommonIndexFields,
   ParsedDocumentIndexes,
   Transporter,
-} from '@backland/transporter';
-import { GetFieldByDotNotation } from '@backland/utils';
+} from '@swind/transporter';
+import { GetFieldByDotNotation } from '@swind/utils';
 
 import { EntityFilterConditionsDefinition } from '../EntityFilterConditionType';
 import { EntityHooks } from '../EntityPlugin';

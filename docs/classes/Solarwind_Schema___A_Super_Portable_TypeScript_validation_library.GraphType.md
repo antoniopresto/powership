@@ -1,60 +1,60 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md) / GraphType
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md) / GraphType
 
 # Class: GraphType<Definition\>
 
-[Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md).GraphType
+[Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md).GraphType
 
 ## Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Definition` | extends [`ObjectFieldInput`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput) |
+| `Definition` | extends [`ObjectFieldInput`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput) |
 
 ## Table of contents
 
 ### Constructors
 
-- [constructor](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#constructor)
+- [constructor](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#constructor)
 
 ### Properties
 
-- [\_\_isGraphType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#__isgraphtype)
-- [\_\_lazyGetter](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#__lazygetter)
-- [beforeInitialize](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#beforeinitialize)
-- [definition](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#definition)
-- [touched](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#touched)
-- [\_\_isGraphType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#__isgraphtype-1)
-- [register](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#register)
-- [resolvers](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#resolvers)
+- [\_\_isGraphType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#__isgraphtype)
+- [\_\_lazyGetter](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#__lazygetter)
+- [beforeInitialize](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#beforeinitialize)
+- [definition](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#definition)
+- [touched](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#touched)
+- [\_\_isGraphType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#__isgraphtype-1)
+- [register](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#register)
+- [resolvers](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#resolvers)
 
 ### Accessors
 
-- [hidden](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#hidden)
-- [id](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#id)
-- [optionalId](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#optionalid)
+- [hidden](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#hidden)
+- [id](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#id)
+- [optionalId](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#optionalid)
 
 ### Methods
 
-- [\_toGraphQL](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#_tographql)
-- [clone](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#clone)
-- [graphQLInputType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#graphqlinputtype)
-- [graphQLInterface](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#graphqlinterface)
-- [graphQLType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#graphqltype)
-- [identify](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#identify)
-- [listType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#listtype)
-- [mutateFields](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#mutatefields)
-- [optionalType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#optionaltype)
-- [override](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#override)
-- [parse](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#parse)
-- [print](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#print)
-- [requiredType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#requiredtype)
-- [singleType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#singletype)
-- [touch](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#touch)
-- [typescriptPrint](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#typescriptprint)
-- [getOrSet](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#getorset)
-- [is](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#is)
-- [isTypeDefinition](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#istypedefinition)
-- [reset](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#reset)
+- [\_toGraphQL](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#_tographql)
+- [clone](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#clone)
+- [graphQLInputType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#graphqlinputtype)
+- [graphQLInterface](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#graphqlinterface)
+- [graphQLType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#graphqltype)
+- [identify](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#identify)
+- [listType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#listtype)
+- [mutateFields](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#mutatefields)
+- [optionalType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#optionaltype)
+- [override](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#override)
+- [parse](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#parse)
+- [print](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#print)
+- [requiredType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#requiredtype)
+- [singleType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#singletype)
+- [touch](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#touch)
+- [typescriptPrint](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#typescriptprint)
+- [getOrSet](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#getorset)
+- [is](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#is)
+- [isTypeDefinition](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#istypedefinition)
+- [reset](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#reset)
 
 ## Constructors
 
@@ -66,13 +66,13 @@
 
 | Name | Type |
 | :------ | :------ |
-| `Definition` | extends [`ObjectFieldInput`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput) |
+| `Definition` | extends [`ObjectFieldInput`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput) |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `definition` | `Definition` extends [`ObjectFieldInput`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput) ? `Definition` \| () => `Definition` : `never` |
+| `definition` | `Definition` extends [`ObjectFieldInput`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput) ? `Definition` \| () => `Definition` : `never` |
 
 #### Defined in
 
@@ -84,14 +84,14 @@
 
 | Name | Type |
 | :------ | :------ |
-| `Definition` | extends [`ObjectFieldInput`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput) |
+| `Definition` | extends [`ObjectFieldInput`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput) |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `name` | `string` |
-| `definition` | `Definition` extends [`ObjectFieldInput`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput) ? `Definition` \| () => `Definition` : `never` |
+| `definition` | `Definition` extends [`ObjectFieldInput`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput) ? `Definition` \| () => `Definition` : `never` |
 
 #### Defined in
 
@@ -111,7 +111,7 @@ ___
 
 ### \_\_lazyGetter
 
-• **\_\_lazyGetter**: [`LazyParseGraphTypePayload`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#lazyparsegraphtypepayload)
+• **\_\_lazyGetter**: [`LazyParseGraphTypePayload`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#lazyparsegraphtypepayload)
 
 #### Defined in
 
@@ -121,7 +121,7 @@ ___
 
 ### beforeInitialize
 
-• **beforeInitialize**: (`definition`: [`LazyParseGraphTypePayload`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#lazyparsegraphtypepayload)) => [`LazyParseGraphTypePayload`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#lazyparsegraphtypepayload)[] = `[]`
+• **beforeInitialize**: (`definition`: [`LazyParseGraphTypePayload`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#lazyparsegraphtypepayload)) => [`LazyParseGraphTypePayload`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#lazyparsegraphtypepayload)[] = `[]`
 
 #### Defined in
 
@@ -161,7 +161,7 @@ ___
 
 ### register
 
-▪ `Static` **register**: `Store`<`Record`<`string`, [`GraphTypeLike`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLike.md)\>, `string`, [`GraphTypeLike`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLike.md)\>
+▪ `Static` **register**: `Store`<`Record`<`string`, [`GraphTypeLike`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLike.md)\>, `string`, [`GraphTypeLike`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLike.md)\>
 
 #### Defined in
 
@@ -265,7 +265,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `handler` | (`input`: [`ExtendObjectDefinition`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendObjectDefinition.md)<[`GraphType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<`Definition`\>, [`GraphType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<`Definition`\>\>) => `T` |
+| `handler` | (`input`: [`ExtendObjectDefinition`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendObjectDefinition.md)<[`GraphType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<`Definition`\>, [`GraphType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<`Definition`\>\>) => `T` |
 
 #### Returns
 
@@ -359,7 +359,7 @@ ___
 
 ### listType
 
-▸ **listType**(`name?`): `Definition` extends `unknown` ? [`GraphType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<[`MakeTypeList`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#maketypelist)<`Definition`\>\> : `never`
+▸ **listType**(`name?`): `Definition` extends `unknown` ? [`GraphType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<[`MakeTypeList`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#maketypelist)<`Definition`\>\> : `never`
 
 #### Parameters
 
@@ -369,7 +369,7 @@ ___
 
 #### Returns
 
-`Definition` extends `unknown` ? [`GraphType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<[`MakeTypeList`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#maketypelist)<`Definition`\>\> : `never`
+`Definition` extends `unknown` ? [`GraphType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<[`MakeTypeList`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#maketypelist)<`Definition`\>\> : `never`
 
 #### Defined in
 
@@ -379,23 +379,23 @@ ___
 
 ### mutateFields
 
-▸ **mutateFields**<`Def`\>(`callback`): [`GraphType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<{ `object`: `Def`  }\>
+▸ **mutateFields**<`Def`\>(`callback`): [`GraphType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<{ `object`: `Def`  }\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Def` | extends [`ObjectDefinitionInput`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectDefinitionInput.md) |
+| `Def` | extends [`ObjectDefinitionInput`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectDefinitionInput.md) |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `callback` | (`input`: [`ExtendObjectDefinition`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendObjectDefinition.md)<[`GraphType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<`Definition`\>, [`GraphType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<`Definition`\>\>) => `Def` |
+| `callback` | (`input`: [`ExtendObjectDefinition`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendObjectDefinition.md)<[`GraphType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<`Definition`\>, [`GraphType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<`Definition`\>\>) => `Def` |
 
 #### Returns
 
-[`GraphType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<{ `object`: `Def`  }\>
+[`GraphType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<{ `object`: `Def`  }\>
 
 #### Defined in
 
@@ -405,7 +405,7 @@ ___
 
 ### optionalType
 
-▸ **optionalType**(`name?`): `Definition` extends `unknown` ? [`GraphType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<[`DescribeAndOverrideField`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<`Definition`, { `optional`: ``true``  }\>\> : `never`
+▸ **optionalType**(`name?`): `Definition` extends `unknown` ? [`GraphType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<[`DescribeAndOverrideField`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<`Definition`, { `optional`: ``true``  }\>\> : `never`
 
 #### Parameters
 
@@ -415,7 +415,7 @@ ___
 
 #### Returns
 
-`Definition` extends `unknown` ? [`GraphType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<[`DescribeAndOverrideField`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<`Definition`, { `optional`: ``true``  }\>\> : `never`
+`Definition` extends `unknown` ? [`GraphType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<[`DescribeAndOverrideField`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<`Definition`, { `optional`: ``true``  }\>\> : `never`
 
 #### Defined in
 
@@ -437,7 +437,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `handler` | (`input`: [`ExtendType`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<[`GraphType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<`Definition`\>\>) => `T` |
+| `handler` | (`input`: [`ExtendType`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<[`GraphType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<`Definition`\>\>) => `T` |
 
 #### Returns
 
@@ -451,18 +451,18 @@ ___
 
 ### parse
 
-▸ **parse**(`input`, `options?`): [`Infer`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#infer)<`Definition`\>
+▸ **parse**(`input`, `options?`): [`Infer`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#infer)<`Definition`\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `input` | `any` |
-| `options?` | [`FieldParserConfig`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldparserconfig) |
+| `options?` | [`FieldParserConfig`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldparserconfig) |
 
 #### Returns
 
-[`Infer`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#infer)<`Definition`\>
+[`Infer`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#infer)<`Definition`\>
 
 #### Defined in
 
@@ -486,7 +486,7 @@ ___
 
 ### requiredType
 
-▸ **requiredType**(`name?`): `Definition` extends `unknown` ? [`GraphType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<[`DescribeAndOverrideField`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<`Definition`, { `optional`: ``false``  }\>\> : `never`
+▸ **requiredType**(`name?`): `Definition` extends `unknown` ? [`GraphType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<[`DescribeAndOverrideField`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<`Definition`, { `optional`: ``false``  }\>\> : `never`
 
 #### Parameters
 
@@ -496,7 +496,7 @@ ___
 
 #### Returns
 
-`Definition` extends `unknown` ? [`GraphType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<[`DescribeAndOverrideField`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<`Definition`, { `optional`: ``false``  }\>\> : `never`
+`Definition` extends `unknown` ? [`GraphType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<[`DescribeAndOverrideField`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<`Definition`, { `optional`: ``false``  }\>\> : `never`
 
 #### Defined in
 
@@ -506,7 +506,7 @@ ___
 
 ### singleType
 
-▸ **singleType**(`name?`): `Definition` extends `unknown` ? [`GraphType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<[`DescribeAndOverrideField`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<`Definition`, { `list`: ``false``  }\>\> : `never`
+▸ **singleType**(`name?`): `Definition` extends `unknown` ? [`GraphType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<[`DescribeAndOverrideField`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<`Definition`, { `list`: ``false``  }\>\> : `never`
 
 #### Parameters
 
@@ -516,7 +516,7 @@ ___
 
 #### Returns
 
-`Definition` extends `unknown` ? [`GraphType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<[`DescribeAndOverrideField`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<`Definition`, { `list`: ``false``  }\>\> : `never`
+`Definition` extends `unknown` ? [`GraphType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<[`DescribeAndOverrideField`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<`Definition`, { `list`: ``false``  }\>\> : `never`
 
 #### Defined in
 
@@ -526,11 +526,11 @@ ___
 
 ### touch
 
-▸ **touch**(): [`GraphType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<`Definition`\>
+▸ **touch**(): [`GraphType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<`Definition`\>
 
 #### Returns
 
-[`GraphType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<`Definition`\>
+[`GraphType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<`Definition`\>
 
 #### Defined in
 
@@ -560,7 +560,7 @@ ___
 
 ### getOrSet
 
-▸ `Static` **getOrSet**<`T`\>(`id`, `def`): [`GraphType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<`T`\>
+▸ `Static` **getOrSet**<`T`\>(`id`, `def`): [`GraphType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<`T`\>
 
 Get an Object with the provided id
    or set a new Object in the register if not found.
@@ -569,7 +569,7 @@ Get an Object with the provided id
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`ObjectFieldInput`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput) |
+| `T` | extends [`ObjectFieldInput`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput) |
 
 #### Parameters
 
@@ -580,7 +580,7 @@ Get an Object with the provided id
 
 #### Returns
 
-[`GraphType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<`T`\>
+[`GraphType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<`T`\>
 
 #### Defined in
 

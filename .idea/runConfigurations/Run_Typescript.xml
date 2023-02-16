@@ -1,5 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Run Typescript" type="NodeJSConfigurationType" singleton="false" path-to-node="$USER_HOME$/.nvm/versions/node/v18.14.0/bin/node" node-parameters="./node_modules/.bin/nodemon --watch $FilePath$ " path-to-js-file="$PROJECT_DIR$/scripts/gpt.js" working-dir="$PROJECT_DIR$">
-    <method v="2" />
-  </configuration>
-</component>

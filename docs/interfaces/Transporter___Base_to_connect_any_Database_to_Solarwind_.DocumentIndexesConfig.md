@@ -1,8 +1,8 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Transporter - Base to connect any Database to Backland.](../modules/Transporter___Base_to_connect_any_Database_to_Backland_.md) / DocumentIndexesConfig
+[Solarwind](../README.md) / [Modules](../modules.md) / [Transporter - Base to connect any Database to Solarwind.](../modules/Transporter___Base_to_connect_any_Database_to_Solarwind_.md) / DocumentIndexesConfig
 
 # Interface: DocumentIndexesConfig<DocKeys\>
 
-[Transporter - Base to connect any Database to Backland.](../modules/Transporter___Base_to_connect_any_Database_to_Backland_.md).DocumentIndexesConfig
+[Transporter - Base to connect any Database to Solarwind.](../modules/Transporter___Base_to_connect_any_Database_to_Solarwind_.md).DocumentIndexesConfig
 
 ## Type parameters
 
@@ -12,6 +12,6 @@
 
 ## Hierarchy
 
-- `ReadonlyArray`<[`DocumentIndexItem`](../modules/Transporter___Base_to_connect_any_Database_to_Backland_.md#documentindexitem)<`DocKeys`\>\>
+- `ReadonlyArray`<[`DocumentIndexItem`](../modules/Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentindexitem)<`DocKeys`\>\>
 
   ↳ **`DocumentIndexesConfig`**

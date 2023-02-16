@@ -1,8 +1,8 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Transporter - Base to connect any Database to Backland.](../modules/Transporter___Base_to_connect_any_Database_to_Backland_.md) / CollectionErrors
+[Solarwind](../README.md) / [Modules](../modules.md) / [Transporter - Base to connect any Database to Solarwind.](../modules/Transporter___Base_to_connect_any_Database_to_Solarwind_.md) / CollectionErrors
 
 # Class: CollectionErrors
 
-[Transporter - Base to connect any Database to Backland.](../modules/Transporter___Base_to_connect_any_Database_to_Backland_.md).CollectionErrors
+[Transporter - Base to connect any Database to Solarwind.](../modules/Transporter___Base_to_connect_any_Database_to_Solarwind_.md).CollectionErrors
 
 ## Hierarchy
 
@@ -14,16 +14,16 @@
 
 ### Constructors
 
-- [constructor](Transporter___Base_to_connect_any_Database_to_Backland_.CollectionErrors.md#constructor)
+- [constructor](Transporter___Base_to_connect_any_Database_to_Solarwind_.CollectionErrors.md#constructor)
 
 ### Properties
 
-- [\_\_isEntityError](Transporter___Base_to_connect_any_Database_to_Backland_.CollectionErrors.md#__isentityerror)
-- [kinds](Transporter___Base_to_connect_any_Database_to_Backland_.CollectionErrors.md#kinds)
+- [\_\_isEntityError](Transporter___Base_to_connect_any_Database_to_Solarwind_.CollectionErrors.md#__isentityerror)
+- [kinds](Transporter___Base_to_connect_any_Database_to_Solarwind_.CollectionErrors.md#kinds)
 
 ### Methods
 
-- [is](Transporter___Base_to_connect_any_Database_to_Backland_.CollectionErrors.md#is)
+- [is](Transporter___Base_to_connect_any_Database_to_Solarwind_.CollectionErrors.md#is)
 
 ## Constructors
 
@@ -35,7 +35,7 @@
 
 | Name | Type |
 | :------ | :------ |
-| `publicDetails` | [`EntityErrorDetails`](../modules/Transporter___Base_to_connect_any_Database_to_Backland_.md#entityerrordetails) |
+| `publicDetails` | [`EntityErrorDetails`](../modules/Transporter___Base_to_connect_any_Database_to_Solarwind_.md#entityerrordetails) |
 | `privateDetails?` | `any` |
 
 #### Overrides

@@ -1,6 +1,6 @@
-import { formatGraphQL } from '@backland/utils';
-import { getByPath } from '@backland/utils';
-import { hashString } from '@backland/utils';
+import { formatGraphQL } from '@swind/utils';
+import { getByPath } from '@swind/utils';
+import { hashString } from '@swind/utils';
 import {
   GraphQLArgument,
   GraphQLField,

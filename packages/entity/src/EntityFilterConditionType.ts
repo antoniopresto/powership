@@ -1,6 +1,6 @@
-import { createType, GraphType, ObjectFieldInput } from '@backland/schema';
-import { DocumentBase, FieldTypes, FilterRecord } from '@backland/transporter';
-import { BJSON, getKeys } from '@backland/utils';
+import { createType, GraphType, ObjectFieldInput } from '@swind/schema';
+import { DocumentBase, FieldTypes, FilterRecord } from '@swind/transporter';
+import { BJSON, getKeys } from '@swind/utils';
 
 const PKSKValueType = createType('PKSKValue', {
   optional: true,

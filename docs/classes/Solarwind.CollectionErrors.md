@@ -1,8 +1,8 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / CollectionErrors
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / CollectionErrors
 
 # Class: CollectionErrors
 
-[Backland](../modules/Backland.md).CollectionErrors
+[Solarwind](../modules/Solarwind.md).CollectionErrors
 
 ## Hierarchy
 
@@ -14,16 +14,16 @@
 
 ### Constructors
 
-- [constructor](Backland.CollectionErrors.md#constructor)
+- [constructor](Solarwind.CollectionErrors.md#constructor)
 
 ### Properties
 
-- [\_\_isEntityError](Backland.CollectionErrors.md#__isentityerror)
-- [kinds](Backland.CollectionErrors.md#kinds)
+- [\_\_isEntityError](Solarwind.CollectionErrors.md#__isentityerror)
+- [kinds](Solarwind.CollectionErrors.md#kinds)
 
 ### Methods
 
-- [is](Backland.CollectionErrors.md#is)
+- [is](Solarwind.CollectionErrors.md#is)
 
 ## Constructors
 
@@ -35,7 +35,7 @@
 
 | Name | Type |
 | :------ | :------ |
-| `publicDetails` | [`EntityErrorDetails`](../modules/Backland.md#entityerrordetails) |
+| `publicDetails` | [`EntityErrorDetails`](../modules/Solarwind.md#entityerrordetails) |
 | `privateDetails?` | `any` |
 
 #### Overrides

@@ -1,4 +1,4 @@
-import { delay } from '@backland/utils';
+import { delay } from '@swind/utils';
 
 import { tsfyEntities } from '../tsfyEntities';
 import { tsfyEntitiesWriter } from '../tsfyEntitiesWriter';

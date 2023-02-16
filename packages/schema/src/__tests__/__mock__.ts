@@ -1,4 +1,4 @@
-import { tuple } from '@backland/utils';
+import { tuple } from '@swind/utils';
 
 import { createType } from '../GraphType/GraphType';
 import { createObjectType } from '../ObjectType';

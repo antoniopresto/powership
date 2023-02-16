@@ -1,18 +1,18 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md) / RemoveParserHook
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md) / RemoveParserHook
 
 # Interface: RemoveParserHook
 
-[Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md).RemoveParserHook
+[Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md).RemoveParserHook
 
 ## Callable
 
 ### RemoveParserHook
 
-▸ **RemoveParserHook**(): [`ParserHook`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ParserHook.md)[]
+▸ **RemoveParserHook**(): [`ParserHook`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ParserHook.md)[]
 
 #### Returns
 
-[`ParserHook`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ParserHook.md)[]
+[`ParserHook`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ParserHook.md)[]
 
 #### Defined in
 

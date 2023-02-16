@@ -1,8 +1,8 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / EnumField
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / EnumField
 
 # Class: EnumField<U, T\>
 
-[Backland](../modules/Backland.md).EnumField
+[Solarwind](../modules/Solarwind.md).EnumField
 
 ## Type parameters
 
@@ -13,7 +13,7 @@
 
 ## Hierarchy
 
-- [`FieldType`](Backland.FieldType.md)<`T`[`number`], ``"enum"``, `T`\>
+- [`FieldType`](Solarwind.FieldType.md)<`T`[`number`], ``"enum"``, `T`\>
 
   ↳ **`EnumField`**
 
@@ -21,45 +21,45 @@
 
 ### Constructors
 
-- [constructor](Backland.EnumField.md#constructor)
+- [constructor](Solarwind.EnumField.md#constructor)
 
 ### Properties
 
-- [\_\_\_inferable](Backland.EnumField.md#___inferable)
-- [\_\_isFieldType](Backland.EnumField.md#__isfieldtype)
-- [applyParser](Backland.EnumField.md#applyparser)
-- [clone](Backland.EnumField.md#clone)
-- [composer](Backland.EnumField.md#composer)
-- [def](Backland.EnumField.md#def)
-- [defaultValue](Backland.EnumField.md#defaultvalue)
-- [describe](Backland.EnumField.md#describe)
-- [describeField](Backland.EnumField.md#describefield)
-- [description](Backland.EnumField.md#description)
-- [hidden](Backland.EnumField.md#hidden)
-- [id](Backland.EnumField.md#id)
-- [list](Backland.EnumField.md#list)
-- [name](Backland.EnumField.md#name)
-- [optional](Backland.EnumField.md#optional)
-- [options](Backland.EnumField.md#options)
-- [parse](Backland.EnumField.md#parse)
-- [type](Backland.EnumField.md#type)
-- [typeName](Backland.EnumField.md#typename)
-- [create](Backland.EnumField.md#create)
+- [\_\_\_inferable](Solarwind.EnumField.md#___inferable)
+- [\_\_isFieldType](Solarwind.EnumField.md#__isfieldtype)
+- [applyParser](Solarwind.EnumField.md#applyparser)
+- [clone](Solarwind.EnumField.md#clone)
+- [composer](Solarwind.EnumField.md#composer)
+- [def](Solarwind.EnumField.md#def)
+- [defaultValue](Solarwind.EnumField.md#defaultvalue)
+- [describe](Solarwind.EnumField.md#describe)
+- [describeField](Solarwind.EnumField.md#describefield)
+- [description](Solarwind.EnumField.md#description)
+- [hidden](Solarwind.EnumField.md#hidden)
+- [id](Solarwind.EnumField.md#id)
+- [list](Solarwind.EnumField.md#list)
+- [name](Solarwind.EnumField.md#name)
+- [optional](Solarwind.EnumField.md#optional)
+- [options](Solarwind.EnumField.md#options)
+- [parse](Solarwind.EnumField.md#parse)
+- [type](Solarwind.EnumField.md#type)
+- [typeName](Solarwind.EnumField.md#typename)
+- [create](Solarwind.EnumField.md#create)
 
 ### Accessors
 
-- [asFinalFieldDef](Backland.EnumField.md#asfinalfielddef)
-- [definition](Backland.EnumField.md#definition)
-- [value](Backland.EnumField.md#value)
+- [asFinalFieldDef](Solarwind.EnumField.md#asfinalfielddef)
+- [definition](Solarwind.EnumField.md#definition)
+- [value](Solarwind.EnumField.md#value)
 
 ### Methods
 
-- [is](Backland.EnumField.md#is)
-- [setDefaultValue](Backland.EnumField.md#setdefaultvalue)
-- [toList](Backland.EnumField.md#tolist)
-- [toOptional](Backland.EnumField.md#tooptional)
-- [toRequired](Backland.EnumField.md#torequired)
-- [validate](Backland.EnumField.md#validate)
+- [is](Solarwind.EnumField.md#is)
+- [setDefaultValue](Solarwind.EnumField.md#setdefaultvalue)
+- [toList](Solarwind.EnumField.md#tolist)
+- [toOptional](Solarwind.EnumField.md#tooptional)
+- [toRequired](Solarwind.EnumField.md#torequired)
+- [validate](Solarwind.EnumField.md#validate)
 
 ## Constructors
 
@@ -96,7 +96,7 @@ packages/schema/lib/fields/EnumField.d.ts:5
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[___inferable](Backland.FieldType.md#___inferable)
+[FieldType](Solarwind.FieldType.md).[___inferable](Solarwind.FieldType.md#___inferable)
 
 #### Defined in
 
@@ -110,7 +110,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[__isFieldType](Backland.FieldType.md#__isfieldtype)
+[FieldType](Solarwind.FieldType.md).[__isFieldType](Solarwind.FieldType.md#__isfieldtype)
 
 #### Defined in
 
@@ -120,11 +120,11 @@ ___
 
 ### applyParser
 
-• **applyParser**: <Type_1\>(`parser`: { `parse`: (`input`: `any`, `_options`: [`FieldParserOptionsObject`](../modules/Backland.md#fieldparseroptionsobject)) => `Type_1` ; `preParse?`: (`input`: `any`) => `Type_1`  }) => [`FieldTypeParser`](../modules/Backland.md#fieldtypeparser)<`Type_1`\>
+• **applyParser**: <Type_1\>(`parser`: { `parse`: (`input`: `any`, `_options`: [`FieldParserOptionsObject`](../modules/Solarwind.md#fieldparseroptionsobject)) => `Type_1` ; `preParse?`: (`input`: `any`) => `Type_1`  }) => [`FieldTypeParser`](../modules/Solarwind.md#fieldtypeparser)<`Type_1`\>
 
 #### Type declaration
 
-▸ <`Type_1`\>(`parser`): [`FieldTypeParser`](../modules/Backland.md#fieldtypeparser)<`Type_1`\>
+▸ <`Type_1`\>(`parser`): [`FieldTypeParser`](../modules/Solarwind.md#fieldtypeparser)<`Type_1`\>
 
 ##### Type parameters
 
@@ -137,16 +137,16 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `parser` | `Object` |
-| `parser.parse` | (`input`: `any`, `_options`: [`FieldParserOptionsObject`](../modules/Backland.md#fieldparseroptionsobject)) => `Type_1` |
+| `parser.parse` | (`input`: `any`, `_options`: [`FieldParserOptionsObject`](../modules/Solarwind.md#fieldparseroptionsobject)) => `Type_1` |
 | `parser.preParse?` | (`input`: `any`) => `Type_1` |
 
 ##### Returns
 
-[`FieldTypeParser`](../modules/Backland.md#fieldtypeparser)<`Type_1`\>
+[`FieldTypeParser`](../modules/Solarwind.md#fieldtypeparser)<`Type_1`\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[applyParser](Backland.FieldType.md#applyparser)
+[FieldType](Solarwind.FieldType.md).[applyParser](Solarwind.FieldType.md#applyparser)
 
 #### Defined in
 
@@ -156,19 +156,19 @@ ___
 
 ### clone
 
-• **clone**: () => [`FieldType`](Backland.FieldType.md)<`T`[`number`], ``"enum"``, `T`, ``0``, ``0``, `undefined`, {}\>
+• **clone**: () => [`FieldType`](Solarwind.FieldType.md)<`T`[`number`], ``"enum"``, `T`, ``0``, ``0``, `undefined`, {}\>
 
 #### Type declaration
 
-▸ (): [`FieldType`](Backland.FieldType.md)<`T`[`number`], ``"enum"``, `T`, ``0``, ``0``, `undefined`, {}\>
+▸ (): [`FieldType`](Solarwind.FieldType.md)<`T`[`number`], ``"enum"``, `T`, ``0``, ``0``, `undefined`, {}\>
 
 ##### Returns
 
-[`FieldType`](Backland.FieldType.md)<`T`[`number`], ``"enum"``, `T`, ``0``, ``0``, `undefined`, {}\>
+[`FieldType`](Solarwind.FieldType.md)<`T`[`number`], ``"enum"``, `T`, ``0``, ``0``, `undefined`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[clone](Backland.FieldType.md#clone)
+[FieldType](Solarwind.FieldType.md).[clone](Solarwind.FieldType.md#clone)
 
 #### Defined in
 
@@ -178,11 +178,11 @@ ___
 
 ### composer
 
-• **composer**: `undefined` \| [`FieldComposer`](../modules/Backland.md#fieldcomposer)<`Record`<`string`, `any`\>, `T`[`number`]\>
+• **composer**: `undefined` \| [`FieldComposer`](../modules/Solarwind.md#fieldcomposer)<`Record`<`string`, `any`\>, `T`[`number`]\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[composer](Backland.FieldType.md#composer)
+[FieldType](Solarwind.FieldType.md).[composer](Solarwind.FieldType.md#composer)
 
 #### Defined in
 
@@ -196,7 +196,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[def](Backland.FieldType.md#def)
+[FieldType](Solarwind.FieldType.md).[def](Solarwind.FieldType.md#def)
 
 #### Defined in
 
@@ -210,7 +210,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[defaultValue](Backland.FieldType.md#defaultvalue)
+[FieldType](Solarwind.FieldType.md).[defaultValue](Solarwind.FieldType.md#defaultvalue)
 
 #### Defined in
 
@@ -220,11 +220,11 @@ ___
 
 ### describe
 
-• **describe**: (`description`: `string`) => [`EnumField`](Backland.EnumField.md)<`U`, `T`\>
+• **describe**: (`description`: `string`) => [`EnumField`](Solarwind.EnumField.md)<`U`, `T`\>
 
 #### Type declaration
 
-▸ (`description`): [`EnumField`](Backland.EnumField.md)<`U`, `T`\>
+▸ (`description`): [`EnumField`](Solarwind.EnumField.md)<`U`, `T`\>
 
 ##### Parameters
 
@@ -234,11 +234,11 @@ ___
 
 ##### Returns
 
-[`EnumField`](Backland.EnumField.md)<`U`, `T`\>
+[`EnumField`](Solarwind.EnumField.md)<`U`, `T`\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[describe](Backland.FieldType.md#describe)
+[FieldType](Solarwind.FieldType.md).[describe](Solarwind.FieldType.md#describe)
 
 #### Defined in
 
@@ -270,7 +270,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[describeField](Backland.FieldType.md#describefield)
+[FieldType](Solarwind.FieldType.md).[describeField](Solarwind.FieldType.md#describefield)
 
 #### Defined in
 
@@ -284,7 +284,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[description](Backland.FieldType.md#description)
+[FieldType](Solarwind.FieldType.md).[description](Solarwind.FieldType.md#description)
 
 #### Defined in
 
@@ -298,7 +298,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[hidden](Backland.FieldType.md#hidden)
+[FieldType](Solarwind.FieldType.md).[hidden](Solarwind.FieldType.md#hidden)
 
 #### Defined in
 
@@ -312,7 +312,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[id](Backland.FieldType.md#id)
+[FieldType](Solarwind.FieldType.md).[id](Solarwind.FieldType.md#id)
 
 #### Defined in
 
@@ -326,7 +326,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[list](Backland.FieldType.md#list)
+[FieldType](Solarwind.FieldType.md).[list](Solarwind.FieldType.md#list)
 
 #### Defined in
 
@@ -340,7 +340,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[name](Backland.FieldType.md#name)
+[FieldType](Solarwind.FieldType.md).[name](Solarwind.FieldType.md#name)
 
 #### Defined in
 
@@ -354,7 +354,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[optional](Backland.FieldType.md#optional)
+[FieldType](Solarwind.FieldType.md).[optional](Solarwind.FieldType.md#optional)
 
 #### Defined in
 
@@ -368,7 +368,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[options](Backland.FieldType.md#options)
+[FieldType](Solarwind.FieldType.md).[options](Solarwind.FieldType.md#options)
 
 #### Defined in
 
@@ -378,11 +378,11 @@ ___
 
 ### parse
 
-• **parse**: [`FieldTypeParser`](../modules/Backland.md#fieldtypeparser)<`T`[`number`]\>
+• **parse**: [`FieldTypeParser`](../modules/Solarwind.md#fieldtypeparser)<`T`[`number`]\>
 
 #### Overrides
 
-[FieldType](Backland.FieldType.md).[parse](Backland.FieldType.md#parse)
+[FieldType](Solarwind.FieldType.md).[parse](Solarwind.FieldType.md#parse)
 
 #### Defined in
 
@@ -396,7 +396,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[type](Backland.FieldType.md#type)
+[FieldType](Solarwind.FieldType.md).[type](Solarwind.FieldType.md#type)
 
 #### Defined in
 
@@ -410,7 +410,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[typeName](Backland.FieldType.md#typename)
+[FieldType](Solarwind.FieldType.md).[typeName](Solarwind.FieldType.md#typename)
 
 #### Defined in
 
@@ -420,11 +420,11 @@ ___
 
 ### create
 
-▪ `Static` **create**: <U_1, T_1\>(`def`: `T_1`) => [`FieldType`](Backland.FieldType.md)<`T_1`[`number`], ``"enum"``, `T_1`, ``0``, ``0``, `undefined`, {}\>
+▪ `Static` **create**: <U_1, T_1\>(`def`: `T_1`) => [`FieldType`](Solarwind.FieldType.md)<`T_1`[`number`], ``"enum"``, `T_1`, ``0``, ``0``, `undefined`, {}\>
 
 #### Type declaration
 
-▸ <`U_1`, `T_1`\>(`def`): [`FieldType`](Backland.FieldType.md)<`T_1`[`number`], ``"enum"``, `T_1`, ``0``, ``0``, `undefined`, {}\>
+▸ <`U_1`, `T_1`\>(`def`): [`FieldType`](Solarwind.FieldType.md)<`T_1`[`number`], ``"enum"``, `T_1`, ``0``, ``0``, `undefined`, {}\>
 
 ##### Type parameters
 
@@ -441,11 +441,11 @@ ___
 
 ##### Returns
 
-[`FieldType`](Backland.FieldType.md)<`T_1`[`number`], ``"enum"``, `T_1`, ``0``, ``0``, `undefined`, {}\>
+[`FieldType`](Solarwind.FieldType.md)<`T_1`[`number`], ``"enum"``, `T_1`, ``0``, ``0``, `undefined`, {}\>
 
 #### Overrides
 
-[FieldType](Backland.FieldType.md).[create](Backland.FieldType.md#create)
+[FieldType](Solarwind.FieldType.md).[create](Solarwind.FieldType.md#create)
 
 #### Defined in
 
@@ -455,11 +455,11 @@ packages/schema/lib/fields/EnumField.d.ts:6
 
 ### asFinalFieldDef
 
-• `get` **asFinalFieldDef**(): [`AllFinalFieldDefinitions`](../modules/Backland.md#allfinalfielddefinitions)[`TypeName`]
+• `get` **asFinalFieldDef**(): [`AllFinalFieldDefinitions`](../modules/Solarwind.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Returns
 
-[`AllFinalFieldDefinitions`](../modules/Backland.md#allfinalfielddefinitions)[`TypeName`]
+[`AllFinalFieldDefinitions`](../modules/Solarwind.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Inherited from
 
@@ -473,11 +473,11 @@ ___
 
 ### definition
 
-• `get` **definition**(): [`AllFinalFieldDefinitions`](../modules/Backland.md#allfinalfielddefinitions)[`TypeName`]
+• `get` **definition**(): [`AllFinalFieldDefinitions`](../modules/Solarwind.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Returns
 
-[`AllFinalFieldDefinitions`](../modules/Backland.md#allfinalfielddefinitions)[`TypeName`]
+[`AllFinalFieldDefinitions`](../modules/Solarwind.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Inherited from
 
@@ -519,7 +519,7 @@ input is T[number]
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[is](Backland.FieldType.md#is)
+[FieldType](Solarwind.FieldType.md).[is](Solarwind.FieldType.md#is)
 
 #### Defined in
 
@@ -529,7 +529,7 @@ ___
 
 ### setDefaultValue
 
-▸ **setDefaultValue**<`T`\>(`value`): [`FieldType`](Backland.FieldType.md)<`T`[`number`], ``"enum"``, `T`, ``0``, ``0``, `T`, {}\>
+▸ **setDefaultValue**<`T`\>(`value`): [`FieldType`](Solarwind.FieldType.md)<`T`[`number`], ``"enum"``, `T`, ``0``, ``0``, `T`, {}\>
 
 #### Type parameters
 
@@ -545,11 +545,11 @@ ___
 
 #### Returns
 
-[`FieldType`](Backland.FieldType.md)<`T`[`number`], ``"enum"``, `T`, ``0``, ``0``, `T`, {}\>
+[`FieldType`](Solarwind.FieldType.md)<`T`[`number`], ``"enum"``, `T`, ``0``, ``0``, `T`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[setDefaultValue](Backland.FieldType.md#setdefaultvalue)
+[FieldType](Solarwind.FieldType.md).[setDefaultValue](Solarwind.FieldType.md#setdefaultvalue)
 
 #### Defined in
 
@@ -559,21 +559,21 @@ ___
 
 ### toList
 
-▸ **toList**(`options?`): [`FieldType`](Backland.FieldType.md)<`T`[`number`], ``"enum"``, `T`, ``1``, ``0``, `undefined`, {}\>
+▸ **toList**(`options?`): [`FieldType`](Solarwind.FieldType.md)<`T`[`number`], ``"enum"``, `T`, ``1``, ``0``, `undefined`, {}\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `options?` | [`ListDefinitionTruthy`](../modules/Backland.md#listdefinitiontruthy) |
+| `options?` | [`ListDefinitionTruthy`](../modules/Solarwind.md#listdefinitiontruthy) |
 
 #### Returns
 
-[`FieldType`](Backland.FieldType.md)<`T`[`number`], ``"enum"``, `T`, ``1``, ``0``, `undefined`, {}\>
+[`FieldType`](Solarwind.FieldType.md)<`T`[`number`], ``"enum"``, `T`, ``1``, ``0``, `undefined`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[toList](Backland.FieldType.md#tolist)
+[FieldType](Solarwind.FieldType.md).[toList](Solarwind.FieldType.md#tolist)
 
 #### Defined in
 
@@ -583,15 +583,15 @@ ___
 
 ### toOptional
 
-▸ **toOptional**(): [`FieldType`](Backland.FieldType.md)<`T`[`number`], ``"enum"``, `T`, ``0``, ``1``, `undefined`, {}\>
+▸ **toOptional**(): [`FieldType`](Solarwind.FieldType.md)<`T`[`number`], ``"enum"``, `T`, ``0``, ``1``, `undefined`, {}\>
 
 #### Returns
 
-[`FieldType`](Backland.FieldType.md)<`T`[`number`], ``"enum"``, `T`, ``0``, ``1``, `undefined`, {}\>
+[`FieldType`](Solarwind.FieldType.md)<`T`[`number`], ``"enum"``, `T`, ``0``, ``1``, `undefined`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[toOptional](Backland.FieldType.md#tooptional)
+[FieldType](Solarwind.FieldType.md).[toOptional](Solarwind.FieldType.md#tooptional)
 
 #### Defined in
 
@@ -601,15 +601,15 @@ ___
 
 ### toRequired
 
-▸ **toRequired**(): [`FieldType`](Backland.FieldType.md)<`T`[`number`], ``"enum"``, `T`, ``0``, ``0``, `undefined`, {}\>
+▸ **toRequired**(): [`FieldType`](Solarwind.FieldType.md)<`T`[`number`], ``"enum"``, `T`, ``0``, ``0``, `undefined`, {}\>
 
 #### Returns
 
-[`FieldType`](Backland.FieldType.md)<`T`[`number`], ``"enum"``, `T`, ``0``, ``0``, `undefined`, {}\>
+[`FieldType`](Solarwind.FieldType.md)<`T`[`number`], ``"enum"``, `T`, ``0``, ``0``, `undefined`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[toRequired](Backland.FieldType.md#torequired)
+[FieldType](Solarwind.FieldType.md).[toRequired](Solarwind.FieldType.md#torequired)
 
 #### Defined in
 
@@ -633,7 +633,7 @@ input is T[number]
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[validate](Backland.FieldType.md#validate)
+[FieldType](Solarwind.FieldType.md).[validate](Solarwind.FieldType.md#validate)
 
 #### Defined in
 

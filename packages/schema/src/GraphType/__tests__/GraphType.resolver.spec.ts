@@ -1,8 +1,8 @@
-import { PromiseType } from '@backland/utils/lib/typeUtils';
+import { PromiseType } from '@swind/utils/lib/typeUtils';
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
-import { createBacklandObject, ObjectType } from '../../ObjectType';
+import { createSolarwindObject, ObjectType } from '../../ObjectType';
 import { createResolver } from '../../Resolver';
 import { GraphType } from '../GraphType';
 
@@ -12,7 +12,7 @@ describe('createResolver', () => {
   });
 
   it('Should create a Resolver', () => {
-    const UserType = createBacklandObject('User', {
+    const UserType = createSolarwindObject('User', {
       name: { string: {}, description: 'the user name' },
       id: 'ulid',
     });
@@ -61,12 +61,12 @@ describe('createResolver', () => {
   });
 
   it('Should create complex types preserving names', () => {
-    const user = createBacklandObject('user', {
+    const user = createSolarwindObject('user', {
       name: 'string',
       age: 'int?',
     });
 
-    const userAddress = createBacklandObject('UserAddress', {
+    const userAddress = createSolarwindObject('UserAddress', {
       street: 'string',
       number: 'int?',
     }).describe('The user address');

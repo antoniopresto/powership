@@ -1,4 +1,4 @@
-import { createSchema, Infer } from '@backland/schema';
+import { createSchema, Infer } from '@swind/schema';
 
 export const ConnectionInformationSchema = createSchema(
   'AccountConnectionInformation',

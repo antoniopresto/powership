@@ -1,4 +1,4 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / EntityTypesContext
+[Solarwind](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / EntityTypesContext
 
 # Interface: EntityTypesContext<InputDef, Indexes\>
 

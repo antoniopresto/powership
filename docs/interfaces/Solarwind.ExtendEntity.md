@@ -1,8 +1,8 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / ExtendEntity
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / ExtendEntity
 
 # Interface: ExtendEntity<Parent\>
 
-[Backland](../modules/Backland.md).ExtendEntity
+[Solarwind](../modules/Solarwind.md).ExtendEntity
 
 ## Type parameters
 
@@ -28,7 +28,7 @@ Extend current entity
 
 | Name | Type |
 | :------ | :------ |
-| `transformer` | (`current`: { [K in string \| number \| symbol as K extends \_ExtendMethodKeys ? never : K]: Parent[K] }, `utils`: { `extend`: <V\>(`value`: `V`) => [`ExtendObjectDefinition`](Backland.ExtendObjectDefinition.md)<`V`, `V`\>  }) => `TransformerReturn` |
+| `transformer` | (`current`: { [K in string \| number \| symbol as K extends \_ExtendMethodKeys ? never : K]: Parent[K] }, `utils`: { `extend`: <V\>(`value`: `V`) => [`ExtendObjectDefinition`](Solarwind.ExtendObjectDefinition.md)<`V`, `V`\>  }) => `TransformerReturn` |
 
 #### Returns
 

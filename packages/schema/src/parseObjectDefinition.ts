@@ -1,8 +1,8 @@
-import { RuntimeError } from '@backland/utils';
-import { isProduction } from '@backland/utils';
-import { getKeys } from '@backland/utils';
-import { getTypeName } from '@backland/utils';
-import { inspectObject } from '@backland/utils';
+import { RuntimeError } from '@swind/utils';
+import { isProduction } from '@swind/utils';
+import { getKeys } from '@swind/utils';
+import { getTypeName } from '@swind/utils';
+import { inspectObject } from '@swind/utils';
 
 import { GraphType } from './GraphType/GraphType';
 import {

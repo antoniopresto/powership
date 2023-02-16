@@ -1,9 +1,9 @@
-import { FieldInput, ObjectDefinitionInput } from '@backland/schema';
+import { FieldInput, ObjectDefinitionInput } from '@swind/schema';
 import {
   INDEX_PART_SEP,
   parseIndexFieldName,
   RELATION_PRECEDES,
-} from '@backland/utils';
+} from '@swind/utils';
 
 import { AnyCollectionIndexConfig, CommonIndexFields } from './CollectionIndex';
 

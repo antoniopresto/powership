@@ -1,4 +1,4 @@
-import { areEqual, devAssert, Writeable } from '@backland/utils';
+import { areEqual, devAssert, Writeable } from '@swind/utils';
 
 import { AnyEntity } from '../EntityInterfaces';
 import { EntityOptions } from '../EntityOptions';

@@ -1,128 +1,128 @@
-[Backland](../README.md) / [Modules](../modules.md) / Transporter - Base to connect any Database to Backland.
+[Solarwind](../README.md) / [Modules](../modules.md) / Transporter - Base to connect any Database to Solarwind.
 
-# Module: Transporter - Base to connect any Database to Backland.
+# Module: Transporter - Base to connect any Database to Solarwind.
 
 ## Table of contents
 
 ### Classes
 
-- [CollectionErrors](../classes/Transporter___Base_to_connect_any_Database_to_Backland_.CollectionErrors.md)
+- [CollectionErrors](../classes/Transporter___Base_to_connect_any_Database_to_Solarwind_.CollectionErrors.md)
 
 ### Interfaces
 
-- [CreateOne](../interfaces/Transporter___Base_to_connect_any_Database_to_Backland_.CreateOne.md)
-- [DeleteMany](../interfaces/Transporter___Base_to_connect_any_Database_to_Backland_.DeleteMany.md)
-- [DeleteOne](../interfaces/Transporter___Base_to_connect_any_Database_to_Backland_.DeleteOne.md)
-- [DocumentIndexFieldsParsed](../interfaces/Transporter___Base_to_connect_any_Database_to_Backland_.DocumentIndexFieldsParsed.md)
-- [DocumentIndexesConfig](../interfaces/Transporter___Base_to_connect_any_Database_to_Backland_.DocumentIndexesConfig.md)
-- [FindById](../interfaces/Transporter___Base_to_connect_any_Database_to_Backland_.FindById.md)
-- [FindMany](../interfaces/Transporter___Base_to_connect_any_Database_to_Backland_.FindMany.md)
-- [FindOne](../interfaces/Transporter___Base_to_connect_any_Database_to_Backland_.FindOne.md)
-- [FirstIndexParsed](../interfaces/Transporter___Base_to_connect_any_Database_to_Backland_.FirstIndexParsed.md)
-- [IndexMethods](../interfaces/Transporter___Base_to_connect_any_Database_to_Backland_.IndexMethods.md)
-- [IndexPKSKPartsListConfig](../interfaces/Transporter___Base_to_connect_any_Database_to_Backland_.IndexPKSKPartsListConfig.md)
-- [Paginate](../interfaces/Transporter___Base_to_connect_any_Database_to_Backland_.Paginate.md)
-- [Transporter](../interfaces/Transporter___Base_to_connect_any_Database_to_Backland_.Transporter.md)
-- [UpdateMany](../interfaces/Transporter___Base_to_connect_any_Database_to_Backland_.UpdateMany.md)
-- [UpdateOne](../interfaces/Transporter___Base_to_connect_any_Database_to_Backland_.UpdateOne.md)
+- [CreateOne](../interfaces/Transporter___Base_to_connect_any_Database_to_Solarwind_.CreateOne.md)
+- [DeleteMany](../interfaces/Transporter___Base_to_connect_any_Database_to_Solarwind_.DeleteMany.md)
+- [DeleteOne](../interfaces/Transporter___Base_to_connect_any_Database_to_Solarwind_.DeleteOne.md)
+- [DocumentIndexFieldsParsed](../interfaces/Transporter___Base_to_connect_any_Database_to_Solarwind_.DocumentIndexFieldsParsed.md)
+- [DocumentIndexesConfig](../interfaces/Transporter___Base_to_connect_any_Database_to_Solarwind_.DocumentIndexesConfig.md)
+- [FindById](../interfaces/Transporter___Base_to_connect_any_Database_to_Solarwind_.FindById.md)
+- [FindMany](../interfaces/Transporter___Base_to_connect_any_Database_to_Solarwind_.FindMany.md)
+- [FindOne](../interfaces/Transporter___Base_to_connect_any_Database_to_Solarwind_.FindOne.md)
+- [FirstIndexParsed](../interfaces/Transporter___Base_to_connect_any_Database_to_Solarwind_.FirstIndexParsed.md)
+- [IndexMethods](../interfaces/Transporter___Base_to_connect_any_Database_to_Solarwind_.IndexMethods.md)
+- [IndexPKSKPartsListConfig](../interfaces/Transporter___Base_to_connect_any_Database_to_Solarwind_.IndexPKSKPartsListConfig.md)
+- [Paginate](../interfaces/Transporter___Base_to_connect_any_Database_to_Solarwind_.Paginate.md)
+- [Transporter](../interfaces/Transporter___Base_to_connect_any_Database_to_Solarwind_.Transporter.md)
+- [UpdateMany](../interfaces/Transporter___Base_to_connect_any_Database_to_Solarwind_.UpdateMany.md)
+- [UpdateOne](../interfaces/Transporter___Base_to_connect_any_Database_to_Solarwind_.UpdateOne.md)
 
 ### Type Aliases
 
-- [AllFilterOperations](Transporter___Base_to_connect_any_Database_to_Backland_.md#allfilteroperations)
-- [AllIndexFilter](Transporter___Base_to_connect_any_Database_to_Backland_.md#allindexfilter)
-- [AnyCollectionIndexConfig](Transporter___Base_to_connect_any_Database_to_Backland_.md#anycollectionindexconfig)
-- [AnyDocIndexItem](Transporter___Base_to_connect_any_Database_to_Backland_.md#anydocindexitem)
-- [ArrayOperationRecord](Transporter___Base_to_connect_any_Database_to_Backland_.md#arrayoperationrecord)
-- [AttributeFilterKey](Transporter___Base_to_connect_any_Database_to_Backland_.md#attributefilterkey)
-- [CollectionConfigIndexes](Transporter___Base_to_connect_any_Database_to_Backland_.md#collectionconfigindexes)
-- [CollectionIndexConfig](Transporter___Base_to_connect_any_Database_to_Backland_.md#collectionindexconfig)
-- [CommonIndexFields](Transporter___Base_to_connect_any_Database_to_Backland_.md#commonindexfields)
-- [CreateOneConfig](Transporter___Base_to_connect_any_Database_to_Backland_.md#createoneconfig)
-- [CreateOneResult](Transporter___Base_to_connect_any_Database_to_Backland_.md#createoneresult)
-- [DeleteManyConfig](Transporter___Base_to_connect_any_Database_to_Backland_.md#deletemanyconfig)
-- [DeleteManyResult](Transporter___Base_to_connect_any_Database_to_Backland_.md#deletemanyresult)
-- [DeleteOneConfig](Transporter___Base_to_connect_any_Database_to_Backland_.md#deleteoneconfig)
-- [DeleteOneResult](Transporter___Base_to_connect_any_Database_to_Backland_.md#deleteoneresult)
-- [DocumentBase](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase)
-- [DocumentIndexFieldKey](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentindexfieldkey)
-- [DocumentIndexFilterParsed](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentindexfilterparsed)
-- [DocumentIndexItem](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentindexitem)
-- [DocumentIndexRelation](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentindexrelation)
-- [EntityErrorDetails](Transporter___Base_to_connect_any_Database_to_Backland_.md#entityerrordetails)
-- [EntityErrorKind](Transporter___Base_to_connect_any_Database_to_Backland_.md#entityerrorkind)
-- [EntityErrorKindEnum](Transporter___Base_to_connect_any_Database_to_Backland_.md#entityerrorkindenum)
-- [EntityFilters](Transporter___Base_to_connect_any_Database_to_Backland_.md#entityfilters)
-- [FilterConditions](Transporter___Base_to_connect_any_Database_to_Backland_.md#filterconditions)
-- [FilterRecord](Transporter___Base_to_connect_any_Database_to_Backland_.md#filterrecord)
-- [FindByIdConfig](Transporter___Base_to_connect_any_Database_to_Backland_.md#findbyidconfig)
-- [FindManyConfig](Transporter___Base_to_connect_any_Database_to_Backland_.md#findmanyconfig)
-- [FindManyResult](Transporter___Base_to_connect_any_Database_to_Backland_.md#findmanyresult)
-- [FindOneConfig](Transporter___Base_to_connect_any_Database_to_Backland_.md#findoneconfig)
-- [FindOneResult](Transporter___Base_to_connect_any_Database_to_Backland_.md#findoneresult)
-- [IndexBasedFilterParsed](Transporter___Base_to_connect_any_Database_to_Backland_.md#indexbasedfilterparsed)
-- [IndexFilter](Transporter___Base_to_connect_any_Database_to_Backland_.md#indexfilter)
-- [IndexFilterFound](Transporter___Base_to_connect_any_Database_to_Backland_.md#indexfilterfound)
-- [IndexFilterRecord](Transporter___Base_to_connect_any_Database_to_Backland_.md#indexfilterrecord)
-- [IndexKeyHash](Transporter___Base_to_connect_any_Database_to_Backland_.md#indexkeyhash)
-- [IndexPartKind](Transporter___Base_to_connect_any_Database_to_Backland_.md#indexpartkind)
-- [InvalidParsedIndexField](Transporter___Base_to_connect_any_Database_to_Backland_.md#invalidparsedindexfield)
-- [LoaderContext](Transporter___Base_to_connect_any_Database_to_Backland_.md#loadercontext)
-- [MethodFilter](Transporter___Base_to_connect_any_Database_to_Backland_.md#methodfilter)
-- [OneFilterOperation](Transporter___Base_to_connect_any_Database_to_Backland_.md#onefilteroperation)
-- [PKSKValueType](Transporter___Base_to_connect_any_Database_to_Backland_.md#pkskvaluetype)
-- [PaginationResult](Transporter___Base_to_connect_any_Database_to_Backland_.md#paginationresult)
-- [ParsedDocumentIndexes](Transporter___Base_to_connect_any_Database_to_Backland_.md#parseddocumentindexes)
-- [ParsedIndexFilterPart](Transporter___Base_to_connect_any_Database_to_Backland_.md#parsedindexfilterpart)
-- [ParsedIndexKey](Transporter___Base_to_connect_any_Database_to_Backland_.md#parsedindexkey)
-- [ParsedIndexPart](Transporter___Base_to_connect_any_Database_to_Backland_.md#parsedindexpart)
-- [ParsedUpdateExpression](Transporter___Base_to_connect_any_Database_to_Backland_.md#parsedupdateexpression)
-- [QuerySort](Transporter___Base_to_connect_any_Database_to_Backland_.md#querysort)
-- [RelationsFilter](Transporter___Base_to_connect_any_Database_to_Backland_.md#relationsfilter)
-- [RootFilterOperators](Transporter___Base_to_connect_any_Database_to_Backland_.md#rootfilteroperators)
-- [TopLevelFilterKey](Transporter___Base_to_connect_any_Database_to_Backland_.md#toplevelfilterkey)
-- [TransporterFieldType](Transporter___Base_to_connect_any_Database_to_Backland_.md#transporterfieldtype)
-- [TransporterLoader](Transporter___Base_to_connect_any_Database_to_Backland_.md#transporterloader)
-- [TransporterLoaderName](Transporter___Base_to_connect_any_Database_to_Backland_.md#transporterloadername)
-- [TransporterLoadersRecord](Transporter___Base_to_connect_any_Database_to_Backland_.md#transporterloadersrecord)
-- [UpdateExpression](Transporter___Base_to_connect_any_Database_to_Backland_.md#updateexpression)
-- [UpdateExpressionKey](Transporter___Base_to_connect_any_Database_to_Backland_.md#updateexpressionkey)
-- [UpdateManyConfig](Transporter___Base_to_connect_any_Database_to_Backland_.md#updatemanyconfig)
-- [UpdateManyResult](Transporter___Base_to_connect_any_Database_to_Backland_.md#updatemanyresult)
-- [UpdateOneConfig](Transporter___Base_to_connect_any_Database_to_Backland_.md#updateoneconfig)
-- [UpdateOneResult](Transporter___Base_to_connect_any_Database_to_Backland_.md#updateoneresult)
+- [AllFilterOperations](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#allfilteroperations)
+- [AllIndexFilter](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#allindexfilter)
+- [AnyCollectionIndexConfig](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#anycollectionindexconfig)
+- [AnyDocIndexItem](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#anydocindexitem)
+- [ArrayOperationRecord](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#arrayoperationrecord)
+- [AttributeFilterKey](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#attributefilterkey)
+- [CollectionConfigIndexes](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#collectionconfigindexes)
+- [CollectionIndexConfig](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#collectionindexconfig)
+- [CommonIndexFields](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#commonindexfields)
+- [CreateOneConfig](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#createoneconfig)
+- [CreateOneResult](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#createoneresult)
+- [DeleteManyConfig](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#deletemanyconfig)
+- [DeleteManyResult](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#deletemanyresult)
+- [DeleteOneConfig](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#deleteoneconfig)
+- [DeleteOneResult](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#deleteoneresult)
+- [DocumentBase](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase)
+- [DocumentIndexFieldKey](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentindexfieldkey)
+- [DocumentIndexFilterParsed](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentindexfilterparsed)
+- [DocumentIndexItem](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentindexitem)
+- [DocumentIndexRelation](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentindexrelation)
+- [EntityErrorDetails](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#entityerrordetails)
+- [EntityErrorKind](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#entityerrorkind)
+- [EntityErrorKindEnum](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#entityerrorkindenum)
+- [EntityFilters](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#entityfilters)
+- [FilterConditions](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#filterconditions)
+- [FilterRecord](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#filterrecord)
+- [FindByIdConfig](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#findbyidconfig)
+- [FindManyConfig](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#findmanyconfig)
+- [FindManyResult](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#findmanyresult)
+- [FindOneConfig](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#findoneconfig)
+- [FindOneResult](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#findoneresult)
+- [IndexBasedFilterParsed](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#indexbasedfilterparsed)
+- [IndexFilter](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#indexfilter)
+- [IndexFilterFound](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#indexfilterfound)
+- [IndexFilterRecord](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#indexfilterrecord)
+- [IndexKeyHash](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#indexkeyhash)
+- [IndexPartKind](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#indexpartkind)
+- [InvalidParsedIndexField](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#invalidparsedindexfield)
+- [LoaderContext](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#loadercontext)
+- [MethodFilter](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#methodfilter)
+- [OneFilterOperation](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#onefilteroperation)
+- [PKSKValueType](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#pkskvaluetype)
+- [PaginationResult](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#paginationresult)
+- [ParsedDocumentIndexes](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parseddocumentindexes)
+- [ParsedIndexFilterPart](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parsedindexfilterpart)
+- [ParsedIndexKey](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parsedindexkey)
+- [ParsedIndexPart](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parsedindexpart)
+- [ParsedUpdateExpression](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parsedupdateexpression)
+- [QuerySort](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#querysort)
+- [RelationsFilter](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#relationsfilter)
+- [RootFilterOperators](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#rootfilteroperators)
+- [TopLevelFilterKey](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#toplevelfilterkey)
+- [TransporterFieldType](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#transporterfieldtype)
+- [TransporterLoader](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#transporterloader)
+- [TransporterLoaderName](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#transporterloadername)
+- [TransporterLoadersRecord](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#transporterloadersrecord)
+- [UpdateExpression](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#updateexpression)
+- [UpdateExpressionKey](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#updateexpressionkey)
+- [UpdateManyConfig](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#updatemanyconfig)
+- [UpdateManyResult](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#updatemanyresult)
+- [UpdateOneConfig](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#updateoneconfig)
+- [UpdateOneResult](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#updateoneresult)
 
 ### Variables
 
-- [AttributeFilterKeys](Transporter___Base_to_connect_any_Database_to_Backland_.md#attributefilterkeys)
-- [DEFAULT\_SORT](Transporter___Base_to_connect_any_Database_to_Backland_.md#default_sort)
-- [EntityErrorKind](Transporter___Base_to_connect_any_Database_to_Backland_.md#entityerrorkind-1)
-- [FieldTypes](Transporter___Base_to_connect_any_Database_to_Backland_.md#fieldtypes)
-- [FilterConditionsParsers](Transporter___Base_to_connect_any_Database_to_Backland_.md#filterconditionsparsers)
-- [TopLevelFilterKeys](Transporter___Base_to_connect_any_Database_to_Backland_.md#toplevelfilterkeys)
-- [indexConfigSchema](Transporter___Base_to_connect_any_Database_to_Backland_.md#indexconfigschema)
-- [indexItemSchema](Transporter___Base_to_connect_any_Database_to_Backland_.md#indexitemschema)
-- [relationSchema](Transporter___Base_to_connect_any_Database_to_Backland_.md#relationschema)
-- [transporterLoaderNames](Transporter___Base_to_connect_any_Database_to_Backland_.md#transporterloadernames)
+- [AttributeFilterKeys](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#attributefilterkeys)
+- [DEFAULT\_SORT](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#default_sort)
+- [EntityErrorKind](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#entityerrorkind-1)
+- [FieldTypes](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#fieldtypes)
+- [FilterConditionsParsers](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#filterconditionsparsers)
+- [TopLevelFilterKeys](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#toplevelfilterkeys)
+- [indexConfigSchema](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#indexconfigschema)
+- [indexItemSchema](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#indexitemschema)
+- [relationSchema](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#relationschema)
+- [transporterLoaderNames](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#transporterloadernames)
 
 ### Functions
 
-- [\_ensureTransporterMethodsImplementation](Transporter___Base_to_connect_any_Database_to_Backland_.md#_ensuretransportermethodsimplementation)
-- [assertFieldFilter](Transporter___Base_to_connect_any_Database_to_Backland_.md#assertfieldfilter)
-- [createAggioIndexBasedFilters](Transporter___Base_to_connect_any_Database_to_Backland_.md#createaggioindexbasedfilters)
-- [createDocumentIndexBasedFilters](Transporter___Base_to_connect_any_Database_to_Backland_.md#createdocumentindexbasedfilters)
-- [encodeIndexValue](Transporter___Base_to_connect_any_Database_to_Backland_.md#encodeindexvalue)
-- [getDocumentIndexFields](Transporter___Base_to_connect_any_Database_to_Backland_.md#getdocumentindexfields)
-- [getParsedIndexKeys](Transporter___Base_to_connect_any_Database_to_Backland_.md#getparsedindexkeys)
-- [isFilterConditionKey](Transporter___Base_to_connect_any_Database_to_Backland_.md#isfilterconditionkey)
-- [mergeIndexRelationsResult](Transporter___Base_to_connect_any_Database_to_Backland_.md#mergeindexrelationsresult)
-- [parseAggioAttributeFilters](Transporter___Base_to_connect_any_Database_to_Backland_.md#parseaggioattributefilters)
-- [parseAggioUpdateExpression](Transporter___Base_to_connect_any_Database_to_Backland_.md#parseaggioupdateexpression)
-- [parseCollectionIndexConfig](Transporter___Base_to_connect_any_Database_to_Backland_.md#parsecollectionindexconfig)
-- [parseEntityIndexFields](Transporter___Base_to_connect_any_Database_to_Backland_.md#parseentityindexfields)
-- [parseFilterIndexFilterParts](Transporter___Base_to_connect_any_Database_to_Backland_.md#parsefilterindexfilterparts)
-- [parseOneIndexDocumentFields](Transporter___Base_to_connect_any_Database_to_Backland_.md#parseoneindexdocumentfields)
-- [parseUpdateExpression](Transporter___Base_to_connect_any_Database_to_Backland_.md#parseupdateexpression)
-- [pickIndexKeyPartsFromDocument](Transporter___Base_to_connect_any_Database_to_Backland_.md#pickindexkeypartsfromdocument)
+- [\_ensureTransporterMethodsImplementation](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#_ensuretransportermethodsimplementation)
+- [assertFieldFilter](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#assertfieldfilter)
+- [createAggioIndexBasedFilters](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#createaggioindexbasedfilters)
+- [createDocumentIndexBasedFilters](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#createdocumentindexbasedfilters)
+- [encodeIndexValue](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#encodeindexvalue)
+- [getDocumentIndexFields](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#getdocumentindexfields)
+- [getParsedIndexKeys](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#getparsedindexkeys)
+- [isFilterConditionKey](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#isfilterconditionkey)
+- [mergeIndexRelationsResult](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#mergeindexrelationsresult)
+- [parseAggioAttributeFilters](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parseaggioattributefilters)
+- [parseAggioUpdateExpression](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parseaggioupdateexpression)
+- [parseCollectionIndexConfig](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parsecollectionindexconfig)
+- [parseEntityIndexFields](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parseentityindexfields)
+- [parseFilterIndexFilterParts](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parsefilterindexfilterparts)
+- [parseOneIndexDocumentFields](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parseoneindexdocumentfields)
+- [parseUpdateExpression](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parseupdateexpression)
+- [pickIndexKeyPartsFromDocument](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#pickindexkeypartsfromdocument)
 
 ## Type Aliases
 
@@ -136,17 +136,17 @@
 | :------ | :------ |
 | `$between` | [`string`, `string`] \| [`number`, `number`] |
 | `$contains` | `string` \| `number` \| `boolean` \| ``null`` |
-| `$eq` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Backland_.md#pkskvaluetype) \| `boolean` |
+| `$eq` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#pkskvaluetype) \| `boolean` |
 | `$exists` | `boolean` |
-| `$gt` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Backland_.md#pkskvaluetype) |
-| `$gte` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Backland_.md#pkskvaluetype) |
+| `$gt` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#pkskvaluetype) |
+| `$gte` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#pkskvaluetype) |
 | `$in` | `unknown`[] |
-| `$lt` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Backland_.md#pkskvaluetype) |
-| `$lte` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Backland_.md#pkskvaluetype) |
+| `$lt` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#pkskvaluetype) |
+| `$lte` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#pkskvaluetype) |
 | `$matchString` | `string` |
-| `$ne` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Backland_.md#pkskvaluetype) \| `boolean` |
+| `$ne` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#pkskvaluetype) \| `boolean` |
 | `$startsWith` | `string` |
-| `$type` | [`TransporterFieldType`](Transporter___Base_to_connect_any_Database_to_Backland_.md#transporterfieldtype) |
+| `$type` | [`TransporterFieldType`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#transporterfieldtype) |
 
 #### Defined in
 
@@ -163,12 +163,12 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `$between` | [`string`, `string`] \| [`number`, `number`] |
-| `$eq` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Backland_.md#pkskvaluetype) |
-| `$gt` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Backland_.md#pkskvaluetype) |
-| `$gte` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Backland_.md#pkskvaluetype) |
-| `$lt` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Backland_.md#pkskvaluetype) |
-| `$lte` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Backland_.md#pkskvaluetype) |
-| `$startsWith` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Backland_.md#pkskvaluetype) |
+| `$eq` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#pkskvaluetype) |
+| `$gt` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#pkskvaluetype) |
+| `$gte` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#pkskvaluetype) |
+| `$lt` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#pkskvaluetype) |
+| `$lte` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#pkskvaluetype) |
+| `$startsWith` | [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#pkskvaluetype) |
 
 #### Defined in
 
@@ -178,7 +178,7 @@ ___
 
 ### AnyCollectionIndexConfig
 
-Ƭ **AnyCollectionIndexConfig**: [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Backland_.md#collectionindexconfig)<[`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase), `string`\>
+Ƭ **AnyCollectionIndexConfig**: [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#collectionindexconfig)<[`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase), `string`\>
 
 #### Defined in
 
@@ -188,7 +188,7 @@ ___
 
 ### AnyDocIndexItem
 
-Ƭ **AnyDocIndexItem**: [`DocumentIndexItem`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentindexitem)
+Ƭ **AnyDocIndexItem**: [`DocumentIndexItem`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentindexitem)
 
 #### Defined in
 
@@ -215,7 +215,7 @@ ___
 
 ### AttributeFilterKey
 
-Ƭ **AttributeFilterKey**: typeof [`AttributeFilterKeys`](Transporter___Base_to_connect_any_Database_to_Backland_.md#attributefilterkeys)[`number`]
+Ƭ **AttributeFilterKey**: typeof [`AttributeFilterKeys`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#attributefilterkeys)[`number`]
 
 #### Defined in
 
@@ -225,13 +225,13 @@ ___
 
 ### CollectionConfigIndexes
 
-Ƭ **CollectionConfigIndexes**<`Doc`, `K`\>: `ReadonlyArray`<[`DocumentIndexItem`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentindexitem)<`K`\>\>
+Ƭ **CollectionConfigIndexes**<`Doc`, `K`\>: `ReadonlyArray`<[`DocumentIndexItem`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentindexitem)<`K`\>\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) |
 | `K` | extends `string` = `Extract`<keyof `Doc`, `string`\> |
 
 #### Defined in
@@ -248,7 +248,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) |
 | `EntityName` | extends `string` |
 
 #### Type declaration
@@ -256,7 +256,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `entity` | `Readonly`<`EntityName`\> |
-| `indexes` | [`CollectionConfigIndexes`](Transporter___Base_to_connect_any_Database_to_Backland_.md#collectionconfigindexes)<`Doc`\> |
+| `indexes` | [`CollectionConfigIndexes`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#collectionconfigindexes)<`Doc`\> |
 
 #### Defined in
 
@@ -282,7 +282,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) |
 | `PK` | extends `string` = `string` |
 | `SK` | extends `string` \| `undefined` = `string` |
 
@@ -290,9 +290,9 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Backland_.md#filterrecord)<`Doc`\> |
-| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Backland_.md#loadercontext) |
-| `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Backland_.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
+| `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#filterrecord)<`Doc`\> |
+| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#loadercontext) |
+| `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 | `item` | `Doc` |
 | `replace?` | `boolean` |
 
@@ -335,7 +335,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) |
 | `PK` | extends `string` = `string` |
 | `SK` | extends `string` \| `undefined` = `string` |
 
@@ -343,10 +343,10 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Backland_.md#filterrecord)<`Doc`\> |
-| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Backland_.md#loadercontext) |
-| `filter` | [`MethodFilter`](Transporter___Base_to_connect_any_Database_to_Backland_.md#methodfilter)<`PK`, `SK`\> |
-| `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Backland_.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
+| `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#filterrecord)<`Doc`\> |
+| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#loadercontext) |
+| `filter` | [`MethodFilter`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#methodfilter)<`PK`, `SK`\> |
+| `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 
 #### Defined in
 
@@ -379,7 +379,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Item` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) |
+| `Item` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) |
 | `PK` | extends `string` = `string` |
 | `SK` | extends `string` \| `undefined` = `string` |
 
@@ -387,10 +387,10 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Backland_.md#filterrecord)<`Item`\> |
-| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Backland_.md#loadercontext) |
-| `filter` | [`MethodFilter`](Transporter___Base_to_connect_any_Database_to_Backland_.md#methodfilter)<`PK`, `SK`\> |
-| `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Backland_.md#collectionindexconfig)<`Item`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
+| `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#filterrecord)<`Item`\> |
+| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#loadercontext) |
+| `filter` | [`MethodFilter`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#methodfilter)<`PK`, `SK`\> |
+| `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#collectionindexconfig)<`Item`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 
 #### Defined in
 
@@ -406,7 +406,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) |
+| `T` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) |
 
 #### Type declaration
 
@@ -448,10 +448,10 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `PK` | [`FilterConditions`](Transporter___Base_to_connect_any_Database_to_Backland_.md#filterconditions) \| `string` |
-| `SK` | [`FilterConditions`](Transporter___Base_to_connect_any_Database_to_Backland_.md#filterconditions) \| `string` |
+| `PK` | [`FilterConditions`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#filterconditions) \| `string` |
+| `SK` | [`FilterConditions`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#filterconditions) \| `string` |
 | `entity` | `string` |
-| `key` | [`AnyDocIndexItem`](Transporter___Base_to_connect_any_Database_to_Backland_.md#anydocindexitem)[``"name"``] |
+| `key` | [`AnyDocIndexItem`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#anydocindexitem)[``"name"``] |
 
 #### Defined in
 
@@ -473,11 +473,11 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `PK` | [`IndexPKSKPartsListConfig`](../interfaces/Transporter___Base_to_connect_any_Database_to_Backland_.IndexPKSKPartsListConfig.md)<`DocKeys`\> |
-| `SK?` | [`IndexPKSKPartsListConfig`](../interfaces/Transporter___Base_to_connect_any_Database_to_Backland_.IndexPKSKPartsListConfig.md)<`DocKeys`\> |
-| `name` | [`DocumentIndexFieldKey`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentindexfieldkey) |
+| `PK` | [`IndexPKSKPartsListConfig`](../interfaces/Transporter___Base_to_connect_any_Database_to_Solarwind_.IndexPKSKPartsListConfig.md)<`DocKeys`\> |
+| `SK?` | [`IndexPKSKPartsListConfig`](../interfaces/Transporter___Base_to_connect_any_Database_to_Solarwind_.IndexPKSKPartsListConfig.md)<`DocKeys`\> |
+| `name` | [`DocumentIndexFieldKey`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentindexfieldkey) |
 | `relatedTo?` | `string` |
-| `relations?` | `ReadonlyArray`<[`DocumentIndexRelation`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentindexrelation)\> |
+| `relations?` | `ReadonlyArray`<[`DocumentIndexRelation`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentindexrelation)\> |
 
 #### Defined in
 
@@ -514,8 +514,8 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `invalidFields?` | [`InvalidParsedIndexField`](Transporter___Base_to_connect_any_Database_to_Backland_.md#invalidparsedindexfield)[] |
-| `reason` | [`EntityErrorKind`](Transporter___Base_to_connect_any_Database_to_Backland_.md#entityerrorkind-1) |
+| `invalidFields?` | [`InvalidParsedIndexField`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#invalidparsedindexfield)[] |
+| `reason` | [`EntityErrorKind`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#entityerrorkind-1) |
 
 #### Defined in
 
@@ -525,7 +525,7 @@ ___
 
 ### EntityErrorKind
 
-Ƭ **EntityErrorKind**: keyof [`EntityErrorKindEnum`](Transporter___Base_to_connect_any_Database_to_Backland_.md#entityerrorkindenum)
+Ƭ **EntityErrorKind**: keyof [`EntityErrorKindEnum`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#entityerrorkindenum)
 
 #### Defined in
 
@@ -537,7 +537,7 @@ ___
 
 ### EntityErrorKindEnum
 
-Ƭ **EntityErrorKindEnum**: typeof [`EntityErrorKind`](Transporter___Base_to_connect_any_Database_to_Backland_.md#entityerrorkind-1)
+Ƭ **EntityErrorKindEnum**: typeof [`EntityErrorKind`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#entityerrorkind-1)
 
 #### Defined in
 
@@ -569,7 +569,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) |
 
 #### Defined in
 
@@ -579,13 +579,13 @@ ___
 
 ### FilterRecord
 
-Ƭ **FilterRecord**<`Doc`\>: [`EntityFilters`](Transporter___Base_to_connect_any_Database_to_Backland_.md#entityfilters)<`Doc`\> \| { `$and?`: [`RootFilterOperators`](Transporter___Base_to_connect_any_Database_to_Backland_.md#rootfilteroperators)<`Doc`\>[``"$and"``] ; `$not?`: [`RootFilterOperators`](Transporter___Base_to_connect_any_Database_to_Backland_.md#rootfilteroperators)<`Doc`\>[``"$not"``] ; `$or?`: [`RootFilterOperators`](Transporter___Base_to_connect_any_Database_to_Backland_.md#rootfilteroperators)<`Doc`\>[``"$or"``] ; `_id?`: `string` ; `_id1?`: `string` ; `_id2?`: `string` ; `_id3?`: `string` ; `id?`: `string`  } & [`EntityFilters`](Transporter___Base_to_connect_any_Database_to_Backland_.md#entityfilters)<`Doc`\>
+Ƭ **FilterRecord**<`Doc`\>: [`EntityFilters`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#entityfilters)<`Doc`\> \| { `$and?`: [`RootFilterOperators`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#rootfilteroperators)<`Doc`\>[``"$and"``] ; `$not?`: [`RootFilterOperators`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#rootfilteroperators)<`Doc`\>[``"$not"``] ; `$or?`: [`RootFilterOperators`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#rootfilteroperators)<`Doc`\>[``"$or"``] ; `_id?`: `string` ; `_id1?`: `string` ; `_id2?`: `string` ; `_id3?`: `string` ; `id?`: `string`  } & [`EntityFilters`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#entityfilters)<`Doc`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) |
 
 #### Defined in
 
@@ -601,7 +601,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) |
 | `PK` | extends `string` = `string` |
 | `SK` | extends `string` \| `undefined` = `string` |
 
@@ -609,11 +609,11 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Backland_.md#filterrecord)<`Doc`\> |
+| `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#filterrecord)<`Doc`\> |
 | `consistent?` | `boolean` |
-| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Backland_.md#loadercontext) |
+| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#loadercontext) |
 | `id` | `string` |
-| `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Backland_.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
+| `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 | `projection?` | `string`[] |
 
 #### Defined in
@@ -630,7 +630,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) |
 | `PK` | extends `string` = `string` |
 | `SK` | extends `string` \| `undefined` = `string` |
 
@@ -638,15 +638,15 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `after?` | [`IndexFilterRecord`](Transporter___Base_to_connect_any_Database_to_Backland_.md#indexfilterrecord)<`PK`, `SK`\> extends infer R ? { [K in keyof R]: R[K] } : {} \| `string` |
-| `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Backland_.md#filterrecord)<`Doc`\> |
+| `after?` | [`IndexFilterRecord`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#indexfilterrecord)<`PK`, `SK`\> extends infer R ? { [K in keyof R]: R[K] } : {} \| `string` |
+| `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#filterrecord)<`Doc`\> |
 | `consistent?` | `boolean` |
-| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Backland_.md#loadercontext) |
-| `filter` | [`MethodFilter`](Transporter___Base_to_connect_any_Database_to_Backland_.md#methodfilter)<`PK`, `SK`\> |
+| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#loadercontext) |
+| `filter` | [`MethodFilter`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#methodfilter)<`PK`, `SK`\> |
 | `first?` | `number` |
-| `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Backland_.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
+| `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 | `projection?` | `string`[] |
-| `sort?` | [`QuerySort`](Transporter___Base_to_connect_any_Database_to_Backland_.md#querysort) |
+| `sort?` | [`QuerySort`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#querysort) |
 
 #### Defined in
 
@@ -662,7 +662,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) |
 
 #### Type declaration
 
@@ -684,7 +684,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) |
 | `PK` | extends `string` = `string` |
 | `SK` | extends `string` \| `undefined` = `string` |
 
@@ -692,11 +692,11 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Backland_.md#filterrecord)<`Doc`\> |
+| `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#filterrecord)<`Doc`\> |
 | `consistent?` | `boolean` |
-| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Backland_.md#loadercontext) |
-| `filter` | [`MethodFilter`](Transporter___Base_to_connect_any_Database_to_Backland_.md#methodfilter)<`PK`, `SK`\> |
-| `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Backland_.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
+| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#loadercontext) |
+| `filter` | [`MethodFilter`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#methodfilter)<`PK`, `SK`\> |
+| `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 | `projection?` | `string`[] |
 
 #### Defined in
@@ -713,7 +713,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) |
 
 #### Type declaration
 
@@ -735,8 +735,8 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `indexFilter` | [`IndexFilterFound`](Transporter___Base_to_connect_any_Database_to_Backland_.md#indexfilterfound) |
-| `relationFilters` | [`RelationsFilter`](Transporter___Base_to_connect_any_Database_to_Backland_.md#relationsfilter)[] \| `undefined` |
+| `indexFilter` | [`IndexFilterFound`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#indexfilterfound) |
+| `relationFilters` | [`RelationsFilter`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#relationsfilter)[] \| `undefined` |
 
 #### Defined in
 
@@ -817,8 +817,8 @@ ___
 | :------ | :------ |
 | `details` | `string` |
 | `documentField` | `string` |
-| `indexField` | [`AnyDocIndexItem`](Transporter___Base_to_connect_any_Database_to_Backland_.md#anydocindexitem)[``"name"``] |
-| `indexPartKind` | [`IndexPartKind`](Transporter___Base_to_connect_any_Database_to_Backland_.md#indexpartkind) |
+| `indexField` | [`AnyDocIndexItem`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#anydocindexitem)[``"name"``] |
+| `indexPartKind` | [`IndexPartKind`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#indexpartkind) |
 | `reason` | ``"missing"`` \| ``"invalid"`` |
 
 #### Defined in
@@ -849,7 +849,7 @@ ___
 
 ### MethodFilter
 
-Ƭ **MethodFilter**<`PK`, `SK`\>: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](Transporter___Base_to_connect_any_Database_to_Backland_.md#indexfilterrecord)<`PK`, `SK`\> extends infer F ? `F` extends `unknown` ? { [K in keyof F]?: F[K] } & { `id?`: [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Backland_.md#pkskvaluetype)  } : {} : {}\>\>
+Ƭ **MethodFilter**<`PK`, `SK`\>: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#indexfilterrecord)<`PK`, `SK`\> extends infer F ? `F` extends `unknown` ? { [K in keyof F]?: F[K] } & { `id?`: [`PKSKValueType`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#pkskvaluetype)  } : {} : {}\>\>
 
 #### Type parameters
 
@@ -866,7 +866,7 @@ ___
 
 ### OneFilterOperation
 
-Ƭ **OneFilterOperation**: { [K in keyof AllFilterOperations]: { [L in K]: AllFilterOperations[K] } }[keyof [`AllFilterOperations`](Transporter___Base_to_connect_any_Database_to_Backland_.md#allfilteroperations)]
+Ƭ **OneFilterOperation**: { [K in keyof AllFilterOperations]: { [L in K]: AllFilterOperations[K] } }[keyof [`AllFilterOperations`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#allfilteroperations)]
 
 #### Defined in
 
@@ -892,7 +892,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) |
 
 #### Type declaration
 
@@ -913,7 +913,7 @@ ___
 
 ### ParsedDocumentIndexes
 
-Ƭ **ParsedDocumentIndexes**: { `error`: ``null`` ; `filtersFound?`: [`DocumentIndexFilterParsed`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentindexfilterparsed)[] ; `firstIndex`: [`FirstIndexParsed`](../interfaces/Transporter___Base_to_connect_any_Database_to_Backland_.FirstIndexParsed.md) ; `indexFields`: [`CommonIndexFields`](Transporter___Base_to_connect_any_Database_to_Backland_.md#commonindexfields) ; `invalidFields`: ``null`` ; `parsedIndexKeys`: [`ParsedIndexKey`](Transporter___Base_to_connect_any_Database_to_Backland_.md#parsedindexkey)[] ; `valid`: ``true``  } \| { `error`: [`CollectionErrors`](../classes/Transporter___Base_to_connect_any_Database_to_Backland_.CollectionErrors.md) ; `firstIndex`: [`FirstIndexParsed`](../interfaces/Transporter___Base_to_connect_any_Database_to_Backland_.FirstIndexParsed.md) \| ``null`` ; `indexFields`: ``null`` ; `invalidFields`: [`ParsedIndexPart`](Transporter___Base_to_connect_any_Database_to_Backland_.md#parsedindexpart)[``"invalidFields"``] ; `parsedIndexKeys`: [`ParsedIndexKey`](Transporter___Base_to_connect_any_Database_to_Backland_.md#parsedindexkey)[] ; `uniqIndexCondition?`: `undefined` ; `valid`: ``false``  }
+Ƭ **ParsedDocumentIndexes**: { `error`: ``null`` ; `filtersFound?`: [`DocumentIndexFilterParsed`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentindexfilterparsed)[] ; `firstIndex`: [`FirstIndexParsed`](../interfaces/Transporter___Base_to_connect_any_Database_to_Solarwind_.FirstIndexParsed.md) ; `indexFields`: [`CommonIndexFields`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#commonindexfields) ; `invalidFields`: ``null`` ; `parsedIndexKeys`: [`ParsedIndexKey`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parsedindexkey)[] ; `valid`: ``true``  } \| { `error`: [`CollectionErrors`](../classes/Transporter___Base_to_connect_any_Database_to_Solarwind_.CollectionErrors.md) ; `firstIndex`: [`FirstIndexParsed`](../interfaces/Transporter___Base_to_connect_any_Database_to_Solarwind_.FirstIndexParsed.md) \| ``null`` ; `indexFields`: ``null`` ; `invalidFields`: [`ParsedIndexPart`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parsedindexpart)[``"invalidFields"``] ; `parsedIndexKeys`: [`ParsedIndexKey`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parsedindexkey)[] ; `uniqIndexCondition?`: `undefined` ; `valid`: ``false``  }
 
 #### Defined in
 
@@ -930,11 +930,11 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `PKPartOpen` | `string` |
-| `PKPartParsed` | [`ParsedIndexPart`](Transporter___Base_to_connect_any_Database_to_Backland_.md#parsedindexpart) |
-| `SKPartParsed` | [`ParsedIndexPart`](Transporter___Base_to_connect_any_Database_to_Backland_.md#parsedindexpart) \| ``null`` |
+| `PKPartParsed` | [`ParsedIndexPart`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parsedindexpart) |
+| `SKPartParsed` | [`ParsedIndexPart`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parsedindexpart) \| ``null`` |
 | `entity` | `string` |
-| `index` | [`DocumentIndexItem`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentindexitem) |
-| `indexFilter` | [`IndexFilterRecord`](Transporter___Base_to_connect_any_Database_to_Backland_.md#indexfilterrecord) |
+| `index` | [`DocumentIndexItem`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentindexitem) |
+| `indexFilter` | [`IndexFilterRecord`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#indexfilterrecord) |
 
 #### Defined in
 
@@ -950,23 +950,23 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `PK` | { `definition`: `Readonly`<[`AnyDocIndexItem`](Transporter___Base_to_connect_any_Database_to_Backland_.md#anydocindexitem)[``"PK"``]\> ; `destinationField`: { `key`: `string` ; `value`: `string`  } ; `parsed`: [`ParsedIndexPart`](Transporter___Base_to_connect_any_Database_to_Backland_.md#parsedindexpart) ; `requiredFields`: `string`[]  } |
-| `PK.definition` | `Readonly`<[`AnyDocIndexItem`](Transporter___Base_to_connect_any_Database_to_Backland_.md#anydocindexitem)[``"PK"``]\> |
+| `PK` | { `definition`: `Readonly`<[`AnyDocIndexItem`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#anydocindexitem)[``"PK"``]\> ; `destinationField`: { `key`: `string` ; `value`: `string`  } ; `parsed`: [`ParsedIndexPart`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parsedindexpart) ; `requiredFields`: `string`[]  } |
+| `PK.definition` | `Readonly`<[`AnyDocIndexItem`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#anydocindexitem)[``"PK"``]\> |
 | `PK.destinationField` | { `key`: `string` ; `value`: `string`  } |
 | `PK.destinationField.key` | `string` |
 | `PK.destinationField.value` | `string` |
-| `PK.parsed` | [`ParsedIndexPart`](Transporter___Base_to_connect_any_Database_to_Backland_.md#parsedindexpart) |
+| `PK.parsed` | [`ParsedIndexPart`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parsedindexpart) |
 | `PK.requiredFields` | `string`[] |
-| `SK` | { `definition`: `Readonly`<[`AnyDocIndexItem`](Transporter___Base_to_connect_any_Database_to_Backland_.md#anydocindexitem)[``"SK"``]\> ; `destinationField`: { `key`: `string` ; `value`: `string`  } ; `parsed`: [`ParsedIndexPart`](Transporter___Base_to_connect_any_Database_to_Backland_.md#parsedindexpart) ; `requiredFields`: `string`[]  } |
-| `SK.definition` | `Readonly`<[`AnyDocIndexItem`](Transporter___Base_to_connect_any_Database_to_Backland_.md#anydocindexitem)[``"SK"``]\> |
+| `SK` | { `definition`: `Readonly`<[`AnyDocIndexItem`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#anydocindexitem)[``"SK"``]\> ; `destinationField`: { `key`: `string` ; `value`: `string`  } ; `parsed`: [`ParsedIndexPart`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parsedindexpart) ; `requiredFields`: `string`[]  } |
+| `SK.definition` | `Readonly`<[`AnyDocIndexItem`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#anydocindexitem)[``"SK"``]\> |
 | `SK.destinationField` | { `key`: `string` ; `value`: `string`  } |
 | `SK.destinationField.key` | `string` |
 | `SK.destinationField.value` | `string` |
-| `SK.parsed` | [`ParsedIndexPart`](Transporter___Base_to_connect_any_Database_to_Backland_.md#parsedindexpart) |
+| `SK.parsed` | [`ParsedIndexPart`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parsedindexpart) |
 | `SK.requiredFields` | `string`[] |
 | `entity` | `string` |
-| `index` | [`AnyDocIndexItem`](Transporter___Base_to_connect_any_Database_to_Backland_.md#anydocindexitem) |
-| `indexFieldsParsed` | [`DocumentIndexFieldsParsed`](../interfaces/Transporter___Base_to_connect_any_Database_to_Backland_.DocumentIndexFieldsParsed.md) |
+| `index` | [`AnyDocIndexItem`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#anydocindexitem) |
+| `indexFieldsParsed` | [`DocumentIndexFieldsParsed`](../interfaces/Transporter___Base_to_connect_any_Database_to_Solarwind_.DocumentIndexFieldsParsed.md) |
 
 #### Defined in
 
@@ -983,12 +983,12 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `PK_SK` | ``"PK"`` \| ``"SK"`` |
-| `conditionFound?` | [`OneFilterOperation`](Transporter___Base_to_connect_any_Database_to_Backland_.md#onefilteroperation) |
+| `conditionFound?` | [`OneFilterOperation`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#onefilteroperation) |
 | `foundEmptyCondition?` | `boolean` |
 | `foundParts` | `string`[] |
 | `fullIndexFound` | `string` \| ``null`` |
-| `indexField` | [`AnyDocIndexItem`](Transporter___Base_to_connect_any_Database_to_Backland_.md#anydocindexitem)[``"name"``] |
-| `invalidFields` | [`InvalidParsedIndexField`](Transporter___Base_to_connect_any_Database_to_Backland_.md#invalidparsedindexfield)[] |
+| `indexField` | [`AnyDocIndexItem`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#anydocindexitem)[``"name"``] |
+| `invalidFields` | [`InvalidParsedIndexField`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#invalidparsedindexfield)[] |
 | `isFilter` | `boolean` |
 | `nullableFound?` | { `value`: ``null`` \| `undefined`  } |
 | `nullableFound.value` | ``null`` \| `undefined` |
@@ -1003,7 +1003,7 @@ ___
 
 ### ParsedUpdateExpression
 
-Ƭ **ParsedUpdateExpression**<`TSchema`\>: [`UpdateExpression`](Transporter___Base_to_connect_any_Database_to_Backland_.md#updateexpression)<`TSchema`\> extends infer UX ? keyof `UX` extends infer OP ? `OP` extends keyof `UX` ? `UX`[`OP`] extends infer V ? { `entries`: [`Join`<`NestedPaths`<`TSchema`\>, ``"."``\>, `V`][] ; `operator`: `OP` ; `valueConstructorName`: `string`  } : `any` : `any` : `any` : `any`
+Ƭ **ParsedUpdateExpression**<`TSchema`\>: [`UpdateExpression`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#updateexpression)<`TSchema`\> extends infer UX ? keyof `UX` extends infer OP ? `OP` extends keyof `UX` ? `UX`[`OP`] extends infer V ? { `entries`: [`Join`<`NestedPaths`<`TSchema`\>, ``"."``\>, `V`][] ; `operator`: `OP` ; `valueConstructorName`: `string`  } : `any` : `any` : `any` : `any`
 
 #### Type parameters
 
@@ -1049,15 +1049,15 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) = `Record`<`string`, `any`\> |
+| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) = `Record`<`string`, `any`\> |
 
 #### Type declaration
 
 | Name | Type |
 | :------ | :------ |
-| `$and?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Backland_.md#filterrecord)<`Doc`\>[] |
-| `$not?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Backland_.md#filterrecord)<`Doc`\> |
-| `$or?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Backland_.md#filterrecord)<`Doc`\>[] |
+| `$and?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#filterrecord)<`Doc`\>[] |
+| `$not?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#filterrecord)<`Doc`\> |
+| `$or?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#filterrecord)<`Doc`\>[] |
 
 #### Defined in
 
@@ -1067,7 +1067,7 @@ ___
 
 ### TopLevelFilterKey
 
-Ƭ **TopLevelFilterKey**: typeof [`TopLevelFilterKeys`](Transporter___Base_to_connect_any_Database_to_Backland_.md#toplevelfilterkeys)[`number`]
+Ƭ **TopLevelFilterKey**: typeof [`TopLevelFilterKeys`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#toplevelfilterkeys)[`number`]
 
 #### Defined in
 
@@ -1077,7 +1077,7 @@ ___
 
 ### TransporterFieldType
 
-Ƭ **TransporterFieldType**: typeof [`FieldTypes`](Transporter___Base_to_connect_any_Database_to_Backland_.md#fieldtypes)[`number`]
+Ƭ **TransporterFieldType**: typeof [`FieldTypes`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#fieldtypes)[`number`]
 
 #### Defined in
 
@@ -1087,7 +1087,7 @@ ___
 
 ### TransporterLoader
 
-Ƭ **TransporterLoader**: [`TransporterLoadersRecord`](Transporter___Base_to_connect_any_Database_to_Backland_.md#transporterloadersrecord)[[`TransporterLoaderName`](Transporter___Base_to_connect_any_Database_to_Backland_.md#transporterloadername)]
+Ƭ **TransporterLoader**: [`TransporterLoadersRecord`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#transporterloadersrecord)[[`TransporterLoaderName`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#transporterloadername)]
 
 #### Defined in
 
@@ -1097,7 +1097,7 @@ ___
 
 ### TransporterLoaderName
 
-Ƭ **TransporterLoaderName**: typeof [`transporterLoaderNames`](Transporter___Base_to_connect_any_Database_to_Backland_.md#transporterloadernames)[`number`]
+Ƭ **TransporterLoaderName**: typeof [`transporterLoaderNames`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#transporterloadernames)[`number`]
 
 #### Defined in
 
@@ -1129,11 +1129,11 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `$addToSet?` | [`ArrayOperationRecord`](Transporter___Base_to_connect_any_Database_to_Backland_.md#arrayoperationrecord)<`TSchema`\> |
-| `$append?` | [`ArrayOperationRecord`](Transporter___Base_to_connect_any_Database_to_Backland_.md#arrayoperationrecord)<`TSchema`\> |
+| `$addToSet?` | [`ArrayOperationRecord`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#arrayoperationrecord)<`TSchema`\> |
+| `$append?` | [`ArrayOperationRecord`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#arrayoperationrecord)<`TSchema`\> |
 | `$inc?` | `UpdateDefinition`<`TSchema`\>[``"$inc"``] |
-| `$prepend?` | [`ArrayOperationRecord`](Transporter___Base_to_connect_any_Database_to_Backland_.md#arrayoperationrecord)<`TSchema`\> |
-| `$pull?` | [`ArrayOperationRecord`](Transporter___Base_to_connect_any_Database_to_Backland_.md#arrayoperationrecord)<`TSchema`, ``"$in"``\> |
+| `$prepend?` | [`ArrayOperationRecord`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#arrayoperationrecord)<`TSchema`\> |
+| `$pull?` | [`ArrayOperationRecord`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#arrayoperationrecord)<`TSchema`, ``"$in"``\> |
 | `$remove?` | `MaybeArray`<\`${Join<NestedPaths<TSchema\>, "."\>}${\`.${string}\` \| ""}\`\> |
 | `$set?` | `UpdateDefinition`<`TSchema`\>[``"$set"``] |
 | `$setIfNull?` | `UpdateDefinition`<`TSchema`\>[``"$set"``] |
@@ -1147,7 +1147,7 @@ ___
 
 ### UpdateExpressionKey
 
-Ƭ **UpdateExpressionKey**: `Extract`<keyof [`UpdateExpression`](Transporter___Base_to_connect_any_Database_to_Backland_.md#updateexpression)<`any`\>, `string`\>
+Ƭ **UpdateExpressionKey**: `Extract`<keyof [`UpdateExpression`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#updateexpression)<`any`\>, `string`\>
 
 #### Defined in
 
@@ -1163,7 +1163,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) |
 | `PK` | extends `string` = `string` |
 | `SK` | extends `string` \| `undefined` = `string` |
 
@@ -1171,11 +1171,11 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Backland_.md#filterrecord)<`Doc`\> |
-| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Backland_.md#loadercontext) |
-| `filter` | [`MethodFilter`](Transporter___Base_to_connect_any_Database_to_Backland_.md#methodfilter)<`PK`, `SK`\> |
-| `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Backland_.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
-| `update` | [`UpdateExpression`](Transporter___Base_to_connect_any_Database_to_Backland_.md#updateexpression)<`Doc`\> |
+| `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#filterrecord)<`Doc`\> |
+| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#loadercontext) |
+| `filter` | [`MethodFilter`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#methodfilter)<`PK`, `SK`\> |
+| `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
+| `update` | [`UpdateExpression`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#updateexpression)<`Doc`\> |
 | `upsert?` | `boolean` |
 
 #### Defined in
@@ -1210,7 +1210,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) |
+| `Doc` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) |
 | `PK` | extends `string` = `string` |
 | `SK` | extends `string` \| `undefined` = `string` |
 
@@ -1218,11 +1218,11 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Backland_.md#filterrecord)<`Doc`\> |
-| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Backland_.md#loadercontext) |
-| `filter` | [`MethodFilter`](Transporter___Base_to_connect_any_Database_to_Backland_.md#methodfilter)<`PK`, `SK`\> |
-| `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Backland_.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
-| `update` | [`UpdateExpression`](Transporter___Base_to_connect_any_Database_to_Backland_.md#updateexpression)<`Doc`\> |
+| `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#filterrecord)<`Doc`\> |
+| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#loadercontext) |
+| `filter` | [`MethodFilter`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#methodfilter)<`PK`, `SK`\> |
+| `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
+| `update` | [`UpdateExpression`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#updateexpression)<`Doc`\> |
 | `upsert?` | `boolean` |
 
 #### Defined in
@@ -1239,7 +1239,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) |
+| `T` | extends [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) = [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) |
 
 #### Type declaration
 
@@ -1414,8 +1414,8 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `options` | `Object` |
-| `options.filter` | [`IndexFilterRecord`](Transporter___Base_to_connect_any_Database_to_Backland_.md#indexfilterrecord)<`string`, `string`\> |
-| `options.indexConfig` | [`AnyCollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Backland_.md#anycollectionindexconfig) |
+| `options.filter` | [`IndexFilterRecord`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#indexfilterrecord)<`string`, `string`\> |
+| `options.indexConfig` | [`AnyCollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#anycollectionindexconfig) |
 
 #### Returns
 
@@ -1429,7 +1429,7 @@ ___
 
 ### createDocumentIndexBasedFilters
 
-▸ **createDocumentIndexBasedFilters**(`filter`, `indexConfig`): [`IndexBasedFilterParsed`](Transporter___Base_to_connect_any_Database_to_Backland_.md#indexbasedfilterparsed)
+▸ **createDocumentIndexBasedFilters**(`filter`, `indexConfig`): [`IndexBasedFilterParsed`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#indexbasedfilterparsed)
 
 Receives a document indexConfig and a key-value filter and converts to
 an index based search filter.
@@ -1438,12 +1438,12 @@ an index based search filter.
 
 | Name | Type |
 | :------ | :------ |
-| `filter` | [`IndexFilterRecord`](Transporter___Base_to_connect_any_Database_to_Backland_.md#indexfilterrecord)<`string`, `string`\> |
-| `indexConfig` | [`AnyCollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Backland_.md#anycollectionindexconfig) |
+| `filter` | [`IndexFilterRecord`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#indexfilterrecord)<`string`, `string`\> |
+| `indexConfig` | [`AnyCollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#anycollectionindexconfig) |
 
 #### Returns
 
-[`IndexBasedFilterParsed`](Transporter___Base_to_connect_any_Database_to_Backland_.md#indexbasedfilterparsed)
+[`IndexBasedFilterParsed`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#indexbasedfilterparsed)
 
 #### Defined in
 
@@ -1473,7 +1473,7 @@ ___
 
 ### getDocumentIndexFields
 
-▸ **getDocumentIndexFields**<`Document`\>(`doc`, `indexConfig`): [`ParsedDocumentIndexes`](Transporter___Base_to_connect_any_Database_to_Backland_.md#parseddocumentindexes)
+▸ **getDocumentIndexFields**<`Document`\>(`doc`, `indexConfig`): [`ParsedDocumentIndexes`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parseddocumentindexes)
 
 #### Type parameters
 
@@ -1486,11 +1486,11 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `doc` | `Document` |
-| `indexConfig` | [`AnyCollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Backland_.md#anycollectionindexconfig) |
+| `indexConfig` | [`AnyCollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#anycollectionindexconfig) |
 
 #### Returns
 
-[`ParsedDocumentIndexes`](Transporter___Base_to_connect_any_Database_to_Backland_.md#parseddocumentindexes)
+[`ParsedDocumentIndexes`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parseddocumentindexes)
 
 #### Defined in
 
@@ -1500,17 +1500,17 @@ ___
 
 ### getParsedIndexKeys
 
-▸ **getParsedIndexKeys**(`indexConfig`): [`ParsedIndexKey`](Transporter___Base_to_connect_any_Database_to_Backland_.md#parsedindexkey)[]
+▸ **getParsedIndexKeys**(`indexConfig`): [`ParsedIndexKey`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parsedindexkey)[]
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `indexConfig` | [`AnyCollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Backland_.md#anycollectionindexconfig) |
+| `indexConfig` | [`AnyCollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#anycollectionindexconfig) |
 
 #### Returns
 
-[`ParsedIndexKey`](Transporter___Base_to_connect_any_Database_to_Backland_.md#parsedindexkey)[]
+[`ParsedIndexKey`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parsedindexkey)[]
 
 #### Defined in
 
@@ -1540,19 +1540,19 @@ ___
 
 ### mergeIndexRelationsResult
 
-▸ **mergeIndexRelationsResult**(`input`): [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase)[]
+▸ **mergeIndexRelationsResult**(`input`): [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase)[]
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `input` | `Object` |
-| `input.indexConfig` | [`AnyCollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Backland_.md#anycollectionindexconfig) |
-| `input.items` | [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase)[] |
+| `input.indexConfig` | [`AnyCollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#anycollectionindexconfig) |
+| `input.items` | [`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase)[] |
 
 #### Returns
 
-[`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase)[]
+[`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase)[]
 
 #### Defined in
 
@@ -1568,7 +1568,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `attFilter` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Backland_.md#filterrecord)<[`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase)\> |
+| `attFilter` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#filterrecord)<[`DocumentBase`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase)\> |
 
 #### Returns
 
@@ -1608,7 +1608,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`AnyCollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Backland_.md#anycollectionindexconfig) |
+| `T` | extends [`AnyCollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#anycollectionindexconfig) |
 
 #### Parameters
 
@@ -1634,7 +1634,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `indexConfig` | [`AnyCollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Backland_.md#anycollectionindexconfig) |
+| `indexConfig` | [`AnyCollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#anycollectionindexconfig) |
 
 #### Returns
 
@@ -1648,18 +1648,18 @@ ___
 
 ### parseFilterIndexFilterParts
 
-▸ **parseFilterIndexFilterParts**(`filter`, `indexConfig`): { `isFinalParsedSearch`: ``false`` ; `parts`: [`ParsedIndexFilterPart`](Transporter___Base_to_connect_any_Database_to_Backland_.md#parsedindexfilterpart)[]  } \| { `cursor`: `ParsedIndexCursor` ; `isFinalParsedSearch`: ``true``  }
+▸ **parseFilterIndexFilterParts**(`filter`, `indexConfig`): { `isFinalParsedSearch`: ``false`` ; `parts`: [`ParsedIndexFilterPart`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parsedindexfilterpart)[]  } \| { `cursor`: `ParsedIndexCursor` ; `isFinalParsedSearch`: ``true``  }
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `filter` | `Record`<`string`, `any`\> |
-| `indexConfig` | [`AnyCollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Backland_.md#anycollectionindexconfig) |
+| `indexConfig` | [`AnyCollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#anycollectionindexconfig) |
 
 #### Returns
 
-{ `isFinalParsedSearch`: ``false`` ; `parts`: [`ParsedIndexFilterPart`](Transporter___Base_to_connect_any_Database_to_Backland_.md#parsedindexfilterpart)[]  } \| { `cursor`: `ParsedIndexCursor` ; `isFinalParsedSearch`: ``true``  }
+{ `isFinalParsedSearch`: ``false`` ; `parts`: [`ParsedIndexFilterPart`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parsedindexfilterpart)[]  } \| { `cursor`: `ParsedIndexCursor` ; `isFinalParsedSearch`: ``true``  }
 
 #### Defined in
 
@@ -1669,7 +1669,7 @@ ___
 
 ### parseOneIndexDocumentFields
 
-▸ **parseOneIndexDocumentFields**(`parsedIndex`): [`DocumentIndexFieldsParsed`](../interfaces/Transporter___Base_to_connect_any_Database_to_Backland_.DocumentIndexFieldsParsed.md)
+▸ **parseOneIndexDocumentFields**(`parsedIndex`): [`DocumentIndexFieldsParsed`](../interfaces/Transporter___Base_to_connect_any_Database_to_Solarwind_.DocumentIndexFieldsParsed.md)
 
 #### Parameters
 
@@ -1679,7 +1679,7 @@ ___
 
 #### Returns
 
-[`DocumentIndexFieldsParsed`](../interfaces/Transporter___Base_to_connect_any_Database_to_Backland_.DocumentIndexFieldsParsed.md)
+[`DocumentIndexFieldsParsed`](../interfaces/Transporter___Base_to_connect_any_Database_to_Solarwind_.DocumentIndexFieldsParsed.md)
 
 #### Defined in
 
@@ -1689,7 +1689,7 @@ ___
 
 ### parseUpdateExpression
 
-▸ **parseUpdateExpression**<`Schema`\>(`updateExpression`, `indexConfig`): [`ParsedUpdateExpression`](Transporter___Base_to_connect_any_Database_to_Backland_.md#parsedupdateexpression)<`Schema`\>[]
+▸ **parseUpdateExpression**<`Schema`\>(`updateExpression`, `indexConfig`): [`ParsedUpdateExpression`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parsedupdateexpression)<`Schema`\>[]
 
 #### Type parameters
 
@@ -1701,12 +1701,12 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `updateExpression` | [`UpdateExpression`](Transporter___Base_to_connect_any_Database_to_Backland_.md#updateexpression)<`Schema`\> |
-| `indexConfig` | [`AnyCollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Backland_.md#anycollectionindexconfig) |
+| `updateExpression` | [`UpdateExpression`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#updateexpression)<`Schema`\> |
+| `indexConfig` | [`AnyCollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#anycollectionindexconfig) |
 
 #### Returns
 
-[`ParsedUpdateExpression`](Transporter___Base_to_connect_any_Database_to_Backland_.md#parsedupdateexpression)<`Schema`\>[]
+[`ParsedUpdateExpression`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parsedupdateexpression)<`Schema`\>[]
 
 #### Defined in
 
@@ -1716,7 +1716,7 @@ ___
 
 ### pickIndexKeyPartsFromDocument
 
-▸ **pickIndexKeyPartsFromDocument**(`param`): [`ParsedIndexPart`](Transporter___Base_to_connect_any_Database_to_Backland_.md#parsedindexpart)
+▸ **pickIndexKeyPartsFromDocument**(`param`): [`ParsedIndexPart`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parsedindexpart)
 
 #### Parameters
 
@@ -1727,12 +1727,12 @@ ___
 | `param.destination` | ``"filter"`` \| ``"document"`` |
 | `param.doc` | `Record`<`string`, `any`\> |
 | `param.indexField` | `string` |
-| `param.indexPartKind` | [`IndexPartKind`](Transporter___Base_to_connect_any_Database_to_Backland_.md#indexpartkind) |
-| `param.indexParts` | readonly [`IndexKeyHash`](Transporter___Base_to_connect_any_Database_to_Backland_.md#indexkeyhash)<`string`\>[] |
+| `param.indexPartKind` | [`IndexPartKind`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#indexpartkind) |
+| `param.indexParts` | readonly [`IndexKeyHash`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#indexkeyhash)<`string`\>[] |
 
 #### Returns
 
-[`ParsedIndexPart`](Transporter___Base_to_connect_any_Database_to_Backland_.md#parsedindexpart)
+[`ParsedIndexPart`](Transporter___Base_to_connect_any_Database_to_Solarwind_.md#parsedindexpart)
 
 #### Defined in
 

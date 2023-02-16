@@ -7,5 +7,5 @@ export function isObjectValidationError(
 }
 
 export function isObject(input: any): input is ObjectType<any> {
-  return input?.__isBacklandObject === true;
+  return input?.__isSolarwindObject === true;
 }

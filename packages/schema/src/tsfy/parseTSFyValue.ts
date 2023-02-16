@@ -4,7 +4,7 @@ import {
   ensureArray,
   noop,
   proxyRealValue,
-} from '@backland/utils';
+} from '@swind/utils';
 
 import { GraphType } from '../GraphType/GraphType';
 import { ObjectType } from '../ObjectType';

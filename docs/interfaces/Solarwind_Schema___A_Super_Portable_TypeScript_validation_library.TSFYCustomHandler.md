@@ -1,24 +1,24 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md) / TSFYCustomHandler
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md) / TSFYCustomHandler
 
 # Interface: TSFYCustomHandler
 
-[Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md).TSFYCustomHandler
+[Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md).TSFYCustomHandler
 
 ## Callable
 
 ### TSFYCustomHandler
 
-▸ **TSFYCustomHandler**(`utils`): `MaybePromise`<`undefined` \| [`TSFYRef`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#tsfyref)\>
+▸ **TSFYCustomHandler**(`utils`): `MaybePromise`<`undefined` \| [`TSFYRef`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#tsfyref)\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `utils` | [`TSFyHandlerUtils`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#tsfyhandlerutils) |
+| `utils` | [`TSFyHandlerUtils`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#tsfyhandlerutils) |
 
 #### Returns
 
-`MaybePromise`<`undefined` \| [`TSFYRef`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#tsfyref)\>
+`MaybePromise`<`undefined` \| [`TSFYRef`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#tsfyref)\>
 
 #### Defined in
 

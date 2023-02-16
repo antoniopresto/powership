@@ -1,10 +1,10 @@
-import { FinalFieldDefinition } from '@backland/schema';
+import { FinalFieldDefinition } from '@swind/schema';
 import {
   DocumentBase,
   PaginationResult,
   TransporterLoaderName,
-} from '@backland/transporter';
-import { tuple } from '@backland/utils';
+} from '@swind/transporter';
+import { tuple } from '@swind/utils';
 import { Parallel, Waterfall } from 'plugin-hooks';
 
 import { AnyEntity } from './EntityInterfaces';

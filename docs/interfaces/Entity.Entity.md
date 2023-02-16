@@ -1,4 +1,4 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / Entity
+[Solarwind](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / Entity
 
 # Interface: Entity<Input, Indexes\>
 

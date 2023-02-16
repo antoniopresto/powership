@@ -31,7 +31,7 @@ export async function generateClientUtils(
     '/* istanbul ignore file */',
     '/* eslint-disable */',
     //
-    "import { GraphType } from '@backland/schema';\n\n",
+    "import { GraphType } from '@swind/schema';\n\n",
     '\nexport type GraphQLClientError = { message: string, path: string[] };\n', //
     '\nexport type ID = number | string;\n', //
     `\nexport type GraphQLClientResponse<Result> = {data: Result, errors: null} | {data: null, errors: GraphQLClientError[]}\n`,

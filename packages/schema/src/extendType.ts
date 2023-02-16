@@ -4,7 +4,7 @@ import {
   getTypeName,
   simpleObjectClone,
   wrapError,
-} from '@backland/utils';
+} from '@swind/utils';
 
 import { CircularDeps } from './CircularDeps';
 import type { GraphType } from './GraphType/GraphType';

@@ -1,4 +1,4 @@
-import { tsfy, TSFYConfig } from '@backland/schema';
+import { tsfy, TSFYConfig } from '@swind/schema';
 
 import { AnyEntity } from '../EntityInterfaces';
 

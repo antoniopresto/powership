@@ -1,4 +1,4 @@
-import { Merge } from '@backland/utils';
+import { Merge } from '@swind/utils';
 
 import { Infer } from '../Infer';
 import { DescribeField } from '../fields/Infer';

@@ -1,3 +1,0 @@
-<component name="DependencyValidationManager">
-  <scope name="runmate" pattern="file[backland]:packages/runmate/*" />
-</component>

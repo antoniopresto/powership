@@ -1,68 +1,68 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / EntityFromContext
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / EntityFromContext
 
 # Interface: EntityFromContext<Context\>
 
-[Backland](../modules/Backland.md).EntityFromContext
+[Solarwind](../modules/Solarwind.md).EntityFromContext
 
 ## Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Context` | extends [`AnyEntityTypesContext`](../modules/Backland.md#anyentitytypescontext) |
+| `Context` | extends [`AnyEntityTypesContext`](../modules/Solarwind.md#anyentitytypescontext) |
 
 ## Hierarchy
 
-- [`EntityLoaderMethods`](../modules/Backland.md#entityloadermethods)<`Context`\>
+- [`EntityLoaderMethods`](../modules/Solarwind.md#entityloadermethods)<`Context`\>
 
   ↳ **`EntityFromContext`**
 
-  ↳↳ [`Entity`](Backland.Entity.md)
+  ↳↳ [`Entity`](Solarwind.Entity.md)
 
 ## Table of contents
 
 ### Properties
 
-- [\_\_context](Backland.EntityFromContext.md#__context)
-- [\_\_isEntity](Backland.EntityFromContext.md#__isentity)
-- [addHooks](Backland.EntityFromContext.md#addhooks)
-- [addIndexRelation](Backland.EntityFromContext.md#addindexrelation)
-- [addRelation](Backland.EntityFromContext.md#addrelation)
-- [aliasPaths](Backland.EntityFromContext.md#aliaspaths)
-- [conditionsDefinition](Backland.EntityFromContext.md#conditionsdefinition)
-- [createOne](Backland.EntityFromContext.md#createone)
-- [databaseType](Backland.EntityFromContext.md#databasetype)
-- [deleteMany](Backland.EntityFromContext.md#deletemany)
-- [deleteOne](Backland.EntityFromContext.md#deleteone)
-- [edgeType](Backland.EntityFromContext.md#edgetype)
-- [extend](Backland.EntityFromContext.md#extend)
-- [extendInput](Backland.EntityFromContext.md#extendinput)
-- [extendUpdate](Backland.EntityFromContext.md#extendupdate)
-- [findById](Backland.EntityFromContext.md#findbyid)
-- [findMany](Backland.EntityFromContext.md#findmany)
-- [findOne](Backland.EntityFromContext.md#findone)
-- [hasAliases](Backland.EntityFromContext.md#hasaliases)
-- [hooks](Backland.EntityFromContext.md#hooks)
-- [indexGraphTypes](Backland.EntityFromContext.md#indexgraphtypes)
-- [indexRelations](Backland.EntityFromContext.md#indexrelations)
-- [indexes](Backland.EntityFromContext.md#indexes)
-- [inputType](Backland.EntityFromContext.md#inputtype)
-- [name](Backland.EntityFromContext.md#name)
-- [originType](Backland.EntityFromContext.md#origintype)
-- [paginate](Backland.EntityFromContext.md#paginate)
-- [paginationType](Backland.EntityFromContext.md#paginationtype)
-- [parse](Backland.EntityFromContext.md#parse)
-- [setOption](Backland.EntityFromContext.md#setoption)
-- [transporter](Backland.EntityFromContext.md#transporter)
-- [type](Backland.EntityFromContext.md#type)
-- [updateMany](Backland.EntityFromContext.md#updatemany)
-- [updateOne](Backland.EntityFromContext.md#updateone)
-- [usedOptions](Backland.EntityFromContext.md#usedoptions)
+- [\_\_context](Solarwind.EntityFromContext.md#__context)
+- [\_\_isEntity](Solarwind.EntityFromContext.md#__isentity)
+- [addHooks](Solarwind.EntityFromContext.md#addhooks)
+- [addIndexRelation](Solarwind.EntityFromContext.md#addindexrelation)
+- [addRelation](Solarwind.EntityFromContext.md#addrelation)
+- [aliasPaths](Solarwind.EntityFromContext.md#aliaspaths)
+- [conditionsDefinition](Solarwind.EntityFromContext.md#conditionsdefinition)
+- [createOne](Solarwind.EntityFromContext.md#createone)
+- [databaseType](Solarwind.EntityFromContext.md#databasetype)
+- [deleteMany](Solarwind.EntityFromContext.md#deletemany)
+- [deleteOne](Solarwind.EntityFromContext.md#deleteone)
+- [edgeType](Solarwind.EntityFromContext.md#edgetype)
+- [extend](Solarwind.EntityFromContext.md#extend)
+- [extendInput](Solarwind.EntityFromContext.md#extendinput)
+- [extendUpdate](Solarwind.EntityFromContext.md#extendupdate)
+- [findById](Solarwind.EntityFromContext.md#findbyid)
+- [findMany](Solarwind.EntityFromContext.md#findmany)
+- [findOne](Solarwind.EntityFromContext.md#findone)
+- [hasAliases](Solarwind.EntityFromContext.md#hasaliases)
+- [hooks](Solarwind.EntityFromContext.md#hooks)
+- [indexGraphTypes](Solarwind.EntityFromContext.md#indexgraphtypes)
+- [indexRelations](Solarwind.EntityFromContext.md#indexrelations)
+- [indexes](Solarwind.EntityFromContext.md#indexes)
+- [inputType](Solarwind.EntityFromContext.md#inputtype)
+- [name](Solarwind.EntityFromContext.md#name)
+- [originType](Solarwind.EntityFromContext.md#origintype)
+- [paginate](Solarwind.EntityFromContext.md#paginate)
+- [paginationType](Solarwind.EntityFromContext.md#paginationtype)
+- [parse](Solarwind.EntityFromContext.md#parse)
+- [setOption](Solarwind.EntityFromContext.md#setoption)
+- [transporter](Solarwind.EntityFromContext.md#transporter)
+- [type](Solarwind.EntityFromContext.md#type)
+- [updateMany](Solarwind.EntityFromContext.md#updatemany)
+- [updateOne](Solarwind.EntityFromContext.md#updateone)
+- [usedOptions](Solarwind.EntityFromContext.md#usedoptions)
 
 ### Methods
 
-- [getDocumentId](Backland.EntityFromContext.md#getdocumentid)
-- [getIndexFields](Backland.EntityFromContext.md#getindexfields)
-- [parseDocumentIndexes](Backland.EntityFromContext.md#parsedocumentindexes)
+- [getDocumentId](Solarwind.EntityFromContext.md#getdocumentid)
+- [getIndexFields](Solarwind.EntityFromContext.md#getindexfields)
+- [parseDocumentIndexes](Solarwind.EntityFromContext.md#parsedocumentindexes)
 
 ## Properties
 
@@ -88,21 +88,21 @@ ___
 
 ### addHooks
 
-• **addHooks**: (`options`: (`hooks`: [`EntityHooks`](../modules/Backland.md#entityhooks)<{}, [`AnyEntity`](../modules/Backland.md#anyentity)\>) => `any`) => [`EntityFromContext`](Backland.EntityFromContext.md)<`Context`\>
+• **addHooks**: (`options`: (`hooks`: [`EntityHooks`](../modules/Solarwind.md#entityhooks)<{}, [`AnyEntity`](../modules/Solarwind.md#anyentity)\>) => `any`) => [`EntityFromContext`](Solarwind.EntityFromContext.md)<`Context`\>
 
 #### Type declaration
 
-▸ (`options`): [`EntityFromContext`](Backland.EntityFromContext.md)<`Context`\>
+▸ (`options`): [`EntityFromContext`](Solarwind.EntityFromContext.md)<`Context`\>
 
 ##### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `options` | (`hooks`: [`EntityHooks`](../modules/Backland.md#entityhooks)<{}, [`AnyEntity`](../modules/Backland.md#anyentity)\>) => `any` |
+| `options` | (`hooks`: [`EntityHooks`](../modules/Solarwind.md#entityhooks)<{}, [`AnyEntity`](../modules/Solarwind.md#anyentity)\>) => `any` |
 
 ##### Returns
 
-[`EntityFromContext`](Backland.EntityFromContext.md)<`Context`\>
+[`EntityFromContext`](Solarwind.EntityFromContext.md)<`Context`\>
 
 #### Defined in
 
@@ -112,11 +112,11 @@ ___
 
 ### addIndexRelation
 
-• **addIndexRelation**: <E, Name\>(`name`: `Name`, `entity`: `E`) => [`EntityFromContext`](Backland.EntityFromContext.md)<[`EntityTypesContext`](Backland.EntityTypesContext.md)<`Omit`<`Context`[``"originDefinition"``], `Name`\> & { [L in string]: Object }, `Context`[``"indexes"``]\>\>
+• **addIndexRelation**: <E, Name\>(`name`: `Name`, `entity`: `E`) => [`EntityFromContext`](Solarwind.EntityFromContext.md)<[`EntityTypesContext`](Solarwind.EntityTypesContext.md)<`Omit`<`Context`[``"originDefinition"``], `Name`\> & { [L in string]: Object }, `Context`[``"indexes"``]\>\>
 
 #### Type declaration
 
-▸ <`E`, `Name`\>(`name`, `entity`): [`EntityFromContext`](Backland.EntityFromContext.md)<[`EntityTypesContext`](Backland.EntityTypesContext.md)<`Omit`<`Context`[``"originDefinition"``], `Name`\> & { [L in string]: Object }, `Context`[``"indexes"``]\>\>
+▸ <`E`, `Name`\>(`name`, `entity`): [`EntityFromContext`](Solarwind.EntityFromContext.md)<[`EntityTypesContext`](Solarwind.EntityTypesContext.md)<`Omit`<`Context`[``"originDefinition"``], `Name`\> & { [L in string]: Object }, `Context`[``"indexes"``]\>\>
 
 ##### Type parameters
 
@@ -134,7 +134,7 @@ ___
 
 ##### Returns
 
-[`EntityFromContext`](Backland.EntityFromContext.md)<[`EntityTypesContext`](Backland.EntityTypesContext.md)<`Omit`<`Context`[``"originDefinition"``], `Name`\> & { [L in string]: Object }, `Context`[``"indexes"``]\>\>
+[`EntityFromContext`](Solarwind.EntityFromContext.md)<[`EntityTypesContext`](Solarwind.EntityTypesContext.md)<`Omit`<`Context`[``"originDefinition"``], `Name`\> & { [L in string]: Object }, `Context`[``"indexes"``]\>\>
 
 #### Defined in
 
@@ -144,7 +144,7 @@ ___
 
 ### addRelation
 
-• **addRelation**: [`EntityAddRelation`](Backland.EntityAddRelation.md)<[`EntityFromContext`](Backland.EntityFromContext.md)<`Context`\>, `Context`\>
+• **addRelation**: [`EntityAddRelation`](Solarwind.EntityAddRelation.md)<[`EntityFromContext`](Solarwind.EntityFromContext.md)<`Context`\>, `Context`\>
 
 #### Defined in
 
@@ -174,7 +174,7 @@ ___
 
 ### createOne
 
-• **createOne**: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"documentCreationInput"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `item`: `Context`[``"documentCreationInput"``] ; `replace`: `undefined` \| `boolean`  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"documentCreationInput"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `item`: `Context`[``"documentCreationInput"``] ; `replace`: `undefined` \| `boolean`  } : `never` : `never` : `never`) => `Promise`<{ `created`: `boolean` ; `error?`: ``null`` \| `string` ; `item`: ``null`` \| `Context`[``"document"``] ; `updated`: `boolean`  }\> & [`_EntityLoaderUtils`](Backland._EntityLoaderUtils.md)<`Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"documentCreationInput"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `item`: `Context`[``"documentCreationInput"``] ; `replace`: `undefined` \| `boolean`  } : `never` : `never` : `never`, `Context`\> : [`CreateOne`](Backland.CreateOne.md)<`Context`[``"documentCreationInput"``], `Context`[``"document"``], `Context`[``"indexes"``]\>
+• **createOne**: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"documentCreationInput"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `item`: `Context`[``"documentCreationInput"``] ; `replace`: `undefined` \| `boolean`  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"documentCreationInput"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `item`: `Context`[``"documentCreationInput"``] ; `replace`: `undefined` \| `boolean`  } : `never` : `never` : `never`) => `Promise`<{ `created`: `boolean` ; `error?`: ``null`` \| `string` ; `item`: ``null`` \| `Context`[``"document"``] ; `updated`: `boolean`  }\> & [`_EntityLoaderUtils`](Solarwind._EntityLoaderUtils.md)<`Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"documentCreationInput"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `item`: `Context`[``"documentCreationInput"``] ; `replace`: `undefined` \| `boolean`  } : `never` : `never` : `never`, `Context`\> : [`CreateOne`](Solarwind.CreateOne.md)<`Context`[``"documentCreationInput"``], `Context`[``"document"``], `Context`[``"indexes"``]\>
 
 #### Inherited from
 
@@ -188,7 +188,7 @@ ___
 
 ### databaseType
 
-• **databaseType**: [`GraphType`](../classes/Backland.GraphType.md)<{ `object`: `Context`[``"outputDefinition"``]  }\>
+• **databaseType**: [`GraphType`](../classes/Solarwind.GraphType.md)<{ `object`: `Context`[``"outputDefinition"``]  }\>
 
 #### Defined in
 
@@ -198,7 +198,7 @@ ___
 
 ### deleteMany
 
-• **deleteMany**: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never`) => `Promise`<{ `deletedCount`: `number` ; `error?`: ``null`` \| `string`  }\> & [`_EntityLoaderUtils`](Backland._EntityLoaderUtils.md)<`Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never`, `Context`\> : [`DeleteMany`](Backland.DeleteMany.md)<`Context`[``"document"``], `Context`[``"indexes"``]\>
+• **deleteMany**: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never`) => `Promise`<{ `deletedCount`: `number` ; `error?`: ``null`` \| `string`  }\> & [`_EntityLoaderUtils`](Solarwind._EntityLoaderUtils.md)<`Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never`, `Context`\> : [`DeleteMany`](Solarwind.DeleteMany.md)<`Context`[``"document"``], `Context`[``"indexes"``]\>
 
 #### Inherited from
 
@@ -212,7 +212,7 @@ ___
 
 ### deleteOne
 
-• **deleteOne**: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never`) => `Promise`<{ `item`: ``null`` \| `Context`[``"document"``]  }\> & [`_EntityLoaderUtils`](Backland._EntityLoaderUtils.md)<`Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never`, `Context`\> : [`DeleteOne`](Backland.DeleteOne.md)<`Context`[``"document"``], `Context`[``"indexes"``]\>
+• **deleteOne**: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never`) => `Promise`<{ `item`: ``null`` \| `Context`[``"document"``]  }\> & [`_EntityLoaderUtils`](Solarwind._EntityLoaderUtils.md)<`Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never`, `Context`\> : [`DeleteOne`](Solarwind.DeleteOne.md)<`Context`[``"document"``], `Context`[``"indexes"``]\>
 
 #### Inherited from
 
@@ -226,7 +226,7 @@ ___
 
 ### edgeType
 
-• **edgeType**: [`EdgeType`](../modules/Backland.md#edgetype)<[`GraphType`](../classes/Backland.GraphType.md)<{ `object`: `Context`[``"outputDefinition"``]  }\>\>
+• **edgeType**: [`EdgeType`](../modules/Solarwind.md#edgetype)<[`GraphType`](../classes/Solarwind.GraphType.md)<{ `object`: `Context`[``"outputDefinition"``]  }\>\>
 
 #### Defined in
 
@@ -236,7 +236,7 @@ ___
 
 ### extend
 
-• **extend**: [`ExtendEntity`](Backland.ExtendEntity.md)<[`EntityFromContext`](Backland.EntityFromContext.md)<`Context`\>\>
+• **extend**: [`ExtendEntity`](Solarwind.ExtendEntity.md)<[`EntityFromContext`](Solarwind.EntityFromContext.md)<`Context`\>\>
 
 #### Defined in
 
@@ -246,7 +246,7 @@ ___
 
 ### extendInput
 
-• **extendInput**: [`ExtendObjectDefinition`](Backland.ExtendObjectDefinition.md)<{ `object`: `Context`[``"originDefinition"``]  }, { `object`: `Context`[``"originDefinition"``]  }\>
+• **extendInput**: [`ExtendObjectDefinition`](Solarwind.ExtendObjectDefinition.md)<{ `object`: `Context`[``"originDefinition"``]  }, { `object`: `Context`[``"originDefinition"``]  }\>
 
 #### Defined in
 
@@ -256,7 +256,7 @@ ___
 
 ### extendUpdate
 
-• **extendUpdate**: [`ExtendObjectDefinition`](Backland.ExtendObjectDefinition.md)<{ `object`: [`OverrideField`](../modules/Backland.md#overridefield)<[`DescribeObjectDefinition`](../modules/Backland.md#describeobjectdefinition)<`Context`[``"originDefinition"``]\>, keyof `Context`[``"originDefinition"``], { `optional`: ``true``  }\>  }, { `object`: [`OverrideField`](../modules/Backland.md#overridefield)<[`DescribeObjectDefinition`](../modules/Backland.md#describeobjectdefinition)<`Context`[``"originDefinition"``]\>, keyof `Context`[``"originDefinition"``], { `optional`: ``true``  }\>  }\>
+• **extendUpdate**: [`ExtendObjectDefinition`](Solarwind.ExtendObjectDefinition.md)<{ `object`: [`OverrideField`](../modules/Solarwind.md#overridefield)<[`DescribeObjectDefinition`](../modules/Solarwind.md#describeobjectdefinition)<`Context`[``"originDefinition"``]\>, keyof `Context`[``"originDefinition"``], { `optional`: ``true``  }\>  }, { `object`: [`OverrideField`](../modules/Solarwind.md#overridefield)<[`DescribeObjectDefinition`](../modules/Solarwind.md#describeobjectdefinition)<`Context`[``"originDefinition"``]\>, keyof `Context`[``"originDefinition"``], { `optional`: ``true``  }\>  }\>
 
 #### Defined in
 
@@ -266,7 +266,7 @@ ___
 
 ### findById
 
-• **findById**: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `id`: `string` ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `id`: `string` ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never`) => `Promise`<{ `item`: ``null`` \| `Context`[``"document"``]  }\> & [`_EntityLoaderUtils`](Backland._EntityLoaderUtils.md)<`Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `id`: `string` ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never`, `Context`\> : [`FindById`](Backland.FindById.md)<`Context`[``"document"``], `Context`[``"indexes"``]\>
+• **findById**: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `id`: `string` ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `id`: `string` ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never`) => `Promise`<{ `item`: ``null`` \| `Context`[``"document"``]  }\> & [`_EntityLoaderUtils`](Solarwind._EntityLoaderUtils.md)<`Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `id`: `string` ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never`, `Context`\> : [`FindById`](Solarwind.FindById.md)<`Context`[``"document"``], `Context`[``"indexes"``]\>
 
 #### Inherited from
 
@@ -280,7 +280,7 @@ ___
 
 ### findMany
 
-• **findMany**: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Backland.md#querysort)  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Backland.md#querysort)  } : `never` : `never` : `never`) => `Promise`<{ `items`: `Context`[``"document"``][]  }\> & [`_EntityLoaderUtils`](Backland._EntityLoaderUtils.md)<`Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Backland.md#querysort)  } : `never` : `never` : `never`, `Context`\> : [`FindMany`](Backland.FindMany.md)<`Context`[``"document"``], `Context`[``"indexes"``]\>
+• **findMany**: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Solarwind.md#querysort)  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Solarwind.md#querysort)  } : `never` : `never` : `never`) => `Promise`<{ `items`: `Context`[``"document"``][]  }\> & [`_EntityLoaderUtils`](Solarwind._EntityLoaderUtils.md)<`Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Solarwind.md#querysort)  } : `never` : `never` : `never`, `Context`\> : [`FindMany`](Solarwind.FindMany.md)<`Context`[``"document"``], `Context`[``"indexes"``]\>
 
 #### Inherited from
 
@@ -294,7 +294,7 @@ ___
 
 ### findOne
 
-• **findOne**: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never`) => `Promise`<{ `item`: ``null`` \| `Context`[``"document"``]  }\> & [`_EntityLoaderUtils`](Backland._EntityLoaderUtils.md)<`Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never`, `Context`\> : [`FindOne`](Backland.FindOne.md)<`Context`[``"document"``], `Context`[``"indexes"``]\>
+• **findOne**: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never`) => `Promise`<{ `item`: ``null`` \| `Context`[``"document"``]  }\> & [`_EntityLoaderUtils`](Solarwind._EntityLoaderUtils.md)<`Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never`, `Context`\> : [`FindOne`](Solarwind.FindOne.md)<`Context`[``"document"``], `Context`[``"indexes"``]\>
 
 #### Inherited from
 
@@ -318,7 +318,7 @@ ___
 
 ### hooks
 
-• **hooks**: [`EntityHooks`](../modules/Backland.md#entityhooks)<{}, [`AnyEntity`](../modules/Backland.md#anyentity)\>
+• **hooks**: [`EntityHooks`](../modules/Solarwind.md#entityhooks)<{}, [`AnyEntity`](../modules/Solarwind.md#anyentity)\>
 
 #### Defined in
 
@@ -332,7 +332,7 @@ ___
 
 #### Index signature
 
-▪ [K: `string`]: [`GraphType`](../classes/Backland.GraphType.md)<{ `object`: [`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)  }\>
+▪ [K: `string`]: [`GraphType`](../classes/Solarwind.GraphType.md)<{ `object`: [`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)  }\>
 
 #### Defined in
 
@@ -342,7 +342,7 @@ ___
 
 ### indexRelations
 
-• **indexRelations**: [`EntityIndexRelations`](Backland.EntityIndexRelations.md)
+• **indexRelations**: [`EntityIndexRelations`](Solarwind.EntityIndexRelations.md)
 
 #### Defined in
 
@@ -362,7 +362,7 @@ ___
 
 ### inputType
 
-• **inputType**: [`GraphType`](../classes/Backland.GraphType.md)<{ `object`: `Omit`<`EntityDocumentBaseDef`<``true``\>, keyof `Context`[``"originDefinition"``]\> & `Context`[``"originDefinition"``]  }\>
+• **inputType**: [`GraphType`](../classes/Solarwind.GraphType.md)<{ `object`: `Omit`<`EntityDocumentBaseDef`<``true``\>, keyof `Context`[``"originDefinition"``]\> & `Context`[``"originDefinition"``]  }\>
 
 #### Defined in
 
@@ -382,7 +382,7 @@ ___
 
 ### originType
 
-• **originType**: [`GraphType`](../classes/Backland.GraphType.md)<{ `object`: `Context`[``"originDefinition"``]  }\>
+• **originType**: [`GraphType`](../classes/Solarwind.GraphType.md)<{ `object`: `Context`[``"originDefinition"``]  }\>
 
 #### Defined in
 
@@ -392,7 +392,7 @@ ___
 
 ### paginate
 
-• **paginate**: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Backland.md#querysort)  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Backland.md#querysort)  } : `never` : `never` : `never`) => `Promise`<{ `edges`: { `cursor`: `string` ; `node`: `Context`[``"document"``]  }[] ; `pageInfo`: { `endCursor`: `undefined` \| `string` ; `hasNextPage`: `boolean` ; `hasPreviousPage`: `boolean` ; `startCursor`: `undefined` \| `string`  }  }\> & [`_EntityLoaderUtils`](Backland._EntityLoaderUtils.md)<`Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Backland.md#querysort)  } : `never` : `never` : `never`, `Context`\> : [`Paginate`](Backland.Paginate.md)<`Context`[``"document"``], `Context`[``"indexes"``]\>
+• **paginate**: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Solarwind.md#querysort)  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Solarwind.md#querysort)  } : `never` : `never` : `never`) => `Promise`<{ `edges`: { `cursor`: `string` ; `node`: `Context`[``"document"``]  }[] ; `pageInfo`: { `endCursor`: `undefined` \| `string` ; `hasNextPage`: `boolean` ; `hasPreviousPage`: `boolean` ; `startCursor`: `undefined` \| `string`  }  }\> & [`_EntityLoaderUtils`](Solarwind._EntityLoaderUtils.md)<`Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Solarwind.md#querysort)  } : `never` : `never` : `never`, `Context`\> : [`Paginate`](Solarwind.Paginate.md)<`Context`[``"document"``], `Context`[``"indexes"``]\>
 
 #### Inherited from
 
@@ -406,7 +406,7 @@ ___
 
 ### paginationType
 
-• **paginationType**: [`PaginationType`](../modules/Backland.md#paginationtype)<[`GraphType`](../classes/Backland.GraphType.md)<{ `object`: `Context`[``"outputDefinition"``]  }\>\>
+• **paginationType**: [`PaginationType`](../modules/Solarwind.md#paginationtype)<[`GraphType`](../classes/Solarwind.GraphType.md)<{ `object`: `Context`[``"outputDefinition"``]  }\>\>
 
 #### Defined in
 
@@ -440,11 +440,11 @@ ___
 
 ### setOption
 
-• **setOption**: <Key, V\>(`optionName`: `Key`, `value`: `V`) => [`EntityFromContext`](Backland.EntityFromContext.md)<`Context`\>
+• **setOption**: <Key, V\>(`optionName`: `Key`, `value`: `V`) => [`EntityFromContext`](Solarwind.EntityFromContext.md)<`Context`\>
 
 #### Type declaration
 
-▸ <`Key`, `V`\>(`optionName`, `value`): [`EntityFromContext`](Backland.EntityFromContext.md)<`Context`\>
+▸ <`Key`, `V`\>(`optionName`, `value`): [`EntityFromContext`](Solarwind.EntityFromContext.md)<`Context`\>
 
 ##### Type parameters
 
@@ -462,7 +462,7 @@ ___
 
 ##### Returns
 
-[`EntityFromContext`](Backland.EntityFromContext.md)<`Context`\>
+[`EntityFromContext`](Solarwind.EntityFromContext.md)<`Context`\>
 
 #### Defined in
 
@@ -472,7 +472,7 @@ ___
 
 ### transporter
 
-• **transporter**: `undefined` \| [`Transporter`](Backland.Transporter.md)
+• **transporter**: `undefined` \| [`Transporter`](Solarwind.Transporter.md)
 
 #### Defined in
 
@@ -482,7 +482,7 @@ ___
 
 ### type
 
-• **type**: [`GraphType`](../classes/Backland.GraphType.md)<{ `object`: `Context`[``"outputDefinition"``]  }\>
+• **type**: [`GraphType`](../classes/Solarwind.GraphType.md)<{ `object`: `Context`[``"outputDefinition"``]  }\>
 
 #### Defined in
 
@@ -492,7 +492,7 @@ ___
 
 ### updateMany
 
-• **updateMany**: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Backland.md#updateexpression)<`Context`[``"document"``]\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Backland.md#updateexpression)<`Context`[``"document"``]\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never`) => `Promise`<{ `error?`: ``null`` \| `string` ; `modifiedCount`: ``null`` \| `number` ; `upsertedId`: ``null`` \| `string`  }\> & [`_EntityLoaderUtils`](Backland._EntityLoaderUtils.md)<`Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Backland.md#updateexpression)<`Context`[``"document"``]\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never`, `Context`\> : [`UpdateMany`](Backland.UpdateMany.md)<`Context`[``"document"``], `Context`[``"indexes"``]\>
+• **updateMany**: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Solarwind.md#updateexpression)<`Context`[``"document"``]\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Solarwind.md#updateexpression)<`Context`[``"document"``]\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never`) => `Promise`<{ `error?`: ``null`` \| `string` ; `modifiedCount`: ``null`` \| `number` ; `upsertedId`: ``null`` \| `string`  }\> & [`_EntityLoaderUtils`](Solarwind._EntityLoaderUtils.md)<`Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Solarwind.md#updateexpression)<`Context`[``"document"``]\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never`, `Context`\> : [`UpdateMany`](Solarwind.UpdateMany.md)<`Context`[``"document"``], `Context`[``"indexes"``]\>
 
 #### Inherited from
 
@@ -506,7 +506,7 @@ ___
 
 ### updateOne
 
-• **updateOne**: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Backland.md#updateexpression)<`Context`[``"document"``]\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Backland.md#updateexpression)<`Context`[``"document"``]\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never`) => `Promise`<{ `created`: `boolean` ; `error?`: ``null`` \| `string` ; `item`: ``null`` \| `Context`[``"document"``] ; `updated`: `boolean`  }\> & [`_EntityLoaderUtils`](Backland._EntityLoaderUtils.md)<`Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Backland.md#updateexpression)<`Context`[``"document"``]\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never`, `Context`\> : [`UpdateOne`](Backland.UpdateOne.md)<`Context`[``"document"``], `Context`[``"indexes"``]\>
+• **updateOne**: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Solarwind.md#updateexpression)<`Context`[``"document"``]\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Solarwind.md#updateexpression)<`Context`[``"document"``]\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never`) => `Promise`<{ `created`: `boolean` ; `error?`: ``null`` \| `string` ; `item`: ``null`` \| `Context`[``"document"``] ; `updated`: `boolean`  }\> & [`_EntityLoaderUtils`](Solarwind._EntityLoaderUtils.md)<`Context`[``"indexes"``][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Context`[``"document"``]\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Solarwind.md#updateexpression)<`Context`[``"document"``]\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never`, `Context`\> : [`UpdateOne`](Solarwind.UpdateOne.md)<`Context`[``"document"``], `Context`[``"indexes"``]\>
 
 #### Inherited from
 
@@ -550,7 +550,7 @@ ___
 
 ### getIndexFields
 
-▸ **getIndexFields**(`doc`): [`CommonIndexFields`](../modules/Backland.md#commonindexfields)
+▸ **getIndexFields**(`doc`): [`CommonIndexFields`](../modules/Solarwind.md#commonindexfields)
 
 #### Parameters
 
@@ -560,7 +560,7 @@ ___
 
 #### Returns
 
-[`CommonIndexFields`](../modules/Backland.md#commonindexfields)
+[`CommonIndexFields`](../modules/Solarwind.md#commonindexfields)
 
 #### Defined in
 
@@ -570,7 +570,7 @@ ___
 
 ### parseDocumentIndexes
 
-▸ **parseDocumentIndexes**(`doc`): [`ParsedDocumentIndexes`](../modules/Backland.md#parseddocumentindexes)
+▸ **parseDocumentIndexes**(`doc`): [`ParsedDocumentIndexes`](../modules/Solarwind.md#parseddocumentindexes)
 
 #### Parameters
 
@@ -580,7 +580,7 @@ ___
 
 #### Returns
 
-[`ParsedDocumentIndexes`](../modules/Backland.md#parseddocumentindexes)
+[`ParsedDocumentIndexes`](../modules/Solarwind.md#parseddocumentindexes)
 
 #### Defined in
 

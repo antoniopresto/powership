@@ -18,9 +18,9 @@ describe('runInPackages', () => {
     });
 
     expect(utils.slice(0, 3).map((el) => el.json.name)).toEqual([
-      '@backland/babel-plugins',
-      '@backland/utils',
-      '@backland/schema',
+      '@swind/babel-plugins',
+      '@swind/utils',
+      '@swind/schema',
     ]);
   });
 });

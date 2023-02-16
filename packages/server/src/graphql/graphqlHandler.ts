@@ -1,13 +1,13 @@
 import nodePath from 'path';
 
-import { backlandUtilsResolver } from '@backland/helpers';
+import { solarwindUtilsResolver } from '@swind/helpers';
 import { AppLogger } from '../AppLogger';
 import { maskErrors } from './errorHandler';
 import { createRouteHandler } from '../createRouteHandler';
 
 import { renderPlaygroundPage } from 'graphql-playground-html';
-import { createGraphQLSchema, Resolver } from '@backland/schema';
-import { AnyRecord, isProduction, Logger } from 'backland';
+import { createGraphQLSchema, Resolver } from '@swind/schema';
+import { AnyRecord, isProduction, Logger } from 'solarwind';
 import { generateTypes } from '@0k/backend/core/coreAppHandlers/graphql/generateTypes';
 import { graphql } from 'graphql';
 
@@ -95,7 +95,7 @@ export function createGraphQLHandlers<Resolvers extends ResolversRecord>(
 
     const json = typeof body.json === 'string' ? JSON.parse(body.json.trim()) : body.json || {};
 
-    const page = await backlandUtilsResolver({
+    const page = await solarwindUtilsResolver({
       ...body,
       json,
       url: request.urlObject.pathname,

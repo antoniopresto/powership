@@ -7,7 +7,7 @@ import {
   setByPath,
   slugify,
   ulid,
-} from '@backland/utils';
+} from '@swind/utils';
 
 import { Infer } from './Infer';
 import { CursorField } from './fields/CursorField';

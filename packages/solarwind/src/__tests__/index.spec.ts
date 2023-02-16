@@ -1,5 +1,5 @@
-import { createEntity } from '@backland/entity';
-import { createType, ObjectType } from '@backland/schema';
+import { createEntity } from '@swind/entity';
+import { createType, ObjectType } from '@swind/schema';
 import { assert, IsExact } from 'conditional-type-checks';
 
 describe('index', () => {

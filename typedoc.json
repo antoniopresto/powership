@@ -1,11 +1,11 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "name": "Backland",
+  "name": "Solarwind",
   "entryPointStrategy": "packages",
   "entryPoints": [
     "packages/accounts",
     "packages/babel-plugins",
-    "packages/backland",
+    "packages/solarwind",
     "packages/entity",
     "packages/utils",
     "packages/helpers",

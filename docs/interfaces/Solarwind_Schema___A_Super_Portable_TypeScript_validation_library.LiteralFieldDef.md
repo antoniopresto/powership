@@ -1,15 +1,15 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md) / LiteralFieldDef
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md) / LiteralFieldDef
 
 # Interface: LiteralFieldDef
 
-[Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md).LiteralFieldDef
+[Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md).LiteralFieldDef
 
 ## Table of contents
 
 ### Properties
 
-- [\_\_o.proto\_\_](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md#__o.proto__)
-- [value](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md#value)
+- [\_\_o.proto\_\_](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md#__o.proto__)
+- [value](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md#value)
 
 ## Properties
 

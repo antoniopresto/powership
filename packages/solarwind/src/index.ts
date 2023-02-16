@@ -1,10 +1,10 @@
-export * from '@backland/schema';
-export * from '@backland/utils';
+export * from '@swind/schema';
+export * from '@swind/utils';
 
 // @only-server
-export * from '@backland/entity';
+export * from '@swind/entity';
 // @only-server
-export * from '@backland/transporter';
+export * from '@swind/transporter';
 
 // @only-server
-export type { RootFilterOperators } from '@backland/transporter';
+export type { RootFilterOperators } from '@swind/transporter';

@@ -1,4 +1,4 @@
-import { memoize } from '@backland/utils';
+import { memoize } from '@swind/utils';
 
 import { FieldTypeName } from './fields/_fieldDefinitions';
 import { FinalFieldDefinition } from './fields/_parseFields';

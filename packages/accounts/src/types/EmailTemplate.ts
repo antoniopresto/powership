@@ -1,4 +1,4 @@
-import { createType, Infer } from '@backland/schema';
+import { createType, Infer } from '@swind/schema';
 
 export const EmailTemplateType = createType('AccountEmailTemplate', {
   object: {

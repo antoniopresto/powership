@@ -1,3 +1,3 @@
-import { createErrorClass } from '@backland/utils';
+import { createErrorClass } from '@swind/utils';
 
 export const DuplicatedKeyError = createErrorClass('DocumentDuplication');

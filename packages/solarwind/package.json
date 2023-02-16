@@ -1,5 +1,5 @@
 {
-  "name": "backland",
+  "name": "solarwind",
   "version": "0.2.10",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
@@ -27,13 +27,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/antoniopresto/backland/tree/master/packages/db"
+    "url": "https://github.com/antoniopresto/solarwind/tree/master/packages/db"
   },
   "dependencies": {
-    "@backland/entity": "0.2.10",
-    "@backland/schema": "0.2.10",
-    "@backland/transporter": "0.2.10",
-    "@backland/utils": "0.2.10"
+    "@swind/entity": "0.2.10",
+    "@swind/schema": "0.2.10",
+    "@swind/transporter": "0.2.10",
+    "@swind/utils": "0.2.10"
   },
   "devDependencies": {
     "@babel/cli": "7.19.3",
@@ -41,7 +41,7 @@
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@backland/babel-plugins": "0.2.10",
+    "@swind/babel-plugins": "0.2.10",
     "@types/babel__core": "7.1.19",
     "@types/babel__helper-plugin-utils": "7.10.0",
     "@types/jest": "29.1.2",
@@ -79,7 +79,7 @@
   "typedoc": {
     "entryPoint": "./src/index.ts",
     "readmeFile": "./README.md",
-    "displayName": "Backland",
+    "displayName": "Solarwind",
     "tsconfig": "./tsconfig.module.json"
   }
 }

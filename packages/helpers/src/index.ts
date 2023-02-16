@@ -1,4 +1,4 @@
-import { backlandUtilsResolver } from './backlandUtilsResolver';
+import { solarwindUtilsResolver } from './solarwindUtilsResolver';
 import { jsonToSchemaDefinition, jsonToType } from './jsonToType';
 
-export { jsonToType, backlandUtilsResolver, jsonToSchemaDefinition };
+export { jsonToType, solarwindUtilsResolver, jsonToSchemaDefinition };

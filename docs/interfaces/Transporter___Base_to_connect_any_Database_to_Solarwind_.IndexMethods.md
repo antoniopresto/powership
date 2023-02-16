@@ -1,35 +1,35 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Transporter - Base to connect any Database to Backland.](../modules/Transporter___Base_to_connect_any_Database_to_Backland_.md) / IndexMethods
+[Solarwind](../README.md) / [Modules](../modules.md) / [Transporter - Base to connect any Database to Solarwind.](../modules/Transporter___Base_to_connect_any_Database_to_Solarwind_.md) / IndexMethods
 
 # Interface: IndexMethods<Doc, Indexes\>
 
-[Transporter - Base to connect any Database to Backland.](../modules/Transporter___Base_to_connect_any_Database_to_Backland_.md).IndexMethods
+[Transporter - Base to connect any Database to Solarwind.](../modules/Transporter___Base_to_connect_any_Database_to_Solarwind_.md).IndexMethods
 
 ## Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Backland_.md#documentbase) |
-| `Indexes` | extends [`DocumentIndexesConfig`](Transporter___Base_to_connect_any_Database_to_Backland_.DocumentIndexesConfig.md) |
+| `Doc` | extends [`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentbase) |
+| `Indexes` | extends [`DocumentIndexesConfig`](Transporter___Base_to_connect_any_Database_to_Solarwind_.DocumentIndexesConfig.md) |
 
 ## Table of contents
 
 ### Properties
 
-- [createOne](Transporter___Base_to_connect_any_Database_to_Backland_.IndexMethods.md#createone)
-- [deleteMany](Transporter___Base_to_connect_any_Database_to_Backland_.IndexMethods.md#deletemany)
-- [deleteOne](Transporter___Base_to_connect_any_Database_to_Backland_.IndexMethods.md#deleteone)
-- [findById](Transporter___Base_to_connect_any_Database_to_Backland_.IndexMethods.md#findbyid)
-- [findMany](Transporter___Base_to_connect_any_Database_to_Backland_.IndexMethods.md#findmany)
-- [findOne](Transporter___Base_to_connect_any_Database_to_Backland_.IndexMethods.md#findone)
-- [paginate](Transporter___Base_to_connect_any_Database_to_Backland_.IndexMethods.md#paginate)
-- [updateMany](Transporter___Base_to_connect_any_Database_to_Backland_.IndexMethods.md#updatemany)
-- [updateOne](Transporter___Base_to_connect_any_Database_to_Backland_.IndexMethods.md#updateone)
+- [createOne](Transporter___Base_to_connect_any_Database_to_Solarwind_.IndexMethods.md#createone)
+- [deleteMany](Transporter___Base_to_connect_any_Database_to_Solarwind_.IndexMethods.md#deletemany)
+- [deleteOne](Transporter___Base_to_connect_any_Database_to_Solarwind_.IndexMethods.md#deleteone)
+- [findById](Transporter___Base_to_connect_any_Database_to_Solarwind_.IndexMethods.md#findbyid)
+- [findMany](Transporter___Base_to_connect_any_Database_to_Solarwind_.IndexMethods.md#findmany)
+- [findOne](Transporter___Base_to_connect_any_Database_to_Solarwind_.IndexMethods.md#findone)
+- [paginate](Transporter___Base_to_connect_any_Database_to_Solarwind_.IndexMethods.md#paginate)
+- [updateMany](Transporter___Base_to_connect_any_Database_to_Solarwind_.IndexMethods.md#updatemany)
+- [updateOne](Transporter___Base_to_connect_any_Database_to_Solarwind_.IndexMethods.md#updateone)
 
 ## Properties
 
 ### createOne
 
-• **createOne**: [`CreateOne`](Transporter___Base_to_connect_any_Database_to_Backland_.CreateOne.md)<`Doc`, `Doc`, `Indexes`\>
+• **createOne**: [`CreateOne`](Transporter___Base_to_connect_any_Database_to_Solarwind_.CreateOne.md)<`Doc`, `Doc`, `Indexes`\>
 
 #### Defined in
 
@@ -39,7 +39,7 @@ ___
 
 ### deleteMany
 
-• **deleteMany**: [`DeleteMany`](Transporter___Base_to_connect_any_Database_to_Backland_.DeleteMany.md)<`Doc`, `Indexes`\>
+• **deleteMany**: [`DeleteMany`](Transporter___Base_to_connect_any_Database_to_Solarwind_.DeleteMany.md)<`Doc`, `Indexes`\>
 
 #### Defined in
 
@@ -49,7 +49,7 @@ ___
 
 ### deleteOne
 
-• **deleteOne**: [`DeleteOne`](Transporter___Base_to_connect_any_Database_to_Backland_.DeleteOne.md)<`Doc`, `Indexes`\>
+• **deleteOne**: [`DeleteOne`](Transporter___Base_to_connect_any_Database_to_Solarwind_.DeleteOne.md)<`Doc`, `Indexes`\>
 
 #### Defined in
 
@@ -59,7 +59,7 @@ ___
 
 ### findById
 
-• **findById**: [`FindById`](Transporter___Base_to_connect_any_Database_to_Backland_.FindById.md)<`Doc`, `Indexes`\>
+• **findById**: [`FindById`](Transporter___Base_to_connect_any_Database_to_Solarwind_.FindById.md)<`Doc`, `Indexes`\>
 
 #### Defined in
 
@@ -69,7 +69,7 @@ ___
 
 ### findMany
 
-• **findMany**: [`FindMany`](Transporter___Base_to_connect_any_Database_to_Backland_.FindMany.md)<`Doc`, `Indexes`\>
+• **findMany**: [`FindMany`](Transporter___Base_to_connect_any_Database_to_Solarwind_.FindMany.md)<`Doc`, `Indexes`\>
 
 #### Defined in
 
@@ -79,7 +79,7 @@ ___
 
 ### findOne
 
-• **findOne**: [`FindOne`](Transporter___Base_to_connect_any_Database_to_Backland_.FindOne.md)<`Doc`, `Indexes`\>
+• **findOne**: [`FindOne`](Transporter___Base_to_connect_any_Database_to_Solarwind_.FindOne.md)<`Doc`, `Indexes`\>
 
 #### Defined in
 
@@ -89,7 +89,7 @@ ___
 
 ### paginate
 
-• **paginate**: [`Paginate`](Transporter___Base_to_connect_any_Database_to_Backland_.Paginate.md)<`Doc`, `Indexes`\>
+• **paginate**: [`Paginate`](Transporter___Base_to_connect_any_Database_to_Solarwind_.Paginate.md)<`Doc`, `Indexes`\>
 
 #### Defined in
 
@@ -99,7 +99,7 @@ ___
 
 ### updateMany
 
-• **updateMany**: [`UpdateMany`](Transporter___Base_to_connect_any_Database_to_Backland_.UpdateMany.md)<`Doc`, `Indexes`\>
+• **updateMany**: [`UpdateMany`](Transporter___Base_to_connect_any_Database_to_Solarwind_.UpdateMany.md)<`Doc`, `Indexes`\>
 
 #### Defined in
 
@@ -109,7 +109,7 @@ ___
 
 ### updateOne
 
-• **updateOne**: [`UpdateOne`](Transporter___Base_to_connect_any_Database_to_Backland_.UpdateOne.md)<`Doc`, `Indexes`\>
+• **updateOne**: [`UpdateOne`](Transporter___Base_to_connect_any_Database_to_Solarwind_.UpdateOne.md)<`Doc`, `Indexes`\>
 
 #### Defined in
 

@@ -1,4 +1,4 @@
-import { ExtendObjectDefinition } from '@backland/schema';
+import { ExtendObjectDefinition } from '@swind/schema';
 
 import { _ExcludeExtend } from './EntityFromContext';
 

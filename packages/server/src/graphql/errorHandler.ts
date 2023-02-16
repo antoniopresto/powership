@@ -1,5 +1,5 @@
 import { isHttpError } from '../BaseRequestHandler';
-import { AnyFunction, ulid } from 'backland';
+import { AnyFunction, ulid } from 'solarwind';
 import { GraphQLObjectType, GraphQLSchema } from 'graphql';
 
 // Mark field/type/schema

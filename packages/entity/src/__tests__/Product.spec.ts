@@ -1,7 +1,7 @@
-import { MongoTransporter } from '@backland/mongo';
-import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
-import { createType, ObjectType, parseField } from '@backland/schema';
-import { ULID_REGEX } from '@backland/schema/lib/fields/UlidField';
+import { MongoTransporter } from '@swind/mongo';
+import { AppMock, createAppMock } from '@swind/mongo/lib/test-utils';
+import { createType, ObjectType, parseField } from '@swind/schema';
+import { ULID_REGEX } from '@swind/schema/lib/fields/UlidField';
 
 import { createEntity } from '../Entity';
 

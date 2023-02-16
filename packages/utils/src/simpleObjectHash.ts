@@ -28,7 +28,7 @@ export function _simpleObjectHash(value: any): string {
         value.optionalId || ''
       }`;
     }
-    if (value?.__isBacklandObject === true) {
+    if (value?.__isSolarwindObject === true) {
       return `;${constructorName}(${simpleObjectHash(value.definition)}_${
         value.id || ''
       });`;

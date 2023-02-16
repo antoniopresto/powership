@@ -1,6 +1,6 @@
-import { Infer, ObjectDefinitionInput } from '@backland/schema';
-import { DocumentIndexItem } from '@backland/transporter';
-import { IsKnown, Merge } from '@backland/utils';
+import { Infer, ObjectDefinitionInput } from '@swind/schema';
+import { DocumentIndexItem } from '@swind/transporter';
+import { IsKnown, Merge } from '@swind/utils';
 
 import { EntityOptions } from '../EntityOptions';
 import { EntityDocumentBaseDef } from '../defaultFields';

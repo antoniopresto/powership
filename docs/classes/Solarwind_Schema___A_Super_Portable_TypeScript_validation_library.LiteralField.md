@@ -1,8 +1,8 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md) / LiteralField
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md) / LiteralField
 
 # Class: LiteralField<T\>
 
-[Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md).LiteralField
+[Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md).LiteralField
 
 ## Type parameters
 
@@ -12,7 +12,7 @@
 
 ## Hierarchy
 
-- [`FieldType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`T`, ``"literal"``, [`LiteralFieldDef`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md)\>
+- [`FieldType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`T`, ``"literal"``, [`LiteralFieldDef`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md)\>
 
   ↳ **`LiteralField`**
 
@@ -20,49 +20,49 @@
 
 ### Constructors
 
-- [constructor](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#constructor)
+- [constructor](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#constructor)
 
 ### Properties
 
-- [\_\_\_inferable](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#___inferable)
-- [\_\_isFieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#__isfieldtype)
-- [\_\_isLiteralField](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#__isliteralfield)
-- [composer](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#composer)
-- [def](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#def)
-- [defaultValue](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#defaultvalue)
-- [description](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#description)
-- [hidden](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#hidden)
-- [id](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#id)
-- [list](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#list)
-- [name](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#name)
-- [optional](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#optional)
-- [options](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#options)
-- [parse](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#parse)
-- [type](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#type)
-- [typeName](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#typename)
-- [utils](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#utils)
+- [\_\_\_inferable](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#___inferable)
+- [\_\_isFieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#__isfieldtype)
+- [\_\_isLiteralField](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#__isliteralfield)
+- [composer](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#composer)
+- [def](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#def)
+- [defaultValue](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#defaultvalue)
+- [description](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#description)
+- [hidden](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#hidden)
+- [id](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#id)
+- [list](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#list)
+- [name](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#name)
+- [optional](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#optional)
+- [options](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#options)
+- [parse](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#parse)
+- [type](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#type)
+- [typeName](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#typename)
+- [utils](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#utils)
 
 ### Accessors
 
-- [asFinalFieldDef](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#asfinalfielddef)
-- [definition](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#definition)
+- [asFinalFieldDef](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#asfinalfielddef)
+- [definition](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#definition)
 
 ### Methods
 
-- [applyParser](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#applyparser)
-- [clone](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#clone)
-- [describe](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#describe)
-- [describeField](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#describefield)
-- [is](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#is)
-- [setDefaultValue](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#setdefaultvalue)
-- [toList](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#tolist)
-- [toOptional](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#tooptional)
-- [toRequired](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#torequired)
-- [validate](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#validate)
-- [create](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#create)
-- [is](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#is-1)
-- [isFinalTypeDef](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#isfinaltypedef)
-- [isLiteralFieldDef](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#isliteralfielddef)
+- [applyParser](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#applyparser)
+- [clone](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#clone)
+- [describe](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#describe)
+- [describeField](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#describefield)
+- [is](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#is)
+- [setDefaultValue](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#setdefaultvalue)
+- [toList](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#tolist)
+- [toOptional](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#tooptional)
+- [toRequired](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#torequired)
+- [validate](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#validate)
+- [create](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#create)
+- [is](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#is-1)
+- [isFinalTypeDef](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#isfinaltypedef)
+- [isLiteralFieldDef](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md#isliteralfielddef)
 
 ## Constructors
 
@@ -102,7 +102,7 @@ FieldType&lt;
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[___inferable](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#___inferable)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[___inferable](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#___inferable)
 
 #### Defined in
 
@@ -116,7 +116,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[__isFieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#__isfieldtype)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[__isFieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#__isfieldtype)
 
 #### Defined in
 
@@ -136,11 +136,11 @@ ___
 
 ### composer
 
-• **composer**: `undefined` \| [`FieldComposer`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldcomposer)<`Record`<`string`, `any`\>, `T`\>
+• **composer**: `undefined` \| [`FieldComposer`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldcomposer)<`Record`<`string`, `any`\>, `T`\>
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[composer](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#composer)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[composer](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#composer)
 
 #### Defined in
 
@@ -150,11 +150,11 @@ ___
 
 ### def
 
-• `Readonly` **def**: [`LiteralFieldDef`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md)
+• `Readonly` **def**: [`LiteralFieldDef`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md)
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[def](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#def)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[def](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#def)
 
 #### Defined in
 
@@ -168,7 +168,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[defaultValue](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#defaultvalue)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[defaultValue](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#defaultvalue)
 
 #### Defined in
 
@@ -182,7 +182,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[description](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#description)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[description](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#description)
 
 #### Defined in
 
@@ -196,7 +196,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[hidden](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#hidden)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[hidden](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#hidden)
 
 #### Defined in
 
@@ -210,7 +210,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[id](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#id)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[id](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#id)
 
 #### Defined in
 
@@ -224,7 +224,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[list](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#list)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[list](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#list)
 
 #### Defined in
 
@@ -238,7 +238,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[name](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#name)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[name](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#name)
 
 #### Defined in
 
@@ -252,7 +252,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[optional](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#optional)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[optional](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#optional)
 
 #### Defined in
 
@@ -266,7 +266,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[options](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#options)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[options](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#options)
 
 #### Defined in
 
@@ -276,11 +276,11 @@ ___
 
 ### parse
 
-• **parse**: [`FieldTypeParser`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypeparser)<`T`\>
+• **parse**: [`FieldTypeParser`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypeparser)<`T`\>
 
 #### Overrides
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[parse](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#parse)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[parse](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#parse)
 
 #### Defined in
 
@@ -294,7 +294,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[type](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#type)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[type](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#type)
 
 #### Defined in
 
@@ -308,7 +308,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[typeName](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#typename)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[typeName](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#typename)
 
 #### Defined in
 
@@ -324,9 +324,9 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `deserialize` | (`def`: [`LiteralFieldDef`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md)) => `any` |
+| `deserialize` | (`def`: [`LiteralFieldDef`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md)) => `any` |
 | `serialize` | (`value`: `any`) => `string` |
-| `toDef` | (`input`: `any`) => [`LiteralFieldDef`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md) |
+| `toDef` | (`input`: `any`) => [`LiteralFieldDef`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md) |
 
 #### Defined in
 
@@ -336,11 +336,11 @@ ___
 
 ### asFinalFieldDef
 
-• `get` **asFinalFieldDef**(): [`AllFinalFieldDefinitions`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#allfinalfielddefinitions)[`TypeName`]
+• `get` **asFinalFieldDef**(): [`AllFinalFieldDefinitions`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Returns
 
-[`AllFinalFieldDefinitions`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#allfinalfielddefinitions)[`TypeName`]
+[`AllFinalFieldDefinitions`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Inherited from
 
@@ -354,11 +354,11 @@ ___
 
 ### definition
 
-• `get` **definition**(): [`AllFinalFieldDefinitions`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#allfinalfielddefinitions)[`TypeName`]
+• `get` **definition**(): [`AllFinalFieldDefinitions`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Returns
 
-[`AllFinalFieldDefinitions`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#allfinalfielddefinitions)[`TypeName`]
+[`AllFinalFieldDefinitions`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Inherited from
 
@@ -372,7 +372,7 @@ FieldType.definition
 
 ### applyParser
 
-▸ **applyParser**<`Type`\>(`parser`): [`FieldTypeParser`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypeparser)<`Type`\>
+▸ **applyParser**<`Type`\>(`parser`): [`FieldTypeParser`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypeparser)<`Type`\>
 
 #### Type parameters
 
@@ -385,16 +385,16 @@ FieldType.definition
 | Name | Type |
 | :------ | :------ |
 | `parser` | `Object` |
-| `parser.parse` | (`input`: `any`, `_options`: [`FieldParserOptionsObject`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldparseroptionsobject)) => `Type` |
+| `parser.parse` | (`input`: `any`, `_options`: [`FieldParserOptionsObject`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldparseroptionsobject)) => `Type` |
 | `parser.preParse?` | (`input`: `any`) => `Type` |
 
 #### Returns
 
-[`FieldTypeParser`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypeparser)<`Type`\>
+[`FieldTypeParser`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypeparser)<`Type`\>
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[applyParser](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#applyparser)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[applyParser](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#applyparser)
 
 #### Defined in
 
@@ -404,15 +404,15 @@ ___
 
 ### clone
 
-▸ **clone**(): [`FieldType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`Type`, `TypeName`, `Def`, `List`, `Optional`, `DefaultValue`, `Options`\>
+▸ **clone**(): [`FieldType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`Type`, `TypeName`, `Def`, `List`, `Optional`, `DefaultValue`, `Options`\>
 
 #### Returns
 
-[`FieldType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`Type`, `TypeName`, `Def`, `List`, `Optional`, `DefaultValue`, `Options`\>
+[`FieldType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`Type`, `TypeName`, `Def`, `List`, `Optional`, `DefaultValue`, `Options`\>
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[clone](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#clone)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[clone](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#clone)
 
 #### Defined in
 
@@ -436,7 +436,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[describe](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#describe)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[describe](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#describe)
 
 #### Defined in
 
@@ -464,7 +464,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[describeField](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#describefield)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[describeField](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#describefield)
 
 #### Defined in
 
@@ -488,7 +488,7 @@ input is T
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[is](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#is)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[is](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#is)
 
 #### Defined in
 
@@ -498,7 +498,7 @@ ___
 
 ### setDefaultValue
 
-▸ **setDefaultValue**<`T`\>(`value`): [`FieldType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`T`, ``"literal"``, [`LiteralFieldDef`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md), ``0``, ``0``, `T`, {}\>
+▸ **setDefaultValue**<`T`\>(`value`): [`FieldType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`T`, ``"literal"``, [`LiteralFieldDef`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md), ``0``, ``0``, `T`, {}\>
 
 #### Type parameters
 
@@ -514,11 +514,11 @@ ___
 
 #### Returns
 
-[`FieldType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`T`, ``"literal"``, [`LiteralFieldDef`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md), ``0``, ``0``, `T`, {}\>
+[`FieldType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`T`, ``"literal"``, [`LiteralFieldDef`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md), ``0``, ``0``, `T`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[setDefaultValue](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#setdefaultvalue)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[setDefaultValue](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#setdefaultvalue)
 
 #### Defined in
 
@@ -528,21 +528,21 @@ ___
 
 ### toList
 
-▸ **toList**(`options?`): [`FieldType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`T`, ``"literal"``, [`LiteralFieldDef`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md), ``1``, ``0``, `undefined`, {}\>
+▸ **toList**(`options?`): [`FieldType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`T`, ``"literal"``, [`LiteralFieldDef`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md), ``1``, ``0``, `undefined`, {}\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `options?` | [`ListDefinitionTruthy`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#listdefinitiontruthy) |
+| `options?` | [`ListDefinitionTruthy`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#listdefinitiontruthy) |
 
 #### Returns
 
-[`FieldType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`T`, ``"literal"``, [`LiteralFieldDef`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md), ``1``, ``0``, `undefined`, {}\>
+[`FieldType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`T`, ``"literal"``, [`LiteralFieldDef`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md), ``1``, ``0``, `undefined`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[toList](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#tolist)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[toList](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#tolist)
 
 #### Defined in
 
@@ -552,15 +552,15 @@ ___
 
 ### toOptional
 
-▸ **toOptional**(): [`FieldType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`T`, ``"literal"``, [`LiteralFieldDef`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md), ``0``, ``1``, `undefined`, {}\>
+▸ **toOptional**(): [`FieldType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`T`, ``"literal"``, [`LiteralFieldDef`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md), ``0``, ``1``, `undefined`, {}\>
 
 #### Returns
 
-[`FieldType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`T`, ``"literal"``, [`LiteralFieldDef`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md), ``0``, ``1``, `undefined`, {}\>
+[`FieldType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`T`, ``"literal"``, [`LiteralFieldDef`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md), ``0``, ``1``, `undefined`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[toOptional](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#tooptional)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[toOptional](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#tooptional)
 
 #### Defined in
 
@@ -570,15 +570,15 @@ ___
 
 ### toRequired
 
-▸ **toRequired**(): [`FieldType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`T`, ``"literal"``, [`LiteralFieldDef`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md), ``0``, ``0``, `undefined`, {}\>
+▸ **toRequired**(): [`FieldType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`T`, ``"literal"``, [`LiteralFieldDef`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md), ``0``, ``0``, `undefined`, {}\>
 
 #### Returns
 
-[`FieldType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`T`, ``"literal"``, [`LiteralFieldDef`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md), ``0``, ``0``, `undefined`, {}\>
+[`FieldType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`T`, ``"literal"``, [`LiteralFieldDef`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md), ``0``, ``0``, `undefined`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[toRequired](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#torequired)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[toRequired](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#torequired)
 
 #### Defined in
 
@@ -602,7 +602,7 @@ input is T
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[validate](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#validate)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[validate](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#validate)
 
 #### Defined in
 
@@ -612,7 +612,7 @@ ___
 
 ### create
 
-▸ `Static` **create**<`T`\>(`def`): [`LiteralField`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md)<`T`\>
+▸ `Static` **create**<`T`\>(`def`): [`LiteralField`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md)<`T`\>
 
 #### Type parameters
 
@@ -628,11 +628,11 @@ ___
 
 #### Returns
 
-[`LiteralField`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md)<`T`\>
+[`LiteralField`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md)<`T`\>
 
 #### Overrides
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[create](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#create)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[create](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#create)
 
 #### Defined in
 

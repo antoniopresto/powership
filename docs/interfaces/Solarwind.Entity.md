@@ -1,8 +1,8 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / Entity
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / Entity
 
 # Interface: Entity<Input, Indexes\>
 
-[Backland](../modules/Backland.md).Entity
+[Solarwind](../modules/Solarwind.md).Entity
 
 ## Type parameters
 
@@ -13,7 +13,7 @@
 
 ## Hierarchy
 
-- [`EntityFromContext`](Backland.EntityFromContext.md)<[`EntityTypesContext`](Backland.EntityTypesContext.md)<`Input`, `Indexes`\>\>
+- [`EntityFromContext`](Solarwind.EntityFromContext.md)<[`EntityTypesContext`](Solarwind.EntityTypesContext.md)<`Input`, `Indexes`\>\>
 
   ↳ **`Entity`**
 
@@ -21,57 +21,57 @@
 
 ### Properties
 
-- [\_\_context](Backland.Entity.md#__context)
-- [\_\_isEntity](Backland.Entity.md#__isentity)
-- [addHooks](Backland.Entity.md#addhooks)
-- [addIndexRelation](Backland.Entity.md#addindexrelation)
-- [addRelation](Backland.Entity.md#addrelation)
-- [aliasPaths](Backland.Entity.md#aliaspaths)
-- [conditionsDefinition](Backland.Entity.md#conditionsdefinition)
-- [createOne](Backland.Entity.md#createone)
-- [databaseType](Backland.Entity.md#databasetype)
-- [deleteMany](Backland.Entity.md#deletemany)
-- [deleteOne](Backland.Entity.md#deleteone)
-- [edgeType](Backland.Entity.md#edgetype)
-- [extend](Backland.Entity.md#extend)
-- [extendInput](Backland.Entity.md#extendinput)
-- [extendUpdate](Backland.Entity.md#extendupdate)
-- [findById](Backland.Entity.md#findbyid)
-- [findMany](Backland.Entity.md#findmany)
-- [findOne](Backland.Entity.md#findone)
-- [hasAliases](Backland.Entity.md#hasaliases)
-- [hooks](Backland.Entity.md#hooks)
-- [indexGraphTypes](Backland.Entity.md#indexgraphtypes)
-- [indexRelations](Backland.Entity.md#indexrelations)
-- [indexes](Backland.Entity.md#indexes)
-- [inputType](Backland.Entity.md#inputtype)
-- [name](Backland.Entity.md#name)
-- [originType](Backland.Entity.md#origintype)
-- [paginate](Backland.Entity.md#paginate)
-- [paginationType](Backland.Entity.md#paginationtype)
-- [parse](Backland.Entity.md#parse)
-- [setOption](Backland.Entity.md#setoption)
-- [transporter](Backland.Entity.md#transporter)
-- [type](Backland.Entity.md#type)
-- [updateMany](Backland.Entity.md#updatemany)
-- [updateOne](Backland.Entity.md#updateone)
-- [usedOptions](Backland.Entity.md#usedoptions)
+- [\_\_context](Solarwind.Entity.md#__context)
+- [\_\_isEntity](Solarwind.Entity.md#__isentity)
+- [addHooks](Solarwind.Entity.md#addhooks)
+- [addIndexRelation](Solarwind.Entity.md#addindexrelation)
+- [addRelation](Solarwind.Entity.md#addrelation)
+- [aliasPaths](Solarwind.Entity.md#aliaspaths)
+- [conditionsDefinition](Solarwind.Entity.md#conditionsdefinition)
+- [createOne](Solarwind.Entity.md#createone)
+- [databaseType](Solarwind.Entity.md#databasetype)
+- [deleteMany](Solarwind.Entity.md#deletemany)
+- [deleteOne](Solarwind.Entity.md#deleteone)
+- [edgeType](Solarwind.Entity.md#edgetype)
+- [extend](Solarwind.Entity.md#extend)
+- [extendInput](Solarwind.Entity.md#extendinput)
+- [extendUpdate](Solarwind.Entity.md#extendupdate)
+- [findById](Solarwind.Entity.md#findbyid)
+- [findMany](Solarwind.Entity.md#findmany)
+- [findOne](Solarwind.Entity.md#findone)
+- [hasAliases](Solarwind.Entity.md#hasaliases)
+- [hooks](Solarwind.Entity.md#hooks)
+- [indexGraphTypes](Solarwind.Entity.md#indexgraphtypes)
+- [indexRelations](Solarwind.Entity.md#indexrelations)
+- [indexes](Solarwind.Entity.md#indexes)
+- [inputType](Solarwind.Entity.md#inputtype)
+- [name](Solarwind.Entity.md#name)
+- [originType](Solarwind.Entity.md#origintype)
+- [paginate](Solarwind.Entity.md#paginate)
+- [paginationType](Solarwind.Entity.md#paginationtype)
+- [parse](Solarwind.Entity.md#parse)
+- [setOption](Solarwind.Entity.md#setoption)
+- [transporter](Solarwind.Entity.md#transporter)
+- [type](Solarwind.Entity.md#type)
+- [updateMany](Solarwind.Entity.md#updatemany)
+- [updateOne](Solarwind.Entity.md#updateone)
+- [usedOptions](Solarwind.Entity.md#usedoptions)
 
 ### Methods
 
-- [getDocumentId](Backland.Entity.md#getdocumentid)
-- [getIndexFields](Backland.Entity.md#getindexfields)
-- [parseDocumentIndexes](Backland.Entity.md#parsedocumentindexes)
+- [getDocumentId](Solarwind.Entity.md#getdocumentid)
+- [getIndexFields](Solarwind.Entity.md#getindexfields)
+- [parseDocumentIndexes](Solarwind.Entity.md#parsedocumentindexes)
 
 ## Properties
 
 ### \_\_context
 
-• **\_\_context**: [`EntityTypesContext`](Backland.EntityTypesContext.md)<`Input`, `Indexes`\>
+• **\_\_context**: [`EntityTypesContext`](Solarwind.EntityTypesContext.md)<`Input`, `Indexes`\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[__context](Backland.EntityFromContext.md#__context)
+[EntityFromContext](Solarwind.EntityFromContext.md).[__context](Solarwind.EntityFromContext.md#__context)
 
 #### Defined in
 
@@ -85,7 +85,7 @@ ___
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[__isEntity](Backland.EntityFromContext.md#__isentity)
+[EntityFromContext](Solarwind.EntityFromContext.md).[__isEntity](Solarwind.EntityFromContext.md#__isentity)
 
 #### Defined in
 
@@ -95,25 +95,25 @@ ___
 
 ### addHooks
 
-• **addHooks**: (`options`: (`hooks`: [`EntityHooks`](../modules/Backland.md#entityhooks)<{}, [`AnyEntity`](../modules/Backland.md#anyentity)\>) => `any`) => [`Entity`](Backland.Entity.md)<`Input`, `Indexes`\>
+• **addHooks**: (`options`: (`hooks`: [`EntityHooks`](../modules/Solarwind.md#entityhooks)<{}, [`AnyEntity`](../modules/Solarwind.md#anyentity)\>) => `any`) => [`Entity`](Solarwind.Entity.md)<`Input`, `Indexes`\>
 
 #### Type declaration
 
-▸ (`options`): [`Entity`](Backland.Entity.md)<`Input`, `Indexes`\>
+▸ (`options`): [`Entity`](Solarwind.Entity.md)<`Input`, `Indexes`\>
 
 ##### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `options` | (`hooks`: [`EntityHooks`](../modules/Backland.md#entityhooks)<{}, [`AnyEntity`](../modules/Backland.md#anyentity)\>) => `any` |
+| `options` | (`hooks`: [`EntityHooks`](../modules/Solarwind.md#entityhooks)<{}, [`AnyEntity`](../modules/Solarwind.md#anyentity)\>) => `any` |
 
 ##### Returns
 
-[`Entity`](Backland.Entity.md)<`Input`, `Indexes`\>
+[`Entity`](Solarwind.Entity.md)<`Input`, `Indexes`\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[addHooks](Backland.EntityFromContext.md#addhooks)
+[EntityFromContext](Solarwind.EntityFromContext.md).[addHooks](Solarwind.EntityFromContext.md#addhooks)
 
 #### Defined in
 
@@ -123,11 +123,11 @@ ___
 
 ### addIndexRelation
 
-• **addIndexRelation**: <E, Name\>(`name`: `Name`, `entity`: `E`) => [`EntityFromContext`](Backland.EntityFromContext.md)<[`EntityTypesContext`](Backland.EntityTypesContext.md)<`Omit`<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {}, `Name`\> & { [L in string]: Object }, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>\>
+• **addIndexRelation**: <E, Name\>(`name`: `Name`, `entity`: `E`) => [`EntityFromContext`](Solarwind.EntityFromContext.md)<[`EntityTypesContext`](Solarwind.EntityTypesContext.md)<`Omit`<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {}, `Name`\> & { [L in string]: Object }, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>\>
 
 #### Type declaration
 
-▸ <`E`, `Name`\>(`name`, `entity`): [`EntityFromContext`](Backland.EntityFromContext.md)<[`EntityTypesContext`](Backland.EntityTypesContext.md)<`Omit`<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {}, `Name`\> & { [L in string]: Object }, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>\>
+▸ <`E`, `Name`\>(`name`, `entity`): [`EntityFromContext`](Solarwind.EntityFromContext.md)<[`EntityTypesContext`](Solarwind.EntityTypesContext.md)<`Omit`<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {}, `Name`\> & { [L in string]: Object }, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>\>
 
 ##### Type parameters
 
@@ -145,11 +145,11 @@ ___
 
 ##### Returns
 
-[`EntityFromContext`](Backland.EntityFromContext.md)<[`EntityTypesContext`](Backland.EntityTypesContext.md)<`Omit`<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {}, `Name`\> & { [L in string]: Object }, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>\>
+[`EntityFromContext`](Solarwind.EntityFromContext.md)<[`EntityTypesContext`](Solarwind.EntityTypesContext.md)<`Omit`<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {}, `Name`\> & { [L in string]: Object }, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[addIndexRelation](Backland.EntityFromContext.md#addindexrelation)
+[EntityFromContext](Solarwind.EntityFromContext.md).[addIndexRelation](Solarwind.EntityFromContext.md#addindexrelation)
 
 #### Defined in
 
@@ -159,11 +159,11 @@ ___
 
 ### addRelation
 
-• **addRelation**: [`EntityAddRelation`](Backland.EntityAddRelation.md)<[`Entity`](Backland.Entity.md)<`Input`, `Indexes`\>, [`EntityTypesContext`](Backland.EntityTypesContext.md)<`Input`, `Indexes`\>\>
+• **addRelation**: [`EntityAddRelation`](Solarwind.EntityAddRelation.md)<[`Entity`](Solarwind.Entity.md)<`Input`, `Indexes`\>, [`EntityTypesContext`](Solarwind.EntityTypesContext.md)<`Input`, `Indexes`\>\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[addRelation](Backland.EntityFromContext.md#addrelation)
+[EntityFromContext](Solarwind.EntityFromContext.md).[addRelation](Solarwind.EntityFromContext.md#addrelation)
 
 #### Defined in
 
@@ -177,7 +177,7 @@ ___
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[aliasPaths](Backland.EntityFromContext.md#aliaspaths)
+[EntityFromContext](Solarwind.EntityFromContext.md).[aliasPaths](Solarwind.EntityFromContext.md#aliaspaths)
 
 #### Defined in
 
@@ -187,11 +187,11 @@ ___
 
 ### conditionsDefinition
 
-• **conditionsDefinition**: `EntityFilterConditionsDefinition`<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {}\>
+• **conditionsDefinition**: `EntityFilterConditionsDefinition`<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {}\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[conditionsDefinition](Backland.EntityFromContext.md#conditionsdefinition)
+[EntityFromContext](Solarwind.EntityFromContext.md).[conditionsDefinition](Solarwind.EntityFromContext.md#conditionsdefinition)
 
 #### Defined in
 
@@ -201,11 +201,11 @@ ___
 
 ### createOne
 
-• **createOne**: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocumentInput`](../modules/Backland.md#entitydocumentinput)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `item`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocumentInput`](../modules/Backland.md#entitydocumentinput)<`D`\> : {} ; `replace`: `undefined` \| `boolean`  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocumentInput`](../modules/Backland.md#entitydocumentinput)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `item`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocumentInput`](../modules/Backland.md#entitydocumentinput)<`D`\> : {} ; `replace`: `undefined` \| `boolean`  } : `never` : `never` : `never`) => `Promise`<{ `created`: `boolean` ; `error?`: ``null`` \| `string` ; `item`: ``null`` \| `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {} ; `updated`: `boolean`  }\> & [`_EntityLoaderUtils`](Backland._EntityLoaderUtils.md)<`IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocumentInput`](../modules/Backland.md#entitydocumentinput)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `item`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocumentInput`](../modules/Backland.md#entitydocumentinput)<`D`\> : {} ; `replace`: `undefined` \| `boolean`  } : `never` : `never` : `never`, [`EntityTypesContext`](Backland.EntityTypesContext.md)<`Input`, `Indexes`\>\> : [`CreateOne`](Backland.CreateOne.md)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocumentInput`](../modules/Backland.md#entitydocumentinput)<`D`\> : {}, `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>
+• **createOne**: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocumentInput`](../modules/Solarwind.md#entitydocumentinput)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `item`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocumentInput`](../modules/Solarwind.md#entitydocumentinput)<`D`\> : {} ; `replace`: `undefined` \| `boolean`  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocumentInput`](../modules/Solarwind.md#entitydocumentinput)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `item`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocumentInput`](../modules/Solarwind.md#entitydocumentinput)<`D`\> : {} ; `replace`: `undefined` \| `boolean`  } : `never` : `never` : `never`) => `Promise`<{ `created`: `boolean` ; `error?`: ``null`` \| `string` ; `item`: ``null`` \| `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {} ; `updated`: `boolean`  }\> & [`_EntityLoaderUtils`](Solarwind._EntityLoaderUtils.md)<`IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocumentInput`](../modules/Solarwind.md#entitydocumentinput)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `item`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocumentInput`](../modules/Solarwind.md#entitydocumentinput)<`D`\> : {} ; `replace`: `undefined` \| `boolean`  } : `never` : `never` : `never`, [`EntityTypesContext`](Solarwind.EntityTypesContext.md)<`Input`, `Indexes`\>\> : [`CreateOne`](Solarwind.CreateOne.md)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocumentInput`](../modules/Solarwind.md#entitydocumentinput)<`D`\> : {}, `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[createOne](Backland.EntityFromContext.md#createone)
+[EntityFromContext](Solarwind.EntityFromContext.md).[createOne](Solarwind.EntityFromContext.md#createone)
 
 #### Defined in
 
@@ -215,11 +215,11 @@ ___
 
 ### databaseType
 
-• **databaseType**: [`GraphType`](../classes/Backland.GraphType.md)<{ `object`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? `D` extends `object` ? `MergeFlat`<`Omit`<`EntityDocumentBaseDef`<``false``\>, keyof `D`\>, `D`, `BuiltIn`, `undefined`\> : `never` : {}  }\>
+• **databaseType**: [`GraphType`](../classes/Solarwind.GraphType.md)<{ `object`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? `D` extends `object` ? `MergeFlat`<`Omit`<`EntityDocumentBaseDef`<``false``\>, keyof `D`\>, `D`, `BuiltIn`, `undefined`\> : `never` : {}  }\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[databaseType](Backland.EntityFromContext.md#databasetype)
+[EntityFromContext](Solarwind.EntityFromContext.md).[databaseType](Solarwind.EntityFromContext.md#databasetype)
 
 #### Defined in
 
@@ -229,11 +229,11 @@ ___
 
 ### deleteMany
 
-• **deleteMany**: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never`) => `Promise`<{ `deletedCount`: `number` ; `error?`: ``null`` \| `string`  }\> & [`_EntityLoaderUtils`](Backland._EntityLoaderUtils.md)<`IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never`, [`EntityTypesContext`](Backland.EntityTypesContext.md)<`Input`, `Indexes`\>\> : [`DeleteMany`](Backland.DeleteMany.md)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>
+• **deleteMany**: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never`) => `Promise`<{ `deletedCount`: `number` ; `error?`: ``null`` \| `string`  }\> & [`_EntityLoaderUtils`](Solarwind._EntityLoaderUtils.md)<`IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never`, [`EntityTypesContext`](Solarwind.EntityTypesContext.md)<`Input`, `Indexes`\>\> : [`DeleteMany`](Solarwind.DeleteMany.md)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[deleteMany](Backland.EntityFromContext.md#deletemany)
+[EntityFromContext](Solarwind.EntityFromContext.md).[deleteMany](Solarwind.EntityFromContext.md#deletemany)
 
 #### Defined in
 
@@ -243,11 +243,11 @@ ___
 
 ### deleteOne
 
-• **deleteOne**: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never`) => `Promise`<{ `item`: ``null`` \| `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}  }\> & [`_EntityLoaderUtils`](Backland._EntityLoaderUtils.md)<`IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never`, [`EntityTypesContext`](Backland.EntityTypesContext.md)<`Input`, `Indexes`\>\> : [`DeleteOne`](Backland.DeleteOne.md)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>
+• **deleteOne**: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never`) => `Promise`<{ `item`: ``null`` \| `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}  }\> & [`_EntityLoaderUtils`](Solarwind._EntityLoaderUtils.md)<`IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\>  } : `never` : `never` : `never`, [`EntityTypesContext`](Solarwind.EntityTypesContext.md)<`Input`, `Indexes`\>\> : [`DeleteOne`](Solarwind.DeleteOne.md)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[deleteOne](Backland.EntityFromContext.md#deleteone)
+[EntityFromContext](Solarwind.EntityFromContext.md).[deleteOne](Solarwind.EntityFromContext.md#deleteone)
 
 #### Defined in
 
@@ -257,11 +257,11 @@ ___
 
 ### edgeType
 
-• **edgeType**: [`EdgeType`](../modules/Backland.md#edgetype)<[`GraphType`](../classes/Backland.GraphType.md)<{ `object`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? `D` extends `object` ? `MergeFlat`<`Omit`<`EntityDocumentBaseDef`<``false``\>, keyof `D`\>, `D`, `BuiltIn`, `undefined`\> : `never` : {}  }\>\>
+• **edgeType**: [`EdgeType`](../modules/Solarwind.md#edgetype)<[`GraphType`](../classes/Solarwind.GraphType.md)<{ `object`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? `D` extends `object` ? `MergeFlat`<`Omit`<`EntityDocumentBaseDef`<``false``\>, keyof `D`\>, `D`, `BuiltIn`, `undefined`\> : `never` : {}  }\>\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[edgeType](Backland.EntityFromContext.md#edgetype)
+[EntityFromContext](Solarwind.EntityFromContext.md).[edgeType](Solarwind.EntityFromContext.md#edgetype)
 
 #### Defined in
 
@@ -271,11 +271,11 @@ ___
 
 ### extend
 
-• **extend**: [`ExtendEntity`](Backland.ExtendEntity.md)<[`Entity`](Backland.Entity.md)<`Input`, `Indexes`\>\>
+• **extend**: [`ExtendEntity`](Solarwind.ExtendEntity.md)<[`Entity`](Solarwind.Entity.md)<`Input`, `Indexes`\>\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[extend](Backland.EntityFromContext.md#extend)
+[EntityFromContext](Solarwind.EntityFromContext.md).[extend](Solarwind.EntityFromContext.md#extend)
 
 #### Defined in
 
@@ -285,11 +285,11 @@ ___
 
 ### extendInput
 
-• **extendInput**: [`ExtendObjectDefinition`](Backland.ExtendObjectDefinition.md)<{ `object`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {}  }, { `object`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {}  }\>
+• **extendInput**: [`ExtendObjectDefinition`](Solarwind.ExtendObjectDefinition.md)<{ `object`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {}  }, { `object`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {}  }\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[extendInput](Backland.EntityFromContext.md#extendinput)
+[EntityFromContext](Solarwind.EntityFromContext.md).[extendInput](Solarwind.EntityFromContext.md#extendinput)
 
 #### Defined in
 
@@ -299,11 +299,11 @@ ___
 
 ### extendUpdate
 
-• **extendUpdate**: [`ExtendObjectDefinition`](Backland.ExtendObjectDefinition.md)<{ `object`: [`OverrideField`](../modules/Backland.md#overridefield)<[`DescribeObjectDefinition`](../modules/Backland.md#describeobjectdefinition)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {}\>, keyof `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {}, { `optional`: ``true``  }\>  }, { `object`: [`OverrideField`](../modules/Backland.md#overridefield)<[`DescribeObjectDefinition`](../modules/Backland.md#describeobjectdefinition)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {}\>, keyof `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {}, { `optional`: ``true``  }\>  }\>
+• **extendUpdate**: [`ExtendObjectDefinition`](Solarwind.ExtendObjectDefinition.md)<{ `object`: [`OverrideField`](../modules/Solarwind.md#overridefield)<[`DescribeObjectDefinition`](../modules/Solarwind.md#describeobjectdefinition)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {}\>, keyof `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {}, { `optional`: ``true``  }\>  }, { `object`: [`OverrideField`](../modules/Solarwind.md#overridefield)<[`DescribeObjectDefinition`](../modules/Solarwind.md#describeobjectdefinition)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {}\>, keyof `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {}, { `optional`: ``true``  }\>  }\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[extendUpdate](Backland.EntityFromContext.md#extendupdate)
+[EntityFromContext](Solarwind.EntityFromContext.md).[extendUpdate](Solarwind.EntityFromContext.md#extendupdate)
 
 #### Defined in
 
@@ -313,11 +313,11 @@ ___
 
 ### findById
 
-• **findById**: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `id`: `string` ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `id`: `string` ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never`) => `Promise`<{ `item`: ``null`` \| `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}  }\> & [`_EntityLoaderUtils`](Backland._EntityLoaderUtils.md)<`IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `id`: `string` ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never`, [`EntityTypesContext`](Backland.EntityTypesContext.md)<`Input`, `Indexes`\>\> : [`FindById`](Backland.FindById.md)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>
+• **findById**: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `id`: `string` ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `id`: `string` ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never`) => `Promise`<{ `item`: ``null`` \| `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}  }\> & [`_EntityLoaderUtils`](Solarwind._EntityLoaderUtils.md)<`IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `id`: `string` ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never`, [`EntityTypesContext`](Solarwind.EntityTypesContext.md)<`Input`, `Indexes`\>\> : [`FindById`](Solarwind.FindById.md)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[findById](Backland.EntityFromContext.md#findbyid)
+[EntityFromContext](Solarwind.EntityFromContext.md).[findById](Solarwind.EntityFromContext.md#findbyid)
 
 #### Defined in
 
@@ -327,11 +327,11 @@ ___
 
 ### findMany
 
-• **findMany**: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Backland.md#querysort)  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Backland.md#querysort)  } : `never` : `never` : `never`) => `Promise`<{ `items`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}[]  }\> & [`_EntityLoaderUtils`](Backland._EntityLoaderUtils.md)<`IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Backland.md#querysort)  } : `never` : `never` : `never`, [`EntityTypesContext`](Backland.EntityTypesContext.md)<`Input`, `Indexes`\>\> : [`FindMany`](Backland.FindMany.md)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>
+• **findMany**: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Solarwind.md#querysort)  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Solarwind.md#querysort)  } : `never` : `never` : `never`) => `Promise`<{ `items`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}[]  }\> & [`_EntityLoaderUtils`](Solarwind._EntityLoaderUtils.md)<`IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Solarwind.md#querysort)  } : `never` : `never` : `never`, [`EntityTypesContext`](Solarwind.EntityTypesContext.md)<`Input`, `Indexes`\>\> : [`FindMany`](Solarwind.FindMany.md)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[findMany](Backland.EntityFromContext.md#findmany)
+[EntityFromContext](Solarwind.EntityFromContext.md).[findMany](Solarwind.EntityFromContext.md#findmany)
 
 #### Defined in
 
@@ -341,11 +341,11 @@ ___
 
 ### findOne
 
-• **findOne**: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never`) => `Promise`<{ `item`: ``null`` \| `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}  }\> & [`_EntityLoaderUtils`](Backland._EntityLoaderUtils.md)<`IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never`, [`EntityTypesContext`](Backland.EntityTypesContext.md)<`Input`, `Indexes`\>\> : [`FindOne`](Backland.FindOne.md)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>
+• **findOne**: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never`) => `Promise`<{ `item`: ``null`` \| `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}  }\> & [`_EntityLoaderUtils`](Solarwind._EntityLoaderUtils.md)<`IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never`, [`EntityTypesContext`](Solarwind.EntityTypesContext.md)<`Input`, `Indexes`\>\> : [`FindOne`](Solarwind.FindOne.md)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[findOne](Backland.EntityFromContext.md#findone)
+[EntityFromContext](Solarwind.EntityFromContext.md).[findOne](Solarwind.EntityFromContext.md#findone)
 
 #### Defined in
 
@@ -359,7 +359,7 @@ ___
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[hasAliases](Backland.EntityFromContext.md#hasaliases)
+[EntityFromContext](Solarwind.EntityFromContext.md).[hasAliases](Solarwind.EntityFromContext.md#hasaliases)
 
 #### Defined in
 
@@ -369,11 +369,11 @@ ___
 
 ### hooks
 
-• **hooks**: [`EntityHooks`](../modules/Backland.md#entityhooks)<{}, [`AnyEntity`](../modules/Backland.md#anyentity)\>
+• **hooks**: [`EntityHooks`](../modules/Solarwind.md#entityhooks)<{}, [`AnyEntity`](../modules/Solarwind.md#anyentity)\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[hooks](Backland.EntityFromContext.md#hooks)
+[EntityFromContext](Solarwind.EntityFromContext.md).[hooks](Solarwind.EntityFromContext.md#hooks)
 
 #### Defined in
 
@@ -387,11 +387,11 @@ ___
 
 #### Index signature
 
-▪ [K: `string`]: [`GraphType`](../classes/Backland.GraphType.md)<{ `object`: [`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)  }\>
+▪ [K: `string`]: [`GraphType`](../classes/Solarwind.GraphType.md)<{ `object`: [`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)  }\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[indexGraphTypes](Backland.EntityFromContext.md#indexgraphtypes)
+[EntityFromContext](Solarwind.EntityFromContext.md).[indexGraphTypes](Solarwind.EntityFromContext.md#indexgraphtypes)
 
 #### Defined in
 
@@ -401,11 +401,11 @@ ___
 
 ### indexRelations
 
-• **indexRelations**: [`EntityIndexRelations`](Backland.EntityIndexRelations.md)
+• **indexRelations**: [`EntityIndexRelations`](Solarwind.EntityIndexRelations.md)
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[indexRelations](Backland.EntityFromContext.md#indexrelations)
+[EntityFromContext](Solarwind.EntityFromContext.md).[indexRelations](Solarwind.EntityFromContext.md#indexrelations)
 
 #### Defined in
 
@@ -415,11 +415,11 @@ ___
 
 ### indexes
 
-• **indexes**: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []
+• **indexes**: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[indexes](Backland.EntityFromContext.md#indexes)
+[EntityFromContext](Solarwind.EntityFromContext.md).[indexes](Solarwind.EntityFromContext.md#indexes)
 
 #### Defined in
 
@@ -429,11 +429,11 @@ ___
 
 ### inputType
 
-• **inputType**: [`GraphType`](../classes/Backland.GraphType.md)<{ `object`: `Omit`<`EntityDocumentBaseDef`<``true``\>, keyof `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {}\> & `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {}  }\>
+• **inputType**: [`GraphType`](../classes/Solarwind.GraphType.md)<{ `object`: `Omit`<`EntityDocumentBaseDef`<``true``\>, keyof `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {}\> & `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {}  }\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[inputType](Backland.EntityFromContext.md#inputtype)
+[EntityFromContext](Solarwind.EntityFromContext.md).[inputType](Solarwind.EntityFromContext.md#inputtype)
 
 #### Defined in
 
@@ -447,7 +447,7 @@ ___
 
 #### Overrides
 
-[EntityFromContext](Backland.EntityFromContext.md).[name](Backland.EntityFromContext.md#name)
+[EntityFromContext](Solarwind.EntityFromContext.md).[name](Solarwind.EntityFromContext.md#name)
 
 #### Defined in
 
@@ -457,11 +457,11 @@ ___
 
 ### originType
 
-• **originType**: [`GraphType`](../classes/Backland.GraphType.md)<{ `object`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {}  }\>
+• **originType**: [`GraphType`](../classes/Solarwind.GraphType.md)<{ `object`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {}  }\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[originType](Backland.EntityFromContext.md#origintype)
+[EntityFromContext](Solarwind.EntityFromContext.md).[originType](Solarwind.EntityFromContext.md#origintype)
 
 #### Defined in
 
@@ -471,11 +471,11 @@ ___
 
 ### paginate
 
-• **paginate**: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Backland.md#querysort)  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Backland.md#querysort)  } : `never` : `never` : `never`) => `Promise`<{ `edges`: { `cursor`: `string` ; `node`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}  }[] ; `pageInfo`: { `endCursor`: `undefined` \| `string` ; `hasNextPage`: `boolean` ; `hasPreviousPage`: `boolean` ; `startCursor`: `undefined` \| `string`  }  }\> & [`_EntityLoaderUtils`](Backland._EntityLoaderUtils.md)<`IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Backland.md#querysort)  } : `never` : `never` : `never`, [`EntityTypesContext`](Backland.EntityTypesContext.md)<`Input`, `Indexes`\>\> : [`Paginate`](Backland.Paginate.md)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>
+• **paginate**: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Solarwind.md#querysort)  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Solarwind.md#querysort)  } : `never` : `never` : `never`) => `Promise`<{ `edges`: { `cursor`: `string` ; `node`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}  }[] ; `pageInfo`: { `endCursor`: `undefined` \| `string` ; `hasNextPage`: `boolean` ; `hasPreviousPage`: `boolean` ; `startCursor`: `undefined` \| `string`  }  }\> & [`_EntityLoaderUtils`](Solarwind._EntityLoaderUtils.md)<`IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `after`: `undefined` \| `string` \| [`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `R` ? { [K in string \| number \| symbol]: R[K] } : {} ; `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `first`: `undefined` \| `number` ; `projection`: `undefined` \| `string`[] ; `sort`: `undefined` \| [`QuerySort`](../modules/Solarwind.md#querysort)  } : `never` : `never` : `never`, [`EntityTypesContext`](Solarwind.EntityTypesContext.md)<`Input`, `Indexes`\>\> : [`Paginate`](Solarwind.Paginate.md)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[paginate](Backland.EntityFromContext.md#paginate)
+[EntityFromContext](Solarwind.EntityFromContext.md).[paginate](Solarwind.EntityFromContext.md#paginate)
 
 #### Defined in
 
@@ -485,11 +485,11 @@ ___
 
 ### paginationType
 
-• **paginationType**: [`PaginationType`](../modules/Backland.md#paginationtype)<[`GraphType`](../classes/Backland.GraphType.md)<{ `object`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? `D` extends `object` ? `MergeFlat`<`Omit`<`EntityDocumentBaseDef`<``false``\>, keyof `D`\>, `D`, `BuiltIn`, `undefined`\> : `never` : {}  }\>\>
+• **paginationType**: [`PaginationType`](../modules/Solarwind.md#paginationtype)<[`GraphType`](../classes/Solarwind.GraphType.md)<{ `object`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? `D` extends `object` ? `MergeFlat`<`Omit`<`EntityDocumentBaseDef`<``false``\>, keyof `D`\>, `D`, `BuiltIn`, `undefined`\> : `never` : {}  }\>\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[paginationType](Backland.EntityFromContext.md#paginationtype)
+[EntityFromContext](Solarwind.EntityFromContext.md).[paginationType](Solarwind.EntityFromContext.md#paginationtype)
 
 #### Defined in
 
@@ -499,11 +499,11 @@ ___
 
 ### parse
 
-• **parse**: (...`args`: [input: any, options?: FieldParserConfig]) => `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}
+• **parse**: (...`args`: [input: any, options?: FieldParserConfig]) => `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}
 
 #### Type declaration
 
-▸ (`...args`): `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}
+▸ (`...args`): `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}
 
 ##### Parameters
 
@@ -513,11 +513,11 @@ ___
 
 ##### Returns
 
-`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}
+`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[parse](Backland.EntityFromContext.md#parse)
+[EntityFromContext](Solarwind.EntityFromContext.md).[parse](Solarwind.EntityFromContext.md#parse)
 
 #### Defined in
 
@@ -527,17 +527,17 @@ ___
 
 ### setOption
 
-• **setOption**: <Key, V\>(`optionName`: `Key`, `value`: `V`) => [`Entity`](Backland.Entity.md)<`Input`, `Indexes`\>
+• **setOption**: <Key, V\>(`optionName`: `Key`, `value`: `V`) => [`Entity`](Solarwind.Entity.md)<`Input`, `Indexes`\>
 
 #### Type declaration
 
-▸ <`Key`, `V`\>(`optionName`, `value`): [`Entity`](Backland.Entity.md)<`Input`, `Indexes`\>
+▸ <`Key`, `V`\>(`optionName`, `value`): [`Entity`](Solarwind.Entity.md)<`Input`, `Indexes`\>
 
 ##### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Key` | extends keyof [`EntityOptions`](../modules/Backland.md#entityoptions)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\> |
+| `Key` | extends keyof [`EntityOptions`](../modules/Solarwind.md#entityoptions)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\> |
 | `V` | `V` |
 
 ##### Parameters
@@ -549,11 +549,11 @@ ___
 
 ##### Returns
 
-[`Entity`](Backland.Entity.md)<`Input`, `Indexes`\>
+[`Entity`](Solarwind.Entity.md)<`Input`, `Indexes`\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[setOption](Backland.EntityFromContext.md#setoption)
+[EntityFromContext](Solarwind.EntityFromContext.md).[setOption](Solarwind.EntityFromContext.md#setoption)
 
 #### Defined in
 
@@ -563,11 +563,11 @@ ___
 
 ### transporter
 
-• **transporter**: `undefined` \| [`Transporter`](Backland.Transporter.md)
+• **transporter**: `undefined` \| [`Transporter`](Solarwind.Transporter.md)
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[transporter](Backland.EntityFromContext.md#transporter)
+[EntityFromContext](Solarwind.EntityFromContext.md).[transporter](Solarwind.EntityFromContext.md#transporter)
 
 #### Defined in
 
@@ -577,11 +577,11 @@ ___
 
 ### type
 
-• **type**: [`GraphType`](../classes/Backland.GraphType.md)<{ `object`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? `D` extends `object` ? `MergeFlat`<`Omit`<`EntityDocumentBaseDef`<``false``\>, keyof `D`\>, `D`, `BuiltIn`, `undefined`\> : `never` : {}  }\>
+• **type**: [`GraphType`](../classes/Solarwind.GraphType.md)<{ `object`: `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? `D` extends `object` ? `MergeFlat`<`Omit`<`EntityDocumentBaseDef`<``false``\>, keyof `D`\>, `D`, `BuiltIn`, `undefined`\> : `never` : {}  }\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[type](Backland.EntityFromContext.md#type)
+[EntityFromContext](Solarwind.EntityFromContext.md).[type](Solarwind.EntityFromContext.md#type)
 
 #### Defined in
 
@@ -591,11 +591,11 @@ ___
 
 ### updateMany
 
-• **updateMany**: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Backland.md#updateexpression)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Backland.md#updateexpression)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never`) => `Promise`<{ `error?`: ``null`` \| `string` ; `modifiedCount`: ``null`` \| `number` ; `upsertedId`: ``null`` \| `string`  }\> & [`_EntityLoaderUtils`](Backland._EntityLoaderUtils.md)<`IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Backland.md#updateexpression)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never`, [`EntityTypesContext`](Backland.EntityTypesContext.md)<`Input`, `Indexes`\>\> : [`UpdateMany`](Backland.UpdateMany.md)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>
+• **updateMany**: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Solarwind.md#updateexpression)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Solarwind.md#updateexpression)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never`) => `Promise`<{ `error?`: ``null`` \| `string` ; `modifiedCount`: ``null`` \| `number` ; `upsertedId`: ``null`` \| `string`  }\> & [`_EntityLoaderUtils`](Solarwind._EntityLoaderUtils.md)<`IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Solarwind.md#updateexpression)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never`, [`EntityTypesContext`](Solarwind.EntityTypesContext.md)<`Input`, `Indexes`\>\> : [`UpdateMany`](Solarwind.UpdateMany.md)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[updateMany](Backland.EntityFromContext.md#updatemany)
+[EntityFromContext](Solarwind.EntityFromContext.md).[updateMany](Solarwind.EntityFromContext.md#updatemany)
 
 #### Defined in
 
@@ -605,11 +605,11 @@ ___
 
 ### updateOne
 
-• **updateOne**: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Backland.md#updateexpression)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Backland.md#updateexpression)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never`) => `Promise`<{ `created`: `boolean` ; `error?`: ``null`` \| `string` ; `item`: ``null`` \| `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {} ; `updated`: `boolean`  }\> & [`_EntityLoaderUtils`](Backland._EntityLoaderUtils.md)<`IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Backland.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Backland.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Backland.md#updateexpression)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never`, [`EntityTypesContext`](Backland.EntityTypesContext.md)<`Input`, `Indexes`\>\> : [`UpdateOne`](Backland.UpdateOne.md)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Backland.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Backland.md#entitydocument)<`D`\> : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>
+• **updateOne**: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Solarwind.md#updateexpression)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never` extends `Record`<`string`, `any`\> ? (`options`: `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Solarwind.md#updateexpression)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never`) => `Promise`<{ `created`: `boolean` ; `error?`: ``null`` \| `string` ; `item`: ``null`` \| `IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {} ; `updated`: `boolean`  }\> & [`_EntityLoaderUtils`](Solarwind._EntityLoaderUtils.md)<`IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : [][`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `filter`: `Compute`<`UnionToIntersection`<[`IndexFilterRecord`](../modules/Solarwind.md#indexfilterrecord)<`IndexField`<`PK`, `never`\>, `IndexField`<`SK`, `undefined`\>\> extends `F` ? `F` extends `unknown` ? { [K in string \| number \| symbol]?: F[K] } & { `id?`: [`PKSKValueType`](../modules/Solarwind.md#pkskvaluetype)  } : {} : {}\>, ``1``\> ; `update`: [`UpdateExpression`](../modules/Solarwind.md#updateexpression)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}\> ; `upsert`: `undefined` \| `boolean`  } : `never` : `never` : `never`, [`EntityTypesContext`](Solarwind.EntityTypesContext.md)<`Input`, `Indexes`\>\> : [`UpdateOne`](Solarwind.UpdateOne.md)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {} extends `D` ? [`D`] extends [`object`] ? [`InferObjectDefinition`](../modules/Solarwind.md#inferobjectdefinition)<`D`\> : `never` : {} extends `D` ? [`EntityDocument`](../modules/Solarwind.md#entitydocument)<`D`\> : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[updateOne](Backland.EntityFromContext.md#updateone)
+[EntityFromContext](Solarwind.EntityFromContext.md).[updateOne](Solarwind.EntityFromContext.md#updateone)
 
 #### Defined in
 
@@ -619,11 +619,11 @@ ___
 
 ### usedOptions
 
-• **usedOptions**: [`EntityOptions`](../modules/Backland.md#entityoptions)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md)] ? `Input` : {} : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>
+• **usedOptions**: [`EntityOptions`](../modules/Solarwind.md#entityoptions)<`IsKnown`<`Input`\> extends ``1`` ? [`Input`] extends [[`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md)] ? `Input` : {} : {}, `IsKnown`<`Indexes`\> extends ``1`` ? `Indexes` extends readonly [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] \| [`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`string`\>[] ? `Indexes` : [] : []\>
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[usedOptions](Backland.EntityFromContext.md#usedoptions)
+[EntityFromContext](Solarwind.EntityFromContext.md).[usedOptions](Solarwind.EntityFromContext.md#usedoptions)
 
 #### Defined in
 
@@ -647,7 +647,7 @@ packages/entity/lib/EntityInterfaces/EntityFromContext.d.ts:21
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[getDocumentId](Backland.EntityFromContext.md#getdocumentid)
+[EntityFromContext](Solarwind.EntityFromContext.md).[getDocumentId](Solarwind.EntityFromContext.md#getdocumentid)
 
 #### Defined in
 
@@ -657,7 +657,7 @@ ___
 
 ### getIndexFields
 
-▸ **getIndexFields**(`doc`): [`CommonIndexFields`](../modules/Backland.md#commonindexfields)
+▸ **getIndexFields**(`doc`): [`CommonIndexFields`](../modules/Solarwind.md#commonindexfields)
 
 #### Parameters
 
@@ -667,11 +667,11 @@ ___
 
 #### Returns
 
-[`CommonIndexFields`](../modules/Backland.md#commonindexfields)
+[`CommonIndexFields`](../modules/Solarwind.md#commonindexfields)
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[getIndexFields](Backland.EntityFromContext.md#getindexfields)
+[EntityFromContext](Solarwind.EntityFromContext.md).[getIndexFields](Solarwind.EntityFromContext.md#getindexfields)
 
 #### Defined in
 
@@ -681,7 +681,7 @@ ___
 
 ### parseDocumentIndexes
 
-▸ **parseDocumentIndexes**(`doc`): [`ParsedDocumentIndexes`](../modules/Backland.md#parseddocumentindexes)
+▸ **parseDocumentIndexes**(`doc`): [`ParsedDocumentIndexes`](../modules/Solarwind.md#parseddocumentindexes)
 
 #### Parameters
 
@@ -691,11 +691,11 @@ ___
 
 #### Returns
 
-[`ParsedDocumentIndexes`](../modules/Backland.md#parseddocumentindexes)
+[`ParsedDocumentIndexes`](../modules/Solarwind.md#parseddocumentindexes)
 
 #### Inherited from
 
-[EntityFromContext](Backland.EntityFromContext.md).[parseDocumentIndexes](Backland.EntityFromContext.md#parsedocumentindexes)
+[EntityFromContext](Solarwind.EntityFromContext.md).[parseDocumentIndexes](Solarwind.EntityFromContext.md#parsedocumentindexes)
 
 #### Defined in
 

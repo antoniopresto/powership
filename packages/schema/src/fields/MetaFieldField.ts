@@ -1,9 +1,9 @@
 // MetaField is a special field type used to add metadata to an object
 
-import { expectedType } from '@backland/utils';
-import { getTypeName } from '@backland/utils';
-import { nonNullValues } from '@backland/utils';
-import { Serializable } from '@backland/utils';
+import { expectedType } from '@swind/utils';
+import { getTypeName } from '@swind/utils';
+import { nonNullValues } from '@swind/utils';
+import { Serializable } from '@swind/utils';
 
 import { FieldType, FieldTypeParser } from './FieldType';
 

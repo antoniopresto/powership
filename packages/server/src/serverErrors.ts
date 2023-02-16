@@ -1,4 +1,4 @@
-import { createErrorClass } from 'backland';
+import { createErrorClass } from 'solarwind';
 
 export const NotImplementedError = createErrorClass('NotImplemented');
 

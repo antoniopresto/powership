@@ -1,4 +1,4 @@
-import { RuntimeError, UpdateDefinition } from '@backland/utils';
+import { RuntimeError, UpdateDefinition } from '@swind/utils';
 import merge from 'lodash/merge';
 
 import { ParsedUpdateExpression } from './parseUpdateExpression';

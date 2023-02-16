@@ -1,4 +1,4 @@
-import { expectedType } from '@backland/utils';
+import { expectedType } from '@swind/utils';
 
 import { CircularDeps } from '../CircularDeps';
 

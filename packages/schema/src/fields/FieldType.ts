@@ -1,4 +1,4 @@
-import { inspectObject, simpleObjectClone } from '@backland/utils';
+import { inspectObject, simpleObjectClone } from '@swind/utils';
 
 import { CircularDeps } from '../CircularDeps';
 import {

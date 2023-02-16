@@ -1,12 +1,12 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / GraphTypeInTypeFieldDefinition
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / GraphTypeInTypeFieldDefinition
 
 # Interface: GraphTypeInTypeFieldDefinition
 
-[Backland](../modules/Backland.md).GraphTypeInTypeFieldDefinition
+[Solarwind](../modules/Solarwind.md).GraphTypeInTypeFieldDefinition
 
 ## Hierarchy
 
-- [`CommonFieldDefinition`](../modules/Backland.md#commonfielddefinition)<[`GraphTypeLikeFieldDefinition`](Backland.GraphTypeLikeFieldDefinition.md)\>
+- [`CommonFieldDefinition`](../modules/Solarwind.md#commonfielddefinition)<[`GraphTypeLikeFieldDefinition`](Solarwind.GraphTypeLikeFieldDefinition.md)\>
 
   ↳ **`GraphTypeInTypeFieldDefinition`**
 
@@ -14,15 +14,15 @@
 
 ### Properties
 
-- [def](Backland.GraphTypeInTypeFieldDefinition.md#def)
-- [defaultValue](Backland.GraphTypeInTypeFieldDefinition.md#defaultvalue)
-- [description](Backland.GraphTypeInTypeFieldDefinition.md#description)
-- [example](Backland.GraphTypeInTypeFieldDefinition.md#example)
-- [hidden](Backland.GraphTypeInTypeFieldDefinition.md#hidden)
-- [list](Backland.GraphTypeInTypeFieldDefinition.md#list)
-- [name](Backland.GraphTypeInTypeFieldDefinition.md#name)
-- [optional](Backland.GraphTypeInTypeFieldDefinition.md#optional)
-- [type](Backland.GraphTypeInTypeFieldDefinition.md#type)
+- [def](Solarwind.GraphTypeInTypeFieldDefinition.md#def)
+- [defaultValue](Solarwind.GraphTypeInTypeFieldDefinition.md#defaultvalue)
+- [description](Solarwind.GraphTypeInTypeFieldDefinition.md#description)
+- [example](Solarwind.GraphTypeInTypeFieldDefinition.md#example)
+- [hidden](Solarwind.GraphTypeInTypeFieldDefinition.md#hidden)
+- [list](Solarwind.GraphTypeInTypeFieldDefinition.md#list)
+- [name](Solarwind.GraphTypeInTypeFieldDefinition.md#name)
+- [optional](Solarwind.GraphTypeInTypeFieldDefinition.md#optional)
+- [type](Solarwind.GraphTypeInTypeFieldDefinition.md#type)
 
 ## Properties
 
@@ -70,7 +70,7 @@ ___
 
 ### example
 
-• `Optional` **example**: [`FieldExample`](../modules/Backland.md#fieldexample)
+• `Optional` **example**: [`FieldExample`](../modules/Solarwind.md#fieldexample)
 
 #### Inherited from
 
@@ -98,7 +98,7 @@ ___
 
 ### list
 
-• `Optional` **list**: [`ListDefinition`](../modules/Backland.md#listdefinition)
+• `Optional` **list**: [`ListDefinition`](../modules/Solarwind.md#listdefinition)
 
 #### Inherited from
 
@@ -140,7 +140,7 @@ ___
 
 ### type
 
-• **type**: [`GraphTypeLikeFieldDefinition`](Backland.GraphTypeLikeFieldDefinition.md)
+• **type**: [`GraphTypeLikeFieldDefinition`](Solarwind.GraphTypeLikeFieldDefinition.md)
 
 #### Inherited from
 

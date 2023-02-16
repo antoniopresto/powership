@@ -3,8 +3,8 @@ import { assert, IsExact } from 'conditional-type-checks';
 import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';
 
-describe('Backland aliases', () => {
-  afterEach(CircularDeps.BacklandObject.reset);
+describe('Solarwind aliases', () => {
+  afterEach(CircularDeps.SolarwindObject.reset);
 
   test('type creators', async () => {
     expect(CircularDeps.enum(['m']).definition).toEqual({

@@ -1,60 +1,60 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / GraphType
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / GraphType
 
 # Class: GraphType<Definition\>
 
-[Backland](../modules/Backland.md).GraphType
+[Solarwind](../modules/Solarwind.md).GraphType
 
 ## Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Definition` | extends [`ObjectFieldInput`](../modules/Backland.md#objectfieldinput) |
+| `Definition` | extends [`ObjectFieldInput`](../modules/Solarwind.md#objectfieldinput) |
 
 ## Table of contents
 
 ### Constructors
 
-- [constructor](Backland.GraphType.md#constructor)
+- [constructor](Solarwind.GraphType.md#constructor)
 
 ### Properties
 
-- [\_\_isGraphType](Backland.GraphType.md#__isgraphtype)
-- [\_\_lazyGetter](Backland.GraphType.md#__lazygetter)
-- [\_toGraphQL](Backland.GraphType.md#_tographql)
-- [beforeInitialize](Backland.GraphType.md#beforeinitialize)
-- [definition](Backland.GraphType.md#definition)
-- [graphQLInputType](Backland.GraphType.md#graphqlinputtype)
-- [graphQLInterface](Backland.GraphType.md#graphqlinterface)
-- [graphQLType](Backland.GraphType.md#graphqltype)
-- [identify](Backland.GraphType.md#identify)
-- [listType](Backland.GraphType.md#listtype)
-- [optionalType](Backland.GraphType.md#optionaltype)
-- [parse](Backland.GraphType.md#parse)
-- [print](Backland.GraphType.md#print)
-- [requiredType](Backland.GraphType.md#requiredtype)
-- [singleType](Backland.GraphType.md#singletype)
-- [touched](Backland.GraphType.md#touched)
-- [typescriptPrint](Backland.GraphType.md#typescriptprint)
-- [\_\_isGraphType](Backland.GraphType.md#__isgraphtype-1)
-- [getOrSet](Backland.GraphType.md#getorset)
-- [register](Backland.GraphType.md#register)
-- [reset](Backland.GraphType.md#reset)
-- [resolvers](Backland.GraphType.md#resolvers)
+- [\_\_isGraphType](Solarwind.GraphType.md#__isgraphtype)
+- [\_\_lazyGetter](Solarwind.GraphType.md#__lazygetter)
+- [\_toGraphQL](Solarwind.GraphType.md#_tographql)
+- [beforeInitialize](Solarwind.GraphType.md#beforeinitialize)
+- [definition](Solarwind.GraphType.md#definition)
+- [graphQLInputType](Solarwind.GraphType.md#graphqlinputtype)
+- [graphQLInterface](Solarwind.GraphType.md#graphqlinterface)
+- [graphQLType](Solarwind.GraphType.md#graphqltype)
+- [identify](Solarwind.GraphType.md#identify)
+- [listType](Solarwind.GraphType.md#listtype)
+- [optionalType](Solarwind.GraphType.md#optionaltype)
+- [parse](Solarwind.GraphType.md#parse)
+- [print](Solarwind.GraphType.md#print)
+- [requiredType](Solarwind.GraphType.md#requiredtype)
+- [singleType](Solarwind.GraphType.md#singletype)
+- [touched](Solarwind.GraphType.md#touched)
+- [typescriptPrint](Solarwind.GraphType.md#typescriptprint)
+- [\_\_isGraphType](Solarwind.GraphType.md#__isgraphtype-1)
+- [getOrSet](Solarwind.GraphType.md#getorset)
+- [register](Solarwind.GraphType.md#register)
+- [reset](Solarwind.GraphType.md#reset)
+- [resolvers](Solarwind.GraphType.md#resolvers)
 
 ### Accessors
 
-- [hidden](Backland.GraphType.md#hidden)
-- [id](Backland.GraphType.md#id)
-- [optionalId](Backland.GraphType.md#optionalid)
+- [hidden](Solarwind.GraphType.md#hidden)
+- [id](Solarwind.GraphType.md#id)
+- [optionalId](Solarwind.GraphType.md#optionalid)
 
 ### Methods
 
-- [clone](Backland.GraphType.md#clone)
-- [mutateFields](Backland.GraphType.md#mutatefields)
-- [override](Backland.GraphType.md#override)
-- [touch](Backland.GraphType.md#touch)
-- [is](Backland.GraphType.md#is)
-- [isTypeDefinition](Backland.GraphType.md#istypedefinition)
+- [clone](Solarwind.GraphType.md#clone)
+- [mutateFields](Solarwind.GraphType.md#mutatefields)
+- [override](Solarwind.GraphType.md#override)
+- [touch](Solarwind.GraphType.md#touch)
+- [is](Solarwind.GraphType.md#is)
+- [isTypeDefinition](Solarwind.GraphType.md#istypedefinition)
 
 ## Constructors
 
@@ -66,13 +66,13 @@
 
 | Name | Type |
 | :------ | :------ |
-| `Definition` | extends [`ObjectFieldInput`](../modules/Backland.md#objectfieldinput) |
+| `Definition` | extends [`ObjectFieldInput`](../modules/Solarwind.md#objectfieldinput) |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `definition` | `Definition` extends [`ObjectFieldInput`](../modules/Backland.md#objectfieldinput) ? `Definition` \| () => `Definition` : `never` |
+| `definition` | `Definition` extends [`ObjectFieldInput`](../modules/Solarwind.md#objectfieldinput) ? `Definition` \| () => `Definition` : `never` |
 
 #### Defined in
 
@@ -84,14 +84,14 @@ packages/schema/lib/GraphType/GraphType.d.ts:62
 
 | Name | Type |
 | :------ | :------ |
-| `Definition` | extends [`ObjectFieldInput`](../modules/Backland.md#objectfieldinput) |
+| `Definition` | extends [`ObjectFieldInput`](../modules/Solarwind.md#objectfieldinput) |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `name` | `string` |
-| `definition` | `Definition` extends [`ObjectFieldInput`](../modules/Backland.md#objectfieldinput) ? `Definition` \| () => `Definition` : `never` |
+| `definition` | `Definition` extends [`ObjectFieldInput`](../modules/Solarwind.md#objectfieldinput) ? `Definition` \| () => `Definition` : `never` |
 
 #### Defined in
 
@@ -111,7 +111,7 @@ ___
 
 ### \_\_lazyGetter
 
-• **\_\_lazyGetter**: [`LazyParseGraphTypePayload`](../modules/Backland.md#lazyparsegraphtypepayload)
+• **\_\_lazyGetter**: [`LazyParseGraphTypePayload`](../modules/Solarwind.md#lazyparsegraphtypepayload)
 
 #### Defined in
 
@@ -139,7 +139,7 @@ ___
 
 ### beforeInitialize
 
-• **beforeInitialize**: (`definition`: [`LazyParseGraphTypePayload`](../modules/Backland.md#lazyparsegraphtypepayload)) => [`LazyParseGraphTypePayload`](../modules/Backland.md#lazyparsegraphtypepayload)[]
+• **beforeInitialize**: (`definition`: [`LazyParseGraphTypePayload`](../modules/Solarwind.md#lazyparsegraphtypepayload)) => [`LazyParseGraphTypePayload`](../modules/Solarwind.md#lazyparsegraphtypepayload)[]
 
 #### Defined in
 
@@ -255,11 +255,11 @@ ___
 
 ### listType
 
-• **listType**: (`name?`: `string`) => `Definition` extends `unknown` ? [`GraphType`](Backland.GraphType.md)<[`MakeTypeList`](../modules/Backland.md#maketypelist)<`Definition`\>\> : `never`
+• **listType**: (`name?`: `string`) => `Definition` extends `unknown` ? [`GraphType`](Solarwind.GraphType.md)<[`MakeTypeList`](../modules/Solarwind.md#maketypelist)<`Definition`\>\> : `never`
 
 #### Type declaration
 
-▸ (`name?`): `Definition` extends `unknown` ? [`GraphType`](Backland.GraphType.md)<[`MakeTypeList`](../modules/Backland.md#maketypelist)<`Definition`\>\> : `never`
+▸ (`name?`): `Definition` extends `unknown` ? [`GraphType`](Solarwind.GraphType.md)<[`MakeTypeList`](../modules/Solarwind.md#maketypelist)<`Definition`\>\> : `never`
 
 ##### Parameters
 
@@ -269,7 +269,7 @@ ___
 
 ##### Returns
 
-`Definition` extends `unknown` ? [`GraphType`](Backland.GraphType.md)<[`MakeTypeList`](../modules/Backland.md#maketypelist)<`Definition`\>\> : `never`
+`Definition` extends `unknown` ? [`GraphType`](Solarwind.GraphType.md)<[`MakeTypeList`](../modules/Solarwind.md#maketypelist)<`Definition`\>\> : `never`
 
 #### Defined in
 
@@ -279,11 +279,11 @@ ___
 
 ### optionalType
 
-• **optionalType**: (`name?`: `string`) => `Definition` extends `unknown` ? [`GraphType`](Backland.GraphType.md)<[`DescribeAndOverrideField`](../modules/Backland.md#describeandoverridefield)<`Definition`, { `optional`: ``true``  }\>\> : `never`
+• **optionalType**: (`name?`: `string`) => `Definition` extends `unknown` ? [`GraphType`](Solarwind.GraphType.md)<[`DescribeAndOverrideField`](../modules/Solarwind.md#describeandoverridefield)<`Definition`, { `optional`: ``true``  }\>\> : `never`
 
 #### Type declaration
 
-▸ (`name?`): `Definition` extends `unknown` ? [`GraphType`](Backland.GraphType.md)<[`DescribeAndOverrideField`](../modules/Backland.md#describeandoverridefield)<`Definition`, { `optional`: ``true``  }\>\> : `never`
+▸ (`name?`): `Definition` extends `unknown` ? [`GraphType`](Solarwind.GraphType.md)<[`DescribeAndOverrideField`](../modules/Solarwind.md#describeandoverridefield)<`Definition`, { `optional`: ``true``  }\>\> : `never`
 
 ##### Parameters
 
@@ -293,7 +293,7 @@ ___
 
 ##### Returns
 
-`Definition` extends `unknown` ? [`GraphType`](Backland.GraphType.md)<[`DescribeAndOverrideField`](../modules/Backland.md#describeandoverridefield)<`Definition`, { `optional`: ``true``  }\>\> : `never`
+`Definition` extends `unknown` ? [`GraphType`](Solarwind.GraphType.md)<[`DescribeAndOverrideField`](../modules/Solarwind.md#describeandoverridefield)<`Definition`, { `optional`: ``true``  }\>\> : `never`
 
 #### Defined in
 
@@ -303,22 +303,22 @@ ___
 
 ### parse
 
-• **parse**: (`input`: `any`, `options?`: [`FieldParserConfig`](../modules/Backland.md#fieldparserconfig)) => [`Infer`](../modules/Backland.md#infer)<`Definition`\>
+• **parse**: (`input`: `any`, `options?`: [`FieldParserConfig`](../modules/Solarwind.md#fieldparserconfig)) => [`Infer`](../modules/Solarwind.md#infer)<`Definition`\>
 
 #### Type declaration
 
-▸ (`input`, `options?`): [`Infer`](../modules/Backland.md#infer)<`Definition`\>
+▸ (`input`, `options?`): [`Infer`](../modules/Solarwind.md#infer)<`Definition`\>
 
 ##### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `input` | `any` |
-| `options?` | [`FieldParserConfig`](../modules/Backland.md#fieldparserconfig) |
+| `options?` | [`FieldParserConfig`](../modules/Solarwind.md#fieldparserconfig) |
 
 ##### Returns
 
-[`Infer`](../modules/Backland.md#infer)<`Definition`\>
+[`Infer`](../modules/Solarwind.md#infer)<`Definition`\>
 
 #### Defined in
 
@@ -346,11 +346,11 @@ ___
 
 ### requiredType
 
-• **requiredType**: (`name?`: `string`) => `Definition` extends `unknown` ? [`GraphType`](Backland.GraphType.md)<[`DescribeAndOverrideField`](../modules/Backland.md#describeandoverridefield)<`Definition`, { `optional`: ``false``  }\>\> : `never`
+• **requiredType**: (`name?`: `string`) => `Definition` extends `unknown` ? [`GraphType`](Solarwind.GraphType.md)<[`DescribeAndOverrideField`](../modules/Solarwind.md#describeandoverridefield)<`Definition`, { `optional`: ``false``  }\>\> : `never`
 
 #### Type declaration
 
-▸ (`name?`): `Definition` extends `unknown` ? [`GraphType`](Backland.GraphType.md)<[`DescribeAndOverrideField`](../modules/Backland.md#describeandoverridefield)<`Definition`, { `optional`: ``false``  }\>\> : `never`
+▸ (`name?`): `Definition` extends `unknown` ? [`GraphType`](Solarwind.GraphType.md)<[`DescribeAndOverrideField`](../modules/Solarwind.md#describeandoverridefield)<`Definition`, { `optional`: ``false``  }\>\> : `never`
 
 ##### Parameters
 
@@ -360,7 +360,7 @@ ___
 
 ##### Returns
 
-`Definition` extends `unknown` ? [`GraphType`](Backland.GraphType.md)<[`DescribeAndOverrideField`](../modules/Backland.md#describeandoverridefield)<`Definition`, { `optional`: ``false``  }\>\> : `never`
+`Definition` extends `unknown` ? [`GraphType`](Solarwind.GraphType.md)<[`DescribeAndOverrideField`](../modules/Solarwind.md#describeandoverridefield)<`Definition`, { `optional`: ``false``  }\>\> : `never`
 
 #### Defined in
 
@@ -370,11 +370,11 @@ ___
 
 ### singleType
 
-• **singleType**: (`name?`: `string`) => `Definition` extends `unknown` ? [`GraphType`](Backland.GraphType.md)<[`DescribeAndOverrideField`](../modules/Backland.md#describeandoverridefield)<`Definition`, { `list`: ``false``  }\>\> : `never`
+• **singleType**: (`name?`: `string`) => `Definition` extends `unknown` ? [`GraphType`](Solarwind.GraphType.md)<[`DescribeAndOverrideField`](../modules/Solarwind.md#describeandoverridefield)<`Definition`, { `list`: ``false``  }\>\> : `never`
 
 #### Type declaration
 
-▸ (`name?`): `Definition` extends `unknown` ? [`GraphType`](Backland.GraphType.md)<[`DescribeAndOverrideField`](../modules/Backland.md#describeandoverridefield)<`Definition`, { `list`: ``false``  }\>\> : `never`
+▸ (`name?`): `Definition` extends `unknown` ? [`GraphType`](Solarwind.GraphType.md)<[`DescribeAndOverrideField`](../modules/Solarwind.md#describeandoverridefield)<`Definition`, { `list`: ``false``  }\>\> : `never`
 
 ##### Parameters
 
@@ -384,7 +384,7 @@ ___
 
 ##### Returns
 
-`Definition` extends `unknown` ? [`GraphType`](Backland.GraphType.md)<[`DescribeAndOverrideField`](../modules/Backland.md#describeandoverridefield)<`Definition`, { `list`: ``false``  }\>\> : `never`
+`Definition` extends `unknown` ? [`GraphType`](Solarwind.GraphType.md)<[`DescribeAndOverrideField`](../modules/Solarwind.md#describeandoverridefield)<`Definition`, { `list`: ``false``  }\>\> : `never`
 
 #### Defined in
 
@@ -438,11 +438,11 @@ ___
 
 ### getOrSet
 
-▪ `Static` **getOrSet**: <T\>(`id`: `string`, `def`: `T`) => [`GraphType`](Backland.GraphType.md)<`T`\>
+▪ `Static` **getOrSet**: <T\>(`id`: `string`, `def`: `T`) => [`GraphType`](Solarwind.GraphType.md)<`T`\>
 
 #### Type declaration
 
-▸ <`T`\>(`id`, `def`): [`GraphType`](Backland.GraphType.md)<`T`\>
+▸ <`T`\>(`id`, `def`): [`GraphType`](Solarwind.GraphType.md)<`T`\>
 
 Get an Object with the provided id
    or set a new Object in the register if not found.
@@ -451,7 +451,7 @@ Get an Object with the provided id
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`ObjectFieldInput`](../modules/Backland.md#objectfieldinput) |
+| `T` | extends [`ObjectFieldInput`](../modules/Solarwind.md#objectfieldinput) |
 
 ##### Parameters
 
@@ -462,7 +462,7 @@ Get an Object with the provided id
 
 ##### Returns
 
-[`GraphType`](Backland.GraphType.md)<`T`\>
+[`GraphType`](Solarwind.GraphType.md)<`T`\>
 
 #### Defined in
 
@@ -472,7 +472,7 @@ ___
 
 ### register
 
-▪ `Static` **register**: `Store`<`Record`<`string`, [`GraphTypeLike`](../interfaces/Backland.GraphTypeLike.md)\>, `string`, [`GraphTypeLike`](../interfaces/Backland.GraphTypeLike.md)\>
+▪ `Static` **register**: `Store`<`Record`<`string`, [`GraphTypeLike`](../interfaces/Solarwind.GraphTypeLike.md)\>, `string`, [`GraphTypeLike`](../interfaces/Solarwind.GraphTypeLike.md)\>
 
 #### Defined in
 
@@ -580,7 +580,7 @@ packages/schema/lib/GraphType/GraphType.d.ts:61
 
 | Name | Type |
 | :------ | :------ |
-| `handler` | (`input`: [`ExtendObjectDefinition`](../interfaces/Backland.ExtendObjectDefinition.md)<[`GraphType`](Backland.GraphType.md)<`Definition`\>, [`GraphType`](Backland.GraphType.md)<`Definition`\>\>) => `T` |
+| `handler` | (`input`: [`ExtendObjectDefinition`](../interfaces/Solarwind.ExtendObjectDefinition.md)<[`GraphType`](Solarwind.GraphType.md)<`Definition`\>, [`GraphType`](Solarwind.GraphType.md)<`Definition`\>\>) => `T` |
 
 #### Returns
 
@@ -594,23 +594,23 @@ ___
 
 ### mutateFields
 
-▸ **mutateFields**<`Def`\>(`callback`): [`GraphType`](Backland.GraphType.md)<{ `object`: `Def`  }\>
+▸ **mutateFields**<`Def`\>(`callback`): [`GraphType`](Solarwind.GraphType.md)<{ `object`: `Def`  }\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Def` | extends [`ObjectDefinitionInput`](../interfaces/Backland.ObjectDefinitionInput.md) |
+| `Def` | extends [`ObjectDefinitionInput`](../interfaces/Solarwind.ObjectDefinitionInput.md) |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `callback` | (`input`: [`ExtendObjectDefinition`](../interfaces/Backland.ExtendObjectDefinition.md)<[`GraphType`](Backland.GraphType.md)<`Definition`\>, [`GraphType`](Backland.GraphType.md)<`Definition`\>\>) => `Def` |
+| `callback` | (`input`: [`ExtendObjectDefinition`](../interfaces/Solarwind.ExtendObjectDefinition.md)<[`GraphType`](Solarwind.GraphType.md)<`Definition`\>, [`GraphType`](Solarwind.GraphType.md)<`Definition`\>\>) => `Def` |
 
 #### Returns
 
-[`GraphType`](Backland.GraphType.md)<{ `object`: `Def`  }\>
+[`GraphType`](Solarwind.GraphType.md)<{ `object`: `Def`  }\>
 
 #### Defined in
 
@@ -632,7 +632,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `handler` | (`input`: [`ExtendType`](../interfaces/Backland.ExtendType.md)<[`GraphType`](Backland.GraphType.md)<`Definition`\>\>) => `T` |
+| `handler` | (`input`: [`ExtendType`](../interfaces/Solarwind.ExtendType.md)<[`GraphType`](Solarwind.GraphType.md)<`Definition`\>\>) => `T` |
 
 #### Returns
 
@@ -646,11 +646,11 @@ ___
 
 ### touch
 
-▸ **touch**(): [`GraphType`](Backland.GraphType.md)<`Definition`\>
+▸ **touch**(): [`GraphType`](Solarwind.GraphType.md)<`Definition`\>
 
 #### Returns
 
-[`GraphType`](Backland.GraphType.md)<`Definition`\>
+[`GraphType`](Solarwind.GraphType.md)<`Definition`\>
 
 #### Defined in
 

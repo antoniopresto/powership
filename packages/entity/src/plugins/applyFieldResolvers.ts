@@ -1,6 +1,6 @@
-import { parseFieldDefinitionConfig } from '@backland/schema';
-import { createProxy, notNull } from '@backland/utils';
-import { NodeLogger } from '@backland/utils';
+import { parseFieldDefinitionConfig } from '@swind/schema';
+import { createProxy, notNull } from '@swind/utils';
+import { NodeLogger } from '@swind/utils';
 
 import { createEntityPlugin } from '../EntityPlugin';
 

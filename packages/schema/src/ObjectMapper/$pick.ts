@@ -1,4 +1,4 @@
-import { GetFieldByDotNotation } from '@backland/utils';
+import { GetFieldByDotNotation } from '@swind/utils';
 
 import { $var } from './$var';
 

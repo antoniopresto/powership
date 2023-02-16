@@ -1,4 +1,4 @@
-[Backland](../README.md) / [Modules](../modules.md) / A collection of type generation helpers.
+[Solarwind](../README.md) / [Modules](../modules.md) / A collection of type generation helpers.
 
 # Module: A collection of type generation helpers.
 
@@ -6,15 +6,15 @@
 
 ### Functions
 
-- [backlandUtilsResolver](A_collection_of_type_generation_helpers_.md#backlandutilsresolver)
+- [solarwindUtilsResolver](A_collection_of_type_generation_helpers_.md#solarwindutilsresolver)
 - [jsonToSchemaDefinition](A_collection_of_type_generation_helpers_.md#jsontoschemadefinition)
 - [jsonToType](A_collection_of_type_generation_helpers_.md#jsontotype)
 
 ## Functions
 
-### backlandUtilsResolver
+### solarwindUtilsResolver
 
-▸ **backlandUtilsResolver**(`input`, `onPageInit?`): `Promise`<{ `body`: `string` = html; `headers`: { `Content-Type`: `string` = 'text/html' } ; `statusCode`: `number` = 200 }\>
+▸ **solarwindUtilsResolver**(`input`, `onPageInit?`): `Promise`<{ `body`: `string` = html; `headers`: { `Content-Type`: `string` = 'text/html' } ; `statusCode`: `number` = 200 }\>
 
 #### Parameters
 
@@ -34,7 +34,7 @@
 
 #### Defined in
 
-[packages/helpers/src/backlandUtilsResolver.ts:16](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/helpers/src/backlandUtilsResolver.ts#L16)
+[packages/helpers/src/solarwindUtilsResolver.ts:16](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/helpers/src/solarwindUtilsResolver.ts#L16)
 
 ___
 

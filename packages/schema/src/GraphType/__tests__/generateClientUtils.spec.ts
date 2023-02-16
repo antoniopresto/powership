@@ -42,7 +42,7 @@ describe('schema.getGraphQLTypescript', () => {
       '',
       '/* eslint-disable */',
       '',
-      "import { GraphType } from '@backland/schema';",
+      "import { GraphType } from '@swind/schema';",
       '',
       'export type GraphQLClientError = { message: string; path: string[] };',
       '',

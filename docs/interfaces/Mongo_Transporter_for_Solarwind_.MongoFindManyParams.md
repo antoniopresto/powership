@@ -1,19 +1,19 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Mongo Transporter for Backland.](../modules/Mongo_Transporter_for_Backland_.md) / MongoFindManyParams
+[Solarwind](../README.md) / [Modules](../modules.md) / [Mongo Transporter for Solarwind.](../modules/Mongo_Transporter_for_Solarwind_.md) / MongoFindManyParams
 
 # Interface: MongoFindManyParams
 
-[Mongo Transporter for Backland.](../modules/Mongo_Transporter_for_Backland_.md).MongoFindManyParams
+[Mongo Transporter for Solarwind.](../modules/Mongo_Transporter_for_Solarwind_.md).MongoFindManyParams
 
 ## Table of contents
 
 ### Properties
 
-- [collection](Mongo_Transporter_for_Backland_.MongoFindManyParams.md#collection)
-- [db](Mongo_Transporter_for_Backland_.MongoFindManyParams.md#db)
-- [onlyOne](Mongo_Transporter_for_Backland_.MongoFindManyParams.md#onlyone)
-- [projection](Mongo_Transporter_for_Backland_.MongoFindManyParams.md#projection)
-- [query](Mongo_Transporter_for_Backland_.MongoFindManyParams.md#query)
-- [sort](Mongo_Transporter_for_Backland_.MongoFindManyParams.md#sort)
+- [collection](Mongo_Transporter_for_Solarwind_.MongoFindManyParams.md#collection)
+- [db](Mongo_Transporter_for_Solarwind_.MongoFindManyParams.md#db)
+- [onlyOne](Mongo_Transporter_for_Solarwind_.MongoFindManyParams.md#onlyone)
+- [projection](Mongo_Transporter_for_Solarwind_.MongoFindManyParams.md#projection)
+- [query](Mongo_Transporter_for_Solarwind_.MongoFindManyParams.md#query)
+- [sort](Mongo_Transporter_for_Solarwind_.MongoFindManyParams.md#sort)
 
 ## Properties
 

@@ -1,8 +1,8 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / DocumentIndexesConfig
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / DocumentIndexesConfig
 
 # Interface: DocumentIndexesConfig<DocKeys\>
 
-[Backland](../modules/Backland.md).DocumentIndexesConfig
+[Solarwind](../modules/Solarwind.md).DocumentIndexesConfig
 
 ## Type parameters
 
@@ -12,6 +12,6 @@
 
 ## Hierarchy
 
-- `ReadonlyArray`<[`DocumentIndexItem`](../modules/Backland.md#documentindexitem)<`DocKeys`\>\>
+- `ReadonlyArray`<[`DocumentIndexItem`](../modules/Solarwind.md#documentindexitem)<`DocKeys`\>\>
 
   ↳ **`DocumentIndexesConfig`**

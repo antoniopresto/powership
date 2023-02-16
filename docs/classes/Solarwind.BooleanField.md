@@ -1,12 +1,12 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / BooleanField
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / BooleanField
 
 # Class: BooleanField
 
-[Backland](../modules/Backland.md).BooleanField
+[Solarwind](../modules/Solarwind.md).BooleanField
 
 ## Hierarchy
 
-- [`FieldType`](Backland.FieldType.md)<`boolean`, ``"boolean"``, `undefined`\>
+- [`FieldType`](Solarwind.FieldType.md)<`boolean`, ``"boolean"``, `undefined`\>
 
   ↳ **`BooleanField`**
 
@@ -14,44 +14,44 @@
 
 ### Constructors
 
-- [constructor](Backland.BooleanField.md#constructor)
+- [constructor](Solarwind.BooleanField.md#constructor)
 
 ### Properties
 
-- [\_\_\_inferable](Backland.BooleanField.md#___inferable)
-- [\_\_isFieldType](Backland.BooleanField.md#__isfieldtype)
-- [applyParser](Backland.BooleanField.md#applyparser)
-- [clone](Backland.BooleanField.md#clone)
-- [composer](Backland.BooleanField.md#composer)
-- [def](Backland.BooleanField.md#def)
-- [defaultValue](Backland.BooleanField.md#defaultvalue)
-- [describe](Backland.BooleanField.md#describe)
-- [describeField](Backland.BooleanField.md#describefield)
-- [description](Backland.BooleanField.md#description)
-- [hidden](Backland.BooleanField.md#hidden)
-- [id](Backland.BooleanField.md#id)
-- [list](Backland.BooleanField.md#list)
-- [name](Backland.BooleanField.md#name)
-- [optional](Backland.BooleanField.md#optional)
-- [options](Backland.BooleanField.md#options)
-- [parse](Backland.BooleanField.md#parse)
-- [type](Backland.BooleanField.md#type)
-- [typeName](Backland.BooleanField.md#typename)
-- [create](Backland.BooleanField.md#create)
+- [\_\_\_inferable](Solarwind.BooleanField.md#___inferable)
+- [\_\_isFieldType](Solarwind.BooleanField.md#__isfieldtype)
+- [applyParser](Solarwind.BooleanField.md#applyparser)
+- [clone](Solarwind.BooleanField.md#clone)
+- [composer](Solarwind.BooleanField.md#composer)
+- [def](Solarwind.BooleanField.md#def)
+- [defaultValue](Solarwind.BooleanField.md#defaultvalue)
+- [describe](Solarwind.BooleanField.md#describe)
+- [describeField](Solarwind.BooleanField.md#describefield)
+- [description](Solarwind.BooleanField.md#description)
+- [hidden](Solarwind.BooleanField.md#hidden)
+- [id](Solarwind.BooleanField.md#id)
+- [list](Solarwind.BooleanField.md#list)
+- [name](Solarwind.BooleanField.md#name)
+- [optional](Solarwind.BooleanField.md#optional)
+- [options](Solarwind.BooleanField.md#options)
+- [parse](Solarwind.BooleanField.md#parse)
+- [type](Solarwind.BooleanField.md#type)
+- [typeName](Solarwind.BooleanField.md#typename)
+- [create](Solarwind.BooleanField.md#create)
 
 ### Accessors
 
-- [asFinalFieldDef](Backland.BooleanField.md#asfinalfielddef)
-- [definition](Backland.BooleanField.md#definition)
+- [asFinalFieldDef](Solarwind.BooleanField.md#asfinalfielddef)
+- [definition](Solarwind.BooleanField.md#definition)
 
 ### Methods
 
-- [is](Backland.BooleanField.md#is)
-- [setDefaultValue](Backland.BooleanField.md#setdefaultvalue)
-- [toList](Backland.BooleanField.md#tolist)
-- [toOptional](Backland.BooleanField.md#tooptional)
-- [toRequired](Backland.BooleanField.md#torequired)
-- [validate](Backland.BooleanField.md#validate)
+- [is](Solarwind.BooleanField.md#is)
+- [setDefaultValue](Solarwind.BooleanField.md#setdefaultvalue)
+- [toList](Solarwind.BooleanField.md#tolist)
+- [toOptional](Solarwind.BooleanField.md#tooptional)
+- [toRequired](Solarwind.BooleanField.md#torequired)
+- [validate](Solarwind.BooleanField.md#validate)
 
 ## Constructors
 
@@ -75,7 +75,7 @@ packages/schema/lib/fields/BooleanField.d.ts:4
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[___inferable](Backland.FieldType.md#___inferable)
+[FieldType](Solarwind.FieldType.md).[___inferable](Solarwind.FieldType.md#___inferable)
 
 #### Defined in
 
@@ -89,7 +89,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[__isFieldType](Backland.FieldType.md#__isfieldtype)
+[FieldType](Solarwind.FieldType.md).[__isFieldType](Solarwind.FieldType.md#__isfieldtype)
 
 #### Defined in
 
@@ -99,11 +99,11 @@ ___
 
 ### applyParser
 
-• **applyParser**: <Type_1\>(`parser`: { `parse`: (`input`: `any`, `_options`: [`FieldParserOptionsObject`](../modules/Backland.md#fieldparseroptionsobject)) => `Type_1` ; `preParse?`: (`input`: `any`) => `Type_1`  }) => [`FieldTypeParser`](../modules/Backland.md#fieldtypeparser)<`Type_1`\>
+• **applyParser**: <Type_1\>(`parser`: { `parse`: (`input`: `any`, `_options`: [`FieldParserOptionsObject`](../modules/Solarwind.md#fieldparseroptionsobject)) => `Type_1` ; `preParse?`: (`input`: `any`) => `Type_1`  }) => [`FieldTypeParser`](../modules/Solarwind.md#fieldtypeparser)<`Type_1`\>
 
 #### Type declaration
 
-▸ <`Type_1`\>(`parser`): [`FieldTypeParser`](../modules/Backland.md#fieldtypeparser)<`Type_1`\>
+▸ <`Type_1`\>(`parser`): [`FieldTypeParser`](../modules/Solarwind.md#fieldtypeparser)<`Type_1`\>
 
 ##### Type parameters
 
@@ -116,16 +116,16 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `parser` | `Object` |
-| `parser.parse` | (`input`: `any`, `_options`: [`FieldParserOptionsObject`](../modules/Backland.md#fieldparseroptionsobject)) => `Type_1` |
+| `parser.parse` | (`input`: `any`, `_options`: [`FieldParserOptionsObject`](../modules/Solarwind.md#fieldparseroptionsobject)) => `Type_1` |
 | `parser.preParse?` | (`input`: `any`) => `Type_1` |
 
 ##### Returns
 
-[`FieldTypeParser`](../modules/Backland.md#fieldtypeparser)<`Type_1`\>
+[`FieldTypeParser`](../modules/Solarwind.md#fieldtypeparser)<`Type_1`\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[applyParser](Backland.FieldType.md#applyparser)
+[FieldType](Solarwind.FieldType.md).[applyParser](Solarwind.FieldType.md#applyparser)
 
 #### Defined in
 
@@ -135,19 +135,19 @@ ___
 
 ### clone
 
-• **clone**: () => [`FieldType`](Backland.FieldType.md)<`boolean`, ``"boolean"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
+• **clone**: () => [`FieldType`](Solarwind.FieldType.md)<`boolean`, ``"boolean"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
 
 #### Type declaration
 
-▸ (): [`FieldType`](Backland.FieldType.md)<`boolean`, ``"boolean"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
+▸ (): [`FieldType`](Solarwind.FieldType.md)<`boolean`, ``"boolean"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
 
 ##### Returns
 
-[`FieldType`](Backland.FieldType.md)<`boolean`, ``"boolean"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
+[`FieldType`](Solarwind.FieldType.md)<`boolean`, ``"boolean"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[clone](Backland.FieldType.md#clone)
+[FieldType](Solarwind.FieldType.md).[clone](Solarwind.FieldType.md#clone)
 
 #### Defined in
 
@@ -157,11 +157,11 @@ ___
 
 ### composer
 
-• **composer**: `undefined` \| [`FieldComposer`](../modules/Backland.md#fieldcomposer)<`Record`<`string`, `any`\>, `boolean`\>
+• **composer**: `undefined` \| [`FieldComposer`](../modules/Solarwind.md#fieldcomposer)<`Record`<`string`, `any`\>, `boolean`\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[composer](Backland.FieldType.md#composer)
+[FieldType](Solarwind.FieldType.md).[composer](Solarwind.FieldType.md#composer)
 
 #### Defined in
 
@@ -175,7 +175,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[def](Backland.FieldType.md#def)
+[FieldType](Solarwind.FieldType.md).[def](Solarwind.FieldType.md#def)
 
 #### Defined in
 
@@ -189,7 +189,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[defaultValue](Backland.FieldType.md#defaultvalue)
+[FieldType](Solarwind.FieldType.md).[defaultValue](Solarwind.FieldType.md#defaultvalue)
 
 #### Defined in
 
@@ -199,11 +199,11 @@ ___
 
 ### describe
 
-• **describe**: (`description`: `string`) => [`BooleanField`](Backland.BooleanField.md)
+• **describe**: (`description`: `string`) => [`BooleanField`](Solarwind.BooleanField.md)
 
 #### Type declaration
 
-▸ (`description`): [`BooleanField`](Backland.BooleanField.md)
+▸ (`description`): [`BooleanField`](Solarwind.BooleanField.md)
 
 ##### Parameters
 
@@ -213,11 +213,11 @@ ___
 
 ##### Returns
 
-[`BooleanField`](Backland.BooleanField.md)
+[`BooleanField`](Solarwind.BooleanField.md)
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[describe](Backland.FieldType.md#describe)
+[FieldType](Solarwind.FieldType.md).[describe](Solarwind.FieldType.md#describe)
 
 #### Defined in
 
@@ -249,7 +249,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[describeField](Backland.FieldType.md#describefield)
+[FieldType](Solarwind.FieldType.md).[describeField](Solarwind.FieldType.md#describefield)
 
 #### Defined in
 
@@ -263,7 +263,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[description](Backland.FieldType.md#description)
+[FieldType](Solarwind.FieldType.md).[description](Solarwind.FieldType.md#description)
 
 #### Defined in
 
@@ -277,7 +277,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[hidden](Backland.FieldType.md#hidden)
+[FieldType](Solarwind.FieldType.md).[hidden](Solarwind.FieldType.md#hidden)
 
 #### Defined in
 
@@ -291,7 +291,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[id](Backland.FieldType.md#id)
+[FieldType](Solarwind.FieldType.md).[id](Solarwind.FieldType.md#id)
 
 #### Defined in
 
@@ -305,7 +305,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[list](Backland.FieldType.md#list)
+[FieldType](Solarwind.FieldType.md).[list](Solarwind.FieldType.md#list)
 
 #### Defined in
 
@@ -319,7 +319,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[name](Backland.FieldType.md#name)
+[FieldType](Solarwind.FieldType.md).[name](Solarwind.FieldType.md#name)
 
 #### Defined in
 
@@ -333,7 +333,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[optional](Backland.FieldType.md#optional)
+[FieldType](Solarwind.FieldType.md).[optional](Solarwind.FieldType.md#optional)
 
 #### Defined in
 
@@ -347,7 +347,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[options](Backland.FieldType.md#options)
+[FieldType](Solarwind.FieldType.md).[options](Solarwind.FieldType.md#options)
 
 #### Defined in
 
@@ -357,11 +357,11 @@ ___
 
 ### parse
 
-• **parse**: [`FieldTypeParser`](../modules/Backland.md#fieldtypeparser)<`boolean`\>
+• **parse**: [`FieldTypeParser`](../modules/Solarwind.md#fieldtypeparser)<`boolean`\>
 
 #### Overrides
 
-[FieldType](Backland.FieldType.md).[parse](Backland.FieldType.md#parse)
+[FieldType](Solarwind.FieldType.md).[parse](Solarwind.FieldType.md#parse)
 
 #### Defined in
 
@@ -375,7 +375,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[type](Backland.FieldType.md#type)
+[FieldType](Solarwind.FieldType.md).[type](Solarwind.FieldType.md#type)
 
 #### Defined in
 
@@ -389,7 +389,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[typeName](Backland.FieldType.md#typename)
+[FieldType](Solarwind.FieldType.md).[typeName](Solarwind.FieldType.md#typename)
 
 #### Defined in
 
@@ -399,19 +399,19 @@ ___
 
 ### create
 
-▪ `Static` **create**: () => [`BooleanField`](Backland.BooleanField.md)
+▪ `Static` **create**: () => [`BooleanField`](Solarwind.BooleanField.md)
 
 #### Type declaration
 
-▸ (): [`BooleanField`](Backland.BooleanField.md)
+▸ (): [`BooleanField`](Solarwind.BooleanField.md)
 
 ##### Returns
 
-[`BooleanField`](Backland.BooleanField.md)
+[`BooleanField`](Solarwind.BooleanField.md)
 
 #### Overrides
 
-[FieldType](Backland.FieldType.md).[create](Backland.FieldType.md#create)
+[FieldType](Solarwind.FieldType.md).[create](Solarwind.FieldType.md#create)
 
 #### Defined in
 
@@ -421,11 +421,11 @@ packages/schema/lib/fields/BooleanField.d.ts:5
 
 ### asFinalFieldDef
 
-• `get` **asFinalFieldDef**(): [`AllFinalFieldDefinitions`](../modules/Backland.md#allfinalfielddefinitions)[`TypeName`]
+• `get` **asFinalFieldDef**(): [`AllFinalFieldDefinitions`](../modules/Solarwind.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Returns
 
-[`AllFinalFieldDefinitions`](../modules/Backland.md#allfinalfielddefinitions)[`TypeName`]
+[`AllFinalFieldDefinitions`](../modules/Solarwind.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Inherited from
 
@@ -439,11 +439,11 @@ ___
 
 ### definition
 
-• `get` **definition**(): [`AllFinalFieldDefinitions`](../modules/Backland.md#allfinalfielddefinitions)[`TypeName`]
+• `get` **definition**(): [`AllFinalFieldDefinitions`](../modules/Solarwind.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Returns
 
-[`AllFinalFieldDefinitions`](../modules/Backland.md#allfinalfielddefinitions)[`TypeName`]
+[`AllFinalFieldDefinitions`](../modules/Solarwind.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Inherited from
 
@@ -471,7 +471,7 @@ input is boolean
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[is](Backland.FieldType.md#is)
+[FieldType](Solarwind.FieldType.md).[is](Solarwind.FieldType.md#is)
 
 #### Defined in
 
@@ -481,7 +481,7 @@ ___
 
 ### setDefaultValue
 
-▸ **setDefaultValue**<`T`\>(`value`): [`FieldType`](Backland.FieldType.md)<`boolean`, ``"boolean"``, `undefined`, ``0``, ``0``, `T`, {}\>
+▸ **setDefaultValue**<`T`\>(`value`): [`FieldType`](Solarwind.FieldType.md)<`boolean`, ``"boolean"``, `undefined`, ``0``, ``0``, `T`, {}\>
 
 #### Type parameters
 
@@ -497,11 +497,11 @@ ___
 
 #### Returns
 
-[`FieldType`](Backland.FieldType.md)<`boolean`, ``"boolean"``, `undefined`, ``0``, ``0``, `T`, {}\>
+[`FieldType`](Solarwind.FieldType.md)<`boolean`, ``"boolean"``, `undefined`, ``0``, ``0``, `T`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[setDefaultValue](Backland.FieldType.md#setdefaultvalue)
+[FieldType](Solarwind.FieldType.md).[setDefaultValue](Solarwind.FieldType.md#setdefaultvalue)
 
 #### Defined in
 
@@ -511,21 +511,21 @@ ___
 
 ### toList
 
-▸ **toList**(`options?`): [`FieldType`](Backland.FieldType.md)<`boolean`, ``"boolean"``, `undefined`, ``1``, ``0``, `undefined`, {}\>
+▸ **toList**(`options?`): [`FieldType`](Solarwind.FieldType.md)<`boolean`, ``"boolean"``, `undefined`, ``1``, ``0``, `undefined`, {}\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `options?` | [`ListDefinitionTruthy`](../modules/Backland.md#listdefinitiontruthy) |
+| `options?` | [`ListDefinitionTruthy`](../modules/Solarwind.md#listdefinitiontruthy) |
 
 #### Returns
 
-[`FieldType`](Backland.FieldType.md)<`boolean`, ``"boolean"``, `undefined`, ``1``, ``0``, `undefined`, {}\>
+[`FieldType`](Solarwind.FieldType.md)<`boolean`, ``"boolean"``, `undefined`, ``1``, ``0``, `undefined`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[toList](Backland.FieldType.md#tolist)
+[FieldType](Solarwind.FieldType.md).[toList](Solarwind.FieldType.md#tolist)
 
 #### Defined in
 
@@ -535,15 +535,15 @@ ___
 
 ### toOptional
 
-▸ **toOptional**(): [`FieldType`](Backland.FieldType.md)<`boolean`, ``"boolean"``, `undefined`, ``0``, ``1``, `undefined`, {}\>
+▸ **toOptional**(): [`FieldType`](Solarwind.FieldType.md)<`boolean`, ``"boolean"``, `undefined`, ``0``, ``1``, `undefined`, {}\>
 
 #### Returns
 
-[`FieldType`](Backland.FieldType.md)<`boolean`, ``"boolean"``, `undefined`, ``0``, ``1``, `undefined`, {}\>
+[`FieldType`](Solarwind.FieldType.md)<`boolean`, ``"boolean"``, `undefined`, ``0``, ``1``, `undefined`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[toOptional](Backland.FieldType.md#tooptional)
+[FieldType](Solarwind.FieldType.md).[toOptional](Solarwind.FieldType.md#tooptional)
 
 #### Defined in
 
@@ -553,15 +553,15 @@ ___
 
 ### toRequired
 
-▸ **toRequired**(): [`FieldType`](Backland.FieldType.md)<`boolean`, ``"boolean"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
+▸ **toRequired**(): [`FieldType`](Solarwind.FieldType.md)<`boolean`, ``"boolean"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
 
 #### Returns
 
-[`FieldType`](Backland.FieldType.md)<`boolean`, ``"boolean"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
+[`FieldType`](Solarwind.FieldType.md)<`boolean`, ``"boolean"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[toRequired](Backland.FieldType.md#torequired)
+[FieldType](Solarwind.FieldType.md).[toRequired](Solarwind.FieldType.md#torequired)
 
 #### Defined in
 
@@ -585,7 +585,7 @@ input is boolean
 
 #### Inherited from
 
-[FieldType](Backland.FieldType.md).[validate](Backland.FieldType.md#validate)
+[FieldType](Solarwind.FieldType.md).[validate](Solarwind.FieldType.md#validate)
 
 #### Defined in
 

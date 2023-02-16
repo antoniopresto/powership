@@ -1,21 +1,21 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / ObjectLike
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / ObjectLike
 
 # Interface: ObjectLike
 
-[Backland](../modules/Backland.md).ObjectLike
+[Solarwind](../modules/Solarwind.md).ObjectLike
 
 ## Table of contents
 
 ### Properties
 
-- [\_\_isBacklandObject](Backland.ObjectLike.md#__isbacklandobject)
-- [definition](Backland.ObjectLike.md#definition)
+- [\_\_isSolarwindObject](Solarwind.ObjectLike.md#__issolarwindobject)
+- [definition](Solarwind.ObjectLike.md#definition)
 
 ## Properties
 
-### \_\_isBacklandObject
+### \_\_isSolarwindObject
 
-• **\_\_isBacklandObject**: ``true``
+• **\_\_isSolarwindObject**: ``true``
 
 #### Defined in
 

@@ -1,24 +1,24 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / TSFYCustomHandler
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / TSFYCustomHandler
 
 # Interface: TSFYCustomHandler
 
-[Backland](../modules/Backland.md).TSFYCustomHandler
+[Solarwind](../modules/Solarwind.md).TSFYCustomHandler
 
 ## Callable
 
 ### TSFYCustomHandler
 
-▸ **TSFYCustomHandler**(`utils`): `MaybePromise`<`undefined` \| [`TSFYRef`](../modules/Backland.md#tsfyref)\>
+▸ **TSFYCustomHandler**(`utils`): `MaybePromise`<`undefined` \| [`TSFYRef`](../modules/Solarwind.md#tsfyref)\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `utils` | [`TSFyHandlerUtils`](../modules/Backland.md#tsfyhandlerutils) |
+| `utils` | [`TSFyHandlerUtils`](../modules/Solarwind.md#tsfyhandlerutils) |
 
 #### Returns
 
-`MaybePromise`<`undefined` \| [`TSFYRef`](../modules/Backland.md#tsfyref)\>
+`MaybePromise`<`undefined` \| [`TSFYRef`](../modules/Solarwind.md#tsfyref)\>
 
 #### Defined in
 

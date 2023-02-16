@@ -1,12 +1,12 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Transporter - Base to connect any Database to Backland.](../modules/Transporter___Base_to_connect_any_Database_to_Backland_.md) / FirstIndexParsed
+[Solarwind](../README.md) / [Modules](../modules.md) / [Transporter - Base to connect any Database to Solarwind.](../modules/Transporter___Base_to_connect_any_Database_to_Solarwind_.md) / FirstIndexParsed
 
 # Interface: FirstIndexParsed
 
-[Transporter - Base to connect any Database to Backland.](../modules/Transporter___Base_to_connect_any_Database_to_Backland_.md).FirstIndexParsed
+[Transporter - Base to connect any Database to Solarwind.](../modules/Transporter___Base_to_connect_any_Database_to_Solarwind_.md).FirstIndexParsed
 
 ## Hierarchy
 
-- `Omit`<[`DocumentIndexItem`](../modules/Transporter___Base_to_connect_any_Database_to_Backland_.md#documentindexitem), ``"relatedTo"``\>
+- `Omit`<[`DocumentIndexItem`](../modules/Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentindexitem), ``"relatedTo"``\>
 
 - `ParsedIndexCursor`
 
@@ -16,19 +16,19 @@
 
 ### Properties
 
-- [PK](Transporter___Base_to_connect_any_Database_to_Backland_.FirstIndexParsed.md#pk)
-- [SK](Transporter___Base_to_connect_any_Database_to_Backland_.FirstIndexParsed.md#sk)
-- [key](Transporter___Base_to_connect_any_Database_to_Backland_.FirstIndexParsed.md#key)
-- [name](Transporter___Base_to_connect_any_Database_to_Backland_.FirstIndexParsed.md#name)
-- [relatedTo](Transporter___Base_to_connect_any_Database_to_Backland_.FirstIndexParsed.md#relatedto)
-- [relations](Transporter___Base_to_connect_any_Database_to_Backland_.FirstIndexParsed.md#relations)
-- [value](Transporter___Base_to_connect_any_Database_to_Backland_.FirstIndexParsed.md#value)
+- [PK](Transporter___Base_to_connect_any_Database_to_Solarwind_.FirstIndexParsed.md#pk)
+- [SK](Transporter___Base_to_connect_any_Database_to_Solarwind_.FirstIndexParsed.md#sk)
+- [key](Transporter___Base_to_connect_any_Database_to_Solarwind_.FirstIndexParsed.md#key)
+- [name](Transporter___Base_to_connect_any_Database_to_Solarwind_.FirstIndexParsed.md#name)
+- [relatedTo](Transporter___Base_to_connect_any_Database_to_Solarwind_.FirstIndexParsed.md#relatedto)
+- [relations](Transporter___Base_to_connect_any_Database_to_Solarwind_.FirstIndexParsed.md#relations)
+- [value](Transporter___Base_to_connect_any_Database_to_Solarwind_.FirstIndexParsed.md#value)
 
 ## Properties
 
 ### PK
 
-• **PK**: [`IndexPKSKPartsListConfig`](Transporter___Base_to_connect_any_Database_to_Backland_.IndexPKSKPartsListConfig.md)<`string`\>
+• **PK**: [`IndexPKSKPartsListConfig`](Transporter___Base_to_connect_any_Database_to_Solarwind_.IndexPKSKPartsListConfig.md)<`string`\>
 
 #### Inherited from
 
@@ -42,7 +42,7 @@ ___
 
 ### SK
 
-• `Optional` **SK**: [`IndexPKSKPartsListConfig`](Transporter___Base_to_connect_any_Database_to_Backland_.IndexPKSKPartsListConfig.md)<`string`\>
+• `Optional` **SK**: [`IndexPKSKPartsListConfig`](Transporter___Base_to_connect_any_Database_to_Solarwind_.IndexPKSKPartsListConfig.md)<`string`\>
 
 #### Inherited from
 
@@ -94,7 +94,7 @@ ___
 
 ### relations
 
-• `Optional` **relations**: readonly [`DocumentIndexRelation`](../modules/Transporter___Base_to_connect_any_Database_to_Backland_.md#documentindexrelation)[]
+• `Optional` **relations**: readonly [`DocumentIndexRelation`](../modules/Transporter___Base_to_connect_any_Database_to_Solarwind_.md#documentindexrelation)[]
 
 #### Inherited from
 

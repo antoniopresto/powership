@@ -1,6 +1,6 @@
 import path from 'path';
 
-import { createStore, Process, simpleObjectHash, Store } from '@backland/utils';
+import { createStore, Process, simpleObjectHash, Store } from '@swind/utils';
 import { ensureFileSync } from 'fs-extra';
 
 import { GraphType } from '../GraphType/GraphType';
@@ -10,7 +10,7 @@ import { createTSFYContext, tsfy, TSFYConfig } from './tsfy';
 
 export const defaultTypesDest = path.resolve(
   Process.cwd(),
-  'generated/backland.d.ts'
+  'generated/solarwind.d.ts'
 );
 
 export interface TSFyWriterConfig extends TSFYConfig {
@@ -18,7 +18,7 @@ export interface TSFyWriterConfig extends TSFYConfig {
   dest?: string;
   writeThrottleMS?: number;
   prettify?: boolean;
-  moduleName?: string; // default to backland
+  moduleName?: string; // default to solarwind
   store?: Store<Record<string, any>>;
 }
 
@@ -27,7 +27,7 @@ export function tsfyWriter(options: TSFyWriterConfig = {}) {
     wrappers,
     dest = defaultTypesDest,
     writeThrottleMS = 3000,
-    moduleName = 'backland',
+    moduleName = 'solarwind',
     store = createStore(),
   } = options;
 
@@ -138,7 +138,7 @@ export function moduleWrapper(init: {
       `  module '${moduleName}' {`,
       `    export * from '${moduleName}';`,
       extra?.map(([open]) => open).join('\n'),
-      `    import { GraphType, ObjectType } from 'backland';`,
+      `    import { GraphType, ObjectType } from 'solarwind';`,
 
       body,
       extra?.map(([_, closer]) => closer).join('\n'),

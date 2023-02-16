@@ -1,3 +1,0 @@
-<component name="DependencyValidationManager">
-  <scope name="utils" pattern="file[backland]:packages/utils/*" />
-</component>

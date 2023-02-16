@@ -1,15 +1,15 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Mongo Transporter for Backland.](../modules/Mongo_Transporter_for_Backland_.md) / MongoClientOptions
+[Solarwind](../README.md) / [Modules](../modules.md) / [Mongo Transporter for Solarwind.](../modules/Mongo_Transporter_for_Solarwind_.md) / MongoClientOptions
 
 # Interface: MongoClientOptions
 
-[Mongo Transporter for Backland.](../modules/Mongo_Transporter_for_Backland_.md).MongoClientOptions
+[Mongo Transporter for Solarwind.](../modules/Mongo_Transporter_for_Solarwind_.md).MongoClientOptions
 
 ## Table of contents
 
 ### Properties
 
-- [clientOptions](Mongo_Transporter_for_Backland_.MongoClientOptions.md#clientoptions)
-- [dbName](Mongo_Transporter_for_Backland_.MongoClientOptions.md#dbname)
+- [clientOptions](Mongo_Transporter_for_Solarwind_.MongoClientOptions.md#clientoptions)
+- [dbName](Mongo_Transporter_for_Solarwind_.MongoClientOptions.md#dbname)
 
 ## Properties
 

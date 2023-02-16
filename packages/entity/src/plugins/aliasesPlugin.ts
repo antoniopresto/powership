@@ -1,4 +1,4 @@
-import { delay, ensureArray, objectDiffPaths } from '@backland/utils';
+import { delay, ensureArray, objectDiffPaths } from '@swind/utils';
 
 import { createEntityPlugin } from '../EntityPlugin';
 import { aggioUpdate } from '../aggioUpdate';

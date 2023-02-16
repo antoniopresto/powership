@@ -1,4 +1,4 @@
-import { UpdateExpression } from '@backland/transporter';
+import { UpdateExpression } from '@swind/transporter';
 
 import { MongoTransporter } from '../MongoTransporter';
 import { AppMock, createAppMock } from '../test-utils';

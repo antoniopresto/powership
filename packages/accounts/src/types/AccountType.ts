@@ -1,4 +1,4 @@
-import { createSchema } from '@backland/schema';
+import { createSchema } from '@swind/schema';
 
 import { usernameType } from '../utils/validateUserName';
 

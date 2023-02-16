@@ -1,10 +1,10 @@
-import { backlandUtilsResolver } from '../backlandUtilsResolver';
+import { solarwindUtilsResolver } from '../solarwindUtilsResolver';
 
-describe('backlandUtilsResolver', () => {
+describe('solarwindUtilsResolver', () => {
   // afterEach();
 
   test('works', async () => {
-    const example = await backlandUtilsResolver({ json: { name: 1 } });
+    const example = await solarwindUtilsResolver({ json: { name: 1 } });
     expect(example).toMatchObject({ body: expect.any(String) });
   });
 });

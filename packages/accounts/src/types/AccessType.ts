@@ -1,5 +1,5 @@
-import { createType, Infer } from '@backland/schema';
-import { tupleEnum } from '@backland/utils';
+import { createType, Infer } from '@swind/schema';
+import { tupleEnum } from '@swind/utils';
 
 export const accessTypesEnum = tupleEnum('phone', 'email', 'oauth', 'custom');
 export const accessTypesList = Object.values(accessTypesEnum);

@@ -1,15 +1,15 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / LiteralFieldDef
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / LiteralFieldDef
 
 # Interface: LiteralFieldDef
 
-[Backland](../modules/Backland.md).LiteralFieldDef
+[Solarwind](../modules/Solarwind.md).LiteralFieldDef
 
 ## Table of contents
 
 ### Properties
 
-- [\_\_o.proto\_\_](Backland.LiteralFieldDef.md#__o.proto__)
-- [value](Backland.LiteralFieldDef.md#value)
+- [\_\_o.proto\_\_](Solarwind.LiteralFieldDef.md#__o.proto__)
+- [value](Solarwind.LiteralFieldDef.md#value)
 
 ## Properties
 

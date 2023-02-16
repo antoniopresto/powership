@@ -1,8 +1,8 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / FieldTypeError
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / FieldTypeError
 
 # Class: FieldTypeError
 
-[Backland](../modules/Backland.md).FieldTypeError
+[Solarwind](../modules/Solarwind.md).FieldTypeError
 
 ## Hierarchy
 
@@ -14,13 +14,13 @@
 
 ### Constructors
 
-- [constructor](Backland.FieldTypeError.md#constructor)
+- [constructor](Solarwind.FieldTypeError.md#constructor)
 
 ### Properties
 
-- [\_\_isFieldTypeError](Backland.FieldTypeError.md#__isfieldtypeerror)
-- [code](Backland.FieldTypeError.md#code)
-- [is](Backland.FieldTypeError.md#is)
+- [\_\_isFieldTypeError](Solarwind.FieldTypeError.md#__isfieldtypeerror)
+- [code](Solarwind.FieldTypeError.md#code)
+- [is](Solarwind.FieldTypeError.md#is)
 
 ## Constructors
 

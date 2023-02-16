@@ -1,4 +1,4 @@
-import { capitalize, inspectObject, tuple } from '@backland/utils';
+import { capitalize, inspectObject, tuple } from '@swind/utils';
 
 export const FieldTypeErrorCodes = tuple(
   'minSize', //

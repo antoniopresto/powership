@@ -1,7 +1,7 @@
 import path from 'path';
 
-import { Process } from '@backland/utils';
-import { Emitter, mitt } from '@backland/utils';
+import { Process } from '@swind/utils';
+import { Emitter, mitt } from '@swind/utils';
 import { ensureFileSync, writeFileSync } from 'fs-extra';
 
 import { CircularDeps } from '../CircularDeps';
@@ -18,7 +18,7 @@ export type CustomTypesWriterEvent = {
   name: string;
 };
 
-export const BacklandWatchTypesPubSub: Emitter<{
+export const SolarwindWatchTypesPubSub: Emitter<{
   created: {
     custom?: CustomTypesWriterEvent;
     graphType?: GraphTypeLike;
@@ -31,7 +31,7 @@ const resolversRecord: Record<string, AnyResolver> = {};
 const customTypeRecord: Record<string, CustomTypesWriterEvent> = {};
 
 // APLICAR AOS RESOLVERS DA ENTITY, etc
-BacklandWatchTypesPubSub.on('created', async (event) => {
+SolarwindWatchTypesPubSub.on('created', async (event) => {
   if (event.graphType?.optionalId) {
     typesRecord[`${event.graphType.id}`] = event.graphType;
   }
@@ -53,7 +53,7 @@ export interface WriteTypesOptions {
 
 export const defaultTypesDest = path.resolve(
   Process.cwd(),
-  'src/generated/backland.d.ts'
+  'src/generated/solarwind.d.ts'
 );
 
 export async function writeTypes(options?: WriteTypesOptions) {
@@ -79,7 +79,7 @@ export async function writeTypes(options?: WriteTypesOptions) {
     txt += `\n export ${fn};\n`;
     txt += `\n export ${getTypeFn};\n`;
 
-    txt += `\n export const Backland = { createType, getType };\n`;
+    txt += `\n export const Solarwind = { createType, getType };\n`;
 
     return txt;
   });
@@ -100,7 +100,7 @@ export async function writeTypes(options?: WriteTypesOptions) {
     txt += `\n export ${fn};\n`;
     txt += `\n export ${getTypeFn};\n`;
 
-    txt += `\n export const Backland = { createResolver, getResolver };\n`;
+    txt += `\n export const Solarwind = { createResolver, getResolver };\n`;
 
     return txt;
   });
@@ -167,10 +167,10 @@ function template({
 /* tslint:disable */
 /* eslint-disable */
 declare global {
-  module '@backland/schema' {
-    export * from '@backland/schema';
-    import { ObjectFieldInput, ValidationCustomMessage, FieldDefinitionConfig } from '@backland/schema';
-    import { Merge } from '@backland/utils';
+  module '@swind/schema' {
+    export * from '@swind/schema';
+    import { ObjectFieldInput, ValidationCustomMessage, FieldDefinitionConfig } from '@swind/schema';
+    import { Merge } from '@swind/utils';
   
     import {
       GraphQLField,
@@ -287,10 +287,10 @@ let timeoutMS = 2000;
 function save() {
   clearTimeout(timeoutRef);
 
-  if (process.env.backland_emit_interval) {
+  if (process.env.solarwind_emit_interval) {
     timeoutMS =
-      +process.env.backland_emit_interval > 0
-        ? +process.env.backland_emit_interval
+      +process.env.solarwind_emit_interval > 0
+        ? +process.env.solarwind_emit_interval
         : timeoutMS;
 
     timeoutRef = setTimeout(() => {

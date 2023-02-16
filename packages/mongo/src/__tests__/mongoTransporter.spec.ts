@@ -3,8 +3,8 @@ import {
   UpdateExpression,
   UpdateManyConfig,
   UpdateOneConfig,
-} from '@backland/transporter';
-import { nonNullValues, ulid } from '@backland/utils';
+} from '@swind/transporter';
+import { nonNullValues, ulid } from '@swind/utils';
 import { Collection } from 'mongodb';
 
 import type { MongoTransporter } from '../MongoTransporter';

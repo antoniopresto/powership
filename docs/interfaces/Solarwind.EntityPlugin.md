@@ -1,8 +1,8 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / EntityPlugin
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / EntityPlugin
 
 # Interface: EntityPlugin
 
-[Backland](../modules/Backland.md).EntityPlugin
+[Solarwind](../modules/Solarwind.md).EntityPlugin
 
 ## Callable
 
@@ -14,7 +14,7 @@
 
 | Name | Type |
 | :------ | :------ |
-| `hooks` | [`EntityHooks`](../modules/Backland.md#entityhooks)<{}, [`AnyEntity`](../modules/Backland.md#anyentity)\> |
+| `hooks` | [`EntityHooks`](../modules/Solarwind.md#entityhooks)<{}, [`AnyEntity`](../modules/Solarwind.md#anyentity)\> |
 
 #### Returns
 

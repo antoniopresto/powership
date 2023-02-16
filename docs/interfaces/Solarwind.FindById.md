@@ -1,15 +1,15 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / FindById
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / FindById
 
 # Interface: FindById<Doc, Indexes\>
 
-[Backland](../modules/Backland.md).FindById
+[Solarwind](../modules/Solarwind.md).FindById
 
 ## Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](../modules/Backland.md#documentbase) |
-| `Indexes` | extends [`DocumentIndexesConfig`](Backland.DocumentIndexesConfig.md) |
+| `Doc` | extends [`DocumentBase`](../modules/Solarwind.md#documentbase) |
+| `Indexes` | extends [`DocumentIndexesConfig`](Solarwind.DocumentIndexesConfig.md) |
 
 ## Callable
 
@@ -21,7 +21,7 @@
 
 | Name | Type |
 | :------ | :------ |
-| `options` | `Indexes`[`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Backland.md#filterrecord)<`Doc`\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Backland.md#loadercontext) ; `id`: `string` ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never` |
+| `options` | `Indexes`[`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Solarwind.md#filterrecord)<`Doc`\> ; `consistent`: `undefined` \| `boolean` ; `context`: `undefined` \| [`LoaderContext`](../modules/Solarwind.md#loadercontext) ; `id`: `string` ; `projection`: `undefined` \| `string`[]  } : `never` : `never` : `never` |
 
 #### Returns
 

@@ -1,35 +1,35 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / IndexMethods
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / IndexMethods
 
 # Interface: IndexMethods<Doc, Indexes\>
 
-[Backland](../modules/Backland.md).IndexMethods
+[Solarwind](../modules/Solarwind.md).IndexMethods
 
 ## Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Doc` | extends [`DocumentBase`](../modules/Backland.md#documentbase) |
-| `Indexes` | extends [`DocumentIndexesConfig`](Backland.DocumentIndexesConfig.md) |
+| `Doc` | extends [`DocumentBase`](../modules/Solarwind.md#documentbase) |
+| `Indexes` | extends [`DocumentIndexesConfig`](Solarwind.DocumentIndexesConfig.md) |
 
 ## Table of contents
 
 ### Properties
 
-- [createOne](Backland.IndexMethods.md#createone)
-- [deleteMany](Backland.IndexMethods.md#deletemany)
-- [deleteOne](Backland.IndexMethods.md#deleteone)
-- [findById](Backland.IndexMethods.md#findbyid)
-- [findMany](Backland.IndexMethods.md#findmany)
-- [findOne](Backland.IndexMethods.md#findone)
-- [paginate](Backland.IndexMethods.md#paginate)
-- [updateMany](Backland.IndexMethods.md#updatemany)
-- [updateOne](Backland.IndexMethods.md#updateone)
+- [createOne](Solarwind.IndexMethods.md#createone)
+- [deleteMany](Solarwind.IndexMethods.md#deletemany)
+- [deleteOne](Solarwind.IndexMethods.md#deleteone)
+- [findById](Solarwind.IndexMethods.md#findbyid)
+- [findMany](Solarwind.IndexMethods.md#findmany)
+- [findOne](Solarwind.IndexMethods.md#findone)
+- [paginate](Solarwind.IndexMethods.md#paginate)
+- [updateMany](Solarwind.IndexMethods.md#updatemany)
+- [updateOne](Solarwind.IndexMethods.md#updateone)
 
 ## Properties
 
 ### createOne
 
-• **createOne**: [`CreateOne`](Backland.CreateOne.md)<`Doc`, `Doc`, `Indexes`\>
+• **createOne**: [`CreateOne`](Solarwind.CreateOne.md)<`Doc`, `Doc`, `Indexes`\>
 
 #### Defined in
 
@@ -39,7 +39,7 @@ ___
 
 ### deleteMany
 
-• **deleteMany**: [`DeleteMany`](Backland.DeleteMany.md)<`Doc`, `Indexes`\>
+• **deleteMany**: [`DeleteMany`](Solarwind.DeleteMany.md)<`Doc`, `Indexes`\>
 
 #### Defined in
 
@@ -49,7 +49,7 @@ ___
 
 ### deleteOne
 
-• **deleteOne**: [`DeleteOne`](Backland.DeleteOne.md)<`Doc`, `Indexes`\>
+• **deleteOne**: [`DeleteOne`](Solarwind.DeleteOne.md)<`Doc`, `Indexes`\>
 
 #### Defined in
 
@@ -59,7 +59,7 @@ ___
 
 ### findById
 
-• **findById**: [`FindById`](Backland.FindById.md)<`Doc`, `Indexes`\>
+• **findById**: [`FindById`](Solarwind.FindById.md)<`Doc`, `Indexes`\>
 
 #### Defined in
 
@@ -69,7 +69,7 @@ ___
 
 ### findMany
 
-• **findMany**: [`FindMany`](Backland.FindMany.md)<`Doc`, `Indexes`\>
+• **findMany**: [`FindMany`](Solarwind.FindMany.md)<`Doc`, `Indexes`\>
 
 #### Defined in
 
@@ -79,7 +79,7 @@ ___
 
 ### findOne
 
-• **findOne**: [`FindOne`](Backland.FindOne.md)<`Doc`, `Indexes`\>
+• **findOne**: [`FindOne`](Solarwind.FindOne.md)<`Doc`, `Indexes`\>
 
 #### Defined in
 
@@ -89,7 +89,7 @@ ___
 
 ### paginate
 
-• **paginate**: [`Paginate`](Backland.Paginate.md)<`Doc`, `Indexes`\>
+• **paginate**: [`Paginate`](Solarwind.Paginate.md)<`Doc`, `Indexes`\>
 
 #### Defined in
 
@@ -99,7 +99,7 @@ ___
 
 ### updateMany
 
-• **updateMany**: [`UpdateMany`](Backland.UpdateMany.md)<`Doc`, `Indexes`\>
+• **updateMany**: [`UpdateMany`](Solarwind.UpdateMany.md)<`Doc`, `Indexes`\>
 
 #### Defined in
 
@@ -109,7 +109,7 @@ ___
 
 ### updateOne
 
-• **updateOne**: [`UpdateOne`](Backland.UpdateOne.md)<`Doc`, `Indexes`\>
+• **updateOne**: [`UpdateOne`](Solarwind.UpdateOne.md)<`Doc`, `Indexes`\>
 
 #### Defined in
 

@@ -1,4 +1,4 @@
-import { tupleEnum } from '@backland/utils';
+import { tupleEnum } from '@swind/utils';
 
 import { $var } from './$var';
 

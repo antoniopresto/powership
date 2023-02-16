@@ -1,15 +1,15 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / EntityAddRelation
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / EntityAddRelation
 
 # Interface: EntityAddRelation<Parent, EContext\>
 
-[Backland](../modules/Backland.md).EntityAddRelation
+[Solarwind](../modules/Solarwind.md).EntityAddRelation
 
 ## Type parameters
 
 | Name | Type |
 | :------ | :------ |
 | `Parent` | `Parent` |
-| `EContext` | extends [`AnyEntityTypesContext`](../modules/Backland.md#anyentitytypescontext) |
+| `EContext` | extends [`AnyEntityTypesContext`](../modules/Solarwind.md#anyentitytypescontext) |
 
 ## Callable
 
@@ -21,15 +21,15 @@
 
 | Name | Type |
 | :------ | :------ |
-| `Context` | extends [`LoaderContext`](../modules/Backland.md#loadercontext) |
-| `Definition` | extends [`ObjectFieldInput`](../modules/Backland.md#objectfieldinput) |
-| `ArgsDef` | extends [`ObjectDefinitionInput`](Backland.ObjectDefinitionInput.md) |
+| `Context` | extends [`LoaderContext`](../modules/Solarwind.md#loadercontext) |
+| `Definition` | extends [`ObjectFieldInput`](../modules/Solarwind.md#objectfieldinput) |
+| `ArgsDef` | extends [`ObjectDefinitionInput`](Solarwind.ObjectDefinitionInput.md) |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `options` | [`EntityFieldResolver`](../modules/Backland.md#entityfieldresolver)<`Context`, `Definition`, `ArgsDef`, `EContext`[``"document"``]\> |
+| `options` | [`EntityFieldResolver`](../modules/Solarwind.md#entityfieldresolver)<`Context`, `Definition`, `ArgsDef`, `EContext`[``"document"``]\> |
 
 #### Returns
 

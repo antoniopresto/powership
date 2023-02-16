@@ -1,4 +1,4 @@
-import { jsonToTypescript } from '@backland/utils';
+import { jsonToTypescript } from '@swind/utils';
 
 import { ObjectDefinitionInput } from './TObjectConfig';
 import { ObjectLike } from './fields/IObjectLike';

@@ -1,12 +1,12 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md) / GraphTypeInTypeFieldDefinition
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md) / GraphTypeInTypeFieldDefinition
 
 # Interface: GraphTypeInTypeFieldDefinition
 
-[Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md).GraphTypeInTypeFieldDefinition
+[Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md).GraphTypeInTypeFieldDefinition
 
 ## Hierarchy
 
-- [`CommonFieldDefinition`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#commonfielddefinition)<[`GraphTypeLikeFieldDefinition`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLikeFieldDefinition.md)\>
+- [`CommonFieldDefinition`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#commonfielddefinition)<[`GraphTypeLikeFieldDefinition`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLikeFieldDefinition.md)\>
 
   ↳ **`GraphTypeInTypeFieldDefinition`**
 
@@ -14,15 +14,15 @@
 
 ### Properties
 
-- [def](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeInTypeFieldDefinition.md#def)
-- [defaultValue](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeInTypeFieldDefinition.md#defaultvalue)
-- [description](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeInTypeFieldDefinition.md#description)
-- [example](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeInTypeFieldDefinition.md#example)
-- [hidden](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeInTypeFieldDefinition.md#hidden)
-- [list](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeInTypeFieldDefinition.md#list)
-- [name](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeInTypeFieldDefinition.md#name)
-- [optional](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeInTypeFieldDefinition.md#optional)
-- [type](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeInTypeFieldDefinition.md#type)
+- [def](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeInTypeFieldDefinition.md#def)
+- [defaultValue](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeInTypeFieldDefinition.md#defaultvalue)
+- [description](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeInTypeFieldDefinition.md#description)
+- [example](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeInTypeFieldDefinition.md#example)
+- [hidden](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeInTypeFieldDefinition.md#hidden)
+- [list](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeInTypeFieldDefinition.md#list)
+- [name](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeInTypeFieldDefinition.md#name)
+- [optional](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeInTypeFieldDefinition.md#optional)
+- [type](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeInTypeFieldDefinition.md#type)
 
 ## Properties
 
@@ -70,7 +70,7 @@ ___
 
 ### example
 
-• `Optional` **example**: [`FieldExample`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldexample)
+• `Optional` **example**: [`FieldExample`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldexample)
 
 #### Inherited from
 
@@ -98,7 +98,7 @@ ___
 
 ### list
 
-• `Optional` **list**: [`ListDefinition`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#listdefinition)
+• `Optional` **list**: [`ListDefinition`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#listdefinition)
 
 #### Inherited from
 
@@ -140,7 +140,7 @@ ___
 
 ### type
 
-• **type**: [`GraphTypeLikeFieldDefinition`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLikeFieldDefinition.md)
+• **type**: [`GraphTypeLikeFieldDefinition`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLikeFieldDefinition.md)
 
 #### Inherited from
 

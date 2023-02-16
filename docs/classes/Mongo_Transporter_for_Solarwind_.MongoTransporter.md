@@ -1,8 +1,8 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Mongo Transporter for Backland.](../modules/Mongo_Transporter_for_Backland_.md) / MongoTransporter
+[Solarwind](../README.md) / [Modules](../modules.md) / [Mongo Transporter for Solarwind.](../modules/Mongo_Transporter_for_Solarwind_.md) / MongoTransporter
 
 # Class: MongoTransporter
 
-[Mongo Transporter for Backland.](../modules/Mongo_Transporter_for_Backland_.md).MongoTransporter
+[Mongo Transporter for Solarwind.](../modules/Mongo_Transporter_for_Solarwind_.md).MongoTransporter
 
 ## Implements
 
@@ -12,33 +12,33 @@
 
 ### Constructors
 
-- [constructor](Mongo_Transporter_for_Backland_.MongoTransporter.md#constructor)
+- [constructor](Mongo_Transporter_for_Solarwind_.MongoTransporter.md#constructor)
 
 ### Properties
 
-- [\_client](Mongo_Transporter_for_Backland_.MongoTransporter.md#_client)
-- [collection](Mongo_Transporter_for_Backland_.MongoTransporter.md#collection)
-- [logger](Mongo_Transporter_for_Backland_.MongoTransporter.md#logger)
+- [\_client](Mongo_Transporter_for_Solarwind_.MongoTransporter.md#_client)
+- [collection](Mongo_Transporter_for_Solarwind_.MongoTransporter.md#collection)
+- [logger](Mongo_Transporter_for_Solarwind_.MongoTransporter.md#logger)
 
 ### Accessors
 
-- [db](Mongo_Transporter_for_Backland_.MongoTransporter.md#db)
-- [debug](Mongo_Transporter_for_Backland_.MongoTransporter.md#debug)
+- [db](Mongo_Transporter_for_Solarwind_.MongoTransporter.md#db)
+- [debug](Mongo_Transporter_for_Solarwind_.MongoTransporter.md#debug)
 
 ### Methods
 
-- [\_parseUpdateParams](Mongo_Transporter_for_Backland_.MongoTransporter.md#_parseupdateparams)
-- [connect](Mongo_Transporter_for_Backland_.MongoTransporter.md#connect)
-- [createOne](Mongo_Transporter_for_Backland_.MongoTransporter.md#createone)
-- [deleteMany](Mongo_Transporter_for_Backland_.MongoTransporter.md#deletemany)
-- [deleteOne](Mongo_Transporter_for_Backland_.MongoTransporter.md#deleteone)
-- [findById](Mongo_Transporter_for_Backland_.MongoTransporter.md#findbyid)
-- [findMany](Mongo_Transporter_for_Backland_.MongoTransporter.md#findmany)
-- [findOne](Mongo_Transporter_for_Backland_.MongoTransporter.md#findone)
-- [getCollection](Mongo_Transporter_for_Backland_.MongoTransporter.md#getcollection)
-- [paginate](Mongo_Transporter_for_Backland_.MongoTransporter.md#paginate)
-- [updateMany](Mongo_Transporter_for_Backland_.MongoTransporter.md#updatemany)
-- [updateOne](Mongo_Transporter_for_Backland_.MongoTransporter.md#updateone)
+- [\_parseUpdateParams](Mongo_Transporter_for_Solarwind_.MongoTransporter.md#_parseupdateparams)
+- [connect](Mongo_Transporter_for_Solarwind_.MongoTransporter.md#connect)
+- [createOne](Mongo_Transporter_for_Solarwind_.MongoTransporter.md#createone)
+- [deleteMany](Mongo_Transporter_for_Solarwind_.MongoTransporter.md#deletemany)
+- [deleteOne](Mongo_Transporter_for_Solarwind_.MongoTransporter.md#deleteone)
+- [findById](Mongo_Transporter_for_Solarwind_.MongoTransporter.md#findbyid)
+- [findMany](Mongo_Transporter_for_Solarwind_.MongoTransporter.md#findmany)
+- [findOne](Mongo_Transporter_for_Solarwind_.MongoTransporter.md#findone)
+- [getCollection](Mongo_Transporter_for_Solarwind_.MongoTransporter.md#getcollection)
+- [paginate](Mongo_Transporter_for_Solarwind_.MongoTransporter.md#paginate)
+- [updateMany](Mongo_Transporter_for_Solarwind_.MongoTransporter.md#updatemany)
+- [updateOne](Mongo_Transporter_for_Solarwind_.MongoTransporter.md#updateone)
 
 ## Constructors
 
@@ -51,7 +51,7 @@
 | Name | Type |
 | :------ | :------ |
 | `options` | `Object` |
-| `options.client` | [`MongoClient`](Mongo_Transporter_for_Backland_.MongoClient.md) |
+| `options.client` | [`MongoClient`](Mongo_Transporter_for_Solarwind_.MongoClient.md) |
 | `options.collection` | `string` |
 | `options.logger?` | `LoggerOptions` |
 
@@ -63,7 +63,7 @@
 
 ### \_client
 
-• **\_client**: [`MongoClient`](Mongo_Transporter_for_Backland_.MongoClient.md)
+• **\_client**: [`MongoClient`](Mongo_Transporter_for_Solarwind_.MongoClient.md)
 
 #### Implementation of
 

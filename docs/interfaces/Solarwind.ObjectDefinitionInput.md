@@ -1,9 +1,9 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / ObjectDefinitionInput
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / ObjectDefinitionInput
 
 # Interface: ObjectDefinitionInput
 
-[Backland](../modules/Backland.md).ObjectDefinitionInput
+[Solarwind](../modules/Solarwind.md).ObjectDefinitionInput
 
 ## Indexable
 
-▪ [K: `string`]: [`ObjectFieldInput`](../modules/Backland.md#objectfieldinput)
+▪ [K: `string`]: [`ObjectFieldInput`](../modules/Solarwind.md#objectfieldinput)

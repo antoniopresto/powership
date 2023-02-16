@@ -2,14 +2,14 @@ import {
   Cast,
   GetFieldByDotNotation,
   NullableToPartial,
-} from '@backland/utils';
+} from '@swind/utils';
 
 import { CommonFieldDefinition } from '../_fieldDefinitions';
 
 import { InferField } from './InferField';
 
 export interface ObjectTypeLikeFieldDefinition {
-  __isBacklandObject: true;
+  __isSolarwindObject: true;
   definition: any;
 }
 

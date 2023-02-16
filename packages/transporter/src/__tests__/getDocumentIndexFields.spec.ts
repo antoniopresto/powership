@@ -1,4 +1,4 @@
-import { parseIndexFieldName } from '@backland/utils';
+import { parseIndexFieldName } from '@swind/utils';
 
 import { getDocumentIndexFields } from '../getDocumentIndexFields';
 

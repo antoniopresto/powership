@@ -1,5 +1,5 @@
-import { GraphType, TSFyHandlerUtils, TSFYRef } from '@backland/schema';
-import { parseTSFyValue } from '@backland/schema/lib/tsfy/parseTSFyValue';
+import { GraphType, TSFyHandlerUtils, TSFYRef } from '@swind/schema';
+import { parseTSFyValue } from '@swind/schema/lib/tsfy/parseTSFyValue';
 
 import { isEntity } from '../Entity';
 import { AnyEntity } from '../EntityInterfaces';

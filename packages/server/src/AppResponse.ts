@@ -5,7 +5,7 @@ import {
   HeaderRecordInit,
 } from './BaseRequestHandler';
 import { UnhandledSymbol } from './Symbol';
-import { ms } from 'backland';
+import { ms } from 'solarwind';
 
 export type AppResponseInit = {
   body?: string | Record<string, any> | UnhandledSymbol;

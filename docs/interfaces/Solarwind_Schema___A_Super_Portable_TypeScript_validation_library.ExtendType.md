@@ -1,8 +1,8 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md) / ExtendType
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md) / ExtendType
 
 # Interface: ExtendType<Input\>
 
-[Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md).ExtendType
+[Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md).ExtendType
 
 ## Type parameters
 
@@ -14,24 +14,24 @@
 
 ### Properties
 
-- [definition](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md#definition)
+- [definition](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md#definition)
 
 ### Methods
 
-- [def](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md#def)
-- [extend](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md#extend)
-- [graphType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md#graphtype)
-- [list](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md#list)
-- [objectType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md#objecttype)
-- [optional](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md#optional)
-- [required](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md#required)
-- [single](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md#single)
+- [def](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md#def)
+- [extend](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md#extend)
+- [graphType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md#graphtype)
+- [list](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md#list)
+- [objectType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md#objecttype)
+- [optional](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md#optional)
+- [required](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md#required)
+- [single](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md#single)
 
 ## Properties
 
 ### definition
 
-• **definition**: [`DescribeWithoutSeal`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>
+• **definition**: [`DescribeWithoutSeal`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>
 
 #### Defined in
 
@@ -41,11 +41,11 @@
 
 ### def
 
-▸ **def**(): [`DescribeWithoutSeal`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>
+▸ **def**(): [`DescribeWithoutSeal`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>
 
 #### Returns
 
-[`DescribeWithoutSeal`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>
+[`DescribeWithoutSeal`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>
 
 #### Defined in
 
@@ -55,23 +55,23 @@ ___
 
 ### extend
 
-▸ **extend**<`V`\>(`value`): [`ExtendType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<`Omit`<[`DescribeWithoutSeal`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, keyof `V`\> & `V`\>
+▸ **extend**<`V`\>(`value`): [`ExtendType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<`Omit`<[`DescribeWithoutSeal`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, keyof `V`\> & `V`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `V` | extends [`FinalFieldDefinition`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#finalfielddefinition) |
+| `V` | extends [`FinalFieldDefinition`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#finalfielddefinition) |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `value` | `V` \| (`current`: [`DescribeWithoutSeal`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>) => `V` |
+| `value` | `V` \| (`current`: [`DescribeWithoutSeal`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>) => `V` |
 
 #### Returns
 
-[`ExtendType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<`Omit`<[`DescribeWithoutSeal`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, keyof `V`\> & `V`\>
+[`ExtendType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<`Omit`<[`DescribeWithoutSeal`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, keyof `V`\> & `V`\>
 
 #### Defined in
 
@@ -81,7 +81,7 @@ ___
 
 ### graphType
 
-▸ **graphType**(`name?`): [`GraphType`](../classes/Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<`Cast`<[`DescribeWithoutSeal`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, [`FinalFieldDefinition`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#finalfielddefinition)\>\>
+▸ **graphType**(`name?`): [`GraphType`](../classes/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<`Cast`<[`DescribeWithoutSeal`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, [`FinalFieldDefinition`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#finalfielddefinition)\>\>
 
 #### Parameters
 
@@ -91,7 +91,7 @@ ___
 
 #### Returns
 
-[`GraphType`](../classes/Backland_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<`Cast`<[`DescribeWithoutSeal`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, [`FinalFieldDefinition`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#finalfielddefinition)\>\>
+[`GraphType`](../classes/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<`Cast`<[`DescribeWithoutSeal`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, [`FinalFieldDefinition`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#finalfielddefinition)\>\>
 
 #### Defined in
 
@@ -101,11 +101,11 @@ ___
 
 ### list
 
-▸ **list**(): [`ExtendType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<[`MakeTypeList`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#maketypelist)<[`DescribeWithoutSeal`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>\>\>
+▸ **list**(): [`ExtendType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<[`MakeTypeList`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#maketypelist)<[`DescribeWithoutSeal`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>\>\>
 
 #### Returns
 
-[`ExtendType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<[`MakeTypeList`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#maketypelist)<[`DescribeWithoutSeal`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>\>\>
+[`ExtendType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<[`MakeTypeList`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#maketypelist)<[`DescribeWithoutSeal`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>\>\>
 
 #### Defined in
 
@@ -115,7 +115,7 @@ ___
 
 ### objectType
 
-▸ **objectType**(`name?`): [`ObjectType`](../classes/Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`Cast`<[`DescribeWithoutSeal`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, { `def`: { `[K: string]`: [`FinalFieldDefinition`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#finalfielddefinition);  }  }\>[``"def"``], `_HandleInput`<`Cast`<[`DescribeWithoutSeal`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, { `def`: { `[K: string]`: [`FinalFieldDefinition`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#finalfielddefinition);  }  }\>[``"def"``]\>\>
+▸ **objectType**(`name?`): [`ObjectType`](../classes/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`Cast`<[`DescribeWithoutSeal`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, { `def`: { `[K: string]`: [`FinalFieldDefinition`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#finalfielddefinition);  }  }\>[``"def"``], `_HandleInput`<`Cast`<[`DescribeWithoutSeal`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, { `def`: { `[K: string]`: [`FinalFieldDefinition`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#finalfielddefinition);  }  }\>[``"def"``]\>\>
 
 #### Parameters
 
@@ -125,7 +125,7 @@ ___
 
 #### Returns
 
-[`ObjectType`](../classes/Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`Cast`<[`DescribeWithoutSeal`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, { `def`: { `[K: string]`: [`FinalFieldDefinition`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#finalfielddefinition);  }  }\>[``"def"``], `_HandleInput`<`Cast`<[`DescribeWithoutSeal`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, { `def`: { `[K: string]`: [`FinalFieldDefinition`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#finalfielddefinition);  }  }\>[``"def"``]\>\>
+[`ObjectType`](../classes/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`Cast`<[`DescribeWithoutSeal`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, { `def`: { `[K: string]`: [`FinalFieldDefinition`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#finalfielddefinition);  }  }\>[``"def"``], `_HandleInput`<`Cast`<[`DescribeWithoutSeal`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, { `def`: { `[K: string]`: [`FinalFieldDefinition`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#finalfielddefinition);  }  }\>[``"def"``]\>\>
 
 #### Defined in
 
@@ -135,11 +135,11 @@ ___
 
 ### optional
 
-▸ **optional**(): [`ExtendType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<[`DescribeAndOverrideField`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<[`DescribeWithoutSeal`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, { `optional`: ``true``  }\>\>
+▸ **optional**(): [`ExtendType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<[`DescribeAndOverrideField`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<[`DescribeWithoutSeal`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, { `optional`: ``true``  }\>\>
 
 #### Returns
 
-[`ExtendType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<[`DescribeAndOverrideField`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<[`DescribeWithoutSeal`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, { `optional`: ``true``  }\>\>
+[`ExtendType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<[`DescribeAndOverrideField`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<[`DescribeWithoutSeal`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, { `optional`: ``true``  }\>\>
 
 #### Defined in
 
@@ -149,11 +149,11 @@ ___
 
 ### required
 
-▸ **required**(): [`ExtendType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<[`DescribeAndOverrideField`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<[`DescribeWithoutSeal`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, { `optional`: ``false``  }\>\>
+▸ **required**(): [`ExtendType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<[`DescribeAndOverrideField`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<[`DescribeWithoutSeal`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, { `optional`: ``false``  }\>\>
 
 #### Returns
 
-[`ExtendType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<[`DescribeAndOverrideField`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<[`DescribeWithoutSeal`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, { `optional`: ``false``  }\>\>
+[`ExtendType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<[`DescribeAndOverrideField`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<[`DescribeWithoutSeal`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, { `optional`: ``false``  }\>\>
 
 #### Defined in
 
@@ -163,11 +163,11 @@ ___
 
 ### single
 
-▸ **single**(): [`ExtendType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<[`DescribeAndOverrideField`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<[`DescribeWithoutSeal`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, { `list`: ``false``  }\>\>
+▸ **single**(): [`ExtendType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<[`DescribeAndOverrideField`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<[`DescribeWithoutSeal`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, { `list`: ``false``  }\>\>
 
 #### Returns
 
-[`ExtendType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<[`DescribeAndOverrideField`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<[`DescribeWithoutSeal`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, { `list`: ``false``  }\>\>
+[`ExtendType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<[`DescribeAndOverrideField`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)<[`DescribeWithoutSeal`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#describewithoutseal)<`Input`\>, { `list`: ``false``  }\>\>
 
 #### Defined in
 

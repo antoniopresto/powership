@@ -3,7 +3,7 @@ import {
   MaybePromise,
   PartialRequired,
   TypeDescription,
-} from '@backland/utils';
+} from '@swind/utils';
 
 import { CircularDeps } from '../CircularDeps';
 import { GraphType } from '../GraphType/GraphType';

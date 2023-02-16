@@ -3,7 +3,7 @@ import {
   IndexFilter,
   IndexFilterRecord,
   PKSKValueType,
-} from '@backland/transporter';
+} from '@swind/transporter';
 
 import { createMongoIndexBasedFilters } from '../parseMongoAttributeFilters';
 import { AppMock, createAppMock } from '../test-utils';

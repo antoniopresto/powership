@@ -1,9 +1,9 @@
 /*
  * Handles circular dependencies with type safety
  */
-import { RuntimeError } from '@backland/utils';
-import { dynamicRequire } from '@backland/utils';
-import { isBrowser } from '@backland/utils';
+import { RuntimeError } from '@swind/utils';
+import { dynamicRequire } from '@swind/utils';
+import { isBrowser } from '@swind/utils';
 
 import { fieldTypeNames } from './fields/fieldTypeNames';
 import type { FieldCreators } from './fields/fieldTypes';
@@ -77,7 +77,7 @@ function getModules() {
       // @only-server
       module: () =>
         // @only-server
-        require('@backland/utils/lib/parsePhoneNumber') as typeof import('@backland/utils/lib/parsePhoneNumber'),
+        require('@swind/utils/lib/parsePhoneNumber') as typeof import('@swind/utils/lib/parsePhoneNumber'),
 
       server: true,
     },
@@ -123,7 +123,7 @@ function getModules() {
         } catch (e: any) {
           return function objectToTypescript() {
             throw new Error(
-              '⚠️ Backland.objectToTypescript is not available when bundled.\n' +
+              '⚠️ Solarwind.objectToTypescript is not available when bundled.\n' +
                 e.stack
             );
           } as any;
@@ -144,7 +144,7 @@ function getModules() {
           return {
             format(code) {
               console.warn(
-                '⚠️ Backland.prettier is not available when bundled.' + e.stack
+                '⚠️ Solarwind.prettier is not available when bundled.' + e.stack
               );
               return code;
             },
@@ -203,7 +203,7 @@ type Caramelo<P> = {
   [K in AllKeys<P>]: K extends keyof SubProps<P, K> ? SubProps<P, K>[K] : never;
 };
 
-export type BacklandModules = Exports & Caramelo<Exports> & FieldCreators;
+export type SolarwindModules = Exports & Caramelo<Exports> & FieldCreators;
 
 const cache = new Map();
 
@@ -261,7 +261,7 @@ function get(key: string) {
   return cache.get(key);
 }
 
-export const CircularDeps = new Proxy({} as BacklandModules, {
+export const CircularDeps = new Proxy({} as SolarwindModules, {
   get(_, key: string) {
     const item = get(key);
     if (!item) {

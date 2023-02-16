@@ -1,12 +1,12 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md) / CursorField
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md) / CursorField
 
 # Class: CursorField
 
-[Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md).CursorField
+[Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md).CursorField
 
 ## Hierarchy
 
-- [`FieldType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<[`CursorType`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype), ``"cursor"``, `undefined`\>
+- [`FieldType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<[`CursorType`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype), ``"cursor"``, `undefined`\>
 
   ↳ **`CursorField`**
 
@@ -14,46 +14,46 @@
 
 ### Constructors
 
-- [constructor](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#constructor)
+- [constructor](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#constructor)
 
 ### Properties
 
-- [\_\_\_inferable](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#___inferable)
-- [\_\_isFieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#__isfieldtype)
-- [composer](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#composer)
-- [def](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#def)
-- [defaultValue](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#defaultvalue)
-- [description](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#description)
-- [hidden](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#hidden)
-- [id](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#id)
-- [list](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#list)
-- [name](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#name)
-- [optional](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#optional)
-- [options](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#options)
-- [parse](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#parse)
-- [type](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#type)
-- [typeName](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#typename)
-- [utils](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#utils)
+- [\_\_\_inferable](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#___inferable)
+- [\_\_isFieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#__isfieldtype)
+- [composer](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#composer)
+- [def](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#def)
+- [defaultValue](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#defaultvalue)
+- [description](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#description)
+- [hidden](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#hidden)
+- [id](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#id)
+- [list](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#list)
+- [name](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#name)
+- [optional](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#optional)
+- [options](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#options)
+- [parse](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#parse)
+- [type](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#type)
+- [typeName](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#typename)
+- [utils](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#utils)
 
 ### Accessors
 
-- [asFinalFieldDef](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#asfinalfielddef)
-- [definition](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#definition)
+- [asFinalFieldDef](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#asfinalfielddef)
+- [definition](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#definition)
 
 ### Methods
 
-- [applyParser](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#applyparser)
-- [clone](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#clone)
-- [describe](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#describe)
-- [describeField](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#describefield)
-- [is](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#is)
-- [setDefaultValue](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#setdefaultvalue)
-- [toList](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#tolist)
-- [toOptional](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#tooptional)
-- [toRequired](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#torequired)
-- [validate](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#validate)
-- [create](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#create)
-- [object](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#object)
+- [applyParser](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#applyparser)
+- [clone](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#clone)
+- [describe](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#describe)
+- [describeField](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#describefield)
+- [is](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#is)
+- [setDefaultValue](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#setdefaultvalue)
+- [toList](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#tolist)
+- [toOptional](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#tooptional)
+- [toRequired](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#torequired)
+- [validate](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#validate)
+- [create](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#create)
+- [object](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md#object)
 
 ## Constructors
 
@@ -73,11 +73,11 @@ FieldType&lt;CursorType, &#x27;cursor&#x27;, undefined\&gt;.constructor
 
 ### \_\_\_inferable
 
-• **\_\_\_inferable**: [`CursorType`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype)
+• **\_\_\_inferable**: [`CursorType`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype)
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[___inferable](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#___inferable)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[___inferable](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#___inferable)
 
 #### Defined in
 
@@ -91,7 +91,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[__isFieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#__isfieldtype)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[__isFieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#__isfieldtype)
 
 #### Defined in
 
@@ -101,11 +101,11 @@ ___
 
 ### composer
 
-• **composer**: `undefined` \| [`FieldComposer`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldcomposer)<`Record`<`string`, `any`\>, [`CursorType`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype)\>
+• **composer**: `undefined` \| [`FieldComposer`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldcomposer)<`Record`<`string`, `any`\>, [`CursorType`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype)\>
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[composer](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#composer)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[composer](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#composer)
 
 #### Defined in
 
@@ -119,7 +119,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[def](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#def)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[def](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#def)
 
 #### Defined in
 
@@ -133,7 +133,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[defaultValue](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#defaultvalue)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[defaultValue](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#defaultvalue)
 
 #### Defined in
 
@@ -147,7 +147,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[description](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#description)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[description](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#description)
 
 #### Defined in
 
@@ -161,7 +161,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[hidden](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#hidden)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[hidden](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#hidden)
 
 #### Defined in
 
@@ -175,7 +175,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[id](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#id)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[id](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#id)
 
 #### Defined in
 
@@ -189,7 +189,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[list](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#list)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[list](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#list)
 
 #### Defined in
 
@@ -203,7 +203,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[name](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#name)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[name](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#name)
 
 #### Defined in
 
@@ -217,7 +217,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[optional](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#optional)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[optional](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#optional)
 
 #### Defined in
 
@@ -231,7 +231,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[options](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#options)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[options](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#options)
 
 #### Defined in
 
@@ -241,11 +241,11 @@ ___
 
 ### parse
 
-• **parse**: [`FieldTypeParser`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypeparser)<[`CursorType`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype)\>
+• **parse**: [`FieldTypeParser`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypeparser)<[`CursorType`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype)\>
 
 #### Overrides
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[parse](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#parse)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[parse](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#parse)
 
 #### Defined in
 
@@ -259,7 +259,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[type](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#type)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[type](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#type)
 
 #### Defined in
 
@@ -273,7 +273,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[typeName](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#typename)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[typeName](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#typename)
 
 #### Defined in
 
@@ -289,7 +289,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `object` | [`ObjectType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<{ `PK`: { `description`: ``"Primary Key"`` = 'Primary Key'; `string`: {} = {} } ; `SK`: { `description`: ``"Secondary or Sort Key"`` = 'Secondary or Sort Key'; `optional`: ``true`` = true; `string`: {} = {} } ; `after`: { `optional`: ``true`` = true; `string`: {} = {} } ; `fields`: { `list`: ``true`` = true; `optional`: ``true`` = true; `string`: {} = {} } ; `limit`: { `int`: {} = {}; `optional`: ``true`` = true } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` = 'The prefix to search as "startsWith" in SK'; `optional`: ``true`` = true; `string`: {} = {} } ; `sep`: { `description`: ``"Composite key separator"`` = 'Composite key separator'; `optional`: ``true`` = true; `string`: {} = {} } ; `version`: { `description`: ``"The Cursor format version"`` = 'The Cursor format version'; `string`: {} = {} }  }, { `PK`: { `description`: ``"Primary Key"`` = 'Primary Key'; `string`: {} = {} } ; `SK`: { `description`: ``"Secondary or Sort Key"`` = 'Secondary or Sort Key'; `optional`: ``true`` = true; `string`: {} = {} } ; `after`: { `optional`: ``true`` = true; `string`: {} = {} } ; `fields`: { `list`: ``true`` = true; `optional`: ``true`` = true; `string`: {} = {} } ; `limit`: { `int`: {} = {}; `optional`: ``true`` = true } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` = 'The prefix to search as "startsWith" in SK'; `optional`: ``true`` = true; `string`: {} = {} } ; `sep`: { `description`: ``"Composite key separator"`` = 'Composite key separator'; `optional`: ``true`` = true; `string`: {} = {} } ; `version`: { `description`: ``"The Cursor format version"`` = 'The Cursor format version'; `string`: {} = {} }  }\> |
+| `object` | [`ObjectType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<{ `PK`: { `description`: ``"Primary Key"`` = 'Primary Key'; `string`: {} = {} } ; `SK`: { `description`: ``"Secondary or Sort Key"`` = 'Secondary or Sort Key'; `optional`: ``true`` = true; `string`: {} = {} } ; `after`: { `optional`: ``true`` = true; `string`: {} = {} } ; `fields`: { `list`: ``true`` = true; `optional`: ``true`` = true; `string`: {} = {} } ; `limit`: { `int`: {} = {}; `optional`: ``true`` = true } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` = 'The prefix to search as "startsWith" in SK'; `optional`: ``true`` = true; `string`: {} = {} } ; `sep`: { `description`: ``"Composite key separator"`` = 'Composite key separator'; `optional`: ``true`` = true; `string`: {} = {} } ; `version`: { `description`: ``"The Cursor format version"`` = 'The Cursor format version'; `string`: {} = {} }  }, { `PK`: { `description`: ``"Primary Key"`` = 'Primary Key'; `string`: {} = {} } ; `SK`: { `description`: ``"Secondary or Sort Key"`` = 'Secondary or Sort Key'; `optional`: ``true`` = true; `string`: {} = {} } ; `after`: { `optional`: ``true`` = true; `string`: {} = {} } ; `fields`: { `list`: ``true`` = true; `optional`: ``true`` = true; `string`: {} = {} } ; `limit`: { `int`: {} = {}; `optional`: ``true`` = true } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` = 'The prefix to search as "startsWith" in SK'; `optional`: ``true`` = true; `string`: {} = {} } ; `sep`: { `description`: ``"Composite key separator"`` = 'Composite key separator'; `optional`: ``true`` = true; `string`: {} = {} } ; `version`: { `description`: ``"The Cursor format version"`` = 'The Cursor format version'; `string`: {} = {} }  }\> |
 
 #### Defined in
 
@@ -299,11 +299,11 @@ ___
 
 ### asFinalFieldDef
 
-• `get` **asFinalFieldDef**(): [`AllFinalFieldDefinitions`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#allfinalfielddefinitions)[`TypeName`]
+• `get` **asFinalFieldDef**(): [`AllFinalFieldDefinitions`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Returns
 
-[`AllFinalFieldDefinitions`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#allfinalfielddefinitions)[`TypeName`]
+[`AllFinalFieldDefinitions`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Inherited from
 
@@ -317,11 +317,11 @@ ___
 
 ### definition
 
-• `get` **definition**(): [`AllFinalFieldDefinitions`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#allfinalfielddefinitions)[`TypeName`]
+• `get` **definition**(): [`AllFinalFieldDefinitions`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Returns
 
-[`AllFinalFieldDefinitions`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#allfinalfielddefinitions)[`TypeName`]
+[`AllFinalFieldDefinitions`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#allfinalfielddefinitions)[`TypeName`]
 
 #### Inherited from
 
@@ -335,7 +335,7 @@ FieldType.definition
 
 ### applyParser
 
-▸ **applyParser**<`Type`\>(`parser`): [`FieldTypeParser`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypeparser)<`Type`\>
+▸ **applyParser**<`Type`\>(`parser`): [`FieldTypeParser`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypeparser)<`Type`\>
 
 #### Type parameters
 
@@ -348,16 +348,16 @@ FieldType.definition
 | Name | Type |
 | :------ | :------ |
 | `parser` | `Object` |
-| `parser.parse` | (`input`: `any`, `_options`: [`FieldParserOptionsObject`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldparseroptionsobject)) => `Type` |
+| `parser.parse` | (`input`: `any`, `_options`: [`FieldParserOptionsObject`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldparseroptionsobject)) => `Type` |
 | `parser.preParse?` | (`input`: `any`) => `Type` |
 
 #### Returns
 
-[`FieldTypeParser`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypeparser)<`Type`\>
+[`FieldTypeParser`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypeparser)<`Type`\>
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[applyParser](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#applyparser)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[applyParser](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#applyparser)
 
 #### Defined in
 
@@ -367,15 +367,15 @@ ___
 
 ### clone
 
-▸ **clone**(): [`FieldType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`Type`, `TypeName`, `Def`, `List`, `Optional`, `DefaultValue`, `Options`\>
+▸ **clone**(): [`FieldType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`Type`, `TypeName`, `Def`, `List`, `Optional`, `DefaultValue`, `Options`\>
 
 #### Returns
 
-[`FieldType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`Type`, `TypeName`, `Def`, `List`, `Optional`, `DefaultValue`, `Options`\>
+[`FieldType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<`Type`, `TypeName`, `Def`, `List`, `Optional`, `DefaultValue`, `Options`\>
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[clone](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#clone)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[clone](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#clone)
 
 #### Defined in
 
@@ -399,7 +399,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[describe](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#describe)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[describe](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#describe)
 
 #### Defined in
 
@@ -427,7 +427,7 @@ ___
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[describeField](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#describefield)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[describeField](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#describefield)
 
 #### Defined in
 
@@ -451,7 +451,7 @@ input is CursorType
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[is](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#is)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[is](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#is)
 
 #### Defined in
 
@@ -461,7 +461,7 @@ ___
 
 ### setDefaultValue
 
-▸ **setDefaultValue**<`T`\>(`value`): [`FieldType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<[`CursorType`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``0``, `T`, {}\>
+▸ **setDefaultValue**<`T`\>(`value`): [`FieldType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<[`CursorType`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``0``, `T`, {}\>
 
 #### Type parameters
 
@@ -477,11 +477,11 @@ ___
 
 #### Returns
 
-[`FieldType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<[`CursorType`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``0``, `T`, {}\>
+[`FieldType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<[`CursorType`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``0``, `T`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[setDefaultValue](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#setdefaultvalue)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[setDefaultValue](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#setdefaultvalue)
 
 #### Defined in
 
@@ -491,21 +491,21 @@ ___
 
 ### toList
 
-▸ **toList**(`options?`): [`FieldType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<[`CursorType`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype), ``"cursor"``, `undefined`, ``1``, ``0``, `undefined`, {}\>
+▸ **toList**(`options?`): [`FieldType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<[`CursorType`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype), ``"cursor"``, `undefined`, ``1``, ``0``, `undefined`, {}\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `options?` | [`ListDefinitionTruthy`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#listdefinitiontruthy) |
+| `options?` | [`ListDefinitionTruthy`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#listdefinitiontruthy) |
 
 #### Returns
 
-[`FieldType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<[`CursorType`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype), ``"cursor"``, `undefined`, ``1``, ``0``, `undefined`, {}\>
+[`FieldType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<[`CursorType`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype), ``"cursor"``, `undefined`, ``1``, ``0``, `undefined`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[toList](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#tolist)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[toList](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#tolist)
 
 #### Defined in
 
@@ -515,15 +515,15 @@ ___
 
 ### toOptional
 
-▸ **toOptional**(): [`FieldType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<[`CursorType`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``1``, `undefined`, {}\>
+▸ **toOptional**(): [`FieldType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<[`CursorType`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``1``, `undefined`, {}\>
 
 #### Returns
 
-[`FieldType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<[`CursorType`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``1``, `undefined`, {}\>
+[`FieldType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<[`CursorType`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``1``, `undefined`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[toOptional](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#tooptional)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[toOptional](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#tooptional)
 
 #### Defined in
 
@@ -533,15 +533,15 @@ ___
 
 ### toRequired
 
-▸ **toRequired**(): [`FieldType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<[`CursorType`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
+▸ **toRequired**(): [`FieldType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<[`CursorType`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
 
 #### Returns
 
-[`FieldType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<[`CursorType`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
+[`FieldType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)<[`CursorType`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype), ``"cursor"``, `undefined`, ``0``, ``0``, `undefined`, {}\>
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[toRequired](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#torequired)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[toRequired](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#torequired)
 
 #### Defined in
 
@@ -565,7 +565,7 @@ input is CursorType
 
 #### Inherited from
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[validate](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#validate)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[validate](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#validate)
 
 #### Defined in
 
@@ -575,15 +575,15 @@ ___
 
 ### create
 
-▸ `Static` **create**(): [`CursorField`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md)
+▸ `Static` **create**(): [`CursorField`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md)
 
 #### Returns
 
-[`CursorField`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md)
+[`CursorField`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md)
 
 #### Overrides
 
-[FieldType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[create](Backland_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#create)
+[FieldType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md).[create](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md#create)
 
 #### Defined in
 
@@ -593,11 +593,11 @@ ___
 
 ### object
 
-▸ `Static` **object**(): [`ObjectType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<{ `PK`: { `description`: ``"Primary Key"`` = 'Primary Key'; `string`: {} = {} } ; `SK`: { `description`: ``"Secondary or Sort Key"`` = 'Secondary or Sort Key'; `optional`: ``true`` = true; `string`: {} = {} } ; `after`: { `optional`: ``true`` = true; `string`: {} = {} } ; `fields`: { `list`: ``true`` = true; `optional`: ``true`` = true; `string`: {} = {} } ; `limit`: { `int`: {} = {}; `optional`: ``true`` = true } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` = 'The prefix to search as "startsWith" in SK'; `optional`: ``true`` = true; `string`: {} = {} } ; `sep`: { `description`: ``"Composite key separator"`` = 'Composite key separator'; `optional`: ``true`` = true; `string`: {} = {} } ; `version`: { `description`: ``"The Cursor format version"`` = 'The Cursor format version'; `string`: {} = {} }  }, { `PK`: { `description`: ``"Primary Key"`` = 'Primary Key'; `string`: {} = {} } ; `SK`: { `description`: ``"Secondary or Sort Key"`` = 'Secondary or Sort Key'; `optional`: ``true`` = true; `string`: {} = {} } ; `after`: { `optional`: ``true`` = true; `string`: {} = {} } ; `fields`: { `list`: ``true`` = true; `optional`: ``true`` = true; `string`: {} = {} } ; `limit`: { `int`: {} = {}; `optional`: ``true`` = true } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` = 'The prefix to search as "startsWith" in SK'; `optional`: ``true`` = true; `string`: {} = {} } ; `sep`: { `description`: ``"Composite key separator"`` = 'Composite key separator'; `optional`: ``true`` = true; `string`: {} = {} } ; `version`: { `description`: ``"The Cursor format version"`` = 'The Cursor format version'; `string`: {} = {} }  }\>
+▸ `Static` **object**(): [`ObjectType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<{ `PK`: { `description`: ``"Primary Key"`` = 'Primary Key'; `string`: {} = {} } ; `SK`: { `description`: ``"Secondary or Sort Key"`` = 'Secondary or Sort Key'; `optional`: ``true`` = true; `string`: {} = {} } ; `after`: { `optional`: ``true`` = true; `string`: {} = {} } ; `fields`: { `list`: ``true`` = true; `optional`: ``true`` = true; `string`: {} = {} } ; `limit`: { `int`: {} = {}; `optional`: ``true`` = true } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` = 'The prefix to search as "startsWith" in SK'; `optional`: ``true`` = true; `string`: {} = {} } ; `sep`: { `description`: ``"Composite key separator"`` = 'Composite key separator'; `optional`: ``true`` = true; `string`: {} = {} } ; `version`: { `description`: ``"The Cursor format version"`` = 'The Cursor format version'; `string`: {} = {} }  }, { `PK`: { `description`: ``"Primary Key"`` = 'Primary Key'; `string`: {} = {} } ; `SK`: { `description`: ``"Secondary or Sort Key"`` = 'Secondary or Sort Key'; `optional`: ``true`` = true; `string`: {} = {} } ; `after`: { `optional`: ``true`` = true; `string`: {} = {} } ; `fields`: { `list`: ``true`` = true; `optional`: ``true`` = true; `string`: {} = {} } ; `limit`: { `int`: {} = {}; `optional`: ``true`` = true } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` = 'The prefix to search as "startsWith" in SK'; `optional`: ``true`` = true; `string`: {} = {} } ; `sep`: { `description`: ``"Composite key separator"`` = 'Composite key separator'; `optional`: ``true`` = true; `string`: {} = {} } ; `version`: { `description`: ``"The Cursor format version"`` = 'The Cursor format version'; `string`: {} = {} }  }\>
 
 #### Returns
 
-[`ObjectType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<{ `PK`: { `description`: ``"Primary Key"`` = 'Primary Key'; `string`: {} = {} } ; `SK`: { `description`: ``"Secondary or Sort Key"`` = 'Secondary or Sort Key'; `optional`: ``true`` = true; `string`: {} = {} } ; `after`: { `optional`: ``true`` = true; `string`: {} = {} } ; `fields`: { `list`: ``true`` = true; `optional`: ``true`` = true; `string`: {} = {} } ; `limit`: { `int`: {} = {}; `optional`: ``true`` = true } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` = 'The prefix to search as "startsWith" in SK'; `optional`: ``true`` = true; `string`: {} = {} } ; `sep`: { `description`: ``"Composite key separator"`` = 'Composite key separator'; `optional`: ``true`` = true; `string`: {} = {} } ; `version`: { `description`: ``"The Cursor format version"`` = 'The Cursor format version'; `string`: {} = {} }  }, { `PK`: { `description`: ``"Primary Key"`` = 'Primary Key'; `string`: {} = {} } ; `SK`: { `description`: ``"Secondary or Sort Key"`` = 'Secondary or Sort Key'; `optional`: ``true`` = true; `string`: {} = {} } ; `after`: { `optional`: ``true`` = true; `string`: {} = {} } ; `fields`: { `list`: ``true`` = true; `optional`: ``true`` = true; `string`: {} = {} } ; `limit`: { `int`: {} = {}; `optional`: ``true`` = true } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` = 'The prefix to search as "startsWith" in SK'; `optional`: ``true`` = true; `string`: {} = {} } ; `sep`: { `description`: ``"Composite key separator"`` = 'Composite key separator'; `optional`: ``true`` = true; `string`: {} = {} } ; `version`: { `description`: ``"The Cursor format version"`` = 'The Cursor format version'; `string`: {} = {} }  }\>
+[`ObjectType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<{ `PK`: { `description`: ``"Primary Key"`` = 'Primary Key'; `string`: {} = {} } ; `SK`: { `description`: ``"Secondary or Sort Key"`` = 'Secondary or Sort Key'; `optional`: ``true`` = true; `string`: {} = {} } ; `after`: { `optional`: ``true`` = true; `string`: {} = {} } ; `fields`: { `list`: ``true`` = true; `optional`: ``true`` = true; `string`: {} = {} } ; `limit`: { `int`: {} = {}; `optional`: ``true`` = true } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` = 'The prefix to search as "startsWith" in SK'; `optional`: ``true`` = true; `string`: {} = {} } ; `sep`: { `description`: ``"Composite key separator"`` = 'Composite key separator'; `optional`: ``true`` = true; `string`: {} = {} } ; `version`: { `description`: ``"The Cursor format version"`` = 'The Cursor format version'; `string`: {} = {} }  }, { `PK`: { `description`: ``"Primary Key"`` = 'Primary Key'; `string`: {} = {} } ; `SK`: { `description`: ``"Secondary or Sort Key"`` = 'Secondary or Sort Key'; `optional`: ``true`` = true; `string`: {} = {} } ; `after`: { `optional`: ``true`` = true; `string`: {} = {} } ; `fields`: { `list`: ``true`` = true; `optional`: ``true`` = true; `string`: {} = {} } ; `limit`: { `int`: {} = {}; `optional`: ``true`` = true } ; `prefix`: { `description`: ``"The prefix to search as \"startsWith\" in SK"`` = 'The prefix to search as "startsWith" in SK'; `optional`: ``true`` = true; `string`: {} = {} } ; `sep`: { `description`: ``"Composite key separator"`` = 'Composite key separator'; `optional`: ``true`` = true; `string`: {} = {} } ; `version`: { `description`: ``"The Cursor format version"`` = 'The Cursor format version'; `string`: {} = {} }  }\>
 
 #### Defined in
 

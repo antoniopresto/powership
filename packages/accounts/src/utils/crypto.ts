@@ -1,6 +1,6 @@
 import { randomBytes } from 'crypto';
 
-import { createType, Infer } from '@backland/schema';
+import { createType, Infer } from '@swind/schema';
 import {
   base64ToText,
   BJSON,
@@ -9,7 +9,7 @@ import {
   parseFilterCursor,
   StringValue,
   textToBase64,
-} from '@backland/utils';
+} from '@swind/utils';
 import * as jwt from 'jsonwebtoken';
 
 import { ConnectionInformation } from '../types/ConnectionInformation';

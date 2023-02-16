@@ -1,5 +1,5 @@
-import { DocumentBase } from '@backland/transporter';
-import { RuntimeError } from '@backland/utils';
+import { DocumentBase } from '@swind/transporter';
+import { RuntimeError } from '@swind/utils';
 
 import { CacheContext, MongoFindManyParams } from './IMongoDataLoader';
 import { getMongoDataloader } from './getMongoDataloader';

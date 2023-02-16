@@ -1,8 +1,8 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md) / ObjectType
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md) / ObjectType
 
 # Class: ObjectType<Input, HandledInput\>
 
-[Backland Schema - A Super Portable TypeScript validation library](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md).ObjectType
+[Solarwind Schema - A Super Portable TypeScript validation library](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md).ObjectType
 
 ## Type parameters
 
@@ -15,51 +15,51 @@
 
 ### Constructors
 
-- [constructor](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#constructor)
+- [constructor](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#constructor)
 
 ### Properties
 
-- [\_\_withCache](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#__withcache)
-- [graphQLMiddleware](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#graphqlmiddleware)
-- [inputDefinition](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#inputdefinition)
-- [\_\_isBacklandObject](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#__isbacklandobject)
-- [register](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#register)
+- [\_\_withCache](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#__withcache)
+- [graphQLMiddleware](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#graphqlmiddleware)
+- [inputDefinition](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#inputdefinition)
+- [\_\_isSolarwindObject](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#__issolarwindobject)
+- [register](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#register)
 
 ### Accessors
 
-- [\_\_isBacklandObject](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#__isbacklandobject-1)
-- [definition](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#definition)
-- [description](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#description)
-- [hidden](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#hidden)
-- [id](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#id)
-- [meta](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#meta)
-- [nonNullId](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#nonnullid)
+- [\_\_isSolarwindObject](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#__issolarwindobject-1)
+- [definition](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#definition)
+- [description](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#description)
+- [hidden](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#hidden)
+- [id](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#id)
+- [meta](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#meta)
+- [nonNullId](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#nonnullid)
 
 ### Methods
 
-- [\_\_setMetaData](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#__setmetadata)
-- [addGraphQLMiddleware](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#addgraphqlmiddleware)
-- [cleanDefinition](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#cleandefinition)
-- [clone](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#clone)
-- [describe](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#describe)
-- [edit](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#edit)
-- [graphqlInputType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#graphqlinputtype)
-- [graphqlInterfaceType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#graphqlinterfacetype)
-- [graphqlPrint](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#graphqlprint)
-- [graphqlType](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#graphqltype)
-- [graphqlTypeToString](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#graphqltypetostring)
-- [helpers](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#helpers)
-- [identify](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#identify)
-- [implement](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#implement)
-- [parse](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#parse)
-- [safeParse](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#safeparse)
-- [softParse](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#softparse)
-- [toGraphQL](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#tographql)
-- [typescriptPrint](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#typescriptprint)
-- [validate](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#validate)
-- [getOrSet](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#getorset)
-- [is](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#is)
-- [reset](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#reset)
+- [\_\_setMetaData](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#__setmetadata)
+- [addGraphQLMiddleware](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#addgraphqlmiddleware)
+- [cleanDefinition](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#cleandefinition)
+- [clone](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#clone)
+- [describe](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#describe)
+- [edit](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#edit)
+- [graphqlInputType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#graphqlinputtype)
+- [graphqlInterfaceType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#graphqlinterfacetype)
+- [graphqlPrint](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#graphqlprint)
+- [graphqlType](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#graphqltype)
+- [graphqlTypeToString](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#graphqltypetostring)
+- [helpers](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#helpers)
+- [identify](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#identify)
+- [implement](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#implement)
+- [parse](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#parse)
+- [safeParse](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#safeparse)
+- [softParse](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#softparse)
+- [toGraphQL](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#tographql)
+- [typescriptPrint](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#typescriptprint)
+- [validate](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#validate)
+- [getOrSet](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#getorset)
+- [is](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#is)
+- [reset](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md#reset)
 
 ## Constructors
 
@@ -78,7 +78,7 @@
 
 | Name | Type |
 | :------ | :------ |
-| `objectDef` | `HandledInput` \| (`modules`: `BacklandModules`) => `HandledInput` |
+| `objectDef` | `HandledInput` \| (`modules`: `SolarwindModules`) => `HandledInput` |
 
 #### Defined in
 
@@ -108,7 +108,7 @@ ___
 
 ### inputDefinition
 
-• **inputDefinition**: [`ObjectDefinitionInput`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectDefinitionInput.md) \| (`modules`: `BacklandModules`) => [`ObjectDefinitionInput`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectDefinitionInput.md)
+• **inputDefinition**: [`ObjectDefinitionInput`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectDefinitionInput.md) \| (`modules`: `SolarwindModules`) => [`ObjectDefinitionInput`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectDefinitionInput.md)
 
 #### Defined in
 
@@ -116,9 +116,9 @@ ___
 
 ___
 
-### \_\_isBacklandObject
+### \_\_isSolarwindObject
 
-▪ `Static` **\_\_isBacklandObject**: `boolean` = `true`
+▪ `Static` **\_\_isSolarwindObject**: `boolean` = `true`
 
 #### Defined in
 
@@ -128,7 +128,7 @@ ___
 
 ### register
 
-▪ `Static` **register**: `Store`<`Record`<`string`, [`ObjectLike`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectLike.md)\>, `string`, [`ObjectLike`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectLike.md)\>
+▪ `Static` **register**: `Store`<`Record`<`string`, [`ObjectLike`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectLike.md)\>, `string`, [`ObjectLike`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectLike.md)\>
 
 #### Defined in
 
@@ -136,9 +136,9 @@ ___
 
 ## Accessors
 
-### \_\_isBacklandObject
+### \_\_isSolarwindObject
 
-• `get` **__isBacklandObject**(): ``true``
+• `get` **__isSolarwindObject**(): ``true``
 
 #### Returns
 
@@ -224,11 +224,11 @@ ___
 
 ### meta
 
-• `get` **meta**(): [`MetaFieldDef`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#metafielddef)
+• `get` **meta**(): [`MetaFieldDef`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#metafielddef)
 
 #### Returns
 
-[`MetaFieldDef`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#metafielddef)
+[`MetaFieldDef`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#metafielddef)
 
 #### Defined in
 
@@ -258,7 +258,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `k` | keyof [`MetaFieldDef`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#metafielddef) |
+| `k` | keyof [`MetaFieldDef`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#metafielddef) |
 | `value` | `Serializable` |
 
 #### Returns
@@ -319,7 +319,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `handler` | (`input`: [`ExtendObjectDefinition`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendObjectDefinition.md)<{ `object`: `HandledInput`  }, { `object`: `HandledInput`  }\>) => `T` |
+| `handler` | (`input`: [`ExtendObjectDefinition`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendObjectDefinition.md)<{ `object`: `HandledInput`  }, { `object`: `HandledInput`  }\>) => `T` |
 
 #### Returns
 
@@ -333,7 +333,7 @@ ___
 
 ### describe
 
-▸ **describe**(`...descriptions`): [`ObjectType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>
+▸ **describe**(`...descriptions`): [`ObjectType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>
 
 #### Parameters
 
@@ -343,7 +343,7 @@ ___
 
 #### Returns
 
-[`ObjectType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>
+[`ObjectType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>
 
 #### Defined in
 
@@ -353,11 +353,11 @@ ___
 
 ### edit
 
-▸ **edit**(): [`ExtendObjectDefinition`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendObjectDefinition.md)<{ `def`: `HandledInput` ; `type`: ``"object"``  }, { `def`: `HandledInput` ; `type`: ``"object"``  }\>
+▸ **edit**(): [`ExtendObjectDefinition`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendObjectDefinition.md)<{ `def`: `HandledInput` ; `type`: ``"object"``  }, { `def`: `HandledInput` ; `type`: ``"object"``  }\>
 
 #### Returns
 
-[`ExtendObjectDefinition`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.ExtendObjectDefinition.md)<{ `def`: `HandledInput` ; `type`: ``"object"``  }, { `def`: `HandledInput` ; `type`: ``"object"``  }\>
+[`ExtendObjectDefinition`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ExtendObjectDefinition.md)<{ `def`: `HandledInput` ; `type`: ``"object"``  }, { `def`: `HandledInput` ; `type`: ``"object"``  }\>
 
 #### Defined in
 
@@ -469,7 +469,7 @@ ___
 
 ### identify
 
-▸ **identify**<`ID`\>(`id`): [`ObjectType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`Input`, `HandledInput`\> & { `id`: `ID`  }
+▸ **identify**<`ID`\>(`id`): [`ObjectType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`Input`, `HandledInput`\> & { `id`: `ID`  }
 
 #### Type parameters
 
@@ -485,7 +485,7 @@ ___
 
 #### Returns
 
-[`ObjectType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`Input`, `HandledInput`\> & { `id`: `ID`  }
+[`ObjectType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`Input`, `HandledInput`\> & { `id`: `ID`  }
 
 #### Defined in
 
@@ -495,13 +495,13 @@ ___
 
 ### implement
 
-▸ **implement**<`Parents`\>(`name`, `...parents`): [`ImplementObject`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#implementobject)<[`ObjectType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>, `Parents`\>
+▸ **implement**<`Parents`\>(`name`, `...parents`): [`ImplementObject`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#implementobject)<[`ObjectType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>, `Parents`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Parents` | extends readonly [`ObjectLike`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectLike.md)[] |
+| `Parents` | extends readonly [`ObjectLike`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectLike.md)[] |
 
 #### Parameters
 
@@ -512,7 +512,7 @@ ___
 
 #### Returns
 
-[`ImplementObject`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#implementobject)<[`ObjectType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>, `Parents`\>
+[`ImplementObject`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#implementobject)<[`ObjectType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>, `Parents`\>
 
 #### Defined in
 
@@ -522,35 +522,35 @@ ___
 
 ### parse
 
-▸ **parse**(`input`, `options?`): [`InferObjectDefinition`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#inferobjectdefinition)<`HandledInput`\>
+▸ **parse**(`input`, `options?`): [`InferObjectDefinition`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#inferobjectdefinition)<`HandledInput`\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `input` | `any` |
-| `options?` | { `customMessage?`: [`ValidationCustomMessage`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#validationcustommessage)  } & [`FieldParserOptionsObject`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldparseroptionsobject) |
+| `options?` | { `customMessage?`: [`ValidationCustomMessage`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#validationcustommessage)  } & [`FieldParserOptionsObject`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldparseroptionsobject) |
 
 #### Returns
 
-[`InferObjectDefinition`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#inferobjectdefinition)<`HandledInput`\>
+[`InferObjectDefinition`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#inferobjectdefinition)<`HandledInput`\>
 
 #### Defined in
 
 [packages/schema/src/ObjectType.ts:145](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/schema/src/ObjectType.ts#L145)
 
-▸ **parse**(`input`, `options?`): `Partial`<[`InferObjectDefinition`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#inferobjectdefinition)<`HandledInput`\>\>
+▸ **parse**(`input`, `options?`): `Partial`<[`InferObjectDefinition`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#inferobjectdefinition)<`HandledInput`\>\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `input` | `any` |
-| `options?` | { `partial`: ``true``  } & [`FieldParserOptionsObject`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldparseroptionsobject) |
+| `options?` | { `partial`: ``true``  } & [`FieldParserOptionsObject`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldparseroptionsobject) |
 
 #### Returns
 
-`Partial`<[`InferObjectDefinition`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#inferobjectdefinition)<`HandledInput`\>\>
+`Partial`<[`InferObjectDefinition`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#inferobjectdefinition)<`HandledInput`\>\>
 
 #### Defined in
 
@@ -569,7 +569,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `input` | `any` |
-| `options` | { `customMessage?`: [`ValidationCustomMessage`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#validationcustommessage) ; `fields`: `Fields`  } & [`FieldParserOptionsObject`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldparseroptionsobject) |
+| `options` | { `customMessage?`: [`ValidationCustomMessage`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#validationcustommessage) ; `fields`: `Fields`  } & [`FieldParserOptionsObject`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldparseroptionsobject) |
 
 #### Returns
 
@@ -592,7 +592,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `input` | `any` |
-| `options` | { `exclude`: `Fields`  } & [`FieldParserOptionsObject`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldparseroptionsobject) |
+| `options` | { `exclude`: `Fields`  } & [`FieldParserOptionsObject`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldparseroptionsobject) |
 
 #### Returns
 
@@ -613,7 +613,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `input` | `any` |
-| `options?` | { `customMessage?`: [`ValidationCustomMessage`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#validationcustommessage) ; `excludeInvalidListItems?`: `boolean` ; `fields?`: keyof `HandledInput`[] ; `partial?`: `boolean`  } & [`FieldParserOptionsObject`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldparseroptionsobject) |
+| `options?` | { `customMessage?`: [`ValidationCustomMessage`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#validationcustommessage) ; `excludeInvalidListItems?`: `boolean` ; `fields?`: keyof `HandledInput`[] ; `partial?`: `boolean`  } & [`FieldParserOptionsObject`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldparseroptionsobject) |
 
 #### Returns
 
@@ -632,7 +632,7 @@ ___
 
 ### softParse
 
-▸ **softParse**<`T`\>(`input`, `options?`): [`InferObjectDefinition`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#inferobjectdefinition)<`HandledInput`\> & { `[K: string]`: `T`;  }
+▸ **softParse**<`T`\>(`input`, `options?`): [`InferObjectDefinition`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#inferobjectdefinition)<`HandledInput`\> & { `[K: string]`: `T`;  }
 
 #### Type parameters
 
@@ -645,11 +645,11 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `input` | `any` |
-| `options` | [`FieldParserOptionsObject`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldparseroptionsobject) |
+| `options` | [`FieldParserOptionsObject`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldparseroptionsobject) |
 
 #### Returns
 
-[`InferObjectDefinition`](../modules/Backland_Schema___A_Super_Portable_TypeScript_validation_library.md#inferobjectdefinition)<`HandledInput`\> & { `[K: string]`: `T`;  }
+[`InferObjectDefinition`](../modules/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.md#inferobjectdefinition)<`HandledInput`\> & { `[K: string]`: `T`;  }
 
 #### Defined in
 
@@ -719,7 +719,7 @@ ___
 
 ### getOrSet
 
-▸ `Static` **getOrSet**<`T`\>(`id`, `def`): [`ObjectType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`T`, `_HandleInput`<`T`\>\>
+▸ `Static` **getOrSet**<`T`\>(`id`, `def`): [`ObjectType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`T`, `_HandleInput`<`T`\>\>
 
 Get an Object with the provided id
    or set a new Object in the register if not found.
@@ -728,7 +728,7 @@ Get an Object with the provided id
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`ObjectDefinitionInput`](../interfaces/Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectDefinitionInput.md) |
+| `T` | extends [`ObjectDefinitionInput`](../interfaces/Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectDefinitionInput.md) |
 
 #### Parameters
 
@@ -739,7 +739,7 @@ Get an Object with the provided id
 
 #### Returns
 
-[`ObjectType`](Backland_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`T`, `_HandleInput`<`T`\>\>
+[`ObjectType`](Solarwind_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`T`, `_HandleInput`<`T`\>\>
 
 #### Defined in
 

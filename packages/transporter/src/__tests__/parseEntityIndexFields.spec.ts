@@ -1,4 +1,4 @@
-import { createType, ObjectType } from '@backland/schema';
+import { createType, ObjectType } from '@swind/schema';
 
 import { parseEntityIndexFields } from '../parseEntityIndexFields';
 

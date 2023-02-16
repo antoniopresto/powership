@@ -1,4 +1,4 @@
-import { createType } from '@backland/schema';
+import { createType } from '@swind/schema';
 
 export const UserType = createType('User', {
   object: {

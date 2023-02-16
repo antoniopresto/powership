@@ -1,7 +1,7 @@
-import { MongoTransporter } from '@backland/mongo';
-import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
-import { createSchema, createType, Infer, ULID_REGEX } from '@backland/schema';
-import { tupleEnum } from '@backland/utils';
+import { MongoTransporter } from '@swind/mongo';
+import { AppMock, createAppMock } from '@swind/mongo/lib/test-utils';
+import { createSchema, createType, Infer, ULID_REGEX } from '@swind/schema';
+import { tupleEnum } from '@swind/utils';
 
 import { createEntity } from '../Entity';
 

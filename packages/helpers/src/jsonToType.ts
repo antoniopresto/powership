@@ -18,7 +18,7 @@ import {
   joinPathsCamelCase,
   stringCase,
   ULID_REGEX,
-} from 'backland';
+} from 'solarwind';
 
 const record = create.record({ keyType: 'string', type: 'any' });
 
@@ -81,7 +81,7 @@ export function isCursorString(value: any): value is string {
 
 const phoneType = create.phone({});
 
-export const valuesToBacklandTypeRecord: {
+export const valuesToSolarwindTypeRecord: {
   [L in FieldTypeName]: (value: any) => boolean;
 } = {
   null: (value) => value === null,
@@ -112,8 +112,8 @@ export const valuesToBacklandTypeRecord: {
   enum: () => false,
 };
 
-export const backlandValueTypeCheckEntries = entries(
-  valuesToBacklandTypeRecord
+export const solarwindValueTypeCheckEntries = entries(
+  valuesToSolarwindTypeRecord
 );
 
 export function valueToTypeDef(
@@ -123,7 +123,7 @@ export function valueToTypeDef(
 
   const typename: FieldTypeName = (function iifeTypename() {
     return (
-      backlandValueTypeCheckEntries.find(
+      solarwindValueTypeCheckEntries.find(
         ([
           ,
           check,

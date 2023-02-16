@@ -1,4 +1,4 @@
-import { createEntity, EntityDocument } from '@backland/entity';
+import { createEntity, EntityDocument } from '@swind/entity';
 
 import { AccessType } from '../types/AccessType';
 

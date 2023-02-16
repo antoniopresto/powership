@@ -1,30 +1,30 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / \_EntityLoaderUtils
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / \_EntityLoaderUtils
 
 # Interface: \_EntityLoaderUtils<Options, Context\>
 
-[Backland](../modules/Backland.md)._EntityLoaderUtils
+[Solarwind](../modules/Solarwind.md)._EntityLoaderUtils
 
 ## Type parameters
 
 | Name | Type |
 | :------ | :------ |
 | `Options` | extends `Record`<`string`, `any`\> |
-| `Context` | extends [`AnyEntityTypesContext`](../modules/Backland.md#anyentitytypescontext) |
+| `Context` | extends [`AnyEntityTypesContext`](../modules/Solarwind.md#anyentitytypescontext) |
 
 ## Table of contents
 
 ### Properties
 
-- [\_\_filterDef](Backland._EntityLoaderUtils.md#__filterdef)
-- [filterDef](Backland._EntityLoaderUtils.md#filterdef)
-- [indexInfo](Backland._EntityLoaderUtils.md#indexinfo)
-- [queryArgs](Backland._EntityLoaderUtils.md#queryargs)
+- [\_\_filterDef](Solarwind._EntityLoaderUtils.md#__filterdef)
+- [filterDef](Solarwind._EntityLoaderUtils.md#filterdef)
+- [indexInfo](Solarwind._EntityLoaderUtils.md#indexinfo)
+- [queryArgs](Solarwind._EntityLoaderUtils.md#queryargs)
 
 ## Properties
 
 ### \_\_filterDef
 
-• **\_\_filterDef**: [`_GetLoaderFilterDef`](../modules/Backland.md#_getloaderfilterdef)<`Options`, `Context`[``"outputDefinition"``]\>
+• **\_\_filterDef**: [`_GetLoaderFilterDef`](../modules/Solarwind.md#_getloaderfilterdef)<`Options`, `Context`[``"outputDefinition"``]\>
 
 #### Defined in
 
@@ -34,7 +34,7 @@ ___
 
 ### filterDef
 
-• **filterDef**: [`ExtendObjectDefinition`](Backland.ExtendObjectDefinition.md)<[`_GetLoaderFilterDef`](../modules/Backland.md#_getloaderfilterdef)<`Options`, `Context`[``"outputDefinition"``]\>, [`_GetLoaderFilterDef`](../modules/Backland.md#_getloaderfilterdef)<`Options`, `Context`[``"outputDefinition"``]\>\>
+• **filterDef**: [`ExtendObjectDefinition`](Solarwind.ExtendObjectDefinition.md)<[`_GetLoaderFilterDef`](../modules/Solarwind.md#_getloaderfilterdef)<`Options`, `Context`[``"outputDefinition"``]\>, [`_GetLoaderFilterDef`](../modules/Solarwind.md#_getloaderfilterdef)<`Options`, `Context`[``"outputDefinition"``]\>\>
 
 #### Defined in
 
@@ -54,7 +54,7 @@ ___
 
 ### queryArgs
 
-• **queryArgs**: [`_GetLoaderFilterDef`](../modules/Backland.md#_getloaderfilterdef)<`Options`, `Context`[``"outputDefinition"``]\> extends `FilterDef` ? { `after`: ``"ID?"`` ; `condition`: { `object`: `EntityFilterConditionsDefinition`<`Context`[``"outputDefinition"``]\> ; `optional`: ``true``  } ; `filter`: { `def`: `FilterDef` ; `type`: ``"object"``  } ; `first`: { `optional`: ``true`` ; `type`: ``"int"``  }  } : `never`
+• **queryArgs**: [`_GetLoaderFilterDef`](../modules/Solarwind.md#_getloaderfilterdef)<`Options`, `Context`[``"outputDefinition"``]\> extends `FilterDef` ? { `after`: ``"ID?"`` ; `condition`: { `object`: `EntityFilterConditionsDefinition`<`Context`[``"outputDefinition"``]\> ; `optional`: ``true``  } ; `filter`: { `def`: `FilterDef` ; `type`: ``"object"``  } ; `first`: { `optional`: ``true`` ; `type`: ``"int"``  }  } : `never`
 
 #### Defined in
 

@@ -1,4 +1,4 @@
-import { getByPath, NodeLogger } from '@backland/utils';
+import { getByPath, NodeLogger } from '@swind/utils';
 
 export class AccountError extends Error {
   __isAccountError = true;

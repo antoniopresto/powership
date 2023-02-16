@@ -1,12 +1,12 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / ObjectInTypeFieldDefinition
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / ObjectInTypeFieldDefinition
 
 # Interface: ObjectInTypeFieldDefinition
 
-[Backland](../modules/Backland.md).ObjectInTypeFieldDefinition
+[Solarwind](../modules/Solarwind.md).ObjectInTypeFieldDefinition
 
 ## Hierarchy
 
-- [`CommonFieldDefinition`](../modules/Backland.md#commonfielddefinition)<[`ObjectTypeLikeFieldDefinition`](Backland.ObjectTypeLikeFieldDefinition.md)\>
+- [`CommonFieldDefinition`](../modules/Solarwind.md#commonfielddefinition)<[`ObjectTypeLikeFieldDefinition`](Solarwind.ObjectTypeLikeFieldDefinition.md)\>
 
   ↳ **`ObjectInTypeFieldDefinition`**
 
@@ -14,15 +14,15 @@
 
 ### Properties
 
-- [def](Backland.ObjectInTypeFieldDefinition.md#def)
-- [defaultValue](Backland.ObjectInTypeFieldDefinition.md#defaultvalue)
-- [description](Backland.ObjectInTypeFieldDefinition.md#description)
-- [example](Backland.ObjectInTypeFieldDefinition.md#example)
-- [hidden](Backland.ObjectInTypeFieldDefinition.md#hidden)
-- [list](Backland.ObjectInTypeFieldDefinition.md#list)
-- [name](Backland.ObjectInTypeFieldDefinition.md#name)
-- [optional](Backland.ObjectInTypeFieldDefinition.md#optional)
-- [type](Backland.ObjectInTypeFieldDefinition.md#type)
+- [def](Solarwind.ObjectInTypeFieldDefinition.md#def)
+- [defaultValue](Solarwind.ObjectInTypeFieldDefinition.md#defaultvalue)
+- [description](Solarwind.ObjectInTypeFieldDefinition.md#description)
+- [example](Solarwind.ObjectInTypeFieldDefinition.md#example)
+- [hidden](Solarwind.ObjectInTypeFieldDefinition.md#hidden)
+- [list](Solarwind.ObjectInTypeFieldDefinition.md#list)
+- [name](Solarwind.ObjectInTypeFieldDefinition.md#name)
+- [optional](Solarwind.ObjectInTypeFieldDefinition.md#optional)
+- [type](Solarwind.ObjectInTypeFieldDefinition.md#type)
 
 ## Properties
 
@@ -70,7 +70,7 @@ ___
 
 ### example
 
-• `Optional` **example**: [`FieldExample`](../modules/Backland.md#fieldexample)
+• `Optional` **example**: [`FieldExample`](../modules/Solarwind.md#fieldexample)
 
 #### Inherited from
 
@@ -98,7 +98,7 @@ ___
 
 ### list
 
-• `Optional` **list**: [`ListDefinition`](../modules/Backland.md#listdefinition)
+• `Optional` **list**: [`ListDefinition`](../modules/Solarwind.md#listdefinition)
 
 #### Inherited from
 
@@ -140,7 +140,7 @@ ___
 
 ### type
 
-• **type**: [`ObjectTypeLikeFieldDefinition`](Backland.ObjectTypeLikeFieldDefinition.md)
+• **type**: [`ObjectTypeLikeFieldDefinition`](Solarwind.ObjectTypeLikeFieldDefinition.md)
 
 #### Inherited from
 

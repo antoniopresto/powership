@@ -1,21 +1,21 @@
-import { CircularDeps } from '@backland/schema';
+import { CircularDeps } from '@swind/schema';
 import {
   Cast,
   Compute,
   MaybePromise,
   UnionToIntersection,
-} from '@backland/utils';
-import { RuntimeError } from '@backland/utils';
-import { devAssert } from '@backland/utils';
-import { getTypeName } from '@backland/utils';
-import { MaybeArray, tuple } from '@backland/utils';
+} from '@swind/utils';
+import { RuntimeError } from '@swind/utils';
+import { devAssert } from '@swind/utils';
+import { getTypeName } from '@swind/utils';
+import { MaybeArray, tuple } from '@swind/utils';
 import type {
   Join,
   MatchKeysAndValues,
   NestedPaths,
   Query,
   UpdateDefinition,
-} from '@backland/utils';
+} from '@swind/utils';
 
 import { CollectionIndexConfig } from './CollectionIndex';
 

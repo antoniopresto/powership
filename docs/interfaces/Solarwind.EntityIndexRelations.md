@@ -1,8 +1,8 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / EntityIndexRelations
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / EntityIndexRelations
 
 # Interface: EntityIndexRelations
 
-[Backland](../modules/Backland.md).EntityIndexRelations
+[Solarwind](../modules/Solarwind.md).EntityIndexRelations
 
 ## Indexable
 

@@ -1,4 +1,4 @@
-import { createType, GraphType, GraphTypeLike, Infer } from '@backland/schema';
+import { createType, GraphType, GraphTypeLike, Infer } from '@swind/schema';
 
 export const PageInfoType = createType('PageInfo', {
   object: {

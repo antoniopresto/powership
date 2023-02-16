@@ -1,4 +1,4 @@
-import { IsKnown } from 'backland';
+import { IsKnown } from 'solarwind';
 import UrlPattern from 'url-pattern';
 
 /**

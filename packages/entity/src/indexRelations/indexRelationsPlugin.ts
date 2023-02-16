@@ -3,7 +3,7 @@ import {
   CreateOne,
   CreateOneResult,
   DocumentBase,
-} from '@backland/transporter';
+} from '@swind/transporter';
 import {
   devAssert,
   GlobalLogger,
@@ -12,7 +12,7 @@ import {
   inspectObject,
   NodeLogger,
   parseFilterCursor,
-} from '@backland/utils';
+} from '@swind/utils';
 
 import { createEntityPlugin } from '../EntityPlugin';
 import {

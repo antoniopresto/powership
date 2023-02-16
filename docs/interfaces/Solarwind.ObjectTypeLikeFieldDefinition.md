@@ -1,21 +1,21 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Backland](../modules/Backland.md) / ObjectTypeLikeFieldDefinition
+[Solarwind](../README.md) / [Modules](../modules.md) / [Solarwind](../modules/Solarwind.md) / ObjectTypeLikeFieldDefinition
 
 # Interface: ObjectTypeLikeFieldDefinition
 
-[Backland](../modules/Backland.md).ObjectTypeLikeFieldDefinition
+[Solarwind](../modules/Solarwind.md).ObjectTypeLikeFieldDefinition
 
 ## Table of contents
 
 ### Properties
 
-- [\_\_isBacklandObject](Backland.ObjectTypeLikeFieldDefinition.md#__isbacklandobject)
-- [definition](Backland.ObjectTypeLikeFieldDefinition.md#definition)
+- [\_\_isSolarwindObject](Solarwind.ObjectTypeLikeFieldDefinition.md#__issolarwindobject)
+- [definition](Solarwind.ObjectTypeLikeFieldDefinition.md#definition)
 
 ## Properties
 
-### \_\_isBacklandObject
+### \_\_isSolarwindObject
 
-• **\_\_isBacklandObject**: ``true``
+• **\_\_isSolarwindObject**: ``true``
 
 #### Defined in
 

@@ -1,4 +1,4 @@
-import { Compute } from '@backland/utils';
+import { Compute } from '@swind/utils';
 
 import { DocumentIndexesConfig } from './CollectionIndex';
 import {

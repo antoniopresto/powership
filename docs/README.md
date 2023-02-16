@@ -1,15 +1,15 @@
-Backland / [Modules](modules.md)
+Solarwind / [Modules](modules.md)
 
-Backland / [Modules](./docs/modules.md)
+Solarwind / [Modules](./docs/modules.md)
 
-# Backland
+# Solarwind
 
 > All-in-one full-stack package for managing complex web applications.
 
-Backland is the full-stack package of choice for creating, managing, and scaling complex web applications with support
+Solarwind is the full-stack package of choice for creating, managing, and scaling complex web applications with support
 for single-table design.
 
-Using Backland you can quickly create types that can be easily extended, transformed into GraphQL, TypeScript, and used in both **frontend and backend** applications.
+Using Solarwind you can quickly create types that can be easily extended, transformed into GraphQL, TypeScript, and used in both **frontend and backend** applications.
 
 ## Table of Contents
 
@@ -30,7 +30,7 @@ import {
   createType,
   createEntity,
   Infer,
-} from 'backland';
+} from 'solarwind';
 
 const AddressType = createType('Address', {
   object: {

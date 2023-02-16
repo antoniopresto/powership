@@ -2,7 +2,7 @@ import {
   LoaderContext,
   TransporterLoaderName,
   TransporterLoadersRecord,
-} from '@backland/transporter';
+} from '@swind/transporter';
 
 export type EntityLoaderConfig<
   Method extends TransporterLoaderName,

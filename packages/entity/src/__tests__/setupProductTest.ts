@@ -1,5 +1,5 @@
-import { MongoTransporter } from '@backland/mongo';
-import { AppMock, createAppMock } from '@backland/mongo/lib/test-utils';
+import { MongoTransporter } from '@swind/mongo';
+import { AppMock, createAppMock } from '@swind/mongo/lib/test-utils';
 import {
   createResolver,
   createSchema,
@@ -7,8 +7,8 @@ import {
   GraphType,
   objectMock,
   ObjectType,
-} from '@backland/schema';
-import { getTypeName, slugify } from '@backland/utils';
+} from '@swind/schema';
+import { getTypeName, slugify } from '@swind/utils';
 
 import { createEntity } from '../Entity';
 import { Entity } from '../EntityInterfaces';

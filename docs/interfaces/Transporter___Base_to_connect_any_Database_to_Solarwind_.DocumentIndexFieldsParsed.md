@@ -1,16 +1,16 @@
-[Backland](../README.md) / [Modules](../modules.md) / [Transporter - Base to connect any Database to Backland.](../modules/Transporter___Base_to_connect_any_Database_to_Backland_.md) / DocumentIndexFieldsParsed
+[Solarwind](../README.md) / [Modules](../modules.md) / [Transporter - Base to connect any Database to Solarwind.](../modules/Transporter___Base_to_connect_any_Database_to_Solarwind_.md) / DocumentIndexFieldsParsed
 
 # Interface: DocumentIndexFieldsParsed
 
-[Transporter - Base to connect any Database to Backland.](../modules/Transporter___Base_to_connect_any_Database_to_Backland_.md).DocumentIndexFieldsParsed
+[Transporter - Base to connect any Database to Solarwind.](../modules/Transporter___Base_to_connect_any_Database_to_Solarwind_.md).DocumentIndexFieldsParsed
 
 ## Table of contents
 
 ### Properties
 
-- [PKField](Transporter___Base_to_connect_any_Database_to_Backland_.DocumentIndexFieldsParsed.md#pkfield)
-- [SKField](Transporter___Base_to_connect_any_Database_to_Backland_.DocumentIndexFieldsParsed.md#skfield)
-- [documentFields](Transporter___Base_to_connect_any_Database_to_Backland_.DocumentIndexFieldsParsed.md#documentfields)
+- [PKField](Transporter___Base_to_connect_any_Database_to_Solarwind_.DocumentIndexFieldsParsed.md#pkfield)
+- [SKField](Transporter___Base_to_connect_any_Database_to_Solarwind_.DocumentIndexFieldsParsed.md#skfield)
+- [documentFields](Transporter___Base_to_connect_any_Database_to_Solarwind_.DocumentIndexFieldsParsed.md#documentfields)
 
 ## Properties
 
@@ -36,7 +36,7 @@ ___
 
 ### documentFields
 
-• **documentFields**: [`CommonIndexFields`](../modules/Transporter___Base_to_connect_any_Database_to_Backland_.md#commonindexfields)
+• **documentFields**: [`CommonIndexFields`](../modules/Transporter___Base_to_connect_any_Database_to_Solarwind_.md#commonindexfields)
 
 #### Defined in
 

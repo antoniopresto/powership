@@ -1,7 +1,7 @@
-# @backland/schema
+# @swind/schema
 Typescript schema validation with static type inference.
 
-Schemas are a crucial part of a microservices architecture or a detachable application architecture (backland). 
+Schemas are a crucial part of a microservices architecture or a detachable application architecture (solarwind). 
 They can serve as contracts between different pieces of an application (frontend, backend, forms) and different services.
 So schemas should be **easily portable, written and read**, and that's the goal of this package.
 
@@ -12,7 +12,7 @@ So schemas should be **easily portable, written and read**, and that's the goal 
 To install:
 
 ```sh
-npm install @backland/schema
+npm install @swind/schema
 ```
 
 ⚠️ IMPORTANT: You must enable `strict` mode in your `tsconfig.json`. This is a best practice for all TypeScript projects.
@@ -113,9 +113,9 @@ npm install @backland/schema
 ```
 
 ### schemaToTypescript
-Returns a string of an interface representing a BacklandSchema;
+Returns a string of an interface representing a SolarwindSchema;
 ``` ts
-import { schemaToTypescript } from '@backland/schema/lib/schemaToTypescript';
+import { schemaToTypescript } from '@swind/schema/lib/schemaToTypescript';
 
 const interfaceTxt = await schemaToTypescript('User', userSchema);
 
@@ -141,10 +141,10 @@ export interface User {
 ```
 
 ### schemaToJSON
-Receives a BacklandSchema and returns a [json-schema](https://json-schema.org/)
+Receives a SolarwindSchema and returns a [json-schema](https://json-schema.org/)
 
 ``` ts
-  import { schemaToJSON } from '@backland/schema/lib/schemaToJSON';
+  import { schemaToJSON } from '@swind/schema/lib/schemaToJSON';
 
   const jsonSchema = schemaToJSON('User', userSchema);
 

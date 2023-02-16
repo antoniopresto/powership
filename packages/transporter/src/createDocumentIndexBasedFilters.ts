@@ -2,7 +2,7 @@ import {
   nonNullValues,
   parseIndexFieldName,
   RELATION_PRECEDES,
-} from '@backland/utils';
+} from '@swind/utils';
 
 import {
   AnyCollectionIndexConfig,
