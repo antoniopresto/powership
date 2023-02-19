@@ -27,13 +27,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/antoniopresto/solarwind/tree/master/packages/db"
+    "url": "https://github.com/antoniopresto/solarwind/"
   },
   "dependencies": {
     "@swind/entity": "0.2.14",
     "@swind/schema": "0.2.14",
     "@swind/transporter": "0.2.14",
-    "@swind/utils": "0.2.14"
+    "@swind/utils": "0.2.14",
+    "@swind/server": "0.2.14"
   },
   "devDependencies": {
     "@babel/cli": "7.19.3",

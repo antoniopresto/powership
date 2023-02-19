@@ -23,7 +23,7 @@
   "description": "Solarwind db",
   "repository": {
     "type": "git",
-    "url": "https://github.com/antoniopresto/solarwind/tree/master/packages/db"
+    "url": "https://github.com/antoniopresto/solarwind/"
   },
   "keywords": [
     "typescript",
