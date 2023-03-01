@@ -1,7 +1,7 @@
 import { MongoTransporter } from '@swind/mongo';
 import { AppMock, createAppMock } from '@swind/mongo/lib/test-utils';
 import { createType, ObjectType, parseField } from '@swind/schema';
-import { ULID_REGEX } from '@swind/schema/lib/fields/UlidField';
+import { ULID_REGEX } from '@swind/schema/lib/fields/ULIDField';
 
 import { createEntity } from '../Entity';
 

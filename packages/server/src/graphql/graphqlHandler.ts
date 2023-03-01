@@ -10,7 +10,6 @@ import { AppLogger } from '../AppLogger';
 import { createRouteHandler } from '../createRouteHandler';
 
 import { maskErrors } from './errorHandler';
-import '@swind/schema';
 import { generateTypes } from './generateTypes';
 
 export type ResolversRecord = Record<string, Resolver<any, any, any, any>>;

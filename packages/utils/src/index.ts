@@ -51,6 +51,7 @@ export * from './override';
 export * from './useProcess';
 export * from './sortObject';
 export * from './objectDiff';
+export * from './deepDiff';
 export * from './ms';
 export * from './dynamicRequire';
 export * from './hashObject';

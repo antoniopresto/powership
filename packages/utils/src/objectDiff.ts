@@ -1,4 +1,6 @@
-export * from 'deep-object-diff';
+import { diff } from 'deep-diff';
+
+import { getByPath } from './getByPath';
 
 export type ObjectDiff = {
   kind: 'add' | 'remove' | 'update';
@@ -9,74 +11,73 @@ export type ObjectDiff = {
 };
 
 export function objectDiffPaths(
-  originObject: Record<string, any>,
-  newObject: Record<string, any>
-) {
-  const changes: ObjectDiff[] = [];
+  originObject: any,
+  newObject: any
+): ObjectDiff[] {
+  const diffs: ObjectDiff[] = [];
 
-  function walkObject(
-    _originObject: Record<string, any>,
-    _newObject: Record<string, any>,
-    paths: string[]
-  ) {
-    const path = paths[paths.length - 1] || '';
+  const kinds = {
+    N: 'add',
+    D: 'remove',
+    E: 'update',
+    A: 'update',
+  } as const;
 
-    function _currentPath(parent: Record<string, any>, key: string) {
-      const isArray = Array.isArray(parent);
-      return isArray ? path + `[${key}]` : !path ? key : `${path}.${key}`;
-    }
+  const differences = diff(originObject, newObject);
 
-    for (const key of Object.keys(_originObject)) {
-      const currentPath = _currentPath(_originObject, key);
-
-      if (!_newObject.hasOwnProperty(key)) {
-        changes.push({
-          kind: 'remove',
-          newValue: undefined,
-          oldValue: _originObject[key],
-          path: currentPath,
-          paths: [...paths, currentPath],
-        });
-      }
-    }
-
-    for (const [key, value] of Object.entries(_newObject)) {
-      if (value === _originObject[key]) continue;
-
-      const currentPath = _currentPath(_newObject, key);
-
-      if (!_originObject.hasOwnProperty(key)) {
-        changes.push({
-          kind: 'add',
-          newValue: _newObject[key],
-          oldValue: undefined,
-          path: currentPath,
-          paths: [...paths, currentPath],
-        });
-      } else {
-        if (
-          value &&
-          typeof value === 'object' &&
-          _originObject[key] &&
-          typeof _originObject[key] === 'object'
-        ) {
-          walkObject(_originObject[key], value, [...paths, currentPath]);
-        } else {
-          changes.push({
-            kind: 'update',
-            newValue: _newObject[key],
-            oldValue: _originObject[key],
-            path: currentPath,
-            paths: [...paths, currentPath],
-          });
-        }
-      }
-    }
+  if (!differences) {
+    return diffs;
   }
 
-  walkObject(originObject, newObject, []);
+  differences.forEach((difference) => {
+    const { kind } = difference;
 
-  return changes;
+    const paths = difference.path || [];
+    const path = paths.join('.');
+
+    const objectDiff: ObjectDiff = {
+      kind: kinds[kind],
+      newValue: null,
+      oldValue: null,
+      path: path,
+      paths: [],
+    };
+
+    Object.defineProperties(objectDiff, {
+      newValue: {
+        get() {
+          return getByPath(newObject, path);
+        },
+      },
+      oldValue: {
+        get() {
+          return getByPath(originObject, path);
+        },
+      },
+      paths: {
+        get() {
+          if (!paths[0]) return [];
+
+          const p: string[] = [];
+
+          let full = paths[0];
+          p.push(full);
+
+          paths.slice(1).forEach((path) => {
+            full += `.${path}`;
+            p.push(full);
+          }, []);
+
+          return p;
+        },
+      },
+    });
+
+    diffs.push(objectDiff);
+  });
+
+  return diffs;
 }
 
 export const getObjectDiffPaths = objectDiffPaths;
+export const getObjectDiff = objectDiffPaths;

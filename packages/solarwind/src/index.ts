@@ -8,3 +8,6 @@ export * from '@swind/transporter';
 
 // @only-server
 export type { RootFilterOperators } from '@swind/transporter';
+
+// @only-server
+export * from '@swind/server';
