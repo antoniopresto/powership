@@ -1,6 +1,6 @@
 {
   "name": "swind",
-  "version": "0.2.14",
+  "version": "0.2.15",
   "description": "Solarwind alias package",
   "main": "index.js",
   "scripts": {
@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/antoniopresto/solarwind#readme",
   "dependencies": {
-    "solarwind": "^0.2.14"
+    "solarwind": "0.2.15"
   },
   "devDependencies": {
     "@types/node": "^18.14.0",
