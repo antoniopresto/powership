@@ -1,10 +1,10 @@
 import { DotNotations } from 'aggio';
 
 import { ensureArray } from './ensureArray';
-import { getByPath, GetFieldByDotNotation } from './getByPath';
+import { getByPath } from './getByPath';
 import { hooks as Hooks, Parallel } from './hooks';
 import { simpleObjectHash } from './simpleObjectHash';
-import { ObjectEntries } from './typeUtils';
+import { ValueByPath, ObjectEntries } from './typeUtils';
 
 export type InternalEvent = 'PRUNING' | 'INITIAL' | 'CLEAR';
 
@@ -52,7 +52,7 @@ export interface GroupByOptions {
 }
 
 export type RecordBy<Dict extends Record<string, any>, Field extends string> = {
-  [K in GetFieldByDotNotation<Dict[keyof Dict], Field> extends infer Key
+  [K in ValueByPath<Dict[keyof Dict], Field> extends infer Key
     ? Key extends string | number
       ? Key
       : string
@@ -157,9 +157,14 @@ export function createStore<
   };
 
   if (values) {
-    values.map(([k, v]) => {
-      set(k, v, { silently: true, meta: 'INITIAL' });
-    });
+    values.map(
+      ([
+        k,
+        v,
+      ]) => {
+        set(k, v, { silently: true, meta: 'INITIAL' });
+      }
+    );
     _reindex();
   }
 
@@ -181,14 +186,20 @@ export function createStore<
     const index = has(key);
 
     if (index) {
-      entries[index] = [key, value];
+      entries[index] = [
+        key,
+        value,
+      ];
     } else {
       if (entries.length > maxLength - 1) {
         const firstKey = entries[0];
         remove(firstKey[0], { meta: 'PRUNING' });
       }
       indexes[key] = entries.length;
-      entries.push([key, value]);
+      entries.push([
+        key,
+        value,
+      ]);
     }
 
     if (eventOptions?.meta !== 'INITIAL') {
@@ -289,11 +300,16 @@ export function createStore<
     groups = ensureArray(groups);
 
     groups.forEach((group) => {
-      entries.forEach(([, value]) => {
-        const key = (getByPath(value, group) ?? onNull) + '';
-        res[key] = res[key] || [];
-        res[key].push(value);
-      });
+      entries.forEach(
+        ([
+          ,
+          value,
+        ]) => {
+          const key = (getByPath(value, group) ?? onNull) + '';
+          res[key] = res[key] || [];
+          res[key].push(value);
+        }
+      );
     });
 
     return res;
@@ -307,23 +323,30 @@ export function createStore<
 
     const res = Object.create(null);
 
-    Object.entries(_grouped).forEach(([key, items]) => {
-      if (items.length > 1) {
-        switch (onMany) {
-          case 'error': {
-            return errors.push(`Found ${items.length} items with key "${key}"`);
-          }
-          case 'first': {
-            return (res[key] = items[0]);
-          }
-          case 'last': {
-            return (res[key] = items[items.length - 1]);
+    Object.entries(_grouped).forEach(
+      ([
+        key,
+        items,
+      ]) => {
+        if (items.length > 1) {
+          switch (onMany) {
+            case 'error': {
+              return errors.push(
+                `Found ${items.length} items with key "${key}"`
+              );
+            }
+            case 'first': {
+              return (res[key] = items[0]);
+            }
+            case 'last': {
+              return (res[key] = items[items.length - 1]);
+            }
           }
         }
-      }
 
-      res[key] = items[0];
-    });
+        res[key] = items[0];
+      }
+    );
 
     if (errors.length) {
       throw new Error(errors.join('\n'));
@@ -337,15 +360,20 @@ export function createStore<
 
     const store = createStore();
 
-    Object.entries(groups).forEach(([key, values]) => {
-      values.forEach((value) => {
-        Object.defineProperty(value, groupKey, {
-          value: key,
-          enumerable: false,
+    Object.entries(groups).forEach(
+      ([
+        key,
+        values,
+      ]) => {
+        values.forEach((value) => {
+          Object.defineProperty(value, groupKey, {
+            value: key,
+            enumerable: false,
+          });
+          store.set(key, values);
         });
-        store.set(key, values);
-      });
-    });
+      }
+    );
 
     return store as any;
   };

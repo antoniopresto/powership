@@ -1,20 +1,38 @@
-import { Diff, diff } from 'deep-diff';
+import deepDiff, {
+  Diff as _DDiff,
+  Accumulator,
+  diff,
+  DiffArray,
+  DiffDeleted,
+  DiffEdit,
+  DiffNew,
+} from 'deep-diff';
 
 import { getByPath } from './getByPath';
+import { AnyRecord, ObjectPath, ObjectUnion, ValueByPath } from './typeUtils';
 
-export type ObjectDiff = {
-  kind: 'add' | 'remove' | 'update';
-  newValue: any;
-  oldValue: any;
-  path: string;
-  paths: string[];
-};
+export type ObjectDiff<Obj extends AnyRecord = AnyRecord> = ObjectPath<
+  Obj,
+  5
+> extends infer Path
+  ? Path extends unknown
+    ? ValueByPath<Obj, Path> extends infer Value
+      ? {
+          kind: 'add' | 'remove' | 'update';
+          newValue: Value;
+          oldValue: Value;
+          path: Path;
+          paths: string[];
+        }
+      : never
+    : never
+  : never;
 
-export function objectDiffPaths(
-  originObject: any,
+export function objectDiffPaths<Obj extends AnyRecord>(
+  originObject: Obj,
   newObject: any
-): ObjectDiff[] {
-  const diffs: ObjectDiff[] = [];
+): ObjectDiff<Obj>[] {
+  const diffs: ObjectDiff<Obj>[] = [];
 
   const kinds = {
     N: 'add',
@@ -29,14 +47,17 @@ export function objectDiffPaths(
     return diffs;
   }
 
-  function pushDiff(difference: Diff<any>) {
+  function pushDiff(difference: DeepDiff) {
     const { kind } = difference;
 
     if (kind === 'A') {
       pushDiff({
         ...difference,
         kind: difference.item.kind,
-        path: [...difference.path!, difference.index],
+        path: [
+          ...difference.path!,
+          difference.index,
+        ],
       } as any);
       return;
     }
@@ -44,13 +65,13 @@ export function objectDiffPaths(
     const paths = difference.path || [];
     const path = paths.join('.');
 
-    const objectDiff: ObjectDiff = {
+    const objectDiff = {
       kind: kinds[kind],
-      newValue: null,
-      oldValue: null,
+      newValue: undefined,
+      oldValue: undefined,
       path: path,
       paths: [],
-    };
+    } as unknown as ObjectDiff<Obj>;
 
     Object.defineProperties(objectDiff, {
       newValue: {
@@ -92,3 +113,19 @@ export function objectDiffPaths(
 
   return diffs;
 }
+
+export type DeepDiff<T = any> = ObjectUnion<
+  _DDiff<T>,
+  Partial<DiffArray<any>> & Partial<DiffNew<any>>
+> &
+  _DDiff<T>;
+
+export {
+  Accumulator,
+  DiffEdit,
+  deepDiff,
+  diff,
+  DiffArray,
+  DiffDeleted,
+  DiffNew,
+};

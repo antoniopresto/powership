@@ -151,19 +151,40 @@ export type DeepArrayKeys<T extends any[]> = {
   [K in keyof T]: `${Extract<K, string>}.${ObjectDotNotations<T[K]>}`;
 }[number];
 
+/**
+ * @alias to GetFieldByDotNotation
+ */
+export type GetFieldByDotPath<Obj, DotNotation> = GetFieldByDotNotation<
+  Obj,
+  DotNotation
+>;
+
+/**
+ * @alias to `ObjectDotNotations`
+ */
+export type ObjectPath<Obj, Limit extends number = 10> = ObjectDotNotations<
+  Obj,
+  Limit
+>;
+
 export type ObjectDotNotations<
   Obj,
-  Level extends string[] = [],
-  Limit = 3
+  Limit extends number = 10,
+  Level extends number[] = []
 > = Level['length'] extends Limit
   ? never
   : Obj extends { [K: string]: any }
   ? {
-      [K in keyof Obj]: K extends string
+      [K in keyof Obj]: K extends string | number
         ? Obj[K] extends { [K: string]: any }
-          ? Obj[K] extends any[]
-            ? K | `${K}.${ArrayKeys<Obj[K]>}` | `${K}.${DeepArrayKeys<Obj[K]>}`
-            : K | `${K}.${ObjectDotNotations<Obj[K], [...Level, K]>}`
+          ? Obj[K] extends ReadonlyArray<any>
+            ? /*When array: */
+              | K
+                | `${K}.${number}`
+                | `${K}.${number}.${ObjectDotNotations<Obj[K][number]>}`
+            : //
+              /*When object: */
+              K | `${K}.${ObjectDotNotations<Obj[K], Limit, [...Level, 1]>}`
           : K
         : never; // not string (never))
     }[keyof Obj]
@@ -276,3 +297,32 @@ export type ObjectEntries<T> =
 export function entries<O extends object>(init: O): ObjectEntries<O> {
   return Object.entries(init) as any;
 }
+
+/**
+ * @alias to GetFieldByDotNotation
+ */
+export type ValueByPath<Obj, DotNotation> = GetFieldByDotNotation<
+  Obj,
+  DotNotation
+>;
+
+// get an object field from a given dot notation
+// eg: GetFieldByDotNotation<{a: { b: 1 }}, 'a.b'> === 1
+export type GetFieldByDotNotation<Obj, DotNotation> =
+  // When array
+  DotNotation extends `${number}`
+    ? number extends keyof Obj
+      ? Obj[number]
+      : undefined
+    : //
+
+    // When other objects (not array)
+    DotNotation extends keyof Obj
+    ? Obj[DotNotation]
+    : DotNotation extends `${infer Left}.${infer Right}`
+    ? Left extends keyof Obj
+      ?
+          | GetFieldByDotNotation<Exclude<Obj[Left], undefined>, Right>
+          | Extract<Obj[Left], undefined>
+      : undefined
+    : undefined;
