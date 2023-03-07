@@ -26,10 +26,7 @@ export function getPackageRunnerUtils(jsonPath: string) {
     json,
     cwd,
     basename,
-    names: new Set([
-      json.name,
-      basename,
-    ]),
+    names: new Set([json.name, basename]),
     saveJSON() {
       writePackageJSON(jsonPath, json);
     },

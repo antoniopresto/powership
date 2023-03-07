@@ -54,10 +54,7 @@ export function objectDiffPaths<Obj extends AnyRecord>(
       pushDiff({
         ...difference,
         kind: difference.item.kind,
-        path: [
-          ...difference.path!,
-          difference.index,
-        ],
+        path: [...difference.path!, difference.index],
       } as any);
       return;
     }

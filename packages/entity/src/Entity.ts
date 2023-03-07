@@ -40,7 +40,7 @@ import {
   tupleEnum,
   ulid,
 } from '@swind/utils';
-import { hooks } from 'plugin-hooks';
+import { hooks } from 'plugin-hooks'; // FIXME use plugin-hooks 2.0 from utils
 
 import {
   graphQLFilterToTransporterFilter,

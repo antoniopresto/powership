@@ -2,7 +2,6 @@ import {
   assertEqual,
   BJSON,
   createStore,
-  hooks,
   nonNullValues,
   RuntimeError,
 } from '@swind/utils';
@@ -62,10 +61,10 @@ import { GraphQLUlidType } from './GraphQLUlidType';
 
 export function createHooks() {
   return {
-    onField: hooks.parallel<ConvertFieldResult, GraphQLFieldConfig<any, any>>(),
-    onFieldConfigMap: hooks.parallel<GraphQLFieldConfigMap<any, any>>(),
-    onFieldResult: hooks.parallel<ConvertFieldResult>(),
-    willCreateObjectType: hooks.parallel<GraphQLFieldConfigMap<any, any>>(),
+    // onField: hooks.parallel<ConvertFieldResult, GraphQLFieldConfig<any, any>>(),
+    // onFieldConfigMap: hooks.parallel<GraphQLFieldConfigMap<any, any>>(),
+    // onFieldResult: hooks.parallel<ConvertFieldResult>(),
+    // willCreateObjectType: hooks.parallel<GraphQLFieldConfigMap<any, any>>(),
   };
 }
 
@@ -247,8 +246,7 @@ export class GraphQLParser {
             path: path || [objectId],
           });
 
-          hooks.onFieldResult.exec(field);
-
+          // hooks.onFieldResult.exec(field);
           builders.push(field);
         });
 
@@ -272,7 +270,7 @@ export class GraphQLParser {
 
           fieldsConfigMap[next.fieldName] = field;
 
-          hooks.onField.exec(next, field);
+          // hooks.onField.exec(next, field);
         }
         builders.forEach(_useConvertFieldResult);
 
@@ -291,9 +289,9 @@ export class GraphQLParser {
           );
         });
 
-        hooks.onFieldConfigMap.exec(fieldsConfigMap);
+        // hooks.onFieldConfigMap.exec(fieldsConfigMap);
+        // hooks.willCreateObjectType.exec(fieldsConfigMap);
 
-        hooks.willCreateObjectType.exec(fieldsConfigMap);
         return fieldsConfigMap;
       };
 

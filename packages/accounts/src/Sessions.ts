@@ -1,11 +1,10 @@
 import {
+  createAsyncPlugin,
   hashString,
-  hooks,
   NodeLogger,
   nonNullValues,
   StringValue,
   ulid,
-  Waterfall,
 } from '@swind/utils';
 
 import { AccountDocument, AccountEntity } from './entity/AccountEntity';
@@ -43,14 +42,14 @@ export class Sessions {
     this.hooks = createAccountSessionHooks(options);
     const self = this;
 
-    this.hooks.onRequest.register(async function sessionHandler(request) {
+    this.hooks.onRequest.pushMiddleware(async function sessionHandler(request) {
       await self.trySetSession(request);
       return request;
     });
   }
 
   handleRequest = async <T extends SessionRequest>(request: T): Promise<T> => {
-    return (await this.hooks.onRequest.exec(request, {})) as T; // the first hook handler is registered in constructor
+    return (await this.hooks.onRequest.dispatch(request, {})) as T; // the first hook handler is registered in constructor
   };
 
   getConnectionInfo = (request: SessionRequest): ConnectionInformation => {
@@ -81,7 +80,7 @@ export class Sessions {
         secret: await this.getTokenSecret(sessionRequest),
       });
 
-      const res = await this.hooks.onRefreshTokens.exec(
+      const res = await this.hooks.onRefreshTokens.dispatch(
         { ...sessionRequest, result },
         sessionRequest
       );
@@ -134,7 +133,7 @@ export class Sessions {
         op: 'update',
       });
     } catch (caughtError: any) {
-      const error = await this.hooks.onUpsertSessionError.exec(
+      const error = await this.hooks.onUpsertSessionError.dispatch(
         caughtError,
         request
       );
@@ -418,18 +417,12 @@ export function createAccountSessionHooks(_options: SessionsOptions) {
   // }
 
   return {
-    onRequest: hooks.waterfall() as Waterfall<
-      SessionRequest,
-      SessionHooksContext
-    >,
-    onRefreshTokens: hooks.waterfall() as unknown as Waterfall<
+    onRequest: createAsyncPlugin<SessionRequest, SessionHooksContext>(),
+    onRefreshTokens: createAsyncPlugin<
       SessionRequest & { result: LoginResult },
       SessionHooksContext
-    >,
-    onUpsertSessionError: hooks.waterfall() as unknown as Waterfall<
-      Error,
-      SessionRequest
-    >,
+    >(),
+    onUpsertSessionError: createAsyncPlugin<Error, SessionRequest>(),
   };
 }
 

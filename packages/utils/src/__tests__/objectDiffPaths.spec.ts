@@ -16,19 +16,11 @@ describe('objectDiffPaths', () => {
   it('should return the differences between two nested objects', () => {
     const obj1 = {
       a: { b: 1, c: 2 },
-      d: [
-        3,
-        4,
-        { e: 5 },
-      ],
+      d: [3, 4, { e: 5 }],
     };
     const obj2 = {
       a: { b: 1, c: 3 },
-      d: [
-        3,
-        4,
-        { e: 6 },
-      ],
+      d: [3, 4, { e: 6 }],
     };
     const diff = objectDiffPaths(obj1, obj2);
     expect(diff).toEqual([
@@ -38,21 +30,14 @@ describe('objectDiffPaths', () => {
         oldValue: 2,
         path: 'a.c',
 
-        paths: [
-          'a',
-          'a.c',
-        ],
+        paths: ['a', 'a.c'],
       },
       {
         kind: 'update',
         newValue: 6,
         oldValue: 5,
         path: 'd.2.e',
-        paths: [
-          'd',
-          'd.2',
-          'd.2.e',
-        ],
+        paths: ['d', 'd.2', 'd.2.e'],
       },
     ]);
   });
@@ -62,11 +47,7 @@ describe('objectDiffPaths', () => {
     const obj2 = {
       a: 2,
       b: 'world',
-      d: [
-        1,
-        2,
-        3,
-      ],
+      d: [1, 2, 3],
     };
     const diff = objectDiffPaths(obj1, obj2);
     expect(diff).toEqual([
@@ -93,11 +74,7 @@ describe('objectDiffPaths', () => {
       },
       {
         kind: 'add',
-        newValue: [
-          1,
-          2,
-          3,
-        ],
+        newValue: [1, 2, 3],
         oldValue: undefined,
         path: 'd',
         paths: ['d'],
@@ -139,30 +116,20 @@ describe('objectDiffPaths', () => {
         newValue: 3,
         oldValue: 2,
         path: 'b.c',
-        paths: [
-          'b',
-          'b.c',
-        ],
+        paths: ['b', 'b.c'],
       },
       {
         kind: 'update',
         newValue: expect.any(Date),
         oldValue: 1,
         path: 'b.x.c',
-        paths: [
-          'b',
-          'b.x',
-          'b.x.c',
-        ],
+        paths: ['b', 'b.x', 'b.x.c'],
       },
       {
         kind: 'add',
         newValue: 4,
         path: 'b.d',
-        paths: [
-          'b',
-          'b.d',
-        ],
+        paths: ['b', 'b.d'],
       },
     ]);
   });
@@ -179,20 +146,14 @@ describe('objectDiffPaths', () => {
         newValue: 2,
         oldValue: 1,
         path: 'a.b',
-        paths: [
-          'a',
-          'a.b',
-        ],
+        paths: ['a', 'a.b'],
       },
       {
         kind: 'add',
         newValue: 3,
         oldValue: undefined,
         path: 'a.c',
-        paths: [
-          'a',
-          'a.c',
-        ],
+        paths: ['a', 'a.c'],
       },
     ]);
   });
@@ -279,10 +240,7 @@ describe('objectDiffPaths', () => {
         newValue: 'world',
         oldValue: 'hello',
         path: 'a.b',
-        paths: [
-          'a',
-          'a.b',
-        ],
+        paths: ['a', 'a.b'],
       },
       {
         kind: 'update',
@@ -348,21 +306,13 @@ describe('objectDiffPaths', () => {
   test('should return the correct differences when given objects with properties of different object types', () => {
     const obj1 = { a: { b: 1 } };
     const obj2 = {
-      a: [
-        1,
-        2,
-        3,
-      ],
+      a: [1, 2, 3],
     };
     const result = objectDiffPaths(obj1, obj2);
     expect(result).toEqual([
       {
         kind: 'update',
-        newValue: [
-          1,
-          2,
-          3,
-        ],
+        newValue: [1, 2, 3],
         oldValue: { b: 1 },
         path: 'a',
         paths: ['a'],
@@ -382,19 +332,13 @@ describe('objectDiffPaths', () => {
         oldValue: expect.any(Function),
         newValue: expect.any(Function),
         path: 'a.b',
-        paths: [
-          'a',
-          'a.b',
-        ],
+        paths: ['a', 'a.b'],
       },
       {
         kind: 'add',
         newValue: 1,
         path: 'a.c',
-        paths: [
-          'a',
-          'a.c',
-        ],
+        paths: ['a', 'a.c'],
       },
     ]);
   });
@@ -412,10 +356,7 @@ describe('objectDiffPaths', () => {
         newValue: date2,
         oldValue: date1,
         path: 'a.b',
-        paths: [
-          'a',
-          'a.b',
-        ],
+        paths: ['a', 'a.b'],
       },
     ]);
   });
@@ -500,20 +441,13 @@ describe('objectDiffPaths', () => {
   test('should handle native object properties correctly', () => {
     const obj1 = {
       a: {
-        b: [
-          'x',
-          'yyy',
-        ],
+        b: ['x', 'yyy'],
       },
       c: 1,
     };
     const obj2 = {
       a: {
-        b: [
-          'x',
-          'y',
-          'z',
-        ],
+        b: ['x', 'y', 'z'],
       },
       c: 2,
     };
@@ -524,22 +458,14 @@ describe('objectDiffPaths', () => {
         kind: 'add',
         newValue: 'z',
         path: 'a.b.2',
-        paths: [
-          'a',
-          'a.b',
-          'a.b.2',
-        ],
+        paths: ['a', 'a.b', 'a.b.2'],
       },
       {
         kind: 'update',
         newValue: 'y',
         oldValue: 'yyy',
         path: 'a.b.1',
-        paths: [
-          'a',
-          'a.b',
-          'a.b.1',
-        ],
+        paths: ['a', 'a.b', 'a.b.1'],
       },
       {
         kind: 'update',

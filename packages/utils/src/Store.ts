@@ -1,10 +1,10 @@
 import { DotNotations } from 'aggio';
+import { createSyncPlugin, SyncPlugin } from 'plugin-hooks';
 
 import { ensureArray } from './ensureArray';
 import { getByPath } from './getByPath';
-import { hooks as Hooks, Parallel } from './hooks';
 import { simpleObjectHash } from './simpleObjectHash';
-import { ValueByPath, ObjectEntries } from './typeUtils';
+import { ObjectEntries, ValueByPath } from './typeUtils';
 
 export type InternalEvent = 'PRUNING' | 'INITIAL' | 'CLEAR';
 
@@ -70,18 +70,18 @@ export interface Store<
   hashBy: string[] | null;
 
   hooks: {
-    get: Parallel<Nullable<StoreEvent<K, V>>, undefined>;
-    set: Parallel<StoreEvent<K, V>, undefined>;
-    remove: Parallel<Nullable<StoreEvent<K, V>>, undefined>;
-    missingKeyError: Parallel<
+    get: SyncPlugin<Nullable<StoreEvent<K, V>>, undefined>;
+    set: SyncPlugin<StoreEvent<K, V>, undefined>;
+    remove: SyncPlugin<Nullable<StoreEvent<K, V>>, undefined>;
+    missingKeyError: SyncPlugin<
       { message: string; [K: string]: unknown },
       unknown
     >;
   };
-  onGet: this['hooks']['get']['register'];
-  onSet: this['hooks']['set']['register'];
-  onRemove: this['hooks']['remove']['register'];
-  onMissingKeyError: this['hooks']['missingKeyError']['register'];
+  onGet: this['hooks']['get']['pushMiddleware'];
+  onSet: this['hooks']['set']['pushMiddleware'];
+  onRemove: this['hooks']['remove']['pushMiddleware'];
+  onMissingKeyError: this['hooks']['missingKeyError']['pushMiddleware'];
   entries: [K, V][];
   values: V[];
   keys: K[];
@@ -150,21 +150,16 @@ export function createStore<
   let indexes = {} as Record<any, number>;
 
   const hooks: Store['hooks'] = {
-    set: Hooks.parallel(),
-    remove: Hooks.parallel(),
-    get: Hooks.parallel(),
-    missingKeyError: Hooks.parallel(),
+    set: createSyncPlugin(),
+    remove: createSyncPlugin(),
+    get: createSyncPlugin(),
+    missingKeyError: createSyncPlugin(),
   };
 
   if (values) {
-    values.map(
-      ([
-        k,
-        v,
-      ]) => {
-        set(k, v, { silently: true, meta: 'INITIAL' });
-      }
-    );
+    values.map(([k, v]) => {
+      set(k, v, { silently: true, meta: 'INITIAL' });
+    });
     _reindex();
   }
 
@@ -186,20 +181,14 @@ export function createStore<
     const index = has(key);
 
     if (index) {
-      entries[index] = [
-        key,
-        value,
-      ];
+      entries[index] = [key, value];
     } else {
       if (entries.length > maxLength - 1) {
         const firstKey = entries[0];
         remove(firstKey[0], { meta: 'PRUNING' });
       }
       indexes[key] = entries.length;
-      entries.push([
-        key,
-        value,
-      ]);
+      entries.push([key, value]);
     }
 
     if (eventOptions?.meta !== 'INITIAL') {
@@ -216,7 +205,7 @@ export function createStore<
     };
 
     if (!eventOptions?.silently) {
-      hooks.set.exec(res);
+      hooks.set.dispatch(res);
     }
 
     return res;
@@ -251,7 +240,7 @@ export function createStore<
     };
 
     if (!eventOptions?.silently) {
-      hooks.get.exec(res);
+      hooks.get.dispatch(res);
     }
 
     if (!res.exists) {
@@ -281,7 +270,7 @@ export function createStore<
     };
 
     if (!eventOptions?.silently) {
-      hooks.remove.exec(res);
+      hooks.remove.dispatch(res);
     }
 
     return res;
@@ -300,16 +289,11 @@ export function createStore<
     groups = ensureArray(groups);
 
     groups.forEach((group) => {
-      entries.forEach(
-        ([
-          ,
-          value,
-        ]) => {
-          const key = (getByPath(value, group) ?? onNull) + '';
-          res[key] = res[key] || [];
-          res[key].push(value);
-        }
-      );
+      entries.forEach(([, value]) => {
+        const key = (getByPath(value, group) ?? onNull) + '';
+        res[key] = res[key] || [];
+        res[key].push(value);
+      });
     });
 
     return res;
@@ -323,30 +307,23 @@ export function createStore<
 
     const res = Object.create(null);
 
-    Object.entries(_grouped).forEach(
-      ([
-        key,
-        items,
-      ]) => {
-        if (items.length > 1) {
-          switch (onMany) {
-            case 'error': {
-              return errors.push(
-                `Found ${items.length} items with key "${key}"`
-              );
-            }
-            case 'first': {
-              return (res[key] = items[0]);
-            }
-            case 'last': {
-              return (res[key] = items[items.length - 1]);
-            }
+    Object.entries(_grouped).forEach(([key, items]) => {
+      if (items.length > 1) {
+        switch (onMany) {
+          case 'error': {
+            return errors.push(`Found ${items.length} items with key "${key}"`);
+          }
+          case 'first': {
+            return (res[key] = items[0]);
+          }
+          case 'last': {
+            return (res[key] = items[items.length - 1]);
           }
         }
-
-        res[key] = items[0];
       }
-    );
+
+      res[key] = items[0];
+    });
 
     if (errors.length) {
       throw new Error(errors.join('\n'));
@@ -360,20 +337,15 @@ export function createStore<
 
     const store = createStore();
 
-    Object.entries(groups).forEach(
-      ([
-        key,
-        values,
-      ]) => {
-        values.forEach((value) => {
-          Object.defineProperty(value, groupKey, {
-            value: key,
-            enumerable: false,
-          });
-          store.set(key, values);
+    Object.entries(groups).forEach(([key, values]) => {
+      values.forEach((value) => {
+        Object.defineProperty(value, groupKey, {
+          value: key,
+          enumerable: false,
         });
-      }
-    );
+        store.set(key, values);
+      });
+    });
 
     return store as any;
   };
@@ -381,10 +353,10 @@ export function createStore<
   const res: Store<any, any> = {
     hashBy,
     hooks,
-    onGet: hooks.get.register,
-    onSet: hooks.set.register,
-    onRemove: hooks.remove.register,
-    onMissingKeyError: hooks.missingKeyError.register,
+    onGet: hooks.get.pushMiddleware,
+    onSet: hooks.set.pushMiddleware,
+    onRemove: hooks.remove.pushMiddleware,
+    onMissingKeyError: hooks.missingKeyError.pushMiddleware,
     entries,
     remove,
     set,

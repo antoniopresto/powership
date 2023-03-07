@@ -1,6 +1,6 @@
 {
   "name": "@swind/utils",
-  "version": "0.2.16",
+  "version": "0.2.17",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -61,7 +61,7 @@
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@swind/babel-plugins": "0.2.16",
+    "@swind/babel-plugins": "0.2.17",
     "@types/big.js": "6.1.6",
     "@types/deep-diff": "^1.0.2",
     "@types/ejson": "2.2.0",
