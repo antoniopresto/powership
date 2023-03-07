@@ -1,12 +1,12 @@
-import { tsfyWriter, TSFyWriterConfig } from '@swind/schema';
+import { tsfyWriter } from '@swind/schema';
 
 import { EntityStore } from '../EntityStore';
 
 import { tsFyEntityParser } from './tsfyEntityParser';
 
-export interface TsfyEntitiesWriterConfig extends TSFyWriterConfig {}
-
-export function tsfyEntitiesWriter(config: TsfyEntitiesWriterConfig = {}) {
+// export interface TsfyEntitiesWriterConfig extends TSFyWriterConfig {}
+// FIXME config
+export function tsfyEntitiesWriter(config: any = {}): any {
   const { wrappers = [] } = config;
 
   wrappers.push([

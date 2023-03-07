@@ -22,7 +22,7 @@ export async function generateTypes(
 const extendedUtils = `
 import type { Compute } from '@swind/utils';
 
-export type ULID = string;
+export type Ulid = string;
 
 export type UseGraphQLConfig<K extends GraphQLEntry['name']> =
   ExpectedGraphQLClient[K]['args'] extends undefined

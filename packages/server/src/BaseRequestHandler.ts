@@ -9,7 +9,7 @@ import {
 import { StatusCodes as StatusCodesEnum } from 'http-status-codes';
 import qs, { ParsedQs } from 'qs';
 
-import { AppLogger } from './AppLogger';
+import { ServerLogs } from './ServerLogs';
 import { UnhandledSymbol } from './Symbol';
 import { createRouteMatcher, RouteMatcher } from './routeMatch';
 
@@ -19,7 +19,7 @@ export type BaseRequestHandlerInit = {
   url?: string;
   headers?: HeaderRecordInit | Headers;
   body?: RequestBody;
-  statusCode?: AppResponseStatus;
+  statusCode?: ServerResponseStatus;
   method?: string;
 };
 
@@ -127,7 +127,7 @@ export type GraphQLResponseRecord = {
 export class BaseRequestHandler extends BaseRequest {
   body: string | Record<string, any> | UnhandledSymbol;
   headers: Headers;
-  statusCode: AppResponseStatus;
+  statusCode: ServerResponseStatus;
 
   constructor(input: BaseRequestHandlerInit = {}) {
     super(input);
@@ -191,7 +191,7 @@ export class BaseRequestHandler extends BaseRequest {
     return createRouteMatcher(routePattern);
   }
 
-  static httpStatusCode(statusCode: AppResponseStatus): number {
+  static httpStatusCode(statusCode: ServerResponseStatus): number {
     if (statusCode in StatusCodesEnum) {
       if (statusCode?.toString().match(/^\d*$/)) {
         return +statusCode;
@@ -212,7 +212,7 @@ export class BaseRequestHandler extends BaseRequest {
       try {
         return JSON.stringify(body);
       } catch (e) {
-        AppLogger.fatal(e);
+        ServerLogs.fatal(e);
         throw new InternalServerError();
       }
     }
@@ -238,7 +238,7 @@ export class BaseRequestHandler extends BaseRequest {
       return body as object;
     }
 
-    AppLogger.fatal(`Invalid body`, inspectObject(body));
+    ServerLogs.fatal(`Invalid body`, inspectObject(body));
     return {};
   }
 
@@ -308,4 +308,6 @@ export type HeaderRecordInit = {
   [K: string]: string | boolean | string[] | undefined;
 };
 
-export type AppResponseStatus = keyof typeof StatusCodesEnum | StatusCodesEnum;
+export type ServerResponseStatus =
+  | keyof typeof StatusCodesEnum
+  | StatusCodesEnum;

@@ -1,36 +1,28 @@
-import { getObjectDiff, getObjectDiffPaths } from '../objectDiff';
+import { objectDiffPaths } from '../objectDiff';
 
-describe('getObjectDiffPaths', () => {
+describe('objectDiffPaths', () => {
   test('should return an empty array when given identical objects', () => {
     const obj = { a: 1, b: 2, c: 3 };
-    const result = getObjectDiffPaths(obj, { ...obj });
+    const result = objectDiffPaths(obj, { ...obj });
     expect(result).toEqual([]);
   });
 
   test('should return an empty array when given two empty objects', () => {
     const obj = {};
-    const result = getObjectDiffPaths(obj, {});
+    const result = objectDiffPaths(obj, {});
     expect(result).toEqual([]);
   });
 
   it('should return the differences between two nested objects', () => {
     const obj1 = {
       a: { b: 1, c: 2 },
-      d: [
-        3,
-        4,
-        { e: 5 },
-      ],
+      d: [3, 4, { e: 5 }],
     };
     const obj2 = {
       a: { b: 1, c: 3 },
-      d: [
-        3,
-        4,
-        { e: 6 },
-      ],
+      d: [3, 4, { e: 6 }],
     };
-    const diff = getObjectDiff(obj1, obj2);
+    const diff = objectDiffPaths(obj1, obj2);
     expect(diff).toEqual([
       {
         kind: 'update',
@@ -38,21 +30,14 @@ describe('getObjectDiffPaths', () => {
         oldValue: 2,
         path: 'a.c',
 
-        paths: [
-          'a',
-          'a.c',
-        ],
+        paths: ['a', 'a.c'],
       },
       {
         kind: 'update',
         newValue: 6,
         oldValue: 5,
         path: 'd.2.e',
-        paths: [
-          'd',
-          'd.2',
-          'd.2.e',
-        ],
+        paths: ['d', 'd.2', 'd.2.e'],
       },
     ]);
   });
@@ -62,13 +47,9 @@ describe('getObjectDiffPaths', () => {
     const obj2 = {
       a: 2,
       b: 'world',
-      d: [
-        1,
-        2,
-        3,
-      ],
+      d: [1, 2, 3],
     };
-    const diff = getObjectDiff(obj1, obj2);
+    const diff = objectDiffPaths(obj1, obj2);
     expect(diff).toEqual([
       {
         kind: 'update',
@@ -93,11 +74,7 @@ describe('getObjectDiffPaths', () => {
       },
       {
         kind: 'add',
-        newValue: [
-          1,
-          2,
-          3,
-        ],
+        newValue: [1, 2, 3],
         oldValue: undefined,
         path: 'd',
         paths: ['d'],
@@ -108,7 +85,7 @@ describe('getObjectDiffPaths', () => {
   test('should return the correct differences when given objects with different data types', () => {
     const obj1 = { a: 'hello', b: 123 };
     const obj2 = { a: 'world', b: '456' };
-    const result = getObjectDiffPaths(obj1, obj2);
+    const result = objectDiffPaths(obj1, obj2);
     expect(result).toEqual([
       {
         kind: 'update',
@@ -131,7 +108,7 @@ describe('getObjectDiffPaths', () => {
     const obj1 = { a: 1, b: { c: 2, x: { c: 1 } } };
     const obj2 = { a: 1, b: { c: 3, d: 4, x: { c: new Date() } } };
 
-    const result = getObjectDiffPaths(obj1, obj2);
+    const result = objectDiffPaths(obj1, obj2);
 
     expect(result).toEqual([
       {
@@ -139,30 +116,20 @@ describe('getObjectDiffPaths', () => {
         newValue: 3,
         oldValue: 2,
         path: 'b.c',
-        paths: [
-          'b',
-          'b.c',
-        ],
+        paths: ['b', 'b.c'],
       },
       {
         kind: 'update',
         newValue: expect.any(Date),
         oldValue: 1,
         path: 'b.x.c',
-        paths: [
-          'b',
-          'b.x',
-          'b.x.c',
-        ],
+        paths: ['b', 'b.x', 'b.x.c'],
       },
       {
         kind: 'add',
         newValue: 4,
         path: 'b.d',
-        paths: [
-          'b',
-          'b.d',
-        ],
+        paths: ['b', 'b.d'],
       },
     ]);
   });
@@ -171,7 +138,7 @@ describe('getObjectDiffPaths', () => {
     const obj1 = { a: { b: 1 } };
     const obj2 = { a: { b: 2, c: 3 } };
 
-    const result = getObjectDiffPaths(obj1, obj2);
+    const result = objectDiffPaths(obj1, obj2);
 
     expect(result).toEqual([
       {
@@ -179,20 +146,14 @@ describe('getObjectDiffPaths', () => {
         newValue: 2,
         oldValue: 1,
         path: 'a.b',
-        paths: [
-          'a',
-          'a.b',
-        ],
+        paths: ['a', 'a.b'],
       },
       {
         kind: 'add',
         newValue: 3,
         oldValue: undefined,
         path: 'a.c',
-        paths: [
-          'a',
-          'a.c',
-        ],
+        paths: ['a', 'a.c'],
       },
     ]);
   });
@@ -201,7 +162,7 @@ describe('getObjectDiffPaths', () => {
     const obj1 = { a: 1, b: null };
     const obj2 = { a: 2, b: 3 };
 
-    const result = getObjectDiffPaths(obj1, obj2);
+    const result = objectDiffPaths(obj1, obj2);
 
     expect(result).toEqual([
       {
@@ -225,7 +186,7 @@ describe('getObjectDiffPaths', () => {
     const obj1 = { a: 1, b: undefined };
     const obj2 = { a: 2, b: 3 };
 
-    const result = getObjectDiffPaths(obj1, obj2);
+    const result = objectDiffPaths(obj1, obj2);
 
     expect(result).toEqual([
       {
@@ -249,7 +210,7 @@ describe('getObjectDiffPaths', () => {
     const obj1 = { a: 1, b: 2 };
     const obj2 = { b: 3, a: 2 };
 
-    const result = getObjectDiffPaths(obj1, obj2);
+    const result = objectDiffPaths(obj1, obj2);
 
     expect(result).toEqual([
       {
@@ -272,17 +233,14 @@ describe('getObjectDiffPaths', () => {
   test('should return the correct differences when given objects with properties of different types', () => {
     const obj1 = { a: { b: 'hello' }, c: 123 };
     const obj2 = { a: { b: 'world' }, c: '456' };
-    const result = getObjectDiffPaths(obj1, obj2);
+    const result = objectDiffPaths(obj1, obj2);
     expect(result).toEqual([
       {
         kind: 'update',
         newValue: 'world',
         oldValue: 'hello',
         path: 'a.b',
-        paths: [
-          'a',
-          'a.b',
-        ],
+        paths: ['a', 'a.b'],
       },
       {
         kind: 'update',
@@ -297,7 +255,7 @@ describe('getObjectDiffPaths', () => {
   test('should return the correct differences when given objects with null or undefined property values', () => {
     const obj1 = { a: 1, b: null };
     const obj2 = { a: 2, b: undefined };
-    const result = getObjectDiffPaths(obj1, obj2);
+    const result = objectDiffPaths(obj1, obj2);
     expect(result).toEqual([
       {
         kind: 'update',
@@ -319,7 +277,7 @@ describe('getObjectDiffPaths', () => {
   test('should return the correct differences when given objects with falsey property values', () => {
     const obj1 = { a: false, b: 0, c: '' };
     const obj2 = { a: true, b: 1, c: 'hello' };
-    const result = getObjectDiffPaths(obj1, obj2);
+    const result = objectDiffPaths(obj1, obj2);
     expect(result).toEqual([
       {
         kind: 'update',
@@ -348,21 +306,13 @@ describe('getObjectDiffPaths', () => {
   test('should return the correct differences when given objects with properties of different object types', () => {
     const obj1 = { a: { b: 1 } };
     const obj2 = {
-      a: [
-        1,
-        2,
-        3,
-      ],
+      a: [1, 2, 3],
     };
-    const result = getObjectDiffPaths(obj1, obj2);
+    const result = objectDiffPaths(obj1, obj2);
     expect(result).toEqual([
       {
         kind: 'update',
-        newValue: [
-          1,
-          2,
-          3,
-        ],
+        newValue: [1, 2, 3],
         oldValue: { b: 1 },
         path: 'a',
         paths: ['a'],
@@ -374,7 +324,7 @@ describe('getObjectDiffPaths', () => {
     const obj1 = { a: { b: () => {} } };
     const obj2 = { a: { b: () => {}, c: 1 } };
 
-    const result = getObjectDiffPaths(obj1, obj2);
+    const result = objectDiffPaths(obj1, obj2);
 
     expect(result).toEqual([
       {
@@ -382,19 +332,13 @@ describe('getObjectDiffPaths', () => {
         oldValue: expect.any(Function),
         newValue: expect.any(Function),
         path: 'a.b',
-        paths: [
-          'a',
-          'a.b',
-        ],
+        paths: ['a', 'a.b'],
       },
       {
         kind: 'add',
         newValue: 1,
         path: 'a.c',
-        paths: [
-          'a',
-          'a.c',
-        ],
+        paths: ['a', 'a.c'],
       },
     ]);
   });
@@ -404,17 +348,130 @@ describe('getObjectDiffPaths', () => {
     const date2 = new Date('2022-02-01');
     const obj1 = { a: { b: date1 } };
     const obj2 = { a: { b: date2 } };
-    const result = getObjectDiffPaths(obj1, obj2);
+    const result = objectDiffPaths(obj1, obj2);
     expect(result).toEqual([
       {
         kind: 'update',
         newValue: date2,
         oldValue: date1,
         path: 'a.b',
-        paths: [
-          'a',
-          'a.b',
-        ],
+        paths: ['a', 'a.b'],
+      },
+    ]);
+  });
+
+  test('should handle circular references correctly', () => {
+    const obj1: any = {
+      a: 'obj1.a',
+      b: { c: 'b' },
+    };
+
+    const obj2 = {
+      ...obj1,
+    };
+
+    obj2.e = obj2;
+
+    const result = objectDiffPaths(obj1, obj2);
+
+    expect(result).toEqual([
+      {
+        kind: 'add',
+        newValue: {
+          a: 'obj1.a',
+          b: {
+            c: 'b',
+          },
+          e: obj2,
+        },
+        path: 'e',
+        paths: ['e'],
+      },
+    ]);
+  });
+
+  test('should handle objects with Symbol properties correctly', () => {
+    const symbol1 = Symbol('test');
+    const symbol2 = Symbol('test');
+    const obj1 = { a: symbol1 };
+    const obj2 = { a: symbol2 };
+    const result = objectDiffPaths(obj1, obj2);
+    expect(result).toEqual([
+      {
+        kind: 'update',
+        newValue: symbol2,
+        oldValue: symbol1,
+        path: 'a',
+        paths: ['a'],
+      },
+    ]);
+  });
+
+  test('should handle NaN values correctly', () => {
+    const obj1 = { a: 1, b: NaN };
+    const obj2 = { a: 2, b: NaN };
+    const result = objectDiffPaths(obj1, obj2);
+    expect(result).toEqual([
+      {
+        kind: 'update',
+        newValue: 2,
+        oldValue: 1,
+        path: 'a',
+        paths: ['a'],
+      },
+    ]);
+  });
+
+  test('should handle Infinity values correctly', () => {
+    const obj1 = { a: 1, b: Infinity };
+    const obj2 = { a: 2, b: Infinity };
+    const result = objectDiffPaths(obj1, obj2);
+    expect(result).toEqual([
+      {
+        kind: 'update',
+        newValue: 2,
+        oldValue: 1,
+        path: 'a',
+        paths: ['a'],
+      },
+    ]);
+  });
+
+  test('should handle native object properties correctly', () => {
+    const obj1 = {
+      a: {
+        b: ['x', 'yyy'],
+      },
+      c: 1,
+    };
+    const obj2 = {
+      a: {
+        b: ['x', 'y', 'z'],
+      },
+      c: 2,
+    };
+    const result = objectDiffPaths(obj1, obj2);
+
+    expect(result).toEqual([
+      {
+        kind: 'add',
+        newValue: 'z',
+        path: 'a.b.2',
+        paths: ['a', 'a.b', 'a.b.2'],
+      },
+      {
+        kind: 'update',
+        newValue: 'y',
+        oldValue: 'yyy',
+        path: 'a.b.1',
+        paths: ['a', 'a.b', 'a.b.1'],
+      },
+      {
+        kind: 'update',
+        newValue: 2,
+        oldValue: 1,
+        path: 'c',
+        paths: ['c'],
       },
     ]);
   });

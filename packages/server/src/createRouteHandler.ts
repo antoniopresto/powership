@@ -1,16 +1,16 @@
-import type { App, CloseResponseFunction, Handler } from './App';
-import type { AppRequest } from './AppRequest';
-import type { AppResponse } from './AppResponse';
+import type { CloseResponseFunction, Handler, Server } from './Server';
+import type { ServerRequest } from './ServerRequest';
+import type { ServerResponse } from './ServerResponse';
 import { createHandler } from './createHandler';
 import type { GetRouteParams } from './routeMatch';
 import { createRouteMatcher } from './routeMatch';
 
 export type RouteHandlerContext<Path extends string = string> = {
   path: Path;
-  request: AppRequest;
-  response: AppResponse;
+  request: ServerRequest;
+  response: ServerResponse;
   close: CloseResponseFunction;
-  app: App;
+  app: Server;
   params: GetRouteParams<Path>;
 };
 

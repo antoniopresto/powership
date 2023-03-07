@@ -1,4 +1,4 @@
-import { diff } from 'deep-diff';
+import { Diff, diff } from 'deep-diff';
 
 import { getByPath } from './getByPath';
 
@@ -29,8 +29,17 @@ export function objectDiffPaths(
     return diffs;
   }
 
-  differences.forEach((difference) => {
+  function pushDiff(difference: Diff<any>) {
     const { kind } = difference;
+
+    if (kind === 'A') {
+      pushDiff({
+        ...difference,
+        kind: difference.item.kind,
+        path: [...difference.path!, difference.index],
+      } as any);
+      return;
+    }
 
     const paths = difference.path || [];
     const path = paths.join('.');
@@ -74,10 +83,12 @@ export function objectDiffPaths(
     });
 
     diffs.push(objectDiff);
+    return objectDiff;
+  }
+
+  differences.forEach((difference) => {
+    pushDiff(difference);
   });
 
   return diffs;
 }
-
-export const getObjectDiffPaths = objectDiffPaths;
-export const getObjectDiff = objectDiffPaths;

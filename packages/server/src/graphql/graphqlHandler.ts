@@ -5,8 +5,8 @@ import { AnyRecord, isProduction } from '@swind/utils';
 import { graphql } from 'graphql';
 import { renderPlaygroundPage } from 'graphql-playground-html';
 
-import { Handler } from '../App';
-import { AppLogger } from '../AppLogger';
+import { Handler } from '../Server';
+import { ServerLogs } from '../ServerLogs';
 import { createRouteHandler } from '../createRouteHandler';
 
 import { maskErrors } from './errorHandler';
@@ -176,7 +176,7 @@ function genPlaygroudResponse(playgroundAPIUrl: string) {
     };
   } catch (e) {
     console.error(e);
-    AppLogger.error(e);
+    ServerLogs.error(e);
     return {
       body: 'INVALID_REQUEST',
       statusCode: 400,

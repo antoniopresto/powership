@@ -1,23 +1,23 @@
 import { ms } from '@swind/utils';
 
-import { AppLogger } from './AppLogger';
 import {
-  AppResponseStatus,
   BaseRequestHandler,
   HeaderRecordInit,
+  ServerResponseStatus,
 } from './BaseRequestHandler';
+import { ServerLogs } from './ServerLogs';
 import { UnhandledSymbol } from './Symbol';
 
-export type AppResponseInit = {
+export type ServerResponseInit = {
   body?: string | Record<string, any> | UnhandledSymbol;
   headers?: HeaderRecordInit | Headers;
-  statusCode?: AppResponseStatus;
+  statusCode?: ServerResponseStatus;
 };
 
-export class AppResponse extends BaseRequestHandler {
+export class ServerResponse extends BaseRequestHandler {
   readonly type = 'RESPONSE';
 
-  constructor(input: AppResponseInit = {}) {
+  constructor(input: ServerResponseInit = {}) {
     super({
       body: input.body,
       headers: BaseRequestHandler.parseHeaders(input.headers),
@@ -29,7 +29,7 @@ export class AppResponse extends BaseRequestHandler {
         const strMaxAge = ms(maxAge as any);
         this.headers.set('Cache-Control', `max-age=${strMaxAge}`);
       } catch (e) {
-        AppLogger.error(e);
+        ServerLogs.error(e);
       }
     }
   }
@@ -38,7 +38,7 @@ export class AppResponse extends BaseRequestHandler {
     this.headers.set(name, value);
   };
 
-  static create = (input: AppResponseInit = {}): AppResponse => {
-    return new AppResponse(input);
+  static create = (input: ServerResponseInit = {}): ServerResponse => {
+    return new ServerResponse(input);
   };
 }

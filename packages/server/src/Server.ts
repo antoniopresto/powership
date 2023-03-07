@@ -6,20 +6,20 @@ import { Compute, nonNullValues } from '@swind/utils';
 import { InternalServerError, NotFound } from 'http-errors';
 import { createAsyncPlugin } from 'plugin-hooks';
 
-import { AppLogger } from './AppLogger';
-import { AppRequest } from './AppRequest';
-import { AppResponse } from './AppResponse';
 import { isHttpError, RequestBody } from './BaseRequestHandler';
+import { ServerLogs } from './ServerLogs';
+import { ServerRequest } from './ServerRequest';
+import { ServerResponse } from './ServerResponse';
 import { UnhandledSymbol } from './Symbol';
 import { _404 } from './_404';
 import { parseHTTPBody } from './bodyParserHandler';
 import { createHandler } from './createHandler';
 
-export type AppDefinition = {
+export type ServerDefinition = {
   handlers: Handler<any>[];
 };
 
-export class App {
+export class Server {
   defaultHandlers = [
     createHandler('defaultErrorHandler', {
       // Handling errors
@@ -28,13 +28,13 @@ export class App {
 
         // initial Response
 
-        AppLogger.error(error);
+        ServerLogs.error(error);
 
         const httpError = isHttpError(error)
           ? error
           : new InternalServerError();
 
-        const errorResponse = AppResponse.create(httpError);
+        const errorResponse = ServerResponse.create(httpError);
 
         close(errorResponse);
       },
@@ -46,20 +46,20 @@ export class App {
 
         const httpError = new NotFound();
         httpError.body = _404();
-        const errorResponse = AppResponse.create(httpError);
+        const errorResponse = ServerResponse.create(httpError);
 
         close(errorResponse);
       },
     }),
   ];
 
-  constructor(definition: AppDefinition) {
+  constructor(definition: ServerDefinition) {
     this.definitionInput = definition;
     this.handlers = [...definition.handlers, ...this.defaultHandlers];
   }
 
-  static create = (definition: AppDefinition) => {
-    return new App(definition);
+  static create = (definition: ServerDefinition) => {
+    return new Server(definition);
   };
 
   hooks = createHooks();
@@ -78,18 +78,20 @@ export class App {
     });
   };
 
-  usedDefinition?: AppDefinition;
+  usedDefinition?: ServerDefinition;
   hasStarted = false;
 
-  readonly definitionInput: AppDefinition | ((app: App) => AppDefinition);
+  readonly definitionInput:
+    | ServerDefinition
+    | ((app: Server) => ServerDefinition);
 
   readonly handlers: Handler[];
 
-  handleRequest = (request: AppRequest): Hope<AppResponse> => {
+  handleRequest = (request: ServerRequest): Hope<ServerResponse> => {
     let closed = false;
     const app = this;
 
-    const hopeForResponse = hope<AppResponse>();
+    const hopeForResponse = hope<ServerResponse>();
 
     (async () => {
       try {
@@ -127,12 +129,12 @@ export class App {
               hopeForResponse.resolve(finalResponse);
             } catch (e: any) {
               if (!(hopeForResponse.result || hopeForResponse.error)) {
-                onError(e).catch(AppLogger.error);
+                onError(e).catch(ServerLogs.error);
               }
             }
           };
 
-          let appResponse = AppResponse.create();
+          let appResponse = ServerResponse.create();
 
           request.body = await hooks.onParseBody.dispatch(request.body, {
             req: request,
@@ -175,10 +177,10 @@ export class App {
     return hopeForResponse;
   };
 
-  withServer: AppServerInfo | false = false;
+  withServer: ServerServerInfo | false = false;
 
-  start(port: number): Promise<AppStartResult>;
-  start(port?: undefined): Promise<App & { withServer: false }>;
+  start(port: number): Promise<ServerStartResult>;
+  start(port?: undefined): Promise<Server & { withServer: false }>;
   async start(port?: number | undefined) {
     const app = this;
 
@@ -187,7 +189,7 @@ export class App {
     }
 
     if (app.hasStarted) {
-      AppLogger.info('RESTARTING_APP');
+      ServerLogs.info('RESTARTING_APP');
       await this.closeServer();
     }
 
@@ -222,7 +224,7 @@ export class App {
           httpServerResponse
         );
 
-        const appRequest = AppRequest.create({
+        const appRequest = ServerRequest.create({
           body: requestBody,
           headers: httpServerRequest.headers,
           locals: {},
@@ -242,10 +244,10 @@ export class App {
         httpServerResponse.end(body);
       } catch (error) {
         console.trace(error);
-        AppLogger.error(error);
+        ServerLogs.error(error);
 
         if (httpServerResponse.headersSent) {
-          AppLogger.error(`ERROR_AFTER_HEADERS_SENT`, error);
+          ServerLogs.error(`ERROR_AFTER_HEADERS_SENT`, error);
         } else {
           const error = new InternalServerError();
           httpServerResponse.statusCode = error.statusCode;
@@ -267,7 +269,7 @@ export class App {
           const addressInfo = server.address();
 
           if (!addressInfo || typeof addressInfo !== 'object') {
-            AppLogger.info({ addressInfo });
+            ServerLogs.info({ addressInfo });
             throw new Error(`Failed to recovery server addressInfo.`);
           }
 
@@ -319,43 +321,45 @@ export type Handler<
   Data extends Record<string, any> | undefined = {} | undefined
 > = {
   name: string;
-  hooks: AppHooksRecord;
+  hooks: ServerHooksRecord;
   data: Data;
 };
 
-export type AppHooksRecord = {
-  [K in keyof AppHooks]?: Parameters<AppHooks[K]>[0] extends infer Register
+export type ServerHooksRecord = {
+  [K in keyof ServerHooks]?: Parameters<
+    ServerHooks[K]
+  >[0] extends infer Register
     ? Register
     : never;
 };
 
-export type AppHooks = ReturnType<typeof createHooks>;
+export type ServerHooks = ReturnType<typeof createHooks>;
 
 function createHooks() {
   return {
-    willStartServer: createAsyncPlugin<HTTP.Server, { app: App }>(),
-    started: createAsyncPlugin<HTTP.Server, { app: App }>(),
+    willStartServer: createAsyncPlugin<HTTP.Server, { app: Server }>(),
+    started: createAsyncPlugin<HTTP.Server, { app: Server }>(),
     onParseBody: createAsyncPlugin<
       RequestBody | UnhandledSymbol,
       {
-        req: AppRequest;
-        res: AppResponse;
-        app: App;
+        req: ServerRequest;
+        res: ServerResponse;
+        app: Server;
         close: CloseResponseFunction;
       }
     >(),
     onRequest: createAsyncPlugin<
-      AppRequest,
-      { response: AppResponse; app: App; close: CloseResponseFunction }
+      ServerRequest,
+      { response: ServerResponse; app: Server; close: CloseResponseFunction }
     >(),
     onResponse: createAsyncPlugin<
-      AppResponse,
-      { request: AppRequest; app: App; close: CloseResponseFunction }
+      ServerResponse,
+      { request: ServerRequest; app: Server; close: CloseResponseFunction }
     >(),
     onError: createAsyncPlugin<
-      AppResponse,
+      ServerResponse,
       {
-        request: AppRequest;
+        request: ServerRequest;
         error: Error;
         close: CloseResponseFunction;
       }
@@ -363,11 +367,11 @@ function createHooks() {
   };
 }
 
-export type AppServerInfo = Compute<{ server: HTTP.Server } & AddressInfo>;
+export type ServerServerInfo = Compute<{ server: HTTP.Server } & AddressInfo>;
 
-export type AppStartResult = App &
-  AppServerInfo & { withServer: AppServerInfo };
+export type ServerStartResult = Server &
+  ServerServerInfo & { withServer: ServerServerInfo };
 
 export interface CloseResponseFunction {
-  (response?: AppResponse | AppResponse['statusCode']): void;
+  (response?: ServerResponse | ServerResponse['statusCode']): void;
 }

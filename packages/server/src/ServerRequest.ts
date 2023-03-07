@@ -1,13 +1,13 @@
 import { Unauthorized } from 'http-errors';
 
-import { AppLogger } from './AppLogger';
 import {
   BaseRequestHandler,
   HeaderRecordInit,
   RequestBody,
 } from './BaseRequestHandler';
+import { ServerLogs } from './ServerLogs';
 
-export type AppRequestInit = {
+export type ServerRequestInit = {
   locals?: Record<string, unknown>;
   url: string | undefined;
   headers: HeaderRecordInit | Headers;
@@ -20,12 +20,12 @@ export type AppRequestInit = {
 export let __LOCAL_DEV_USERID__ =
   process.env.NODE_ENV === 'development' ? '__LOCAL_DEV_USERID__' : null;
 
-export class AppRequest extends BaseRequestHandler {
+export class ServerRequest extends BaseRequestHandler {
   private _userId?: string;
   private _permissions: Set<string>;
-  input: AppRequestInit;
+  input: ServerRequestInit;
 
-  constructor(input: AppRequestInit) {
+  constructor(input: ServerRequestInit) {
     super(input);
     this.input = input;
     const { locals = {}, userId, permissions = [] } = input;
@@ -47,7 +47,7 @@ export class AppRequest extends BaseRequestHandler {
   assertPermission(permission: string): boolean {
     const userId = this.userId();
     if (this.hasPermission(permission)) return true;
-    AppLogger.error('Unauthorized', { userId, permission });
+    ServerLogs.error('Unauthorized', { userId, permission });
     throw new Unauthorized();
   }
 
@@ -65,7 +65,7 @@ export class AppRequest extends BaseRequestHandler {
     return '';
   }
 
-  static create = (input: AppRequestInit): AppRequest => {
-    return new AppRequest(input);
+  static create = (input: ServerRequestInit): ServerRequest => {
+    return new ServerRequest(input);
   };
 }

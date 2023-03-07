@@ -1,21 +1,25 @@
 /*
- * Creates an App handler
- * See App tests for more examples
+ * Creates a Server request/response handler
+ * See Server tests for more examples
  */
-import type { AppHooksRecord, Handler } from './App';
+import type { Handler, ServerHooksRecord } from './Server';
 
 export function createHandler<Data extends Record<string, any>>(
   name: string,
-  hooks: AppHooksRecord,
+  hooks: ServerHooksRecord,
   data: Data
 ): Handler<Data>;
 
 export function createHandler(
   name: string,
-  hooks: AppHooksRecord
+  hooks: ServerHooksRecord
 ): Handler<undefined>;
 
-export function createHandler(name: string, hooks: AppHooksRecord, data?: any) {
+export function createHandler(
+  name: string,
+  hooks: ServerHooksRecord,
+  data?: any
+) {
   return {
     name,
     hooks,
