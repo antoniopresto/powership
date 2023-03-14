@@ -70,6 +70,9 @@ export * from './merge';
 export * from './mapper';
 export * from './reduceObject';
 export * from './stackTrace';
+export * from './pick';
+export * from './diffChecker';
+export * from './project';
 
 // @only-server
 export * from './logLevels';

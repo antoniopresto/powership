@@ -4,7 +4,7 @@ import { createSyncPlugin, SyncPlugin } from 'plugin-hooks';
 import { ensureArray } from './ensureArray';
 import { getByPath } from './getByPath';
 import { simpleObjectHash } from './simpleObjectHash';
-import { ObjectEntries, ValueByPath } from './typeUtils';
+import { ObjectEntries, Pick } from './typeUtils';
 
 export type InternalEvent = 'PRUNING' | 'INITIAL' | 'CLEAR';
 
@@ -52,7 +52,7 @@ export interface GroupByOptions {
 }
 
 export type RecordBy<Dict extends Record<string, any>, Field extends string> = {
-  [K in ValueByPath<Dict[keyof Dict], Field> extends infer Key
+  [K in Pick<Dict[keyof Dict], Field> extends infer Key
     ? Key extends string | number
       ? Key
       : string

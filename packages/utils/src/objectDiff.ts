@@ -8,15 +8,15 @@ import deepDiff, {
   DiffNew,
 } from 'deep-diff';
 
-import { getByPath } from './getByPath';
-import { AnyRecord, ObjectPath, ObjectUnion, ValueByPath } from './typeUtils';
+import { pick } from './pick';
+import { AnyRecord, ObjectPath, ObjectUnion, Pick } from './typeUtils';
 
 export type ObjectDiff<Obj extends AnyRecord = AnyRecord> = ObjectPath<
   Obj,
   5
 > extends infer Path
   ? Path extends unknown
-    ? ValueByPath<Obj, Path> extends infer Value
+    ? Pick<Obj, Path> extends infer Value
       ? {
           kind: 'add' | 'remove' | 'update';
           newValue: Value;
@@ -73,12 +73,12 @@ export function objectDiffPaths<Obj extends AnyRecord>(
     Object.defineProperties(objectDiff, {
       newValue: {
         get() {
-          return getByPath(newObject, path);
+          return pick(newObject, path);
         },
       },
       oldValue: {
         get() {
-          return getByPath(originObject, path);
+          return pick(originObject, path);
         },
       },
       paths: {

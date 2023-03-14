@@ -1,9 +1,9 @@
-import type * as T from './ts-toolbet';
+import type * as Toolbet from './ts-toolbet';
 
 export * from './ts-toolbet';
 export * from './Compute';
 
-export { T };
+export type { Toolbet as T };
 
 export const tuple = <T extends string[]>(...args: T) => args;
 
@@ -99,6 +99,9 @@ export type MaybeArray<T> = T | T[];
 export type ArrayType<T> = T extends Array<infer N> ? N : T;
 
 export type AnyRecord = Record<string, any>;
+
+export type AnyArray<T = any> = ReadonlyArray<T> | ArrayLike<T> | T[];
+export type AnyList<T = any> = AnyArray<T>;
 
 export type IfExtends<Param, Type, IfTrue, IfFalse> = Param extends Type
   ? IfTrue
@@ -301,10 +304,7 @@ export function entries<O extends object>(init: O): ObjectEntries<O> {
 /**
  * @alias to GetFieldByDotNotation
  */
-export type ValueByPath<Obj, DotNotation> = GetFieldByDotNotation<
-  Obj,
-  DotNotation
->;
+export type Pick<Obj, DotNotation> = GetFieldByDotNotation<Obj, DotNotation>;
 
 // get an object field from a given dot notation
 // eg: GetFieldByDotNotation<{a: { b: 1 }}, 'a.b'> === 1
