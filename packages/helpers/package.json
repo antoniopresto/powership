@@ -1,6 +1,6 @@
 {
   "name": "@swind/helpers",
-  "version": "0.2.17",
+  "version": "0.2.21",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
   "author": "antoniopresto <antoniopresto@gmail.com>",
@@ -34,8 +34,8 @@
     "inference"
   ],
   "dependencies": {
-    "@swind/utils": "0.2.17",
-    "solarwind": "0.2.17",
+    "@swind/utils": "0.2.21",
+    "solarwind": "0.2.21",
     "highlight.js": "11.7.0"
   },
   "devDependencies": {
@@ -43,8 +43,8 @@
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@swind/babel-plugins": "0.2.17",
-    "@swind/mongo": "0.2.17",
+    "@swind/babel-plugins": "0.2.21",
+    "@swind/mongo": "0.2.21",
     "@types/jest": "29.1.2",
     "@types/node": "16.18.3",
     "@typescript-eslint/eslint-plugin": "5.39.0",

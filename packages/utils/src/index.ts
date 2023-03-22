@@ -73,6 +73,7 @@ export * from './stackTrace';
 export * from './pick';
 export * from './diffChecker';
 export * from './project';
+export * from './State';
 
 // @only-server
 export * from './logLevels';
