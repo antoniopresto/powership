@@ -129,10 +129,7 @@ export class State<Values extends AnyRecord> {
   private schedule = (setter: AnyFunction, immediate = false) => {
     const { queueLimit, flushDelay } = this.config;
 
-    const [
-      nextState,
-      patches,
-    ] = this.produce(this.staging, setter);
+    const [nextState, patches] = this.produce(this.staging, setter);
 
     this.queue.push(...patches);
 
@@ -157,13 +154,12 @@ export class State<Values extends AnyRecord> {
 
     this.queue = [];
 
-    const [
-      nextState,
-      patches,
-      reversePatches,
-    ] = this.produce(main, function (draft) {
-      applyPatches(draft, queue);
-    });
+    const [nextState, patches, reversePatches] = this.produce(
+      main,
+      function (draft) {
+        applyPatches(draft, queue);
+      }
+    );
 
     this.pushHistory(...reversePatches);
 
@@ -223,14 +219,9 @@ export class State<Values extends AnyRecord> {
       if (typeof value === 'function') {
         value(draft);
       } else {
-        Object.entries(value).forEach(
-          ([
-            key,
-            _value,
-          ]) => {
-            draft[key] = _value;
-          }
-        );
+        Object.entries(value).forEach(([key, _value]) => {
+          draft[key] = _value;
+        });
       }
     }, immediate);
 
@@ -251,11 +242,10 @@ export class State<Values extends AnyRecord> {
     callback: AnyFunction
   ): [Values, StateChange[], StateChange[]] => {
     //
-    const [
-      nextState,
-      drafts,
-      reversePatches,
-    ] = produceWithPatches(value, callback);
+    const [nextState, drafts, reversePatches] = produceWithPatches(
+      value,
+      callback
+    );
 
     return [
       nextState,

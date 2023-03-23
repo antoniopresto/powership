@@ -1,6 +1,6 @@
 {
   "name": "logstorm",
-  "version": "0.2.21",
+  "version": "0.2.22",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -32,7 +32,7 @@
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@swind/babel-plugins": "0.2.21",
+    "@swind/babel-plugins": "0.2.22",
     "@types/node": "16.18.3",
     "@typescript-eslint/eslint-plugin": "5.39.0",
     "@typescript-eslint/parser": "5.39.0",

@@ -51,11 +51,7 @@ describe('State', () => {
 
   test('Array updates', () => {
     const initialState = {
-      array: [
-        0,
-        1,
-        2,
-      ],
+      array: [0, 1, 2],
     };
     const state = new State(initialState);
     state.set('array.1', 5);
@@ -159,11 +155,7 @@ describe('State', () => {
 
   test('Subscribe to array item updates', async () => {
     const initialState = {
-      items: [
-        0,
-        1,
-        2,
-      ],
+      items: [0, 1, 2],
     };
     const state = new State(initialState);
     const callback = jest.fn();
@@ -177,11 +169,7 @@ describe('State', () => {
 
   test('Subscribe to array updates', async () => {
     const initialState = {
-      items: [
-        0,
-        1,
-        2,
-      ],
+      items: [0, 1, 2],
     };
     const state = new State(initialState);
     const callback = jest.fn();
