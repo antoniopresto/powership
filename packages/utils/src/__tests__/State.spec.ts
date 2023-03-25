@@ -115,7 +115,7 @@ describe('State', () => {
   test('Apply state updates', () => {
     const initialState = { counter: 0 };
     const state = new State(initialState);
-    state.apply({ counter: 2 });
+    state.set({ counter: 2 });
 
     expect(state.get('counter')).toEqual(2);
   });

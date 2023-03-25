@@ -109,17 +109,38 @@ export class State<Values extends AnyRecord> {
     return pick(this.main, path);
   }
 
-  set = <
+  set<
+    Path extends StatePath<Values>,
+    Value extends GetFieldByDotPath<Values, Path>
+  >(path: Path, value: Value): this;
+
+  set<
     Path extends StatePath<Values>,
     Value extends GetFieldByDotPath<Values, Path>
   >(
-    path: Path,
-    value: Value
-  ): this => {
-    return this.schedule((draft) => {
-      setByPath(draft, path, value);
-    });
-  };
+    value: Partial<Values> | ((current: Draft<Values>) => MaybePromise<void>),
+    immediate?: boolean
+  ): this;
+
+  set(...args) {
+    if (typeof args[0] === 'string') {
+      const [
+        path,
+        value,
+      ] = args;
+
+      return this.schedule((draft) => {
+        setByPath(draft, path, value);
+      });
+    }
+
+    const [
+      value,
+      immediate,
+    ] = args;
+
+    return this._setState(value, immediate);
+  }
 
   setImmediate = <
     Path extends StatePath<Values>,
@@ -225,28 +246,6 @@ export class State<Values extends AnyRecord> {
     return this;
   };
 
-  apply = (
-    value: Partial<Values> | ((current: Draft<Values>) => MaybePromise<void>),
-    immediate = false
-  ) => {
-    this.schedule((draft) => {
-      if (typeof value === 'function') {
-        value(draft);
-      } else {
-        Object.entries(value).forEach(
-          ([
-            key,
-            _value,
-          ]) => {
-            draft[key] = _value;
-          }
-        );
-      }
-    }, immediate);
-
-    return this;
-  };
-
   private pushHistory = (changes: ChangeList) => {
     const { historyLimit } = this.config;
     if (!changes.differences.length) return;
@@ -272,7 +271,7 @@ export class State<Values extends AnyRecord> {
       });
     });
 
-    return this.apply(next, true);
+    return this.set(next, true);
   };
 
   undo = () => {
@@ -284,7 +283,7 @@ export class State<Values extends AnyRecord> {
       last.revert(draft);
     });
 
-    this.apply(next, true);
+    this.set(next, true);
     this.history.pop(); // removing the last undo from history, can be simply improved later
     return this;
   };
@@ -301,6 +300,28 @@ export class State<Values extends AnyRecord> {
       next,
       diff,
     ];
+  };
+
+  private _setState = (
+    value: Partial<Values> | ((current: Draft<Values>) => MaybePromise<void>),
+    immediate = false
+  ) => {
+    this.schedule((draft) => {
+      if (typeof value === 'function') {
+        value(draft);
+      } else {
+        Object.entries(value).forEach(
+          ([
+            key,
+            _value,
+          ]) => {
+            draft[key] = _value;
+          }
+        );
+      }
+    }, immediate);
+
+    return this;
   };
 }
 
