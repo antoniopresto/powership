@@ -1,12 +1,14 @@
-import { applyPatches, Draft, enablePatches, produceWithPatches } from 'immer';
+import { Draft, produce } from 'immer';
 import { ulid } from 'ulid';
 
 import { groupBy } from './groupBy';
+import { ChangeList } from './objectDiff';
 import { pick } from './pick';
 import { setByPath } from './setByPath';
 import {
   AnyFunction,
   AnyRecord,
+  Entries,
   GetFieldByDotPath,
   MaybePromise,
   ObjectDotNotations,
@@ -17,11 +19,10 @@ export type StatePath<Values> = ObjectDotNotations<Values> | '';
 export class StateConfig {
   flushDelay: number | false = 1;
   queueLimit = 100;
-  historyLimit = 500;
+  historyLimit = 3000;
 }
 
 export class State<Values extends AnyRecord> {
-  static patchesEnabled = false;
   private config = new StateConfig();
 
   // states
@@ -33,24 +34,32 @@ export class State<Values extends AnyRecord> {
     StateSubscription<any, any>
   >();
 
-  private queue: StateChange[] = [];
+  private queue: ChangeList[] = [];
+  private readonly history: ChangeList[] = [];
 
-  private readonly history: StateChange[] = [];
-
-  get stateId() {
-    return this.history[this.history.length - 1]?.id || '';
-  }
+  stateId = '';
 
   get current() {
-    return { ...this.staging };
+    return this.staging;
+  }
+
+  private utilsCache = {
+    id: '',
+    entries: [] as Entries<Values>,
+  };
+
+  get utils() {
+    if (this.utilsCache.id === this.stateId) return this.utilsCache;
+    this.utilsCache.id = this.stateId;
+    this.utilsCache.entries = Object.entries(this.current) as any;
+    return this.utilsCache;
+  }
+
+  get entries() {
+    return this.utils.entries;
   }
 
   constructor(value: Values, options?: Partial<StateConfig>) {
-    if (!State.patchesEnabled) {
-      enablePatches();
-      State.patchesEnabled = true;
-    }
-
     this.main = value;
     this.staging = value;
     Object.assign(this.config, options);
@@ -129,11 +138,13 @@ export class State<Values extends AnyRecord> {
   private schedule = (setter: AnyFunction, immediate = false) => {
     const { queueLimit, flushDelay } = this.config;
 
-    const [nextState, patches] = this.produce(this.staging, setter);
+    const [
+      next,
+      diff,
+    ] = this.produce(this.staging, setter);
 
-    this.queue.push(...patches);
-
-    this.staging = nextState; // 1️⃣ of 2️⃣ - UPDATING THE STAGING STATE
+    this.queue.push(diff);
+    this.staging = next; // 1️⃣ of 2️⃣ - UPDATING THE STAGING STATE
 
     clearTimeout(this.flushTimeoutRef);
 
@@ -150,32 +161,37 @@ export class State<Values extends AnyRecord> {
 
   flush = () => {
     const { queue, main, listeners } = this;
+
+    if (!queue.length) {
+      return this;
+    }
+
     const listenersByPath = groupBy([...listeners.values()], (el) => el.path);
 
     this.queue = [];
 
-    const [nextState, patches, reversePatches] = this.produce(
-      main,
-      function (draft) {
-        applyPatches(draft, queue);
-      }
-    );
+    const [
+      next,
+      batchedDiff,
+    ] = this.produce(main, (draft) => {
+      // 2️⃣of 2️⃣ UPDATING THE MAIN STATE
+      queue.forEach((diff) => {
+        diff.apply(draft);
+      });
+    });
 
-    this.pushHistory(...reversePatches);
+    this.main = next;
+    this.pushHistory(batchedDiff);
 
-    this.main = nextState; // 2️⃣of 2️⃣ UPDATING THE MAIN STATE
     const callbacks: AnyFunction[] = [];
 
-    patches.forEach((patch) => {
-      const itr = [...patch.path];
-
-      while (itr.length) {
-        const path = itr.join('.');
+    batchedDiff.forEach((patch) => {
+      //
+      const { paths, newValue: value } = patch;
+      paths.forEach((path) => {
         const pathSubscribers = listenersByPath[path];
 
         if (pathSubscribers?.length) {
-          const value = pick(this.main, path);
-
           const event: StateEvent<any, any> = {
             path,
             value,
@@ -188,9 +204,7 @@ export class State<Values extends AnyRecord> {
             });
           });
         }
-
-        itr.pop();
-      }
+      });
     });
 
     for (let cb of callbacks) {
@@ -219,47 +233,45 @@ export class State<Values extends AnyRecord> {
       if (typeof value === 'function') {
         value(draft);
       } else {
-        Object.entries(value).forEach(([key, _value]) => {
-          draft[key] = _value;
-        });
+        Object.entries(value).forEach(
+          ([
+            key,
+            _value,
+          ]) => {
+            draft[key] = _value;
+          }
+        );
       }
     }, immediate);
 
     return this;
   };
 
-  private pushHistory = (...patches: StateChange[]) => {
+  private pushHistory = (changes: ChangeList) => {
     const { historyLimit } = this.config;
-    this.history.push(...patches);
+    if (!changes.differences.length) return;
+
+    this.history.push(changes);
 
     if (this.history.length > historyLimit) {
       this.history.shift();
     }
-  };
 
-  private produce = (
-    value: Values,
-    callback: AnyFunction
-  ): [Values, StateChange[], StateChange[]] => {
-    //
-    const [nextState, drafts, reversePatches] = produceWithPatches(
-      value,
-      callback
-    );
-
-    return [
-      nextState,
-      drafts.map((el) => ({ ...el, id: ulid() })),
-      reversePatches.map((el) => ({ ...el, id: ulid() })),
-    ];
+    this.stateId = changes.ulid;
   };
 
   goto = (stateId: string) => {
     this.flush();
-    const until = this.history.findIndex((el) => el.id === stateId);
+    const until = this.history.findIndex((el) => el.ulid === stateId);
     if (until === -1) return this;
     const changes = this.history.slice(until + 1).reverse();
-    const next = applyPatches(this.staging, changes);
+
+    const [next] = this.produce(this.staging, (draft) => {
+      changes.forEach((change) => {
+        change.revert(draft);
+      });
+    });
+
     return this.apply(next, true);
   };
 
@@ -267,10 +279,28 @@ export class State<Values extends AnyRecord> {
     this.flush();
     const last = this.history.pop();
     if (!last) return this;
-    const next = applyPatches(this.main, [last]);
+
+    const [next] = this.produce(this.staging, (draft) => {
+      last.revert(draft);
+    });
+
     this.apply(next, true);
     this.history.pop(); // removing the last undo from history, can be simply improved later
     return this;
+  };
+
+  private produce = (
+    staging: Values,
+    setter: AnyFunction
+  ): [Values, ChangeList<Values>] => {
+    //
+    const next = produce(staging, setter);
+    const diff = new ChangeList(staging, next);
+
+    return [
+      next,
+      diff,
+    ];
   };
 }
 
@@ -299,11 +329,4 @@ export function createState<Values extends AnyRecord>(
   initial: Values
 ): State<Values> {
   return new State(initial);
-}
-
-export interface StateChange {
-  id: string;
-  op: 'replace' | 'remove' | 'add';
-  path: (string | number)[];
-  value?: any;
 }

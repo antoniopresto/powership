@@ -1,4 +1,10 @@
-import { objectDiffPaths } from '../objectDiff';
+import {
+  applyChanges,
+  ChangeList,
+  objectDiffPaths,
+  revertChanges,
+} from '../objectDiff';
+import { simpleObjectClone } from '../simpleObjectClone';
 
 describe('objectDiffPaths', () => {
   test('should return an empty array when given identical objects', () => {
@@ -444,6 +450,7 @@ describe('objectDiffPaths', () => {
         b: ['x', 'yyy'],
       },
       c: 1,
+      tr: 1,
     };
     const obj2 = {
       a: {
@@ -451,9 +458,9 @@ describe('objectDiffPaths', () => {
       },
       c: 2,
     };
-    const result = objectDiffPaths(obj1, obj2);
+    const result = new ChangeList(obj1, obj2);
 
-    expect(result).toEqual([
+    expect(result.toJSON()).toEqual([
       {
         kind: 'add',
         newValue: 'z',
@@ -474,6 +481,19 @@ describe('objectDiffPaths', () => {
         path: 'c',
         paths: ['c'],
       },
+      {
+        kind: 'remove',
+        oldValue: 1,
+        path: 'tr',
+        paths: ['tr'],
+      },
     ]);
+
+    const clone = simpleObjectClone(obj1);
+    applyChanges(clone, result);
+    expect(clone).toEqual(obj2);
+
+    revertChanges(clone, result);
+    expect(clone).toEqual(obj1);
   });
 });
