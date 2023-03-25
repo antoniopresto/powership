@@ -447,7 +447,7 @@ ___
 
 ### AliasFieldAggregation
 
-Ƭ **AliasFieldAggregation**<`Parent`\>: { `type`: [`FieldInput`](Solarwind.md#fieldinput)  } & { `aggregate`: `Aggregation`<`Parent`\> \| `Readonly`<`Aggregation`<`Parent`\>\> ; `from`: `ObjectDotNotations`<`Parent`\>  } \| { `aggregate`: `Aggregation`<`Parent`\> \| `Readonly`<`Aggregation`<`Parent`\>\> ; `from?`: `undefined`  } \| { `aggregate?`: `undefined` ; `from`: `ObjectDotNotations`<`Parent`\>  }
+Ƭ **AliasFieldAggregation**<`Parent`\>: { `type`: [`FieldInput`](Solarwind.md#fieldinput)  } & { `aggregate`: `Aggregation`<`Parent`\> \| `Readonly`<`Aggregation`<`Parent`\>\> ; `from`: `ObjectPath`<`Parent`\>  } \| { `aggregate`: `Aggregation`<`Parent`\> \| `Readonly`<`Aggregation`<`Parent`\>\> ; `from?`: `undefined`  } \| { `aggregate?`: `undefined` ; `from`: `ObjectPath`<`Parent`\>  }
 
 #### Type parameters
 

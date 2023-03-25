@@ -98,7 +98,7 @@
 - [Nullable](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#nullable)
 - [NullableToPartial](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#nullabletopartial)
 - [ObjectDiff](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#objectdiff)
-- [ObjectDotNotations](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#objectdotnotations)
+- [ObjectPath](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#objectdotnotations)
 - [ObjectEntries](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#objectentries)
 - [ObjectUnion](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#objectunion)
 - [OnlyKnown](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#onlyknown)
@@ -511,7 +511,7 @@ ___
 
 ### DeepArrayKeys
 
-Ƭ **DeepArrayKeys**<`T`\>: { [K in keyof T]: \`${Extract<K, string\>}.${ObjectDotNotations<T[K]\>}\` }[`number`]
+Ƭ **DeepArrayKeys**<`T`\>: { [K in keyof T]: \`${Extract<K, string\>}.${ObjectPath<T[K]\>}\` }[`number`]
 
 #### Type parameters
 
@@ -1279,9 +1279,9 @@ ___
 
 ___
 
-### ObjectDotNotations
+### ObjectPath
 
-Ƭ **ObjectDotNotations**<`Obj`, `Level`, `Limit`\>: `Level`[``"length"``] extends `Limit` ? `never` : `Obj` extends { `[K: string]`: `any`;  } ? { [K in keyof Obj]: K extends string ? Obj[K] extends Object ? Obj[K] extends any[] ? K \| \`${K}.${ArrayKeys<Obj[K]\>}\` \| \`${K}.${DeepArrayKeys<Obj[K]\>}\` : K \| \`${K}.${ObjectDotNotations<Obj[K], [...Level, K]\>}\` : K : never }[keyof `Obj`] : `never`
+Ƭ **ObjectPath**<`Obj`, `Level`, `Limit`\>: `Level`[``"length"``] extends `Limit` ? `never` : `Obj` extends { `[K: string]`: `any`;  } ? { [K in keyof Obj]: K extends string ? Obj[K] extends Object ? Obj[K] extends any[] ? K \| \`${K}.${ArrayKeys<Obj[K]\>}\` \| \`${K}.${DeepArrayKeys<Obj[K]\>}\` : K \| \`${K}.${ObjectPath<Obj[K], [...Level, K]\>}\` : K : never }[keyof `Obj`] : `never`
 
 #### Type parameters
 

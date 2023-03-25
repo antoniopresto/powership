@@ -4,7 +4,7 @@ import {
   assertEqual,
   getByPath,
   nonNullValues,
-  ObjectDotNotations,
+  ObjectPath,
 } from '@swind/utils';
 
 import { CircularDeps } from '../CircularDeps';
@@ -22,14 +22,14 @@ export type AliasFieldAggregation<Parent = any> = {
   type: FieldInput;
 } & (
   | {
-      from: ObjectDotNotations<Parent>;
+      from: ObjectPath<Parent>;
       aggregate: Aggregation<Parent> | Readonly<Aggregation<Parent>>;
     }
   | {
       aggregate: Aggregation<Parent> | Readonly<Aggregation<Parent>>;
       from?: undefined;
     }
-  | { from: ObjectDotNotations<Parent>; aggregate?: undefined }
+  | { from: ObjectPath<Parent>; aggregate?: undefined }
 );
 
 export type AliasFieldDef = string | AliasFieldAggregation;

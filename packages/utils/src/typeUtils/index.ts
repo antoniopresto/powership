@@ -151,7 +151,7 @@ export type ArrayKeys<T> = T extends any[] | ReadonlyArray<any>
   : never;
 
 export type DeepArrayKeys<T extends any[]> = {
-  [K in keyof T]: `${Extract<K, string>}.${ObjectDotNotations<T[K]>}`;
+  [K in keyof T]: `${Extract<K, string>}.${ObjectPath<T[K]>}`;
 }[number];
 
 /**
@@ -162,15 +162,7 @@ export type GetFieldByDotPath<Obj, DotNotation> = GetFieldByDotNotation<
   DotNotation
 >;
 
-/**
- * @alias to `ObjectDotNotations`
- */
-export type ObjectPath<Obj, Limit extends number = 10> = ObjectDotNotations<
-  Obj,
-  Limit
->;
-
-export type ObjectDotNotations<
+export type ObjectPath<
   Obj,
   Limit extends number = 10,
   Level extends number[] = []
@@ -184,10 +176,10 @@ export type ObjectDotNotations<
             ? /*When array: */
               | K
                 | `${K}.${number}`
-                | `${K}.${number}.${ObjectDotNotations<Obj[K][number]>}`
+                | `${K}.${number}.${ObjectPath<Obj[K][number]>}`
             : //
               /*When object: */
-              K | `${K}.${ObjectDotNotations<Obj[K], Limit, [...Level, 1]>}`
+              K | `${K}.${ObjectPath<Obj[K], Limit, [...Level, 1]>}`
           : K
         : never; // not string (never))
     }[keyof Obj]

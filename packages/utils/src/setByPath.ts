@@ -1,10 +1,10 @@
 import setWith from 'lodash/setWith';
 
-import { ObjectDotNotations } from './typeUtils';
+import { ObjectPath } from './typeUtils';
 
 export function setByPath<
   T extends Record<string, any>,
-  K extends ObjectDotNotations<T> | ObjectDotNotations<T>[]
+  K extends ObjectPath<T> | ObjectPath<T>[]
 >(
   obj: T,
   path: K,

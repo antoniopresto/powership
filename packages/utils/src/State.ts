@@ -11,15 +11,16 @@ import {
   Entries,
   GetFieldByDotPath,
   MaybePromise,
-  ObjectDotNotations,
+  ObjectPath,
 } from './typeUtils';
 
-export type StatePath<Values> = ObjectDotNotations<Values> | '';
+export type StatePath<Values> = ObjectPath<Values> | '';
 
 export class StateConfig {
   flushDelay: number | false = 1;
   queueLimit = 100;
   historyLimit = 3000;
+  onUnmount?: (current: State<any>) => any;
 }
 
 export class State<Values extends AnyRecord> {
@@ -66,9 +67,20 @@ export class State<Values extends AnyRecord> {
     this.subscribe = this.subscribe.bind(this);
   }
 
-  unsubscribe = (id: StateSubscriptionID) => {
+  unmount = () => {
+    this.unsubscribe('*');
+    this.config.onUnmount?.(this);
+  };
+
+  unsubscribe = (id: StateSubscriptionID): void => {
+    if (id === '*') {
+      this.listeners.forEach((el) => el.unsubscribe());
+      this.listeners.clear();
+
+      return;
+    }
+
     this.listeners.delete(id);
-    return this;
   };
 
   subscribe(
@@ -102,52 +114,52 @@ export class State<Values extends AnyRecord> {
     return subscription;
   }
 
+  get<T>(getter: (current: Draft<Values>) => T): T;
   get<Path extends StatePath<Values>>(
     path: Path
-  ): GetFieldByDotPath<Values, Path> {
+  ): GetFieldByDotPath<Values, Path>;
+
+  get(getter: AnyFunction | string) {
     this.flush();
-    return pick(this.main, path);
+    //
+    if (typeof getter === 'function') {
+      let res: any = undefined;
+      produce(this.current, (draft) => {
+        res = getter(draft);
+      });
+      return res;
+    }
+
+    return pick(this.main, getter);
   }
 
-  set<
-    Path extends StatePath<Values>,
-    Value extends GetFieldByDotPath<Values, Path>
-  >(path: Path, value: Value): this;
+  set<Path extends StatePath<Values>>(
+    path: Path,
+    value: GetFieldByDotPath<Values, Path>
+  ): this;
 
-  set<
-    Path extends StatePath<Values>,
-    Value extends GetFieldByDotPath<Values, Path>
-  >(
-    value: Partial<Values> | ((current: Draft<Values>) => MaybePromise<void>),
+  set(
+    value: Partial<Values> | ((current: Draft<Values>) => MaybePromise<any>),
     immediate?: boolean
   ): this;
 
   set(...args) {
     if (typeof args[0] === 'string') {
-      const [
-        path,
-        value,
-      ] = args;
+      const [path, value] = args;
 
       return this.schedule((draft) => {
         setByPath(draft, path, value);
       });
     }
 
-    const [
-      value,
-      immediate,
-    ] = args;
+    const [value, immediate] = args;
 
     return this._setState(value, immediate);
   }
 
-  setImmediate = <
-    Path extends StatePath<Values>,
-    Value extends GetFieldByDotPath<Values, Path>
-  >(
+  setImmediate = <Path extends StatePath<Values>>(
     path: Path,
-    value: Value
+    value: GetFieldByDotPath<Values, Path>
   ): this => {
     return this.schedule((draft) => {
       setByPath(draft, path, value);
@@ -159,10 +171,7 @@ export class State<Values extends AnyRecord> {
   private schedule = (setter: AnyFunction, immediate = false) => {
     const { queueLimit, flushDelay } = this.config;
 
-    const [
-      next,
-      diff,
-    ] = this.produce(this.staging, setter);
+    const [next, diff] = this.produce(this.staging, setter);
 
     this.queue.push(diff);
     this.staging = next; // 1️⃣ of 2️⃣ - UPDATING THE STAGING STATE
@@ -191,10 +200,7 @@ export class State<Values extends AnyRecord> {
 
     this.queue = [];
 
-    const [
-      next,
-      batchedDiff,
-    ] = this.produce(main, (draft) => {
+    const [next, batchedDiff] = this.produce(main, (draft) => {
       // 2️⃣of 2️⃣ UPDATING THE MAIN STATE
       queue.forEach((diff) => {
         diff.apply(draft);
@@ -296,10 +302,7 @@ export class State<Values extends AnyRecord> {
     const next = produce(staging, setter);
     const diff = new ChangeList(staging, next);
 
-    return [
-      next,
-      diff,
-    ];
+    return [next, diff];
   };
 
   private _setState = (
@@ -310,18 +313,33 @@ export class State<Values extends AnyRecord> {
       if (typeof value === 'function') {
         value(draft);
       } else {
-        Object.entries(value).forEach(
-          ([
-            key,
-            _value,
-          ]) => {
-            draft[key] = _value;
-          }
-        );
+        Object.entries(value).forEach(([key, _value]) => {
+          draft[key] = _value;
+        });
       }
     }, immediate);
 
     return this;
+  };
+
+  extend = <Ext extends AnyRecord>(
+    extend: (value: State<Values>) => Ext
+  ): Omit<State<Values>, keyof Ext> & Ext extends infer X
+    ? { [K in keyof X]: X[K] } & {}
+    : never => {
+    const self: any = this;
+    const ext = extend(self);
+    Object.entries(ext).forEach(([key, value]) => {
+      if (typeof value === 'function') {
+        value = value.bind(self);
+      }
+      self[key] = value;
+    });
+    return self;
+  };
+
+  static create = <V extends AnyRecord>(value: V): State<V> => {
+    return new State<V>(value);
   };
 }
 
