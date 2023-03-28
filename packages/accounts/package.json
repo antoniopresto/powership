@@ -1,6 +1,6 @@
 {
   "name": "@swind/accounts",
-  "version": "0.2.77",
+  "version": "0.2.84",
   "description": "Solarwind accounts",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -30,9 +30,9 @@
   },
   "author": "@antoniopresto",
   "dependencies": {
-    "@swind/entity": "0.2.77",
-    "@swind/schema": "0.2.77",
-    "@swind/utils": "0.2.77",
+    "@swind/entity": "0.2.84",
+    "@swind/schema": "0.2.84",
+    "@swind/utils": "0.2.84",
     "jsonwebtoken": "8.5.1",
     "scrypt-kdf": "2.0.1"
   },
@@ -41,8 +41,8 @@
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@swind/babel-plugins": "0.2.77",
-    "@swind/mongo": "0.2.77",
+    "@swind/babel-plugins": "0.2.84",
+    "@swind/mongo": "0.2.84",
     "@types/jest": "29.1.2",
     "@types/jsonwebtoken": "8.5.9",
     "@types/node": "16.18.3",

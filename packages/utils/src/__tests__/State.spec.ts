@@ -255,7 +255,7 @@ describe('State', () => {
     state.setImmediate('letter', 'x');
     state.setImmediate('counter', 9);
 
-    state.goto(stateId2);
+    state.go(stateId2);
 
     expect(state.current).toEqual({ counter: 2, letter: 'b' });
   });

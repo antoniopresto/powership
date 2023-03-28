@@ -1,4 +1,4 @@
-import { Draft, produce } from 'immer';
+import { current, Draft, isDraft, produce } from 'immer';
 import { ulid } from 'ulid';
 
 import { groupBy } from './groupBy';
@@ -114,7 +114,10 @@ export class State<Values extends AnyRecord> {
     return subscription;
   }
 
-  get<T>(getter: (current: Draft<Values>) => T): T;
+  get<T>(
+    getter: (current: Draft<Values>) => T
+  ): T extends Draft<infer R> ? R : T;
+
   get<Path extends StatePath<Values>>(
     path: Path
   ): GetFieldByDotPath<Values, Path>;
@@ -127,7 +130,7 @@ export class State<Values extends AnyRecord> {
       produce(this.current, (draft) => {
         res = getter(draft);
       });
-      return res;
+      return isDraft(res) ? current(res) : res;
     }
 
     return pick(this.main, getter);
@@ -145,14 +148,20 @@ export class State<Values extends AnyRecord> {
 
   set(...args) {
     if (typeof args[0] === 'string') {
-      const [path, value] = args;
+      const [
+        path,
+        value,
+      ] = args;
 
       return this.schedule((draft) => {
         setByPath(draft, path, value);
       });
     }
 
-    const [value, immediate] = args;
+    const [
+      value,
+      immediate,
+    ] = args;
 
     return this._setState(value, immediate);
   }
@@ -171,7 +180,10 @@ export class State<Values extends AnyRecord> {
   private schedule = (setter: AnyFunction, immediate = false) => {
     const { queueLimit, flushDelay } = this.config;
 
-    const [next, diff] = this.produce(this.staging, setter);
+    const [
+      next,
+      diff,
+    ] = this.produce(this.staging, setter);
 
     this.queue.push(diff);
     this.staging = next; // 1️⃣ of 2️⃣ - UPDATING THE STAGING STATE
@@ -200,7 +212,10 @@ export class State<Values extends AnyRecord> {
 
     this.queue = [];
 
-    const [next, batchedDiff] = this.produce(main, (draft) => {
+    const [
+      next,
+      batchedDiff,
+    ] = this.produce(main, (draft) => {
       // 2️⃣of 2️⃣ UPDATING THE MAIN STATE
       queue.forEach((diff) => {
         diff.apply(draft);
@@ -265,7 +280,7 @@ export class State<Values extends AnyRecord> {
     this.stateId = changes.ulid;
   };
 
-  goto = (stateId: string) => {
+  go = (stateId: string) => {
     this.flush();
     const until = this.history.findIndex((el) => el.ulid === stateId);
     if (until === -1) return this;
@@ -294,6 +309,17 @@ export class State<Values extends AnyRecord> {
     return this;
   };
 
+  /**
+   * Marks a reference to the current state and returns
+   * a function to jump back to the referenced state
+   */
+  stateRef = () => {
+    const stateId = this.stateId;
+    return () => {
+      return this.go(stateId);
+    };
+  };
+
   private produce = (
     staging: Values,
     setter: AnyFunction
@@ -302,7 +328,10 @@ export class State<Values extends AnyRecord> {
     const next = produce(staging, setter);
     const diff = new ChangeList(staging, next);
 
-    return [next, diff];
+    return [
+      next,
+      diff,
+    ];
   };
 
   private _setState = (
@@ -313,9 +342,14 @@ export class State<Values extends AnyRecord> {
       if (typeof value === 'function') {
         value(draft);
       } else {
-        Object.entries(value).forEach(([key, _value]) => {
-          draft[key] = _value;
-        });
+        Object.entries(value).forEach(
+          ([
+            key,
+            _value,
+          ]) => {
+            draft[key] = _value;
+          }
+        );
       }
     }, immediate);
 
@@ -329,12 +363,17 @@ export class State<Values extends AnyRecord> {
     : never => {
     const self: any = this;
     const ext = extend(self);
-    Object.entries(ext).forEach(([key, value]) => {
-      if (typeof value === 'function') {
-        value = value.bind(self);
+    Object.entries(ext).forEach(
+      ([
+        key,
+        value,
+      ]) => {
+        if (typeof value === 'function') {
+          value = value.bind(self);
+        }
+        self[key] = value;
       }
-      self[key] = value;
-    });
+    );
     return self;
   };
 
