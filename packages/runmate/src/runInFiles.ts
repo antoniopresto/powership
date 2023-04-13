@@ -40,13 +40,13 @@ export async function runInFiles(options: RunInFilesOptions) {
       chunkItem.map(async (file) => {
         const cwd = nodePath.extname(file) ? nodePath.dirname(file) : file;
 
-        const code = await runCommand(command, {
+        const result = await runCommand(command, {
           cwd,
         });
 
         return {
           file,
-          code,
+          ...result,
         };
       })
     );

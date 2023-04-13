@@ -12,13 +12,19 @@ export interface RunCommandOptions {
   plugin?: (hooks: RunCommandHooks) => any;
 }
 
+export interface RunCommandResult {
+  data: string[];
+  code: 0;
+}
+
 export async function runCommand(
   options: RunCommandOptions | string,
   execOptions?: ExecOptions
-): Promise<0> {
+): Promise<RunCommandResult> {
   let childRef: ChildProcess | null = null;
 
   let started = Date.now();
+  const data: string[] = [];
 
   const hooks: RunCommandHooks | undefined = {
     onStderrData: waterfall(),
@@ -28,6 +34,10 @@ export async function runCommand(
     onClose: waterfall(),
     onError: waterfall(),
   };
+
+  hooks.onStdoutData.register((p) => {
+    data.push(p.data);
+  });
 
   options =
     typeof options === 'string'
@@ -106,10 +116,10 @@ export async function runCommand(
         await hooks?.onClose.exec({ code }, child);
 
         if (code === 0) {
-          return resolve(code);
+          return resolve({ code, data });
         }
 
-        reject(code);
+        reject({ code, data });
       });
     });
   } catch (e: any) {

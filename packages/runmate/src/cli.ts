@@ -5,118 +5,18 @@ import { inspect } from 'util';
 import chalk from 'chalk';
 import { Command } from 'commander';
 
+import { list } from './commands/list';
+import { main } from './commands/main';
+import { version } from './commands/version';
 import { defaultPackagesGlobPattern } from './defaultPackagesGlobPattern';
 import { packageRunner, PackageRunnerUtils } from './packageRunner';
 import { packageJSONDependencyKeys, packageVersion } from './packageVersion';
-import { printWithScroll } from './printWithScroll';
 import { runInFiles } from './runInFiles';
 import { runmateLogger } from './runmateLogger';
 
 const program = new Command();
 
-program
-  .command('packages', { isDefault: true })
-  .argument('<command...>')
-  .description(
-    'Run command in each package in ./packages folder or in `--src` option folder'
-  )
-  .option(
-    '-s, --src <src>',
-    'Source directory or glob pattern',
-    './packages/*/'
-  )
-  .option('-c, --chunk-size', 'Chunk size of parallel executions', '1')
-  .option(
-    '-no-ff, --no-fail-fast, --no-ff, --noff',
-    'Disable exit on first error'
-  )
-  .option(
-    '--npc, --no-package-name-command',
-    'Disable execution in package if first argument is a package name.'
-  )
-  .option('--ignore <names>', 'Packages to skip execution.')
-  .option('--packages <names>', 'Run command only in specified packages.')
-  .option(
-    '--from <name>',
-    'Run command only in specified package and after in the dependency tree.'
-  )
-  .action(async function run(
-    commands: string[],
-    options?: {
-      src?: string;
-      chunkSize: string;
-      failFast: boolean;
-      ignore?: string;
-      packages?: string;
-      from?: string;
-      packageNameCommand: boolean;
-    }
-  ): Promise<any> {
-    const {
-      //
-      src,
-      chunkSize = 1,
-      failFast,
-      ignore,
-      packages,
-      packageNameCommand,
-      from,
-    } = options || {};
-
-    const ignoreList = ignore?.split(/, ?/);
-    const packagesExclusiveList = packages?.split(/, ?/);
-
-    await runmateLogger.lazyDebug(() => [
-      'Received args: \n',
-      inspect({
-        commands,
-        ignoreList,
-        packagesExclusiveList,
-        ...options,
-      }),
-    ]);
-
-    try {
-      const runner = await packageRunner(src || defaultPackagesGlobPattern, {
-        failFast,
-      });
-
-      if (packageNameCommand !== false) {
-        const firstCommand = commands[0].trim();
-
-        const commandIsPackageName = runner.utils.find((el) => {
-          return (
-            el.name === firstCommand || el.name.split('/')[1] === firstCommand
-          );
-        });
-
-        if (commandIsPackageName) {
-          const restCommand = commands.slice(1).join(' ');
-          if (restCommand) {
-            return await commandIsPackageName.run(restCommand);
-          }
-        }
-      }
-
-      await runner.run(
-        async (utils) => {
-          if (packagesExclusiveList?.length) {
-            if (!packagesExclusiveList.includes(utils.name)) return;
-          }
-
-          if (ignoreList?.includes(utils.name)) return;
-
-          await utils.run(commands.join(' '));
-        },
-        {
-          chunkSize: +chunkSize,
-          from,
-        }
-      );
-    } catch (e: any) {
-      console.error(chalk.red(e));
-    }
-  });
+main(program);
 
 program
   .command('clean')
@@ -247,132 +147,8 @@ program
     }
   });
 
-program
-  .command('publish [version]')
-  .option('-s, --src <packages>', 'Packages glob pattern.')
-  .option('--no-scripts', 'Ignores the prepublish scripts.')
-  .option('--dry-run', 'Ignores the publication.')
-  .action(async function run(version, options): Promise<any> {
-    const { src, scripts, dryRun } = options || {};
-
-    await runmateLogger.lazyDebug(() => [
-      'Received args: \n',
-      JSON.stringify(options, null, 2),
-    ]);
-
-    try {
-      if (version) {
-        await packageVersion(version, src);
-      }
-
-      const runner = await packageRunner(src || defaultPackagesGlobPattern, {
-        failFast: false,
-      });
-
-      if (scripts) {
-        await runner.run('npm publish --dry-run', {
-          failFast: true,
-          chunkSize: 1,
-        });
-      }
-
-      if (!dryRun) {
-        await runner.run('npm publish');
-      }
-    } catch (e: any) {
-      console.error(chalk.red(e));
-    }
-  });
-
-program
-  .command(
-    'version <releaseTypeOrVersion> [pattern]' //
-  )
-  .description(
-    [
-      'Update package versions.',
-      'Examples: ',
-      '➜  version 1.0.0',
-      '➜  version minor',
-      '➜  version major ./packages/utils',
-    ].join('\n')
-  )
-  .alias('v')
-  .action(async function run(releaseTypeOrVersion, pattern): Promise<any> {
-    //
-    await runmateLogger.lazyDebug(() => [
-      'Received args: \n',
-      JSON.stringify({ releaseTypeOrVersion }, null, 2),
-    ]);
-
-    try {
-      await packageVersion(releaseTypeOrVersion, pattern);
-    } catch (e: any) {
-      console.error(chalk.red(e));
-    }
-  });
-
-program
-  .command('list')
-  .option('-s, --src', 'Folder pattern', defaultPackagesGlobPattern)
-  .option(
-    '--delay <delay>',
-    'Delay between printing lines. Used during development.',
-    '5'
-  )
-  .action(async function run(options): Promise<any> {
-    //
-    await runmateLogger.lazyDebug(() => [
-      'Received args: \n',
-      JSON.stringify(options, null, 2),
-    ]);
-
-    const { src, delay } = options || {};
-
-    runmateLogger.level = 'silent';
-    process.env.LOG_LEVEL = 'silent';
-
-    const timeout = +delay || 25;
-
-    try {
-      const runner = await packageRunner(src);
-
-      await printWithScroll(
-        JSON.stringify(
-          runner.utils.map((el) => el.name),
-          null,
-          2
-        )
-          .split('\n')
-          .concat('\n'),
-        timeout
-      );
-
-      await printWithScroll(
-        JSON.stringify(
-          runner.utils.map((el) => el.basename),
-          null,
-          2
-        )
-          .split('\n')
-          .concat('\n'),
-        timeout
-      );
-
-      await printWithScroll(
-        JSON.stringify(
-          runner.utils.map((el) => `packages/${el.basename}`),
-          null,
-          2
-        )
-          .split('\n')
-          .concat('\n'),
-        timeout
-      );
-    } catch (e: any) {
-      console.error(chalk.red(e));
-    }
-  });
+list(program);
+version(program);
 
 program.version('> Runmate ' + require('../package.json').version);
 

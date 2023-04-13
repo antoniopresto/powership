@@ -7,7 +7,7 @@ import chunk from 'lodash/chunk';
 
 import { DepTree, PackageItem } from './depTree';
 import { readPackageJSON, writePackageJSON } from './handleJSON';
-import { runCommand } from './runCommand';
+import { runCommand, RunCommandResult } from './runCommand';
 import { runmateLogger } from './runmateLogger';
 
 let packageRunnerCache = {};
@@ -21,8 +21,11 @@ export function getPackageRunnerUtils(jsonPath: string) {
   const cwd = nodePath.dirname(jsonPath);
   const basename = nodePath.basename(cwd);
 
+  const data: string[] = [];
+
   return {
     ...json,
+    data,
     json,
     cwd,
     basename,
@@ -30,7 +33,7 @@ export function getPackageRunnerUtils(jsonPath: string) {
     saveJSON() {
       writePackageJSON(jsonPath, json);
     },
-    async run(command: string) {
+    async run(command: string): Promise<RunCommandResult> {
       try {
         if (json.scripts?.[command]) {
           command = `npm run ${command}`;
@@ -67,6 +70,7 @@ export interface PackageRunOptions {
 
 export interface PackageRunnerResult {
   errors: { json: PackageItem; message: string }[];
+  results: RunCommandResult[];
 }
 
 export interface PackageRunner {
@@ -161,6 +165,7 @@ export async function packageRunner(
 
     const result: PackageRunnerResult = {
       errors: [],
+      results: [],
     };
 
     let canRun = !from;
@@ -182,9 +187,11 @@ export async function packageRunner(
           const util = utils[item.index];
 
           try {
-            await (typeof command === 'function'
+            const res = await (typeof command === 'function'
               ? command(util)
               : util.run(command));
+
+            result.results.push(res);
           } catch (e: any) {
             result.errors.push({
               json: item,

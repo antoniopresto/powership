@@ -18,7 +18,7 @@
     "doc": "typedoc"
   },
   "devDependencies": {
-    "@swind/babel-plugins": "0.2.4",
+    "@swind/babel-plugins": "0.2.85",
     "@types/fs-extra": "9.0.13",
     "@types/jest": "29.1.2",
     "@types/jsonwebtoken": "8.5.9",
