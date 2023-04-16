@@ -13,10 +13,6 @@
     "declarations": {
       "dependsOn": ["^declarations"],
       "outputs": ["dist/**", "lib/**", ".next/**", "public/dist/**"]
-    },
-    "publish": {
-      "dependsOn": ["^publish"],
-      "outputs": ["dist/**", "lib/**", ".next/**", "public/dist/**"]
     }
   }
 }

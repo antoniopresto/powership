@@ -1,7 +1,7 @@
 {
   "name": "solarwind",
   "private": true,
-  "version": "0.2.4",
+  "version": "0.2.77",
   "scripts": {
     "fix": "turbo run fix",
     "commit": "git add -A && git commit",
@@ -9,9 +9,7 @@
     "validate": "(cd packages/schema && npm run prepublish)",
     "alpha": "ts-node ./scripts/bpa.ts",
     "alpha-version": "linkall && ts-node ./scripts/alpha-version.ts",
-    "doc": "typedoc",
-    "bump": "changeset version",
-    "deploy": "turbo run build && npm run bump && turbo run publish"
+    "doc": "typedoc"
   },
   "devDependencies": {
     "@swind/babel-plugins": "workspace:*",
