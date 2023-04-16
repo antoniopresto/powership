@@ -7,8 +7,6 @@
     "commit": "git add -A && git commit",
     "fast": "run-s commit alpha",
     "validate": "(cd packages/schema && npm run prepublish)",
-    "alpha": "ts-node ./scripts/bpa.ts",
-    "alpha-version": "linkall && ts-node ./scripts/alpha-version.ts",
     "doc": "typedoc"
   },
   "devDependencies": {
