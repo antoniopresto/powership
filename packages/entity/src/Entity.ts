@@ -26,7 +26,9 @@ import {
 import {
   AnyFunction,
   capitalize,
+  createAsyncPlugin,
   createProxy,
+  createSyncPlugin,
   devAssert,
   ensureArray,
   getByPath,
@@ -40,7 +42,6 @@ import {
   tupleEnum,
   ulid,
 } from '@swind/utils';
-import { hooks } from 'plugin-hooks'; // FIXME use plugin-hooks 2.0 from utils
 
 import {
   graphQLFilterToTransporterFilter,
@@ -350,14 +351,14 @@ export function createEntity(
 
     const fields = Object.keys(outputTypeDefinition);
 
-    _hooks.createDefinition.exec(databaseDefinition, {
+    _hooks.createDefinition.dispatch(databaseDefinition, {
       entityOptions,
       fields,
       kind: 'databaseDefinition',
       resolvers,
     });
 
-    _hooks.createDefinition.exec(outputTypeDefinition, {
+    _hooks.createDefinition.dispatch(outputTypeDefinition, {
       entityOptions,
       fields,
       kind: 'outputDefinition',
@@ -374,14 +375,14 @@ export function createEntity(
     const updateDefinition =
       updateDefinitionBase.def() as unknown as FinalObjectDefinition;
 
-    _hooks.createDefinition.exec(inputDefinition, {
+    _hooks.createDefinition.dispatch(inputDefinition, {
       entityOptions,
       fields,
       kind: 'inputDefinition',
       resolvers,
     });
 
-    _hooks.createDefinition.exec(updateDefinition, {
+    _hooks.createDefinition.dispatch(updateDefinition, {
       entityOptions,
       fields,
       kind: 'updateDefinition',
@@ -465,7 +466,7 @@ export function createEntity(
 
         let resolver: AnyFunction = transporter[method].bind(transporter);
 
-        resolver = (await _hooks.willResolve.exec(
+        resolver = (await _hooks.willResolve.dispatch(
           resolver as any,
           operation as any
         )) as any;
@@ -497,7 +498,7 @@ export function createEntity(
         }
 
         if (result.item) {
-          const res = await _hooks.filterResult.exec(
+          const res = await _hooks.filterResult.dispatch(
             { items: [result.item], kind: 'items' },
             context
           );
@@ -505,7 +506,7 @@ export function createEntity(
         }
 
         if (result.items) {
-          const res = await _hooks.filterResult.exec(
+          const res = await _hooks.filterResult.dispatch(
             { items: result.items, kind: 'items' },
             context
           );
@@ -513,7 +514,7 @@ export function createEntity(
         }
 
         if (result.edges) {
-          const res = await _hooks.filterResult.exec(
+          const res = await _hooks.filterResult.dispatch(
             { kind: 'pagination', pagination: result },
             context
           );
@@ -720,13 +721,13 @@ export function createEntity(
 
 function _createHooks(): EntityHooks {
   return {
-    beforeQuery: hooks.waterfall(),
-    createDefinition: hooks.parallel(),
-    filterResult: hooks.waterfall(),
-    initCreation: hooks.parallel(),
-    postParse: hooks.waterfall(),
-    preParse: hooks.waterfall(),
-    willResolve: hooks.waterfall(),
+    beforeQuery: createAsyncPlugin(),
+    createDefinition: createSyncPlugin(),
+    filterResult: createAsyncPlugin(),
+    initCreation: createSyncPlugin(),
+    postParse: createAsyncPlugin(),
+    preParse: createAsyncPlugin(),
+    willResolve: createAsyncPlugin(),
   };
 }
 
@@ -739,7 +740,7 @@ function _registerPKSKHook(input: {
 }) {
   const { indexConfig, entity } = input;
 
-  input.hooks.preParse.register(async function applyDefaultHooks(ctx) {
+  input.hooks.preParse.pushMiddleware(async function applyDefaultHooks(ctx) {
     async function _onUpdate(doc: Record<string, any>) {
       doc.updatedAt = new Date();
       doc.updatedBy =
@@ -840,7 +841,7 @@ async function _parseOperationContext(input: {
   }
 
   if (operationInfoContext.isUpdate) {
-    operationInfoContext = await _hooks.preParse.exec(
+    operationInfoContext = await _hooks.preParse.dispatch(
       // @ts-ignore
       operationInfoContext,
       { entity }
@@ -848,7 +849,7 @@ async function _parseOperationContext(input: {
   }
 
   if ('item' in operationInfoContext.options) {
-    operationInfoContext = await _hooks.preParse.exec(
+    operationInfoContext = await _hooks.preParse.dispatch(
       // @ts-ignore
       operationInfoContext,
       { entity }
@@ -869,7 +870,7 @@ async function _parseOperationContext(input: {
         ...parsed,
       };
 
-      operationInfoContext = await _hooks.postParse.exec(
+      operationInfoContext = await _hooks.postParse.dispatch(
         // @ts-ignore
         operationInfoContext,
         { entity }
@@ -882,7 +883,7 @@ async function _parseOperationContext(input: {
   }
 
   if ('filter' in operationInfoContext.options) {
-    operationInfoContext = await _hooks.beforeQuery.exec(
+    operationInfoContext = await _hooks.beforeQuery.dispatch(
       // @ts-ignore
       operationInfoContext,
       {}

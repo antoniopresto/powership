@@ -16,7 +16,7 @@ export const ReleaseTypes = [
   'prerelease',
 ] as const;
 
-export type ReleaseType = (typeof ReleaseTypes)[number];
+export type ReleaseType = typeof ReleaseTypes[number];
 
 export const ReleaseTypeset = new Set(ReleaseTypes);
 

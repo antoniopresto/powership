@@ -5,7 +5,7 @@ import {
   TransporterLoaderName,
 } from '@swind/transporter';
 import { tuple } from '@swind/utils';
-import { Parallel, Waterfall } from 'plugin-hooks';
+import { AsyncPlugin, SyncPlugin } from 'plugin-hooks';
 
 import { AnyEntity } from './EntityInterfaces';
 import { EntityDocument } from './EntityInterfaces';
@@ -54,9 +54,9 @@ export type EntityHooks<
   Doc extends DocumentBase = EntityDocument<{ [K: string]: unknown }>,
   E extends AnyEntity = AnyEntity
 > = {
-  beforeQuery: Waterfall<EntityOperationInfoContext, {}>;
+  beforeQuery: AsyncPlugin<EntityOperationInfoContext, {}>;
 
-  createDefinition: Parallel<
+  createDefinition: SyncPlugin<
     Record<string, FinalFieldDefinition>,
     {
       entityOptions: EntityOptions;
@@ -66,7 +66,7 @@ export type EntityHooks<
     }
   >;
 
-  filterResult: Waterfall<
+  filterResult: AsyncPlugin<
     | {
         items: EntityDocument<Doc>[];
         kind: 'items';
@@ -81,11 +81,14 @@ export type EntityHooks<
     }
   >;
 
-  initCreation: Parallel<EntityOptions, E>;
+  initCreation: SyncPlugin<EntityOptions, E>;
 
-  postParse: Waterfall<EntityOperationInfoContext, EntityParserHookContext<E>>;
+  postParse: AsyncPlugin<
+    EntityOperationInfoContext,
+    EntityParserHookContext<E>
+  >;
 
-  preParse: Waterfall<EntityOperationInfoContext, EntityParserHookContext<E>>;
+  preParse: AsyncPlugin<EntityOperationInfoContext, EntityParserHookContext<E>>;
 
-  willResolve: Waterfall<_EntityLoaders<E>, EntityOperationInfoContext>;
+  willResolve: AsyncPlugin<_EntityLoaders<E>, EntityOperationInfoContext>;
 };

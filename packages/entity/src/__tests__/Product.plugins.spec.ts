@@ -20,11 +20,11 @@ describe('ProductResolver.plugins', () => {
       transporter,
       type: ProductType,
     }).addHooks((hooks) => {
-      hooks.createDefinition.register(function cd(definition) {
+      hooks.createDefinition.pushMiddleware(function cd(definition) {
         definition.WORKED = { type: 'int' };
       });
 
-      hooks.preParse.register(function pp(context) {
+      hooks.preParse.pushMiddleware(function pp(context) {
         if (context.op === 'createOne') {
           context.options.item.WORKED = 123;
         }

@@ -246,7 +246,7 @@ export class GraphQLParser {
             path: path || [objectId],
           });
 
-          // hooks.onFieldResult.exec(field);
+          // hooks.onFieldResult.dispatch(field);
           builders.push(field);
         });
 
@@ -270,7 +270,7 @@ export class GraphQLParser {
 
           fieldsConfigMap[next.fieldName] = field;
 
-          // hooks.onField.exec(next, field);
+          // hooks.onField.dispatch(next, field);
         }
         builders.forEach(_useConvertFieldResult);
 
@@ -289,8 +289,8 @@ export class GraphQLParser {
           );
         });
 
-        // hooks.onFieldConfigMap.exec(fieldsConfigMap);
-        // hooks.willCreateObjectType.exec(fieldsConfigMap);
+        // hooks.onFieldConfigMap.dispatch(fieldsConfigMap);
+        // hooks.willCreateObjectType.dispatch(fieldsConfigMap);
 
         return fieldsConfigMap;
       };

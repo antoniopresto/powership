@@ -35,7 +35,10 @@ export const indexRelationsPlugin = createEntityPlugin(
   'IndexRelationsPlugin',
   (hooks) => {
     //
-    hooks.createDefinition.register(function createDefinition(def, helpers) {
+    hooks.createDefinition.pushMiddleware(function createDefinition(
+      def,
+      helpers
+    ) {
       if (helpers.kind === 'outputDefinition') return;
       const { entityOptions } = helpers;
 
@@ -49,7 +52,7 @@ export const indexRelationsPlugin = createEntityPlugin(
     // removing relation fields provided in createOne and saving in
     // context to be inserted in the corresponding entities later
     // TODO move to transporter
-    hooks.preParse.register(function preParse(context, { entity }) {
+    hooks.preParse.pushMiddleware(function preParse(context, { entity }) {
       if (!isEntityContextOfLoader(context, 'createOne')) return;
 
       let { item } = context.options;
@@ -87,7 +90,10 @@ export const indexRelationsPlugin = createEntityPlugin(
     // checking for items saved in context in the above hook to save in
     // the corresponding entities
     // TODO move logic to transporter
-    hooks.willResolve.register(function willResolve(resolver, context): any {
+    hooks.willResolve.pushMiddleware(function willResolve(
+      resolver,
+      context
+    ): any {
       const relationsFound = _getCreateOneRelatedRelationsInContext(context);
       if (!Array.isArray(relationsFound)) return; // If it is not createOne
 

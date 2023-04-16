@@ -3,7 +3,7 @@ import { createEntityPlugin } from '../EntityPlugin';
 export const versionPlugin = createEntityPlugin(
   'versionPlugin',
   function (hooks) {
-    hooks.createDefinition.register(function createDefinition(
+    hooks.createDefinition.pushMiddleware(function createDefinition(
       definition,
       context
     ) {

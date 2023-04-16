@@ -2,7 +2,7 @@ import { ChildProcess, ExecOptions, spawn } from 'child_process';
 import nodePath from 'path';
 
 import chalk from 'chalk';
-import { Waterfall, waterfall } from 'plugin-hooks';
+import { AsyncPlugin, createAsyncPlugin } from 'plugin-hooks';
 
 import { delayPromise } from './printWithScroll';
 import { runmateLogger } from './runmateLogger';
@@ -27,15 +27,15 @@ export async function runCommand(
   const data: string[] = [];
 
   const hooks: RunCommandHooks | undefined = {
-    onStderrData: waterfall(),
-    onStdoutData: waterfall(),
-    started: waterfall(),
-    willStart: waterfall(),
-    onClose: waterfall(),
-    onError: waterfall(),
+    onStderrData: createAsyncPlugin(),
+    onStdoutData: createAsyncPlugin(),
+    started: createAsyncPlugin(),
+    willStart: createAsyncPlugin(),
+    onClose: createAsyncPlugin(),
+    onError: createAsyncPlugin(),
   };
 
-  hooks.onStdoutData.register((p) => {
+  hooks.onStdoutData.pushMiddleware((p) => {
     data.push(p.data);
   });
 
@@ -53,19 +53,19 @@ export async function runCommand(
                   )}`
                 : c_command_medium;
 
-            hooks.willStart.register(function data() {
+            hooks.willStart.pushMiddleware(function data() {
               runmateLogger.log(`\n\nrun ${chalk.cyan(description)} started\n`);
             });
 
-            hooks.onStdoutData.register(function data(currentValue) {
+            hooks.onStdoutData.pushMiddleware(function data(currentValue) {
               runmateLogger.log(currentValue.data);
             });
 
-            hooks.onStderrData.register(function data(currentValue) {
+            hooks.onStderrData.pushMiddleware(function data(currentValue) {
               runmateLogger.error(chalk.red(currentValue.data));
             });
 
-            hooks.onClose.register(function data() {
+            hooks.onClose.pushMiddleware(function data() {
               runmateLogger.log(
                 chalk.green(
                   `finished in ${Date.now() - started}ms (${description})\n`
@@ -92,7 +92,7 @@ export async function runCommand(
     hooks && (await plugin?.(hooks));
 
     if (hooks) {
-      command = (await hooks?.willStart.exec({ command })).command;
+      command = (await hooks?.willStart.dispatch({ command })).command;
     }
 
     const child = (childRef = spawn(command, {
@@ -102,18 +102,18 @@ export async function runCommand(
     }));
 
     child.stdout?.on('data', async function (data) {
-      await hooks?.onStdoutData.exec({ data }, child);
+      await hooks?.onStdoutData.dispatch({ data }, child);
     });
 
     child.stderr?.on('data', async function (data) {
-      await hooks?.onStderrData.exec({ data }, child);
+      await hooks?.onStderrData.dispatch({ data }, child);
     });
 
     return new Promise((resolve, reject) => {
       child.on('close', async (code) => {
         await delayPromise(10);
 
-        await hooks?.onClose.exec({ code }, child);
+        await hooks?.onClose.dispatch({ code }, child);
 
         if (code === 0) {
           return resolve({ code, data });
@@ -124,7 +124,7 @@ export async function runCommand(
     });
   } catch (e: any) {
     childRef?.kill(1);
-    await hooks.onError.exec({ error: e }, childRef);
+    await hooks.onError.dispatch({ error: e }, childRef);
     throw new Error(`Failed to execute command ${command}`);
   }
 }
@@ -140,10 +140,10 @@ async function getConfigFile(
 }
 
 export interface RunCommandHooks {
-  willStart: Waterfall<{ command: string }, undefined>;
-  started: Waterfall<ChildProcess, { command: string }>;
-  onStdoutData: Waterfall<{ data: string }, ChildProcess>;
-  onStderrData: Waterfall<{ data: string }, ChildProcess>;
-  onClose: Waterfall<{ code: number | null }, ChildProcess>;
-  onError: Waterfall<{ error: Error }, ChildProcess | null>;
+  willStart: AsyncPlugin<{ command: string }, undefined>;
+  started: AsyncPlugin<ChildProcess, { command: string }>;
+  onStdoutData: AsyncPlugin<{ data: string }, ChildProcess>;
+  onStderrData: AsyncPlugin<{ data: string }, ChildProcess>;
+  onClose: AsyncPlugin<{ code: number | null }, ChildProcess>;
+  onError: AsyncPlugin<{ error: Error }, ChildProcess | null>;
 }

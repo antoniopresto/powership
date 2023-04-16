@@ -8,7 +8,7 @@ export const applyFieldResolvers = createEntityPlugin(
   'applyFieldResolvers',
   (hooks) => {
     //
-    hooks.createDefinition.register(function createDefinition(
+    hooks.createDefinition.pushMiddleware(function createDefinition(
       definition,
       context
     ) {
@@ -21,7 +21,10 @@ export const applyFieldResolvers = createEntityPlugin(
     });
 
     //
-    hooks.filterResult.register(async function filterResult(payload, context) {
+    hooks.filterResult.pushMiddleware(async function filterResult(
+      payload,
+      context
+    ) {
       const hasItemsOrPagination =
         'items' in payload || 'pagination' in payload;
       if (!hasItemsOrPagination) return;

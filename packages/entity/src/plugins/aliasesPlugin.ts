@@ -5,7 +5,7 @@ import { aggioUpdate } from '../aggioUpdate';
 import { isEntityContextOfLoader } from '../entityOperationContextTypes';
 
 export const aliasesPlugin = createEntityPlugin('AliasesPlugin', (hooks) => {
-  hooks.preParse.register(async function preParse(context, { entity }) {
+  hooks.preParse.pushMiddleware(async function preParse(context, { entity }) {
     if (!context.isUpdate) return;
     if (!entity.aliasPaths.length) return;
 
