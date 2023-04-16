@@ -181,8 +181,8 @@ importers:
         specifier: 2.1.0
         version: 2.1.0(@typescript-eslint/parser@5.39.0)(eslint@8.25.0)(typescript@4.9.3)
       jest:
-        specifier: 29.1.2
-        version: 29.1.2(@types/node@16.18.3)(ts-node@10.9.1)
+        specifier: 29.3.1
+        version: 29.3.1(@types/node@16.18.3)(ts-node@10.9.1)
       npm-run-all:
         specifier: 4.1.5
         version: 4.1.5
@@ -197,7 +197,7 @@ importers:
         version: 3.0.2
       ts-jest:
         specifier: 29.0.3
-        version: 29.0.3(@babel/core@7.19.3)(esbuild@0.15.10)(jest@29.1.2)(typescript@4.9.3)
+        version: 29.0.3(@babel/core@7.19.3)(esbuild@0.15.10)(jest@29.3.1)(typescript@4.9.3)
       typedoc:
         specifier: ^0.23.24
         version: 0.23.24(typescript@4.9.3)
@@ -238,8 +238,8 @@ importers:
         specifier: 2.1.0
         version: 2.1.0(@typescript-eslint/parser@5.39.0)(eslint@8.25.0)(typescript@4.9.3)
       jest:
-        specifier: 29.1.2
-        version: 29.1.2(@types/node@16.18.3)(ts-node@10.9.1)
+        specifier: 29.3.1
+        version: 29.3.1(@types/node@16.18.3)(ts-node@10.9.1)
       npm-run-all:
         specifier: 4.1.5
         version: 4.1.5
@@ -254,7 +254,7 @@ importers:
         version: 3.0.2
       ts-jest:
         specifier: 29.0.3
-        version: 29.0.3(@babel/core@7.19.3)(esbuild@0.15.10)(jest@29.1.2)(typescript@4.9.3)
+        version: 29.0.3(@babel/core@7.19.3)(esbuild@0.15.10)(jest@29.3.1)(typescript@4.9.3)
       typedoc:
         specifier: ^0.23.24
         version: 0.23.24(typescript@4.9.3)
@@ -277,8 +277,8 @@ importers:
         specifier: 2.1.0
         version: 2.1.0
       plugin-hooks:
-        specifier: 1.1.3
-        version: 1.1.3
+        specifier: 2.0.0
+        version: 2.0.0
       sift:
         specifier: 16.0.0
         version: 16.0.0
@@ -341,8 +341,8 @@ importers:
         specifier: 16.6.0
         version: 16.6.0
       jest:
-        specifier: 29.1.2
-        version: 29.1.2(@types/node@16.18.3)(ts-node@10.9.1)
+        specifier: 29.3.1
+        version: 29.3.1(@types/node@16.18.3)(ts-node@10.9.1)
       mongodb:
         specifier: 4.10.0
         version: 4.10.0
@@ -363,7 +363,7 @@ importers:
         version: 3.0.2
       ts-jest:
         specifier: 29.0.3
-        version: 29.0.3(@babel/core@7.19.3)(esbuild@0.15.10)(jest@29.1.2)(typescript@4.9.3)
+        version: 29.0.3(@babel/core@7.19.3)(esbuild@0.15.10)(jest@29.3.1)(typescript@4.9.3)
       ts-node:
         specifier: 10.9.1
         version: 10.9.1(@types/node@16.18.3)(typescript@4.9.3)
@@ -383,7 +383,7 @@ importers:
         specifier: 11.7.0
         version: 11.7.0
       solarwind:
-        specifier: 0.2.33
+        specifier: workspace:*
         version: link:../solarwind
     devDependencies:
       '@babel/cli':
@@ -441,8 +441,8 @@ importers:
         specifier: 16.6.0
         version: 16.6.0
       jest:
-        specifier: 29.1.2
-        version: 29.1.2(@types/node@16.18.3)(ts-node@10.9.1)
+        specifier: 29.3.1
+        version: 29.3.1(@types/node@16.18.3)(ts-node@10.9.1)
       npm-run-all:
         specifier: 4.1.5
         version: 4.1.5
@@ -457,7 +457,7 @@ importers:
         version: 3.0.2
       ts-jest:
         specifier: 29.0.3
-        version: 29.0.3(@babel/core@7.19.3)(esbuild@0.15.10)(jest@29.1.2)(typescript@4.9.3)
+        version: 29.0.3(@babel/core@7.19.3)(esbuild@0.15.10)(jest@29.3.1)(typescript@4.9.3)
       ts-node:
         specifier: 10.9.1
         version: 10.9.1(@types/node@16.18.3)(typescript@4.9.3)
@@ -523,8 +523,8 @@ importers:
         specifier: 2.1.0
         version: 2.1.0(@typescript-eslint/parser@5.39.0)(eslint@8.25.0)(typescript@4.9.3)
       jest:
-        specifier: 29.1.2
-        version: 29.1.2(@types/node@16.18.3)(ts-node@10.9.1)
+        specifier: 29.3.1
+        version: 29.3.1(@types/node@16.18.3)(ts-node@10.9.1)
       nodemon:
         specifier: 2.0.20
         version: 2.0.20
@@ -539,7 +539,7 @@ importers:
         version: 3.0.2
       ts-jest:
         specifier: 29.0.3
-        version: 29.0.3(@babel/core@7.19.3)(esbuild@0.15.10)(jest@29.1.2)(typescript@4.9.3)
+        version: 29.0.3(@babel/core@7.19.3)(esbuild@0.15.10)(jest@29.3.1)(typescript@4.9.3)
       ts-node:
         specifier: 10.9.1
         version: 10.9.1(@types/node@16.18.3)(typescript@4.9.3)
@@ -565,8 +565,8 @@ importers:
         specifier: 2.1.0
         version: 2.1.0
       plugin-hooks:
-        specifier: 1.1.3
-        version: 1.1.3
+        specifier: 2.0.0
+        version: 2.0.0
       sift:
         specifier: 16.0.0
         version: 16.0.0
@@ -680,8 +680,8 @@ importers:
         specifier: 10.0.0
         version: 10.0.0
       fs-extra:
-        specifier: ^11.1.0
-        version: 11.1.0
+        specifier: 10.1.0
+        version: 10.1.0
       glob:
         specifier: 8.1.0
         version: 8.1.0
@@ -692,8 +692,8 @@ importers:
         specifier: workspace:*
         version: link:../logstorm
       plugin-hooks:
-        specifier: ^1.1.111
-        version: 1.1.111
+        specifier: 2.0.0
+        version: 2.0.0
       semver:
         specifier: 7.3.8
         version: 7.3.8
@@ -744,8 +744,8 @@ importers:
         specifier: 2.1.0
         version: 2.1.0(@typescript-eslint/parser@5.39.0)(eslint@8.25.0)(typescript@4.9.3)
       jest:
-        specifier: 29.1.2
-        version: 29.1.2(@types/node@16.18.3)(ts-node@10.9.1)
+        specifier: 29.3.1
+        version: 29.3.1(@types/node@16.18.3)(ts-node@10.9.1)
       nodemon:
         specifier: 2.0.20
         version: 2.0.20
@@ -753,8 +753,8 @@ importers:
         specifier: 4.1.5
         version: 4.1.5
       prettier:
-        specifier: ^2.8.3
-        version: 2.8.3
+        specifier: 2.7.1
+        version: 2.7.1
       prettier-plugin-multiline-arrays:
         specifier: ^1.1.3
         version: 1.1.3
@@ -763,7 +763,7 @@ importers:
         version: 3.0.2
       ts-jest:
         specifier: 29.0.3
-        version: 29.0.3(@babel/core@7.19.3)(esbuild@0.15.10)(jest@29.1.2)(typescript@4.9.3)
+        version: 29.0.3(@babel/core@7.19.3)(esbuild@0.15.10)(jest@29.3.1)(typescript@4.9.3)
       ts-node:
         specifier: 10.9.1
         version: 10.9.1(@types/node@16.18.3)(typescript@4.9.3)
@@ -811,11 +811,11 @@ importers:
         specifier: 29.1.2
         version: 29.1.2
       '@types/json-schema':
-        specifier: ^7.0.11
+        specifier: 7.0.11
         version: 7.0.11
       '@types/lodash':
-        specifier: 4.14.186
-        version: 4.14.186
+        specifier: 4.14.191
+        version: 4.14.191
       '@types/node':
         specifier: 16.18.3
         version: 16.18.3
@@ -862,8 +862,8 @@ importers:
         specifier: 16.6.0
         version: 16.6.0
       jest:
-        specifier: 29.1.2
-        version: 29.1.2(@types/node@16.18.3)(ts-node@10.9.1)
+        specifier: 29.3.1
+        version: 29.3.1(@types/node@16.18.3)(ts-node@10.9.1)
       npm-run-all:
         specifier: 4.1.5
         version: 4.1.5
@@ -881,7 +881,7 @@ importers:
         version: 6.3.0
       ts-jest:
         specifier: 29.0.3
-        version: 29.0.3(@babel/core@7.19.3)(esbuild@0.15.10)(jest@29.1.2)(typescript@4.9.3)
+        version: 29.0.3(@babel/core@7.19.3)(esbuild@0.15.10)(jest@29.3.1)(typescript@4.9.3)
       ts-node:
         specifier: 10.9.1
         version: 10.9.1(@types/node@16.18.3)(typescript@4.9.3)
@@ -913,7 +913,7 @@ importers:
         specifier: ^2.2.0
         version: 2.2.0
       logstorm:
-        specifier: 0.2.33
+        specifier: workspace:*
         version: link:../logstorm
       plugin-hooks:
         specifier: 2.0.0
@@ -956,8 +956,8 @@ importers:
         specifier: 29.1.2
         version: 29.1.2
       '@types/lodash':
-        specifier: 4.14.186
-        version: 4.14.186
+        specifier: 4.14.191
+        version: 4.14.191
       '@types/node':
         specifier: 16.18.3
         version: 16.18.3
@@ -1004,8 +1004,8 @@ importers:
         specifier: 16.6.0
         version: 16.6.0
       jest:
-        specifier: 29.1.2
-        version: 29.1.2(@types/node@16.18.3)(ts-node@10.9.1)
+        specifier: 29.3.1
+        version: 29.3.1(@types/node@16.18.3)(ts-node@10.9.1)
       npm-run-all:
         specifier: 4.1.5
         version: 4.1.5
@@ -1023,7 +1023,7 @@ importers:
         version: 6.3.0
       ts-jest:
         specifier: 29.0.3
-        version: 29.0.3(@babel/core@7.19.3)(esbuild@0.15.10)(jest@29.1.2)(typescript@4.9.3)
+        version: 29.0.3(@babel/core@7.19.3)(esbuild@0.15.10)(jest@29.3.1)(typescript@4.9.3)
       ts-node:
         specifier: 10.9.1
         version: 10.9.1(@types/node@16.18.3)(typescript@4.9.3)
@@ -1122,8 +1122,8 @@ importers:
         specifier: 16.6.0
         version: 16.6.0
       jest:
-        specifier: 29.1.2
-        version: 29.1.2(@types/node@16.18.3)(ts-node@10.9.1)
+        specifier: 29.3.1
+        version: 29.3.1(@types/node@16.18.3)(ts-node@10.9.1)
       mongodb:
         specifier: 4.10.0
         version: 4.10.0
@@ -1144,7 +1144,7 @@ importers:
         version: 3.0.2
       ts-jest:
         specifier: 29.0.3
-        version: 29.0.3(@babel/core@7.19.3)(esbuild@0.15.10)(jest@29.1.2)(typescript@4.9.3)
+        version: 29.0.3(@babel/core@7.19.3)(esbuild@0.15.10)(jest@29.3.1)(typescript@4.9.3)
       ts-node:
         specifier: 10.9.1
         version: 10.9.1(@types/node@16.18.3)(typescript@4.9.3)
@@ -1167,8 +1167,8 @@ importers:
         specifier: 2.1.0
         version: 2.1.0
       plugin-hooks:
-        specifier: 1.1.3
-        version: 1.1.3
+        specifier: 2.0.0
+        version: 2.0.0
       sift:
         specifier: 16.0.0
         version: 16.0.0
@@ -1228,8 +1228,8 @@ importers:
         specifier: 16.6.0
         version: 16.6.0
       jest:
-        specifier: 29.1.2
-        version: 29.1.2(@types/node@16.18.3)(ts-node@10.9.1)
+        specifier: 29.3.1
+        version: 29.3.1(@types/node@16.18.3)(ts-node@10.9.1)
       mongodb:
         specifier: 4.10.0
         version: 4.10.0
@@ -1250,7 +1250,7 @@ importers:
         version: 3.0.2
       ts-jest:
         specifier: 29.0.3
-        version: 29.0.3(@babel/core@7.19.3)(esbuild@0.15.10)(jest@29.1.2)(typescript@4.9.3)
+        version: 29.0.3(@babel/core@7.19.3)(esbuild@0.15.10)(jest@29.3.1)(typescript@4.9.3)
       ts-node:
         specifier: 10.9.1
         version: 10.9.1(@types/node@16.18.3)(typescript@4.9.3)
@@ -1370,8 +1370,8 @@ importers:
         specifier: 7.0.11
         version: 7.0.11
       '@types/lodash':
-        specifier: 4.14.186
-        version: 4.14.186
+        specifier: 4.14.191
+        version: 4.14.191
       '@types/node':
         specifier: 16.18.3
         version: 16.18.3
@@ -1412,8 +1412,8 @@ importers:
         specifier: 2.1.0
         version: 2.1.0(@typescript-eslint/parser@5.39.0)(eslint@8.25.0)(typescript@4.9.3)
       jest:
-        specifier: 29.1.2
-        version: 29.1.2(@types/node@16.18.3)(ts-node@10.9.1)
+        specifier: 29.3.1
+        version: 29.3.1(@types/node@16.18.3)(ts-node@10.9.1)
       jest-diff:
         specifier: 29.1.2
         version: 29.1.2
@@ -1431,7 +1431,7 @@ importers:
         version: 3.0.2
       ts-jest:
         specifier: 29.0.3
-        version: 29.0.3(@babel/core@7.19.3)(esbuild@0.15.10)(jest@29.1.2)(typescript@4.9.3)
+        version: 29.0.3(@babel/core@7.19.3)(esbuild@0.15.10)(jest@29.3.1)(typescript@4.9.3)
       typedoc:
         specifier: ^0.23.24
         version: 0.23.24(typescript@4.9.3)
@@ -2715,7 +2715,7 @@ packages:
       fs-extra: 7.0.1
       lodash.startcase: 4.4.0
       outdent: 0.5.0
-      prettier: 2.8.3
+      prettier: 2.7.1
       resolve-from: 5.0.0
       semver: 5.7.1
     dev: false
@@ -2883,7 +2883,7 @@ packages:
       '@changesets/types': 5.2.1
       fs-extra: 7.0.1
       human-id: 1.0.2
-      prettier: 2.8.3
+      prettier: 2.7.1
     dev: false
 
   /@cspotcode/source-map-support@0.8.1:
@@ -3708,13 +3708,8 @@ packages:
       '@types/node': 16.18.3
     dev: true
 
-  /@types/lodash@4.14.186:
-    resolution: {integrity: sha512-eHcVlLXP0c2FlMPm56ITode2AgLMSa6aJ05JTTbYbI+7EMkCEE5qk2E41d5g2lCVTqRe0GnnRFurmlCsDODrPw==}
-    dev: true
-
   /@types/lodash@4.14.191:
     resolution: {integrity: sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==}
-    dev: false
 
   /@types/mime@3.0.1:
     resolution: {integrity: sha512-Y4XFY5VJAuw0FgAqPNd6NNoV44jbq9Bz2L7Rh/J6jLTiHBSBJa9fxqQIvkIld4GsoDOcCbvzOUAbLPsSKKg+uA==}
@@ -6376,15 +6371,6 @@ packages:
       jsonfile: 6.1.0
       universalify: 2.0.0
 
-  /fs-extra@11.1.0:
-    resolution: {integrity: sha512-0rcTq621PD5jM/e0a3EJoGC/1TC5ZBCERW82LQuwfGnCa1V8w7dpYH1yNu+SLb6E5dkeCBzKEyLGlFrnr+dUyw==}
-    engines: {node: '>=14.14'}
-    dependencies:
-      graceful-fs: 4.2.11
-      jsonfile: 6.1.0
-      universalify: 2.0.0
-    dev: false
-
   /fs-extra@7.0.1:
     resolution: {integrity: sha512-YJDaCJZEnBmcbw13fvdAM9AwNOJwOzrE4pqMqBq5nFiEqXUqHwlK4B+3pUw6JNvfSPtX05xFHtYy/1ni01eGCw==}
     engines: {node: '>=6 <7 || >=8'}
@@ -7502,7 +7488,7 @@ packages:
       minimist: 1.2.8
       mkdirp: 1.0.4
       mz: 2.7.0
-      prettier: 2.8.3
+      prettier: 2.7.1
     dev: false
 
   /json-schema-traverse@0.4.1:
@@ -8370,16 +8356,6 @@ packages:
     dependencies:
       find-up: 4.1.0
 
-  /plugin-hooks@1.1.111:
-    resolution: {integrity: sha512-hGk4GGdmjP2TJRqpzCCYoP110KqOwRcmemr5fsqVDpU6fiITrBXNlOkHOD7P3pnsRCbCK9HCUmsV1PjQcIGcnQ==}
-    dependencies:
-      immer: 9.0.19
-    dev: false
-
-  /plugin-hooks@1.1.3:
-    resolution: {integrity: sha512-BVUS81kogVExG+jFeKJBT+2mmwUMiBA+QBlGQwuMyx+A4rCCZjNYSC3tr14HzBgG7lPJmCbjVG+9b3FLH272cg==}
-    dev: false
-
   /plugin-hooks@2.0.0:
     resolution: {integrity: sha512-TBE/slZ7izvRsC+9ci3cG7moGspzLWfzComRssJCHyA3ckS4WpnXgSXQyPYOquT2ZeJI8C/9XBljJwbec/4iIQ==}
     dev: false
@@ -8413,11 +8389,6 @@ packages:
 
   /prettier@2.7.1:
     resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==}
-    engines: {node: '>=10.13.0'}
-    hasBin: true
-
-  /prettier@2.8.3:
-    resolution: {integrity: sha512-tJ/oJ4amDihPoufT5sM0Z1SKEuKay8LfVAMlbbhnnkvt6BUserZylqo2PN+p9KeljLr0OHa2rXHU1T8reeoTrw==}
     engines: {node: '>=10.13.0'}
     hasBin: true
 
@@ -9273,41 +9244,6 @@ packages:
       make-error: 1.3.6
       semver: 7.3.8
       typescript: 4.8.2
-      yargs-parser: 21.1.1
-    dev: true
-
-  /ts-jest@29.0.3(@babel/core@7.19.3)(esbuild@0.15.10)(jest@29.1.2)(typescript@4.9.3):
-    resolution: {integrity: sha512-Ibygvmuyq1qp/z3yTh9QTwVVAbFdDy/+4BtIQR2sp6baF2SJU/8CKK/hhnGIDY2L90Az2jIqTwZPnN2p+BweiQ==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    hasBin: true
-    peerDependencies:
-      '@babel/core': '>=7.0.0-beta.0 <8'
-      '@jest/types': ^29.0.0
-      babel-jest: ^29.0.0
-      esbuild: '*'
-      jest: ^29.0.0
-      typescript: '>=4.3'
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
-      '@jest/types':
-        optional: true
-      babel-jest:
-        optional: true
-      esbuild:
-        optional: true
-    dependencies:
-      '@babel/core': 7.19.3
-      bs-logger: 0.2.6
-      esbuild: 0.15.10
-      fast-json-stable-stringify: 2.1.0
-      jest: 29.1.2(@types/node@16.18.3)(ts-node@10.9.1)
-      jest-util: 29.5.0
-      json5: 2.2.3
-      lodash.memoize: 4.1.2
-      make-error: 1.3.6
-      semver: 7.3.8
-      typescript: 4.9.3
       yargs-parser: 21.1.1
     dev: true
 

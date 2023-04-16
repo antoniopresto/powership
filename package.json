@@ -1,7 +1,7 @@
 {
   "name": "solarwind",
   "private": true,
-  "version": "0.2.77",
+  "version": "1.0.5",
   "scripts": {
     "fix": "turbo run fix",
     "commit": "git add -A && git commit",

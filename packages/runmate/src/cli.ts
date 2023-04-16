@@ -5,6 +5,7 @@ import { inspect } from 'util';
 import chalk from 'chalk';
 import { Command } from 'commander';
 
+import { align } from './commands/align';
 import { list } from './commands/list';
 import { main } from './commands/main';
 import { version } from './commands/version';
@@ -149,6 +150,7 @@ program
 
 list(program);
 version(program);
+align(program);
 
 program.version('> Runmate ' + require('../package.json').version);
 
