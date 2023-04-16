@@ -20,12 +20,7 @@ describe('logstorm', () => {
       method,
     }).toEqual({
       method: 'log',
-      values: [
-        '➤ ',
-        expect.stringMatching(/\n$/),
-        'foo',
-        'bar',
-      ],
+      values: ['➤ ', expect.stringMatching(/\n$/), 'foo', 'bar'],
     });
 
     logstorm.color = 'cyan';
@@ -34,11 +29,7 @@ describe('logstorm', () => {
     await logstorm.lazyDebug(() => {
       return new Promise((resolve) => {
         setTimeout(() => {
-          resolve([
-            1,
-            2,
-            3,
-          ]);
+          resolve([1, 2, 3]);
         }, 50);
       });
     });
@@ -48,13 +39,7 @@ describe('logstorm', () => {
       method,
     }).toEqual({
       method: 'debug',
-      values: [
-        '➤ ',
-        expect.stringMatching(/\n$/),
-        1,
-        2,
-        3,
-      ],
+      values: ['➤ ', expect.stringMatching(/\n$/), 1, 2, 3],
     });
   });
 });

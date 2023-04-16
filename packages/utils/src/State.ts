@@ -148,20 +148,14 @@ export class State<Values extends AnyRecord> {
 
   set(...args) {
     if (typeof args[0] === 'string') {
-      const [
-        path,
-        value,
-      ] = args;
+      const [path, value] = args;
 
       return this.schedule((draft) => {
         setByPath(draft, path, value);
       });
     }
 
-    const [
-      value,
-      immediate,
-    ] = args;
+    const [value, immediate] = args;
 
     return this._setState(value, immediate);
   }
@@ -180,10 +174,7 @@ export class State<Values extends AnyRecord> {
   private schedule = (setter: AnyFunction, immediate = false) => {
     const { queueLimit, flushDelay } = this.config;
 
-    const [
-      next,
-      diff,
-    ] = this.produce(this.staging, setter);
+    const [next, diff] = this.produce(this.staging, setter);
 
     this.queue.push(diff);
     this.staging = next; // 1️⃣ of 2️⃣ - UPDATING THE STAGING STATE
@@ -212,10 +203,7 @@ export class State<Values extends AnyRecord> {
 
     this.queue = [];
 
-    const [
-      next,
-      batchedDiff,
-    ] = this.produce(main, (draft) => {
+    const [next, batchedDiff] = this.produce(main, (draft) => {
       // 2️⃣of 2️⃣ UPDATING THE MAIN STATE
       queue.forEach((diff) => {
         diff.apply(draft);
@@ -328,10 +316,7 @@ export class State<Values extends AnyRecord> {
     const next = produce(staging, setter);
     const diff = new ChangeList(staging, next);
 
-    return [
-      next,
-      diff,
-    ];
+    return [next, diff];
   };
 
   private _setState = (
@@ -342,14 +327,9 @@ export class State<Values extends AnyRecord> {
       if (typeof value === 'function') {
         value(draft);
       } else {
-        Object.entries(value).forEach(
-          ([
-            key,
-            _value,
-          ]) => {
-            draft[key] = _value;
-          }
-        );
+        Object.entries(value).forEach(([key, _value]) => {
+          draft[key] = _value;
+        });
       }
     }, immediate);
 
@@ -363,17 +343,12 @@ export class State<Values extends AnyRecord> {
     : never => {
     const self: any = this;
     const ext = extend(self);
-    Object.entries(ext).forEach(
-      ([
-        key,
-        value,
-      ]) => {
-        if (typeof value === 'function') {
-          value = value.bind(self);
-        }
-        self[key] = value;
+    Object.entries(ext).forEach(([key, value]) => {
+      if (typeof value === 'function') {
+        value = value.bind(self);
       }
-    );
+      self[key] = value;
+    });
     return self;
   };
 

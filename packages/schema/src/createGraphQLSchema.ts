@@ -1,9 +1,8 @@
 import { BJSON, capitalize, notNull } from '@swind/utils';
 import { formatGraphQL } from '@swind/utils';
-import { tupleEnum } from '@swind/utils';
+import { groupBy, tupleEnum } from '@swind/utils';
 import type { GraphQLSchemaConfig } from 'graphql';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
-import groupBy from 'lodash/groupBy';
 
 import { CircularDeps } from './CircularDeps';
 import { GraphType } from './GraphType/GraphType';

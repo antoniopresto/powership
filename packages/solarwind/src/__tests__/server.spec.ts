@@ -1,4 +1,4 @@
-import { Server, ServerRequest } from '..';
+import { Server, ServerRequest } from '../index';
 
 describe('server', () => {
   // afterEach();

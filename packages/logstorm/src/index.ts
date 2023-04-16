@@ -12,36 +12,11 @@ export const LogMethodNames = [
 
 export const logLevels = {
   trace: new Set(LogMethodNames),
-  debug: new Set([
-    'debug',
-    'log',
-    'info',
-    'warn',
-    'error',
-    'fatal',
-  ] as const),
-  log: new Set([
-    'log',
-    'info',
-    'warn',
-    'error',
-    'fatal',
-  ] as const),
-  info: new Set([
-    'info',
-    'warn',
-    'error',
-    'fatal',
-  ] as const),
-  warn: new Set([
-    'warn',
-    'error',
-    'fatal',
-  ] as const),
-  error: new Set([
-    'error',
-    'fatal',
-  ] as const),
+  debug: new Set(['debug', 'log', 'info', 'warn', 'error', 'fatal'] as const),
+  log: new Set(['log', 'info', 'warn', 'error', 'fatal'] as const),
+  info: new Set(['info', 'warn', 'error', 'fatal'] as const),
+  warn: new Set(['warn', 'error', 'fatal'] as const),
+  error: new Set(['error', 'fatal'] as const),
   fatal: new Set(['fatal'] as const),
   silent: new Set([] as string[]),
 } as const;

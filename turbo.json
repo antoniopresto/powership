@@ -1,0 +1,22 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local"],
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", "lib/**", ".next/**", "public/dist/**"]
+    },
+    "fix": {},
+    "test": {},
+    "clear": {},
+    "dev": {},
+    "declarations": {
+      "dependsOn": ["^declarations"],
+      "outputs": ["dist/**", "lib/**", ".next/**", "public/dist/**"]
+    },
+    "publish": {
+      "dependsOn": ["^publish"],
+      "outputs": ["dist/**", "lib/**", ".next/**", "public/dist/**"]
+    }
+  }
+}

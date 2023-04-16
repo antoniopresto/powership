@@ -1,5 +1,4 @@
-import { RuntimeError, UpdateDefinition } from '@swind/utils';
-import merge from 'lodash/merge';
+import { merge, RuntimeError, UpdateDefinition } from '@swind/utils';
 
 import { ParsedUpdateExpression } from './parseUpdateExpression';
 
