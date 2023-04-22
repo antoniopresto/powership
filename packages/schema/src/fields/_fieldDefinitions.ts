@@ -1,6 +1,6 @@
 import { tupleEnum } from '@swind/utils';
 
-import type { DurableFieldConfig } from '../Durable/IDurable';
+import { CustomFieldConfig } from '../CustomFieldConfig';
 
 import { AliasFieldDef } from './AliasField';
 import { ArrayFieldDef } from './ArrayField';
@@ -34,44 +34,21 @@ export type ListDefinitionTruthy = ListDefinitionObject | true;
 export type FieldExampleFunction = () => string | Promise<string>;
 export type FieldExample = FieldExampleFunction | string;
 
-type _get<T, K> = K extends keyof T
-  ? T[K] extends unknown
-    ? T[K]
-    : never
-  : never;
-
-export type ComputeFieldDefinition<T> = T extends unknown
-  ? {
-      type: _get<T, 'type'>;
-      __infer: _get<T, '__infer'>;
-      def: _get<T, 'def'>;
-      defaultValue: _get<T, 'defaultValue'>;
-      description: _get<T, 'description'>;
-      example: _get<T, 'example'>;
-      hidden: _get<T, 'hidden'>;
-      list: _get<T, 'list'>;
-      name: _get<T, 'name'>;
-      optional: _get<T, 'optional'>;
-    }
-  : never;
-
-export type CommonDefSafe = {
+export interface CommonFieldDefinitionProps {
   description?: string;
   example?: FieldExample;
   hidden?: boolean;
   name?: string;
-};
-
-export type CommonFieldOptions = CommonDefSafe & {
   def?: any;
   defaultValue?: any;
   list?: ListDefinition;
   optional?: boolean;
-} & DurableFieldConfig;
+  $?: CustomFieldConfig;
+}
 
-export type CommonFieldDefinition<T> = {
+export interface FieldDefinitionWithType<T> extends CommonFieldDefinitionProps {
   type: T;
-} & CommonFieldOptions;
+}
 
 export const SpecialObjectKeyEnum = tupleEnum(`$string`, `$number`);
 export type SpecialObjectKeys = typeof SpecialObjectKeyEnum.enum;

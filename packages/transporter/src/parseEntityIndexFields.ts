@@ -11,7 +11,7 @@ export function parseEntityIndexFields(indexConfig: AnyCollectionIndexConfig) {
   const { indexes } = indexConfig;
   const entity = indexConfig.entity.toLowerCase();
 
-  return indexes.reduce((acc, index) => {
+  return indexes.reduce((acc: any, index) => {
     const PKRegex = (() => {
       if (index.relatedTo) {
         const relName = index.relatedTo.toLowerCase();

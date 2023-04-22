@@ -12,6 +12,11 @@ describe('objectToJSON', () => {
       dates: '[date]',
       sex: {
         enum: ['m', 'f', 'o'],
+        $: {
+          persist: {
+            ttl: 100,
+          },
+        },
       },
       addresses: {
         type: 'union',

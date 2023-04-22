@@ -30,7 +30,9 @@ export class UnionField<
 
     this.utils.fieldTypes = def.map((el, index) => {
       try {
-        return parseObjectField(`UnionItem_${index}`, el, true);
+        return parseObjectField(`UnionItem_${index}`, el, {
+          returnInstance: true,
+        });
       } catch (e: any) {
         let message = `Filed to parse type:`;
         message += `\n${inspectObject(el, { tabSize: 2 })}`;

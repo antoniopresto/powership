@@ -96,7 +96,7 @@ describe('pick function', () => {
       ],
     };
 
-    expect(pick(obj, 'a.$.b.c')).toEqual([[1, 2, 3]]);
+    expect(pick(obj, 'a.$.b.c')).toEqual([1, 2, 3]);
 
     expect(pick(obj, 'a.b.c')).toEqual(undefined);
     expect(pick(obj, 'a')).toEqual(obj.a);
@@ -114,5 +114,21 @@ describe('pick function', () => {
     const obj = { a: { b: { c: 'foo' } } };
     const path = 'a.' + 'b.'.repeat(1000) + 'c';
     expect(pick(obj, path)).toEqual(undefined);
+  });
+
+  test('should handle $ 1', () => {
+    const obj = { a: { b: 1 }, x: { z: 'foo', y: 'bar', a: [1, 2, 3] } };
+
+    const value = pick(obj, 'a.$');
+    expect(value).toEqual([1]);
+  });
+
+  test('should handle $ 2', () => {
+    const obj = {
+      a: { b: 1 },
+      x: { z: 'foo', y: 'bar', a: [1, 2, 3, { found: 'YEAHHH' }, {}] },
+    };
+    const value = pick(obj, 'x.$.$.$');
+    expect(value).toEqual(['YEAHHH']);
   });
 });

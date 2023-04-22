@@ -6,7 +6,7 @@ import {
   parseValidationError,
 } from '../applyValidator';
 
-import { createFieldTypeError } from './FieldTypeErrors';
+import { FieldTypeError } from './FieldTypeErrors';
 import { FieldDefinitions } from './_fieldDefinitions';
 
 export function arrayFieldParse(config: {
@@ -18,7 +18,7 @@ export function arrayFieldParse(config: {
   const { parser, parserOptions, input, arrayOptions } = config;
 
   if (!input || !Array.isArray(input)) {
-    throw createFieldTypeError(
+    throw new FieldTypeError(
       'unexpectedType',
       `expected Array, found ${getTypeName(input)}`
     );
@@ -31,24 +31,24 @@ export function arrayFieldParse(config: {
   const found = input.length;
 
   if (min !== undefined && found < min) {
-    throw createFieldTypeError('minSize', {
-      expected: { min },
-      found,
-    });
+    throw new FieldTypeError(
+      'minSize',
+      `expected min ${min}, found: ${found}.`
+    );
   }
 
   if (max !== undefined && found > max) {
-    throw createFieldTypeError('maxSize', {
-      expected: { max },
-      found,
-    });
+    throw new FieldTypeError(
+      'maxSize',
+      `expected max ${max}, found: ${found}.`
+    );
   }
 
   if (length !== undefined && found !== length) {
-    throw createFieldTypeError('sizeMismatch', {
-      expected: { length },
-      found,
-    });
+    throw new FieldTypeError(
+      'sizeMismatch',
+      `expected length ${length}, found ${found}.`
+    );
   }
 
   const values: any = [];

@@ -1,8 +1,8 @@
-import * as TU from './typeUtils';
+import * as TU from './typings';
 
 export * from 'aggio';
 
-export * from './typeUtils';
+export * from './typings';
 export * from './devAssert';
 export * from './BJSON';
 export * from './getTypeName';
@@ -11,7 +11,6 @@ export * from './getKeys';
 export * from './keyBy';
 export * from './groupBy';
 export * from './sortBy';
-export * from './getByPath';
 export * from './setByPath';
 export * from './isBrowser';
 export * from './filterNull';
@@ -50,7 +49,7 @@ export * from './deepFreeze';
 export * from './override';
 export * from './useProcess';
 export * from './sortObject';
-export * from './objectDiff';
+export * from './diff/diff';
 export * from './ms';
 export * from './dynamicRequire';
 export * from './hashObject';
@@ -61,7 +60,7 @@ export * from './PackageJson';
 export * from './lodash';
 export * from './IndexCursor';
 export * from './simpleObjectHash';
-export * from './lazyGetters';
+export * from './getters';
 export * from './hooks';
 export * from './Store';
 export * from './AppConfig';
@@ -71,9 +70,10 @@ export * from './mapper';
 export * from './reduceObject';
 export * from './stackTrace';
 export * from './pick';
-export * from './diffChecker';
+export * from './diff/diff';
 export * from './project';
-export * from './jsondiffpatch';
+export * from './pathParser';
+export * from './objectEntries';
 
 // @only-server
 export * from './logLevels';

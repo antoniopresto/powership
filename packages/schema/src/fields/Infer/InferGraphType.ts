@@ -1,4 +1,4 @@
-import type { CommonFieldDefinition } from '../_fieldDefinitions';
+import type { FieldDefinitionWithType } from '../_fieldDefinitions';
 
 import type { InferField } from './InferField';
 
@@ -8,7 +8,7 @@ export interface GraphTypeLikeFieldDefinition {
 }
 
 export interface GraphTypeInTypeFieldDefinition
-  extends CommonFieldDefinition<GraphTypeLikeFieldDefinition> {}
+  extends FieldDefinitionWithType<GraphTypeLikeFieldDefinition> {}
 
 export type InferGraphType<Input> =
   //

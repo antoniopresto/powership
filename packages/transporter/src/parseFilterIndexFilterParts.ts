@@ -196,7 +196,7 @@ export function parseFilterIndexFilterParts(
         };
       }
     )
-    .filter(Boolean);
+    .filter(Boolean) as ParsedIndexFilterPart[];
 
   if (!parsedParts.length) {
     throw new Error(
@@ -208,12 +208,4 @@ export function parseFilterIndexFilterParts(
   }
 
   return { isFinalParsedSearch: false, parts: parsedParts };
-}
-
-declare global {
-  interface Array<T> {
-    filter(
-      filter: BooleanConstructor
-    ): (T extends undefined ? never : T extends null ? never : T)[];
-  }
 }

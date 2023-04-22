@@ -1,5 +1,5 @@
 import { isProduction } from './env';
-import { entries } from './typeUtils';
+import { entries } from './objectEntries';
 import { Process } from './useProcess';
 
 export const LogLevelsEnum = {

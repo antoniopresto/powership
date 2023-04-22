@@ -1,7 +1,7 @@
 import { getTypeName } from '@swind/utils';
 
 import { FieldType, FieldTypeParser } from './FieldType';
-import { createFieldTypeError } from './FieldTypeErrors';
+import { FieldTypeError } from './FieldTypeErrors';
 
 export type UnknownFieldDef = {
   types?: string[] | string;
@@ -22,7 +22,7 @@ export class UnknownField extends FieldType<
       parse: (input) => {
         if (input === undefined) {
           if (this.optional) return input;
-          throw createFieldTypeError('requiredField');
+          throw new FieldTypeError('requiredField');
         }
 
         if (types?.length) {

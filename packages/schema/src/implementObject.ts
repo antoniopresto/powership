@@ -2,7 +2,7 @@ import { RuntimeError } from '@swind/utils';
 import { simpleObjectClone } from '@swind/utils';
 import { Merge } from '@swind/utils';
 
-import { createObjectType, isObject, ObjectType } from './ObjectType';
+import { createObjectType, isObjectType, ObjectType } from './ObjectType';
 import { ObjectLike } from './fields/IObjectLike';
 import { objectMetaFieldKey } from './fields/MetaFieldField';
 import { ObjectDefinitionInput } from './fields/_parseFields';
@@ -39,7 +39,7 @@ export function implementObject<
   const tree: string[] = [];
 
   parents.forEach((parent) => {
-    if (!isObject(parent)) {
+    if (!isObjectType(parent)) {
       throw new RuntimeError(
         `Failed to extend interface. Expected parent to be an Object.`,
         {

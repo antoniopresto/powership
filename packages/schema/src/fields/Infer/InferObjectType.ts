@@ -1,6 +1,6 @@
 import { Cast, GetFieldByDotNotation, NullableToPartial } from '@swind/utils';
 
-import { CommonFieldDefinition } from '../_fieldDefinitions';
+import { FieldDefinitionWithType } from '../_fieldDefinitions';
 
 import { InferField } from './InferField';
 
@@ -10,7 +10,7 @@ export interface ObjectTypeLikeFieldDefinition {
 }
 
 export interface ObjectInTypeFieldDefinition
-  extends CommonFieldDefinition<ObjectTypeLikeFieldDefinition> {}
+  extends FieldDefinitionWithType<ObjectTypeLikeFieldDefinition> {}
 
 export type InferObjectType<T> =
   //

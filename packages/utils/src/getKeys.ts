@@ -1,5 +1,5 @@
 import { invariantType } from './invariant';
-import { Entries } from './typeUtils';
+import { Entries } from './typings';
 
 export function getKeys<T extends Record<string, any>>(
   obj: T

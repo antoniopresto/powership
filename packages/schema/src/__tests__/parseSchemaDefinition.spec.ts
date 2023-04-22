@@ -1,10 +1,11 @@
+import { objectMetaFieldKey } from '../fields/MetaFieldField';
 import { ObjectType } from '../ObjectType';
 import { EnumField } from '../fields/EnumField';
 import { parseObjectDefinition } from '../parseObjectDefinition';
 
 describe('parseObjectDefinition', () => {
   it('works', () => {
-    const { definition: sut } = parseObjectDefinition({
+    const { definition: sut, custom } = parseObjectDefinition({
       objectIntDef: {
         type: 'int',
       },
@@ -26,19 +27,25 @@ describe('parseObjectDefinition', () => {
       unionAsFlattenDef: {
         union: ['string', 'int?'],
       },
+      $: {
+        persist: true,
+      },
     });
+
+    expect(custom).toEqual({ persist: true });
 
     expect(sut).toEqual({
       __dschm__: {
         def: {
+          custom: {
+            persist: true,
+          },
           id: null,
         },
-
         type: 'meta',
       },
       arrayString: {
         list: true,
-
         type: 'string',
       },
       arrayStringOptional: {
@@ -48,17 +55,14 @@ describe('parseObjectDefinition', () => {
       },
       enum: {
         def: ['a', 'b'],
-
         type: 'enum',
       },
       fieldType: {
         def: ['a', 'x'],
-
         type: 'enum',
       },
       fieldTypeOptional: {
         def: ['a', 'x'],
-
         optional: true,
         type: 'enum',
       },
@@ -74,14 +78,12 @@ describe('parseObjectDefinition', () => {
             def: {
               id: null,
             },
-
             type: 'meta',
           },
           name: {
             type: 'string',
           },
         },
-
         type: 'object',
       },
       objectIntDef: {
@@ -104,7 +106,6 @@ describe('parseObjectDefinition', () => {
             type: 'int',
           },
         ],
-
         optional: true,
         type: 'union',
       },
@@ -117,7 +118,18 @@ describe('parseObjectDefinition', () => {
       status: {
         enum: ['open', 'closed'],
       },
+      $: { persist: true },
     } as const);
+
+    expect(otherObject.definition[objectMetaFieldKey]).toEqual({
+      def: {
+        custom: {
+          persist: true,
+        },
+        id: null,
+      },
+      type: 'meta',
+    });
 
     const sass = {
       union: {

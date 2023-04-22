@@ -1,6 +1,4 @@
-import { RuntimeError } from '@swind/utils';
-import get from 'lodash/get';
-import setWith from 'lodash/setWith';
+import { pick, RuntimeError, setByPath } from '@swind/utils';
 
 import { objectToQuery } from './objectToQuery';
 
@@ -46,7 +44,7 @@ export class QueryBuilder<S extends Record<string, any> = Record<string, any>> {
 
       if (!isFunction) {
         const node = Object.create(null);
-        setWith(this.object, entry, node);
+        setByPath(this.object, entry, node);
       } else {
         const parts = entry
           .split(/(\.|\$F|\$A)/)
@@ -74,9 +72,11 @@ export class QueryBuilder<S extends Record<string, any> = Record<string, any>> {
           .join(sepKey);
 
         try {
-          const json = args ? JSON.parse(args) : get(this.object, newKey, {});
+          const json = args
+            ? JSON.parse(args)
+            : pick(this.object, newKey) ?? {};
 
-          setWith(this.object, newKey, json);
+          setByPath(this.object, newKey, json);
         } catch (e) {
           throw new RuntimeError(`failed to convert args`, { args, entry });
         }

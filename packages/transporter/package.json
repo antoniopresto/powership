@@ -1,6 +1,6 @@
 {
   "name": "@swind/transporter",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "main": "lib/index.js",
   "sideEffects": false,
   "module": "lib/module/index.js",
@@ -34,8 +34,8 @@
     "inference"
   ],
   "dependencies": {
-    "@swind/schema": "workspace:*",
-    "@swind/utils": "workspace:*",
+    "@swind/schema": "1.0.9",
+    "@swind/utils": "1.0.9",
     "dataloader": "2.1.0",
     "plugin-hooks": "2.0.0",
     "sift": "16.0.0"
@@ -45,7 +45,7 @@
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@swind/babel-plugins": "workspace:*",
+    "@swind/babel-plugins": "1.0.9",
     "@types/jest": "29.1.2",
     "@types/node": "16.18.3",
     "@typescript-eslint/eslint-plugin": "5.39.0",

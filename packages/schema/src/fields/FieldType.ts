@@ -1,6 +1,7 @@
 import { inspectObject, simpleObjectClone } from '@swind/utils';
 
 import { CircularDeps } from '../CircularDeps';
+import { CustomFieldConfig } from '../CustomFieldConfig';
 import {
   FieldParserOptionsObject,
   FieldTypeParser,
@@ -9,7 +10,7 @@ import {
 } from '../applyValidator';
 
 import { arrayFieldParse } from './ArrayFieldParse';
-import { createFieldTypeError, isFieldError } from './FieldTypeErrors';
+import { FieldTypeError, isFieldError } from './FieldTypeErrors';
 import { $inferableKey } from './Infer';
 import {
   FieldDefinitions,
@@ -136,6 +137,7 @@ export abstract class FieldType<
   defaultValue: DefaultValue;
   description?: string;
   hidden?: boolean;
+  $?: CustomFieldConfig;
 
   describe = (description: string): this => {
     this.description = description;
@@ -150,6 +152,7 @@ export abstract class FieldType<
     list: [List] extends [1] ? true : false;
     optional: [Optional] extends [1] ? true : false;
     type: Type;
+    $?: CustomFieldConfig;
   } => {
     return this.asFinalFieldDef as any;
   };
@@ -235,7 +238,7 @@ export abstract class FieldType<
       }
 
       if (input === undefined && !this.optional) {
-        throw createFieldTypeError('requiredField');
+        throw new FieldTypeError('requiredField');
       }
 
       if (this.asFinalFieldDef.list) {
@@ -268,6 +271,7 @@ export abstract class FieldType<
       list: this.list,
       optional: this.optional,
       type: this.type,
+      $: this.$,
     };
 
     Object.entries(res).forEach(([k, v]) => {

@@ -1,4 +1,4 @@
-import { getByPath } from '@swind/utils';
+import { pick } from '@swind/utils';
 
 import { objectMetaFieldKey } from '../fields/MetaFieldField';
 
@@ -16,9 +16,9 @@ export function getInnerGraphTypeId(input: any): string | undefined {
   }
   if (id) return id;
 
-  const inputId = getByPath(input, 'id');
-  const inputTypeId = getByPath(input, 'type.id');
-  const inputMetaDefId = getByPath(input, `def.${objectMetaFieldKey}.def.id`);
+  const inputId = pick(input, 'id');
+  const inputTypeId = pick(input, 'type.id');
+  const inputMetaDefId = pick(input, `def.${objectMetaFieldKey}.def.id`);
 
   id = inputMetaDefId || inputTypeId || inputId;
 

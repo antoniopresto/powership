@@ -1,4 +1,3 @@
-import { dynamicRequire } from './dynamicRequire';
 import { getTypeName } from './getTypeName';
 
 interface InspectObjectDetails {
@@ -52,10 +51,10 @@ function spaces(size: number, space = ' ') {
 }
 
 function _inspectObject(obj: any, config: any): string {
-  const nodeIns = dynamicRequire('util')?.inspect;
-
-  if (nodeIns) {
-    return nodeIns(obj, config);
+  if (typeof module === 'object' && typeof module.require === 'function') {
+    try {
+      return module.require('utils').inspect(obj, config);
+    } catch (e) {}
   }
 
   try {

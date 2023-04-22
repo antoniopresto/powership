@@ -35,7 +35,11 @@ import {
   ThunkReadonlyArray,
 } from 'graphql/type/definition';
 
-import { __getCachedFieldInstance, isObject, ObjectType } from '../ObjectType';
+import {
+  __getCachedFieldInstance,
+  isObjectType,
+  ObjectType,
+} from '../ObjectType';
 import { AliasField } from '../fields/AliasField';
 import { ArrayField } from '../fields/ArrayField';
 import type { CursorField } from '../fields/CursorField';
@@ -134,7 +138,7 @@ export class GraphQLParser {
   };
 
   static objectIds = (object: ObjectTypeLikeFieldDefinition) => {
-    if (!isObject(object)) {
+    if (!isObjectType(object)) {
       throw new RuntimeError(`Invalid Object.`, {
         object,
       });

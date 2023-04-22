@@ -2,9 +2,10 @@ import { DotNotations } from 'aggio';
 import { createSyncPlugin, SyncPlugin } from 'plugin-hooks';
 
 import { ensureArray } from './ensureArray';
-import { getByPath } from './getByPath';
+import { ObjectEntries } from './objectEntries';
+import { pick } from './pick';
 import { simpleObjectHash } from './simpleObjectHash';
-import { ObjectEntries, Pick } from './typeUtils';
+import { Pick } from './typings';
 
 export type InternalEvent = 'PRUNING' | 'INITIAL' | 'CLEAR';
 
@@ -216,7 +217,7 @@ export function createStore<
       if (hashBy) {
         return hashBy
           .map((part) => {
-            return getByPath(value, part);
+            return pick(value, part);
           })
           .join('#');
       }
@@ -290,7 +291,7 @@ export function createStore<
 
     groups.forEach((group) => {
       entries.forEach(([, value]) => {
-        const key = (getByPath(value, group) ?? onNull) + '';
+        const key = (pick(value, group) ?? onNull) + '';
         res[key] = res[key] || [];
         res[key].push(value);
       });

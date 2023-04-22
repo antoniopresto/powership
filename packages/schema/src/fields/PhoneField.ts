@@ -8,7 +8,7 @@ import type {
 import { CircularDeps } from '../CircularDeps';
 
 import { FieldType, FieldTypeParser } from './FieldType';
-import { createFieldTypeError } from './FieldTypeErrors';
+import { FieldTypeError } from './FieldTypeErrors';
 
 export type { PhoneNumberTypes, ParsedPhoneNumber };
 
@@ -30,7 +30,7 @@ export function _backendValidatePhoneNumber(
   const { regionCode, numberType } = options;
 
   if (typeof input !== 'string') {
-    throw createFieldTypeError('unexpectedType', {
+    throw new FieldTypeError('unexpectedType', {
       expected: 'VALID_PHONE_NUMBER',
       found: input,
     });
@@ -46,7 +46,7 @@ export function _backendValidatePhoneNumber(
   }
 
   if (!valid) {
-    throw createFieldTypeError('invalidPhone', {
+    throw new FieldTypeError('invalidPhone', {
       expected: 'VALID_PHONE_NUMBER',
       found: input,
     });

@@ -1,4 +1,4 @@
-import { MaybePromise } from './typeUtils';
+import { MaybePromise } from './typings';
 
 export async function awaitSync<T>(promises: MaybePromise<T>[]): Promise<T[]> {
   for (const key in promises) {

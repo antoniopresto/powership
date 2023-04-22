@@ -1,3 +1,5 @@
+import { CustomFieldConfig } from '../CustomFieldConfig';
+
 import {
   GraphTypeInTypeFieldDefinition,
   GraphTypeLikeFieldDefinition,
@@ -7,9 +9,9 @@ import {
   ObjectTypeLikeFieldDefinition,
 } from './Infer';
 import {
-  CommonFieldDefinition,
-  CommonFieldOptions,
+  CommonFieldDefinitionProps,
   FieldDefinitions,
+  FieldDefinitionWithType,
   FieldTypeName,
 } from './_fieldDefinitions';
 
@@ -27,9 +29,11 @@ export type _ObjectFieldInputBase =
 
 export type FieldInput = ObjectFieldInput;
 
-export interface ObjectDefinitionInput {
+export type ObjectDefinitionInput = {
   [K: string]: ObjectFieldInput;
-}
+} & {
+  $?: CustomFieldConfig;
+};
 
 export type Shape = ObjectDefinitionInput;
 
@@ -53,7 +57,7 @@ export type FinalFieldDefinitionStrict =
 
 export type FinalFieldDefinition = {
   // less restrictive type, avoid over processing
-  [K in FieldTypeName]: CommonFieldDefinition<K>;
+  [K in FieldTypeName]: FieldDefinitionWithType<K>;
 }[FieldTypeName];
 
 export type FlattenFieldDefinition = {
@@ -63,7 +67,7 @@ export type FlattenFieldDefinition = {
       : FieldDefinitions[K];
   };
 }[FieldTypeName] &
-  CommonFieldOptions;
+  CommonFieldDefinitionProps;
 
 export type FieldAsString =
   | FieldTypeName

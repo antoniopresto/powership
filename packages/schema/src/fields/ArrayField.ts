@@ -36,7 +36,9 @@ export class ArrayField<T extends ArrayFieldDef> extends FieldType<
     const { parseObjectField } = CircularDeps;
 
     try {
-      this.utils.listItemType = parseObjectField(`ListItem`, def.of, true);
+      this.utils.listItemType = parseObjectField(`ListItem`, def.of, {
+        returnInstance: true,
+      });
     } catch (e: any) {
       let message = `Filed to parse type:`;
       message += `\n${inspectObject(def, { tabSize: 2 })}`;

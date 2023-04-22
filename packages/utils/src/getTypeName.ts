@@ -3,7 +3,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import { BJSON } from './BJSON';
 import { proxyRealValue } from './createProxy';
 import { hashObject } from './hashObject';
-import { tupleEnum } from './typeUtils';
+import { tupleEnum } from './typings';
 
 export function getTypeName(input: any): string {
   const simple = getNativeConstructorType(input);
@@ -188,16 +188,6 @@ export type NativeSimpleType =
   | boolean;
 
 export type Hashable = NativeComplexType | NativeSimpleType;
-
-declare global {
-  interface Array<T> {
-    includes(searchElement: any, fromIndex?: number): boolean;
-
-    filter(
-      filter: BooleanConstructor
-    ): (T extends undefined ? never : T extends null ? never : T)[];
-  }
-}
 
 export type ConstructorDescription = {
   isObjectWithoutPrototype: boolean;

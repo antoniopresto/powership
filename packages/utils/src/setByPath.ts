@@ -1,6 +1,6 @@
 import setWith from 'lodash/setWith';
 
-import { ObjectPath } from './typeUtils';
+import { ObjectPath } from './typings';
 
 export function setByPath<
   T extends Record<string, any>,

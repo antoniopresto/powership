@@ -2,7 +2,7 @@ import { setByPath } from '@swind/utils';
 import { BJSON } from '@swind/utils';
 import { RuntimeError } from '@swind/utils';
 import { expectedType } from '@swind/utils';
-import { getByPath } from '@swind/utils';
+import { pick } from '@swind/utils';
 import { getKeys } from '@swind/utils';
 import { getTypeName } from '@swind/utils';
 import { nonNullValues } from '@swind/utils';
@@ -11,7 +11,7 @@ import { JSONSchema4 } from 'json-schema';
 import {
   __getCachedFieldInstance,
   createObjectType,
-  isObject,
+  isObjectType,
   parseField,
   parseObjectField,
 } from './ObjectType';
@@ -45,14 +45,14 @@ export function objectToJSON(
 ): JSONSchema4 & { properties: JSONSchema4 } {
   let definition: FinalObjectDefinition;
 
-  if (isObject(object)) {
+  if (isObjectType(object)) {
     definition = object.definition as FinalObjectDefinition;
   } else {
     // @ts-ignore
     definition = createObjectType(object as ObjectDefinitionInput).definition;
   }
 
-  const description = isObject(object) ? object.description : undefined;
+  const description = isObjectType(object) ? object.description : undefined;
 
   const topProperties: Record<string, JSONSchema4> = {};
   const required: string[] = [];
@@ -171,7 +171,7 @@ function parseGraphQLField(params: {
       composers.push({
         compose(parent) {
           if (typeof type.def === 'string') {
-            return getByPath(parent, type.def);
+            return pick(parent, type.def);
           } else {
             return parseGraphQLField({
               field: type.utils.fieldType.asFinalFieldDef,

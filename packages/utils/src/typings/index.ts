@@ -2,6 +2,7 @@ import type * as Toolbet from './ts-toolbet';
 
 export * from './ts-toolbet';
 export * from './Compute';
+export * from './Path';
 
 export type { Toolbet as T };
 
@@ -99,6 +100,7 @@ export type MaybeArray<T> = T | T[];
 export type ArrayType<T> = T extends Array<infer N> ? N : T;
 
 export type AnyRecord = Record<string, any>;
+export type UnknownRecord = { [K: string]: unknown };
 
 export type AnyArray<T = any> = ReadonlyArray<T> | ArrayLike<T> | T[];
 export type AnyList<T = any> = AnyArray<T>;
@@ -282,16 +284,6 @@ export type PartialRequired<T, Optionals extends keyof T> = {
 } & ({ [K in Optionals]?: T[K] } & {});
 
 export const noop = Object.freeze(Object.create(null)) as {};
-
-export type ObjectEntries<T> =
-  //
-  {
-    [K in Extract<keyof T, string>]: [K, T[K]];
-  }[Extract<keyof T, string>][];
-
-export function entries<O extends object>(init: O): ObjectEntries<O> {
-  return Object.entries(init) as any;
-}
 
 /**
  * @alias to GetFieldByDotNotation

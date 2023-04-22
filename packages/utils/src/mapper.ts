@@ -1,4 +1,4 @@
-import { NullableToPartial, Union } from './typeUtils/index';
+import { NullableToPartial, Union } from './typings/index';
 
 // (item: Item, index: number, acc: T[]>) => T | null) => Mapper<T>
 export interface Mapper<Item extends object> {

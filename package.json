@@ -1,14 +1,18 @@
 {
   "name": "solarwind",
   "private": true,
-  "version": "1.0.8",
+  "version": "1.0.9",
   "scripts": {
     "pack": "run-s pack:*",
     "pack:publish": "run \"pnpm publish\"",
     "fix": "turbo run fix",
     "test": "turbo run test",
     "validate": "(cd packages/schema && npm run prepublish)",
-    "doc": "typedoc"
+    "doc": "typedoc",
+    "i": "rm -rf node_modules/.pnpm && rm -rf pnpm-lock.yaml && pnpm install",
+    "clear": "run-s clear:* && pnpm install",
+    "clear:root": "rm -rf node_modules *-lock.yaml *-lock.json",
+    "clear:packages": "run \"rm -rf node_modules *-lock.yaml *-lock.json\" lib"
   },
   "devDependencies": {
     "@swind/babel-plugins": "workspace:*",

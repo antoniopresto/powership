@@ -5,6 +5,8 @@ import { getTypeName } from '@swind/utils';
 import { nonNullValues } from '@swind/utils';
 import { Serializable } from '@swind/utils';
 
+import { CustomFieldConfig } from '../CustomFieldConfig';
+
 import { FieldType, FieldTypeParser } from './FieldType';
 
 export type MetaFieldDef = {
@@ -12,6 +14,7 @@ export type MetaFieldDef = {
   description?: string;
   id: string | null;
   implements?: string[];
+  custom?: CustomFieldConfig;
 };
 
 export class MetaField extends FieldType<MetaField, 'meta', MetaFieldDef> {

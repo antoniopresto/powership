@@ -31,11 +31,11 @@ import {
   createSyncPlugin,
   devAssert,
   ensureArray,
-  getByPath,
   isProduction,
   Logger,
   nonNullValues,
   notNull,
+  pick,
   proxyRealValue,
   RuntimeError,
   simpleObjectClone,
@@ -910,9 +910,9 @@ function _getIndexGraphTypes(input: {
     let def: FinalFieldDefinition | undefined;
     fieldName.split('.').forEach((part, index) => {
       if (index === 0) {
-        def = getByPath(entityOutputDefinitionWithRelations, part);
+        def = pick(entityOutputDefinitionWithRelations, part);
       } else if (def && def.type === 'object') {
-        def = getByPath(def.def, part);
+        def = pick(def.def, part);
       }
     });
     return def;

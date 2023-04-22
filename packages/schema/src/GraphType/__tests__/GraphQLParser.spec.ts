@@ -34,6 +34,7 @@ describe('GraphQLParser', () => {
       address: {
         object: {
           number: {
+            $: { persist: true },
             union: [
               { object: { number: 'string' } },
               { object: { number: 'int' } },

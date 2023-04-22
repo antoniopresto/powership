@@ -6,7 +6,7 @@ import {
   LogLevels,
 } from './logLevels';
 import { getStack } from './stackTrace';
-import { AnyFunction } from './typeUtils';
+import { AnyFunction } from './typings';
 
 function stringify(write: AnyFunction, ...args: any[]) {
   for (let val of args) {

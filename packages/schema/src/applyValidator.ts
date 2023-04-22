@@ -1,4 +1,4 @@
-import { createFieldTypeError } from './fields/FieldTypeErrors';
+import { FieldTypeError } from './fields/FieldTypeErrors';
 
 export type ValidationCustomMessage =
   | string
@@ -48,11 +48,11 @@ export function parseValidationError(
 
   const error =
     typeof originalError === 'string'
-      ? createFieldTypeError('custom', originalError)
+      ? new FieldTypeError('custom', originalError)
       : originalError;
 
   if (typeof customMessage === 'string') {
-    return createFieldTypeError('custom', customMessage);
+    return new FieldTypeError('custom', customMessage);
   }
 
   if (typeof customMessage === 'function') {
@@ -60,9 +60,9 @@ export function parseValidationError(
     if (!_customError) return error;
 
     if ('string' === typeof _customError) {
-      return createFieldTypeError('custom', _customError);
+      return new FieldTypeError('custom', _customError);
     } else {
-      return createFieldTypeError(
+      return new FieldTypeError(
         'custom',
         _customError?.message || _customError
       );

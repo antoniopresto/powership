@@ -1,21 +1,16 @@
-import {
-  applyChanges,
-  ChangeList,
-  objectDiffPaths,
-  revertChanges,
-} from '../objectDiff';
-import { simpleObjectClone } from '../simpleObjectClone';
+import { applyChanges, ChangeList, diff, revertChanges } from '../diff';
+import { simpleObjectClone } from '../../simpleObjectClone';
 
-describe('objectDiffPaths', () => {
+describe('diff', () => {
   test('should return an empty array when given identical objects', () => {
     const obj = { a: 1, b: 2, c: 3 };
-    const result = objectDiffPaths(obj, { ...obj });
+    const result = diff(obj, { ...obj });
     expect(result).toEqual([]);
   });
 
   test('should return an empty array when given two empty objects', () => {
     const obj = {};
-    const result = objectDiffPaths(obj, {});
+    const result = diff(obj, {});
     expect(result).toEqual([]);
   });
 
@@ -28,8 +23,8 @@ describe('objectDiffPaths', () => {
       a: { b: 1, c: 3 },
       d: [3, 4, { e: 6 }],
     };
-    const diff = objectDiffPaths(obj1, obj2);
-    expect(diff).toEqual([
+    const d = diff(obj1, obj2);
+    expect(d).toEqual([
       {
         kind: 'update',
         newValue: 3,
@@ -55,8 +50,8 @@ describe('objectDiffPaths', () => {
       b: 'world',
       d: [1, 2, 3],
     };
-    const diff = objectDiffPaths(obj1, obj2);
-    expect(diff).toEqual([
+    const d = diff(obj1, obj2);
+    expect(d).toEqual([
       {
         kind: 'update',
         newValue: 2,
@@ -91,7 +86,7 @@ describe('objectDiffPaths', () => {
   test('should return the correct differences when given objects with different data types', () => {
     const obj1 = { a: 'hello', b: 123 };
     const obj2 = { a: 'world', b: '456' };
-    const result = objectDiffPaths(obj1, obj2);
+    const result = diff(obj1, obj2);
     expect(result).toEqual([
       {
         kind: 'update',
@@ -114,7 +109,7 @@ describe('objectDiffPaths', () => {
     const obj1 = { a: 1, b: { c: 2, x: { c: 1 } } };
     const obj2 = { a: 1, b: { c: 3, d: 4, x: { c: new Date() } } };
 
-    const result = objectDiffPaths(obj1, obj2);
+    const result = diff(obj1, obj2);
 
     expect(result).toEqual([
       {
@@ -144,7 +139,7 @@ describe('objectDiffPaths', () => {
     const obj1 = { a: { b: 1 } };
     const obj2 = { a: { b: 2, c: 3 } };
 
-    const result = objectDiffPaths(obj1, obj2);
+    const result = diff(obj1, obj2);
 
     expect(result).toEqual([
       {
@@ -168,7 +163,7 @@ describe('objectDiffPaths', () => {
     const obj1 = { a: 1, b: null };
     const obj2 = { a: 2, b: 3 };
 
-    const result = objectDiffPaths(obj1, obj2);
+    const result = diff(obj1, obj2);
 
     expect(result).toEqual([
       {
@@ -192,7 +187,7 @@ describe('objectDiffPaths', () => {
     const obj1 = { a: 1, b: undefined };
     const obj2 = { a: 2, b: 3 };
 
-    const result = objectDiffPaths(obj1, obj2);
+    const result = diff(obj1, obj2);
 
     expect(result).toEqual([
       {
@@ -216,7 +211,7 @@ describe('objectDiffPaths', () => {
     const obj1 = { a: 1, b: 2 };
     const obj2 = { b: 3, a: 2 };
 
-    const result = objectDiffPaths(obj1, obj2);
+    const result = diff(obj1, obj2);
 
     expect(result).toEqual([
       {
@@ -239,7 +234,7 @@ describe('objectDiffPaths', () => {
   test('should return the correct differences when given objects with properties of different types', () => {
     const obj1 = { a: { b: 'hello' }, c: 123 };
     const obj2 = { a: { b: 'world' }, c: '456' };
-    const result = objectDiffPaths(obj1, obj2);
+    const result = diff(obj1, obj2);
     expect(result).toEqual([
       {
         kind: 'update',
@@ -261,7 +256,7 @@ describe('objectDiffPaths', () => {
   test('should return the correct differences when given objects with null or undefined property values', () => {
     const obj1 = { a: 1, b: null };
     const obj2 = { a: 2, b: undefined };
-    const result = objectDiffPaths(obj1, obj2);
+    const result = diff(obj1, obj2);
     expect(result).toEqual([
       {
         kind: 'update',
@@ -283,7 +278,7 @@ describe('objectDiffPaths', () => {
   test('should return the correct differences when given objects with falsey property values', () => {
     const obj1 = { a: false, b: 0, c: '' };
     const obj2 = { a: true, b: 1, c: 'hello' };
-    const result = objectDiffPaths(obj1, obj2);
+    const result = diff(obj1, obj2);
     expect(result).toEqual([
       {
         kind: 'update',
@@ -314,7 +309,7 @@ describe('objectDiffPaths', () => {
     const obj2 = {
       a: [1, 2, 3],
     };
-    const result = objectDiffPaths(obj1, obj2);
+    const result = diff(obj1, obj2);
     expect(result).toEqual([
       {
         kind: 'update',
@@ -330,7 +325,7 @@ describe('objectDiffPaths', () => {
     const obj1 = { a: { b: () => {} } };
     const obj2 = { a: { b: () => {}, c: 1 } };
 
-    const result = objectDiffPaths(obj1, obj2);
+    const result = diff(obj1, obj2);
 
     expect(result).toEqual([
       {
@@ -354,7 +349,7 @@ describe('objectDiffPaths', () => {
     const date2 = new Date('2022-02-01');
     const obj1 = { a: { b: date1 } };
     const obj2 = { a: { b: date2 } };
-    const result = objectDiffPaths(obj1, obj2);
+    const result = diff(obj1, obj2);
 
     expect(result).toEqual([
       {
@@ -379,7 +374,7 @@ describe('objectDiffPaths', () => {
 
     obj2.e = obj2;
 
-    const result = objectDiffPaths(obj1, obj2);
+    const result = diff(obj1, obj2);
 
     expect(result).toEqual([
       {
@@ -402,7 +397,7 @@ describe('objectDiffPaths', () => {
     const symbol2 = Symbol('test');
     const obj1 = { a: symbol1 };
     const obj2 = { a: symbol2 };
-    const result = objectDiffPaths(obj1, obj2);
+    const result = diff(obj1, obj2);
     expect(result).toEqual([
       {
         kind: 'update',
@@ -417,7 +412,7 @@ describe('objectDiffPaths', () => {
   test('should handle NaN values correctly', () => {
     const obj1 = { a: 1, b: NaN };
     const obj2 = { a: 2, b: NaN };
-    const result = objectDiffPaths(obj1, obj2);
+    const result = diff(obj1, obj2);
     expect(result).toEqual([
       {
         kind: 'update',
@@ -432,7 +427,7 @@ describe('objectDiffPaths', () => {
   test('should handle Infinity values correctly', () => {
     const obj1 = { a: 1, b: Infinity };
     const obj2 = { a: 2, b: Infinity };
-    const result = objectDiffPaths(obj1, obj2);
+    const result = diff(obj1, obj2);
     expect(result).toEqual([
       {
         kind: 'update',

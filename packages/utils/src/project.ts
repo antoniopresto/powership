@@ -1,13 +1,13 @@
 import { pick } from './pick';
 import { setByPath } from './setByPath';
-import { AnyRecord, ObjectPath } from './typeUtils';
+import { Paths } from './typings';
 
-export function project<T extends AnyRecord, Path = ObjectPath<T>>(
+export function project<T, Path = Paths<T>>(
   value: T,
   paths: ArrayLike<Path> | '*'
 ) {
   if (paths === '*') {
-    return { ...value };
+    return value;
   }
 
   let result = {};

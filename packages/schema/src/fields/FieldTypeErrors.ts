@@ -36,10 +36,6 @@ export class FieldTypeError extends Error {
   }
 }
 
-export function createFieldTypeError(code: FieldTypeErrorCode, details?: any) {
-  return new FieldTypeError(code, details);
-}
-
 export function isFieldError(el: any): el is FieldTypeError {
   return Boolean(el && el?.__isFieldTypeError === true);
 }

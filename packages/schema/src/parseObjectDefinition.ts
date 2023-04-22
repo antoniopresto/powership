@@ -4,12 +4,13 @@ import { getKeys } from '@swind/utils';
 import { getTypeName } from '@swind/utils';
 import { inspectObject } from '@swind/utils';
 
+import { CustomFieldConfig } from './CustomFieldConfig';
 import { GraphType } from './GraphType/GraphType';
 import {
   FieldAsString,
   FieldInput,
   FinalFieldDefinitionStrict,
-  isObject,
+  isObjectType,
   ObjectType,
   ShortenFinalFieldDefinition,
 } from './ObjectType';
@@ -23,37 +24,13 @@ import {
   MetaField,
   objectMetaFieldKey,
 } from './fields/MetaFieldField';
-import { CommonFieldDefinition } from './fields/_fieldDefinitions';
+import { FieldDefinitionWithType } from './fields/_fieldDefinitions';
 import { FinalFieldDefinition } from './fields/_parseFields';
 import { types } from './fields/fieldTypes';
 import {
   isStringFieldDefinition,
   parseStringDefinition,
 } from './parseStringDefinition';
-
-export interface ParserHook {
-  (field: FinalFieldDefinition): FinalFieldDefinition;
-}
-
-export const _parserHooks: ParserHook[] = [];
-
-export interface RemoveParserHook {
-  (): ParserHook[];
-}
-export function setParserHook(hook: ParserHook): RemoveParserHook {
-  _parserHooks.push(hook);
-
-  function remove() {
-    _parserHooks.find((el, index) => {
-      if (el !== hook) return false;
-      delete _parserHooks[index];
-      return true;
-    });
-    return _parserHooks;
-  }
-
-  return remove;
-}
 
 export function parseObjectField<
   T extends FieldDefinitionConfig,
@@ -73,31 +50,20 @@ export function parseObjectField<T extends FieldDefinitionConfig>(
   definition: T
 ): FinalFieldDefinition;
 
-/**
- * @deprecated use the object options instead of true
- * @param fieldName
- * @param definition
- * @param options
- */
-export function parseObjectField<T extends FieldDefinitionConfig>(
+export function parseObjectField(
   fieldName: string,
-  definition: T,
-  options: true // deprecated
-): TAnyFieldType;
-
-export function parseObjectField(fieldName, definition, options = {}) {
-  let { returnInstance, asString, deep, omitMeta } = (
-    options === true ? { returnInstance: true } : options
-  ) as ParseFieldOptions;
+  definition: FieldDefinitionConfig,
+  options: ParseFieldOptions = {}
+) {
+  let { returnInstance, asString, deep, omitMeta } = options;
 
   if (deep?.omitMeta) omitMeta = true;
   if (deep?.asString) asString = true;
 
-  let parsed = parseFieldDefinitionConfig(definition, { deep, omitMeta });
-
-  if (_parserHooks.length) {
-    _parserHooks.forEach((cb) => cb(parsed));
-  }
+  let parsed = parseFieldDefinitionConfig(definition, {
+    deep,
+    omitMeta,
+  });
 
   if (typeof parsed === 'string') {
     return parsed;
@@ -159,6 +125,7 @@ export function parseFieldDefinitionConfig<
         hidden: definition.hidden,
         list: !!definition.list,
         optional: !!definition.optional,
+        $: definition.$,
         type: 'literal',
       };
     }
@@ -177,7 +144,7 @@ export function parseFieldDefinitionConfig<
         defaultValue,
         hidden,
         type: {
-          definition: { type, def, defaultValue: _defaultValue },
+          definition: { type, def, defaultValue: _defaultValue, $ },
         },
       } = definition;
 
@@ -189,6 +156,7 @@ export function parseFieldDefinitionConfig<
         list,
         optional,
         type,
+        $,
       };
     }
 
@@ -208,7 +176,7 @@ export function parseFieldDefinitionConfig<
           });
         }
 
-        if (isObject(definition.def)) {
+        if (isObjectType(definition.def)) {
           definition.def = definition.def.definition;
         } else {
           definition.def = parseObjectDefinition(definition.def, {
@@ -257,7 +225,7 @@ export function parseFieldDefinitionConfig<
       return parsed;
     }
 
-    if (isObject(definition)) {
+    if (isObjectType(definition)) {
       return {
         def: deep
           ? parseObjectDefinition(definition.definition, { deep })
@@ -279,6 +247,7 @@ export function parseFieldDefinitionConfig<
         hidden: definition.hidden || definition.type.hidden,
         list: !!definition.list,
         name: definition.name,
+        $: definition.$,
         optional: !!definition.optional,
         type: 'object',
       };
@@ -366,6 +335,7 @@ export type ParseFieldOptions = {
 type ParseResult = {
   definition: { [key: string]: FinalFieldDefinition };
   meta?: MetaField['asFinalFieldDef'];
+  custom?: CustomFieldConfig;
 };
 
 export function parseObjectDefinition(
@@ -381,12 +351,17 @@ export function parseObjectDefinition(
   const result = {} as { [key: string]: FinalFieldDefinition };
 
   let meta: MetaField['asFinalFieldDef'] | undefined = undefined;
+  let custom: CustomFieldConfig | undefined = undefined;
 
   const keys = getKeys(input);
 
   keys.forEach(function (fieldName) {
     try {
       let field = input[fieldName];
+
+      if (fieldName === '$') {
+        return (custom = field);
+      }
 
       if (isMetaField(field, fieldName)) {
         return (meta = field);
@@ -412,6 +387,10 @@ export function parseObjectDefinition(
 
   meta = meta || createEmptyMetaField();
 
+  if (meta) {
+    meta.def.custom = custom;
+  }
+
   if (!omitMeta) {
     result[objectMetaFieldKey] = meta;
   }
@@ -419,6 +398,7 @@ export function parseObjectDefinition(
   return {
     definition: result,
     meta,
+    custom,
   };
 }
 
@@ -453,8 +433,8 @@ function isListDefinition(input: any): input is [FieldDefinitionConfig] {
  */
 export function isObjectAsTypeDefinition(
   input: any
-): input is CommonFieldDefinition<ObjectType<any>> {
-  return input && typeof input === 'object' && isObject(input.type);
+): input is FieldDefinitionWithType<ObjectType<any>> {
+  return input && typeof input === 'object' && isObjectType(input.type);
 }
 
 const validFlattenDefinitionKeys = {
@@ -464,6 +444,7 @@ const validFlattenDefinitionKeys = {
   list: 'boolean',
   name: 'string',
   optional: 'boolean',
+  $: 'object',
 } as const;
 
 const validFlattenDefinitionKeysList = getKeys(validFlattenDefinitionKeys);
@@ -522,6 +503,7 @@ export function parseFlattenFieldDefinition(
     defaultValue,
     name,
     hidden,
+    $,
   } = input;
 
   return parseFieldDefinitionConfig(
@@ -533,6 +515,7 @@ export function parseFlattenFieldDefinition(
       list,
       name,
       optional,
+      $,
       type,
     },
     { deep }
@@ -569,24 +552,8 @@ function setCachedFieldInstance(field, instanceFromDef: TAnyFieldType) {
   });
 }
 
-export function deleteCachedFieldInstance<T>(
-  def: T
-  // depth = 1,
-  // currentDepth = 0
-): T {
+export function deleteCachedFieldInstance<T>(def: T): T {
   if (!def || typeof def !== 'object') return def;
-
   const { [CACHED_FIELD_INSTANCE_KEY]: _, ...rest } = def as any;
   return rest as any;
-
-  // if (currentDepth > depth) return def;
-  //
-  // Object.entries(rest).reduce((acc, [key, value]) => {
-  //   return {
-  //     ...acc,
-  //     [key]: value,
-  //   };
-  // }, rest);
-  //
-  // return rest;
 }

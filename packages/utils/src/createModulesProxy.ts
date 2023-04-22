@@ -4,7 +4,7 @@
 
 import { RuntimeError } from './RuntimeError';
 import { isBrowser } from './isBrowser';
-import { AnyFunction, Compute } from './typeUtils';
+import { AnyFunction, Compute } from './typings';
 
 export type ProxyGetModule<T> = () => T;
 

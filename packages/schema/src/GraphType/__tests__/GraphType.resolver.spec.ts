@@ -1,4 +1,4 @@
-import { PromiseType } from '@swind/utils/lib/typeUtils';
+import { PromiseType } from '@swind/utils';
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 

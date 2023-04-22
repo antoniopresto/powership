@@ -1,4 +1,4 @@
-import { M } from './typeUtils';
+import { M } from './typings';
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze
 export function deepFreeze<T extends Record<any, any>>(object: T) {

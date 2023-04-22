@@ -1,9 +1,8 @@
 import deepDiff, {
   Diff as _DDiff,
+  diff as _diff,
   Accumulator,
   applyChange,
-  Diff,
-  diff,
   DiffArray,
   DiffDeleted,
   DiffEdit,
@@ -12,10 +11,10 @@ import deepDiff, {
 } from 'deep-diff';
 import { ulid } from 'ulid';
 
-import { ObjectPath, ObjectUnion, Pick } from './typeUtils';
+import { ObjectPath, ObjectUnion, Pick } from '../typings';
 
-export class ChangeList<Obj = any> extends Array<ObjectChange<Obj>> {
-  differences: Diff<any>[] = [];
+export class ChangeList<Obj = any> extends Array<Change<Obj>> {
+  differences: _DDiff<any>[] = [];
   time = Date.now();
   ulid = '';
 
@@ -32,16 +31,14 @@ export class ChangeList<Obj = any> extends Array<ObjectChange<Obj>> {
       },
     });
 
-    if (origin) {
-      this.init(origin, next);
-    }
+    this.init(origin, next);
   }
 
-  init = (origin: Obj, next?: any) => {
-    this.differences = diff(origin, next) || [];
+  init = (origin?: Obj, next?: any) => {
+    this.differences = _diff(origin, next) || [];
 
     this.differences.forEach((difference, index) => {
-      const item = new ObjectChange({
+      const item = new Change({
         time: this.time,
         parentId: this.ulid,
         difference,
@@ -66,7 +63,7 @@ export class ChangeList<Obj = any> extends Array<ObjectChange<Obj>> {
     return dest;
   };
 
-  toJSON = (): ObjectDiff<Obj>[] => {
+  toJSON = (): Diff<Obj>[] => {
     return this.map((el): any => {
       const { oldValue, path, paths, newValue, kind } = el;
 
@@ -112,12 +109,11 @@ export class ChangeList<Obj = any> extends Array<ObjectChange<Obj>> {
   };
 }
 
-export function objectDiffPaths<Obj>(
-  originObject: Obj,
-  newObject: any
-): ObjectDiff<Obj>[] {
+export function diff<Obj>(originObject: Obj, newObject: any): Diff<Obj>[] {
   return new ChangeList<Obj>(originObject, newObject).toJSON();
 }
+
+export const getDiff = diff;
 
 export function applyChanges(
   target: any,
@@ -141,7 +137,7 @@ export function revertChanges(
   return target;
 }
 
-export type ObjectDiff<Obj = any> = ObjectPath<Obj, 5> extends infer Path
+export type Diff<Obj = any> = ObjectPath<Obj, 5> extends infer Path
   ? Path extends unknown
     ? Pick<Obj, Path> extends infer Value
       ? {
@@ -162,19 +158,11 @@ export type DeepDiff<T = any> = ObjectUnion<
 > &
   _DDiff<T>;
 
-export {
-  Accumulator,
-  DiffEdit,
-  deepDiff,
-  diff,
-  DiffArray,
-  DiffDeleted,
-  DiffNew,
-};
+export { Accumulator, DiffEdit, deepDiff, DiffArray, DiffDeleted, DiffNew };
 
 export type ChangeKind = 'add' | 'remove' | 'update';
 
-export class ObjectChange<T = any> {
+export class Change<T = any> {
   kind: ChangeKind;
   newValue?: T | undefined;
   oldValue?: T | undefined;
@@ -190,7 +178,7 @@ export class ObjectChange<T = any> {
     difference,
     parentId,
   }: {
-    difference: Diff<any>;
+    difference: _DDiff<any>;
     time: number;
     parentId: string;
     index: number;
@@ -218,7 +206,7 @@ export class ObjectChange<T = any> {
   };
 }
 
-function processPaths(difference: Diff<any>): {
+function processPaths(difference: _DDiff<any>): {
   newValue?: any;
   oldValue?: any;
   path: string;

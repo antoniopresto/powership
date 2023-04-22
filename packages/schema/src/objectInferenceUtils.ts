@@ -6,6 +6,6 @@ export function isObjectValidationError(
   return input?.isObjectValidationError === true;
 }
 
-export function isObject(input: any): input is ObjectType<any> {
+export function isObjectType(input: any): input is ObjectType<any> {
   return input?.__isSolarwindObject === true;
 }

@@ -46,7 +46,7 @@ import type {
 import { validateObjectFields } from './getObjectErrors';
 import { getObjectHelpers, ObjectHelpers } from './getObjectHelpers';
 import { ImplementObject, implementObject } from './implementObject';
-import { isObject } from './objectInferenceUtils';
+import { isObjectType } from './objectInferenceUtils';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
 import {
   __getCachedFieldInstance,
@@ -596,7 +596,7 @@ export class ObjectType<
   };
 
   static is(input: any): input is ObjectType<ObjectDefinitionInput> {
-    return isObject(input);
+    return isObjectType(input);
   }
 }
 

@@ -1,5 +1,4 @@
-import { formatGraphQL } from '@swind/utils';
-import { getByPath } from '@swind/utils';
+import { formatGraphQL, pick } from '@swind/utils';
 import { hashString } from '@swind/utils';
 import {
   GraphQLArgument,
@@ -195,8 +194,8 @@ function getFieldPayload({
   const payload: FieldPayload = (cache[key] = {
     args,
     children: [],
-    deprecationReason: getByPath(innerType, 'deprecationReason'),
-    description: getByPath(innerType, 'description'),
+    deprecationReason: pick(innerType, 'deprecationReason'),
+    description: pick(innerType, 'description') || undefined,
     fields: {},
     hash: key,
     innerTypeString: innerTypeString,
@@ -226,7 +225,7 @@ function getFieldPayload({
         graphQLField: {
           args: [],
           astNode: unionType.astNode as any,
-          deprecationReason: getByPath(unionType, 'deprecationReason'),
+          deprecationReason: pick(unionType, 'deprecationReason'),
           description: unionType.description,
           extensions: unionType.extensions,
           name: unionType.name,

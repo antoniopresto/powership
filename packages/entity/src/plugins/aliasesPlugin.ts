@@ -1,4 +1,4 @@
-import { delay, ensureArray, objectDiffPaths } from '@swind/utils';
+import { delay, diff, ensureArray } from '@swind/utils';
 
 import { createEntityPlugin } from '../EntityPlugin';
 import { aggioUpdate } from '../aggioUpdate';
@@ -70,7 +70,7 @@ export const aliasesPlugin = createEntityPlugin('AliasesPlugin', (hooks) => {
           _id: dbDocument._id,
         });
 
-        const diffs = objectDiffPaths(dbDocument, parsedMemoryUpdate);
+        const diffs = diff(dbDocument, parsedMemoryUpdate);
 
         diffs.forEach((diff) => {
           const inAliases = entity.aliasPaths.some((alias) => {

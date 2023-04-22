@@ -2,9 +2,9 @@ import {
   aggio,
   Aggregation,
   assertEqual,
-  getByPath,
   nonNullValues,
   ObjectPath,
+  pick,
 } from '@swind/utils';
 
 import { CircularDeps } from '../CircularDeps';
@@ -72,10 +72,10 @@ export class AliasField<InputDef extends AliasFieldDef = any> extends FieldType<
     this.composer = {
       compose: (parent: Record<string, any>) => {
         if (typeof this.def === 'string') {
-          return getByPath(parent, this.def);
+          return pick(parent, this.def);
         }
         if (this.def.from) {
-          parent = getByPath(parent, this.def.from);
+          parent = pick(parent, this.def.from);
           if (!this.def.aggregate) return parent;
         }
 

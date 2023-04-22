@@ -46,5 +46,9 @@ export function fieldInstanceFromDef(
     field = field.describe(definition.description);
   }
 
+  if (definition.$) {
+    field.$ = definition.$;
+  }
+
   return field;
 }

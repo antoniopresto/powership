@@ -1,4 +1,4 @@
-import { getByPath, NodeLogger } from '@swind/utils';
+import { NodeLogger, pick } from '@swind/utils';
 
 export class AccountError extends Error {
   __isAccountError = true;
@@ -14,7 +14,7 @@ export class AccountError extends Error {
   }
 
   static is(input: unknown): input is AccountError {
-    return getByPath(input, '__isAccountError') === true;
+    return pick(input, '__isAccountError') === true;
   }
 }
 

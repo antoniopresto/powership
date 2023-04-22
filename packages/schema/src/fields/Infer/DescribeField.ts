@@ -1,7 +1,10 @@
 import { Compute, Merge, OnlyKnown } from '@swind/utils';
 
 import { ParseStringDefinition } from '../../parseStringDefinition';
-import { CommonDefSafe, FieldTypeName } from '../_fieldDefinitions';
+import {
+  CommonFieldDefinitionProps,
+  FieldTypeName,
+} from '../_fieldDefinitions';
 import { FinalFieldDefinition } from '../_parseFields';
 
 import { _FieldKV, _GetKey, GraphTypeKID, ObjectTypeKID } from './InferField';
@@ -33,12 +36,16 @@ export type _DescribeField<Input> =
     : never;
 
 export type SealedField<D extends object> = 'type' extends keyof D
-  ? Seal<Merge<CommonDefSafe, D>>
+  ? Seal<Merge<CommonFieldDefinitionProps, D>>
   : D;
 
 export type $sealedDef = Compute<
   // used as a field in schemas to march definition as sealed
-  { literal: $sealed; optional: false; list: false } & CommonDefSafe
+  {
+    literal: $sealed;
+    optional: false;
+    list: false;
+  } & CommonFieldDefinitionProps
 >;
 
 export type Seal<T extends object> = Merge<

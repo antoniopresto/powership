@@ -410,7 +410,7 @@ describe('parseObjectField', () => {
           int: {},
           defaultValue: 123,
         },
-        true
+        { returnInstance: true }
       );
 
       expect(field.parse(undefined)).toEqual(123);
@@ -431,7 +431,7 @@ describe('parseObjectField', () => {
             },
           },
         },
-        true
+        { returnInstance: true }
       );
 
       expect(field.parse({ name: 'a' })).toEqual({ name: 'a', age: 123 });

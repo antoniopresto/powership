@@ -1,9 +1,9 @@
 import {
   encodeNumber,
-  getByPath,
   getKeys,
   inspectObject,
   parseIndexFieldName,
+  pick,
 } from '@swind/utils';
 
 import {
@@ -73,7 +73,7 @@ export function pickIndexKeyPartsFromDocument(param: {
       const documentField = keyPart.slice(1);
       requiredFields.push(documentField);
 
-      let found = getByPath(doc, documentField);
+      let found = pick(doc, documentField);
 
       if (found === undefined || found === null) {
         if (acceptNullable) return (nullableFound = { value: found });

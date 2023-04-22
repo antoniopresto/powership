@@ -24,6 +24,9 @@ describe('objectToTypescript', () => {
             optional: true,
           },
         ],
+        $: {
+          persist: true,
+        },
       },
       addresses: {
         union: [
