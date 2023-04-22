@@ -90,9 +90,9 @@ export class ChangeList<Obj = any> extends Array<ObjectChange<Obj>> {
     });
   };
 
-  toString(): string {
-    return JSON.stringify(this.toJSON());
-  }
+  stringify = (spaces = 0): string => {
+    return JSON.stringify(this.toJSON(), null, spaces);
+  };
 
   static hydrate = (value: string): ChangeList => {
     try {

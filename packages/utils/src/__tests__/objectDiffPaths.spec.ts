@@ -496,4 +496,58 @@ describe('objectDiffPaths', () => {
     revertChanges(clone, result);
     expect(clone).toEqual(obj1);
   });
+
+  xtest('toString/hydrate', () => {
+    const obj1 = {
+      a: {
+        b: ['x', 'yyy'],
+      },
+      c: 1,
+      tr: 1,
+    };
+    const obj2 = {
+      a: {
+        b: ['x', 'y', 'z'],
+      },
+      c: 2,
+    };
+    const changeList = new ChangeList(obj1, obj2);
+    const history = changeList.stringify(2);
+
+    expect(history.split('\n')).toEqual([
+      '[',
+      '  {',
+      '    "newValue": "z",',
+      '    "kind": "add",',
+      '    "path": "a.b.2"',
+      '  },',
+      '  {',
+      '    "newValue": "y",',
+      '    "oldValue": "yyy",',
+      '    "kind": "update",',
+      '    "path": "a.b.1"',
+      '  },',
+      '  {',
+      '    "newValue": 2,',
+      '    "oldValue": 1,',
+      '    "kind": "update",',
+      '    "path": "c"',
+      '  },',
+      '  {',
+      '    "oldValue": 1,',
+      '    "kind": "remove",',
+      '    "path": "tr"',
+      '  }',
+      ']',
+    ]);
+
+    const changeListClone = ChangeList.hydrate(history);
+
+    const clone = simpleObjectClone(obj1);
+    applyChanges(clone, changeListClone);
+    expect(clone).toEqual(obj2);
+
+    revertChanges(clone, changeListClone);
+    expect(clone).toEqual(obj1);
+  });
 });

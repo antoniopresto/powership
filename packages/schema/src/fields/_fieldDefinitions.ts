@@ -1,5 +1,7 @@
 import { tupleEnum } from '@swind/utils';
 
+import type { DurableFieldConfig } from '../Durable/IDurable';
+
 import { AliasFieldDef } from './AliasField';
 import { ArrayFieldDef } from './ArrayField';
 import { ObjectLike } from './IObjectLike';
@@ -65,7 +67,7 @@ export type CommonFieldOptions = CommonDefSafe & {
   defaultValue?: any;
   list?: ListDefinition;
   optional?: boolean;
-};
+} & DurableFieldConfig;
 
 export type CommonFieldDefinition<T> = {
   type: T;

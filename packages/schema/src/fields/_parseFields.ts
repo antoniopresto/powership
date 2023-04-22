@@ -31,6 +31,8 @@ export interface ObjectDefinitionInput {
   [K: string]: ObjectFieldInput;
 }
 
+export type Shape = ObjectDefinitionInput;
+
 export type FinalObjectDefinition = { [K: string]: FinalFieldDefinition };
 
 export type AllFinalFieldDefinitions = {
