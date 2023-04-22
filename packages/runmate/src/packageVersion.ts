@@ -79,6 +79,7 @@ export async function packageVersion(
       Object.entries(deps).forEach(([depName]) => {
         const localDep = updates.find((el) => el.name === depName);
         if (!localDep) return;
+        if (localDep.utils.version.startsWith('workspace:*')) return;
         packageJSONDependencyKeys.forEach((key) => {
           if (json[key]?.[depName]) {
             // @ts-ignore
