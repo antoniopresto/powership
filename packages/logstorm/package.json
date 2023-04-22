@@ -1,6 +1,6 @@
 {
   "name": "logstorm",
-  "version": "1.0.7",
+  "version": "1.0.8-alpha",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",

@@ -1,6 +1,6 @@
 {
   "name": "@swind/server",
-  "version": "1.0.7",
+  "version": "1.0.8-alpha",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
   "sideEffects": false,
