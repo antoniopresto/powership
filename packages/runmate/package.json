@@ -1,6 +1,6 @@
 {
   "name": "runmate",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -38,7 +38,7 @@
     "fs-extra": "10.1.0",
     "glob": "8.1.0",
     "lodash": "4.17.21",
-    "logstorm": "1.0.9",
+    "logstorm": "1.0.10",
     "plugin-hooks": "2.0.0",
     "semver": "7.3.8"
   },
@@ -47,7 +47,7 @@
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@swind/babel-plugins": "1.0.9",
+    "@swind/babel-plugins": "1.0.10",
     "@types/node": "16.18.3",
     "@typescript-eslint/eslint-plugin": "5.39.0",
     "@typescript-eslint/parser": "5.39.0",

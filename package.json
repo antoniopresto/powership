@@ -1,7 +1,7 @@
 {
   "name": "solarwind",
   "private": true,
-  "version": "1.0.9",
+  "version": "1.0.10",
   "scripts": {
     "pack": "run-s pack:*",
     "pack:publish": "run \"pnpm publish\"",
