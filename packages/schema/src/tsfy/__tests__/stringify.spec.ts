@@ -60,7 +60,7 @@ describe('stringify', () => {
 
     const sut = await tsfy({ graphType, objectType }).toString();
 
-    const pretty = CircularDeps.prettier.format(sut, {
+    const pretty = await CircularDeps.formatWithPrettier(sut, {
       parser: 'typescript',
     });
 

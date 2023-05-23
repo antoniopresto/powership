@@ -19,9 +19,6 @@ export * from './extendType';
 export * from './isHiddenFieldName';
 
 // @only-server
-export * from './tsfy';
-
-// @only-server
 export * from './Resolver';
 
 // @only-server

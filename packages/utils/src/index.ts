@@ -51,7 +51,6 @@ export * from './useProcess';
 export * from './sortObject';
 export * from './diff/diff';
 export * from './ms';
-export * from './dynamicRequire';
 export * from './hashObject';
 export * from './createModulesProxy';
 export * from './ufo';
@@ -87,5 +86,7 @@ export * from './big';
 export * from './jsonToTypescript';
 // @only-server
 export * from './formatGraphQL';
+// @only-server
+export * from './formatWithPrettier';
 
 export { TU };

@@ -93,16 +93,16 @@ importers:
   packages/accounts:
     dependencies:
       '@swind/entity':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../entity
       '@swind/schema':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../schema
       '@swind/transporter':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../transporter
       '@swind/utils':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../utils
       jsonwebtoken:
         specifier: 8.5.1
@@ -124,10 +124,10 @@ importers:
         specifier: 7.18.6
         version: 7.18.6(@babel/core@7.19.3)
       '@swind/babel-plugins':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../babel-plugins
       '@swind/mongo':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../mongo
       '@types/jest':
         specifier: 29.1.2
@@ -253,13 +253,13 @@ importers:
   packages/entity:
     dependencies:
       '@swind/schema':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../schema
       '@swind/transporter':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../transporter
       '@swind/utils':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../utils
       dataloader:
         specifier: 2.1.0
@@ -284,10 +284,10 @@ importers:
         specifier: 7.18.6
         version: 7.18.6(@babel/core@7.19.3)
       '@swind/babel-plugins':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../babel-plugins
       '@swind/mongo':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../mongo
       '@types/jest':
         specifier: 29.1.2
@@ -365,13 +365,13 @@ importers:
   packages/helpers:
     dependencies:
       '@swind/utils':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../utils
       highlight.js:
         specifier: 11.7.0
         version: 11.7.0
       solarwind:
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../solarwind
     devDependencies:
       '@babel/cli':
@@ -387,10 +387,10 @@ importers:
         specifier: 7.18.6
         version: 7.18.6(@babel/core@7.19.3)
       '@swind/babel-plugins':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../babel-plugins
       '@swind/mongo':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../mongo
       '@types/jest':
         specifier: 29.1.2
@@ -475,7 +475,7 @@ importers:
         specifier: 7.18.6
         version: 7.18.6(@babel/core@7.19.3)
       '@swind/babel-plugins':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../babel-plugins
       '@types/node':
         specifier: 16.18.3
@@ -541,13 +541,13 @@ importers:
   packages/mongo:
     dependencies:
       '@swind/schema':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../schema
       '@swind/transporter':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../transporter
       '@swind/utils':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../utils
       dataloader:
         specifier: 2.1.0
@@ -572,7 +572,7 @@ importers:
         specifier: 7.18.6
         version: 7.18.6(@babel/core@7.19.3)
       '@swind/babel-plugins':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../babel-plugins
       '@types/jest':
         specifier: 29.1.2
@@ -677,7 +677,7 @@ importers:
         specifier: 4.17.21
         version: 4.17.21
       logstorm:
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../logstorm
       plugin-hooks:
         specifier: 2.0.0
@@ -699,7 +699,7 @@ importers:
         specifier: 7.18.6
         version: 7.18.6(@babel/core@7.19.3)
       '@swind/babel-plugins':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../babel-plugins
       '@types/node':
         specifier: 16.18.3
@@ -765,7 +765,7 @@ importers:
   packages/schema:
     dependencies:
       '@swind/utils':
-        specifier: 1.0.10
+        specifier: 1.0.12-beta.1
         version: link:../utils
     devDependencies:
       '@babel/cli':
@@ -784,7 +784,7 @@ importers:
         specifier: 7.18.6
         version: 7.18.6(@babel/core@7.19.3)
       '@swind/babel-plugins':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../babel-plugins
       '@types/babel__core':
         specifier: 7.1.19
@@ -883,10 +883,10 @@ importers:
   packages/server:
     dependencies:
       '@swind/schema':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../schema
       '@swind/utils':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../utils
       body-parser:
         specifier: 1.20.2
@@ -901,7 +901,7 @@ importers:
         specifier: ^2.2.0
         version: 2.2.0
       logstorm:
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../logstorm
       plugin-hooks:
         specifier: 2.0.0
@@ -929,7 +929,7 @@ importers:
         specifier: 7.18.6
         version: 7.18.6(@babel/core@7.19.3)
       '@swind/babel-plugins':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../babel-plugins
       '@types/babel__core':
         specifier: 7.1.19
@@ -1025,19 +1025,19 @@ importers:
   packages/solarwind:
     dependencies:
       '@swind/entity':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../entity
       '@swind/schema':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../schema
       '@swind/server':
-        specifier: 1.0.10
+        specifier: 1.0.12-beta.1
         version: link:../server
       '@swind/transporter':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../transporter
       '@swind/utils':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../utils
     devDependencies:
       '@babel/cli':
@@ -1056,7 +1056,7 @@ importers:
         specifier: 7.18.6
         version: 7.18.6(@babel/core@7.19.3)
       '@swind/babel-plugins':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../babel-plugins
       '@types/babel__core':
         specifier: 7.1.19
@@ -1146,10 +1146,10 @@ importers:
   packages/transporter:
     dependencies:
       '@swind/schema':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../schema
       '@swind/utils':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../utils
       dataloader:
         specifier: 2.1.0
@@ -1174,7 +1174,7 @@ importers:
         specifier: 7.18.6
         version: 7.18.6(@babel/core@7.19.3)
       '@swind/babel-plugins':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../babel-plugins
       '@types/jest':
         specifier: 29.1.2
@@ -1343,7 +1343,7 @@ importers:
         specifier: 7.18.6
         version: 7.18.6(@babel/core@7.19.3)
       '@swind/babel-plugins':
-        specifier: 1.0.10
+        specifier: workspace:*
         version: link:../babel-plugins
       '@types/big.js':
         specifier: 6.1.6

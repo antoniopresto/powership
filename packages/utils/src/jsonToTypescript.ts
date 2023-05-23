@@ -1,3 +1,15 @@
-export { compile as jsonToTypescript } from 'json-schema-to-typescript';
-export type { JSONSchema4 as JSONObject4 } from 'json-schema';
-export type { JSONSchema4 } from 'json-schema';
+import type { JSONSchema4 as JSONObject4 } from 'json-schema';
+import type { JSONSchema4 } from 'json-schema';
+import type { Options } from 'json-schema-to-typescript';
+
+export { JSONSchema4, JSONObject4 };
+
+export async function jsonToTypescript(
+  schema: JSONSchema4,
+  name: string,
+  options: Partial<Options> = {}
+): Promise<string> {
+  return import('json-schema-to-typescript').then((module) => {
+    return module.compile(schema, name, options);
+  });
+}

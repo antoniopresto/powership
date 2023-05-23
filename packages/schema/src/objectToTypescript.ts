@@ -35,10 +35,10 @@ export async function objectToTypescript(
 
   const json = objectToJSON(name, object, options);
 
-  return jsonToTypescript(json, name, {
+  return (await jsonToTypescript(json, name, {
     bannerComment,
     format,
     strictIndexSignatures,
     unreachableDefinitions,
-  }) as any;
+  })) as any;
 }

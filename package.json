@@ -1,10 +1,11 @@
 {
   "name": "solarwind",
+  "version": "1.0.12",
   "private": true,
-  "version": "1.0.10",
   "scripts": {
     "pack": "run-s pack:*",
     "pack:publish": "run \"pnpm publish\"",
+    "pre": "run prepublishOnly",
     "fix": "turbo run fix",
     "test": "turbo run test",
     "validate": "(cd packages/schema && npm run prepublish)",

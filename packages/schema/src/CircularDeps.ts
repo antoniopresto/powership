@@ -2,13 +2,10 @@
  * Handles circular dependencies with type safety
  */
 import { RuntimeError } from '@swind/utils';
-import { dynamicRequire } from '@swind/utils';
 import { isBrowser } from '@swind/utils';
 
 import { fieldTypeNames } from './fields/fieldTypeNames';
 import type { FieldCreators } from './fields/fieldTypes';
-
-const nodeModule = typeof module !== undefined ? module : undefined;
 
 function getModules() {
   const sharedCode = {
@@ -115,11 +112,13 @@ function getModules() {
 
     objectToTypescript: {
       // @only-server
-      module: (): typeof import('./objectToTypescript') => {
+      module: (): typeof import('./objectToTypescript').objectToTypescript => {
         try {
-          // too big to include in bundles
           // @only-server
-          return dynamicRequire('./objectToTypescript', nodeModule);
+          return (a, b, c) =>
+            import('./objectToTypescript').then(({ objectToTypescript }) => {
+              return objectToTypescript(a, b, c);
+            });
         } catch (e: any) {
           return function objectToTypescript() {
             throw new Error(
@@ -133,21 +132,22 @@ function getModules() {
       server: true,
     },
 
-    prettier: {
+    formatWithPrettier: {
       // @only-server
-      module: (): typeof import('prettier') => {
+      module: (): typeof import('@swind/utils').formatWithPrettier => {
         try {
           // too big to include in bundled code
           // @only-server
-          return dynamicRequire('prettier', nodeModule);
+          return (a, b) =>
+            import('@swind/utils').then(({ formatWithPrettier }) => {
+              return formatWithPrettier(a, b);
+            });
         } catch (e: any) {
-          return {
-            format(code) {
-              console.warn(
-                '⚠️ Solarwind.prettier is not available when bundled.' + e.stack
-              );
-              return code;
-            },
+          return function formatWithPrettier(code) {
+            console.warn(
+              '⚠️ Solarwind.prettier is not available when bundled.' + e.stack
+            );
+            return Promise.resolve(code);
           } as any;
         }
       },

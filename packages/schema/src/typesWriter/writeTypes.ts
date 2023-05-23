@@ -137,7 +137,7 @@ export async function writeTypes(options?: WriteTypesOptions) {
     typesInterface,
   });
 
-  content = await CircularDeps.prettier.format(content, {
+  content = await CircularDeps.formatWithPrettier(content, {
     parser: 'typescript',
     singleQuote: true,
   });

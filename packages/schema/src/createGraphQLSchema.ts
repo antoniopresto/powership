@@ -224,10 +224,9 @@ export async function resolversTypescriptParts(
       .replace(/\n\n/gm, '\n') // remove multi line breaks
       .replace(/^\n/gm, ''); // remove empty lines
 
-  // @ts-ignore circular
-  code = CircularDeps.prettier.format(code, {
+  code = (await CircularDeps.formatWithPrettier(code, {
     parser: 'typescript',
-  }) as any;
+  })) as any;
 
   return { code, lines };
 }
@@ -241,8 +240,7 @@ export async function resolversToTypescript(
   const { code } = await resolversTypescriptParts(params);
 
   return format
-    ? // @ts-ignore circular
-      (CircularDeps.prettier.format(code, {
+    ? (CircularDeps.formatWithPrettier(code, {
         parser: 'typescript',
         printWidth: 100,
       }) as any)

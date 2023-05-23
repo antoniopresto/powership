@@ -11,7 +11,7 @@ export async function generateTypes(
   gql_utils = await schema.utils.generateClientUtils();
   gql_utils = `${gql_utils}\n\n${extendedUtils}`;
 
-  gql_utils = CircularDeps.prettier.format(gql_utils, {
+  gql_utils = await CircularDeps.formatWithPrettier(gql_utils, {
     singleQuote: true,
     parser: 'typescript',
   });

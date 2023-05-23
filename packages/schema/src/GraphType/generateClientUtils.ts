@@ -133,7 +133,7 @@ export async function generateClientUtils(
     helpersText,
   ].join('\n');
 
-  return CircularDeps.prettier.format(result, {
+  return await CircularDeps.formatWithPrettier(result, {
     parser: 'typescript',
     singleQuote: true,
   });

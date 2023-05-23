@@ -1,3 +1,6 @@
+// @only-server
+import utils from 'util';
+
 import { getTypeName } from './getTypeName';
 
 interface InspectObjectDetails {
@@ -51,11 +54,11 @@ function spaces(size: number, space = ' ') {
 }
 
 function _inspectObject(obj: any, config: any): string {
-  if (typeof module === 'object' && typeof module.require === 'function') {
-    try {
-      return module.require('utils').inspect(obj, config);
-    } catch (e) {}
-  }
+  try {
+    if (typeof utils === 'object') {
+      return utils.inspect(obj, config);
+    }
+  } catch (e) {}
 
   try {
     return JSON.stringify(obj, null, 2);

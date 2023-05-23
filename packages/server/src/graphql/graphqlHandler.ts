@@ -67,7 +67,6 @@ export function createGraphQLHandlers<Resolvers extends ResolversRecord>(
   );
 
   const typesPath = nodePath.join(path, 'types');
-  // const utilsPath = nodePath.join(path, 'utils');
   const mockPath = nodePath.join(path, 'mock');
 
   const typesHandler = createRouteHandler(

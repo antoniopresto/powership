@@ -92,7 +92,7 @@ export function tsfy(input: any, config?: TSFYConfig): TSFyResult {
       .join('\n');
 
     if (prettier) {
-      return CircularDeps.prettier.format(res, {
+      return await CircularDeps.formatWithPrettier(res, {
         parser: 'typescript',
       });
     }

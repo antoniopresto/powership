@@ -79,17 +79,19 @@ export async function packageVersion(
       Object.entries(deps).forEach(([depName]) => {
         const localDep = updates.find((el) => el.name === depName);
         if (!localDep) return;
+
         packageJSONDependencyKeys.forEach((key) => {
-          if (json[key]?.[depName]) {
-            // @ts-ignore
-            json[key][depName] = localDep.newVersion;
+          const entry = json[key];
+
+          if (entry?.[depName]) {
+            const isWorkspace = entry[depName].startsWith('workspace');
+            if (isWorkspace) return;
+            entry[depName] = localDep.newVersion;
           }
         });
       });
 
-      if (!json.version.startsWith('workspace:')) {
-        json.version = newVersion;
-      }
+      json.version = newVersion;
       saveJSON();
     })
   );
