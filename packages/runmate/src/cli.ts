@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-import { inspect } from 'util';
-
 import chalk from 'chalk';
 import { Command } from 'commander';
 
@@ -11,7 +9,7 @@ import { main } from './commands/main';
 import { version } from './commands/version';
 import { defaultPackagesGlobPattern } from './defaultPackagesGlobPattern';
 import { packageRunner, PackageRunnerUtils } from './packageRunner';
-import { packageJSONDependencyKeys, packageVersion } from './packageVersion';
+import { packageJSONDependencyKeys } from './packageVersion';
 import { runInFiles } from './runInFiles';
 import { runmateLogger } from './runmateLogger';
 

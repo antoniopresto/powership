@@ -28,7 +28,7 @@ export const FieldTypes = tuple(
 
 export const DEFAULT_SORT = 'ASC';
 
-export type TransporterFieldType = typeof FieldTypes[number];
+export type TransporterFieldType = (typeof FieldTypes)[number];
 
 export type PKSKValueType = string | number | null;
 
@@ -390,10 +390,10 @@ export const AttributeFilterKeys = tuple(
   '$in'
 );
 
-export type AttributeFilterKey = typeof AttributeFilterKeys[number];
+export type AttributeFilterKey = (typeof AttributeFilterKeys)[number];
 
 export const TopLevelFilterKeys = tuple('$not', '$or', '$and');
-export type TopLevelFilterKey = typeof TopLevelFilterKeys[number];
+export type TopLevelFilterKey = (typeof TopLevelFilterKeys)[number];
 
 export type CreateOneResult<T> = {
   created: boolean;
@@ -479,7 +479,7 @@ export const transporterLoaderNames = tuple(
   'paginate'
 );
 
-export type TransporterLoaderName = typeof transporterLoaderNames[number];
+export type TransporterLoaderName = (typeof transporterLoaderNames)[number];
 
 export type TransporterLoadersRecord = {
   [K in TransporterLoaderName]: Transporter[K];

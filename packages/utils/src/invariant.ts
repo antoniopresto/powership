@@ -72,13 +72,38 @@ export function notNull<T>(
 
 export const InvariantError = createErrorClass('Invariant');
 
-export function wrapError<T>(callback: () => T, parent?: any): T {
+export function wrapError<T>(
+  callback: () => T,
+  parent?: any,
+  overrideError?: <Err extends ErrorWithStack>(
+    error: Err
+  ) => void | ErrorWithStack
+): T {
   try {
     return callback();
-  } catch (e: any) {
+  } catch (e) {
+    assertError(e);
     e.stack = getStack(parent || wrapError);
+    if (typeof overrideError === 'function') {
+      e = overrideError(e) || e;
+    }
     throw e;
   }
+}
+
+export function assertError(e: any): asserts e is ErrorWithStack {
+  if (!isErrorWithStack(e)) {
+    throw new InvariantError(`Invalid error object.`);
+  }
+}
+
+export function isErrorWithStack(t: any): t is ErrorWithStack {
+  return typeof t?.message === 'string' && typeof t.stack === 'string';
+}
+
+export interface ErrorWithStack {
+  message: string;
+  stack: string;
 }
 
 export function invariant(

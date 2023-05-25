@@ -240,7 +240,8 @@ export async function resolversToTypescript(
   const { code } = await resolversTypescriptParts(params);
 
   return format
-    ? (CircularDeps.formatWithPrettier(code, {
+    ? // @ts-ignore circular
+      (CircularDeps.formatWithPrettier(code, {
         parser: 'typescript',
         printWidth: 100,
       }) as any)

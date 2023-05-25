@@ -9,7 +9,7 @@ import type { ObjectDefinitionInput } from '../ObjectType';
 
 import { FieldType, FieldTypeParser, isFieldInstance } from './FieldType';
 
-type AnyObjectField = TypeLike<typeof ObjectField['prototype']>;
+type AnyObjectField = TypeLike<(typeof ObjectField)['prototype']>;
 
 export class ObjectField<
   DefinitionInput extends ObjectDefinitionInput

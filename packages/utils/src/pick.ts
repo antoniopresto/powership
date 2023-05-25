@@ -1,4 +1,4 @@
-import { pathParser } from './pathParser';
+import { parsePath } from './parsePath';
 import { IsKnown, PathType } from './typings';
 
 /**
@@ -14,19 +14,19 @@ export function pick<O, P extends string | (string | number)[]>(
 export function pick(object, path: string | (string | number)[]): any {
   if (!path?.length) return object;
 
-  const paths = pathParser(path);
-  const field = paths.shift();
+  const parts = [...parsePath(path).parts];
+  const field = parts.shift();
 
   if (field === '$' && object && typeof object === 'object') {
     if (object && typeof object === 'object') {
       if ('$' in object) return object['$'];
     }
 
-    const level = paths.length;
+    const level = parts.length;
 
     return Object.values(object)
       .reduce((acc: any[], item) => {
-        const next = pick(item, paths);
+        const next = pick(item, parts);
         if (next === undefined) return acc;
         return [...acc, next];
       }, [])
@@ -34,8 +34,8 @@ export function pick(object, path: string | (string | number)[]): any {
   }
 
   let value = get(object, field);
-  if (!paths.length) return value;
-  return pick(value, paths);
+  if (!parts.length) return value;
+  return pick(value, parts);
 }
 
 function get(value: unknown, field: string | undefined) {

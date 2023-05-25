@@ -45,7 +45,7 @@ export function parseUpdateExpression<Schema extends Record<string, any>>(
 
   const errors = new Set<string>();
   const operations: ParsedUpdateExpression[] = [];
-  type _Entry = typeof entries[number];
+  type _Entry = (typeof entries)[number];
 
   function each([$operator, operation]: _Entry) {
     const valueConstructorName = getTypeName(operation);

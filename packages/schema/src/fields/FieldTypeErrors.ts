@@ -12,7 +12,7 @@ export const FieldTypeErrorCodes = tuple(
   'requiredField'
 );
 
-export type FieldTypeErrorCode = typeof FieldTypeErrorCodes[number];
+export type FieldTypeErrorCode = (typeof FieldTypeErrorCodes)[number];
 
 export class FieldTypeError extends Error {
   __isFieldTypeError = true;

@@ -8,7 +8,7 @@ import type { FieldDefinitionConfig } from '../TObjectConfig';
 import { FieldType, FieldTypeParser, TAnyFieldType } from './FieldType';
 
 const validKeyTypes = ['int', 'string', 'float'] as const;
-type ValidKeyType = typeof validKeyTypes[number];
+type ValidKeyType = (typeof validKeyTypes)[number];
 
 export type RecordFieldDef = {
   keyType?: ValidKeyType;

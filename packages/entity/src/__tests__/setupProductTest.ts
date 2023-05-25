@@ -102,7 +102,7 @@ const productDef = {
 type ProductType = GraphType<typeof productDef>;
 
 type ProductEntity = Entity<
-  typeof productDef['object'],
+  (typeof productDef)['object'],
   [
     {
       PK: ['.storeId'];

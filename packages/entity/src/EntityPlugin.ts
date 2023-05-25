@@ -39,7 +39,7 @@ export const EntityHooksCreateDefinitionKind = tuple(
 );
 
 export type EntityHooksCreateDefinitionKind =
-  typeof EntityHooksCreateDefinitionKind[number];
+  (typeof EntityHooksCreateDefinitionKind)[number];
 
 export type EntityParserHookContext<E extends AnyEntity> = {
   checkForVersion?: boolean;

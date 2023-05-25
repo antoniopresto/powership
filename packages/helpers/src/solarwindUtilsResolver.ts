@@ -1,4 +1,4 @@
-import { Infer } from 'solarwind';
+import { Infer } from '@swind/schema';
 
 import {
   JSONFieldCase,

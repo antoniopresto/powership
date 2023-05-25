@@ -54,7 +54,7 @@ export type Paths<T, D extends number = 10> =
             : never;
         }[keyof T]
       : '')
-  | '$'
+  // | '$'
   | '';
 
 type Prev = [

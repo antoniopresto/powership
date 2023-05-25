@@ -1,26 +1,56 @@
-import { AnyFunction } from '../typings';
+import { AnyFunction, AnyRecord } from '../typings';
 
-export type GettersInit<Obj, Getters extends { [K: string]: unknown }> = {
-  origin?: Obj;
-
+export interface GettersInit<Getters> {
   onDefine?: (
     property: keyof Getters,
     descriptor: PropertyDescriptor
   ) => PropertyDescriptor | undefined;
   configurable?: boolean;
   enumerable?: boolean;
-};
+}
 
-export function getters<Obj, Getters extends { [K: string]: () => unknown }>(
+export function getters<Obj extends object, Getters extends AnyRecord>(
+  object: Obj,
   gettersMap: Getters,
-  init: GettersInit<Obj, Getters> = {}
-): WithGetters<Obj, Getters> {
+  options?: GettersInit<Getters>
+): WithGetters<Obj, Getters>;
+
+export function getters<Getters extends AnyRecord>(
+  gettersMap: Getters
+): WithGetters<{}, Getters>;
+
+export function getters<Obj extends object, Getters extends AnyRecord>(
+  ...args:
+    | [gettersMap: Getters]
+    | [object: Obj, gettersMap: Getters, options?: GettersInit<Getters>]
+): any {
   const {
-    onDefine,
-    origin = Object.create(null),
-    configurable,
-    enumerable = true,
-  } = init;
+    options: { onDefine, configurable, enumerable = true },
+    object,
+    gettersMap,
+  } = ((): {
+    options: GettersInit<any>;
+    object: object;
+    gettersMap: AnyRecord;
+  } => {
+    if (args.length === 3 || args.length === 2) {
+      return {
+        object: args[0],
+        gettersMap: args[1],
+        options: args[2] || {},
+      };
+    }
+
+    if (args.length === 1) {
+      return {
+        object: Object.create(null),
+        gettersMap: args[0],
+        options: {},
+      };
+    }
+
+    throw new Error('Invalid arguments');
+  })();
 
   Object.entries(gettersMap).forEach(([key, getter]) => {
     let resolved = false;
@@ -40,18 +70,15 @@ export function getters<Obj, Getters extends { [K: string]: () => unknown }>(
       descriptor = onDefine(key, descriptor) || descriptor;
     }
 
-    Object.defineProperty(origin, key, descriptor);
+    Object.defineProperty(object, key, descriptor);
   });
 
-  return origin as any;
+  return object as any;
 }
 
 export type ReturnOrValue<T> = T extends AnyFunction ? ReturnType<T> : T;
 
-export type WithGetters<
-  T,
-  Getters extends { [K: string]: unknown }
-> = T extends unknown
+export type WithGetters<T, Getters> = T extends unknown
   ? T & {} & ({
         [K in Exclude<keyof Getters, keyof T>]: ReturnOrValue<Getters[K]>;
       } & {})

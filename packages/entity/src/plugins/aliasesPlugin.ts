@@ -74,7 +74,7 @@ export const aliasesPlugin = createEntityPlugin('AliasesPlugin', (hooks) => {
 
         diffs.forEach((diff) => {
           const inAliases = entity.aliasPaths.some((alias) => {
-            return diff.paths.includes(alias);
+            return diff.path.includes(alias);
           });
           if (!inAliases) return;
 
@@ -84,7 +84,7 @@ export const aliasesPlugin = createEntityPlugin('AliasesPlugin', (hooks) => {
             );
           }
 
-          if (diff.kind === 'remove') {
+          if (diff.action === 'delete') {
             context.options.update.$remove = ensureArray(
               context.options.update.$remove || []
             );

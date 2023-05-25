@@ -1,10 +1,11 @@
+import { createEntity } from '@swind/entity';
 import {
   createGraphQLSchema,
   createResolver,
   createType,
-  createEntity,
+
   // Infer,
-} from 'solarwind';
+} from '@swind/schema';
 //
 
 describe('examples', () => {

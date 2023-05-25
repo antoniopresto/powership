@@ -21,8 +21,8 @@ export const tupleNum = <T extends number[]>(...args: T) => args;
 export const tupleEnum = <T extends string[]>(
   ...values: T
 ): {
-  readonly //
-  [K in T[number]]: K;
+  //
+  readonly [K in T[number]]: K;
 } & (T[number] extends 'list' //
   ? {
       //
@@ -102,7 +102,7 @@ export type ArrayType<T> = T extends Array<infer N> ? N : T;
 export type AnyRecord = Record<string, any>;
 export type UnknownRecord = { [K: string]: unknown };
 
-export type AnyArray<T = any> = ReadonlyArray<T> | ArrayLike<T> | T[];
+export type AnyArray<T = any> = ReadonlyArray<T> | T[];
 export type AnyList<T = any> = AnyArray<T>;
 
 export type IfExtends<Param, Type, IfTrue, IfFalse> = Param extends Type
@@ -274,7 +274,7 @@ export const A_Z = tuple(
   'z'
 );
 
-export type A_Z = typeof A_Z[number];
+export type A_Z = (typeof A_Z)[number];
 export type Name = `${A_Z}${string}`;
 
 export * from '../IterationMap';

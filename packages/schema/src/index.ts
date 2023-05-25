@@ -4,6 +4,7 @@ export * from './ObjectType';
 export * from './fields/Infer';
 export * from './Durable/IDurable';
 export * from './CustomFieldConfig';
+export * from './assertType';
 
 export { objectMetaFieldKey } from './fields/MetaFieldField';
 export * from './GraphType/GraphType';

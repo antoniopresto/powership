@@ -1,274 +1,188 @@
-import deepDiff, {
-  Diff as _DDiff,
-  diff as _diff,
-  Accumulator,
-  applyChange,
-  DiffArray,
-  DiffDeleted,
-  DiffEdit,
-  DiffNew,
-  revertChange,
-} from 'deep-diff';
-import { ulid } from 'ulid';
+import { getters } from '../getters';
+import { parsePath, PathParsed } from '../parsePath';
+import { pick } from '../pick';
+import { Paths, PathType } from '../typings';
 
-import { ObjectPath, ObjectUnion, Pick } from '../typings';
+export type DifferencePath = string | number;
 
-export class ChangeList<Obj = any> extends Array<Change<Obj>> {
-  differences: _DDiff<any>[] = [];
-  time = Date.now();
-  ulid = '';
+export type DifferenceAction = 'add' | 'update' | 'delete';
 
-  constructor(origin?: Obj, next?: any) {
-    super();
-
-    let id = '';
-    let self = this;
-    Object.defineProperties(this, {
-      ulid: {
-        get() {
-          return (id = id || ulid(self.time));
-        },
-      },
-    });
-
-    this.init(origin, next);
-  }
-
-  init = (origin?: Obj, next?: any) => {
-    this.differences = _diff(origin, next) || [];
-
-    this.differences.forEach((difference, index) => {
-      const item = new Change({
-        time: this.time,
-        parentId: this.ulid,
-        difference,
-        index,
-      });
-
-      this.push(item);
-    });
-  };
-
-  revert = <T>(dest: T): T => {
-    this.forEach((change) => {
-      change.revert(dest);
-    });
-    return dest;
-  };
-
-  apply = <T>(dest: T, source: any = {}): T => {
-    this.forEach((change) => {
-      change.apply(dest, source);
-    });
-    return dest;
-  };
-
-  toJSON = (): Diff<Obj>[] => {
-    return this.map((el): any => {
-      const { oldValue, path, paths, newValue, kind } = el;
-
-      const res: any = {
-        newValue,
-        oldValue,
-        paths,
-        kind,
-        path,
-      };
-
-      Object.defineProperties(res, {
-        ulid: {
-          get() {
-            return el.ulid;
-          },
-        },
-      });
-
-      return res;
-    });
-  };
-
-  stringify = (spaces = 0): string => {
-    return JSON.stringify(this.toJSON(), null, spaces);
-  };
-
-  static hydrate = (value: string): ChangeList => {
-    try {
-      const data = JSON.parse(value) as ChangeList;
-      const changeList = new ChangeList();
-
-      if (!Array.isArray(data?.differences) || !(changeList.time > 0)) {
-        throw new Error('INVALID_VALUE_TO_HYDRATE');
-      }
-
-      changeList.differences = data.differences;
-      changeList.time = data.time;
-      return changeList;
-    } catch (e: any) {
-      throw new Error(`Failed to hydrate ChangeList. ${e.message}`);
-    }
-  };
-}
-
-export function diff<Obj>(originObject: Obj, newObject: any): Diff<Obj>[] {
-  return new ChangeList<Obj>(originObject, newObject).toJSON();
-}
-
-export const getDiff = diff;
-
-export function applyChanges(
-  target: any,
-  changes: ChangeList<any>,
-  source = {}
-) {
-  changes.differences.forEach((change) => {
-    applyChange(target, source, change);
-  });
-  return target;
-}
-
-export function revertChanges(
-  target: any,
-  changes: ChangeList<any>,
-  source = {}
-) {
-  changes.differences.forEach((change) => {
-    revertChange(target, source, change);
-  });
-  return target;
-}
-
-export type Diff<Obj = any> = ObjectPath<Obj, 5> extends infer Path
-  ? Path extends unknown
-    ? Pick<Obj, Path> extends infer Value
-      ? {
-          kind: 'add' | 'remove' | 'update';
-          newValue: Value;
-          oldValue: Value;
-          path: Path;
-          paths: string[];
-          ulid: string;
-        }
+export type Difference<
+  Type = any,
+  Path extends string = Paths<Type>
+> = Type extends unknown
+  ? Type extends object
+    ? {
+        [P in Path]: PathType<Type, P> extends unknown
+          ? _Difference<PathType<Type, P>, P>
+          : never;
+      }[Path] extends infer R
+      ? R extends unknown
+        ? { [K in keyof R]: R[K] } & {}
+        : never
       : never
-    : never
+    : _Difference<Type, ''>
   : never;
 
-export type DeepDiff<T = any> = ObjectUnion<
-  _DDiff<T>,
-  Partial<DiffArray<any>> & Partial<DiffNew<any>>
-> &
-  _DDiff<T>;
+export type _Difference<Value, Path extends string> = {
+  action: DifferenceAction;
+  parsed: PathParsed<Path>;
+  path: Path;
+  pathParts: DifferencePath[];
+  oldValue?: Value;
+  newValue?: Value;
+};
 
-export { Accumulator, DiffEdit, deepDiff, DiffArray, DiffDeleted, DiffNew };
+const richTypes = { Date: true, RegExp: true, String: true, Number: true };
 
-export type ChangeKind = 'add' | 'remove' | 'update';
+/**
+ * Returns a list of differences between two types
+ * @param current
+ * @param next
+ * @param pathToLook
+ */
+export function diff(
+  current: any,
+  next: any,
+  pathToLook?: DifferencePath[] | string
+): Difference<any>[] {
+  const seen: Record<string, any>[] = [];
 
-export class Change<T = any> {
-  kind: ChangeKind;
-  newValue?: T | undefined;
-  oldValue?: T | undefined;
-  path: string;
-  paths: string[];
-  ulid: string;
-  time: number;
-  difference: DeepDiff;
-
-  constructor({
-    time,
-    index,
-    difference,
-    parentId,
-  }: {
-    difference: _DDiff<any>;
-    time: number;
-    parentId: string;
-    index: number;
-  }) {
-    this.difference = difference;
-
-    const { newValue, oldValue, path, paths, kind } = processPaths(difference);
-    this.paths = paths;
-    this.path = path;
-    this.kind = kind;
-    this.ulid = `${parentId}:${index}`;
-    this.time = time;
-    this.oldValue = oldValue;
-    this.newValue = newValue;
+  function close(el: __MicroDiff) {
+    return getters(
+      el,
+      {
+        path() {
+          return parsePath(el.pathParts).path;
+        },
+        parsed() {
+          return parsePath(el.pathParts);
+        },
+      },
+      { enumerable: false, configurable: true }
+    );
   }
+  if (pathToLook) {
+    const a = pick(current, pathToLook);
+    const b = pick(next, pathToLook);
+    const { parts: list } = parsePath(pathToLook);
 
-  apply = <Dest>(destination: Dest, source = {}): Dest => {
-    applyChange(destination, source, this.difference);
-    return destination;
-  };
-
-  revert = <Dest>(destination: Dest) => {
-    revertChange(destination, {}, this.difference);
-    return destination;
-  };
-}
-
-function processPaths(difference: _DDiff<any>): {
-  newValue?: any;
-  oldValue?: any;
-  path: string;
-  paths: string[];
-  kind: ChangeKind;
-} {
-  if (difference.kind === 'N') {
-    return {
-      kind: 'add',
-      newValue: difference.rhs,
-      ...affectedPaths(difference.path),
-    };
-  }
-
-  if (difference.kind === 'A') {
-    return processPaths({
-      ...difference,
-      ...difference.item,
-      path: [...difference.path!, difference.index],
+    return _diff(a, b, seen).map((el) => {
+      el.pathParts.unshift(...list);
+      return close(el);
     });
   }
 
-  if (difference.kind === 'E') {
-    return {
-      kind: 'update',
-      oldValue: difference.lhs,
-      newValue: difference.rhs,
-      ...affectedPaths(difference.path),
-    };
-  }
-
-  if (difference.kind === 'D') {
-    const { paths, path } = affectedPaths(difference.path);
-    return {
-      kind: 'remove',
-      oldValue: difference.lhs,
-      paths,
-      path,
-    };
-  }
-
-  throw new Error(`Invalid diff.`);
+  return _diff(current, next, seen).map(close);
 }
 
-function affectedPaths(pathParts: (string | number)[] = []): {
-  paths: string[];
-  path: string;
-} {
-  if (!pathParts[0]) return { path: '', paths: [] };
+type __MicroDiff = Omit<_Difference<any, any>, 'path' | 'parsed'>;
 
-  const p: (string | number)[] = [];
+function _diff(from: any, to: any, seen: Record<string, any>[]): __MicroDiff[] {
+  const isCurrentArray = Array.isArray(from);
+  const isNextArray = Array.isArray(to);
 
-  let full = pathParts[0];
-  p.push(full);
+  if (
+    !from ||
+    !to ||
+    typeof from !== 'object' ||
+    typeof to !== 'object' ||
+    isCurrentArray !== isNextArray
+  ) {
+    return areDifferentElements(from, to)
+      ? [
+          {
+            pathParts: [],
+            action: from === undefined ? 'add' : 'update',
+            newValue: to,
+            oldValue: from,
+          },
+        ]
+      : [];
+  }
 
-  pathParts.slice(1).forEach((pathPart) => {
-    full += `.${pathPart}`;
-    p.push(full);
-  }, []);
+  let diffs: __MicroDiff[] = [];
 
-  return {
-    path: full.toString(),
-    paths: p.map((el) => el.toString()),
-  };
+  for (const key in from) {
+    const currentElement = from[key];
+    const path = isCurrentArray ? +key : key;
+
+    if (!(key in to)) {
+      diffs.push({
+        action: 'delete',
+        pathParts: [path],
+        oldValue: from[key],
+      });
+      continue;
+    }
+    const nextElement = to[key];
+    const areObjects = areTypeOfObject(currentElement, nextElement);
+
+    if (
+      currentElement &&
+      nextElement &&
+      areObjects &&
+      // @ts-ignore
+      !richTypes[Object.getPrototypeOf(currentElement)?.constructor?.name] &&
+      !seen.includes(currentElement)
+    ) {
+      seen.push(currentElement);
+      const nestedDiffs = _diff(currentElement, nextElement, seen);
+      diffs.push.apply(
+        diffs,
+        nestedDiffs.map((difference) => {
+          difference.pathParts.unshift(path);
+          return difference;
+        })
+      );
+    }
+
+    if (areDifferentElements(currentElement, nextElement)) {
+      diffs.push({
+        pathParts: [path],
+        action: 'update',
+        newValue: nextElement,
+        oldValue: currentElement,
+      });
+    }
+  }
+
+  const isNewObjArray = Array.isArray(to);
+
+  for (const key in to) {
+    if (!(key in from)) {
+      diffs.push({
+        action: 'add',
+        pathParts: [isNewObjArray ? +key : key],
+        newValue: to[key],
+      });
+    }
+  }
+
+  return diffs;
+}
+
+export function areDifferentElements(currentElement: any, nextElement: any) {
+  const areObjects = areTypeOfObject(currentElement, nextElement);
+
+  return (
+    // https://github.com/AsyncBanana/microdiff/blob/66397c17351120c1b20c103215748ae98659464d/index.ts#L57
+    currentElement !== nextElement &&
+    !(
+      typeof currentElement === 'number' &&
+      isNaN(currentElement) &&
+      typeof nextElement === 'number' &&
+      isNaN(nextElement)
+    ) &&
+    !(
+      areObjects &&
+      (isNaN(currentElement)
+        ? currentElement + '' === nextElement + ''
+        : +currentElement === +nextElement)
+    )
+  );
+}
+
+function areTypeOfObject(currentElement: any, nextElement: any) {
+  return typeof currentElement === 'object' && typeof nextElement === 'object';
 }

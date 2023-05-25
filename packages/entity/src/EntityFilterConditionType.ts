@@ -89,7 +89,7 @@ export function objectToGraphQLConditionType<T extends DocumentBase>(
 
 const keys = getKeys(Def);
 const keysSet = new Set<string>(keys);
-type Operators = typeof keys[number];
+type Operators = (typeof keys)[number];
 
 export type GraphQLFilterToTransporterFilter<T> = T extends {
   [K: string]: unknown;

@@ -3,7 +3,7 @@ import { tupleEnum } from '@swind/utils';
 
 export const accessTypesEnum = tupleEnum('phone', 'email', 'oauth', 'custom');
 export const accessTypesList = Object.values(accessTypesEnum);
-export type AccessTypeKind = typeof accessTypesList[number];
+export type AccessTypeKind = (typeof accessTypesList)[number];
 
 export const AccessTypeUnion = createType('AccessTypeUnion', {
   union: [

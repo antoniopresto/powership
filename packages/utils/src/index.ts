@@ -56,7 +56,7 @@ export * from './createModulesProxy';
 export * from './ufo';
 export * from './createErrorClass';
 export * from './PackageJson';
-export * from './lodash';
+export * from './isObject';
 export * from './IndexCursor';
 export * from './simpleObjectHash';
 export * from './getters';
@@ -71,7 +71,7 @@ export * from './stackTrace';
 export * from './pick';
 export * from './diff/diff';
 export * from './project';
-export * from './pathParser';
+export * from './parsePath';
 export * from './objectEntries';
 
 // @only-server

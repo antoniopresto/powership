@@ -33,5 +33,5 @@ export const AccountEntity = createEntity({
   .addIndexRelation('tokens', TokenEntity);
 
 export type AccountEntity = typeof AccountEntity;
-export type AccountDocument = ReturnType<typeof AccountEntity['parse']>;
+export type AccountDocument = ReturnType<(typeof AccountEntity)['parse']>;
 export type AccountInput = Omit<AccountDocument, keyof EntityDocumentBase>;

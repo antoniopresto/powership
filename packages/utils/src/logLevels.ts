@@ -17,7 +17,7 @@ export const LogLevelsEnum = {
 export const LogLevelEntries = entries(LogLevelsEnum);
 export const LogLevels = LogLevelEntries.map((el) => el[0]);
 
-export type LogLevelName = typeof LogLevels[number];
+export type LogLevelName = (typeof LogLevels)[number];
 export type LogLevel = LogLevelName | LogLevelName[];
 
 let globalLogLevel: LogLevel = isLogLevel(Process.env.LOG_LEVEL)

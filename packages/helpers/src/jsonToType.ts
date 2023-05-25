@@ -2,23 +2,25 @@ import {
   create,
   createObjectType,
   createType,
-  customError,
-  EmailRegex,
-  entries,
   FieldTypeName,
   FinalFieldDefinition,
   FinalObjectDefinition,
   FlattenFieldDefinition,
-  getTypeName,
   GraphType,
-  IndexCursor,
   Infer,
+  ULID_REGEX,
+} from '@swind/schema';
+import {
+  customError,
+  EmailRegex,
+  entries,
+  getTypeName,
+  IndexCursor,
   inspectObject,
   isPlainObject,
   joinPathsCamelCase,
   stringCase,
-  ULID_REGEX,
-} from 'solarwind';
+} from '@swind/utils';
 
 const record = create.record({ keyType: 'string', type: 'any' });
 
