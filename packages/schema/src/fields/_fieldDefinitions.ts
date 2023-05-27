@@ -1,9 +1,10 @@
 import { tupleEnum } from '@swind/utils';
 
-import { CustomFieldConfig } from '../CustomFieldConfig';
+import { FieldExtraProps } from '../FieldExtraProps';
 
 import { AliasFieldDef } from './AliasField';
 import { ArrayFieldDef } from './ArrayField';
+import { CircularFieldDef } from './CircularField';
 import { ObjectLike } from './IObjectLike';
 import { MetaFieldDef } from './MetaFieldField';
 import { PhoneFieldDef } from './PhoneField';
@@ -43,7 +44,7 @@ export interface CommonFieldDefinitionProps {
   defaultValue?: any;
   list?: ListDefinition;
   optional?: boolean;
-  $?: CustomFieldConfig;
+  $?: FieldExtraProps;
 }
 
 export interface FieldDefinitionWithType<T> extends CommonFieldDefinitionProps {
@@ -141,6 +142,8 @@ export type FieldDefinitions = {
   union: ObjectFieldInput[] | Readonly<ObjectFieldInput[]>;
 
   unknown: UnknownFieldDef | undefined;
+
+  circular: CircularFieldDef | undefined;
 };
 
 export type FieldTypeName = Extract<keyof FieldDefinitions, string>;

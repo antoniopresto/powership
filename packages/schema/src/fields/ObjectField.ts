@@ -5,14 +5,14 @@
 import { TypeLike } from '@swind/utils';
 
 import { CircularDeps } from '../CircularDeps';
-import type { ObjectDefinitionInput } from '../ObjectType';
+import type { SchemaDefinition } from '../ObjectType';
 
 import { FieldType, FieldTypeParser, isFieldInstance } from './FieldType';
 
 type AnyObjectField = TypeLike<(typeof ObjectField)['prototype']>;
 
 export class ObjectField<
-  DefinitionInput extends ObjectDefinitionInput
+  DefinitionInput extends SchemaDefinition
 > extends FieldType<unknown, 'object', DefinitionInput> {
   parse: FieldTypeParser<unknown>;
 
@@ -39,7 +39,7 @@ export class ObjectField<
     });
   }
 
-  static create = <DefinitionInput extends ObjectDefinitionInput>(
+  static create = <DefinitionInput extends SchemaDefinition>(
     def: DefinitionInput
   ) => {
     return new ObjectField<DefinitionInput>(def);

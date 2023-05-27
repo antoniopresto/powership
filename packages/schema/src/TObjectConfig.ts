@@ -1,6 +1,14 @@
-import { ObjectDefinitionInput, ObjectFieldInput } from './fields/_parseFields';
+import { FieldDefinition, SchemaDefinition } from './fields/_parseFields';
 
 // for back compatibility
-export type { ObjectDefinitionInput };
-export type SolarwindObjectDefinition = ObjectDefinitionInput;
-export type FieldDefinitionConfig = ObjectFieldInput;
+export type { SchemaDefinition };
+
+/**
+ * @deprecated use ObjectDefinitionInput
+ */
+export type SolarwindObjectDefinition = SchemaDefinition;
+
+/**
+ * @deprecated use ObjectFieldInput
+ */
+export type FieldDefinitionConfig = FieldDefinition;

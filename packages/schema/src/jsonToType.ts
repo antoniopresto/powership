@@ -95,6 +95,7 @@ export const valuesToSolarwindTypeRecord: {
     getTypeName(value) === 'Number' && !!`${value}`.match(/^\d*$/),
   array: Array.isArray,
   object: (value) => isPlainObject(value),
+  circular: () => false,
   cursor: isCursorString,
   date: (value) => getTypeName(value) === 'Date',
   email: (value) =>

@@ -3,7 +3,7 @@ import {
   ExtendObjectDefinition,
   GraphType,
   MakeFieldOptional,
-  ObjectDefinitionInput,
+  SchemaDefinition,
 } from '@swind/schema';
 import {
   CommonIndexFields,
@@ -87,7 +87,7 @@ export interface EntityFromContext<Context extends AnyEntityTypesContext>
 
   indexGraphTypes: {
     [K: string]: GraphType<{
-      object: ObjectDefinitionInput;
+      object: SchemaDefinition;
     }>;
   };
 
@@ -127,5 +127,7 @@ export type _ExcludeExtend<E> = {
   [K in keyof E as K extends _ExtendMethodKeys ? never : K]: E[K];
 } & {};
 
-export type _AllOptional<Input extends ObjectDefinitionInput> =
-  MakeFieldOptional<DescribeObjectDefinition<Input>, keyof Input>;
+export type _AllOptional<Input extends SchemaDefinition> = MakeFieldOptional<
+  DescribeObjectDefinition<Input>,
+  keyof Input
+>;

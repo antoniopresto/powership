@@ -24,7 +24,7 @@ import {
   SealedField,
 } from './fields/Infer';
 import { objectMetaFieldKey } from './fields/MetaFieldField';
-import { ObjectDefinitionInput } from './fields/_parseFields';
+import { SchemaDefinition } from './fields/_parseFields';
 
 export interface ExtendObjectDefinition<Input, Origin> {
   definition: InnerDef<Input>;
@@ -35,7 +35,7 @@ export interface ExtendObjectDefinition<Input, Origin> {
     keys: K | K[]
   ): ExtendObjectDefinition<{ object: Omit<InnerDef<Input>, K> }, Origin>;
 
-  extendObjectDefinition<V extends ObjectDefinitionInput>(
+  extendObjectDefinition<V extends SchemaDefinition>(
     value: V | ((current: this['definition']) => V)
   ): ExtendObjectDefinition<
     { object: Merge<InnerDef<Input>, DescribeObjectDefinition<V>> },

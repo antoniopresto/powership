@@ -1,4 +1,4 @@
-import { CustomFieldConfig } from '../CustomFieldConfig';
+import { FieldExtraProps } from '../FieldExtraProps';
 
 import {
   GraphTypeInTypeFieldDefinition,
@@ -17,7 +17,12 @@ import {
 
 export * from './Infer/InferField';
 
-export type ObjectFieldInput = _ObjectFieldInputBase | FlattenFieldDefinition;
+export type FieldDefinition = _ObjectFieldInputBase | FlattenFieldDefinition;
+
+/**
+ * @deprecated use FieldDefinition
+ */
+export type ObjectFieldInput = FieldDefinition;
 
 export type _ObjectFieldInputBase =
   | GraphTypeLikeFieldDefinition
@@ -27,15 +32,16 @@ export type _ObjectFieldInputBase =
   | FinalFieldDefinition
   | FieldAsString;
 
+/**
+ * @deprecated use Field
+ */
 export type FieldInput = ObjectFieldInput;
 
-export type ObjectDefinitionInput = {
+export type SchemaDefinition = {
   [K: string]: ObjectFieldInput;
 } & {
-  $?: CustomFieldConfig;
+  $?: FieldExtraProps;
 };
-
-export type Shape = ObjectDefinitionInput;
 
 export type FinalObjectDefinition = { [K: string]: FinalFieldDefinition };
 

@@ -1,9 +1,8 @@
 export * from './Infer';
-export * from './TObjectConfig';
 export * from './ObjectType';
 export * from './fields/Infer';
 export * from './Durable/IDurable';
-export * from './CustomFieldConfig';
+export * from './FieldExtraProps';
 export * from './assertType';
 
 export { objectMetaFieldKey } from './fields/MetaFieldField';

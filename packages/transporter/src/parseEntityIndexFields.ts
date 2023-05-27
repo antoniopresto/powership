@@ -1,4 +1,4 @@
-import { FieldInput, ObjectDefinitionInput } from '@swind/schema';
+import { FieldInput, SchemaDefinition } from '@swind/schema';
 import {
   INDEX_PART_SEP,
   parseIndexFieldName,
@@ -68,5 +68,5 @@ export function parseEntityIndexFields(indexConfig: AnyCollectionIndexConfig) {
     }
 
     return { ...acc, ...fields };
-  }, {} as ObjectDefinitionInput);
+  }, {} as SchemaDefinition);
 }

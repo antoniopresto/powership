@@ -15,7 +15,7 @@ import {
   parseField,
   parseObjectField,
 } from './ObjectType';
-import { ObjectDefinitionInput } from './TObjectConfig';
+import { SchemaDefinition } from './TObjectConfig';
 import { AliasField } from './fields/AliasField';
 import { ObjectLike } from './fields/IObjectLike';
 import { LiteralField } from './fields/LiteralField';
@@ -25,6 +25,7 @@ import {
   FinalFieldDefinition,
   FinalObjectDefinition,
 } from './fields/_parseFields';
+import { assertFieldInstance } from './fields/assertFieldInstance';
 import { isHiddenFieldName } from './isHiddenFieldName';
 import { parseTypeName } from './parseTypeName';
 
@@ -40,7 +41,7 @@ export type ObjectToJSONOptions = {
  */
 export function objectToJSON(
   parentName: string,
-  object: ObjectLike | ObjectDefinitionInput,
+  object: ObjectLike | SchemaDefinition,
   options: ObjectToJSONOptions = { ignoreDefaultValues: true }
 ): JSONSchema4 & { properties: JSONSchema4 } {
   let definition: FinalObjectDefinition;
@@ -49,7 +50,7 @@ export function objectToJSON(
     definition = object.definition as FinalObjectDefinition;
   } else {
     // @ts-ignore
-    definition = createObjectType(object as ObjectDefinitionInput).definition;
+    definition = createObjectType(object as SchemaDefinition).definition;
   }
 
   const description = isObjectType(object) ? object.description : undefined;
@@ -259,6 +260,24 @@ function parseGraphQLField(params: {
       Object.assign(jsonItem, objectToJSON(objectName, field.def, options), {
         title: '',
       });
+    },
+    circular() {
+      const type = __getCachedFieldInstance(field);
+      assertFieldInstance('circular', type);
+
+      const objectName = parseTypeName({
+        field,
+        fieldName: '',
+        parentName: parentName || '',
+      });
+
+      Object.assign(
+        jsonItem,
+        objectToJSON(objectName, type.parent.definition, options),
+        {
+          title: '',
+        }
+      );
     },
     phone() {
       Object.assign(jsonItem, {

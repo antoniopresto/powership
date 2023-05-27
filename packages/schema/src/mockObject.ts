@@ -76,6 +76,7 @@ export function fieldToMock(
 
   const values: { [L in FieldTypeName]: () => unknown } = {
     ID: () => ulid(),
+    circular: () => values.object(),
     alias: () => undefined,
     any: () => '_ANY_',
     array: () => undefined,

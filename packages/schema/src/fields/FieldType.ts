@@ -1,7 +1,7 @@
 import { inspectObject, simpleObjectClone } from '@swind/utils';
 
 import { CircularDeps } from '../CircularDeps';
-import { CustomFieldConfig } from '../CustomFieldConfig';
+import { FieldExtraProps } from '../FieldExtraProps';
 import {
   FieldParserOptionsObject,
   FieldTypeParser,
@@ -137,7 +137,7 @@ export abstract class FieldType<
   defaultValue: DefaultValue;
   description?: string;
   hidden?: boolean;
-  $?: CustomFieldConfig;
+  $?: FieldExtraProps;
 
   describe = (description: string): this => {
     this.description = description;
@@ -152,7 +152,7 @@ export abstract class FieldType<
     list: [List] extends [1] ? true : false;
     optional: [Optional] extends [1] ? true : false;
     type: Type;
-    $?: CustomFieldConfig;
+    $?: FieldExtraProps;
   } => {
     return this.asFinalFieldDef as any;
   };

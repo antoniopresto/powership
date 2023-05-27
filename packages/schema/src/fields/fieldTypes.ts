@@ -4,6 +4,7 @@ import { AliasField } from './AliasField';
 import { AnyField } from './AnyField';
 import { ArrayField } from './ArrayField';
 import { BooleanField } from './BooleanField';
+import { CircularField } from './CircularField';
 import { CursorField } from './CursorField';
 import { DateField } from './DateField';
 import { EmailField } from './EmailField';
@@ -79,6 +80,7 @@ export const types = createConstructors({
   undefined: UndefinedField,
   union: UnionField,
   unknown: UnknownField,
+  circular: CircularField,
 });
 
 export type Types = typeof types;

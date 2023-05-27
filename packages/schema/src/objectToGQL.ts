@@ -1,6 +1,6 @@
 import { GraphQLParser } from './GraphType/GraphQLParser';
 import { createObjectType } from './ObjectType';
-import { ObjectDefinitionInput } from './TObjectConfig';
+import { SchemaDefinition } from './TObjectConfig';
 import { FinalObjectDefinition } from './fields/_parseFields';
 
 /**
@@ -10,7 +10,7 @@ import { FinalObjectDefinition } from './fields/_parseFields';
  */
 export function objectToGQL(
   typeName: string,
-  definition: ObjectDefinitionInput | FinalObjectDefinition
+  definition: SchemaDefinition | FinalObjectDefinition
 ) {
   const object = createObjectType(typeName, definition);
 

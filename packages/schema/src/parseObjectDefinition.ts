@@ -4,7 +4,7 @@ import { getKeys } from '@swind/utils';
 import { getTypeName } from '@swind/utils';
 import { inspectObject } from '@swind/utils';
 
-import { CustomFieldConfig } from './CustomFieldConfig';
+import { FieldExtraProps } from './FieldExtraProps';
 import { GraphType } from './GraphType/GraphType';
 import {
   FieldAsString,
@@ -335,7 +335,7 @@ export type ParseFieldOptions = {
 type ParseResult = {
   definition: { [key: string]: FinalFieldDefinition };
   meta?: MetaField['asFinalFieldDef'];
-  custom?: CustomFieldConfig;
+  custom?: FieldExtraProps;
 };
 
 export function parseObjectDefinition(
@@ -351,7 +351,7 @@ export function parseObjectDefinition(
   const result = {} as { [key: string]: FinalFieldDefinition };
 
   let meta: MetaField['asFinalFieldDef'] | undefined = undefined;
-  let custom: CustomFieldConfig | undefined = undefined;
+  let custom: FieldExtraProps | undefined = undefined;
 
   const keys = getKeys(input);
 

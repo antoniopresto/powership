@@ -5,6 +5,7 @@ import { FinalFieldDefinition } from './_parseFields';
 export interface ObjectLike {
   __isSolarwindObject: true;
   definition: { [K: string]: any };
+  [K: string]: any;
 }
 
 export interface GraphTypeLike {

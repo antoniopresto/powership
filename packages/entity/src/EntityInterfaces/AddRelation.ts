@@ -1,4 +1,4 @@
-import { ObjectDefinitionInput, ObjectFieldInput } from '@swind/schema';
+import { ObjectFieldInput, SchemaDefinition } from '@swind/schema';
 import { LoaderContext } from '@swind/transporter';
 
 import { EntityFieldResolver } from '../EntityOptions';
@@ -12,7 +12,7 @@ export interface EntityAddRelation<
   <
     Context extends LoaderContext,
     Definition extends ObjectFieldInput,
-    ArgsDef extends ObjectDefinitionInput
+    ArgsDef extends SchemaDefinition
   >(
     options: EntityFieldResolver<
       Context,

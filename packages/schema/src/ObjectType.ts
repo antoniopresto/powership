@@ -14,7 +14,7 @@ import type {
   ParseTypeOptions,
 } from './GraphType/GraphQLParser';
 import { GraphQLParseMiddleware } from './GraphType/GraphQLParser';
-import type { ObjectDefinitionInput } from './TObjectConfig';
+import type { SchemaDefinition } from './TObjectConfig';
 import {
   FieldParserOptionsObject,
   parseValidationError,
@@ -77,13 +77,13 @@ export class ObjectType<
   }>;
 
   inputDefinition:
-    | ObjectDefinitionInput
-    | ((modules: SolarwindModules) => ObjectDefinitionInput);
+    | SchemaDefinition
+    | ((modules: SolarwindModules) => SchemaDefinition);
 
   constructor(
     objectDef: HandledInput | ((modules: SolarwindModules) => HandledInput)
   ) {
-    this.inputDefinition = objectDef as ObjectDefinitionInput;
+    this.inputDefinition = objectDef as SchemaDefinition;
     this.__withCache = withCache(this);
   }
 
@@ -568,7 +568,7 @@ export class ObjectType<
    * @param id
    * @param def
    */
-  static getOrSet = <T extends ObjectDefinitionInput>(
+  static getOrSet = <T extends SchemaDefinition>(
     id: string,
     def: T | (() => T)
   ): ObjectType<T> => {
@@ -595,7 +595,7 @@ export class ObjectType<
     this.graphQLMiddleware.push(...ensureArray(middleware));
   };
 
-  static is(input: any): input is ObjectType<ObjectDefinitionInput> {
+  static is(input: any): input is ObjectType<SchemaDefinition> {
     return isObjectType(input);
   }
 }
@@ -603,23 +603,23 @@ export class ObjectType<
 export const SolarwindObject = ObjectType;
 
 export type ObjectTypeFromInput<
-  DefinitionInput extends Readonly<ObjectDefinitionInput>
+  DefinitionInput extends Readonly<SchemaDefinition>
 > = IsKnown<DefinitionInput> extends 1
-  ? [DefinitionInput] extends [ObjectDefinitionInput]
+  ? [DefinitionInput] extends [SchemaDefinition]
     ? ObjectType<DefinitionInput>
     : never
   : any;
 
 export function createObjectType<
-  DefinitionInput extends Readonly<ObjectDefinitionInput>
+  DefinitionInput extends Readonly<SchemaDefinition>
 >(fields: Readonly<DefinitionInput>): ObjectTypeFromInput<DefinitionInput>;
 
 export function createObjectType<
-  DefinitionInput extends Readonly<ObjectDefinitionInput>
+  DefinitionInput extends Readonly<SchemaDefinition>
 >(name: string, fields: DefinitionInput): ObjectTypeFromInput<DefinitionInput>;
 
 export function createObjectType<
-  DefinitionInput extends Readonly<ObjectDefinitionInput>
+  DefinitionInput extends Readonly<SchemaDefinition>
 >(
   ...args: [string, DefinitionInput] | [DefinitionInput]
 ): ObjectTypeFromInput<DefinitionInput> {

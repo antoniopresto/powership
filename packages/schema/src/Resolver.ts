@@ -13,8 +13,8 @@ import { Infer } from './Infer';
 import {
   FieldInput,
   InferField,
-  ObjectDefinitionInput,
   ObjectFieldInput,
+  SchemaDefinition,
 } from './fields/_parseFields';
 
 export type ResolverContextBase = {
@@ -180,7 +180,7 @@ export type ResolverResolve<Context, Source, TypeDef, ArgsDef> = (
 
 export function isPossibleArgsDef(
   args: any
-): args is Readonly<ObjectDefinitionInput> {
+): args is Readonly<SchemaDefinition> {
   return args && typeof args === 'object' && Object.keys(args).length;
 }
 
@@ -198,7 +198,7 @@ export type OptionalResolverConfig<
 >;
 
 export interface CreateResolver<Context> {
-  <ResultType extends ObjectFieldInput, ArgsType extends ObjectDefinitionInput>(
+  <ResultType extends ObjectFieldInput, ArgsType extends SchemaDefinition>(
     config: {
       name: string;
       type: ResultType | Readonly<ResultType>;
@@ -234,7 +234,7 @@ export interface CreateResolver<Context> {
 
   <
     ResultType extends FieldInput,
-    ArgsType extends ObjectDefinitionInput,
+    ArgsType extends SchemaDefinition,
     Returns = unknown
   >(
     config: {

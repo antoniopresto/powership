@@ -15,8 +15,8 @@ import { Infer } from '../Infer';
 import {
   createObjectType,
   FinalFieldDefinition,
-  ObjectDefinitionInput,
   parseField,
+  SchemaDefinition,
 } from '../ObjectType';
 import type { AnyResolver } from '../Resolver';
 import { FieldDefinitionConfig } from '../TObjectConfig';
@@ -203,7 +203,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
     definition: LazyParseGraphTypePayload
   ) => LazyParseGraphTypePayload)[] = [];
 
-  mutateFields<Def extends ObjectDefinitionInput>(
+  mutateFields<Def extends SchemaDefinition>(
     callback: (input: ExtendObjectDefinition<this, this>) => Def
   ): GraphType<{ object: Def }> {
     if (this.touched) {
