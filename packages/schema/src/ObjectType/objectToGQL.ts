@@ -1,7 +1,8 @@
-import { GraphQLParser } from './GraphType/GraphQLParser';
+import { GraphQLParser } from '../GraphType/GraphQLParser';
+import { SchemaDefinition } from '../TObjectConfig';
+import { FinalObjectDefinition } from '../fields/_parseFields';
+
 import { createObjectType } from './ObjectType';
-import { SchemaDefinition } from './TObjectConfig';
-import { FinalObjectDefinition } from './fields/_parseFields';
 
 /**
  * @Deprecated - use GraphType instead

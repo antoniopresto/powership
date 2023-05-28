@@ -1,7 +1,7 @@
 import { tuple } from '@swind/utils';
 
 import { createType } from '../GraphType/GraphType';
-import { createObjectType } from '../ObjectType';
+import { createObjectType } from '../ObjectType/ObjectType';
 import { createResolver } from '../Resolver';
 import { StringField } from '../fields/StringField';
 

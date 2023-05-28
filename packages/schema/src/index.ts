@@ -1,5 +1,5 @@
 export * from './Infer';
-export * from './ObjectType';
+export * from './ObjectType/ObjectType';
 export * from './fields/Infer';
 export * from './Durable/IDurable';
 export * from './FieldExtraProps';

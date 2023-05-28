@@ -17,7 +17,8 @@ import {
   FinalFieldDefinition,
   parseField,
   SchemaDefinition,
-} from '../ObjectType';
+} from '../ObjectType/ObjectType';
+import type { ObjectToTypescriptOptions } from '../ObjectType/objectToTypescript';
 import type { AnyResolver } from '../Resolver';
 import { FieldDefinitionConfig } from '../TObjectConfig';
 import {
@@ -35,7 +36,6 @@ import {
 import { FieldParserConfig, TAnyFieldType } from '../fields/FieldType';
 import { GraphTypeLike } from '../fields/IObjectLike';
 import { ObjectFieldInput } from '../fields/_parseFields';
-import type { ObjectToTypescriptOptions } from '../objectToTypescript';
 
 import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
 import { initGraphType } from './initGraphType';

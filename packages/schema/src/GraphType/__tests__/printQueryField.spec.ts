@@ -1,4 +1,4 @@
-import { createObjectType, ObjectType } from '../../ObjectType';
+import { createObjectType, ObjectType } from '../../ObjectType/ObjectType';
 import { createResolver } from '../../Resolver';
 import { createType } from '../GraphType';
 import { getQueryTemplates } from '../getQueryTemplates';

@@ -19,7 +19,7 @@ import {
   FinalFieldDefinition,
   FinalObjectDefinition,
   FlattenFieldDefinition,
-} from './ObjectType';
+} from './ObjectType/ObjectType';
 import { ULID_REGEX } from './fields/UlidField';
 
 const record = CircularDeps.record({ keyType: 'string', type: 'any' });

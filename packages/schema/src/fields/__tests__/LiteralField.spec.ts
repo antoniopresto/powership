@@ -3,10 +3,10 @@ import { graphql } from 'graphql';
 
 import { createType } from '../../GraphType/GraphType';
 import { Infer } from '../../Infer';
-import { createObjectType, ObjectType } from '../../ObjectType';
+import { createObjectType, ObjectType } from '../../ObjectType/ObjectType';
 import { createResolver } from '../../Resolver';
 import { createGraphQLSchema } from '../../createGraphQLSchema';
-import { objectToJSON } from '../../objectToJSON';
+import { objectToJSON } from '../../ObjectType/objectToJSON';
 import { LiteralField } from '../LiteralField';
 
 describe('LiteralField', () => {

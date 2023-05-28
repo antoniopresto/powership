@@ -1,7 +1,7 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../Infer';
-import { createObjectType, ObjectType } from '../ObjectType';
+import { createObjectType, ObjectType } from '../ObjectType/ObjectType';
 
 describe('ObjectType.implement(...parents)', () => {
   afterEach(ObjectType.reset);

@@ -3,7 +3,7 @@ import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
 import { CircularDeps } from '../../CircularDeps';
 import { Infer } from '../../Infer';
-import { createObjectType, ObjectType } from '../../ObjectType';
+import { createObjectType, ObjectType } from '../../ObjectType/ObjectType';
 import { createResolver } from '../../Resolver';
 import { createGraphQLSchema } from '../../createGraphQLSchema';
 import { createType, GraphType } from '../GraphType';

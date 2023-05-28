@@ -2,7 +2,7 @@ import { PromiseType } from '@swind/utils';
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
-import { createSolarwindObject, ObjectType } from '../../ObjectType';
+import { createSolarwindObject, ObjectType } from '../../ObjectType/ObjectType';
 import { createResolver } from '../../Resolver';
 import { GraphType } from '../GraphType';
 

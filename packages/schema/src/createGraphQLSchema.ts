@@ -12,11 +12,11 @@ import {
   getSchemaQueryTemplates,
   SchemaQueryTemplatesResult,
 } from './GraphType/getQueryTemplates';
-import { parseFieldDefinitionConfig } from './ObjectType';
+import { parseFieldDefinitionConfig } from './ObjectType/ObjectType';
+import type { ObjectToTypescriptOptions } from './ObjectType/objectToTypescript';
 import { AnyResolver } from './Resolver';
 import { cleanMetaField } from './fields/MetaFieldField';
 import { objectMock, ObjectMockOptions } from './mockObject';
-import type { ObjectToTypescriptOptions } from './objectToTypescript';
 
 export type CreateGraphQLObjectOptions = Partial<GraphQLSchemaConfig>;
 

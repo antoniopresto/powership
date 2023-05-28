@@ -5,7 +5,7 @@
 import { TypeLike } from '@swind/utils';
 
 import { CircularDeps } from '../CircularDeps';
-import type { SchemaDefinition } from '../ObjectType';
+import type { SchemaDefinition } from '../ObjectType/ObjectType';
 
 import { FieldType, FieldTypeParser, isFieldInstance } from './FieldType';
 

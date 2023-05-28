@@ -10,16 +10,16 @@ import {
 } from '@swind/utils';
 
 import { Infer } from './Infer';
+import {
+  __getCachedFieldInstance,
+  parseObjectField,
+} from './ObjectType/parseObjectDefinition';
 import { CursorField } from './fields/CursorField';
 import { FieldComposer } from './fields/FieldType';
 import { LiteralField } from './fields/LiteralField';
 import { createEmptyMetaField, isMetaFieldKey } from './fields/MetaFieldField';
 import { FieldTypeName } from './fields/_fieldDefinitions';
 import { FieldInput } from './fields/_parseFields';
-import {
-  __getCachedFieldInstance,
-  parseObjectField,
-} from './parseObjectDefinition';
 
 export type ObjectMockOptions = {
   maxArrayLength?: number;

@@ -39,7 +39,7 @@ import {
   __getCachedFieldInstance,
   isObjectType,
   ObjectType,
-} from '../ObjectType';
+} from '../ObjectType/ObjectType';
 import { AliasField } from '../fields/AliasField';
 import { ArrayField } from '../fields/ArrayField';
 import type { CursorField } from '../fields/CursorField';

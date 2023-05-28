@@ -1,7 +1,7 @@
 import * as fs from 'fs-extra';
 
 import { CircularDeps } from '../CircularDeps';
-import { parseFieldDefinitionConfig } from '../ObjectType';
+import { parseFieldDefinitionConfig } from '../ObjectType/ObjectType';
 import {
   GraphQLSchemaWithUtils,
   resolversTypescriptParts,

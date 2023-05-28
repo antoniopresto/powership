@@ -4,8 +4,26 @@ import { getKeys } from '@swind/utils';
 import { getTypeName } from '@swind/utils';
 import { inspectObject } from '@swind/utils';
 
-import { FieldExtraProps } from './FieldExtraProps';
-import { GraphType } from './GraphType/GraphType';
+import { FieldExtraProps } from '../FieldExtraProps';
+import { GraphType } from '../GraphType/GraphType';
+import { FieldDefinitionConfig } from '../TObjectConfig';
+import { fieldInstanceFromDef } from '../fieldInstanceFromDef';
+import { isFieldInstance, TAnyFieldType } from '../fields/FieldType';
+import { LiteralField } from '../fields/LiteralField';
+import {
+  createEmptyMetaField,
+  isMetaField,
+  MetaField,
+  objectMetaFieldKey,
+} from '../fields/MetaFieldField';
+import { FieldDefinitionWithType } from '../fields/_fieldDefinitions';
+import { FinalFieldDefinition } from '../fields/_parseFields';
+import { types } from '../fields/fieldTypes';
+import {
+  isStringFieldDefinition,
+  parseStringDefinition,
+} from '../parseStringDefinition';
+
 import {
   FieldAsString,
   FieldInput,
@@ -14,23 +32,6 @@ import {
   ObjectType,
   ShortenFinalFieldDefinition,
 } from './ObjectType';
-import { FieldDefinitionConfig } from './TObjectConfig';
-import { fieldInstanceFromDef } from './fieldInstanceFromDef';
-import { isFieldInstance, TAnyFieldType } from './fields/FieldType';
-import { LiteralField } from './fields/LiteralField';
-import {
-  createEmptyMetaField,
-  isMetaField,
-  MetaField,
-  objectMetaFieldKey,
-} from './fields/MetaFieldField';
-import { FieldDefinitionWithType } from './fields/_fieldDefinitions';
-import { FinalFieldDefinition } from './fields/_parseFields';
-import { types } from './fields/fieldTypes';
-import {
-  isStringFieldDefinition,
-  parseStringDefinition,
-} from './parseStringDefinition';
 
 export function parseObjectField<
   T extends FieldDefinitionConfig,

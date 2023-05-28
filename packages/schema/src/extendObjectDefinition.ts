@@ -17,7 +17,7 @@ import {
   ObjectType,
   parseField,
   parseObjectDefinition,
-} from './ObjectType';
+} from './ObjectType/ObjectType';
 import {
   DescribeField,
   DescribeObjectDefinition,

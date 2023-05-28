@@ -2,10 +2,11 @@ import { RuntimeError } from '@swind/utils';
 import { simpleObjectClone } from '@swind/utils';
 import { Merge } from '@swind/utils';
 
+import { ObjectLike } from '../fields/IObjectLike';
+import { objectMetaFieldKey } from '../fields/MetaFieldField';
+import { SchemaDefinition } from '../fields/_parseFields';
+
 import { createObjectType, isObjectType, ObjectType } from './ObjectType';
-import { ObjectLike } from './fields/IObjectLike';
-import { objectMetaFieldKey } from './fields/MetaFieldField';
-import { SchemaDefinition } from './fields/_parseFields';
 
 export type ImplementObject<Dest, Extends> =
   //

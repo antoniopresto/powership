@@ -1,9 +1,9 @@
 import { getKeys } from '@swind/utils';
 
-import type { FinalFieldDefinition } from './ObjectType';
+import type { FinalFieldDefinition } from './ObjectType/ObjectType';
+import { __getCachedFieldInstance } from './ObjectType/parseObjectDefinition';
 import { TAnyFieldType } from './fields/FieldType';
 import { isMetaFieldKey, MetaFieldDef } from './fields/MetaFieldField';
-import { __getCachedFieldInstance } from './parseObjectDefinition';
 
 export type ObjectFieldListItem = {
   instance: TAnyFieldType;

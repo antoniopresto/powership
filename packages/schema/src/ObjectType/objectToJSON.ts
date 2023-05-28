@@ -8,6 +8,20 @@ import { getTypeName } from '@swind/utils';
 import { nonNullValues } from '@swind/utils';
 import { JSONSchema4 } from 'json-schema';
 
+import { SchemaDefinition } from '../TObjectConfig';
+import { AliasField } from '../fields/AliasField';
+import { ObjectLike } from '../fields/IObjectLike';
+import { LiteralField } from '../fields/LiteralField';
+import { E164_PHONE_REGEX } from '../fields/PhoneField';
+import { FieldTypeName } from '../fields/_fieldDefinitions';
+import {
+  FinalFieldDefinition,
+  FinalObjectDefinition,
+} from '../fields/_parseFields';
+import { assertFieldInstance } from '../fields/assertFieldInstance';
+import { isHiddenFieldName } from '../isHiddenFieldName';
+import { parseTypeName } from '../parseTypeName';
+
 import {
   __getCachedFieldInstance,
   createObjectType,
@@ -15,19 +29,6 @@ import {
   parseField,
   parseObjectField,
 } from './ObjectType';
-import { SchemaDefinition } from './TObjectConfig';
-import { AliasField } from './fields/AliasField';
-import { ObjectLike } from './fields/IObjectLike';
-import { LiteralField } from './fields/LiteralField';
-import { E164_PHONE_REGEX } from './fields/PhoneField';
-import { FieldTypeName } from './fields/_fieldDefinitions';
-import {
-  FinalFieldDefinition,
-  FinalObjectDefinition,
-} from './fields/_parseFields';
-import { assertFieldInstance } from './fields/assertFieldInstance';
-import { isHiddenFieldName } from './isHiddenFieldName';
-import { parseTypeName } from './parseTypeName';
 
 export type ObjectToJSONOptions = {
   ignoreDefaultValues?: boolean;

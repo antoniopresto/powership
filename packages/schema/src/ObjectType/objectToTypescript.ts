@@ -1,7 +1,8 @@
 import { jsonToTypescript } from '@swind/utils';
 
-import { SchemaDefinition } from './TObjectConfig';
-import { ObjectLike } from './fields/IObjectLike';
+import { SchemaDefinition } from '../TObjectConfig';
+import { ObjectLike } from '../fields/IObjectLike';
+
 import { objectToJSON } from './objectToJSON';
 
 export type ObjectToTypescriptOptions = {

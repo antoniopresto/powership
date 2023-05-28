@@ -1,9 +1,9 @@
 import { CircularDeps, SolarwindModules } from '../CircularDeps';
-import { ObjectType } from '../ObjectType';
+import { ObjectType } from '../ObjectType/ObjectType';
+import { parseObjectField } from '../ObjectType/parseObjectDefinition';
 import { TAnyFieldType } from '../fields/FieldType';
 import { getObjectDefinitionId } from '../fields/MetaFieldField';
 import { FieldInput, ObjectFieldInput } from '../fields/_parseFields';
-import { parseObjectField } from '../parseObjectDefinition';
 
 import {
   GraphType,

@@ -1,5 +1,5 @@
 import { CircularDeps } from '../CircularDeps';
-import type { ObjectType } from '../ObjectType';
+import type { ObjectType } from '../ObjectType/ObjectType';
 
 import { FieldType, FieldTypeParser } from './FieldType';
 import { CursorType } from './_fieldDefinitions';

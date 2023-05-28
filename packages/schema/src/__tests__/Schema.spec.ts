@@ -1,7 +1,11 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../Infer';
-import { createObjectType, ObjectType, resetTypesCache } from '../ObjectType';
+import {
+  createObjectType,
+  ObjectType,
+  resetTypesCache,
+} from '../ObjectType/ObjectType';
 import { objectMetaFieldKey } from '../fields/MetaFieldField';
 
 function _userObject() {

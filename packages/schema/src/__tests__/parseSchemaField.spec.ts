@@ -1,10 +1,10 @@
-import { createObjectType } from '../ObjectType';
+import { createObjectType } from '../ObjectType/ObjectType';
 import { EnumField } from '../fields/EnumField';
 import { objectMetaFieldKey } from '../fields/MetaFieldField';
 import {
   parseFlattenFieldDefinition,
   parseObjectField,
-} from '../parseObjectDefinition';
+} from '../ObjectType/parseObjectDefinition';
 
 import { objectMocks } from './__mock__';
 
