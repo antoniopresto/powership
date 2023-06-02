@@ -1,6 +1,6 @@
 import { assertSame } from '@swind/utils';
 
-import { parseObjectDefinition } from './parseObjectDefinition';
+import { parseObjectDefinition } from './ObjectType/parseObjectDefinition';
 
 export function assertSameDefinition(id: string, a: any, b: any) {
   a = parseObjectDefinition(a, {

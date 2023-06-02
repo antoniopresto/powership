@@ -1,6 +1,7 @@
+import { isMetaField } from '../fields/MetaFieldField';
+
 import type { FinalFieldDefinition } from './ObjectType';
 import { __getCachedFieldInstance } from './ObjectType';
-import { isMetaField } from './fields/MetaFieldField';
 
 export function validateObjectFields(params: {
   definition: FinalFieldDefinition;

@@ -4,7 +4,7 @@ import {
   createObjectType,
   ObjectType,
   parseObjectField,
-} from '../../ObjectType';
+} from '../../ObjectType/ObjectType';
 import { GraphQLParser } from '../GraphQLParser';
 
 describe('GraphQLParser', () => {

@@ -1,6 +1,6 @@
 {
   "name": "@swind/transporter",
-  "version": "1.0.13",
+  "version": "1.0.14-0",
   "main": "lib/index.js",
   "sideEffects": false,
   "module": "lib/module/index.js",

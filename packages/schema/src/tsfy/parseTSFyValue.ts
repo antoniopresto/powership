@@ -7,7 +7,7 @@ import {
 } from '@swind/utils';
 
 import { GraphType } from '../GraphType/GraphType';
-import { ObjectType } from '../ObjectType';
+import { ObjectType } from '../ObjectType/ObjectType';
 import { isFieldTypeName } from '../fields/fieldTypes';
 
 import { createTSfyRef, getTSFyIdentifier, TSFYContext, TSFYRef } from './tsfy';

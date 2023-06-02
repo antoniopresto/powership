@@ -1,8 +1,8 @@
 import { RuntimeError } from '@swind/utils';
 
+import { __getCachedFieldInstance } from './ObjectType/parseObjectDefinition';
 import { getObjectDefinitionMetaField } from './fields/MetaFieldField';
 import { FinalFieldDefinition } from './fields/_parseFields';
-import { __getCachedFieldInstance } from './parseObjectDefinition';
 
 export function parseTypeName(input: {
   field: FinalFieldDefinition;

@@ -2,10 +2,11 @@ import { RuntimeError } from '@swind/utils';
 import { simpleObjectClone } from '@swind/utils';
 import { Merge } from '@swind/utils';
 
+import { ObjectLike } from '../fields/IObjectLike';
+import { objectMetaFieldKey } from '../fields/MetaFieldField';
+import { SchemaDefinition } from '../fields/_parseFields';
+
 import { createObjectType, isObjectType, ObjectType } from './ObjectType';
-import { ObjectLike } from './fields/IObjectLike';
-import { objectMetaFieldKey } from './fields/MetaFieldField';
-import { ObjectDefinitionInput } from './fields/_parseFields';
 
 export type ImplementObject<Dest, Extends> =
   //
@@ -26,14 +27,14 @@ export type ImplementObject<Dest, Extends> =
     : never;
 
 export function implementObject<
-  Def extends ObjectDefinitionInput,
+  Def extends SchemaDefinition,
   Parents extends ReadonlyArray<ObjectLike>
 >(
   name: string,
   definition: Readonly<Def>,
   ...parents: Parents
 ): ImplementObject<ObjectType<Def>, Parents> {
-  let def = simpleObjectClone(definition) as ObjectDefinitionInput;
+  let def = simpleObjectClone(definition) as SchemaDefinition;
   delete def[objectMetaFieldKey];
 
   const tree: string[] = [];

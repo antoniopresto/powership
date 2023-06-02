@@ -7,7 +7,7 @@ import {
   ObjectType,
   parseObjectDefinition,
   parseObjectField,
-} from '../ObjectType';
+} from '../ObjectType/ObjectType';
 
 describe('ArrayField', () => {
   afterEach(ObjectType.reset);

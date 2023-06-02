@@ -2,7 +2,7 @@ import { MaybePromise } from '@swind/utils';
 import { assert, IsExact } from 'conditional-type-checks';
 import { graphql, printSchema } from 'graphql';
 
-import { createObjectType, ObjectType } from '../../ObjectType';
+import { createObjectType, ObjectType } from '../../ObjectType/ObjectType';
 import { createResolver } from '../../Resolver';
 import { createGraphQLSchema } from '../../createGraphQLSchema';
 import { createType } from '../GraphType';

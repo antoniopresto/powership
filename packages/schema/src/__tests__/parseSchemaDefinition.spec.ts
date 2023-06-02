@@ -1,7 +1,7 @@
 import { objectMetaFieldKey } from '../fields/MetaFieldField';
-import { ObjectType } from '../ObjectType';
+import { ObjectType } from '../ObjectType/ObjectType';
 import { EnumField } from '../fields/EnumField';
-import { parseObjectDefinition } from '../parseObjectDefinition';
+import { parseObjectDefinition } from '../ObjectType/parseObjectDefinition';
 
 describe('parseObjectDefinition', () => {
   it('works', () => {

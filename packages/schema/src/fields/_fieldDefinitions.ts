@@ -1,6 +1,6 @@
 import { tupleEnum } from '@swind/utils';
 
-import { CustomFieldConfig } from '../CustomFieldConfig';
+import { FieldExtraProps } from '../FieldExtraProps';
 
 import { AliasFieldDef } from './AliasField';
 import { ArrayFieldDef } from './ArrayField';
@@ -8,6 +8,7 @@ import { ObjectLike } from './IObjectLike';
 import { MetaFieldDef } from './MetaFieldField';
 import { PhoneFieldDef } from './PhoneField';
 import { RecordFieldDef } from './RecordField';
+import { SelfReferenceFieldDef } from './SelfReferenceField';
 import { UnknownFieldDef } from './UnknownField';
 import { ObjectFieldInput } from './_parseFields';
 
@@ -43,7 +44,7 @@ export interface CommonFieldDefinitionProps {
   defaultValue?: any;
   list?: ListDefinition;
   optional?: boolean;
-  $?: CustomFieldConfig;
+  $?: FieldExtraProps;
 }
 
 export interface FieldDefinitionWithType<T> extends CommonFieldDefinitionProps {
@@ -141,6 +142,8 @@ export type FieldDefinitions = {
   union: ObjectFieldInput[] | Readonly<ObjectFieldInput[]>;
 
   unknown: UnknownFieldDef | undefined;
+
+  self: SelfReferenceFieldDef | undefined;
 };
 
 export type FieldTypeName = Extract<keyof FieldDefinitions, string>;

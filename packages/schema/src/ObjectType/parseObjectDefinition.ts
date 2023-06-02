@@ -4,8 +4,26 @@ import { getKeys } from '@swind/utils';
 import { getTypeName } from '@swind/utils';
 import { inspectObject } from '@swind/utils';
 
-import { CustomFieldConfig } from './CustomFieldConfig';
-import { GraphType } from './GraphType/GraphType';
+import { FieldExtraProps } from '../FieldExtraProps';
+import { GraphType } from '../GraphType/GraphType';
+import { FieldDefinitionConfig } from '../TObjectConfig';
+import { fieldInstanceFromDef } from '../fieldInstanceFromDef';
+import { isFieldInstance, TAnyFieldType } from '../fields/FieldType';
+import { LiteralField } from '../fields/LiteralField';
+import {
+  createEmptyMetaField,
+  isMetaField,
+  MetaField,
+  objectMetaFieldKey,
+} from '../fields/MetaFieldField';
+import { FieldDefinitionWithType } from '../fields/_fieldDefinitions';
+import { FinalFieldDefinition } from '../fields/_parseFields';
+import { types } from '../fields/fieldTypes';
+import {
+  isStringFieldDefinition,
+  parseStringDefinition,
+} from '../parseStringDefinition';
+
 import {
   FieldAsString,
   FieldInput,
@@ -14,23 +32,7 @@ import {
   ObjectType,
   ShortenFinalFieldDefinition,
 } from './ObjectType';
-import { FieldDefinitionConfig } from './TObjectConfig';
-import { fieldInstanceFromDef } from './fieldInstanceFromDef';
-import { isFieldInstance, TAnyFieldType } from './fields/FieldType';
-import { LiteralField } from './fields/LiteralField';
-import {
-  createEmptyMetaField,
-  isMetaField,
-  MetaField,
-  objectMetaFieldKey,
-} from './fields/MetaFieldField';
-import { FieldDefinitionWithType } from './fields/_fieldDefinitions';
-import { FinalFieldDefinition } from './fields/_parseFields';
-import { types } from './fields/fieldTypes';
-import {
-  isStringFieldDefinition,
-  parseStringDefinition,
-} from './parseStringDefinition';
+import { SchemaParser } from './SchemaParser';
 
 export function parseObjectField<
   T extends FieldDefinitionConfig,
@@ -335,71 +337,15 @@ export type ParseFieldOptions = {
 type ParseResult = {
   definition: { [key: string]: FinalFieldDefinition };
   meta?: MetaField['asFinalFieldDef'];
-  custom?: CustomFieldConfig;
+  custom?: FieldExtraProps;
 };
 
 export function parseObjectDefinition(
   input: Record<string, any>,
   options: Omit<ParseFieldOptions, 'returnInstance'> = {}
 ): ParseResult {
-  let { deep, omitMeta } = options;
-
-  if (deep?.omitMeta) {
-    omitMeta = true;
-  }
-
-  const result = {} as { [key: string]: FinalFieldDefinition };
-
-  let meta: MetaField['asFinalFieldDef'] | undefined = undefined;
-  let custom: CustomFieldConfig | undefined = undefined;
-
-  const keys = getKeys(input);
-
-  keys.forEach(function (fieldName) {
-    try {
-      let field = input[fieldName];
-
-      if (fieldName === '$') {
-        return (custom = field);
-      }
-
-      if (isMetaField(field, fieldName)) {
-        return (meta = field);
-      }
-
-      const cached = hasCachedFieldInstance(field);
-      if (cached) {
-        return (result[fieldName] = cached);
-      }
-
-      return (result[fieldName] = parseObjectField(fieldName, field, { deep }));
-    } catch (err: any) {
-      debugger;
-      throw new RuntimeError(
-        `Failed to process object field "${fieldName}":\n${err.message}`,
-        {
-          err: err.stack,
-          input,
-        }
-      );
-    }
-  });
-
-  meta = meta || createEmptyMetaField();
-
-  if (meta) {
-    meta.def.custom = custom;
-  }
-
-  if (!omitMeta) {
-    result[objectMetaFieldKey] = meta;
-  }
-
-  return {
-    definition: result,
-    meta,
-    custom,
-  };
+  const parser = new SchemaParser(options);
+  return parser.parse(input, null);
 }
 
 function isFinalFieldDefinition(
@@ -453,73 +399,14 @@ export function parseFlattenFieldDefinition(
   input: any,
   options: ParseFieldOptions = {}
 ): FinalFieldDefinition | false {
-  const { deep } = options;
-
-  if (getTypeName(input) !== 'Object') return false;
-  if (input.type !== undefined) return false;
-
-  let type;
-  let def;
-
-  for (let k in input) {
-    const valueOfDefOrOptionalOrListOrDescription = input[k];
-
-    if (types[k]) {
-      type = k;
-      def = valueOfDefOrOptionalOrListOrDescription;
-
-      if (k !== 'object' && def && typeof def === 'object') {
-        for (let defKey in def) {
-          if (defKey === 'def' || validFlattenDefinitionKeys[defKey]) {
-            console.warn(`using field def as type definition?\n`, {
-              def,
-              type: k,
-            });
-            return false;
-          }
-        }
-      }
-    } else {
-      if (valueOfDefOrOptionalOrListOrDescription !== undefined) {
-        const acceptAny = validFlattenDefinitionKeys[k] === 'any';
-
-        if (
-          !acceptAny &&
-          // checking if the de `optional` or `list` or `description`
-          // has the expected types
-          typeof valueOfDefOrOptionalOrListOrDescription !==
-            validFlattenDefinitionKeys[k]
-        ) {
-          return false;
-        }
-      }
-    }
-  }
-
-  let {
-    description,
-    optional = false,
-    list = false,
-    defaultValue,
-    name,
-    hidden,
-    $,
-  } = input;
-
-  return parseFieldDefinitionConfig(
-    {
-      def,
-      defaultValue,
-      description,
-      hidden,
-      list,
-      name,
-      optional,
-      $,
-      type,
-    },
-    { deep }
+  const { getField, definition } = new SchemaParser(options).parse(
+    { def: input },
+    null
   );
+  if (options.returnInstance) {
+    return getField('def');
+  }
+  return definition.def;
 }
 
 export const CACHED_FIELD_INSTANCE_KEY = '__cachedFieldInstance';

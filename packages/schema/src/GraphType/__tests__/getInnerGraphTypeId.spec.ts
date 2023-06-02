@@ -1,4 +1,4 @@
-import { ObjectType } from '../../ObjectType';
+import { ObjectType } from '../../ObjectType/ObjectType';
 import { createType, GraphType } from '../GraphType';
 import { getInnerGraphTypeId } from '../getInnerGraphTypeId';
 

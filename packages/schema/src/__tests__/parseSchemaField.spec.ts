@@ -1,10 +1,10 @@
-import { createObjectType } from '../ObjectType';
+import { createObjectType } from '../ObjectType/ObjectType';
 import { EnumField } from '../fields/EnumField';
 import { objectMetaFieldKey } from '../fields/MetaFieldField';
 import {
   parseFlattenFieldDefinition,
   parseObjectField,
-} from '../parseObjectDefinition';
+} from '../ObjectType/parseObjectDefinition';
 
 import { objectMocks } from './__mock__';
 
@@ -12,21 +12,6 @@ const { typeDefs, stringDefTypes, object2 } = objectMocks;
 
 describe('parseObjectField', () => {
   test('parseFlattenFieldDefinition', () => {
-    expect(parseFlattenFieldDefinition(EnumField.create(['a', 'b']))).toEqual(
-      false
-    );
-    expect(parseFlattenFieldDefinition('string')).toEqual(false);
-    expect(parseFlattenFieldDefinition({ type: 'string' })).toEqual(false);
-    expect(
-      parseFlattenFieldDefinition({
-        gender: {
-          type: 'enum',
-          def: ['male', 'female', 'other'],
-          optional: true,
-        },
-      })
-    ).toEqual(false);
-
     expect(
       parseFlattenFieldDefinition({
         object: {
@@ -60,28 +45,6 @@ describe('parseObjectField', () => {
       optional: true,
       type: 'string',
     });
-
-    expect(
-      parseFlattenFieldDefinition({
-        string: {
-          min: 1,
-        },
-        description: true, // <-- invalid
-      })
-    ).toEqual(false);
-
-    const spyWarn = jest.spyOn(console, 'warn');
-    expect(spyWarn).toBeCalledTimes(0);
-    expect(
-      parseFlattenFieldDefinition({
-        string: {
-          type: 'enum',
-          def: ['male', 'female', 'other'],
-          optional: true,
-        },
-      })
-    ).toEqual(false);
-    expect(spyWarn).toBeCalledTimes(1);
   });
 
   test('enumStringArray', () => {

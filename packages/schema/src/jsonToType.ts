@@ -19,7 +19,7 @@ import {
   FinalFieldDefinition,
   FinalObjectDefinition,
   FlattenFieldDefinition,
-} from './ObjectType';
+} from './ObjectType/ObjectType';
 import { ULID_REGEX } from './fields/UlidField';
 
 const record = CircularDeps.record({ keyType: 'string', type: 'any' });
@@ -95,6 +95,7 @@ export const valuesToSolarwindTypeRecord: {
     getTypeName(value) === 'Number' && !!`${value}`.match(/^\d*$/),
   array: Array.isArray,
   object: (value) => isPlainObject(value),
+  self: () => false,
   cursor: isCursorString,
   date: (value) => getTypeName(value) === 'Date',
   email: (value) =>

@@ -25,7 +25,8 @@ function getModules() {
       server: false,
     },
     ObjectType: {
-      module: () => require('./ObjectType') as typeof import('./ObjectType'),
+      module: () =>
+        require('./ObjectType/ObjectType') as typeof import('./ObjectType/ObjectType'),
       server: false,
     },
     fieldTypes: {
@@ -35,7 +36,7 @@ function getModules() {
     },
     implementObject: {
       module: () =>
-        require('./implementObject') as typeof import('./implementObject'),
+        require('./ObjectType/implementObject') as typeof import('./ObjectType/implementObject'),
       server: false,
     },
 
@@ -112,22 +113,25 @@ function getModules() {
 
     objectToTypescript: {
       // @only-server
-      module: (): typeof import('./objectToTypescript').objectToTypescript => {
-        try {
-          // @only-server
-          return (a, b, c) =>
-            import('./objectToTypescript').then(({ objectToTypescript }) => {
-              return objectToTypescript(a, b, c);
-            });
-        } catch (e: any) {
-          return function objectToTypescript() {
-            throw new Error(
-              '⚠️ Solarwind.objectToTypescript is not available when bundled.\n' +
-                e.stack
-            );
-          } as any;
-        }
-      },
+      module:
+        (): typeof import('./ObjectType/objectToTypescript').objectToTypescript => {
+          try {
+            // @only-server
+            return (a, b, c) =>
+              import('./ObjectType/objectToTypescript').then(
+                ({ objectToTypescript }) => {
+                  return objectToTypescript(a, b, c);
+                }
+              );
+          } catch (e: any) {
+            return function objectToTypescript() {
+              throw new Error(
+                '⚠️ Solarwind.objectToTypescript is not available when bundled.\n' +
+                  e.stack
+              );
+            } as any;
+          }
+        },
 
       server: true,
     },

@@ -39,7 +39,7 @@ import {
   __getCachedFieldInstance,
   isObjectType,
   ObjectType,
-} from '../ObjectType';
+} from '../ObjectType/ObjectType';
 import { AliasField } from '../fields/AliasField';
 import { ArrayField } from '../fields/ArrayField';
 import type { CursorField } from '../fields/CursorField';
@@ -51,6 +51,7 @@ import {
   getObjectDefinitionMetaField,
 } from '../fields/MetaFieldField';
 import { ObjectField } from '../fields/ObjectField';
+import { SelfReferenceField } from '../fields/SelfReferenceField';
 import { UnionField } from '../fields/UnionField';
 import { FieldTypeName } from '../fields/_fieldDefinitions';
 import { FinalFieldDefinition } from '../fields/_parseFields';
@@ -63,23 +64,8 @@ import { GraphQLNullType } from './GraphQLNullType';
 import { GraphQLPhoneType } from './GraphQLPhoneType';
 import { GraphQLUlidType } from './GraphQLUlidType';
 
-export function createHooks() {
-  return {
-    // onField: hooks.parallel<ConvertFieldResult, GraphQLFieldConfig<any, any>>(),
-    // onFieldConfigMap: hooks.parallel<GraphQLFieldConfigMap<any, any>>(),
-    // onFieldResult: hooks.parallel<ConvertFieldResult>(),
-    // willCreateObjectType: hooks.parallel<GraphQLFieldConfigMap<any, any>>(),
-  };
-}
-
-export type ParserHooks = ReturnType<typeof createHooks>;
-
-export interface GraphQLParseMiddleware {
-  (hooks: ParserHooks): any;
-}
-
 export type CommonTypeOptions = {
-  middleware?: GraphQLParseMiddleware;
+  // middleware?: GraphQLParseMiddleware;
 };
 
 export type ParseTypeOptions = Partial<GraphQLObjectTypeConfig<any, any>> &
@@ -179,7 +165,9 @@ export class GraphQLParser {
         interfaces?: ThunkReadonlyArray<GraphQLInterfaceType>;
       },
 
-      _getType: (data: ConvertFieldResult) => T
+      _getType: (data: ConvertFieldResult) => T,
+
+      getSelf: () => any
     ) => {
       const { interfaces: currentInterfacesOption } = options;
 
@@ -205,12 +193,8 @@ export class GraphQLParser {
 
       options.fields = () => {
         const helpers: ObjectHelpers = objectInput.helpers();
-        const objectMiddleware = objectInput.graphQLMiddleware || [];
 
         const builders: ConvertFieldResult[] = [];
-        const hooks = createHooks();
-        options.middleware?.(hooks);
-        objectMiddleware.forEach((fn) => fn(hooks));
 
         const fieldsConfigMap: GraphQLFieldConfigMap<any, any> = {};
 
@@ -240,6 +224,16 @@ export class GraphQLParser {
               parentName: objectId,
               path: [objectId, fieldName],
             });
+            return;
+          }
+
+          if (
+            plainField.type === 'self' &&
+            instance instanceof SelfReferenceField
+          ) {
+            fieldsConfigMap[fieldName] = {
+              type: getSelf(),
+            };
             return;
           }
 
@@ -310,10 +304,18 @@ export class GraphQLParser {
         return graphqlTypesRegister.get(name);
       }
 
-      buildFields(__options, (el) => el.type());
+      const ref = {} as { self: GraphQLObjectType };
+
+      buildFields(
+        __options,
+        (el) => el.type(),
+        () => ref.self
+      );
+
       const result = new GraphQLObjectType(__options);
       graphqlTypesRegister.set(__options.name, result);
 
+      ref.self = result;
       return result;
     }
 
@@ -327,9 +329,18 @@ export class GraphQLParser {
         return graphqlTypesRegister.get(name);
       }
 
-      buildFields(options, (el) => el.inputType());
+      const ref = {} as { self: GraphQLInputObjectType };
+
+      buildFields(
+        options,
+        (el) => el.inputType(),
+        () => ref.self
+      );
+
       const result = new GraphQLInputObjectType(options);
       graphqlTypesRegister.set(name, result);
+
+      ref.self = result;
       return result;
     }
 
@@ -341,9 +352,18 @@ export class GraphQLParser {
         return graphqlTypesRegister.get(name);
       }
 
-      buildFields(options, (el) => el.type());
+      const ref = {} as { self: GraphQLInterfaceType };
+
+      buildFields(
+        options,
+        (el) => el.type(),
+        () => ref.self
+      );
+
       const result = new GraphQLInterfaceType(options);
       graphqlTypesRegister.set(name, result);
+      ref.self = result;
+
       return result;
     }
 
@@ -412,18 +432,20 @@ export class GraphQLParser {
 
     const self = this;
 
-    // @ts-ignore
     const creators: {
-      [T in FieldTypeName]: () => Omit<
+      [K in FieldTypeName]: () => Omit<
         ConvertFieldResult,
         'typeName' | 'fieldName' | 'path' | 'plainField' | 'composers'
       >;
     } = {
-      ID() {
-        return { inputType: () => GraphQLID, type: () => GraphQLID };
+      self() {
+        return {} as any; // already handled in SchemaParser
       },
       alias() {
-        return {} as any; // handled in object parser;
+        return {} as any; // already handled in SchemaParser
+      },
+      ID() {
+        return { inputType: () => GraphQLID, type: () => GraphQLID };
       },
       any() {
         const create = wrapCreationWithCache(
@@ -807,3 +829,18 @@ export function describeField(field: FinalFieldDefinition): string {
     },
   });
 }
+
+// export function createHooks() {
+//   return {
+//     // onField: hooks.parallel<ConvertFieldResult, GraphQLFieldConfig<any, any>>(),
+//     // onFieldConfigMap: hooks.parallel<GraphQLFieldConfigMap<any, any>>(),
+//     // onFieldResult: hooks.parallel<ConvertFieldResult>(),
+//     // willCreateObjectType: hooks.parallel<GraphQLFieldConfigMap<any, any>>(),
+//   };
+// }
+//
+// export type ParserHooks = ReturnType<typeof createHooks>;
+//
+// export interface GraphQLParseMiddleware {
+//   (hooks: ParserHooks): any;
+// }

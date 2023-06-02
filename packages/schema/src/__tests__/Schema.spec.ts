@@ -1,7 +1,11 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../Infer';
-import { createObjectType, ObjectType, resetTypesCache } from '../ObjectType';
+import {
+  createObjectType,
+  ObjectType,
+  resetTypesCache,
+} from '../ObjectType/ObjectType';
 import { objectMetaFieldKey } from '../fields/MetaFieldField';
 
 function _userObject() {
@@ -602,5 +606,51 @@ describe('Schema clone, etc', () => {
       name: { astNode: {} },
       age: { astNode: {} },
     });
+  });
+
+  test('circular ref', () => {
+    const type = createObjectType({
+      name: 'string',
+      age: 'int?',
+      friends: '[self]?',
+      parents: { self: {}, list: true, optional: true },
+      partner: { type: 'self', optional: true },
+    });
+
+    const parsed = type.parse({
+      name: 'a',
+      friends: [],
+      partner: {
+        name: 'a1',
+        age: 33,
+        parents: [],
+      },
+    });
+
+    type Parsed = typeof parsed;
+
+    type CircularInner = {
+      name: string;
+      age?: number | undefined;
+      friends: any;
+      parents: any;
+      partner: any;
+    };
+
+    type Expected = {
+      name: string;
+      age?: number | undefined;
+      friends?: CircularInner[] | undefined;
+      parents?: CircularInner[] | undefined;
+      partner?: CircularInner | undefined;
+    };
+
+    assert<IsExact<Parsed, Expected>>(true);
+
+    expect(() =>
+      type.parse({ name: 'a', friends: [{ name: 'b', friends: [1] }] })
+    ).toThrow(
+      '➤ field "friends": ➤ field "friends": Invalid input. Expected object, found Number at position 0. at position 0.'
+    );
   });
 });

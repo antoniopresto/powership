@@ -8,6 +8,19 @@ import { getTypeName } from '@swind/utils';
 import { nonNullValues } from '@swind/utils';
 import { JSONSchema4 } from 'json-schema';
 
+import { SchemaDefinition } from '../TObjectConfig';
+import { AliasField } from '../fields/AliasField';
+import { ObjectLike } from '../fields/IObjectLike';
+import { LiteralField } from '../fields/LiteralField';
+import { E164_PHONE_REGEX } from '../fields/PhoneField';
+import { FieldTypeName } from '../fields/_fieldDefinitions';
+import {
+  FinalFieldDefinition,
+  FinalObjectDefinition,
+} from '../fields/_parseFields';
+import { isHiddenFieldName } from '../isHiddenFieldName';
+import { parseTypeName } from '../parseTypeName';
+
 import {
   __getCachedFieldInstance,
   createObjectType,
@@ -15,18 +28,6 @@ import {
   parseField,
   parseObjectField,
 } from './ObjectType';
-import { ObjectDefinitionInput } from './TObjectConfig';
-import { AliasField } from './fields/AliasField';
-import { ObjectLike } from './fields/IObjectLike';
-import { LiteralField } from './fields/LiteralField';
-import { E164_PHONE_REGEX } from './fields/PhoneField';
-import { FieldTypeName } from './fields/_fieldDefinitions';
-import {
-  FinalFieldDefinition,
-  FinalObjectDefinition,
-} from './fields/_parseFields';
-import { isHiddenFieldName } from './isHiddenFieldName';
-import { parseTypeName } from './parseTypeName';
 
 export type ObjectToJSONOptions = {
   ignoreDefaultValues?: boolean;
@@ -40,34 +41,23 @@ export type ObjectToJSONOptions = {
  */
 export function objectToJSON(
   parentName: string,
-  object: ObjectLike | ObjectDefinitionInput,
+  object: ObjectLike | SchemaDefinition,
   options: ObjectToJSONOptions = { ignoreDefaultValues: true }
-): JSONSchema4 & { properties: JSONSchema4 } {
+): JSONSchema4 {
   let definition: FinalObjectDefinition;
 
   if (isObjectType(object)) {
     definition = object.definition as FinalObjectDefinition;
   } else {
     // @ts-ignore
-    definition = createObjectType(object as ObjectDefinitionInput).definition;
+    definition = createObjectType(object as SchemaDefinition).definition;
   }
 
   const description = isObjectType(object) ? object.description : undefined;
 
-  const topProperties: Record<string, JSONSchema4> = {};
+  const properties: Record<string, JSONSchema4> = {};
   const required: string[] = [];
-
-  const topJSON: JSONSchema4 & { properties: JSONSchema4 } = {
-    additionalProperties: false,
-    properties: topProperties,
-    required,
-    title: parentName,
-    type: 'object',
-  };
-
-  if (description) {
-    topJSON.description = description;
-  }
+  const refs: JSONSchema4[] = [];
 
   const composers: ParsedField['composers'] = [];
   getKeys(definition).forEach((fieldName) => {
@@ -75,7 +65,7 @@ export function objectToJSON(
     const field = definition[fieldName];
     if (field.hidden) return;
 
-    const parsedField = parseGraphQLField({
+    const parsedField = parseJSONField({
       field,
       fieldName,
       options,
@@ -86,26 +76,56 @@ export function objectToJSON(
       required.push(fieldName);
     }
 
-    topProperties[fieldName] = parsedField.jsonItem;
+    properties[fieldName] = parsedField.jsonItem;
 
     composers.push(...parsedField.composers);
   });
 
   composers.forEach((composer) => {
-    const value = composer.compose(topProperties);
-    setByPath(topProperties, composer.key, value);
+    composer.compose({ properties: properties, required, refs });
   });
+
+  const topJSON: JSONSchema4 = refs.length
+    ? {
+        allOf: refs,
+        definitions: {
+          [parentName]: {
+            additionalProperties: false,
+            required,
+            title: parentName,
+            type: 'object',
+            properties,
+          },
+        },
+      }
+    : {
+        additionalProperties: false,
+        properties: properties,
+        required,
+        title: parentName,
+        type: 'object',
+      };
+
+  if (description) {
+    topJSON.description = description;
+  }
 
   return topJSON;
 }
 
 type ParsedField = {
-  composers: { compose: (parent: JSONSchema4) => JSONSchema4; key: string }[];
+  composers: {
+    compose: (payload: {
+      properties: { [K: string]: JSONSchema4 };
+      refs: JSONSchema4[];
+      required: string[];
+    }) => void;
+  }[];
   jsonItem: JSONSchema4;
   required: boolean;
 };
 
-function parseGraphQLField(params: {
+function parseJSONField(params: {
   field: FinalFieldDefinition;
   fieldName: string;
   options: ObjectToJSONOptions;
@@ -139,7 +159,7 @@ function parseGraphQLField(params: {
   }
 
   if (type === 'array' || list) {
-    const parsedListItem = parseGraphQLField({
+    const parsedListItem = parseJSONField({
       field:
         type === 'array'
           ? parseObjectField(fieldName, field.def.of)
@@ -169,11 +189,11 @@ function parseGraphQLField(params: {
       AliasField.assert(type);
 
       composers.push({
-        compose(parent) {
+        compose({ properties }) {
           if (typeof type.def === 'string') {
-            return pick(parent, type.def);
+            properties[fieldName] = pick(properties, type.def);
           } else {
-            return parseGraphQLField({
+            properties[fieldName] = parseJSONField({
               field: type.utils.fieldType.asFinalFieldDef,
               fieldName,
               options,
@@ -181,7 +201,6 @@ function parseGraphQLField(params: {
             }).jsonItem;
           }
         },
-        key: fieldName,
       });
     },
     any() {
@@ -260,6 +279,20 @@ function parseGraphQLField(params: {
         title: '',
       });
     },
+    self() {
+      composers.push({
+        compose({ refs }) {
+          if (!refs.length) {
+            refs.push({
+              $ref: `#/definitions/${parentName}`,
+              title: parentName!,
+            });
+          }
+        },
+      });
+
+      jsonItem.$ref = `#/definitions/${parentName}`;
+    },
     phone() {
       Object.assign(jsonItem, {
         maxLength: 20,
@@ -293,7 +326,7 @@ function parseGraphQLField(params: {
       expectedType({ def }, 'array');
 
       jsonItem.anyOf = def.map((type) => {
-        return parseGraphQLField({
+        return parseJSONField({
           field: type,
           fieldName,
           options,

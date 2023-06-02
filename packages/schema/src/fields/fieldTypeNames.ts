@@ -32,6 +32,7 @@ export const fieldTypesClassMap = createFieldNames({
   undefined: 'UndefinedField',
   union: 'UnionField',
   unknown: 'UnknownField',
+  self: 'SelfReferenceField',
 } as const);
 
 export type FieldTypesClassMap = typeof fieldTypesClassMap;

@@ -2,6 +2,8 @@ import { Cast, GetFieldByDotNotation, NullableToPartial } from '@swind/utils';
 
 import { FieldDefinitionWithType } from '../_fieldDefinitions';
 
+import { GetFieldsOfType } from './GetFieldsOfType';
+import { InferCircularObjectType } from './InferCircularObjectType';
 import { InferField } from './InferField';
 
 export interface ObjectTypeLikeFieldDefinition {
@@ -41,12 +43,31 @@ export type ParseSpecialObjectKeys<T> = {
 
 export type _InferObjectDefinition<Input extends object> =
   _GetAliasFields<Input> extends infer Aliases
-    ? {
-        [K in Exclude<keyof Input, keyof Aliases>]: InferField<Input[K]>;
-      } & _InferSpecialObjectKeys<Input> extends infer Parent
-      ? _InferAliasFields<Cast<Aliases, object>, Cast<Parent, object>> & Parent
+    ? GetFieldsOfType<Input, 'self'> extends infer SelfReferences
+      ? {
+          [K in Exclude<
+            keyof Input,
+            keyof Aliases | keyof SelfReferences
+          >]: InferField<Input[K]>;
+        } & _InferSpecialObjectKeys<Input> extends infer Parent
+        ? _Merge<
+            Parent,
+            _InferAliasFields<Cast<Aliases, object>, Cast<Parent, object>>
+          > extends infer ParentWithAliases
+          ? _Merge<
+              ParentWithAliases,
+              InferCircularObjectType<ParentWithAliases, SelfReferences>
+            >
+          : never
+        : never
       : never
     : never;
+
+export type _Merge<A, B> = {
+  [K in keyof A as K extends keyof B ? never : K]: A[K];
+} & B extends infer R
+  ? { [K in keyof R]: R[K] } & {}
+  : never;
 
 export type _GetAliasFields<Input extends object> = {
   [K in keyof Input as keyof Input[K] extends 'alias'

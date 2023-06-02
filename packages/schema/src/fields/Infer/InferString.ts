@@ -1,25 +1,25 @@
 import type { CursorType, FieldTypeName } from '../_fieldDefinitions';
 
-export type InferString<Input extends string> =
+export type InferString<Input extends string, Root, FieldName extends string> =
   //
   Input extends `${infer Start}?`
-    ? InferString<Start> | undefined
+    ? InferString<Start, Root, FieldName> | undefined
     : //
 
     Input extends `[${infer Start}]`
-    ? InferString<Start>[]
+    ? InferString<Start, Root, FieldName>[]
     : //
     //
     Input extends FieldTypeName
-    ? InferTypeName<Input>
+    ? InferTypeName<Input, Root>
     : //
     Input extends `[${infer Type}]`
     ? //
-      InferString<Type>[]
+      InferString<Type, Root, FieldName>[]
     : //
       never;
 
-export type InferTypeName<Type> =
+export type InferTypeName<Type, Root> =
   //
   Type extends unknown
     ? Type extends FieldTypeName
@@ -53,6 +53,8 @@ export type InferTypeName<Type> =
         ? string
         : Type extends 'ID'
         ? string
+        : Type extends 'self'
+        ? Root
         : never
       : never
     : never;

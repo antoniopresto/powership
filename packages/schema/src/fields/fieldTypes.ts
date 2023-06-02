@@ -18,6 +18,7 @@ import { NullField } from './NullField';
 import { ObjectField } from './ObjectField';
 import { PhoneField } from './PhoneField';
 import { RecordField } from './RecordField';
+import { SelfReferenceField } from './SelfReferenceField';
 import { StringField } from './StringField';
 import { UlidField } from './UlidField';
 import { UndefinedField } from './UndefinedField';
@@ -79,6 +80,7 @@ export const types = createConstructors({
   undefined: UndefinedField,
   union: UnionField,
   unknown: UnknownField,
+  self: SelfReferenceField,
 });
 
 export type Types = typeof types;

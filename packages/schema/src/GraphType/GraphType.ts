@@ -15,9 +15,10 @@ import { Infer } from '../Infer';
 import {
   createObjectType,
   FinalFieldDefinition,
-  ObjectDefinitionInput,
   parseField,
-} from '../ObjectType';
+  SchemaDefinition,
+} from '../ObjectType/ObjectType';
+import type { ObjectToTypescriptOptions } from '../ObjectType/objectToTypescript';
 import type { AnyResolver } from '../Resolver';
 import { FieldDefinitionConfig } from '../TObjectConfig';
 import {
@@ -35,7 +36,6 @@ import {
 import { FieldParserConfig, TAnyFieldType } from '../fields/FieldType';
 import { GraphTypeLike } from '../fields/IObjectLike';
 import { ObjectFieldInput } from '../fields/_parseFields';
-import type { ObjectToTypescriptOptions } from '../objectToTypescript';
 
 import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
 import { initGraphType } from './initGraphType';
@@ -57,15 +57,14 @@ export class GraphType<Definition extends ObjectFieldInput> {
   get id(): string {
     if (this.optionalId) return this.optionalId;
 
-    throw new RuntimeError(
+    throw new Error(
       [
         'The method you are trying to execute needs the graphType used to be identified.' +
           ' Use ``myType.identify("name")`` and try again.',
         'You can also read that information from ``myType.optionalId.``',
         '',
         '',
-      ].join('\n'),
-      this.__lazyGetter.definitionInput
+      ].join('\n')
     );
   }
 
@@ -203,7 +202,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
     definition: LazyParseGraphTypePayload
   ) => LazyParseGraphTypePayload)[] = [];
 
-  mutateFields<Def extends ObjectDefinitionInput>(
+  mutateFields<Def extends SchemaDefinition>(
     callback: (input: ExtendObjectDefinition<this, this>) => Def
   ): GraphType<{ object: Def }> {
     if (this.touched) {

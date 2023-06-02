@@ -13,7 +13,7 @@ import {
   FinalFieldDefinition,
   ObjectType,
   parseField,
-} from './ObjectType';
+} from './ObjectType/ObjectType';
 import { DescribeAndOverrideField, DescribeWithoutSeal } from './fields/Infer';
 import { objectMetaFieldKey } from './fields/MetaFieldField';
 
