@@ -1,9 +1,9 @@
 import { getKeys } from '@swind/utils';
 
 import type { FinalFieldDefinition } from './ObjectType/ObjectType';
-import { __getCachedFieldInstance } from './ObjectType/parseObjectDefinition';
 import { TAnyFieldType } from './fields/FieldType';
 import { isMetaFieldKey, MetaFieldDef } from './fields/MetaFieldField';
+import { SchemaParser } from './ObjectType/SchemaParser';
 
 export type ObjectFieldListItem = {
   instance: TAnyFieldType;
@@ -30,7 +30,7 @@ export function getObjectHelpers(object: any): ObjectHelpers {
       return (meta = field.def);
     }
 
-    const instance = __getCachedFieldInstance(field);
+    const instance = SchemaParser.parse(field);
 
     if (instance.asFinalFieldDef.hidden) return;
 

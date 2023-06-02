@@ -49,7 +49,6 @@ import { SchemaParser } from './SchemaParser';
 import { validateObjectFields } from './getObjectErrors';
 import { ImplementObject, implementObject } from './implementObject';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
-import { __getCachedFieldInstance } from './parseObjectDefinition';
 
 export * from './parseObjectDefinition';
 export * from '../objectInferenceUtils';
@@ -318,7 +317,7 @@ export class ObjectType<
       if (!includeHidden && fieldDef.hidden) return;
 
       if (fieldDef.type === 'alias') {
-        const instance = __getCachedFieldInstance(fieldDef);
+        const instance = SchemaParser.parse(fieldDef);
         return fieldInputsList.push({
           composer: instance.composer!,
           fieldDef,

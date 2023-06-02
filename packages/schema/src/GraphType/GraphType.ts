@@ -1,9 +1,4 @@
-import {
-  createStore,
-  inspectObject,
-  isBrowser,
-  RuntimeError,
-} from '@swind/utils';
+import { createStore, inspectObject, isBrowser } from '@swind/utils';
 import type {
   GraphQLInterfaceType,
   GraphQLNamedInputType,

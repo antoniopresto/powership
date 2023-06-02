@@ -500,6 +500,16 @@ export class SchemaParser {
       return this.parser_finalFieldDefinition(parsed, context);
     }
   };
+
+  static parse = (field: FieldDefinition) => {
+    return new SchemaParser().parse({ field }, null).getField('field');
+  };
+
+  static deleteCachedFieldInstance = (def: any) => {
+    if (!def || typeof def !== 'object') return def;
+    const { [CACHED_FIELD_INSTANCE_KEY]: _, ...rest } = def as any;
+    return rest as any;
+  };
 }
 
 export type ParseFieldOptions = {

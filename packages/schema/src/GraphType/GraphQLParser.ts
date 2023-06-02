@@ -35,11 +35,8 @@ import {
   ThunkReadonlyArray,
 } from 'graphql/type/definition';
 
-import {
-  __getCachedFieldInstance,
-  isObjectType,
-  ObjectType,
-} from '../ObjectType/ObjectType';
+import { isObjectType, ObjectType } from '../ObjectType/ObjectType';
+import { SchemaParser } from '../ObjectType/SchemaParser';
 import { AliasField } from '../fields/AliasField';
 import { ArrayField } from '../fields/ArrayField';
 import type { CursorField } from '../fields/CursorField';
@@ -279,7 +276,7 @@ export class GraphQLParser {
 
           _useConvertFieldResult(
             this.fieldToGraphQL({
-              field: __getCachedFieldInstance(type),
+              field: SchemaParser.parse(type),
               fieldName,
               parentName,
               path,

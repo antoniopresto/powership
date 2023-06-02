@@ -11,7 +11,6 @@ import {
 
 import { Infer } from './Infer';
 import {
-  __getCachedFieldInstance,
   parseObjectField,
 } from './ObjectType/parseObjectDefinition';
 import { CursorField } from './fields/CursorField';
@@ -20,6 +19,7 @@ import { LiteralField } from './fields/LiteralField';
 import { createEmptyMetaField, isMetaFieldKey } from './fields/MetaFieldField';
 import { FieldTypeName } from './fields/_fieldDefinitions';
 import { FieldInput } from './fields/_parseFields';
+import { SchemaParser } from './ObjectType/SchemaParser';
 
 export type ObjectMockOptions = {
   maxArrayLength?: number;
@@ -39,7 +39,7 @@ export function objectMock<T extends { [K: string]: FieldInput }>(
     const def = parseObjectField(key, fieldInput);
 
     if (def.type === 'alias') {
-      const instance = __getCachedFieldInstance(def);
+      const instance = SchemaParser.parse(def);
       composers.push({ composer: instance.composer!, key });
     }
     placeHolder[key] = fieldToMock(def, options);

@@ -9,11 +9,11 @@ import {
 import { CircularDeps } from './CircularDeps';
 import type { GraphType } from './GraphType/GraphType';
 import {
-  deleteCachedFieldInstance,
   FinalFieldDefinition,
   ObjectType,
   parseField,
 } from './ObjectType/ObjectType';
+import { SchemaParser } from './ObjectType/SchemaParser';
 import { DescribeAndOverrideField, DescribeWithoutSeal } from './fields/Infer';
 import { objectMetaFieldKey } from './fields/MetaFieldField';
 
@@ -51,7 +51,7 @@ export interface ExtendType<Input> {
 export function extendType<Input>(input: Input): ExtendType<Input> {
   const clone = wrapError(() => {
     const parsed = parseField(input as any);
-    const withoutCache = deleteCachedFieldInstance(parsed);
+    const withoutCache = SchemaParser.deleteCachedFieldInstance(parsed);
     return simpleObjectClone(withoutCache);
   }, extendType);
 

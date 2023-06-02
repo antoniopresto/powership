@@ -367,7 +367,7 @@ describe('parseObjectField', () => {
 
   describe('handle default values', () => {
     test('in fields', () => {
-      const field = parseObjectField(
+      const field: any = parseObjectField(
         'Defaulting',
         {
           int: {},
@@ -380,7 +380,7 @@ describe('parseObjectField', () => {
     });
 
     test('on objects', () => {
-      const field = parseObjectField(
+      const field: any = parseObjectField(
         'Defaulting',
         {
           object: {

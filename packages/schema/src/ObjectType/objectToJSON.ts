@@ -1,4 +1,3 @@
-import { setByPath } from '@swind/utils';
 import { BJSON } from '@swind/utils';
 import { RuntimeError } from '@swind/utils';
 import { expectedType } from '@swind/utils';
@@ -22,12 +21,12 @@ import { isHiddenFieldName } from '../isHiddenFieldName';
 import { parseTypeName } from '../parseTypeName';
 
 import {
-  __getCachedFieldInstance,
   createObjectType,
   isObjectType,
   parseField,
   parseObjectField,
 } from './ObjectType';
+import { SchemaParser } from './SchemaParser';
 
 export type ObjectToJSONOptions = {
   ignoreDefaultValues?: boolean;
@@ -185,7 +184,7 @@ function parseJSONField(params: {
       jsonItem.tsType = 'ID';
     },
     alias() {
-      const type = __getCachedFieldInstance(field);
+      const type = SchemaParser.parse(field);
       AliasField.assert(type);
 
       composers.push({
