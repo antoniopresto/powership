@@ -12,11 +12,8 @@ import {
 
 import { CircularDeps } from './CircularDeps';
 import type { GraphType } from './GraphType/GraphType';
-import {
-  ObjectType,
-  parseField,
-  parseObjectDefinition,
-} from './ObjectType/ObjectType';
+import { ObjectType } from './ObjectType/ObjectType';
+import { SchemaParser } from './ObjectType/SchemaParser';
 import {
   DescribeField,
   DescribeObjectDefinition,
@@ -24,7 +21,6 @@ import {
 } from './fields/Infer';
 import { objectMetaFieldKey } from './fields/MetaFieldField';
 import { SchemaDefinition } from './fields/_parseFields';
-import { SchemaParser } from './ObjectType/SchemaParser';
 
 export interface ExtendObjectDefinition<Input, Origin> {
   definition: InnerDef<Input>;
@@ -112,12 +108,7 @@ export function extendObjectDefinition<Input>(
     return extendObjectDefinition(obj.definition) as unknown as R;
   }
 
-  let clone: any = parseObjectDefinition(
-    SchemaParser.deleteCachedFieldInstance(obj),
-    {
-      deep: { omitMeta: true },
-    }
-  ).definition;
+  let clone: any = new SchemaParser().parse(obj, null).definition;
 
   const res = {
     def() {
@@ -142,7 +133,7 @@ export function extendObjectDefinition<Input>(
       assertEqual(getTypeName(ext), 'Object');
       clone = Object.assign(
         clone,
-        parseObjectDefinition(ext, { omitMeta: true }).definition
+        SchemaParser.parseSchema(ext, { omitMeta: true }).definition
       );
       return extendObjectDefinition(clone);
     },
@@ -184,7 +175,7 @@ export function extendObjectDefinition<Input>(
           );
         }
         clone[key] = {
-          ...parseField(clone[key]),
+          ...SchemaParser.createInstance(clone[key]).definition,
           optional: true,
         };
       });
@@ -207,7 +198,7 @@ export function extendObjectDefinition<Input>(
           );
         }
         clone[key] = {
-          ...parseField(clone[key]),
+          ...SchemaParser.createInstance(clone[key]).definition,
           optional: false,
         };
       });

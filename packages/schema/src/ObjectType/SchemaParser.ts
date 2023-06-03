@@ -1,32 +1,29 @@
-import { isPlainObject, RuntimeError } from '@swind/utils';
+import { isPlainObject, keys, RuntimeError } from '@swind/utils';
 import { getKeys } from '@swind/utils';
 import { inspectObject } from '@swind/utils';
 
-import { FieldExtraProps } from '../FieldExtraProps';
+import { CircularDeps } from '../CircularDeps';
+import type { FieldExtraProps } from '../FieldExtraProps';
 import { GraphType } from '../GraphType/GraphType';
-import { SchemaDefinition } from '../TObjectConfig';
-import { isFieldInstance, TAnyFieldType } from '../fields/FieldType';
-import { LiteralField } from '../fields/LiteralField';
-import {
-  createEmptyMetaField,
-  isMetaField,
-  MetaField,
-  objectMetaFieldKey,
-} from '../fields/MetaFieldField';
-import { SelfReferenceFieldDef } from '../fields/SelfReferenceField';
-import { FieldDefinitionWithType } from '../fields/_fieldDefinitions';
-import { FieldDefinition, FinalFieldDefinition } from '../fields/_parseFields';
+import type { SchemaDefinition } from '../TObjectConfig';
+import { isFieldInstance } from '../fields/FieldType';
+import type { TAnyFieldType } from '../fields/FieldType';
+import type { MetaField } from '../fields/MetaFieldField';
+import type { SelfReferenceFieldDef } from '../fields/SelfReferenceField';
+import type { FieldDefinitionWithType } from '../fields/_fieldDefinitions';
+import type {
+  FieldDefinition,
+  FinalFieldDefinition,
+  FinalFieldDefinitionStrict,
+} from '../fields/_parseFields';
 import { AnyField, types } from '../fields/fieldTypes';
+import { isObjectType } from '../objectInferenceUtils';
 import {
   isStringFieldDefinition,
   parseStringDefinition,
 } from '../parseStringDefinition';
 
-import {
-  FinalFieldDefinitionStrict,
-  isObjectType,
-  ObjectType,
-} from './ObjectType';
+import { ObjectType } from './ObjectType';
 
 export interface ParseFieldContext {
   parentId?: string;
@@ -65,7 +62,7 @@ export class SchemaParser {
           return (extra = field);
         }
 
-        if (isMetaField(field, fieldName)) {
+        if (CircularDeps.isMetaField(field, fieldName)) {
           return (meta = field);
         }
 
@@ -84,14 +81,14 @@ export class SchemaParser {
       }
     });
 
-    meta = meta || createEmptyMetaField();
+    meta = meta || CircularDeps.createEmptyMetaField();
 
     if (meta) {
       meta.def.custom = extra;
     }
 
     if (!omitMeta) {
-      result[objectMetaFieldKey] = meta;
+      result[CircularDeps.objectMetaFieldKey] = meta;
     }
 
     return {
@@ -118,66 +115,62 @@ export class SchemaParser {
 
     if (parsed[CACHED_FIELD_INSTANCE_KEY]) return parsed;
 
-    Object.keys(parsed).forEach((k) => {
-      // removing not unnecessary keys
-      if (parsed[k] === undefined || parsed[k] === false) {
-        delete parsed[k];
-      }
-    });
-
-    let fieldInstance: any;
-
     Object.defineProperties(parsed, {
       [CACHED_FIELD_INSTANCE_KEY]: {
         get() {
-          if (fieldInstance) return fieldInstance;
+          if (!CircularDeps.types[parsed.type]) {
+            throw new RuntimeError(
+              `invalid field definition. types["${parsed?.type}"] is undefined`,
+              {
+                definition: parsed,
+              }
+            );
+          }
 
-          return (fieldInstance = (() => {
-            if (!types[parsed.type]) {
-              throw new RuntimeError(
-                `invalid field definition. types["${parsed?.type}"] is undefined`,
-                {
-                  definition: parsed,
-                }
-              );
-            }
+          const fieldConstructor = types[parsed.type] as typeof AnyField;
 
-            const fieldConstructor = types[parsed.type] as typeof AnyField;
+          let field = fieldConstructor.create(parsed.def, parsed);
 
-            let field = fieldConstructor.create(parsed.def, parsed);
+          if (context) {
+            field.setContext(context);
+          }
 
-            if (parsed.list) {
-              // @ts-ignore
-              field = field.toList(parsed.list);
-            }
+          if (parsed.list) {
+            // @ts-ignore
+            field = field.toList(parsed.list);
+          }
 
-            if (parsed.optional) {
-              // @ts-ignore
-              field = field.toOptional();
-            }
+          if (parsed.optional) {
+            // @ts-ignore
+            field = field.toOptional();
+          }
 
-            if (parsed.name) {
-              field.name = parsed.name;
-            }
+          if (parsed.name) {
+            field.name = parsed.name;
+          }
 
-            if (parsed.hidden) {
-              field.hidden = parsed.hidden;
-            }
+          if (parsed.hidden) {
+            field.hidden = parsed.hidden;
+          }
 
-            if (parsed.defaultValue !== undefined) {
-              field = field.setDefaultValue(parsed.defaultValue);
-            }
+          if (parsed.defaultValue !== undefined) {
+            field = field.setDefaultValue(parsed.defaultValue);
+          }
 
-            if (parsed.description) {
-              field = field.describe(parsed.description);
-            }
+          if (parsed.description) {
+            field = field.describe(parsed.description);
+          }
 
-            if (parsed.$) {
-              field.$ = parsed.$;
-            }
+          if (parsed.$) {
+            field.$ = parsed.$;
+          }
 
-            return field;
-          })());
+          if (field.type === ('self' as any)) {
+            // FIXME circular ref
+            return field.def
+          }
+
+          return field;
         },
       },
     });
@@ -189,15 +182,19 @@ export class SchemaParser {
     definition: FieldDefinition,
     context: ParseFieldContext | null
   ): FinalFieldDefinition => {
+    if (definition[CACHED_FIELD_INSTANCE_KEY]) {
+      return definition[CACHED_FIELD_INSTANCE_KEY];
+    }
+
     const parsers = [
       this.parser_stringDefinition,
       this.parser_fieldInstance,
+      this.parser_finalFieldDefinition,
       this.parser_flattenDefinition,
       this.parser_objectType,
       this.parser_graphType,
       this.parser_objectAsType,
       this.parser_graphTypeInType,
-      this.parser_finalFieldDefinition,
       this.parser_listDefinition,
       this.parser_literalDefinition,
     ];
@@ -205,11 +202,7 @@ export class SchemaParser {
     for (let parser of parsers) {
       const parsed = parser(definition, context);
       if (parsed) {
-        canDelete.forEach((k) => {
-          const v = parsed[k];
-          if (v === undefined || v === false || v === '') delete parsed[k];
-        });
-        return parsed;
+        return deleteNullable(parsed);
       }
     }
 
@@ -231,7 +224,7 @@ export class SchemaParser {
     for (let k in input) {
       const valueOfDefOrOptionalOrListOrDescription = input[k];
 
-      if (types[k]) {
+      if (CircularDeps.types[k]) {
         type = k;
         def = valueOfDefOrOptionalOrListOrDescription;
 
@@ -292,7 +285,7 @@ export class SchemaParser {
   parser_literalDefinition = (
     definition: FieldDefinition
   ): FinalFieldDefinition | void => {
-    if (LiteralField.isFinalTypeDef(definition)) {
+    if (CircularDeps.LiteralField.isFinalTypeDef(definition)) {
       return {
         def: definition.def,
         defaultValue: definition.defaultValue,
@@ -325,7 +318,7 @@ export class SchemaParser {
     definition: FieldDefinition,
     _context?: ParseFieldContext | null
   ): FinalFieldDefinition | void => {
-    if (GraphType.isTypeDefinition(definition)) {
+    if (CircularDeps.GraphType.isTypeDefinition(definition)) {
       const {
         list = false,
         optional = false,
@@ -356,15 +349,19 @@ export class SchemaParser {
   ): FinalFieldDefinition | void => {
     if (isFinalFieldDefinition(definition)) {
       if (definition.type === 'self') {
-        if (!context?.parentId && !context?.parentObjectType) {
+        const parentId = context?.parentId || definition.def?.parentId;
+        const parentObjectType =
+          context?.parentObjectType || definition.def?.parentObjectType;
+
+        if (!parentId && !parentObjectType) {
           throw new Error(
             `Expected context.getParent to be defined for "self" reference field.`
           );
         }
 
         const def: SelfReferenceFieldDef = definition.def || {};
-        def.parentId = context.parentId;
-        def.parentObjectType = context.parentObjectType;
+        def.parentId = parentId;
+        def.parentObjectType = parentObjectType;
         definition.def = def;
 
         // since circular refs can only be lists or optional types,
@@ -374,7 +371,7 @@ export class SchemaParser {
         }
 
         if (definition.list) {
-          def.optional = definition.list;
+          def.list = definition.list;
         }
       }
 
@@ -406,17 +403,29 @@ export class SchemaParser {
 
       if (definition.type === 'alias') {
         if (typeof definition.def === 'object') {
-          definition.def.type = this.toFinalDefinition(
-            definition.def.type,
-            context
-          );
+          const {
+            //
+            hidden,
+            description,
+            defaultValue,
+            optional,
+            list,
+            name,
+          } = definition;
 
-          validFlattenDefinitionKeysList.forEach((k) => {
-            if (definition[k] !== undefined) {
-              // @ts-ignore
-              definition.def.type[k] = definition[k];
-            }
+          let parsed = this.toFinalDefinition(definition.def.type, context);
+
+          parsed = SchemaParser.deleteCachedFieldInstance({
+            ...parsed,
+            hidden,
+            description,
+            defaultValue,
+            optional,
+            list,
+            name,
           });
+
+          definition.def.type = deleteNullable(parsed);
         }
       }
 
@@ -501,14 +510,47 @@ export class SchemaParser {
     }
   };
 
-  static parse = (field: FieldDefinition) => {
-    return new SchemaParser().parse({ field }, null).getField('field');
+  static createInstance = (
+    field: FieldDefinition,
+    options?: ParseFieldOptions
+  ): TAnyFieldType => {
+    if (field[CACHED_FIELD_INSTANCE_KEY]) {
+      return field[CACHED_FIELD_INSTANCE_KEY];
+    }
+
+    return new SchemaParser(options)
+      .parse({ field }, options?.context || null)
+      .getField('field');
+  };
+
+  static parseSchema = (
+    field: SchemaDefinition,
+    options?: ParseFieldOptions
+  ) => {
+    return new SchemaParser(options).parse(field, null);
+  };
+
+  static parseDefinition = (
+    field: FieldDefinition,
+    options?: ParseFieldOptions
+  ) => {
+    return new SchemaParser(options).parse({ field }, null).getField('field')
+      .definition;
   };
 
   static deleteCachedFieldInstance = (def: any) => {
     if (!def || typeof def !== 'object') return def;
     const { [CACHED_FIELD_INSTANCE_KEY]: _, ...rest } = def as any;
     return rest as any;
+  };
+
+  static getCachedInstance = (def: any): TAnyFieldType => {
+    let cached = def[CACHED_FIELD_INSTANCE_KEY];
+    if (cached) return cached;
+
+    cached = new SchemaParser().parse({ def }, null).getField('def');
+
+    return cached;
   };
 }
 
@@ -519,6 +561,7 @@ export type ParseFieldOptions = {
     omitMeta?: boolean;
   };
   omitMeta?: boolean;
+  context?: ParseFieldContext;
 };
 
 type ParseResult = {
@@ -558,7 +601,7 @@ const validFlattenDefinitionKeys = {
   $: 'object',
 } as const;
 
-const validFlattenDefinitionKeysList = getKeys(validFlattenDefinitionKeys);
+const validFlattenDefinitionKeysList = keys(validFlattenDefinitionKeys);
 
 export const CACHED_FIELD_INSTANCE_KEY = '__cachedFieldInstance';
 
@@ -575,3 +618,11 @@ const canDelete: (keyof FinalFieldDefinition)[] = [
   'hidden',
   'name',
 ];
+
+function deleteNullable<T extends Record<string, any>>(parsed: T): T {
+  canDelete.forEach((k) => {
+    const v = parsed[k];
+    if (v === undefined || v === false || v === '') delete parsed[k];
+  });
+  return parsed;
+}

@@ -18,14 +18,10 @@ import {
   FinalObjectDefinition,
 } from '../fields/_parseFields';
 import { isHiddenFieldName } from '../isHiddenFieldName';
+import { isObjectType } from '../objectInferenceUtils';
 import { parseTypeName } from '../parseTypeName';
 
-import {
-  createObjectType,
-  isObjectType,
-  parseField,
-  parseObjectField,
-} from './ObjectType';
+import { createObjectType } from './ObjectType';
 import { SchemaParser } from './SchemaParser';
 
 export type ObjectToJSONOptions = {
@@ -131,7 +127,7 @@ function parseJSONField(params: {
   parentName: string | null;
 }): ParsedField {
   let { field, fieldName, parentName, options } = params;
-  field = parseField(field);
+  field = SchemaParser.getCachedInstance(field).definition;
   const { ignoreDefaultValues } = options;
   let { type, list, optional, description, defaultValue } = field;
   const composers: ParsedField['composers'] = [];
@@ -161,7 +157,7 @@ function parseJSONField(params: {
     const parsedListItem = parseJSONField({
       field:
         type === 'array'
-          ? parseObjectField(fieldName, field.def.of)
+          ? SchemaParser.createInstance(field.def.of)
           : { ...field, list: false },
       fieldName,
       options,
@@ -184,20 +180,22 @@ function parseJSONField(params: {
       jsonItem.tsType = 'ID';
     },
     alias() {
-      const type = SchemaParser.parse(field);
-      AliasField.assert(type);
-
       composers.push({
         compose({ properties }) {
+          const type = SchemaParser.getCachedInstance(field);
+          AliasField.assert(type);
+
           if (typeof type.def === 'string') {
             properties[fieldName] = pick(properties, type.def);
           } else {
-            properties[fieldName] = parseJSONField({
+            const parsed = parseJSONField({
               field: type.utils.fieldType.asFinalFieldDef,
               fieldName,
               options,
               parentName,
-            }).jsonItem;
+            });
+
+            properties[fieldName] = parsed.jsonItem;
           }
         },
       });

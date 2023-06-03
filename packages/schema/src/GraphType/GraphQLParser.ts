@@ -35,7 +35,7 @@ import {
   ThunkReadonlyArray,
 } from 'graphql/type/definition';
 
-import { isObjectType, ObjectType } from '../ObjectType/ObjectType';
+import { ObjectType } from '../ObjectType/ObjectType';
 import { SchemaParser } from '../ObjectType/SchemaParser';
 import { AliasField } from '../fields/AliasField';
 import { ArrayField } from '../fields/ArrayField';
@@ -54,6 +54,7 @@ import { FieldTypeName } from '../fields/_fieldDefinitions';
 import { FinalFieldDefinition } from '../fields/_parseFields';
 import { ObjectHelpers } from '../getObjectHelpers';
 import { isHiddenFieldName } from '../isHiddenFieldName';
+import { isObjectType } from '../objectInferenceUtils';
 import { parseTypeName } from '../parseTypeName';
 
 import { GraphQLDateType } from './GraphQLDateType';
@@ -270,13 +271,9 @@ export class GraphQLParser {
         builders.forEach(_useConvertFieldResult);
 
         aliases.forEach(({ instance, fieldName, parentName, path }) => {
-          const { type } = instance.asFinalFieldDef.def as {
-            type: FinalFieldDefinition; // already parsed during parseObjectDefinition
-          };
-
           _useConvertFieldResult(
             this.fieldToGraphQL({
-              field: SchemaParser.parse(type),
+              field: instance.utils.fieldType,
               fieldName,
               parentName,
               path,

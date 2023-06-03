@@ -7,8 +7,8 @@ import {
   pick,
 } from '@swind/utils';
 
-import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';
+import { SchemaParser } from '../ObjectType/SchemaParser';
 
 import {
   FieldComposer,
@@ -16,10 +16,10 @@ import {
   FieldTypeParser,
   TAnyFieldType,
 } from './FieldType';
-import { FieldInput } from './_parseFields';
+import { FieldDefinition, FinalFieldDefinition } from './_parseFields';
 
 export type AliasFieldAggregation<Parent = any> = {
-  type: FieldInput;
+  type: FieldDefinition;
 } & (
   | {
       from: ObjectPath<Parent>;
@@ -41,6 +41,7 @@ export class AliasField<InputDef extends AliasFieldDef = any> extends FieldType<
 > {
   parse: FieldTypeParser<any>;
 
+  _fieldType?: TAnyFieldType;
   utils: {
     fieldType: TAnyFieldType;
   };
@@ -61,13 +62,7 @@ export class AliasField<InputDef extends AliasFieldDef = any> extends FieldType<
       name: 'alias',
     });
 
-    const type = CircularDeps.createType(
-      typeof def === 'string' ? 'any' : def.type
-    );
-
-    this.utils = {
-      fieldType: type.__lazyGetter.field,
-    };
+    const self = this;
 
     this.composer = {
       compose: (parent: Record<string, any>) => {
@@ -82,15 +77,55 @@ export class AliasField<InputDef extends AliasFieldDef = any> extends FieldType<
         nonNullValues({ aggregate: this.def.aggregate });
         return aggio([parent], this.def.aggregate as Aggregation<any>);
       },
-      def: this.utils.fieldType.asFinalFieldDef,
+      getField: () => {
+        if (this._fieldType) return this._fieldType;
+
+        let field: FinalFieldDefinition;
+
+        const parent = this.getParent();
+        if (typeof def === 'string') {
+          field = SchemaParser.getCachedInstance(
+            parent.definition[def]
+          ).definition;
+        } else {
+          field = SchemaParser.getCachedInstance(def.type).definition;
+        }
+
+        this._fieldType = SchemaParser.createInstance(
+          {
+            ...this.asFinalFieldDef,
+            ...field,
+          },
+          { context: { parentObjectType: parent }, omitMeta: true }
+        );
+
+        return this._fieldType;
+      },
       validate: (value) => {
         return this.utils.fieldType.validate(value);
+      },
+      setContext: (schema) => {
+        self.setContext({ parentObjectType: schema });
       },
     };
 
     this.parse = (input) => {
       return this.utils.fieldType.parse(input);
     };
+
+    this.utils = Object.defineProperties(
+      { ...self.utils },
+      {
+        fieldType: {
+          get: () => {
+            if (!self._fieldType) {
+              self._fieldType = self.composer.getField();
+            }
+            return self._fieldType;
+          },
+        },
+      }
+    );
   }
 
   static create = (def: AliasFieldDef): AliasField => {

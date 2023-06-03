@@ -2,7 +2,7 @@ import { CircularDeps, SolarwindModules } from '../CircularDeps';
 import { ObjectType } from '../ObjectType/ObjectType';
 import { SchemaParser } from '../ObjectType/SchemaParser';
 import { getObjectDefinitionId } from '../fields/MetaFieldField';
-import { FieldInput, ObjectFieldInput } from '../fields/_parseFields';
+import { FieldDefinition, ObjectFieldInput } from '../fields/_parseFields';
 
 import {
   GraphType,
@@ -33,7 +33,7 @@ export function lazyCreateGraphTypeInitPayload(
     definitionInput = args[0];
   }
 
-  function initializer(self: GraphType<FieldInput>): LazyParseGraphTypePayload {
+  function initializer(self: GraphType<FieldDefinition>): LazyParseGraphTypePayload {
     if (payload) return payload;
 
     const def =

@@ -5,8 +5,9 @@ import { Merge } from '@swind/utils';
 import { ObjectLike } from '../fields/IObjectLike';
 import { objectMetaFieldKey } from '../fields/MetaFieldField';
 import { SchemaDefinition } from '../fields/_parseFields';
+import { isObjectType } from '../objectInferenceUtils';
 
-import { createObjectType, isObjectType, ObjectType } from './ObjectType';
+import { createObjectType, ObjectType } from './ObjectType';
 
 export type ImplementObject<Dest, Extends> =
   //

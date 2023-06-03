@@ -134,7 +134,7 @@ describe('AliasField', () => {
     });
   });
 
-  it('converts to typescript', async () => {
+  it('converts to ts', async () => {
     const date = { a: 123 };
 
     const object = createType('Values', {
@@ -170,7 +170,7 @@ describe('AliasField', () => {
     ]);
   });
 
-  it('converts to typescript', async () => {
+  it('converts to gql', async () => {
     const date = { a: 123 };
 
     const ts = createType('Value', {
@@ -191,9 +191,11 @@ describe('AliasField', () => {
           },
         },
       },
-    } as const).print();
+    } as const);
 
-    expect(ts).toEqual([
+    const lines = ts.print();
+
+    expect(lines).toEqual([
       'type Value {',
       '  """I\'m a valid date"""',
       '  valid: Value_valid!',

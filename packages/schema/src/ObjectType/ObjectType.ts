@@ -50,13 +50,6 @@ import { validateObjectFields } from './getObjectErrors';
 import { ImplementObject, implementObject } from './implementObject';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
 
-export * from './parseObjectDefinition';
-export * from '../objectInferenceUtils';
-export * from './implementObject';
-export * from '../fields/_parseFields';
-export * from '../fields/_fieldDefinitions';
-export * from '../fields/_parseFields';
-
 export class ObjectType<
   Input,
   HandledInput extends _HandleInput<Input> = _HandleInput<Input>
@@ -317,7 +310,7 @@ export class ObjectType<
       if (!includeHidden && fieldDef.hidden) return;
 
       if (fieldDef.type === 'alias') {
-        const instance = SchemaParser.parse(fieldDef);
+        const instance = SchemaParser.getCachedInstance(fieldDef);
         return fieldInputsList.push({
           composer: instance.composer!,
           fieldDef,
@@ -375,8 +368,9 @@ export class ObjectType<
       let { key, composer } = field;
       if (!composer) return;
 
+      composer.setContext(this);
+      const fieldDef = composer.getField();
       const value = composer.compose(parsed);
-      const fieldDef = composer.def;
 
       const result = validateObjectFields({
         definition: fieldDef,

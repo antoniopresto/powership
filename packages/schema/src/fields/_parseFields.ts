@@ -17,7 +17,10 @@ import {
 
 export * from './Infer/InferField';
 
-export type FieldDefinition = _ObjectFieldInputBase | FlattenFieldDefinition;
+export type FieldDefinition =
+  | _ObjectFieldInputBase
+  | FlattenFieldDefinition
+  | FieldExtraProps;
 
 /**
  * @deprecated use FieldDefinition
@@ -32,13 +35,8 @@ export type _ObjectFieldInputBase =
   | FinalFieldDefinition
   | FieldAsString;
 
-/**
- * @deprecated use Field
- */
-export type FieldInput = ObjectFieldInput;
-
 export type SchemaDefinition = {
-  [K: string]: ObjectFieldInput;
+  [K: string]: FieldDefinition;
 } & {
   $?: FieldExtraProps;
 };

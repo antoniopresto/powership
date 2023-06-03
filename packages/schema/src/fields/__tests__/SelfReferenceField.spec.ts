@@ -39,11 +39,12 @@ describe('SelfReferenceField', () => {
       },
     } as const);
 
-    const person = { deep: { age: 123 } };
+    const person = { deep: { age: 123 }, listCircular: [] };
     const input = {
       person,
       listCircular: [{ person }],
     };
+    
     const value = schema.parse(input);
 
     interface DeepSelf {

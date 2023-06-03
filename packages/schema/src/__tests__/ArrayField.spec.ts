@@ -2,67 +2,11 @@ import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLSchema, printSchema } from 'graphql';
 
 import { createType } from '../GraphType/GraphType';
-import {
-  createSchema,
-  ObjectType,
-  parseObjectDefinition,
-  parseObjectField,
-} from '../ObjectType/ObjectType';
+import { createSchema, ObjectType } from '../ObjectType/ObjectType';
 
 describe('ArrayField', () => {
   afterEach(ObjectType.reset);
   afterAll(ObjectType.reset);
-
-  test('parseDefinition', () => {
-    const parsed = parseObjectDefinition({
-      names: {
-        array: {
-          of: 'string',
-        },
-      },
-    });
-
-    expect(parsed.definition).toEqual({
-      __dschm__: expect.any(Object),
-      names: {
-        def: {
-          of: 'string',
-        },
-        type: 'array',
-      },
-    });
-  });
-
-  test('get instance', () => {
-    const parsed = parseObjectField(
-      'my_field',
-      {
-        object: {
-          names: {
-            array: {
-              of: 'string',
-            },
-          },
-        },
-      },
-      {
-        returnInstance: true,
-      }
-    );
-
-    expect(parsed.asFinalFieldDef).toEqual({
-      def: {
-        __dschm__: expect.any(Object),
-        names: {
-          def: {
-            of: 'string',
-          },
-          type: 'array',
-        },
-      },
-      type: 'object',
-    });
-  });
 
   test('infers', () => {
     const user = { name: 'name' };

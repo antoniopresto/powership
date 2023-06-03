@@ -28,7 +28,7 @@ export function parseTypeName(input: {
 export function getUserDefinedTypeName(field: FinalFieldDefinition) {
   if (field.name && typeof field.name === 'string') return field.name;
 
-  const cached = SchemaParser.parse(field);
+  const cached = SchemaParser.createInstance(field);
   if (cached.id) return cached.id;
 
   return field.type === 'object'

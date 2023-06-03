@@ -7,15 +7,11 @@ import type {
 
 import { CircularDeps, SolarwindModules } from '../CircularDeps';
 import { Infer } from '../Infer';
-import {
-  createObjectType,
-  FinalFieldDefinition,
-  parseField,
-  SchemaDefinition,
-} from '../ObjectType/ObjectType';
+import { createObjectType } from '../ObjectType/ObjectType';
+import { SchemaParser } from '../ObjectType/SchemaParser';
 import type { ObjectToTypescriptOptions } from '../ObjectType/objectToTypescript';
 import type { AnyResolver } from '../Resolver';
-import { FieldDefinitionConfig } from '../TObjectConfig';
+import type { SchemaDefinition } from '../TObjectConfig';
 import {
   extendObjectDefinition,
   ExtendObjectDefinition,
@@ -30,7 +26,11 @@ import {
 } from '../extendType';
 import { FieldParserConfig, TAnyFieldType } from '../fields/FieldType';
 import { GraphTypeLike } from '../fields/IObjectLike';
-import { ObjectFieldInput } from '../fields/_parseFields';
+import {
+  FieldDefinition,
+  FinalFieldDefinition,
+  ObjectFieldInput,
+} from '../fields/_parseFields';
 
 import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
 import { initGraphType } from './initGraphType';
@@ -183,7 +183,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   };
 
   clone<T>(handler: (input: ExtendObjectDefinition<this, this>) => T): T {
-    const parsed = parseField(this.definition);
+    const parsed = SchemaParser.createInstance(this.definition).definition;
     const input: any = extendObjectDefinition(parsed);
     return handler(input);
   }
@@ -313,7 +313,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
    * @param id
    * @param def
    */
-  static getOrSet = <T extends FieldDefinitionConfig>(
+  static getOrSet = <T extends FieldDefinition>(
     id: string,
     def: T
   ): GraphType<T> => {

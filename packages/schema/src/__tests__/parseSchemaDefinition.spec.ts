@@ -1,11 +1,11 @@
 import { objectMetaFieldKey } from '../fields/MetaFieldField';
 import { ObjectType } from '../ObjectType/ObjectType';
 import { EnumField } from '../fields/EnumField';
-import { parseObjectDefinition } from '../ObjectType/parseObjectDefinition';
+import { SchemaParser } from '../ObjectType/SchemaParser';
 
 describe('parseObjectDefinition', () => {
   it('works', () => {
-    const { definition: sut, custom } = parseObjectDefinition({
+    const { definition: sut, custom } = SchemaParser.parseSchema({
       objectIntDef: {
         type: 'int',
       },
@@ -139,7 +139,7 @@ describe('parseObjectDefinition', () => {
       age: 'int',
     } as const;
 
-    const { definition: sut } = parseObjectDefinition({
+    const { definition: sut } = SchemaParser.parseSchema({
       name: 'string',
       object: otherObject,
       objectList: {

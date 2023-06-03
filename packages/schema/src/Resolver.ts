@@ -11,7 +11,7 @@ import { createType, GraphType } from './GraphType/GraphType';
 import { getInnerType } from './GraphType/getQueryTemplates';
 import { Infer } from './Infer';
 import {
-  FieldInput,
+  FieldDefinition,
   InferField,
   ObjectFieldInput,
   SchemaDefinition,
@@ -217,7 +217,7 @@ export interface CreateResolver<Context> {
     ): Resolver<Context, Root, Returns, _ResolverArgs<ArgsType>>;
   };
 
-  <ResultType extends FieldInput, Returns = unknown>(
+  <ResultType extends FieldDefinition, Returns = unknown>(
     config: {
       name: string;
       type: ResultType | Readonly<ResultType>;
@@ -233,7 +233,7 @@ export interface CreateResolver<Context> {
   ): Resolver<Context, any, Returns, {}> & { resolver?: never };
 
   <
-    ResultType extends FieldInput,
+    ResultType extends FieldDefinition,
     ArgsType extends SchemaDefinition,
     Returns = unknown
   >(

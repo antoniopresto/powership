@@ -10,16 +10,13 @@ import {
 } from '@swind/utils';
 
 import { Infer } from './Infer';
-import {
-  parseObjectField,
-} from './ObjectType/parseObjectDefinition';
+import { SchemaParser } from './ObjectType/SchemaParser';
 import { CursorField } from './fields/CursorField';
 import { FieldComposer } from './fields/FieldType';
 import { LiteralField } from './fields/LiteralField';
 import { createEmptyMetaField, isMetaFieldKey } from './fields/MetaFieldField';
 import { FieldTypeName } from './fields/_fieldDefinitions';
-import { FieldInput } from './fields/_parseFields';
-import { SchemaParser } from './ObjectType/SchemaParser';
+import { FieldDefinition, FinalFieldDefinition } from './fields/_parseFields';
 
 export type ObjectMockOptions = {
   maxArrayLength?: number;
@@ -27,7 +24,7 @@ export type ObjectMockOptions = {
   randomText?: () => string;
 };
 
-export function objectMock<T extends { [K: string]: FieldInput }>(
+export function objectMock<T extends { [K: string]: FieldDefinition }>(
   definition: T,
   options?: ObjectMockOptions
 ): Infer<{ object: T }> {
@@ -36,10 +33,10 @@ export function objectMock<T extends { [K: string]: FieldInput }>(
   const composers: { composer: FieldComposer; key: string }[] = [];
   Object.entries(definition).forEach(([key, fieldInput]) => {
     if (isMetaFieldKey(key)) return;
-    const def = parseObjectField(key, fieldInput);
+    const def = SchemaParser.createInstance(fieldInput).definition;
 
     if (def.type === 'alias') {
-      const instance = SchemaParser.parse(def);
+      const instance = SchemaParser.createInstance(def);
       composers.push({ composer: instance.composer!, key });
     }
     placeHolder[key] = fieldToMock(def, options);
@@ -53,7 +50,7 @@ export function objectMock<T extends { [K: string]: FieldInput }>(
 }
 
 export function fieldToMock(
-  fieldInput: FieldInput,
+  fieldInput: FieldDefinition,
   options?: ObjectMockOptions
 ): any {
   const {
@@ -62,7 +59,8 @@ export function fieldToMock(
     randomNumber,
   } = options || {};
 
-  let { list, def, type } = parseObjectField('temp', fieldInput);
+  let { list, def, type } = SchemaParser.createInstance(fieldInput)
+    .definition as FinalFieldDefinition;
 
   if (type === 'array') {
     const min = def.min === undefined ? 1 : def.min;

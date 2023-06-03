@@ -2,9 +2,9 @@ import { ErrorWithStack, wrapError } from '@swind/utils';
 
 import { createType } from './GraphType/GraphType';
 import { Infer } from './Infer';
-import { FieldInput } from './fields/_parseFields';
+import { FieldDefinition } from './fields/_parseFields';
 
-export function assertType<Type extends FieldInput>(
+export function assertType<Type extends FieldDefinition>(
   value: any,
   type: Type,
   customMessage?: string

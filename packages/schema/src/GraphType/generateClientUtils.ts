@@ -1,7 +1,7 @@
 import * as fs from 'fs-extra';
 
 import { CircularDeps } from '../CircularDeps';
-import { parseFieldDefinitionConfig } from '../ObjectType/ObjectType';
+import { SchemaParser } from '../ObjectType/SchemaParser';
 import {
   GraphQLSchemaWithUtils,
   resolversTypescriptParts,
@@ -169,9 +169,9 @@ export async function saveGraphQLClientUtils(
 }
 
 function rehydrateType(name: string, field: any) {
-  const parsed = parseFieldDefinitionConfig(field, {
+  const parsed = SchemaParser.createInstance(field, {
     deep: { omitMeta: true },
-  });
+  }).definition;
   const json = JSON.stringify(parsed);
   return `GraphType.getOrSet("${name}", ${json} as const)`;
 }

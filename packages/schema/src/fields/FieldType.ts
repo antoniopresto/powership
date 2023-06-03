@@ -2,6 +2,7 @@ import { inspectObject, simpleObjectClone } from '@swind/utils';
 
 import { CircularDeps } from '../CircularDeps';
 import { FieldExtraProps } from '../FieldExtraProps';
+import type { ParseFieldContext } from '../ObjectType/SchemaParser';
 import {
   FieldParserOptionsObject,
   FieldTypeParser,
@@ -11,6 +12,7 @@ import {
 
 import { arrayFieldParse } from './ArrayFieldParse';
 import { FieldTypeError, isFieldError } from './FieldTypeErrors';
+import { ObjectLike } from './IObjectLike';
 import { $inferableKey } from './Infer';
 import {
   FieldDefinitions,
@@ -18,19 +20,17 @@ import {
   ListDefinitionObject,
   ListDefinitionTruthy,
 } from './_fieldDefinitions';
-import {
-  AllFinalFieldDefinitions,
-  FinalFieldDefinition,
-  FinalFieldDefinitionStrict,
-} from './_parseFields';
+import { AllFinalFieldDefinitions, FinalFieldDefinition } from './_parseFields';
+
 export * from '../applyValidator';
 
 export type FieldTypeOptions = ListDefinitionObject & { [K: string]: unknown };
 
 // used by alias fieldType and possibly others
 export type FieldComposer<Schema = Record<string, any>, T = any> = {
+  setContext(schema: ObjectLike): void;
   compose: (schema: Schema) => T;
-  def: FinalFieldDefinitionStrict;
+  getField(): TAnyFieldType;
   validate(input: any, parent: Schema): T;
 };
 
@@ -323,6 +323,28 @@ export abstract class FieldType<
     }
 
     return CircularDeps.fieldInstanceFromDef(field) as any;
+  };
+
+  context: ParseFieldContext | null = null;
+
+  setContext = (context: ParseFieldContext | null) => {
+    this.context = context;
+  };
+
+  getParent = (): ObjectLike => {
+    const context = this.context;
+
+    const schema = context?.parentId
+      ? CircularDeps.ObjectType.register.get(context.parentId)
+      : context?.parentObjectType;
+
+    if (!schema) {
+      throw new Error(
+        `Failed to get parent type. Field without context defined.`
+      );
+    }
+
+    return schema;
   };
 }
 

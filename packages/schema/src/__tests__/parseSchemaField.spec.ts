@@ -1,10 +1,7 @@
 import { createObjectType } from '../ObjectType/ObjectType';
 import { EnumField } from '../fields/EnumField';
 import { objectMetaFieldKey } from '../fields/MetaFieldField';
-import {
-  parseFlattenFieldDefinition,
-  parseObjectField,
-} from '../ObjectType/parseObjectDefinition';
+import { SchemaParser } from '../ObjectType/SchemaParser';
 
 import { objectMocks } from './__mock__';
 
@@ -13,11 +10,11 @@ const { typeDefs, stringDefTypes, object2 } = objectMocks;
 describe('parseObjectField', () => {
   test('parseFlattenFieldDefinition', () => {
     expect(
-      parseFlattenFieldDefinition({
+      SchemaParser.createInstance({
         object: {
           name: 'string',
         },
-      })
+      }).definition
     ).toEqual({
       def: {
         name: {
@@ -29,13 +26,13 @@ describe('parseObjectField', () => {
     });
 
     expect(
-      parseFlattenFieldDefinition({
+      SchemaParser.createInstance({
         string: {
           min: 1,
         },
         list: true,
         optional: true,
-      })
+      }).definition
     ).toEqual({
       def: {
         min: 1,
@@ -48,7 +45,7 @@ describe('parseObjectField', () => {
   });
 
   test('enumStringArray', () => {
-    const sut = parseObjectField('enumStringArray', {
+    const sut = SchemaParser.parseDefinition({
       enum: ['a', 'b', 'c'],
     } as const);
 
@@ -60,16 +57,11 @@ describe('parseObjectField', () => {
   });
 
   test('enum FieldType', () => {
-    const single = parseObjectField(
-      'enum FieldType',
-      EnumField.create(['a', 'b'])
-    );
-    const list = parseObjectField(
-      'enum FieldType',
+    const single = SchemaParser.parseDefinition(EnumField.create(['a', 'b']));
+    const list = SchemaParser.parseDefinition(
       EnumField.create(['a', 'b']).toList()
     );
-    const listOptional = parseObjectField(
-      'enum FieldType',
+    const listOptional = SchemaParser.parseDefinition(
       EnumField.create(['a', 'b']).toList().toOptional()
     );
 
@@ -95,7 +87,7 @@ describe('parseObjectField', () => {
   });
 
   test('objectTypeName', () => {
-    const sut = parseObjectField('objectTypeName', {
+    const sut = SchemaParser.parseDefinition({
       type: 'object',
       def: object2['definition'],
     });
@@ -147,7 +139,7 @@ describe('parseObjectField', () => {
     });
 
     expect(
-      parseObjectField('objectTypeName', {
+      SchemaParser.parseDefinition({
         type: 'object',
         def: object2['definition'],
         list: true,
@@ -155,7 +147,7 @@ describe('parseObjectField', () => {
     ).toHaveProperty('list', true);
 
     expect(
-      parseObjectField('objectTypeName', {
+      SchemaParser.parseDefinition({
         type: 'object',
         def: object2['definition'],
         optional: true,
@@ -164,8 +156,7 @@ describe('parseObjectField', () => {
   });
 
   test('objectObjectAsType', () => {
-    const sut = parseObjectField(
-      'objectObjectAsType',
+    const sut = SchemaParser.parseDefinition(
       typeDefs.objectObjectAsType // deprecated
     );
 
@@ -207,10 +198,7 @@ describe('parseObjectField', () => {
   });
 
   test('stringFieldDefinition', () => {
-    const sut = parseObjectField(
-      'stringFieldDefinition',
-      typeDefs.stringFieldDefinition
-    );
+    const sut = SchemaParser.parseDefinition(typeDefs.stringFieldDefinition);
 
     expect(sut).toEqual({
       type: 'cursor',
@@ -220,7 +208,7 @@ describe('parseObjectField', () => {
   });
 
   test('FieldType as def', () => {
-    const sut = parseObjectField('FieldType', typeDefs.fieldDefAsType);
+    const sut = SchemaParser.parseDefinition(typeDefs.fieldDefAsType);
 
     expect(sut).toEqual({
       list: true,
@@ -234,10 +222,7 @@ describe('parseObjectField', () => {
   });
 
   test('stringDefTypes', () => {
-    const sut = parseObjectField(
-      'stringDefTypes',
-      createObjectType(stringDefTypes)
-    );
+    const sut = SchemaParser.parseDefinition(createObjectType(stringDefTypes));
 
     expect(sut).toEqual({
       type: 'object',
@@ -367,35 +352,27 @@ describe('parseObjectField', () => {
 
   describe('handle default values', () => {
     test('in fields', () => {
-      const field: any = parseObjectField(
-        'Defaulting',
-        {
-          int: {},
-          defaultValue: 123,
-        },
-        { returnInstance: true }
-      );
+      const field: any = SchemaParser.createInstance({
+        int: {},
+        defaultValue: 123,
+      });
 
       expect(field.parse(undefined)).toEqual(123);
     });
 
     test('on objects', () => {
-      const field: any = parseObjectField(
-        'Defaulting',
-        {
-          object: {
-            age: {
-              int: {},
-              defaultValue: 123,
-            },
-            name: {
-              string: {},
-              defaultValue: 1,
-            },
+      const field: any = SchemaParser.createInstance({
+        object: {
+          age: {
+            int: {},
+            defaultValue: 123,
+          },
+          name: {
+            string: {},
+            defaultValue: 1,
           },
         },
-        { returnInstance: true }
-      );
+      });
 
       expect(field.parse({ name: 'a' })).toEqual({ name: 'a', age: 123 });
     });
