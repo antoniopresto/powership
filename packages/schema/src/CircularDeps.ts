@@ -1,10 +1,8 @@
 /*
  * Handles circular dependencies with type safety
  */
-import { RuntimeError } from '@swind/utils';
 import { isBrowser } from '@swind/utils';
 
-import { fieldTypeNames } from './fields/fieldTypeNames';
 import type { FieldCreators } from './fields/fieldTypes';
 
 function getModules() {
@@ -14,9 +12,24 @@ function getModules() {
         require('./GraphType/GraphType') as typeof import('./GraphType/GraphType'),
       server: false,
     },
+    types: {
+      module: () =>
+        require('./fields/fieldTypes') as typeof import('./fields/fieldTypes'),
+      server: false,
+    },
+    typeNames: {
+      module: () =>
+        require('./fields/fieldTypeNames') as typeof import('./fields/fieldTypeNames'),
+      server: false,
+    },
     fieldInstanceFromDef: {
       module: () =>
         require('./fieldInstanceFromDef') as typeof import('./fieldInstanceFromDef'),
+      server: false,
+    },
+    SchemaParser: {
+      module: () =>
+        require('./ObjectType/SchemaParser') as typeof import('./ObjectType/SchemaParser'),
       server: false,
     },
     MetaField: {
@@ -25,7 +38,8 @@ function getModules() {
       server: false,
     },
     ObjectType: {
-      module: () => require('./ObjectType') as typeof import('./ObjectType'),
+      module: () =>
+        require('./ObjectType/ObjectType') as typeof import('./ObjectType/ObjectType'),
       server: false,
     },
     fieldTypes: {
@@ -35,7 +49,7 @@ function getModules() {
     },
     implementObject: {
       module: () =>
-        require('./implementObject') as typeof import('./implementObject'),
+        require('./ObjectType/implementObject') as typeof import('./ObjectType/implementObject'),
       server: false,
     },
 
@@ -112,22 +126,25 @@ function getModules() {
 
     objectToTypescript: {
       // @only-server
-      module: (): typeof import('./objectToTypescript').objectToTypescript => {
-        try {
-          // @only-server
-          return (a, b, c) =>
-            import('./objectToTypescript').then(({ objectToTypescript }) => {
-              return objectToTypescript(a, b, c);
-            });
-        } catch (e: any) {
-          return function objectToTypescript() {
-            throw new Error(
-              '⚠️ Solarwind.objectToTypescript is not available when bundled.\n' +
-                e.stack
-            );
-          } as any;
-        }
-      },
+      module:
+        (): typeof import('./ObjectType/objectToTypescript').objectToTypescript => {
+          try {
+            // @only-server
+            return (a, b, c) =>
+              import('./ObjectType/objectToTypescript').then(
+                ({ objectToTypescript }) => {
+                  return objectToTypescript(a, b, c);
+                }
+              );
+          } catch (e: any) {
+            return function objectToTypescript() {
+              throw new Error(
+                '⚠️ Solarwind.objectToTypescript is not available when bundled.\n' +
+                  e.stack
+              );
+            } as any;
+          }
+        },
 
       server: true,
     },
@@ -251,7 +268,8 @@ function get(key: string) {
     cache.set(_key, mainModule);
   });
 
-  const fieldTypes = modules.fieldTypes.module();
+  const fieldTypes = modules.types.module();
+  const { fieldTypeNames } = modules.typeNames.module();
 
   fieldTypeNames.forEach((key) => {
     const creator = fieldTypes.create[key];
@@ -265,11 +283,10 @@ export const CircularDeps = new Proxy({} as SolarwindModules, {
   get(_, key: string) {
     const item = get(key);
     if (!item) {
-      throw new RuntimeError(`${key} is not available at this environment.`, {
-        validModules: [...cache.entries()]
-          .filter((el) => el[1] !== undefined)
-          .map((el) => el[0]),
-      });
+      throw new Error(
+        `Failed to load module "${key}".` +
+          `\nMake sure you are not using a bundler that prevented the dynamic importing of that module.`
+      );
     }
     return item;
   },

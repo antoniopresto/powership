@@ -11,19 +11,29 @@ import {
 } from './InferObjectType';
 import { InferString } from './InferString';
 
-export type InferField<Input> =
+export type InferField<
+  Input,
+  RootInferredType = unknown,
+  FieldName extends string = ''
+> =
   //
   OnlyKnown<Input> extends infer Known
     ? Known extends string
-      ? InferString<Known>
+      ? InferString<Known, RootInferredType, FieldName>
       : Known extends object
       ? $inferableKey extends keyof Known
         ? Known[$inferableKey]
-        : _WithInferOptional<Known, _WithInferList<Known, _InferField<Known>>>
+        : _WithInferOptional<
+            Known,
+            _WithInferList<
+              Known,
+              _InferField<Known, RootInferredType, FieldName>
+            >
+          >
       : never
     : never;
 
-export type _InferField<Input extends object> =
+export type _InferField<Input extends object, Root, FieldName extends string> =
   //
   _FieldKV<Input> extends [infer K, infer V]
     ? //
@@ -36,7 +46,7 @@ export type _InferField<Input extends object> =
         ? InferObjectType<Input>
         : //
         K extends FieldTypeName
-        ? InferFinalField<K, V>
+        ? InferFinalField<K, V, Root, FieldName>
         : //
         K extends 'type'
         ? // {type: ...}
@@ -44,7 +54,7 @@ export type _InferField<Input extends object> =
 
           // {type: FieldTypeName,  .... }
           V extends FieldTypeName
-          ? InferFinalField<V, _GetKey<Input, 'def'>>
+          ? InferFinalField<V, _GetKey<Input, 'def'>, Root, FieldName>
           : //
 
           // {type: GraphType,  .... }

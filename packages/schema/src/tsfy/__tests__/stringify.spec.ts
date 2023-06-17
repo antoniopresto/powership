@@ -1,6 +1,6 @@
 import { CircularDeps } from '../../CircularDeps';
 import { createType } from '../../GraphType/GraphType';
-import { createObjectType, resetTypesCache } from '../../ObjectType';
+import { createObjectType, resetTypesCache } from '../../ObjectType/ObjectType';
 import { tsfy } from '../tsfy';
 
 describe('stringify', () => {

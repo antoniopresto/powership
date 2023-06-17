@@ -1,6 +1,6 @@
 import { MongoTransporter } from '@swind/mongo';
 import { AppMock, createAppMock } from '@swind/mongo/lib/test-utils';
-import { createType, ObjectType, parseField } from '@swind/schema';
+import { createType, ObjectType, SchemaParser } from '@swind/schema';
 import { ULID_REGEX } from '@swind/schema/lib/fields/ULIDField';
 
 import { createEntity } from '../Entity';
@@ -21,12 +21,18 @@ describe('Product', () => {
     expect(entity.indexGraphTypes).toMatchObject({});
     expect(typeof entity.parse).toEqual('function');
     expect(entity.originType).toEqual(options.type);
-    const { __dschm__, ...def } = parseField(options.type.definition)
-      .def as any;
+    const { __dschm__, ...def } = SchemaParser.parseField(
+      options.type.definition,
+      null
+    ).def as any;
 
     expect(entity.extendInput.def()).toEqual(def);
 
-    expect(Object.keys(parseField(entity.type.definition).def).sort()).toEqual([
+    expect(
+      Object.keys(
+        SchemaParser.parseField(entity.type.definition, null).def
+      ).sort()
+    ).toEqual([
       'SKU',
       '__dschm__',
       '_c',

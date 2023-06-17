@@ -1,8 +1,8 @@
 import { RuntimeError } from '@swind/utils';
 
+import { SchemaParser } from './ObjectType/SchemaParser';
 import { getObjectDefinitionMetaField } from './fields/MetaFieldField';
 import { FinalFieldDefinition } from './fields/_parseFields';
-import { __getCachedFieldInstance } from './parseObjectDefinition';
 
 export function parseTypeName(input: {
   field: FinalFieldDefinition;
@@ -28,7 +28,7 @@ export function parseTypeName(input: {
 export function getUserDefinedTypeName(field: FinalFieldDefinition) {
   if (field.name && typeof field.name === 'string') return field.name;
 
-  const cached = __getCachedFieldInstance(field);
+  const cached = SchemaParser.createInstance(field);
   if (cached.id) return cached.id;
 
   return field.type === 'object'

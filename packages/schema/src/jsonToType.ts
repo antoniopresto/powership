@@ -13,16 +13,14 @@ import {
 import { CircularDeps } from './CircularDeps';
 import { createType, GraphType } from './GraphType/GraphType';
 import { Infer } from './Infer';
+import { createObjectType } from './ObjectType/ObjectType';
+import { ULID_REGEX } from './fields/UlidField';
+import { FieldTypeName } from './fields/_fieldDefinitions';
 import {
-  createObjectType,
-  FieldTypeName,
   FinalFieldDefinition,
   FinalObjectDefinition,
   FlattenFieldDefinition,
-} from './ObjectType';
-import { ULID_REGEX } from './fields/UlidField';
-
-const record = CircularDeps.record({ keyType: 'string', type: 'any' });
+} from './fields/_parseFields';
 
 export const JSONFieldCase = Object.keys(stringCase).concat('camelCase') as (
   | keyof typeof stringCase
@@ -56,7 +54,6 @@ export function jsonToType(
 export function jsonToSchemaDefinition(options: JSONToSchemaOptions): {
   [K: string]: FinalFieldDefinition;
 } {
-  record.parse(options.json, 'jsonToSchema: Invalid input.');
   const res = valueToTypeDef({ ...options, value: options.json });
 
   if ('object' in res && typeof res.object === 'object') {
@@ -95,6 +92,7 @@ export const valuesToSolarwindTypeRecord: {
     getTypeName(value) === 'Number' && !!`${value}`.match(/^\d*$/),
   array: Array.isArray,
   object: (value) => isPlainObject(value),
+  self: () => false,
   cursor: isCursorString,
   date: (value) => getTypeName(value) === 'Date',
   email: (value) =>

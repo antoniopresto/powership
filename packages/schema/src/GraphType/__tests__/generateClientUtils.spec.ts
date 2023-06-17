@@ -1,4 +1,4 @@
-import { ObjectType } from '../../ObjectType';
+import { ObjectType } from '../../ObjectType/ObjectType';
 import { createResolver } from '../../Resolver';
 import { createGraphQLSchema } from '../../createGraphQLSchema';
 import { createType } from '../GraphType';
@@ -75,13 +75,19 @@ describe('schema.getGraphQLTypescript', () => {
       "    name: 'findUsers',",
       "    kind: 'query',",
       "    payload: GraphType.getOrSet('findUsersPayload', {",
-      "      def: { id: { type: 'ID' } },",
+      '      def: {',
+      "        id: { type: 'ID' },",
+      "        __dschm__: { def: { id: 'User' }, type: 'meta' },",
+      '      },',
       '      list: true,',
       "      type: 'object',",
       '    } as const),',
       '',
       "    input: GraphType.getOrSet('findUsersInput', {",
-      "      def: { limit: { type: 'int' } },",
+      '      def: {',
+      "        limit: { type: 'int' },",
+      "        __dschm__: { def: { id: null }, type: 'meta' },",
+      '      },',
       "      type: 'object',",
       '    } as const),',
       '',

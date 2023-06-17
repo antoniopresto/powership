@@ -4,7 +4,7 @@ import { createStore, Process, simpleObjectHash, Store } from '@swind/utils';
 import { ensureFileSync } from 'fs-extra';
 
 import { GraphType } from '../GraphType/GraphType';
-import { ObjectType } from '../ObjectType';
+import { ObjectType } from '../ObjectType/ObjectType';
 
 import { createTSFYContext, tsfy, TSFYConfig } from './tsfy';
 

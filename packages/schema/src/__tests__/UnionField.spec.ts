@@ -1,7 +1,7 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../Infer';
-import { createObjectType } from '../ObjectType';
+import { createObjectType } from '../ObjectType/ObjectType';
 import { DescribeField } from '../fields/Infer';
 import { UnionField } from '../fields/UnionField';
 

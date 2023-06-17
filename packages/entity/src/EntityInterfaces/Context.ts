@@ -1,4 +1,4 @@
-import { Infer, ObjectDefinitionInput } from '@swind/schema';
+import { Infer, SchemaDefinition } from '@swind/schema';
 import { DocumentIndexItem } from '@swind/transporter';
 import { IsKnown, Merge } from '@swind/utils';
 
@@ -12,7 +12,7 @@ export interface EntityTypesContext<InputDef, Indexes> {
    *
    */
   originDefinition: IsKnown<InputDef> extends 1
-    ? [InputDef] extends [ObjectDefinitionInput]
+    ? [InputDef] extends [SchemaDefinition]
       ? InputDef
       : {}
     : {};

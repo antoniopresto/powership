@@ -1,66 +1,54 @@
 import { createStore, IsKnown, RuntimeError } from '@swind/utils';
-import { ensureArray } from '@swind/utils';
 import { expectedType } from '@swind/utils';
 import { getTypeName } from '@swind/utils';
 import { invariantType } from '@swind/utils';
 import { Serializable } from '@swind/utils';
 import type { GraphQLInterfaceType, GraphQLObjectType } from 'graphql';
 
-import { CircularDeps, SolarwindModules } from './CircularDeps';
+import { CircularDeps, SolarwindModules } from '../CircularDeps';
 import type {
   GraphQLParserResult,
   ParseInputTypeOptions,
   ParseInterfaceOptions,
   ParseTypeOptions,
-} from './GraphType/GraphQLParser';
-import { GraphQLParseMiddleware } from './GraphType/GraphQLParser';
-import type { ObjectDefinitionInput } from './TObjectConfig';
+} from '../GraphType/GraphQLParser';
+import type { SchemaDefinition } from '../TObjectConfig';
 import {
   FieldParserOptionsObject,
   parseValidationError,
   ValidationCustomMessage,
-} from './applyValidator';
+} from '../applyValidator';
 import {
   extendObjectDefinition,
   ExtendObjectDefinition,
-} from './extendObjectDefinition';
-import { FieldComposer } from './fields/FieldType';
-import { ObjectLike } from './fields/IObjectLike';
-import { InferObjectDefinition } from './fields/Infer';
+} from '../extendObjectDefinition';
+import { FieldComposer } from '../fields/FieldType';
+import { ObjectLike } from '../fields/IObjectLike';
+import { InferObjectDefinition } from '../fields/Infer';
 import {
   cleanMetaField,
   getObjectDefinitionMetaField,
   isMetaFieldKey,
   MetaFieldDef,
   objectMetaFieldKey,
-} from './fields/MetaFieldField';
+} from '../fields/MetaFieldField';
 import {
   FieldTypeName,
   SpecialObjectKeyEnum,
-} from './fields/_fieldDefinitions';
+} from '../fields/_fieldDefinitions';
 import type {
   FieldAsString,
   FinalFieldDefinition,
   FinalObjectDefinition,
-} from './fields/_parseFields';
-import { validateObjectFields } from './getObjectErrors';
-import { getObjectHelpers, ObjectHelpers } from './getObjectHelpers';
-import { ImplementObject, implementObject } from './implementObject';
-import { isObjectType } from './objectInferenceUtils';
-import type { ObjectToTypescriptOptions } from './objectToTypescript';
-import {
-  __getCachedFieldInstance,
-  parseObjectDefinition,
-} from './parseObjectDefinition';
-import { parseField } from './parseObjectDefinition';
-import { withCache, WithCache } from './withCache';
+} from '../fields/_parseFields';
+import { getObjectHelpers, ObjectHelpers } from '../getObjectHelpers';
+import { isObjectType } from '../objectInferenceUtils';
+import { withCache, WithCache } from '../withCache';
 
-export * from './parseObjectDefinition';
-export * from './objectInferenceUtils';
-export * from './implementObject';
-export * from './fields/_parseFields';
-export * from './fields/_fieldDefinitions';
-export * from './fields/_parseFields';
+import { SchemaParser } from './SchemaParser';
+import { validateObjectFields } from './getObjectErrors';
+import { ImplementObject, implementObject } from './implementObject';
+import type { ObjectToTypescriptOptions } from './objectToTypescript';
 
 export class ObjectType<
   Input,
@@ -77,13 +65,13 @@ export class ObjectType<
   }>;
 
   inputDefinition:
-    | ObjectDefinitionInput
-    | ((modules: SolarwindModules) => ObjectDefinitionInput);
+    | SchemaDefinition
+    | ((modules: SolarwindModules) => SchemaDefinition);
 
   constructor(
     objectDef: HandledInput | ((modules: SolarwindModules) => HandledInput)
   ) {
-    this.inputDefinition = objectDef as ObjectDefinitionInput;
+    this.inputDefinition = objectDef as SchemaDefinition;
     this.__withCache = withCache(this);
   }
 
@@ -101,7 +89,9 @@ export class ObjectType<
           throw new Error('Expected object definition to be an object');
         }
 
-        return parseObjectDefinition(objectDef).definition;
+        return SchemaParser.parse(objectDef, {
+          context: { parentObjectType: this },
+        }).definition;
       })());
   }
 
@@ -321,7 +311,7 @@ export class ObjectType<
       if (!includeHidden && fieldDef.hidden) return;
 
       if (fieldDef.type === 'alias') {
-        const instance = __getCachedFieldInstance(fieldDef);
+        const instance = SchemaParser.createInstance(fieldDef);
         return fieldInputsList.push({
           composer: instance.composer!,
           fieldDef,
@@ -379,8 +369,9 @@ export class ObjectType<
       let { key, composer } = field;
       if (!composer) return;
 
+      composer.setContext(this);
+      const fieldDef = composer.getField();
       const value = composer.compose(parsed);
-      const fieldDef = composer.def;
 
       const result = validateObjectFields({
         definition: fieldDef,
@@ -440,8 +431,10 @@ export class ObjectType<
       >
     ) => T
   ): T {
-    const parsed = parseField(this);
-    const input: any = extendObjectDefinition(parsed);
+    const { definition } = SchemaParser.parse(this.definition as any, {
+      context: { parentObjectType: this },
+    });
+    const input: any = extendObjectDefinition(definition);
     return handler(input);
   }
 
@@ -568,7 +561,7 @@ export class ObjectType<
    * @param id
    * @param def
    */
-  static getOrSet = <T extends ObjectDefinitionInput>(
+  static getOrSet = <T extends SchemaDefinition>(
     id: string,
     def: T | (() => T)
   ): ObjectType<T> => {
@@ -587,15 +580,7 @@ export class ObjectType<
     }).identify(id);
   };
 
-  graphQLMiddleware: GraphQLParseMiddleware[] = [];
-
-  addGraphQLMiddleware = (
-    middleware: GraphQLParseMiddleware[] | GraphQLParseMiddleware
-  ) => {
-    this.graphQLMiddleware.push(...ensureArray(middleware));
-  };
-
-  static is(input: any): input is ObjectType<ObjectDefinitionInput> {
+  static is(input: any): input is ObjectType<SchemaDefinition> {
     return isObjectType(input);
   }
 }
@@ -603,23 +588,23 @@ export class ObjectType<
 export const SolarwindObject = ObjectType;
 
 export type ObjectTypeFromInput<
-  DefinitionInput extends Readonly<ObjectDefinitionInput>
+  DefinitionInput extends Readonly<SchemaDefinition>
 > = IsKnown<DefinitionInput> extends 1
-  ? [DefinitionInput] extends [ObjectDefinitionInput]
+  ? [DefinitionInput] extends [SchemaDefinition]
     ? ObjectType<DefinitionInput>
     : never
   : any;
 
 export function createObjectType<
-  DefinitionInput extends Readonly<ObjectDefinitionInput>
+  DefinitionInput extends Readonly<SchemaDefinition>
 >(fields: Readonly<DefinitionInput>): ObjectTypeFromInput<DefinitionInput>;
 
 export function createObjectType<
-  DefinitionInput extends Readonly<ObjectDefinitionInput>
+  DefinitionInput extends Readonly<SchemaDefinition>
 >(name: string, fields: DefinitionInput): ObjectTypeFromInput<DefinitionInput>;
 
 export function createObjectType<
-  DefinitionInput extends Readonly<ObjectDefinitionInput>
+  DefinitionInput extends Readonly<SchemaDefinition>
 >(
   ...args: [string, DefinitionInput] | [DefinitionInput]
 ): ObjectTypeFromInput<DefinitionInput> {

@@ -8,14 +8,11 @@ import {
 
 import { CircularDeps } from './CircularDeps';
 import type { GraphType } from './GraphType/GraphType';
-import {
-  deleteCachedFieldInstance,
-  FinalFieldDefinition,
-  ObjectType,
-  parseField,
-} from './ObjectType';
+import { ObjectType } from './ObjectType/ObjectType';
+import { SchemaParser } from './ObjectType/SchemaParser';
 import { DescribeAndOverrideField, DescribeWithoutSeal } from './fields/Infer';
 import { objectMetaFieldKey } from './fields/MetaFieldField';
+import { FinalFieldDefinition } from './fields/_parseFields';
 
 export interface ExtendType<Input> {
   definition: DescribeWithoutSeal<Input>;
@@ -50,8 +47,8 @@ export interface ExtendType<Input> {
 
 export function extendType<Input>(input: Input): ExtendType<Input> {
   const clone = wrapError(() => {
-    const parsed = parseField(input as any);
-    const withoutCache = deleteCachedFieldInstance(parsed);
+    const parsed = SchemaParser.createInstance(input as any).definition;
+    const withoutCache = SchemaParser.deleteCachedFieldInstance(parsed);
     return simpleObjectClone(withoutCache);
   }, extendType);
 

@@ -7,7 +7,7 @@ import {
 
 import { CircularDeps } from '../CircularDeps';
 import { GraphType } from '../GraphType/GraphType';
-import { ObjectType } from '../ObjectType';
+import { ObjectType } from '../ObjectType/ObjectType';
 import { isFieldTypeName } from '../fields/fieldTypes';
 
 import { parseTSFyValue } from './parseTSFyValue';

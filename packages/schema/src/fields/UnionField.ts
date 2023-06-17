@@ -2,8 +2,8 @@ import { getTypeName } from '@swind/utils';
 import { inspectObject } from '@swind/utils';
 import { uniq } from '@swind/utils';
 
-import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';
+import { SchemaParser } from '../ObjectType/SchemaParser';
 import type { FieldDefinitionConfig } from '../TObjectConfig';
 
 import { FieldType, FieldTypeParser, TAnyFieldType } from './FieldType';
@@ -26,13 +26,9 @@ export class UnionField<
   constructor(def: T) {
     super({ def: def, name: 'union' });
 
-    const { parseObjectField } = CircularDeps;
-
-    this.utils.fieldTypes = def.map((el, index) => {
+    this.utils.fieldTypes = def.map((el) => {
       try {
-        return parseObjectField(`UnionItem_${index}`, el, {
-          returnInstance: true,
-        });
+        return SchemaParser.createInstance(el);
       } catch (e: any) {
         let message = `Filed to parse type:`;
         message += `\n${inspectObject(el, { tabSize: 2 })}`;

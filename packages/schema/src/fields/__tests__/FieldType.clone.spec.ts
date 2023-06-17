@@ -1,5 +1,5 @@
 import { createType } from '../../GraphType/GraphType';
-import { createObjectType, resetTypesCache } from '../../ObjectType';
+import { createObjectType, resetTypesCache } from '../../ObjectType/ObjectType';
 import { CursorField } from '../CursorField';
 import { LiteralField } from '../LiteralField';
 import { ObjectField } from '../ObjectField';

@@ -5,11 +5,16 @@ import { InferField } from './InferField';
 import { InferObjectDefinition } from './InferObjectType';
 import { InferTypeName } from './InferString';
 
-export type InferFinalField<TypeName extends FieldTypeName, Def = never> =
+export type InferFinalField<
+  TypeName extends FieldTypeName,
+  Def,
+  Root,
+  FieldName extends string
+> =
   //
-  _InferFinalField<TypeName, Def>;
+  __InferFinalField<TypeName, Def, Root, FieldName>;
 
-export type _InferFinalField<TypeName, Def> =
+export type __InferFinalField<TypeName, Def, Root, FieldName extends string> =
   //
   // LITERAL
   TypeName extends 'literal'
@@ -19,7 +24,7 @@ export type _InferFinalField<TypeName, Def> =
     // ARRAY
     TypeName extends 'array'
     ? [Def] extends [ArrayFieldDef<infer Of>]
-      ? InferField<Of>[]
+      ? InferField<Of, Root, FieldName>[]
       : never
     : //
 
@@ -40,7 +45,7 @@ export type _InferFinalField<TypeName, Def> =
     // UNION
     TypeName extends 'union'
     ? [Def] extends [ReadonlyArray<infer Item>]
-      ? InferField<Item>
+      ? InferField<Item, Root, FieldName>
       : never
     : //
 
@@ -48,9 +53,11 @@ export type _InferFinalField<TypeName, Def> =
     TypeName extends 'record'
     ? [Def] extends [{ keyType?: infer KeyType; type?: infer Type }]
       ? {
-          [K in KeyType extends 'int' | 'float'
-            ? number
-            : string]: InferField<Type>;
+          [K in KeyType extends 'int' | 'float' ? number : string]: InferField<
+            Type,
+            Root,
+            FieldName
+          >;
         }
       : { [K: string]: any }
     : //
@@ -60,5 +67,10 @@ export type _InferFinalField<TypeName, Def> =
     ? Def
     : //
 
+    // SELF CIRCULAR REF
+    TypeName extends 'self'
+    ? Root
+    : //
+
       // FIELDS WITHOUT DEF
-      InferTypeName<TypeName>;
+      InferTypeName<TypeName, Root>;

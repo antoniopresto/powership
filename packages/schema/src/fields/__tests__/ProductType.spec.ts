@@ -1,4 +1,4 @@
-import { createObjectType, ObjectType } from '../../ObjectType';
+import { createObjectType, ObjectType } from '../../ObjectType/ObjectType';
 import {
   BreadCrumbType,
   ProductImageMapType,

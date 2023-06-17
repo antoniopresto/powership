@@ -1,4 +1,4 @@
-import { FieldInput, ObjectDefinitionInput } from '@swind/schema';
+import { FieldDefinition, SchemaDefinition } from '@swind/schema';
 import {
   INDEX_PART_SEP,
   parseIndexFieldName,
@@ -23,7 +23,7 @@ export function parseEntityIndexFields(indexConfig: AnyCollectionIndexConfig) {
 
     const PKName = parseIndexFieldName(index.name, 'PK');
 
-    const fields: { [K in keyof CommonIndexFields]: FieldInput } = {
+    const fields: { [K in keyof CommonIndexFields]: FieldDefinition } = {
       _c: {
         hidden: true,
         name: `EntityHashedCursor`,
@@ -68,5 +68,5 @@ export function parseEntityIndexFields(indexConfig: AnyCollectionIndexConfig) {
     }
 
     return { ...acc, ...fields };
-  }, {} as ObjectDefinitionInput);
+  }, {} as SchemaDefinition);
 }

@@ -7,24 +7,19 @@ import {
   Merge,
   O,
   RuntimeError,
-  simpleObjectClone,
 } from '@swind/utils';
 
 import { CircularDeps } from './CircularDeps';
 import type { GraphType } from './GraphType/GraphType';
-import {
-  deleteCachedFieldInstance,
-  ObjectType,
-  parseField,
-  parseObjectDefinition,
-} from './ObjectType';
+import { ObjectType } from './ObjectType/ObjectType';
+import { SchemaParser } from './ObjectType/SchemaParser';
 import {
   DescribeField,
   DescribeObjectDefinition,
   SealedField,
 } from './fields/Infer';
 import { objectMetaFieldKey } from './fields/MetaFieldField';
-import { ObjectDefinitionInput } from './fields/_parseFields';
+import { SchemaDefinition } from './fields/_parseFields';
 
 export interface ExtendObjectDefinition<Input, Origin> {
   definition: InnerDef<Input>;
@@ -35,7 +30,7 @@ export interface ExtendObjectDefinition<Input, Origin> {
     keys: K | K[]
   ): ExtendObjectDefinition<{ object: Omit<InnerDef<Input>, K> }, Origin>;
 
-  extendObjectDefinition<V extends ObjectDefinitionInput>(
+  extendObjectDefinition<V extends SchemaDefinition>(
     value: V | ((current: this['definition']) => V)
   ): ExtendObjectDefinition<
     { object: Merge<InnerDef<Input>, DescribeObjectDefinition<V>> },
@@ -112,13 +107,7 @@ export function extendObjectDefinition<Input>(
     return extendObjectDefinition(obj.definition) as unknown as R;
   }
 
-  let clone: any = deleteCachedFieldInstance(
-    simpleObjectClone(
-      parseObjectDefinition(deleteCachedFieldInstance(obj), {
-        deep: { omitMeta: true },
-      }).definition
-    )
-  );
+  let clone: any = SchemaParser.parse(obj).definition;
 
   const res = {
     def() {
@@ -143,7 +132,7 @@ export function extendObjectDefinition<Input>(
       assertEqual(getTypeName(ext), 'Object');
       clone = Object.assign(
         clone,
-        parseObjectDefinition(ext, { omitMeta: true }).definition
+        SchemaParser.parse(ext, { omitMeta: true }).definition
       );
       return extendObjectDefinition(clone);
     },
@@ -185,7 +174,7 @@ export function extendObjectDefinition<Input>(
           );
         }
         clone[key] = {
-          ...parseField(clone[key]),
+          ...SchemaParser.createInstance(clone[key]).definition,
           optional: true,
         };
       });
@@ -208,7 +197,7 @@ export function extendObjectDefinition<Input>(
           );
         }
         clone[key] = {
-          ...parseField(clone[key]),
+          ...SchemaParser.createInstance(clone[key]).definition,
           optional: false,
         };
       });

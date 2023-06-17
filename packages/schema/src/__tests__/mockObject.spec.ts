@@ -1,5 +1,5 @@
 import { createType } from '../GraphType/GraphType';
-import { createObjectType } from '../ObjectType';
+import { createObjectType } from '../ObjectType/ObjectType';
 import { objectMock } from '../mockObject';
 
 describe('mockObject', () => {

@@ -1,14 +1,14 @@
 import {
   GraphType,
-  ObjectDefinitionInput,
   ObjectFieldInput,
   ResolverResolve,
+  SchemaDefinition,
 } from '@swind/schema';
 import { DocumentIndexesConfig, Transporter } from '@swind/transporter';
 import { LoggerOptions } from '@swind/utils';
 
 export type EntityOptions<
-  InputDocumentDefinition extends ObjectDefinitionInput = ObjectDefinitionInput,
+  InputDocumentDefinition extends SchemaDefinition = SchemaDefinition,
   Indexes extends DocumentIndexesConfig = DocumentIndexesConfig
 > = {
   indexes: Indexes;
@@ -22,7 +22,7 @@ export type EntityOptions<
 export type EntityFieldResolver<
   Context,
   TypeDef extends ObjectFieldInput,
-  ArgsDef extends ObjectDefinitionInput | undefined,
+  ArgsDef extends SchemaDefinition | undefined,
   Root
 > = {
   args?: ArgsDef;

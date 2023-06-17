@@ -1,9 +1,4 @@
-import {
-  createStore,
-  inspectObject,
-  isBrowser,
-  RuntimeError,
-} from '@swind/utils';
+import { createStore, inspectObject, isBrowser } from '@swind/utils';
 import type {
   GraphQLInterfaceType,
   GraphQLNamedInputType,
@@ -12,14 +7,11 @@ import type {
 
 import { CircularDeps, SolarwindModules } from '../CircularDeps';
 import { Infer } from '../Infer';
-import {
-  createObjectType,
-  FinalFieldDefinition,
-  ObjectDefinitionInput,
-  parseField,
-} from '../ObjectType';
+import { createObjectType } from '../ObjectType/ObjectType';
+import { SchemaParser } from '../ObjectType/SchemaParser';
+import type { ObjectToTypescriptOptions } from '../ObjectType/objectToTypescript';
 import type { AnyResolver } from '../Resolver';
-import { FieldDefinitionConfig } from '../TObjectConfig';
+import type { SchemaDefinition } from '../TObjectConfig';
 import {
   extendObjectDefinition,
   ExtendObjectDefinition,
@@ -34,8 +26,11 @@ import {
 } from '../extendType';
 import { FieldParserConfig, TAnyFieldType } from '../fields/FieldType';
 import { GraphTypeLike } from '../fields/IObjectLike';
-import { ObjectFieldInput } from '../fields/_parseFields';
-import type { ObjectToTypescriptOptions } from '../objectToTypescript';
+import {
+  FieldDefinition,
+  FinalFieldDefinition,
+  ObjectFieldInput,
+} from '../fields/_parseFields';
 
 import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
 import { initGraphType } from './initGraphType';
@@ -57,15 +52,14 @@ export class GraphType<Definition extends ObjectFieldInput> {
   get id(): string {
     if (this.optionalId) return this.optionalId;
 
-    throw new RuntimeError(
+    throw new Error(
       [
         'The method you are trying to execute needs the graphType used to be identified.' +
           ' Use ``myType.identify("name")`` and try again.',
         'You can also read that information from ``myType.optionalId.``',
         '',
         '',
-      ].join('\n'),
-      this.__lazyGetter.definitionInput
+      ].join('\n')
     );
   }
 
@@ -189,7 +183,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   };
 
   clone<T>(handler: (input: ExtendObjectDefinition<this, this>) => T): T {
-    const parsed = parseField(this.definition);
+    const parsed = SchemaParser.createInstance(this.definition).definition;
     const input: any = extendObjectDefinition(parsed);
     return handler(input);
   }
@@ -203,7 +197,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
     definition: LazyParseGraphTypePayload
   ) => LazyParseGraphTypePayload)[] = [];
 
-  mutateFields<Def extends ObjectDefinitionInput>(
+  mutateFields<Def extends SchemaDefinition>(
     callback: (input: ExtendObjectDefinition<this, this>) => Def
   ): GraphType<{ object: Def }> {
     if (this.touched) {
@@ -319,7 +313,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
    * @param id
    * @param def
    */
-  static getOrSet = <T extends FieldDefinitionConfig>(
+  static getOrSet = <T extends FieldDefinition>(
     id: string,
     def: T
   ): GraphType<T> => {

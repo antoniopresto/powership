@@ -1,7 +1,7 @@
-import { createObjectType } from '../ObjectType';
+import { createObjectType } from '../ObjectType/ObjectType';
 import { _assertFields } from '../fields/__tests__/__assert';
-import { objectToJSON } from '../objectToJSON';
-import { objectToTypescript } from '../objectToTypescript';
+import { objectToJSON } from '../ObjectType/objectToJSON';
+import { objectToTypescript } from '../ObjectType/objectToTypescript';
 
 test('examples', async () => {
   const addressObject = createObjectType({

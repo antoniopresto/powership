@@ -12,11 +12,11 @@ import {
   getSchemaQueryTemplates,
   SchemaQueryTemplatesResult,
 } from './GraphType/getQueryTemplates';
-import { parseFieldDefinitionConfig } from './ObjectType';
+import { SchemaParser } from './ObjectType/SchemaParser';
+import type { ObjectToTypescriptOptions } from './ObjectType/objectToTypescript';
 import { AnyResolver } from './Resolver';
 import { cleanMetaField } from './fields/MetaFieldField';
 import { objectMock, ObjectMockOptions } from './mockObject';
-import type { ObjectToTypescriptOptions } from './objectToTypescript';
 
 export type CreateGraphQLObjectOptions = Partial<GraphQLSchemaConfig>;
 
@@ -312,7 +312,9 @@ async function convertType(options: {
 }) {
   const { entryName, type, kind } = options;
 
-  const parsed = parseFieldDefinitionConfig(type, { deep: { omitMeta: true } });
+  const parsed = SchemaParser.createInstance(type, {
+    deep: { omitMeta: true },
+  }).definition;
 
   const { description } = parsed;
 

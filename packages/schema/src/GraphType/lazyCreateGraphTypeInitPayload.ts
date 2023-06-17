@@ -1,9 +1,8 @@
 import { CircularDeps, SolarwindModules } from '../CircularDeps';
-import { ObjectType } from '../ObjectType';
-import { TAnyFieldType } from '../fields/FieldType';
+import { ObjectType } from '../ObjectType/ObjectType';
+import { SchemaParser } from '../ObjectType/SchemaParser';
 import { getObjectDefinitionId } from '../fields/MetaFieldField';
-import { FieldInput, ObjectFieldInput } from '../fields/_parseFields';
-import { parseObjectField } from '../parseObjectDefinition';
+import { FieldDefinition, ObjectFieldInput } from '../fields/_parseFields';
 
 import {
   GraphType,
@@ -34,7 +33,9 @@ export function lazyCreateGraphTypeInitPayload(
     definitionInput = args[0];
   }
 
-  function initializer(self: GraphType<FieldInput>): LazyParseGraphTypePayload {
+  function initializer(
+    self: GraphType<FieldDefinition>
+  ): LazyParseGraphTypePayload {
     if (payload) return payload;
 
     const def =
@@ -42,9 +43,9 @@ export function lazyCreateGraphTypeInitPayload(
         ? definitionInput(CircularDeps)
         : definitionInput;
 
-    const field = parseObjectField('temp', def, {
-      returnInstance: true,
-    }) as TAnyFieldType & { utils: { object?: any } };
+    const field: any = SchemaParser.createInstance(def, {
+      context: { parentId: self.optionalId },
+    });
 
     const objectType = ObjectType.is(field?.utils?.object)
       ? field.utils.object

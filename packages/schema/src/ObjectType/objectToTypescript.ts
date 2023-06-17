@@ -1,7 +1,8 @@
 import { jsonToTypescript } from '@swind/utils';
 
-import { ObjectDefinitionInput } from './TObjectConfig';
-import { ObjectLike } from './fields/IObjectLike';
+import { SchemaDefinition } from '../TObjectConfig';
+import { ObjectLike } from '../fields/IObjectLike';
+
 import { objectToJSON } from './objectToJSON';
 
 export type ObjectToTypescriptOptions = {
@@ -23,7 +24,7 @@ const defaultBannerComment = ``;
  */
 export async function objectToTypescript(
   name: string,
-  object: ObjectLike | ObjectDefinitionInput,
+  object: ObjectLike | SchemaDefinition,
   options?: ObjectToTypescriptOptions
 ): Promise<string> {
   const {

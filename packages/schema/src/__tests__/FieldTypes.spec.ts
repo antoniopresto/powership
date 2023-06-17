@@ -14,8 +14,8 @@ import { UnknownField } from '../fields/UnknownField';
 import { _assertFields } from '../fields/__tests__/__assert';
 import { CursorType } from '../fields/_fieldDefinitions';
 import { createObjectType, createType, InferObjectDefinition } from '../index';
-import { objectToGQL } from '../objectToGQL';
-import { objectToTypescript } from '../objectToTypescript';
+import { objectToGQL } from '../ObjectType/objectToGQL';
+import { objectToTypescript } from '../ObjectType/objectToTypescript';
 
 describe('FieldTypes', () => {
   describe('StringField', () => {

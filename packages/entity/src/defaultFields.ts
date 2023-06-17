@@ -1,9 +1,9 @@
-import { parseObjectDefinition } from '@swind/schema';
+import { SchemaParser } from '@swind/schema';
 
 export const createEntityDocumentBase = <Optional extends Readonly<boolean>>(
   optional: Optional = false as Optional
 ): EntityDocumentBaseDef<Optional> =>
-  parseObjectDefinition({
+  SchemaParser.parse({
     _v: {
       hidden: true,
       ulid: { autoCreate: true },

@@ -1,9 +1,11 @@
 export * from './Infer';
-export * from './TObjectConfig';
-export * from './ObjectType';
+export * from './ObjectType/ObjectType';
+export * from './ObjectType/SchemaParser';
+export * from './fields/_parseFields';
+export * from './fields/_fieldDefinitions';
 export * from './fields/Infer';
 export * from './Durable/IDurable';
-export * from './CustomFieldConfig';
+export * from './FieldExtraProps';
 export * from './assertType';
 
 export { objectMetaFieldKey } from './fields/MetaFieldField';

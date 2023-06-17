@@ -1,8 +1,8 @@
 import { Cast } from '@swind/utils';
 import { inspectObject } from '@swind/utils';
 
-import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';
+import { SchemaParser } from '../ObjectType/SchemaParser';
 
 import { arrayFieldParse } from './ArrayFieldParse';
 import { FieldType, FieldTypeParser, TAnyFieldType } from './FieldType';
@@ -33,12 +33,9 @@ export class ArrayField<T extends ArrayFieldDef> extends FieldType<
 
   constructor(def: T) {
     super({ def: def, name: 'array' });
-    const { parseObjectField } = CircularDeps;
 
     try {
-      this.utils.listItemType = parseObjectField(`ListItem`, def.of, {
-        returnInstance: true,
-      });
+      this.utils.listItemType = SchemaParser.createInstance(def.of);
     } catch (e: any) {
       let message = `Filed to parse type:`;
       message += `\n${inspectObject(def, { tabSize: 2 })}`;

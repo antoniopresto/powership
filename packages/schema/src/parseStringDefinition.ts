@@ -1,7 +1,7 @@
 import { memoize } from '@swind/utils';
 
-import { FieldTypeName } from './fields/_fieldDefinitions';
-import { FinalFieldDefinition } from './fields/_parseFields';
+import type { FieldTypeName } from './fields/_fieldDefinitions';
+import type { FinalFieldDefinition } from './fields/_parseFields';
 import { isFieldTypeName } from './fields/fieldTypes';
 
 function _parseStringDefinition<T extends AnyStringFieldDefinition>(

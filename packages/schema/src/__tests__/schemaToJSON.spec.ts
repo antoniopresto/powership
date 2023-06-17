@@ -1,5 +1,5 @@
-import { createObjectType } from '../ObjectType';
-import { objectToJSON } from '../objectToJSON';
+import { createObjectType } from '../ObjectType/ObjectType';
+import { objectToJSON } from '../ObjectType/objectToJSON';
 
 describe('objectToJSON', () => {
   it('works', async () => {

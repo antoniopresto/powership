@@ -1,11 +1,11 @@
 import { createType } from '../GraphType/GraphType';
-import { createObjectType } from '../ObjectType';
+import { createObjectType } from '../ObjectType/ObjectType';
 import { createResolver } from '../Resolver';
 import {
   createGraphQLSchema,
   resolversTypescriptParts,
 } from '../createGraphQLSchema';
-import { objectToTypescript } from '../objectToTypescript';
+import { objectToTypescript } from '../ObjectType/objectToTypescript';
 
 describe('objectToTypescript', () => {
   it('works', async () => {

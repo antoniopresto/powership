@@ -1,4 +1,4 @@
-import type { ObjectType } from './ObjectType';
+import type { ObjectType } from './ObjectType/ObjectType';
 
 export function isObjectValidationError(
   input: any

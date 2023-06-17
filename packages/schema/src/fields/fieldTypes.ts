@@ -1,5 +1,3 @@
-import { memoize } from '@swind/utils';
-
 import { AliasField } from './AliasField';
 import { AnyField } from './AnyField';
 import { ArrayField } from './ArrayField';
@@ -11,13 +9,13 @@ import { EnumField } from './EnumField';
 import { FloatField } from './FloatField';
 import { IDField } from './IDField';
 import { IntField } from './IntField';
-// import { ListField } from './ListField';
 import { LiteralField } from './LiteralField';
 import { MetaField } from './MetaFieldField';
 import { NullField } from './NullField';
 import { ObjectField } from './ObjectField';
 import { PhoneField } from './PhoneField';
 import { RecordField } from './RecordField';
+import { SelfReferenceField } from './SelfReferenceField';
 import { StringField } from './StringField';
 import { UlidField } from './UlidField';
 import { UndefinedField } from './UndefinedField';
@@ -79,6 +77,7 @@ export const types = createConstructors({
   undefined: UndefinedField,
   union: UnionField,
   unknown: UnknownField,
+  self: SelfReferenceField,
 });
 
 export type Types = typeof types;
@@ -87,26 +86,12 @@ export type FieldCreators = Readonly<{
   [K in FieldTypeName]: Types[K]['create'];
 }>;
 
-export const create: FieldCreators = Object.entries(types as any).reduce(
-  // @ts-ignore
-  (
-    acc,
-    [
-      key,
-      // @ts-ignore
-      { create },
-    ]
-  ): any => {
-    return {
-      ...acc,
-      [key]: create,
-    };
+export const create = new Proxy({} as FieldCreators, {
+  get(_, key: string) {
+    return types[key].create;
   },
-  {} as FieldCreators
-);
+});
 
-function _isFieldTypeName(t: any): t is FieldTypeName {
+export function isFieldTypeName(t: any): t is FieldTypeName {
   return typeof t === 'string' && types[t];
 }
-
-export const isFieldTypeName = memoize(_isFieldTypeName);

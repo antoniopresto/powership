@@ -1,4 +1,4 @@
-import { parseFieldDefinitionConfig } from '@swind/schema';
+import { SchemaParser } from '@swind/schema';
 import { createProxy, notNull } from '@swind/utils';
 import { NodeLogger } from '@swind/utils';
 
@@ -16,7 +16,9 @@ export const applyFieldResolvers = createEntityPlugin(
       const { resolvers } = context;
 
       resolvers.forEach((resolver) => {
-        definition[resolver.name] = parseFieldDefinitionConfig(resolver.type);
+        definition[resolver.name] = SchemaParser.parseField(resolver.type, {
+          parentObjectType: context.entityOptions.type.id,
+        });
       });
     });
 

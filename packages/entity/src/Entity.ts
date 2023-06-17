@@ -6,7 +6,7 @@ import {
   FinalObjectDefinition,
   GraphType,
   isFieldTypeName,
-  ObjectDefinitionInput,
+  SchemaDefinition,
 } from '@swind/schema';
 import {
   AnyCollectionIndexConfig,
@@ -87,7 +87,7 @@ const extendMethodsEnum = tupleEnum(
 );
 
 export function createEntity<
-  InputDefinition extends ObjectDefinitionInput,
+  InputDefinition extends SchemaDefinition,
   Indexes extends DocumentIndexesConfig,
   Options extends EntityOptions<InputDefinition, Indexes> = EntityOptions<
     InputDefinition,
@@ -920,7 +920,7 @@ function _getIndexGraphTypes(input: {
 
   return parsedIndexKeys.reduce(
     (acc, next): Record<string, GraphType<{ object: any }>> => {
-      const fields: ObjectDefinitionInput = {};
+      const fields: SchemaDefinition = {};
 
       next.PK.requiredFields.forEach((fieldName) => {
         const def = findFieldDef(fieldName);

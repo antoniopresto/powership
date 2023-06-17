@@ -3,27 +3,27 @@ import { inspectObject } from '@swind/utils';
 
 import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';
-import type { FieldDefinitionConfig } from '../TObjectConfig';
 
 import { FieldType, FieldTypeParser, TAnyFieldType } from './FieldType';
+import { FieldDefinition } from './_parseFields';
 
 const validKeyTypes = ['int', 'string', 'float'] as const;
 type ValidKeyType = (typeof validKeyTypes)[number];
 
 export type RecordFieldDef = {
   keyType?: ValidKeyType;
-  type?: FieldDefinitionConfig;
+  type?: FieldDefinition;
 };
 
 export type InferRecordFieldType<Def> = Def extends { keyType: 'int' | 'float' }
   ? {
       [K: number]: Infer<
-        Def extends { type: FieldDefinitionConfig } ? Def['type'] : 'any'
+        Def extends { type: FieldDefinition } ? Def['type'] : 'any'
       >;
     }
   : {
       [K: string]: Infer<
-        Def extends { type: FieldDefinitionConfig } ? Def['type'] : 'any'
+        Def extends { type: FieldDefinition } ? Def['type'] : 'any'
       >;
     };
 
@@ -43,13 +43,9 @@ export class RecordField<Def extends RecordFieldDef> extends FieldType<
   constructor(def: Def = { keyType: 'string', type: 'any' } as any) {
     super({ def: def, name: 'record' });
 
-    const { parseObjectField } = CircularDeps;
-
     let parser: TAnyFieldType;
     try {
-      parser = parseObjectField(`RecordField`, def?.type || 'any', {
-        returnInstance: true,
-      });
+      parser = CircularDeps.SchemaParser.createInstance(def?.type || 'any');
     } catch (e: any) {
       e.message = `RecordField: failed to create parser for record values: ${
         e.message
@@ -65,9 +61,7 @@ export class RecordField<Def extends RecordFieldDef> extends FieldType<
         throw new Error(`keyType should be on of ${validKeyTypes}`);
       }
 
-      keyParser = parseObjectField('RecordFieldKey', def.keyType!, {
-        returnInstance: true,
-      });
+      keyParser = CircularDeps.SchemaParser.createInstance(def.keyType!);
     } catch (e: any) {
       e.message = `RecordField: failed to create parser for record keys: ${
         e.message
