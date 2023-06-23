@@ -1,5 +1,5 @@
 import { CircularDeps, createResolver, Infer } from '@powership/schema';
-import { createGraphQLSchema } from '@powership/schema/lib/createGraphQLSchema';
+import { createGraphQLSchema } from '@powership/schema/out/createGraphQLSchema';
 import { PaginationResult } from '@powership/transporter';
 import { notNull, NullableToPartial, PromiseType } from '@powership/utils';
 import { assert, IsExact } from 'conditional-type-checks';

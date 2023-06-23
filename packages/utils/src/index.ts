@@ -75,6 +75,7 @@ export * from './parsePath';
 export * from './objectEntries';
 export * from './immer';
 export * from './MicroState';
+export * from './skipper';
 
 // @only-server
 export * from './logLevels';

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "lib",
+    "outDir": "out",
     "rootDir": "src",
     "baseUrl": ".",
     "lib": ["es5", "es6", "es7", "esnext", "dom", "es2020"],

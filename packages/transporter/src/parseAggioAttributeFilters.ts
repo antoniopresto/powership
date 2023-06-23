@@ -3,7 +3,7 @@ import { devAssert, Query } from '@powership/utils';
 import { getKeys } from '@powership/utils';
 import { getTypeName } from '@powership/utils';
 import { escapeStringRegexp } from '@powership/utils';
-import { skipper } from '@powership/utils/lib/skipper';
+import { skipper } from '@powership/utils/out/skipper';
 
 import { AnyCollectionIndexConfig } from './CollectionIndex';
 import {

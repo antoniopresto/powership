@@ -1,5 +1,6 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
+out/
 .turbo
 # VisualStudioCode.gitignore
 # See https://github.com/github/gitignore/blob/master/Global/VisualStudioCode.gitignore
@@ -69,13 +70,12 @@ buck-out/
 android/app/libs
 android/keystores/debug.keystore
 
-lib/
 webpack-assets.json
 webpack-stats.json
 *.swp
 
 # Modern Relay
 __generated__
-lib
+
 /logs/
 .idea/workspace.xml

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "lib",
+    "outDir": "out",
     "rootDir": "src",
     "paths": {},
     "baseUrl": ".",

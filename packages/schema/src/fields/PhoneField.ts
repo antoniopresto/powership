@@ -3,7 +3,7 @@ import { assertEqual, isProduction } from '@powership/utils';
 import type {
   ParsedPhoneNumber,
   PhoneNumberTypes,
-} from '@powership/utils/lib/parsePhoneNumber';
+} from '@powership/utils/out/parsePhoneNumber';
 
 import { CircularDeps } from '../CircularDeps';
 
