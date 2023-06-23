@@ -1,6 +1,6 @@
-import { MongoTransporter } from '@swind/mongo';
-import { AppMock, createAppMock } from '@swind/mongo/lib/test-utils';
-import { LoaderContext } from '@swind/transporter';
+import { MongoTransporter } from '@powership/mongo';
+import { AppMock, createAppMock } from '@powership/mongo/lib/test-utils';
+import { LoaderContext } from '@powership/transporter';
 
 import { SessionRequest } from '../Sessions';
 

@@ -1,4 +1,4 @@
-import { Compute } from '@swind/utils';
+import { Compute } from '@powership/utils';
 
 import { DocumentIndexesConfig } from './CollectionIndex';
 import {

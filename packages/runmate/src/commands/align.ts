@@ -15,7 +15,7 @@ export function align(program: Command) {
     .description(
       'Align dependency versions between all packages in the monorepo.'
     )
-    .action(async function run(version, options = {}): Promise<any> {
+    .action(async function run(_version, options = {}): Promise<any> {
       const { src } = options;
 
       try {

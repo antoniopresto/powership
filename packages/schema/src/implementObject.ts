@@ -1,6 +1,6 @@
-import { RuntimeError } from '@swind/utils';
-import { simpleObjectClone } from '@swind/utils';
-import { Merge } from '@swind/utils';
+import { RuntimeError } from '@powership/utils';
+import { simpleObjectClone } from '@powership/utils';
+import { Merge } from '@powership/utils';
 
 import { createObjectType, isObjectType, ObjectType } from './ObjectType';
 import { ObjectLike } from './fields/IObjectLike';

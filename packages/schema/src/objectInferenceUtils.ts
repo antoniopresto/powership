@@ -7,5 +7,5 @@ export function isObjectValidationError(
 }
 
 export function isObjectType(input: any): input is ObjectType<any> {
-  return input?.__isSolarwindObject === true;
+  return input?.__isPowershipObject === true;
 }

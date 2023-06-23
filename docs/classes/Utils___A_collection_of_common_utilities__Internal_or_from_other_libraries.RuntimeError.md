@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / RuntimeError
+[Powership](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / RuntimeError
 
 # Class: RuntimeError
 
@@ -47,7 +47,7 @@ Error.constructor
 
 #### Defined in
 
-[packages/utils/src/RuntimeError.ts:22](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/RuntimeError.ts#L22)
+packages/utils/src/RuntimeError.ts:22
 
 • **new RuntimeError**(`message`, `details`, `options?`)
 
@@ -65,7 +65,7 @@ Error.constructor
 
 #### Defined in
 
-[packages/utils/src/RuntimeError.ts:29](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/RuntimeError.ts#L29)
+packages/utils/src/RuntimeError.ts:29
 
 ## Properties
 
@@ -75,7 +75,7 @@ Error.constructor
 
 #### Defined in
 
-[packages/utils/src/RuntimeError.ts:12](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/RuntimeError.ts#L12)
+packages/utils/src/RuntimeError.ts:12
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/RuntimeError.ts:13](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/RuntimeError.ts#L13)
+packages/utils/src/RuntimeError.ts:13
 
 ___
 
@@ -99,4 +99,4 @@ Error.name
 
 #### Defined in
 
-[packages/utils/src/RuntimeError.ts:10](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/RuntimeError.ts#L10)
+packages/utils/src/RuntimeError.ts:10

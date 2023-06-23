@@ -1,4 +1,4 @@
-import { createSchema } from '@swind/schema';
+import { createSchema } from '@powership/schema';
 import {
   $Any,
   devAssert,
@@ -6,7 +6,7 @@ import {
   mountGraphID,
   ParsedIndexCursor,
   parseIndexFieldName,
-} from '@swind/utils';
+} from '@powership/utils';
 
 import { CollectionErrors } from './CollectionErrors';
 import {

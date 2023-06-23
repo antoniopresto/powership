@@ -1,4 +1,4 @@
-import { createType, ObjectType } from '@swind/schema';
+import { createType, ObjectType } from '@powership/schema';
 
 import { parseEntityIndexFields } from '../parseEntityIndexFields';
 

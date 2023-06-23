@@ -1,6 +1,6 @@
-import { Infer, ObjectDefinitionInput } from '@swind/schema';
-import { DocumentIndexItem } from '@swind/transporter';
-import { IsKnown, Merge } from '@swind/utils';
+import { Infer, ObjectDefinitionInput } from '@powership/schema';
+import { DocumentIndexItem } from '@powership/transporter';
+import { IsKnown, Merge } from '@powership/utils';
 
 import { EntityOptions } from '../EntityOptions';
 import { EntityDocumentBaseDef } from '../defaultFields';

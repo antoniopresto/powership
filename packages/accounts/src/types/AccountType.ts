@@ -1,4 +1,4 @@
-import { createSchema } from '@swind/schema';
+import { createSchema } from '@powership/schema';
 
 import { usernameType } from '../utils/validateUserName';
 

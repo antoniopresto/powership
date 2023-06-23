@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / RunMate - A command line utility to run scripts in multiple files.
+[Powership](../README.md) / [Modules](../modules.md) / RunMate - A command line utility to run scripts in multiple files.
 
 # Module: RunMate - A command line utility to run scripts in multiple files.
 
@@ -14,6 +14,7 @@
 - [PackageRunnerRun](../interfaces/RunMate___A_command_line_utility_to_run_scripts_in_multiple_files_.PackageRunnerRun.md)
 - [RunCommandHooks](../interfaces/RunMate___A_command_line_utility_to_run_scripts_in_multiple_files_.RunCommandHooks.md)
 - [RunCommandOptions](../interfaces/RunMate___A_command_line_utility_to_run_scripts_in_multiple_files_.RunCommandOptions.md)
+- [RunCommandResult](../interfaces/RunMate___A_command_line_utility_to_run_scripts_in_multiple_files_.RunCommandResult.md)
 - [RunInFilesOptions](../interfaces/RunMate___A_command_line_utility_to_run_scripts_in_multiple_files_.RunInFilesOptions.md)
 
 ### Type Aliases
@@ -41,7 +42,7 @@
 
 #### Defined in
 
-[packages/runmate/src/packageRunner.ts:50](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/packageRunner.ts#L50)
+packages/runmate/src/packageRunner.ts:57
 
 ## Variables
 
@@ -51,7 +52,7 @@
 
 #### Defined in
 
-[packages/runmate/src/runmateLogger.ts:5](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/runmateLogger.ts#L5)
+packages/runmate/src/runmateLogger.ts:5
 
 ## Functions
 
@@ -65,7 +66,7 @@
 
 #### Defined in
 
-[packages/runmate/src/packageRunner.ts:15](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/packageRunner.ts#L15)
+packages/runmate/src/packageRunner.ts:15
 
 ___
 
@@ -88,6 +89,7 @@ ___
 | `author?` | `string` \| { `email?`: `string` ; `name`: `string` ; `url?`: `string`  } |
 | `basename` | `string` |
 | `cwd` | `string` |
+| `data` | `string`[] |
 | `dependencies?` | { `[dependencyName: string]`: `string`;  } |
 | `description?` | `string` |
 | `devDependencies?` | { `[dependencyName: string]`: `string`;  } |
@@ -101,12 +103,12 @@ ___
 | `repository?` | `string` \| { `type`: `string` ; `url`: `string`  } |
 | `scripts?` | { `[scriptName: string]`: `string`;  } |
 | `version` | `string` |
-| `run` | (`command`: `string`) => `Promise`<``0``\> |
+| `run` | (`command`: `string`) => `Promise`<[`RunCommandResult`](../interfaces/RunMate___A_command_line_utility_to_run_scripts_in_multiple_files_.RunCommandResult.md)\> |
 | `saveJSON` | () => `void` |
 
 #### Defined in
 
-[packages/runmate/src/packageRunner.ts:19](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/packageRunner.ts#L19)
+packages/runmate/src/packageRunner.ts:19
 
 ___
 
@@ -127,7 +129,7 @@ ___
 
 #### Defined in
 
-[packages/runmate/src/packageRunner.ts:81](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/packageRunner.ts#L81)
+packages/runmate/src/packageRunner.ts:89
 
 ___
 
@@ -155,13 +157,13 @@ ___
 
 #### Defined in
 
-[packages/runmate/src/packageRunner.ts:203](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/packageRunner.ts#L203)
+packages/runmate/src/packageRunner.ts:214
 
 ___
 
 ### runCommand
 
-▸ **runCommand**(`options`, `execOptions?`): `Promise`<``0``\>
+▸ **runCommand**(`options`, `execOptions?`): `Promise`<[`RunCommandResult`](../interfaces/RunMate___A_command_line_utility_to_run_scripts_in_multiple_files_.RunCommandResult.md)\>
 
 #### Parameters
 
@@ -172,11 +174,11 @@ ___
 
 #### Returns
 
-`Promise`<``0``\>
+`Promise`<[`RunCommandResult`](../interfaces/RunMate___A_command_line_utility_to_run_scripts_in_multiple_files_.RunCommandResult.md)\>
 
 #### Defined in
 
-[packages/runmate/src/runCommand.ts:15](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/runCommand.ts#L15)
+packages/runmate/src/runCommand.ts:20
 
 ___
 
@@ -196,4 +198,4 @@ ___
 
 #### Defined in
 
-[packages/runmate/src/runInFiles.ts:16](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/runInFiles.ts#L16)
+packages/runmate/src/runInFiles.ts:16

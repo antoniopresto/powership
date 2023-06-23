@@ -1,11 +1,11 @@
-import { setByPath } from '@swind/utils';
-import { BJSON } from '@swind/utils';
-import { RuntimeError } from '@swind/utils';
-import { expectedType } from '@swind/utils';
-import { pick } from '@swind/utils';
-import { getKeys } from '@swind/utils';
-import { getTypeName } from '@swind/utils';
-import { nonNullValues } from '@swind/utils';
+import { setByPath } from '@powership/utils';
+import { BJSON } from '@powership/utils';
+import { RuntimeError } from '@powership/utils';
+import { expectedType } from '@powership/utils';
+import { pick } from '@powership/utils';
+import { getKeys } from '@powership/utils';
+import { getTypeName } from '@powership/utils';
+import { nonNullValues } from '@powership/utils';
 import { JSONSchema4 } from 'json-schema';
 
 import {

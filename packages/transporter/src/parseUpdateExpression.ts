@@ -1,4 +1,4 @@
-import { getTypeName, Join, NestedPaths, RuntimeError } from '@swind/utils';
+import { getTypeName, Join, NestedPaths, RuntimeError } from '@powership/utils';
 
 import { AnyCollectionIndexConfig } from './CollectionIndex';
 import { UpdateExpression } from './Transporter';

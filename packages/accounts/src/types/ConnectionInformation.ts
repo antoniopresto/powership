@@ -1,4 +1,4 @@
-import { createSchema, Infer } from '@swind/schema';
+import { createSchema, Infer } from '@powership/schema';
 
 export const ConnectionInformationSchema = createSchema(
   'AccountConnectionInformation',

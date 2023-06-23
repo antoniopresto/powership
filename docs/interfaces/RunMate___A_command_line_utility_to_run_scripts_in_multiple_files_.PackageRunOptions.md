@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [RunMate - A command line utility to run scripts in multiple files.](../modules/RunMate___A_command_line_utility_to_run_scripts_in_multiple_files_.md) / PackageRunOptions
+[Powership](../README.md) / [Modules](../modules.md) / [RunMate - A command line utility to run scripts in multiple files.](../modules/RunMate___A_command_line_utility_to_run_scripts_in_multiple_files_.md) / PackageRunOptions
 
 # Interface: PackageRunOptions
 
@@ -20,7 +20,7 @@
 
 #### Defined in
 
-[packages/runmate/src/packageRunner.ts:59](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/packageRunner.ts#L59)
+packages/runmate/src/packageRunner.ts:66
 
 ___
 
@@ -30,7 +30,7 @@ ___
 
 #### Defined in
 
-[packages/runmate/src/packageRunner.ts:60](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/packageRunner.ts#L60)
+packages/runmate/src/packageRunner.ts:67
 
 ___
 
@@ -40,4 +40,4 @@ ___
 
 #### Defined in
 
-[packages/runmate/src/packageRunner.ts:61](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/packageRunner.ts#L61)
+packages/runmate/src/packageRunner.ts:68

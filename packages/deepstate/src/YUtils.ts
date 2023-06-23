@@ -5,7 +5,7 @@ import {
   PathType,
   pick,
   setByPath,
-} from '@swind/utils';
+} from '@powership/utils';
 import {
   applyPatches,
   Draft,

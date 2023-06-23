@@ -1,7 +1,7 @@
 import nodePath from 'path';
 
-import { createGraphQLSchema, Resolver } from '@swind/schema';
-import { AnyRecord, isProduction } from '@swind/utils';
+import { createGraphQLSchema, Resolver } from '@powership/schema';
+import { AnyRecord, isProduction } from '@powership/utils';
 import { graphql } from 'graphql';
 import { renderPlaygroundPage } from 'graphql-playground-html';
 
@@ -106,7 +106,7 @@ export function createGraphQLHandlers<Resolvers extends ResolversRecord>(
   //         ? JSON.parse(body.json.trim())
   //         : body.json || {};
   //
-  //     const page = await solarwindUtilsResolver({
+  //     const page = await powershipUtilsResolver({
   //       ...body,
   //       json,
   //       url: request.urlObject.pathname,

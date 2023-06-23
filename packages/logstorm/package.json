@@ -1,6 +1,6 @@
 {
   "name": "logstorm",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -27,12 +27,12 @@
     "plugin-hooks": "2.0.0"
   },
   "devDependencies": {
-    "@swind/boilerplate": "workspace:*",
+    "@powership/boilerplate": "workspace:*",
     "@babel/cli": "7.19.3",
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@swind/babel-plugins": "workspace:*",
+    "@powership/babel-plugins": "workspace:*",
     "@types/node": "16.18.3",
     "@typescript-eslint/eslint-plugin": "5.39.0",
     "@typescript-eslint/parser": "5.39.0",

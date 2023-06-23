@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / LogStorm - A simple and super extensive logger.
+[Powership](../README.md) / [Modules](../modules.md) / LogStorm - A simple and super extensive logger.
 
 # Module: LogStorm - A simple and super extensive logger.
 
@@ -42,7 +42,7 @@
 
 #### Defined in
 
-[packages/logstorm/src/index.ts:55](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/logstorm/src/index.ts#L55)
+packages/logstorm/src/index.ts:30
 
 ___
 
@@ -52,7 +52,7 @@ ___
 
 #### Defined in
 
-[packages/logstorm/src/index.ts:222](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/logstorm/src/index.ts#L222)
+packages/logstorm/src/index.ts:197
 
 ___
 
@@ -62,7 +62,7 @@ ___
 
 #### Defined in
 
-[packages/logstorm/src/index.ts:49](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/logstorm/src/index.ts#L49)
+packages/logstorm/src/index.ts:24
 
 ___
 
@@ -72,7 +72,7 @@ ___
 
 #### Defined in
 
-[packages/logstorm/src/index.ts:218](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/logstorm/src/index.ts#L218)
+packages/logstorm/src/index.ts:193
 
 ___
 
@@ -88,7 +88,7 @@ ___
 
 #### Defined in
 
-[packages/logstorm/src/index.ts:214](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/logstorm/src/index.ts#L214)
+packages/logstorm/src/index.ts:189
 
 ## Variables
 
@@ -98,7 +98,7 @@ ___
 
 #### Defined in
 
-[packages/logstorm/src/index.ts:53](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/logstorm/src/index.ts#L53)
+packages/logstorm/src/index.ts:28
 
 ___
 
@@ -108,7 +108,7 @@ ___
 
 #### Defined in
 
-[packages/logstorm/src/index.ts:50](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/logstorm/src/index.ts#L50)
+packages/logstorm/src/index.ts:25
 
 ___
 
@@ -118,7 +118,7 @@ ___
 
 #### Defined in
 
-[packages/logstorm/src/index.ts:51](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/logstorm/src/index.ts#L51)
+packages/logstorm/src/index.ts:26
 
 ___
 
@@ -128,7 +128,7 @@ ___
 
 #### Defined in
 
-[packages/logstorm/src/index.ts:3](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/logstorm/src/index.ts#L3)
+packages/logstorm/src/index.ts:3
 
 ___
 
@@ -151,7 +151,7 @@ ___
 
 #### Defined in
 
-[packages/logstorm/src/index.ts:13](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/logstorm/src/index.ts#L13)
+packages/logstorm/src/index.ts:13
 
 ___
 
@@ -161,7 +161,7 @@ ___
 
 #### Defined in
 
-[packages/logstorm/src/index.ts:212](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/logstorm/src/index.ts#L212)
+packages/logstorm/src/index.ts:187
 
 ## Functions
 
@@ -181,7 +181,7 @@ ___
 
 #### Defined in
 
-[packages/logstorm/src/index.ts:265](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/logstorm/src/index.ts#L265)
+packages/logstorm/src/index.ts:240
 
 ___
 
@@ -201,7 +201,7 @@ ___
 
 #### Defined in
 
-[packages/logstorm/src/index.ts:269](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/logstorm/src/index.ts#L269)
+packages/logstorm/src/index.ts:244
 
 ___
 
@@ -223,7 +223,7 @@ ___
 
 #### Defined in
 
-[packages/logstorm/src/index.ts:88](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/logstorm/src/index.ts#L88)
+packages/logstorm/src/index.ts:63
 
 ___
 
@@ -237,4 +237,4 @@ ___
 
 #### Defined in
 
-[packages/logstorm/src/index.ts:242](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/logstorm/src/index.ts#L242)
+packages/logstorm/src/index.ts:217

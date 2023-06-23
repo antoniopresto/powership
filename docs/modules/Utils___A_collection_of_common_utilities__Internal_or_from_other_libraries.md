@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / Utils - A collection of common utilities. Internal or from other libraries
+[Powership](../README.md) / [Modules](../modules.md) / Utils - A collection of common utilities. Internal or from other libraries
 
 # Module: Utils - A collection of common utilities. Internal or from other libraries
 
@@ -12,6 +12,7 @@
 ### Namespaces
 
 - [TU](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md)
+- [formatWithPrettier](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.formatWithPrettier.md)
 - [ufo](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.ufo.md)
 
 ### Classes
@@ -20,6 +21,7 @@
 - [InvalidExpectedTruthyError](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.InvalidExpectedTruthyError.md)
 - [InvalidExpectedTypeError](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.InvalidExpectedTypeError.md)
 - [Logger](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.Logger.md)
+- [MicroState](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.MicroState.md)
 - [RuntimeError](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.RuntimeError.md)
 - [Serializer](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.Serializer.md)
 - [StrictMap](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.StrictMap.md)
@@ -27,6 +29,9 @@
 ### Interfaces
 
 - [AppConfigInterface](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.AppConfigInterface.md)
+- [ErrorWithStack](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.ErrorWithStack.md)
+- [GetterAttributes](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.GetterAttributes.md)
+- [GettersConfig](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.GettersConfig.md)
 - [GroupByOptions](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.GroupByOptions.md)
 - [IAppConfig](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.IAppConfig.md)
 - [InitIndexCursor](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.InitIndexCursor.md)
@@ -34,6 +39,7 @@
 - [JoinKeyPartsOptions](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.JoinKeyPartsOptions.md)
 - [LoggerOptions](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.LoggerOptions.md)
 - [Mapper](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.Mapper.md)
+- [OnChange](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.OnChange.md)
 - [PackageJson](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.PackageJson.md)
 - [ParseCursorOptions](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.ParseCursorOptions.md)
 - [ParsedIndexCursor](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.ParsedIndexCursor.md)
@@ -42,12 +48,16 @@
 - [StoreOptions](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.StoreOptions.md)
 - [StrictMapOptions](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.StrictMapOptions.md)
 - [Stringifiable](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.Stringifiable.md)
+- [SubscriptionContext](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.SubscriptionContext.md)
 - [UFO](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.UFO-1.md)
+- [UseMicroState](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.UseMicroState.md)
 
 ### Type Aliases
 
 - [A\_Z](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#a_z)
+- [AnyArray](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#anyarray)
 - [AnyFunction](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#anyfunction)
+- [AnyList](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#anylist)
 - [AnyRecord](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#anyrecord)
 - [ArrayKeys](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#arraykeys)
 - [ArrayType](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#arraytype)
@@ -62,12 +72,16 @@
 - [DeepArrayKeys](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#deeparraykeys)
 - [DeepFreeze](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#deepfreeze)
 - [DeepWritable](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#deepwritable)
+- [Difference](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#difference)
+- [DifferenceAction](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#differenceaction)
+- [DifferencePath](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#differencepath)
 - [Entries](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#entries)
 - [ErrorClassCreatorOptions](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#errorclasscreatoroptions)
 - [EventMetadataBase](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#eventmetadatabase)
 - [EventMetadataObjectBase](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#eventmetadataobjectbase)
 - [ForceString](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#forcestring)
 - [GetFieldByDotNotation](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#getfieldbydotnotation)
+- [GetFieldByDotPath](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#getfieldbydotpath)
 - [Hashable](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#hashable)
 - [IfExtends](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#ifextends)
 - [InternalEvent](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#internalevent)
@@ -85,6 +99,7 @@
 - [MaybePromise](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#maybepromise)
 - [Merge](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#merge)
 - [MergeAll](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#mergeall)
+- [MergeGetters](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#mergegetters)
 - [ModulesProxyRecord](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#modulesproxyrecord)
 - [ModulesProxyResult](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#modulesproxyresult)
 - [NATIVE\_TYPE\_NAME](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#native_type_name)
@@ -97,19 +112,22 @@
 - [NotString](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#notstring)
 - [Nullable](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#nullable)
 - [NullableToPartial](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#nullabletopartial)
-- [ObjectDiff](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#objectdiff)
-- [ObjectPath](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#objectdotnotations)
 - [ObjectEntries](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#objectentries)
+- [ObjectPath](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#objectpath)
 - [ObjectUnion](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#objectunion)
 - [OnlyKnown](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#onlyknown)
 - [Override](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#override)
 - [PartialRequired](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#partialrequired)
+- [PathParsed](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#pathparsed)
+- [PathType](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#pathtype)
+- [Paths](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#paths)
+- [Pick](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#pick)
 - [PrevIndex](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#previndex)
 - [PromiseType](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#promisetype)
 - [ProxyGetModule](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#proxygetmodule)
 - [ProxyModuleConfig](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#proxymoduleconfig)
+- [ReactLike](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#reactlike)
 - [RecordBy](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#recordby)
-- [ReturnOrValue](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#returnorvalue)
 - [RunTimeErrorOptions](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#runtimeerroroptions)
 - [Serializable](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#serializable)
 - [Simplify](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#simplify)
@@ -122,10 +140,14 @@
 - [TypeDescription](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#typedescription)
 - [TypeLike](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#typelike)
 - [UnionToIntersection](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#uniontointersection)
-- [WithGetters](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#withgetters)
+- [UnknownRecord](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#unknownrecord)
+- [Unsubscribe](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#unsubscribe)
 - [Writeable](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#writeable)
+- [\_Difference](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_difference)
 - [\_NullableNullable](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_nullablenullable)
+- [\_PathType](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_pathtype)
 - [\_UndefinedKeys](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_undefinedkeys)
+- [\_UnknownDiff](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_unknowndiff)
 
 ### Variables
 
@@ -170,17 +192,22 @@
 
 - [$](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#$)
 - [\_joinIndexCursorWithParent](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_joinindexcursorwithparent)
+- [\_parseAffectedPaths](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_parseaffectedpaths)
 - [\_parseSubIndexCursor](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_parsesubindexcursor)
+- [\_pathToList](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_pathtolist)
 - [\_simpleObjectHash](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_simpleobjecthash)
 - [\_stringify](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_stringify)
 - [allocThreadID](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#allocthreadid)
+- [areDifferentElements](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#aredifferentelements)
 - [areEqual](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#areequal)
 - [assertEqual](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#assertequal)
+- [assertError](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#asserterror)
 - [assertSame](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#assertsame)
 - [assertTypes](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#asserttypes)
 - [awaitSync](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#awaitsync)
 - [base64ToText](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#base64totext)
 - [capitalize](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#capitalize)
+- [captureStackTrace](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#capturestacktrace)
 - [conust](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#conust)
 - [createErrorClass](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#createerrorclass)
 - [createModulesProxy](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#createmodulesproxy)
@@ -189,11 +216,12 @@
 - [customError](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#customerror-1)
 - [dateSerialize](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#dateserialize)
 - [deepFreeze](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#deepfreeze-1)
+- [defineGetters](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#definegetters)
 - [delay](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#delay)
 - [describeConstructor](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#describeconstructor)
 - [describeType](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#describetype)
 - [devAssert](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#devassert)
-- [dynamicRequire](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#dynamicrequire)
+- [diff](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#diff)
 - [encodeNumber](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#encodenumber)
 - [ensureArray](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#ensurearray)
 - [entries](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#entries-1)
@@ -203,15 +231,15 @@
 - [filterNull](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#filternull)
 - [fnv1a](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#fnv1a)
 - [formatGraphQL](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#formatgraphql)
+- [formatWithPrettier](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#formatwithprettier)
 - [freeThreadID](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#freethreadid)
 - [freeze](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#freeze)
-- [getByPath](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#getbypath)
 - [getGlobalLogLevel](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#getgloballoglevel)
 - [getKeys](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#getkeys)
 - [getLogLevelsRecord](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#getloglevelsrecord)
 - [getNativeConstructorType](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#getnativeconstructortype)
 - [getNativeTypeOf](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#getnativetypeof)
-- [getObjectDiffPaths](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#getobjectdiffpaths)
+- [getStack](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#getstack)
 - [getTypeName](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#gettypename)
 - [hasProperty](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#hasproperty)
 - [hashName](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#hashname)
@@ -223,8 +251,11 @@
 - [invariant](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#invariant)
 - [invariantType](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#invarianttype)
 - [isBrowser](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#isbrowser)
+- [isErrorWithStack](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#iserrorwithstack)
 - [isLogLevel](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#isloglevel)
+- [isObject](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#isobject)
 - [isObjectWithoutPrototype](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#isobjectwithoutprototype)
+- [isPlainObject](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#isplainobject)
 - [isProduction](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#isproduction)
 - [isUFO](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#isufo)
 - [joinCursorPartsWithTrailingSeparator](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#joincursorpartswithtrailingseparator)
@@ -233,8 +264,9 @@
 - [joinPKSK](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#joinpksk)
 - [joinPathsCamelCase](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#joinpathscamelcase)
 - [joinPathsSnakeCase](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#joinpathssnakecase)
+- [jsonToTypescript](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#jsontotypescript)
 - [keyBy](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#keyby)
-- [lazyGetters](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#lazygetters)
+- [keys](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#keys)
 - [mapper](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#mapper)
 - [memoize](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#memoize)
 - [merge](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#merge-1)
@@ -242,23 +274,24 @@
 - [ms](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#ms)
 - [nonNullValues](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#nonnullvalues)
 - [notNull](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#notnull)
-- [objectDiffPaths](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#objectdiffpaths)
 - [objectEntries](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#objectentries-1)
 - [override](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#override-1)
 - [parseFilterCursor](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#parsefiltercursor)
 - [parseIndexCursor](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#parseindexcursor)
 - [parseIndexFieldName](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#parseindexfieldname)
+- [parsePath](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#parsepath)
+- [pick](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#pick-1)
 - [pluralize](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#pluralize)
+- [project](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#project)
 - [proxyRealValue](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#proxyrealvalue)
 - [pushTrailingIndexSep](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#pushtrailingindexsep)
-- [randomFloat](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#randomfloat)
 - [randomInt](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#randomint)
 - [randomItem](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#randomitem)
 - [randomName](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#randomname)
-- [randomNumber](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#randomnumber)
 - [reduceObject](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#reduceobject)
 - [setByPath](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#setbypath)
 - [setGlobalLogLevel](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#setgloballoglevel)
+- [setPrettier](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#setprettier)
 - [simpleObjectClone](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#simpleobjectclone)
 - [simpleObjectHash](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#simpleobjecthash)
 - [sortObject](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#sortobject)
@@ -276,6 +309,7 @@
 - [uniq](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#uniq)
 - [upperFirst](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#upperfirst)
 - [useProcess](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#useprocess)
+- [values](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#values)
 - [wrapError](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#wraperror)
 
 ## References
@@ -298,9 +332,25 @@ Renames and re-exports [__type](Utils___A_collection_of_common_utilities__Intern
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:204](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L204)
+packages/utils/src/typings/index.ts:222
 
-[packages/utils/src/typeUtils/index.ts:259](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L259)
+packages/utils/src/typings/index.ts:277
+
+___
+
+### AnyArray
+
+Ƭ **AnyArray**<`T`\>: `ReadonlyArray`<`T`\> \| `T`[]
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
+
+#### Defined in
+
+packages/utils/src/typings/index.ts:105
 
 ___
 
@@ -324,7 +374,23 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:115](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L115)
+packages/utils/src/typings/index.ts:120
+
+___
+
+### AnyList
+
+Ƭ **AnyList**<`T`\>: [`AnyArray`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#anyarray)<`T`\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
+
+#### Defined in
+
+packages/utils/src/typings/index.ts:106
 
 ___
 
@@ -334,7 +400,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:101](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L101)
+packages/utils/src/typings/index.ts:102
 
 ___
 
@@ -350,7 +416,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:144](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L144)
+packages/utils/src/typings/index.ts:149
 
 ___
 
@@ -366,7 +432,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:99](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L99)
+packages/utils/src/typings/index.ts:100
 
 ___
 
@@ -383,7 +449,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/ts-toolbet.ts:18](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/ts-toolbet.ts#L18)
+packages/utils/src/typings/ts-toolbet.ts:18
 
 ___
 
@@ -393,7 +459,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/areEqual.ts:9](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/areEqual.ts#L9)
+packages/utils/src/areEqual.ts:9
 
 ___
 
@@ -411,7 +477,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:199](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L199)
+packages/utils/src/typings/index.ts:217
 
 ___
 
@@ -429,7 +495,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:194](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L194)
+packages/utils/src/typings/index.ts:212
 
 ___
 
@@ -446,7 +512,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/ts-toolbet.ts:32](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/ts-toolbet.ts#L32)
+packages/utils/src/typings/ts-toolbet.ts:32
 
 ___
 
@@ -463,7 +529,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/Compute.ts:68](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/Compute.ts#L68)
+packages/utils/src/typings/Compute.ts:68
 
 ___
 
@@ -481,7 +547,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/getTypeName.ts:202](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/getTypeName.ts#L202)
+packages/utils/src/getTypeName.ts:192
 
 ___
 
@@ -505,7 +571,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/createProxy.ts:1](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/createProxy.ts#L1)
+packages/utils/src/createProxy.ts:1
 
 ___
 
@@ -521,7 +587,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:150](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L150)
+packages/utils/src/typings/index.ts:155
 
 ___
 
@@ -537,7 +603,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/deepFreeze.ts:21](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/deepFreeze.ts#L21)
+packages/utils/src/deepFreeze.ts:21
 
 ___
 
@@ -553,7 +619,43 @@ ___
 
 #### Defined in
 
-[packages/utils/src/deepFreeze.ts:25](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/deepFreeze.ts#L25)
+packages/utils/src/deepFreeze.ts:25
+
+___
+
+### Difference
+
+Ƭ **Difference**<`Type`\>: `Type` extends `unknown` ? `Type` extends `object` ? { [P in Paths<Type\>]: PathType<Type, P\> extends infer R ? R extends unknown ? [R] extends [never] ? \_UnknownDiff : \_Difference<R, P\> : never : never }[[`Paths`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#paths)<`Type`\>] extends infer R ? `R` extends `unknown` ? { [K in keyof R]: R[K] } & {} : `never` : `never` : [`_Difference`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_difference)<`Type`, ``""``\> : `never`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Type` | `any` |
+
+#### Defined in
+
+packages/utils/src/diff/diff.ts:10
+
+___
+
+### DifferenceAction
+
+Ƭ **DifferenceAction**: ``"add"`` \| ``"update"`` \| ``"delete"``
+
+#### Defined in
+
+packages/utils/src/diff/diff.ts:8
+
+___
+
+### DifferencePath
+
+Ƭ **DifferencePath**: `string` \| `number`
+
+#### Defined in
+
+packages/utils/src/diff/diff.ts:6
 
 ___
 
@@ -569,7 +671,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:111](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L111)
+packages/utils/src/typings/index.ts:116
 
 ___
 
@@ -587,7 +689,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/createErrorClass.ts:4](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/createErrorClass.ts#L4)
+packages/utils/src/createErrorClass.ts:4
 
 ___
 
@@ -597,7 +699,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:12](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L12)
+packages/utils/src/Store.ts:13
 
 ___
 
@@ -611,7 +713,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:11](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L11)
+packages/utils/src/Store.ts:12
 
 ___
 
@@ -627,13 +729,13 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:121](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L121)
+packages/utils/src/typings/index.ts:126
 
 ___
 
 ### GetFieldByDotNotation
 
-Ƭ **GetFieldByDotNotation**<`Obj`, `DotNotation`\>: `DotNotation` extends \`${infer Left}.${infer Right}\` ? `Left` extends keyof `Obj` ? [`GetFieldByDotNotation`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#getfieldbydotnotation)<`Exclude`<`Obj`[`Left`], `undefined`\>, `Right`\> \| `Extract`<`Obj`[`Left`], `undefined`\> : `undefined` : `DotNotation` extends keyof `Obj` ? `Obj`[`DotNotation`] : `undefined`
+Ƭ **GetFieldByDotNotation**<`Obj`, `DotNotation`\>: `DotNotation` extends \`${number}\` ? `number` extends keyof `Obj` ? `Obj`[`number`] : `undefined` : `DotNotation` extends keyof `Obj` ? `Obj`[`DotNotation`] : `DotNotation` extends \`${infer Left}.${infer Right}\` ? `Left` extends keyof `Obj` ? [`GetFieldByDotNotation`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#getfieldbydotnotation)<`Exclude`<`Obj`[`Left`], `undefined`\>, `Right`\> \| `Extract`<`Obj`[`Left`], `undefined`\> : `undefined` : `undefined`
 
 #### Type parameters
 
@@ -644,7 +746,28 @@ ___
 
 #### Defined in
 
-[packages/utils/src/getByPath.ts:5](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/getByPath.ts#L5)
+packages/utils/src/typings/index.ts:295
+
+___
+
+### GetFieldByDotPath
+
+Ƭ **GetFieldByDotPath**<`Obj`, `DotNotation`\>: [`GetFieldByDotNotation`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#getfieldbydotnotation)<`Obj`, `DotNotation`\>
+
+**`Alias`**
+
+to GetFieldByDotNotation
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `Obj` |
+| `DotNotation` |
+
+#### Defined in
+
+packages/utils/src/typings/index.ts:162
 
 ___
 
@@ -654,7 +777,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/getTypeName.ts:190](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/getTypeName.ts#L190)
+packages/utils/src/getTypeName.ts:190
 
 ___
 
@@ -673,7 +796,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:103](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L103)
+packages/utils/src/typings/index.ts:108
 
 ___
 
@@ -683,7 +806,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:9](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L9)
+packages/utils/src/Store.ts:10
 
 ___
 
@@ -699,7 +822,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:65](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L65)
+packages/utils/src/typings/index.ts:66
 
 ___
 
@@ -715,7 +838,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:186](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L186)
+packages/utils/src/typings/index.ts:204
 
 ___
 
@@ -731,7 +854,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:67](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L67)
+packages/utils/src/typings/index.ts:68
 
 ___
 
@@ -747,7 +870,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:69](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L69)
+packages/utils/src/typings/index.ts:70
 
 ___
 
@@ -763,7 +886,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:73](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L73)
+packages/utils/src/typings/index.ts:74
 
 ___
 
@@ -779,7 +902,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:75](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L75)
+packages/utils/src/typings/index.ts:76
 
 ___
 
@@ -996,7 +1119,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IterationMap.ts:1](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IterationMap.ts#L1)
+packages/utils/src/IterationMap.ts:1
 
 ___
 
@@ -1006,7 +1129,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/logLevels.ts:21](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/logLevels.ts#L21)
+packages/utils/src/logLevels.ts:21
 
 ___
 
@@ -1016,7 +1139,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/logLevels.ts:20](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/logLevels.ts#L20)
+packages/utils/src/logLevels.ts:20
 
 ___
 
@@ -1026,7 +1149,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/nodeLogger.ts:17](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/nodeLogger.ts#L17)
+packages/utils/src/nodeLogger.ts:17
 
 ___
 
@@ -1042,7 +1165,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:97](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L97)
+packages/utils/src/typings/index.ts:98
 
 ___
 
@@ -1058,7 +1181,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:93](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L93)
+packages/utils/src/typings/index.ts:94
 
 ___
 
@@ -1078,7 +1201,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/ts-toolbet.ts:20](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/ts-toolbet.ts#L20)
+packages/utils/src/typings/ts-toolbet.ts:20
 
 ___
 
@@ -1094,7 +1217,24 @@ ___
 
 #### Defined in
 
-[packages/utils/src/merge.ts:10](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/merge.ts#L10)
+packages/utils/src/merge.ts:14
+
+___
+
+### MergeGetters
+
+Ƭ **MergeGetters**<`O`, `Extensions`\>: { [K in keyof O as K extends keyof Extensions ? never : K]: O[K] } & { [K in keyof Extensions]: Extensions[K] } extends infer R ? { [K in keyof R]: R[K] } & {} : `never`
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `O` |
+| `Extensions` |
+
+#### Defined in
+
+packages/utils/src/getters/defineGetters.ts:75
 
 ___
 
@@ -1108,7 +1248,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/createModulesProxy.ts:16](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/createModulesProxy.ts#L16)
+packages/utils/src/createModulesProxy.ts:16
 
 ___
 
@@ -1124,7 +1264,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/createModulesProxy.ts:24](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/createModulesProxy.ts#L24)
+packages/utils/src/createModulesProxy.ts:24
 
 ___
 
@@ -1134,7 +1274,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/getTypeName.ts:29](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/getTypeName.ts#L29)
+packages/utils/src/getTypeName.ts:29
 
 ___
 
@@ -1144,7 +1284,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/getTypeName.ts:49](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/getTypeName.ts#L49)
+packages/utils/src/getTypeName.ts:49
 
 ___
 
@@ -1160,7 +1300,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/ts-toolbet.ts:33](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/ts-toolbet.ts#L33)
+packages/utils/src/typings/ts-toolbet.ts:33
 
 ___
 
@@ -1170,7 +1310,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:260](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L260)
+packages/utils/src/typings/index.ts:278
 
 ___
 
@@ -1180,7 +1320,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/getTypeName.ts:179](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/getTypeName.ts#L179)
+packages/utils/src/getTypeName.ts:179
 
 ___
 
@@ -1190,7 +1330,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/getTypeName.ts:181](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/getTypeName.ts#L181)
+packages/utils/src/getTypeName.ts:181
 
 ___
 
@@ -1206,7 +1346,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/Compute.ts:10](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/Compute.ts#L10)
+packages/utils/src/typings/Compute.ts:10
 
 ___
 
@@ -1222,7 +1362,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:122](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L122)
+packages/utils/src/typings/index.ts:127
 
 ___
 
@@ -1239,7 +1379,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:27](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L27)
+packages/utils/src/Store.ts:28
 
 ___
 
@@ -1255,45 +1395,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:124](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L124)
-
-___
-
-### ObjectDiff
-
-Ƭ **ObjectDiff**: `Object`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `kind` | ``"add"`` \| ``"remove"`` \| ``"update"`` |
-| `newValue` | `any` |
-| `oldValue` | `any` |
-| `path` | `string` |
-| `paths` | `string`[] |
-
-#### Defined in
-
-[packages/utils/src/objectDiff.ts:3](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/objectDiff.ts#L3)
-
-___
-
-### ObjectPath
-
-Ƭ **ObjectPath**<`Obj`, `Level`, `Limit`\>: `Level`[``"length"``] extends `Limit` ? `never` : `Obj` extends { `[K: string]`: `any`;  } ? { [K in keyof Obj]: K extends string ? Obj[K] extends Object ? Obj[K] extends any[] ? K \| \`${K}.${ArrayKeys<Obj[K]\>}\` \| \`${K}.${DeepArrayKeys<Obj[K]\>}\` : K \| \`${K}.${ObjectPath<Obj[K], [...Level, K]\>}\` : K : never }[keyof `Obj`] : `never`
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Obj` | `Obj` |
-| `Level` | extends `string`[] = [] |
-| `Limit` | ``3`` |
-
-#### Defined in
-
-[packages/utils/src/typeUtils/index.ts:154](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L154)
+packages/utils/src/typings/index.ts:129
 
 ___
 
@@ -1309,7 +1411,25 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:270](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L270)
+packages/utils/src/objectEntries.ts:1
+
+___
+
+### ObjectPath
+
+Ƭ **ObjectPath**<`Obj`, `Limit`, `Level`\>: `Level`[``"length"``] extends `Limit` ? `never` : `Obj` extends { `[K: string]`: `any`;  } ? { [K in keyof Obj]: K extends string \| number ? Obj[K] extends Object ? Obj[K] extends ReadonlyArray<any\> ? K \| \`${K}.${number}\` \| \`${K}.${number}.${ObjectPath<Obj[K][number]\>}\` : K \| \`${K}.${ObjectPath<Obj[K], Limit, [...Level, 1]\>}\` : K : never }[keyof `Obj`] : `never`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Obj` | `Obj` |
+| `Limit` | extends `number` = ``10`` |
+| `Level` | extends `number`[] = [] |
+
+#### Defined in
+
+packages/utils/src/typings/index.ts:167
 
 ___
 
@@ -1326,7 +1446,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:107](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L107)
+packages/utils/src/typings/index.ts:112
 
 ___
 
@@ -1342,7 +1462,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:85](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L85)
+packages/utils/src/typings/index.ts:86
 
 ___
 
@@ -1359,7 +1479,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/override.ts:1](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/override.ts#L1)
+packages/utils/src/override.ts:1
 
 ___
 
@@ -1376,7 +1496,89 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:264](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L264)
+packages/utils/src/typings/index.ts:282
+
+___
+
+### PathParsed
+
+Ƭ **PathParsed**<`Path`\>: `Object`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Path` | extends `string` = `string` |
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `affected` | `Set`<`string`\> |
+| `affectedList` | `ReadonlyArray`<`string`\> |
+| `diff` | (`prev`: `any`, `next`: `any`) => [`Difference`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#difference)[] |
+| `parts` | `ReadonlyArray`<`string`\> |
+| `path` | `Path` |
+| `pick` | <O\>(`object`: `O`) => [`PathType`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#pathtype)<`O`, `Path`\> |
+
+#### Defined in
+
+packages/utils/src/parsePath.ts:6
+
+___
+
+### PathType
+
+Ƭ **PathType**<`Type`, `Property`\>: `Type` extends `unknown` ? [`_PathType`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#_pathtype)<`Type`, `Property`\> extends infer R ? [`R`] extends [`never`] ? `unknown` : `R` : `never` : `never`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Type` | `Type` |
+| `Property` | extends `string` |
+
+#### Defined in
+
+packages/utils/src/typings/Path.ts:1
+
+___
+
+### Paths
+
+Ƭ **Paths**<`T`, `D`\>: [`D`] extends [`never`] ? `never` : `T` extends `object` ? { [K in keyof T]-?: K extends string \| number ? \`${K}\` \| (Paths<T[K], Prev[D]\> extends infer R ? Join<K, R\> : never) : never }[keyof `T`] : `never` \| ``""``
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `T` |
+| `D` | extends `number` = ``10`` |
+
+#### Defined in
+
+packages/utils/src/typings/Path.ts:47
+
+___
+
+### Pick
+
+Ƭ **Pick**<`Obj`, `DotNotation`\>: [`GetFieldByDotNotation`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#getfieldbydotnotation)<`Obj`, `DotNotation`\>
+
+**`Alias`**
+
+to GetFieldByDotNotation
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `Obj` |
+| `DotNotation` |
+
+#### Defined in
+
+packages/utils/src/typings/index.ts:291
 
 ___
 
@@ -1392,7 +1594,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/Compute.ts:14](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/Compute.ts#L14)
+packages/utils/src/typings/Compute.ts:14
 
 ___
 
@@ -1408,7 +1610,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:95](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L95)
+packages/utils/src/typings/index.ts:96
 
 ___
 
@@ -1432,7 +1634,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/createModulesProxy.ts:9](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/createModulesProxy.ts#L9)
+packages/utils/src/createModulesProxy.ts:9
 
 ___
 
@@ -1456,13 +1658,34 @@ ___
 
 #### Defined in
 
-[packages/utils/src/createModulesProxy.ts:11](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/createModulesProxy.ts#L11)
+packages/utils/src/createModulesProxy.ts:11
+
+___
+
+### ReactLike
+
+Ƭ **ReactLike**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `createContext` | [`AnyFunction`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#anyfunction) |
+| `createElement` | [`AnyFunction`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#anyfunction) |
+| `useContext` | [`AnyFunction`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#anyfunction) |
+| `useEffect` | [`AnyFunction`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#anyfunction) |
+| `useMemo` | [`AnyFunction`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#anyfunction) |
+| `useState` | [`AnyFunction`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#anyfunction) |
+
+#### Defined in
+
+packages/utils/src/MicroState.ts:311
 
 ___
 
 ### RecordBy
 
-Ƭ **RecordBy**<`Dict`, `Field`\>: { [K in GetFieldByDotNotation<Dict[keyof Dict], Field\> extends infer Key ? Key extends string \| number ? Key : string : never]: Dict[keyof Dict][] }
+Ƭ **RecordBy**<`Dict`, `Field`\>: { [K in Pick<Dict[keyof Dict], Field\> extends infer Key ? Key extends string \| number ? Key : string : never]: Dict[keyof Dict][] }
 
 #### Type parameters
 
@@ -1473,23 +1696,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:54](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L54)
-
-___
-
-### ReturnOrValue
-
-Ƭ **ReturnOrValue**<`T`\>: `T` extends [`AnyFunction`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#anyfunction) ? `ReturnType`<`T`\> : `T`
-
-#### Type parameters
-
-| Name |
-| :------ |
-| `T` |
-
-#### Defined in
-
-[packages/utils/src/lazyGetters.ts:24](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/lazyGetters.ts#L24)
+packages/utils/src/Store.ts:55
 
 ___
 
@@ -1507,7 +1714,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/RuntimeError.ts:3](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/RuntimeError.ts#L3)
+packages/utils/src/RuntimeError.ts:3
 
 ___
 
@@ -1517,7 +1724,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:10](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L10)
+packages/utils/src/typings/index.ts:11
 
 ___
 
@@ -1533,7 +1740,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:142](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L142)
+packages/utils/src/typings/index.ts:147
 
 ___
 
@@ -1543,7 +1750,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/slugify.ts:3](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/slugify.ts#L3)
+packages/utils/src/slugify.ts:3
 
 ___
 
@@ -1572,7 +1779,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:14](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L14)
+packages/utils/src/Store.ts:15
 
 ___
 
@@ -1595,7 +1802,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:34](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L34)
+packages/utils/src/Store.ts:35
 
 ___
 
@@ -1605,7 +1812,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/ms.ts:46](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/ms.ts#L46)
+packages/utils/src/ms.ts:46
 
 ___
 
@@ -1631,7 +1838,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:251](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L251)
+packages/utils/src/BJSON.ts:251
 
 ___
 
@@ -1650,7 +1857,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:256](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L256)
+packages/utils/src/BJSON.ts:256
 
 ___
 
@@ -1660,7 +1867,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/getTypeName.ts:147](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/getTypeName.ts#L147)
+packages/utils/src/getTypeName.ts:147
 
 ___
 
@@ -1677,7 +1884,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:172](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L172)
+packages/utils/src/typings/index.ts:190
 
 ___
 
@@ -1693,24 +1900,39 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:134](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L134)
+packages/utils/src/typings/index.ts:139
 
 ___
 
-### WithGetters
+### UnknownRecord
 
-Ƭ **WithGetters**<`T`, `Getters`\>: `T` extends `unknown` ? `T` & {} & { [K in Exclude<keyof Getters, keyof T\>]: ReturnOrValue<Getters[K]\> } & {} : `never`
+Ƭ **UnknownRecord**: `Object`
 
-#### Type parameters
+#### Index signature
 
-| Name | Type |
-| :------ | :------ |
-| `T` | `T` |
-| `Getters` | extends `Object` |
+▪ [K: `string`]: `unknown`
 
 #### Defined in
 
-[packages/utils/src/lazyGetters.ts:26](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/lazyGetters.ts#L26)
+packages/utils/src/typings/index.ts:103
+
+___
+
+### Unsubscribe
+
+Ƭ **Unsubscribe**: () => `void`
+
+#### Type declaration
+
+▸ (): `void`
+
+##### Returns
+
+`void`
+
+#### Defined in
+
+packages/utils/src/MicroState.ts:24
 
 ___
 
@@ -1726,7 +1948,35 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:117](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L117)
+packages/utils/src/typings/index.ts:122
+
+___
+
+### \_Difference
+
+Ƭ **\_Difference**<`Value`, `Path`\>: `Object`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Value` | `Value` |
+| `Path` | extends `string` |
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `action` | [`DifferenceAction`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#differenceaction) |
+| `newValue?` | `Value` |
+| `oldValue?` | `Value` |
+| `parsed` | [`PathParsed`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#pathparsed)<`Path`\> |
+| `path` | `Path` |
+| `pathParts` | [`DifferencePath`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#differencepath)[] |
+
+#### Defined in
+
+packages/utils/src/diff/diff.ts:28
 
 ___
 
@@ -1742,7 +1992,24 @@ ___
 
 #### Defined in
 
-[packages/utils/src/mapper.ts:61](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/mapper.ts#L61)
+packages/utils/src/mapper.ts:61
+
+___
+
+### \_PathType
+
+Ƭ **\_PathType**<`Type`, `Property`\>: `string` extends `Property` ? `never` : `Property` extends keyof `Type` ? `Type`[`Property`] : `Property` extends \`${infer Head}.$\` ? [`PathType`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#pathtype)<[`PathType`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#pathtype)<`Type`, `Head`\>, ``"$"``\> : `Property` extends ``"$"`` ? `Type` extends `ReadonlyArray`<infer T\> ? `T`[] : `Type` extends `object` ? { [K in Extract<keyof Type, string\>]: Type[K] }[`Extract`<keyof `Type`, `string`\>][] : `undefined` : `Property` extends ``""`` ? `Type` : `Property` extends \`${number}\` ? `Type` extends `ReadonlyArray`<infer ArrayType\> ? `ArrayType` : `undefined` : `Property` extends \`${infer Key}.${infer Rest}\` ? `Key` extends \`${number}\` ? `Type` extends `ReadonlyArray`<infer ArrayType\> ? [`PathType`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#pathtype)<`ArrayType`, `Rest`\> : `undefined` : `Key` extends keyof `Type` ? `Type`[`Key`] extends `Map`<`string`, infer MapType\> ? `MapType` : [`PathType`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#pathtype)<`Type`[`Key`], `Rest`\> : `undefined` : `undefined`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Type` | `Type` |
+| `Property` | extends `string` |
+
+#### Defined in
+
+packages/utils/src/typings/Path.ts:9
 
 ___
 
@@ -1758,7 +2025,28 @@ ___
 
 #### Defined in
 
-[packages/utils/src/mapper.ts:52](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/mapper.ts#L52)
+packages/utils/src/mapper.ts:52
+
+___
+
+### \_UnknownDiff
+
+Ƭ **\_UnknownDiff**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `action` | [`DifferenceAction`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#differenceaction) |
+| `newValue?` | `unknown` |
+| `oldValue?` | `unknown` |
+| `parsed` | [`PathParsed`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#pathparsed) |
+| `path` | `string` |
+| `pathParts` | [`DifferencePath`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#differencepath)[] |
+
+#### Defined in
+
+packages/utils/src/diff/diff.ts:37
 
 ## Variables
 
@@ -1768,9 +2056,9 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:204](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L204)
+packages/utils/src/typings/index.ts:222
 
-[packages/utils/src/typeUtils/index.ts:259](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L259)
+packages/utils/src/typings/index.ts:277
 
 ___
 
@@ -1780,7 +2068,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/AppConfig.ts:13](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/AppConfig.ts#L13)
+packages/utils/src/AppConfig.ts:13
 
 ___
 
@@ -1790,7 +2078,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:375](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L375)
+packages/utils/src/BJSON.ts:375
 
 ___
 
@@ -1800,7 +2088,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:12](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L12)
+packages/utils/src/BJSON.ts:12
 
 ___
 
@@ -1810,7 +2098,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:11](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L11)
+packages/utils/src/BJSON.ts:11
 
 ___
 
@@ -1830,7 +2118,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:34](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L34)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:34
 
 ___
 
@@ -1840,7 +2128,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/parseFilterCursor.ts:7](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/parseFilterCursor.ts#L7)
+packages/utils/src/IndexCursor/parseFilterCursor.ts:7
 
 ___
 
@@ -1850,7 +2138,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/createErrorClass.ts:100](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/createErrorClass.ts#L100)
+packages/utils/src/createErrorClass.ts:100
 
 ___
 
@@ -1860,7 +2148,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:45](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L45)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:45
 
 ___
 
@@ -1870,7 +2158,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:44](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L44)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:44
 
 ___
 
@@ -1880,7 +2168,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/emailRegex.ts:4](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/emailRegex.ts#L4)
+packages/utils/src/emailRegex.ts:4
 
 ___
 
@@ -1890,7 +2178,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/nodeLogger.ts:222](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/nodeLogger.ts#L222)
+packages/utils/src/nodeLogger.ts:222
 
 ___
 
@@ -1900,7 +2188,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:43](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L43)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:43
 
 ___
 
@@ -1910,7 +2198,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:77](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L77)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:77
 
 ___
 
@@ -1932,7 +2220,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/IndexCursor.ts:13](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/IndexCursor.ts#L13)
+packages/utils/src/IndexCursor/IndexCursor.ts:13
 
 ___
 
@@ -1942,7 +2230,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/invariant.ts:73](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/invariant.ts#L73)
+packages/utils/src/invariant.ts:73
 
 ___
 
@@ -1952,7 +2240,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:46](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L46)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:46
 
 ___
 
@@ -1962,27 +2250,27 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:78](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L78)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:78
 
 ___
 
 ### KNOWN\_CONSTRUCTOR\_NAMES
 
-• `Const` **KNOWN\_CONSTRUCTOR\_NAMES**: { `Array`: ``"Array"`` ; `BigInt`: ``"BigInt"`` ; `Boolean`: ``"Boolean"`` ; `Function`: ``"Function"`` ; `Infinity`: ``"Infinity"`` ; `NaN`: ``"NaN"`` ; `Null`: ``"Null"`` ; `Number`: ``"Number"`` ; `Object`: ``"Object"`` ; `String`: ``"String"`` ; `Symbol`: ``"Symbol"`` ; `Undefined`: ``"Undefined"``  } & { `list`: (``"Undefined"`` \| ``"Null"`` \| ``"String"`` \| ``"Boolean"`` \| ``"BigInt"`` \| ``"Symbol"`` \| ``"Array"`` \| ``"NaN"`` \| ``"Infinity"`` \| ``"Number"`` \| ``"Object"`` \| ``"Function"``)[]  } & { `enum`: ``"Undefined"`` \| ``"Null"`` \| ``"String"`` \| ``"Boolean"`` \| ``"BigInt"`` \| ``"Symbol"`` \| ``"Array"`` \| ``"NaN"`` \| ``"Infinity"`` \| ``"Number"`` \| ``"Object"`` \| ``"Function"``  }
+• `Const` **KNOWN\_CONSTRUCTOR\_NAMES**: { `Array`: ``"Array"`` ; `BigInt`: ``"BigInt"`` ; `Boolean`: ``"Boolean"`` ; `Function`: ``"Function"`` ; `Infinity`: ``"Infinity"`` ; `NaN`: ``"NaN"`` ; `Null`: ``"Null"`` ; `Number`: ``"Number"`` ; `Object`: ``"Object"`` ; `String`: ``"String"`` ; `Symbol`: ``"Symbol"`` ; `Undefined`: ``"Undefined"``  } & { `list`: (``"NaN"`` \| ``"Undefined"`` \| ``"Function"`` \| ``"Null"`` \| ``"String"`` \| ``"Boolean"`` \| ``"BigInt"`` \| ``"Symbol"`` \| ``"Array"`` \| ``"Infinity"`` \| ``"Number"`` \| ``"Object"``)[]  } & { `enum`: ``"NaN"`` \| ``"Undefined"`` \| ``"Function"`` \| ``"Null"`` \| ``"String"`` \| ``"Boolean"`` \| ``"BigInt"`` \| ``"Symbol"`` \| ``"Array"`` \| ``"Infinity"`` \| ``"Number"`` \| ``"Object"``  }
 
 #### Defined in
 
-[packages/utils/src/getTypeName.ts:14](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/getTypeName.ts#L14)
+packages/utils/src/getTypeName.ts:14
 
 ___
 
 ### LogLevelEntries
 
-• `Const` **LogLevelEntries**: [`ObjectEntries`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#objectentries)<{ `alert`: ``1`` = 1; `crit`: ``2`` = 2; `debug`: ``7`` = 7; `emerg`: ``0`` = 0; `error`: ``3`` = 3; `info`: ``6`` = 6; `none`: ``100`` = 100; `notice`: ``5`` = 5; `warning`: ``4`` = 4 }\>
+• `Const` **LogLevelEntries**: [`ObjectEntries`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#objectentries)<{ `alert`: ``1`` = 1; `crit`: ``2`` = 2; `debug`: ``7`` = 7; `emerg`: ``0`` = 0; `error`: ``3`` = 3; `info`: ``6`` = 6; `none`: ``100`` = 100; `notice`: ``5`` = 5; `warning`: ``4`` = 4 }\>
 
 #### Defined in
 
-[packages/utils/src/logLevels.ts:17](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/logLevels.ts#L17)
+packages/utils/src/logLevels.ts:17
 
 ___
 
@@ -1992,7 +2280,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/logLevels.ts:18](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/logLevels.ts#L18)
+packages/utils/src/logLevels.ts:18
 
 ___
 
@@ -2016,7 +2304,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/logLevels.ts:5](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/logLevels.ts#L5)
+packages/utils/src/logLevels.ts:5
 
 ___
 
@@ -2026,7 +2314,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/parseIndexCursor.ts:16](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/parseIndexCursor.ts#L16)
+packages/utils/src/IndexCursor/parseIndexCursor.ts:16
 
 ___
 
@@ -2036,7 +2324,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/parseIndexCursor.ts:17](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/parseIndexCursor.ts#L17)
+packages/utils/src/IndexCursor/parseIndexCursor.ts:17
 
 ___
 
@@ -2046,7 +2334,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/nodeLogger.ts:221](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/nodeLogger.ts#L221)
+packages/utils/src/nodeLogger.ts:221
 
 ___
 
@@ -2056,7 +2344,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/useProcess.ts:24](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/useProcess.ts#L24)
+packages/utils/src/useProcess.ts:24
 
 ___
 
@@ -2066,7 +2354,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:47](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L47)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:47
 
 ___
 
@@ -2076,7 +2364,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:5](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L5)
+packages/utils/src/BJSON.ts:5
 
 ___
 
@@ -2086,7 +2374,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/nodeLogger.ts:19](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/nodeLogger.ts#L19)
+packages/utils/src/nodeLogger.ts:19
 
 ___
 
@@ -2096,7 +2384,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:268](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L268)
+packages/utils/src/typings/index.ts:286
 
 ___
 
@@ -2106,7 +2394,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/randomItem.ts:23](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/randomItem.ts#L23)
+packages/utils/src/randomItem.ts:23
 
 ___
 
@@ -2128,7 +2416,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/stringCase.ts:19](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/stringCase.ts#L19)
+packages/utils/src/stringCase.ts:19
 
 ## Array Functions
 
@@ -2170,7 +2458,7 @@ Returns the new duplicate free array.
 
 #### Defined in
 
-packages/utils/node_modules/@types/lodash/common/array.d.ts:1722
+node_modules/.pnpm/@types+lodash@4.14.191/node_modules/@types/lodash/common/array.d.ts:1723
 
 ___
 
@@ -2198,7 +2486,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/ufo.ts:8](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/ufo.ts#L8)
+packages/utils/src/ufo.ts:8
 
 ___
 
@@ -2219,7 +2507,27 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:114](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L114)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:114
+
+___
+
+### \_parseAffectedPaths
+
+▸ **_parseAffectedPaths**(`path`): `Set`<`string`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `path` | `string` \| `string`[] |
+
+#### Returns
+
+`Set`<`string`\>
+
+#### Defined in
+
+packages/utils/src/parsePath.ts:85
 
 ___
 
@@ -2242,7 +2550,27 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/parseIndexCursor.ts:84](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/parseIndexCursor.ts#L84)
+packages/utils/src/IndexCursor/parseIndexCursor.ts:84
+
+___
+
+### \_pathToList
+
+▸ **_pathToList**(`path`): `string`[]
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `path` | `string` \| (`string` \| `number`)[] |
+
+#### Returns
+
+`string`[]
+
+#### Defined in
+
+packages/utils/src/parsePath.ts:63
 
 ___
 
@@ -2262,7 +2590,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/simpleObjectHash.ts:11](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/simpleObjectHash.ts#L11)
+packages/utils/src/simpleObjectHash.ts:11
 
 ___
 
@@ -2283,7 +2611,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:287](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L287)
+packages/utils/src/BJSON.ts:287
 
 ___
 
@@ -2297,7 +2625,28 @@ ___
 
 #### Defined in
 
-[packages/utils/src/threadId.ts:35](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/threadId.ts#L35)
+packages/utils/src/threadId.ts:35
+
+___
+
+### areDifferentElements
+
+▸ **areDifferentElements**(`currentElement`, `nextElement`): `boolean`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `currentElement` | `any` |
+| `nextElement` | `any` |
+
+#### Returns
+
+`boolean`
+
+#### Defined in
+
+packages/utils/src/diff/diff.ts:175
 
 ___
 
@@ -2318,7 +2667,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/areEqual.ts:5](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/areEqual.ts#L5)
+packages/utils/src/areEqual.ts:5
 
 ___
 
@@ -2347,7 +2696,27 @@ asserts value is ToBe extends Assertable ? ToBe : never
 
 #### Defined in
 
-[packages/utils/src/areEqual.ts:19](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/areEqual.ts#L19)
+packages/utils/src/areEqual.ts:19
+
+___
+
+### assertError
+
+▸ **assertError**(`e`): asserts e is ErrorWithStack
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `e` | `any` |
+
+#### Returns
+
+asserts e is ErrorWithStack
+
+#### Defined in
+
+packages/utils/src/invariant.ts:94
 
 ___
 
@@ -2375,7 +2744,7 @@ asserts b is A
 
 #### Defined in
 
-[packages/utils/src/assertSame.ts:10](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/assertSame.ts#L10)
+packages/utils/src/assertSame.ts:4
 
 ___
 
@@ -2403,7 +2772,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/expectedType.ts:26](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/expectedType.ts#L26)
+packages/utils/src/expectedType.ts:26
 
 ___
 
@@ -2429,7 +2798,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/awaitSync.ts:3](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/awaitSync.ts#L3)
+packages/utils/src/awaitSync.ts:3
 
 ___
 
@@ -2449,7 +2818,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/textToBase64.ts:14](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/textToBase64.ts#L14)
+packages/utils/src/textToBase64.ts:14
 
 ___
 
@@ -2469,7 +2838,28 @@ ___
 
 #### Defined in
 
-[packages/utils/src/stringCase.ts:7](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/stringCase.ts#L7)
+packages/utils/src/stringCase.ts:7
+
+___
+
+### captureStackTrace
+
+▸ **captureStackTrace**(`error`, `parent?`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `error` | `any` |
+| `parent?` | `any` |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+packages/utils/src/stackTrace.ts:9
 
 ___
 
@@ -2489,7 +2879,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/conust.ts:168](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/conust.ts#L168)
+packages/utils/src/conust.ts:168
 
 ___
 
@@ -2510,7 +2900,7 @@ typeof `InvariantError`
 
 #### Defined in
 
-[packages/utils/src/createErrorClass.ts:18](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/createErrorClass.ts#L18)
+packages/utils/src/createErrorClass.ts:18
 
 ___
 
@@ -2536,7 +2926,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/createModulesProxy.ts:31](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/createModulesProxy.ts#L31)
+packages/utils/src/createModulesProxy.ts:31
 
 ___
 
@@ -2563,7 +2953,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/createProxy.ts:13](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/createProxy.ts#L13)
+packages/utils/src/createProxy.ts:13
 
 ___
 
@@ -2581,7 +2971,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `init?` | [`ObjectEntries`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#objectentries)<`Dict`\> \| [`StoreOptions`](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.StoreOptions.md)<`Dict`\> |
+| `init?` | [`ObjectEntries`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#objectentries)<`Dict`\> \| [`StoreOptions`](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.StoreOptions.md)<`Dict`\> |
 
 #### Returns
 
@@ -2589,7 +2979,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:140](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L140)
+packages/utils/src/Store.ts:141
 
 ___
 
@@ -2612,7 +3002,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/createErrorClass.ts:102](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/createErrorClass.ts#L102)
+packages/utils/src/createErrorClass.ts:102
 
 ___
 
@@ -2632,7 +3022,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/dateSerialize.ts:1](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/dateSerialize.ts#L1)
+packages/utils/src/dateSerialize.ts:1
 
 ___
 
@@ -2658,7 +3048,36 @@ ___
 
 #### Defined in
 
-[packages/utils/src/deepFreeze.ts:4](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/deepFreeze.ts#L4)
+packages/utils/src/deepFreeze.ts:4
+
+___
+
+### defineGetters
+
+▸ **defineGetters**<`O`, `Extensions`\>(`object`, `getters`, `globalOptions?`): [`MergeGetters`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#mergegetters)<`O`, `Extensions`\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `O` | extends `object` |
+| `Extensions` | extends `object` = {} |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `object` | `O` |
+| `getters` | { [K in string \| number \| symbol]: GettersConfig<O, Extensions[K]\> \| Function } |
+| `globalOptions?` | [`GetterAttributes`](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.GetterAttributes.md) |
+
+#### Returns
+
+[`MergeGetters`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#mergegetters)<`O`, `Extensions`\>
+
+#### Defined in
+
+packages/utils/src/getters/defineGetters.ts:18
 
 ___
 
@@ -2678,7 +3097,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/delay.ts:1](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/delay.ts#L1)
+packages/utils/src/delay.ts:1
 
 ___
 
@@ -2698,7 +3117,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/getTypeName.ts:72](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/getTypeName.ts#L72)
+packages/utils/src/getTypeName.ts:72
 
 ___
 
@@ -2721,7 +3140,7 @@ ___
 | `hash` | () => `string` |
 | `isLocalProxy` | `boolean` |
 | `native` | `boolean` |
-| `nativeTypeOf` | `undefined` \| ``"string"`` \| ``"number"`` \| ``"bigint"`` \| ``"boolean"`` \| ``"symbol"`` \| ``"undefined"`` \| ``"object"`` \| ``"function"`` \| ``"null"`` \| ``"array"`` \| ``"nan"`` \| ``"infinity"`` |
+| `nativeTypeOf` | `undefined` \| ``"string"`` \| ``"number"`` \| ``"bigint"`` \| ``"boolean"`` \| ``"symbol"`` \| ``"undefined"`` \| ``"object"`` \| ``"function"`` \| ``"nan"`` \| ``"null"`` \| ``"array"`` \| ``"infinity"`` |
 | `plusString` | `string` |
 | `toString` | () => `string` |
 | `typeOf` | ``"string"`` \| ``"number"`` \| ``"bigint"`` \| ``"boolean"`` \| ``"symbol"`` \| ``"undefined"`` \| ``"object"`` \| ``"function"`` |
@@ -2729,7 +3148,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/getTypeName.ts:149](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/getTypeName.ts#L149)
+packages/utils/src/getTypeName.ts:149
 
 ___
 
@@ -2753,28 +3172,31 @@ ___
 
 #### Defined in
 
-[packages/utils/src/devAssert.ts:3](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/devAssert.ts#L3)
+packages/utils/src/devAssert.ts:3
 
 ___
 
-### dynamicRequire
+### diff
 
-▸ **dynamicRequire**(`request`, `_module?`): `any`
+▸ **diff**(`current`, `next`, `pathToLook?`): [`Difference`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#difference)[]
+
+Returns a list of differences between two types
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `request` | `string` |
-| `_module?` | `NodeModule` |
+| `current` | `any` |
+| `next` | `any` |
+| `pathToLook?` | `string` \| [`DifferencePath`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#differencepath)[] |
 
 #### Returns
 
-`any`
+[`Difference`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#difference)[]
 
 #### Defined in
 
-[packages/utils/src/dynamicRequire.ts:1](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/dynamicRequire.ts#L1)
+packages/utils/src/diff/diff.ts:54
 
 ___
 
@@ -2794,7 +3216,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/conust.ts:110](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/conust.ts#L110)
+packages/utils/src/conust.ts:110
 
 ___
 
@@ -2820,13 +3242,13 @@ ___
 
 #### Defined in
 
-[packages/utils/src/ensureArray.ts:1](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/ensureArray.ts#L1)
+packages/utils/src/ensureArray.ts:1
 
 ___
 
 ### entries
 
-▸ **entries**<`O`\>(`init`): [`ObjectEntries`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#objectentries)<`O`\>
+▸ **entries**<`O`\>(`init`): [`ObjectEntries`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#objectentries)<`O`\>
 
 #### Type parameters
 
@@ -2842,11 +3264,11 @@ ___
 
 #### Returns
 
-[`ObjectEntries`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#objectentries)<`O`\>
+[`ObjectEntries`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#objectentries)<`O`\>
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:276](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L276)
+packages/utils/src/objectEntries.ts:7
 
 ___
 
@@ -2866,7 +3288,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:80](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L80)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:80
 
 ___
 
@@ -2886,7 +3308,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/scapeRegex.ts:2](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/scapeRegex.ts#L2)
+packages/utils/src/scapeRegex.ts:2
 
 ___
 
@@ -2914,7 +3336,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/expectedType.ts:26](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/expectedType.ts#L26)
+packages/utils/src/expectedType.ts:26
 
 ___
 
@@ -2940,7 +3362,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/filterNull.ts:1](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/filterNull.ts#L1)
+packages/utils/src/filterNull.ts:1
 
 ___
 
@@ -2960,7 +3382,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/fvn1a.ts:5](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/fvn1a.ts#L5)
+packages/utils/src/fvn1a.ts:5
 
 ___
 
@@ -2980,7 +3402,28 @@ ___
 
 #### Defined in
 
-[packages/utils/src/formatGraphQL.ts:3](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/formatGraphQL.ts#L3)
+packages/utils/src/formatGraphQL.ts:3
+
+___
+
+### formatWithPrettier
+
+▸ **formatWithPrettier**(`source`, `options?`): `Promise`<`string`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `source` | `string` |
+| `options?` | `Options` |
+
+#### Returns
+
+`Promise`<`string`\>
+
+#### Defined in
+
+packages/utils/src/formatWithPrettier.ts:5
 
 ___
 
@@ -3000,7 +3443,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/threadId.ts:44](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/threadId.ts#L44)
+packages/utils/src/threadId.ts:44
 
 ___
 
@@ -3026,35 +3469,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/deepFreeze.ts:4](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/deepFreeze.ts#L4)
-
-___
-
-### getByPath
-
-▸ **getByPath**<`T`, `K`\>(`obj`, `key`): [`GetFieldByDotNotation`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#getfieldbydotnotation)<`T`, `K`\>
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | `T` |
-| `K` | extends `string` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `obj` | `T` |
-| `key` | `K` |
-
-#### Returns
-
-[`GetFieldByDotNotation`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#getfieldbydotnotation)<`T`, `K`\>
-
-#### Defined in
-
-[packages/utils/src/getByPath.ts:17](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/getByPath.ts#L17)
+packages/utils/src/deepFreeze.ts:4
 
 ___
 
@@ -3068,7 +3483,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/logLevels.ts:31](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/logLevels.ts#L31)
+packages/utils/src/logLevels.ts:31
 
 ___
 
@@ -3094,7 +3509,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/getKeys.ts:4](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/getKeys.ts#L4)
+packages/utils/src/getKeys.ts:4
 
 ___
 
@@ -3114,7 +3529,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/logLevels.ts:43](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/logLevels.ts#L43)
+packages/utils/src/logLevels.ts:43
 
 ___
 
@@ -3134,7 +3549,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/getTypeName.ts:31](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/getTypeName.ts#L31)
+packages/utils/src/getTypeName.ts:31
 
 ___
 
@@ -3156,28 +3571,27 @@ Returns a string representation of the constructor of the given value if a simpl
 
 #### Defined in
 
-[packages/utils/src/getTypeName.ts:55](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/getTypeName.ts#L55)
+packages/utils/src/getTypeName.ts:55
 
 ___
 
-### getObjectDiffPaths
+### getStack
 
-▸ **getObjectDiffPaths**(`originObject`, `newObject`): [`ObjectDiff`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#objectdiff)[]
+▸ **getStack**(`parent?`): `string`
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `originObject` | `Record`<`string`, `any`\> |
-| `newObject` | `Record`<`string`, `any`\> |
+| `parent?` | `any` |
 
 #### Returns
 
-[`ObjectDiff`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#objectdiff)[]
+`string`
 
 #### Defined in
 
-[packages/utils/src/objectDiff.ts:11](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/objectDiff.ts#L11)
+packages/utils/src/stackTrace.ts:1
 
 ___
 
@@ -3197,7 +3611,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/getTypeName.ts:8](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/getTypeName.ts#L8)
+packages/utils/src/getTypeName.ts:8
 
 ___
 
@@ -3224,7 +3638,7 @@ obj is { [K in string]: unknown }
 
 #### Defined in
 
-[packages/utils/src/getKeys.ts:15](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/getKeys.ts#L15)
+packages/utils/src/getKeys.ts:15
 
 ___
 
@@ -3244,7 +3658,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/hashString.ts:7](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/hashString.ts#L7)
+packages/utils/src/hashString.ts:7
 
 ___
 
@@ -3264,7 +3678,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/hashObject.ts:3](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/hashObject.ts#L3)
+packages/utils/src/hashObject.ts:3
 
 ___
 
@@ -3284,7 +3698,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/hashString.ts:3](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/hashString.ts#L3)
+packages/utils/src/hashString.ts:3
 
 ___
 
@@ -3311,7 +3725,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/parseIndexCursor.ts:152](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/parseIndexCursor.ts#L152)
+packages/utils/src/IndexCursor/parseIndexCursor.ts:152
 
 ___
 
@@ -3332,7 +3746,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/nodeLogger.ts:224](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/nodeLogger.ts#L224)
+packages/utils/src/nodeLogger.ts:224
 
 ___
 
@@ -3354,7 +3768,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/inspectObject.ts:12](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/inspectObject.ts#L12)
+packages/utils/src/inspectObject.ts:14
 
 ___
 
@@ -3376,7 +3790,7 @@ asserts truthy
 
 #### Defined in
 
-[packages/utils/src/invariant.ts:84](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/invariant.ts#L84)
+packages/utils/src/invariant.ts:109
 
 ___
 
@@ -3399,7 +3813,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/invariant.ts:102](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/invariant.ts#L102)
+packages/utils/src/invariant.ts:127
 
 ___
 
@@ -3413,7 +3827,27 @@ ___
 
 #### Defined in
 
-[packages/utils/src/isBrowser.ts:1](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/isBrowser.ts#L1)
+packages/utils/src/isBrowser.ts:1
+
+___
+
+### isErrorWithStack
+
+▸ **isErrorWithStack**(`t`): t is ErrorWithStack
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `t` | `any` |
+
+#### Returns
+
+t is ErrorWithStack
+
+#### Defined in
+
+packages/utils/src/invariant.ts:100
 
 ___
 
@@ -3433,7 +3867,27 @@ value is "error" \| "emerg" \| "alert" \| "crit" \| "warning" \| "notice" \| "in
 
 #### Defined in
 
-[packages/utils/src/logLevels.ts:27](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/logLevels.ts#L27)
+packages/utils/src/logLevels.ts:27
+
+___
+
+### isObject
+
+▸ **isObject**(`value`): value is AnyRecord
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `value` | `unknown` |
+
+#### Returns
+
+value is AnyRecord
+
+#### Defined in
+
+packages/utils/src/isObject.ts:3
 
 ___
 
@@ -3453,7 +3907,27 @@ value is Record<string, any\>
 
 #### Defined in
 
-[packages/utils/src/getTypeName.ts:68](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/getTypeName.ts#L68)
+packages/utils/src/getTypeName.ts:68
+
+___
+
+### isPlainObject
+
+▸ **isPlainObject**(`value`): value is AnyRecord
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `value` | `unknown` |
+
+#### Returns
+
+value is AnyRecord
+
+#### Defined in
+
+packages/utils/src/isObject.ts:7
 
 ___
 
@@ -3467,7 +3941,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/env.ts:3](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/env.ts#L3)
+packages/utils/src/env.ts:3
 
 ___
 
@@ -3487,7 +3961,7 @@ input is UFO<unknown\>
 
 #### Defined in
 
-[packages/utils/src/ufo.ts:29](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/ufo.ts#L29)
+packages/utils/src/ufo.ts:29
 
 ___
 
@@ -3507,7 +3981,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:136](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L136)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:136
 
 ___
 
@@ -3528,7 +4002,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:50](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L50)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:50
 
 ___
 
@@ -3549,7 +4023,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:86](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L86)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:86
 
 ___
 
@@ -3572,7 +4046,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:94](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L94)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:94
 
 ___
 
@@ -3592,7 +4066,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/stringCase.ts:11](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/stringCase.ts#L11)
+packages/utils/src/stringCase.ts:11
 
 ___
 
@@ -3612,7 +4086,29 @@ ___
 
 #### Defined in
 
-[packages/utils/src/stringCase.ts:15](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/stringCase.ts#L15)
+packages/utils/src/stringCase.ts:15
+
+___
+
+### jsonToTypescript
+
+▸ **jsonToTypescript**(`schema`, `name`, `options?`): `Promise`<`string`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `schema` | `JSONSchema4` |
+| `name` | `string` |
+| `options` | `Partial`<`Options`\> |
+
+#### Returns
+
+`Promise`<`string`\>
+
+#### Defined in
+
+packages/utils/src/jsonToTypescript.ts:7
 
 ___
 
@@ -3641,35 +4137,33 @@ ___
 
 #### Defined in
 
-[packages/utils/src/keyBy.ts:1](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/keyBy.ts#L1)
+packages/utils/src/keyBy.ts:1
 
 ___
 
-### lazyGetters
+### keys
 
-▸ **lazyGetters**<`Obj`, `Getters`\>(`object`, `getters`): [`WithGetters`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#withgetters)<`Obj`, `Getters`\>
+▸ **keys**<`O`\>(`init`): `Extract`<keyof `O`, `string`\>[]
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Obj` | `Obj` |
-| `Getters` | extends `Object` |
+| `O` | extends `object` |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `object` | `Obj` |
-| `getters` | `Getters` |
+| `init` | `O` |
 
 #### Returns
 
-[`WithGetters`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#withgetters)<`Obj`, `Getters`\>
+`Extract`<keyof `O`, `string`\>[]
 
 #### Defined in
 
-[packages/utils/src/lazyGetters.ts:3](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/lazyGetters.ts#L3)
+packages/utils/src/objectEntries.ts:11
 
 ___
 
@@ -3695,7 +4189,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/mapper.ts:14](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/mapper.ts#L14)
+packages/utils/src/mapper.ts:14
 
 ___
 
@@ -3715,7 +4209,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/memoize.ts:10](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/memoize.ts#L10)
+packages/utils/src/memoize.ts:10
 
 ___
 
@@ -3741,7 +4235,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/merge.ts:3](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/merge.ts#L3)
+packages/utils/src/merge.ts:5
 
 ___
 
@@ -3762,7 +4256,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/parseFilterCursor.ts:10](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/parseFilterCursor.ts#L10)
+packages/utils/src/IndexCursor/parseFilterCursor.ts:10
 
 ___
 
@@ -3789,7 +4283,7 @@ Error if `value` is not a non-empty string or a number
 
 #### Defined in
 
-[packages/utils/src/ms.ts:65](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/ms.ts#L65)
+packages/utils/src/ms.ts:65
 
 ▸ **ms**(`value`, `options?`): `string`
 
@@ -3806,7 +4300,7 @@ Error if `value` is not a non-empty string or a number
 
 #### Defined in
 
-[packages/utils/src/ms.ts:66](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/ms.ts#L66)
+packages/utils/src/ms.ts:66
 
 ___
 
@@ -3833,7 +4327,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/invariant.ts:20](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/invariant.ts#L20)
+packages/utils/src/invariant.ts:20
 
 ___
 
@@ -3860,28 +4354,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/invariant.ts:55](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/invariant.ts#L55)
-
-___
-
-### objectDiffPaths
-
-▸ **objectDiffPaths**(`originObject`, `newObject`): [`ObjectDiff`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#objectdiff)[]
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `originObject` | `Record`<`string`, `any`\> |
-| `newObject` | `Record`<`string`, `any`\> |
-
-#### Returns
-
-[`ObjectDiff`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#objectdiff)[]
-
-#### Defined in
-
-[packages/utils/src/objectDiff.ts:11](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/objectDiff.ts#L11)
+packages/utils/src/invariant.ts:55
 
 ___
 
@@ -3907,7 +4380,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/getKeys.ts:10](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/getKeys.ts#L10)
+packages/utils/src/getKeys.ts:10
 
 ___
 
@@ -3935,7 +4408,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/override.ts:5](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/override.ts#L5)
+packages/utils/src/override.ts:5
 
 ___
 
@@ -3955,7 +4428,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/parseFilterCursor.ts:15](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/parseFilterCursor.ts#L15)
+packages/utils/src/IndexCursor/parseFilterCursor.ts:15
 
 ___
 
@@ -3976,7 +4449,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/parseIndexCursor.ts:19](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/parseIndexCursor.ts#L19)
+packages/utils/src/IndexCursor/parseIndexCursor.ts:19
 
 ___
 
@@ -3997,7 +4470,57 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/parseIndexFieldName.ts:1](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/parseIndexFieldName.ts#L1)
+packages/utils/src/IndexCursor/parseIndexFieldName.ts:1
+
+___
+
+### parsePath
+
+▸ **parsePath**(`init`): [`PathParsed`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#pathparsed)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `init` | `string` \| (`string` \| `number`)[] |
+
+#### Returns
+
+[`PathParsed`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#pathparsed)
+
+#### Defined in
+
+packages/utils/src/parsePath.ts:15
+
+___
+
+### pick
+
+▸ **pick**<`O`, `P`\>(`object`, `path`): [`IsKnown`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#isknown)<`O`\> extends ``1`` ? `P` extends `string` ? [`PathType`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#pathtype)<`O`, `P`\> : `any` : `any`
+
+Pick one object property by path
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `O` | `O` |
+| `P` | extends `string` \| (`string` \| `number`)[] |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `object` | `O` |
+| `path` | `P` |
+
+#### Returns
+
+[`IsKnown`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#isknown)<`O`\> extends ``1`` ? `P` extends `string` ? [`PathType`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#pathtype)<`O`, `P`\> : `any` : `any`
+
+#### Defined in
+
+packages/utils/src/pick.ts:9
 
 ___
 
@@ -4017,7 +4540,35 @@ ___
 
 #### Defined in
 
-[packages/utils/src/pluralize.ts:56](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/pluralize.ts#L56)
+packages/utils/src/pluralize.ts:56
+
+___
+
+### project
+
+▸ **project**<`T`, `Path`\>(`value`, `paths`): `T` \| {}
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `T` |
+| `Path` | [`Paths`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#paths)<`T`, ``10``\> |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `value` | `T` |
+| `paths` | ``"*"`` \| `ArrayLike`<`Path`\> |
+
+#### Returns
+
+`T` \| {}
+
+#### Defined in
+
+packages/utils/src/project.ts:5
 
 ___
 
@@ -4043,7 +4594,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/createProxy.ts:7](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/createProxy.ts#L7)
+packages/utils/src/createProxy.ts:7
 
 ___
 
@@ -4063,28 +4614,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:167](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L167)
-
-___
-
-### randomFloat
-
-▸ **randomFloat**(`lower?`, `upper?`): `number`
-
-#### Parameters
-
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `lower` | `number` | `0` |
-| `upper` | `number` | `100` |
-
-#### Returns
-
-`number`
-
-#### Defined in
-
-[packages/utils/src/randomInt.ts:5](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/randomInt.ts#L5)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:167
 
 ___
 
@@ -4105,7 +4635,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/randomInt.ts:1](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/randomInt.ts#L1)
+packages/utils/src/randomInt.ts:1
 
 ___
 
@@ -4131,7 +4661,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/randomItem.ts:4](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/randomItem.ts#L4)
+packages/utils/src/randomItem.ts:4
 
 ___
 
@@ -4145,28 +4675,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/randomItem.ts:18](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/randomItem.ts#L18)
-
-___
-
-### randomNumber
-
-▸ **randomNumber**(`lower?`, `upper?`): `number`
-
-#### Parameters
-
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `lower` | `number` | `0` |
-| `upper` | `number` | `100` |
-
-#### Returns
-
-`number`
-
-#### Defined in
-
-[packages/utils/src/randomInt.ts:5](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/randomInt.ts#L5)
+packages/utils/src/randomItem.ts:18
 
 ___
 
@@ -4194,28 +4703,28 @@ ___
 
 #### Defined in
 
-[packages/utils/src/reduceObject.ts:1](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/reduceObject.ts#L1)
+packages/utils/src/reduceObject.ts:1
 
 ___
 
 ### setByPath
 
-▸ **setByPath**<`T`, `K`\>(`obj`, `key`, `value`): `T`
+▸ **setByPath**<`T`\>(`obj`, `path`, `value`, `customizer?`): `T`
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
 | `T` | extends `Record`<`string`, `any`\> |
-| `K` | extends `string` |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `obj` | `T` |
-| `key` | `K` |
+| `path` | `string` |
 | `value` | `any` |
+| `customizer?` | (`nsValue`: `any`, `key`: `string`, `nsObject`: `T`) => `any` |
 
 #### Returns
 
@@ -4223,7 +4732,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/setByPath.ts:5](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/setByPath.ts#L5)
+packages/utils/src/setByPath.ts:3
 
 ___
 
@@ -4243,7 +4752,33 @@ ___
 
 #### Defined in
 
-[packages/utils/src/logLevels.ts:35](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/logLevels.ts#L35)
+packages/utils/src/logLevels.ts:35
+
+___
+
+### setPrettier
+
+▸ **setPrettier**<`Prettier`\>(`prettier`): `void`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Prettier` | extends `Object` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `prettier` | `Prettier` |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+packages/utils/src/formatWithPrettier.ts:22
 
 ___
 
@@ -4271,7 +4806,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/simpleObjectClone.ts:7](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/simpleObjectClone.ts#L7)
+packages/utils/src/simpleObjectClone.ts:7
 
 ___
 
@@ -4291,7 +4826,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/simpleObjectHash.ts:7](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/simpleObjectHash.ts#L7)
+packages/utils/src/simpleObjectHash.ts:7
 
 ___
 
@@ -4318,7 +4853,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/sortObject.ts:4](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/sortObject.ts#L4)
+packages/utils/src/sortObject.ts:4
 
 ___
 
@@ -4338,7 +4873,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:148](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L148)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:148
 
 ___
 
@@ -4358,7 +4893,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/hashString.ts:3](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/hashString.ts#L3)
+packages/utils/src/hashString.ts:3
 
 ___
 
@@ -4379,7 +4914,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:268](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L268)
+packages/utils/src/BJSON.ts:268
 
 ___
 
@@ -4399,7 +4934,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:163](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L163)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:163
 
 ___
 
@@ -4419,7 +4954,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/textToBase64.ts:4](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/textToBase64.ts#L4)
+packages/utils/src/textToBase64.ts:4
 
 ___
 
@@ -4445,7 +4980,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:8](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L8)
+packages/utils/src/typings/index.ts:9
 
 ___
 
@@ -4471,7 +5006,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:20](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L20)
+packages/utils/src/typings/index.ts:21
 
 ___
 
@@ -4497,7 +5032,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:18](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L18)
+packages/utils/src/typings/index.ts:19
 
 ___
 
@@ -4523,7 +5058,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/ufo.ts:8](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/ufo.ts#L8)
+packages/utils/src/ufo.ts:8
 
 ___
 
@@ -4549,7 +5084,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/ufo.ts:8](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/ufo.ts#L8)
+packages/utils/src/ufo.ts:8
 
 ___
 
@@ -4569,7 +5104,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/ulid.ts:3](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/ulid.ts#L3)
+packages/utils/src/ulid.ts:3
 
 ___
 
@@ -4595,7 +5130,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/uniq.ts:6](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/uniq.ts#L6)
+packages/utils/src/uniq.ts:6
 
 ___
 
@@ -4615,7 +5150,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/upperFirst.ts:1](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/upperFirst.ts#L1)
+packages/utils/src/upperFirst.ts:1
 
 ___
 
@@ -4629,13 +5164,39 @@ ___
 
 #### Defined in
 
-[packages/utils/src/useProcess.ts:9](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/useProcess.ts#L9)
+packages/utils/src/useProcess.ts:9
+
+___
+
+### values
+
+▸ **values**<`O`\>(`init`): `O`[keyof `O`][]
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `O` | extends `object` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `init` | `O` |
+
+#### Returns
+
+`O`[keyof `O`][]
+
+#### Defined in
+
+packages/utils/src/objectEntries.ts:15
 
 ___
 
 ### wrapError
 
-▸ **wrapError**<`T`\>(`callback`, `parent?`): `T`
+▸ **wrapError**<`T`\>(`callback`, `parent?`, `overrideError?`): `T`
 
 #### Type parameters
 
@@ -4649,6 +5210,7 @@ ___
 | :------ | :------ |
 | `callback` | () => `T` |
 | `parent?` | `any` |
+| `overrideError?` | <Err\>(`error`: `Err`) => `void` \| [`ErrorWithStack`](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.ErrorWithStack.md) |
 
 #### Returns
 
@@ -4656,4 +5218,4 @@ ___
 
 #### Defined in
 
-[packages/utils/src/invariant.ts:75](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/invariant.ts#L75)
+packages/utils/src/invariant.ts:75

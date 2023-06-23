@@ -2,7 +2,7 @@ import {
   LoaderContext,
   TransporterLoaderName,
   TransporterLoadersRecord,
-} from '@swind/transporter';
+} from '@powership/transporter';
 
 export type EntityLoaderConfig<
   Method extends TransporterLoaderName,

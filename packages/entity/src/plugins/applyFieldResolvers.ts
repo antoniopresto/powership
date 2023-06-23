@@ -1,6 +1,6 @@
-import { parseFieldDefinitionConfig } from '@swind/schema';
-import { createProxy, notNull } from '@swind/utils';
-import { NodeLogger } from '@swind/utils';
+import { parseFieldDefinitionConfig } from '@powership/schema';
+import { createProxy, notNull } from '@powership/utils';
+import { NodeLogger } from '@powership/utils';
 
 import { createEntityPlugin } from '../EntityPlugin';
 

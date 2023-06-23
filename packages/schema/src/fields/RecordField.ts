@@ -1,5 +1,5 @@
-import { expectedType } from '@swind/utils';
-import { inspectObject } from '@swind/utils';
+import { expectedType } from '@powership/utils';
+import { inspectObject } from '@powership/utils';
 
 import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';

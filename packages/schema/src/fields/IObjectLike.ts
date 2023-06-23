@@ -3,7 +3,7 @@ import { LazyParseGraphTypePayload } from '../GraphType/GraphType';
 import { FinalFieldDefinition } from './_parseFields';
 
 export interface ObjectLike {
-  __isSolarwindObject: true;
+  __isPowershipObject: true;
   definition: { [K: string]: any };
 }
 

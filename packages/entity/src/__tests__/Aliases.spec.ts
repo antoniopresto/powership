@@ -1,7 +1,7 @@
-import { MongoTransporter } from '@swind/mongo';
-import { AppMock, createAppMock } from '@swind/mongo/lib/test-utils';
-import { createSchema, createType, Infer, ULID_REGEX } from '@swind/schema';
-import { tupleEnum } from '@swind/utils';
+import { MongoTransporter } from '@powership/mongo';
+import { AppMock, createAppMock } from '@powership/mongo/lib/test-utils';
+import { createSchema, createType, Infer, ULID_REGEX } from '@powership/schema';
+import { tupleEnum } from '@powership/utils';
 
 import { createEntity } from '../Entity';
 

@@ -3,14 +3,14 @@ import {
   inspectObject,
   isBrowser,
   RuntimeError,
-} from '@swind/utils';
+} from '@powership/utils';
 import type {
   GraphQLInterfaceType,
   GraphQLNamedInputType,
   GraphQLNamedType,
 } from 'graphql';
 
-import { CircularDeps, SolarwindModules } from '../CircularDeps';
+import { CircularDeps, PowershipModules } from '../CircularDeps';
 import { Infer } from '../Infer';
 import {
   createObjectType,
@@ -112,7 +112,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
       //
     } else {
       if (!isBrowser()) {
-        CircularDeps.typesWriter?.SolarwindWatchTypesPubSub.emit('created', {
+        CircularDeps.typesWriter?.PowershipWatchTypesPubSub.emit('created', {
           graphType: this as any,
         });
       }
@@ -353,7 +353,7 @@ export type LazyParseGraphTypePayload = {
   definition: FinalFieldDefinition;
   definitionInput:
     | ObjectFieldInput
-    | ((utils: SolarwindModules) => ObjectFieldInput);
+    | ((utils: PowershipModules) => ObjectFieldInput);
   field: TAnyFieldType;
   id: string | undefined;
   idFromArgs: string | undefined;
@@ -361,16 +361,16 @@ export type LazyParseGraphTypePayload = {
 };
 
 export type GraphTypeArgs<Def extends ObjectFieldInput = ObjectFieldInput> =
-  | [string, Def | ((utils: SolarwindModules) => Def)]
-  | [Def | ((utils: SolarwindModules) => Def)];
+  | [string, Def | ((utils: PowershipModules) => Def)]
+  | [Def | ((utils: PowershipModules) => Def)];
 
 export function createType<Definition extends ObjectFieldInput>(
-  definition: Definition | ((utils: SolarwindModules) => Definition)
+  definition: Definition | ((utils: PowershipModules) => Definition)
 ): GraphType<Definition>;
 
 export function createType<Definition extends ObjectFieldInput>(
   name: string,
-  definition: Definition | ((utils: SolarwindModules) => Definition)
+  definition: Definition | ((utils: PowershipModules) => Definition)
 ): GraphType<Definition>;
 
 export function createType(...args: any[]) {

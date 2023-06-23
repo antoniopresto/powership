@@ -1,6 +1,6 @@
 import { randomBytes } from 'crypto';
 
-import { createType, Infer } from '@swind/schema';
+import { createType, Infer } from '@powership/schema';
 import {
   base64ToText,
   BJSON,
@@ -9,7 +9,7 @@ import {
   parseFilterCursor,
   StringValue,
   textToBase64,
-} from '@swind/utils';
+} from '@powership/utils';
 import * as jwt from 'jsonwebtoken';
 
 import { ConnectionInformation } from '../types/ConnectionInformation';

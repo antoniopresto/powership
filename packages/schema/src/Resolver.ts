@@ -1,4 +1,4 @@
-import { Compute, IsKnown, MaybePromise } from '@swind/utils';
+import { Compute, IsKnown, MaybePromise } from '@powership/utils';
 import {
   GraphQLField,
   GraphQLFieldConfig,
@@ -106,7 +106,7 @@ function _createResolver(options: any): Resolver<any, any, any, any> {
 
   GraphType.resolvers.set(name, result);
 
-  CircularDeps.typesWriter?.SolarwindWatchTypesPubSub.emit('created', {
+  CircularDeps.typesWriter?.PowershipWatchTypesPubSub.emit('created', {
     resolver: result,
   });
 

@@ -1,4 +1,4 @@
-import { MaybePromise } from '@swind/utils';
+import { MaybePromise } from '@powership/utils';
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { ObjectType } from '../../ObjectType';

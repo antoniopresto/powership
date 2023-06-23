@@ -5,7 +5,7 @@ import {
   nonNullValues,
   StringValue,
   ulid,
-} from '@swind/utils';
+} from '@powership/utils';
 
 import { AccountDocument, AccountEntity } from './entity/AccountEntity';
 import { SessionEntity, SessionInput } from './entity/SessionEntity';

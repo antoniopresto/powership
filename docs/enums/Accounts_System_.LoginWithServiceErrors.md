@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / LoginWithServiceErrors
+[Powership](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / LoginWithServiceErrors
 
 # Enumeration: LoginWithServiceErrors
 
@@ -22,7 +22,7 @@ Service failed to authenticate the user
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:57](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L57)
+packages/accounts/src/utils/AccountError.ts:57
 
 ___
 
@@ -34,7 +34,7 @@ Service is not registered on the server
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:49](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L49)
+packages/accounts/src/utils/AccountError.ts:49
 
 ___
 
@@ -46,4 +46,4 @@ User is deactivated, so not allowed to login
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:53](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L53)
+packages/accounts/src/utils/AccountError.ts:53

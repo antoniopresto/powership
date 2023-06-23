@@ -1,4 +1,4 @@
-import { merge, RuntimeError, UpdateDefinition } from '@swind/utils';
+import { merge, RuntimeError, UpdateDefinition } from '@powership/utils';
 
 import { ParsedUpdateExpression } from './parseUpdateExpression';
 

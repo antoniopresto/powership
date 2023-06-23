@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / ExtendEntity
+[Powership](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / ExtendEntity
 
 # Interface: ExtendEntity<Parent\>
 
@@ -36,4 +36,4 @@ Extend current entity
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/ExtendEntity.ts:10](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/ExtendEntity.ts#L10)
+packages/entity/src/EntityInterfaces/ExtendEntity.ts:10

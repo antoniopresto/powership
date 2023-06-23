@@ -1,5 +1,5 @@
-import { inspectObject, tupleEnum } from '@swind/utils';
-import { NodeLogger } from '@swind/utils';
+import { inspectObject, tupleEnum } from '@powership/utils';
+import { NodeLogger } from '@powership/utils';
 
 import type { InvalidParsedIndexField } from './CollectionIndex';
 

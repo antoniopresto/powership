@@ -1,12 +1,12 @@
-import { createStore, IsKnown, RuntimeError } from '@swind/utils';
-import { ensureArray } from '@swind/utils';
-import { expectedType } from '@swind/utils';
-import { getTypeName } from '@swind/utils';
-import { invariantType } from '@swind/utils';
-import { Serializable } from '@swind/utils';
+import { createStore, IsKnown, RuntimeError } from '@powership/utils';
+import { ensureArray } from '@powership/utils';
+import { expectedType } from '@powership/utils';
+import { getTypeName } from '@powership/utils';
+import { invariantType } from '@powership/utils';
+import { Serializable } from '@powership/utils';
 import type { GraphQLInterfaceType, GraphQLObjectType } from 'graphql';
 
-import { CircularDeps, SolarwindModules } from './CircularDeps';
+import { CircularDeps, PowershipModules } from './CircularDeps';
 import type {
   GraphQLParserResult,
   ParseInputTypeOptions,
@@ -66,11 +66,11 @@ export class ObjectType<
   Input,
   HandledInput extends _HandleInput<Input> = _HandleInput<Input>
 > {
-  get __isSolarwindObject(): true {
+  get __isPowershipObject(): true {
     return true;
   }
 
-  static __isSolarwindObject: boolean = true;
+  static __isPowershipObject: boolean = true;
 
   __withCache: WithCache<{
     helpers: ObjectHelpers;
@@ -78,10 +78,10 @@ export class ObjectType<
 
   inputDefinition:
     | ObjectDefinitionInput
-    | ((modules: SolarwindModules) => ObjectDefinitionInput);
+    | ((modules: PowershipModules) => ObjectDefinitionInput);
 
   constructor(
-    objectDef: HandledInput | ((modules: SolarwindModules) => HandledInput)
+    objectDef: HandledInput | ((modules: PowershipModules) => HandledInput)
   ) {
     this.inputDefinition = objectDef as ObjectDefinitionInput;
     this.__withCache = withCache(this);
@@ -600,7 +600,7 @@ export class ObjectType<
   }
 }
 
-export const SolarwindObject = ObjectType;
+export const PowershipObject = ObjectType;
 
 export type ObjectTypeFromInput<
   DefinitionInput extends Readonly<ObjectDefinitionInput>
@@ -640,7 +640,7 @@ export function createObjectType<
   return new ObjectType(fields) as any;
 }
 
-export const createSolarwindObject = createObjectType;
+export const createPowershipObject = createObjectType;
 export const createSchema = createObjectType;
 export const resetTypesCache = ObjectType.reset;
 

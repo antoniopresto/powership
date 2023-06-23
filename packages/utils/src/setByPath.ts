@@ -1,8 +1,6 @@
 import setWith from 'lodash/setWith';
 
-export function setByPath<
-  T extends Record<string, any>
->(
+export function setByPath<T extends Record<string, any>>(
   obj: T,
   path: string,
   value: any,

@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / Accounts System.
+[Powership](../README.md) / [Modules](../modules.md) / Accounts System.
 
 # Module: Accounts System.
 
@@ -106,9 +106,9 @@
 
 #### Defined in
 
-[packages/accounts/src/types/AccessType.ts:45](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/AccessType.ts#L45)
+packages/accounts/src/types/AccessType.ts:45
 
-[packages/accounts/src/types/AccessType.ts:55](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/AccessType.ts#L55)
+packages/accounts/src/types/AccessType.ts:55
 
 ___
 
@@ -118,7 +118,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/entity/AccessTypeEntity.ts:22](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/entity/AccessTypeEntity.ts#L22)
+packages/accounts/src/entity/AccessTypeEntity.ts:22
 
 ___
 
@@ -128,7 +128,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/types/AccessType.ts:6](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/AccessType.ts#L6)
+packages/accounts/src/types/AccessType.ts:6
 
 ___
 
@@ -138,9 +138,9 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/types/AccessType.ts:8](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/AccessType.ts#L8)
+packages/accounts/src/types/AccessType.ts:8
 
-[packages/accounts/src/types/AccessType.ts:43](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/AccessType.ts#L43)
+packages/accounts/src/types/AccessType.ts:43
 
 ___
 
@@ -150,7 +150,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/entity/AccountEntity.ts:36](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/entity/AccountEntity.ts#L36)
+packages/accounts/src/entity/AccountEntity.ts:36
 
 ___
 
@@ -160,9 +160,9 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/entity/AccountEntity.ts:14](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/entity/AccountEntity.ts#L14)
+packages/accounts/src/entity/AccountEntity.ts:14
 
-[packages/accounts/src/entity/AccountEntity.ts:35](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/entity/AccountEntity.ts#L35)
+packages/accounts/src/entity/AccountEntity.ts:35
 
 ___
 
@@ -172,7 +172,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:21](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L21)
+packages/accounts/src/utils/AccountError.ts:21
 
 ___
 
@@ -182,7 +182,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/entity/AccountEntity.ts:37](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/entity/AccountEntity.ts#L37)
+packages/accounts/src/entity/AccountEntity.ts:37
 
 ___
 
@@ -192,7 +192,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Sessions.ts:436](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Sessions.ts#L436)
+packages/accounts/src/Sessions.ts:429
 
 ___
 
@@ -202,9 +202,9 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/crypto.ts:114](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/crypto.ts#L114)
+packages/accounts/src/utils/crypto.ts:114
 
-[packages/accounts/src/utils/crypto.ts:126](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/crypto.ts#L126)
+packages/accounts/src/utils/crypto.ts:126
 
 ___
 
@@ -214,7 +214,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/crypto.ts:128](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/crypto.ts#L128)
+packages/accounts/src/utils/crypto.ts:128
 
 ___
 
@@ -224,7 +224,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/types/ConnectionInformation.ts:12](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/ConnectionInformation.ts#L12)
+packages/accounts/src/types/ConnectionInformation.ts:12
 
 ___
 
@@ -248,7 +248,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Accounts.ts:33](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Accounts.ts#L33)
+packages/accounts/src/Accounts.ts:33
 
 ___
 
@@ -258,7 +258,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/types/EmailTemplate.ts:16](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/EmailTemplate.ts#L16)
+packages/accounts/src/types/EmailTemplate.ts:16
 
 ___
 
@@ -276,7 +276,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/types/LoginResult.ts:5](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/LoginResult.ts#L5)
+packages/accounts/src/types/LoginResult.ts:5
 
 ___
 
@@ -297,7 +297,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/crypto.ts:105](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/crypto.ts#L105)
+packages/accounts/src/utils/crypto.ts:105
 
 ___
 
@@ -307,7 +307,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/PasswordHash.ts:48](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/PasswordHash.ts#L48)
+packages/accounts/src/utils/PasswordHash.ts:48
 
 ___
 
@@ -317,7 +317,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/PasswordHash.ts:49](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/PasswordHash.ts#L49)
+packages/accounts/src/utils/PasswordHash.ts:49
 
 ___
 
@@ -327,7 +327,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/types/SessionType.ts:21](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/SessionType.ts#L21)
+packages/accounts/src/types/SessionType.ts:21
 
 ___
 
@@ -337,9 +337,9 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/types/SessionType.ts:4](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/SessionType.ts#L4)
+packages/accounts/src/types/SessionType.ts:4
 
-[packages/accounts/src/types/SessionType.ts:23](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/SessionType.ts#L23)
+packages/accounts/src/types/SessionType.ts:23
 
 ___
 
@@ -349,7 +349,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/types/SessionType.ts:22](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/SessionType.ts#L22)
+packages/accounts/src/types/SessionType.ts:22
 
 ___
 
@@ -359,7 +359,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Sessions.ts:389](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Sessions.ts#L389)
+packages/accounts/src/Sessions.ts:388
 
 ___
 
@@ -369,7 +369,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/entity/SessionEntity.ts:21](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/entity/SessionEntity.ts#L21)
+packages/accounts/src/entity/SessionEntity.ts:21
 
 ___
 
@@ -379,7 +379,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/crypto.ts:148](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/crypto.ts#L148)
+packages/accounts/src/utils/crypto.ts:148
 
 ___
 
@@ -400,7 +400,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Sessions.ts:380](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Sessions.ts#L380)
+packages/accounts/src/Sessions.ts:379
 
 ___
 
@@ -410,7 +410,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/types/TokenType.ts:51](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/TokenType.ts#L51)
+packages/accounts/src/types/TokenType.ts:51
 
 ___
 
@@ -420,7 +420,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/entity/TokenEntity.ts:27](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/entity/TokenEntity.ts#L27)
+packages/accounts/src/entity/TokenEntity.ts:27
 
 ___
 
@@ -430,9 +430,9 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/entity/TokenEntity.ts:5](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/entity/TokenEntity.ts#L5)
+packages/accounts/src/entity/TokenEntity.ts:5
 
-[packages/accounts/src/entity/TokenEntity.ts:25](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/entity/TokenEntity.ts#L25)
+packages/accounts/src/entity/TokenEntity.ts:25
 
 ## Variables
 
@@ -442,9 +442,9 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/types/AccessType.ts:45](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/AccessType.ts#L45)
+packages/accounts/src/types/AccessType.ts:45
 
-[packages/accounts/src/types/AccessType.ts:55](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/AccessType.ts#L55)
+packages/accounts/src/types/AccessType.ts:55
 
 ___
 
@@ -454,7 +454,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/entity/AccessTypeEntity.ts:5](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/entity/AccessTypeEntity.ts#L5)
+packages/accounts/src/entity/AccessTypeEntity.ts:5
 
 ___
 
@@ -464,9 +464,9 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/types/AccessType.ts:8](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/AccessType.ts#L8)
+packages/accounts/src/types/AccessType.ts:8
 
-[packages/accounts/src/types/AccessType.ts:43](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/AccessType.ts#L43)
+packages/accounts/src/types/AccessType.ts:43
 
 ___
 
@@ -476,9 +476,9 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/entity/AccountEntity.ts:14](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/entity/AccountEntity.ts#L14)
+packages/accounts/src/entity/AccountEntity.ts:14
 
-[packages/accounts/src/entity/AccountEntity.ts:35](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/entity/AccountEntity.ts#L35)
+packages/accounts/src/entity/AccountEntity.ts:35
 
 ___
 
@@ -508,7 +508,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:171](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L171)
+packages/accounts/src/utils/AccountError.ts:171
 
 ___
 
@@ -540,7 +540,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountHooks.ts:1](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountHooks.ts#L1)
+packages/accounts/src/utils/AccountHooks.ts:1
 
 ___
 
@@ -550,9 +550,9 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/crypto.ts:114](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/crypto.ts#L114)
+packages/accounts/src/utils/crypto.ts:114
 
-[packages/accounts/src/utils/crypto.ts:126](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/crypto.ts#L126)
+packages/accounts/src/utils/crypto.ts:126
 
 ___
 
@@ -562,7 +562,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/types/AccountType.ts:5](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/AccountType.ts#L5)
+packages/accounts/src/types/AccountType.ts:5
 
 ___
 
@@ -572,7 +572,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/types/ConnectionInformation.ts:3](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/ConnectionInformation.ts#L3)
+packages/accounts/src/types/ConnectionInformation.ts:3
 
 ___
 
@@ -582,7 +582,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Sessions.ts:25](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Sessions.ts#L25)
+packages/accounts/src/Sessions.ts:24
 
 ___
 
@@ -592,7 +592,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/types/EmailTemplate.ts:3](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/EmailTemplate.ts#L3)
+packages/accounts/src/types/EmailTemplate.ts:3
 
 ___
 
@@ -611,7 +611,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/PasswordHash.ts:39](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/PasswordHash.ts#L39)
+packages/accounts/src/utils/PasswordHash.ts:39
 
 ___
 
@@ -621,7 +621,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/PasswordHash.ts:16](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/PasswordHash.ts#L16)
+packages/accounts/src/utils/PasswordHash.ts:16
 
 ___
 
@@ -631,9 +631,9 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/types/SessionType.ts:4](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/SessionType.ts#L4)
+packages/accounts/src/types/SessionType.ts:4
 
-[packages/accounts/src/types/SessionType.ts:23](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/SessionType.ts#L23)
+packages/accounts/src/types/SessionType.ts:23
 
 ___
 
@@ -643,7 +643,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/entity/SessionEntity.ts:6](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/entity/SessionEntity.ts#L6)
+packages/accounts/src/entity/SessionEntity.ts:6
 
 ___
 
@@ -653,7 +653,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/crypto.ts:135](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/crypto.ts#L135)
+packages/accounts/src/utils/crypto.ts:135
 
 ___
 
@@ -663,7 +663,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/types/SessionType.ts:12](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/SessionType.ts#L12)
+packages/accounts/src/types/SessionType.ts:12
 
 ___
 
@@ -673,9 +673,9 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/entity/TokenEntity.ts:5](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/entity/TokenEntity.ts#L5)
+packages/accounts/src/entity/TokenEntity.ts:5
 
-[packages/accounts/src/entity/TokenEntity.ts:25](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/entity/TokenEntity.ts#L25)
+packages/accounts/src/entity/TokenEntity.ts:25
 
 ___
 
@@ -685,7 +685,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/types/TokenType.ts:14](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/TokenType.ts#L14)
+packages/accounts/src/types/TokenType.ts:14
 
 ___
 
@@ -695,27 +695,27 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/validateUserName.ts:6](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/validateUserName.ts#L6)
+packages/accounts/src/utils/validateUserName.ts:6
 
 ___
 
 ### USER\_NAME\_ERRORS
 
-• `Const` **USER\_NAME\_ERRORS**: { `INVALID_CHARS`: ``"INVALID_CHARS"`` ; `LESS_THAN_2`: ``"LESS_THAN_2"`` ; `MORE_THAN_16`: ``"MORE_THAN_16"`` ; `NOT_STRING`: ``"NOT_STRING"``  } & {} & {}
+• `Const` **USER\_NAME\_ERRORS**: { `INVALID_CHARS`: ``"INVALID_CHARS"`` ; `LESS_THAN_2`: ``"LESS_THAN_2"`` ; `MORE_THAN_16`: ``"MORE_THAN_16"`` ; `NOT_STRING`: ``"NOT_STRING"``  } & { `list`: (``"NOT_STRING"`` \| ``"MORE_THAN_16"`` \| ``"LESS_THAN_2"`` \| ``"INVALID_CHARS"``)[]  } & { `enum`: ``"NOT_STRING"`` \| ``"MORE_THAN_16"`` \| ``"LESS_THAN_2"`` \| ``"INVALID_CHARS"``  }
 
 #### Defined in
 
-[packages/accounts/src/utils/validateUserName.ts:15](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/validateUserName.ts#L15)
+packages/accounts/src/utils/validateUserName.ts:15
 
 ___
 
 ### accessTypesEnum
 
-• `Const` **accessTypesEnum**: { `custom`: ``"custom"`` ; `email`: ``"email"`` ; `oauth`: ``"oauth"`` ; `phone`: ``"phone"``  } & {} & {}
+• `Const` **accessTypesEnum**: { `custom`: ``"custom"`` ; `email`: ``"email"`` ; `oauth`: ``"oauth"`` ; `phone`: ``"phone"``  } & { `list`: (``"email"`` \| ``"oauth"`` \| ``"phone"`` \| ``"custom"``)[]  } & { `enum`: ``"email"`` \| ``"oauth"`` \| ``"phone"`` \| ``"custom"``  }
 
 #### Defined in
 
-[packages/accounts/src/types/AccessType.ts:4](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/AccessType.ts#L4)
+packages/accounts/src/types/AccessType.ts:4
 
 ___
 
@@ -725,7 +725,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/types/AccessType.ts:5](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/AccessType.ts#L5)
+packages/accounts/src/types/AccessType.ts:5
 
 ___
 
@@ -735,7 +735,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/badWords.ts:1](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/badWords.ts#L1)
+packages/accounts/src/utils/badWords.ts:1
 
 ___
 
@@ -745,17 +745,17 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/reservedUsernames.ts:1](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/reservedUsernames.ts#L1)
+packages/accounts/src/utils/reservedUsernames.ts:1
 
 ___
 
 ### tokenKindEnum
 
-• `Const` **tokenKindEnum**: { `custom`: ``"custom"`` ; `email_verification`: ``"email_verification"`` ; `magick_link`: ``"magick_link"`` ; `password`: ``"password"`` ; `password_recovery`: ``"password_recovery"`` ; `phone_verification`: ``"phone_verification"`` ; `twoFactorAuth`: ``"twoFactorAuth"``  } & {} & {}
+• `Const` **tokenKindEnum**: { `custom`: ``"custom"`` ; `email_verification`: ``"email_verification"`` ; `magick_link`: ``"magick_link"`` ; `password`: ``"password"`` ; `password_recovery`: ``"password_recovery"`` ; `phone_verification`: ``"phone_verification"`` ; `twoFactorAuth`: ``"twoFactorAuth"``  } & { `list`: (``"password"`` \| ``"custom"`` \| ``"email_verification"`` \| ``"phone_verification"`` \| ``"password_recovery"`` \| ``"magick_link"`` \| ``"twoFactorAuth"``)[]  } & { `enum`: ``"password"`` \| ``"custom"`` \| ``"email_verification"`` \| ``"phone_verification"`` \| ``"password_recovery"`` \| ``"magick_link"`` \| ``"twoFactorAuth"``  }
 
 #### Defined in
 
-[packages/accounts/src/types/TokenType.ts:4](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/types/TokenType.ts#L4)
+packages/accounts/src/types/TokenType.ts:4
 
 ___
 
@@ -765,7 +765,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/validateUserName.ts:8](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/validateUserName.ts#L8)
+packages/accounts/src/utils/validateUserName.ts:8
 
 ## Functions
 
@@ -785,13 +785,13 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `onRefreshTokens` | `Waterfall`<[`SessionRequest`](Accounts_System_.md#sessionrequest) & { `result`: [`LoginResult`](Accounts_System_.md#loginresult)  }, [`SessionHooksContext`](Accounts_System_.md#sessionhookscontext)\> |
-| `onRequest` | `Waterfall`<[`SessionRequest`](Accounts_System_.md#sessionrequest), [`SessionHooksContext`](Accounts_System_.md#sessionhookscontext)\> |
-| `onUpsertSessionError` | `Waterfall`<`Error`, [`SessionRequest`](Accounts_System_.md#sessionrequest)\> |
+| `onRefreshTokens` | `AsyncPlugin`<[`SessionRequest`](Accounts_System_.md#sessionrequest) & { `result`: [`LoginResult`](Accounts_System_.md#loginresult)  }, [`SessionHooksContext`](Accounts_System_.md#sessionhookscontext)\> |
+| `onRequest` | `AsyncPlugin`<[`SessionRequest`](Accounts_System_.md#sessionrequest), [`SessionHooksContext`](Accounts_System_.md#sessionhookscontext)\> |
+| `onUpsertSessionError` | `AsyncPlugin`<`Error`, [`SessionRequest`](Accounts_System_.md#sessionrequest)\> |
 
 #### Defined in
 
-[packages/accounts/src/Sessions.ts:391](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Sessions.ts#L391)
+packages/accounts/src/Sessions.ts:390
 
 ___
 
@@ -811,7 +811,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/crypto.ts:46](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/crypto.ts#L46)
+packages/accounts/src/utils/crypto.ts:46
 
 ___
 
@@ -833,7 +833,7 @@ Generate a random token string
 
 #### Defined in
 
-[packages/accounts/src/utils/crypto.ts:22](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/crypto.ts#L22)
+packages/accounts/src/utils/crypto.ts:22
 
 ___
 
@@ -854,7 +854,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/crypto.ts:61](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/crypto.ts#L61)
+packages/accounts/src/utils/crypto.ts:61
 
 ___
 
@@ -877,7 +877,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/crypto.ts:26](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/crypto.ts#L26)
+packages/accounts/src/utils/crypto.ts:26
 
 ___
 
@@ -897,7 +897,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/validateUserName.ts:22](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/validateUserName.ts#L22)
+packages/accounts/src/utils/validateUserName.ts:22
 
 ___
 
@@ -920,4 +920,4 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/crypto.ts:36](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/crypto.ts#L36)
+packages/accounts/src/utils/crypto.ts:36

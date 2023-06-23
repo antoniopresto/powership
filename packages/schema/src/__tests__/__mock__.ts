@@ -1,4 +1,4 @@
-import { tuple } from '@swind/utils';
+import { tuple } from '@powership/utils';
 
 import { createType } from '../GraphType/GraphType';
 import { createObjectType } from '../ObjectType';

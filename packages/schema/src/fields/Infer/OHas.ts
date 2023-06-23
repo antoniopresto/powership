@@ -1,4 +1,4 @@
-import type { O } from '@swind/utils';
+import type { O } from '@powership/utils';
 
 export type OHas<Obj, K> = Obj extends object
   ? K extends string

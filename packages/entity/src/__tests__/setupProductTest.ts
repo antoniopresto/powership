@@ -1,5 +1,5 @@
-import { MongoTransporter } from '@swind/mongo';
-import { AppMock, createAppMock } from '@swind/mongo/lib/test-utils';
+import { MongoTransporter } from '@powership/mongo';
+import { AppMock, createAppMock } from '@powership/mongo/lib/test-utils';
 import {
   createResolver,
   createSchema,
@@ -7,8 +7,8 @@ import {
   GraphType,
   objectMock,
   ObjectType,
-} from '@swind/schema';
-import { getTypeName, slugify } from '@swind/utils';
+} from '@powership/schema';
+import { getTypeName, slugify } from '@powership/utils';
 
 import { createEntity } from '../Entity';
 import { Entity } from '../EntityInterfaces';

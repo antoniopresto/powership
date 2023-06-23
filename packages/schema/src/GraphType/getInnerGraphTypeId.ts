@@ -1,4 +1,4 @@
-import { pick } from '@swind/utils';
+import { pick } from '@powership/utils';
 
 import { objectMetaFieldKey } from '../fields/MetaFieldField';
 

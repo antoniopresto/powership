@@ -1,4 +1,4 @@
-import { escapeCursorChars, joinPKSK } from '@swind/utils';
+import { escapeCursorChars, joinPKSK } from '@powership/utils';
 
 import { createDocumentIndexBasedFilters } from '../createDocumentIndexBasedFilters';
 

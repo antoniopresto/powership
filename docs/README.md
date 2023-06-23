@@ -1,15 +1,15 @@
-Solarwind / [Modules](modules.md)
+Powership / [Modules](modules.md)
 
-Solarwind / [Modules](./docs/modules.md)
+Powership / [Modules](./docs/modules.md)
 
-# Solarwind
+# Powership
 
 > All-in-one full-stack package for managing complex web applications.
 
-Solarwind is the full-stack package of choice for creating, managing, and scaling complex web applications with support
+Powership is the full-stack package of choice for creating, managing, and scaling complex web applications with support
 for single-table design.
 
-Using Solarwind you can quickly create types that can be easily extended, transformed into GraphQL, TypeScript, and used in both **frontend and backend** applications.
+Using Powership you can quickly create types that can be easily extended, transformed into GraphQL, TypeScript, and used in both **frontend and backend** applications.
 
 ## Table of Contents
 
@@ -30,7 +30,7 @@ import {
   createType,
   createEntity,
   Infer,
-} from 'solarwind';
+} from 'powership';
 
 const AddressType = createType('Address', {
   object: {

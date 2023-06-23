@@ -1,4 +1,4 @@
-import { tupleEnum } from '@swind/utils';
+import { tupleEnum } from '@powership/utils';
 
 import { $var } from './$var';
 

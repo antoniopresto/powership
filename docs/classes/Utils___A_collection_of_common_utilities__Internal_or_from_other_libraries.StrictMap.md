@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / StrictMap
+[Powership](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / StrictMap
 
 # Class: StrictMap<K, V\>
 
@@ -52,7 +52,7 @@
 
 #### Defined in
 
-[packages/utils/src/StrictMap.ts:10](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/StrictMap.ts#L10)
+packages/utils/src/StrictMap.ts:10
 
 ## Properties
 
@@ -62,7 +62,7 @@
 
 #### Defined in
 
-[packages/utils/src/StrictMap.ts:8](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/StrictMap.ts#L8)
+packages/utils/src/StrictMap.ts:8
 
 ## Accessors
 
@@ -76,7 +76,7 @@
 
 #### Defined in
 
-[packages/utils/src/StrictMap.ts:78](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/StrictMap.ts#L78)
+packages/utils/src/StrictMap.ts:78
 
 ## Methods
 
@@ -90,7 +90,7 @@
 
 #### Defined in
 
-[packages/utils/src/StrictMap.ts:66](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/StrictMap.ts#L66)
+packages/utils/src/StrictMap.ts:66
 
 ___
 
@@ -110,7 +110,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/StrictMap.ts:70](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/StrictMap.ts#L70)
+packages/utils/src/StrictMap.ts:70
 
 ___
 
@@ -130,7 +130,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/StrictMap.ts:14](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/StrictMap.ts#L14)
+packages/utils/src/StrictMap.ts:14
 
 ___
 
@@ -144,7 +144,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/StrictMap.ts:62](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/StrictMap.ts#L62)
+packages/utils/src/StrictMap.ts:62
 
 ___
 
@@ -165,7 +165,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/StrictMap.ts:18](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/StrictMap.ts#L18)
+packages/utils/src/StrictMap.ts:18
 
 ___
 
@@ -185,7 +185,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/StrictMap.ts:54](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/StrictMap.ts#L54)
+packages/utils/src/StrictMap.ts:54
 
 ___
 
@@ -199,7 +199,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/StrictMap.ts:58](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/StrictMap.ts#L58)
+packages/utils/src/StrictMap.ts:58
 
 ___
 
@@ -220,7 +220,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/StrictMap.ts:50](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/StrictMap.ts#L50)
+packages/utils/src/StrictMap.ts:50
 
 ___
 
@@ -234,4 +234,4 @@ ___
 
 #### Defined in
 
-[packages/utils/src/StrictMap.ts:74](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/StrictMap.ts#L74)
+packages/utils/src/StrictMap.ts:74

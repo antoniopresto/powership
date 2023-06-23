@@ -1,6 +1,6 @@
 {
-  "name": "@swind/utils",
-  "version": "2.0.1",
+  "name": "@powership/utils",
+  "version": "2.0.2",
   "typings": "lib",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -27,7 +27,7 @@
     "declarations": "tsc -p tsconfig.json",
     "babild": "babel 'src' --extensions '.ts,.tsx' --source-maps=true --ignore '**/__tests__'"
   },
-  "description": "solarwind utils and helper functions",
+  "description": "powership utils and helper functions",
   "keywords": [],
   "dependencies": {
     "aggio": "0.2.0",
@@ -57,12 +57,12 @@
     "ulid": "2.3.0"
   },
   "devDependencies": {
-    "@swind/boilerplate": "workspace:*",
+    "@powership/boilerplate": "workspace:*",
     "@babel/cli": "7.19.3",
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@swind/babel-plugins": "workspace:*",
+    "@powership/babel-plugins": "workspace:*",
     "@types/big.js": "6.1.6",
     "@types/deep-diff": "^1.0.2",
     "@types/ejson": "2.2.0",

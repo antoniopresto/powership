@@ -1,8 +1,8 @@
-import { PromiseType } from '@swind/utils';
+import { PromiseType } from '@powership/utils';
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
-import { createSolarwindObject, ObjectType } from '../../ObjectType';
+import { createPowershipObject, ObjectType } from '../../ObjectType';
 import { createResolver } from '../../Resolver';
 import { GraphType } from '../GraphType';
 
@@ -12,7 +12,7 @@ describe('createResolver', () => {
   });
 
   it('Should create a Resolver', () => {
-    const UserType = createSolarwindObject('User', {
+    const UserType = createPowershipObject('User', {
       name: { string: {}, description: 'the user name' },
       id: 'ulid',
     });
@@ -61,12 +61,12 @@ describe('createResolver', () => {
   });
 
   it('Should create complex types preserving names', () => {
-    const user = createSolarwindObject('user', {
+    const user = createPowershipObject('user', {
       name: 'string',
       age: 'int?',
     });
 
-    const userAddress = createSolarwindObject('UserAddress', {
+    const userAddress = createPowershipObject('UserAddress', {
       street: 'string',
       number: 'int?',
     }).describe('The user address');

@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / StoreOptions
+[Powership](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / StoreOptions
 
 # Interface: StoreOptions<Dict\>
 
@@ -26,7 +26,7 @@
 
 #### Defined in
 
-[packages/utils/src/Store.ts:46](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L46)
+packages/utils/src/Store.ts:47
 
 ___
 
@@ -36,14 +36,14 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:45](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L45)
+packages/utils/src/Store.ts:46
 
 ___
 
 ### values
 
-• `Optional` **values**: [`ObjectEntries`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#objectentries)<`Dict`\>
+• `Optional` **values**: [`ObjectEntries`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#objectentries)<`Dict`\>
 
 #### Defined in
 
-[packages/utils/src/Store.ts:44](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L44)
+packages/utils/src/Store.ts:45

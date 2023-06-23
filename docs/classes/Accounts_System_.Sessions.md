@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / Sessions
+[Powership](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / Sessions
 
 # Class: Sessions
 
@@ -39,7 +39,7 @@
 
 #### Defined in
 
-[packages/accounts/src/Sessions.ts:39](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Sessions.ts#L39)
+packages/accounts/src/Sessions.ts:38
 
 ## Properties
 
@@ -63,7 +63,7 @@
 
 #### Defined in
 
-[packages/accounts/src/Sessions.ts:37](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Sessions.ts#L37)
+packages/accounts/src/Sessions.ts:36
 
 ___
 
@@ -75,13 +75,13 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `onRefreshTokens` | `Waterfall`<[`SessionRequest`](../modules/Accounts_System_.md#sessionrequest) & { `result`: [`LoginResult`](../modules/Accounts_System_.md#loginresult)  }, [`SessionHooksContext`](../modules/Accounts_System_.md#sessionhookscontext)\> |
-| `onRequest` | `Waterfall`<[`SessionRequest`](../modules/Accounts_System_.md#sessionrequest), [`SessionHooksContext`](../modules/Accounts_System_.md#sessionhookscontext)\> |
-| `onUpsertSessionError` | `Waterfall`<`Error`, [`SessionRequest`](../modules/Accounts_System_.md#sessionrequest)\> |
+| `onRefreshTokens` | `AsyncPlugin`<[`SessionRequest`](../modules/Accounts_System_.md#sessionrequest) & { `result`: [`LoginResult`](../modules/Accounts_System_.md#loginresult)  }, [`SessionHooksContext`](../modules/Accounts_System_.md#sessionhookscontext)\> |
+| `onRequest` | `AsyncPlugin`<[`SessionRequest`](../modules/Accounts_System_.md#sessionrequest), [`SessionHooksContext`](../modules/Accounts_System_.md#sessionhookscontext)\> |
+| `onUpsertSessionError` | `AsyncPlugin`<`Error`, [`SessionRequest`](../modules/Accounts_System_.md#sessionrequest)\> |
 
 #### Defined in
 
-[packages/accounts/src/Sessions.ts:35](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Sessions.ts#L35)
+packages/accounts/src/Sessions.ts:34
 
 ## Methods
 
@@ -106,7 +106,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Sessions.ts:56](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Sessions.ts#L56)
+packages/accounts/src/Sessions.ts:55
 
 ___
 
@@ -132,7 +132,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Sessions.ts:52](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Sessions.ts#L52)
+packages/accounts/src/Sessions.ts:51
 
 ___
 
@@ -152,7 +152,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Sessions.ts:319](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Sessions.ts#L319)
+packages/accounts/src/Sessions.ts:318
 
 ___
 
@@ -174,7 +174,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Sessions.ts:298](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Sessions.ts#L298)
+packages/accounts/src/Sessions.ts:297
 
 ___
 
@@ -194,7 +194,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Sessions.ts:95](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Sessions.ts#L95)
+packages/accounts/src/Sessions.ts:94
 
 ___
 
@@ -217,7 +217,7 @@ tokens if session is valid
 
 #### Defined in
 
-[packages/accounts/src/Sessions.ts:70](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Sessions.ts#L70)
+packages/accounts/src/Sessions.ts:69
 
 ___
 
@@ -247,4 +247,4 @@ Create a new session if existingSession is null
 
 #### Defined in
 
-[packages/accounts/src/Sessions.ts:156](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Sessions.ts#L156)
+packages/accounts/src/Sessions.ts:155

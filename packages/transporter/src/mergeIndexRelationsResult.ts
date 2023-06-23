@@ -1,4 +1,8 @@
-import { NodeLogger, ParsedIndexCursor, parseFilterCursor } from '@swind/utils';
+import {
+  NodeLogger,
+  ParsedIndexCursor,
+  parseFilterCursor,
+} from '@powership/utils';
 
 import {
   AnyCollectionIndexConfig,

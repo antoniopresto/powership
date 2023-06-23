@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / A collection of type generation helpers.
+[Powership](../README.md) / [Modules](../modules.md) / A collection of type generation helpers.
 
 # Module: A collection of type generation helpers.
 
@@ -6,37 +6,11 @@
 
 ### Functions
 
-- [solarwindUtilsResolver](A_collection_of_type_generation_helpers_.md#solarwindutilsresolver)
 - [jsonToSchemaDefinition](A_collection_of_type_generation_helpers_.md#jsontoschemadefinition)
 - [jsonToType](A_collection_of_type_generation_helpers_.md#jsontotype)
+- [powershipUtilsResolver](A_collection_of_type_generation_helpers_.md#powershiputilsresolver)
 
 ## Functions
-
-### solarwindUtilsResolver
-
-▸ **solarwindUtilsResolver**(`input`, `onPageInit?`): `Promise`<{ `body`: `string` = html; `headers`: { `Content-Type`: `string` = 'text/html' } ; `statusCode`: `number` = 200 }\>
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `input` | `Object` |
-| `input.examples` | `undefined` \| `boolean` |
-| `input.fieldCase` | `undefined` \| ``"undefined"`` \| ``"keep"`` \| ``"capitalized"`` \| ``"lowercase"`` \| ``"random"`` \| ``"slugify"`` \| ``"camelCase"`` |
-| `input.json` | `Object` |
-| `input.name` | `undefined` \| `string` |
-| `input.url` | `undefined` \| `string` |
-| `onPageInit?` | (`options`: `RenderHighlightPageInit`) => `RenderHighlightPageInit` |
-
-#### Returns
-
-`Promise`<{ `body`: `string` = html; `headers`: { `Content-Type`: `string` = 'text/html' } ; `statusCode`: `number` = 200 }\>
-
-#### Defined in
-
-[packages/helpers/src/solarwindUtilsResolver.ts:16](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/helpers/src/solarwindUtilsResolver.ts#L16)
-
-___
 
 ### jsonToSchemaDefinition
 
@@ -59,7 +33,7 @@ ___
 
 #### Defined in
 
-[packages/helpers/src/jsonToType.ts:55](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/helpers/src/jsonToType.ts#L55)
+packages/helpers/src/jsonToType.ts:57
 
 ___
 
@@ -84,4 +58,30 @@ ___
 
 #### Defined in
 
-[packages/helpers/src/jsonToType.ts:40](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/helpers/src/jsonToType.ts#L40)
+packages/helpers/src/jsonToType.ts:42
+
+___
+
+### powershipUtilsResolver
+
+▸ **powershipUtilsResolver**(`input`, `onPageInit?`): `Promise`<{ `body`: `string` = html; `headers`: { `Content-Type`: `string` = 'text/html' } ; `statusCode`: `number` = 200 }\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `input` | `Object` |
+| `input.examples` | `undefined` \| `boolean` |
+| `input.fieldCase` | `undefined` \| ``"undefined"`` \| ``"keep"`` \| ``"capitalized"`` \| ``"lowercase"`` \| ``"random"`` \| ``"slugify"`` \| ``"camelCase"`` |
+| `input.json` | `Object` |
+| `input.name` | `undefined` \| `string` |
+| `input.url` | `undefined` \| `string` |
+| `onPageInit?` | (`options`: `RenderHighlightPageInit`) => `RenderHighlightPageInit` |
+
+#### Returns
+
+`Promise`<{ `body`: `string` = html; `headers`: { `Content-Type`: `string` = 'text/html' } ; `statusCode`: `number` = 200 }\>
+
+#### Defined in
+
+packages/helpers/src/powershipUtilsResolver.ts:16

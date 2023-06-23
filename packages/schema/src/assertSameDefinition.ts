@@ -1,4 +1,4 @@
-import { assertSame } from '@swind/utils';
+import { assertSame } from '@powership/utils';
 
 import { parseObjectDefinition } from './parseObjectDefinition';
 

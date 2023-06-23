@@ -1,3 +1,3 @@
-import { parseAggioUpdateExpression } from '@swind/transporter';
+import { parseAggioUpdateExpression } from '@powership/transporter';
 
 export const parseMongoUpdateExpression = parseAggioUpdateExpression;

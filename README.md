@@ -1,13 +1,13 @@
-Solarwind / [Modules](./docs/modules.md)
+Powership / [Modules](./docs/modules.md)
 
-# Solarwind
+# Powership
 
 > All-in-one full-stack package for managing complex web applications.
 
-Solarwind is the full-stack package of choice for creating, managing, and scaling complex web applications with support
+Powership is the full-stack package of choice for creating, managing, and scaling complex web applications with support
 for single-table design.
 
-Using Solarwind you can quickly create types that can be easily extended, transformed into GraphQL, TypeScript, and used in both **frontend and backend** applications.
+Using Powership you can quickly create types that can be easily extended, transformed into GraphQL, TypeScript, and used in both **frontend and backend** applications.
 
 ## Table of Contents
 
@@ -22,22 +22,13 @@ Using Solarwind you can quickly create types that can be easily extended, transf
 ## Creating and extending types
 
 ```ts
-import {
-  createGraphQLSchema,
-  createResolver,
-  createType,
-  createEntity,
-  Infer,
-} from 'solarwind';
+import { createGraphQLSchema, createResolver, createType, createEntity, Infer } from 'powership';
 
 const AddressType = createType('Address', {
   object: {
     street: 'string',
     number: {
-      union: [
-        'string',
-        'int?',
-      ],
+      union: ['string', 'int?'],
     },
   },
 });
@@ -52,28 +43,17 @@ const UserType = createType(
 
       // declaring a union field - will infer as `string | undefined | number[]`
       unionField: {
-        union: [
-          'string?',
-          '[int]?',
-        ],
+        union: ['string?', '[int]?'],
       },
 
       // represents an enum
       letter: {
-        enum: [
-          'a',
-          'b',
-          'c',
-        ],
+        enum: ['a', 'b', 'c'],
       },
 
       // more detailed way to define enums
       letterOptionalList: {
-        enum: [
-          'x',
-          'y',
-          'z',
-        ],
+        enum: ['x', 'y', 'z'],
         optional: true,
         list: true,
       },
@@ -169,10 +149,7 @@ const StoreEntity = createEntity({
     },
     {
       name: 'id2',
-      PK: [
-        '.ownerId',
-        '.storeId',
-      ],
+      PK: ['.ownerId', '.storeId'],
     },
   ],
 });

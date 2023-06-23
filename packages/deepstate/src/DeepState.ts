@@ -6,15 +6,15 @@ import {
   ObjectDefinitionInput,
   ObjectType,
   TAnyFieldType,
-} from '@swind/schema';
-import { diff, Difference } from '@swind/utils';
+} from '@powership/schema';
+import { diff, Difference } from '@powership/utils';
 import {
   AnyRecord,
   getStack,
   isPlainObject,
   parsePath,
   pick,
-} from '@swind/utils';
+} from '@powership/utils';
 import * as Y from 'yjs';
 
 import { UpdateContext, YUtils } from './YUtils';

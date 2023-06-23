@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / EntityAddRelation
+[Powership](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / EntityAddRelation
 
 # Interface: EntityAddRelation<Parent, EContext\>
 
@@ -37,4 +37,4 @@
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/AddRelation.ts:12](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/AddRelation.ts#L12)
+packages/entity/src/EntityInterfaces/AddRelation.ts:12

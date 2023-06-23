@@ -1,6 +1,6 @@
 {
-  "name": "@swind/transporter",
-  "version": "2.0.1",
+  "name": "@powership/transporter",
+  "version": "2.0.2",
   "main": "lib/index.js",
   "sideEffects": false,
   "module": "lib/module/index.js",
@@ -20,10 +20,10 @@
     "declarations": "tsc -p tsconfig.declarations.json",
     "babild": "babel 'src' --extensions '.ts,.tsx'"
   },
-  "description": "Solarwind db",
+  "description": "Powership db",
   "repository": {
     "type": "git",
-    "url": "https://github.com/antoniopresto/solarwind/"
+    "url": "https://github.com/antoniopresto/powership/"
   },
   "keywords": [
     "typescript",
@@ -34,19 +34,19 @@
     "inference"
   ],
   "dependencies": {
-    "@swind/schema": "workspace:*",
-    "@swind/utils": "workspace:*",
+    "@powership/schema": "workspace:*",
+    "@powership/utils": "workspace:*",
     "dataloader": "2.1.0",
     "plugin-hooks": "2.0.0",
     "sift": "16.0.0"
   },
   "devDependencies": {
-    "@swind/boilerplate": "workspace:*",
+    "@powership/boilerplate": "workspace:*",
     "@babel/cli": "7.19.3",
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@swind/babel-plugins": "workspace:*",
+    "@powership/babel-plugins": "workspace:*",
     "@types/jest": "29.1.2",
     "@types/node": "16.18.3",
     "@typescript-eslint/eslint-plugin": "5.39.0",
@@ -79,7 +79,7 @@
   "typedoc": {
     "entryPoint": "./src/index.ts",
     "readmeFile": "./README.md",
-    "displayName": "Transporter - Base to connect any Database to Solarwind.",
+    "displayName": "Transporter - Base to connect any Database to Powership.",
     "tsconfig": "./tsconfig.module.json"
   }
 }

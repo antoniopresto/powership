@@ -1,5 +1,5 @@
-import { createType } from '@swind/schema';
-import { AnyRecord, getTypeName } from '@swind/utils';
+import { createType } from '@powership/schema';
+import { AnyRecord, getTypeName } from '@powership/utils';
 import { DeepState } from '../DeepState';
 import { DeepStateBase } from '../interfaces/DeepState';
 

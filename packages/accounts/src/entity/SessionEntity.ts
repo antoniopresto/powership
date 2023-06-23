@@ -1,5 +1,5 @@
-import { createEntity } from '@swind/entity';
-import { Infer } from '@swind/schema';
+import { createEntity } from '@powership/entity';
+import { Infer } from '@powership/schema';
 
 import { SessionType } from '../types/SessionType';
 

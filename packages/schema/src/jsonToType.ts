@@ -8,7 +8,7 @@ import {
   isPlainObject,
   joinPathsCamelCase,
   stringCase,
-} from '@swind/utils';
+} from '@powership/utils';
 
 import { CircularDeps } from './CircularDeps';
 import { createType, GraphType } from './GraphType/GraphType';
@@ -82,7 +82,7 @@ export function isCursorString(value: any): value is string {
 
 const phoneType = CircularDeps.phone({});
 
-export const valuesToSolarwindTypeRecord: {
+export const valuesToPowershipTypeRecord: {
   [L in FieldTypeName]: (value: any) => boolean;
 } = {
   null: (value) => value === null,
@@ -113,8 +113,8 @@ export const valuesToSolarwindTypeRecord: {
   enum: () => false,
 };
 
-export const solarwindValueTypeCheckEntries = entries(
-  valuesToSolarwindTypeRecord
+export const powershipValueTypeCheckEntries = entries(
+  valuesToPowershipTypeRecord
 );
 
 export function valueToTypeDef(
@@ -124,7 +124,7 @@ export function valueToTypeDef(
 
   const typename: FieldTypeName = (function iifeTypename() {
     return (
-      solarwindValueTypeCheckEntries.find(([, check]) => {
+      powershipValueTypeCheckEntries.find(([, check]) => {
         return check(value);
       })?.[0] || 'unknown'
     );

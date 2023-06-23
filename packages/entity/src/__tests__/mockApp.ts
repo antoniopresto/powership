@@ -1,6 +1,6 @@
-import { MongoTransporter } from '@swind/mongo';
-import { AppMock, createAppMock } from '@swind/mongo/lib/test-utils';
-import { ObjectType } from '@swind/schema';
+import { MongoTransporter } from '@powership/mongo';
+import { AppMock, createAppMock } from '@powership/mongo/lib/test-utils';
+import { ObjectType } from '@powership/schema';
 
 export function mockApp() {
   const res = {} as { mockApp: AppMock; transporter: MongoTransporter };

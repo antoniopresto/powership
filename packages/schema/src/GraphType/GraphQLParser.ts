@@ -4,7 +4,7 @@ import {
   createStore,
   nonNullValues,
   RuntimeError,
-} from '@swind/utils';
+} from '@powership/utils';
 import {
   GraphQLBoolean,
   GraphQLEnumType,

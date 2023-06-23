@@ -61,7 +61,7 @@ module.exports = function (api) {
 
   const plugins = [
     [
-      require('@swind/babel-plugins').StripBlocksPlugin,
+      require('@powership/babel-plugins').StripBlocksPlugin,
       {
         magicComment: `@only-${KIND_INVERT}`,
       },

@@ -66,7 +66,7 @@ describe('generateQuery', () => {
       },
     });
 
-    const solarwindResolver = createResolver({
+    const powershipResolver = createResolver({
       type: ProductType,
       name: 'getProductById',
       description: 'Get a product by ID',
@@ -85,7 +85,7 @@ describe('generateQuery', () => {
       },
     });
 
-    const graphQLField = solarwindResolver.asObjectField('productById');
+    const graphQLField = powershipResolver.asObjectField('productById');
     const sut = getQueryTemplates({
       graphQLField,
       queryKind: 'mainQuery',
@@ -125,7 +125,7 @@ describe('generateQuery', () => {
       },
     } as const);
 
-    const solarwindResolver = createResolver({
+    const powershipResolver = createResolver({
       type: ProductType,
       name: 'getMemberKind',
       args: {
@@ -136,7 +136,7 @@ describe('generateQuery', () => {
       },
     });
 
-    const graphQLField = solarwindResolver.asObjectField();
+    const graphQLField = powershipResolver.asObjectField();
 
     const sut = getQueryTemplates({
       graphQLField,

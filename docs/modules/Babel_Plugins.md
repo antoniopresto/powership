@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / Babel Plugins
+[Powership](../README.md) / [Modules](../modules.md) / Babel Plugins
 
 # Module: Babel Plugins
 
@@ -20,4 +20,4 @@
 
 #### Defined in
 
-[packages/babel-plugins/src/strip-blocks.ts:3](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/babel-plugins/src/strip-blocks.ts#L3)
+packages/babel-plugins/src/strip-blocks.ts:3

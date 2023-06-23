@@ -3,7 +3,7 @@ import {
   MaybePromise,
   PartialRequired,
   TypeDescription,
-} from '@swind/utils';
+} from '@powership/utils';
 
 import { CircularDeps } from '../CircularDeps';
 import { GraphType } from '../GraphType/GraphType';

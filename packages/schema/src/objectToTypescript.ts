@@ -1,4 +1,4 @@
-import { jsonToTypescript } from '@swind/utils';
+import { jsonToTypescript } from '@powership/utils';
 
 import { ObjectDefinitionInput } from './TObjectConfig';
 import { ObjectLike } from './fields/IObjectLike';

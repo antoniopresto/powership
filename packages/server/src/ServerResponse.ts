@@ -1,4 +1,4 @@
-import { ms } from '@swind/utils';
+import { ms } from '@powership/utils';
 
 import {
   BaseRequestHandler,

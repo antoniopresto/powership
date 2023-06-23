@@ -1,4 +1,4 @@
-import { CircularDeps, SolarwindModules } from '../CircularDeps';
+import { CircularDeps, PowershipModules } from '../CircularDeps';
 import { ObjectType } from '../ObjectType';
 import { TAnyFieldType } from '../fields/FieldType';
 import { getObjectDefinitionId } from '../fields/MetaFieldField';
@@ -24,7 +24,7 @@ export function lazyCreateGraphTypeInitPayload(
 
   let definitionInput:
     | ObjectFieldInput
-    | ((utils: SolarwindModules) => ObjectFieldInput);
+    | ((utils: PowershipModules) => ObjectFieldInput);
 
   let idFromArgs;
   if (args.length === 2) {

@@ -1,7 +1,7 @@
 import path from 'path';
 
-import { Process } from '@swind/utils';
-import { Emitter, mitt } from '@swind/utils';
+import { Process } from '@powership/utils';
+import { Emitter, mitt } from '@powership/utils';
 import { ensureFileSync, writeFileSync } from 'fs-extra';
 
 import { CircularDeps } from '../CircularDeps';
@@ -18,7 +18,7 @@ export type CustomTypesWriterEvent = {
   name: string;
 };
 
-export const SolarwindWatchTypesPubSub: Emitter<{
+export const PowershipWatchTypesPubSub: Emitter<{
   created: {
     custom?: CustomTypesWriterEvent;
     graphType?: GraphTypeLike;
@@ -31,7 +31,7 @@ const resolversRecord: Record<string, AnyResolver> = {};
 const customTypeRecord: Record<string, CustomTypesWriterEvent> = {};
 
 // APLICAR AOS RESOLVERS DA ENTITY, etc
-SolarwindWatchTypesPubSub.on('created', async (event) => {
+PowershipWatchTypesPubSub.on('created', async (event) => {
   if (event.graphType?.optionalId) {
     typesRecord[`${event.graphType.id}`] = event.graphType;
   }
@@ -53,7 +53,7 @@ export interface WriteTypesOptions {
 
 export const defaultTypesDest = path.resolve(
   Process.cwd(),
-  'src/generated/solarwind.d.ts'
+  'src/generated/powership.d.ts'
 );
 
 export async function writeTypes(options?: WriteTypesOptions) {
@@ -79,7 +79,7 @@ export async function writeTypes(options?: WriteTypesOptions) {
     txt += `\n export ${fn};\n`;
     txt += `\n export ${getTypeFn};\n`;
 
-    txt += `\n export const Solarwind = { createType, getType };\n`;
+    txt += `\n export const Powership = { createType, getType };\n`;
 
     return txt;
   });
@@ -100,7 +100,7 @@ export async function writeTypes(options?: WriteTypesOptions) {
     txt += `\n export ${fn};\n`;
     txt += `\n export ${getTypeFn};\n`;
 
-    txt += `\n export const Solarwind = { createResolver, getResolver };\n`;
+    txt += `\n export const Powership = { createResolver, getResolver };\n`;
 
     return txt;
   });
@@ -167,10 +167,10 @@ function template({
 /* tslint:disable */
 /* eslint-disable */
 declare global {
-  module '@swind/schema' {
-    export * from '@swind/schema';
-    import { ObjectFieldInput, ValidationCustomMessage, FieldDefinitionConfig } from '@swind/schema';
-    import { Merge } from '@swind/utils';
+  module '@powership/schema' {
+    export * from '@powership/schema';
+    import { ObjectFieldInput, ValidationCustomMessage, FieldDefinitionConfig } from '@powership/schema';
+    import { Merge } from '@powership/utils';
   
     import {
       GraphQLField,
@@ -287,10 +287,10 @@ let timeoutMS = 2000;
 function save() {
   clearTimeout(timeoutRef);
 
-  if (process.env.solarwind_emit_interval) {
+  if (process.env.powership_emit_interval) {
     timeoutMS =
-      +process.env.solarwind_emit_interval > 0
-        ? +process.env.solarwind_emit_interval
+      +process.env.powership_emit_interval > 0
+        ? +process.env.powership_emit_interval
         : timeoutMS;
 
     timeoutRef = setTimeout(() => {

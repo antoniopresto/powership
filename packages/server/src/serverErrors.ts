@@ -1,4 +1,4 @@
-import { createErrorClass } from '@swind/utils';
+import { createErrorClass } from '@powership/utils';
 
 export const NotImplementedError = createErrorClass('NotImplemented');
 

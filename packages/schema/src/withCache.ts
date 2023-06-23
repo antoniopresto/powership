@@ -1,4 +1,4 @@
-import { RuntimeError } from '@swind/utils';
+import { RuntimeError } from '@powership/utils';
 
 export interface WithCache<Cache extends Record<string, any>> {
   <K extends keyof Cache>(key: K, onCreate?: () => Cache[K]): Cache[K];

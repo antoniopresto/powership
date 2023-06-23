@@ -1,5 +1,5 @@
-import { DocumentBase } from '@swind/transporter';
-import { RuntimeError } from '@swind/utils';
+import { DocumentBase } from '@powership/transporter';
+import { RuntimeError } from '@powership/utils';
 
 import { CacheContext, MongoFindManyParams } from './IMongoDataLoader';
 import { getMongoDataloader } from './getMongoDataloader';

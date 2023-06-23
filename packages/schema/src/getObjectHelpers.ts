@@ -1,4 +1,4 @@
-import { getKeys } from '@swind/utils';
+import { getKeys } from '@powership/utils';
 
 import type { FinalFieldDefinition } from './ObjectType';
 import { TAnyFieldType } from './fields/FieldType';

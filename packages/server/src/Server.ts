@@ -1,8 +1,8 @@
 import * as HTTP from 'http';
 import type { AddressInfo } from 'net';
 
-import { hope, Hope, NodeLogger } from '@swind/utils';
-import { Compute, nonNullValues } from '@swind/utils';
+import { hope, Hope, NodeLogger } from '@powership/utils';
+import { Compute, nonNullValues } from '@powership/utils';
 import { InternalServerError, NotFound } from 'http-errors';
 import { createAsyncPlugin } from 'plugin-hooks';
 

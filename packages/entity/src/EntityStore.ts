@@ -1,4 +1,4 @@
-import { createStore } from '@swind/utils';
+import { createStore } from '@powership/utils';
 
 import { AnyEntity } from './EntityInterfaces';
 

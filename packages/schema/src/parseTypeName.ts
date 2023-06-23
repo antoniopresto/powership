@@ -1,4 +1,4 @@
-import { RuntimeError } from '@swind/utils';
+import { RuntimeError } from '@powership/utils';
 
 import { getObjectDefinitionMetaField } from './fields/MetaFieldField';
 import { FinalFieldDefinition } from './fields/_parseFields';

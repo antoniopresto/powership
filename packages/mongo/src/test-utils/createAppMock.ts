@@ -1,7 +1,7 @@
 import * as process from 'process';
 
-import { ObjectType } from '@swind/schema';
-import { delay, inspectObject, notNull } from '@swind/utils';
+import { ObjectType } from '@powership/schema';
+import { delay, inspectObject, notNull } from '@powership/utils';
 import { MongoMemoryServer } from 'mongodb-memory-server-core';
 
 import { MongoClient } from '../MongoClient';

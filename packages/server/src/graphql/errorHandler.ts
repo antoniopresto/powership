@@ -1,4 +1,4 @@
-import { AnyFunction, ulid } from '@swind/utils';
+import { AnyFunction, ulid } from '@powership/utils';
 import { GraphQLObjectType, GraphQLSchema } from 'graphql';
 
 import { isHttpError } from '../BaseRequestHandler';

@@ -1,4 +1,4 @@
-import { parseIndexFieldName } from '@swind/utils';
+import { parseIndexFieldName } from '@powership/utils';
 
 import { getDocumentIndexFields } from '../getDocumentIndexFields';
 

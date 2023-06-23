@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [RunMate - A command line utility to run scripts in multiple files.](../modules/RunMate___A_command_line_utility_to_run_scripts_in_multiple_files_.md) / PackageRunnerResult
+[Powership](../README.md) / [Modules](../modules.md) / [RunMate - A command line utility to run scripts in multiple files.](../modules/RunMate___A_command_line_utility_to_run_scripts_in_multiple_files_.md) / PackageRunnerResult
 
 # Interface: PackageRunnerResult
 
@@ -9,6 +9,7 @@
 ### Properties
 
 - [errors](RunMate___A_command_line_utility_to_run_scripts_in_multiple_files_.PackageRunnerResult.md#errors)
+- [results](RunMate___A_command_line_utility_to_run_scripts_in_multiple_files_.PackageRunnerResult.md#results)
 
 ## Properties
 
@@ -18,4 +19,14 @@
 
 #### Defined in
 
-[packages/runmate/src/packageRunner.ts:65](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/packageRunner.ts#L65)
+packages/runmate/src/packageRunner.ts:72
+
+___
+
+### results
+
+• **results**: [`RunCommandResult`](RunMate___A_command_line_utility_to_run_scripts_in_multiple_files_.RunCommandResult.md)[]
+
+#### Defined in
+
+packages/runmate/src/packageRunner.ts:73

@@ -1,5 +1,5 @@
-import { expectedType } from '@swind/utils';
-import { ulid } from '@swind/utils';
+import { expectedType } from '@powership/utils';
+import { ulid } from '@powership/utils';
 
 import { FieldType, FieldTypeParser } from './FieldType';
 

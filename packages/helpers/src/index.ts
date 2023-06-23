@@ -1,4 +1,4 @@
 import { jsonToSchemaDefinition, jsonToType } from './jsonToType';
-import { solarwindUtilsResolver } from './solarwindUtilsResolver';
+import { powershipUtilsResolver } from './powershipUtilsResolver';
 
-export { jsonToType, solarwindUtilsResolver, jsonToSchemaDefinition };
+export { jsonToType, powershipUtilsResolver, jsonToSchemaDefinition };

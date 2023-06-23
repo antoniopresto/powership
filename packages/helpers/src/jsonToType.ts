@@ -9,7 +9,7 @@ import {
   GraphType,
   Infer,
   ULID_REGEX,
-} from '@swind/schema';
+} from '@powership/schema';
 import {
   customError,
   EmailRegex,
@@ -20,7 +20,7 @@ import {
   isPlainObject,
   joinPathsCamelCase,
   stringCase,
-} from '@swind/utils';
+} from '@powership/utils';
 
 const record = create.record({ keyType: 'string', type: 'any' });
 
@@ -83,7 +83,7 @@ export function isCursorString(value: any): value is string {
 
 const phoneType = create.phone({});
 
-export const valuesToSolarwindTypeRecord: {
+export const valuesToPowershipTypeRecord: {
   [L in FieldTypeName]: (value: any) => boolean;
 } = {
   null: (value) => value === null,
@@ -114,8 +114,8 @@ export const valuesToSolarwindTypeRecord: {
   enum: () => false,
 };
 
-export const solarwindValueTypeCheckEntries = entries(
-  valuesToSolarwindTypeRecord
+export const powershipValueTypeCheckEntries = entries(
+  valuesToPowershipTypeRecord
 );
 
 export function valueToTypeDef(
@@ -125,7 +125,7 @@ export function valueToTypeDef(
 
   const typename: FieldTypeName = (function iifeTypename() {
     return (
-      solarwindValueTypeCheckEntries.find(([, check]) => {
+      powershipValueTypeCheckEntries.find(([, check]) => {
         return check(value);
       })?.[0] || 'unknown'
     );

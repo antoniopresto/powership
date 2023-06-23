@@ -1,5 +1,5 @@
-import { getTypeName } from '@swind/utils';
-import { inspectObject, isProduction } from '@swind/utils';
+import { getTypeName } from '@powership/utils';
+import { inspectObject, isProduction } from '@powership/utils';
 import {
   HttpError,
   InternalServerError,

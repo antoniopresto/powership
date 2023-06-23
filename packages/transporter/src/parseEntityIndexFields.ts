@@ -1,9 +1,9 @@
-import { FieldInput, ObjectDefinitionInput } from '@swind/schema';
+import { FieldInput, ObjectDefinitionInput } from '@powership/schema';
 import {
   INDEX_PART_SEP,
   parseIndexFieldName,
   RELATION_PRECEDES,
-} from '@swind/utils';
+} from '@powership/utils';
 
 import { AnyCollectionIndexConfig, CommonIndexFields } from './CollectionIndex';
 

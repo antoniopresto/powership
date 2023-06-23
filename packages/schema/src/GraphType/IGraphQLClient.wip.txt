@@ -1,4 +1,4 @@
-import { AnyRecord } from '@swind/utils';
+import { AnyRecord } from '@powership/utils';
 
 import { ResolverKind } from '../Resolver';
 import { FieldInput } from '../fields/_parseFields';

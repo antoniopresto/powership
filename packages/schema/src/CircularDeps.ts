@@ -1,8 +1,8 @@
 /*
  * Handles circular dependencies with type safety
  */
-import { RuntimeError } from '@swind/utils';
-import { isBrowser } from '@swind/utils';
+import { RuntimeError } from '@powership/utils';
+import { isBrowser } from '@powership/utils';
 
 import { fieldTypeNames } from './fields/fieldTypeNames';
 import type { FieldCreators } from './fields/fieldTypes';
@@ -74,7 +74,7 @@ function getModules() {
       // @only-server
       module: () =>
         // @only-server
-        require('@swind/utils/lib/parsePhoneNumber') as typeof import('@swind/utils/lib/parsePhoneNumber'),
+        require('@powership/utils/lib/parsePhoneNumber') as typeof import('@powership/utils/lib/parsePhoneNumber'),
 
       server: true,
     },
@@ -122,7 +122,7 @@ function getModules() {
         } catch (e: any) {
           return function objectToTypescript() {
             throw new Error(
-              '⚠️ Solarwind.objectToTypescript is not available when bundled.\n' +
+              '⚠️ Powership.objectToTypescript is not available when bundled.\n' +
                 e.stack
             );
           } as any;
@@ -134,18 +134,18 @@ function getModules() {
 
     formatWithPrettier: {
       // @only-server
-      module: (): typeof import('@swind/utils').formatWithPrettier => {
+      module: (): typeof import('@powership/utils').formatWithPrettier => {
         try {
           // too big to include in bundled code
           // @only-server
-          return (a, b) =>
-            import('@swind/utils').then(({ formatWithPrettier }) => {
+          return ((a, b) =>
+            import('@powership/utils').then(({ formatWithPrettier }): any => {
               return formatWithPrettier(a, b);
-            });
+            })) as any;
         } catch (e: any) {
           return function formatWithPrettier(code) {
             console.warn(
-              '⚠️ Solarwind.prettier is not available when bundled.' + e.stack
+              '⚠️ Powership.prettier is not available when bundled.' + e.stack
             );
             return Promise.resolve(code);
           } as any;
@@ -203,7 +203,7 @@ type Caramelo<P> = {
   [K in AllKeys<P>]: K extends keyof SubProps<P, K> ? SubProps<P, K>[K] : never;
 };
 
-export type SolarwindModules = Exports & Caramelo<Exports> & FieldCreators;
+export type PowershipModules = Exports & Caramelo<Exports> & FieldCreators;
 
 const cache = new Map();
 
@@ -261,7 +261,7 @@ function get(key: string) {
   return cache.get(key);
 }
 
-export const CircularDeps = new Proxy({} as SolarwindModules, {
+export const CircularDeps = new Proxy({} as PowershipModules, {
   get(_, key: string) {
     const item = get(key);
     if (!item) {

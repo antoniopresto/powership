@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / Serializer
+[Powership](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / Serializer
 
 # Class: Serializer<Type\>
 
@@ -51,7 +51,7 @@
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:32](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L32)
+packages/utils/src/BJSON.ts:32
 
 ## Properties
 
@@ -61,7 +61,7 @@
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:28](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L28)
+packages/utils/src/BJSON.ts:28
 
 ___
 
@@ -71,7 +71,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:27](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L27)
+packages/utils/src/BJSON.ts:27
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:30](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L30)
+packages/utils/src/BJSON.ts:30
 
 ___
 
@@ -91,7 +91,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:25](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L25)
+packages/utils/src/BJSON.ts:25
 
 ___
 
@@ -101,7 +101,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:29](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L29)
+packages/utils/src/BJSON.ts:29
 
 ___
 
@@ -111,7 +111,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:26](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L26)
+packages/utils/src/BJSON.ts:26
 
 ___
 
@@ -121,7 +121,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:24](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L24)
+packages/utils/src/BJSON.ts:24
 
 ## Methods
 
@@ -141,7 +141,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:57](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L57)
+packages/utils/src/BJSON.ts:57
 
 ___
 
@@ -161,4 +161,4 @@ ___
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:41](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L41)
+packages/utils/src/BJSON.ts:41

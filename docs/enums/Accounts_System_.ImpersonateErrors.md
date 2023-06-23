@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / ImpersonateErrors
+[Powership](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / ImpersonateErrors
 
 # Enumeration: ImpersonateErrors
 
@@ -26,7 +26,7 @@ If option `ambiguousErrorMessages` is true, this will never throw.
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:73](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L73)
+packages/accounts/src/utils/AccountError.ts:73
 
 ___
 
@@ -38,7 +38,7 @@ Session is not valid
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:68](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L68)
+packages/accounts/src/utils/AccountError.ts:68
 
 ___
 
@@ -50,7 +50,7 @@ Will throw if access token is missing.
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:78](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L78)
+packages/accounts/src/utils/AccountError.ts:78
 
 ___
 
@@ -62,7 +62,7 @@ Will throw if session is not found.
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:86](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L86)
+packages/accounts/src/utils/AccountError.ts:86
 
 ___
 
@@ -74,7 +74,7 @@ Will throw if verification of the access token failed.
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:82](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L82)
+packages/accounts/src/utils/AccountError.ts:82
 
 ___
 
@@ -86,4 +86,4 @@ Will throw if user is not found.
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:64](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L64)
+packages/accounts/src/utils/AccountError.ts:64

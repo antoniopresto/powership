@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / LogoutErrors
+[Powership](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / LogoutErrors
 
 # Enumeration: LogoutErrors
 
@@ -23,7 +23,7 @@ Session is not valid
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:116](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L116)
+packages/accounts/src/utils/AccountError.ts:116
 
 ___
 
@@ -35,7 +35,7 @@ Will throw if access token is missing.
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:121](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L121)
+packages/accounts/src/utils/AccountError.ts:121
 
 ___
 
@@ -47,7 +47,7 @@ Will throw if session is not found.
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:129](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L129)
+packages/accounts/src/utils/AccountError.ts:129
 
 ___
 
@@ -59,4 +59,4 @@ Will throw if verification of the access token failed.
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:125](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L125)
+packages/accounts/src/utils/AccountError.ts:125

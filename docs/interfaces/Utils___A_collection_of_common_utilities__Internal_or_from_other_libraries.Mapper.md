@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / Mapper
+[Powership](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / Mapper
 
 # Interface: Mapper<Item\>
 
@@ -30,7 +30,7 @@
 
 #### Defined in
 
-[packages/utils/src/mapper.ts:9](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/mapper.ts#L9)
+packages/utils/src/mapper.ts:9
 
 ___
 
@@ -44,7 +44,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/mapper.ts:11](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/mapper.ts#L11)
+packages/utils/src/mapper.ts:11
 
 ___
 
@@ -70,4 +70,4 @@ ___
 
 #### Defined in
 
-[packages/utils/src/mapper.ts:5](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/mapper.ts#L5)
+packages/utils/src/mapper.ts:5

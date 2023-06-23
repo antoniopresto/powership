@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [RunMate - A command line utility to run scripts in multiple files.](../modules/RunMate___A_command_line_utility_to_run_scripts_in_multiple_files_.md) / RunCommandHooks
+[Powership](../README.md) / [Modules](../modules.md) / [RunMate - A command line utility to run scripts in multiple files.](../modules/RunMate___A_command_line_utility_to_run_scripts_in_multiple_files_.md) / RunCommandHooks
 
 # Interface: RunCommandHooks
 
@@ -19,58 +19,58 @@
 
 ### onClose
 
-• **onClose**: `Waterfall`<{ `code`: ``null`` \| `number`  }, `ChildProcess`\>
+• **onClose**: `AsyncPlugin`<{ `code`: ``null`` \| `number`  }, `ChildProcess`\>
 
 #### Defined in
 
-[packages/runmate/src/runCommand.ts:137](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/runCommand.ts#L137)
+packages/runmate/src/runCommand.ts:147
 
 ___
 
 ### onError
 
-• **onError**: `Waterfall`<{ `error`: `Error`  }, ``null`` \| `ChildProcess`\>
+• **onError**: `AsyncPlugin`<{ `error`: `Error`  }, ``null`` \| `ChildProcess`\>
 
 #### Defined in
 
-[packages/runmate/src/runCommand.ts:138](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/runCommand.ts#L138)
+packages/runmate/src/runCommand.ts:148
 
 ___
 
 ### onStderrData
 
-• **onStderrData**: `Waterfall`<{ `data`: `string`  }, `ChildProcess`\>
+• **onStderrData**: `AsyncPlugin`<{ `data`: `string`  }, `ChildProcess`\>
 
 #### Defined in
 
-[packages/runmate/src/runCommand.ts:136](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/runCommand.ts#L136)
+packages/runmate/src/runCommand.ts:146
 
 ___
 
 ### onStdoutData
 
-• **onStdoutData**: `Waterfall`<{ `data`: `string`  }, `ChildProcess`\>
+• **onStdoutData**: `AsyncPlugin`<{ `data`: `string`  }, `ChildProcess`\>
 
 #### Defined in
 
-[packages/runmate/src/runCommand.ts:135](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/runCommand.ts#L135)
+packages/runmate/src/runCommand.ts:145
 
 ___
 
 ### started
 
-• **started**: `Waterfall`<`ChildProcess`, { `command`: `string`  }\>
+• **started**: `AsyncPlugin`<`ChildProcess`, { `command`: `string`  }\>
 
 #### Defined in
 
-[packages/runmate/src/runCommand.ts:134](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/runCommand.ts#L134)
+packages/runmate/src/runCommand.ts:144
 
 ___
 
 ### willStart
 
-• **willStart**: `Waterfall`<{ `command`: `string`  }, `undefined`\>
+• **willStart**: `AsyncPlugin`<{ `command`: `string`  }, `undefined`\>
 
 #### Defined in
 
-[packages/runmate/src/runCommand.ts:133](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/runCommand.ts#L133)
+packages/runmate/src/runCommand.ts:143

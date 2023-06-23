@@ -1,4 +1,4 @@
-import { devAssert, IndexCursor, inspectObject } from '@swind/utils';
+import { devAssert, IndexCursor, inspectObject } from '@powership/utils';
 
 import { CollectionErrors, EntityErrorKind } from './CollectionErrors';
 import {

@@ -1,0 +1,234 @@
+[Powership](../README.md) / [Modules](../modules.md) / [Transporter - Base to connect any Database to Powership.](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md) / Transporter
+
+# Interface: Transporter
+
+[Transporter - Base to connect any Database to Powership.](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md).Transporter
+
+## Table of contents
+
+### Properties
+
+- [\_client](Transporter___Base_to_connect_any_Database_to_Powership_.Transporter.md#_client)
+
+### Methods
+
+- [connect](Transporter___Base_to_connect_any_Database_to_Powership_.Transporter.md#connect)
+- [createOne](Transporter___Base_to_connect_any_Database_to_Powership_.Transporter.md#createone)
+- [deleteMany](Transporter___Base_to_connect_any_Database_to_Powership_.Transporter.md#deletemany)
+- [deleteOne](Transporter___Base_to_connect_any_Database_to_Powership_.Transporter.md#deleteone)
+- [findById](Transporter___Base_to_connect_any_Database_to_Powership_.Transporter.md#findbyid)
+- [findMany](Transporter___Base_to_connect_any_Database_to_Powership_.Transporter.md#findmany)
+- [findOne](Transporter___Base_to_connect_any_Database_to_Powership_.Transporter.md#findone)
+- [paginate](Transporter___Base_to_connect_any_Database_to_Powership_.Transporter.md#paginate)
+- [updateMany](Transporter___Base_to_connect_any_Database_to_Powership_.Transporter.md#updatemany)
+- [updateOne](Transporter___Base_to_connect_any_Database_to_Powership_.Transporter.md#updateone)
+
+## Properties
+
+### \_client
+
+• **\_client**: `any`
+
+#### Defined in
+
+packages/transporter/src/Transporter.ts:450
+
+## Methods
+
+### connect
+
+▸ **connect**(): `Promise`<`any`\>
+
+#### Returns
+
+`Promise`<`any`\>
+
+#### Defined in
+
+packages/transporter/src/Transporter.ts:452
+
+___
+
+### createOne
+
+▸ **createOne**<`T`\>(`options`): `Promise`<[`CreateOneResult`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#createoneresult)<`T`\>\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#documentbase) |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `options` | [`CreateOneConfig`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#createoneconfig)<[`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#documentbase), `string`, `string`\> |
+
+#### Returns
+
+`Promise`<[`CreateOneResult`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#createoneresult)<`T`\>\>
+
+#### Defined in
+
+packages/transporter/src/Transporter.ts:454
+
+___
+
+### deleteMany
+
+▸ **deleteMany**(`options`): `Promise`<[`DeleteManyResult`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#deletemanyresult)\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `options` | [`DeleteManyConfig`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#deletemanyconfig)<[`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#documentbase), `string`, `string`\> |
+
+#### Returns
+
+`Promise`<[`DeleteManyResult`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#deletemanyresult)\>
+
+#### Defined in
+
+packages/transporter/src/Transporter.ts:458
+
+___
+
+### deleteOne
+
+▸ **deleteOne**(`options`): `Promise`<[`DeleteOneResult`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#deleteoneresult)<[`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#documentbase)\>\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `options` | [`DeleteOneConfig`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#deleteoneconfig)<[`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#documentbase), `string`, `string`\> |
+
+#### Returns
+
+`Promise`<[`DeleteOneResult`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#deleteoneresult)<[`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#documentbase)\>\>
+
+#### Defined in
+
+packages/transporter/src/Transporter.ts:460
+
+___
+
+### findById
+
+▸ **findById**(`options`): `Promise`<[`FindOneResult`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#findoneresult)<[`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#documentbase)\>\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `options` | [`FindByIdConfig`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#findbyidconfig)<[`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#documentbase), `string`, `string`\> |
+
+#### Returns
+
+`Promise`<[`FindOneResult`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#findoneresult)<[`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#documentbase)\>\>
+
+#### Defined in
+
+packages/transporter/src/Transporter.ts:462
+
+___
+
+### findMany
+
+▸ **findMany**(`options`): `Promise`<[`FindManyResult`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#findmanyresult)<[`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#documentbase)\>\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `options` | [`FindManyConfig`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#findmanyconfig)<[`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#documentbase), `string`, `string`\> |
+
+#### Returns
+
+`Promise`<[`FindManyResult`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#findmanyresult)<[`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#documentbase)\>\>
+
+#### Defined in
+
+packages/transporter/src/Transporter.ts:464
+
+___
+
+### findOne
+
+▸ **findOne**(`options`): `Promise`<[`FindOneResult`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#findoneresult)<[`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#documentbase)\>\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `options` | [`FindOneConfig`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#findoneconfig)<[`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#documentbase), `string`, `string`\> |
+
+#### Returns
+
+`Promise`<[`FindOneResult`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#findoneresult)<[`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#documentbase)\>\>
+
+#### Defined in
+
+packages/transporter/src/Transporter.ts:466
+
+___
+
+### paginate
+
+▸ **paginate**(`options`): `Promise`<[`PaginationResult`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#paginationresult)<[`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#documentbase)\>\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `options` | [`FindManyConfig`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#findmanyconfig)<[`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#documentbase), `string`, `string`\> |
+
+#### Returns
+
+`Promise`<[`PaginationResult`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#paginationresult)<[`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#documentbase)\>\>
+
+#### Defined in
+
+packages/transporter/src/Transporter.ts:468
+
+___
+
+### updateMany
+
+▸ **updateMany**(`options`): `Promise`<[`UpdateManyResult`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#updatemanyresult)\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `options` | [`UpdateManyConfig`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#updatemanyconfig)<[`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#documentbase), `string`, `string`\> |
+
+#### Returns
+
+`Promise`<[`UpdateManyResult`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#updatemanyresult)\>
+
+#### Defined in
+
+packages/transporter/src/Transporter.ts:470
+
+___
+
+### updateOne
+
+▸ **updateOne**(`options`): `Promise`<[`UpdateOneResult`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#updateoneresult)<[`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#documentbase)\>\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `options` | [`UpdateOneConfig`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#updateoneconfig)<[`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#documentbase), `string`, `string`\> |
+
+#### Returns
+
+`Promise`<[`UpdateOneResult`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#updateoneresult)<[`DocumentBase`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#documentbase)\>\>
+
+#### Defined in
+
+packages/transporter/src/Transporter.ts:472

@@ -1,4 +1,4 @@
-import { DescribeField, ExtendObjectDefinition } from '@swind/schema';
+import { DescribeField, ExtendObjectDefinition } from '@powership/schema';
 import {
   CreateOne,
   DeleteMany,
@@ -9,7 +9,7 @@ import {
   Paginate,
   UpdateMany,
   UpdateOne,
-} from '@swind/transporter';
+} from '@powership/transporter';
 
 import { EntityFilterConditionsDefinition } from '../EntityFilterConditionType';
 

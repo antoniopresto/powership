@@ -3,8 +3,8 @@ import {
   Infer,
   ObjectDefinitionInput,
   ObjectFieldInput,
-} from '@swind/schema';
-import { IsKnown, MaybePromise } from '@swind/utils';
+} from '@powership/schema';
+import { IsKnown, MaybePromise } from '@powership/utils';
 
 import { DSRequest } from './DSRequest';
 

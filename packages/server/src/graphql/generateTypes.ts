@@ -1,4 +1,4 @@
-import { CircularDeps, GraphQLSchemaWithUtils } from '@swind/schema';
+import { CircularDeps, GraphQLSchemaWithUtils } from '@powership/schema';
 
 export let gql_utils = '';
 
@@ -20,7 +20,7 @@ export async function generateTypes(
 }
 
 const extendedUtils = `
-import type { Compute } from '@swind/utils';
+import type { Compute } from '@powership/utils';
 
 export type Ulid = string;
 

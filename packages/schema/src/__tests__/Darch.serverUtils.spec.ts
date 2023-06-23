@@ -3,8 +3,8 @@ import { assert, IsExact } from 'conditional-type-checks';
 import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';
 
-describe('Solarwind aliases', () => {
-  afterEach(CircularDeps.SolarwindObject.reset);
+describe('Powership aliases', () => {
+  afterEach(CircularDeps.PowershipObject.reset);
 
   test('type creators', async () => {
     expect(CircularDeps.enum(['m']).definition).toEqual({

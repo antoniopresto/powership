@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / RefreshTokensErrors
+[Powership](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / RefreshTokensErrors
 
 # Enumeration: RefreshTokensErrors
 
@@ -24,7 +24,7 @@ Session is not valid
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:109](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L109)
+packages/accounts/src/utils/AccountError.ts:109
 
 ___
 
@@ -36,7 +36,7 @@ Will throw if access or refresh token are missing.
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:93](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L93)
+packages/accounts/src/utils/AccountError.ts:93
 
 ___
 
@@ -48,7 +48,7 @@ Will throw if session is not found.
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:101](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L101)
+packages/accounts/src/utils/AccountError.ts:101
 
 ___
 
@@ -60,7 +60,7 @@ Will throw if verification of the access token or refresh token failed.
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:97](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L97)
+packages/accounts/src/utils/AccountError.ts:97
 
 ___
 
@@ -72,4 +72,4 @@ Will throw if user is not found.
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:105](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L105)
+packages/accounts/src/utils/AccountError.ts:105

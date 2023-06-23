@@ -6,7 +6,7 @@ import {
   setByPath,
   slugify,
   ulid,
-} from '@swind/utils';
+} from '@powership/utils';
 
 import { Infer } from './Infer';
 import { CursorField } from './fields/CursorField';

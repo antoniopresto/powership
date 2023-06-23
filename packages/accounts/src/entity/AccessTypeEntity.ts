@@ -1,4 +1,4 @@
-import { createEntity, EntityDocument } from '@swind/entity';
+import { createEntity, EntityDocument } from '@powership/entity';
 
 import { AccessType } from '../types/AccessType';
 

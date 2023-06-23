@@ -1,5 +1,5 @@
-import { dateSerialize } from '@swind/utils';
-import { expectedType } from '@swind/utils';
+import { dateSerialize } from '@powership/utils';
+import { expectedType } from '@powership/utils';
 
 import { FieldType, FieldTypeParser } from './FieldType';
 

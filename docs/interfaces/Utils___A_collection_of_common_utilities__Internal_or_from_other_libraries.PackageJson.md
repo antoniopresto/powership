@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / PackageJson
+[Powership](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / PackageJson
 
 # Interface: PackageJson
 
@@ -38,7 +38,7 @@
 
 #### Defined in
 
-[packages/utils/src/PackageJson.ts:20](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/PackageJson.ts#L20)
+packages/utils/src/PackageJson.ts:20
 
 ___
 
@@ -48,7 +48,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/PackageJson.ts:28](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/PackageJson.ts#L28)
+packages/utils/src/PackageJson.ts:28
 
 ___
 
@@ -58,7 +58,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/PackageJson.ts:17](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/PackageJson.ts#L17)
+packages/utils/src/PackageJson.ts:17
 
 ___
 
@@ -68,7 +68,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/PackageJson.ts:18](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/PackageJson.ts#L18)
+packages/utils/src/PackageJson.ts:18
 
 ___
 
@@ -78,7 +78,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/PackageJson.ts:29](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/PackageJson.ts#L29)
+packages/utils/src/PackageJson.ts:29
 
 ___
 
@@ -88,7 +88,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/PackageJson.ts:9](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/PackageJson.ts#L9)
+packages/utils/src/PackageJson.ts:9
 
 ___
 
@@ -98,7 +98,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/PackageJson.ts:26](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/PackageJson.ts#L26)
+packages/utils/src/PackageJson.ts:26
 
 ___
 
@@ -108,7 +108,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/PackageJson.ts:6](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/PackageJson.ts#L6)
+packages/utils/src/PackageJson.ts:6
 
 ___
 
@@ -118,7 +118,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/PackageJson.ts:8](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/PackageJson.ts#L8)
+packages/utils/src/PackageJson.ts:8
 
 ___
 
@@ -128,7 +128,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/PackageJson.ts:2](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/PackageJson.ts#L2)
+packages/utils/src/PackageJson.ts:2
 
 ___
 
@@ -138,7 +138,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/PackageJson.ts:19](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/PackageJson.ts#L19)
+packages/utils/src/PackageJson.ts:19
 
 ___
 
@@ -148,7 +148,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/PackageJson.ts:27](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/PackageJson.ts#L27)
+packages/utils/src/PackageJson.ts:27
 
 ___
 
@@ -158,7 +158,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/PackageJson.ts:4](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/PackageJson.ts#L4)
+packages/utils/src/PackageJson.ts:4
 
 ___
 
@@ -168,7 +168,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/PackageJson.ts:5](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/PackageJson.ts#L5)
+packages/utils/src/PackageJson.ts:5
 
 ___
 
@@ -178,7 +178,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/PackageJson.ts:7](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/PackageJson.ts#L7)
+packages/utils/src/PackageJson.ts:7
 
 ___
 
@@ -188,7 +188,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/PackageJson.ts:3](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/PackageJson.ts#L3)
+packages/utils/src/PackageJson.ts:3
 
 ___
 
@@ -198,4 +198,4 @@ ___
 
 #### Defined in
 
-[packages/utils/src/PackageJson.ts:21](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/PackageJson.ts#L21)
+packages/utils/src/PackageJson.ts:21

@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / Entity
+[Powership](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / Entity
 
 # Interface: Entity<Input, Indexes\>
 
@@ -75,7 +75,7 @@
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:117](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L117)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:117
 
 ___
 
@@ -89,7 +89,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:116](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L116)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:116
 
 ___
 
@@ -117,7 +117,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:110](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L110)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:110
 
 ___
 
@@ -153,7 +153,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:58](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L58)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:58
 
 ___
 
@@ -167,7 +167,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:84](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L84)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:84
 
 ___
 
@@ -181,7 +181,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:70](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L70)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:70
 
 ___
 
@@ -195,7 +195,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:72](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L72)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:72
 
 ___
 
@@ -209,7 +209,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:58](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts#L58)
+packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:58
 
 ___
 
@@ -223,7 +223,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:76](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L76)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:76
 
 ___
 
@@ -237,7 +237,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:70](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts#L70)
+packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:70
 
 ___
 
@@ -251,7 +251,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:72](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts#L72)
+packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:72
 
 ___
 
@@ -265,7 +265,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:78](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L78)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:78
 
 ___
 
@@ -279,7 +279,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:112](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L112)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:112
 
 ___
 
@@ -293,7 +293,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:48](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L48)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:48
 
 ___
 
@@ -307,7 +307,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:53](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L53)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:53
 
 ___
 
@@ -321,7 +321,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:74](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts#L74)
+packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:74
 
 ___
 
@@ -335,7 +335,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:66](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts#L66)
+packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:66
 
 ___
 
@@ -349,7 +349,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:64](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts#L64)
+packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:64
 
 ___
 
@@ -363,7 +363,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:86](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L86)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:86
 
 ___
 
@@ -377,7 +377,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:114](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L114)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:114
 
 ___
 
@@ -395,7 +395,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:88](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L88)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:88
 
 ___
 
@@ -409,7 +409,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:95](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L95)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:95
 
 ___
 
@@ -423,7 +423,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:42](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L42)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:42
 
 ___
 
@@ -437,7 +437,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:32](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L32)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:32
 
 ___
 
@@ -451,7 +451,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/Entity.ts:8](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/Entity.ts#L8)
+packages/entity/src/EntityInterfaces/Entity.ts:8
 
 ___
 
@@ -465,7 +465,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:30](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L30)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:30
 
 ___
 
@@ -479,7 +479,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:68](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts#L68)
+packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:68
 
 ___
 
@@ -493,7 +493,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:97](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L97)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:97
 
 ___
 
@@ -521,7 +521,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:99](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L99)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:99
 
 ___
 
@@ -557,7 +557,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:103](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L103)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:103
 
 ___
 
@@ -571,7 +571,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:108](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L108)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:108
 
 ___
 
@@ -585,7 +585,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:44](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L44)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:44
 
 ___
 
@@ -599,7 +599,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:76](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts#L76)
+packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:76
 
 ___
 
@@ -613,7 +613,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:78](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts#L78)
+packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:78
 
 ___
 
@@ -627,7 +627,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:40](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L40)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:40
 
 ## Methods
 
@@ -651,7 +651,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:80](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L80)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:80
 
 ___
 
@@ -675,7 +675,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:82](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L82)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:82
 
 ___
 
@@ -699,4 +699,4 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:101](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L101)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:101

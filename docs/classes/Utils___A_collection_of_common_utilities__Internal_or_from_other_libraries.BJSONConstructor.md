@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / BJSONConstructor
+[Powership](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / BJSONConstructor
 
 # Class: BJSONConstructor
 
@@ -37,7 +37,7 @@
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:176](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L176)
+packages/utils/src/BJSON.ts:176
 
 ## Properties
 
@@ -47,7 +47,7 @@
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:174](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L174)
+packages/utils/src/BJSON.ts:174
 
 ___
 
@@ -57,7 +57,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:86](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L86)
+packages/utils/src/BJSON.ts:86
 
 ## Methods
 
@@ -77,7 +77,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:240](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L240)
+packages/utils/src/BJSON.ts:240
 
 ___
 
@@ -97,7 +97,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:222](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L222)
+packages/utils/src/BJSON.ts:222
 
 ___
 
@@ -118,7 +118,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:187](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L187)
+packages/utils/src/BJSON.ts:187
 
 ___
 
@@ -138,4 +138,4 @@ ___
 
 #### Defined in
 
-[packages/utils/src/BJSON.ts:246](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/BJSON.ts#L246)
+packages/utils/src/BJSON.ts:246

@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / TU
+[Powership](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / TU
 
 # Namespace: TU
 
@@ -18,7 +18,9 @@
 ### Type Aliases
 
 - [A\_Z](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#a_z)
+- [AnyArray](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#anyarray)
 - [AnyFunction](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#anyfunction)
+- [AnyList](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#anylist)
 - [AnyRecord](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#anyrecord)
 - [ArrayKeys](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#arraykeys)
 - [ArrayType](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#arraytype)
@@ -30,6 +32,8 @@
 - [DeepArrayKeys](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#deeparraykeys)
 - [Entries](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#entries)
 - [ForceString](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#forcestring)
+- [GetFieldByDotNotation](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#getfieldbydotnotation)
+- [GetFieldByDotPath](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#getfieldbydotpath)
 - [IfExtends](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#ifextends)
 - [IsAny](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#isany)
 - [IsKnown](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#isknown)
@@ -46,18 +50,22 @@
 - [NextIndex](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#nextindex)
 - [NotString](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#notstring)
 - [NullableToPartial](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#nullabletopartial)
-- [ObjectPath](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#objectdotnotations)
-- [ObjectEntries](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#objectentries)
+- [ObjectPath](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#objectpath)
 - [ObjectUnion](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#objectunion)
 - [OnlyKnown](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#onlyknown)
 - [PartialRequired](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#partialrequired)
+- [PathType](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#pathtype)
+- [Paths](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#paths)
+- [Pick](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#pick)
 - [PrevIndex](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#previndex)
 - [PromiseType](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#promisetype)
 - [Serializable](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#serializable)
 - [Simplify](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#simplify)
 - [TypeLike](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#typelike)
 - [UnionToIntersection](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#uniontointersection)
+- [UnknownRecord](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#unknownrecord)
 - [Writeable](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#writeable)
+- [\_PathType](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#_pathtype)
 
 ### Variables
 
@@ -66,7 +74,6 @@
 
 ### Functions
 
-- [entries](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#entries-1)
 - [tuple](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#tuple)
 - [tupleEnum](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#tupleenum)
 - [tupleNum](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#tuplenum)
@@ -79,9 +86,25 @@
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:204](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L204)
+packages/utils/src/typings/index.ts:222
 
-[packages/utils/src/typeUtils/index.ts:259](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L259)
+packages/utils/src/typings/index.ts:277
+
+___
+
+### AnyArray
+
+Ƭ **AnyArray**<`T`\>: `ReadonlyArray`<`T`\> \| `T`[]
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
+
+#### Defined in
+
+packages/utils/src/typings/index.ts:105
 
 ___
 
@@ -105,7 +128,23 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:115](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L115)
+packages/utils/src/typings/index.ts:120
+
+___
+
+### AnyList
+
+Ƭ **AnyList**<`T`\>: [`AnyArray`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#anyarray)<`T`\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
+
+#### Defined in
+
+packages/utils/src/typings/index.ts:106
 
 ___
 
@@ -115,7 +154,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:101](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L101)
+packages/utils/src/typings/index.ts:102
 
 ___
 
@@ -131,7 +170,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:144](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L144)
+packages/utils/src/typings/index.ts:149
 
 ___
 
@@ -147,7 +186,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:99](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L99)
+packages/utils/src/typings/index.ts:100
 
 ___
 
@@ -164,7 +203,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/ts-toolbet.ts:18](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/ts-toolbet.ts#L18)
+packages/utils/src/typings/ts-toolbet.ts:18
 
 ___
 
@@ -182,7 +221,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:199](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L199)
+packages/utils/src/typings/index.ts:217
 
 ___
 
@@ -200,7 +239,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:194](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L194)
+packages/utils/src/typings/index.ts:212
 
 ___
 
@@ -217,7 +256,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/ts-toolbet.ts:32](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/ts-toolbet.ts#L32)
+packages/utils/src/typings/ts-toolbet.ts:32
 
 ___
 
@@ -234,7 +273,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/Compute.ts:68](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/Compute.ts#L68)
+packages/utils/src/typings/Compute.ts:68
 
 ___
 
@@ -250,7 +289,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:150](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L150)
+packages/utils/src/typings/index.ts:155
 
 ___
 
@@ -266,7 +305,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:111](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L111)
+packages/utils/src/typings/index.ts:116
 
 ___
 
@@ -282,7 +321,45 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:121](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L121)
+packages/utils/src/typings/index.ts:126
+
+___
+
+### GetFieldByDotNotation
+
+Ƭ **GetFieldByDotNotation**<`Obj`, `DotNotation`\>: `DotNotation` extends \`${number}\` ? `number` extends keyof `Obj` ? `Obj`[`number`] : `undefined` : `DotNotation` extends keyof `Obj` ? `Obj`[`DotNotation`] : `DotNotation` extends \`${infer Left}.${infer Right}\` ? `Left` extends keyof `Obj` ? [`GetFieldByDotNotation`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#getfieldbydotnotation)<`Exclude`<`Obj`[`Left`], `undefined`\>, `Right`\> \| `Extract`<`Obj`[`Left`], `undefined`\> : `undefined` : `undefined`
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `Obj` |
+| `DotNotation` |
+
+#### Defined in
+
+packages/utils/src/typings/index.ts:295
+
+___
+
+### GetFieldByDotPath
+
+Ƭ **GetFieldByDotPath**<`Obj`, `DotNotation`\>: [`GetFieldByDotNotation`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#getfieldbydotnotation)<`Obj`, `DotNotation`\>
+
+**`Alias`**
+
+to GetFieldByDotNotation
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `Obj` |
+| `DotNotation` |
+
+#### Defined in
+
+packages/utils/src/typings/index.ts:162
 
 ___
 
@@ -301,7 +378,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:103](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L103)
+packages/utils/src/typings/index.ts:108
 
 ___
 
@@ -317,7 +394,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:65](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L65)
+packages/utils/src/typings/index.ts:66
 
 ___
 
@@ -333,7 +410,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:186](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L186)
+packages/utils/src/typings/index.ts:204
 
 ___
 
@@ -349,7 +426,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:67](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L67)
+packages/utils/src/typings/index.ts:68
 
 ___
 
@@ -365,7 +442,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:69](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L69)
+packages/utils/src/typings/index.ts:70
 
 ___
 
@@ -381,7 +458,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:73](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L73)
+packages/utils/src/typings/index.ts:74
 
 ___
 
@@ -397,7 +474,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:75](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L75)
+packages/utils/src/typings/index.ts:76
 
 ___
 
@@ -614,7 +691,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IterationMap.ts:1](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IterationMap.ts#L1)
+packages/utils/src/IterationMap.ts:1
 
 ___
 
@@ -630,7 +707,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:97](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L97)
+packages/utils/src/typings/index.ts:98
 
 ___
 
@@ -646,7 +723,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:93](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L93)
+packages/utils/src/typings/index.ts:94
 
 ___
 
@@ -666,7 +743,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/ts-toolbet.ts:20](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/ts-toolbet.ts#L20)
+packages/utils/src/typings/ts-toolbet.ts:20
 
 ___
 
@@ -682,7 +759,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/ts-toolbet.ts:33](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/ts-toolbet.ts#L33)
+packages/utils/src/typings/ts-toolbet.ts:33
 
 ___
 
@@ -692,7 +769,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:260](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L260)
+packages/utils/src/typings/index.ts:278
 
 ___
 
@@ -708,7 +785,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/Compute.ts:10](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/Compute.ts#L10)
+packages/utils/src/typings/Compute.ts:10
 
 ___
 
@@ -724,7 +801,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:122](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L122)
+packages/utils/src/typings/index.ts:127
 
 ___
 
@@ -740,41 +817,25 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:124](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L124)
+packages/utils/src/typings/index.ts:129
 
 ___
 
 ### ObjectPath
 
-Ƭ **ObjectPath**<`Obj`, `Level`, `Limit`\>: `Level`[``"length"``] extends `Limit` ? `never` : `Obj` extends { `[K: string]`: `any`;  } ? { [K in keyof Obj]: K extends string ? Obj[K] extends Object ? Obj[K] extends any[] ? K \| \`${K}.${ArrayKeys<Obj[K]\>}\` \| \`${K}.${DeepArrayKeys<Obj[K]\>}\` : K \| \`${K}.${ObjectPath<Obj[K], [...Level, K]\>}\` : K : never }[keyof `Obj`] : `never`
+Ƭ **ObjectPath**<`Obj`, `Limit`, `Level`\>: `Level`[``"length"``] extends `Limit` ? `never` : `Obj` extends { `[K: string]`: `any`;  } ? { [K in keyof Obj]: K extends string \| number ? Obj[K] extends Object ? Obj[K] extends ReadonlyArray<any\> ? K \| \`${K}.${number}\` \| \`${K}.${number}.${ObjectPath<Obj[K][number]\>}\` : K \| \`${K}.${ObjectPath<Obj[K], Limit, [...Level, 1]\>}\` : K : never }[keyof `Obj`] : `never`
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
 | `Obj` | `Obj` |
-| `Level` | extends `string`[] = [] |
-| `Limit` | ``3`` |
+| `Limit` | extends `number` = ``10`` |
+| `Level` | extends `number`[] = [] |
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:154](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L154)
-
-___
-
-### ObjectEntries
-
-Ƭ **ObjectEntries**<`T`\>: { [K in Extract<keyof T, string\>]: [K, T[K]] }[`Extract`<keyof `T`, `string`\>][]
-
-#### Type parameters
-
-| Name |
-| :------ |
-| `T` |
-
-#### Defined in
-
-[packages/utils/src/typeUtils/index.ts:270](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L270)
+packages/utils/src/typings/index.ts:167
 
 ___
 
@@ -791,7 +852,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:107](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L107)
+packages/utils/src/typings/index.ts:112
 
 ___
 
@@ -807,7 +868,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:85](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L85)
+packages/utils/src/typings/index.ts:86
 
 ___
 
@@ -824,7 +885,62 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:264](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L264)
+packages/utils/src/typings/index.ts:282
+
+___
+
+### PathType
+
+Ƭ **PathType**<`Type`, `Property`\>: `Type` extends `unknown` ? [`_PathType`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#_pathtype)<`Type`, `Property`\> extends infer R ? [`R`] extends [`never`] ? `unknown` : `R` : `never` : `never`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Type` | `Type` |
+| `Property` | extends `string` |
+
+#### Defined in
+
+packages/utils/src/typings/Path.ts:1
+
+___
+
+### Paths
+
+Ƭ **Paths**<`T`, `D`\>: [`D`] extends [`never`] ? `never` : `T` extends `object` ? { [K in keyof T]-?: K extends string \| number ? \`${K}\` \| (Paths<T[K], Prev[D]\> extends infer R ? Join<K, R\> : never) : never }[keyof `T`] : `never` \| ``""``
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `T` |
+| `D` | extends `number` = ``10`` |
+
+#### Defined in
+
+packages/utils/src/typings/Path.ts:47
+
+___
+
+### Pick
+
+Ƭ **Pick**<`Obj`, `DotNotation`\>: [`GetFieldByDotNotation`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#getfieldbydotnotation)<`Obj`, `DotNotation`\>
+
+**`Alias`**
+
+to GetFieldByDotNotation
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `Obj` |
+| `DotNotation` |
+
+#### Defined in
+
+packages/utils/src/typings/index.ts:291
 
 ___
 
@@ -840,7 +956,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/Compute.ts:14](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/Compute.ts#L14)
+packages/utils/src/typings/Compute.ts:14
 
 ___
 
@@ -856,7 +972,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:95](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L95)
+packages/utils/src/typings/index.ts:96
 
 ___
 
@@ -866,7 +982,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:10](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L10)
+packages/utils/src/typings/index.ts:11
 
 ___
 
@@ -882,7 +998,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:142](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L142)
+packages/utils/src/typings/index.ts:147
 
 ___
 
@@ -899,7 +1015,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:172](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L172)
+packages/utils/src/typings/index.ts:190
 
 ___
 
@@ -915,7 +1031,21 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:134](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L134)
+packages/utils/src/typings/index.ts:139
+
+___
+
+### UnknownRecord
+
+Ƭ **UnknownRecord**: `Object`
+
+#### Index signature
+
+▪ [K: `string`]: `unknown`
+
+#### Defined in
+
+packages/utils/src/typings/index.ts:103
 
 ___
 
@@ -931,7 +1061,24 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:117](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L117)
+packages/utils/src/typings/index.ts:122
+
+___
+
+### \_PathType
+
+Ƭ **\_PathType**<`Type`, `Property`\>: `string` extends `Property` ? `never` : `Property` extends keyof `Type` ? `Type`[`Property`] : `Property` extends \`${infer Head}.$\` ? [`PathType`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#pathtype)<[`PathType`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#pathtype)<`Type`, `Head`\>, ``"$"``\> : `Property` extends ``"$"`` ? `Type` extends `ReadonlyArray`<infer T\> ? `T`[] : `Type` extends `object` ? { [K in Extract<keyof Type, string\>]: Type[K] }[`Extract`<keyof `Type`, `string`\>][] : `undefined` : `Property` extends ``""`` ? `Type` : `Property` extends \`${number}\` ? `Type` extends `ReadonlyArray`<infer ArrayType\> ? `ArrayType` : `undefined` : `Property` extends \`${infer Key}.${infer Rest}\` ? `Key` extends \`${number}\` ? `Type` extends `ReadonlyArray`<infer ArrayType\> ? [`PathType`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#pathtype)<`ArrayType`, `Rest`\> : `undefined` : `Key` extends keyof `Type` ? `Type`[`Key`] extends `Map`<`string`, infer MapType\> ? `MapType` : [`PathType`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#pathtype)<`Type`[`Key`], `Rest`\> : `undefined` : `undefined`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Type` | `Type` |
+| `Property` | extends `string` |
+
+#### Defined in
+
+packages/utils/src/typings/Path.ts:9
 
 ## Variables
 
@@ -941,9 +1088,9 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:204](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L204)
+packages/utils/src/typings/index.ts:222
 
-[packages/utils/src/typeUtils/index.ts:259](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L259)
+packages/utils/src/typings/index.ts:277
 
 ___
 
@@ -953,35 +1100,9 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:268](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L268)
+packages/utils/src/typings/index.ts:286
 
 ## Functions
-
-### entries
-
-▸ **entries**<`O`\>(`init`): [`ObjectEntries`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#objectentries)<`O`\>
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `O` | extends `object` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `init` | `O` |
-
-#### Returns
-
-[`ObjectEntries`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#objectentries)<`O`\>
-
-#### Defined in
-
-[packages/utils/src/typeUtils/index.ts:276](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L276)
-
-___
 
 ### tuple
 
@@ -1005,7 +1126,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:8](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L8)
+packages/utils/src/typings/index.ts:9
 
 ___
 
@@ -1031,7 +1152,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:20](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L20)
+packages/utils/src/typings/index.ts:21
 
 ___
 
@@ -1057,4 +1178,4 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/index.ts:18](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/index.ts#L18)
+packages/utils/src/typings/index.ts:19

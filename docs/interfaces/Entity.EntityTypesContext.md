@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / EntityTypesContext
+[Powership](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / EntityTypesContext
 
 # Interface: EntityTypesContext<InputDef, Indexes\>
 
@@ -31,7 +31,7 @@
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/Context.ts:60](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/Context.ts#L60)
+packages/entity/src/EntityInterfaces/Context.ts:60
 
 ___
 
@@ -41,7 +41,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/Context.ts:46](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/Context.ts#L46)
+packages/entity/src/EntityInterfaces/Context.ts:46
 
 ___
 
@@ -51,7 +51,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/Context.ts:53](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/Context.ts#L53)
+packages/entity/src/EntityInterfaces/Context.ts:53
 
 ___
 
@@ -61,7 +61,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/Context.ts:23](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/Context.ts#L23)
+packages/entity/src/EntityInterfaces/Context.ts:23
 
 ___
 
@@ -71,7 +71,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/Context.ts:41](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/Context.ts#L41)
+packages/entity/src/EntityInterfaces/Context.ts:41
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/Context.ts:14](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/Context.ts#L14)
+packages/entity/src/EntityInterfaces/Context.ts:14
 
 ___
 
@@ -91,4 +91,4 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/Context.ts:34](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/Context.ts#L34)
+packages/entity/src/EntityInterfaces/Context.ts:34

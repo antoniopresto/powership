@@ -4,7 +4,7 @@ import {
   ensureArray,
   noop,
   proxyRealValue,
-} from '@swind/utils';
+} from '@powership/utils';
 
 import { GraphType } from '../GraphType/GraphType';
 import { ObjectType } from '../ObjectType';

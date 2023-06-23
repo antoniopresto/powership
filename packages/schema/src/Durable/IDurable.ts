@@ -1,4 +1,4 @@
-import type { StringValue as TimeString } from '@swind/utils';
+import type { StringValue as TimeString } from '@powership/utils';
 
 export interface DurableFieldConfig {
   ttl?: TimeString | number;

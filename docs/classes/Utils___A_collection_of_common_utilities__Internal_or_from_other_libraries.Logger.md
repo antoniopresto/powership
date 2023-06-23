@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / Logger
+[Powership](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / Logger
 
 # Class: Logger
 
@@ -46,7 +46,7 @@
 
 #### Defined in
 
-[packages/utils/src/nodeLogger.ts:107](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/nodeLogger.ts#L107)
+packages/utils/src/nodeLogger.ts:107
 
 ## Properties
 
@@ -56,7 +56,7 @@
 
 #### Defined in
 
-[packages/utils/src/nodeLogger.ts:105](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/nodeLogger.ts#L105)
+packages/utils/src/nodeLogger.ts:105
 
 ___
 
@@ -66,7 +66,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/nodeLogger.ts:100](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/nodeLogger.ts#L100)
+packages/utils/src/nodeLogger.ts:100
 
 ___
 
@@ -76,7 +76,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/nodeLogger.ts:101](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/nodeLogger.ts#L101)
+packages/utils/src/nodeLogger.ts:101
 
 ## Accessors
 
@@ -104,7 +104,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/nodeLogger.ts:204](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/nodeLogger.ts#L204)
+packages/utils/src/nodeLogger.ts:204
 
 ___
 
@@ -132,7 +132,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/nodeLogger.ts:198](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/nodeLogger.ts#L198)
+packages/utils/src/nodeLogger.ts:198
 
 ___
 
@@ -160,7 +160,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/nodeLogger.ts:216](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/nodeLogger.ts#L216)
+packages/utils/src/nodeLogger.ts:216
 
 ___
 
@@ -188,7 +188,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/nodeLogger.ts:210](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/nodeLogger.ts#L210)
+packages/utils/src/nodeLogger.ts:210
 
 ## Methods
 
@@ -208,7 +208,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/nodeLogger.ts:128](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/nodeLogger.ts#L128)
+packages/utils/src/nodeLogger.ts:128
 
 ___
 
@@ -228,7 +228,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/nodeLogger.ts:140](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/nodeLogger.ts#L140)
+packages/utils/src/nodeLogger.ts:140
 
 ___
 
@@ -248,7 +248,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/nodeLogger.ts:124](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/nodeLogger.ts#L124)
+packages/utils/src/nodeLogger.ts:124
 
 ___
 
@@ -268,7 +268,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/nodeLogger.ts:136](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/nodeLogger.ts#L136)
+packages/utils/src/nodeLogger.ts:136
 
 ___
 
@@ -289,7 +289,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/nodeLogger.ts:120](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/nodeLogger.ts#L120)
+packages/utils/src/nodeLogger.ts:120
 
 ___
 
@@ -309,4 +309,4 @@ ___
 
 #### Defined in
 
-[packages/utils/src/nodeLogger.ts:132](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/nodeLogger.ts#L132)
+packages/utils/src/nodeLogger.ts:132

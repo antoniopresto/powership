@@ -1,4 +1,4 @@
-import { encodeNumber } from '@swind/utils';
+import { encodeNumber } from '@powership/utils';
 
 export function encodeIndexValue(value: any) {
   if (value === undefined || value === null) return value;

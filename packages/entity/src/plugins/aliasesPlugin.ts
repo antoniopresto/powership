@@ -1,4 +1,4 @@
-import { delay, diff, ensureArray } from '@swind/utils';
+import { delay, diff, ensureArray } from '@powership/utils';
 
 import { createEntityPlugin } from '../EntityPlugin';
 import { aggioUpdate } from '../aggioUpdate';

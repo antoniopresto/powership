@@ -1,4 +1,4 @@
-import { getTypeName } from '@swind/utils';
+import { getTypeName } from '@powership/utils';
 
 import {
   FieldParserOptionsObject,

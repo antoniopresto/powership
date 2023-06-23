@@ -1,5 +1,5 @@
-import { formatGraphQL, pick } from '@swind/utils';
-import { hashString } from '@swind/utils';
+import { formatGraphQL, pick } from '@powership/utils';
+import { hashString } from '@powership/utils';
 import {
   GraphQLArgument,
   GraphQLField,

@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / ParsedIndexCursor
+[Powership](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / ParsedIndexCursor
 
 # Interface: ParsedIndexCursor
 
@@ -28,7 +28,7 @@
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:28](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L28)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:28
 
 ___
 
@@ -38,7 +38,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:27](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L27)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:27
 
 ___
 
@@ -48,7 +48,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:26](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L26)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:26
 
 ___
 
@@ -58,7 +58,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:29](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L29)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:29
 
 ___
 
@@ -68,7 +68,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:31](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L31)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:31
 
 ___
 
@@ -78,7 +78,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:25](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L25)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:25
 
 ___
 
@@ -88,7 +88,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:21](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L21)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:21
 
 ___
 
@@ -98,7 +98,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:30](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L30)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:30
 
 ___
 
@@ -108,7 +108,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:22](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L22)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:22
 
 ___
 
@@ -118,7 +118,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:24](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L24)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:24
 
 ___
 
@@ -128,4 +128,4 @@ ___
 
 #### Defined in
 
-[packages/utils/src/IndexCursor/joinIndexCursor.ts:23](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/IndexCursor/joinIndexCursor.ts#L23)
+packages/utils/src/IndexCursor/joinIndexCursor.ts:23

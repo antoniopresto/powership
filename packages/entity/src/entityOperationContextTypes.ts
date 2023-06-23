@@ -1,8 +1,8 @@
 import {
   _ensureTransporterMethodsImplementation,
   TransporterLoaderName,
-} from '@swind/transporter';
-import { DeepWritable, simpleObjectClone } from '@swind/utils';
+} from '@powership/transporter';
+import { DeepWritable, simpleObjectClone } from '@powership/utils';
 
 import {
   AnyEntity,

@@ -1,4 +1,4 @@
-import { ErrorWithStack, wrapError } from '@swind/utils';
+import { ErrorWithStack, wrapError } from '@powership/utils';
 
 import { createType } from './GraphType/GraphType';
 import { Infer } from './Infer';

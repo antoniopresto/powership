@@ -1,11 +1,11 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "name": "Solarwind",
+  "name": "Powership",
   "entryPointStrategy": "packages",
   "entryPoints": [
     "packages/accounts",
     "packages/babel-plugins",
-    "packages/solarwind",
+    "packages/powership",
     "packages/entity",
     "packages/utils",
     "packages/helpers",

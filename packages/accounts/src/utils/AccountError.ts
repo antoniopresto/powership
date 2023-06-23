@@ -1,4 +1,4 @@
-import { NodeLogger, pick } from '@swind/utils';
+import { NodeLogger, pick } from '@powership/utils';
 
 export class AccountError extends Error {
   __isAccountError = true;

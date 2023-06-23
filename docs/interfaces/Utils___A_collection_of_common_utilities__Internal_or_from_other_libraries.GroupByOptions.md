@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / GroupByOptions
+[Powership](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / GroupByOptions
 
 # Interface: GroupByOptions
 
@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[packages/utils/src/Store.ts:50](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L50)
+packages/utils/src/Store.ts:51
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:51](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L51)
+packages/utils/src/Store.ts:52

@@ -1,4 +1,4 @@
-import { GetFieldByDotNotation } from '@swind/utils';
+import { GetFieldByDotNotation } from '@powership/utils';
 
 import { $var } from './$var';
 

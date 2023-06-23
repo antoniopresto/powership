@@ -4,7 +4,7 @@ import {
   inspectObject,
   parseIndexFieldName,
   pick,
-} from '@swind/utils';
+} from '@powership/utils';
 
 import {
   IndexKeyHash,

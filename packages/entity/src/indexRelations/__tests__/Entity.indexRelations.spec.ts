@@ -1,5 +1,5 @@
-import { createType, ObjectType } from '@swind/schema';
-import { ulid } from '@swind/utils';
+import { createType, ObjectType } from '@powership/schema';
+import { ulid } from '@powership/utils';
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { createEntity } from '../../Entity';

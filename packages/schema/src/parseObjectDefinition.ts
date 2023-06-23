@@ -1,8 +1,8 @@
-import { RuntimeError } from '@swind/utils';
-import { isProduction } from '@swind/utils';
-import { getKeys } from '@swind/utils';
-import { getTypeName } from '@swind/utils';
-import { inspectObject } from '@swind/utils';
+import { RuntimeError } from '@powership/utils';
+import { isProduction } from '@powership/utils';
+import { getKeys } from '@powership/utils';
+import { getTypeName } from '@powership/utils';
+import { inspectObject } from '@powership/utils';
 
 import { CustomFieldConfig } from './CustomFieldConfig';
 import { GraphType } from './GraphType/GraphType';

@@ -1,8 +1,4 @@
-import {
-  filterEmpty,
-  FilterEmptyOptions,
-  FilterableEmptyType,
-} from '../filterEmpty';
+import { filterEmpty, FilterEmptyOptions } from '../filterEmpty';
 
 describe('filterEmpty', () => {
   test.each([

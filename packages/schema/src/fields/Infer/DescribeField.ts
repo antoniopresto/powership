@@ -1,4 +1,4 @@
-import { Compute, Merge, OnlyKnown } from '@swind/utils';
+import { Compute, Merge, OnlyKnown } from '@powership/utils';
 
 import { ParseStringDefinition } from '../../parseStringDefinition';
 import {

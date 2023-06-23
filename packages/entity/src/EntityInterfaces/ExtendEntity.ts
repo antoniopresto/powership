@@ -1,4 +1,4 @@
-import { ExtendObjectDefinition } from '@swind/schema';
+import { ExtendObjectDefinition } from '@powership/schema';
 
 import { _ExcludeExtend } from './EntityFromContext';
 

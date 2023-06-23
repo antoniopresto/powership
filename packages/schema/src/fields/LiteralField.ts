@@ -1,7 +1,7 @@
-import { BJSON, inspectObject } from '@swind/utils';
-import { RuntimeError } from '@swind/utils';
-import { getTypeName } from '@swind/utils';
-import { Serializable } from '@swind/utils';
+import { BJSON, inspectObject } from '@powership/utils';
+import { RuntimeError } from '@powership/utils';
+import { getTypeName } from '@powership/utils';
+import { Serializable } from '@powership/utils';
 
 import { FieldType, FieldTypeParser } from './FieldType';
 

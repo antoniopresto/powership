@@ -1,4 +1,4 @@
-import { createType, GraphType, GraphTypeLike, Infer } from '@swind/schema';
+import { createType, GraphType, GraphTypeLike, Infer } from '@powership/schema';
 
 export const PageInfoType = createType('PageInfo', {
   object: {

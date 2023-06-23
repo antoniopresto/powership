@@ -1,4 +1,4 @@
-import { NullableToPartial } from '@swind/utils';
+import { NullableToPartial } from '@powership/utils';
 
 import { $oparam, t } from './t';
 

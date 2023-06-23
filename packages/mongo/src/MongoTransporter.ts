@@ -21,14 +21,14 @@ import {
   UpdateManyResult,
   UpdateOneConfig,
   UpdateOneResult,
-} from '@swind/transporter';
+} from '@powership/transporter';
 import {
   Logger,
   LoggerOptions,
   NodeLogger,
   nonNullValues,
   parseIndexFieldName,
-} from '@swind/utils';
+} from '@powership/utils';
 import { Filter } from 'mongodb';
 
 import { MongoClient } from './MongoClient';

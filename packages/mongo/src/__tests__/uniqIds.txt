@@ -3,10 +3,10 @@ import { MongoTransporter } from '../MongoTransporter';
 import {
   AnyCollectionIndexConfig,
   CollectionIndexConfig,
-} from '@swind/transporter';
-import { encodeNumber, T, ulid } from '@swind/utils';
-import { createObjectType, createType, objectMock } from '@swind/schema';
-import { accessTypesEnum } from '@swind/accounts';
+} from '@powership/transporter';
+import { encodeNumber, T, ulid } from '@powership/utils';
+import { createObjectType, createType, objectMock } from '@powership/schema';
+import { accessTypesEnum } from '@powership/accounts';
 
 describe('uniqIds', () => {
   // afterEach();

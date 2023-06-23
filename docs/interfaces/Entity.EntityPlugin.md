@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / EntityPlugin
+[Powership](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / EntityPlugin
 
 # Interface: EntityPlugin
 
@@ -22,4 +22,4 @@
 
 #### Defined in
 
-[packages/entity/src/EntityPlugin.ts:31](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityPlugin.ts#L31)
+packages/entity/src/EntityPlugin.ts:31

@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / AccountsOptions
+[Powership](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / AccountsOptions
 
 # Interface: AccountsOptions
 
@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[packages/accounts/src/Accounts.ts:30](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Accounts.ts#L30)
+packages/accounts/src/Accounts.ts:30
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Accounts.ts:29](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Accounts.ts#L29)
+packages/accounts/src/Accounts.ts:29

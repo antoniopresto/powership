@@ -1,16 +1,21 @@
-import { CircularDeps } from '@swind/schema';
-import { Cast, Compute, MaybePromise, UnionToIntersection } from '@swind/utils';
-import { RuntimeError } from '@swind/utils';
-import { devAssert } from '@swind/utils';
-import { getTypeName } from '@swind/utils';
-import { MaybeArray, tuple } from '@swind/utils';
+import { CircularDeps } from '@powership/schema';
+import {
+  Cast,
+  Compute,
+  MaybePromise,
+  UnionToIntersection,
+} from '@powership/utils';
+import { RuntimeError } from '@powership/utils';
+import { devAssert } from '@powership/utils';
+import { getTypeName } from '@powership/utils';
+import { MaybeArray, tuple } from '@powership/utils';
 import type {
   Join,
   MatchKeysAndValues,
   NestedPaths,
   Query,
   UpdateDefinition,
-} from '@swind/utils';
+} from '@powership/utils';
 
 import { CollectionIndexConfig } from './CollectionIndex';
 

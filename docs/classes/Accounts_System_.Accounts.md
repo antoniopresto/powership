@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / Accounts
+[Powership](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / Accounts
 
 # Class: Accounts
 
@@ -50,7 +50,7 @@
 
 #### Defined in
 
-[packages/accounts/src/Accounts.ts:54](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Accounts.ts#L54)
+packages/accounts/src/Accounts.ts:54
 
 ## Properties
 
@@ -60,7 +60,7 @@
 
 #### Defined in
 
-[packages/accounts/src/Accounts.ts:51](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Accounts.ts#L51)
+packages/accounts/src/Accounts.ts:51
 
 ___
 
@@ -70,7 +70,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Accounts.ts:49](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Accounts.ts#L49)
+packages/accounts/src/Accounts.ts:49
 
 ___
 
@@ -80,7 +80,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Accounts.ts:52](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Accounts.ts#L52)
+packages/accounts/src/Accounts.ts:52
 
 ___
 
@@ -90,7 +90,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Accounts.ts:50](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Accounts.ts#L50)
+packages/accounts/src/Accounts.ts:50
 
 ___
 
@@ -100,7 +100,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Accounts.ts:47](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Accounts.ts#L47)
+packages/accounts/src/Accounts.ts:47
 
 ## Accessors
 
@@ -126,7 +126,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Accounts.ts:43](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Accounts.ts#L43)
+packages/accounts/src/Accounts.ts:43
 
 ___
 
@@ -158,7 +158,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Accounts.ts:366](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Accounts.ts#L366)
+packages/accounts/src/Accounts.ts:366
 
 ___
 
@@ -186,7 +186,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Accounts.ts:374](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Accounts.ts#L374)
+packages/accounts/src/Accounts.ts:374
 
 ___
 
@@ -212,7 +212,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Accounts.ts:370](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Accounts.ts#L370)
+packages/accounts/src/Accounts.ts:370
 
 ## Methods
 
@@ -237,7 +237,7 @@ Add an email verification token to a user.
 
 #### Defined in
 
-[packages/accounts/src/Accounts.ts:216](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Accounts.ts#L216)
+packages/accounts/src/Accounts.ts:216
 
 ___
 
@@ -262,7 +262,7 @@ Add a reset password token to a user.
 
 #### Defined in
 
-[packages/accounts/src/Accounts.ts:250](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Accounts.ts#L250)
+packages/accounts/src/Accounts.ts:250
 
 ___
 
@@ -285,7 +285,7 @@ Emails are saved lowercased.
 
 #### Defined in
 
-[packages/accounts/src/Accounts.ts:67](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Accounts.ts#L67)
+packages/accounts/src/Accounts.ts:67
 
 ___
 
@@ -307,7 +307,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Accounts.ts:301](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Accounts.ts#L301)
+packages/accounts/src/Accounts.ts:301
 
 ___
 
@@ -331,7 +331,7 @@ Remove all the reset password tokens for a user.
 
 #### Defined in
 
-[packages/accounts/src/Accounts.ts:286](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Accounts.ts#L286)
+packages/accounts/src/Accounts.ts:286
 
 ___
 
@@ -355,7 +355,7 @@ Change the password for a user.
 
 #### Defined in
 
-[packages/accounts/src/Accounts.ts:176](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Accounts.ts#L176)
+packages/accounts/src/Accounts.ts:176
 
 ___
 
@@ -378,7 +378,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Accounts.ts:316](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Accounts.ts#L316)
+packages/accounts/src/Accounts.ts:316
 
 ___
 
@@ -402,4 +402,4 @@ Marks the user's email address as verified.
 
 #### Defined in
 
-[packages/accounts/src/Accounts.ts:144](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Accounts.ts#L144)
+packages/accounts/src/Accounts.ts:144

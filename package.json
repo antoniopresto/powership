@@ -1,6 +1,6 @@
 {
-  "name": "solarwind",
-  "version": "2.0.1",
+  "name": "powership",
+  "version": "2.0.2",
   "private": true,
   "scripts": {
     "pack": "run-s pack:*",
@@ -16,7 +16,7 @@
     "clear:packages": "run \"rm -rf node_modules *-lock.yaml *-lock.json\" lib"
   },
   "devDependencies": {
-    "@swind/babel-plugins": "workspace:*",
+    "@powership/babel-plugins": "workspace:*",
     "@types/fs-extra": "9.0.13",
     "@types/jest": "29.1.2",
     "@types/node": "16.18.3",
@@ -45,17 +45,17 @@
     "typescript": "4.8.2"
   },
   "xworkspaces": [
-    "@swind/accounts",
-    "@swind/babel-plugins",
-    "solarwind",
-    "@swind/entity",
+    "@powership/accounts",
+    "@powership/babel-plugins",
+    "powership",
+    "@powership/entity",
     "utils",
-    "@swind/helpers",
+    "@powership/helpers",
     "logstorm",
-    "@swind/mongo",
+    "@powership/mongo",
     "runmate",
-    "@swind/schema",
-    "@swind/transporter"
+    "@powership/schema",
+    "@powership/transporter"
   ],
   "dependencies": {
     "typedoc": "0.23.24"

@@ -1,11 +1,15 @@
-import { Cast, GetFieldByDotNotation, NullableToPartial } from '@swind/utils';
+import {
+  Cast,
+  GetFieldByDotNotation,
+  NullableToPartial,
+} from '@powership/utils';
 
 import { FieldDefinitionWithType } from '../_fieldDefinitions';
 
 import { InferField } from './InferField';
 
 export interface ObjectTypeLikeFieldDefinition {
-  __isSolarwindObject: true;
+  __isPowershipObject: true;
   definition: any;
 }
 

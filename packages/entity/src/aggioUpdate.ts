@@ -3,14 +3,14 @@ import {
   FilterRecord,
   parseUpdateExpression,
   UpdateExpression,
-} from '@swind/transporter';
+} from '@powership/transporter';
 import {
   createDB,
   ensureArray,
   inspectObject,
   TDocument,
   UpdateDefinition,
-} from '@swind/utils';
+} from '@powership/utils';
 
 export const _testingIndexConfig: AnyCollectionIndexConfig = {
   entity: 'temp',

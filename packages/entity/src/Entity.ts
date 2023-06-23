@@ -7,7 +7,7 @@ import {
   GraphType,
   isFieldTypeName,
   ObjectDefinitionInput,
-} from '@swind/schema';
+} from '@powership/schema';
 import {
   AnyCollectionIndexConfig,
   CollectionIndexConfig,
@@ -22,7 +22,7 @@ import {
   TransporterLoader,
   TransporterLoaderName,
   transporterLoaderNames,
-} from '@swind/transporter';
+} from '@powership/transporter';
 import {
   AnyFunction,
   capitalize,
@@ -41,7 +41,7 @@ import {
   simpleObjectClone,
   tupleEnum,
   ulid,
-} from '@swind/utils';
+} from '@powership/utils';
 
 import {
   graphQLFilterToTransporterFilter,

@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [RunMate - A command line utility to run scripts in multiple files.](../modules/RunMate___A_command_line_utility_to_run_scripts_in_multiple_files_.md) / PackageJson
+[Powership](../README.md) / [Modules](../modules.md) / [RunMate - A command line utility to run scripts in multiple files.](../modules/RunMate___A_command_line_utility_to_run_scripts_in_multiple_files_.md) / PackageJson
 
 # Interface: PackageJson
 
@@ -33,7 +33,7 @@
 
 #### Defined in
 
-[packages/runmate/src/ICommons.ts:6](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/ICommons.ts#L6)
+packages/runmate/src/ICommons.ts:6
 
 ___
 
@@ -47,7 +47,7 @@ ___
 
 #### Defined in
 
-[packages/runmate/src/ICommons.ts:9](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/ICommons.ts#L9)
+packages/runmate/src/ICommons.ts:9
 
 ___
 
@@ -57,7 +57,7 @@ ___
 
 #### Defined in
 
-[packages/runmate/src/ICommons.ts:4](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/ICommons.ts#L4)
+packages/runmate/src/ICommons.ts:4
 
 ___
 
@@ -71,7 +71,7 @@ ___
 
 #### Defined in
 
-[packages/runmate/src/ICommons.ts:10](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/ICommons.ts#L10)
+packages/runmate/src/ICommons.ts:10
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 #### Defined in
 
-[packages/runmate/src/ICommons.ts:8](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/ICommons.ts#L8)
+packages/runmate/src/ICommons.ts:8
 
 ___
 
@@ -91,7 +91,7 @@ ___
 
 #### Defined in
 
-[packages/runmate/src/ICommons.ts:13](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/ICommons.ts#L13)
+packages/runmate/src/ICommons.ts:13
 
 ___
 
@@ -101,7 +101,7 @@ ___
 
 #### Defined in
 
-[packages/runmate/src/ICommons.ts:2](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/ICommons.ts#L2)
+packages/runmate/src/ICommons.ts:2
 
 ___
 
@@ -115,7 +115,7 @@ ___
 
 #### Defined in
 
-[packages/runmate/src/ICommons.ts:12](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/ICommons.ts#L12)
+packages/runmate/src/ICommons.ts:12
 
 ___
 
@@ -129,7 +129,7 @@ ___
 
 #### Defined in
 
-[packages/runmate/src/ICommons.ts:11](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/ICommons.ts#L11)
+packages/runmate/src/ICommons.ts:11
 
 ___
 
@@ -139,7 +139,7 @@ ___
 
 #### Defined in
 
-[packages/runmate/src/ICommons.ts:7](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/ICommons.ts#L7)
+packages/runmate/src/ICommons.ts:7
 
 ___
 
@@ -153,7 +153,7 @@ ___
 
 #### Defined in
 
-[packages/runmate/src/ICommons.ts:5](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/ICommons.ts#L5)
+packages/runmate/src/ICommons.ts:5
 
 ___
 
@@ -163,4 +163,4 @@ ___
 
 #### Defined in
 
-[packages/runmate/src/ICommons.ts:3](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/runmate/src/ICommons.ts#L3)
+packages/runmate/src/ICommons.ts:3

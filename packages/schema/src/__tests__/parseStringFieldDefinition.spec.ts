@@ -1,4 +1,4 @@
-import { getKeys } from '@swind/utils/lib/getKeys';
+import { getKeys } from '@powership/utils/lib/getKeys';
 
 import { types } from '../fields/fieldTypes';
 import { parseStringDefinition } from '../parseStringDefinition';

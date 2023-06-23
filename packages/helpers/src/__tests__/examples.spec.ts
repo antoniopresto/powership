@@ -1,11 +1,11 @@
-import { createEntity } from '@swind/entity';
+import { createEntity } from '@powership/entity';
 import {
   createGraphQLSchema,
   createResolver,
   createType,
 
   // Infer,
-} from '@swind/schema';
+} from '@powership/schema';
 //
 
 describe('examples', () => {

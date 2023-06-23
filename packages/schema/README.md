@@ -1,7 +1,7 @@
-# @swind/schema
+# @powership/schema
 Typescript schema validation with static type inference.
 
-Schemas are a crucial part of a microservices architecture or a detachable application architecture (solarwind). 
+Schemas are a crucial part of a microservices architecture or a detachable application architecture (powership). 
 They can serve as contracts between different pieces of an application (frontend, backend, forms) and different services.
 So schemas should be **easily portable, written and read**, and that's the goal of this package.
 
@@ -12,7 +12,7 @@ So schemas should be **easily portable, written and read**, and that's the goal 
 To install:
 
 ```sh
-npm install @swind/schema
+npm install @powership/schema
 ```
 
 ⚠️ IMPORTANT: You must enable `strict` mode in your `tsconfig.json`. This is a best practice for all TypeScript projects.
@@ -113,9 +113,9 @@ npm install @swind/schema
 ```
 
 ### schemaToTypescript
-Returns a string of an interface representing a SolarwindSchema;
+Returns a string of an interface representing a PowershipSchema;
 ``` ts
-import { schemaToTypescript } from '@swind/schema/lib/schemaToTypescript';
+import { schemaToTypescript } from '@powership/schema/lib/schemaToTypescript';
 
 const interfaceTxt = await schemaToTypescript('User', userSchema);
 
@@ -141,10 +141,10 @@ export interface User {
 ```
 
 ### schemaToJSON
-Receives a SolarwindSchema and returns a [json-schema](https://json-schema.org/)
+Receives a PowershipSchema and returns a [json-schema](https://json-schema.org/)
 
 ``` ts
-  import { schemaToJSON } from '@swind/schema/lib/schemaToJSON';
+  import { schemaToJSON } from '@powership/schema/lib/schemaToJSON';
 
   const jsonSchema = schemaToJSON('User', userSchema);
 

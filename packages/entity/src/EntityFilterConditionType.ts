@@ -1,6 +1,6 @@
-import { createType, GraphType, ObjectFieldInput } from '@swind/schema';
-import { DocumentBase, FieldTypes, FilterRecord } from '@swind/transporter';
-import { BJSON, getKeys } from '@swind/utils';
+import { createType, GraphType, ObjectFieldInput } from '@powership/schema';
+import { DocumentBase, FieldTypes, FilterRecord } from '@powership/transporter';
+import { BJSON, getKeys } from '@powership/utils';
 
 const PKSKValueType = createType('PKSKValue', {
   optional: true,

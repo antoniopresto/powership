@@ -98,6 +98,7 @@ describe('MicroState', () => {
       },
     };
 
+    console.log(v);
     const useState = sut.createRook(React);
 
     const onChange = jest.fn();

@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / SessionsOptions
+[Powership](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / SessionsOptions
 
 # Interface: SessionsOptions
 
@@ -33,7 +33,7 @@
 
 #### Defined in
 
-[packages/accounts/src/Sessions.ts:29](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Sessions.ts#L29)
+packages/accounts/src/Sessions.ts:28
 
 ___
 
@@ -43,4 +43,4 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Sessions.ts:28](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Sessions.ts#L28)
+packages/accounts/src/Sessions.ts:27

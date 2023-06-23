@@ -1,4 +1,4 @@
-import { capitalize, inspectObject, tuple } from '@swind/utils';
+import { capitalize, inspectObject, tuple } from '@powership/utils';
 
 export const FieldTypeErrorCodes = tuple(
   'minSize', //

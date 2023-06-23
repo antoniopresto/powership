@@ -1,4 +1,4 @@
-import { inspectObject, simpleObjectClone } from '@swind/utils';
+import { inspectObject, simpleObjectClone } from '@powership/utils';
 
 import { CircularDeps } from '../CircularDeps';
 import { CustomFieldConfig } from '../CustomFieldConfig';

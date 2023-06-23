@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / [TU](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md) / T
+[Powership](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / [TU](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md) / T
 
 # Namespace: T
 
@@ -28,7 +28,7 @@
 
 #### Defined in
 
-[packages/utils/src/typeUtils/ts-toolbet.ts:18](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/ts-toolbet.ts#L18)
+packages/utils/src/typings/ts-toolbet.ts:18
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/ts-toolbet.ts:32](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/ts-toolbet.ts#L32)
+packages/utils/src/typings/ts-toolbet.ts:32
 
 ___
 
@@ -65,7 +65,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/ts-toolbet.ts:20](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/ts-toolbet.ts#L20)
+packages/utils/src/typings/ts-toolbet.ts:20
 
 ___
 
@@ -81,4 +81,4 @@ ___
 
 #### Defined in
 
-[packages/utils/src/typeUtils/ts-toolbet.ts:33](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/typeUtils/ts-toolbet.ts#L33)
+packages/utils/src/typings/ts-toolbet.ts:33

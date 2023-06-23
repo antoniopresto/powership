@@ -1,1 +1,1 @@
-module.exports = require('@swind/boilerplate/eslintrc')
+module.exports = require('@powership/boilerplate/eslintrc')

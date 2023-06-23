@@ -1,6 +1,11 @@
 import path from 'path';
 
-import { createStore, Process, simpleObjectHash, Store } from '@swind/utils';
+import {
+  createStore,
+  Process,
+  simpleObjectHash,
+  Store,
+} from '@powership/utils';
 import { ensureFileSync } from 'fs-extra';
 
 import { GraphType } from '../GraphType/GraphType';
@@ -10,7 +15,7 @@ import { createTSFYContext, tsfy, TSFYConfig } from './tsfy';
 
 export const defaultTypesDest = path.resolve(
   Process.cwd(),
-  'generated/solarwind.d.ts'
+  'generated/powership.d.ts'
 );
 
 export interface TSFyWriterConfig extends TSFYConfig {
@@ -18,7 +23,7 @@ export interface TSFyWriterConfig extends TSFYConfig {
   dest?: string;
   writeThrottleMS?: number;
   prettify?: boolean;
-  moduleName?: string; // default to solarwind
+  moduleName?: string; // default to powership
   store?: Store<Record<string, any>>;
 }
 
@@ -27,7 +32,7 @@ export function tsfyWriter(options: TSFyWriterConfig = {}) {
     wrappers,
     dest = defaultTypesDest,
     writeThrottleMS = 3000,
-    moduleName = 'solarwind',
+    moduleName = 'powership',
     store = createStore(),
   } = options;
 
@@ -138,7 +143,7 @@ export function moduleWrapper(init: {
       `  module '${moduleName}' {`,
       `    export * from '${moduleName}';`,
       extra?.map(([open]) => open).join('\n'),
-      `    import { GraphType, ObjectType } from 'solarwind';`,
+      `    import { GraphType, ObjectType } from 'powership';`,
 
       body,
       extra?.map(([_, closer]) => closer).join('\n'),

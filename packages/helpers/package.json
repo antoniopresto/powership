@@ -1,6 +1,6 @@
 {
-  "name": "@swind/helpers",
-  "version": "2.0.1",
+  "name": "@powership/helpers",
+  "version": "2.0.2",
   "main": "lib/index.js",
   "module": "lib/module/index.js",
   "author": "antoniopresto <antoniopresto@gmail.com>",
@@ -20,10 +20,10 @@
     "declarations": "tsc -p tsconfig.declarations.json",
     "babild": "babel 'src' --extensions '.ts,.tsx'"
   },
-  "description": "Solarwind server-utils",
+  "description": "Powership server-utils",
   "repository": {
     "type": "git",
-    "url": "https://github.com/antoniopresto/solarwind/tree/master/packages/"
+    "url": "https://github.com/antoniopresto/powership/tree/master/packages/"
   },
   "keywords": [
     "typescript",
@@ -34,19 +34,19 @@
     "inference"
   ],
   "dependencies": {
-    "@swind/utils": "workspace:*",
-    "@swind/schema": "workspace:*",
-    "@swind/entity": "workspace:*",
+    "@powership/utils": "workspace:*",
+    "@powership/schema": "workspace:*",
+    "@powership/entity": "workspace:*",
     "highlight.js": "11.7.0"
   },
   "devDependencies": {
-    "@swind/boilerplate": "workspace:*",
+    "@powership/boilerplate": "workspace:*",
     "@babel/cli": "7.19.3",
     "@babel/plugin-transform-typescript": "7.19.3",
     "@babel/preset-env": "7.19.3",
     "@babel/preset-typescript": "7.18.6",
-    "@swind/babel-plugins": "workspace:*",
-    "@swind/mongo": "workspace:*",
+    "@powership/babel-plugins": "workspace:*",
+    "@powership/mongo": "workspace:*",
     "@types/jest": "29.1.2",
     "@types/node": "16.18.3",
     "@typescript-eslint/eslint-plugin": "5.39.0",

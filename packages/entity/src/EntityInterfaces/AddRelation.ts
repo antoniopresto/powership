@@ -1,5 +1,5 @@
-import { ObjectDefinitionInput, ObjectFieldInput } from '@swind/schema';
-import { LoaderContext } from '@swind/transporter';
+import { ObjectDefinitionInput, ObjectFieldInput } from '@powership/schema';
+import { LoaderContext } from '@powership/transporter';
 
 import { EntityFieldResolver } from '../EntityOptions';
 

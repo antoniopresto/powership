@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / RequestErrors
+[Powership](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / RequestErrors
 
 # Enumeration: RequestErrors
 
@@ -22,7 +22,7 @@
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:28](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L28)
+packages/accounts/src/utils/AccountError.ts:28
 
 ___
 
@@ -32,7 +32,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:27](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L27)
+packages/accounts/src/utils/AccountError.ts:27
 
 ___
 
@@ -42,7 +42,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:26](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L26)
+packages/accounts/src/utils/AccountError.ts:26
 
 ___
 
@@ -52,7 +52,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:25](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L25)
+packages/accounts/src/utils/AccountError.ts:25
 
 ___
 
@@ -62,4 +62,4 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:24](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L24)
+packages/accounts/src/utils/AccountError.ts:24

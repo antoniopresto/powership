@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / Entity
+[Powership](../README.md) / [Modules](../modules.md) / Entity
 
 # Module: Entity
 
@@ -61,7 +61,7 @@
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/Entity.ts:15](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/Entity.ts#L15)
+packages/entity/src/EntityInterfaces/Entity.ts:15
 
 ___
 
@@ -71,7 +71,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/Context.ts:63](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/Context.ts#L63)
+packages/entity/src/EntityInterfaces/Context.ts:63
 
 ___
 
@@ -87,7 +87,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/paginationUtils.ts:14](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/paginationUtils.ts#L14)
+packages/entity/src/paginationUtils.ts:14
 
 ___
 
@@ -103,7 +103,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/Document.ts:14](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/Document.ts#L14)
+packages/entity/src/EntityInterfaces/Document.ts:14
 
 ___
 
@@ -126,7 +126,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/Document.ts:3](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/Document.ts#L3)
+packages/entity/src/EntityInterfaces/Document.ts:3
 
 ___
 
@@ -142,7 +142,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/Document.ts:18](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/Document.ts#L18)
+packages/entity/src/EntityInterfaces/Document.ts:18
 
 ___
 
@@ -170,7 +170,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityOptions.ts:22](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityOptions.ts#L22)
+packages/entity/src/EntityOptions.ts:22
 
 ___
 
@@ -189,17 +189,17 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `beforeQuery` | `Waterfall`<`EntityOperationInfoContext`, {}\> |
-| `createDefinition` | `Parallel`<`Record`<`string`, `FinalFieldDefinition`\>, { `entityOptions`: [`EntityOptions`](Entity.md#entityoptions) ; `fields`: `string`[] ; `kind`: [`EntityHooksCreateDefinitionKind`](Entity.md#entityhookscreatedefinitionkind-1) ; `resolvers`: [`EntityFieldResolver`](Entity.md#entityfieldresolver)<`any`, `any`, `any`, `any`\>[]  }\> |
-| `filterResult` | `Waterfall`<{ `items`: [`EntityDocument`](Entity.md#entitydocument)<`Doc`\>[] ; `kind`: ``"items"``  } \| { `kind`: ``"pagination"`` ; `pagination`: `PaginationResult`<[`EntityDocument`](Entity.md#entitydocument)<`Doc`\>\>  }, { `operation`: `EntityOperationInfoContext` ; `resolvers`: [`EntityFieldResolver`](Entity.md#entityfieldresolver)<`any`, `any`, `any`, `any`\>[]  }\> |
-| `initCreation` | `Parallel`<[`EntityOptions`](Entity.md#entityoptions), `E`\> |
-| `postParse` | `Waterfall`<`EntityOperationInfoContext`, [`EntityParserHookContext`](Entity.md#entityparserhookcontext)<`E`\>\> |
-| `preParse` | `Waterfall`<`EntityOperationInfoContext`, [`EntityParserHookContext`](Entity.md#entityparserhookcontext)<`E`\>\> |
-| `willResolve` | `Waterfall`<[`_EntityLoaders`](Entity.md#_entityloaders)<`E`\>, `EntityOperationInfoContext`\> |
+| `beforeQuery` | `AsyncPlugin`<`EntityOperationInfoContext`, {}\> |
+| `createDefinition` | `SyncPlugin`<`Record`<`string`, `FinalFieldDefinition`\>, { `entityOptions`: [`EntityOptions`](Entity.md#entityoptions) ; `fields`: `string`[] ; `kind`: [`EntityHooksCreateDefinitionKind`](Entity.md#entityhookscreatedefinitionkind-1) ; `resolvers`: [`EntityFieldResolver`](Entity.md#entityfieldresolver)<`any`, `any`, `any`, `any`\>[]  }\> |
+| `filterResult` | `AsyncPlugin`<{ `items`: [`EntityDocument`](Entity.md#entitydocument)<`Doc`\>[] ; `kind`: ``"items"``  } \| { `kind`: ``"pagination"`` ; `pagination`: `PaginationResult`<[`EntityDocument`](Entity.md#entitydocument)<`Doc`\>\>  }, { `operation`: `EntityOperationInfoContext` ; `resolvers`: [`EntityFieldResolver`](Entity.md#entityfieldresolver)<`any`, `any`, `any`, `any`\>[]  }\> |
+| `initCreation` | `SyncPlugin`<[`EntityOptions`](Entity.md#entityoptions), `E`\> |
+| `postParse` | `AsyncPlugin`<`EntityOperationInfoContext`, [`EntityParserHookContext`](Entity.md#entityparserhookcontext)<`E`\>\> |
+| `preParse` | `AsyncPlugin`<`EntityOperationInfoContext`, [`EntityParserHookContext`](Entity.md#entityparserhookcontext)<`E`\>\> |
+| `willResolve` | `AsyncPlugin`<[`_EntityLoaders`](Entity.md#_entityloaders)<`E`\>, `EntityOperationInfoContext`\> |
 
 #### Defined in
 
-[packages/entity/src/EntityPlugin.ts:53](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityPlugin.ts#L53)
+packages/entity/src/EntityPlugin.ts:53
 
 ___
 
@@ -209,9 +209,9 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityPlugin.ts:34](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityPlugin.ts#L34)
+packages/entity/src/EntityPlugin.ts:34
 
-[packages/entity/src/EntityPlugin.ts:41](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityPlugin.ts#L41)
+packages/entity/src/EntityPlugin.ts:41
 
 ___
 
@@ -228,7 +228,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityLoaderConfig.ts:7](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityLoaderConfig.ts#L7)
+packages/entity/src/EntityInterfaces/EntityLoaderConfig.ts:7
 
 ___
 
@@ -244,7 +244,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:18](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts#L18)
+packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:18
 
 ___
 
@@ -272,7 +272,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityOptions.ts:10](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityOptions.ts#L10)
+packages/entity/src/EntityOptions.ts:10
 
 ___
 
@@ -295,7 +295,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityPlugin.ts:44](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityPlugin.ts#L44)
+packages/entity/src/EntityPlugin.ts:44
 
 ___
 
@@ -305,7 +305,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/paginationUtils.ts:12](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/paginationUtils.ts#L12)
+packages/entity/src/paginationUtils.ts:12
 
 ___
 
@@ -321,7 +321,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/paginationUtils.ts:21](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/paginationUtils.ts#L21)
+packages/entity/src/paginationUtils.ts:21
 
 ___
 
@@ -337,7 +337,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:130](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L130)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:130
 
 ___
 
@@ -347,7 +347,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/Entity.ts:11](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/Entity.ts#L11)
+packages/entity/src/EntityInterfaces/Entity.ts:11
 
 ___
 
@@ -377,7 +377,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:57](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts#L57)
+packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:57
 
 ___
 
@@ -393,7 +393,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityPlugin.ts:49](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityPlugin.ts#L49)
+packages/entity/src/EntityPlugin.ts:49
 
 ___
 
@@ -409,7 +409,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:126](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L126)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:126
 
 ___
 
@@ -419,7 +419,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityFromContext.ts:124](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L124)
+packages/entity/src/EntityInterfaces/EntityFromContext.ts:124
 
 ___
 
@@ -436,7 +436,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:81](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts#L81)
+packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:81
 
 ## Variables
 
@@ -446,9 +446,9 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityPlugin.ts:34](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityPlugin.ts#L34)
+packages/entity/src/EntityPlugin.ts:34
 
-[packages/entity/src/EntityPlugin.ts:41](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityPlugin.ts#L41)
+packages/entity/src/EntityPlugin.ts:41
 
 ___
 
@@ -458,7 +458,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityStore.ts:5](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityStore.ts#L5)
+packages/entity/src/EntityStore.ts:5
 
 ___
 
@@ -468,7 +468,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/paginationUtils.ts:3](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/paginationUtils.ts#L3)
+packages/entity/src/paginationUtils.ts:3
 
 ## Functions
 
@@ -496,7 +496,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/Entity.ts:88](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/Entity.ts#L88)
+packages/entity/src/Entity.ts:89
 
 ___
 
@@ -517,7 +517,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityPlugin.ts:15](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityPlugin.ts#L15)
+packages/entity/src/EntityPlugin.ts:15
 
 ___
 
@@ -537,7 +537,7 @@ value is AnyEntity
 
 #### Defined in
 
-[packages/entity/src/Entity.ts:985](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/Entity.ts#L985)
+packages/entity/src/Entity.ts:986
 
 ___
 
@@ -557,4 +557,4 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityStore.ts:7](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityStore.ts#L7)
+packages/entity/src/EntityStore.ts:7

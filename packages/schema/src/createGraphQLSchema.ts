@@ -1,6 +1,6 @@
-import { BJSON, capitalize, notNull } from '@swind/utils';
-import { formatGraphQL } from '@swind/utils';
-import { groupBy, tupleEnum } from '@swind/utils';
+import { BJSON, capitalize, notNull } from '@powership/utils';
+import { formatGraphQL } from '@powership/utils';
+import { groupBy, tupleEnum } from '@powership/utils';
 import type { GraphQLSchemaConfig } from 'graphql';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 

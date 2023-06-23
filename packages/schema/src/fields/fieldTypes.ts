@@ -1,4 +1,4 @@
-import { memoize } from '@swind/utils';
+import { memoize } from '@powership/utils';
 
 import { AliasField } from './AliasField';
 import { AnyField } from './AnyField';

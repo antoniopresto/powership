@@ -1,5 +1,5 @@
-import { createResolverFactory } from '@swind/schema';
-import { ResolverContextBase } from '@swind/schema/lib/Resolver';
+import { createResolverFactory } from '@powership/schema';
+import { ResolverContextBase } from '@powership/schema/lib/Resolver';
 
 import { ServerRequest } from './ServerRequest';
 

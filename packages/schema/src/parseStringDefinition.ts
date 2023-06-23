@@ -1,4 +1,4 @@
-import { memoize } from '@swind/utils';
+import { memoize } from '@powership/utils';
 
 import { FieldTypeName } from './fields/_fieldDefinitions';
 import { FinalFieldDefinition } from './fields/_parseFields';

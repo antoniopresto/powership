@@ -1,5 +1,5 @@
-import { createType } from '@swind/schema';
-import { tupleEnum } from '@swind/utils';
+import { createType } from '@powership/schema';
+import { tupleEnum } from '@powership/utils';
 
 import { reservedUsernames } from './reservedUsernames';
 

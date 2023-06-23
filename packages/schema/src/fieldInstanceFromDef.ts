@@ -1,4 +1,4 @@
-import { RuntimeError } from '@swind/utils';
+import { RuntimeError } from '@powership/utils';
 
 import { AnyField } from './fields/AnyField';
 import { FinalFieldDefinition } from './fields/_parseFields';

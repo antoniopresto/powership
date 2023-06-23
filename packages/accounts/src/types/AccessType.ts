@@ -1,5 +1,5 @@
-import { createType, Infer } from '@swind/schema';
-import { tupleEnum } from '@swind/utils';
+import { createType, Infer } from '@powership/schema';
+import { tupleEnum } from '@powership/utils';
 
 export const accessTypesEnum = tupleEnum('phone', 'email', 'oauth', 'custom');
 export const accessTypesList = Object.values(accessTypesEnum);

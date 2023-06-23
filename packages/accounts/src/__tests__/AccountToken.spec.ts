@@ -1,4 +1,4 @@
-import { AppMock, createAppMock } from '@swind/mongo/lib/test-utils';
+import { AppMock, createAppMock } from '@powership/mongo/lib/test-utils';
 
 import { Token } from '../types/TokenType';
 

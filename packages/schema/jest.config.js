@@ -6,10 +6,11 @@ module.exports = {
   testTimeout: +(process.env.TEST_TIMEOUT || 30000),
   testRegex: '(spec|test)\\.tsx?$',
   modulePathIgnorePatterns: ['node_modules', 'testing.d.ts'],
+  setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
   moduleNameMapper: pathsToModuleNameMapper(
     {
-      '@swind/schema': ['./index.ts'],
-      '@swind/schema/*': ['./*'],
+      '@powership/schema': ['./index.ts'],
+      '@powership/schema/*': ['./*'],
     },
     {
       prefix: '<rootDir>/src/',

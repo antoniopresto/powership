@@ -8,7 +8,7 @@ import {
   O,
   RuntimeError,
   simpleObjectClone,
-} from '@swind/utils';
+} from '@powership/utils';
 
 import { CircularDeps } from './CircularDeps';
 import type { GraphType } from './GraphType/GraphType';

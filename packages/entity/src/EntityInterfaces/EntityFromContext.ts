@@ -4,13 +4,13 @@ import {
   GraphType,
   MakeFieldOptional,
   ObjectDefinitionInput,
-} from '@swind/schema';
+} from '@powership/schema';
 import {
   CommonIndexFields,
   ParsedDocumentIndexes,
   Transporter,
-} from '@swind/transporter';
-import { GetFieldByDotNotation } from '@swind/utils';
+} from '@powership/transporter';
+import { GetFieldByDotNotation } from '@powership/utils';
 
 import { EntityFilterConditionsDefinition } from '../EntityFilterConditionType';
 import { EntityHooks } from '../EntityPlugin';

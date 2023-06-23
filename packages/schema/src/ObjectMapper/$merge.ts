@@ -1,4 +1,4 @@
-import { Merge } from '@swind/utils';
+import { Merge } from '@powership/utils';
 
 import { $oparam, t } from './t';
 

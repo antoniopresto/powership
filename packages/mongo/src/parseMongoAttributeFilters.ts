@@ -1,7 +1,7 @@
 import {
   createAggioIndexBasedFilters,
   parseAggioAttributeFilters,
-} from '@swind/transporter';
+} from '@powership/transporter';
 
 // TODO move to transporter, move tests
 export const createMongoIndexBasedFilters = createAggioIndexBasedFilters;

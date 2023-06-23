@@ -1,9 +1,9 @@
-import { RuntimeError } from '@swind/utils';
-import { devAssert, Query } from '@swind/utils';
-import { getKeys } from '@swind/utils';
-import { getTypeName } from '@swind/utils';
-import { escapeStringRegexp } from '@swind/utils';
-import { skipper } from '@swind/utils/lib/skipper';
+import { RuntimeError } from '@powership/utils';
+import { devAssert, Query } from '@powership/utils';
+import { getKeys } from '@powership/utils';
+import { getTypeName } from '@powership/utils';
+import { escapeStringRegexp } from '@powership/utils';
+import { skipper } from '@powership/utils/lib/skipper';
 
 import { AnyCollectionIndexConfig } from './CollectionIndex';
 import {

@@ -28,7 +28,7 @@ export function _simpleObjectHash(value: any): string {
         value.optionalId || ''
       }`;
     }
-    if (value?.__isSolarwindObject === true) {
+    if (value?.__isPowershipObject === true) {
       return `;${constructorName}(${simpleObjectHash(value.definition)}_${
         value.id || ''
       });`;

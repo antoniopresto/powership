@@ -1,5 +1,5 @@
-import { createEntity, EntityDocumentBase } from '@swind/entity';
-import { createType } from '@swind/schema';
+import { createEntity, EntityDocumentBase } from '@powership/entity';
+import { createType } from '@powership/schema';
 
 import { AccountType } from '../types/AccountType';
 

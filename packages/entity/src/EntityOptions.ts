@@ -3,9 +3,9 @@ import {
   ObjectDefinitionInput,
   ObjectFieldInput,
   ResolverResolve,
-} from '@swind/schema';
-import { DocumentIndexesConfig, Transporter } from '@swind/transporter';
-import { LoggerOptions } from '@swind/utils';
+} from '@powership/schema';
+import { DocumentIndexesConfig, Transporter } from '@powership/transporter';
+import { LoggerOptions } from '@powership/utils';
 
 export type EntityOptions<
   InputDocumentDefinition extends ObjectDefinitionInput = ObjectDefinitionInput,

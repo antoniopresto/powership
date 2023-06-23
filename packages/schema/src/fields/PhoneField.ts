@@ -1,9 +1,9 @@
-import { assertEqual, isProduction } from '@swind/utils';
+import { assertEqual, isProduction } from '@powership/utils';
 //
 import type {
   ParsedPhoneNumber,
   PhoneNumberTypes,
-} from '@swind/utils/lib/parsePhoneNumber';
+} from '@powership/utils/lib/parsePhoneNumber';
 
 import { CircularDeps } from '../CircularDeps';
 

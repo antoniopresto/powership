@@ -1,4 +1,4 @@
-import { L, S } from '@swind/utils';
+import { L, S } from '@powership/utils';
 
 // // ['a:', 'string', 'b:', 'int', c: {year: {literal: 1}}]
 // type X = SplitTokens<'a: string; b: int; c: {year: {literal: 1}}'>;

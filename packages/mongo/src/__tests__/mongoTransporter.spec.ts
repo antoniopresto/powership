@@ -3,8 +3,8 @@ import {
   UpdateExpression,
   UpdateManyConfig,
   UpdateOneConfig,
-} from '@swind/transporter';
-import { nonNullValues, ulid } from '@swind/utils';
+} from '@powership/transporter';
+import { nonNullValues, ulid } from '@powership/utils';
 import { Collection } from 'mongodb';
 
 import type { MongoTransporter } from '../MongoTransporter';

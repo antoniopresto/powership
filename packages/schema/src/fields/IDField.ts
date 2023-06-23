@@ -1,4 +1,4 @@
-import { expectedType } from '@swind/utils';
+import { expectedType } from '@powership/utils';
 
 import { CircularDeps } from '../CircularDeps';
 

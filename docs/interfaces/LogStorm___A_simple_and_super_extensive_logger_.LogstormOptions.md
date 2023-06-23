@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [LogStorm - A simple and super extensive logger.](../modules/LogStorm___A_simple_and_super_extensive_logger_.md) / LogstormOptions
+[Powership](../README.md) / [Modules](../modules.md) / [LogStorm - A simple and super extensive logger.](../modules/LogStorm___A_simple_and_super_extensive_logger_.md) / LogstormOptions
 
 # Interface: LogstormOptions
 
@@ -23,7 +23,7 @@ Chalk color to be used in prefix, when the `chalk` package is available
 
 #### Defined in
 
-[packages/logstorm/src/index.ts:70](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/logstorm/src/index.ts#L70)
+packages/logstorm/src/index.ts:45
 
 ___
 
@@ -35,7 +35,7 @@ Defaults to the global `console`
 
 #### Defined in
 
-[packages/logstorm/src/index.ts:65](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/logstorm/src/index.ts#L65)
+packages/logstorm/src/index.ts:40
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 #### Defined in
 
-[packages/logstorm/src/index.ts:60](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/logstorm/src/index.ts#L60)
+packages/logstorm/src/index.ts:35
 
 ___
 
@@ -57,4 +57,4 @@ If true, the current time will be printed when logging
 
 #### Defined in
 
-[packages/logstorm/src/index.ts:75](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/logstorm/src/index.ts#L75)
+packages/logstorm/src/index.ts:50

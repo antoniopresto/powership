@@ -1,4 +1,4 @@
-import { Logger, RuntimeError } from '@swind/utils';
+import { Logger, RuntimeError } from '@powership/utils';
 import DataLoader from 'dataloader';
 import sift from 'sift';
 

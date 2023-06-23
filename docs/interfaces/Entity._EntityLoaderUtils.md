@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / \_EntityLoaderUtils
+[Powership](../README.md) / [Modules](../modules.md) / [Entity](../modules/Entity.md) / \_EntityLoaderUtils
 
 # Interface: \_EntityLoaderUtils<Options, Context\>
 
@@ -28,7 +28,7 @@
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:54](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts#L54)
+packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:54
 
 ___
 
@@ -38,7 +38,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:37](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts#L37)
+packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:37
 
 ___
 
@@ -48,7 +48,7 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:35](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts#L35)
+packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:35
 
 ___
 
@@ -58,4 +58,4 @@ ___
 
 #### Defined in
 
-[packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:39](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts#L39)
+packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:39

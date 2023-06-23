@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / FindSessionByauthTokenErrors
+[Powership](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / FindSessionByauthTokenErrors
 
 # Enumeration: FindSessionByauthTokenErrors
 
@@ -22,7 +22,7 @@ Will throw if access token is missing.
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:136](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L136)
+packages/accounts/src/utils/AccountError.ts:136
 
 ___
 
@@ -34,7 +34,7 @@ Will throw if session is not found.
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:144](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L144)
+packages/accounts/src/utils/AccountError.ts:144
 
 ___
 
@@ -46,4 +46,4 @@ Will throw if verification of the access token failed.
 
 #### Defined in
 
-[packages/accounts/src/utils/AccountError.ts:140](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/utils/AccountError.ts#L140)
+packages/accounts/src/utils/AccountError.ts:140

@@ -3,7 +3,7 @@ import {
   CreateOne,
   CreateOneResult,
   DocumentBase,
-} from '@swind/transporter';
+} from '@powership/transporter';
 import {
   devAssert,
   GlobalLogger,
@@ -12,7 +12,7 @@ import {
   inspectObject,
   NodeLogger,
   parseFilterCursor,
-} from '@swind/utils';
+} from '@powership/utils';
 
 import { createEntityPlugin } from '../EntityPlugin';
 import {

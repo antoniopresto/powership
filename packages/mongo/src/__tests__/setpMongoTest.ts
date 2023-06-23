@@ -1,4 +1,4 @@
-import { ObjectType } from '@swind/schema';
+import { ObjectType } from '@powership/schema';
 
 import { MongoTransporter } from '../MongoTransporter';
 import { AppMock, createAppMock } from '../test-utils';

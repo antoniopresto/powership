@@ -1,4 +1,4 @@
-import { delay } from '@swind/utils';
+import { delay } from '@powership/utils';
 
 import { createType } from '../../GraphType/GraphType';
 import { resetTypesCache } from '../../ObjectType';

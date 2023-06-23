@@ -1,4 +1,4 @@
-import { createSchema, createType, Infer } from '@swind/schema';
+import { createSchema, createType, Infer } from '@powership/schema';
 import Scrypt from 'scrypt-kdf';
 
 async function hash(params: PasswordHashParams): Promise<string> {

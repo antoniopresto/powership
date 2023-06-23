@@ -7,7 +7,7 @@ import {
   parseFilterCursor,
   parseIndexCursor,
   parseIndexFieldName,
-} from '@swind/utils';
+} from '@powership/utils';
 
 import {
   AnyCollectionIndexConfig,

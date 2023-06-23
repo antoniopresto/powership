@@ -1,4 +1,4 @@
-import { parseObjectDefinition } from '@swind/schema';
+import { parseObjectDefinition } from '@powership/schema';
 
 export const createEntityDocumentBase = <Optional extends Readonly<boolean>>(
   optional: Optional = false as Optional

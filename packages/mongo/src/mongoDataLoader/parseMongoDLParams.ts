@@ -1,5 +1,5 @@
-import { BJSON } from '@swind/utils';
-import { hashObject } from '@swind/utils';
+import { BJSON } from '@powership/utils';
+import { hashObject } from '@powership/utils';
 import { ObjectId } from 'mongodb';
 
 import { MongoDataLoaderKey, MongoFindManyParams } from './IMongoDataLoader';

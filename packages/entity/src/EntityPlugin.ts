@@ -1,10 +1,10 @@
-import { FinalFieldDefinition } from '@swind/schema';
+import { FinalFieldDefinition } from '@powership/schema';
 import {
   DocumentBase,
   PaginationResult,
   TransporterLoaderName,
-} from '@swind/transporter';
-import { tuple } from '@swind/utils';
+} from '@powership/transporter';
+import { tuple } from '@powership/utils';
 import { AsyncPlugin, SyncPlugin } from 'plugin-hooks';
 
 import { AnyEntity } from './EntityInterfaces';

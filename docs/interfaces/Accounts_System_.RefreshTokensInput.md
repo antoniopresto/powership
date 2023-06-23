@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / RefreshTokensInput
+[Powership](../README.md) / [Modules](../modules.md) / [Accounts System.](../modules/Accounts_System_.md) / RefreshTokensInput
 
 # Interface: RefreshTokensInput
 
@@ -20,7 +20,7 @@
 
 #### Defined in
 
-[packages/accounts/src/Sessions.ts:439](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Sessions.ts#L439)
+packages/accounts/src/Sessions.ts:432
 
 ___
 
@@ -30,7 +30,7 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Sessions.ts:440](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Sessions.ts#L440)
+packages/accounts/src/Sessions.ts:433
 
 ___
 
@@ -40,4 +40,4 @@ ___
 
 #### Defined in
 
-[packages/accounts/src/Sessions.ts:441](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/accounts/src/Sessions.ts#L441)
+packages/accounts/src/Sessions.ts:434

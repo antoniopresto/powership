@@ -1,4 +1,4 @@
-[Solarwind](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / Store
+[Powership](../README.md) / [Modules](../modules.md) / [Utils - A collection of common utilities. Internal or from other libraries](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md) / Store
 
 # Interface: Store<Dict, K, V\>
 
@@ -85,7 +85,7 @@
 
 #### Defined in
 
-[packages/utils/src/Store.ts:94](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L94)
+packages/utils/src/Store.ts:95
 
 ___
 
@@ -95,7 +95,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:85](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L85)
+packages/utils/src/Store.ts:86
 
 ___
 
@@ -105,7 +105,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:70](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L70)
+packages/utils/src/Store.ts:71
 
 ___
 
@@ -117,14 +117,14 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `get` | `Parallel`<{ `exists`: `undefined` \| `boolean` ; `index`: `undefined` \| `number` ; `key`: `undefined` \| `K` ; `length`: `undefined` \| `number` ; `meta`: [`EventMetadataBase`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#eventmetadatabase) ; `value`: `undefined` \| `V`  }, `undefined`\> |
-| `missingKeyError` | `Parallel`<{ `[K: string]`: `unknown`; `message`: `string`  }, `unknown`\> |
-| `remove` | `Parallel`<{ `exists`: `undefined` \| `boolean` ; `index`: `undefined` \| `number` ; `key`: `undefined` \| `K` ; `length`: `undefined` \| `number` ; `meta`: [`EventMetadataBase`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#eventmetadatabase) ; `value`: `undefined` \| `V`  }, `undefined`\> |
-| `set` | `Parallel`<[`StoreEvent`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#storeevent)<`K`, `V`, [`EventMetadataBase`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#eventmetadatabase)\>, `undefined`\> |
+| `get` | `SyncPlugin`<{ `exists`: `undefined` \| `boolean` ; `index`: `undefined` \| `number` ; `key`: `undefined` \| `K` ; `length`: `undefined` \| `number` ; `meta`: [`EventMetadataBase`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#eventmetadatabase) ; `value`: `undefined` \| `V`  }, `undefined`\> |
+| `missingKeyError` | `SyncPlugin`<{ `[K: string]`: `unknown`; `message`: `string`  }, `unknown`\> |
+| `remove` | `SyncPlugin`<{ `exists`: `undefined` \| `boolean` ; `index`: `undefined` \| `number` ; `key`: `undefined` \| `K` ; `length`: `undefined` \| `number` ; `meta`: [`EventMetadataBase`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#eventmetadatabase) ; `value`: `undefined` \| `V`  }, `undefined`\> |
+| `set` | `SyncPlugin`<[`StoreEvent`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#storeevent)<`K`, `V`, [`EventMetadataBase`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#eventmetadatabase)\>, `undefined`\> |
 
 #### Defined in
 
-[packages/utils/src/Store.ts:72](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L72)
+packages/utils/src/Store.ts:73
 
 ___
 
@@ -134,7 +134,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:87](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L87)
+packages/utils/src/Store.ts:88
 
 ___
 
@@ -144,47 +144,47 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:137](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L137)
+packages/utils/src/Store.ts:138
 
 ___
 
 ### onGet
 
-• **onGet**: `TParallelRegister`<{ `exists`: `undefined` \| `boolean` ; `index`: `undefined` \| `number` ; `key`: `undefined` \| `K` ; `length`: `undefined` \| `number` ; `meta`: [`EventMetadataBase`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#eventmetadatabase) ; `value`: `undefined` \| `V`  }, `undefined`\>
+• **onGet**: `SyncPluginRegister`<{ `exists`: `undefined` \| `boolean` ; `index`: `undefined` \| `number` ; `key`: `undefined` \| `K` ; `length`: `undefined` \| `number` ; `meta`: [`EventMetadataBase`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#eventmetadatabase) ; `value`: `undefined` \| `V`  }, `undefined`\>
 
 #### Defined in
 
-[packages/utils/src/Store.ts:81](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L81)
+packages/utils/src/Store.ts:82
 
 ___
 
 ### onMissingKeyError
 
-• **onMissingKeyError**: `TParallelRegister`<{ `[K: string]`: `unknown`; `message`: `string`  }, `unknown`\>
+• **onMissingKeyError**: `SyncPluginRegister`<{ `[K: string]`: `unknown`; `message`: `string`  }, `unknown`\>
 
 #### Defined in
 
-[packages/utils/src/Store.ts:84](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L84)
+packages/utils/src/Store.ts:85
 
 ___
 
 ### onRemove
 
-• **onRemove**: `TParallelRegister`<{ `exists`: `undefined` \| `boolean` ; `index`: `undefined` \| `number` ; `key`: `undefined` \| `K` ; `length`: `undefined` \| `number` ; `meta`: [`EventMetadataBase`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#eventmetadatabase) ; `value`: `undefined` \| `V`  }, `undefined`\>
+• **onRemove**: `SyncPluginRegister`<{ `exists`: `undefined` \| `boolean` ; `index`: `undefined` \| `number` ; `key`: `undefined` \| `K` ; `length`: `undefined` \| `number` ; `meta`: [`EventMetadataBase`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#eventmetadatabase) ; `value`: `undefined` \| `V`  }, `undefined`\>
 
 #### Defined in
 
-[packages/utils/src/Store.ts:83](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L83)
+packages/utils/src/Store.ts:84
 
 ___
 
 ### onSet
 
-• **onSet**: `TParallelRegister`<[`StoreEvent`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#storeevent)<`K`, `V`, [`EventMetadataBase`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#eventmetadatabase)\>, `undefined`\>
+• **onSet**: `SyncPluginRegister`<[`StoreEvent`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#storeevent)<`K`, `V`, [`EventMetadataBase`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#eventmetadatabase)\>, `undefined`\>
 
 #### Defined in
 
-[packages/utils/src/Store.ts:82](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L82)
+packages/utils/src/Store.ts:83
 
 ___
 
@@ -194,7 +194,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:86](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L86)
+packages/utils/src/Store.ts:87
 
 ## Methods
 
@@ -215,7 +215,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:102](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L102)
+packages/utils/src/Store.ts:103
 
 ___
 
@@ -229,7 +229,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:116](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L116)
+packages/utils/src/Store.ts:117
 
 ___
 
@@ -256,7 +256,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:107](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L107)
+packages/utils/src/Store.ts:108
 
 ___
 
@@ -283,7 +283,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:109](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L109)
+packages/utils/src/Store.ts:110
 
 ___
 
@@ -310,7 +310,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:118](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L118)
+packages/utils/src/Store.ts:119
 
 ___
 
@@ -337,7 +337,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:114](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L114)
+packages/utils/src/Store.ts:115
 
 ___
 
@@ -358,13 +358,13 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:130](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L130)
+packages/utils/src/Store.ts:131
 
 ___
 
 ### recordBy
 
-▸ **recordBy**<`Group`\>(`groups`, `options?`): [`Store`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.Store.md)<[`RecordBy`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#recordby)<`Dict`, `Group`\>, `Extract`<[`GetFieldByDotNotation`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#getfieldbydotnotation)<`Dict`[keyof `Dict`], `Group`\> extends `Key` ? `Key` extends `string` \| `number` ? `Key` : `string` : `never`, `string`\>, [`RecordBy`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#recordby)<`Dict`, `Group`\>[`Extract`<[`GetFieldByDotNotation`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#getfieldbydotnotation)<`Dict`[keyof `Dict`], `Group`\> extends `Key` ? `Key` extends `string` \| `number` ? `Key` : `string` : `never`, `string`\>]\>
+▸ **recordBy**<`Group`\>(`groups`, `options?`): [`Store`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.Store.md)<[`RecordBy`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#recordby)<`Dict`, `Group`\>, `Extract`<[`GetFieldByDotNotation`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#getfieldbydotnotation)<`Dict`[keyof `Dict`], `Group`\> extends `Key` ? `Key` extends `string` \| `number` ? `Key` : `string` : `never`, `string`\>, [`RecordBy`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#recordby)<`Dict`, `Group`\>[`Extract`<[`GetFieldByDotNotation`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#getfieldbydotnotation)<`Dict`[keyof `Dict`], `Group`\> extends `Key` ? `Key` extends `string` \| `number` ? `Key` : `string` : `never`, `string`\>]\>
 
 #### Type parameters
 
@@ -381,11 +381,11 @@ ___
 
 #### Returns
 
-[`Store`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.Store.md)<[`RecordBy`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#recordby)<`Dict`, `Group`\>, `Extract`<[`GetFieldByDotNotation`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#getfieldbydotnotation)<`Dict`[keyof `Dict`], `Group`\> extends `Key` ? `Key` extends `string` \| `number` ? `Key` : `string` : `never`, `string`\>, [`RecordBy`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#recordby)<`Dict`, `Group`\>[`Extract`<[`GetFieldByDotNotation`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#getfieldbydotnotation)<`Dict`[keyof `Dict`], `Group`\> extends `Key` ? `Key` extends `string` \| `number` ? `Key` : `string` : `never`, `string`\>]\>
+[`Store`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.Store.md)<[`RecordBy`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#recordby)<`Dict`, `Group`\>, `Extract`<[`GetFieldByDotNotation`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#getfieldbydotnotation)<`Dict`[keyof `Dict`], `Group`\> extends `Key` ? `Key` extends `string` \| `number` ? `Key` : `string` : `never`, `string`\>, [`RecordBy`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#recordby)<`Dict`, `Group`\>[`Extract`<[`GetFieldByDotNotation`](../modules/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#getfieldbydotnotation)<`Dict`[keyof `Dict`], `Group`\> extends `Key` ? `Key` extends `string` \| `number` ? `Key` : `string` : `never`, `string`\>]\>
 
 #### Defined in
 
-[packages/utils/src/Store.ts:125](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L125)
+packages/utils/src/Store.ts:126
 
 ___
 
@@ -421,7 +421,7 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:89](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L89)
+packages/utils/src/Store.ts:90
 
 ___
 
@@ -449,4 +449,4 @@ ___
 
 #### Defined in
 
-[packages/utils/src/Store.ts:96](https://github.com/antoniopresto/darch/blob/c5cd1c8/packages/utils/src/Store.ts#L96)
+packages/utils/src/Store.ts:97

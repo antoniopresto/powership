@@ -1,6 +1,6 @@
-import { getTypeName } from '@swind/utils';
-import { inspectObject } from '@swind/utils';
-import { uniq } from '@swind/utils';
+import { getTypeName } from '@powership/utils';
+import { inspectObject } from '@powership/utils';
+import { uniq } from '@powership/utils';
 
 import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';

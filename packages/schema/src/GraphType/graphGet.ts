@@ -1,4 +1,4 @@
-import { pick, RuntimeError, setByPath } from '@swind/utils';
+import { pick, RuntimeError, setByPath } from '@powership/utils';
 
 import { objectToQuery } from './objectToQuery';
 

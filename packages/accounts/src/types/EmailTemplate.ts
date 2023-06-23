@@ -1,4 +1,4 @@
-import { createType, Infer } from '@swind/schema';
+import { createType, Infer } from '@powership/schema';
 
 export const EmailTemplateType = createType('AccountEmailTemplate', {
   object: {

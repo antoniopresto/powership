@@ -1,5 +1,5 @@
-import { DeleteManyResult, Transporter } from '@swind/transporter';
-import { NodeLogger, ulid, uniqBy } from '@swind/utils';
+import { DeleteManyResult, Transporter } from '@powership/transporter';
+import { NodeLogger, ulid, uniqBy } from '@powership/utils';
 
 import { SessionRequest, Sessions, SessionsOptions } from './Sessions';
 import {

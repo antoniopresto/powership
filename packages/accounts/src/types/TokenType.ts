@@ -1,5 +1,5 @@
-import { createType, Infer } from '@swind/schema';
-import { tupleEnum } from '@swind/utils';
+import { createType, Infer } from '@powership/schema';
+import { tupleEnum } from '@powership/utils';
 
 export const tokenKindEnum = tupleEnum(
   'email_verification',

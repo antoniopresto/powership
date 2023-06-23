@@ -1,5 +1,5 @@
-import { EntityDocument } from '@swind/entity';
-import { createType, Infer } from '@swind/schema';
+import { EntityDocument } from '@powership/entity';
+import { createType, Infer } from '@powership/schema';
 
 export const SessionConnectionInfo = createType('SessionConnectionInfo', {
   object: {

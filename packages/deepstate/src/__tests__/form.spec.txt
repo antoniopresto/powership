@@ -6,7 +6,7 @@
 //   isPlainObject,
 //   MaybePromise,
 //   nonNullValues,
-// } from '@swind/utils';
+// } from '@powership/utils';
 // import { YState } from '../YState';
 // import { ToJSON } from '../ymmer';
 //

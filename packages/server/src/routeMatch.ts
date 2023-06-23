@@ -1,4 +1,4 @@
-import { IsKnown } from '@swind/utils';
+import { IsKnown } from '@powership/utils';
 import UrlPattern from 'url-pattern';
 
 /**

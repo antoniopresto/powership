@@ -12,7 +12,7 @@ export function install(program: Command) {
     .option('-s, --src <packages>', 'Packages glob pattern.')
     .option('--no-scripts', 'Ignores the prepublish scripts.')
     .option('--dry-run', 'Ignores the publication.')
-    .action(async function run(version, options): Promise<any> {
+    .action(async function run(_version, options): Promise<any> {
       const { src, scripts, dryRun } = options || {};
 
       await runmateLogger.lazyDebug(() => [

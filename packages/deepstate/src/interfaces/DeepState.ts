@@ -1,6 +1,16 @@
-import { GraphType, ObjectDefinitionInput, ObjectType } from '@swind/schema';
-import { Difference } from '@swind/utils';
-import { Compute, IsKnown, PathParsed, Paths, PathType } from '@swind/utils';
+import {
+  GraphType,
+  ObjectDefinitionInput,
+  ObjectType,
+} from '@powership/schema';
+import { Difference } from '@powership/utils';
+import {
+  Compute,
+  IsKnown,
+  PathParsed,
+  Paths,
+  PathType,
+} from '@powership/utils';
 import * as Y from 'yjs';
 
 import { DSResolver, ResolverCreatorParam } from './DSResolver';
