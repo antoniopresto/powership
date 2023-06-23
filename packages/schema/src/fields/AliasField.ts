@@ -75,7 +75,7 @@ export class AliasField<InputDef extends AliasFieldDef = any> extends FieldType<
           return pick(parent, this.def);
         }
         if (this.def.from) {
-          parent = pick(parent, this.def.from);
+          parent = pick(parent, this.def.from) as any;
           if (!this.def.aggregate) return parent;
         }
 

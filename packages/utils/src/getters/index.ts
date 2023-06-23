@@ -1,1 +1,1 @@
-export * from './getters';
+export * from './defineGetters';

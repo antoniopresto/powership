@@ -1,4 +1,4 @@
-import { getters } from '../getters';
+import { defineGetters } from '../getters';
 import { parsePath, PathParsed } from '../parsePath';
 import { pick } from '../pick';
 import { Paths, PathType } from '../typings';
@@ -7,16 +7,17 @@ export type DifferencePath = string | number;
 
 export type DifferenceAction = 'add' | 'update' | 'delete';
 
-export type Difference<
-  Type = any,
-  Path extends string = Paths<Type>
-> = Type extends unknown
+export type Difference<Type = any> = Type extends unknown
   ? Type extends object
     ? {
-        [P in Path]: PathType<Type, P> extends unknown
-          ? _Difference<PathType<Type, P>, P>
+        [P in Paths<Type>]: PathType<Type, P> extends infer R
+          ? R extends unknown
+            ? [R] extends [never]
+              ? _UnknownDiff
+              : _Difference<R, P>
+            : never
           : never;
-      }[Path] extends infer R
+      }[Paths<Type>] extends infer R
       ? R extends unknown
         ? { [K in keyof R]: R[K] } & {}
         : never
@@ -33,6 +34,15 @@ export type _Difference<Value, Path extends string> = {
   newValue?: Value;
 };
 
+export type _UnknownDiff = {
+  action: DifferenceAction;
+  parsed: PathParsed;
+  path: string;
+  pathParts: DifferencePath[];
+  oldValue?: unknown;
+  newValue?: unknown;
+};
+
 const richTypes = { Date: true, RegExp: true, String: true, Number: true };
 
 /**
@@ -45,11 +55,11 @@ export function diff(
   current: any,
   next: any,
   pathToLook?: DifferencePath[] | string
-): Difference<any>[] {
+): Difference[] {
   const seen: Record<string, any>[] = [];
 
   function close(el: __MicroDiff) {
-    return getters(
+    return defineGetters(
       el,
       {
         path() {

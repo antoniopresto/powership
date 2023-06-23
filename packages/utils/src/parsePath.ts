@@ -34,7 +34,7 @@ export function parsePath(init: string | (string | number)[]): PathParsed {
     {
       affected: {
         get() {
-          return (affected = affected || _parseAffectedPaths(res.path));
+          return (affected = affected ?? _parseAffectedPaths(res.path));
         },
       },
       parts: {
@@ -84,7 +84,7 @@ export function _pathToList(path: string | (string | number)[]) {
 
 export function _parseAffectedPaths(path: string | string[]): Set<string> {
   const set = new Set<string>();
-  const parts = _pathToList(path);
+  const parts = [..._pathToList(path)];
   let current = parts.join('.');
 
   set.add(current);

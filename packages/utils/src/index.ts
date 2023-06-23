@@ -73,6 +73,8 @@ export * from './diff/diff';
 export * from './project';
 export * from './parsePath';
 export * from './objectEntries';
+export * from './immer';
+export * from './MicroState';
 
 // @only-server
 export * from './logLevels';

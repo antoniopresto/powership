@@ -1,6 +1,5 @@
 // Converts a schema to a placeholder object
 import {
-  randomFloat,
   randomInt,
   randomItem,
   randomName,
@@ -89,7 +88,7 @@ export function fieldToMock(
       )}${randomItem('.com', '.net', '.com.br', '.co', '.sh')}`;
     },
     enum: () => (Array.isArray(def) ? def[0] : undefined),
-    float: () => (randomNumber || randomFloat)(),
+    float: () => (randomNumber || randomInt)(),
     int: () => (randomNumber || randomInt)(),
     literal: () => LiteralField.utils.deserialize(def),
     meta: () => createEmptyMetaField(),

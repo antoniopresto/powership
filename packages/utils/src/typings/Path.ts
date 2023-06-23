@@ -1,5 +1,9 @@
 export type PathType<Type, Property extends string> = Type extends unknown
-  ? _PathType<Type, Property>
+  ? _PathType<Type, Property> extends infer R
+    ? [R] extends [never]
+      ? unknown
+      : R
+    : never
   : never;
 
 export type _PathType<Type, Property extends string> = string extends Property
@@ -43,7 +47,7 @@ type Join<K, P> = K extends string | number
 export type Paths<T, D extends number = 10> =
   | ([D] extends [never]
       ? never
-      : // : T extends ReadonlyArray<infer El>
+      : // T extends ReadonlyArray<infer El>
       // ? Join<number | '$', Paths<El, Prev[D]>>
       T extends object
       ? {
@@ -53,7 +57,7 @@ export type Paths<T, D extends number = 10> =
                 | (Paths<T[K], Prev[D]> extends infer R ? Join<K, R> : never)
             : never;
         }[keyof T]
-      : '')
+      : never)
   // | '$'
   | '';
 

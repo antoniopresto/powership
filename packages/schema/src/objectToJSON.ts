@@ -171,7 +171,7 @@ function parseGraphQLField(params: {
       composers.push({
         compose(parent) {
           if (typeof type.def === 'string') {
-            return pick(parent, type.def);
+            return pick(parent, type.def) as any;
           } else {
             return parseGraphQLField({
               field: type.utils.fieldType.asFinalFieldDef,

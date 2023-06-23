@@ -1,13 +1,10 @@
 import setWith from 'lodash/setWith';
 
-import { ObjectPath } from './typings';
-
 export function setByPath<
-  T extends Record<string, any>,
-  K extends ObjectPath<T> | ObjectPath<T>[]
+  T extends Record<string, any>
 >(
   obj: T,
-  path: K,
+  path: string,
   value: any,
   customizer?: (nsValue: any, key: string, nsObject: T) => any
 ) {

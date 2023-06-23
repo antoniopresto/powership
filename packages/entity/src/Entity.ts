@@ -910,7 +910,7 @@ function _getIndexGraphTypes(input: {
     let def: FinalFieldDefinition | undefined;
     fieldName.split('.').forEach((part, index) => {
       if (index === 0) {
-        def = pick(entityOutputDefinitionWithRelations, part);
+        def = pick(entityOutputDefinitionWithRelations, part) as any;
       } else if (def && def.type === 'object') {
         def = pick(def.def, part);
       }
