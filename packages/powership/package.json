@@ -1,11 +1,11 @@
 {
   "name": "powership",
-  "version": "2.0.2",
-  "main": "lib/index.js",
-  "module": "lib/module/index.js",
+  "version": "2.0.4",
+  "main": "out/index.js",
+  "module": "out/module/index.js",
   "browser": {
-    "lib/module/index.js": "./lib/browser/module/index.js",
-    "lib/index.js": "./lib/browser/index.js"
+    "out/module/index.js": "./out/browser/module/index.js",
+    "out/index.js": "./out/browser/index.js"
   },
   "sideEffects": false,
   "author": "antoniopresto <antoniopresto@gmail.com>",
@@ -13,15 +13,15 @@
   "scripts": {
     "test": "jest",
     "build": "run-s clear declarations build:*",
-    "clear": "rimraf lib",
+    "clear": "rimraf out",
     "fix": "run-s fix:* ",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint src --ext .ts --fix",
     "prepublishOnly": "run-s build fix && run-p test",
     "build-targets": "run-p build:*",
-    "build:browser": "TARGET=browser npm run babild -- --out-dir lib/browser",
-    "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir lib/browser/module",
-    "build:node": "TARGET=node npm run babild -- --out-dir lib",
+    "build:browser": "TARGET=browser npm run babild -- --out-dir out/browser",
+    "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir out/browser/module",
+    "build:node": "TARGET=node npm run babild -- --out-dir out",
     "declarations": "tsc -p tsconfig.declarations.json",
     "babild": "babel 'src' --extensions '.ts,.tsx' --source-maps=true --ignore '**/__tests__'"
   },
@@ -74,7 +74,7 @@
   },
   "files": [
     "package.json",
-    "lib/*",
+    "out/*",
     "README.md"
   ],
   "typedoc": {

@@ -74,7 +74,7 @@ function getModules() {
       // @only-server
       module: () =>
         // @only-server
-        require('@powership/utils/lib/parsePhoneNumber') as typeof import('@powership/utils/lib/parsePhoneNumber'),
+        require('@powership/utils/out/parsePhoneNumber') as typeof import('@powership/utils/out/parsePhoneNumber'),
 
       server: true,
     },

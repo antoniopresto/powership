@@ -6,21 +6,17 @@ export async function formatWithPrettier(
   source: string,
   options?: Options
 ): Promise<string> {
-  if (formatWithPrettier.prettier) {
-    return formatWithPrettier.prettier.format(source, options);
-  }
-  return source;
-  // webpack is not my friend
-  // if (IS_WEBPACK) return Promise.resolve(source);
-  // return import('prettier')
-  //   .then((module) => module.format(source, options))
-  //   .catch(() => source);
+  const prettier = await dynamicRequire<typeof import('prettier')>('prettier');
+  return prettier.format(source, options);
 }
 
-formatWithPrettier.prettier = undefined as undefined | { format: AnyFunction };
-
-export function setPrettier<Prettier extends { format: AnyFunction }>(
-  prettier: Prettier
-) {
-  formatWithPrettier.prettier = prettier;
+async function dynamicRequire<T = any>(name: string): Promise<T> {
+  // @only-server
+  const text = `import('${name}');`;
+  /**
+   * Using "eval" to prevent webpack warning
+   * about "Import trace for requested module"
+   */
+  // @only-server
+  return await eval(text);
 }

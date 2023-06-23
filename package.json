@@ -1,6 +1,6 @@
 {
   "name": "powership",
-  "version": "2.0.2",
+  "version": "2.0.4",
   "private": true,
   "scripts": {
     "pack": "run-s pack:*",
@@ -13,7 +13,7 @@
     "i": "rm -rf node_modules/.pnpm && rm -rf pnpm-lock.yaml && pnpm install",
     "clear": "run-s clear:* && pnpm install",
     "clear:root": "rm -rf node_modules *-lock.yaml *-lock.json",
-    "clear:packages": "run \"rm -rf node_modules *-lock.yaml *-lock.json\" lib"
+    "clear:packages": "run \"rm -rf node_modules *-lock.yaml *-lock.json\" out"
   },
   "devDependencies": {
     "@powership/babel-plugins": "workspace:*",

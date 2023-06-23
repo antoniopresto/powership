@@ -1,5 +1,5 @@
 import { MongoTransporter } from '@powership/mongo';
-import { AppMock, createAppMock } from '@powership/mongo/lib/test-utils';
+import { AppMock, createAppMock } from '@powership/mongo/out/test-utils';
 import { LoaderContext } from '@powership/transporter';
 
 import { SessionRequest } from '../Sessions';

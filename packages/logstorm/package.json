@@ -1,11 +1,11 @@
 {
   "name": "logstorm",
-  "version": "2.0.2",
-  "typings": "lib",
+  "version": "2.0.4",
+  "typings": "out",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
-  "main": "lib/index.js",
-  "module": "lib/module/index.js",
+  "main": "out/index.js",
+  "module": "out/module/index.js",
   "sideEffects": false,
   "scripts": {
     "test": "echo ok",
@@ -13,11 +13,11 @@
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint src --ext .ts --fix",
-    "clear": "rimraf lib",
+    "clear": "rimraf out",
     "prepublishOnly": "run-s build fix && run-p test",
     "build-targets": "run-p build:*",
-    "build:node": "TARGET=node npm run babild -- --out-dir lib",
-    "build:module-node": "TARGET=module-node npm run babild -- --out-dir lib/module",
+    "build:node": "TARGET=node npm run babild -- --out-dir out",
+    "build:module-node": "TARGET=module-node npm run babild -- --out-dir out/module",
     "declarations": "tsc -p tsconfig.json",
     "babild": "babel 'src' --extensions '.ts' --source-maps=true --ignore '**/__tests__'"
   },
@@ -55,7 +55,7 @@
   },
   "files": [
     "package.json",
-    "lib/*",
+    "out/*",
     "README.md"
   ],
   "prettier": {

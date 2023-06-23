@@ -3,7 +3,7 @@
   "extends": "./tsconfig.prod.json",
   "compilerOptions": {
     "target": "esnext",
-    "outDir": "lib/module",
+    "outDir": "out/module",
     "module": "esnext",
     "noUnusedLocals": true,
     "noUnusedParameters": true

@@ -1,22 +1,22 @@
 {
   "name": "@powership/helpers",
-  "version": "2.0.2",
-  "main": "lib/index.js",
-  "module": "lib/module/index.js",
+  "version": "2.0.4",
+  "main": "out/index.js",
+  "module": "out/module/index.js",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
   "sideEffects": false,
   "scripts": {
     "test": "echo ok",
     "build": "run-s clear && run-p declarations build:*",
-    "clear": "rimraf lib",
+    "clear": "rimraf out",
     "fix": "run-s fix:* ",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint src --ext .ts --fix",
     "prepublishOnly": "run-s build fix && run-p test",
     "build-targets": "run-p build:*",
-    "build:node": "TARGET=node npm run babild -- --out-dir lib",
-    "build:module-node": "TARGET=module-node npm run babild -- --out-dir lib/module",
+    "build:node": "TARGET=node npm run babild -- --out-dir out",
+    "build:module-node": "TARGET=module-node npm run babild -- --out-dir out/module",
     "declarations": "tsc -p tsconfig.declarations.json",
     "babild": "babel 'src' --extensions '.ts,.tsx'"
   },
@@ -70,7 +70,7 @@
   },
   "files": [
     "package.json",
-    "lib/*",
+    "out/*",
     "README.md"
   ],
   "typedoc": {
