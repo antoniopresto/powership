@@ -12,7 +12,7 @@ export async function formatWithPrettier(
 
 async function dynamicRequire<T = any>(name: string): Promise<T> {
   // @only-server
-  const text = `import('${name}');`;
+  const text = `require('${name}');`;
   /**
    * Using "eval" to prevent webpack warning
    * about "Import trace for requested module"

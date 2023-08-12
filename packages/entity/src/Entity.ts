@@ -19,6 +19,7 @@ import {
   ParsedDocumentIndexes,
   ParsedIndexKey,
   parseEntityIndexFields,
+  Transporter,
   TransporterLoader,
   TransporterLoaderName,
   transporterLoaderNames,
@@ -85,6 +86,12 @@ const extendMethodsEnum = tupleEnum(
   'addIndexRelation',
   'extend'
 );
+
+export let defaultGlobalTransporter: Transporter | undefined = undefined;
+
+export function setDefaultTransporter(transporter: Transporter | undefined) {
+  defaultGlobalTransporter = transporter;
+}
 
 export function createEntity<
   InputDefinition extends ObjectDefinitionInput,
@@ -288,7 +295,7 @@ export function createEntity(
     // keep it here, because can be changed in the above "onGet"
     const {
       indexes,
-      transporter: defaultTransporter,
+      transporter: defaultTransporter = defaultGlobalTransporter,
       type,
       name: entityName,
     } = entityOptions;
