@@ -2,6 +2,7 @@ import { enablePatches, produceWithPatches } from 'immer';
 
 import { clone, Difference } from './diff';
 import { ImmerPatch } from './immer';
+import { isBrowser } from './isBrowser';
 import { parsePath, PathParsed } from './parsePath';
 import { pick } from './pick';
 import { setByPath } from './setByPath';
@@ -254,7 +255,7 @@ export class MicroState<Type extends object> {
   }
 
   static connectDevTools(state: MicroState<any>) {
-    if (typeof window !== 'object') return;
+    if (!isBrowser()) return;
     window.__MICRO_STATE__ = state;
 
     if (typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined') {

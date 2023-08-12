@@ -1,3 +1,5 @@
+import { isBrowser } from './isBrowser';
+
 const defaultValue = {
   env: {},
   cwd() {
@@ -13,7 +15,7 @@ export function useProcess(): Partial<typeof process> & {
 } {
   if (typeof process === 'object') return process;
 
-  if (typeof window === 'object') {
+  if (isBrowser()) {
     window.process = window.process || defaultValue;
     return window.process;
   }

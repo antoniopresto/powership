@@ -1,4 +1,4 @@
-import { createStore, IsKnown, RuntimeError } from '@powership/utils';
+import { createStore, isBrowser, IsKnown, RuntimeError } from '@powership/utils';
 import { ensureArray } from '@powership/utils';
 import { expectedType } from '@powership/utils';
 import { getTypeName } from '@powership/utils';
@@ -552,7 +552,7 @@ export class ObjectType<
       const { GraphQLParser, GraphType } = CircularDeps;
       promises.push(GraphQLParser.reset(), GraphType.reset());
     } catch (e) {
-      if (typeof window === 'undefined') {
+      if (!isBrowser()) {
         throw e;
       }
     }

@@ -1,4 +1,5 @@
 import { inspectObject } from './inspectObject';
+import { isBrowser } from './isBrowser';
 import {
   getLogLevelsRecord,
   LogLevel,
@@ -18,7 +19,7 @@ export type LoggerMethods = { [K in LogLevelName]: (...args: any[]) => void };
 
 export const _defaultLogger: LoggerMethods = ((value) => {
   const partial = (() => {
-    if (typeof window === 'undefined' && typeof process === 'object') {
+    if (!isBrowser() && typeof process === 'object' && value?.stdout?.write) {
       const log = value?.stdout.write
         ? (...args: any[]) => {
             stringify(

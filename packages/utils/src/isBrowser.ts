@@ -1,13 +1,11 @@
+export const IS_BROWSER = (() => {
+  try {
+    return document.body.getBoundingClientRect().width > 0;
+  } catch (e) {
+    return false;
+  }
+})();
+
 export function isBrowser() {
-  return (
-    typeof window !== 'undefined' &&
-    typeof XMLHttpRequest === 'function' &&
-    !(
-      (window as any).require &&
-      window.module &&
-      window.process &&
-      // @ts-ignore
-      window.process.type === 'renderer'
-    )
-  );
+  return IS_BROWSER;
 }
