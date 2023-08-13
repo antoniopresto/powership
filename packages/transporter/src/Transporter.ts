@@ -116,10 +116,10 @@ export type DocumentBase = Record<string, any>;
 
 export type QuerySort = 'ASC' | 'DESC';
 
-export type LoaderContext = {
+export interface LoaderContext {
   [K: string]: unknown;
   userId?(...args: unknown[]): MaybePromise<string | undefined>;
-};
+}
 
 export type MethodFilter<
   PK extends string,

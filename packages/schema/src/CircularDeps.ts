@@ -219,17 +219,17 @@ function get(key: string) {
     // parser -> parser
     // parser -> vizinho
 
-    if (isBrowser() && value.server) {
+    if (isBrowser() && value?.server) {
       cache.set(_key, undefined);
       return;
     }
 
-    const moduleObject = value.module() as any;
+    const moduleObject = value?.module?.() as any;
     if (!moduleObject) {
       return;
     }
 
-    let mainModule = moduleObject.default ? moduleObject.default : moduleObject;
+    let mainModule = moduleObject?.default ? moduleObject.default : moduleObject;
 
     if (mainModule?.[_key]) {
       mainModule = mainModule[_key];
