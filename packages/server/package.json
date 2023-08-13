@@ -1,6 +1,6 @@
 {
   "name": "@powership/server",
-  "version": "2.0.5-pre.9",
+  "version": "2.0.5-beta.2",
   "main": "out/index.js",
   "module": "out/module/index.js",
   "sideEffects": false,

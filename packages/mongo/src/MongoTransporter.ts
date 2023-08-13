@@ -39,7 +39,7 @@ import {
 } from './parseMongoAttributeFilters';
 import { parseMongoUpdateExpression } from './parseMongoUpdateExpression';
 
-export class MongoTransporter implements Transporter {
+export class MongoTransporter implements Transporter<MongoClient> {
   _client: MongoClient;
 
   get db() {

@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
+    "module": "esnext",
     "outDir": "out",
     "rootDir": ".",
     "baseUrl": ".",
     "lib": ["es5", "es6", "es7", "esnext", "dom", "es2020"],
     "declaration": true,
-    "target": "es5",
+    "target": "es2017",
     "removeComments": false,
     "esModuleInterop": true,
     "moduleResolution": "node",

@@ -1,7 +1,8 @@
 {
   "name": "powership",
-  "version": "2.0.5-pre.9",
+  "version": "2.0.5-beta.2",
   "private": true,
+  "type": "module",
   "scripts": {
     "pack": "run-s pack:*",
     "pack:publish": "run \"pnpm publish\"",
@@ -14,9 +15,7 @@
     "clear": "run-s clear:* && pnpm install",
     "clear:root": "rm -rf node_modules *-lock.yaml *-lock.json",
     "clear:packages": "run \"rm -rf node_modules *-lock.yaml *-lock.json\" out",
-    "lazy": "run-s lazy:*",
-    "lazy:1": "run \"pnpm run build\"",
-    "lazy:2": "run \"pnpm publish --tag=next --ignore-scripts\""
+    "beta": "./scripts/beta.js"
   },
   "devDependencies": {
     "@powership/babel-plugins": "workspace:*",
@@ -61,7 +60,9 @@
     "@powership/transporter"
   ],
   "dependencies": {
-    "typedoc": "0.23.24"
+    "semver": "7.3.8",
+    "typedoc": "0.23.24",
+    "zx": "7.2.3"
   },
   "workspaces": {
     "packages": [

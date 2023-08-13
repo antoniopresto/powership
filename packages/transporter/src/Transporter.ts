@@ -446,8 +446,8 @@ export type DeleteOneResult<T extends DocumentBase = DocumentBase> = {
   item: T | null;
 };
 
-export interface Transporter {
-  _client: any;
+export interface Transporter<Client extends any = any> {
+  _client: Client;
 
   connect(): Promise<any>;
 

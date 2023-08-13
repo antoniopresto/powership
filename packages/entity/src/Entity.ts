@@ -32,6 +32,7 @@ import {
   createSyncPlugin,
   devAssert,
   ensureArray,
+  invariant,
   isProduction,
   Logger,
   nonNullValues,
@@ -445,10 +446,12 @@ export function createEntity(
         }
         const { transporter = defaultTransporter } = args['0'];
 
-        nonNullValues(
-          { transporter },
+        invariant(
+          transporter,
           `config.transporter should be provided for "${newMethodName}" or during entity creation.`
         );
+
+        await transporter.connect();
 
         const configInput = {
           ...args[0],
