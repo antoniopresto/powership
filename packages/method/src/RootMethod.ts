@@ -1,4 +1,4 @@
-import { MethodLike } from './Method';
+import { MethodContext, MethodLike } from './Method';
 
 export type RootMethodOptions<
   _M extends Readonly<[MethodLike, ...MethodLike[]]>
@@ -17,9 +17,9 @@ export class RootMethod<
   M extends Readonly<[MethodLike, ...MethodLike[]]>,
   Name extends string = 'RootMethod'
 > {
-  methodName: Name;
-  options: RootMethodOptions<M>;
-  private methods: _MethodsRecord<M> = {};
+  readonly methodName: Name;
+  readonly options: RootMethodOptions<M>;
+  readonly methods: _MethodsRecord<M> = {};
 
   constructor(methods: M, options?: RootMethodOptions<M>) {
     let errors: string[] = [];
@@ -40,10 +40,20 @@ export class RootMethod<
       throw new Error('RootMethod: \n' + errors.join(`\n`));
     }
   }
-}
 
-export function combineMethods<
-  M extends Readonly<[MethodLike, ...MethodLike[]]>
->(methods: M, options?: RootMethodOptions<M>): RootMethod<M> {
-  return new RootMethod(methods, options);
+  execute = (
+    operations: {},
+    options?: {
+      rootValue?: any;
+      contextValue?: MethodContext;
+      operationName?: string;
+    }
+  ) => {};
+
+  static create = <Me extends Readonly<[MethodLike, ...MethodLike[]]>>(
+    methods: Me,
+    options?: RootMethodOptions<Me>
+  ): RootMethod<Me> => {
+    return new RootMethod(methods, options);
+  };
 }

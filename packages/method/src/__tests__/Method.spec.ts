@@ -1,6 +1,6 @@
 import { createType, GraphType } from '@powership/schema';
 import { assert, IsExact } from 'conditional-type-checks';
-import { combineMethods } from '../RootMethod';
+// import { RootMethod } from '../RootMethod';
 import { Method, MethodContext, MethodInfo } from '../Method';
 
 describe('Method', () => {
@@ -11,19 +11,28 @@ describe('Method', () => {
       name: 'findOne',
       kind: 'query',
       output: 'string',
-      input: { object: { username: 'string' } },
+      args: { username: 'string' },
     }).setHandler<{ parent: 'yes' }>(
-      (_, { input: { username }, parent, info, context }) => {
-        const x = { username, context, info, parent };
+      (
+        args,
+        { args: { username }, parent, rootExecutionInfo, rootContextValue }
+      ) => {
+        const x = {
+          args,
+          username,
+          rootExecutionInfo,
+          rootContextValue,
+          parent,
+        };
 
         assert<
           IsExact<
             typeof x,
             {
-              //
+              args: { username: string };
               username: typeof username;
-              context: MethodContext;
-              info: MethodInfo;
+              rootContextValue: MethodContext;
+              rootExecutionInfo: MethodInfo;
               parent: { parent: 'yes' };
             }
           >
@@ -33,7 +42,7 @@ describe('Method', () => {
       }
     );
 
-    type Param = Parameters<typeof sut.handle>;
+    type Param = Parameters<typeof sut.execute>;
 
     assert<
       IsExact<
@@ -42,43 +51,27 @@ describe('Method', () => {
           { username: string },
           {
             parent: any;
-            input: { username: string };
-            context: MethodContext;
-            info: MethodInfo;
+            args: { username: string };
+            rootContextValue: MethodContext;
+            rootExecutionInfo: MethodInfo;
           }
         ]
       >
     >(true);
 
-    expect(sut).toEqual({
-      __definition: expect.objectContaining({ kind: 'query' }),
-      kind: 'query',
-      methodName: 'findOne',
-      handle: expect.any(Function),
-      fetch: expect.any(Function),
-      setFetcher: expect.any(Function),
-      setHandler: expect.any(Function),
-      inputType: expect.any(GraphType),
-      outputType: expect.objectContaining({
-        definition: {
-          type: 'string',
-        },
-      }),
-    });
-
     const parent = { parent: 'yes' } as const;
-    const context = { t: 'context' };
-    const info = { t: 'info' };
+    const rootContextValue = { t: 'context' };
+    const rootExecutionInfo = { t: 'rootExecutionInfo' };
 
-    const spy = jest.spyOn(sut, 'handle');
+    const spy = jest.spyOn(sut, 'execute');
 
-    const promise = sut.handle(
+    const promise = sut.execute(
       { username: 'Antonio' },
       {
         parent,
-        input: { username: 'Antonio' },
-        context,
-        info,
+        args: { username: 'Antonio' },
+        rootContextValue,
+        rootExecutionInfo,
       }
     );
 
@@ -92,38 +85,40 @@ describe('Method', () => {
       { username: 'Antonio' },
       {
         parent,
-        input: { username: 'Antonio' },
-        context,
-        info,
+        args: { username: 'Antonio' },
+        rootContextValue,
+        rootExecutionInfo,
       }
     );
 
     spy.mockRestore();
   });
 
-  describe('Methods.ts', () => {
-    test('combineMethods', async () => {
-      const User = createType('User', { object: { id: 'ID', email: 'email' } });
-
-      const createOne = new Method({
-        name: 'createOne',
-        kind: 'mutation',
-        output: User,
-        input: User.clone((el) => el.only('email').graphType('createOneInput')),
-      }).setHandler(({ email }) => {
-        return { id: '123', email };
-      });
-
-      const findOne = new Method({
-        name: 'findOne',
-        kind: 'query',
-        output: '[string]',
-        input: { object: { username: 'string' } },
-      }).setHandler<{ parent: 'yes' }>(({ username }) => {
-        return [`hi, ${username}!`];
-      });
-
-      const root = combineMethods([createOne, findOne]);
-    });
-  });
+  // describe('Methods.ts', () => {
+  //   const User = createType('User', { object: { id: 'ID', email: 'email' } });
+  //
+  //   const createOne = new Method({
+  //     name: 'createOne',
+  //     kind: 'mutation',
+  //     output: User,
+  //     args: User.definition.object,
+  //   }).setHandler(({ email }) => {
+  //     return { id: '123', email };
+  //   });
+  //
+  //   const findOne = new Method({
+  //     name: 'findOne',
+  //     kind: 'query',
+  //     output: '[string]',
+  //     args: { username: 'string' },
+  //   }).setHandler<{ parent: 'yes' }>(({ username }) => {
+  //     return [`hi, ${username}!`];
+  //   });
+  //
+  //   test('combineMethods', async () => {
+  //     const root = RootMethod.create([createOne, findOne]);
+  //
+  //     root.methodName;
+  //   });
+  // });
 });

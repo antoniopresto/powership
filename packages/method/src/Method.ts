@@ -3,7 +3,11 @@ import {
   createType,
   FieldInput,
   GraphType,
+  GraphTypeLike,
   Infer,
+  ObjectDefinitionInput,
+  ObjectLike,
+  ObjectType,
 } from '@powership/schema';
 import { Compute, IsKnown, MaybePromise } from '@powership/utils';
 
@@ -38,64 +42,65 @@ export interface MethodInfo {}
 
 /**
  * Type definition for a method.
- * @template Input - The type definition for the input fields.
+ * @template Args - The type definition for the args fields.
  * @template Output - The type definition for the output fields.
  */
 export type MethodDefinition<
-  Input extends FieldInput,
+  Args extends ObjectDefinitionInput,
   Output extends FieldInput,
   Name extends Readonly<string>
 > = {
   kind: MethodRequestType; // The kind of method, either 'query' or 'mutation'.
   name: Name; // The name of the method.
   output: Output; // The output type definition.
-  input?: Input; // The input type definition.
+  args: Args; // The args type definition.
   throwOnInvalidResultingListItems?: boolean; // Optional flag to throw on invalid list items.
 };
 
 /**
  * Type definition for the payload of a method.
- * @template Input - The type definition for the input fields.
+ * @template Args - The type definition for the args fields.
  * @template Context - The type definition for the method context.
  * @template Parent - The type definition for the parent object.
  */
 export type MethodPayload<
-  Input extends FieldInput,
+  Args extends ObjectDefinitionInput,
   Context extends MethodContext = MethodContext,
   Parent extends any = any
 > = {
   parent: Parent; // The parent object.
-  input: Infer<Input>; // The actual input data.
-  context: Context; // The method context.
-  info: MethodInfo; // Additional method information.
+  args: Infer<{ object: Args }>; // The actual args data.
+  rootContextValue: Context; // The root context.
+  rootExecutionInfo: MethodInfo; // Additional method information.
 };
 
 /**
  * Type definition for fetch operations.
- * @template Input - The type definition for the input fields.
+ * @template Args - The type definition for the args fields.
  * @template Output - The type definition for the output fields.
  */
-export type Fetcher<Input extends FieldInput, Output extends FieldInput> = (
-  args: Infer<Input>
-) => Promise<Infer<Output>>;
+export type Fetcher<
+  Args extends ObjectDefinitionInput,
+  Output extends FieldInput
+> = (args: Infer<{ object: Args }>) => Promise<Infer<Output>>;
 
 /**
  * Type definition for handling method operations.
- * @template Input - The type definition for the input fields.
+ * @template Args - The type definition for the args fields.
  * @template Output - The type definition for the output fields.
  * @template Context - The type definition for the method context.
  * @template Parent - The type definition for the parent object.
  */
 export type Handler<
-  Input extends FieldInput,
+  Args extends ObjectDefinitionInput,
   Output extends FieldInput,
   Context extends MethodContext = MethodContext,
   Parent extends any = any
 > = [IsKnown<Output>] extends [1]
-  ? [IsKnown<Input>] extends [1]
+  ? [IsKnown<Args>] extends [1]
     ? (
-        input: Infer<Input>,
-        payload: Compute<MethodPayload<Input, Context, Parent>>
+        args: Infer<{ object: Args }>,
+        payload: Compute<MethodPayload<Args, Context, Parent>>
       ) => Promise<Infer<Output>>
     : never
   : never;
@@ -131,7 +136,7 @@ export interface MethodLike {
  * @template Context - The type definition for the method context.
  */
 export class Method<
-  RequestDefinition extends FieldInput,
+  ArgsDefinition extends ObjectDefinitionInput,
   ResponseDefinition extends FieldInput,
   Name extends Readonly<string>,
   Context extends MethodContext = MethodContext
@@ -140,30 +145,30 @@ export class Method<
   __isPSMethod: true; // Internal flag to mark this as a PSMethod.
   readonly methodName: Name; // The name of the method.
   kind: MethodType; // The kind of method, either 'query' or 'mutation'.
-  inputType?: GraphType<RequestDefinition>; // GraphType for input validation.
+  argsType: GraphType<{ object: ArgsDefinition }>; // GraphType for args validation.
   outputType: GraphType<ResponseDefinition>; // GraphType for output validation.
   private __definition: MethodDefinition<any, any, any>; // Private storage for method definition.
 
   /**
    * The handler function for this method.
    */
-  handle: Handler<RequestDefinition, ResponseDefinition, Context>;
+  execute: Handler<ArgsDefinition, ResponseDefinition, Context>;
 
   /**
    * The fetch function for this method.
    */
-  fetch: Fetcher<RequestDefinition, ResponseDefinition>;
+  fetch: Fetcher<ArgsDefinition, ResponseDefinition>;
 
   /**
    * Constructs a new Method instance.
    * @param definition - The method definition.
    */
   constructor(
-    definition: MethodDefinition<RequestDefinition, ResponseDefinition, Name>
+    definition: MethodDefinition<ArgsDefinition, ResponseDefinition, Name>
   ) {
     this.__definition = definition;
 
-    const { name, input, output, kind } = definition;
+    const { name, args, output, kind } = definition;
 
     // Validate the method name.
     validateIdentifier(name);
@@ -180,12 +185,29 @@ export class Method<
       ? (output as any)
       : createType(`${name}Output`, output);
 
-    // Initialize the input type.
-    this.inputType = input
-      ? GraphType.is(input)
-        ? (input as any)
-        : createType(`${name}Input`, input)
-      : undefined;
+    // Initialize the args type.
+    this.argsType = ((): any => {
+      if (GraphType.is(args)) {
+        if (!args.__lazyGetter.objectType) {
+          throw new Error(
+            'Invalid definition: args value should respect one of the following types: ' +
+              'ObjectType<ObjectTypeDefinition>, GraphType<ObjectType> or ObjectTypeDefinition.\n'
+          );
+        }
+        if (args.optionalId) return args;
+        // @ts-ignore
+        return args.clone((el) => el.graphType(`${name}Args`));
+      }
+
+      if (ObjectType.is(args)) {
+        // @ts-ignore
+        if (args.id) return createType(args);
+        return createType(`${name}Args`, args);
+      }
+
+      // @ts-ignore
+      return createType(`${name}Args`, { object: args } as any);
+    })();
 
     // Initialize the fetch function with a placeholder.
     this.fetch = function call() {
@@ -193,7 +215,7 @@ export class Method<
     };
 
     // Initialize the handle function with a placeholder.
-    this.handle = async function receive() {
+    this.execute = async function receive() {
       throw new Error('Method has no handle handler defined.');
     } as any;
   }
@@ -203,11 +225,11 @@ export class Method<
    * For example, on the client side, it can be a `fetch` call to the backend.
    * @param fetcher - The fetch function.
    */
-  setFetcher = (fetcher: Fetcher<RequestDefinition, ResponseDefinition>) => {
+  setFetcher = (fetcher: Fetcher<ArgsDefinition, ResponseDefinition>) => {
     this.fetch = async (
-      args: Infer<RequestDefinition>
+      args: Infer<{ object: ArgsDefinition }>
     ): Promise<Infer<ResponseDefinition>> => {
-      args = this.inputType ? this.inputType.parse(args) : args;
+      args = this.argsType.parse(args);
       const response = await fetcher(args);
       return this.outputType.parse(response);
     };
@@ -220,36 +242,34 @@ export class Method<
    */
   setHandler = <Parent extends any>(
     handle: (
-      input: Infer<RequestDefinition>,
-      payload: Compute<MethodPayload<RequestDefinition, Context, Parent>>
+      args: Compute<Infer<{ object: ArgsDefinition }>>,
+      payload: Compute<MethodPayload<ArgsDefinition, Context, Parent>>
     ) => MaybePromise<Infer<ResponseDefinition>>
-  ): Method<RequestDefinition, ResponseDefinition, Name, Context> => {
+  ): Method<ArgsDefinition, ResponseDefinition, Name, Context> => {
     const {
-      inputType,
+      argsType,
       outputType,
       methodName,
       __definition: { throwOnInvalidResultingListItems },
     } = this;
 
-    this.handle = async function handleMethod(
-      input: Infer<RequestDefinition>,
-      payload: MethodPayload<RequestDefinition, Context, Parent>
+    this.execute = async function handleMethod(
+      args: any,
+      payload: MethodPayload<ArgsDefinition, Context, Parent>
     ) {
-      let { parent, context, info = {} } = payload;
+      let { parent, rootContextValue, rootExecutionInfo = {} } = payload;
 
-      input = inputType
-        ? inputType.parse(input, {
-            customMessage: (_, error) => {
-              return `Invalid input provided to method "${methodName}":\n ${error.message}`;
-            },
-          } as any)
-        : input;
+      args = argsType.parse(args, {
+        customMessage: (_, error) => {
+          return `Invalid args provided to method "${methodName}":\n ${error.message}`;
+        },
+      });
 
-      const resulting = await handle(input, {
+      const resulting = await handle(args, {
         parent,
-        input,
-        context,
-        info,
+        args,
+        rootContextValue,
+        rootExecutionInfo,
       });
 
       return outputType.parse(resulting, {
@@ -258,7 +278,7 @@ export class Method<
         },
         excludeInvalidListItems: !throwOnInvalidResultingListItems,
       });
-    } as Handler<RequestDefinition, ResponseDefinition, Context, Parent>;
+    } as Handler<ArgsDefinition, ResponseDefinition, Context, Parent>;
 
     return this as any;
   };

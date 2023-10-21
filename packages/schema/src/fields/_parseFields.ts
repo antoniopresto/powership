@@ -28,6 +28,7 @@ export type _ObjectFieldInputBase =
   | FieldAsString;
 
 export type FieldInput = ObjectFieldInput;
+export type FieldDefinition = ObjectFieldInput;
 
 export type ObjectDefinitionInput = {
   [K: string]: ObjectFieldInput;
