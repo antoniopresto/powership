@@ -1,5 +1,6 @@
-import { GraphType } from '@powership/schema';
+import { createType, GraphType } from '@powership/schema';
 import { assert, IsExact } from 'conditional-type-checks';
+import { combineMethods } from '../RootMethod';
 import { Method, MethodContext, MethodInfo } from '../Method';
 
 describe('Method', () => {
@@ -12,7 +13,7 @@ describe('Method', () => {
       output: 'string',
       input: { object: { username: 'string' } },
     }).setHandler<{ parent: 'yes' }>(
-      ({ input: { username }, parent, info, context }) => {
+      (_, { input: { username }, parent, info, context }) => {
         const x = { username, context, info, parent };
 
         assert<
@@ -32,17 +33,20 @@ describe('Method', () => {
       }
     );
 
-    type Param = Parameters<typeof sut.handle>[0];
+    type Param = Parameters<typeof sut.handle>;
 
     assert<
       IsExact<
         Param,
-        {
-          parent: any;
-          input: { username: string };
-          context: MethodContext;
-          info: MethodInfo;
-        }
+        [
+          { username: string },
+          {
+            parent: any;
+            input: { username: string };
+            context: MethodContext;
+            info: MethodInfo;
+          }
+        ]
       >
     >(true);
 
@@ -68,12 +72,15 @@ describe('Method', () => {
 
     const spy = jest.spyOn(sut, 'handle');
 
-    const promise = sut.handle({
-      parent,
-      input: { username: 'Antonio' },
-      context,
-      info,
-    });
+    const promise = sut.handle(
+      { username: 'Antonio' },
+      {
+        parent,
+        input: { username: 'Antonio' },
+        context,
+        info,
+      }
+    );
 
     assert<IsExact<typeof promise, Promise<string>>>(true);
 
@@ -81,13 +88,42 @@ describe('Method', () => {
 
     expect(res).toEqual('hi, Antonio!');
 
-    expect(spy).toBeCalledWith({
-      parent,
-      input: { username: 'Antonio' },
-      context,
-      info,
-    });
+    expect(spy).toBeCalledWith(
+      { username: 'Antonio' },
+      {
+        parent,
+        input: { username: 'Antonio' },
+        context,
+        info,
+      }
+    );
 
     spy.mockRestore();
+  });
+
+  describe('Methods.ts', () => {
+    test('combineMethods', async () => {
+      const User = createType('User', { object: { id: 'ID', email: 'email' } });
+
+      const createOne = new Method({
+        name: 'createOne',
+        kind: 'mutation',
+        output: User,
+        input: User.clone((el) => el.only('email').graphType('createOneInput')),
+      }).setHandler(({ email }) => {
+        return { id: '123', email };
+      });
+
+      const findOne = new Method({
+        name: 'findOne',
+        kind: 'query',
+        output: '[string]',
+        input: { object: { username: 'string' } },
+      }).setHandler<{ parent: 'yes' }>(({ username }) => {
+        return [`hi, ${username}!`];
+      });
+
+      const root = combineMethods([createOne, findOne]);
+    });
   });
 });

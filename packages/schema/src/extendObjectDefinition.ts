@@ -50,6 +50,14 @@ export interface ExtendObjectDefinition<Input, Origin> {
     keys: K | K[]
   ): ExtendObjectDefinition<{ object: O.Pick<InnerDef<Input>, K> }, Origin>;
 
+  /**
+   * Alias to `only`
+   * @param keys
+   */
+  pick<K extends keyof this['definition']>(
+    keys: K | K[]
+  ): ExtendObjectDefinition<{ object: O.Pick<InnerDef<Input>, K> }, Origin>;
+
   optional(): ExtendObjectDefinition<
     { object: MakeFieldOptional<InnerDef<Input>, keyof InnerDef<Input>> },
     Origin
@@ -168,6 +176,10 @@ export function extendObjectDefinition<Input>(
         }
       });
       return extendObjectDefinition(clone);
+    },
+
+    pick(keys) {
+      return res.pick(keys);
     },
 
     optional(keys = Object.keys(clone)) {

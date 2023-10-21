@@ -43,12 +43,13 @@ export interface MethodInfo {}
  */
 export type MethodDefinition<
   Input extends FieldInput,
-  Output extends FieldInput
+  Output extends FieldInput,
+  Name extends Readonly<string>
 > = {
   kind: MethodRequestType; // The kind of method, either 'query' or 'mutation'.
-  name: string; // The name of the method.
+  name: Name; // The name of the method.
   output: Output; // The output type definition.
-  input: Input; // The input type definition.
+  input?: Input; // The input type definition.
   throwOnInvalidResultingListItems?: boolean; // Optional flag to throw on invalid list items.
 };
 
@@ -93,6 +94,7 @@ export type Handler<
 > = [IsKnown<Output>] extends [1]
   ? [IsKnown<Input>] extends [1]
     ? (
+        input: Infer<Input>,
         payload: Compute<MethodPayload<Input, Context, Parent>>
       ) => Promise<Infer<Output>>
     : never
@@ -117,6 +119,11 @@ function validateIdentifier(name: string) {
   }
 }
 
+export interface MethodLike {
+  methodName: string;
+  __isPSMethod: true;
+}
+
 /**
  * Class representing a Method.
  * @template RequestDefinition - The type definition for the request fields.
@@ -126,14 +133,16 @@ function validateIdentifier(name: string) {
 export class Method<
   RequestDefinition extends FieldInput,
   ResponseDefinition extends FieldInput,
+  Name extends Readonly<string>,
   Context extends MethodContext = MethodContext
-> {
+> implements MethodLike
+{
   __isPSMethod: true; // Internal flag to mark this as a PSMethod.
-  methodName: string; // The name of the method.
+  readonly methodName: Name; // The name of the method.
   kind: MethodType; // The kind of method, either 'query' or 'mutation'.
-  inputType: GraphType<RequestDefinition>; // GraphType for input validation.
+  inputType?: GraphType<RequestDefinition>; // GraphType for input validation.
   outputType: GraphType<ResponseDefinition>; // GraphType for output validation.
-  private __definition: MethodDefinition<any, any>; // Private storage for method definition.
+  private __definition: MethodDefinition<any, any, any>; // Private storage for method definition.
 
   /**
    * The handler function for this method.
@@ -150,7 +159,7 @@ export class Method<
    * @param definition - The method definition.
    */
   constructor(
-    definition: MethodDefinition<RequestDefinition, ResponseDefinition>
+    definition: MethodDefinition<RequestDefinition, ResponseDefinition, Name>
   ) {
     this.__definition = definition;
 
@@ -164,7 +173,7 @@ export class Method<
     this.kind = kind;
 
     // Set the method name.
-    this.methodName = name;
+    this.methodName = name as Name;
 
     // Initialize the output type.
     this.outputType = GraphType.is(output)
@@ -172,9 +181,11 @@ export class Method<
       : createType(`${name}Output`, output);
 
     // Initialize the input type.
-    this.inputType = GraphType.is(input)
-      ? (input as any)
-      : createType(`${name}Input`, input);
+    this.inputType = input
+      ? GraphType.is(input)
+        ? (input as any)
+        : createType(`${name}Input`, input)
+      : undefined;
 
     // Initialize the fetch function with a placeholder.
     this.fetch = function call() {
@@ -196,7 +207,7 @@ export class Method<
     this.fetch = async (
       args: Infer<RequestDefinition>
     ): Promise<Infer<ResponseDefinition>> => {
-      args = this.inputType.parse(args);
+      args = this.inputType ? this.inputType.parse(args) : args;
       const response = await fetcher(args);
       return this.outputType.parse(response);
     };
@@ -209,9 +220,10 @@ export class Method<
    */
   setHandler = <Parent extends any>(
     handle: (
+      input: Infer<RequestDefinition>,
       payload: Compute<MethodPayload<RequestDefinition, Context, Parent>>
     ) => MaybePromise<Infer<ResponseDefinition>>
-  ): Method<RequestDefinition, ResponseDefinition, Context> => {
+  ): Method<RequestDefinition, ResponseDefinition, Name, Context> => {
     const {
       inputType,
       outputType,
@@ -220,9 +232,10 @@ export class Method<
     } = this;
 
     this.handle = async function handleMethod(
+      input: Infer<RequestDefinition>,
       payload: MethodPayload<RequestDefinition, Context, Parent>
     ) {
-      let { parent, input, context, info = {} } = payload;
+      let { parent, context, info = {} } = payload;
 
       input = inputType
         ? inputType.parse(input, {
@@ -232,7 +245,7 @@ export class Method<
           } as any)
         : input;
 
-      const resulting = await handle({
+      const resulting = await handle(input, {
         parent,
         input,
         context,
