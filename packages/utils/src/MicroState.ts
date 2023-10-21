@@ -159,7 +159,7 @@ export class MicroState<Type extends object> {
     const self = this;
 
     return function useMicroState(...args: any[]): [any, any] {
-      const path = typeof args[0] === 'function' ? '' : args[0];
+      const path = typeof args[0] === 'function' ? '' : args[0] ?? '';
       const onChange = typeof args[0] === 'function' ? args[0] : args[1];
 
       const [state, setState] = useState(() => self.get(path));
