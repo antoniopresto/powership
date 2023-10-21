@@ -7,108 +7,91 @@ import {
 } from '@powership/schema';
 import { Compute, IsKnown, MaybePromise } from '@powership/utils';
 
-export type DispatcherRequestKind = 'query' | 'mutation';
-export type DispatcherResponseKind = 'query_result' | 'mutation_result';
-export type DispatcherKind = DispatcherRequestKind | DispatcherResponseKind;
+export type RequestType = 'query' | 'mutation';
+export type ResponseType = 'query_result' | 'mutation_result';
+export type OperationType = RequestType | ResponseType;
 
-export interface DispatcherContext {}
+export interface OperationContext {}
 
-export interface DispatcherResolveInfo {}
+export interface OperationInfo {}
 
-export type DispatcherDefinition<
+export type OperationDefinition<
   Input extends FieldInput,
   Output extends FieldInput
 > = {
-  kind: DispatcherRequestKind;
+  kind: RequestType;
   name: string;
   outputDefinition: Output;
   inputDefinition: Input;
   throwOnInvalidResultingListItems?: boolean;
 };
 
-export type DispatcherInputPayload<
+export type InputPayload<
   InputDefinition extends FieldInput,
-  Context extends DispatcherContext = DispatcherContext,
+  Context extends OperationContext = OperationContext,
   Parent extends any = any
 > = {
   parent: Parent;
   input: Infer<InputDefinition>;
   context: Context;
-  info: DispatcherResolveInfo;
+  info: OperationInfo;
 };
 
-export type DispatcherResolver<
+export type OperationResolver<
   InputDefinition extends FieldInput,
   OutputDefinition extends FieldInput,
-  Context extends DispatcherContext = DispatcherContext,
+  Context extends OperationContext = OperationContext,
   Parent extends any = any
 > = [IsKnown<OutputDefinition>] extends [1]
   ? [IsKnown<InputDefinition>] extends [1]
     ? (
-        payload: Compute<
-          DispatcherInputPayload<InputDefinition, Context, Parent>
-        >
+        payload: Compute<InputPayload<InputDefinition, Context, Parent>>
       ) => Promise<Infer<OutputDefinition>>
     : never
   : never;
 
-const NAME_RX = /^[_a-zA-Z][_a-zA-Z0-9]*$/; // graphql field name regex
+const NAME_RX = /^[_a-zA-Z][_a-zA-Z0-9]*$/;
 
-function validateName(name: string) {
+function validateIdentifier(name: string) {
   assertType(
     name,
     'string',
-    `Dispatcher definition: invalid name type "${typeof name}" found.`
+    `Operation definition: invalid name type "${typeof name}" found.`
   );
   if (!NAME_RX.test(name)) {
-    throw new Error(`Dispatcher definition: invalid name "${name}" found.`);
+    throw new Error(`Operation definition: invalid name "${name}" found.`);
   }
 }
 
 export class Dispatcher<
-  RequestTypeDefinition extends FieldInput,
-  ResponseTypeDefinition extends FieldInput,
-  Context extends DispatcherContext = DispatcherContext
+  RequestDefinition extends FieldInput,
+  ResponseDefinition extends FieldInput,
+  Context extends OperationContext = OperationContext
 > {
-  __isPSDispatcher: true;
-  DispatcherName: string;
-  kind: DispatcherKind;
-  inputType: GraphType<RequestTypeDefinition>;
-  outputType: GraphType<ResponseTypeDefinition>;
-  private __definition: DispatcherDefinition<any, any>;
+  __isPSMessage: true;
+  operationName: string;
+  kind: OperationType;
+  inputType: GraphType<RequestDefinition>;
+  outputType: GraphType<ResponseDefinition>;
+  private __definition: OperationDefinition<any, any>;
 
-  resolve: DispatcherResolver<
-    RequestTypeDefinition,
-    ResponseTypeDefinition,
-    Context
-  >;
+  resolve: OperationResolver<RequestDefinition, ResponseDefinition, Context>;
 
-  send: (
-    args: Infer<RequestTypeDefinition>
-  ) => Promise<Infer<ResponseTypeDefinition>>;
+  send: (args: Infer<RequestDefinition>) => Promise<Infer<ResponseDefinition>>;
 
   constructor(
-    definition: DispatcherDefinition<
-      RequestTypeDefinition,
-      ResponseTypeDefinition
-    >
+    definition: OperationDefinition<RequestDefinition, ResponseDefinition>
   ) {
     this.__definition = definition;
 
-    const {
-      //
-      name,
-      inputDefinition,
-      outputDefinition,
-      kind,
-    } = definition;
+    const { name, inputDefinition, outputDefinition, kind } = definition;
 
-    validateName(name);
+    validateIdentifier(name);
 
     assertType(kind, { enum: ['query', 'mutation'] } as const);
     this.kind = kind;
 
-    this.DispatcherName = name;
+    this.operationName = name;
 
     this.outputType = GraphType.is(outputDefinition)
       ? (outputDefinition as any)
@@ -127,43 +110,41 @@ export class Dispatcher<
     } as any;
   }
 
-  setSender = (
+  configureSender = (
     resolve: (
-      args: Infer<RequestTypeDefinition>
-    ) => Promise<Infer<ResponseTypeDefinition>>
+      args: Infer<RequestDefinition>
+    ) => Promise<Infer<ResponseDefinition>>
   ) => {
     this.send = async (
-      args: Infer<RequestTypeDefinition>
-    ): Promise<Infer<ResponseTypeDefinition>> => {
+      args: Infer<RequestDefinition>
+    ): Promise<Infer<ResponseDefinition>> => {
       args = this.inputType.parse(args);
       const response = await resolve(args);
       return this.outputType.parse(response);
     };
   };
 
-  setResolver = <Parent extends any>(
+  configureResolver = <Parent extends any>(
     resolve: (
-      payload: Compute<
-        DispatcherInputPayload<RequestTypeDefinition, Context, Parent>
-      >
-    ) => MaybePromise<Infer<ResponseTypeDefinition>>
-  ): Dispatcher<RequestTypeDefinition, ResponseTypeDefinition, Context> => {
+      payload: Compute<InputPayload<RequestDefinition, Context, Parent>>
+    ) => MaybePromise<Infer<ResponseDefinition>>
+  ): Dispatcher<RequestDefinition, ResponseDefinition, Context> => {
     const {
       inputType,
       outputType,
-      DispatcherName,
+      operationName,
       __definition: { throwOnInvalidResultingListItems },
     } = this;
 
-    this.resolve = async function resolveDispatcher(
-      payload: DispatcherInputPayload<RequestTypeDefinition, Context, Parent>
+    this.resolve = async function resolveOperation(
+      payload: InputPayload<RequestDefinition, Context, Parent>
     ) {
       let { parent, input, context, info = {} } = payload;
 
       input = inputType
         ? inputType.parse(input, {
-            customDispatcher: (_, error) => {
-              return `Invalid input provided to Dispatcher "${DispatcherName}":\n ${error.Dispatcher}`;
+            customMessage: (_, error) => {
+              return `Invalid input provided to operation "${operationName}":\n ${error.message}`;
             },
           } as any)
         : input;
@@ -177,13 +158,13 @@ export class Dispatcher<
 
       return outputType.parse(resulting, {
         customMessage: (_, error) => {
-          return `Invalid output from Dispatcher "${DispatcherName}": ${error.message}`;
+          return `Invalid output from operation "${operationName}": ${error.message}`;
         },
         excludeInvalidListItems: !throwOnInvalidResultingListItems,
       });
-    } as DispatcherResolver<
-      RequestTypeDefinition,
-      ResponseTypeDefinition,
+    } as OperationResolver<
+      RequestDefinition,
+      ResponseDefinition,
       Context,
       Parent
     >;

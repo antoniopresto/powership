@@ -1,10 +1,6 @@
 import { GraphType } from '@powership/schema';
 import { assert, IsExact } from 'conditional-type-checks';
-import {
-  Dispatcher,
-  DispatcherContext,
-  DispatcherResolveInfo,
-} from '../Dispatcher';
+import { Dispatcher, OperationContext, OperationInfo } from '../Dispatcher';
 
 describe('Dispatcher', () => {
   // afterEach();
@@ -15,7 +11,7 @@ describe('Dispatcher', () => {
       kind: 'query',
       outputDefinition: 'string',
       inputDefinition: { object: { username: 'string' } },
-    }).setResolver<{ parent: 'yes' }>(
+    }).configureResolver<{ parent: 'yes' }>(
       ({ input: { username }, parent, info, context }) => {
         const x = { username, context, info, parent };
 
@@ -25,8 +21,8 @@ describe('Dispatcher', () => {
             {
               //
               username: typeof username;
-              context: DispatcherContext;
-              info: DispatcherResolveInfo;
+              context: OperationContext;
+              info: OperationInfo;
               parent: { parent: 'yes' };
             }
           >
@@ -44,8 +40,8 @@ describe('Dispatcher', () => {
         {
           parent: any;
           input: { username: string };
-          context: DispatcherContext;
-          info: DispatcherResolveInfo;
+          context: OperationContext;
+          info: OperationInfo;
         }
       >
     >(true);
@@ -53,11 +49,11 @@ describe('Dispatcher', () => {
     expect(sut).toMatchObject({
       __definition: expect.objectContaining({ kind: 'query' }),
       kind: 'query',
-      DispatcherName: 'findOne',
+      operationName: 'findOne',
       resolve: expect.any(Function),
       send: expect.any(Function),
-      setSender: expect.any(Function),
-      setResolver: expect.any(Function),
+      configureSender: expect.any(Function),
+      configureResolver: expect.any(Function),
       inputType: expect.any(GraphType),
       outputType: expect.objectContaining({
         definition: {
