@@ -1,12 +1,16 @@
 import { GraphType } from '@powership/schema';
 import { assert, IsExact } from 'conditional-type-checks';
-import { Message, MessageContext, MessageResolveInfo } from '../Message';
+import {
+  Dispatcher,
+  DispatcherContext,
+  DispatcherResolveInfo,
+} from '../Dispatcher';
 
-describe('Method', () => {
+describe('Dispatcher', () => {
   // afterEach();
 
   test('basic test', async () => {
-    const sut = new Message({
+    const sut = new Dispatcher({
       name: 'findOne',
       kind: 'query',
       outputDefinition: 'string',
@@ -21,8 +25,8 @@ describe('Method', () => {
             {
               //
               username: typeof username;
-              context: MessageContext;
-              info: MessageResolveInfo;
+              context: DispatcherContext;
+              info: DispatcherResolveInfo;
               parent: { parent: 'yes' };
             }
           >
@@ -40,8 +44,8 @@ describe('Method', () => {
         {
           parent: any;
           input: { username: string };
-          context: MessageContext;
-          info: MessageResolveInfo;
+          context: DispatcherContext;
+          info: DispatcherResolveInfo;
         }
       >
     >(true);
@@ -49,7 +53,7 @@ describe('Method', () => {
     expect(sut).toMatchObject({
       __definition: expect.objectContaining({ kind: 'query' }),
       kind: 'query',
-      messageName: 'findOne',
+      DispatcherName: 'findOne',
       resolve: expect.any(Function),
       send: expect.any(Function),
       setSender: expect.any(Function),

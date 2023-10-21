@@ -1,2 +1,1 @@
-export * from './Message';
-export * from './code-generation';
+export * from './Dispatcher';

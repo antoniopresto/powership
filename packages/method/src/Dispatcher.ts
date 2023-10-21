@@ -7,45 +7,47 @@ import {
 } from '@powership/schema';
 import { Compute, IsKnown, MaybePromise } from '@powership/utils';
 
-export type MessageRequestKind = 'query' | 'mutation';
-export type MessageResponseKind = 'query_result' | 'mutation_result';
-export type MessageKind = MessageRequestKind | MessageResponseKind;
+export type DispatcherRequestKind = 'query' | 'mutation';
+export type DispatcherResponseKind = 'query_result' | 'mutation_result';
+export type DispatcherKind = DispatcherRequestKind | DispatcherResponseKind;
 
-export interface MessageContext {}
+export interface DispatcherContext {}
 
-export interface MessageResolveInfo {}
+export interface DispatcherResolveInfo {}
 
-export type MessageDefinition<
+export type DispatcherDefinition<
   Input extends FieldInput,
   Output extends FieldInput
 > = {
-  kind: MessageRequestKind;
+  kind: DispatcherRequestKind;
   name: string;
   outputDefinition: Output;
   inputDefinition: Input;
   throwOnInvalidResultingListItems?: boolean;
 };
 
-export type MessageInputPayload<
+export type DispatcherInputPayload<
   InputDefinition extends FieldInput,
-  Context extends MessageContext = MessageContext,
+  Context extends DispatcherContext = DispatcherContext,
   Parent extends any = any
 > = {
   parent: Parent;
   input: Infer<InputDefinition>;
   context: Context;
-  info: MessageResolveInfo;
+  info: DispatcherResolveInfo;
 };
 
-export type MessageResolver<
+export type DispatcherResolver<
   InputDefinition extends FieldInput,
   OutputDefinition extends FieldInput,
-  Context extends MessageContext = MessageContext,
+  Context extends DispatcherContext = DispatcherContext,
   Parent extends any = any
 > = [IsKnown<OutputDefinition>] extends [1]
   ? [IsKnown<InputDefinition>] extends [1]
     ? (
-        payload: Compute<MessageInputPayload<InputDefinition, Context, Parent>>
+        payload: Compute<
+          DispatcherInputPayload<InputDefinition, Context, Parent>
+        >
       ) => Promise<Infer<OutputDefinition>>
     : never
   : never;
@@ -56,26 +58,26 @@ function validateName(name: string) {
   assertType(
     name,
     'string',
-    `Message definition: invalid name type "${typeof name}" found.`
+    `Dispatcher definition: invalid name type "${typeof name}" found.`
   );
   if (!NAME_RX.test(name)) {
-    throw new Error(`Message definition: invalid name "${name}" found.`);
+    throw new Error(`Dispatcher definition: invalid name "${name}" found.`);
   }
 }
 
-export class Message<
+export class Dispatcher<
   RequestTypeDefinition extends FieldInput,
   ResponseTypeDefinition extends FieldInput,
-  Context extends MessageContext = MessageContext
+  Context extends DispatcherContext = DispatcherContext
 > {
-  __isPSMessage: true;
-  messageName: string;
-  kind: MessageKind;
+  __isPSDispatcher: true;
+  DispatcherName: string;
+  kind: DispatcherKind;
   inputType: GraphType<RequestTypeDefinition>;
   outputType: GraphType<ResponseTypeDefinition>;
-  private __definition: MessageDefinition<any, any>;
+  private __definition: DispatcherDefinition<any, any>;
 
-  resolve: MessageResolver<
+  resolve: DispatcherResolver<
     RequestTypeDefinition,
     ResponseTypeDefinition,
     Context
@@ -86,7 +88,10 @@ export class Message<
   ) => Promise<Infer<ResponseTypeDefinition>>;
 
   constructor(
-    definition: MessageDefinition<RequestTypeDefinition, ResponseTypeDefinition>
+    definition: DispatcherDefinition<
+      RequestTypeDefinition,
+      ResponseTypeDefinition
+    >
   ) {
     this.__definition = definition;
 
@@ -103,7 +108,7 @@ export class Message<
     assertType(kind, { enum: ['query', 'mutation'] } as const);
     this.kind = kind;
 
-    this.messageName = name;
+    this.DispatcherName = name;
 
     this.outputType = GraphType.is(outputDefinition)
       ? (outputDefinition as any)
@@ -114,11 +119,11 @@ export class Message<
       : createType(`${name}Input`, inputDefinition);
 
     this.send = function call() {
-      throw new Error('Message has no onCall handler defined.');
+      throw new Error('Dispatcher has no onCall handler defined.');
     };
 
     this.resolve = async function receive() {
-      throw new Error('Message has no onAnswer handler defined.');
+      throw new Error('Dispatcher has no onAnswer handler defined.');
     } as any;
   }
 
@@ -139,26 +144,26 @@ export class Message<
   setResolver = <Parent extends any>(
     resolve: (
       payload: Compute<
-        MessageInputPayload<RequestTypeDefinition, Context, Parent>
+        DispatcherInputPayload<RequestTypeDefinition, Context, Parent>
       >
     ) => MaybePromise<Infer<ResponseTypeDefinition>>
-  ): Message<RequestTypeDefinition, ResponseTypeDefinition, Context> => {
+  ): Dispatcher<RequestTypeDefinition, ResponseTypeDefinition, Context> => {
     const {
       inputType,
       outputType,
-      messageName,
+      DispatcherName,
       __definition: { throwOnInvalidResultingListItems },
     } = this;
 
-    this.resolve = async function resolveMessage(
-      payload: MessageInputPayload<RequestTypeDefinition, Context, Parent>
+    this.resolve = async function resolveDispatcher(
+      payload: DispatcherInputPayload<RequestTypeDefinition, Context, Parent>
     ) {
       let { parent, input, context, info = {} } = payload;
 
       input = inputType
         ? inputType.parse(input, {
-            customMessage: (_, error) => {
-              return `Invalid input provided to message "${messageName}":\n ${error.message}`;
+            customDispatcher: (_, error) => {
+              return `Invalid input provided to Dispatcher "${DispatcherName}":\n ${error.Dispatcher}`;
             },
           } as any)
         : input;
@@ -172,11 +177,11 @@ export class Message<
 
       return outputType.parse(resulting, {
         customMessage: (_, error) => {
-          return `Invalid output from message "${messageName}": ${error.message}`;
+          return `Invalid output from Dispatcher "${DispatcherName}": ${error.message}`;
         },
         excludeInvalidListItems: !throwOnInvalidResultingListItems,
       });
-    } as MessageResolver<
+    } as DispatcherResolver<
       RequestTypeDefinition,
       ResponseTypeDefinition,
       Context,
