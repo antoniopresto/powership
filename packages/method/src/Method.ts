@@ -31,8 +31,8 @@ export type MethodDefinition<
 export type MethodResolver<
   Result extends FieldInput,
   Args extends ObjectDefinitionInput | ObjectLike | GraphTypeLike = {},
-  Parent extends any = any,
-  Context extends MethodContext = MethodContext
+  Context extends MethodContext = MethodContext,
+  Parent extends any = any
 > = [IsKnown<Result>] extends [1]
   ? [IsKnown<Args>] extends [1]
     ? (
@@ -60,8 +60,8 @@ function validateName(name: string) {
 export class Method<
   ResultDefinition extends FieldInput,
   ArgsDefinition extends ObjectDefinitionInput = {},
-  Parent extends any = any,
-  Context extends MethodContext = MethodContext
+  Context extends MethodContext = MethodContext,
+  Parent extends any = any
 > {
   methodName: string;
   argsName: string;
@@ -78,7 +78,10 @@ export class Method<
   ) => Promise<Infer<ResultDefinition>>;
 
   private __definition: MethodDefinition<any>;
+
   constructor(definition: MethodDefinition<ResultDefinition, ArgsDefinition>) {
+    this.__definition = definition;
+
     const {
       //
       name,
@@ -120,9 +123,9 @@ export class Method<
     }, 10);
   }
 
-  onExec = (
-    resolve: MethodResolver<ResultDefinition, ArgsDefinition, Parent, Context>
-  ) => {
+  onExec = <P extends any>(
+    resolve: MethodResolver<ResultDefinition, ArgsDefinition, Context, P>
+  ): Method<ResultDefinition, ArgsDefinition, Context, P> => {
     const {
       argsType,
       resultType,
@@ -153,5 +156,7 @@ export class Method<
         excludeInvalidListItems: !throwOnInvalidResultingListItems,
       });
     };
+
+    return this as any;
   };
 }
