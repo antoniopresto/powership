@@ -1,6 +1,6 @@
 {
   "name": "@powership/entity",
-  "version": "2.3.1-beta.2",
+  "version": "2.3.1-beta.3",
   "main": "out/index.js",
   "module": "out/module/index.js",
   "author": "antoniopresto <antoniopresto@gmail.com>",

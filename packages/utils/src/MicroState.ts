@@ -183,10 +183,7 @@ export class MicroState<Type extends object> {
             const subPath = parsePath([path, args[0]]);
             self.set(subPath.path as any, args[1]);
           } else {
-            Object.entries(args[0]).forEach(([k, v]) => {
-              // @ts-ignore
-              self.set(k, v);
-            });
+            self.set('', args[0]);
           }
         };
       }, [path]);
@@ -221,7 +218,7 @@ export class MicroState<Type extends object> {
     const useMicroState: UseMicroState<State> = function useMicroState(
       ...args: any[]
     ): [any, any] {
-      const path = typeof args[0] === 'function' ? '' : args[0];
+      const path = typeof args[0] === 'function' ? '' : args[0] ?? '';
       const onChange = typeof args[0] === 'function' ? args[0] : args[1];
       const microState = React.useContext(StateContext);
 
