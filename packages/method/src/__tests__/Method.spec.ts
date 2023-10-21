@@ -118,7 +118,18 @@ describe('Method', () => {
     test('combineMethods', async () => {
       const root = RootMethod.create([createOne, findOne]);
 
-      root
+      // TODO check types generated, execute
+      //  - a way to declare used fields
+      //  - a way declare policy by fields, to allow custom resolvers,
+      //  authorization, etc
+      root.execute({
+        createOne: {
+          args: {
+            email: '',
+            id: '1',
+          },
+        },
+      });
     });
   });
 });

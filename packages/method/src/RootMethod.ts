@@ -1,3 +1,4 @@
+import { Infer } from '@powership/schema';
 import { List } from '@powership/utils';
 
 import { MethodContext, MethodLike } from './Method';
@@ -7,13 +8,8 @@ export type RootMethodOptions<
   name?: string;
 };
 
-export class RootMethod<
-  M extends Readonly<[MethodLike, ...MethodLike[]]>,
-  Name extends string = 'RootMethod'
-> {
-  readonly methodName: Name;
-  readonly options: RootMethodOptions<M>;
-  readonly methods: List.ObjectOf<M> extends infer R
+export type _MethodsRecord<M extends Readonly<[MethodLike, ...MethodLike[]]>> =
+  List.ObjectOf<M> extends infer R
     ? {
         [K in keyof R as R[K] extends { methodName: infer NM }
           ? NM extends string
@@ -22,6 +18,35 @@ export class RootMethod<
           : never]: R[K];
       } & {}
     : never;
+
+export type _Methods<M extends Readonly<[MethodLike, ...MethodLike[]]>> =
+  List.ObjectOf<M> extends infer R
+    ? {
+        [K in keyof R as R[K] extends { methodName: infer NM }
+          ? NM extends string
+            ? NM
+            : never
+          : never]: R[K] extends {}
+          ? R[K] extends {
+              argsType: infer Input;
+              outputType: infer Output;
+            }
+            ? {
+                args: Infer<Input>;
+                output: Infer<Output>;
+              }
+            : never
+          : never;
+      } & {}
+    : never;
+
+export class RootMethod<
+  M extends Readonly<[MethodLike, ...MethodLike[]]>,
+  Name extends string = 'RootMethod'
+> {
+  private methodName: Name;
+  private options: RootMethodOptions<M>;
+  private methods: _MethodsRecord<M>;
 
   constructor(methods: M, options?: RootMethodOptions<M>) {
     let errors: string[] = [];

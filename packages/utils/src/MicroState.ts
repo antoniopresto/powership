@@ -178,12 +178,15 @@ export class MicroState<Type extends object> {
       }, [onChange, path]);
 
       const set = useMemo(() => {
-        return function setState(...args: any[]) {
+        return function _setState(...args: any[]) {
           if (args.length === 2) {
             const subPath = parsePath([path, args[0]]);
             self.set(subPath.path as any, args[1]);
           } else {
-            self.set('', args[0]);
+            Object.entries(args[0]).forEach(([k, v]) => {
+              // @ts-ignore
+              self.set(k, v);
+            });
           }
         };
       }, [path]);

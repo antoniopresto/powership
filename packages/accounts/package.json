@@ -1,6 +1,6 @@
 {
   "name": "@powership/accounts",
-  "version": "2.3.0",
+  "version": "2.3.1-beta.0",
   "description": "Powership accounts",
   "main": "out/index.js",
   "typings": "out/index.d.ts",
