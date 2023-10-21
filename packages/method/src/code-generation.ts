@@ -1,9 +1,9 @@
-import { Method } from './Method';
+import { Message } from './Message';
 
 export class MethodGeneration {
-  method: Method<any>;
+  method: Message<any>;
 
-  constructor(method: { __isPSMethod: true }) {
+  constructor(method: { __isPSMessage: true }) {
     this.method = method as any;
   }
 
@@ -13,6 +13,6 @@ export class MethodGeneration {
       this.method.resultType.typescriptPrint(),
     ]);
 
-    return [args, result].join('\n');
+    return [args, result.split('\n').slice(1, -1)].join('\n');
   };
 }

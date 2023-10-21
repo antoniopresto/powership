@@ -1,19 +1,20 @@
 import { createType } from '@powership/schema';
-import { assert, IsExact } from 'conditional-type-checks';
-import { MethodGeneration } from '../generate';
-import { Method, MethodContext, MethodResolveInfo } from '../Method';
+import { MethodGeneration } from '../code-generation';
+import { Message } from '../Message';
 
-describe('MethodGeneration', () => {
+describe('MessageCodeGeneration', () => {
   // afterEach();
 
   test('basic test', async () => {
-    const method = new Method({
+    const rt = createType('shit', { object: { username: '[string]?' } });
+
+    const method = new Message({
       name: 'findOne',
       kind: 'query',
-      result: createType('record'),
+      result: rt,
       args: { username: '[string]' },
-    }).onExec<{ parent: 'yes' }>(() => {
-      return [];
+    }).onExec<{ parent: 'yes' }>((): any => {
+      return {};
     });
 
     const sut = new MethodGeneration(method);
