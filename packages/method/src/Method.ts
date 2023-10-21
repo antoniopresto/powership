@@ -63,6 +63,7 @@ export class Method<
   Context extends MethodContext = MethodContext,
   Parent extends any = any
 > {
+  __isPSMethod: true;
   methodName: string;
   argsName: string;
   resultName: string;
