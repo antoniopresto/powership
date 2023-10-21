@@ -1,6 +1,6 @@
 import { createType, GraphType } from '@powership/schema';
 import { assert, IsExact } from 'conditional-type-checks';
-// import { RootMethod } from '../RootMethod';
+import { RootMethod } from '../RootMethod';
 import { Method, MethodContext, MethodInfo } from '../Method';
 
 describe('Method', () => {
@@ -94,31 +94,31 @@ describe('Method', () => {
     spy.mockRestore();
   });
 
-  // describe('Methods.ts', () => {
-  //   const User = createType('User', { object: { id: 'ID', email: 'email' } });
-  //
-  //   const createOne = new Method({
-  //     name: 'createOne',
-  //     kind: 'mutation',
-  //     output: User,
-  //     args: User.definition.object,
-  //   }).setHandler(({ email }) => {
-  //     return { id: '123', email };
-  //   });
-  //
-  //   const findOne = new Method({
-  //     name: 'findOne',
-  //     kind: 'query',
-  //     output: '[string]',
-  //     args: { username: 'string' },
-  //   }).setHandler<{ parent: 'yes' }>(({ username }) => {
-  //     return [`hi, ${username}!`];
-  //   });
-  //
-  //   test('combineMethods', async () => {
-  //     const root = RootMethod.create([createOne, findOne]);
-  //
-  //     root.methodName;
-  //   });
-  // });
+  describe('RootMethod', () => {
+    const User = createType('User', { object: { id: 'ID', email: 'email' } });
+
+    const createOne = new Method({
+      name: 'createOne',
+      kind: 'mutation',
+      output: User,
+      args: User.definition.object,
+    }).setHandler(({ email }) => {
+      return { id: '123', email };
+    });
+
+    const findOne = new Method({
+      name: 'findOne',
+      kind: 'query',
+      output: '[string]',
+      args: { username: 'string' },
+    }).setHandler<{ parent: 'yes' }>(({ username }) => {
+      return [`hi, ${username}!`];
+    });
+
+    test('combineMethods', async () => {
+      const root = RootMethod.create([createOne, findOne]);
+
+      root
+    });
+  });
 });

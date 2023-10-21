@@ -1,17 +1,11 @@
-import { MethodContext, MethodLike } from './Method';
+import { List } from '@powership/utils';
 
+import { MethodContext, MethodLike } from './Method';
 export type RootMethodOptions<
   _M extends Readonly<[MethodLike, ...MethodLike[]]>
 > = {
   name?: string;
 };
-
-export type _MethodsRecord<M extends Readonly<[MethodLike, ...MethodLike[]]>> =
-  {
-    [K in keyof M as M[K] extends { methodName: infer MN }
-      ? Extract<MN, string>
-      : never]: M[K];
-  } & {};
 
 export class RootMethod<
   M extends Readonly<[MethodLike, ...MethodLike[]]>,
@@ -19,10 +13,21 @@ export class RootMethod<
 > {
   readonly methodName: Name;
   readonly options: RootMethodOptions<M>;
-  readonly methods: _MethodsRecord<M> = {};
+  readonly methods: List.ObjectOf<M> extends infer R
+    ? {
+        [K in keyof R as R[K] extends { methodName: infer NM }
+          ? NM extends string
+            ? NM
+            : never
+          : never]: R[K];
+      } & {}
+    : never;
 
   constructor(methods: M, options?: RootMethodOptions<M>) {
     let errors: string[] = [];
+
+    // @ts-ignore
+    this.methods = {};
 
     methods.forEach((m) => {
       if (this.methods[m.methodName]) {
