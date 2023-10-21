@@ -1,17 +1,17 @@
 import { GraphType } from '@powership/schema';
 import { assert, IsExact } from 'conditional-type-checks';
-import { Dispatcher, OperationContext, OperationInfo } from '../Dispatcher';
+import { Method, MethodContext, MethodInfo } from '../Method';
 
-describe('Dispatcher', () => {
+describe('Method', () => {
   // afterEach();
 
   test('basic test', async () => {
-    const sut = new Dispatcher({
+    const sut = new Method({
       name: 'findOne',
       kind: 'query',
-      outputDefinition: 'string',
-      inputDefinition: { object: { username: 'string' } },
-    }).configureResolver<{ parent: 'yes' }>(
+      output: 'string',
+      input: { object: { username: 'string' } },
+    }).setHandler<{ parent: 'yes' }>(
       ({ input: { username }, parent, info, context }) => {
         const x = { username, context, info, parent };
 
@@ -21,8 +21,8 @@ describe('Dispatcher', () => {
             {
               //
               username: typeof username;
-              context: OperationContext;
-              info: OperationInfo;
+              context: MethodContext;
+              info: MethodInfo;
               parent: { parent: 'yes' };
             }
           >
@@ -32,7 +32,7 @@ describe('Dispatcher', () => {
       }
     );
 
-    type Param = Parameters<typeof sut.resolve>[0];
+    type Param = Parameters<typeof sut.handle>[0];
 
     assert<
       IsExact<
@@ -40,20 +40,20 @@ describe('Dispatcher', () => {
         {
           parent: any;
           input: { username: string };
-          context: OperationContext;
-          info: OperationInfo;
+          context: MethodContext;
+          info: MethodInfo;
         }
       >
     >(true);
 
-    expect(sut).toMatchObject({
+    expect(sut).toEqual({
       __definition: expect.objectContaining({ kind: 'query' }),
       kind: 'query',
-      operationName: 'findOne',
-      resolve: expect.any(Function),
-      send: expect.any(Function),
-      configureSender: expect.any(Function),
-      configureResolver: expect.any(Function),
+      methodName: 'findOne',
+      handle: expect.any(Function),
+      fetch: expect.any(Function),
+      setFetcher: expect.any(Function),
+      setHandler: expect.any(Function),
       inputType: expect.any(GraphType),
       outputType: expect.objectContaining({
         definition: {
@@ -66,9 +66,9 @@ describe('Dispatcher', () => {
     const context = { t: 'context' };
     const info = { t: 'info' };
 
-    const spy = jest.spyOn(sut, 'resolve');
+    const spy = jest.spyOn(sut, 'handle');
 
-    const promise = sut.resolve({
+    const promise = sut.handle({
       parent,
       input: { username: 'Antonio' },
       context,

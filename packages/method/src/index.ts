@@ -1,1 +1,1 @@
-export * from './Dispatcher';
+export * from './Method';
