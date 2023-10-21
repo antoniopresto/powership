@@ -3,13 +3,11 @@ import {
   createType,
   FieldInput,
   GraphType,
-  GraphTypeLike,
   Infer,
   ObjectDefinitionInput,
-  ObjectLike,
   ObjectType,
 } from '@powership/schema';
-import { Compute, IsKnown, MaybePromise } from '@powership/utils';
+import { AnyFunction, Compute, IsKnown, MaybePromise } from '@powership/utils';
 
 /**
  * Enum representing the types of method requests.
@@ -127,6 +125,7 @@ function validateIdentifier(name: string) {
 export interface MethodLike {
   methodName: string;
   __isPSMethod: true;
+  call: AnyFunction;
 }
 
 /**
@@ -152,7 +151,7 @@ export class Method<
   /**
    * The handler function for this method.
    */
-  execute: Handler<ArgsDefinition, ResponseDefinition, Context>;
+  call: Handler<ArgsDefinition, ResponseDefinition, Context>;
 
   /**
    * The fetch function for this method.
@@ -215,8 +214,10 @@ export class Method<
     };
 
     // Initialize the handle function with a placeholder.
-    this.execute = async function receive() {
-      throw new Error('Method has no handle handler defined.');
+    this.call = async function receive() {
+      throw new Error(
+        'Method has no handler defined. Register one using `method.defineHandler(handler)`.'
+      );
     } as any;
   }
 
@@ -240,7 +241,7 @@ export class Method<
    * For example, on the server side, it can be a function that queries a database.
    * @param handle - The handle function.
    */
-  setHandler = <Parent extends any>(
+  defineHandler = <Parent extends any>(
     handle: (
       args: Compute<Infer<{ object: ArgsDefinition }>>,
       payload: Compute<MethodPayload<ArgsDefinition, Context, Parent>>
@@ -253,7 +254,7 @@ export class Method<
       __definition: { throwOnInvalidResultingListItems },
     } = this;
 
-    this.execute = async function handleMethod(
+    this.call = async function handleMethod(
       args: any,
       payload: MethodPayload<ArgsDefinition, Context, Parent>
     ) {

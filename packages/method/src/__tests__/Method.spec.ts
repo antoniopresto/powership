@@ -12,7 +12,7 @@ describe('Method', () => {
       kind: 'query',
       output: 'string',
       args: { username: 'string' },
-    }).setHandler<{ parent: 'yes' }>(
+    }).defineHandler<{ parent: 'yes' }>(
       (
         args,
         { args: { username }, parent, rootExecutionInfo, rootContextValue }
@@ -42,7 +42,7 @@ describe('Method', () => {
       }
     );
 
-    type Param = Parameters<typeof sut.execute>;
+    type Param = Parameters<typeof sut.call>;
 
     assert<
       IsExact<
@@ -63,9 +63,9 @@ describe('Method', () => {
     const rootContextValue = { t: 'context' };
     const rootExecutionInfo = { t: 'rootExecutionInfo' };
 
-    const spy = jest.spyOn(sut, 'execute');
+    const spy = jest.spyOn(sut, 'call');
 
-    const promise = sut.execute(
+    const promise = sut.call(
       { username: 'Antonio' },
       {
         parent,
@@ -102,7 +102,7 @@ describe('Method', () => {
       kind: 'mutation',
       output: User,
       args: User.definition.object,
-    }).setHandler(({ email }) => {
+    }).defineHandler(({ email }) => {
       return { id: '123', email };
     });
 
@@ -111,25 +111,24 @@ describe('Method', () => {
       kind: 'query',
       output: '[string]',
       args: { username: 'string' },
-    }).setHandler<{ parent: 'yes' }>(({ username }) => {
+    }).defineHandler<{ parent: 'yes' }>(({ username }) => {
       return [`hi, ${username}!`];
     });
 
-    test('combineMethods', async () => {
+    test('combine methods', async () => {
       const root = RootMethod.create([createOne, findOne]);
 
-      // TODO check types generated, execute
-      //  - a way to declare used fields
-      //  - a way declare policy by fields, to allow custom resolvers,
-      //  authorization, etc
-      root.execute({
-        createOne: {
-          args: {
-            email: '',
-            id: '1',
-          },
-        },
-      });
+      type M = Parameters<typeof root.call>;
+      assert<IsExact<M[0], 'createOne' | 'findOne'>>(true);
+
+      const execute = root.call('findOne');
+
+      type P = Parameters<(typeof execute)['with']>;
+      assert<IsExact<P[0], { username: string }>>(true);
+
+      const result = await execute.with({ username: 'antonio' });
+
+      expect(result).toEqual(['hi, antonio!']);
     });
   });
 });

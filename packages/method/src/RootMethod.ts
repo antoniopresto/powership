@@ -9,17 +9,25 @@ export type RootMethodOptions<
 };
 
 export type _MethodsRecord<M extends Readonly<[MethodLike, ...MethodLike[]]>> =
-  List.ObjectOf<M> extends infer R
-    ? {
-        [K in keyof R as R[K] extends { methodName: infer NM }
-          ? NM extends string
-            ? NM
-            : never
-          : never]: R[K];
-      } & {}
+  (
+    List.ObjectOf<M> extends infer R
+      ? {
+          [K in keyof R as R[K] extends { methodName: infer NM }
+            ? NM extends string
+              ? NM
+              : never
+            : never]: R[K];
+        } & {}
+      : never
+  ) extends infer R
+    ? R extends unknown
+      ? R extends { [K: string]: MethodLike }
+        ? { [K in keyof R]: R[K] extends MethodLike ? R[K] : never } & {}
+        : never
+      : never
     : never;
 
-export type _Methods<M extends Readonly<[MethodLike, ...MethodLike[]]>> =
+export type _Info<M extends Readonly<[MethodLike, ...MethodLike[]]>> = (
   List.ObjectOf<M> extends infer R
     ? {
         [K in keyof R as R[K] extends { methodName: infer NM }
@@ -38,13 +46,19 @@ export type _Methods<M extends Readonly<[MethodLike, ...MethodLike[]]>> =
             : never
           : never;
       } & {}
-    : never;
+    : never
+) extends infer R
+  ? R extends unknown
+    ? R extends { [K: string]: { args: unknown; output: unknown } }
+      ? { [K in keyof R]: R[K] } & {}
+      : never
+    : never
+  : never;
 
 export class RootMethod<
   M extends Readonly<[MethodLike, ...MethodLike[]]>,
-  Name extends string = 'RootMethod'
+  Info extends _Info<M> = _Info<M>
 > {
-  private methodName: Name;
   private options: RootMethodOptions<M>;
   private methods: _MethodsRecord<M>;
 
@@ -60,10 +74,10 @@ export class RootMethod<
           `  ☂︎ found repeated item with methodName "${m.methodName}".`
         );
       }
+      // @ts-ignore
       this.methods[m.methodName] = m;
     });
 
-    this.methodName = options?.name || ('RootMethod' as any);
     this.options = { ...options };
 
     if (errors.length) {
@@ -71,14 +85,26 @@ export class RootMethod<
     }
   }
 
-  execute = (
-    operations: {},
-    options?: {
-      rootValue?: any;
-      contextValue?: MethodContext;
-      operationName?: string;
-    }
-  ) => {};
+  call = <Name extends keyof Info>(
+    name: Name
+  ): {
+    with(
+      args: Info[Name]['args'],
+      options?: {
+        rootValue?: any;
+        contextValue?: MethodContext;
+        operationName?: string;
+      }
+    ): Promise<Info[Name]['output']>;
+  } => {
+    const method: MethodLike = this.methods[name];
+
+    return {
+      with: async (args, options) => {
+        return method.call(args, { ...options });
+      },
+    };
+  };
 
   static create = <Me extends Readonly<[MethodLike, ...MethodLike[]]>>(
     methods: Me,
