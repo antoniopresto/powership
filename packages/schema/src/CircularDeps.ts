@@ -229,7 +229,9 @@ function get(key: string) {
       return;
     }
 
-    let mainModule = moduleObject?.default ? moduleObject.default : moduleObject;
+    let mainModule = moduleObject?.default
+      ? moduleObject.default
+      : moduleObject;
 
     if (mainModule?.[_key]) {
       mainModule = mainModule[_key];

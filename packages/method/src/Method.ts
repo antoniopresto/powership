@@ -7,101 +7,17 @@ import {
   ObjectDefinitionInput,
   ObjectType,
 } from '@powership/schema';
-import { AnyFunction, Compute, IsKnown, MaybePromise } from '@powership/utils';
+import { Compute, MaybePromise } from '@powership/utils';
 
-/**
- * Enum representing the types of method requests.
- * - 'query': For read-only fetch operations.
- * - 'mutation': For write operations that change data.
- */
-export type MethodRequestType = 'query' | 'mutation';
-
-/**
- * Enum representing the types of method responses.
- * - 'query_result': The result of a query operation.
- * - 'mutation_result': The result of a mutation operation.
- */
-export type MethodResponseType = 'query_result' | 'mutation_result';
-
-/**
- * Union type for method kinds, either a request or a response.
- */
-export type MethodType = MethodRequestType | MethodResponseType;
-
-/**
- * Interface for additional context that methods might require.
- */
-export interface MethodContext {}
-
-/**
- * Interface for additional information that methods might use.
- */
-export interface MethodInfo {}
-
-/**
- * Type definition for a method.
- * @template Args - The type definition for the args fields.
- * @template Output - The type definition for the output fields.
- */
-export type MethodDefinition<
-  Args extends ObjectDefinitionInput,
-  Output extends FieldInput,
-  Name extends Readonly<string>
-> = {
-  kind: MethodRequestType; // The kind of method, either 'query' or 'mutation'.
-  name: Name; // The name of the method.
-  output: Output; // The output type definition.
-  args: Args; // The args type definition.
-  throwOnInvalidResultingListItems?: boolean; // Optional flag to throw on invalid list items.
-};
-
-/**
- * Type definition for the payload of a method.
- * @template Args - The type definition for the args fields.
- * @template Context - The type definition for the method context.
- * @template Parent - The type definition for the parent object.
- */
-export type MethodPayload<
-  Args extends ObjectDefinitionInput,
-  Context extends MethodContext = MethodContext,
-  Parent extends any = any
-> = {
-  parent: Parent; // The parent object.
-  args: Infer<{ object: Args }>; // The actual args data.
-  rootContextValue: Context; // The root context.
-  rootExecutionInfo: MethodInfo; // Additional method information.
-};
-
-/**
- * Type definition for fetch operations.
- * @template Args - The type definition for the args fields.
- * @template Output - The type definition for the output fields.
- */
-export type Fetcher<
-  Args extends ObjectDefinitionInput,
-  Output extends FieldInput
-> = (args: Infer<{ object: Args }>) => Promise<Infer<Output>>;
-
-/**
- * Type definition for handling method operations.
- * @template Args - The type definition for the args fields.
- * @template Output - The type definition for the output fields.
- * @template Context - The type definition for the method context.
- * @template Parent - The type definition for the parent object.
- */
-export type Handler<
-  Args extends ObjectDefinitionInput,
-  Output extends FieldInput,
-  Context extends MethodContext = MethodContext,
-  Parent extends any = any
-> = [IsKnown<Output>] extends [1]
-  ? [IsKnown<Args>] extends [1]
-    ? (
-        args: Infer<{ object: Args }>,
-        payload: Compute<MethodPayload<Args, Context, Parent>>
-      ) => Promise<Infer<Output>>
-    : never
-  : never;
+import {
+  AppRequestContext,
+  Fetcher,
+  Handler,
+  MethodDefinition,
+  MethodKind,
+  MethodLike,
+  MethodPayload,
+} from './types';
 
 // Regular expression for validating method names.
 const NAME_RX = /^[_a-zA-Z][_a-zA-Z0-9]*$/;
@@ -122,12 +38,6 @@ function validateIdentifier(name: string) {
   }
 }
 
-export interface MethodLike {
-  methodName: string;
-  __isPSMethod: true;
-  call: AnyFunction;
-}
-
 /**
  * Class representing a Method.
  * @template RequestDefinition - The type definition for the request fields.
@@ -138,12 +48,12 @@ export class Method<
   ArgsDefinition extends ObjectDefinitionInput,
   ResponseDefinition extends FieldInput,
   Name extends Readonly<string>,
-  Context extends MethodContext = MethodContext
+  Context extends AppRequestContext = AppRequestContext
 > implements MethodLike
 {
   __isPSMethod: true; // Internal flag to mark this as a PSMethod.
   readonly methodName: Name; // The name of the method.
-  kind: MethodType; // The kind of method, either 'query' or 'mutation'.
+  kind: MethodKind; // The kind of method, either 'query' or 'mutation'.
   argsType: GraphType<{ object: ArgsDefinition }>; // GraphType for args validation.
   outputType: GraphType<ResponseDefinition>; // GraphType for output validation.
   private __definition: MethodDefinition<any, any, any>; // Private storage for method definition.
@@ -258,7 +168,7 @@ export class Method<
       args: any,
       payload: MethodPayload<ArgsDefinition, Context, Parent>
     ) {
-      let { parent, rootContextValue, rootExecutionInfo = {} } = payload;
+      let { parent, context, requestInfo } = payload;
 
       args = argsType.parse(args, {
         customMessage: (_, error) => {
@@ -269,8 +179,8 @@ export class Method<
       const resulting = await handle(args, {
         parent,
         args,
-        rootContextValue,
-        rootExecutionInfo,
+        context,
+        requestInfo,
       });
 
       return outputType.parse(resulting, {

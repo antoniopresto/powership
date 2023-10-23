@@ -1,7 +1,8 @@
-import { createType, GraphType } from '@powership/schema';
+import { createType } from '@powership/schema';
 import { assert, IsExact } from 'conditional-type-checks';
-import { RootMethod } from '../RootMethod';
-import { Method, MethodContext, MethodInfo } from '../Method';
+import { App } from '../App';
+import { Method } from '../Method';
+import { AppRequestContext, AppRequestInfo } from '../types';
 
 describe('Method', () => {
   // afterEach();
@@ -13,15 +14,10 @@ describe('Method', () => {
       output: 'string',
       args: { username: 'string' },
     }).defineHandler<{ parent: 'yes' }>(
-      (
-        args,
-        { args: { username }, parent, rootExecutionInfo, rootContextValue }
-      ) => {
+      (args, { args: { username }, parent }) => {
         const x = {
           args,
           username,
-          rootExecutionInfo,
-          rootContextValue,
           parent,
         };
 
@@ -31,8 +27,6 @@ describe('Method', () => {
             {
               args: { username: string };
               username: typeof username;
-              rootContextValue: MethodContext;
-              rootExecutionInfo: MethodInfo;
               parent: { parent: 'yes' };
             }
           >
@@ -52,16 +46,16 @@ describe('Method', () => {
           {
             parent: any;
             args: { username: string };
-            rootContextValue: MethodContext;
-            rootExecutionInfo: MethodInfo;
+            context: AppRequestContext;
+            requestInfo: AppRequestInfo;
           }
         ]
       >
     >(true);
 
     const parent = { parent: 'yes' } as const;
-    const rootContextValue = { t: 'context' };
-    const rootExecutionInfo = { t: 'rootExecutionInfo' };
+    const context = { t: 'context' };
+    const requestInfo = { t: 'requestInfo', requests: [] };
 
     const spy = jest.spyOn(sut, 'call');
 
@@ -70,8 +64,8 @@ describe('Method', () => {
       {
         parent,
         args: { username: 'Antonio' },
-        rootContextValue,
-        rootExecutionInfo,
+        context,
+        requestInfo,
       }
     );
 
@@ -86,15 +80,15 @@ describe('Method', () => {
       {
         parent,
         args: { username: 'Antonio' },
-        rootContextValue,
-        rootExecutionInfo,
+        context,
+        requestInfo,
       }
     );
 
     spy.mockRestore();
   });
 
-  describe('RootMethod', () => {
+  describe('App', () => {
     const User = createType('User', { object: { id: 'ID', email: 'email' } });
 
     const createOne = new Method({
@@ -116,7 +110,13 @@ describe('Method', () => {
     });
 
     test('combine methods', async () => {
-      const root = RootMethod.create([createOne, findOne]);
+      const root = App.create([createOne, findOne], {
+        name: 'myApp',
+        buildRequestContext(request) {
+          console.log(request);
+          return {};
+        },
+      });
 
       type M = Parameters<typeof root.call>;
       assert<IsExact<M[0], 'createOne' | 'findOne'>>(true);

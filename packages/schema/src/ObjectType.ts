@@ -1,4 +1,9 @@
-import { createStore, isBrowser, IsKnown, RuntimeError } from '@powership/utils';
+import {
+  createStore,
+  isBrowser,
+  IsKnown,
+  RuntimeError,
+} from '@powership/utils';
 import { ensureArray } from '@powership/utils';
 import { expectedType } from '@powership/utils';
 import { getTypeName } from '@powership/utils';
