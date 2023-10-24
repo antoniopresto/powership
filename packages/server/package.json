@@ -1,15 +1,22 @@
 {
   "name": "@powership/server",
-  "version": "2.3.1-beta.3",
-  "main": "out/index.js",
-  "module": "out/module/index.js",
-  "sideEffects": false,
+  "version": "2.3.1",
+  "type": "module",
+  "main": "./out/index.js",
+  "module": "./out/module/index.js",
+  "types": "./out/index.d.ts",
+  "exports": {
+    "types": "./out/index.d.ts",
+    "import": "./out/module/index.js",
+    "require": "./out/index.js"
+  },
   "browser": {
     "out/module/index.js": "./out/browser/module/index.js",
     "out/index.js": "./out/browser/index.js"
   },
-  "author": "antoniopresto <antoniopresto@gmail.com>",
+  "sideEffects": false,
   "license": "MIT",
+  "author": "antoniopresto <antoniopresto@gmail.com>",
   "scripts": {
     "test": "echo TODO",
     "ts": "tsc --noEmit",
@@ -21,7 +28,6 @@
     "prepublishOnly": "run-p build fix && run-p test",
     "build-targets": "run-p build:*",
     "build:browser": "TARGET=browser npm run babild -- --out-dir out/browser",
-    "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir out/browser/module",
     "build:node": "TARGET=node npm run babild -- --out-dir out",
     "build:module-node": "TARGET=module-node npm run babild -- --out-dir out/module",
     "declarations": "tsc -p tsconfig.declarations.json",

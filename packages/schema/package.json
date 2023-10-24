@@ -1,13 +1,20 @@
 {
   "name": "@powership/schema",
-  "version": "2.3.1-beta.3",
-  "main": "out/index.js",
-  "module": "out/module/index.js",
-  "sideEffects": false,
+  "version": "2.3.1",
+  "type": "module",
+  "main": "./out/index.js",
+  "module": "./out/module/index.js",
+  "types": "./out/index.d.ts",
+  "exports": {
+    "types": "./out/index.d.ts",
+    "import": "./out/module/index.js",
+    "require": "./out/index.js"
+  },
   "browser": {
     "out/module/index.js": "./out/browser/module/index.js",
     "out/index.js": "./out/browser/index.js"
   },
+  "sideEffects": false,
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
   "scripts": {

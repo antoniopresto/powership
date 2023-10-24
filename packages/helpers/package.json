@@ -1,8 +1,19 @@
 {
   "name": "@powership/helpers",
-  "version": "2.3.1-beta.3",
-  "main": "out/index.js",
-  "module": "out/module/index.js",
+  "version": "2.3.1",
+  "type": "module",
+  "main": "./out/index.js",
+  "module": "./out/module/index.js",
+  "types": "./out/index.d.ts",
+  "exports": {
+    "types": "./out/index.d.ts",
+    "import": "./out/module/index.js",
+    "require": "./out/index.js"
+  },
+  "browser": {
+    "out/module/index.js": "./out/browser/module/index.js",
+    "out/index.js": "./out/browser/index.js"
+  },
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
   "sideEffects": false,
@@ -15,10 +26,11 @@
     "fix:lint": "eslint src --ext .ts --fix",
     "prepublishOnly": "run-s build fix && run-p test",
     "build-targets": "run-p build:*",
+    "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir out/browser/module",
     "build:node": "TARGET=node npm run babild -- --out-dir out",
     "build:module-node": "TARGET=module-node npm run babild -- --out-dir out/module",
     "declarations": "tsc -p tsconfig.declarations.json",
-    "babild": "babel 'src' --extensions '.ts,.tsx'"
+    "babild": "babel 'src' --extensions '.ts,.tsx' --source-maps=true --ignore '**/__tests__'"
   },
   "description": "Powership server-utils",
   "repository": {

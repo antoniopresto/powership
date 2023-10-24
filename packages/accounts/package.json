@@ -1,9 +1,20 @@
 {
   "name": "@powership/accounts",
-  "version": "2.3.1-beta.3",
+  "version": "2.3.1",
   "description": "Powership accounts",
-  "main": "out/index.js",
-  "typings": "out/index.d.ts",
+  "type": "module",
+  "main": "./out/index.js",
+  "module": "./out/module/index.js",
+  "types": "./out/index.d.ts",
+  "exports": {
+    "types": "./out/index.d.ts",
+    "import": "./out/module/index.js",
+    "require": "./out/index.js"
+  },
+  "browser": {
+    "out/module/index.js": "./out/browser/module/index.js",
+    "out/index.js": "./out/browser/index.js"
+  },
   "sideEffects": false,
   "license": "MIT",
   "scripts": {
@@ -15,10 +26,10 @@
     "fix:lint": "eslint src --ext .ts --fix",
     "prepublishOnly": "run-s build fix && run-p test",
     "build-targets": "run-p build:*",
-    "build:node": "TARGET=node npm run babild -- --out-dir out",
+    "build:node": "TARGET=node npm run babild -- --out-xdir out",
     "build:module-node": "TARGET=module-node npm run babild -- --out-dir out/module",
     "declarations": "tsc -p tsconfig.declarations.json",
-    "babild": "babel 'src' --extensions '.ts,.tsx'"
+    "babild": "babel 'src' --extensions '.ts,.tsx' --source-maps=true --ignore '**/__tests__'"
   },
   "files": [
     "package.json",
