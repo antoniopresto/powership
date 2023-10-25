@@ -1,9 +1,9 @@
 {
   "name": "logstorm",
-  "version": "3.1.3",
+  "version": "3.1.4",
   "typings": "out",
   "author": "antoniopresto <antoniopresto@gmail.com>",
-  "type": "module",
+  "#type": "module",
   "main": "./out/index.cjs",
   "module": "./out/module/index.mjs",
   "types": "./out/index.d.ts",
