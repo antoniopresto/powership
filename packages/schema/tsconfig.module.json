@@ -5,7 +5,8 @@
     "outDir": "out/module",
     "module": "esnext",
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "isolatedModules": true
   },
   "exclude": [
     "node_modules/**", //

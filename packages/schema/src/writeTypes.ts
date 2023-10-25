@@ -4,10 +4,10 @@ import { Process } from '@powership/utils';
 import { Emitter, mitt } from '@powership/utils';
 import { ensureFileSync, writeFileSync } from 'fs-extra';
 
-import { CircularDeps } from '../CircularDeps';
-import { AnyResolver } from '../Resolver';
-import { GraphTypeLike } from '../fields/IObjectLike';
-import { LiteralField } from '../fields/LiteralField';
+import { CircularDeps } from './CircularDeps';
+import { AnyResolver } from './Resolver';
+import { GraphTypeLike } from './fields/IObjectLike';
+import { LiteralField } from './fields/LiteralField';
 
 const { serialize } = LiteralField.utils;
 

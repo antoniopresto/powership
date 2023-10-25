@@ -1,6 +1,6 @@
 {
   "name": "@powership/babel-plugins",
-  "version": "3.1.2",
+  "version": "3.1.3",
   "main": "out",
   "sideEffects": false,
   "typings": "out",
@@ -21,6 +21,8 @@
     "@babel/core": "7.19.3",
     "@typescript-eslint/eslint-plugin": "5.39.0",
     "@typescript-eslint/parser": "5.39.0",
+    "babel-plugin-add-import-extension": "1.6.0",
+    "babel-plugin-replace-import-extension": "1.1.3",
     "esbuild": "0.15.10",
     "eslint": "8.25.0",
     "eslint-config-prettier": "8.5.0",

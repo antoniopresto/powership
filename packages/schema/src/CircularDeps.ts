@@ -50,7 +50,7 @@ function getModules() {
   const serverCode = {
     tsfy: {
       // @only-server
-      module: () => require('./tsfy') as typeof import('./tsfy'),
+      module: () => require('./tsfy/index') as typeof import('./tsfy'),
       server: true,
     },
 
@@ -160,10 +160,7 @@ function getModules() {
 
     typesWriter: {
       // @only-server
-      module: (): typeof import('./typesWriter') => {
-        return require('./typesWriter');
-      },
-
+      module: () => require('./writeTypes') as typeof import('./writeTypes'),
       server: true,
     },
   };

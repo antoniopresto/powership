@@ -1,3 +1,4 @@
+const { ModuleExtensions } = require('@powership/babel-plugins');
 const { TARGET } = process.env;
 const validTargets = ['module', 'browser', 'node', 'module-browser', 'module-node'];
 
@@ -7,6 +8,14 @@ if (!validTargets.includes(TARGET)) {
 
 const KIND = TARGET.includes('browser') ? 'browser' : 'server';
 const KIND_INVERT = KIND === 'browser' ? 'server' : 'browser';
+
+const destinationExtension = {
+  browser: 'cjs',
+  node: 'cjs',
+  module: 'mjs',
+  'module-browser': 'mjs',
+  'module-node': 'mjs',
+}[TARGET];
 
 const browserConfig = {
   useBuiltIns: 'entry',
@@ -60,10 +69,17 @@ module.exports = function (api) {
   ];
 
   const plugins = [
+    ['babel-plugin-add-import-extension', { extension: destinationExtension, replace: true }],
     [
       require('@powership/babel-plugins').StripBlocksPlugin,
       {
         magicComment: `@only-${KIND_INVERT}`,
+      },
+    ],
+    [
+      require('@powership/babel-plugins').ModuleExtensions,
+      {
+        destinationExtension,
       },
     ],
   ];
