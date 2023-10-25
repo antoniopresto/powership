@@ -1,11 +1,11 @@
 {
   "name": "runmate",
-  "version": "2.3.2",
+  "version": "3.1.2",
   "typings": "out",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
   "main": "out/index.js",
-  "module": "out/module/index.js",
+  "module": "out/module/index.mjs",
   "bin": {
     "run": "./out/cli.js",
     "z": "./out/cli.js"
@@ -20,8 +20,10 @@
     "clear": "rimraf out",
     "prepublishOnly": "run-s build fix && run-p test",
     "build-targets": "run-p build:*",
-    "build:node": "TARGET=node npm run babild -- --out-dir out",
-    "build:module-node": "TARGET=module-node npm run babild -- --out-dir out/module",
+    "build:browser": "TARGET=browser npm run babild -- --out-dir out/browser --out-file-extension .cjs",
+    "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir out/browser/module --out-file-extension .mjs",
+    "build:node": "TARGET=node npm run babild -- --out-dir out --out-file-extension .cjs",
+    "build:module-node": "TARGET=module-node npm run babild -- --out-dir out/module --out-file-extension .mjs",
     "declarations": "tsc -p tsconfig.declarations.json",
     "babild": "babel 'src' --extensions '.ts,.tsx' --source-maps=true --ignore '**/__tests__'"
   },

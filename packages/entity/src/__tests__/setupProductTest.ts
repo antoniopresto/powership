@@ -1,5 +1,8 @@
 import { MongoTransporter } from '@powership/mongo';
-import { AppMock, createAppMock } from '@powership/mongo/out/test-utils';
+import type { AppMock } from '@powership/mongo/out/test-utils';
+
+import { createAppMock } from '@powership/mongo/out/test-utils';
+
 import {
   createResolver,
   createSchema,

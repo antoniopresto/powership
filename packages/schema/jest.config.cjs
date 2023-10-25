@@ -6,7 +6,7 @@ module.exports = {
   testTimeout: +(process.env.TEST_TIMEOUT || 30000),
   testRegex: '(spec|test)\\.tsx?$',
   modulePathIgnorePatterns: ['node_modules', 'testing.d.ts'],
-  setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
+  setupFilesAfterEnv: ['<rootDir>/setupTests.cjs'],
   moduleNameMapper: pathsToModuleNameMapper(
     {
       '@powership/schema': ['./index.ts'],

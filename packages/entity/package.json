@@ -1,14 +1,16 @@
 {
   "name": "@powership/entity",
-  "version": "2.3.2",
+  "version": "3.1.2",
   "type": "module",
-  "main": "./out/index.js",
-  "module": "./out/module/index.js",
+  "main": "./out/index.cjs",
+  "module": "./out/module/index.mjs",
   "types": "./out/index.d.ts",
   "exports": {
-    "types": "./out/index.d.ts",
-    "import": "./out/module/index.js",
-    "require": "./out/index.js"
+    ".": {
+      "types": "./out/index.d.ts",
+      "import": "./out/module/index.mjs",
+      "require": "./out/index.cjs"
+    }
   },
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -22,8 +24,10 @@
     "fix:lint": "eslint src --ext .ts --fix",
     "prepublishOnly": "run-s build fix && run-p test",
     "build-targets": "run-p build:*",
-    "build:node": "TARGET=node npm run babild -- --out-dir out",
-    "build:module-node": "TARGET=module-node npm run babild -- --out-dir out/module",
+    "build:browser": "TARGET=browser npm run babild -- --out-dir out/browser --out-file-extension .cjs",
+    "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir out/browser/module --out-file-extension .mjs",
+    "build:node": "TARGET=node npm run babild -- --out-dir out --out-file-extension .cjs",
+    "build:module-node": "TARGET=module-node npm run babild -- --out-dir out/module --out-file-extension .mjs",
     "declarations": "tsc -p tsconfig.declarations.json",
     "babild": "babel 'src' --extensions '.ts,.tsx' --source-maps=true --ignore '**/__tests__'"
   },

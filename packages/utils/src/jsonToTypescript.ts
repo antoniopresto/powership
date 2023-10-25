@@ -1,7 +1,6 @@
 import type { JSONSchema4 as JSONObject4 } from 'json-schema';
 import type { JSONSchema4 } from 'json-schema';
 import type { Options } from 'json-schema-to-typescript';
-import { IsStringLiteral } from 'ts-toolbelt/out/Community/IsLiteral';
 
 export { JSONSchema4, JSONObject4 };
 

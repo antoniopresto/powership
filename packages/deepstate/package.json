@@ -1,12 +1,12 @@
 {
   "name": "@powership/deepstate",
-  "version": "2.3.2",
+  "version": "3.1.2",
   "main": "out/index.js",
-  "module": "out/module/index.js",
+  "module": "out/module/index.mjs",
   "sideEffects": false,
   "browser": {
-    "out/module/index.js": "./out/browser/module/index.js",
-    "out/index.js": "./out/browser/index.js"
+    "out/module/index.mjs": "./out/browser/module/index.mjs",
+    "out/index.cjs": "./out/browser/index.cjs"
   },
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MPL-2.0",
@@ -20,10 +20,10 @@
     "fix:lint": "eslint src --ext .ts --fix",
     "prepublishOnly": "run-p build fix && run-p test",
     "build-targets": "run-p build:*",
-    "build:browser": "TARGET=browser npm run babild -- --out-dir out/browser",
-    "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir out/browser/module",
-    "build:node": "TARGET=node npm run babild -- --out-dir out",
-    "build:module-node": "TARGET=module-node npm run babild -- --out-dir out/module",
+    "build:browser": "TARGET=browser npm run babild -- --out-dir out/browser --out-file-extension .cjs",
+    "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir out/browser/module --out-file-extension .mjs",
+    "build:node": "TARGET=node npm run babild -- --out-dir out --out-file-extension .cjs",
+    "build:module-node": "TARGET=module-node npm run babild -- --out-dir out/module --out-file-extension .mjs",
     "declarations": "tsc -p tsconfig.declarations.json",
     "babild": "babel 'src' --extensions '.ts,.tsx' --source-maps=true --ignore '**/__tests__'"
   },

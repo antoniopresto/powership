@@ -3,6 +3,8 @@
  */
 import { RuntimeError } from '@powership/utils';
 import { isBrowser } from '@powership/utils';
+// @only-server
+import { parsePhoneNumber } from '@powership/utils';
 
 import { fieldTypeNames } from './fields/fieldTypeNames';
 import type { FieldCreators } from './fields/fieldTypes';
@@ -72,9 +74,10 @@ function getModules() {
 
     parsePhoneNumberServerSide: {
       // @only-server
-      module: () =>
+      module: () => ({
         // @only-server
-        require('@powership/utils/out/parsePhoneNumber') as typeof import('@powership/utils/out/parsePhoneNumber'),
+        parsePhoneNumber,
+      }),
 
       server: true,
     },

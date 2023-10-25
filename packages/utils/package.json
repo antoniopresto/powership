@@ -1,21 +1,23 @@
 {
   "name": "@powership/utils",
-  "version": "2.3.2",
+  "version": "3.1.2",
   "typings": "out",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
   "type": "module",
   "main": "./out/index.cjs",
-  "module": "./out/module/index.js",
+  "module": "./out/module/index.mjs",
   "types": "./out/index.d.ts",
   "exports": {
-    "types": "./out/index.d.ts",
-    "import": "./out/module/index.js",
-    "require": "./out/index.js"
+    ".": {
+      "types": "./out/index.d.ts",
+      "import": "./out/module/index.mjs",
+      "require": "./out/index.cjs"
+    }
   },
   "browser": {
-    "out/module/index.js": "./out/browser/module/index.js",
-    "out/index.js": "./out/browser/index.js"
+    "out/module/index.mjs": "./out/browser/module/index.mjs",
+    "out/index.cjs": "./out/browser/index.cjs"
   },
   "scripts": {
     "test": "jest",
@@ -26,10 +28,10 @@
     "clear": "rimraf out",
     "prepublishOnly": "run-s build fix && run-p test",
     "build-targets": "run-p build:*",
-    "build:browser": "TARGET=browser npm run babild -- --out-dir out/browser",
-    "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir out/browser/module",
-    "build:node": "TARGET=node npm run babild -- --out-dir out",
-    "build:module-node": "TARGET=module-node npm run babild -- --out-dir out/module",
+    "build:browser": "TARGET=browser npm run babild -- --out-dir out/browser --out-file-extension .cjs",
+    "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir out/browser/module --out-file-extension .mjs",
+    "build:node": "TARGET=node npm run babild -- --out-dir out --out-file-extension .cjs",
+    "build:module-node": "TARGET=module-node npm run babild -- --out-dir out/module --out-file-extension .mjs",
     "declarations": "tsc -p tsconfig.json",
     "babild": "babel 'src' --extensions '.ts,.tsx' --source-maps=true --ignore '**/__tests__'"
   },

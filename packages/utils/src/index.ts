@@ -91,5 +91,7 @@ export * from './jsonToTypescript';
 export * from './formatGraphQL';
 // @only-server
 export * from './formatWithPrettier';
+// @only-server
+export * from './parsePhoneNumber';
 
 export { TU };
