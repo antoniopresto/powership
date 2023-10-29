@@ -1,5 +1,6 @@
 export * from '@powership/schema';
 export * from '@powership/utils';
+export * from 'plugin-engine';
 
 // @only-server
 export * from '@powership/entity';
