@@ -1,6 +1,6 @@
 {
   "name": "powership",
-  "version": "3.1.5",
+  "version": "3.1.7",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "#type": "module",
   "main": "./out/index.cjs",
@@ -48,7 +48,8 @@
     "@powership/schema": "workspace:*",
     "@powership/server": "workspace:*",
     "@powership/transporter": "workspace:*",
-    "@powership/utils": "workspace:*"
+    "@powership/utils": "workspace:*",
+    "plugin-engine": "workspace:*"
   },
   "devDependencies": {
     "@babel/cli": "7.19.3",
