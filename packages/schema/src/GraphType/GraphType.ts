@@ -18,7 +18,7 @@ import {
   ObjectDefinitionInput,
   parseField,
 } from '../ObjectType';
-import type { AnyResolver } from '../Resolver';
+import { _resolvers } from '../Resolver';
 import { FieldDefinitionConfig } from '../TObjectConfig';
 import {
   extendObjectDefinition,
@@ -38,18 +38,32 @@ import { ObjectFieldInput } from '../fields/_parseFields';
 import type { ObjectToTypescriptOptions } from '../objectToTypescript';
 
 import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
+import {
+  DataTypeLoaderContext,
+  TypeLoader,
+  TypeLoaderDefinition,
+} from './TypeLoader';
 import { initGraphType } from './initGraphType';
 
 export class GraphType<Definition extends ObjectFieldInput> {
+  static assert(type: any): asserts type is GraphType<any> {
+    if (!GraphType.is(type)) {
+      throw new Error(
+        `AssertError: type is not a GraphType.\n${inspectObject(type)}`
+      );
+    }
+  }
+
   static __isGraphType = true;
   readonly __isGraphType = true;
 
   static register = createStore<Record<string, GraphTypeLike>>();
-  static resolvers = createStore<Record<string, AnyResolver>>();
+  static loaders = createStore<Record<string, TypeLoader<any, any>>>();
 
   static reset = async () => {
-    this.resolvers.clear();
+    _resolvers.clear();
     this.register.clear();
+    this.loaders.clear();
   };
 
   readonly definition: Definition;
@@ -301,6 +315,34 @@ export class GraphType<Definition extends ObjectFieldInput> {
     let _id = name || this.optionalId;
     _id = _id ? `${_id}List` : undefined;
     return this.override((it) => it.list()).graphType(_id) as any;
+  };
+
+  loader: TypeLoader<GraphType<Definition>, any, any, any> | undefined =
+    undefined;
+
+  setLoader = <
+    ArgsDefinition extends ObjectDefinitionInput,
+    Context extends DataTypeLoaderContext = DataTypeLoaderContext,
+    ParentField extends unknown = unknown
+  >(
+    config: TypeLoaderDefinition<
+      GraphType<Definition>,
+      ArgsDefinition,
+      Context,
+      ParentField
+    >
+  ): TypeLoader<
+    GraphType<Definition>,
+    ArgsDefinition,
+    Context,
+    ParentField
+  > => {
+    if (this.loader) {
+      throw new Error(
+        `GraphType.setLoader: type already have a loader defined.`
+      );
+    }
+    return (this.loader = new TypeLoader(this as any, config as any));
   };
 
   singleType = (

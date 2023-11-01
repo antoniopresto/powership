@@ -33,7 +33,6 @@ export type GraphQLSchemaWithUtils = import('graphql').GraphQLSchema & {
       options?: ObjectMockOptions & { resolver?: string }
     ) => string;
     queryTemplates: () => SchemaQueryTemplatesResult;
-    registeredResolvers: AnyResolver[];
     resolvers: AnyResolver[];
     typescript: (options?: ResolversToTypeScriptOptions) => Promise<string>;
     usedConfig: GraphQLSchemaConfig;
@@ -55,14 +54,9 @@ export function createGraphQLSchema<Config>(
 export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
   const {
     graphql: { GraphQLSchema },
-    GraphType,
   } = CircularDeps;
 
-  const registeredResolvers = GraphType.resolvers.entries.map((el) => el[1]);
-
-  let resolvers: AnyResolver[] = Array.isArray(args[0])
-    ? args[0]
-    : registeredResolvers;
+  let resolvers: AnyResolver[] = args[0];
 
   const schemaResolvers = resolvers.filter(
     (el) => el.__isResolver && !el.__isRelation
@@ -128,7 +122,6 @@ export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
     queryTemplates() {
       return getSchemaQueryTemplates(schema);
     },
-    registeredResolvers,
     resolvers,
     async typescript(options?: ResolversToTypeScriptOptions) {
       return (ts =
