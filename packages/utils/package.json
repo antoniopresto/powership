@@ -1,6 +1,6 @@
 {
   "name": "@powership/utils",
-  "version": "3.1.7",
+  "version": "3.1.9",
   "typings": "out",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -62,7 +62,9 @@
     "prettier": "2.8.8",
     "slugify": "1.6.5",
     "ts-toolbelt": "9.6.0",
-    "ulid": "2.3.0"
+    "ulid": "2.3.0",
+    "qs": "6.11.2",
+    "url-pattern": "1.0.3"
   },
   "devDependencies": {
     "@powership/boilerplate": "workspace:*",
@@ -72,6 +74,7 @@
     "@babel/preset-typescript": "7.18.6",
     "@powership/babel-plugins": "workspace:*",
     "@types/big.js": "6.1.6",
+    "@types/qs": "6.9.10",
     "@types/deep-diff": "^1.0.2",
     "@types/ejson": "2.2.0",
     "@types/fs-extra": "9.0.13",

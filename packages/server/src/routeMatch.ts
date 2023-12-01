@@ -52,7 +52,7 @@ export type GetRouteParams<Path extends string> = IsKnown<Path> extends 0
     } extends infer Parsed
   ? {
       // removing ending "?" simbol
-      [K in ExcludeOptionalSimbol<keyof Parsed>]: Parsed extends {
+      [K in ExcludeOptionalSymbol<keyof Parsed>]: Parsed extends {
         [KK in `${K}?`]: any;
       }
         ? AlphaNumeric | undefined
@@ -60,7 +60,7 @@ export type GetRouteParams<Path extends string> = IsKnown<Path> extends 0
     }
   : never;
 
-type ExcludeOptionalSimbol<T> = Extract<
+type ExcludeOptionalSymbol<T> = Extract<
   T extends `${infer Value}?` ? Value : T,
   string
 >;

@@ -1620,6 +1620,9 @@ importers:
       prettier:
         specifier: 2.8.8
         version: 2.8.8
+      qs:
+        specifier: 6.11.2
+        version: 6.11.2
       slugify:
         specifier: 1.6.5
         version: 1.6.5
@@ -1629,6 +1632,9 @@ importers:
       ulid:
         specifier: 2.3.0
         version: 2.3.0
+      url-pattern:
+        specifier: 1.0.3
+        version: 1.0.3
     devDependencies:
       '@babel/cli':
         specifier: 7.19.3
@@ -1678,6 +1684,9 @@ importers:
       '@types/prettier':
         specifier: 2.7.1
         version: 2.7.1
+      '@types/qs':
+        specifier: 6.9.10
+        version: 6.9.10
       '@typescript-eslint/eslint-plugin':
         specifier: 5.39.0
         version: 5.39.0(@typescript-eslint/parser@5.39.0)(eslint@8.25.0)(typescript@4.9.3)
@@ -3797,7 +3806,7 @@ packages:
     resolution: {integrity: sha512-wALWQwrgiB2AWTT91CB62b6Yt0sNHpznUXeZEcnPU3DRdlDIz74x8Qg1UUYKSVFi+va5vKOLYRBI1bRKiLLKIg==}
     dependencies:
       '@types/node': 16.18.3
-      '@types/qs': 6.9.7
+      '@types/qs': 6.9.10
       '@types/range-parser': 1.2.4
       '@types/send': 0.17.1
     dev: true
@@ -3926,6 +3935,10 @@ packages:
   /@types/ps-tree@1.1.2:
     resolution: {integrity: sha512-ZREFYlpUmPQJ0esjxoG1fMvB2HNaD3z+mjqdSosZvd3RalncI9NEur73P8ZJz4YQdL64CmV1w0RuqoRUlhQRBw==}
     dev: false
+
+  /@types/qs@6.9.10:
+    resolution: {integrity: sha512-3Gnx08Ns1sEoCrWssEgTSJs/rsT2vhGP+Ja9cnnk9k4ALxinORlQneLXFeFKOTJMOeZUFD1s7w+w2AphTpvzZw==}
+    dev: true
 
   /@types/qs@6.9.7:
     resolution: {integrity: sha512-FGa1F62FT09qcrueBA6qYTrJPVDzah9a+493+o2PCXsesWHIn27G98TsSMs3WPNbZIEj4+VJf6saSFpvD+3Zsw==}
@@ -6355,7 +6368,7 @@ packages:
       dezalgo: 1.0.4
       hexoid: 1.0.0
       once: 1.4.0
-      qs: 6.11.0
+      qs: 6.11.2
     dev: true
 
   /forwarded@0.2.0:
@@ -8626,6 +8639,12 @@ packages:
     dependencies:
       side-channel: 1.0.4
 
+  /qs@6.11.2:
+    resolution: {integrity: sha512-tDNIz22aBzCDxLtVH++VnTfzxlfeK5CbqohpSqpJgj1Wg/cQbStNAz3NuqCs5vV+pjBsK4x4pN9HlVh7rcYRiA==}
+    engines: {node: '>=0.6'}
+    dependencies:
+      side-channel: 1.0.4
+
   /queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
@@ -9155,7 +9174,7 @@ packages:
       formidable: 2.1.2
       methods: 1.1.2
       mime: 2.6.0
-      qs: 6.11.0
+      qs: 6.11.2
       semver: 7.3.8
     transitivePeerDependencies:
       - supports-color
