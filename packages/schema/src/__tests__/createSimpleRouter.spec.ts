@@ -1,4 +1,4 @@
-import { createSimpleRouter } from '../createRoutes';
+import { createSimpleRouter } from '../createSimpleRouter';
 
 describe('createSimpleRouter', () => {
   const routes = createSimpleRouter({

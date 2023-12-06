@@ -1,4 +1,9 @@
-import { AnyRecord, RouteMatcher, RouteUtils } from '@powership/utils';
+import {
+  AnyRecord,
+  NullableToPartial,
+  RouteMatcher,
+  RouteUtils,
+} from '@powership/utils';
 
 import type { InferObjectDefinition } from './fields/Infer';
 import type { ObjectDefinitionInput } from './fields/_parseFields';
@@ -21,7 +26,7 @@ export type SimpleRouter<
     mount: [InferObjectDefinition<Routes[K]['query']>] extends [never]
       ? () => string
       : (config: {
-          query: InferObjectDefinition<Routes[K]['query']>;
+          query: NullableToPartial<InferObjectDefinition<Routes[K]['query']>>;
         }) => string;
   };
 };
