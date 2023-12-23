@@ -2,6 +2,7 @@ import { CircularDeps } from '@powership/schema';
 import {
   Cast,
   Compute,
+  createProxy,
   MaybePromise,
   UnionToIntersection,
 } from '@powership/utils';
@@ -312,72 +313,78 @@ export type UpdateExpressionKey = Extract<keyof UpdateExpression<any>, string>;
 
 export const FilterConditionsParsers: {
   [K in keyof FilterConditions]-?: (input: any) => FilterConditions[K];
-} = {
-  $and(input: unknown) {
-    if (!Array.isArray(input)) {
-      return devAssert(`Expected input be an array`, { input });
-    }
+} = createProxy(() => {
+  return {
+    $and(input: unknown) {
+      if (!Array.isArray(input)) {
+        return devAssert(`Expected input be an array`, { input });
+      }
 
-    return input.map((sub: unknown, index) => {
-      assertFieldFilter(sub, `at position ${index}`);
-      return sub;
-    });
-  },
-  $between(input: any): [string, string] | [number, number] {
-    const is =
-      Array.isArray(input) &&
-      input.length === 2 &&
-      ((typeof input[0] === 'string' && typeof input[1] === 'string') ||
-        (getTypeName(input[0]) === 'Number' &&
-          getTypeName(input[1]) === 'Number'));
+      return input.map((sub: unknown, index) => {
+        assertFieldFilter(sub, `at position ${index}`);
+        return sub;
+      });
+    },
+    $between(input: any): [string, string] | [number, number] {
+      const is =
+        Array.isArray(input) &&
+        input.length === 2 &&
+        ((typeof input[0] === 'string' && typeof input[1] === 'string') ||
+          (getTypeName(input[0]) === 'Number' &&
+            getTypeName(input[1]) === 'Number'));
 
-    if (!is) {
-      throw new RuntimeError(`invalid input for $between`, { input });
-    }
+      if (!is) {
+        throw new RuntimeError(`invalid input for $between`, { input });
+      }
 
-    return input as any;
-  },
-  $contains: CircularDeps.union(['string', 'float', 'boolean', 'null'] as const)
-    .parse,
-  $eq: CircularDeps.union(['null', 'boolean', 'string', 'float'] as const)
-    .parse,
-  $exists: CircularDeps.boolean().parse,
-  $gt: CircularDeps.union(['string', 'float'] as const).parse,
+      return input as any;
+    },
+    $contains: CircularDeps.union([
+      'string',
+      'float',
+      'boolean',
+      'null',
+    ] as const).parse,
+    $eq: CircularDeps.union(['null', 'boolean', 'string', 'float'] as const)
+      .parse,
+    $exists: CircularDeps.boolean().parse,
+    $gt: CircularDeps.union(['string', 'float'] as const).parse,
 
-  $gte: CircularDeps.union(['string', 'float'] as const).parse,
+    $gte: CircularDeps.union(['string', 'float'] as const).parse,
 
-  $in: CircularDeps.unknown().toList().parse as any,
+    $in: CircularDeps.unknown().toList().parse as any,
 
-  $lt: CircularDeps.union(['string', 'float'] as const).parse,
+    $lt: CircularDeps.union(['string', 'float'] as const).parse,
 
-  $lte: CircularDeps.union(['string', 'float'] as const).parse,
-  $matchString: CircularDeps.string().parse,
-  $ne: CircularDeps.union(['null', 'boolean', 'string', 'float'] as const)
-    .parse,
-  $not(input: unknown) {
-    assertFieldFilter(input);
-    return input;
-  },
+    $lte: CircularDeps.union(['string', 'float'] as const).parse,
+    $matchString: CircularDeps.string().parse,
+    $ne: CircularDeps.union(['null', 'boolean', 'string', 'float'] as const)
+      .parse,
+    $not(input: unknown) {
+      assertFieldFilter(input);
+      return input;
+    },
 
-  $or(input) {
-    if (!Array.isArray(input)) {
-      return devAssert(`Expected input be an array`, { input });
-    }
+    $or(input) {
+      if (!Array.isArray(input)) {
+        return devAssert(`Expected input be an array`, { input });
+      }
 
-    return input.map((sub: unknown, index) => {
-      assertFieldFilter(sub, `at position ${index}`);
-      return sub;
-    });
-  },
+      return input.map((sub: unknown, index) => {
+        assertFieldFilter(sub, `at position ${index}`);
+        return sub;
+      });
+    },
 
-  $startsWith: CircularDeps.string().parse,
+    $startsWith: CircularDeps.string().parse,
 
-  $type(input: any): TransporterFieldType {
-    return FieldTypes.includes(input)
-      ? input
-      : devAssert('invalid input for $type', { input });
-  },
-};
+    $type(input: any): TransporterFieldType {
+      return FieldTypes.includes(input)
+        ? input
+        : devAssert('invalid input for $type', { input });
+    },
+  };
+});
 
 export const AttributeFilterKeys = tuple(
   '$eq',

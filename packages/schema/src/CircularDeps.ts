@@ -63,15 +63,6 @@ function getModules() {
       server: true,
     },
 
-    fs: {
-      // @only-server
-      module: () =>
-        // @only-server
-        require('fs-extra') as typeof import('fs-extra'),
-
-      server: true,
-    },
-
     parsePhoneNumberServerSide: {
       // @only-server
       module: () => ({
@@ -213,14 +204,11 @@ function get(key: string) {
 
   const modules = getModules();
 
-  Object.entries(modules).forEach(([_key, value]) => {
-    if (cache.has(_key)) return;
-
-    // parser -> parser
-    // parser -> vizinho
+  Object.entries(modules).forEach(([moduleName, value]) => {
+    if (cache.has(moduleName)) return;
 
     if (isBrowser() && value?.server) {
-      cache.set(_key, undefined);
+      cache.set(moduleName, undefined);
       return;
     }
 
@@ -233,12 +221,15 @@ function get(key: string) {
       ? moduleObject.default
       : moduleObject;
 
-    if (mainModule?.[_key]) {
-      mainModule = mainModule[_key];
+    if (mainModule?.[moduleName]) {
+      mainModule = mainModule[moduleName];
     }
 
-    Object.entries(moduleObject || {}).forEach(([subKey, subModule]) => {
-      if (subKey !== _key) {
+    // for-loops are needed for module iteration (at least in bun.js)
+    for (let subKey in moduleObject) {
+      const subModule = moduleObject[subKey];
+
+      if (subKey !== moduleName) {
         cache.set(subKey, subModule);
       }
 
@@ -248,9 +239,9 @@ function get(key: string) {
       ) {
         mainModule[subKey] = subModule;
       }
-    });
+    }
 
-    cache.set(_key, mainModule);
+    cache.set(moduleName, mainModule);
   });
 
   const fieldTypes = modules.fieldTypes.module();

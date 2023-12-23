@@ -1,4 +1,4 @@
-import { Compute, IsKnown, MaybePromise } from '@powership/utils';
+import { Compute, createStore, IsKnown, MaybePromise } from '@powership/utils';
 import {
   GraphQLField,
   GraphQLFieldConfig,
@@ -21,12 +21,14 @@ export type ResolverContextBase = {
   [K: string]: unknown;
 };
 
+export const _resolvers = createStore<Record<string, AnyResolver>>();
+
 function _createResolver(options: any): Resolver<any, any, any, any> {
   const { args, name, kind = 'query', resolve, type, ...rest } = options;
 
-  if (GraphType.resolvers.has(name)) {
+  if (_resolvers.has(name)) {
     // @ts-ignore
-    return GraphType.resolvers.get(name);
+    return _resolvers.get(name);
   }
 
   const payloadType = (GraphType.is(type)
@@ -104,7 +106,7 @@ function _createResolver(options: any): Resolver<any, any, any, any> {
     typeDef: payloadType.definition,
   };
 
-  GraphType.resolvers.set(name, result);
+  _resolvers.set(name, result);
 
   CircularDeps.typesWriter?.PowershipWatchTypesPubSub.emit('created', {
     resolver: result,
@@ -185,7 +187,7 @@ export function isPossibleArgsDef(
 }
 
 export function getResolver(name: string): AnyResolver {
-  return GraphType.resolvers.get(name) as any;
+  return _resolvers.get(name) as any;
 }
 
 export type OptionalResolverConfig<

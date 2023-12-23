@@ -1558,8 +1558,8 @@ importers:
         specifier: 0.2.0
         version: 0.2.0
       awesome-phonenumber:
-        specifier: 4.1.0
-        version: 4.1.0
+        specifier: 6.2.0
+        version: 6.2.0
       big.js:
         specifier: 6.2.1
         version: 6.2.1
@@ -4554,9 +4554,9 @@ packages:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
     engines: {node: '>= 0.4'}
 
-  /awesome-phonenumber@4.1.0:
-    resolution: {integrity: sha512-xjovH6KhZYBRjl6+kjLI4zAliDIevDV0OAP3oLbJRca0Q4RQFkwcLAtIKYvFH+Zw0LlxJ0sN6uaD8SDvyYBxtA==}
-    engines: {node: '>=12'}
+  /awesome-phonenumber@6.2.0:
+    resolution: {integrity: sha512-JSFTjZhWxKHUWAOQU+oBJ86Xf89vJpF82w6iuE9lEybeQzYKFs+zVKjOwzevFBfLjiXf72DsWESA+daVUBrhHw==}
+    engines: {node: '>=18'}
     dev: false
 
   /babel-helper-evaluate-path@0.5.0:
@@ -5028,7 +5028,7 @@ packages:
       normalize-path: 3.0.0
       readdirp: 3.6.0
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
 
   /ci-info@3.8.0:
     resolution: {integrity: sha512-eXTggHWSooYhq49F2opQhuHWgzucfF2YgODK4e1566GQs5BIfP30B0oenwBJHfWxAs2fyPB1s7Mg949zLf61Yw==}
@@ -6412,8 +6412,8 @@ packages:
   /fs.realpath@1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
 
-  /fsevents@2.3.2:
-    resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
+  /fsevents@2.3.3:
+    resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
     requiresBuild: true
@@ -7263,7 +7263,7 @@ packages:
       micromatch: 4.0.5
       walker: 1.0.8
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
     dev: true
 
   /jest-haste-map@29.6.2:
@@ -7282,7 +7282,7 @@ packages:
       micromatch: 4.0.5
       walker: 1.0.8
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
 
   /jest-leak-detector@29.5.0:
     resolution: {integrity: sha512-u9YdeeVnghBUtpN5mVxjID7KbkKE1QU4f6uUwuxiY0vYRi9BUCLKlPEZfDGR67ofdFmDz9oPAy2G92Ujrntmow==}
@@ -9482,7 +9482,7 @@ packages:
       '@esbuild-kit/core-utils': 3.1.0
       '@esbuild-kit/esm-loader': 2.5.5
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
     dev: false
 
   /turbo-darwin-64@1.9.1:

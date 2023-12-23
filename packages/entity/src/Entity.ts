@@ -75,9 +75,6 @@ import { versionPlugin } from './plugins/versionPlugin';
 
 export * from './paginationUtils';
 
-const ulidField = CircularDeps.ulid({ autoCreate: true });
-const createULID = () => ulidField.parse(undefined);
-
 const extendMethodsEnum = tupleEnum(
   'extendType',
   'addHooks',
@@ -761,7 +758,12 @@ function _registerPKSKHook(input: {
 
     async function _onCreate(doc: Record<string, any>) {
       await _onUpdate(doc);
-      doc.ulid = doc.ulid || createULID();
+
+      doc.ulid = (() => {
+        if (doc.ulid) return doc.ulid;
+        return CircularDeps.ulid({ autoCreate: true }).parse(undefined);
+      })();
+
       doc.createdAt = new Date();
       doc.createdBy =
         doc.createdBy || (await ctx.options.context?.userId?.(false));

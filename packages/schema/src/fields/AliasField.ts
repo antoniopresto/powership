@@ -2,6 +2,7 @@ import {
   aggio,
   Aggregation,
   assertEqual,
+  createProxy,
   nonNullValues,
   ObjectPath,
   pick,
@@ -65,9 +66,9 @@ export class AliasField<InputDef extends AliasFieldDef = any> extends FieldType<
       typeof def === 'string' ? 'any' : def.type
     );
 
-    this.utils = {
+    this.utils = createProxy(() => ({
       fieldType: type.__lazyGetter.field,
-    };
+    }));
 
     this.composer = {
       compose: (parent: Record<string, any>) => {

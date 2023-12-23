@@ -7,6 +7,7 @@ import {
   inspectObject,
   isPlainObject,
   joinPathsCamelCase,
+  memoize,
   stringCase,
 } from '@powership/utils';
 
@@ -22,7 +23,9 @@ import {
 } from './ObjectType';
 import { ULID_REGEX } from './fields/UlidField';
 
-const record = CircularDeps.record({ keyType: 'string', type: 'any' });
+const getRecordType = memoize(() =>
+  CircularDeps.record({ keyType: 'string', type: 'any' })
+);
 
 export const JSONFieldCase = Object.keys(stringCase).concat('camelCase') as (
   | keyof typeof stringCase
@@ -56,7 +59,8 @@ export function jsonToType(
 export function jsonToSchemaDefinition(options: JSONToSchemaOptions): {
   [K: string]: FinalFieldDefinition;
 } {
-  record.parse(options.json, 'jsonToSchema: Invalid input.');
+  getRecordType().parse(options.json, 'jsonToSchema: Invalid input.');
+
   const res = valueToTypeDef({ ...options, value: options.json });
 
   if ('object' in res && typeof res.object === 'object') {
@@ -80,7 +84,7 @@ export function isCursorString(value: any): value is string {
   }
 }
 
-const phoneType = CircularDeps.phone({});
+const phoneType = memoize(() => CircularDeps.phone({}));
 
 export const valuesToPowershipTypeRecord: {
   [L in FieldTypeName]: (value: any) => boolean;
@@ -100,7 +104,7 @@ export const valuesToPowershipTypeRecord: {
   email: (value) =>
     Boolean(value && typeof value === 'string' && EmailRegex.test(value)),
   ID: (value) => !!value && typeof value === 'string' && ULID_REGEX.test(value),
-  phone: phoneType.is,
+  phone: (value) => phoneType().is(value),
   record: (value) =>
     !!value && typeof value === 'object' && !isPlainObject(value),
   ulid: (value) => typeof value === 'string' && ULID_REGEX.test(value),

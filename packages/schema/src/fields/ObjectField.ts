@@ -2,7 +2,7 @@
  * Used to represent an object as another object field
  */
 
-import { TypeLike } from '@powership/utils';
+import { createProxy, TypeLike } from '@powership/utils';
 
 import { CircularDeps } from '../CircularDeps';
 import type { ObjectDefinitionInput } from '../ObjectType';
@@ -27,10 +27,10 @@ export class ObjectField<
   constructor(def: DefinitionInput) {
     super({ def: def, name: 'object' });
 
-    this.utils = {
+    this.utils = createProxy(() => ({
       // @ts-ignore circular
       object: CircularDeps.createObjectType(def as any) as any,
-    };
+    }));
 
     this.parse = this.applyParser({
       parse: (input, _options) => {

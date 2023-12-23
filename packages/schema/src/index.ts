@@ -8,7 +8,6 @@ export * from './assertType';
 
 export { objectMetaFieldKey } from './fields/MetaFieldField';
 export * from './GraphType/GraphType';
-export { CircularDeps } from './CircularDeps';
 export * from './fields/IObjectLike';
 export * from './applyValidator';
 export * from './mockObject';
@@ -28,3 +27,5 @@ export * from './createGraphQLSchema';
 
 // @only-server
 export type { ResolverKind } from './createGraphQLSchema';
+
+export { CircularDeps } from './CircularDeps';

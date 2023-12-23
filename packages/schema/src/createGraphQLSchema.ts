@@ -5,7 +5,6 @@ import type { GraphQLSchemaConfig } from 'graphql';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
 import { CircularDeps } from './CircularDeps';
-import { GraphType } from './GraphType/GraphType';
 import { generateClientUtils } from './GraphType/generateClientUtils';
 import { getInnerGraphTypeId } from './GraphType/getInnerGraphTypeId';
 import {
@@ -13,7 +12,7 @@ import {
   SchemaQueryTemplatesResult,
 } from './GraphType/getQueryTemplates';
 import { parseFieldDefinitionConfig } from './ObjectType';
-import { AnyResolver } from './Resolver';
+import { _resolvers, AnyResolver } from './Resolver';
 import { cleanMetaField } from './fields/MetaFieldField';
 import { objectMock, ObjectMockOptions } from './mockObject';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
@@ -33,7 +32,6 @@ export type GraphQLSchemaWithUtils = import('graphql').GraphQLSchema & {
       options?: ObjectMockOptions & { resolver?: string }
     ) => string;
     queryTemplates: () => SchemaQueryTemplatesResult;
-    registeredResolvers: AnyResolver[];
     resolvers: AnyResolver[];
     typescript: (options?: ResolversToTypeScriptOptions) => Promise<string>;
     usedConfig: GraphQLSchemaConfig;
@@ -55,10 +53,9 @@ export function createGraphQLSchema<Config>(
 export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
   const {
     graphql: { GraphQLSchema },
-    GraphType,
   } = CircularDeps;
 
-  const registeredResolvers = GraphType.resolvers.entries.map((el) => el[1]);
+  const registeredResolvers = _resolvers.entries.map((el) => el[1]);
 
   let resolvers: AnyResolver[] = Array.isArray(args[0])
     ? args[0]
@@ -128,7 +125,6 @@ export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
     queryTemplates() {
       return getSchemaQueryTemplates(schema);
     },
-    registeredResolvers,
     resolvers,
     async typescript(options?: ResolversToTypeScriptOptions) {
       return (ts =
@@ -267,9 +263,8 @@ async function convertResolver(options: {
     .filter((el) => el.__isRelation)
     .forEach((rel) => {
       if (rel.__relatedToGraphTypeId === payloadOriginName) {
-        const typeRelatedToFinalPayload = GraphType.register.get(
-          rel.__graphTypeId
-        );
+        const typeRelatedToFinalPayload = _resolvers.get(rel.__graphTypeId);
+        // @ts-ignore
         payloadDef.def[rel.name] = typeRelatedToFinalPayload.definition;
       }
     });

@@ -18,7 +18,7 @@ import {
   ObjectDefinitionInput,
   parseField,
 } from '../ObjectType';
-import type { AnyResolver } from '../Resolver';
+import { _resolvers } from '../Resolver';
 import { FieldDefinitionConfig } from '../TObjectConfig';
 import {
   extendObjectDefinition,
@@ -41,14 +41,21 @@ import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
 import { initGraphType } from './initGraphType';
 
 export class GraphType<Definition extends ObjectFieldInput> {
+  static assert(type: any): asserts type is GraphType<any> {
+    if (!GraphType.is(type)) {
+      throw new Error(
+        `AssertError: type is not a GraphType.\n${inspectObject(type)}`
+      );
+    }
+  }
+
   static __isGraphType = true;
   readonly __isGraphType = true;
 
   static register = createStore<Record<string, GraphTypeLike>>();
-  static resolvers = createStore<Record<string, AnyResolver>>();
 
   static reset = async () => {
-    this.resolvers.clear();
+    _resolvers.clear();
     this.register.clear();
   };
 

@@ -82,5 +82,53 @@ describe('RouteUtils', () => {
       const matcher = RouteUtils.createRouteMatcher('/test/:id');
       expect(matcher.match('/test/123')).toEqual({ id: '123' });
     });
+
+    test('/public/:abc/*', () => {
+      const matcher = RouteUtils.createRouteMatcher('/public/:sub*');
+      expect(matcher.match('/public/abc/def/ghi')).toEqual({
+        _: '/def/ghi',
+        sub: 'abc',
+      });
+    });
+  });
+
+  test('RouteUtils.sortRoutes', () => {
+    expect(
+      RouteUtils.sortRoutes([
+        '/:slug',
+        '/:slug/foobar',
+        { path: '/' },
+        { path: '/users/:id' },
+        '*',
+        '/users/:id/foo',
+        '/users/:id/bar',
+        '/:slug/foo/bar/:category?/items',
+        '/users/:id/foo/*',
+        '/users/:id/foo/comments',
+        '/users/:id/bar/:title?',
+        '/users',
+        '/users/hello',
+        '/movies/:title.mp4',
+        '/movies/:actor',
+        '/:slug/foo/*',
+      ])
+    ).toEqual([
+      { path: '/' },
+      '/users',
+      '/users/hello',
+      '/movies/:title.mp4',
+      '/:slug',
+      '/:slug/foobar',
+      { path: '/users/:id' },
+      '/movies/:actor',
+      '/users/:id/foo',
+      '/users/:id/bar',
+      '/users/:id/foo/comments',
+      '/users/:id/bar/:title?',
+      '/:slug/foo/bar/:category?/items',
+      '/:slug/foo/*',
+      '/users/:id/foo/*',
+      '*',
+    ]);
   });
 });

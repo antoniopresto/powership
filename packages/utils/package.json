@@ -1,6 +1,6 @@
 {
   "name": "@powership/utils",
-  "version": "3.1.10",
+  "version": "3.2.0",
   "typings": "out",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -39,7 +39,7 @@
   "keywords": [],
   "dependencies": {
     "aggio": "0.2.0",
-    "awesome-phonenumber": "4.1.0",
+    "awesome-phonenumber": "6.2.0",
     "big.js": "6.2.1",
     "chalk": "4.1.2",
     "dayjs": "1.11.6",

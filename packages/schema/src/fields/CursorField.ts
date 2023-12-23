@@ -1,3 +1,5 @@
+import { createProxy } from '@powership/utils';
+
 import { CircularDeps } from '../CircularDeps';
 import type { ObjectType } from '../ObjectType';
 
@@ -73,9 +75,9 @@ export class CursorField extends FieldType<CursorType, 'cursor', undefined> {
   constructor() {
     super({ def: undefined, name: 'cursor' });
 
-    this.utils = {
+    this.utils = createProxy(() => ({
       object: getCursorObject()!,
-    };
+    }));
 
     const parser = this.utils.object.parse.bind(this.utils.object);
 

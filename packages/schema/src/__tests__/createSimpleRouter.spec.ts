@@ -2,8 +2,26 @@ import { createSimpleRouter } from '../createSimpleRouter';
 
 describe('createSimpleRouter', () => {
   const routes = createSimpleRouter({
+    homeland: { path: '/homeland' },
     home: { path: '/home' },
+    start: { path: '/' },
     about: { path: '/about', query: { foo: 'int' } },
+    public: { path: '/public/*' },
+  });
+
+  test('$findRoute', () => {});
+  test('$findRoute', () => {
+    expect(routes.$findRoute('/home')).toEqual({ ...routes.home, params: {} });
+    expect(routes.$findRoute('/about')).toEqual({
+      ...routes.about,
+      params: {},
+    });
+    expect(routes.$findRoute('/public/a/b/cx.png')).toEqual({
+      ...routes.public,
+      params: {
+        _: 'a/b/cx.png',
+      },
+    });
   });
 
   test('should create route handlers for each route', () => {

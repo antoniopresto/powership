@@ -1,6 +1,7 @@
-import { LazyParseGraphTypePayload } from '../GraphType/GraphType';
+import { AnyRecord } from '@powership/utils';
 
-import { FinalFieldDefinition } from './_parseFields';
+import { LazyParseGraphTypePayload } from '../GraphType/GraphType';
+import { FieldParserConfig } from '../applyValidator';
 
 export interface ObjectLike {
   __isPowershipObject: true;
@@ -10,7 +11,8 @@ export interface ObjectLike {
 export interface GraphTypeLike {
   __isGraphType: true;
   __lazyGetter: LazyParseGraphTypePayload;
-  definition: FinalFieldDefinition;
+  definition: AnyRecord;
   readonly id: string;
   readonly optionalId: string | undefined;
+  parse(value: any, options?: FieldParserConfig): any;
 }
