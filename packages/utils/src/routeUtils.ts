@@ -165,6 +165,39 @@ export class RouteUtils {
     let parts = (url.split('?')[0] || '').split('/').slice(0, 3);
     return parts.join('/') || RouteUtils.getDefaultDomain();
   }
+
+  static sortRoutes = (() => {
+    function toValue(str: string) {
+      if (str == '*') return 1e11; // wild
+      if (/^\:(.*)\?/.test(str)) return 1111; // param optional
+      if (/^\:(.*)\./.test(str)) return 11; // param w/ suffix
+      if (/^\:/.test(str)) return 111; // param
+      return 1; // static
+    }
+
+    function toRank(str: string) {
+      let i = 0,
+        out = '',
+        arr = str.split('/');
+      for (; i < arr.length; i++) out += toValue(arr[i]);
+      return (i - 1) / +out;
+    }
+
+    return function sortRoutes<Routes extends (string | { path: string })[]>(
+      paths: Routes,
+      cache: Record<string, any> = {}
+    ): Routes {
+      return paths.sort(function (routeA, routeB) {
+        const a = typeof routeA === 'string' ? routeA : routeA.path;
+        const b = typeof routeB === 'string' ? routeB : routeB.path;
+
+        return (
+          (cache[b] = cache[b] || toRank(b)) -
+          (cache[a] = cache[a] || toRank(a))
+        );
+      });
+    };
+  })();
 }
 
 // Types related to routing
@@ -191,7 +224,7 @@ export type ParsedURL = {
 
 export interface RouteMatcher<Path extends string> {
   stringify: (params: GetRouteParams<Path>) => string;
-  match(route: string): GetRouteParams<Path> | null;
+  match(route: string): (GetRouteParams<Path> & { _?: string }) | null;
 }
 
 export type AlphaNumeric = string | number;

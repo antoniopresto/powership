@@ -1,7 +1,2 @@
-import {
-  ParsedPhoneNumber,
-  parsePhoneNumber,
-  PhoneNumberTypes,
-} from 'awesome-phonenumber';
-
-export { parsePhoneNumber, ParsedPhoneNumber, PhoneNumberTypes };
+export { parsePhoneNumber } from 'awesome-phonenumber';
+export type { ParsedPhoneNumber, PhoneNumberTypes } from 'awesome-phonenumber';

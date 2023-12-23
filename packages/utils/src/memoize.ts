@@ -1,15 +1,3 @@
-import _memoize from 'lodash/memoize';
+import memoize from 'lodash/memoize';
 
-interface memoize {
-  <T extends (...args: any) => any>(
-    func: T,
-    resolver?: (...args: Parameters<T>) => any
-  ): T;
-}
-
-export function memoize(...args: any[]) {
-  // @ts-ignore
-  return _memoize(...args);
-}
-
-// preventing direct code dependency from external lib.
+export { memoize };

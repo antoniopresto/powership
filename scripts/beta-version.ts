@@ -1,5 +1,5 @@
-import { $, fs } from 'zx';
 import semver from 'semver';
+import 'zx/build/globals';
 
 const current = fs.readJSONSync(path.resolve(process.cwd(), 'package.json')).version;
 
