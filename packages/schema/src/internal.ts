@@ -1,7 +1,7 @@
 // @only-server
 import { _formatWithPrettier, parsePhoneNumber } from '@powership/utils';
 // @only-server
-import { graphql, GraphQLSchema, printSchema } from 'graphql';
+export { graphql, GraphQLSchema, printSchema } from 'graphql';
 
 // @only-server
 export * from './Resolver';
@@ -34,8 +34,6 @@ export async function objectToTypescript(
 }
 // @only-server
 export { parsePhoneNumber as parsePhoneNumberServerSide };
-// @only-server
-export { GraphQLSchema, printSchema, graphql };
 
 export * from './implementObject';
 export * from './ObjectType';

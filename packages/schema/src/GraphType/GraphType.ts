@@ -151,9 +151,8 @@ export class GraphType<Definition extends ObjectFieldInput> {
   };
 
   _toGraphQL = (): ConvertFieldResult => {
-    // @ts-ignore
+    // @only-server
     return Internal.GraphQLParser.fieldToGraphQL({
-      // @only-server
       field: this.__lazyGetter.field,
       fieldName: this.id,
       parentName: this.id,
@@ -179,9 +178,8 @@ export class GraphType<Definition extends ObjectFieldInput> {
     if (!this.__lazyGetter.objectType) {
       throw new Error('graphQLInterface is only available for object type');
     }
-    // @ts-ignore
+    // @only-server
     return Internal.GraphQLParser.objectToGraphQL({
-      // @only-server
       object: this.__lazyGetter.objectType,
     }).interfaceType(...args) as any;
   };
@@ -246,14 +244,14 @@ export class GraphType<Definition extends ObjectFieldInput> {
     const type = this.graphQLType();
     const inputType = this.graphQLInputType();
 
-    // @ts-ignore circular
+    // @only-server
     const { GraphQLSchema, printSchema } = Internal;
-
+    // @only-server
     const object = new GraphQLSchema({
       // @ts-ignore
       types: [type, inputType],
     });
-
+    // @only-server
     return printSchema(object).split('\n');
   };
 

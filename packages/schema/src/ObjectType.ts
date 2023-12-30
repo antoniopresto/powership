@@ -440,6 +440,7 @@ export class ObjectType<
     ) as Internal.ObjectHelpers;
   };
 
+  // @only-server
   toGraphQL = (name?: string): Internal.GraphQLParserResult => {
     if (name) {
       this.identify(name);
