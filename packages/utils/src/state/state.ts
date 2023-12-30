@@ -290,11 +290,8 @@ export class State<
 
     const Context = createContext(this);
 
-    function Provider(props: {
-      initialState: State | (() => State);
-      children: ReactNodeLike;
-    }) {
-      const [value] = useState(props.initialState);
+    function Provider(props: { value: State; children: ReactNodeLike }) {
+      const [value] = useState(props.value);
 
       return createElement(Context.Provider, {
         value,
