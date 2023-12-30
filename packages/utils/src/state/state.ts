@@ -167,7 +167,13 @@ export class State<
    */
   withMethods = <Actions extends _MethodsInitializer<StateType>>(
     methods: Actions
-  ): StateWithMethods<StateType, Actions> => {
+  ): _StateMethods<StateType, Actions> extends infer M
+    ? State<StateType, _StateMethods<StateType, Actions>> extends infer S
+      ? { [K in keyof M as K extends keyof S ? never : K]: M[K] } & ({
+          [K in keyof S]: S[K];
+        } & {})
+      : never
+    : never => {
     const self: any = this;
 
     self.methods = Object.entries(methods).reduce((acc, [key, fn]) => {
@@ -292,14 +298,6 @@ export type StateChangeMiddleware<
   previous: State;
   context: _MethodExecutionContext<Methods>;
 }) => State | Draft<State> | void;
-
-export type StateWithMethods<
-  StateObject extends object,
-  Actions extends _MethodsInitializer<StateObject>
-> = Merge<
-  _StateMethods<StateObject, Actions>,
-  State<StateObject, _StateMethods<StateObject, Actions>>
->;
 
 export type ExtractStateMethods<T> = Omit<T, keyof State<{}>> extends infer R
   ? { [K in keyof R]: R[K] } & {}
