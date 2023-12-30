@@ -247,7 +247,7 @@ export class State<
         devToolsMap.set(name, devTools);
 
         devTools.subscribe((event) => {
-          const { payload } = event;
+          const payload = event.payload || event;
           if (payload.type === 'JUMP_TO_ACTION') {
             this._update({
               update: () => JSON.parse(event.state),
