@@ -2,6 +2,7 @@
 import { _formatWithPrettier, parsePhoneNumber } from '@powership/utils';
 // @only-server
 import { graphql, GraphQLSchema, printSchema } from 'graphql';
+
 // @only-server
 export * from './Resolver';
 // @only-server
@@ -17,6 +18,9 @@ export async function formatWithPrettier(
     return _formatWithPrettier(...args);
   });
 }
+// @only-server
+export type { ObjectToTypescriptOptions } from './objectToTypescript';
+
 // @only-server
 export async function objectToTypescript(
   ...args: Parameters<

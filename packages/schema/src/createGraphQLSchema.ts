@@ -216,7 +216,7 @@ export async function resolversTypescriptParts(
     `${prefix}\n${typesCode}\n${interfaceCode}}\n${queryCode}}\n${mutationCode}}\n${subscriptionCode}}\n`
       .replace(/\n\n/gm, '\n') // remove multi line breaks
       .replace(/^\n/gm, ''); // remove empty lines
-
+  // @only-server
   code = (await Internal.formatWithPrettier(code, {
     parser: 'typescript',
   })) as any;
@@ -310,7 +310,7 @@ async function convertType(options: {
 
   const { description } = parsed;
 
-  // @ts-ignore circular
+  // @ts-ignore circular // @only-server
   const result = (await Internal.objectToTypescript(
     entryName,
     {

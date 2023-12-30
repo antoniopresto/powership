@@ -20,12 +20,12 @@ import * as Internal from './internal';
 export type ResolverContextBase = {
   [K: string]: unknown;
 };
-
+// @only-server
 export const _resolvers = createStore<Record<string, AnyResolver>>();
 
 function _createResolver(options: any): Resolver<any, any, any, any> {
   const { args, name, kind = 'query', resolve, type, ...rest } = options;
-
+  // @only-server
   if (_resolvers.has(name)) {
     // @ts-ignore
     return _resolvers.get(name);
@@ -105,9 +105,9 @@ function _createResolver(options: any): Resolver<any, any, any, any> {
     type: gqlType,
     typeDef: payloadType.definition,
   };
-
+  // @only-server
   _resolvers.set(name, result);
-
+  // @only-server
   Internal.PowershipWatchTypesPubSub.emit('created', {
     resolver: result,
   });

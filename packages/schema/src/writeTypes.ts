@@ -31,6 +31,7 @@ const resolversRecord: Record<string, AnyResolver> = {};
 const customTypeRecord: Record<string, CustomTypesWriterEvent> = {};
 
 // APLICAR AOS RESOLVERS DA ENTITY, etc
+// @only-server
 PowershipWatchTypesPubSub.on('created', async (event) => {
   if (event.graphType?.optionalId) {
     typesRecord[`${event.graphType.id}`] = event.graphType;
@@ -114,7 +115,7 @@ export async function writeTypes(options?: WriteTypesOptions) {
     item.body && head.push(...item.body);
     item.footer && head.push(...item.footer);
   });
-
+  // @only-server
   const typesInterface = await Internal.objectToTypescript(
     'RuntimeTypes',
     typesRecord

@@ -15,6 +15,7 @@ import type { ObjectFieldInput } from '../fields/_parseFields';
 import * as Internal from '../internal';
 import type { ObjectToTypescriptOptions } from '../objectToTypescript';
 
+// @only-server
 import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
 
 export class GraphType<Definition extends ObjectFieldInput> {
@@ -32,26 +33,14 @@ export class GraphType<Definition extends ObjectFieldInput> {
   static register = createStore<Record<string, GraphTypeLike>>();
 
   static reset = async () => {
+    // @only-server
     Internal._resolvers.clear();
     this.register.clear();
   };
 
   readonly definition: Definition;
 
-  get id(): string {
-    if (this.optionalId) return this.optionalId;
-
-    throw new RuntimeError(
-      [
-        'The method you are trying to execute expects the GraphType used to be previously identified.\n' +
-          'Examples:\n' +
-          ' - `myNiceType.identify("Foo")`\n' +
-          " - `createType('Bar', FieldDefinition)`",
-      ].join('\n'),
-      this.__lazyGetter.definitionInput
-    );
-  }
-
+  id!: string;
   private _optionalId: string | undefined = undefined;
 
   get optionalId() {
@@ -73,6 +62,26 @@ export class GraphType<Definition extends ObjectFieldInput> {
 
   constructor(...args: GraphTypeArgs) {
     Internal.initGraphType(this, args);
+
+    const self = this;
+
+    Object.defineProperties(this, {
+      id: {
+        enumerable: false,
+        get() {
+          if (self._optionalId) return self._optionalId;
+          throw new RuntimeError(
+            [
+              'The method you are trying to execute expects the GraphType used to be previously identified.\n' +
+                'Examples:\n' +
+                ' - `myNiceType.identify("Foo")`\n' +
+                " - `createType('Bar', FieldDefinition)`",
+            ].join('\n'),
+            this.__lazyGetter.definitionInput
+          );
+        },
+      },
+    });
   }
 
   // used to lazy process input definition to improve circular dependency in types
@@ -95,6 +104,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
       //
     } else {
       if (!isBrowser()) {
+        // @only-server
         Internal.PowershipWatchTypesPubSub.emit('created', {
           graphType: this as any,
         });
@@ -143,6 +153,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   _toGraphQL = (): ConvertFieldResult => {
     // @ts-ignore
     return Internal.GraphQLParser.fieldToGraphQL({
+      // @only-server
       field: this.__lazyGetter.field,
       fieldName: this.id,
       parentName: this.id,
@@ -170,6 +181,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
     }
     // @ts-ignore
     return Internal.GraphQLParser.objectToGraphQL({
+      // @only-server
       object: this.__lazyGetter.objectType,
     }).interfaceType(...args) as any;
   };
@@ -257,7 +269,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
         [name]: this.definition,
       });
 
-    // @ts-ignore circular
+    // @only-server
     return Internal.objectToTypescript(name, object, options) as any;
   };
 

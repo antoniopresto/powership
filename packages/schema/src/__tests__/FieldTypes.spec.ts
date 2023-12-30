@@ -599,7 +599,7 @@ describe('FieldTypes', () => {
         r2: 'record?',
         r3: '[record]?',
       });
-
+      // @only-server
       const sut = await Internal.objectToTypescript(
         'records',
         object.definition

@@ -11,13 +11,6 @@ import { invariantType } from '@powership/utils';
 import { Serializable } from '@powership/utils';
 import type { GraphQLInterfaceType, GraphQLObjectType } from 'graphql';
 
-import type {
-  GraphQLParseMiddleware,
-  GraphQLParserResult,
-  ParseInputTypeOptions,
-  ParseInterfaceOptions,
-  ParseTypeOptions,
-} from './GraphType/GraphQLParser';
 import type { ObjectDefinitionInput } from './TObjectConfig';
 import type { FieldComposer } from './fields/FieldType';
 import type { ObjectLike } from './fields/IObjectLike';
@@ -28,7 +21,6 @@ import type {
   FinalObjectDefinition,
 } from './fields/_parseFields';
 import * as Internal from './internal';
-import type { ObjectToTypescriptOptions } from './objectToTypescript';
 import { withCache, WithCache } from './withCache';
 
 export class ObjectType<
@@ -448,7 +440,7 @@ export class ObjectType<
     ) as Internal.ObjectHelpers;
   };
 
-  toGraphQL = (name?: string): GraphQLParserResult => {
+  toGraphQL = (name?: string): Internal.GraphQLParserResult => {
     if (name) {
       this.identify(name);
     }
@@ -461,20 +453,20 @@ export class ObjectType<
       );
     }
 
-    // @ts-ignore circular
+    // @only-server
     const { GraphQLParser } = Internal;
-
+    // @only-server
     return GraphQLParser.objectToGraphQL({
       object: this,
     });
   };
 
-  graphqlType = (options?: ParseTypeOptions): GraphQLObjectType => {
+  graphqlType = (options?: Internal.ParseTypeOptions): GraphQLObjectType => {
     return this.toGraphQL().getType(options);
   };
 
   graphqlInterfaceType = (
-    options?: ParseInterfaceOptions
+    options?: Internal.ParseInterfaceOptions
   ): GraphQLInterfaceType => {
     return this.toGraphQL().interfaceType(options);
   };
@@ -483,8 +475,10 @@ export class ObjectType<
     return this.toGraphQL().typeToString();
   };
 
-  typescriptPrint = (options?: ObjectToTypescriptOptions): Promise<string> => {
-    // @ts-ignore circular
+  typescriptPrint = (
+    options?: Internal.ObjectToTypescriptOptions
+  ): Promise<string> => {
+    // @only-server
     return Internal.objectToTypescript(
       this.nonNullId,
       // @ts-ignore
@@ -497,7 +491,7 @@ export class ObjectType<
     return this.toGraphQL().typeToString();
   };
 
-  graphqlInputType = (options?: ParseInputTypeOptions) => {
+  graphqlInputType = (options?: Internal.ParseInputTypeOptions) => {
     return this.toGraphQL().getInputType(options);
   };
 
@@ -519,6 +513,7 @@ export class ObjectType<
 
     try {
       // only available server side or in tests
+      // @only-server
       const { GraphQLParser, GraphType } = Internal;
       promises.push(GraphQLParser.reset(), GraphType.reset());
     } catch (e) {
@@ -557,10 +552,12 @@ export class ObjectType<
     }).identify(id);
   };
 
-  graphQLMiddleware: GraphQLParseMiddleware[] = [];
+  graphQLMiddleware: Internal.GraphQLParseMiddleware[] = [];
 
   addGraphQLMiddleware = (
-    middleware: GraphQLParseMiddleware[] | GraphQLParseMiddleware
+    middleware:
+      | Internal.GraphQLParseMiddleware[]
+      | Internal.GraphQLParseMiddleware
   ) => {
     this.graphQLMiddleware.push(...ensureArray(middleware));
   };

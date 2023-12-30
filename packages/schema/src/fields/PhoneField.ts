@@ -36,7 +36,7 @@ export function _backendValidatePhoneNumber(
       found: input,
     });
   }
-
+  // @only-server
   let { valid, type } = Internal.parsePhoneNumberServerSide(input, {
     regionCode: regionCode,
   });
@@ -73,6 +73,7 @@ export function validatePhoneNumber(
 
   const hasAPV = (() => {
     try {
+      // @only-server
       return !!Internal.parsePhoneNumberServerSide;
     } catch (e) {
       return false;
