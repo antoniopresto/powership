@@ -270,8 +270,8 @@ export class State<
     })();
   };
 
-  static createHooks = <State extends object>(React: ReactLike) => {
-    return createHooks<State>(React);
+  static createHooks = <Type extends State<any>>(React: ReactLike) => {
+    return createHooks<Type>(React);
   };
 }
 

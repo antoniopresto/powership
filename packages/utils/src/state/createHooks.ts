@@ -3,9 +3,11 @@ import { ReactLike, ReactNodeLike } from '../ReactLike';
 import type { State } from './state';
 
 export function createHooks<
-  StateObject extends object,
+  StateType extends State<any>,
   R extends ReactLike = ReactLike
 >(React: R) {
+  type StateObject = StateType extends State<infer S> ? S : never;
+
   const {
     //
     createContext,
@@ -15,10 +17,10 @@ export function createHooks<
     createElement,
   } = React;
 
-  const Context = createContext<StateObject>(null as any);
+  const Context = createContext<StateType>(null as any);
 
   function Provider(props: {
-    initialState: State<StateObject> | (() => State<StateObject>);
+    initialState: StateType | (() => StateType);
     children: ReactNodeLike;
   }) {
     const [value] = useState(props.initialState);
@@ -31,14 +33,14 @@ export function createHooks<
 
   // overload with selector
   function useData<Value>(
-    selector: (state: StateObject) => Value
-  ): [Value, State<StateObject>];
+    selector: (state: StateType) => Value
+  ): [Value, StateType];
   // overload without selector
-  function useData(): [null, State<StateObject>];
+  function useData(): [null, StateType];
   // implementation
   function useData<Value, Selector extends (state: StateObject) => Value>(
     selector?: Selector
-  ): [Value, State<StateObject>] {
+  ): [Value, StateType] {
     const context = useContext(Context);
 
     if (!context?.current) {
