@@ -9,14 +9,16 @@ const next = semver.inc(current, 'prerelease', 'beta', '1');
 
 await $`run version ${next}`;
 
-if (!process.env.BUILD) {
-  throw new Error(`Missing process.env.BUILD`);
-}
+if (process.env.BUILD) {
+  if (!process.env.BUILD) {
+    throw new Error(`Missing process.env.BUILD`);
+  }
 
-if (process.env.BUILD === '*') {
-  await $`run "pnpm run build"`;
-} else {
-  await $`run ${process.env.BUILD} build`;
+  if (process.env.BUILD === '*') {
+    await $`run "pnpm run build"`;
+  } else {
+    await $`run ${process.env.BUILD} build`;
+  }
 }
 
 await $`run "pnpm publish --access=public --tag=next --ignore-scripts"`;
