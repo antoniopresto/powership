@@ -1,12 +1,10 @@
 import { createDraft, Draft, isDraft } from 'immer';
 
-import { ReactLike } from '../ReactLike';
+import { ReactLike, ReactNodeLike } from '../ReactLike';
 import { areEqual } from '../areEqual';
 import { pick } from '../pick';
 import { setByPath } from '../setByPath';
-import type { AnyFunction, Merge, Paths, PathType } from '../typings';
-
-import { createHooks } from './createHooks';
+import type { AnyFunction, Paths, PathType } from '../typings';
 
 /**
  * Creates a mini state management system using Immer.
@@ -14,18 +12,18 @@ import { createHooks } from './createHooks';
  * Useful for scenarios requiring state history tracking, like undo operations.
  */
 export class State<
-  StateType extends object,
+  StateObject extends object,
   Methods extends _AnyMethodsRecord = {}
 > {
-  private currentState: StateType;
+  private currentState: StateObject;
   private listeners = new Map<
     StatePieceListener<any>,
-    { picker: (state: StateType) => any }
+    { picker: (state: StateObject) => any }
   >();
-  private middlewares = new Set<StateChangeMiddleware<StateType, Methods>>();
+  private middlewares = new Set<StateChangeMiddleware<StateObject, Methods>>();
   methods = {} as Methods;
 
-  constructor(initial: StateType) {
+  constructor(initial: StateObject) {
     this.currentState = initial;
   }
 
@@ -36,12 +34,12 @@ export class State<
    * @returns Unsubscribe function to stop observing the state part.
    */
   observe<Piece>(
-    picker: (state: StateType) => Piece,
+    picker: (state: StateObject) => Piece,
     onChange: StatePieceListener<Piece>
   ): Unsubscribe;
-  observe<Path extends Paths<StateType>>(
+  observe<Path extends Paths<StateObject>>(
     path: Path,
-    onChange: StatePieceListener<PathType<StateType, Path>>
+    onChange: StatePieceListener<PathType<StateObject, Path>>
   ): Unsubscribe;
   observe(pickerOrPath: any, onChange: StatePieceListener<any>) {
     const key = onChange;
@@ -49,7 +47,7 @@ export class State<
     const picker =
       typeof pickerOrPath === 'function'
         ? pickerOrPath
-        : (state: StateType) => pick(state, picker);
+        : (state: StateObject) => pick(state, picker);
 
     this.listeners.set(key, { picker });
     return () => this.listeners.delete(key);
@@ -61,22 +59,22 @@ export class State<
    * @param _context
    */
   update(
-    updater: (draft: Draft<StateType>) => void,
+    updater: (draft: Draft<StateObject>) => void,
     _context?: _UpdateContext
-  ): StateType;
+  ): StateObject;
   /**
    * Updates the state value in the provided path
    * @param path dot notation to the object property to change - example: 'user.address.street'
    * @param value new value
    * @param _context internal
    */
-  update<Path extends Paths<StateType>>(
+  update<Path extends Paths<StateObject>>(
     path: Path,
-    value: PathType<StateType, Path>,
+    value: PathType<StateObject, Path>,
     _context?: _UpdateContext
-  ): StateType;
+  ): StateObject;
 
-  update(...args: any[]): StateType {
+  update(...args: any[]): StateObject {
     //
     const sanitizedArgs = (() => {
       if (typeof args[0] === 'string') {
@@ -84,7 +82,7 @@ export class State<
 
         return {
           context,
-          update: (draft: Draft<StateType>) => {
+          update: (draft: Draft<StateObject>) => {
             setByPath(draft, path, value);
           },
         };
@@ -112,9 +110,11 @@ export class State<
   }
 
   private _update(config: {
-    update: (draft: Draft<StateType>) => void | StateType | Draft<StateType>;
+    update: (
+      draft: Draft<StateObject>
+    ) => void | StateObject | Draft<StateObject>;
     context: _UpdateContext;
-  }): StateType {
+  }): StateObject {
     const previous = this.currentState;
     const { update, context } = config;
 
@@ -137,7 +137,7 @@ export class State<
       }
     });
 
-    const nextState = JSON.parse(JSON.stringify(draft)) as StateType;
+    const nextState = JSON.parse(JSON.stringify(draft)) as StateObject;
 
     this.listeners.forEach((item, onChange) => {
       const { picker } = item;
@@ -165,10 +165,10 @@ export class State<
    * Binding actions to internal state
    * @param methods
    */
-  withMethods = <Actions extends _MethodsInitializer<StateType>>(
+  withMethods = <Actions extends _MethodsInitializer<StateObject>>(
     methods: Actions
-  ): _StateMethods<StateType, Actions> extends infer M
-    ? State<StateType, _StateMethods<StateType, Actions>> extends infer S
+  ): _StateMethods<StateObject, Actions> extends infer M
+    ? State<StateObject, _StateMethods<StateObject, Actions>> extends infer S
       ? { [K in keyof M as K extends keyof S ? never : K]: M[K] } & ({
           [K in keyof S]: S[K];
         } & {})
@@ -207,11 +207,11 @@ export class State<
     return self;
   };
 
-  current = () => {
+  get current() {
     return this.currentState;
-  };
+  }
 
-  addMiddleware = (...items: StateChangeMiddleware<StateType, Methods>[]) => {
+  addMiddleware = (...items: StateChangeMiddleware<StateObject, Methods>[]) => {
     items.forEach((middleware) => {
       this.middlewares.add(middleware);
     });
@@ -224,7 +224,7 @@ export class State<
     return new State(initial);
   };
 
-  private _logMethod = (context: _UpdateContext, next: StateType) => {
+  private _logMethod = (context: _UpdateContext, next: StateObject) => {
     this._devTool?.send(
       { type: `@method/${context.method}`, payload: context.payload },
       next
@@ -238,7 +238,7 @@ export class State<
       let devTools = devToolsMap.get(name);
 
       if (devTools) {
-        devTools.init(this.current());
+        devTools.init(this.current);
         return devTools;
       }
 
@@ -249,7 +249,7 @@ export class State<
 
         if (!devTools) return;
 
-        devTools.init(this.current());
+        devTools.init(this.current);
         devToolsMap.set(name, devTools);
 
         devTools.subscribe((event) => {
@@ -270,8 +270,76 @@ export class State<
     })();
   };
 
-  static createHooks = <Type extends State<any>>(React: ReactLike) => {
-    return createHooks<Type>(React);
+  static createHooks = <T>(React: ReactLike) => {
+    const {
+      //
+      createContext,
+      useContext,
+      useEffect,
+      useState,
+      createElement,
+    } = React;
+
+    type State = T extends { methods: infer M }
+      ? { [K in keyof M as K extends keyof T ? never : K]: M[K] } & T
+      : never;
+
+    type Current = State extends { current: infer D }
+      ? { [K in keyof D]: D[K] } & {}
+      : never;
+
+    const Context = createContext(this);
+
+    function Provider(props: {
+      initialState: State | (() => State);
+      children: ReactNodeLike;
+    }) {
+      const [value] = useState(props.initialState);
+
+      return createElement(Context.Provider, {
+        value,
+        children: props.children,
+      });
+    }
+
+    // overload with selector
+    function useData<Picked>(
+      selector: (state: Current) => Picked
+    ): [Picked, Current];
+    // overload without selector
+    function useData(): [null, Current];
+    // implementation
+    function useData<Picked, Selector extends (state: Current) => Picked>(
+      selector?: Selector
+    ): [Picked, Current] {
+      const context = useContext(Context);
+
+      if (!context?.current) {
+        throw new Error(`Context missing.`);
+      }
+
+      const [selected, setSelected] = useState(() => {
+        if (!selector) return null;
+        return selector(context.current);
+      });
+
+      useEffect(() => {
+        if (!selector) {
+          setSelected(null);
+          return;
+        }
+
+        const unsubscribe = context.observe(selector, ({ next }) => {
+          setSelected(next);
+        });
+
+        return () => unsubscribe();
+      }, [context, selector]);
+
+      return [selected, context];
+    }
+
+    return { Provider, useData, Context } as const;
   };
 }
 

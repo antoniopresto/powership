@@ -12,7 +12,7 @@ describe('State', () => {
 
   test('current()', () => {
     const sut = State.create(origin);
-    expect(sut.current()).toBe(origin);
+    expect(sut.current).toBe(origin);
   });
 
   test('observe()', () => {
@@ -73,7 +73,7 @@ describe('State', () => {
 
     expect(nameChanges).toEqual(['a', 'c']);
     expect(streetNumberChanges).toEqual([1, 99]);
-    expect(state.current().user.address.number).toEqual(1999);
+    expect(state.current.user.address.number).toEqual(1999);
 
     // should not change the original object
     expect(origin.user.address.number).toBe(2);
@@ -140,7 +140,7 @@ describe('State', () => {
       state.sum(0);
       state.sum(3);
 
-      expect(state.current()).toEqual({
+      expect(state.current).toEqual({
         history: [1, 1, 0],
         num: 4,
       });
@@ -169,7 +169,7 @@ describe('State', () => {
       });
 
       state.update('num', 2);
-      expect(state.current()).toEqual({ num: 100 });
+      expect(state.current).toEqual({ num: 100 });
     });
   });
 });
