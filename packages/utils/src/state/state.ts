@@ -270,7 +270,7 @@ export class State<
     })();
   };
 
-  static createHooks = <T>(React: ReactLike) => {
+  static createHooks = <T>(React: ReactLike, createState: () => T) => {
     const {
       //
       createContext,
@@ -288,10 +288,10 @@ export class State<
       ? { [K in keyof D]: D[K] } & {}
       : never;
 
-    const Context = createContext(this);
+    const Context = createContext<any>(null);
 
-    function Provider(props: { value: State; children: ReactNodeLike }) {
-      const [value] = useState(props.value);
+    function Provider(props: { children: ReactNodeLike }) {
+      const [value] = useState(() => createState());
 
       return createElement(Context.Provider, {
         value,
@@ -336,7 +336,7 @@ export class State<
       return [selected, context];
     }
 
-    return { Provider, useData, Context } as const;
+    return { Provider, useData, Context, createState } as const;
   };
 }
 
