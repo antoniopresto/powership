@@ -1,15 +1,16 @@
 {
   "name": "@powership/boilerplate",
-  "version": "3.2.0",
+  "version": "3.2.5-beta.0",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "sideEffects": false,
-  "#type": "module",
+  "type": "module",
   "scripts": {
     "clear": "rimraf dist",
     "fix": "run-s fix:* ",
     "fix:prettier": "prettier \"./**/*{.ts,.js,.json}\" --write",
-    "build": "echo \"ok\"",
-    "prepublishOnly": "echo \"ok\""
+    "build": "echo 0",
+    "prepublishOnly": "echo 0",
+    "test": "echo 0"
   },
   "dependencies": {
     "prettier": "2.8.8",

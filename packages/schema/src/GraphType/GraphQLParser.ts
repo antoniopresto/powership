@@ -29,34 +29,13 @@ import {
   isNullableType,
   printSchema,
 } from 'graphql';
-import {
+import type {
   GraphQLInterfaceTypeConfig,
   ThunkObjMap,
   ThunkReadonlyArray,
 } from 'graphql/type/definition';
 
-import {
-  __getCachedFieldInstance,
-  isObjectType,
-  ObjectType,
-} from '../ObjectType';
-import { AliasField } from '../fields/AliasField';
-import { ArrayField } from '../fields/ArrayField';
-import type { CursorField } from '../fields/CursorField';
-import { TAnyFieldType } from '../fields/FieldType';
-import { ObjectTypeLikeFieldDefinition } from '../fields/Infer';
-import { LiteralField } from '../fields/LiteralField';
-import {
-  cleanMetaField,
-  getObjectDefinitionMetaField,
-} from '../fields/MetaFieldField';
-import { ObjectField } from '../fields/ObjectField';
-import { UnionField } from '../fields/UnionField';
-import { FieldTypeName } from '../fields/_fieldDefinitions';
-import { FinalFieldDefinition } from '../fields/_parseFields';
-import { ObjectHelpers } from '../getObjectHelpers';
-import { isHiddenFieldName } from '../isHiddenFieldName';
-import { parseTypeName } from '../parseTypeName';
+import * as Internal from '../internal';
 
 import { GraphQLDateType } from './GraphQLDateType';
 import { GraphQLNullType } from './GraphQLNullType';
@@ -98,7 +77,7 @@ export interface GraphQLParserResult {
   getType: (options?: ParseTypeOptions) => GraphQLObjectType;
   inputToString(): string;
   interfaceType: (options?: ParseInterfaceOptions) => GraphQLInterfaceType;
-  object: ObjectType<{}>;
+  object: Internal.ObjectType<{}>;
   typeToString(): string;
 }
 
@@ -106,7 +85,7 @@ export interface ConvertFieldResult {
   description?: string;
   fieldName: string;
   inputType: (options?: ParseInputTypeOptions) => GraphQLInputType;
-  plainField: FinalFieldDefinition;
+  plainField: Internal.FinalFieldDefinition;
   type: (options?: ParseTypeOptions) => GraphQLOutputType;
   typeName: string;
 }
@@ -137,8 +116,8 @@ export class GraphQLParser {
     fieldsRegister.clear();
   };
 
-  static objectIds = (object: ObjectTypeLikeFieldDefinition) => {
-    if (!isObjectType(object)) {
+  static objectIds = (object: Internal.ObjectTypeLikeFieldDefinition) => {
+    if (!Internal.isObjectType(object)) {
       throw new RuntimeError(`Invalid Object.`, {
         object,
       });
@@ -156,7 +135,7 @@ export class GraphQLParser {
   };
 
   static objectToGraphQL(init: {
-    object: { [K in keyof ObjectType<any>]: any } & {};
+    object: { [K in keyof Internal.ObjectType<any>]: any } & {};
     path?: string[]; // family tree of an object/field
   }): GraphQLParserResult {
     const { path } = init;
@@ -191,7 +170,10 @@ export class GraphQLParser {
 
         const types = parents
           ? parents.map(
-              (parent) => ObjectType.register.get(parent) as ObjectType<any>
+              (parent) =>
+                Internal.ObjectType.register.get(
+                  parent
+                ) as Internal.ObjectType<any>
             )
           : [];
 
@@ -204,7 +186,7 @@ export class GraphQLParser {
       };
 
       options.fields = () => {
-        const helpers: ObjectHelpers = objectInput.helpers();
+        const helpers: Internal.ObjectHelpers = objectInput.helpers();
         const objectMiddleware = objectInput.graphQLMiddleware || [];
 
         const builders: ConvertFieldResult[] = [];
@@ -216,19 +198,19 @@ export class GraphQLParser {
 
         const aliases: {
           fieldName: string;
-          instance: AliasField;
+          instance: Internal.AliasField;
           parentName: string;
           path: string[];
         }[] = [];
 
         helpers.list.forEach(({ name: fieldName, instance, plainField }) => {
-          if (isHiddenFieldName(fieldName)) return;
+          if (Internal.isHiddenFieldName(fieldName)) return;
           if (plainField.hidden) return;
 
           if (plainField.type === 'alias') {
-            AliasField.assert(instance);
+            Internal.AliasField.assert(instance);
 
-            const subTypeName = parseTypeName({
+            const subTypeName = Internal.parseTypeName({
               field: plainField,
               fieldName,
               parentName: objectId,
@@ -280,12 +262,12 @@ export class GraphQLParser {
 
         aliases.forEach(({ instance, fieldName, parentName, path }) => {
           const { type } = instance.asFinalFieldDef.def as {
-            type: FinalFieldDefinition; // already parsed during parseObjectDefinition
+            type: Internal.FinalFieldDefinition; // already parsed during parseObjectDefinition
           };
 
           _useConvertFieldResult(
             this.fieldToGraphQL({
-              field: __getCachedFieldInstance(type),
+              field: Internal.__getCachedFieldInstance(type),
               fieldName,
               parentName,
               path,
@@ -380,7 +362,7 @@ export class GraphQLParser {
   }
 
   static fieldToGraphQL(init: {
-    field: TAnyFieldType;
+    field: Internal.TAnyFieldType;
     fieldName: string;
     parentName: string;
     path: string[];
@@ -404,7 +386,7 @@ export class GraphQLParser {
     const fieldParsed = {} as ConvertFieldResult;
     fieldsRegister.set(cacheId, fieldParsed);
 
-    const subTypeName = parseTypeName({
+    const subTypeName = Internal.parseTypeName({
       field: fieldClone,
       fieldName,
       parentName,
@@ -414,7 +396,7 @@ export class GraphQLParser {
 
     // @ts-ignore
     const creators: {
-      [T in FieldTypeName]: () => Omit<
+      [T in Internal.FieldTypeName]: () => Omit<
         ConvertFieldResult,
         'typeName' | 'fieldName' | 'path' | 'plainField' | 'composers'
       >;
@@ -435,9 +417,9 @@ export class GraphQLParser {
       array() {
         const {
           utils: { listItemType: innerFieldType },
-        } = fieldClone as ArrayField<any>;
+        } = fieldClone as Internal.ArrayField<any>;
 
-        const id = parseTypeName({
+        const id = Internal.parseTypeName({
           field: innerFieldType,
           fieldName,
           parentName,
@@ -466,7 +448,7 @@ export class GraphQLParser {
         };
       },
       cursor(): any {
-        const cursor = fieldClone as CursorField;
+        const cursor = fieldClone as Internal.CursorField;
 
         return {
           inputType: cursor.utils.object.graphqlInputType,
@@ -521,10 +503,10 @@ export class GraphQLParser {
         };
       },
       literal() {
-        if (!LiteralField.is(fieldClone)) throw new Error('ts');
+        if (!Internal.LiteralField.is(fieldClone)) throw new Error('ts');
         const { description, def } = fieldClone;
 
-        const recordName = parseTypeName({
+        const recordName = Internal.parseTypeName({
           field: fieldClone,
           fieldName,
           parentName,
@@ -541,14 +523,14 @@ export class GraphQLParser {
             name: recordName,
 
             parseValue(value: any) {
-              return LiteralField.utils.deserialize({
+              return Internal.LiteralField.utils.deserialize({
                 ...def,
                 value,
               });
             },
 
             serialize(value: any) {
-              return LiteralField.utils.deserialize({
+              return Internal.LiteralField.utils.deserialize({
                 ...def,
                 value,
               });
@@ -573,18 +555,21 @@ export class GraphQLParser {
       object() {
         assertEqual(fieldClone.type, 'object');
 
-        const id = parseTypeName({
+        const id = Internal.parseTypeName({
           field: fieldClone,
           fieldName,
           parentName,
         });
 
-        const def = ObjectType.is(fieldClone.def)
+        const def = Internal.ObjectType.is(fieldClone.def)
           ? fieldClone.def.clone((el) => el.def())
           : fieldClone.def;
 
-        // @ts-ignore
-        const object = ObjectType.getOrSet(id, def);
+        const object = Internal.ObjectType.getOrSet(
+          id,
+          // @ts-ignore
+          def
+        );
 
         const res = self.objectToGraphQL({
           object,
@@ -599,7 +584,7 @@ export class GraphQLParser {
         };
       },
       record() {
-        const recordName = parseTypeName({
+        const recordName = Internal.parseTypeName({
           field: fieldClone,
           fieldName,
           parentName,
@@ -647,7 +632,7 @@ export class GraphQLParser {
       },
 
       union() {
-        if (!UnionField.is(fieldClone)) throw fieldClone;
+        if (!Internal.UnionField.is(fieldClone)) throw fieldClone;
         let descriptions: string[] = [];
 
         // if all types are objects it can be used as normal GraphQL union
@@ -698,7 +683,7 @@ export class GraphQLParser {
               name: subTypeName,
               ...options,
               types: fieldClone.utils.fieldTypes.map((field, index) => {
-                if (!ObjectField.is(field)) throw field;
+                if (!Internal.ObjectField.is(field)) throw field;
                 let object: any = field.utils.object;
                 if (!object.id) {
                   object = object.clone((el) =>
@@ -772,15 +757,18 @@ export class GraphQLParser {
   }
 }
 
-export function describeField(field: FinalFieldDefinition): string {
+export function describeField(field: Internal.FinalFieldDefinition): string {
   if (field.name) return field.name;
 
   if (field.type === 'literal') {
-    const value = BJSON.stringify(LiteralField.utils.deserialize(field.def), {
-      quoteKeys(key) {
-        return ` ${key}`;
-      },
-    });
+    const value = BJSON.stringify(
+      Internal.LiteralField.utils.deserialize(field.def),
+      {
+        quoteKeys(key) {
+          return ` ${key}`;
+        },
+      }
+    );
 
     return `${value}`;
   }
@@ -790,9 +778,9 @@ export function describeField(field: FinalFieldDefinition): string {
       const { value } = payload;
 
       if (value?.type === 'object' && value.def) {
-        const meta = getObjectDefinitionMetaField(value?.def || {});
+        const meta = Internal.getObjectDefinitionMetaField(value?.def || {});
         if (meta?.def.id) return meta.def.id;
-        return describeField(cleanMetaField(value.def));
+        return describeField(Internal.cleanMetaField(value.def));
       }
 
       return undefined;

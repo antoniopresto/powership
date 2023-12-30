@@ -1,1 +1,1 @@
-require('@powership/utils').formatWithPrettier.prettier = require('prettier');
+require('@powership/utils')._formatWithPrettier.prettier = require('prettier');

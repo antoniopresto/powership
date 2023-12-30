@@ -1,8 +1,8 @@
-import { CircularDeps, PowershipModules } from '../CircularDeps';
 import { ObjectType } from '../ObjectType';
 import { TAnyFieldType } from '../fields/FieldType';
 import { getObjectDefinitionId } from '../fields/MetaFieldField';
 import { FieldInput, ObjectFieldInput } from '../fields/_parseFields';
+import * as Internal from '../internal';
 import { parseObjectField } from '../parseObjectDefinition';
 
 import {
@@ -22,9 +22,7 @@ export function lazyCreateGraphTypeInitPayload(
 
   let id: string | undefined = undefined;
 
-  let definitionInput:
-    | ObjectFieldInput
-    | ((utils: PowershipModules) => ObjectFieldInput);
+  let definitionInput: ObjectFieldInput | (() => ObjectFieldInput);
 
   let idFromArgs;
   if (args.length === 2) {
@@ -39,7 +37,8 @@ export function lazyCreateGraphTypeInitPayload(
 
     const def =
       typeof definitionInput === 'function'
-        ? definitionInput(CircularDeps)
+        ? // @ts-ignore
+          definitionInput(Internal)
         : definitionInput;
 
     const field = parseObjectField('temp', def, {
@@ -72,6 +71,7 @@ export function lazyCreateGraphTypeInitPayload(
     payload = {
       definition: field.asFinalFieldDef,
 
+      // @ts-ignore
       definitionInput,
 
       field,

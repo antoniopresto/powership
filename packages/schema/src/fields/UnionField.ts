@@ -1,19 +1,19 @@
-import { getTypeName } from '@powership/utils';
+import { getTypeName, memoize } from '@powership/utils';
 import { inspectObject } from '@powership/utils';
 import { uniq } from '@powership/utils';
 
-import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';
 import type { FieldDefinitionConfig } from '../TObjectConfig';
+import * as Internal from '../internal';
 
-import { FieldType, FieldTypeParser, TAnyFieldType } from './FieldType';
+import { FieldType, TAnyFieldType } from './FieldType';
 
 export class UnionField<
   U extends FieldDefinitionConfig,
   T extends Readonly<[U, ...U[]]>
 > extends FieldType<Infer<T[number]>, 'union', T> {
   //
-  parse: FieldTypeParser<Infer<T[number]>>;
+  parse: Internal.FieldTypeParser<Infer<T[number]>>;
 
   utils = {
     fieldTypes: [] as TAnyFieldType[],
@@ -26,27 +26,39 @@ export class UnionField<
   constructor(def: T) {
     super({ def: def, name: 'union' });
 
-    const { parseObjectField } = CircularDeps;
+    const getFieldTypes = memoize(() => {
+      return def.map((el, index) => {
+        try {
+          return Internal.parseObjectField(`UnionItem_${index}`, el, {
+            returnInstance: true,
+          });
+        } catch (e: any) {
+          let message = `Filed to parse type:`;
+          message += `\n${inspectObject(el, { tabSize: 2 })}`;
 
-    this.utils.fieldTypes = def.map((el, index) => {
-      try {
-        return parseObjectField(`UnionItem_${index}`, el, {
-          returnInstance: true,
-        });
-      } catch (e: any) {
-        let message = `Filed to parse type:`;
-        message += `\n${inspectObject(el, { tabSize: 2 })}`;
-
-        e.stack = message + '\n' + e.stack;
-        throw e;
-      }
+          e.stack = message + '\n' + e.stack;
+          throw e;
+        }
+      });
     });
 
-    const hasOptional = this.utils.fieldTypes.some((el) => el.optional);
+    Object.defineProperty(this.utils, 'fieldTypes', {
+      get() {
+        return getFieldTypes();
+      },
+    });
 
-    if (hasOptional) {
-      this.toOptional();
-    }
+    let optional: boolean | null = null;
+
+    Object.defineProperty(this, 'optional', {
+      get() {
+        if (optional !== null) return optional;
+        return (optional = getFieldTypes().some((el) => el.optional));
+      },
+      set(value) {
+        optional = value;
+      },
+    });
 
     this.parse = this.applyParser({
       parse: (input: any) => {
@@ -55,7 +67,7 @@ export class UnionField<
         const messages: string[] = [];
         const objectErrors: any[] = [];
 
-        for (let parser of this.utils.fieldTypes) {
+        for (let parser of getFieldTypes()) {
           try {
             return parser.parse(input);
           } catch (e: any) {

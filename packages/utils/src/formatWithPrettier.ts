@@ -1,8 +1,6 @@
 import type { Options } from 'prettier';
 
-import { AnyFunction } from './typings';
-
-export async function formatWithPrettier(
+export async function _formatWithPrettier(
   source: string,
   options?: Options
 ): Promise<string> {

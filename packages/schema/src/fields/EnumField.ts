@@ -1,4 +1,6 @@
-import { FieldType, FieldTypeParser } from './FieldType';
+import type { FieldTypeParser } from '../applyValidator';
+
+import { FieldType } from './FieldType';
 
 export class EnumField<
   U extends string,

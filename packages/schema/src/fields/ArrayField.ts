@@ -1,11 +1,12 @@
 import { Cast } from '@powership/utils';
 import { inspectObject } from '@powership/utils';
 
-import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';
+import type { FieldTypeParser } from '../internal';
+import * as Internal from '../internal';
 
 import { arrayFieldParse } from './ArrayFieldParse';
-import { FieldType, FieldTypeParser, TAnyFieldType } from './FieldType';
+import { FieldType, TAnyFieldType } from './FieldType';
 import { ObjectFieldInput } from './_parseFields';
 
 export type ArrayFieldDef<Of = any> = {
@@ -33,7 +34,7 @@ export class ArrayField<T extends ArrayFieldDef> extends FieldType<
 
   constructor(def: T) {
     super({ def: def, name: 'array' });
-    const { parseObjectField } = CircularDeps;
+    const { parseObjectField } = Internal;
 
     try {
       this.utils.listItemType = parseObjectField(`ListItem`, def.of, {

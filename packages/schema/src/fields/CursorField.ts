@@ -1,10 +1,10 @@
 import { createProxy } from '@powership/utils';
 
-import { CircularDeps } from '../CircularDeps';
 import type { ObjectType } from '../ObjectType';
+import type { FieldTypeParser } from '../applyValidator';
+import * as Internal from '../internal';
 
-import { FieldType, FieldTypeParser } from './FieldType';
-import { CursorType } from './_fieldDefinitions';
+import { FieldType } from './FieldType';
 
 const def = {
   PK: {
@@ -56,13 +56,17 @@ let cursorObject: ObjectType<CursorDef> | undefined;
 
 function getCursorObject() {
   // circular dependency
-  const { createObjectType } = CircularDeps.ObjectType as any;
+  const { createObjectType } = Internal;
   cursorObject = cursorObject || createObjectType('Cursor', def);
   return cursorObject;
 }
 
-export class CursorField extends FieldType<CursorType, 'cursor', undefined> {
-  parse: FieldTypeParser<CursorType>;
+export class CursorField extends FieldType<
+  Internal.CursorType,
+  'cursor',
+  undefined
+> {
+  parse: FieldTypeParser<Internal.CursorType>;
 
   utils: {
     object: ObjectType<CursorDef>;

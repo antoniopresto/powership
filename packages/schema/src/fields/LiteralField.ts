@@ -3,7 +3,9 @@ import { RuntimeError } from '@powership/utils';
 import { getTypeName } from '@powership/utils';
 import { Serializable } from '@powership/utils';
 
-import { FieldType, FieldTypeParser } from './FieldType';
+import type { FieldTypeParser } from '../applyValidator';
+
+import { FieldType } from './FieldType';
 
 const PROTO_KEY = '__o.proto__';
 

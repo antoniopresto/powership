@@ -1,6 +1,8 @@
 import { getTypeName } from '@powership/utils';
 
-import { FieldType, FieldTypeParser } from './FieldType';
+import type { FieldTypeParser } from '../applyValidator';
+
+import { FieldType } from './FieldType';
 import { FieldTypeError } from './FieldTypeErrors';
 
 export type UnknownFieldDef = {

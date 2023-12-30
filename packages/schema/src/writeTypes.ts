@@ -4,10 +4,10 @@ import { Process } from '@powership/utils';
 import { Emitter, mitt } from '@powership/utils';
 import { ensureFileSync, writeFileSync } from 'fs-extra';
 
-import { CircularDeps } from './CircularDeps';
 import { AnyResolver } from './Resolver';
 import { GraphTypeLike } from './fields/IObjectLike';
 import { LiteralField } from './fields/LiteralField';
+import * as Internal from './internal';
 
 const { serialize } = LiteralField.utils;
 
@@ -115,7 +115,7 @@ export async function writeTypes(options?: WriteTypesOptions) {
     item.footer && head.push(...item.footer);
   });
 
-  const typesInterface = await CircularDeps.objectToTypescript(
+  const typesInterface = await Internal.objectToTypescript(
     'RuntimeTypes',
     typesRecord
   );
@@ -137,7 +137,7 @@ export async function writeTypes(options?: WriteTypesOptions) {
     typesInterface,
   });
 
-  content = await CircularDeps.formatWithPrettier(content, {
+  content = await Internal.formatWithPrettier(content, {
     parser: 'typescript',
     singleQuote: true,
   });

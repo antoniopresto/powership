@@ -1,10 +1,10 @@
 import {
-  CircularDeps,
   createType,
   extendObjectDefinition,
   FinalFieldDefinition,
   FinalObjectDefinition,
   GraphType,
+  Internal,
   isFieldTypeName,
   ObjectDefinitionInput,
 } from '@powership/schema';
@@ -761,7 +761,7 @@ function _registerPKSKHook(input: {
 
       doc.ulid = (() => {
         if (doc.ulid) return doc.ulid;
-        return CircularDeps.ulid({ autoCreate: true }).parse(undefined);
+        return Internal.create.ulid({ autoCreate: true }).parse(undefined);
       })();
 
       doc.createdAt = new Date();

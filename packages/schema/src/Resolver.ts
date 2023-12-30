@@ -6,7 +6,6 @@ import {
   GraphQLResolveInfo,
 } from 'graphql';
 
-import { CircularDeps } from './CircularDeps';
 import { createType, GraphType } from './GraphType/GraphType';
 import { getInnerType } from './GraphType/getQueryTemplates';
 import { Infer } from './Infer';
@@ -16,6 +15,7 @@ import {
   ObjectDefinitionInput,
   ObjectFieldInput,
 } from './fields/_parseFields';
+import * as Internal from './internal';
 
 export type ResolverContextBase = {
   [K: string]: unknown;
@@ -108,7 +108,7 @@ function _createResolver(options: any): Resolver<any, any, any, any> {
 
   _resolvers.set(name, result);
 
-  CircularDeps.typesWriter?.PowershipWatchTypesPubSub.emit('created', {
+  Internal.PowershipWatchTypesPubSub.emit('created', {
     resolver: result,
   });
 

@@ -2,22 +2,15 @@ import {
   aggio,
   Aggregation,
   assertEqual,
-  createProxy,
   nonNullValues,
   ObjectPath,
   pick,
 } from '@powership/utils';
 
-import { CircularDeps } from '../CircularDeps';
-import { Infer } from '../Infer';
+import * as Internal from '../internal';
 
-import {
-  FieldComposer,
-  FieldType,
-  FieldTypeParser,
-  TAnyFieldType,
-} from './FieldType';
-import { FieldInput } from './_parseFields';
+import { FieldType } from './FieldType';
+import type { FieldInput } from './_parseFields';
 
 export type AliasFieldAggregation<Parent = any> = {
   type: FieldInput;
@@ -36,17 +29,17 @@ export type AliasFieldAggregation<Parent = any> = {
 export type AliasFieldDef = string | AliasFieldAggregation;
 
 export class AliasField<InputDef extends AliasFieldDef = any> extends FieldType<
-  InputDef extends { type: infer T } ? Infer<T> : any,
+  InputDef extends { type: infer T } ? Internal.Infer<T> : any,
   'alias',
   AliasFieldDef
 > {
-  parse: FieldTypeParser<any>;
+  parse: Internal.FieldTypeParser<any>;
 
-  utils: {
-    fieldType: TAnyFieldType;
+  utils = {} as {
+    fieldType: Internal.TAnyFieldType;
   };
 
-  composer: FieldComposer;
+  composer: Internal.FieldComposer;
 
   static is(input: any): input is AliasField {
     return input?.__isFieldType && input?.type === 'alias';
@@ -62,13 +55,16 @@ export class AliasField<InputDef extends AliasFieldDef = any> extends FieldType<
       name: 'alias',
     });
 
-    const type = CircularDeps.createType(
-      typeof def === 'string' ? 'any' : def.type
-    );
+    let fieldType: any = null;
 
-    this.utils = createProxy(() => ({
-      fieldType: type.__lazyGetter.field,
-    }));
+    Object.defineProperty(this.utils, 'fieldType', {
+      get() {
+        return (fieldType =
+          fieldType ||
+          Internal.createType(typeof def === 'string' ? 'any' : def.type)
+            .__lazyGetter.field);
+      },
+    });
 
     this.composer = {
       compose: (parent: Record<string, any>) => {

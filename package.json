@@ -1,6 +1,6 @@
 {
   "name": "powership",
-  "version": "3.2.0",
+  "version": "3.2.5-beta.0",
   "private": true,
   "scripts": {
     "pack": "run-s pack:*",
@@ -14,7 +14,8 @@
     "clear": "run-s clear:* && pnpm install",
     "clear:root": "rm -rf node_modules *-lock.yaml *-lock.json",
     "clear:packages": "run \"rm -rf node_modules *-lock.yaml *-lock.json\" out",
-    "beta": "bun run scripts/beta.ts"
+    "beta": "bun run scripts/beta.ts",
+    "beta-version": "bun run scripts/beta-version.ts"
   },
   "devDependencies": {
     "@powership/babel-plugins": "workspace:*",

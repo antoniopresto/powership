@@ -1,8 +1,9 @@
 import { expectedType } from '@powership/utils';
 
-import { CircularDeps } from '../CircularDeps';
+import type { FieldTypeParser } from '../applyValidator';
+import * as Internal from '../internal';
 
-import { FieldType, FieldTypeParser } from './FieldType';
+import { FieldType } from './FieldType';
 
 export type IDFieldDef = {
   autoCreate?: boolean;
@@ -15,7 +16,7 @@ export class IDField extends FieldType<string, 'ID', IDFieldDef> {
     super({ def: def, name: 'ID' });
     const { autoCreate } = def;
 
-    const createId = CircularDeps.ulid({ autoCreate: true }).parse;
+    const createId = Internal.create.ulid({ autoCreate: true }).parse;
 
     this.parse = this.applyParser({
       parse(input: string) {

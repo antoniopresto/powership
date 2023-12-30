@@ -11,61 +11,25 @@ import { invariantType } from '@powership/utils';
 import { Serializable } from '@powership/utils';
 import type { GraphQLInterfaceType, GraphQLObjectType } from 'graphql';
 
-import { CircularDeps, PowershipModules } from './CircularDeps';
 import type {
+  GraphQLParseMiddleware,
   GraphQLParserResult,
   ParseInputTypeOptions,
   ParseInterfaceOptions,
   ParseTypeOptions,
 } from './GraphType/GraphQLParser';
-import { GraphQLParseMiddleware } from './GraphType/GraphQLParser';
 import type { ObjectDefinitionInput } from './TObjectConfig';
-import {
-  FieldParserOptionsObject,
-  parseValidationError,
-  ValidationCustomMessage,
-} from './applyValidator';
-import {
-  extendObjectDefinition,
-  ExtendObjectDefinition,
-} from './extendObjectDefinition';
-import { FieldComposer } from './fields/FieldType';
-import { ObjectLike } from './fields/IObjectLike';
-import { InferObjectDefinition } from './fields/Infer';
-import {
-  cleanMetaField,
-  getObjectDefinitionMetaField,
-  isMetaFieldKey,
-  MetaFieldDef,
-  objectMetaFieldKey,
-} from './fields/MetaFieldField';
-import {
-  FieldTypeName,
-  SpecialObjectKeyEnum,
-} from './fields/_fieldDefinitions';
+import type { FieldComposer } from './fields/FieldType';
+import type { ObjectLike } from './fields/IObjectLike';
+import type { InferObjectDefinition } from './fields/Infer';
 import type {
   FieldAsString,
   FinalFieldDefinition,
   FinalObjectDefinition,
 } from './fields/_parseFields';
-import { validateObjectFields } from './getObjectErrors';
-import { getObjectHelpers, ObjectHelpers } from './getObjectHelpers';
-import { ImplementObject, implementObject } from './implementObject';
-import { isObjectType } from './objectInferenceUtils';
+import * as Internal from './internal';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
-import {
-  __getCachedFieldInstance,
-  parseObjectDefinition,
-} from './parseObjectDefinition';
-import { parseField } from './parseObjectDefinition';
 import { withCache, WithCache } from './withCache';
-
-export * from './parseObjectDefinition';
-export * from './objectInferenceUtils';
-export * from './implementObject';
-export * from './fields/_parseFields';
-export * from './fields/_fieldDefinitions';
-export * from './fields/_parseFields';
 
 export class ObjectType<
   Input,
@@ -78,16 +42,12 @@ export class ObjectType<
   static __isPowershipObject: boolean = true;
 
   __withCache: WithCache<{
-    helpers: ObjectHelpers;
+    helpers: Internal.ObjectHelpers;
   }>;
 
-  inputDefinition:
-    | ObjectDefinitionInput
-    | ((modules: PowershipModules) => ObjectDefinitionInput);
+  inputDefinition: ObjectDefinitionInput | (() => ObjectDefinitionInput);
 
-  constructor(
-    objectDef: HandledInput | ((modules: PowershipModules) => HandledInput)
-  ) {
+  constructor(objectDef: HandledInput | (() => HandledInput)) {
     this.inputDefinition = objectDef as ObjectDefinitionInput;
     this.__withCache = withCache(this);
   }
@@ -99,14 +59,15 @@ export class ObjectType<
       (() => {
         const objectDef =
           typeof this.inputDefinition === 'function'
-            ? this.inputDefinition(CircularDeps)
+            ? // @ts-ignore
+              this.inputDefinition(Internal)
             : this.inputDefinition;
 
         if (!objectDef || typeof objectDef !== 'object') {
           throw new Error('Expected object definition to be an object');
         }
 
-        return parseObjectDefinition(objectDef).definition;
+        return Internal.parseObjectDefinition(objectDef).definition;
       })());
   }
 
@@ -130,43 +91,43 @@ export class ObjectType<
     return cleanMetaField(this.clone((el) => el.def()));
   }
 
-  edit(): ExtendObjectDefinition<
+  edit(): Internal.ExtendObjectDefinition<
     { type: 'object'; def: HandledInput },
     { type: 'object'; def: HandledInput }
   > {
-    return extendObjectDefinition(this) as any;
+    return Internal.extendObjectDefinition(this) as any;
   }
 
-  get meta(): MetaFieldDef {
+  get meta(): Internal.MetaFieldDef {
     // @ts-ignore
-    return this.definition[objectMetaFieldKey].def;
+    return this.definition[Internal.objectMetaFieldKey].def;
   }
 
-  __setMetaData(k: keyof MetaFieldDef, value: Serializable) {
+  __setMetaData(k: keyof Internal.MetaFieldDef, value: Serializable) {
     // @ts-ignore
-    this.definition[objectMetaFieldKey].def[k] = value;
+    this.definition[Internal.objectMetaFieldKey].def[k] = value;
   }
 
   parse(
     input: any,
     options?: {
-      customMessage?: ValidationCustomMessage;
-    } & FieldParserOptionsObject
+      customMessage?: Internal.ValidationCustomMessage;
+    } & Internal.FieldParserOptionsObject
   ): InferObjectDefinition<HandledInput>;
 
   parse(
     input: any,
     options?: {
       partial: true;
-    } & FieldParserOptionsObject
+    } & Internal.FieldParserOptionsObject
   ): Partial<InferObjectDefinition<HandledInput>>;
 
   parse<Fields extends (keyof HandledInput)[]>(
     input: any,
     options: {
-      customMessage?: ValidationCustomMessage;
+      customMessage?: Internal.ValidationCustomMessage;
       fields: Fields;
-    } & FieldParserOptionsObject
+    } & Internal.FieldParserOptionsObject
   ): {
     [K in keyof InferObjectDefinition<HandledInput> as K extends Fields[number]
       ? K
@@ -177,7 +138,7 @@ export class ObjectType<
     input: any,
     options: {
       exclude: Fields;
-    } & FieldParserOptionsObject
+    } & Internal.FieldParserOptionsObject
   ): {
     [K in keyof InferObjectDefinition<HandledInput> as K extends Fields[number]
       ? never
@@ -186,7 +147,7 @@ export class ObjectType<
 
   parse(
     input: any,
-    options?: FieldParserOptionsObject
+    options?: Internal.FieldParserOptionsObject
   ): InferObjectDefinition<HandledInput> {
     const { customMessage, customErrorMessage } = options || {};
     const { errors, parsed } = this.safeParse(input, options);
@@ -198,7 +159,7 @@ export class ObjectType<
         e_message = `${this.id}: ${e_message}`;
       }
 
-      const err: any = parseValidationError(
+      const err: any = Internal.parseValidationError(
         input,
         customMessage || customErrorMessage,
         e_message
@@ -213,7 +174,7 @@ export class ObjectType<
 
   softParse = <T = any>(
     input: any,
-    options: FieldParserOptionsObject = {}
+    options: Internal.FieldParserOptionsObject = {}
   ): InferObjectDefinition<HandledInput> & { [K: string]: T } => {
     return this.parse(input, { ...options, allowExtraFields: true });
   };
@@ -230,11 +191,11 @@ export class ObjectType<
   safeParse(
     input: any,
     options?: {
-      customMessage?: ValidationCustomMessage;
+      customMessage?: Internal.ValidationCustomMessage;
       excludeInvalidListItems?: boolean;
       fields?: keyof HandledInput[];
       partial?: boolean;
-    } & FieldParserOptionsObject
+    } & Internal.FieldParserOptionsObject
   ): { errors: string[]; parsed: unknown } {
     const {
       partial = false,
@@ -284,18 +245,18 @@ export class ObjectType<
 
     // === Start handling {[K: string}: any}|{[K: number}: any} ===
     const anyStringKey = fields.find(
-      (field) => field === SpecialObjectKeyEnum.$string
+      (field) => field === Internal.SpecialObjectKeyEnum.$string
     );
 
     const anyNumberKey = fields.find(
-      (field) => field === SpecialObjectKeyEnum.$number
+      (field) => field === Internal.SpecialObjectKeyEnum.$number
     );
 
     if (anyNumberKey || anyStringKey) {
       const allFieldsSet = new Set(fields);
       const keysNotDefined = inputKeys.filter((k) => !allFieldsSet.has(k));
       fields = fields.filter(
-        (k) => !SpecialObjectKeyEnum.list.includes(k as any)
+        (k) => !Internal.SpecialObjectKeyEnum.list.includes(k as any)
       );
 
       if (anyStringKey) {
@@ -317,7 +278,7 @@ export class ObjectType<
 
     fields.forEach((currField): any => {
       if (currField.startsWith('$')) return; // special field
-      if (isMetaFieldKey(currField)) return;
+      if (Internal.isMetaFieldKey(currField)) return;
       if (exclude && exclude.includes(currField)) return;
 
       // @ts-ignore
@@ -326,7 +287,7 @@ export class ObjectType<
       if (!includeHidden && fieldDef.hidden) return;
 
       if (fieldDef.type === 'alias') {
-        const instance = __getCachedFieldInstance(fieldDef);
+        const instance = Internal.__getCachedFieldInstance(fieldDef);
         return fieldInputsList.push({
           composer: instance.composer!,
           fieldDef,
@@ -358,7 +319,7 @@ export class ObjectType<
     const notAliasFieldsResults = fieldInputsList.map((entry) => {
       const { key, fieldDef, value } = entry;
 
-      const result = validateObjectFields({
+      const result = Internal.validateObjectFields({
         definition: fieldDef,
         fieldName: key,
         fieldParserOptions: { excludeInvalidListItems },
@@ -387,7 +348,7 @@ export class ObjectType<
       const value = composer.compose(parsed);
       const fieldDef = composer.def;
 
-      const result = validateObjectFields({
+      const result = Internal.validateObjectFields({
         definition: fieldDef,
         fieldName: key,
         fieldParserOptions: { excludeInvalidListItems },
@@ -439,14 +400,14 @@ export class ObjectType<
 
   clone<T>(
     handler: (
-      input: ExtendObjectDefinition<
+      input: Internal.ExtendObjectDefinition<
         { object: HandledInput },
         { object: HandledInput }
       >
     ) => T
   ): T {
-    const parsed = parseField(this);
-    const input: any = extendObjectDefinition(parsed);
+    const parsed = Internal.parseField(this);
+    const input: any = Internal.extendObjectDefinition(parsed);
     return handler(input);
   }
 
@@ -483,8 +444,8 @@ export class ObjectType<
 
   helpers = () => {
     return this.__withCache('helpers', () =>
-      getObjectHelpers(this)
-    ) as ObjectHelpers;
+      Internal.getObjectHelpers(this)
+    ) as Internal.ObjectHelpers;
   };
 
   toGraphQL = (name?: string): GraphQLParserResult => {
@@ -501,7 +462,7 @@ export class ObjectType<
     }
 
     // @ts-ignore circular
-    const { GraphQLParser } = CircularDeps.GraphQLParser as any;
+    const { GraphQLParser } = Internal;
 
     return GraphQLParser.objectToGraphQL({
       object: this,
@@ -524,7 +485,7 @@ export class ObjectType<
 
   typescriptPrint = (options?: ObjectToTypescriptOptions): Promise<string> => {
     // @ts-ignore circular
-    return CircularDeps.objectToTypescript(
+    return Internal.objectToTypescript(
       this.nonNullId,
       // @ts-ignore
       this,
@@ -543,8 +504,12 @@ export class ObjectType<
   implement = <Parents extends ReadonlyArray<ObjectLike>>(
     name: string,
     ...parents: Parents
-  ): ImplementObject<ObjectType<HandledInput>, Parents> => {
-    return implementObject(name, this.definition as any, ...parents) as any;
+  ): Internal.ImplementObject<ObjectType<HandledInput>, Parents> => {
+    return Internal.implementObject(
+      name,
+      this.definition as any,
+      ...parents
+    ) as any;
   };
 
   static async reset() {
@@ -554,7 +519,7 @@ export class ObjectType<
 
     try {
       // only available server side or in tests
-      const { GraphQLParser, GraphType } = CircularDeps;
+      const { GraphQLParser, GraphType } = Internal;
       promises.push(GraphQLParser.reset(), GraphType.reset());
     } catch (e) {
       if (!isBrowser()) {
@@ -601,7 +566,7 @@ export class ObjectType<
   };
 
   static is(input: any): input is ObjectType<ObjectDefinitionInput> {
-    return isObjectType(input);
+    return Internal.isObjectType(input);
   }
 }
 
@@ -636,7 +601,8 @@ export function createObjectType<
     return ObjectType.getOrSet(id, fields);
   }
 
-  const idFromDefinition = getObjectDefinitionMetaField(fields)?.def?.id;
+  const idFromDefinition =
+    Internal.getObjectDefinitionMetaField(fields)?.def?.id;
 
   if (idFromDefinition) {
     return ObjectType.getOrSet(idFromDefinition, fields) as any;
@@ -655,7 +621,7 @@ type _HandleInput<T> = [IsKnown<T>] extends [1]
         | { parse(...args: any): any }
         | any[]
         | Readonly<any[]>
-        | { [K in FieldTypeName]?: any }
+        | { [K in Internal.FieldTypeName]?: any }
         | FieldAsString
         | { type: any }
         ? K

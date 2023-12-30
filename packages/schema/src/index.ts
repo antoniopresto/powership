@@ -28,4 +28,8 @@ export * from './createGraphQLSchema';
 // @only-server
 export type { ResolverKind } from './createGraphQLSchema';
 
-export { CircularDeps } from './CircularDeps';
+import * as Internal from './internal';
+
+export { Internal };
+
+export * from './internal';

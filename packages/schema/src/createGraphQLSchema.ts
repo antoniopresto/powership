@@ -4,16 +4,15 @@ import { groupBy, tupleEnum } from '@powership/utils';
 import type { GraphQLSchemaConfig } from 'graphql';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
-import { CircularDeps } from './CircularDeps';
 import { generateClientUtils } from './GraphType/generateClientUtils';
 import { getInnerGraphTypeId } from './GraphType/getInnerGraphTypeId';
 import {
   getSchemaQueryTemplates,
   SchemaQueryTemplatesResult,
 } from './GraphType/getQueryTemplates';
-import { parseFieldDefinitionConfig } from './ObjectType';
 import { _resolvers, AnyResolver } from './Resolver';
 import { cleanMetaField } from './fields/MetaFieldField';
+import * as Internal from './internal';
 import { objectMock, ObjectMockOptions } from './mockObject';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
 
@@ -51,9 +50,7 @@ export function createGraphQLSchema<Config>(
 ): Config extends CreateGraphQLObjectOptions ? GraphQLSchemaWithUtils : never;
 
 export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
-  const {
-    graphql: { GraphQLSchema },
-  } = CircularDeps;
+  const { GraphQLSchema } = Internal;
 
   const registeredResolvers = _resolvers.entries.map((el) => el[1]);
 
@@ -220,7 +217,7 @@ export async function resolversTypescriptParts(
       .replace(/\n\n/gm, '\n') // remove multi line breaks
       .replace(/^\n/gm, ''); // remove empty lines
 
-  code = (await CircularDeps.formatWithPrettier(code, {
+  code = (await Internal.formatWithPrettier(code, {
     parser: 'typescript',
   })) as any;
 
@@ -237,7 +234,7 @@ export async function resolversToTypescript(
 
   return format
     ? // @ts-ignore circular
-      (CircularDeps.formatWithPrettier(code, {
+      (Internal.formatWithPrettier(code, {
         parser: 'typescript',
         printWidth: 100,
       }) as any)
@@ -307,12 +304,14 @@ async function convertType(options: {
 }) {
   const { entryName, type, kind } = options;
 
-  const parsed = parseFieldDefinitionConfig(type, { deep: { omitMeta: true } });
+  const parsed = Internal.parseFieldDefinitionConfig(type, {
+    deep: { omitMeta: true },
+  });
 
   const { description } = parsed;
 
   // @ts-ignore circular
-  const result = (await CircularDeps.objectToTypescript(
+  const result = (await Internal.objectToTypescript(
     entryName,
     {
       CONVERT__REPLACE: {

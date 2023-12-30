@@ -1,15 +1,20 @@
-import { Compute, Merge, OnlyKnown } from '@powership/utils';
+import type { Compute, Merge, OnlyKnown } from '@powership/utils';
 
-import { ParseStringDefinition } from '../../parseStringDefinition';
-import {
+import type { ParseStringDefinition } from '../../parseStringDefinition';
+import type {
   CommonFieldDefinitionProps,
   FieldTypeName,
 } from '../_fieldDefinitions';
-import { FinalFieldDefinition } from '../_parseFields';
+import type { FinalFieldDefinition } from '../_parseFields';
 
-import { _FieldKV, _GetKey, GraphTypeKID, ObjectTypeKID } from './InferField';
-import { GraphTypeLikeFieldDefinition } from './InferGraphType';
-import { ObjectTypeLikeFieldDefinition } from './InferObjectType';
+import type {
+  _FieldKV,
+  _GetKey,
+  GraphTypeKID,
+  ObjectTypeKID,
+} from './InferField';
+import type { GraphTypeLikeFieldDefinition } from './InferGraphType';
+import type { ObjectTypeLikeFieldDefinition } from './InferObjectType';
 
 export const $sealedKey = '___sealed';
 export type $sealedKey = typeof $sealedKey;

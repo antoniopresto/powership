@@ -1,13 +1,13 @@
 {
   "name": "@powership/babel-plugins",
-  "version": "3.2.0",
+  "version": "3.2.5-beta.0",
   "main": "out",
   "sideEffects": false,
   "typings": "out",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "echo ok",
+    "test": "echo 0",
     "build": "rm -rf out && tsc && tsc -p tsconfig.module.json",
     "prepublishOnly": "npm run fix && npm run build",
     "build-targets": "run-p build",
@@ -18,7 +18,9 @@
   "description": "powership babel plugins",
   "keywords": [],
   "dependencies": {
-    "@babel/core": "7.19.3",
+    "@babel/core": "7.23.7",
+    "@babel/types": "7.23.6",
+    "@types/babel__core": "7.20.5",
     "@typescript-eslint/eslint-plugin": "5.39.0",
     "@typescript-eslint/parser": "5.39.0",
     "babel-plugin-add-import-extension": "1.6.0",

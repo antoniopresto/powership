@@ -5,9 +5,10 @@ import type {
   PhoneNumberTypes,
 } from '@powership/utils/out/parsePhoneNumber';
 
-import { CircularDeps } from '../CircularDeps';
+import type { FieldTypeParser } from '../applyValidator';
+import * as Internal from '../internal';
 
-import { FieldType, FieldTypeParser } from './FieldType';
+import { FieldType } from './FieldType';
 import { FieldTypeError } from './FieldTypeErrors';
 
 export type { PhoneNumberTypes, ParsedPhoneNumber };
@@ -36,10 +37,9 @@ export function _backendValidatePhoneNumber(
     });
   }
 
-  let { valid, type } =
-    CircularDeps.parsePhoneNumberServerSide.parsePhoneNumber(input, {
-      regionCode: regionCode,
-    });
+  let { valid, type } = Internal.parsePhoneNumberServerSide(input, {
+    regionCode: regionCode,
+  });
 
   if (valid && numberType) {
     valid = type === numberType;
@@ -73,8 +73,7 @@ export function validatePhoneNumber(
 
   const hasAPV = (() => {
     try {
-      return !!CircularDeps.parsePhoneNumberServerSide
-        ?.parsePhoneNumber as boolean;
+      return !!Internal.parsePhoneNumberServerSide;
     } catch (e) {
       return false;
     }

@@ -1,36 +1,33 @@
 import { getKeys } from '@powership/utils';
 
-import type { FinalFieldDefinition } from './ObjectType';
-import { TAnyFieldType } from './fields/FieldType';
-import { isMetaFieldKey, MetaFieldDef } from './fields/MetaFieldField';
-import { __getCachedFieldInstance } from './parseObjectDefinition';
+import * as Internal from './internal';
 
 export type ObjectFieldListItem = {
-  instance: TAnyFieldType;
+  instance: Internal.TAnyFieldType;
   name: string;
-  plainField: FinalFieldDefinition;
+  plainField: Internal.FinalFieldDefinition;
 };
 
 export type ObjectHelpers = {
   keys: string[];
   list: ObjectFieldListItem[];
-  meta: MetaFieldDef | undefined;
+  meta: Internal.MetaFieldDef | undefined;
 };
 
 export function getObjectHelpers(object: any): ObjectHelpers {
   const list: ObjectFieldListItem[] = [];
   const definition = object.definition;
   const keys = getKeys(object.definition);
-  let meta: MetaFieldDef | undefined;
+  let meta: Internal.MetaFieldDef | undefined;
 
   keys.forEach((fieldName) => {
     const field = definition[fieldName];
 
-    if (isMetaFieldKey(fieldName)) {
+    if (Internal.isMetaFieldKey(fieldName)) {
       return (meta = field.def);
     }
 
-    const instance = __getCachedFieldInstance(field);
+    const instance = Internal.__getCachedFieldInstance(field);
 
     if (instance.asFinalFieldDef.hidden) return;
 

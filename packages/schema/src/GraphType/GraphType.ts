@@ -10,35 +10,12 @@ import type {
   GraphQLNamedType,
 } from 'graphql';
 
-import { CircularDeps, PowershipModules } from '../CircularDeps';
-import { Infer } from '../Infer';
-import {
-  createObjectType,
-  FinalFieldDefinition,
-  ObjectDefinitionInput,
-  parseField,
-} from '../ObjectType';
-import { _resolvers } from '../Resolver';
-import { FieldDefinitionConfig } from '../TObjectConfig';
-import {
-  extendObjectDefinition,
-  ExtendObjectDefinition,
-} from '../extendObjectDefinition';
-import {
-  extendType,
-  ExtendType,
-  MakeTypeList,
-  MakeTypeOptional,
-  MakeTypeRequired,
-  MakeTypeSingle,
-} from '../extendType';
-import { FieldParserConfig, TAnyFieldType } from '../fields/FieldType';
-import { GraphTypeLike } from '../fields/IObjectLike';
-import { ObjectFieldInput } from '../fields/_parseFields';
+import type { GraphTypeLike } from '../fields/IObjectLike';
+import type { ObjectFieldInput } from '../fields/_parseFields';
+import * as Internal from '../internal';
 import type { ObjectToTypescriptOptions } from '../objectToTypescript';
 
 import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
-import { initGraphType } from './initGraphType';
 
 export class GraphType<Definition extends ObjectFieldInput> {
   static assert(type: any): asserts type is GraphType<any> {
@@ -55,7 +32,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   static register = createStore<Record<string, GraphTypeLike>>();
 
   static reset = async () => {
-    _resolvers.clear();
+    Internal._resolvers.clear();
     this.register.clear();
   };
 
@@ -66,11 +43,10 @@ export class GraphType<Definition extends ObjectFieldInput> {
 
     throw new RuntimeError(
       [
-        'The method you are trying to execute needs the graphType used to be identified.' +
-          ' Use ``myType.identify("name")`` and try again.',
-        'You can also read that information from ``myType.optionalId.``',
-        '',
-        '',
+        'The method you are trying to execute expects the GraphType used to be previously identified.\n' +
+          'Examples:\n' +
+          ' - `myNiceType.identify("Foo")`\n' +
+          " - `createType('Bar', FieldDefinition)`",
       ].join('\n'),
       this.__lazyGetter.definitionInput
     );
@@ -96,7 +72,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   );
 
   constructor(...args: GraphTypeArgs) {
-    initGraphType(this, args);
+    Internal.initGraphType(this, args);
   }
 
   // used to lazy process input definition to improve circular dependency in types
@@ -119,7 +95,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
       //
     } else {
       if (!isBrowser()) {
-        CircularDeps.typesWriter?.PowershipWatchTypesPubSub.emit('created', {
+        Internal.PowershipWatchTypesPubSub.emit('created', {
           graphType: this as any,
         });
       }
@@ -136,7 +112,10 @@ export class GraphType<Definition extends ObjectFieldInput> {
     return this.__hidden;
   }
 
-  parse = (input: any, options?: FieldParserConfig): Infer<Definition> => {
+  parse = (
+    input: any,
+    options?: Internal.FieldParserConfig
+  ): Internal.Infer<Definition> => {
     const field = this.__lazyGetter.field;
 
     try {
@@ -163,7 +142,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
 
   _toGraphQL = (): ConvertFieldResult => {
     // @ts-ignore
-    return CircularDeps.GraphQLParser.fieldToGraphQL({
+    return Internal.GraphQLParser.fieldToGraphQL({
       field: this.__lazyGetter.field,
       fieldName: this.id,
       parentName: this.id,
@@ -190,19 +169,21 @@ export class GraphType<Definition extends ObjectFieldInput> {
       throw new Error('graphQLInterface is only available for object type');
     }
     // @ts-ignore
-    return CircularDeps.GraphQLParser.objectToGraphQL({
+    return Internal.GraphQLParser.objectToGraphQL({
       object: this.__lazyGetter.objectType,
     }).interfaceType(...args) as any;
   };
 
-  clone<T>(handler: (input: ExtendObjectDefinition<this, this>) => T): T {
-    const parsed = parseField(this.definition);
-    const input: any = extendObjectDefinition(parsed);
+  clone<T>(
+    handler: (input: Internal.ExtendObjectDefinition<this, this>) => T
+  ): T {
+    const parsed = Internal.parseField(this.definition);
+    const input: any = Internal.extendObjectDefinition(parsed);
     return handler(input);
   }
 
-  override<T>(handler: (input: ExtendType<this>) => T): T {
-    const input = extendType(this.definition) as any;
+  override<T>(handler: (input: Internal.ExtendType<this>) => T): T {
+    const input = Internal.extendType(this.definition) as any;
     return handler(input);
   }
 
@@ -210,8 +191,8 @@ export class GraphType<Definition extends ObjectFieldInput> {
     definition: LazyParseGraphTypePayload
   ) => LazyParseGraphTypePayload)[] = [];
 
-  mutateFields<Def extends ObjectDefinitionInput>(
-    callback: (input: ExtendObjectDefinition<this, this>) => Def
+  mutateFields<Def extends Internal.ObjectDefinitionInput>(
+    callback: (input: Internal.ExtendObjectDefinition<this, this>) => Def
   ): GraphType<{ object: Def }> {
     if (this.touched) {
       throw new Error(
@@ -231,9 +212,9 @@ export class GraphType<Definition extends ObjectFieldInput> {
       }
 
       try {
-        const input: any = extendObjectDefinition(payload.definition);
+        const input: any = Internal.extendObjectDefinition(payload.definition);
         payload.definition.def = callback(input);
-        payload.objectType = createObjectType({
+        payload.objectType = Internal.createObjectType({
           [this.id]: this.definition,
         }) as any;
         (payload.field as any).utils.object = payload.objectType;
@@ -254,7 +235,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
     const inputType = this.graphQLInputType();
 
     // @ts-ignore circular
-    const { GraphQLSchema, printSchema } = CircularDeps.graphql as any;
+    const { GraphQLSchema, printSchema } = Internal;
 
     const object = new GraphQLSchema({
       // @ts-ignore
@@ -272,18 +253,18 @@ export class GraphType<Definition extends ObjectFieldInput> {
     // @ts-ignore
     const object =
       this.__lazyGetter.objectType ||
-      createObjectType({
+      Internal.createObjectType({
         [name]: this.definition,
       });
 
     // @ts-ignore circular
-    return CircularDeps.objectToTypescript(name, object, options) as any;
+    return Internal.objectToTypescript(name, object, options) as any;
   };
 
   optionalType = (
     name?: string
   ): Definition extends unknown
-    ? GraphType<MakeTypeOptional<Definition>>
+    ? GraphType<Internal.MakeTypeOptional<Definition>>
     : never => {
     let _id = name || this.optionalId;
     _id = _id ? `${_id}Optional` : undefined;
@@ -293,7 +274,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   requiredType = (
     name?: string
   ): Definition extends unknown
-    ? GraphType<MakeTypeRequired<Definition>>
+    ? GraphType<Internal.MakeTypeRequired<Definition>>
     : never => {
     let _id = name || this.optionalId;
     _id = _id ? `${_id}NotNull` : undefined;
@@ -303,7 +284,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   listType = (
     name?: string
   ): Definition extends unknown
-    ? GraphType<MakeTypeList<Definition>>
+    ? GraphType<Internal.MakeTypeList<Definition>>
     : never => {
     let _id = name || this.optionalId;
     _id = _id ? `${_id}List` : undefined;
@@ -313,7 +294,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   singleType = (
     name?: string
   ): Definition extends unknown
-    ? GraphType<MakeTypeSingle<Definition>>
+    ? GraphType<Internal.MakeTypeSingle<Definition>>
     : never => {
     let _id = name || this.optionalId;
     _id = _id ? `${_id}Item` : undefined;
@@ -326,7 +307,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
    * @param id
    * @param def
    */
-  static getOrSet = <T extends FieldDefinitionConfig>(
+  static getOrSet = <T extends Internal.FieldDefinitionConfig>(
     id: string,
     def: T
   ): GraphType<T> => {
@@ -357,27 +338,25 @@ export class GraphType<Definition extends ObjectFieldInput> {
 
 export type LazyParseGraphTypePayload = {
   // id can be from args or from the inner type, like an object type with id
-  definition: FinalFieldDefinition;
-  definitionInput:
-    | ObjectFieldInput
-    | ((utils: PowershipModules) => ObjectFieldInput);
-  field: TAnyFieldType;
+  definition: Internal.FinalFieldDefinition;
+  definitionInput: ObjectFieldInput | (() => ObjectFieldInput);
+  field: Internal.TAnyFieldType;
   id: string | undefined;
   idFromArgs: string | undefined;
   objectType?: any;
 };
 
 export type GraphTypeArgs<Def extends ObjectFieldInput = ObjectFieldInput> =
-  | [string, Def | ((utils: PowershipModules) => Def)]
-  | [Def | ((utils: PowershipModules) => Def)];
+  | [string, Def | (() => Def)]
+  | [Def | (() => Def)];
 
 export function createType<Definition extends ObjectFieldInput>(
-  definition: Definition | ((utils: PowershipModules) => Definition)
+  definition: Definition | (() => Definition)
 ): GraphType<Definition>;
 
 export function createType<Definition extends ObjectFieldInput>(
   name: string,
-  definition: Definition | ((utils: PowershipModules) => Definition)
+  definition: Definition | (() => Definition)
 ): GraphType<Definition>;
 
 export function createType(...args: any[]) {

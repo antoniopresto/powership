@@ -1,11 +1,10 @@
 import * as fs from 'fs-extra';
 
-import { CircularDeps } from '../CircularDeps';
-import { parseFieldDefinitionConfig } from '../ObjectType';
 import {
   GraphQLSchemaWithUtils,
   resolversTypescriptParts,
 } from '../createGraphQLSchema';
+import * as Internal from '../internal';
 
 import {
   getSchemaQueryTemplates,
@@ -133,7 +132,7 @@ export async function generateClientUtils(
     helpersText,
   ].join('\n');
 
-  return await CircularDeps.formatWithPrettier(result, {
+  return await Internal.formatWithPrettier(result, {
     parser: 'typescript',
     singleQuote: true,
   });
@@ -169,7 +168,7 @@ export async function saveGraphQLClientUtils(
 }
 
 function rehydrateType(name: string, field: any) {
-  const parsed = parseFieldDefinitionConfig(field, {
+  const parsed = Internal.parseFieldDefinitionConfig(field, {
     deep: { omitMeta: true },
   });
   const json = JSON.stringify(parsed);

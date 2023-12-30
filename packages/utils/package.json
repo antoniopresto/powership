@@ -1,10 +1,10 @@
 {
   "name": "@powership/utils",
-  "version": "3.2.0",
+  "version": "3.2.5-beta.0",
   "typings": "out",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
-  "#type": "module",
+  "type": "module",
   "main": "./out/index.cjs",
   "module": "./out/module/index.mjs",
   "types": "./out/index.d.ts",

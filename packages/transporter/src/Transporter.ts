@@ -1,4 +1,4 @@
-import { CircularDeps } from '@powership/schema';
+import { create } from '@powership/schema';
 import {
   Cast,
   Compute,
@@ -339,27 +339,21 @@ export const FilterConditionsParsers: {
 
       return input as any;
     },
-    $contains: CircularDeps.union([
-      'string',
-      'float',
-      'boolean',
-      'null',
-    ] as const).parse,
-    $eq: CircularDeps.union(['null', 'boolean', 'string', 'float'] as const)
+    $contains: create.union(['string', 'float', 'boolean', 'null'] as const)
       .parse,
-    $exists: CircularDeps.boolean().parse,
-    $gt: CircularDeps.union(['string', 'float'] as const).parse,
+    $eq: create.union(['null', 'boolean', 'string', 'float'] as const).parse,
+    $exists: create.boolean().parse,
+    $gt: create.union(['string', 'float'] as const).parse,
 
-    $gte: CircularDeps.union(['string', 'float'] as const).parse,
+    $gte: create.union(['string', 'float'] as const).parse,
 
-    $in: CircularDeps.unknown().toList().parse as any,
+    $in: create.unknown().toList().parse as any,
 
-    $lt: CircularDeps.union(['string', 'float'] as const).parse,
+    $lt: create.union(['string', 'float'] as const).parse,
 
-    $lte: CircularDeps.union(['string', 'float'] as const).parse,
-    $matchString: CircularDeps.string().parse,
-    $ne: CircularDeps.union(['null', 'boolean', 'string', 'float'] as const)
-      .parse,
+    $lte: create.union(['string', 'float'] as const).parse,
+    $matchString: create.string().parse,
+    $ne: create.union(['null', 'boolean', 'string', 'float'] as const).parse,
     $not(input: unknown) {
       assertFieldFilter(input);
       return input;
@@ -376,7 +370,7 @@ export const FilterConditionsParsers: {
       });
     },
 
-    $startsWith: CircularDeps.string().parse,
+    $startsWith: create.string().parse,
 
     $type(input: any): TransporterFieldType {
       return FieldTypes.includes(input)

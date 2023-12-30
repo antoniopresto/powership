@@ -1,7 +1,7 @@
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
-import { CircularDeps } from '../../CircularDeps';
+import * as Internal from '../../internal';
 import { Infer } from '../../Infer';
 import { createObjectType, ObjectType } from '../../ObjectType';
 import { createResolver } from '../../Resolver';
@@ -290,10 +290,7 @@ describe('createType', () => {
   });
 
   it('should print typescript', async () => {
-    const ts = await CircularDeps.createType(
-      'IntHem',
-      'int?'
-    ).typescriptPrint();
+    const ts = await Internal.createType('IntHem', 'int?').typescriptPrint();
 
     expect(ts.split('\n')).toEqual([
       'export interface IntHem {',
@@ -302,7 +299,7 @@ describe('createType', () => {
       '',
     ]);
 
-    const tsObject = await CircularDeps.createType('Person', {
+    const tsObject = await Internal.createType('Person', {
       object: { name: 'string' },
     }).typescriptPrint();
 

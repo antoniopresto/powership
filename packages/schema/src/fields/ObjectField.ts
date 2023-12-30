@@ -4,17 +4,17 @@
 
 import { createProxy, TypeLike } from '@powership/utils';
 
-import { CircularDeps } from '../CircularDeps';
-import type { ObjectDefinitionInput } from '../ObjectType';
+import * as Internal from '../internal';
 
-import { FieldType, FieldTypeParser, isFieldInstance } from './FieldType';
+import { FieldType, isFieldInstance } from './FieldType';
+import type { ObjectDefinitionInput } from './_parseFields';
 
 type AnyObjectField = TypeLike<(typeof ObjectField)['prototype']>;
 
 export class ObjectField<
   DefinitionInput extends ObjectDefinitionInput
 > extends FieldType<unknown, 'object', DefinitionInput> {
-  parse: FieldTypeParser<unknown>;
+  parse: Internal.FieldTypeParser<unknown>;
 
   utils: {
     object: any;
@@ -29,7 +29,7 @@ export class ObjectField<
 
     this.utils = createProxy(() => ({
       // @ts-ignore circular
-      object: CircularDeps.createObjectType(def as any) as any,
+      object: Internal.createObjectType(def as any) as any,
     }));
 
     this.parse = this.applyParser({

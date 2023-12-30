@@ -1,4 +1,4 @@
-import { CircularDeps } from '../../CircularDeps';
+import * as Internal from '../../internal';
 import { createType } from '../../GraphType/GraphType';
 import { createObjectType, resetTypesCache } from '../../ObjectType';
 import { tsfy } from '../tsfy';
@@ -60,7 +60,7 @@ describe('stringify', () => {
 
     const sut = await tsfy({ graphType, objectType }).toString();
 
-    const pretty = await CircularDeps.formatWithPrettier(sut, {
+    const pretty = await Internal.formatWithPrettier(sut, {
       parser: 'typescript',
     });
 

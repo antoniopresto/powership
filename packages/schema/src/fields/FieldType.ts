@@ -1,29 +1,18 @@
 import { inspectObject, simpleObjectClone } from '@powership/utils';
 
-import { CircularDeps } from '../CircularDeps';
-import { CustomFieldConfig } from '../CustomFieldConfig';
-import {
-  FieldParserOptionsObject,
-  FieldTypeParser,
-  parseValidationError,
-  ValidationCustomMessage,
-} from '../applyValidator';
+import * as Internal from '../internal';
 
-import { arrayFieldParse } from './ArrayFieldParse';
-import { FieldTypeError, isFieldError } from './FieldTypeErrors';
-import { $inferableKey } from './Infer';
-import {
+import type {
   FieldDefinitions,
   FieldTypeName,
   ListDefinitionObject,
   ListDefinitionTruthy,
 } from './_fieldDefinitions';
-import {
+import type {
   AllFinalFieldDefinitions,
   FinalFieldDefinition,
   FinalFieldDefinitionStrict,
 } from './_parseFields';
-export * from '../applyValidator';
 
 export type FieldTypeOptions = ListDefinitionObject & { [K: string]: unknown };
 
@@ -56,7 +45,7 @@ export abstract class FieldType<
 
   readonly def: Def;
 
-  [$inferableKey]: ([List] extends [1] ? Type[] : Type) extends infer R
+  [Internal.$inferableKey]: ([List] extends [1] ? Type[] : Type) extends infer R
     ? [Optional] extends [1]
       ? R | undefined
       : R
@@ -137,7 +126,7 @@ export abstract class FieldType<
   defaultValue: DefaultValue;
   description?: string;
   hidden?: boolean;
-  $?: CustomFieldConfig;
+  $?: Internal.CustomFieldConfig;
 
   describe = (description: string): this => {
     this.description = description;
@@ -152,7 +141,7 @@ export abstract class FieldType<
     list: [List] extends [1] ? true : false;
     optional: [Optional] extends [1] ? true : false;
     type: Type;
-    $?: CustomFieldConfig;
+    $?: Internal.CustomFieldConfig;
   } => {
     return this.asFinalFieldDef as any;
   };
@@ -189,14 +178,16 @@ export abstract class FieldType<
   }
 
   applyParser = <Type>(parser: {
-    parse(input: any, _options: FieldParserOptionsObject): Type;
+    parse(input: any, _options: Internal.FieldParserOptionsObject): Type;
     preParse?(input: any): Type;
-  }): FieldTypeParser<Type> => {
+  }): Internal.FieldTypeParser<Type> => {
     return (
       input: any,
-      _options?: ValidationCustomMessage | FieldParserOptionsObject
+      _options?:
+        | Internal.ValidationCustomMessage
+        | Internal.FieldParserOptionsObject
     ) => {
-      let options: FieldParserOptionsObject = {};
+      let options: Internal.FieldParserOptionsObject = {};
 
       if (typeof _options === 'function') {
         options = { customErrorMessage: _options };
@@ -238,11 +229,11 @@ export abstract class FieldType<
       }
 
       if (input === undefined && !this.optional) {
-        throw new FieldTypeError('requiredField');
+        throw new Internal.FieldTypeError('requiredField');
       }
 
       if (this.asFinalFieldDef.list) {
-        return arrayFieldParse({
+        return Internal.arrayFieldParse({
           arrayOptions: {}, // since is the shot definition (list:true) there is no options
           input,
           parser: (input) => parser.parse(input, options),
@@ -253,11 +244,15 @@ export abstract class FieldType<
       try {
         return parser.parse(input, options) as any;
       } catch (originalError: any) {
-        if (!customMessage && isFieldError(originalError)) {
+        if (!customMessage && Internal.isFieldError(originalError)) {
           throw originalError;
         }
 
-        throw parseValidationError(input, customMessage, originalError);
+        throw Internal.parseValidationError(
+          input,
+          customMessage,
+          originalError
+        );
       }
     };
   };
@@ -283,7 +278,7 @@ export abstract class FieldType<
     return res as any;
   }
 
-  abstract parse: FieldTypeParser<Type>;
+  abstract parse: Internal.FieldTypeParser<Type>;
 
   readonly __isFieldType = true;
 
@@ -322,7 +317,7 @@ export abstract class FieldType<
       }
     }
 
-    return CircularDeps.fieldInstanceFromDef(field) as any;
+    return Internal.fieldInstanceFromDef(field) as any;
   };
 }
 

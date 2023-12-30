@@ -1,15 +1,18 @@
-import { GetFieldByDotNotation, OnlyKnown } from '@powership/utils';
+import type { GetFieldByDotNotation, OnlyKnown } from '@powership/utils';
 
-import { FieldTypeName } from '../_fieldDefinitions';
+import type { FieldTypeName } from '../_fieldDefinitions';
 
-import { $inferableKey } from './DescribeField';
-import { InferFinalField } from './InferFinalField';
-import { GraphTypeLikeFieldDefinition, InferGraphType } from './InferGraphType';
-import {
+import type { $inferableKey } from './DescribeField';
+import type { InferFinalField } from './InferFinalField';
+import type {
+  GraphTypeLikeFieldDefinition,
+  InferGraphType,
+} from './InferGraphType';
+import type {
   InferObjectType,
   ObjectTypeLikeFieldDefinition,
 } from './InferObjectType';
-import { InferString } from './InferString';
+import type { InferString } from './InferString';
 
 export type InferField<Input> =
   //

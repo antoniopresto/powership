@@ -1,6 +1,8 @@
 import { expectedType } from '@powership/utils';
 
-import { FieldType, FieldTypeParser } from './FieldType';
+import type { FieldTypeParser } from '../applyValidator';
+
+import { FieldType } from './FieldType';
 
 export class NullField extends FieldType<string, 'null', undefined> {
   parse: FieldTypeParser<string>;

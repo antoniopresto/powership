@@ -23,7 +23,7 @@ import { UlidField } from './UlidField';
 import { UndefinedField } from './UndefinedField';
 import { UnionField } from './UnionField';
 import { UnknownField } from './UnknownField';
-import { FieldTypeName } from './_fieldDefinitions';
+import type { FieldTypeName } from './_fieldDefinitions';
 
 export * from './AnyField';
 export * from './BooleanField';
@@ -46,6 +46,8 @@ export * from './UndefinedField';
 export * from './UnionField';
 export * from './UnknownField';
 export * from './AliasField';
+export * from './PhoneField';
+export * from './ArrayField';
 
 function createConstructors<T extends { [K in FieldTypeName]: any }>(
   input: T

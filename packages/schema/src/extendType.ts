@@ -6,36 +6,28 @@ import {
   wrapError,
 } from '@powership/utils';
 
-import { CircularDeps } from './CircularDeps';
 import type { GraphType } from './GraphType/GraphType';
-import {
-  deleteCachedFieldInstance,
-  FinalFieldDefinition,
-  ObjectType,
-  parseField,
-} from './ObjectType';
-import { DescribeAndOverrideField, DescribeWithoutSeal } from './fields/Infer';
-import { objectMetaFieldKey } from './fields/MetaFieldField';
+import * as Internal from './internal';
 
 export interface ExtendType<Input> {
-  definition: DescribeWithoutSeal<Input>;
+  definition: Internal.DescribeWithoutSeal<Input>;
 
   def(): this['definition'];
 
-  extend<V extends FinalFieldDefinition>(
+  extend<V extends Internal.FinalFieldDefinition>(
     value: V | ((current: this['definition']) => V)
   ): ExtendType<Omit<this['definition'], keyof V> & V>;
 
   graphType(
     name?: string
-  ): GraphType<Cast<this['definition'], FinalFieldDefinition>>;
+  ): GraphType<Cast<this['definition'], Internal.FinalFieldDefinition>>;
 
   objectType(
     name?: string
-  ): ObjectType<
+  ): Internal.ObjectType<
     Cast<
       this['definition'],
-      { def: { [K: string]: FinalFieldDefinition } }
+      { def: { [K: string]: Internal.FinalFieldDefinition } }
     >['def']
   >;
 
@@ -50,8 +42,8 @@ export interface ExtendType<Input> {
 
 export function extendType<Input>(input: Input): ExtendType<Input> {
   const clone = wrapError(() => {
-    const parsed = parseField(input as any);
-    const withoutCache = deleteCachedFieldInstance(parsed);
+    const parsed = Internal.parseField(input as any);
+    const withoutCache = Internal.deleteCachedFieldInstance(parsed);
     return simpleObjectClone(withoutCache);
   }, extendType);
 
@@ -71,9 +63,7 @@ export function extendType<Input>(input: Input): ExtendType<Input> {
 
     graphType(name) {
       const def = res.def();
-      return name
-        ? CircularDeps.createType(name, def)
-        : CircularDeps.createType(def);
+      return name ? Internal.createType(name, def) : Internal.createType(def);
     },
 
     objectType(name) {
@@ -83,13 +73,13 @@ export function extendType<Input>(input: Input): ExtendType<Input> {
         throw new Error(`Can't convert "${type}" to ObjectType.`);
       }
 
-      if (objectMetaFieldKey in def) {
-        delete def[objectMetaFieldKey];
+      if (Internal.objectMetaFieldKey in def) {
+        delete def[Internal.objectMetaFieldKey];
       }
 
       return name
-        ? CircularDeps.ObjectType.createObjectType(name, def)
-        : CircularDeps.ObjectType.createObjectType(def);
+        ? Internal.createObjectType(name, def)
+        : Internal.createObjectType(def);
     },
 
     optional() {
@@ -123,19 +113,19 @@ export function extendType<Input>(input: Input): ExtendType<Input> {
   return res as any;
 }
 
-export type MakeTypeOptional<Type> = DescribeAndOverrideField<
+export type MakeTypeOptional<Type> = Internal.DescribeAndOverrideField<
   Type,
   { optional: true }
 >;
 
-export type MakeTypeRequired<Type> = DescribeAndOverrideField<
+export type MakeTypeRequired<Type> = Internal.DescribeAndOverrideField<
   Type,
   { optional: false }
 >;
 
 export type MakeTypeList<Type> = { array: { of: Type } };
 
-export type MakeTypeSingle<Type> = DescribeAndOverrideField<
+export type MakeTypeSingle<Type> = Internal.DescribeAndOverrideField<
   Type,
   { list: false }
 >;

@@ -1,4 +1,4 @@
-import { CircularDeps, createResolver, Infer } from '@powership/schema';
+import { Internal, createResolver, Infer } from '@powership/schema';
 import { createGraphQLSchema } from '@powership/schema';
 import { PaginationResult } from '@powership/transporter';
 import { notNull, NullableToPartial, PromiseType } from '@powership/utils';
@@ -120,7 +120,7 @@ describe('ProductResolver', () => {
 
     const schema = createGraphQLSchema();
 
-    const resp = await CircularDeps.graphql({
+    const resp = await Internal.graphql({
       schema,
       contextValue: { userId: () => '123' },
       source:
@@ -154,7 +154,7 @@ describe('ProductResolver', () => {
 
     const schema = createGraphQLSchema();
 
-    const response = await CircularDeps.graphql({
+    const response = await Internal.graphql({
       schema,
       contextValue: { userId: () => '123' },
       source:
@@ -191,7 +191,7 @@ describe('ProductResolver', () => {
 
     const schema = createGraphQLSchema();
 
-    const invalidCondition = await CircularDeps.graphql({
+    const invalidCondition = await Internal.graphql({
       schema,
       contextValue: { userId: () => '123' },
       source:

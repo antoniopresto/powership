@@ -1,12 +1,12 @@
-import {
+import type {
   Cast,
   GetFieldByDotNotation,
   NullableToPartial,
 } from '@powership/utils';
 
-import { FieldDefinitionWithType } from '../_fieldDefinitions';
+import type { FieldDefinitionWithType } from '../_fieldDefinitions';
 
-import { InferField } from './InferField';
+import type { InferField } from './InferField';
 
 export interface ObjectTypeLikeFieldDefinition {
   __isPowershipObject: true;

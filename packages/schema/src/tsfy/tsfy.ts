@@ -5,10 +5,10 @@ import {
   TypeDescription,
 } from '@powership/utils';
 
-import { CircularDeps } from '../CircularDeps';
 import { GraphType } from '../GraphType/GraphType';
 import { ObjectType } from '../ObjectType';
 import { isFieldTypeName } from '../fields/fieldTypes';
+import * as Internal from '../internal';
 
 import { parseTSFyValue } from './parseTSFyValue';
 
@@ -92,7 +92,7 @@ export function tsfy(input: any, config?: TSFYConfig): TSFyResult {
       .join('\n');
 
     if (prettier) {
-      return await CircularDeps.formatWithPrettier(res, {
+      return await Internal.formatWithPrettier(res, {
         parser: 'typescript',
       });
     }

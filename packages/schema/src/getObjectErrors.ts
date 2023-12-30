@@ -1,9 +1,7 @@
-import type { FinalFieldDefinition } from './ObjectType';
-import { __getCachedFieldInstance } from './ObjectType';
-import { isMetaField } from './fields/MetaFieldField';
+import * as Internal from './internal';
 
 export function validateObjectFields(params: {
-  definition: FinalFieldDefinition;
+  definition: Internal.FinalFieldDefinition;
   fieldName: string;
   fieldParserOptions?: { excludeInvalidListItems?: boolean };
   parentType?: string;
@@ -15,7 +13,7 @@ export function validateObjectFields(params: {
   const { fieldName, definition, value, parentType, fieldParserOptions } =
     params;
 
-  if (isMetaField(definition, fieldName)) {
+  if (Internal.isMetaField(definition, fieldName)) {
     return {
       errors: [],
     };
@@ -28,7 +26,7 @@ export function validateObjectFields(params: {
   }
 
   try {
-    const field = __getCachedFieldInstance(definition);
+    const field = Internal.__getCachedFieldInstance(definition);
     const parsed = field.parse(value, fieldParserOptions);
 
     return {

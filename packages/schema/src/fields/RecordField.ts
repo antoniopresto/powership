@@ -1,11 +1,11 @@
 import { expectedType } from '@powership/utils';
 import { inspectObject } from '@powership/utils';
 
-import { CircularDeps } from '../CircularDeps';
 import { Infer } from '../Infer';
 import type { FieldDefinitionConfig } from '../TObjectConfig';
+import * as Internal from '../internal';
 
-import { FieldType, FieldTypeParser, TAnyFieldType } from './FieldType';
+import { FieldType, TAnyFieldType } from './FieldType';
 
 const validKeyTypes = ['int', 'string', 'float'] as const;
 type ValidKeyType = (typeof validKeyTypes)[number];
@@ -38,12 +38,12 @@ export class RecordField<Def extends RecordFieldDef> extends FieldType<
     return !!(input && typeof input === 'object' && input.__isRecordField);
   }
   //
-  parse: FieldTypeParser<InferRecordFieldType<Def>>;
+  parse: Internal.FieldTypeParser<InferRecordFieldType<Def>>;
 
   constructor(def: Def = { keyType: 'string', type: 'any' } as any) {
     super({ def: def, name: 'record' });
 
-    const { parseObjectField } = CircularDeps;
+    const { parseObjectField } = Internal;
 
     let parser: TAnyFieldType;
     try {
