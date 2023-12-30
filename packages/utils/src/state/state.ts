@@ -2,6 +2,7 @@ import { createDraft, Draft, isDraft } from 'immer';
 
 import { ReactLike, ReactNodeLike } from '../ReactLike';
 import { areEqual } from '../areEqual';
+import { isBrowser } from '../isBrowser';
 import { pick } from '../pick';
 import { setByPath } from '../setByPath';
 import type { AnyFunction, Paths, PathType } from '../typings';
@@ -234,6 +235,8 @@ export class State<
   private _devTool?: ReduxDevTools | undefined;
 
   connectDevTools = (name: string = 'State') => {
+    if (!isBrowser()) return;
+
     this._devTool = (() => {
       let devTools = devToolsMap.get(name);
 
@@ -270,7 +273,23 @@ export class State<
     })();
   };
 
-  static createHooks = <T>(React: ReactLike, createState: () => T) => {
+  static createHooks = <
+    InitialData,
+    StateInstance,
+    RenderProps extends {
+      children: ReactNodeLike;
+      value: InitialData;
+      /**
+       * Boolean or the name to use as instance name in redux Devtools
+       */
+      devTools?: boolean | string;
+    } & {
+      [K: string]: unknown;
+    }
+  >(
+    React: ReactLike,
+    createState: (renderProps: RenderProps) => StateInstance
+  ) => {
     const {
       //
       createContext,
@@ -280,8 +299,16 @@ export class State<
       createElement,
     } = React;
 
-    type State = T extends { methods: infer M }
-      ? { [K in keyof M as K extends keyof T ? never : K]: M[K] } & T
+    type State = StateInstance extends { methods: infer M }
+      ? {
+          [K in keyof M as K extends keyof StateInstance ? never : K]: M[K];
+        } extends infer P1
+        ? {
+            [K in keyof StateInstance as K extends keyof P1
+              ? never
+              : K]: StateInstance[K];
+          }
+        : never
       : never;
 
     type Current = State extends { current: infer D }
@@ -290,8 +317,18 @@ export class State<
 
     const Context = createContext<any>(null);
 
-    function Provider(props: { children: ReactNodeLike }) {
-      const [value] = useState(() => createState());
+    function Provider(props: RenderProps) {
+      const [value] = useState(() => {
+        const state = createState(props) as MiniState<any>;
+
+        if (props.devTools) {
+          const name =
+            typeof props.devTools === 'string' ? props.devTools : 'State';
+          state.connectDevTools(name);
+        }
+
+        return state;
+      });
 
       return createElement(Context.Provider, {
         value,
@@ -339,6 +376,11 @@ export class State<
     return { Provider, useData, Context, createState } as const;
   };
 }
+
+export class MiniState<
+  StateObject extends object,
+  Methods extends _AnyMethodsRecord = {}
+> extends State<StateObject, Methods> {}
 
 type ReduxDevTools = {
   subscribe(listener: AnyFunction): void;
