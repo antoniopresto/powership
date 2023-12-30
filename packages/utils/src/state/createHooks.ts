@@ -32,13 +32,13 @@ export function createHooks<
   // overload with selector
   function useData<Value>(
     selector: (state: StateObject) => Value
-  ): [Value, StateObject];
+  ): [Value, State<StateObject>];
   // overload without selector
-  function useData(): [null, StateObject];
+  function useData(): [null, State<StateObject>];
   // implementation
   function useData<Value, Selector extends (state: StateObject) => Value>(
     selector?: Selector
-  ): [Value, StateObject] {
+  ): [Value, State<StateObject>] {
     const context = useContext(Context);
 
     if (!context?.current) {
