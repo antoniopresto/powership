@@ -74,9 +74,10 @@ export * from './project';
 export * from './parsePath';
 export * from './objectEntries';
 export * from './immer';
-export * from './MicroState';
 export * from './skipper';
 export * from './routeUtils';
+export * from './state/state';
+export * from './ReactLike';
 
 // @only-server
 export * from './logLevels';

@@ -1,6 +1,6 @@
 {
   "name": "@powership/boilerplate",
-  "version": "3.2.5",
+  "version": "3.2.6-beta.0",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "sideEffects": false,
   "type": "module",
