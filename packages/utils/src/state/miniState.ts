@@ -279,18 +279,14 @@ export class MiniState<
       createElement,
     } = React;
 
-    return <
-      Value extends object,
-      InitConfig extends object,
-      Instance extends { current: Value } = { current: Value }
-    >(
-      createInstance: (config: InitConfig) => Instance
-    ) => {
+    return <Instance, Config>(createInstance: (config: Config) => Instance) => {
       const Context = createContext(null as unknown as Instance);
+
+      type Value = Instance extends { current: infer R } ? R : never;
 
       function Provider(props: {
         children: ReactNodeLike;
-        value: InitConfig;
+        value: Parameters<typeof createInstance>[0];
         devTools?: boolean | string;
       }) {
         const { children, devTools } = props;
@@ -316,13 +312,13 @@ export class MiniState<
       // overload with selector
       function useData<Picked>(
         selector: (state: Value) => Picked
-      ): [Picked, Value];
+      ): [Picked, Instance];
       // overload without selector
-      function useData(): [null, Value];
+      function useData(): [null, Instance];
       // implementation
       function useData<Picked, Selector extends (state: Value) => Picked>(
         selector?: Selector
-      ): [Picked, Value] {
+      ): [Picked, Instance] {
         const context = useContext(Context);
 
         if (!context?.current) {

@@ -1,6 +1,6 @@
 {
   "name": "@powership/babel-plugins",
-  "version": "3.2.8-beta.3",
+  "version": "3.2.9",
   "main": "out",
   "sideEffects": false,
   "typings": "out",
