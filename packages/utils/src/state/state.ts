@@ -270,7 +270,8 @@ export class State<
   };
 
   static createHooks = <S extends object, Instance extends State<S, {}>>(
-    React: ReactLike
+    React: ReactLike,
+    createInstance?: (value: S) => Instance
   ) => {
     const {
       //
@@ -285,22 +286,26 @@ export class State<
 
     function Provider(props: {
       children: ReactNodeLike;
-      value: Instance;
+      value: S;
       devTools?: boolean | string;
     }) {
-      const { children, value, devTools } = props;
+      const { children, devTools, value } = props;
+
+      const [instance] = useState(() =>
+        createInstance ? createInstance(value) : State.create(value)
+      );
 
       useEffect(() => {
         if (!devTools) return;
 
         const name = typeof devTools === 'string' ? devTools : 'State';
-        const connection = value.connectDevTools(name);
+        const connection = instance.connectDevTools(name);
 
         return connection?.unsubscribe;
       }, [devTools]);
 
       return createElement(Context.Provider, {
-        value,
+        value: instance,
         children,
       });
     }

@@ -1,6 +1,6 @@
 {
   "name": "@powership/deepstate",
-  "version": "3.2.7",
+  "version": "3.2.8-beta.0",
   "main": "out/index.js",
   "module": "out/module/index.mjs",
   "sideEffects": false,
