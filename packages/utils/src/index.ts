@@ -76,7 +76,7 @@ export * from './objectEntries';
 export * from './immer';
 export * from './skipper';
 export * from './routeUtils';
-export * from './state/state';
+export * from './state/miniState';
 export * from './ReactLike';
 
 // @only-server

@@ -12,7 +12,7 @@ import { AnyFunction, Paths, PathType } from '../typings';
  * Allows direct mutation of state objects with no side effects, tracking changes with patches.
  * Useful for scenarios requiring state history tracking, like undo operations.
  */
-export class State<
+export class MiniState<
   StateValue extends object,
   Methods extends _AnyMethodsRecord = {}
 > {
@@ -170,7 +170,7 @@ export class State<
   withMethods = <M extends _MethodsInitializer<StateValue>>(
     methods: M
   ): {
-    [K in Exclude<keyof M, keyof State<any>>]: Parameters<M[K]> extends [
+    [K in Exclude<keyof M, keyof MiniState<any>>]: Parameters<M[K]> extends [
       any,
       infer Payload
     ]
@@ -178,7 +178,7 @@ export class State<
       : () => StateValue;
   } extends infer Bounded
     ? Bounded extends {}
-      ? State<StateValue, Bounded> extends infer Instance
+      ? MiniState<StateValue, Bounded> extends infer Instance
         ? ({ [K in keyof Instance]: Instance[K] } & {}) &
             ({ [K in keyof Bounded]: Bounded[K] } & {})
         : never
@@ -229,8 +229,8 @@ export class State<
     return this;
   };
 
-  static create = <Value extends object>(initial: Value): State<Value> => {
-    return new State(initial);
+  static create = <Value extends object>(initial: Value): MiniState<Value> => {
+    return new MiniState(initial);
   };
 
   private _logMethod = (context: _UpdateContext, next: StateValue) => {
@@ -269,7 +269,7 @@ export class State<
     return devTools;
   };
 
-  static createHooks = <S extends object, Instance extends State<S, {}>>(
+  static createHooks = <S extends object, Instance extends MiniState<S, {}>>(
     React: ReactLike,
     createInstance?: (value: S) => Instance
   ) => {
@@ -292,7 +292,7 @@ export class State<
       const { children, devTools, value } = props;
 
       const [instance] = useState(() =>
-        createInstance ? createInstance(value) : State.create(value)
+        createInstance ? createInstance(value) : MiniState.create(value)
       );
 
       useEffect(() => {
@@ -349,6 +349,8 @@ export class State<
   };
 }
 
+export const createState = MiniState.create;
+
 type ReduxDevTools = {
   send(event: { type: string; [K: string]: any }, state: object): void;
   init: <S extends object>(state: S, liftedData?: any) => void;
@@ -376,7 +378,10 @@ export type StateChangeMiddleware<
   context: _MethodExecutionContext<Methods>;
 }) => State | Draft<State> | void;
 
-export type ExtractStateMethods<T> = Omit<T, keyof State<{}>> extends infer R
+export type ExtractStateMethods<T> = Omit<
+  T,
+  keyof MiniState<{}>
+> extends infer R
   ? { [K in keyof R]: R[K] } & {}
   : never;
 

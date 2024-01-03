@@ -1,4 +1,4 @@
-import { State } from '../state';
+import { MiniState } from '../miniState';
 
 describe('State', () => {
   const origin = {
@@ -11,12 +11,12 @@ describe('State', () => {
   };
 
   test('current()', () => {
-    const sut = State.create(origin);
+    const sut = MiniState.create(origin);
     expect(sut.current).toBe(origin);
   });
 
   test('observe()', () => {
-    const state = State.create(origin);
+    const state = MiniState.create(origin);
 
     const nameChanges: string[] = [];
     const streetNumberChanges: number[] = [];
@@ -81,7 +81,7 @@ describe('State', () => {
 
   describe('actions', () => {
     test('withMethods()', () => {
-      const state = State.create(origin)
+      const state = MiniState.create(origin)
         //
         .withMethods({
           setAge(state, payload: { age: number }) {
@@ -100,7 +100,7 @@ describe('State', () => {
     });
 
     it('should return the next state after action execution', () => {
-      const state = State.create({
+      const state = MiniState.create({
         number: 1,
       });
 
@@ -118,7 +118,7 @@ describe('State', () => {
 
   describe('middlewares', () => {
     test('update state using Object.assign', () => {
-      const state = State.create({
+      const state = MiniState.create({
         num: 0,
         history: [] as number[],
       }) //
@@ -161,7 +161,7 @@ describe('State', () => {
     });
 
     test('replace state when returns new object', () => {
-      const state = State.create({
+      const state = MiniState.create({
         num: 0,
       });
 
