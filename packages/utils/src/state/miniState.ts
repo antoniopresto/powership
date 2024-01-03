@@ -269,10 +269,7 @@ export class MiniState<
     return devTools;
   };
 
-  static createHooks = <S extends object, Instance extends MiniState<S, {}>>(
-    React: ReactLike,
-    createInstance?: (value: S) => Instance
-  ) => {
+  static reactContextFactory = (React: ReactLike) => {
     const {
       //
       createContext,
@@ -282,70 +279,79 @@ export class MiniState<
       createElement,
     } = React;
 
-    const Context = createContext(null as unknown as Instance);
+    return <
+      Value extends object,
+      InitConfig extends object,
+      Instance extends { current: Value } = { current: Value }
+    >(
+      createInstance: (config: InitConfig) => Instance
+    ) => {
+      const Context = createContext(null as unknown as Instance);
 
-    function Provider(props: {
-      children: ReactNodeLike;
-      value: S;
-      devTools?: boolean | string;
-    }) {
-      const { children, devTools, value } = props;
+      function Provider(props: {
+        children: ReactNodeLike;
+        value: InitConfig;
+        devTools?: boolean | string;
+      }) {
+        const { children, devTools } = props;
 
-      const [instance] = useState(() =>
-        createInstance ? createInstance(value) : MiniState.create(value)
-      );
+        const [instance] = useState(() => createInstance(props.value));
 
-      useEffect(() => {
-        if (!devTools) return;
+        useEffect(() => {
+          if (!devTools) return;
 
-        const name = typeof devTools === 'string' ? devTools : 'State';
-        const connection = instance.connectDevTools(name);
+          const name = typeof devTools === 'string' ? devTools : 'State';
+          // @ts-ignore
+          const connection = instance.connectDevTools(name);
 
-        return connection?.unsubscribe;
-      }, [devTools]);
+          return connection?.unsubscribe;
+        }, [devTools, instance]);
 
-      return createElement(Context.Provider, {
-        value: instance,
-        children,
-      });
-    }
-
-    // overload with selector
-    function useData<Picked>(selector: (state: S) => Picked): [Picked, S];
-    // overload without selector
-    function useData(): [null, S];
-    // implementation
-    function useData<Picked, Selector extends (state: S) => Picked>(
-      selector?: Selector
-    ): [Picked, S] {
-      const context = useContext(Context);
-
-      if (!context?.current) {
-        throw new Error(`Context missing.`);
+        return createElement(Context.Provider, {
+          value: instance,
+          children,
+        });
       }
 
-      const [selected, setSelected] = useState(() => {
-        if (!selector) return null;
-        return selector(context.current);
-      });
+      // overload with selector
+      function useData<Picked>(
+        selector: (state: Value) => Picked
+      ): [Picked, Value];
+      // overload without selector
+      function useData(): [null, Value];
+      // implementation
+      function useData<Picked, Selector extends (state: Value) => Picked>(
+        selector?: Selector
+      ): [Picked, Value] {
+        const context = useContext(Context);
 
-      useEffect(() => {
-        if (!selector) {
-          setSelected(null);
-          return;
+        if (!context?.current) {
+          throw new Error(`Context missing.`);
         }
 
-        const unsubscribe = context.observe(selector, ({ next }) => {
-          setSelected(next);
+        const [selected, setSelected] = useState(() => {
+          if (!selector) return null;
+          return selector(context.current);
         });
 
-        return () => unsubscribe();
-      }, [context, selector]);
+        useEffect(() => {
+          if (!selector) {
+            setSelected(null);
+            return;
+          }
 
-      return [selected, context];
-    }
+          const unsubscribe = context.observe(selector, ({ next }) => {
+            setSelected(next);
+          });
 
-    return { Provider, useData, Context } as const;
+          return () => unsubscribe();
+        }, [context, selector]);
+
+        return [selected, context];
+      }
+
+      return { Provider, useData, Context } as const;
+    };
   };
 }
 
