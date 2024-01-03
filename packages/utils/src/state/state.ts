@@ -5,7 +5,7 @@ import { areEqual } from '../areEqual';
 import { isBrowser } from '../isBrowser';
 import { pick } from '../pick';
 import { setByPath } from '../setByPath';
-import type { AnyFunction, Paths, PathType } from '../typings';
+import { AnyFunction, Paths, PathType } from '../typings';
 
 /**
  * Creates a mini state management system using Immer.
@@ -13,18 +13,18 @@ import type { AnyFunction, Paths, PathType } from '../typings';
  * Useful for scenarios requiring state history tracking, like undo operations.
  */
 export class State<
-  StateObject extends object,
+  StateValue extends object,
   Methods extends _AnyMethodsRecord = {}
 > {
-  private currentState: StateObject;
+  private currentState: StateValue;
   private listeners = new Map<
     StatePieceListener<any>,
-    { picker: (state: StateObject) => any }
+    { picker: (state: StateValue) => any }
   >();
-  private middlewares = new Set<StateChangeMiddleware<StateObject, Methods>>();
+  private middlewares = new Set<StateChangeMiddleware<StateValue, Methods>>();
   methods = {} as Methods;
 
-  constructor(initial: StateObject) {
+  constructor(initial: StateValue) {
     this.currentState = initial;
   }
 
@@ -35,12 +35,12 @@ export class State<
    * @returns Unsubscribe function to stop observing the state part.
    */
   observe<Piece>(
-    picker: (state: StateObject) => Piece,
+    picker: (state: StateValue) => Piece,
     onChange: StatePieceListener<Piece>
   ): Unsubscribe;
-  observe<Path extends Paths<StateObject>>(
+  observe<Path extends Paths<StateValue>>(
     path: Path,
-    onChange: StatePieceListener<PathType<StateObject, Path>>
+    onChange: StatePieceListener<PathType<StateValue, Path>>
   ): Unsubscribe;
   observe(pickerOrPath: any, onChange: StatePieceListener<any>) {
     const key = onChange;
@@ -48,7 +48,7 @@ export class State<
     const picker =
       typeof pickerOrPath === 'function'
         ? pickerOrPath
-        : (state: StateObject) => pick(state, picker);
+        : (state: StateValue) => pick(state, picker);
 
     this.listeners.set(key, { picker });
     return () => this.listeners.delete(key);
@@ -60,22 +60,22 @@ export class State<
    * @param _context
    */
   update(
-    updater: (draft: Draft<StateObject>) => void,
+    updater: (draft: StateValue) => void,
     _context?: _UpdateContext
-  ): StateObject;
+  ): StateValue;
   /**
    * Updates the state value in the provided path
    * @param path dot notation to the object property to change - example: 'user.address.street'
    * @param value new value
    * @param _context internal
    */
-  update<Path extends Paths<StateObject>>(
+  update<Path extends Paths<StateValue>>(
     path: Path,
-    value: PathType<StateObject, Path>,
+    value: PathType<StateValue, Path>,
     _context?: _UpdateContext
-  ): StateObject;
+  ): StateValue;
 
-  update(...args: any[]): StateObject {
+  update(...args: any[]): StateValue {
     //
     const sanitizedArgs = (() => {
       if (typeof args[0] === 'string') {
@@ -83,7 +83,7 @@ export class State<
 
         return {
           context,
-          update: (draft: Draft<StateObject>) => {
+          update: (draft: Draft<StateValue>) => {
             setByPath(draft, path, value);
           },
         };
@@ -102,7 +102,7 @@ export class State<
 
     if (!sanitizedArgs.context) {
       sanitizedArgs.context = {
-        method: '@@DIRECT_UPDATE',
+        method: '__STATE.UPDATE__',
         payload: undefined,
       };
     }
@@ -111,11 +111,9 @@ export class State<
   }
 
   private _update(config: {
-    update: (
-      draft: Draft<StateObject>
-    ) => void | StateObject | Draft<StateObject>;
+    update: (draft: Draft<StateValue>) => void | StateValue | Draft<StateValue>;
     context: _UpdateContext;
-  }): StateObject {
+  }): StateValue {
     const previous = this.currentState;
     const { update, context } = config;
 
@@ -131,6 +129,9 @@ export class State<
         context: context as _MethodExecutionContext<Methods>,
         draft,
         previous,
+        cloneDraft(): StateValue {
+          return JSON.parse(JSON.stringify(draft));
+        },
       });
 
       if (result) {
@@ -138,7 +139,7 @@ export class State<
       }
     });
 
-    const nextState = JSON.parse(JSON.stringify(draft)) as StateObject;
+    const nextState = JSON.parse(JSON.stringify(draft)) as StateValue;
 
     this.listeners.forEach((item, onChange) => {
       const { picker } = item;
@@ -166,15 +167,24 @@ export class State<
    * Binding actions to internal state
    * @param methods
    */
-  withMethods = <Actions extends _MethodsInitializer<StateObject>>(
-    methods: Actions
-  ): _StateMethods<StateObject, Actions> extends infer M
-    ? State<StateObject, _StateMethods<StateObject, Actions>> extends infer S
-      ? { [K in keyof M as K extends keyof S ? never : K]: M[K] } & ({
-          [K in keyof S]: S[K];
-        } & {})
+  withMethods = <M extends _MethodsInitializer<StateValue>>(
+    methods: M
+  ): {
+    [K in Exclude<keyof M, keyof State<any>>]: Parameters<M[K]> extends [
+      any,
+      infer Payload
+    ]
+      ? (payload: Payload) => StateValue
+      : () => StateValue;
+  } extends infer Bounded
+    ? Bounded extends {}
+      ? State<StateValue, Bounded> extends infer Instance
+        ? ({ [K in keyof Instance]: Instance[K] } & {}) &
+            ({ [K in keyof Bounded]: Bounded[K] } & {})
+        : never
       : never
     : never => {
+    //
     const self: any = this;
 
     self.methods = Object.entries(methods).reduce((acc, [key, fn]) => {
@@ -212,83 +222,55 @@ export class State<
     return this.currentState;
   }
 
-  addMiddleware = (...items: StateChangeMiddleware<StateObject, Methods>[]) => {
+  addMiddleware = (...items: StateChangeMiddleware<StateValue, Methods>[]) => {
     items.forEach((middleware) => {
       this.middlewares.add(middleware);
     });
     return this;
   };
 
-  static create = <StateObject extends object>(
-    initial: StateObject
-  ): State<StateObject> => {
+  static create = <Value extends object>(initial: Value): State<Value> => {
     return new State(initial);
   };
 
-  private _logMethod = (context: _UpdateContext, next: StateObject) => {
+  private _logMethod = (context: _UpdateContext, next: StateValue) => {
     this._devTool?.send(
       { type: `@method/${context.method}`, payload: context.payload },
       next
     );
   };
 
-  private _devTool?: ReduxDevTools | undefined;
+  private _devTool?: ReduxDevTools | undefined | null;
 
-  connectDevTools = (name: string = 'State') => {
-    if (!isBrowser()) return;
+  connectDevTools = (name: string = 'State'): ReduxDevTools | null => {
+    if (!isBrowser()) return null;
+    if (!window.__REDUX_DEVTOOLS_EXTENSION__) return null;
 
-    this._devTool = (() => {
-      let devTools = devToolsMap.get(name);
+    const devTools = window.__REDUX_DEVTOOLS_EXTENSION__.connect({
+      name: name,
+    });
 
-      if (devTools) {
-        devTools.init(this.current);
-        return devTools;
-      }
+    devTools.init(this.current);
+    devToolsMap.set(name, devTools);
 
-      if (window.__REDUX_DEVTOOLS_EXTENSION__) {
-        devTools = window.__REDUX_DEVTOOLS_EXTENSION__.connect({
-          name: name,
-        });
+    devTools.subscribe((event) => {
+      const payload = event.payload || event;
+      if (payload.type !== 'JUMP_TO_ACTION') return;
 
-        if (!devTools) return;
+      this._update({
+        update: () => JSON.parse(event.state),
+        context: {
+          method: '@@INTERNAL/DEVTOOLS/JUMP_TO_ACTION',
+          payload,
+        },
+      });
+    });
 
-        devTools.init(this.current);
-        devToolsMap.set(name, devTools);
-
-        devTools.subscribe((event) => {
-          const payload = event.payload || event;
-          if (payload.type === 'JUMP_TO_ACTION') {
-            this._update({
-              update: () => JSON.parse(event.state),
-              context: {
-                method: '@@INTERNAL/DEVTOOLS/JUMP_TO_ACTION',
-                payload,
-              },
-            });
-          }
-        });
-
-        return devTools;
-      }
-    })();
+    return devTools;
   };
 
-  static createHooks = <
-    InitialData,
-    StateInstance,
-    RenderProps extends {
-      children: ReactNodeLike;
-      value: InitialData;
-      /**
-       * Boolean or the name to use as instance name in redux Devtools
-       */
-      devTools?: boolean | string;
-    } & {
-      [K: string]: unknown;
-    }
-  >(
-    React: ReactLike,
-    createState: (renderProps: RenderProps) => StateInstance
+  static createHooks = <S extends object, Instance extends State<S, {}>>(
+    React: ReactLike
   ) => {
     const {
       //
@@ -299,53 +281,38 @@ export class State<
       createElement,
     } = React;
 
-    type State = StateInstance extends { methods: infer M }
-      ? {
-          [K in keyof M as K extends keyof StateInstance ? never : K]: M[K];
-        } extends infer P1
-        ? {
-            [K in keyof StateInstance as K extends keyof P1
-              ? never
-              : K]: StateInstance[K];
-          }
-        : never
-      : never;
+    const Context = createContext(null as unknown as Instance);
 
-    type Current = State extends { current: infer D }
-      ? { [K in keyof D]: D[K] } & {}
-      : never;
+    function Provider(props: {
+      children: ReactNodeLike;
+      value: Instance;
+      devTools?: boolean | string;
+    }) {
+      const { children, value, devTools } = props;
 
-    const Context = createContext<any>(null);
+      useEffect(() => {
+        if (!devTools) return;
 
-    function Provider(props: RenderProps) {
-      const [value] = useState(() => {
-        const state = createState(props) as MiniState<any>;
+        const name = typeof devTools === 'string' ? devTools : 'State';
+        const connection = value.connectDevTools(name);
 
-        if (props.devTools) {
-          const name =
-            typeof props.devTools === 'string' ? props.devTools : 'State';
-          state.connectDevTools(name);
-        }
-
-        return state;
-      });
+        return connection?.unsubscribe;
+      }, [devTools]);
 
       return createElement(Context.Provider, {
         value,
-        children: props.children,
+        children,
       });
     }
 
     // overload with selector
-    function useData<Picked>(
-      selector: (state: Current) => Picked
-    ): [Picked, Current];
+    function useData<Picked>(selector: (state: S) => Picked): [Picked, S];
     // overload without selector
-    function useData(): [null, Current];
+    function useData(): [null, S];
     // implementation
-    function useData<Picked, Selector extends (state: Current) => Picked>(
+    function useData<Picked, Selector extends (state: S) => Picked>(
       selector?: Selector
-    ): [Picked, Current] {
+    ): [Picked, S] {
       const context = useContext(Context);
 
       if (!context?.current) {
@@ -373,19 +340,16 @@ export class State<
       return [selected, context];
     }
 
-    return { Provider, useData, Context, createState } as const;
+    return { Provider, useData, Context } as const;
   };
 }
 
-export class MiniState<
-  StateObject extends object,
-  Methods extends _AnyMethodsRecord = {}
-> extends State<StateObject, Methods> {}
-
 type ReduxDevTools = {
-  subscribe(listener: AnyFunction): void;
-  init(value: object): void;
   send(event: { type: string; [K: string]: any }, state: object): void;
+  init: <S extends object>(state: S, liftedData?: any) => void;
+  subscribe: (listener: (message: any) => void) => (() => void) | undefined;
+  unsubscribe: () => void;
+  error: (payload: string) => void;
 };
 
 const devToolsMap = new Map<string, ReduxDevTools | null>();
@@ -402,6 +366,7 @@ export type StateChangeMiddleware<
   Methods extends _AnyMethodsRecord = {}
 > = (payload: {
   draft: Draft<State>;
+  cloneDraft(): State;
   previous: State;
   context: _MethodExecutionContext<Methods>;
 }) => State | Draft<State> | void;
@@ -409,15 +374,6 @@ export type StateChangeMiddleware<
 export type ExtractStateMethods<T> = Omit<T, keyof State<{}>> extends infer R
   ? { [K in keyof R]: R[K] } & {}
   : never;
-
-/**
- * @internal
- */
-type _HasParameters<Action extends AnyFunction> = [
-  Parameters<Action>[1]
-] extends [undefined]
-  ? 0
-  : 1;
 
 /**
  * @internal
@@ -432,18 +388,6 @@ export type _AnyMethodsRecord = {
 export interface _MethodsInitializer<State extends object> {
   readonly [K: string]: (current: Draft<State>, payload: any) => unknown;
 }
-
-/**
- * @internal
- */
-export type _StateMethods<
-  State extends object,
-  Actions extends _MethodsInitializer<State>
-> = {
-  [K in keyof Actions]: _HasParameters<Actions[K]> extends 1
-    ? (payload: Parameters<Actions[K]>[1]) => State
-    : () => State;
-};
 
 export type _MethodExecutionContext<Methods extends _AnyMethodsRecord> = ({
   [K in keyof Methods]: {
@@ -467,4 +411,13 @@ class StateMethodError extends Error {
 
 function ensureDraft<T extends object>(value: T | Draft<T>): Draft<T> {
   return (isDraft(value) ? value : createDraft(value)) as Draft<T>;
+}
+
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION__:
+      | null
+      | undefined
+      | { connect: (preConfig: object) => ReduxDevTools };
+  }
 }

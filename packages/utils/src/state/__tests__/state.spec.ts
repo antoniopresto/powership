@@ -81,14 +81,16 @@ describe('State', () => {
 
   describe('actions', () => {
     test('withMethods()', () => {
-      const state = State.create(origin).withMethods({
-        setAge(state, payload: { age: number }) {
-          state.user.age = payload.age;
-        },
-        setStreet(state, street: string) {
-          state.user.address.street = street;
-        },
-      });
+      const state = State.create(origin)
+        //
+        .withMethods({
+          setAge(state, payload: { age: number }) {
+            state.user.age = payload.age;
+          },
+          setStreet(state, street: string) {
+            state.user.address.street = street;
+          },
+        });
 
       state.setAge({ age: 8 });
       let next = state.setStreet('lua');
@@ -154,6 +156,7 @@ describe('State', () => {
           history: [1, 0],
           num: 1,
         },
+        cloneDraft: expect.any(Function),
       });
     });
 
