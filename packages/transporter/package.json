@@ -1,6 +1,6 @@
 {
   "name": "@powership/transporter",
-  "version": "3.2.10",
+  "version": "3.2.11",
   "type": "module",
   "main": "./out/index.cjs",
   "module": "./out/module/index.mjs",
@@ -20,7 +20,7 @@
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "jest",
+    "test": "cd ../mongo && npm run build && cd - && jest",
     "build": "run-s clear && run-p declarations build:*",
     "clear": "rimraf out",
     "fix": "run-s fix:* ",

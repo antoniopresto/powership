@@ -1,19 +1,18 @@
 {
   "name": "powership",
-  "version": "3.2.10",
+  "version": "3.2.11",
   "private": true,
   "scripts": {
     "pack": "run-s pack:*",
     "pack:publish": "run \"pnpm publish\"",
+    "prepublishSafe": "bun-safe ./prepublishSafe.ts",
     "pre": "run prepublishOnly",
     "fix": "turbo run fix",
     "test": "turbo run test",
     "validate": "(cd packages/schema && npm run prepublish)",
     "doc": "typedoc",
     "i": "rm -rf node_modules/.pnpm && rm -rf pnpm-lock.yaml && pnpm install",
-    "clear": "run-s clear:* && pnpm install",
-    "clear:root": "rm -rf node_modules *-lock.yaml *-lock.json",
-    "clear:packages": "run \"rm -rf node_modules *-lock.yaml *-lock.json\" out",
+    "reset": "./reset.sh",
     "beta": "bun run scripts/beta.ts",
     "beta-version": "bun run scripts/beta-version.ts"
   },
@@ -25,6 +24,7 @@
     "@types/shelljs": "0.8.11",
     "@typescript-eslint/eslint-plugin": "4.15.2",
     "@typescript-eslint/parser": "4.15.2",
+    "bun-types": "1.0.26",
     "conditional-type-checks": "1.0.6",
     "esbuild": "0.15.10",
     "eslint": "7.20.0",
@@ -60,7 +60,8 @@
     "@powership/transporter"
   ],
   "dependencies": {
-    "semver": "7.3.8",
+    "bun-safe": "1.0.5",
+    "semver": "7.5.2",
     "typedoc": "0.23.24",
     "zx": "7.2.3"
   },
