@@ -32,6 +32,8 @@
   "files": [
     "package.json",
     "out/*",
+    "tsconfig/*",
+    "eslintrc.cjs",
     "README.md"
   ]
 }

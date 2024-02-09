@@ -78,6 +78,7 @@ export * from './skipper';
 export * from './routeUtils';
 export * from './state/miniState';
 export * from './ReactLike';
+export * from './jsonClone';
 
 // @only-server
 export * from './logLevels';
