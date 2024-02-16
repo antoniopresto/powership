@@ -4,23 +4,20 @@ import chalk from 'chalk';
 import { Command } from 'commander';
 import semver from 'semver/preload';
 
-import { defaultPackagesGlobPattern } from '../defaultPackagesGlobPattern';
 import { packageRunner } from '../packageRunner';
 import { packageJSONDependencyKeys } from '../packageVersion';
 
 export function align(program: Command) {
   program
-    .command('align')
-    .option('-s, --src <packages>', 'Packages glob pattern.')
+    .command('align [cwd]')
     .description(
       'Align dependency versions between all packages in the monorepo.'
     )
-    .action(async function run(_version, options = {}): Promise<any> {
-      const { src } = options;
-
+    .action(async function run(cwd): Promise<any> {
       try {
-        const runner = await packageRunner(src || defaultPackagesGlobPattern, {
+        const runner = await packageRunner({
           failFast: false,
+          cwd,
         });
 
         const commons: { [K: string]: string[] } = {};

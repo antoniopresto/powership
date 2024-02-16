@@ -7,7 +7,7 @@ describe('runInPackages', () => {
   // afterEach();
 
   test('works', async () => {
-    const runner = await packageRunner('./packages/**/*', {
+    const runner = await packageRunner({
       cwd,
     });
 
@@ -19,8 +19,8 @@ describe('runInPackages', () => {
 
     expect(utils.slice(0, 3).map((el) => el.json.name)).toEqual([
       '@powership/babel-plugins',
+      '@powership/boilerplate',
       '@powership/utils',
-      '@powership/schema',
     ]);
   });
 });

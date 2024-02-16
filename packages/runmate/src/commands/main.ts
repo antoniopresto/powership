@@ -1,11 +1,7 @@
-import { inspect } from 'util';
-
 import chalk from 'chalk';
 import { Command } from 'commander';
 
-import { defaultPackagesGlobPattern } from '../defaultPackagesGlobPattern';
 import { packageRunner } from '../packageRunner';
-import { runmateLogger } from '../runmateLogger';
 
 export function main(program: Command) {
   program
@@ -14,12 +10,12 @@ export function main(program: Command) {
     .description(
       'Run command in each package in ./packages folder or in `--src` option folder'
     )
+    .option('-s, --src <pattern>', 'Source directory or glob pattern')
     .option(
-      '-s, --src <src>',
-      'Source directory or glob pattern',
-      './packages/*/'
+      '-c, --chunk-size <number>',
+      'Chunk size of parallel executions',
+      '1'
     )
-    .option('-c, --chunk-size', 'Chunk size of parallel executions', '1')
     .option(
       '-no-ff, --no-fail-fast, --no-ff, --noff',
       'Disable exit on first error'
@@ -60,18 +56,9 @@ export function main(program: Command) {
       const ignoreList = ignore?.split(/, ?/);
       const packagesExclusiveList = packages?.split(/, ?/);
 
-      await runmateLogger.lazyDebug(() => [
-        'Received args: \n',
-        inspect({
-          commands,
-          ignoreList,
-          packagesExclusiveList,
-          ...options,
-        }),
-      ]);
-
       try {
-        const runner = await packageRunner(src || defaultPackagesGlobPattern, {
+        const runner = await packageRunner({
+          cwd: src,
           failFast,
         });
 
@@ -90,18 +77,6 @@ export function main(program: Command) {
               return await commandIsPackageName.run(restCommand);
             }
           }
-        }
-
-        const res = await runner.run(
-          `npm help | awk '/^    / { print $1 }' | tr -d ','`
-        );
-
-        const com = res.results[0]?.data.find(
-          (command) => command === commands[0]
-        );
-
-        if (com) {
-          return runner.run(`npm run ${commands.join(' ')}`);
         }
 
         await runner.run(
@@ -124,3 +99,72 @@ export function main(program: Command) {
       }
     });
 }
+
+// const npmCommands = [
+//   'access',
+//   'adduser',
+//   'audit',
+//   'bugs',
+//   'cache',
+//   'ci',
+//   'completion',
+//   'config',
+//   'dedupe',
+//   'deprecate',
+//   'diff',
+//   'dist-tag',
+//   'docs',
+//   'doctor',
+//   'edit',
+//   'exec',
+//   'explain',
+//   'explore',
+//   'find-dupes',
+//   'fund',
+//   'get',
+//   'help',
+//   'help-search',
+//   'hook',
+//   'init',
+//   'install',
+//   'install-ci-test',
+//   'install-test',
+//   'link',
+//   'll',
+//   'login',
+//   'logout',
+//   'ls',
+//   'org',
+//   'outdated',
+//   'owner',
+//   'pack',
+//   'ping',
+//   'pkg',
+//   'prefix',
+//   'profile',
+//   'prune',
+//   'publish',
+//   'query',
+//   'rebuild',
+//   'repo',
+//   'restart',
+//   'root',
+//   'run-script',
+//   'search',
+//   'set',
+//   'shrinkwrap',
+//   'star',
+//   'stars',
+//   'start',
+//   'stop',
+//   'team',
+//   'test',
+//   'token',
+//   'uninstall',
+//   'unpublish',
+//   'unstar',
+//   'update',
+//   'version',
+//   'view',
+//   'whoami',
+// ];

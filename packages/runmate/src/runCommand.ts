@@ -1,30 +1,29 @@
 import { ChildProcess, ExecOptions, spawn } from 'child_process';
 import nodePath from 'path';
+import process from 'process';
 
-import chalk from 'chalk';
 import { AsyncPlugin, createAsyncPlugin } from 'plugin-hooks';
 
 import { delayPromise } from './printWithScroll';
-import { runmateLogger } from './runmateLogger';
 
 export interface RunCommandOptions {
+  silent?: boolean;
   command: string;
   plugin?: (hooks: RunCommandHooks) => any;
 }
 
 export interface RunCommandResult {
-  data: string[];
+  data: Buffer[];
   code: 0;
 }
 
 export async function runCommand(
-  options: RunCommandOptions | string,
+  input: RunCommandOptions | string,
   execOptions?: ExecOptions
 ): Promise<RunCommandResult> {
   let childRef: ChildProcess | null = null;
 
-  let started = Date.now();
-  const data: string[] = [];
+  const data: Buffer[] = [];
 
   const hooks: RunCommandHooks | undefined = {
     onStderrData: createAsyncPlugin(),
@@ -39,42 +38,12 @@ export async function runCommand(
     data.push(p.data);
   });
 
-  options =
-    typeof options === 'string'
+  const options: RunCommandOptions =
+    typeof input === 'string'
       ? {
-          command: options,
-          plugin(hooks) {
-            const c_command_medium = command.replace(/(.{20})(.+)/, `$1…`);
-            const description =
-              typeof execOptions?.cwd === 'string'
-                ? `${c_command_medium} in ./${nodePath.relative(
-                    process.cwd(),
-                    execOptions.cwd
-                  )}`
-                : c_command_medium;
-
-            hooks.willStart.pushMiddleware(function data() {
-              runmateLogger.log(`\n\nrun ${chalk.cyan(description)} started\n`);
-            });
-
-            hooks.onStdoutData.pushMiddleware(function data(currentValue) {
-              runmateLogger.log(currentValue.data);
-            });
-
-            hooks.onStderrData.pushMiddleware(function data(currentValue) {
-              runmateLogger.error(chalk.red(currentValue.data));
-            });
-
-            hooks.onClose.pushMiddleware(function data() {
-              runmateLogger.log(
-                chalk.green(
-                  `finished in ${Date.now() - started}ms (${description})\n`
-                )
-              );
-            });
-          },
+          command: input,
         }
-      : options;
+      : input;
 
   let { command, plugin } = options;
 
@@ -97,9 +66,14 @@ export async function runCommand(
 
     const child = (childRef = spawn(command, {
       ...execOptions,
-      stdio: 'inherit',
+      stdio: 'pipe',
       shell: true,
     }));
+
+    if (!options?.silent && child.stdout && child.stderr) {
+      child.stdout.on('data', (data) => process.stdout.write(data));
+      child.stderr.on('data', (data) => process.stderr.write(data));
+    }
 
     child.stdout?.on('data', async function (data) {
       await hooks?.onStdoutData.dispatch({ data }, child);
@@ -119,7 +93,9 @@ export async function runCommand(
           return resolve({ code, data });
         }
 
-        reject({ code, data });
+        const error: any = new Error(data.map((d) => d.toString()).join(''));
+        error.code = code;
+        reject(error);
       });
     });
   } catch (e: any) {
@@ -142,8 +118,8 @@ async function getConfigFile(
 export interface RunCommandHooks {
   willStart: AsyncPlugin<{ command: string }, undefined>;
   started: AsyncPlugin<ChildProcess, { command: string }>;
-  onStdoutData: AsyncPlugin<{ data: string }, ChildProcess>;
-  onStderrData: AsyncPlugin<{ data: string }, ChildProcess>;
+  onStdoutData: AsyncPlugin<{ data: Buffer }, ChildProcess>;
+  onStderrData: AsyncPlugin<{ data: Buffer }, ChildProcess>;
   onClose: AsyncPlugin<{ code: number | null }, ChildProcess>;
   onError: AsyncPlugin<{ error: Error }, ChildProcess | null>;
 }

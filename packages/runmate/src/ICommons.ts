@@ -11,5 +11,6 @@ export interface PackageJson {
   peerDependencies?: { [dependencyName: string]: string };
   optionalDependencies?: { [dependencyName: string]: string };
   license?: string;
+  workspaces?: string[] | { packages?: string[]; nohoist?: string[] };
   [key: string]: unknown;
 }

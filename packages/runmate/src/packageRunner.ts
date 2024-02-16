@@ -1,14 +1,12 @@
 import nodePath from 'path';
 import { inspect } from 'util';
 
-import { existsSync } from 'fs-extra';
-import { glob } from 'glob';
 import chunk from 'lodash/chunk';
 
 import { DepTree, PackageItem } from './depTree';
+import { findWorkspacePackages } from './findWorkspacePackages';
 import { readPackageJSON, writePackageJSON } from './handleJSON';
 import { runCommand, RunCommandResult } from './runCommand';
-import { runmateLogger } from './runmateLogger';
 
 let packageRunnerCache = {};
 
@@ -45,9 +43,20 @@ export function getPackageRunnerUtils(jsonPath: string) {
 
         return await runCommand(command, { cwd });
       } catch (e: any) {
-        const message = `Failed to run command in package "${json.name}": ${
-          e.message || inspect(e)
-        }`;
+        const message = `Failed to run command in package "${json.name}":\n ${(
+          e.message ||
+          inspect(e) ||
+          ''
+        )
+          .split('\n')
+          .map((el) => `  ${el}`)
+          .join('\n')}`;
+
+        if (e?.stack && e.message) {
+          e.message = message;
+          throw e;
+        }
+
         throw new Error(message);
       }
     },
@@ -87,7 +96,6 @@ export interface PackageRunnerRun {
 }
 
 export async function packageRunner(
-  pattern: string,
   options: PackageRunnerOptions = {}
 ): Promise<PackageRunner> {
   //
@@ -104,54 +112,14 @@ export async function packageRunner(
     return undefined;
   })();
 
-  const files: string[] = [];
-
-  try {
-    glob
-      .sync(pattern, {
-        cwd,
-        noext: true,
-        absolute: true,
-        cache,
-      })
-      .forEach((file) => {
-        if (file.match(/node_modules/)) return;
-
-        const ext = nodePath.extname(file);
-
-        if (ext) return;
-
-        const jsonPath = nodePath.join(file, 'package.json');
-
-        if (existsSync(jsonPath)) {
-          files.push(jsonPath);
-        }
-      });
-  } catch (e: any) {
-    throw new Error(`Failed to find packages: ${e.message}`);
-  }
+  const files = findWorkspacePackages({ globCache: cache, cwd }).flatMap(
+    (el) => el.found
+  );
 
   const utils = files.map((file) => getPackageRunnerUtils(file));
   const packages = reduceObject(utils, (item) => ({ [item.name]: item }));
 
   const depTree = new DepTree(utils.map((el) => el.json)).find();
-
-  runmateLogger.lazyDebug(() => {
-    return [
-      'Found packages:\n',
-      depTree
-        .map((el) => {
-          let txt = `${el.name}: `;
-          if (!el.dependents.length) {
-            txt += `0 dependents.`;
-          } else {
-            txt += `dependents: ${el.dependents.join(', ')}.`;
-          }
-          return `➜  ${txt}`;
-        })
-        .join('\n'),
-    ];
-  });
 
   const run: PackageRunner['run'] = async function run(command, runOptions) {
     let { chunkSize, failFast = failFastRoot, from } = runOptions || {};

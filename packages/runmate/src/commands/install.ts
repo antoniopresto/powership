@@ -1,27 +1,20 @@
 import chalk from 'chalk';
 import { Command } from 'commander';
 
-import { defaultPackagesGlobPattern } from '../defaultPackagesGlobPattern';
 import { packageRunner } from '../packageRunner';
 import { packageVersion } from '../packageVersion';
-import { runmateLogger } from '../runmateLogger';
 
 export function install(program: Command) {
   program
-    .command('install')
-    .option('-s, --src <packages>', 'Packages glob pattern.')
+    .command('install [cwd]')
     .option('--no-scripts', 'Ignores the prepublish scripts.')
     .option('--dry-run', 'Ignores the publication.')
-    .action(async function run(_version, options): Promise<any> {
-      const { src, scripts, dryRun } = options || {};
-
-      await runmateLogger.lazyDebug(() => [
-        'Received args: \n',
-        JSON.stringify(options, null, 2),
-      ]);
+    .action(async function run(cwd, options): Promise<any> {
+      const { scripts, dryRun } = options || {};
 
       try {
-        const runner = await packageRunner(src || defaultPackagesGlobPattern, {
+        const runner = await packageRunner({
+          cwd,
           failFast: false,
         });
 
@@ -55,12 +48,6 @@ export function install(program: Command) {
     )
     .alias('v')
     .action(async function run(releaseTypeOrVersion, pattern): Promise<any> {
-      //
-      await runmateLogger.lazyDebug(() => [
-        'Received args: \n',
-        JSON.stringify({ releaseTypeOrVersion }, null, 2),
-      ]);
-
       try {
         await packageVersion(releaseTypeOrVersion, pattern);
       } catch (e: any) {

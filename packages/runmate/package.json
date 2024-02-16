@@ -1,6 +1,6 @@
 {
   "name": "runmate",
-  "version": "3.2.11",
+  "version": "3.2.15",
   "typings": "out",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -12,6 +12,7 @@
   "sideEffects": false,
   "scripts": {
     "test": "echo ok",
+    "link": "pnpm prepublishOnly && pnpm link --global",
     "build": "run-s clear && run-p build:*",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
@@ -28,6 +29,7 @@
   },
   "description": "run command in each package",
   "keywords": [],
+  "workspaces": [],
   "dependencies": {
     "@types/glob": "^8.1.0",
     "@types/lodash": "4.14.191",

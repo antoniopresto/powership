@@ -2,7 +2,6 @@ import nodePath from 'path';
 
 import semver from 'semver/preload';
 
-import { defaultPackagesGlobPattern } from './defaultPackagesGlobPattern';
 import { readPackageJSON, writePackageJSON } from './handleJSON';
 import { packageRunner, PackageRunnerUtils } from './packageRunner';
 
@@ -29,15 +28,14 @@ export const packageJSONDependencyKeys = [
 
 export async function packageVersion(
   releaseTypeOrVersion: ReleaseType | string,
-  patternInput?: string
+  cwd?: string
 ) {
-  const pattern = patternInput || defaultPackagesGlobPattern;
-  const runner = await packageRunner(pattern);
+  const runner = await packageRunner({ cwd });
 
   const rootJSONPath = nodePath.resolve(process.cwd(), 'package.json');
 
   const rootJSON = (() => {
-    if (patternInput) return;
+    if (cwd) return;
     try {
       return readPackageJSON(rootJSONPath);
     } catch (e) {
