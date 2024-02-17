@@ -15,14 +15,6 @@ class DepTree {
   packageValues: PackageItem[] = [];
   packageByName = new Map<string, PackageItem>();
 
-  // dependencyEntryNames = [
-  //   'dependencies',
-  //   'devDependencies',
-  //   'optionalDependencies',
-  //   'peerDependencies',
-  //   'devDependencies',
-  // ];
-
   constructor(value: PackageJson[]) {
     this.packageValues = value.map((json, index) => {
       const item: PackageItem = {

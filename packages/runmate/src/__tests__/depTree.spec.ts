@@ -23,8 +23,8 @@ describe('depTree', () => {
 
     expect(sut).toEqual([
       '@powership/babel-plugins',
+      '@powership/boilerplate',
       '@powership/utils',
-      '@powership/schema',
     ]);
   });
 });

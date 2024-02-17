@@ -1,24 +1,34 @@
 {
   "name": "runmate",
-  "version": "3.2.15",
+  "version": "3.2.18",
   "typings": "out",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
-  "main": "out/index.cjs",
-  "module": "out/module/index.mjs",
+  "type": "module",
+  "main": "./out/index.cjs",
+  "module": "./out/module/index.mjs",
+  "types": "./out/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./out/index.d.ts",
+      "import": "./out/module/index.mjs",
+      "require": "./out/index.cjs"
+    }
+  },
   "bin": {
     "run": "./out/cli.cjs"
   },
   "sideEffects": false,
   "scripts": {
-    "test": "echo ok",
+    "test": "jest --runInBand",
     "link": "pnpm prepublishOnly && pnpm link --global",
-    "build": "run-s clear && run-p build:*",
-    "fix": "run-s fix:*",
+    "ts": "tsc --noEmit",
+    "build": "run-s clear && run-p declarations build:*",
+    "clear": "rimraf out",
+    "fix": "run-s fix:* ",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint src --ext .ts --fix",
-    "clear": "rimraf out",
-    "prepublishOnly": "run-s build fix && run-p test",
+    "prepublishOnly": "run-p build fix && run-p test",
     "build-targets": "run-p build:*",
     "build:browser": "TARGET=browser npm run babild -- --out-dir out/browser --out-file-extension .cjs",
     "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir out/browser/module --out-file-extension .mjs",
@@ -70,7 +80,8 @@
     "rimraf": "3.0.2",
     "ts-jest": "29.1.0",
     "typedoc": "^0.23.28",
-    "typescript": "4.9.3"
+    "typescript": "4.9.3",
+    "@types/jest": "29.5.3"
   },
   "files": [
     "package.json",

@@ -1,13 +1,15 @@
 {
-  "extends": "./tsconfig",
+  "extends": "./tsconfig.prod.json",
   "compilerOptions": {
-    "target": "esnext",
+    "target": "ES2022",
     "outDir": "out/module",
-    "module": "esnext",
+    "module": "ES2022",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "isolatedModules": true
   },
   "exclude": [
-    "node_modules/**"
+    "node_modules/**", //
+    "**/*/__tests__/*"
   ]
 }

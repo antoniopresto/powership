@@ -2,8 +2,8 @@
   "compilerOptions": {
     "outDir": "out",
     "rootDir": "src",
-    "baseUrl": ".",
-    "lib": ["es5", "es6", "es7", "esnext", "dom", "es2020"],
+    "paths": {},
+    "lib": ["es5", "es6", "es7", "esnext"],
     "declaration": true,
     "target": "es5",
     "removeComments": false,
@@ -12,14 +12,16 @@
     "resolveJsonModule": true,
     "strict": true,
     "skipLibCheck": true,
-     "strictPropertyInitialization": true,
+    "strictPropertyInitialization": false,
     "forceConsistentCasingInFileNames": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "downlevelIteration": true,
-    "noImplicitAny": false
+    "isolatedModules": true,
+    "noImplicitAny": false,
+    "typeRoots": ["node_modules/@types", "src/generated"]
   },
   "include": ["./src/**/*"]
 }
