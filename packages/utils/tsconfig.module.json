@@ -1,6 +1,10 @@
 {
   "extends": "./tsconfig",
   "compilerOptions": {
+    "paths": {
+      "lodash": ["./node_modules/lodash-es"],
+      "lodash/*": ["./node_modules/lodash-es/*"]
+    },
     "target": "esnext",
     "outDir": "out/module",
     "module": "esnext",

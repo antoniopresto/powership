@@ -7,11 +7,11 @@ import { packageVersion } from '../packageVersion';
 export function version(program: Command) {
   program
     .command('publish [version]')
-    .option('-s, --src <pattern>', 'Packages root folder.')
+    .option('-d, --cwd <pattern>', 'Packages root folder.')
     .option('--no-scripts', 'Ignores the prepublish scripts.')
     .option('--dry-run', 'Ignores the publication.')
     .action(async function run(version, options): Promise<any> {
-      const { src, scripts, dryRun } = options || {};
+      const { cwd: src, scripts, dryRun } = options || {};
 
       try {
         if (version) {

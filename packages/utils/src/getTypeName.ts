@@ -1,4 +1,4 @@
-import isPlainObject from 'lodash/isPlainObject';
+import { isPlainObject } from 'lodash';
 
 import { BJSON } from './BJSON';
 import { proxyRealValue } from './createProxy';

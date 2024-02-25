@@ -1,3 +1,3 @@
-import groupBy from 'lodash/groupBy';
+import { groupBy } from 'lodash';
 
 export { groupBy };

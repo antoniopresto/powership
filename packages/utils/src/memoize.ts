@@ -1,3 +1,3 @@
-import memoize from 'lodash/memoize';
+import { memoize } from 'lodash';
 
 export { memoize };

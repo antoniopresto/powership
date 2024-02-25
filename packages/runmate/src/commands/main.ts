@@ -8,9 +8,9 @@ export function main(program: Command) {
     .command('packages', { isDefault: true })
     .argument('<command...>')
     .description(
-      'Run command in each package in ./packages folder or in `--src` option folder'
+      'Run command in each package in ./packages folder or in `--cwd` option folder'
     )
-    .option('-s, --src <pattern>', 'Source directory or glob pattern')
+    .option('-d, --cwd <pattern>', 'Source directory or glob pattern')
     .option(
       '-c, --chunk-size <number>',
       'Chunk size of parallel executions',
@@ -33,7 +33,7 @@ export function main(program: Command) {
     .action(async function run(
       commands: string[],
       options?: {
-        src?: string;
+        cwd?: string;
         chunkSize: string;
         failFast: boolean;
         ignore?: string;
@@ -44,7 +44,7 @@ export function main(program: Command) {
     ): Promise<any> {
       const {
         //
-        src,
+        cwd: src,
         chunkSize = 1,
         failFast,
         ignore,

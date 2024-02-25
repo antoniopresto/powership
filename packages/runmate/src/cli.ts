@@ -6,6 +6,7 @@ import { Command } from 'commander';
 import { align } from './commands/align';
 import { list } from './commands/list';
 import { main } from './commands/main';
+import { setJsonValue } from './commands/set-json-value';
 import { version } from './commands/version';
 import { packageRunner, PackageRunnerUtils } from './packageRunner';
 import { packageJSONDependencyKeys } from './packageVersion';
@@ -23,9 +24,9 @@ program
     'Chunk size of parallel executions',
     '10'
   )
-  .option('-s, --src <pattern>', 'Folder pattern')
+  .option('-d, --cwd <pattern>', 'Folder pattern')
   .action(async function run(options): Promise<any> {
-    const { chunkSize, src } = options || {};
+    const { chunkSize, cwd: src } = options || {};
 
     try {
       const runner = await packageRunner(src);
@@ -42,7 +43,7 @@ program
   .command('each')
   .alias('packages')
   .argument('[command...]')
-  .option('-s, --src <pattern>', 'Folder pattern')
+  .option('-d, --cwd <pattern>', 'Folder pattern')
   .option(
     '-c, --chunk-size <chunk-size>',
     'Chunk size of parallel executions',
@@ -50,7 +51,7 @@ program
   )
   .alias('e')
   .action(async function run(commands: string[], options): Promise<any> {
-    const { chunkSize, src } = options;
+    const { chunkSize, cwd: src } = options;
     const command = commands.join(' ');
 
     try {
@@ -69,7 +70,7 @@ program
   .description(
     'Executes `link` or any other command in every dependency/dependent package.'
   )
-  .option('-s, --src <pattern>', 'Packages glob pattern.')
+  .option('-d, --cwd <pattern>', 'Packages glob pattern.')
   .option('--clean', 'Clean node_modules before link.')
   .option('-c, --chunkSize <value>', 'Parallel executions size.', '10')
   .alias('l')
@@ -78,7 +79,7 @@ program
     'Run command only in specified package and after in the dependency tree.'
   )
   .action(async function run(options): Promise<any> {
-    const { src, chunkSize = 10, clean, from } = options || {};
+    const { cwd: src, chunkSize = 10, clean, from } = options || {};
 
     const localPackages = new Map<string, PackageRunnerUtils>();
 
@@ -140,6 +141,7 @@ program
 list(program);
 version(program);
 align(program);
+setJsonValue(program);
 
 program.version('> Runmate ' + require('../package.json').version);
 

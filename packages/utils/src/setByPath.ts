@@ -1,4 +1,4 @@
-import setWith from 'lodash/setWith';
+import { setWith } from 'lodash';
 
 import { getTypeName } from './getTypeName';
 import { isPlainObject } from './isObject';

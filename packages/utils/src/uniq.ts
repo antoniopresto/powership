@@ -1,5 +1,5 @@
-import _uniq from 'lodash/uniq';
-import _uniqBy from 'lodash/uniqBy';
+import { uniq as _uniq } from 'lodash';
+import { uniqBy as _uniqBy } from 'lodash';
 
 // preventing direct code dependency from external lib.
 

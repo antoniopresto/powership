@@ -3,7 +3,7 @@ import process from 'process';
 import { inspect } from 'util';
 
 import { glob } from 'glob';
-import chunk from 'lodash/chunk';
+import { chunk } from 'lodash';
 
 import { runCommand } from './runCommand';
 

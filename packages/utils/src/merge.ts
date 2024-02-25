@@ -1,4 +1,4 @@
-import _merge from 'lodash/merge';
+import { merge as _merge } from 'lodash';
 
 import { Merge } from './index';
 

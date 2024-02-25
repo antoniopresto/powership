@@ -1,4 +1,4 @@
-const { ModuleExtensions } = require('@powership/babel-plugins');
+const { ModuleExtensions, StripBlocksPlugin, TransformLodashImportsPlugin } = require('@powership/babel-plugins');
 const { TARGET } = process.env;
 const validTargets = ['module', 'browser', 'node', 'module-browser', 'module-node'];
 
@@ -71,18 +71,22 @@ module.exports = function (api) {
   const plugins = [
     ['babel-plugin-add-import-extension', { extension: destinationExtension, replace: true }],
     [
-      require('@powership/babel-plugins').StripBlocksPlugin,
+      StripBlocksPlugin,
       {
         magicComment: `@only-${KIND_INVERT}`,
       },
     ],
     [
-      require('@powership/babel-plugins').ModuleExtensions,
+      ModuleExtensions,
       {
         destinationExtension,
       },
     ],
   ];
+
+  if (destinationExtension === 'mjs') {
+    plugins.unshift([TransformLodashImportsPlugin, {}]);
+  }
 
   return {
     presets,

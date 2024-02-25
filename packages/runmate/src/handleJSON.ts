@@ -12,7 +12,7 @@ export function readPackageJSON(path: string): PackageJson {
 
 export function writePackageJSON(
   path: string,
-  packageJSON: PackageJson | string
+  packageJSON: Record<string, any> | string
 ) {
   const json =
     typeof packageJSON === 'string'

@@ -1,7 +1,7 @@
 import nodePath from 'path';
 import { inspect } from 'util';
 
-import chunk from 'lodash/chunk';
+import { chunk } from 'lodash';
 
 import { DepTree, PackageItem } from './depTree';
 import { findWorkspacePackages } from './findWorkspacePackages';

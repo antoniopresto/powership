@@ -1,3 +1,3 @@
-import sortBy from 'lodash/sortBy';
+import { sortBy } from 'lodash';
 
 export { sortBy };

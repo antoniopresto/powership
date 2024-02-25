@@ -1,5 +1,5 @@
-import camelCase from 'lodash/camelCase';
-import upperFirst from 'lodash/upperFirst';
+import { camelCase } from 'lodash';
+import { upperFirst } from 'lodash';
 
 import { randomItem } from './randomItem';
 import { slugify } from './slugify';
