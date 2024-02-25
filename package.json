@@ -1,6 +1,6 @@
 {
   "name": "powership",
-  "version": "3.2.20",
+  "version": "3.2.24",
   "private": true,
   "scripts": {
     "pack": "run-s pack:*",
@@ -45,7 +45,7 @@
     "runmate": "latest",
     "typedoc-plugin-markdown": "3.14.0",
     "typescript": "4.8.2",
-    "bun-safe": "1.0.5",
+    "bun-safe": "1.0.7",
     "semver": "7.5.2",
     "typedoc": "0.23.24",
     "zx": "7.2.3"

@@ -6,12 +6,14 @@ import {
   simpleObjectHash,
   Store,
 } from '@powership/utils';
-import { ensureFileSync } from 'fs-extra';
+import fsExtra from 'fs-extra';
 
 import { GraphType } from '../GraphType/GraphType';
 import { ObjectType } from '../ObjectType';
 
 import { createTSFYContext, tsfy, TSFYConfig } from './tsfy';
+
+const { ensureFileSync } = fsExtra;
 
 export const defaultTypesDest = path.resolve(
   Process.cwd(),

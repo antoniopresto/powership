@@ -2,6 +2,7 @@ import nodePath from 'path';
 import { inspect } from 'util';
 
 import { chunk } from 'lodash';
+import { logstorm } from 'logstorm';
 
 import { DepTree, PackageItem } from './depTree';
 import { findWorkspacePackages } from './findWorkspacePackages';
@@ -69,6 +70,7 @@ export interface PackageRunnerOptions {
   cwd?: string;
   cache?: boolean | Record<string, any>;
   failFast?: boolean;
+  includeRoot?: boolean;
 }
 
 export interface PackageRunOptions {
@@ -103,6 +105,7 @@ export async function packageRunner(
     cwd = process.cwd(),
     cache: cacheOption = true,
     failFast: failFastRoot = true,
+    includeRoot,
   } = options;
 
   const cache = (() => {
@@ -112,11 +115,24 @@ export async function packageRunner(
     return undefined;
   })();
 
-  const files = findWorkspacePackages({ globCache: cache, cwd }).flatMap(
-    (el) => el.found
-  );
+  const files = findWorkspacePackages({ globCache: cache, cwd, includeRoot });
 
-  const utils = files.map((file) => getPackageRunnerUtils(file));
+  (() => {
+    // force log
+    const level = logstorm.level;
+    const prefix = logstorm.prefix;
+    logstorm.level = 'info';
+    logstorm.prefix = false;
+    logstorm.info(
+      `Running command in:\n${(() => {
+        return files.map((el) => `  ‣ ${el.relative}`).join('\n');
+      })()}`
+    );
+    logstorm.level = level;
+    logstorm.prefix = prefix;
+  })();
+
+  const utils = files.map((file) => getPackageRunnerUtils(file.path));
   const packages = reduceObject(utils, (item) => ({ [item.name]: item }));
 
   const depTree = new DepTree(utils.map((el) => el.json)).find();

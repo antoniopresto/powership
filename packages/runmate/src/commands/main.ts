@@ -12,6 +12,11 @@ export function main(program: Command) {
     )
     .option('-d, --cwd <pattern>', 'Source directory or glob pattern')
     .option(
+      '--include-root <boolean>',
+      'Include root project in execution',
+      'true'
+    )
+    .option(
       '-c, --chunk-size <number>',
       'Chunk size of parallel executions',
       '1'
@@ -33,6 +38,7 @@ export function main(program: Command) {
     .action(async function run(
       commands: string[],
       options?: {
+        includeRoot?: unknown;
         cwd?: string;
         chunkSize: string;
         failFast: boolean;
@@ -42,7 +48,7 @@ export function main(program: Command) {
         packageNameCommand: boolean;
       }
     ): Promise<any> {
-      const {
+      let {
         //
         cwd: src,
         chunkSize = 1,
@@ -51,6 +57,7 @@ export function main(program: Command) {
         packages,
         packageNameCommand,
         from,
+        includeRoot,
       } = options || {};
 
       const ignoreList = ignore?.split(/, ?/);
@@ -60,6 +67,17 @@ export function main(program: Command) {
         const runner = await packageRunner({
           cwd: src,
           failFast,
+          includeRoot: (() => {
+            if (typeof includeRoot === 'boolean') return includeRoot;
+
+            if (typeof includeRoot !== 'string') {
+              throw new Error(
+                `includeRoot received invalid value: ${includeRoot} `
+              );
+            }
+
+            return includeRoot === 'true';
+          })(),
         });
 
         if (packageNameCommand !== false) {

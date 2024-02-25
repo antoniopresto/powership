@@ -7,14 +7,20 @@ describe('findWorkspacePackages', () => {
       cwd: nodePath.resolve(__dirname),
     });
 
+    expect(sut).toEqual([]);
+  });
+
+  test('catch top package', () => {
+    const sut = findWorkspacePackages({
+      cwd: nodePath.resolve(__dirname, '../../'),
+    });
+
     expect(sut).toEqual([
       {
-        found: [],
-        pattern: 'apps/*',
-      },
-      {
-        found: [],
-        pattern: 'packages/*',
+        path: expect.stringMatching(/\/packages\/runmate\/package.json$/),
+        json: expect.objectContaining({ name: 'runmate' }),
+        relative: './',
+        pattern: './',
       },
     ]);
   });

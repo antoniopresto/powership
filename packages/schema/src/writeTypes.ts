@@ -2,7 +2,9 @@ import path from 'path';
 
 import { Process } from '@powership/utils';
 import { Emitter, mitt } from '@powership/utils';
-import { ensureFileSync, writeFileSync } from 'fs-extra';
+import fsExtra from 'fs-extra';
+
+const { ensureFileSync, writeFileSync } = fsExtra;
 
 import { AnyResolver } from './Resolver';
 import { GraphTypeLike } from './fields/IObjectLike';

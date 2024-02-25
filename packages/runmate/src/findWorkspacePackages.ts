@@ -1,15 +1,16 @@
 import nodePath from 'path';
-import * as path from 'path';
 import process from 'process';
 
 import fs from 'fs-extra';
 import * as glob from 'glob';
 
 import { PackageJson } from './ICommons';
+import { readPackageJSON } from './handleJSON';
 
 export type FindWorkspacePackagesInit = {
   cwd?: string;
   globCache?: any;
+  includeRoot?: boolean;
 };
 
 export type WorkspacePackagesFoundResult = ReturnType<
@@ -17,38 +18,51 @@ export type WorkspacePackagesFoundResult = ReturnType<
 >;
 
 export function findWorkspacePackages(init?: FindWorkspacePackagesInit) {
-  const { cwd: rootDir = process.cwd(), globCache } = init || {};
+  const {
+    cwd: rootDir = process.cwd(),
+    globCache,
+    includeRoot = true,
+  } = init || {};
 
   const pnpmWorkspaces = listPnpmWorkspaces(rootDir);
   const packageJsonWorkspaces = listPackageJSONWorkspaces(rootDir);
 
-  const foundPatterns = pnpmWorkspaces?.length
+  let foundPatterns = pnpmWorkspaces?.length
     ? pnpmWorkspaces
     : packageJsonWorkspaces?.length
     ? packageJsonWorkspaces
     : null;
 
   if (!foundPatterns) {
-    throw new Error('No workspaces config found.');
+    console.warn('⚠️ No workspaces config found.');
+    foundPatterns = [];
+  }
+
+  if (includeRoot) {
+    foundPatterns.unshift('./');
   }
 
   return foundPatterns.flatMap((pattern) => {
-    const found = glob.sync(nodePath.join(pattern, 'package.json'), {
-      cwd: rootDir,
-      absolute: true,
-      cache: globCache,
-      ignore: ['**/node_modules/**'],
-    });
-
-    return {
-      found,
-      pattern,
-    };
+    return glob
+      .sync(nodePath.join(pattern, 'package.json'), {
+        cwd: rootDir,
+        absolute: true,
+        cache: globCache,
+        ignore: ['**/node_modules/**'],
+      })
+      .flatMap((path) => {
+        return {
+          pattern,
+          path: path,
+          json: readPackageJSON(path),
+          relative: nodePath.relative(rootDir, nodePath.dirname(path)) || `./`,
+        };
+      });
   });
 }
 
 function listPnpmWorkspaces(rootDir: string) {
-  const pnpmWorkspacePath = path.join(rootDir, 'pnpm-workspace.yaml');
+  const pnpmWorkspacePath = nodePath.join(rootDir, 'pnpm-workspace.yaml');
 
   if (fs.existsSync(pnpmWorkspacePath)) {
     const workspaceFileContent = fs.readFileSync(pnpmWorkspacePath, 'utf-8');
@@ -72,7 +86,7 @@ function listPnpmWorkspaces(rootDir: string) {
 }
 
 function listPackageJSONWorkspaces(rootDir: string) {
-  const packageJsonPath = path.join(rootDir, 'package.json');
+  const packageJsonPath = nodePath.join(rootDir, 'package.json');
 
   if (fs.existsSync(packageJsonPath)) {
     const packageJson = fs.readJSONSync(packageJsonPath) as PackageJson;
