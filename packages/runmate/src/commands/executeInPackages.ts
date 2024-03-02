@@ -208,11 +208,11 @@ function _executeInPackages(
               }
             );
           } catch (e: any) {
-            console.error(chalk.red(e));
+            throw e;
           }
         }
       } catch (e) {
-        console.error(e);
+        throw e;
       }
     });
 }

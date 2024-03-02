@@ -9,7 +9,6 @@ import * as semver from 'semver';
 import urlPattern from 'url-pattern';
 
 import { devAssert } from './devAssert';
-import { tryCatch } from './tryCatch';
 
 export function CWD(): string {
   const errors: any[] = [];
