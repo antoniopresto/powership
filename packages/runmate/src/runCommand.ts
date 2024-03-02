@@ -14,7 +14,7 @@ export interface RunCommandOptions {
 
 export interface RunCommandResult {
   data: Buffer[];
-  code: 0;
+  code: 0 | -1;
 }
 
 export async function runCommand(

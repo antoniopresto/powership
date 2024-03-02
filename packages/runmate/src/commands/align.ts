@@ -2,7 +2,7 @@ import { inspect } from 'util';
 
 import chalk from 'chalk';
 import { Command } from 'commander';
-import semver from 'semver/preload';
+import semver from 'semver';
 
 import { packageRunner } from '../packageRunner';
 import { packageJSONDependencyKeys } from '../packageVersion';

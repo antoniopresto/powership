@@ -24,14 +24,17 @@ export function version(program: Command) {
         });
 
         if (scripts) {
-          await runner.run('npm publish --dry-run', {
-            failFast: true,
-            chunkSize: 1,
-          });
+          await runner.run(
+            { command: 'npm publish --dry-run' },
+            {
+              failFast: true,
+              chunkSize: 1,
+            }
+          );
         }
 
         if (!dryRun) {
-          await runner.run('npm publish');
+          await runner.run({ command: 'npm publish' });
         }
       } catch (e: any) {
         console.error(chalk.red(e));

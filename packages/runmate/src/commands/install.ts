@@ -19,14 +19,17 @@ export function install(program: Command) {
         });
 
         if (scripts) {
-          await runner.run('npm install --dry-run', {
-            failFast: true,
-            chunkSize: 1,
-          });
+          await runner.run(
+            { command: 'npm install --dry-run' },
+            {
+              failFast: true,
+              chunkSize: 1,
+            }
+          );
         }
 
         if (!dryRun) {
-          await runner.run('npm install');
+          await runner.run({ command: 'npm install' });
         }
       } catch (e: any) {
         console.error(chalk.red(e));

@@ -1,4 +1,4 @@
-import { Unauthorized } from 'http-errors';
+import httpErrors from 'http-errors';
 
 import {
   BaseRequestHandler,
@@ -6,6 +6,8 @@ import {
   RequestBody,
 } from './BaseRequestHandler';
 import { ServerLogs } from './ServerLogs';
+
+const { Unauthorized } = httpErrors;
 
 export type ServerRequestInit = {
   locals?: Record<string, unknown>;

@@ -1,6 +1,6 @@
 {
   "name": "@powership/helpers",
-  "version": "3.2.24",
+  "version": "3.3.0",
   "type": "module",
   "main": "./out/index.cjs",
   "module": "./out/module/index.mjs",

@@ -34,7 +34,7 @@ export function findWorkspacePackages(init?: FindWorkspacePackagesInit) {
     : null;
 
   if (!foundPatterns) {
-    console.warn('⚠️ No workspaces config found.');
+    console.warn(`⚠️ No workspaces config found in ${rootDir}`);
     foundPatterns = [];
   }
 

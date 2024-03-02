@@ -4,8 +4,8 @@ import chalk from 'chalk';
 import { Command } from 'commander';
 
 import { align } from './commands/align';
+import { executeInPackages } from './commands/executeInPackages';
 import { list } from './commands/list';
-import { main } from './commands/main';
 import { setJsonValue } from './commands/set-json-value';
 import { version } from './commands/version';
 import { packageRunner, PackageRunnerUtils } from './packageRunner';
@@ -14,7 +14,7 @@ import { runInFiles } from './runInFiles';
 
 const program = new Command();
 
-main(program);
+executeInPackages(program);
 
 program
   .command('clean')
@@ -30,10 +30,13 @@ program
 
     try {
       const runner = await packageRunner(src);
-      await runner.run('rm -rf node_modules', {
-        chunkSize: +chunkSize,
-        failFast: false,
-      });
+      await runner.run(
+        { command: 'rm -rf node_modules' },
+        {
+          chunkSize: +chunkSize,
+          failFast: false,
+        }
+      );
     } catch (e: any) {
       console.error(chalk.redBright.bgBlack(e));
     }
@@ -90,11 +93,14 @@ program
       });
 
       if (clean) {
-        await runner.run('rm -rf node_modules', {
-          failFast: false,
-          chunkSize,
-          from,
-        });
+        await runner.run(
+          { command: 'rm -rf node_modules' },
+          {
+            failFast: false,
+            chunkSize,
+            from,
+          }
+        );
       }
 
       await runner.run(async (utils) => {
@@ -128,7 +134,9 @@ program
           }
 
           if (toLink.length) {
-            await run(`npm link ${toLink.join(' ')} --legacy-peer-deps`);
+            await run({
+              command: `npm link ${toLink.join(' ')} --legacy-peer-deps`,
+            });
           }
         },
         { chunkSize: +chunkSize, from }

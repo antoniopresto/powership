@@ -1,11 +1,6 @@
 import { getTypeName } from '@powership/utils';
 import { inspectObject, isProduction } from '@powership/utils';
-import {
-  HttpError,
-  InternalServerError,
-  isHttpError,
-  PreconditionFailed,
-} from 'http-errors';
+import httpErrors from 'http-errors';
 import { StatusCodes as StatusCodesEnum } from 'http-status-codes';
 import qs, { ParsedQs } from 'qs';
 
@@ -13,6 +8,8 @@ import { ServerLogs } from './ServerLogs';
 import { UnhandledSymbol } from './Symbol';
 import { createRouteMatcher, RouteMatcher } from './routeMatch';
 
+const { HttpError, InternalServerError, isHttpError, PreconditionFailed } =
+  httpErrors;
 export { HttpError, isHttpError };
 
 export type BaseRequestHandlerInit = {

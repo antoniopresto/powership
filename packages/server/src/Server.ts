@@ -3,7 +3,7 @@ import type { AddressInfo } from 'net';
 
 import { hope, Hope, NodeLogger } from '@powership/utils';
 import { Compute, nonNullValues } from '@powership/utils';
-import { InternalServerError, NotFound } from 'http-errors';
+import httpErrors from 'http-errors';
 import { createAsyncPlugin } from 'plugin-hooks';
 
 import { isHttpError, RequestBody } from './BaseRequestHandler';
@@ -14,6 +14,8 @@ import { UnhandledSymbol } from './Symbol';
 import { _404 } from './_404';
 import { parseHTTPBody } from './bodyParserHandler';
 import { createHandler } from './createHandler';
+
+const { InternalServerError, NotFound } = httpErrors;
 
 export type ServerDefinition = {
   handlers: Handler<any>[];

@@ -30,7 +30,9 @@ export function setJsonValue(program: Command) {
 
         runner.utils.map(async (util) => {
           const jsonPath = nodePath.resolve(util.cwd, file);
-          const runCommandResult = await util.run(`cat ${jsonPath}`);
+          const runCommandResult = await util.run({
+            command: `cat ${jsonPath}`,
+          });
 
           const content = runCommandResult.data
             .map((el) => el.toString('utf-8'))

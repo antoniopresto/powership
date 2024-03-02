@@ -1,6 +1,6 @@
 {
   "name": "runmate",
-  "version": "3.2.24",
+  "version": "3.3.0",
   "typings": "out",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -16,7 +16,8 @@
     }
   },
   "bin": {
-    "run": "./out/cli.cjs"
+    "run": "./out/cli.cjs",
+    "each": "./out/cli-each.cjs"
   },
   "sideEffects": false,
   "scripts": {

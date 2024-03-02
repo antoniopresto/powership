@@ -15,6 +15,10 @@ export function clearPackageRunnerCache() {
   packageRunnerCache = {};
 }
 
+export type PackageRunnerExecInput =
+  | { command: string; script?: undefined }
+  | { command?: undefined; script: string };
+
 export function getPackageRunnerUtils(jsonPath: string) {
   const json = readPackageJSON(jsonPath);
   const cwd = nodePath.dirname(jsonPath);
@@ -32,10 +36,27 @@ export function getPackageRunnerUtils(jsonPath: string) {
     saveJSON() {
       writePackageJSON(jsonPath, json);
     },
-    async run(command: string): Promise<RunCommandResult> {
+    async run(init: PackageRunnerExecInput): Promise<RunCommandResult> {
       try {
-        if (json.scripts?.[command]) {
-          command = `npm run ${command}`;
+        let command = (() => {
+          // running packageJson script
+          if (init.script) {
+            if (json.scripts?.[init.script]) {
+              return `npm run ${init.script}`;
+            } else {
+              logstorm.log(
+                `${json.name} skipped "${init.script}" - not defined.`
+              );
+              return null;
+            }
+          }
+
+          // run any script
+          return init.command;
+        })();
+
+        if (!command) {
+          return { data: [], code: -1 };
         }
 
         command = command.replace(/__cwd/g, cwd);
@@ -92,7 +113,7 @@ export interface PackageRunner {
 
 export interface PackageRunnerRun {
   (
-    callback: ((utils: PackageRunnerUtils) => any) | string,
+    callback: ((utils: PackageRunnerUtils) => any) | PackageRunnerExecInput,
     runOptions?: PackageRunOptions
   ): Promise<PackageRunnerResult>;
 }
@@ -117,20 +138,22 @@ export async function packageRunner(
 
   const files = findWorkspacePackages({ globCache: cache, cwd, includeRoot });
 
-  (() => {
-    // force log
-    const level = logstorm.level;
-    const prefix = logstorm.prefix;
-    logstorm.level = 'info';
-    logstorm.prefix = false;
-    logstorm.info(
-      `Running command in:\n${(() => {
-        return files.map((el) => `  ‣ ${el.relative}`).join('\n');
-      })()}`
-    );
-    logstorm.level = level;
-    logstorm.prefix = prefix;
-  })();
+  if (files.length) {
+    (() => {
+      // force log
+      const level = logstorm.level;
+      const prefix = logstorm.prefix;
+      logstorm.level = 'info';
+      logstorm.prefix = false;
+      logstorm.info(
+        `Running command in:\n${(() => {
+          return files.map((el) => `  ‣ ${el.relative}`).join('\n');
+        })()}`
+      );
+      logstorm.level = level;
+      logstorm.prefix = prefix;
+    })();
+  }
 
   const utils = files.map((file) => getPackageRunnerUtils(file.path));
   const packages = reduceObject(utils, (item) => ({ [item.name]: item }));
@@ -168,12 +191,12 @@ export async function packageRunner(
             }
           }
 
-          const util = utils[item.index];
+          const runnerUtils = utils[item.index];
 
           try {
             const res = await (typeof command === 'function'
-              ? command(util)
-              : util.run(command));
+              ? command(runnerUtils)
+              : runnerUtils.run(command));
 
             result.results.push(res);
           } catch (e: any) {
