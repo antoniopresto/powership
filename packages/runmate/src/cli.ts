@@ -6,6 +6,7 @@ import { Command } from 'commander';
 import { align } from './commands/align';
 import { executeInPackages } from './commands/executeInPackages';
 import { list } from './commands/list';
+import { peers } from './commands/peers';
 import { setJsonValue } from './commands/set-json-value';
 import { version } from './commands/version';
 import { packageRunner, PackageRunnerUtils } from './packageRunner';
@@ -150,6 +151,7 @@ list(program);
 version(program);
 align(program);
 setJsonValue(program);
+peers(program);
 
 program.version('> Runmate ' + require('../package.json').version);
 

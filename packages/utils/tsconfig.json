@@ -3,14 +3,7 @@
     "outDir": "out",
     "rootDir": "src",
     "baseUrl": ".",
-    "lib": [
-      "es5",
-      "es6",
-      "es7",
-      "esnext",
-      "dom",
-      "es2020"
-    ],
+    "lib": ["es5", "es6", "es7", "esnext", "dom", "es2020"],
     "declaration": true,
     "target": "es5",
     "removeComments": false,

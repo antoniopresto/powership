@@ -27,3 +27,27 @@ export function tryCatch<T>(
     return [e, null] as any;
   }
 }
+
+// /**
+//  * Return the result of the first function that not dispatches an error
+//  * or throw an error with all failed messages
+//  * @param functions
+//  */
+// export function tryEach<T>(
+//   ...functions: (() => T)[]
+// ): [T] extends [Promise<infer R>]
+//   ? Promise<[ErrorWithStack, null] | [null, R]>
+//   : [ErrorWithStack, null] | [null, T] {
+//   let errors: Error[] | undefined = undefined;
+//
+//   for (let fn of functions) {
+//     const [err, res] = tryEach(fn);
+//     if (res) return res;
+//     if (err) {
+//       errors = errors || [];
+//       errors.push(err);
+//     }
+//   }
+//
+//   return '' as any;
+// }

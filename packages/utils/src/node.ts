@@ -1,6 +1,3 @@
-/// <reference types="bun-types" />
-/// <reference types="bun-types/globals" />
-
 import nodePath from 'path';
 import nodeURL from 'url';
 
@@ -11,23 +8,35 @@ import * as glob from 'glob';
 import * as semver from 'semver';
 import urlPattern from 'url-pattern';
 
+import { devAssert } from './devAssert';
+import { tryCatch } from './tryCatch';
+
 export function CWD(): string {
   const errors: any[] = [];
 
   try {
-    return process.cwd();
+    return process.cwd() || devAssert('process.cwd() is empty.');
   } catch (e) {
     errors.push(e);
   }
 
   try {
-    return require('process').cwd();
+    return (
+      require('process').cwd() ||
+      devAssert("require('process').cwd() is empty.")
+    );
   } catch (e) {
     errors.push(e);
   }
 
   throw errors;
 }
+
+export function resolveCWD(...parts: string[]) {
+  return nodePath.resolve(CWD(), ...parts);
+}
+
+export const relativePath = resolveCWD;
 
 export function __dirnameGet(meta: { url: string }) {
   if (typeof meta?.url !== 'string' || !meta.url) {
@@ -36,7 +45,6 @@ export function __dirnameGet(meta: { url: string }) {
     );
   }
 
-  return nodePath.dirname(nodeURL.fileURLToPath(meta.url));
   return nodePath.dirname(nodeURL.fileURLToPath(meta.url));
 }
 

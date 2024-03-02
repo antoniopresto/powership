@@ -1,5 +1,5 @@
 import { AnyFunction, filterNull } from '@powership/utils';
-import { chalk, CWD, glob, nodePath } from '@powership/utils/out/node-utils';
+import { chalk, CWD, glob, nodePath } from '@powership/utils/node';
 import { Command } from 'commander';
 
 import { packageRunner, PackageRunnerExecInput } from '../packageRunner';

@@ -21,3 +21,5 @@ export function writePackageJSON(
 
   fs.writeFileSync(path, json);
 }
+
+export const savePackageJSON = writePackageJSON;
