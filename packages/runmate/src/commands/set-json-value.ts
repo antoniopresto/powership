@@ -1,5 +1,5 @@
 import { jsonParse, setByPath } from '@powership/utils';
-import { chalk, nodePath } from '@powership/utils/node';
+import { chalk, nodePath } from '@powership/utils/out/node';
 import { Command } from 'commander';
 
 import { writePackageJSON } from '../handleJSON';

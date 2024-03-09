@@ -1,5 +1,5 @@
 import { AnyFunction, filterNull } from '@powership/utils';
-import { chalk, CWD, glob, nodePath } from '@powership/utils/node';
+import { chalk, CWD, glob, nodePath } from '@powership/utils/out/node';
 import { Command } from 'commander';
 
 import { packageRunner, PackageRunnerExecInput } from '../packageRunner';
@@ -7,21 +7,21 @@ import { packageRunner, PackageRunnerExecInput } from '../packageRunner';
 // creates a command to "run in each package"
 export function executeInPackages(program: Command) {
   _executeInPackages(
-    'command',
-    program
-      .command('command', { isDefault: true })
-      .argument('<command...>')
-      .description('Run command in each package')
-  );
-
-  _executeInPackages(
     'script',
     program
-      .command('script', {})
+      .command('script', { isDefault: true })
       .argument('<command...>')
       .description(
         'Runs `npm run <package-json-script>` in each package where that script is defined.'
       )
+  );
+
+  _executeInPackages(
+    'command',
+    program
+      .command('command')
+      .argument('<command...>')
+      .description('Run command in each package')
   );
 
   return program;
