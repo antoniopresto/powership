@@ -1,3 +1,5 @@
+// @only-server
+import chalk from 'chalk';
 import { AsyncPlugin, createAsyncPlugin } from 'plugin-hooks';
 
 export const LogMethodNames = [
@@ -80,15 +82,6 @@ export function createLogger(
     prefix: options.prefix ?? true,
   };
 
-  const chalk = (() => {
-    try {
-      // @only-server
-      return require('chalk') as typeof import('chalk');
-    } catch (e) {
-      return undefined;
-    }
-  })();
-
   LogMethodNames.forEach((methodName) => {
     const loggerKey = ((): keyof typeof console => {
       if (methodName === 'fatal') return 'error';
@@ -103,7 +96,9 @@ export function createLogger(
       const handler = self.logger?.[loggerKey];
       if (typeof handler !== 'function') return;
 
-      const colorize = chalk?.[getColor(self.color) || ''];
+      const colorize = (typeof chalk !== 'undefined' ? chalk : undefined)?.[
+        getColor(self.color) || ''
+      ];
 
       let time = '';
       const prefix = (() => {

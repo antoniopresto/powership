@@ -1,6 +1,6 @@
 {
   "name": "powership",
-  "version": "3.3.3",
+  "version": "3.3.5",
   "private": true,
   "scripts": {
     "pack": "run-s pack:*",
@@ -15,7 +15,12 @@
     "reset": "./reset.sh",
     "beta": "bun run scripts/beta.ts",
     "beta-version": "bun run scripts/beta-version.ts",
-    "patch": "run peer && pnpm install && run prepublishOnly && run version patch && run command \"pnpm publish --ignore-scripts\""
+    "minor": "run-s minor:*",
+    "minor:peers": "run peer && pnpm install",
+    "minor:prepublish": "run prepublishOnly",
+    "minor:runmate": "cd packages/runmate && pnpm run link",
+    "minor:version": "run version patch",
+    "minor:publish": "run command \"pnpm publish --ignore-scripts\""
   },
   "dependencies": {
     "@powership/babel-plugins": "workspace:*",

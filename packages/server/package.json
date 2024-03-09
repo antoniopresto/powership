@@ -1,19 +1,19 @@
 {
   "name": "@powership/server",
-  "version": "3.3.3",
+  "version": "3.3.5",
   "type": "module",
   "main": "./out/index.cjs",
-  "module": "./out/module/index.mjs",
+  "module": "./out/index.mjs",
   "types": "./out/index.d.ts",
   "exports": {
     ".": {
       "types": "./out/index.d.ts",
-      "import": "./out/module/index.mjs",
+      "import": "./out/index.mjs",
       "require": "./out/index.cjs"
     }
   },
   "browser": {
-    "out/module/index.mjs": "./out/browser/module/index.mjs",
+    "out/index.mjs": "./out/browser/index.mjs",
     "out/index.cjs": "./out/browser/index.cjs"
   },
   "sideEffects": false,
@@ -29,9 +29,9 @@
     "fix:lint": "eslint src --ext .ts --fix",
     "prepublishOnly": "run-p build fix && run-p test",
     "build-targets": "run-p build:*",
-    "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir out/browser/module --out-file-extension .mjs",
+    "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir out/browser --out-file-extension .mjs",
     "build:node": "TARGET=node npm run babild -- --out-dir out --out-file-extension .cjs",
-    "build:module-node": "TARGET=module-node npm run babild -- --out-dir out/module --out-file-extension .mjs",
+    "build:module-node": "TARGET=module-node npm run babild -- --out-dir out --out-file-extension .mjs",
     "declarations": "tsc -p tsconfig.declarations.json",
     "babild": "babel 'src' --extensions '.ts,.tsx' --source-maps=true --ignore '**/__tests__'"
   },
@@ -114,7 +114,7 @@
     "plugin-hooks": "*",
     "url-pattern": "*",
     "qs": "*",
-    "@powership/utils": "3.3.3",
+    "@powership/utils": "3.3.5",
     "@types/dateformat": "*",
     "@types/fs-extra": "*",
     "@types/lodash": "*",
@@ -152,11 +152,11 @@
     "ts-toolbelt": "*",
     "tsx": "*",
     "ulid": "*",
-    "logstorm": "3.3.3",
+    "logstorm": "3.3.5",
     "http-status-codes": "*",
     "http-errors": "*",
     "graphql-playground-html": "*",
-    "@powership/schema": "3.3.3",
+    "@powership/schema": "3.3.5",
     "body-parser": "*"
   }
 }

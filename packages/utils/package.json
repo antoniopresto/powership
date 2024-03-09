@@ -1,6 +1,6 @@
 {
   "name": "@powership/utils",
-  "version": "3.3.3",
+  "version": "3.3.5",
   "typings": "out",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -15,14 +15,14 @@
     "prepublishOnly": "run-s build fix && run-p test",
     "build-targets": "run-p build:*",
     "build:browser": "TARGET=browser npm run babild -- --out-dir out/browser --out-file-extension .cjs",
-    "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir out/browser/module --out-file-extension .mjs",
+    "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir out/browser --out-file-extension .mjs",
     "build:node": "TARGET=node npm run babild -- --out-dir out --out-file-extension .cjs",
-    "build:module-node": "TARGET=module-node npm run babild -- --out-dir out/module --out-file-extension .mjs",
+    "build:module-node": "TARGET=module-node npm run babild -- --out-dir out --out-file-extension .mjs",
     "declarations": "tsc -p tsconfig.json && tsc -p tsconfig.module.json",
     "babild": "babel 'src' --extensions '.ts,.tsx' --source-maps=true --ignore '**/__tests__'"
   },
   "main": "./out/index.cjs",
-  "module": "./out/module/index.mjs",
+  "module": "./out/index.mjs",
   "types": "./out/index.d.ts",
   "typesVersions": {
     "*": {
@@ -30,7 +30,7 @@
         "./out/index.d.ts"
       ],
       "node": [
-        "./out/module/node.d.ts"
+        "./out/node.d.ts"
       ]
     }
   },
@@ -38,22 +38,22 @@
     "./package.json": "./package.json",
     ".": {
       "types": "./out/index.d.ts",
-      "import": "./out/module/index.mjs",
+      "import": "./out/index.mjs",
       "require": "./out/index.cjs"
     },
     "./node": {
       "types": "./out/node.d.ts",
-      "import": "./out/module/node.mjs",
+      "import": "./out/node.mjs",
       "require": "./out/node.cjs"
     },
     "./out/node": {
       "types": "./out/node.d.ts",
-      "import": "./out/module/node.mjs",
+      "import": "./out/node.mjs",
       "require": "./out/node.cjs"
     }
   },
   "browser": {
-    "out/module/index.mjs": "./out/browser/module/index.mjs",
+    "out/index.mjs": "./out/browser/index.mjs",
     "out/index.cjs": "./out/browser/index.cjs"
   },
   "description": "powership utils and helper functions",

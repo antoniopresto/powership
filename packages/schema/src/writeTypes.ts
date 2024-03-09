@@ -32,7 +32,7 @@ const typesRecord: Record<string, GraphTypeLike> = {};
 const resolversRecord: Record<string, Resolver> = {};
 const customTypeRecord: Record<string, CustomTypesWriterEvent> = {};
 
-// APLICAR AOS RESOLVERS DA ENTITY, etc
+// APLICAR AOS RESOLVERS DA ENTITY, etc.
 // @only-server
 PowershipWatchTypesPubSub.on('created', async (event) => {
   if (event.graphType?.optionalId) {

@@ -9,7 +9,6 @@ module.exports = {
     'entity',
     'accounts',
     'powership',
-    'helpers',
     'runmate',
   ],
 };

@@ -1,6 +1,6 @@
 import nodePath from 'path';
-import { inspect } from 'util';
 
+import { hey } from '@powership/utils';
 import { chunk } from 'lodash';
 import { logstorm } from 'logstorm';
 
@@ -59,23 +59,8 @@ export function getPackageRunnerUtils(jsonPath: string) {
 
         return await runCommand(command, { cwd });
       } catch (e: any) {
-        const message = `Failed to run command in package "${
-          json.name
-        }. If you trying to run a package script, use "run script SCRIPTNAME".\n ${(
-          e.message ||
-          inspect(e) ||
-          ''
-        )
-          .split('\n')
-          .map((el) => `  ${el}`)
-          .join('\n')}`;
-
-        if (e?.stack && e.message) {
-          e.message = message;
-          throw e;
-        }
-
-        throw new Error(message);
+        await hey`Failed to run command in package "${json.name}.\n   <red>${e.message}</red>`;
+        process.exit(1);
       }
     },
   };

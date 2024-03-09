@@ -1,20 +1,20 @@
 {
   "name": "@powership/accounts",
-  "version": "3.3.3",
+  "version": "3.3.5",
   "description": "Powership accounts",
   "type": "module",
   "main": "./out/index.cjs",
-  "module": "./out/module/index.mjs",
+  "module": "./out/index.mjs",
   "types": "./out/index.d.ts",
   "exports": {
     ".": {
       "types": "./out/index.d.ts",
-      "import": "./out/module/index.mjs",
+      "import": "./out/index.mjs",
       "require": "./out/index.cjs"
     }
   },
   "browser": {
-    "out/module/index.mjs": "./out/browser/module/index.mjs",
+    "out/index.mjs": "./out/browser/index.mjs",
     "out/index.cjs": "./out/browser/index.cjs"
   },
   "sideEffects": false,
@@ -29,9 +29,9 @@
     "prepublishOnly": "run-s build fix && run-p test",
     "build-targets": "run-p build:*",
     "build:browser": "TARGET=browser npm run babild -- --out-dir out/browser --out-file-extension .cjs",
-    "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir out/browser/module --out-file-extension .mjs",
+    "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir out/browser --out-file-extension .mjs",
     "build:node": "TARGET=node npm run babild -- --out-dir out --out-file-extension .cjs",
-    "build:module-node": "TARGET=module-node npm run babild -- --out-dir out/module --out-file-extension .mjs",
+    "build:module-node": "TARGET=module-node npm run babild -- --out-dir out --out-file-extension .mjs",
     "declarations": "tsc -p tsconfig.declarations.json",
     "babild": "babel 'src' --extensions '.ts,.tsx' --source-maps=true --ignore '**/__tests__'"
   },
@@ -91,8 +91,8 @@
   "peerDependencies": {
     "scrypt-kdf": "*",
     "jsonwebtoken": "*",
-    "@powership/schema": "3.3.3",
-    "@powership/utils": "3.3.3",
+    "@powership/schema": "3.3.5",
+    "@powership/utils": "3.3.5",
     "dataloader": "*",
     "plugin-hooks": "*",
     "sift": "*",
@@ -135,7 +135,7 @@
     "tsx": "*",
     "ulid": "*",
     "url-pattern": "*",
-    "@powership/transporter": "3.3.3",
-    "@powership/entity": "3.3.3"
+    "@powership/transporter": "3.3.5",
+    "@powership/entity": "3.3.5"
   }
 }

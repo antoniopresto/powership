@@ -1,17 +1,16 @@
 {
   "name": "runmate",
-  "version": "3.3.3",
+  "version": "3.3.5",
   "typings": "out",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
-  "type": "module",
   "main": "./out/index.cjs",
-  "module": "./out/module/index.mjs",
+  "module": "./out/index.mjs",
   "types": "./out/index.d.ts",
   "exports": {
     ".": {
       "types": "./out/index.d.ts",
-      "import": "./out/module/index.mjs",
+      "import": "./out/index.mjs",
       "require": "./out/index.cjs"
     }
   },
@@ -32,9 +31,9 @@
     "prepublishOnly": "run-p build fix && run-p test",
     "build-targets": "run-p build:*",
     "build:browser": "TARGET=browser npm run babild -- --out-dir out/browser --out-file-extension .cjs",
-    "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir out/browser/module --out-file-extension .mjs",
+    "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir out/browser --out-file-extension .mjs",
     "build:node": "TARGET=node npm run babild -- --out-dir out --out-file-extension .cjs",
-    "build:module-node": "TARGET=module-node npm run babild -- --out-dir out/module --out-file-extension .mjs",
+    "build:module-node": "TARGET=module-node npm run babild -- --out-dir out --out-file-extension .mjs",
     "declarations": "tsc -p tsconfig.declarations.json",
     "babild": "babel 'src' --extensions '.ts,.tsx' --source-maps=true --ignore '**/__tests__'"
   },
@@ -142,8 +141,8 @@
     "ts-toolbelt": "*",
     "ulid": "*",
     "url-pattern": "*",
-    "@powership/utils": "3.3.3",
-    "logstorm": "3.3.3",
+    "@powership/utils": "3.3.5",
+    "logstorm": "3.3.5",
     "@types/vorpal": "*",
     "@types/glob": "*"
   }
