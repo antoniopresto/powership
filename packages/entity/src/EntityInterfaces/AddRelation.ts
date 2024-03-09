@@ -10,15 +10,10 @@ export interface EntityAddRelation<
   EContext extends AnyEntityTypesContext
 > {
   <
-    Context extends LoaderContext,
+    _Context extends LoaderContext,
     Definition extends ObjectFieldInput,
     ArgsDef extends ObjectDefinitionInput
   >(
-    options: EntityFieldResolver<
-      Context,
-      Definition,
-      ArgsDef,
-      EContext['document']
-    >
+    options: EntityFieldResolver<Definition, ArgsDef, EContext['document']>
   ): Parent;
 }

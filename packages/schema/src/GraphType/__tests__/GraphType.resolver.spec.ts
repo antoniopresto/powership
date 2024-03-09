@@ -22,11 +22,12 @@ describe('createResolver', () => {
     const resolver = createResolver({
       type: t1,
       name: 'User',
-      args: { id: 'ulid' },
       description: 'User resolver',
-    }).resolver((_, { id }) => {
-      return t1.parse({ id });
-    });
+    })
+      .args({ id: 'ulid' })
+      .resolve((_, { id }) => {
+        return t1.parse({ id });
+      });
 
     type Return = PromiseType<ReturnType<typeof resolver.resolve>>;
     type Args = Parameters<typeof resolver.resolve>[1];
@@ -76,15 +77,13 @@ describe('createResolver', () => {
     const resolver = createResolver({
       type: t1,
       name: 'Users',
-      args: {
+    })
+      .args({
         name: 'string',
         addresses: { type: userAddress, list: true },
         records: { record: { keyType: 'int', type: { enum: ['banana'] } } },
-      } as const,
-      resolve() {
-        return {} as any;
-      },
-    });
+      } as const)
+      .resolve(() => ({} as any));
 
     // type Return = ReturnType<typeof resolver.resolve>;
     type Args = Parameters<typeof resolver.resolve>[1];
@@ -146,11 +145,7 @@ describe('createResolver', () => {
     const resolver = createResolver({
       type: ap,
       name: 'Airplanes',
-      args: undefined,
-      async resolve() {
-        return undefined;
-      },
-    });
+    }).resolve(() => undefined);
 
     const object = new GraphQLSchema({
       query: new GraphQLObjectType({

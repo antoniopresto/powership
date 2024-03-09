@@ -182,10 +182,12 @@ export function setupProductTest(withTransporter = true): {
     );
 
     const productCreateResolver = createResolver({
-      args: ProductEntity.extendInput.def(),
       kind: 'mutation',
       name: 'productCreate',
-      async resolve(_root, args, context) {
+      type: ProductEntity.type,
+    })
+      .args(ProductEntity.extendInput.def())
+      .resolve(async (_root, args, context) => {
         const storeId = '123';
 
         const item = {
@@ -208,18 +210,16 @@ export function setupProductTest(withTransporter = true): {
         }
 
         return result.item;
-      },
-      type: ProductEntity.type,
-    });
+      });
 
     const productPagination = createResolver({
-      args: ProductEntity.paginate.queryArgs,
       name: 'paginate',
-      async resolve(_, args, context) {
-        return await ProductEntity.paginate({ ...args, context });
-      },
       type: ProductEntity.paginationType,
-    });
+    })
+      .args(ProductEntity.paginate.queryArgs)
+      .resolve(async (_, args, context) => {
+        return await ProductEntity.paginate({ ...args, context });
+      });
 
     function createOne(override?: Record<string, any>) {
       return productCreateResolver.resolve(

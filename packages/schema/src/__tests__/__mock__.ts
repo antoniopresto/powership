@@ -2,7 +2,6 @@ import { tuple } from '@powership/utils';
 
 import { createType } from '../GraphType/GraphType';
 import { createObjectType } from '../ObjectType';
-import { createResolver } from '../Resolver';
 import { StringField } from '../fields/StringField';
 
 const object1 = createObjectType({
@@ -137,15 +136,3 @@ export const ProductType = createType('Product', {
     },
   },
 } as const);
-
-export const ProductResolver = createResolver({
-  args: {
-    id: 'ID',
-  },
-  description: 'Get a product by id',
-  name: 'findProductById',
-  async resolve(_, { id }) {
-    return ProductType.parse({ id });
-  },
-  type: ProductType,
-});

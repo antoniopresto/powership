@@ -20,13 +20,12 @@ export type EntityOptions<
 };
 
 export type EntityFieldResolver<
-  Context,
   TypeDef extends ObjectFieldInput,
   ArgsDef extends ObjectDefinitionInput | undefined,
   Root
 > = {
   args?: ArgsDef;
   name: string;
-  resolve: ResolverResolve<Context, Root, TypeDef, ArgsDef>;
+  resolve: ResolverResolve<Root, TypeDef, ArgsDef>;
   type: TypeDef;
 };

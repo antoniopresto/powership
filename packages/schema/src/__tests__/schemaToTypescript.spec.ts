@@ -138,10 +138,7 @@ describe('objectToTypescript', () => {
     const resolver = createResolver({
       type: IntervalType,
       name: 'getIntervals',
-      async resolve() {
-        return IntervalType.parse({});
-      },
-    });
+    }).resolve(() => IntervalType.parse({}));
 
     const gil = createType('IntervalList', {
       type: IntervalType,
@@ -151,10 +148,7 @@ describe('objectToTypescript', () => {
     const resolverList = createResolver({
       type: gil,
       name: 'getIntervalsList',
-      async resolve() {
-        return [IntervalType.parse({})];
-      },
-    });
+    }).resolve(() => ({} as any));
 
     const schema = createGraphQLSchema([resolver, resolverList]);
     const ts = await resolversTypescriptParts({

@@ -1,9 +1,8 @@
-import { create } from '@powership/schema';
+import { create, ResolverContext } from '@powership/schema';
 import {
   Cast,
   Compute,
   createProxy,
-  MaybePromise,
   UnionToIntersection,
 } from '@powership/utils';
 import { RuntimeError } from '@powership/utils';
@@ -117,9 +116,8 @@ export type DocumentBase = Record<string, any>;
 
 export type QuerySort = 'ASC' | 'DESC';
 
-export interface LoaderContext {
-  [K: string]: unknown;
-  userId?(...args: unknown[]): MaybePromise<string | undefined>;
+export interface LoaderContext extends ResolverContext {
+  //
 }
 
 export type MethodFilter<

@@ -25,9 +25,10 @@ describe('ProductResolver', () => {
 
     const productPagination = createResolver({
       type: ProductEntity.paginationType,
-      args: ProductEntity.paginate.queryArgs,
       name: 'paginate',
-      resolve(_, args, context) {
+    })
+      .args(ProductEntity.paginate.queryArgs)
+      .resolve((_, args, context) => {
         type Args = typeof args;
 
         assert<
@@ -48,8 +49,7 @@ describe('ProductResolver', () => {
           ...args,
           context,
         });
-      },
-    });
+      });
 
     type ExpectedArgs = {
       after?: string | undefined;

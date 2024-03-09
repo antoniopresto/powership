@@ -62,7 +62,7 @@ export type EntityHooks<
       entityOptions: EntityOptions;
       fields: string[];
       kind: EntityHooksCreateDefinitionKind;
-      resolvers: EntityFieldResolver<any, any, any, any>[];
+      resolvers: EntityFieldResolver<any, any, any>[];
     }
   >;
 
@@ -77,7 +77,7 @@ export type EntityHooks<
       },
     {
       operation: EntityOperationInfoContext;
-      resolvers: EntityFieldResolver<any, any, any, any>[];
+      resolvers: EntityFieldResolver<any, any, any>[];
     }
   >;
 

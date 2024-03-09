@@ -12,7 +12,7 @@ import { createRouteHandler } from '../createRouteHandler';
 import { maskErrors } from './errorHandler';
 import { generateTypes } from './generateTypes';
 
-export type ResolversRecord = Record<string, Resolver<any, any, any, any>>;
+export type ResolversRecord = Record<string, Resolver<any, any, any>>;
 
 export type GraphqlHandlerOptions<Resolvers extends ResolversRecord> = {
   path?: string; // defaults to /api/graphql

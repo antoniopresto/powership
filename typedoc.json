@@ -8,7 +8,6 @@
     "packages/powership",
     "packages/entity",
     "packages/utils",
-    "packages/helpers",
     "packages/logstorm",
     "packages/mongo",
     "packages/runmate",

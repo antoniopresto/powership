@@ -6,7 +6,7 @@ import fsExtra from 'fs-extra';
 
 const { ensureFileSync, writeFileSync } = fsExtra;
 
-import { AnyResolver } from './Resolver';
+import { Resolver } from './Resolver';
 import { GraphTypeLike } from './fields/IObjectLike';
 import { LiteralField } from './fields/LiteralField';
 import * as Internal from './internal';
@@ -24,12 +24,12 @@ export const PowershipWatchTypesPubSub: Emitter<{
   created: {
     custom?: CustomTypesWriterEvent;
     graphType?: GraphTypeLike;
-    resolver?: AnyResolver;
+    resolver?: Resolver;
   };
 }> = mitt();
 
 const typesRecord: Record<string, GraphTypeLike> = {};
-const resolversRecord: Record<string, AnyResolver> = {};
+const resolversRecord: Record<string, Resolver> = {};
 const customTypeRecord: Record<string, CustomTypesWriterEvent> = {};
 
 // APLICAR AOS RESOLVERS DA ENTITY, etc

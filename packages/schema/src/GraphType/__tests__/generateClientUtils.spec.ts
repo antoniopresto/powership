@@ -25,11 +25,9 @@ describe('schema.getGraphQLTypescript', () => {
       type: { type: UserType, list: true },
       name: 'findUsers',
       description: 'find users resolver',
-      args: { limit: 'int' },
-      async resolve(): Promise<any> {
-        return {};
-      },
-    });
+    })
+      .args({ limit: 'int' })
+      .resolve(() => ({} as any));
 
     const schema = createGraphQLSchema();
 

@@ -13,13 +13,11 @@ describe('generateQuery', () => {
     const resolver = createResolver({
       type: Item,
       name: 'getItem',
-      args: {
+    })
+      .args({
         min: { int: {}, optional: true, defaultValue: 0 },
-      },
-      async resolve() {
-        return { value: 1 };
-      },
-    });
+      })
+      .resolve(() => ({ value: 1 }));
 
     const graphQLField = resolver.asObjectField();
 
@@ -58,19 +56,18 @@ describe('generateQuery', () => {
     createResolver({
       name: 'parents',
       type: { type: ProductType, list: true },
-      args: {
+    })
+      .args({
         id: { type: 'ID', defaultValue: 155 },
-      },
-      async resolve() {
-        return [];
-      },
-    });
+      })
+      .resolve(() => []);
 
     const powershipResolver = createResolver({
       type: ProductType,
       name: 'getProductById',
       description: 'Get a product by ID',
-      args: {
+    })
+      .args({
         id: {
           type: 'ID',
           description: 'Product ID',
@@ -79,11 +76,10 @@ describe('generateQuery', () => {
           type: 'string',
           description: 'SKU',
         },
-      },
-      async resolve() {
+      })
+      .resolve(() => {
         return ProductType.parse({});
-      },
-    });
+      });
 
     const graphQLField = powershipResolver.asObjectField('productById');
     const sut = getQueryTemplates({
@@ -128,13 +124,11 @@ describe('generateQuery', () => {
     const powershipResolver = createResolver({
       type: ProductType,
       name: 'getMemberKind',
-      args: {
+    })
+      .args({
         memberId: 'ID',
-      },
-      async resolve() {
-        return ProductType.parse({});
-      },
-    });
+      })
+      .resolve(() => ProductType.parse({}));
 
     const graphQLField = powershipResolver.asObjectField();
 

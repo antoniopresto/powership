@@ -504,33 +504,31 @@ describe('createType', () => {
     const listOptionalListResolver = createResolver({
       name: 'list_optional_list',
       type: graphType.listType().optionalType('list_optional').listType(),
-      args: {},
-    }).resolver(() => {
-      return {};
-    });
+    })
+      .args({})
+      .resolve(() => {
+        return [];
+      });
 
     const graphTypeResolver = createResolver({
       name: 'graphType',
       type: graphType,
-      args: {},
-    }).resolver(() => {
-      return {};
+    }).resolve(() => {
+      return {} as any;
     });
 
     const usersOptionalResolver = createResolver({
       name: 'usersOptional',
       type: graphType.optionalType(),
-      args: {},
-    }).resolver(() => {
-      return {};
+    }).resolve(() => {
+      return undefined;
     });
 
     const usersListResolver = createResolver({
       name: 'usersList',
       type: graphType.listType(),
-      args: {},
-    }).resolver(() => {
-      return {};
+    }).resolve(() => {
+      return [];
     });
 
     const schemaString = printSchema(

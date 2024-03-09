@@ -10,7 +10,7 @@ import {
   getSchemaQueryTemplates,
   SchemaQueryTemplatesResult,
 } from './GraphType/getQueryTemplates';
-import { _resolvers, AnyResolver } from './Resolver';
+import { _resolvers, Resolver } from './Resolver';
 import { cleanMetaField } from './fields/MetaFieldField';
 import * as Internal from './internal';
 import { objectMock, ObjectMockOptions } from './mockObject';
@@ -19,7 +19,7 @@ import type { ObjectToTypescriptOptions } from './objectToTypescript';
 export type CreateGraphQLObjectOptions = Partial<GraphQLSchemaConfig>;
 
 export type GroupedResolvers = {
-  [K in AnyResolver['kind']]: undefined | AnyResolver[];
+  [K in Resolver['kind']]: undefined | Resolver[];
 };
 
 export type GraphQLSchemaWithUtils = import('graphql').GraphQLSchema & {
@@ -31,7 +31,7 @@ export type GraphQLSchemaWithUtils = import('graphql').GraphQLSchema & {
       options?: ObjectMockOptions & { resolver?: string }
     ) => string;
     queryTemplates: () => SchemaQueryTemplatesResult;
-    resolvers: AnyResolver[];
+    resolvers: Resolver[];
     typescript: (options?: ResolversToTypeScriptOptions) => Promise<string>;
     usedConfig: GraphQLSchemaConfig;
   };
@@ -40,21 +40,21 @@ export type GraphQLSchemaWithUtils = import('graphql').GraphQLSchema & {
 export const resolverKinds = tupleEnum('mutation', 'query', 'subscription');
 export type ResolverKind = typeof resolverKinds.enum;
 
-export function createGraphQLSchema<T = any>(
-  resolvers?: T[],
+export function createGraphQLSchema(
+  resolvers?: Resolver[],
   config?: CreateGraphQLObjectOptions
-): T extends { __isResolver } ? GraphQLSchemaWithUtils : never;
+): GraphQLSchemaWithUtils;
 
-export function createGraphQLSchema<Config>(
-  config?: Config
-): Config extends CreateGraphQLObjectOptions ? GraphQLSchemaWithUtils : never;
+export function createGraphQLSchema(
+  config?: CreateGraphQLObjectOptions
+): GraphQLSchemaWithUtils;
 
 export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
   const { GraphQLSchema } = Internal;
 
   const registeredResolvers = _resolvers.entries.map((el) => el[1]);
 
-  let resolvers: AnyResolver[] = Array.isArray(args[0])
+  let resolvers: Resolver[] = Array.isArray(args[0])
     ? args[0]
     : registeredResolvers;
 
@@ -149,7 +149,7 @@ export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
 export type ResolversToTypeScriptOptions = {
   name: string;
   options?: ObjectToTypescriptOptions;
-  resolvers: AnyResolver[];
+  resolvers: Resolver[];
 };
 
 export async function resolversTypescriptParts(
@@ -242,8 +242,8 @@ export async function resolversToTypescript(
 }
 
 async function convertResolver(options: {
-  allResolvers: AnyResolver[];
-  resolver: AnyResolver;
+  allResolvers: Resolver[];
+  resolver: Resolver;
 }) {
   const { resolver, allResolvers } = options;
 

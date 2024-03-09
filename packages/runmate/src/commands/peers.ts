@@ -20,13 +20,15 @@ export function peers(program: Command) {
             if (entry === 'devDependencies') return;
 
             Object.entries(utils[entry] || {}).forEach(([name, version]) => {
-              utils.json.peerDependencies = {
+              utils.json.peerDependencies = Object.entries({
                 ...runner.packages[name]?.dependencies,
                 ...runner.packages[name]?.peerDependencies,
                 ...runner.packages[name]?.optionalDependencies,
                 [name]: version,
                 ...utils.json.peerDependencies,
-              };
+              }).reduce((acc, [k]) => {
+                return { ...acc, [k]: '*' };
+              }, {});
             });
           });
           utils.saveJSON();

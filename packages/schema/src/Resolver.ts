@@ -1,4 +1,10 @@
-import { Compute, createStore, IsKnown, MaybePromise } from '@powership/utils';
+import {
+  Compute,
+  createStore,
+  IsKnown,
+  MaybePromise,
+  Merge,
+} from '@powership/utils';
 import {
   GraphQLField,
   GraphQLFieldConfig,
@@ -9,21 +15,15 @@ import {
 import { createType, GraphType } from './GraphType/GraphType';
 import { getInnerType } from './GraphType/getQueryTemplates';
 import { Infer } from './Infer';
-import {
-  FieldInput,
-  InferField,
-  ObjectDefinitionInput,
-  ObjectFieldInput,
-} from './fields/_parseFields';
+import { InferField, ObjectDefinitionInput } from './fields/_parseFields';
 import * as Internal from './internal';
 
-export type ResolverContextBase = {
-  [K: string]: unknown;
-};
-// @only-server
-export const _resolvers = createStore<Record<string, AnyResolver>>();
+export interface ResolverContext {}
 
-function _createResolver(options: any): Resolver<any, any, any, any> {
+// @only-server
+export const _resolvers = createStore<Record<string, Resolver>>();
+
+function _createResolver(options: any) {
   const { args, name, kind = 'query', resolve, type, ...rest } = options;
   // @only-server
   if (_resolvers.has(name)) {
@@ -70,7 +70,7 @@ function _createResolver(options: any): Resolver<any, any, any, any> {
     });
   };
 
-  const result: AnyResolver = {
+  const result: Resolver = {
     ...rest,
     __graphTypeId: payloadType.id,
 
@@ -127,34 +127,36 @@ export type InferResolverArgs<ArgsDef> =
 
 export type ResolverKind = 'query' | 'mutation' | 'subscription';
 
-export type Resolver<Context, Root, Type, Args> = Compute<
-  OptionalResolverConfig<Root, Context, Args> & {
-    __graphTypeId: string;
-    __isRelation: boolean;
-    __isResolver: true;
-    __relatedToGraphTypeId: string;
-    args: any;
-    argsDef: any;
-    argsType: any;
-    asObjectField(name?: string): GraphQLField<any, any>;
-    kind: ResolverKind;
-    name: string;
-    payloadType: any;
-    type: any;
-    typeDef: any;
-    resolve: <Root>(
-      root: Root,
-      args: Args,
-      context: Context,
-      info: GraphQLResolveInfo
-    ) => MaybePromise<Type>;
-  },
-  1
->;
+export type Resolver<
+  TSource = unknown,
+  TArgs extends any = {},
+  TResult extends unknown = unknown
+> = Omit<
+  GraphQLFieldConfig<TSource, ResolverContext, TArgs>,
+  'type' | 'args' | 'resolve'
+> & {
+  __graphTypeId: string;
+  __isRelation: boolean;
+  __isResolver: true;
+  __relatedToGraphTypeId: string;
+  args: any;
+  argsDef: any;
+  argsType: any;
+  asObjectField(name?: string): GraphQLField<any, any>;
+  kind: ResolverKind;
+  name: string;
+  payloadType: any;
+  type: any;
+  typeDef: any;
+  resolve: (
+    root: TSource,
+    args: TArgs,
+    context: any,
+    info: any
+  ) => MaybePromise<TResult>;
+};
 
-export type AnyResolver = Resolver<any, any, any, any>;
-
-export type ResolverResolve<Context, Source, TypeDef, ArgsDef> = (
+export type ResolverResolve<Source, TypeDef, ArgsDef> = (
   (
     ((x: InferResolverArgs<ArgsDef>) => any) extends (x: infer R) => any
       ? {
@@ -166,13 +168,13 @@ export type ResolverResolve<Context, Source, TypeDef, ArgsDef> = (
       ? (
           parent: Compute<Source>,
           args: Compute<Args>,
-          context: Context,
+          context: ResolverContext,
           info: GraphQLResolveInfo
         ) => IsKnown<R> extends 1 ? Compute<Promise<R> | R> : any
       : (
           parent: Source,
           args: Record<string, unknown>,
-          context: Context,
+          context: ResolverContext,
           info: GraphQLResolveInfo
         ) => Promise<any> | any
     : never
@@ -186,96 +188,75 @@ export function isPossibleArgsDef(
   return args && typeof args === 'object' && Object.keys(args).length;
 }
 
-export function getResolver(name: string): AnyResolver {
+export function getResolver(name: string): Resolver {
   return _resolvers.get(name) as any;
 }
 
-export type OptionalResolverConfig<
-  Source = any,
-  Context = any,
-  Args = any
-> = Omit<
-  GraphQLFieldConfig<Source, Context, Args>,
-  'resolve' | 'args' | 'type'
+export type CreateResolverChain<PlainResultType, Args = {}, Root = unknown> = {
+  resolve(
+    resolverFunction: (
+      root: Root,
+      args: Args,
+      context: ResolverContext
+    ) => MaybePromise<PlainResultType>
+  ): Resolver<Root, Args, PlainResultType>;
+
+  args<InputDefinition extends ObjectDefinitionInput>(
+    definition: InputDefinition
+  ): Omit<
+    CreateResolverChain<
+      PlainResultType,
+      [IsKnown<InputDefinition>] extends [1]
+        ? Infer<{ object: InputDefinition }>
+        : { [K: string]: unknown },
+      Root
+    >,
+    'args'
+  >;
+};
+
+export type CreateResolverConfig<Result_GraphType> = Merge<
+  GraphQLFieldConfig<any, any>,
+  {
+    name: string;
+    type: Result_GraphType;
+    kind?: ResolverKind;
+    args?: any;
+    resolve?: any;
+  }
 >;
 
-export interface CreateResolver<Context> {
-  <ResultType extends ObjectFieldInput, ArgsType extends ObjectDefinitionInput>(
-    config: {
-      name: string;
-      type: ResultType | Readonly<ResultType>;
-      kind?: ResolverKind;
-      args?: ArgsType | Readonly<ArgsType>;
-      resolve?: never;
-    } & OptionalResolverConfig
-  ): {
-    resolver<Returns, Root = unknown>(
-      handler: (
-        root: Root,
-        args: _ResolverArgs<ArgsType>,
-        context: Context,
-        info: GraphQLResolveInfo
-      ) => MaybePromise<Returns>
-    ): Resolver<Context, Root, Returns, _ResolverArgs<ArgsType>>;
-  };
+export type CreateResolver<Result_GraphType> = (
+  config: CreateResolverConfig<Result_GraphType>
+) => CreateResolverChain<
+  [IsKnown<Result_GraphType>] extends [1] ? Infer<Result_GraphType> : unknown
+>;
 
-  <ResultType extends FieldInput, Returns = unknown>(
-    config: {
-      name: string;
-      type: ResultType | Readonly<ResultType>;
-      kind?: ResolverKind;
-      args?: undefined;
-      resolve: <Root>(
-        root: Root,
-        args: {},
-        context: Context,
-        info: GraphQLResolveInfo
-      ) => MaybePromise<Returns>;
-    } & OptionalResolverConfig
-  ): Resolver<Context, any, Returns, {}> & { resolver?: never };
+export function createResolver<Result_GraphType>(
+  config: CreateResolverConfig<Result_GraphType>
+): CreateResolverChain<
+  [IsKnown<Result_GraphType>] extends [1] ? Infer<Result_GraphType> : unknown
+> {
+  const conf = { ...config };
 
-  <
-    ResultType extends FieldInput,
-    ArgsType extends ObjectDefinitionInput,
-    Returns = unknown
-  >(
-    config: {
-      name: string;
-      type: ResultType | Readonly<ResultType>;
-      kind?: ResolverKind;
-      args: ArgsType | Readonly<ArgsType>;
-      resolve: <Root>(
-        root: Root,
-        args: _ResolverArgs<ArgsType>,
-        context: Context,
-        info: GraphQLResolveInfo
-      ) => MaybePromise<Returns>;
-    } & OptionalResolverConfig
-  ): Resolver<Context, any, Returns, _ResolverArgs<ArgsType>> & {
-    resolver?: never;
-  };
-}
+  if (conf.resolve) {
+    return _createResolver(conf as any) as any;
+  }
 
-export function createResolverFactory<
-  Context extends ResolverContextBase
->(): CreateResolver<Context> {
-  return function createResolver(config: any): any {
-    if (config.resolve) return _createResolver(config);
+  function resolverFactory() {
     return {
-      resolver(resolve) {
-        return _createResolver({ ...config, resolve });
+      resolve(resolverFunction) {
+        conf.resolve = resolverFunction;
+        return _createResolver(conf as any);
       },
     };
+  }
+
+  return {
+    args(definition: any) {
+      conf.args = definition;
+      return resolverFactory();
+    },
+    resolve: resolverFactory().resolve,
   };
 }
-
-export type _ResolverArgs<ArgsType> = Exclude<
-  ArgsType,
-  undefined
-> extends infer R
-  ? IsKnown<R> extends 1
-    ? Infer<{ object: R }>
-    : {}
-  : {};
-
-export const createResolver = createResolverFactory();

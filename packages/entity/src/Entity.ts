@@ -131,7 +131,7 @@ export function createEntity(
     indexRelationsPlugin,
   ];
 
-  const resolvers: EntityFieldResolver<any, any, any, any>[] = [];
+  const resolvers: EntityFieldResolver<any, any, any>[] = [];
   let gettersWereCalled = false;
 
   function extendEntity(cb) {
