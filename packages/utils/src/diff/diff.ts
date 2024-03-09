@@ -54,7 +54,7 @@ const richTypes = { Date: true, RegExp: true, String: true, Number: true };
 export function diff(
   current: any,
   next: any,
-  pathToLook?: DifferencePath[] | string,
+  pathToLook?: DifferencePath[] | string
 ): Difference[] {
   const seen: Record<string, any>[] = [];
 
@@ -69,7 +69,7 @@ export function diff(
           return parsePath(el.pathParts);
         },
       },
-      { enumerable: false, configurable: true },
+      { enumerable: false, configurable: true }
     );
   }
   if (pathToLook) {
@@ -143,7 +143,7 @@ function _diff(from: any, to: any, seen: Record<string, any>[]): __MicroDiff[] {
         nestedDiffs.map((difference) => {
           difference.pathParts.unshift(path);
           return difference;
-        }),
+        })
       );
     }
 

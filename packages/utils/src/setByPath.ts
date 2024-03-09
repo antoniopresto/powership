@@ -7,14 +7,14 @@ export function setByPath<T extends Record<string, any>>(
   obj: T,
   path: string,
   value: any,
-  customizer?: (nsValue: any, key: string, nsObject: T) => any,
+  customizer?: (nsValue: any, key: string, nsObject: T) => any
 ) {
   if (path === '') {
     if (!isPlainObject(value)) {
       throw new Error(
         `setByPath expected value to be a plain object when path is empty, but found ${getTypeName(
-          value,
-        )}.`,
+          value
+        )}.`
       );
     }
 

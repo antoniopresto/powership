@@ -23,7 +23,7 @@ export const KNOWN_CONSTRUCTOR_NAMES = tupleEnum(
   'Infinity',
   'Number',
   'Object',
-  'Function',
+  'Function'
 );
 
 export type NATIVE_TYPE_NAME = typeof KNOWN_CONSTRUCTOR_NAMES.enum;
@@ -140,7 +140,7 @@ export function describeConstructor(value): ConstructorDescription {
           return typeName();
         },
       },
-    },
+    }
   ) as ConstructorDescription;
 }
 

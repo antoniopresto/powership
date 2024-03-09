@@ -20,10 +20,10 @@ export type InferField<Input> =
     ? Known extends string
       ? InferString<Known>
       : Known extends object
-        ? $inferableKey extends keyof Known
-          ? Known[$inferableKey]
-          : _WithInferOptional<Known, _WithInferList<Known, _InferField<Known>>>
-        : never
+      ? $inferableKey extends keyof Known
+        ? Known[$inferableKey]
+        : _WithInferOptional<Known, _WithInferList<Known, _InferField<Known>>>
+      : never
     : never;
 
 export type _InferField<Input extends object> =
@@ -35,32 +35,32 @@ export type _InferField<Input extends object> =
         K extends GraphTypeKID
         ? InferGraphType<Input>
         : //
-          K extends ObjectTypeKID
-          ? InferObjectType<Input>
+        K extends ObjectTypeKID
+        ? InferObjectType<Input>
+        : //
+        K extends FieldTypeName
+        ? InferFinalField<K, V>
+        : //
+        K extends 'type'
+        ? // {type: ...}
+          //
+
+          // {type: FieldTypeName,  .... }
+          V extends FieldTypeName
+          ? InferFinalField<V, _GetKey<Input, 'def'>>
           : //
-            K extends FieldTypeName
-            ? InferFinalField<K, V>
-            : //
-              K extends 'type'
-              ? // {type: ...}
-                //
 
-                // {type: FieldTypeName,  .... }
-                V extends FieldTypeName
-                ? InferFinalField<V, _GetKey<Input, 'def'>>
-                : //
+          // {type: GraphType,  .... }
+          Input[K] extends GraphTypeLikeFieldDefinition
+          ? InferGraphType<Input[K]>
+          : //
 
-                  // {type: GraphType,  .... }
-                  Input[K] extends GraphTypeLikeFieldDefinition
-                  ? InferGraphType<Input[K]>
-                  : //
-
-                    // {type: ObjectType,  .... }
-                    Input[K] extends ObjectTypeLikeFieldDefinition
-                    ? InferObjectType<Input[K]>
-                    : never
-              : //
-                never
+          // {type: ObjectType,  .... }
+          Input[K] extends ObjectTypeLikeFieldDefinition
+          ? InferObjectType<Input[K]>
+          : never
+        : //
+          never
       : never
     : never;
 

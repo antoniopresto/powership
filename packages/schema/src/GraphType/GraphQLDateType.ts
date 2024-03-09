@@ -12,7 +12,7 @@ export const GraphQLDateType = new GraphQLScalarType({
     if (ast.kind !== Kind.STRING) {
       throw new GraphQLError(
         `Query error: Can only parse string or integer to Date but got a: ${ast.kind}`,
-        [ast],
+        [ast]
       );
     }
 

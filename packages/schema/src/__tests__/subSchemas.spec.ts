@@ -62,7 +62,7 @@ describe('subObjects', () => {
     const gql = object2.toGraphQL();
     expect(gql.getType().name).toBe(object2.id);
     expect(gql.getType().getFields()['members'].type.toString()).toBe(
-      '[customer]!',
+      '[customer]!'
     );
   });
 });

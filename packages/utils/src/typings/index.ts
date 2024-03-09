@@ -67,30 +67,29 @@ export type IsAny<T> = 0 extends 1 & T ? true : false;
 
 export type IsNever<T> = [T] extends [never] ? true : false;
 
-export type IsNullable<T> =
-  Extract<T, null | undefined> extends never ? false : true;
+export type IsNullable<T> = Extract<T, null | undefined> extends never
+  ? false
+  : true;
 
 export type IsOptional<T> = Extract<T, undefined> extends never ? false : true;
 
-export type IsUnknown<T> =
-  IsNever<T> extends false
-    ? T extends unknown
-      ? unknown extends T
-        ? IsAny<T> extends false
-          ? true
-          : false
+export type IsUnknown<T> = IsNever<T> extends false
+  ? T extends unknown
+    ? unknown extends T
+      ? IsAny<T> extends false
+        ? true
         : false
       : false
-    : false;
+    : false
+  : false;
 
-export type OnlyKnown<T> =
-  IsAny<T> extends true
-    ? never
-    : IsNever<T> extends true
-      ? never
-      : IsUnknown<T> extends true
-        ? never
-        : T;
+export type OnlyKnown<T> = IsAny<T> extends true
+  ? never
+  : IsNever<T> extends true
+  ? never
+  : IsUnknown<T> extends true
+  ? never
+  : T;
 
 export type MaybePromise<T> = T | Promise<T>;
 
@@ -168,25 +167,25 @@ export type GetFieldByDotPath<Obj, DotNotation> = GetFieldByDotNotation<
 export type ObjectPath<
   Obj,
   Limit extends number = 10,
-  Level extends number[] = [],
+  Level extends number[] = []
 > = Level['length'] extends Limit
   ? never
   : Obj extends { [K: string]: any }
-    ? {
-        [K in keyof Obj]: K extends string | number
-          ? Obj[K] extends { [K: string]: any }
-            ? Obj[K] extends ReadonlyArray<any>
-              ? /*When array: */
-                | K
-                  | `${K}.${number}`
-                  | `${K}.${number}.${ObjectPath<Obj[K][number]>}`
-              : //
-                /*When object: */
-                K | `${K}.${ObjectPath<Obj[K], Limit, [...Level, 1]>}`
-            : K
-          : never; // not string (never))
-      }[keyof Obj]
-    : never;
+  ? {
+      [K in keyof Obj]: K extends string | number
+        ? Obj[K] extends { [K: string]: any }
+          ? Obj[K] extends ReadonlyArray<any>
+            ? /*When array: */
+              | K
+                | `${K}.${number}`
+                | `${K}.${number}.${ObjectPath<Obj[K][number]>}`
+            : //
+              /*When object: */
+              K | `${K}.${ObjectPath<Obj[K], Limit, [...Level, 1]>}`
+          : K
+        : never; // not string (never))
+    }[keyof Obj]
+  : never;
 
 export type TypeLike<T, Level extends ReadonlyArray<number> = [0]> = T extends {
   [K: string]: any;
@@ -196,20 +195,19 @@ export type TypeLike<T, Level extends ReadonlyArray<number> = [0]> = T extends {
         ? Level['length'] extends 2
           ? any
           : T[K] extends AnyFunction
-            ? AnyFunction
-            : TypeLike<T[K], [...Level, 0]>
+          ? AnyFunction
+          : TypeLike<T[K], [...Level, 0]>
         : any;
     }
   : any;
 
-export type IsKnown<T> =
-  IsAny<T> extends true
-    ? 0
-    : IsNever<T> extends true
-      ? 0
-      : IsUnknown<T> extends true
-        ? 0
-        : 1;
+export type IsKnown<T> = IsAny<T> extends true
+  ? 0
+  : IsNever<T> extends true
+  ? 0
+  : IsUnknown<T> extends true
+  ? 0
+  : 1;
 
 export type BinKnown<T, True, False> = {
   0: False;
@@ -273,7 +271,7 @@ export const A_Z = tuple(
   'w',
   'x',
   'y',
-  'z',
+  'z'
 );
 
 export type A_Z = (typeof A_Z)[number];
@@ -302,13 +300,13 @@ export type GetFieldByDotNotation<Obj, DotNotation> =
       : undefined
     : //
 
-      // When other objects (not array)
-      DotNotation extends keyof Obj
-      ? Obj[DotNotation]
-      : DotNotation extends `${infer Left}.${infer Right}`
-        ? Left extends keyof Obj
-          ?
-              | GetFieldByDotNotation<Exclude<Obj[Left], undefined>, Right>
-              | Extract<Obj[Left], undefined>
-          : undefined
-        : undefined;
+    // When other objects (not array)
+    DotNotation extends keyof Obj
+    ? Obj[DotNotation]
+    : DotNotation extends `${infer Left}.${infer Right}`
+    ? Left extends keyof Obj
+      ?
+          | GetFieldByDotNotation<Exclude<Obj[Left], undefined>, Right>
+          | Extract<Obj[Left], undefined>
+      : undefined
+    : undefined;

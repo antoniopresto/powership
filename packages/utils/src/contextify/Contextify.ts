@@ -86,7 +86,7 @@ export class Contextify {
         const result = resolveModule(path, currentDirname);
         if (!result) {
           throw new Error(
-            `Cannot find module ${path} - currentDirname: ${currentDirname}`,
+            `Cannot find module ${path} - currentDirname: ${currentDirname}`
           );
         }
         return result;
@@ -208,7 +208,7 @@ export class Contextify {
         module,
         filename,
         dirname,
-        $TASK_MODULE_UTILS,
+        $TASK_MODULE_UTILS
       );
       return module.exports;
     };

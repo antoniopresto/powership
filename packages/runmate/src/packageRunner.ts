@@ -9,12 +9,6 @@ import { findWorkspacePackages } from './findWorkspacePackages';
 import { readPackageJSON, writePackageJSON } from './handleJSON';
 import { runCommand, RunCommandResult } from './runCommand';
 
-let packageRunnerCache = {};
-
-export function clearPackageRunnerCache() {
-  packageRunnerCache = {};
-}
-
 export type PackageRunnerExecInput =
   | { command: string; script?: undefined }
   | { command?: undefined; script: string };
@@ -91,7 +85,6 @@ export type PackageRunnerUtils = ReturnType<typeof getPackageRunnerUtils>;
 
 export interface PackageRunnerOptions {
   cwd?: string;
-  cache?: boolean | Record<string, any>;
   failFast?: boolean;
   includeRoot?: boolean;
 }
@@ -126,19 +119,11 @@ export async function packageRunner(
   //
   const {
     cwd = process.cwd(),
-    cache: cacheOption = true,
     failFast: failFastRoot = true,
     includeRoot,
   } = options;
 
-  const cache = (() => {
-    if (!cacheOption) return undefined;
-    if (cacheOption === true) return packageRunnerCache;
-    if (typeof cacheOption === 'object') return cacheOption;
-    return undefined;
-  })();
-
-  const files = findWorkspacePackages({ globCache: cache, cwd, includeRoot });
+  const files = findWorkspacePackages({ cwd, includeRoot });
 
   if (files.length) {
     (() => {

@@ -75,7 +75,7 @@ export class LiteralField<T extends Readonly<Serializable>> extends FieldType<
 
         if (expected !== received) {
           throw new Error(
-            `Unexpected literal value:\nExpected:\n${expected}\nReceived:\n${received}`,
+            `Unexpected literal value:\nExpected:\n${expected}\nReceived:\n${received}`
           );
         }
         return input;
@@ -84,7 +84,7 @@ export class LiteralField<T extends Readonly<Serializable>> extends FieldType<
   }
 
   static create = <T extends Readonly<Serializable>>(
-    def: T,
+    def: T
   ): LiteralField<T> => {
     return new LiteralField<T>(def);
   };

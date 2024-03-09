@@ -8,14 +8,14 @@ export type SplitTokens<Strings extends string[]> =
   Strings extends []
     ? []
     : Strings extends [infer Head, ...infer Tail]
-      ? Head extends string
-        ? Tail extends []
-          ? _SplitTokens<Head>
-          : Tail extends string[]
-            ? [..._SplitTokens<Head>, ...SplitTokens<Tail>]
-            : never
+    ? Head extends string
+      ? Tail extends []
+        ? _SplitTokens<Head>
+        : Tail extends string[]
+        ? [..._SplitTokens<Head>, ...SplitTokens<Tail>]
         : never
-      : never;
+      : never
+    : never;
 
 export type _SplitTokens<T extends string> =
   //
@@ -41,13 +41,13 @@ export type __SplitTokens<Strings extends string[], R extends string> =
   Strings extends []
     ? []
     : Strings extends [infer Head, ...infer Tail]
-      ? Head extends string
-        ? Tail extends []
-          ? Split<Head, R>
-          : Tail extends string[]
-            ? [...Split<Head, R>, ...__SplitTokens<Tail, R>]
-            : never
+    ? Head extends string
+      ? Tail extends []
+        ? Split<Head, R>
+        : Tail extends string[]
+        ? [...Split<Head, R>, ...__SplitTokens<Tail, R>]
         : never
-      : never;
+      : never
+    : never;
 
 type Split<T extends string, S extends string> = S.Split<T, S>;

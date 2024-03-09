@@ -24,7 +24,7 @@ const defaultBannerComment = ``;
 export async function objectToTypescript(
   name: string,
   object: ObjectLike | ObjectDefinitionInput,
-  options?: ObjectToTypescriptOptions,
+  options?: ObjectToTypescriptOptions
 ): Promise<string> {
   const {
     bannerComment = defaultBannerComment,

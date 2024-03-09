@@ -56,7 +56,7 @@ export interface WriteTypesOptions {
 
 export const defaultTypesDest = path.resolve(
   Process.cwd(),
-  'src/generated/powership.d.ts',
+  'src/generated/powership.d.ts'
 );
 
 export async function writeTypes(options?: WriteTypesOptions) {
@@ -120,7 +120,7 @@ export async function writeTypes(options?: WriteTypesOptions) {
   // @only-server
   const typesInterface = await Internal.objectToTypescript(
     'RuntimeTypes',
-    typesRecord,
+    typesRecord
   );
 
   let definitions = Object.entries(typesRecord).reduce((acc, [id, next]) => {

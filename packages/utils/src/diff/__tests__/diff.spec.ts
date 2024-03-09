@@ -28,7 +28,7 @@ describe('diff', () => {
   test('add object property from undefined', () => {
     const sut = diff(
       { a: { b: 1, c: undefined } }, //
-      { a: { b: 1, c: 2 } },
+      { a: { b: 1, c: 2 } }
     );
 
     expect(sut).toEqual([
@@ -44,7 +44,7 @@ describe('diff', () => {
     const sut = diff(
       { a: { b: 1, c: { x: 1 } } }, //
       { a: { b: 1, c: { x: 2, z: 3 } } },
-      'a.c',
+      'a.c'
     );
 
     expect(sut).toEqual([

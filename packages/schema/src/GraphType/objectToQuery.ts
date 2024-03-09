@@ -88,7 +88,7 @@ function buildDirectives(dirsObj: any): string {
   } else {
     throw new Error(
       `Unsupported type for directive: ${typeof directiveValue}. Types allowed: object, boolean.\n` +
-        `Offending object: ${JSON.stringify(dirsObj)}`,
+        `Offending object: ${JSON.stringify(dirsObj)}`
     );
   }
 }
@@ -109,7 +109,7 @@ function convertQuery(
   node: any,
   level: number,
   output: [string, number][],
-  options: IJsonToGraphQLOptions,
+  options: IJsonToGraphQLOptions
 ) {
   Object.keys(node)
     .filter((key) => filterNonConfigFields(key, options.ignoreFields!))
@@ -125,7 +125,7 @@ function convertQuery(
         }
 
         const fieldCount = Object.keys(value).filter((keyCount) =>
-          filterNonConfigFields(keyCount, options.ignoreFields!),
+          filterNonConfigFields(keyCount, options.ignoreFields!)
         ).length;
         const subFields = fieldCount > 0;
         const argsExist =

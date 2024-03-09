@@ -78,7 +78,7 @@ describe('MongoTransporter', () => {
           },
         ],
       },
-      { projection: undefined, sort: { _id: 1 } },
+      { projection: undefined, sort: { _id: 1 } }
     );
 
     spy.mockRestore();
@@ -117,7 +117,7 @@ describe('createOne', () => {
     config: Omit<
       Parameters<MongoTransporter['createOne']>[0],
       'indexConfig' | 'context'
-    >,
+    >
   ) {
     return transporter.createOne({
       context: {},
@@ -133,7 +133,7 @@ describe('createOne', () => {
           PK: 'ranking',
           SK: 0,
         },
-      }),
+      })
     ).toEqual({
       created: true,
       error: null,
@@ -155,7 +155,7 @@ describe('createOne', () => {
           PK: 'ranking',
           SK: 10,
         },
-      }),
+      })
     ).toMatchObject({
       created: true,
       item: {
@@ -172,7 +172,7 @@ describe('createOne', () => {
           PK: 'ranking',
           SK: 12000000000000000000000000000000000000,
         },
-      }),
+      })
     ).toEqual({
       created: true,
       error: null,
@@ -196,7 +196,7 @@ describe('createOne', () => {
           PK: 'users',
           SK: 'users',
         },
-      }),
+      })
     ).toEqual({
       created: true,
       error: null,
@@ -218,7 +218,7 @@ describe('createOne', () => {
           PK: 'users',
           SK: '5',
         },
-      }),
+      })
     ).toMatchObject({
       created: true,
       item: {
@@ -266,7 +266,7 @@ describe('createOne', () => {
       created: false,
       item: null,
       error: expect.stringMatching(
-        "Can't create two documents with same index",
+        "Can't create two documents with same index"
       ),
       updated: false,
     });
@@ -276,7 +276,7 @@ describe('createOne', () => {
       created: false,
       item: null,
       error: expect.stringMatching(
-        "Can't create two documents with same index",
+        "Can't create two documents with same index"
       ),
       updated: false,
     });
@@ -330,7 +330,7 @@ describe('createOne', () => {
             $exists: false,
           },
         },
-      }),
+      })
     ).toEqual({
       created: false,
       item: null,
@@ -348,7 +348,7 @@ describe('createOne', () => {
         condition: {
           SK: { $gt: 778 },
         },
-      }),
+      })
     ).toHaveProperty('updated', false);
 
     expect(
@@ -358,7 +358,7 @@ describe('createOne', () => {
         condition: {
           SK: { $gt: 776 },
         },
-      }),
+      })
     ).toHaveProperty('updated', true);
   });
 });
@@ -395,7 +395,7 @@ describe('updateOne', () => {
     config: Omit<
       Parameters<MongoTransporter['createOne']>[0],
       'indexConfig' | 'context'
-    >,
+    >
   ) {
     return transporter.createOne({
       context: {},
@@ -408,7 +408,7 @@ describe('updateOne', () => {
     config: Omit<
       Parameters<MongoTransporter['updateOne']>[0],
       'indexConfig' | 'context'
-    >,
+    >
   ) {
     return transporter.updateOne({
       indexConfig,
@@ -438,16 +438,16 @@ describe('updateOne', () => {
 
     expect(await update('a', { $set: { newProp: 22 } })).toHaveProperty(
       'item.newProp',
-      22,
+      22
     );
 
     expect(await update('a', { $remove: ['list.0'] })).toHaveProperty(
       'item.list',
-      ['b', 'c', 'd', 'e', 'f'],
+      ['b', 'c', 'd', 'e', 'f']
     );
     expect(await update('a', { $remove: ['list.4'] })).toHaveProperty(
       'item.list',
-      ['b', 'c', 'd', 'e'],
+      ['b', 'c', 'd', 'e']
     );
 
     expect(await update('a', { $inc: { num: 1, newNum: 2 } })).toHaveProperty(
@@ -464,7 +464,7 @@ describe('updateOne', () => {
         newNum: 2,
         num: 1,
         newProp: 22,
-      }),
+      })
     );
   });
 
@@ -489,7 +489,7 @@ describe('updateOne', () => {
         },
         update: { $set: { newField: 1 } },
         condition: { num: { $gte: 1 } },
-      }),
+      })
     ).toEqual({ item: null, created: false, updated: false });
 
     const updated = await transporter.updateOne({
@@ -903,7 +903,7 @@ describe('findMany', () => {
           indexConfig,
           context: {},
         });
-      }),
+      })
     );
   });
 
@@ -1003,7 +1003,7 @@ describe('findMany', () => {
       {
         _id: 'entity_foo⋮PK⋮users⋮B⋮',
       },
-      { projection: ['sub.attr'], sort: { SK: 1 } },
+      { projection: ['sub.attr'], sort: { SK: 1 } }
     );
 
     expect(sut.items).toHaveLength(1);
@@ -1034,7 +1034,7 @@ describe('findMany', () => {
         limit: 3,
         projection: ['sub.attr'],
         sort: { SK: -1 },
-      },
+      }
     );
 
     expect(sut.items).toHaveLength(3);

@@ -9,7 +9,6 @@ import { readPackageJSON } from './handleJSON';
 
 export type FindWorkspacePackagesInit = {
   cwd?: string;
-  globCache?: any;
   includeRoot?: boolean;
 };
 
@@ -18,11 +17,7 @@ export type WorkspacePackagesFoundResult = ReturnType<
 >;
 
 export function findWorkspacePackages(init?: FindWorkspacePackagesInit) {
-  const {
-    cwd: rootDir = process.cwd(),
-    globCache,
-    includeRoot = true,
-  } = init || {};
+  const { cwd: rootDir = process.cwd(), includeRoot = true } = init || {};
 
   const pnpmWorkspaces = listPnpmWorkspaces(rootDir);
   const packageJsonWorkspaces = listPackageJSONWorkspaces(rootDir);
@@ -47,7 +42,6 @@ export function findWorkspacePackages(init?: FindWorkspacePackagesInit) {
       .sync(nodePath.join(pattern, 'package.json'), {
         cwd: rootDir,
         absolute: true,
-        cache: globCache,
         ignore: ['**/node_modules/**'],
       })
       .flatMap((path) => {

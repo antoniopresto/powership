@@ -79,7 +79,7 @@ describe('parseCursorString', () => {
     const contactStatus = joinIndexCursor(contactStatusObject, config);
 
     expect(contactStatus).toEqual(
-      `contacttype⋮PK⋮U888⋮contactstatus⋮CONTACT_STT_SK⋮`,
+      `contacttype⋮PK⋮U888⋮contactstatus⋮CONTACT_STT_SK⋮`
     );
 
     const contactStatusParsed = parseIndexCursor(contactStatus, config);
@@ -194,7 +194,7 @@ describe('parseCursorString', () => {
     const contactStatus = joinIndexCursor(contactStatusObject, config);
 
     expect(contactStatus).toEqual(
-      `contacttype⋮PK⋮U888⋮contactstatus⋮CONTACT_STT_SK⋮`,
+      `contacttype⋮PK⋮U888⋮contactstatus⋮CONTACT_STT_SK⋮`
     );
 
     const contactStatusParsed = parseIndexCursor(contactStatus, config);
@@ -239,7 +239,7 @@ describe('parseCursorString', () => {
 
   test('entity PKPart bug', () => {
     const sut = parseFilterCursor(
-      '~!YWNjb3VudOKLrl9pZOKLrjAxR003Mjg1WlI3TVg3NlBOTUYzRzJNRDNQ4oqwYWNjZXNzdHlwZeKLrmVtYWls4oiZMDFHTTcyODYwWlA2U0hKUkFLSlZSV0pWUVbii64=',
+      '~!YWNjb3VudOKLrl9pZOKLrjAxR003Mjg1WlI3TVg3NlBOTUYzRzJNRDNQ4oqwYWNjZXNzdHlwZeKLrmVtYWls4oiZMDFHTTcyODYwWlA2U0hKUkFLSlZSV0pWUVbii64='
     );
 
     expect(sut).toEqual({

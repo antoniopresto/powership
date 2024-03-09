@@ -143,7 +143,7 @@ const values = [
 
 // a, b, result
 const expectEncoded = values.map(
-  (el) => [el.input, null, el.encoded] as string[],
+  (el) => [el.input, null, el.encoded] as string[]
 );
 
 const numbers = [
@@ -189,7 +189,7 @@ describe('conust', () => {
 
   test('should encode numbers', () => {
     expect(encodeNumber(-12000000000000000000000000000000000000)).toEqual(
-      '30vyx~',
+      '30vyx~'
     );
   });
 });

@@ -26,7 +26,7 @@ export const E164_PHONE_REGEX =
 
 export function _backendValidatePhoneNumber(
   input: unknown,
-  options: PhoneValidationOptions = {},
+  options: PhoneValidationOptions = {}
 ) {
   const { regionCode, numberType } = options;
 
@@ -65,7 +65,7 @@ export function setCustomPhoneValidator(validator: PhoneValidator) {
 
 export function validatePhoneNumber(
   input: unknown,
-  options?: PhoneValidationOptions,
+  options?: PhoneValidationOptions
 ): string {
   if (customPhoneValidator) {
     return customPhoneValidator(input, options);
@@ -90,7 +90,7 @@ export function validatePhoneNumber(
     console.warn(
       'validatePhoneNumber: using backup function for phone validation, since phone validator was not defined and' +
         ' "awesome-phonenumber" package is not available at the current environment.' +
-        'Use setCustomPhoneValidator to set a new function.',
+        'Use setCustomPhoneValidator to set a new function.'
     );
   }
 

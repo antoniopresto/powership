@@ -95,7 +95,7 @@ function parse(str: string): number {
   }
   const match =
     /^(?<value>-?(?:\d+)?\.?\d+) *(?<type>milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(
-      str,
+      str
     );
   // Named capture groups need to be manually typed today.
   // https://github.com/microsoft/TypeScript/issues/32098
@@ -147,7 +147,7 @@ function parse(str: string): number {
     default:
       // This should never occur.
       throw new Error(
-        `The unit ${type as string} was matched, but no matching case exists.`,
+        `The unit ${type as string} was matched, but no matching case exists.`
       );
   }
 }
@@ -201,7 +201,7 @@ function plural(
   ms: number,
   msAbs: number,
   n: number,
-  name: string,
+  name: string
 ): StringValue {
   const isPlural = msAbs >= n * 1.5;
   return `${Math.round(ms / n)} ${name}${isPlural ? 's' : ''}` as StringValue;

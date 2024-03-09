@@ -79,11 +79,11 @@ describe('simpleObjectClone', () => {
           if (['String', 'Number'].includes(typeName)) return value?.toString();
           return serializer?.formatter?.tsName(value) || typeName;
         },
-      },
+      }
     );
 
     expect(str).toEqual(
-      '{"12":[Date,RegExp,{"a":1,"b":HMM____},Null,undefined],"b":HMM____}',
+      '{"12":[Date,RegExp,{"a":1,"b":HMM____},Null,undefined],"b":HMM____}'
     );
   });
 });

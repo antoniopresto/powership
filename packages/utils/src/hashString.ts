@@ -6,7 +6,7 @@ export function hashString(string: string) {
 
 export function hashName(value: string): string {
   return `_${hashString(value)}${hashString(
-    value.slice(-value.length / 2),
+    value.slice(-value.length / 2)
   )}`.slice(0, 13);
 }
 

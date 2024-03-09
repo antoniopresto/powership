@@ -25,7 +25,7 @@ type RouteFindResult =
   | null;
 
 export type SimpleRouter<
-  Routes extends Readonly<{ [K: string]: RouteConfig }>,
+  Routes extends Readonly<{ [K: string]: RouteConfig }>
 > = {
   $findRoute(pathname: string): RouteFindResult;
 } & {
@@ -42,7 +42,7 @@ export type SimpleRouter<
 };
 
 export function createSimpleRouter<
-  Routes extends Readonly<{ [K: string]: RouteConfig }>,
+  Routes extends Readonly<{ [K: string]: RouteConfig }>
 >(config: Routes): SimpleRouter<Routes> {
   const routeMap: SimpleRouter<Routes> = Object.create(null);
 

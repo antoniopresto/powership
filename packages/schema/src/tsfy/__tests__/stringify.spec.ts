@@ -41,7 +41,7 @@ describe('stringify', () => {
     const sut = await tsfy(obj).getParts();
 
     expect(sut.body).toEqual(
-      'ObjectType<{"name":{"type":"string",},"age":{"type":"int",},}>',
+      'ObjectType<{"name":{"type":"string",},"age":{"type":"int",},}>'
     );
   });
 

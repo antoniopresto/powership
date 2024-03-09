@@ -40,7 +40,7 @@ export const relativePath = resolveCWD;
 export function __dirnameGet(meta: { url: string }) {
   if (typeof meta?.url !== 'string' || !meta.url) {
     throw new Error(
-      `expected meta.url to be a valid string from import.meta.url`,
+      `expected meta.url to be a valid string from import.meta.url`
     );
   }
 

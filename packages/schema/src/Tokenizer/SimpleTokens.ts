@@ -25,18 +25,18 @@ export type _Parse<T extends string[]> =
   T extends []
     ? {}
     : T extends [infer K, infer V, ...infer Rest]
-      ? K extends `${infer KV}:`
-        ? V extends string
-          ? Rest extends []
-            ? ParsePair<KV, V>
-            : Rest extends string[]
-              ? Merge<ParsePair<KV, V>, _Parse<Rest>> extends infer R
-                ? { [K in keyof R]: R[K] } & {}
-                : never
-              : {}
-          : 1
-        : 2
-      : 3;
+    ? K extends `${infer KV}:`
+      ? V extends string
+        ? Rest extends []
+          ? ParsePair<KV, V>
+          : Rest extends string[]
+          ? Merge<ParsePair<KV, V>, _Parse<Rest>> extends infer R
+            ? { [K in keyof R]: R[K] } & {}
+            : never
+          : {}
+        : 1
+      : 2
+    : 3;
 
 type ParsePair<K, V> = K extends unknown
   ? K extends string

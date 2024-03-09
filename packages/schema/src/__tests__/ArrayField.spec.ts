@@ -43,7 +43,7 @@ describe('ArrayField', () => {
       },
       {
         returnInstance: true,
-      },
+      }
     );
 
     expect(parsed.asFinalFieldDef).toEqual({
@@ -134,22 +134,22 @@ describe('ArrayField', () => {
     });
 
     expect(() => min1.parse({})).toThrow(
-      '➤ a1 UnexpectedType: expected Array, found Object',
+      '➤ a1 UnexpectedType: expected Array, found Object'
     );
 
     min1.parse([user]);
     expect(() => min1.parse([])).toThrow(
-      '➤ a1 MinSize: expected min 1, found: 0.',
+      '➤ a1 MinSize: expected min 1, found: 0.'
     );
 
     max3.parse([user, user, user]);
     expect(() => max3.parse([user, user, user, user])).toThrow(
-      '➤ a2 MaxSize: expected max 3, found: 4.',
+      '➤ a2 MaxSize: expected max 3, found: 4.'
     );
 
     exact2.parse([user, user]);
     expect(() => exact2.parse([])).toThrow(
-      '➤ a3 SizeMismatch: expected length 2, found 0.',
+      '➤ a3 SizeMismatch: expected length 2, found 0.'
     );
   });
 

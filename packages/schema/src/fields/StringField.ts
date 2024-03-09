@@ -44,14 +44,14 @@ export class StringField extends FieldType<
         if (max !== undefined && length > max) {
           throw new FieldTypeError(
             'maxSize',
-            `${length} is more than the max string length ${max}.`,
+            `${length} is more than the max string length ${max}.`
           );
         }
 
         if (min !== undefined && length < min) {
           throw new FieldTypeError(
             'minSize',
-            `${length} is less than the min string length ${min}.`,
+            `${length} is less than the min string length ${min}.`
           );
         }
 

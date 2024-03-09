@@ -19,14 +19,14 @@ function join(...parts: any[]) {
 
 export function nonNullValues<T>(
   object: { [key in keyof T]: T[key] | null | undefined },
-  customMessage = '',
+  customMessage = ''
 ): T {
   if (!object || typeof object !== 'object') {
     throw customError({
       message: join(
         customMessage,
         `${object} is not a valid object`,
-        inspectObject(object),
+        inspectObject(object)
       ),
       stackFrom: nonNullValues,
     }).identify('NonNullValues');
@@ -37,7 +37,7 @@ export function nonNullValues<T>(
   Object.entries(object).forEach(([k, v]) => {
     if (v === null || v === undefined) {
       errors.push(
-        `expected non nullable value for property "${k}", found ${v}.`,
+        `expected non nullable value for property "${k}", found ${v}.`
       );
     }
   });
@@ -54,11 +54,11 @@ export function nonNullValues<T>(
 
 export function notNull<T>(
   input: T | null | undefined,
-  appendErrorMessage: string | Error = '',
+  appendErrorMessage: string | Error = ''
 ): T {
   if (input === null || input === undefined) {
     const message = `Expected non null value, but received ${inspectObject(
-      input,
+      input
     )}.`;
 
     throw customError({
@@ -76,8 +76,8 @@ export function wrapError<T>(
   callback: () => T,
   parent?: any,
   overrideError?: <Err extends ErrorWithStack>(
-    error: Err,
-  ) => void | ErrorWithStack,
+    error: Err
+  ) => void | ErrorWithStack
 ): T {
   try {
     return callback();
@@ -101,7 +101,8 @@ export function isErrorWithStack(t: any): t is ErrorWithStack {
   return typeof t?.message === 'string' && typeof t.stack === 'string';
 }
 
-export interface ErrorWithStack extends Error {
+export interface ErrorWithStack {
+  name: string;
   message: string;
   stack: string;
 }
@@ -109,7 +110,7 @@ export interface ErrorWithStack extends Error {
 export function invariant(
   truthy: any,
   errorMessage: string | Error = '',
-  details: any = null,
+  details: any = null
 ): asserts truthy {
   if (!truthy) {
     if (typeof errorMessage === 'string') {
@@ -128,7 +129,7 @@ export function invariantType(
   object: object,
   type: string | string[],
   extraInfo?: any,
-  depth = 2,
+  depth = 2
 ): boolean {
   const typeArr = ensureArray(type).map((el) => el.toLowerCase());
 
@@ -141,7 +142,7 @@ export function invariantType(
       throw customError({
         message: `Expected "${key}", to be of type "${type}", found ${foundType} ${value} ${inspectObject(
           extraInfo,
-          { depth },
+          { depth }
         )}`,
         stackFrom: invariantType,
       });

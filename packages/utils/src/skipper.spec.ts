@@ -16,7 +16,7 @@ describe('skipper', () => {
     expect(() =>
       skipper(() => {
         throw new Error('Ohno');
-      }),
+      })
     ).toThrowError('Ohno');
   });
 });

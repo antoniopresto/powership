@@ -29,14 +29,14 @@ export class UnknownField extends FieldType<
 
         if (types?.length) {
           const arr = (Array.isArray(types) ? types : [types]).map((el) =>
-            el.toLowerCase(),
+            el.toLowerCase()
           );
 
           const tn = getTypeName(input).toLowerCase();
 
           if (!arr.includes(tn)) {
             throw new Error(
-              `expected type to be one of -> (${arr.join(', ')}), found "${tn}"`,
+              `expected type to be one of -> (${arr.join(', ')}), found "${tn}"`
             );
           }
         }

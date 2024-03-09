@@ -55,7 +55,7 @@ export class RouteUtils {
    */
   static resortQueryString(queryString = ''): string {
     return RouteUtils.stringifyQueryString(
-      RouteUtils.parseQueryString(queryString),
+      RouteUtils.parseQueryString(queryString)
     );
   }
 
@@ -78,7 +78,7 @@ export class RouteUtils {
 
     if (!hasProtocol && !isAbsolutePath) {
       throw new Error(
-        `Expected input to be a full URL or an absolute path, received "${urlOrPathname}"`,
+        `Expected input to be a full URL or an absolute path, received "${urlOrPathname}"`
       );
     }
 
@@ -133,7 +133,7 @@ export class RouteUtils {
    * @returns The route matcher.
    */
   static createRouteMatcher<Path extends string>(
-    path: Path,
+    path: Path
   ): RouteMatcher<Path> {
     let formattedPath = path
       .replace(/(\/:?)([^?/:]*)\?/g, '($1$2)')
@@ -185,7 +185,7 @@ export class RouteUtils {
 
     return function sortRoutes<Routes extends (string | { path: string })[]>(
       paths: Routes,
-      cache: Record<string, any> = {},
+      cache: Record<string, any> = {}
     ): Routes {
       return paths.sort(function (routeA, routeB) {
         const a = typeof routeA === 'string' ? routeA : routeA.path;
@@ -234,31 +234,30 @@ export type ExtractRouteParams<Path extends string> =
   Path extends `:${infer Param}/${infer Rest}`
     ? Param | ExtractRouteParams<Rest>
     : Path extends `:${infer Param}`
-      ? Param
-      : Path extends `${string}:${infer Rest}`
-        ? ExtractRouteParams<`:${Rest}`>
-        : never;
+    ? Param
+    : Path extends `${string}:${infer Rest}`
+    ? ExtractRouteParams<`:${Rest}`>
+    : never;
 
 // used to infer if a route needs a params object
-export type GetRouteParams<Path extends string> =
-  IsKnown<Path> extends 0
-    ? {}
-    : [ExtractRouteParams<Path>] extends [never]
-      ? {}
-      : {
-            [K in ExtractRouteParams<Path>]: K extends `${string}?`
-              ? AlphaNumeric | undefined
-              : AlphaNumeric;
-          } extends infer Parsed
-        ? {
-            // removing ending "?" simbol
-            [K in ExcludeOptionalSymbol<keyof Parsed>]: Parsed extends {
-              [KK in `${K}?`]: any;
-            }
-              ? AlphaNumeric | undefined
-              : AlphaNumeric;
-          }
-        : never;
+export type GetRouteParams<Path extends string> = IsKnown<Path> extends 0
+  ? {}
+  : [ExtractRouteParams<Path>] extends [never]
+  ? {}
+  : {
+      [K in ExtractRouteParams<Path>]: K extends `${string}?`
+        ? AlphaNumeric | undefined
+        : AlphaNumeric;
+    } extends infer Parsed
+  ? {
+      // removing ending "?" simbol
+      [K in ExcludeOptionalSymbol<keyof Parsed>]: Parsed extends {
+        [KK in `${K}?`]: any;
+      }
+        ? AlphaNumeric | undefined
+        : AlphaNumeric;
+    }
+  : never;
 
 type ExcludeOptionalSymbol<T> = Extract<
   T extends `${infer Value}?` ? Value : T,

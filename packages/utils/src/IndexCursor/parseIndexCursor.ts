@@ -18,7 +18,7 @@ export const MIN_FILTER_INDEX_KEY_PARTS = 3;
 
 export function parseIndexCursor(
   init: string | string[] | InitIndexCursor,
-  options: ParseCursorOptions,
+  options: ParseCursorOptions
 ): ParsedIndexCursor {
   const { parts, fullID } = (() => {
     if (typeof init === 'string') {
@@ -54,7 +54,7 @@ export function parseIndexCursor(
         MIN_PARTS,
         parts,
         fullID: init,
-      })}`,
+      })}`
     );
   }
 
@@ -66,7 +66,7 @@ export function parseIndexCursor(
         {
           parts: parts,
         },
-        options,
+        options
       );
     } catch (e: any) {
       e.message = `parseIndexCursor cannot parse child relation ${fullID} ${e.message}`;
@@ -76,7 +76,7 @@ export function parseIndexCursor(
     const [entity, name, PK, SK] = parts;
     return indexToCursor(
       { entity, name, PK, SK, relatedTo: undefined, parentPrefix: undefined },
-      options,
+      options
     );
   }
 }
@@ -86,7 +86,7 @@ export function _parseSubIndexCursor(
     parts: string[];
     parentPrefix?: string;
   },
-  options: ParseCursorOptions,
+  options: ParseCursorOptions
 ): ParsedIndexCursor {
   const { parts } = init;
 
@@ -133,7 +133,7 @@ export function _parseSubIndexCursor(
       name,
       entity: childEntity,
     },
-    options,
+    options
   );
 
   if (childRest.length) {
@@ -142,7 +142,7 @@ export function _parseSubIndexCursor(
         parts: childParts,
         parentPrefix: PKPartOpen + RELATION_PRECEDES,
       },
-      options,
+      options
     );
   }
 
@@ -158,7 +158,7 @@ export function indexToCursor(
     relatedTo: string | undefined;
     parentPrefix: string | undefined;
   },
-  options: ParseCursorOptions,
+  options: ParseCursorOptions
 ): ParsedIndexCursor {
   const { name, entity, PK, SK, relatedTo, parentPrefix } = init;
   const data = nonNullValues({ entity, name, PK });

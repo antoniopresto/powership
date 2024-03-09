@@ -23,7 +23,7 @@ export class RuntimeError extends Error {
     message: string,
     details: any,
     skipStackLines?: number,
-    depth?: number,
+    depth?: number
   );
 
   constructor(message: string, details: any, options?: RunTimeErrorOptions);
@@ -61,7 +61,7 @@ export class RuntimeError extends Error {
 }
 
 function prepareArgs(
-  _config: [RunTimeErrorOptions] | [number | undefined, number | undefined],
+  _config: [RunTimeErrorOptions] | [number | undefined, number | undefined]
 ): RunTimeErrorOptions {
   return typeof _config[0] === 'object'
     ? _config[0]

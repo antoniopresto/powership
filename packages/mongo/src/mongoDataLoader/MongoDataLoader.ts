@@ -27,12 +27,12 @@ export class MongoDataLoader {
           this.validateDataloaderHash(key);
           return key.queryHash;
         },
-      },
+      }
     );
   }
 
   findMany = (
-    params: ParsedMongoDLParams | MongoFindManyParams,
+    params: ParsedMongoDLParams | MongoFindManyParams
   ): Promise<any> & { __usedParameters: ParsedMongoDLParams } => {
     const parsedOptions = ensureParsedParams([params])[0];
     const result: any = this._dataloader.load(parsedOptions.dataLoaderKey);
@@ -47,12 +47,12 @@ export class MongoDataLoader {
   };
 
   loadManyQueries = (
-    options: ParsedMongoDLParams[] | MongoFindManyParams[],
+    options: ParsedMongoDLParams[] | MongoFindManyParams[]
   ): Promise<any> & { __usedParameters: ParsedMongoDLParams[] } => {
     const parsedOptions = ensureParsedParams(options);
 
     const result: any = this._dataloader.loadMany(
-      parsedOptions.map((el) => el.dataLoaderKey),
+      parsedOptions.map((el) => el.dataLoaderKey)
     );
 
     Object.defineProperty(result, '__usedParameters', {
@@ -67,7 +67,7 @@ export class MongoDataLoader {
   // when a query doesn't have `first` or `skip`, we can fetch the data
   // joining all queries into an $or and then separating the results
   fetchData = async (
-    queryList: readonly MongoDataLoaderKey[],
+    queryList: readonly MongoDataLoaderKey[]
   ): Promise<any[]> => {
     let condition: any = { $or: [] };
 
@@ -123,14 +123,14 @@ export class MongoDataLoader {
           currentHash: this._dataloaderHash,
           incomingHash: key.dataloaderHash,
         },
-        1,
+        1
       );
     }
   }
 }
 
 function ensureParsedParams(
-  opt: (ParsedMongoDLParams | MongoFindManyParams)[],
+  opt: (ParsedMongoDLParams | MongoFindManyParams)[]
 ): ParsedMongoDLParams[] {
   return opt.map((item) => {
     if (isParsed(item)) return item;

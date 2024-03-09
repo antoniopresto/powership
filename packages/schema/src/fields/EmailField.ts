@@ -28,7 +28,7 @@ export class EmailField extends FieldType<
 
     if (def.regex && !Array.isArray(def.regex)) {
       throw new Error(
-        `Invalid regex definition received. Expected [string] | [string, string].`,
+        `Invalid regex definition received. Expected [string] | [string, string].`
       );
     }
 

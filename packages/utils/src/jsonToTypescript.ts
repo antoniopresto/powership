@@ -7,7 +7,7 @@ export { JSONSchema4, JSONObject4 };
 export async function jsonToTypescript(
   schema: JSONSchema4,
   name: string,
-  options: Partial<Options> = {},
+  options: Partial<Options> = {}
 ): Promise<string> {
   // @only-server
   const json_ts = await dynamicRequire<

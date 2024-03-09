@@ -1,7 +1,7 @@
 import type { ObjectType } from './ObjectType';
 
 export function isObjectValidationError(
-  input: any,
+  input: any
 ): input is Error & { fieldErrors: string[] } {
   return input?.isObjectValidationError === true;
 }

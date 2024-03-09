@@ -7,7 +7,7 @@ export class InvalidExpectedTypeError extends Error {
 
   constructor(fieldName: string, found: string, expected: string) {
     super(
-      `Expected ${fieldName} to be of type "${expected}", found ${found} instead.`,
+      `Expected ${fieldName} to be of type "${expected}", found ${found} instead.`
     );
     this.expected = expected;
     this.fieldName = fieldName;
@@ -18,7 +18,7 @@ export class InvalidExpectedTypeError extends Error {
 export class InvalidExpectedTruthyError extends Error {
   constructor(fieldName: string, value: any, foundType: string) {
     super(
-      `Expected ${fieldName} to be have a truthy value, found "${value}" of type ${foundType}.`,
+      `Expected ${fieldName} to be have a truthy value, found "${value}" of type ${foundType}.`
     );
   }
 }
@@ -26,12 +26,12 @@ export class InvalidExpectedTruthyError extends Error {
 export function expectedType<Input extends { [key: string]: unknown }>(
   input: Input,
   expected: string | string[],
-  optional: boolean | 'truthy' = false,
+  optional: boolean | 'truthy' = false
 ): Input {
   const entries = Object.entries(input);
 
   const expectedArr = (Array.isArray(expected) ? expected : [expected]).map(
-    (el) => el.toLowerCase(),
+    (el) => el.toLowerCase()
   );
 
   if (optional === true) {
@@ -45,7 +45,7 @@ export function expectedType<Input extends { [key: string]: unknown }>(
       throw new InvalidExpectedTypeError(
         key,
         typename,
-        expectedArr.join(' or '),
+        expectedArr.join(' or ')
       );
     }
 

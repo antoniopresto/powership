@@ -49,7 +49,7 @@ export const {
 
 export function joinIndexCursor(
   init: InitIndexCursor,
-  options: ParseCursorOptions,
+  options: ParseCursorOptions
 ) {
   const { relatedTo } = init;
 
@@ -59,7 +59,7 @@ export function joinIndexCursor(
         ...init,
         relatedTo,
       },
-      options,
+      options
     );
   }
 
@@ -93,7 +93,7 @@ export function joinKeyParts(init: string[], options: JoinKeyPartsOptions) {
 
 export function joinPKSK(
   init: { PK: string[]; SK: string[] | null },
-  options: JoinKeyPartsOptions,
+  options: JoinKeyPartsOptions
 ) {
   const PKPart = joinKeyParts(init.PK, options);
 
@@ -113,11 +113,11 @@ export interface InitIndexCursorWithParent extends InitIndexCursor {
 
 export function _joinIndexCursorWithParent(
   init: InitIndexCursorWithParent,
-  options: JoinKeyPartsOptions,
+  options: JoinKeyPartsOptions
 ) {
   const { entity, relatedTo } = nonNullValues(
     { entity: init.entity, relatedTo: init.relatedTo },
-    'joinIndexCursorWithParent called with invalid parameters.',
+    'joinIndexCursorWithParent called with invalid parameters.'
   );
 
   const parentCursor = joinCursorPartsWithTrailingSeparator([

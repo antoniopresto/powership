@@ -14,7 +14,7 @@ import { createTSfyRef, getTSFyIdentifier, TSFYContext, TSFYRef } from './tsfy';
 
 export async function parseTSFyValue(
   rootValue: any,
-  context: TSFYContext,
+  context: TSFYContext
 ): Promise<TSFYRef> {
   rootValue = proxyRealValue(rootValue);
   //
@@ -91,7 +91,7 @@ export async function parseTSFyValue(
             const res = ensureArray(part);
             if (index !== lastIndex) return [...res, ', '];
             return res;
-          }),
+          })
         );
 
         currentRef.parts = ['[', ...ensureArray(child), ']'];
@@ -116,7 +116,7 @@ export async function parseTSFyValue(
             }
             const valueRes = await parseTSFyValue(value, context);
             currentRef.parts.push(`${JSON.stringify(key)}:`, valueRes, ',');
-          }),
+          })
         );
 
         currentRef.parts.push('}');

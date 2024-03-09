@@ -1,7 +1,7 @@
 import { assertError, ErrorWithStack } from './invariant';
 
 export function tryCatch<T>(
-  fn: () => T,
+  fn: () => T
 ): [T] extends [Promise<infer R>]
   ? Promise<[ErrorWithStack, null] | [null, R]>
   : [ErrorWithStack, null] | [null, T] {

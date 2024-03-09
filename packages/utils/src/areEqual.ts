@@ -20,7 +20,7 @@ export function assertEqual<ToBe extends Readonly<Assertable>>(
   value: unknown,
   toBe: ToBe,
   message = 'UNEXPECTED_VALUE',
-  details = {},
+  details = {}
 ): asserts value is ToBe extends Assertable ? ToBe : never {
   if (!areEqual(value, toBe)) {
     throw new Error(message + `\ndetails:` + inspectObject(details));

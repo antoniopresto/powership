@@ -26,11 +26,11 @@ export interface ExtendObjectDefinition<Input, Origin> {
   def(): this['definition'];
 
   exclude<K extends keyof this['definition']>(
-    keys: K | K[],
+    keys: K | K[]
   ): ExtendObjectDefinition<{ object: Omit<InnerDef<Input>, K> }, Origin>;
 
   extendObjectDefinition<V extends ObjectDefinitionInput>(
-    value: V | ((current: this['definition']) => V),
+    value: V | ((current: this['definition']) => V)
   ): ExtendObjectDefinition<
     { object: Merge<InnerDef<Input>, DescribeObjectDefinition<V>> },
     Origin
@@ -41,7 +41,7 @@ export interface ExtendObjectDefinition<Input, Origin> {
   objectType(name?: string): Internal.ObjectType<InnerDef<Input>>;
 
   only<K extends keyof this['definition']>(
-    keys: K | K[],
+    keys: K | K[]
   ): ExtendObjectDefinition<{ object: O.Pick<InnerDef<Input>, K> }, Origin>;
 
   /**
@@ -49,7 +49,7 @@ export interface ExtendObjectDefinition<Input, Origin> {
    * @param keys
    */
   pick<K extends keyof this['definition']>(
-    keys: K | K[],
+    keys: K | K[]
   ): ExtendObjectDefinition<{ object: O.Pick<InnerDef<Input>, K> }, Origin>;
 
   optional(): ExtendObjectDefinition<
@@ -58,7 +58,7 @@ export interface ExtendObjectDefinition<Input, Origin> {
   >;
 
   optional<Op extends keyof InnerDef<Input>>(
-    keys: Op | Op[],
+    keys: Op | Op[]
   ): ExtendObjectDefinition<
     { object: MakeFieldOptional<InnerDef<Input>, Op> },
     Origin
@@ -70,7 +70,7 @@ export interface ExtendObjectDefinition<Input, Origin> {
   >;
 
   required<Op extends keyof InnerDef<Input>>(
-    keys: Op | Op[],
+    keys: Op | Op[]
   ): ExtendObjectDefinition<
     { object: MakeFieldRequired<InnerDef<Input>, Op> },
     Origin
@@ -78,12 +78,12 @@ export interface ExtendObjectDefinition<Input, Origin> {
 }
 
 export function extendObjectDefinition<Input>(
-  input: Input,
+  input: Input
 ): ExtendObjectDefinition<Input, Input> {
   if (!input || typeof input !== 'object') {
     throw new RuntimeError(
       `Expected typeof input to be "object", found ${getTypeName(input)}`,
-      { input },
+      { input }
     );
   }
 
@@ -118,8 +118,8 @@ export function extendObjectDefinition<Input>(
     simpleObjectClone(
       Internal.parseObjectDefinition(Internal.deleteCachedFieldInstance(obj), {
         deep: { omitMeta: true },
-      }).definition,
-    ),
+      }).definition
+    )
   );
 
   const res = {
@@ -145,7 +145,7 @@ export function extendObjectDefinition<Input>(
       assertEqual(getTypeName(ext), 'Object');
       clone = Object.assign(
         clone,
-        Internal.parseObjectDefinition(ext, { omitMeta: true }).definition,
+        Internal.parseObjectDefinition(ext, { omitMeta: true }).definition
       );
       return extendObjectDefinition(clone);
     },
@@ -187,7 +187,7 @@ export function extendObjectDefinition<Input>(
               input,
               key,
               value: clone[key],
-            },
+            }
           );
         }
         clone[key] = {
@@ -210,7 +210,7 @@ export function extendObjectDefinition<Input>(
               input,
               key,
               value: clone[key],
-            },
+            }
           );
         }
         clone[key] = {
@@ -253,18 +253,18 @@ export type _InnerDef<R> = 'type' extends keyof R
 
 export type MakeFieldOptional<
   Object extends object,
-  OptionalField extends A.Key,
+  OptionalField extends A.Key
 > = OverrideField<Object, OptionalField, { optional: true }>;
 
 export type MakeFieldRequired<
   Object extends object,
-  OptionalField extends A.Key,
+  OptionalField extends A.Key
 > = OverrideField<Object, OptionalField, { optional: false }>;
 
 export type OverrideField<
   Object extends object,
   Field extends A.Key,
-  Extend extends object,
+  Extend extends object
 > = {
   [K in keyof Object as K extends string ? K : never]: K extends Field
     ? SealedField<Omit<DescribeField<Object[K]>, keyof Extend> & Extend>

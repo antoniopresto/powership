@@ -102,9 +102,9 @@ export class RecordField<Def extends RecordFieldDef> extends FieldType<
   }
 
   static create = <
-    Def extends RecordFieldDef = { keyType: 'string'; type: 'any' },
+    Def extends RecordFieldDef = { keyType: 'string'; type: 'any' }
   >(
-    def?: Def,
+    def?: Def
   ): RecordField<Def> => {
     def = { keyType: 'string', type: 'any', ...def } as any;
     return new RecordField(def);

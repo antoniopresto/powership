@@ -22,7 +22,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   static assert(type: any): asserts type is GraphType<any> {
     if (!GraphType.is(type)) {
       throw new Error(
-        `AssertError: type is not a GraphType.\n${inspectObject(type)}`,
+        `AssertError: type is not a GraphType.\n${inspectObject(type)}`
       );
     }
   }
@@ -50,14 +50,14 @@ export class GraphType<Definition extends ObjectFieldInput> {
   constructor(
     definition: Definition extends ObjectFieldInput
       ? Definition | (() => Definition)
-      : never,
+      : never
   );
 
   constructor(
     name: string,
     definition: Definition extends ObjectFieldInput
       ? Definition | (() => Definition)
-      : never,
+      : never
   );
 
   constructor(...args: GraphTypeArgs) {
@@ -77,7 +77,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
                 ' - `myNiceType.identify("Foo")`\n' +
                 " - `createType('Bar', FieldDefinition)`",
             ].join('\n'),
-            this.__lazyGetter.definitionInput,
+            this.__lazyGetter.definitionInput
           );
         },
       },
@@ -124,7 +124,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
 
   parse = (
     input: any,
-    options?: Internal.FieldParserConfig,
+    options?: Internal.FieldParserConfig
   ): Internal.Infer<Definition> => {
     const field = this.__lazyGetter.field;
 
@@ -185,7 +185,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   };
 
   clone<T>(
-    handler: (input: Internal.ExtendObjectDefinition<this, this>) => T,
+    handler: (input: Internal.ExtendObjectDefinition<this, this>) => T
   ): T {
     const parsed = Internal.parseField(this.definition);
     const input: any = Internal.extendObjectDefinition(parsed);
@@ -198,17 +198,17 @@ export class GraphType<Definition extends ObjectFieldInput> {
   }
 
   beforeInitialize: ((
-    definition: LazyParseGraphTypePayload,
+    definition: LazyParseGraphTypePayload
   ) => LazyParseGraphTypePayload)[] = [];
 
   mutateFields<Def extends Internal.ObjectDefinitionInput>(
-    callback: (input: Internal.ExtendObjectDefinition<this, this>) => Def,
+    callback: (input: Internal.ExtendObjectDefinition<this, this>) => Def
   ): GraphType<{ object: Def }> {
     if (this.touched) {
       throw new Error(
         `Called "mutateFields" after type "${
           this.optionalId || ''
-        }" was touched.`,
+        }" was touched.`
       );
     }
 
@@ -231,7 +231,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
         return payload;
       } catch (e: any) {
         e.message = `Failed to execute mutateFields with the result from callback: ${inspectObject(
-          { callback },
+          { callback }
         )}`;
         throw e;
       }
@@ -256,7 +256,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   };
 
   typescriptPrint = (
-    options?: ObjectToTypescriptOptions & { name?: string },
+    options?: ObjectToTypescriptOptions & { name?: string }
   ): Promise<string> => {
     const name = options?.name || this.id;
 
@@ -272,7 +272,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   };
 
   optionalType = (
-    name?: string,
+    name?: string
   ): Definition extends unknown
     ? GraphType<Internal.MakeTypeOptional<Definition>>
     : never => {
@@ -282,7 +282,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   };
 
   requiredType = (
-    name?: string,
+    name?: string
   ): Definition extends unknown
     ? GraphType<Internal.MakeTypeRequired<Definition>>
     : never => {
@@ -292,7 +292,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   };
 
   listType = (
-    name?: string,
+    name?: string
   ): Definition extends unknown
     ? GraphType<Internal.MakeTypeList<Definition>>
     : never => {
@@ -302,7 +302,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   };
 
   singleType = (
-    name?: string,
+    name?: string
   ): Definition extends unknown
     ? GraphType<Internal.MakeTypeSingle<Definition>>
     : never => {
@@ -319,7 +319,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
    */
   static getOrSet = <T extends Internal.FieldDefinitionConfig>(
     id: string,
-    def: T,
+    def: T
   ): GraphType<T> => {
     const existing =
       GraphType.register.has(id) && (GraphType.register.get(id) as any);
@@ -361,18 +361,18 @@ export type GraphTypeArgs<Def extends ObjectFieldInput = ObjectFieldInput> =
   | [Def | (() => Def)];
 
 export function createType<Definition extends ObjectFieldInput>(
-  definition: Definition | (() => Definition),
+  definition: Definition | (() => Definition)
 ): GraphType<Definition>;
 
 export function createType<Definition extends ObjectFieldInput>(
   name: string,
-  definition: Definition | (() => Definition),
+  definition: Definition | (() => Definition)
 ): GraphType<Definition>;
 
 export function createType(...args: any[]) {
   return new GraphType(
     // @ts-ignore
-    ...args,
+    ...args
   );
 }
 

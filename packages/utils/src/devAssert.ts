@@ -6,7 +6,7 @@ export function devAssert(
   options?: {
     skipStackLines?: number;
     depth: number;
-  },
+  }
 ): any {
   if (details) {
     throw new RuntimeError(
@@ -14,7 +14,7 @@ export function devAssert(
       details,
 
       options?.skipStackLines,
-      options?.depth,
+      options?.depth
     );
   }
   throw new Error(message);

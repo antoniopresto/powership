@@ -12,6 +12,7 @@
     "resolveJsonModule": true,
     "strict": true,
     "skipLibCheck": true,
+    "strictNullChecks": true,
     "strictPropertyInitialization": false,
     "forceConsistentCasingInFileNames": true,
     "noUnusedLocals": false,

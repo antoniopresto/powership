@@ -83,7 +83,7 @@ export function isMetaFieldKey(t: any): t is typeof objectMetaFieldKey {
 
 export function isMetaField(
   t: any,
-  fieldName?: string,
+  fieldName?: string
 ): t is MetaField['asFinalFieldDef'] {
   if (fieldName && fieldName !== objectMetaFieldKey) return false;
   return (
@@ -92,21 +92,21 @@ export function isMetaField(
 }
 
 export function getObjectDefinitionMetaField(
-  input: Record<string, any>,
+  input: Record<string, any>
 ): MetaField['asFinalFieldDef'] | undefined {
   return input[objectMetaFieldKey];
 }
 
 export function getObjectDefinitionId(
   definition: Record<string, any>,
-  nullable: true,
+  nullable: true
 ): string | undefined;
 
 export function getObjectDefinitionId(definition: Record<string, any>): string;
 
 export function getObjectDefinitionId(
   definition: Record<string, any> = {},
-  nullable = false,
+  nullable = false
 ) {
   const id = getObjectDefinitionMetaField(definition)?.def?.id;
 
@@ -116,6 +116,6 @@ export function getObjectDefinitionId(
     {
       id,
     },
-    'Object not identified.',
+    'Object not identified.'
   ).id;
 }

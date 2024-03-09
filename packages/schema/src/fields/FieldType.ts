@@ -38,7 +38,7 @@ export abstract class FieldType<
   List extends 1 | 0 = 0,
   Optional extends 1 | 0 = 0,
   DefaultValue extends unknown | undefined = undefined,
-  Options extends FieldTypeOptions = {},
+  Options extends FieldTypeOptions = {}
 > {
   readonly typeName: TypeName;
   type: TypeName;
@@ -92,14 +92,14 @@ export abstract class FieldType<
                 old: existing.fieldType.asFinalFieldDef,
                 current: this.asFinalFieldDef,
               },
-              { depth: 2 },
-            )}"`,
+              { depth: 2 }
+            )}"`
           );
         }
 
         if (defKeys?.join(', ') !== existingKeys) {
           throw new Error(
-            `Field with id "${id}" already registered with different fields:\n "${existingKeys}"`,
+            `Field with id "${id}" already registered with different fields:\n "${existingKeys}"`
           );
         }
       }
@@ -159,7 +159,7 @@ export abstract class FieldType<
   }
 
   toList(
-    options?: ListDefinitionTruthy,
+    options?: ListDefinitionTruthy
   ): FieldType<Type, TypeName, Def, 1, Optional, DefaultValue, Options> {
     // @ts-ignore
     this.list = true;
@@ -170,7 +170,7 @@ export abstract class FieldType<
   }
 
   setDefaultValue<T extends any>(
-    value: T,
+    value: T
   ): FieldType<Type, TypeName, Def, List, Optional, T, Options> {
     // @ts-ignore
     this.defaultValue = value;
@@ -185,7 +185,7 @@ export abstract class FieldType<
       input: any,
       _options?:
         | Internal.ValidationCustomMessage
-        | Internal.FieldParserOptionsObject,
+        | Internal.FieldParserOptionsObject
     ) => {
       let options: Internal.FieldParserOptionsObject = {};
 
@@ -251,7 +251,7 @@ export abstract class FieldType<
         throw Internal.parseValidationError(
           input,
           customMessage,
-          originalError,
+          originalError
         );
       }
     };

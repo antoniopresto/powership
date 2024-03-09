@@ -15,7 +15,7 @@ import type { Infer } from './Infer';
 import * as Internal from './internal';
 
 const getRecordType = memoize(() =>
-  Internal.create.record({ keyType: 'string', type: 'any' }),
+  Internal.create.record({ keyType: 'string', type: 'any' })
 );
 
 export const JSONFieldCase = Object.keys(stringCase).concat('camelCase') as (
@@ -34,7 +34,7 @@ export const JSONToSchemaOptions = () =>
 export type JSONToSchemaOptions = Infer<ReturnType<typeof JSONToSchemaOptions>>;
 
 export function jsonToType(
-  init: JSONToSchemaOptions,
+  init: JSONToSchemaOptions
 ): Internal.GraphType<{ object: { $string: 'unknown' } }> {
   const { name } = init;
 
@@ -111,11 +111,11 @@ export const valuesToPowershipTypeRecord: {
 };
 
 export const powershipValueTypeCheckEntries = entries(
-  valuesToPowershipTypeRecord,
+  valuesToPowershipTypeRecord
 );
 
 export function valueToTypeDef(
-  options: Omit<JSONToSchemaOptions, 'json'> & { value: any },
+  options: Omit<JSONToSchemaOptions, 'json'> & { value: any }
 ): Internal.FlattenFieldDefinition {
   const { fieldCase = 'keep', examples, value } = options;
 

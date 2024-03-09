@@ -45,11 +45,13 @@ export function setJsonValue(program: Command) {
           }
 
           const jsonValue = jsonParse(value)[1] || value;
+          // @ts-ignore
           setByPath(json, objectPath, jsonValue);
 
           if (dryRun) {
             console.info(nodePath.relative(util.cwd, jsonPath), '\n', json);
           } else {
+            // @ts-ignore
             writePackageJSON(jsonPath, json);
           }
         });

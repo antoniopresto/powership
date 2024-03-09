@@ -29,15 +29,15 @@ type __Pick<T extends $var, P1, P2> =
   T extends '$'
     ? P1
     : T extends '$$'
-      ? P2
-      : T extends `$.${infer Path}`
-        ? GetFieldByDotNotation<P1, Path>
-        : T extends `$$.${infer Path}`
-          ? GetFieldByDotNotation<P2, Path>
-          : T extends `$elem(${infer Path})`
-            ? _Pick<Path, P1, P2> extends infer R
-              ? R extends [...infer El]
-                ? El
-                : R[keyof R]
-              : never
-            : never;
+    ? P2
+    : T extends `$.${infer Path}`
+    ? GetFieldByDotNotation<P1, Path>
+    : T extends `$$.${infer Path}`
+    ? GetFieldByDotNotation<P2, Path>
+    : T extends `$elem(${infer Path})`
+    ? _Pick<Path, P1, P2> extends infer R
+      ? R extends [...infer El]
+        ? El
+        : R[keyof R]
+      : never
+    : never;

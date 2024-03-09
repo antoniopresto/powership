@@ -11,14 +11,9 @@ export * from './GraphType/GraphQLParser';
 export * from './writeTypes';
 // @only-server
 export async function formatWithPrettier(
-  ...args: Parameters<
-    (typeof import('@powership/utils'))['_formatWithPrettier']
-  >
+  ...args: Parameters<typeof import('@powership/utils')['_formatWithPrettier']>
 ) {
-  // too big
-  return import('@powership/utils').then(({ _formatWithPrettier }): any => {
-    return _formatWithPrettier(...args);
-  });
+  return _formatWithPrettier(...args);
 }
 // @only-server
 export type { ObjectToTypescriptOptions } from './objectToTypescript';
@@ -26,7 +21,7 @@ export type { ObjectToTypescriptOptions } from './objectToTypescript';
 // @only-server
 export async function objectToTypescript(
   ...args: Parameters<
-    (typeof import('./objectToTypescript'))['objectToTypescript']
+    typeof import('./objectToTypescript')['objectToTypescript']
   >
 ) {
   // too big

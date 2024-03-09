@@ -16,7 +16,7 @@ describe('Powership aliases', () => {
     expect(
       Internal.create.object({
         name: { string: {}, defaultValue: 'Antonio' },
-      }).definition,
+      }).definition
     ).toEqual({
       def: {
         name: {

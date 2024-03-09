@@ -8,9 +8,9 @@ export const BUILTIN_MODULES = new Set(
     .filter(
       (x: string) =>
         !/^_|^(internal|v8|node-inspect)\/|\//.test(x) &&
-        !ignoreList.includes(x),
+        !ignoreList.includes(x)
     )
-    .sort(),
+    .sort()
 );
 
 export function isBuiltInModule(moduleName: string) {

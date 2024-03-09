@@ -8,23 +8,23 @@ import { UnionField } from '../fields/UnionField';
 describe('Union', () => {
   it('parses', () => {
     expect(() => UnionField.create(['string', 'int']).parse(undefined)).toThrow(
-      'RequiredField',
+      'RequiredField'
     );
 
     expect(() => {
       return UnionField.create(['string', 'int']).parse(null);
     }).toThrow(
-      'Expected value to match one of the following types: string or int.',
+      'Expected value to match one of the following types: string or int.'
     );
 
     expect(UnionField.create(['string', 'int']).parse(1)).toEqual(1);
     expect(UnionField.create(['string', 'int']).parse('a')).toEqual('a');
     expect(
-      UnionField.create(['string', 'int']).toList().parse([2, 'x']),
+      UnionField.create(['string', 'int']).toList().parse([2, 'x'])
     ).toEqual([2, 'x']);
 
     expect(() =>
-      UnionField.create(['int?']).parse('ZZ', (v) => `${v}?`),
+      UnionField.create(['int?']).parse('ZZ', (v) => `${v}?`)
     ).toThrowError('ZZ?');
   });
 
@@ -35,19 +35,19 @@ describe('Union', () => {
     const sut = UnionField.create([object3, object1]).toList();
 
     expect(() => sut.parse([2, 'x'])).toThrow(
-      'Expected value to match one of the following types: object.',
+      'Expected value to match one of the following types: object.'
     );
 
     expect(() => sut.parse([{ name: 1 }])).toThrow(
-      '➤ field "sub": RequiredField. at position 0',
+      '➤ field "sub": RequiredField. at position 0'
     );
 
     expect(
-      sut.parse([{ name: 'antonio' }, { sub: { sub: { name: 'antonio' } } }]),
+      sut.parse([{ name: 'antonio' }, { sub: { sub: { name: 'antonio' } } }])
     ).toEqual([{ name: 'antonio' }, { sub: { sub: { name: 'antonio' } } }]);
 
     expect(() => sut.parse([{ name: 'antonio' }, { sub: { sub: 1 } }])).toThrow(
-      '➤ field "sub": ➤ field "sub": Invalid input. Expected object, found Number. at position 1',
+      '➤ field "sub": ➤ field "sub": Invalid input. Expected object, found Number. at position 1'
     );
   });
 
@@ -63,7 +63,7 @@ describe('Union', () => {
     expect(sut.parse({ foo: undefined })).toEqual({ foo: undefined });
 
     expect(() => sut.parse({ foo: 'a' })).toThrow(
-      'field "foo": Expected value to match one of the following types: string or object.',
+      'field "foo": Expected value to match one of the following types: string or object.'
     );
 
     expect(sut.parse({ foo: { name: 'a' } })).toEqual({ foo: { name: 'a' } });
@@ -671,11 +671,11 @@ describe('Union', () => {
     ]).toOptional();
 
     expect(() => sut.parse('')).toThrow(
-      `As string throws: MinSize: 0 is less than the min string length 1`,
+      `As string throws: MinSize: 0 is less than the min string length 1`
     );
 
     expect(() => sut.parse('')).toThrow(
-      'As float throws: Expected value to be of type "number", found string instead.',
+      'As float throws: Expected value to be of type "number", found string instead.'
     );
 
     expect(sut.parse('1')).toBe('1');

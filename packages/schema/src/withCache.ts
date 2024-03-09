@@ -6,13 +6,13 @@ export interface WithCache<Cache extends Record<string, any>> {
 }
 
 export function withCache<Cache extends Record<string, any>>(
-  parent: any,
+  parent: any
 ): WithCache<Cache> {
   const cache = new Map();
 
   function getOrSet<K extends keyof Cache>(
     key: K,
-    onCreate?: () => Cache[K],
+    onCreate?: () => Cache[K]
   ): Cache[K] {
     if (!cache.has(key)) {
       if (typeof onCreate !== 'function') {

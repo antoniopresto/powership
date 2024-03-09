@@ -1,10 +1,10 @@
 export function keyBy<
   T extends Record<any, any>,
-  GetKey extends (current: T) => T[keyof T],
+  GetKey extends (current: T) => T[keyof T]
 >(
   arr: T[],
   getKey: GetKey,
-  onDuplicate?: <K extends keyof T>(key: K, value: T[K]) => any,
+  onDuplicate?: <K extends keyof T>(key: K, value: T[K]) => any
 ): Record<ReturnType<GetKey>, T> {
   const temp: any = {};
 

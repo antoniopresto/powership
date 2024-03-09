@@ -27,7 +27,6 @@
 
 ### Functions
 
-- [clearPackageRunnerCache](RunMate___A_command_line_utility_to_run_scripts_in_multiple_files_.md#clearpackagerunnercache)
 - [getPackageRunnerUtils](RunMate___A_command_line_utility_to_run_scripts_in_multiple_files_.md#getpackagerunnerutils)
 - [packageRunner](RunMate___A_command_line_utility_to_run_scripts_in_multiple_files_.md#packagerunner)
 - [reduceObject](RunMate___A_command_line_utility_to_run_scripts_in_multiple_files_.md#reduceobject)
@@ -55,10 +54,6 @@ packages/runmate/src/packageRunner.ts:57
 packages/runmate/src/runmateLogger.ts:5
 
 ## Functions
-
-### clearPackageRunnerCache
-
-▸ **clearPackageRunnerCache**(): `void`
 
 #### Returns
 

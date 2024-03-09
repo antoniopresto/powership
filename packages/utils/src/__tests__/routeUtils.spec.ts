@@ -14,7 +14,7 @@ describe('RouteUtils', () => {
   describe('joinPaths', () => {
     it('should join multiple path segments', () => {
       expect(
-        RouteUtils.joinPaths('/a/', 'b', null, undefined, '', '/c', 'd/'),
+        RouteUtils.joinPaths('/a/', 'b', null, undefined, '', '/c', 'd/')
       ).toBe('a/b/c/d');
     });
   });
@@ -31,7 +31,7 @@ describe('RouteUtils', () => {
   describe('stringifyQueryString', () => {
     it('should stringify an object into a query string', () => {
       expect(
-        RouteUtils.stringifyQueryString({ key1: 'value1', key2: 'value2' }),
+        RouteUtils.stringifyQueryString({ key1: 'value1', key2: 'value2' })
       ).toBe('key1=value1&key2=value2');
     });
   });
@@ -66,13 +66,13 @@ describe('RouteUtils', () => {
   describe('isSamePathname', () => {
     it('should return true for URLs with the same pathname', () => {
       expect(
-        RouteUtils.isSamePathname('http://localhost/a', 'http://example.com/a'),
+        RouteUtils.isSamePathname('http://localhost/a', 'http://example.com/a')
       ).toBe(true);
     });
 
     it('should return false for URLs with different pathnames', () => {
       expect(
-        RouteUtils.isSamePathname('http://localhost/a', 'http://example.com/b'),
+        RouteUtils.isSamePathname('http://localhost/a', 'http://example.com/b')
       ).toBe(false);
     });
   });
@@ -111,7 +111,7 @@ describe('RouteUtils', () => {
         '/movies/:title.mp4',
         '/movies/:actor',
         '/:slug/foo/*',
-      ]),
+      ])
     ).toEqual([
       { path: '/' },
       '/users',

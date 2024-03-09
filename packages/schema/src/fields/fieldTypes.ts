@@ -50,7 +50,7 @@ export * from './PhoneField';
 export * from './ArrayField';
 
 function createConstructors<T extends { [K in FieldTypeName]: any }>(
-  input: T,
+  input: T
 ): T {
   const res = Object.create(null);
   Object.entries(input).forEach(([k, val]) => (res[k] = val));
@@ -97,14 +97,14 @@ export const create: FieldCreators = Object.entries(types as any).reduce(
       key,
       // @ts-ignore
       { create },
-    ],
+    ]
   ): any => {
     return {
       ...acc,
       [key]: create,
     };
   },
-  {} as FieldCreators,
+  {} as FieldCreators
 );
 
 function _isFieldTypeName(t: any): t is FieldTypeName {

@@ -23,7 +23,7 @@ export function dateFormat(
   date?: Date | string | number,
   mask?: string,
   utc?: boolean,
-  gmt?: boolean,
+  gmt?: boolean
 ): string;
 export function dateFormat(mask?: string, utc?: boolean, gmt?: boolean): string;
 export function dateFormat(...args: any[]) {
@@ -353,12 +353,12 @@ const getWeek = (date: Date): number => {
   const targetThursday = new Date(
     date.getFullYear(),
     date.getMonth(),
-    date.getDate(),
+    date.getDate()
   );
 
   // Change date to Thursday same week
   targetThursday.setDate(
-    targetThursday.getDate() - ((targetThursday.getDay() + 6) % 7) + 3,
+    targetThursday.getDate() - ((targetThursday.getDay() + 6) % 7) + 3
   );
 
   // Take January 4th as it is always in week 1 (see ISO 8601)
@@ -366,7 +366,7 @@ const getWeek = (date: Date): number => {
 
   // Change date to Thursday same week
   firstThursday.setDate(
-    firstThursday.getDate() - ((firstThursday.getDay() + 6) % 7) + 3,
+    firstThursday.getDate() - ((firstThursday.getDay() + 6) % 7) + 3
   );
 
   // Check if daylight-saving-time-switch occurred and correct for it

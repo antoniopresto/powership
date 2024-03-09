@@ -20,27 +20,27 @@ test('ParseFields object typings', () => {
 
   //   date
   assert<IsExact<InferField<{ object: { name: 'date' } }>, { name: Date }>>(
-    true,
+    true
   );
 
   //   email:
   assert<IsExact<InferField<{ object: { name: 'email' } }>, { name: string }>>(
-    true,
+    true
   );
 
   //   float:
   assert<IsExact<InferField<{ object: { name: 'float' } }>, { name: number }>>(
-    true,
+    true
   );
 
   //   int:
   assert<IsExact<InferField<{ object: { name: 'int' } }>, { name: number }>>(
-    true,
+    true
   );
 
   //   null:
   assert<IsExact<InferField<{ object: { name: 'null' } }>, { name: null }>>(
-    true,
+    true
   );
 
   //   record:
@@ -50,12 +50,12 @@ test('ParseFields object typings', () => {
 
   //   string:
   assert<IsExact<InferField<{ object: { name: 'string' } }>, { name: string }>>(
-    true,
+    true
   );
 
   //   ulid:
   assert<IsExact<InferField<{ object: { name: 'ulid' } }>, { name: string }>>(
-    true,
+    true
   );
 
   //   undefined:
@@ -74,7 +74,7 @@ test('ParseFields object typings', () => {
 
   //   union:
   assert<IsExact<InferField<{ object: { name: 'union' } }>, { name: never }>>(
-    true,
+    true
   );
   type TSUnion = InferField<{ object: { name: { union: ['string', 'int'] } } }>;
   assert<IsExact<TSUnion, { name: string | number }>>(true);
@@ -87,7 +87,7 @@ test('ParseFields object typings', () => {
   // ====== LIST STRING DEF =======
   //   any:
   assert<IsExact<InferField<{ object: { name: '[any]' } }>, { name: any[] }>>(
-    true,
+    true
   );
 
   //   boolean:
@@ -105,7 +105,7 @@ test('ParseFields object typings', () => {
 
   //   date
   assert<IsExact<InferField<{ object: { name: '[date]' } }>, { name: Date[] }>>(
-    true,
+    true
   );
 
   //   email:

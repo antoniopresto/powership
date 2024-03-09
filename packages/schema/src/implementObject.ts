@@ -13,24 +13,21 @@ export type ImplementObject<Dest, Extends> =
   Extends extends []
     ? Dest
     : Extends extends [infer Item, ...infer Rest]
-      ? Dest extends Internal.ObjectType<infer DestDef>
-        ? Item extends Internal.ObjectType<infer ItemDef>
-          ? ImplementObject<
-              Internal.ObjectType<{
-                [K in keyof Merge<ItemDef, DestDef>]: Merge<
-                  ItemDef,
-                  DestDef
-                >[K];
-              }>,
-              Rest
-            >
-          : never
+    ? Dest extends Internal.ObjectType<infer DestDef>
+      ? Item extends Internal.ObjectType<infer ItemDef>
+        ? ImplementObject<
+            Internal.ObjectType<{
+              [K in keyof Merge<ItemDef, DestDef>]: Merge<ItemDef, DestDef>[K];
+            }>,
+            Rest
+          >
         : never
-      : never;
+      : never
+    : never;
 
 export function implementObject<
   Def extends ObjectDefinitionInput,
-  Parents extends ReadonlyArray<ObjectLike>,
+  Parents extends ReadonlyArray<ObjectLike>
 >(
   name: string,
   definition: Readonly<Def>,
@@ -47,7 +44,7 @@ export function implementObject<
         `Failed to extend interface. Expected parent to be an Object.`,
         {
           parent,
-        },
+        }
       );
     }
 

@@ -16,7 +16,7 @@ const validator = (ast, options: GraphQLPhoneTypeOptions) => {
   if (kind !== Kind.STRING) {
     throw new GraphQLError(
       `Query error: Can only parse strings got a: ${kind}`,
-      [ast],
+      [ast]
     );
   }
 

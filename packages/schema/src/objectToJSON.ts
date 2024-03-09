@@ -23,7 +23,7 @@ export type ObjectToJSONOptions = {
 export function objectToJSON(
   parentName: string,
   object: Internal.ObjectLike | Internal.ObjectDefinitionInput,
-  options: ObjectToJSONOptions = { ignoreDefaultValues: true },
+  options: ObjectToJSONOptions = { ignoreDefaultValues: true }
 ): JSONSchema4 & { properties: JSONSchema4 } {
   let definition: Internal.FinalObjectDefinition;
 
@@ -32,7 +32,7 @@ export function objectToJSON(
   } else {
     // @ts-ignore
     definition = Internal.createObjectType(
-      object as Internal.ObjectDefinitionInput,
+      object as Internal.ObjectDefinitionInput
     ).definition;
   }
 

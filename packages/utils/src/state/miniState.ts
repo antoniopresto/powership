@@ -14,7 +14,7 @@ import { AnyFunction, Paths, PathType } from '../typings';
  */
 export class MiniState<
   StateValue extends object,
-  Methods extends _AnyMethodsRecord = {},
+  Methods extends _AnyMethodsRecord = {}
 > {
   private currentState: StateValue;
   private listeners = new Map<
@@ -36,11 +36,11 @@ export class MiniState<
    */
   observe<Piece>(
     picker: (state: StateValue) => Piece,
-    onChange: StatePieceListener<Piece>,
+    onChange: StatePieceListener<Piece>
   ): Unsubscribe;
   observe<Path extends Paths<StateValue>>(
     path: Path,
-    onChange: StatePieceListener<PathType<StateValue, Path>>,
+    onChange: StatePieceListener<PathType<StateValue, Path>>
   ): Unsubscribe;
   observe(pickerOrPath: any, onChange: StatePieceListener<any>) {
     const key = onChange;
@@ -61,7 +61,7 @@ export class MiniState<
    */
   update(
     updater: (draft: StateValue) => void,
-    _context?: _UpdateContext,
+    _context?: _UpdateContext
   ): StateValue;
   /**
    * Updates the state value in the provided path
@@ -72,7 +72,7 @@ export class MiniState<
   update<Path extends Paths<StateValue>>(
     path: Path,
     value: PathType<StateValue, Path>,
-    _context?: _UpdateContext,
+    _context?: _UpdateContext
   ): StateValue;
 
   update(...args: any[]): StateValue {
@@ -168,11 +168,11 @@ export class MiniState<
    * @param methods
    */
   withMethods = <M extends _MethodsInitializer<StateValue>>(
-    methods: M,
+    methods: M
   ): {
     [K in Exclude<keyof M, keyof MiniState<any>>]: Parameters<M[K]> extends [
       any,
-      infer Payload,
+      infer Payload
     ]
       ? (payload: Payload) => StateValue
       : () => StateValue;
@@ -236,7 +236,7 @@ export class MiniState<
   private _logMethod = (context: _UpdateContext, next: StateValue) => {
     this._devTool?.send(
       { type: `@method/${context.method}`, payload: context.payload },
-      next,
+      next
     );
   };
 
@@ -311,13 +311,13 @@ export class MiniState<
 
       // overload with selector
       function useData<Picked>(
-        selector: (state: Value) => Picked,
+        selector: (state: Value) => Picked
       ): [Picked, Instance];
       // overload without selector
       function useData(): [null, Instance];
       // implementation
       function useData<Picked, Selector extends (state: Value) => Picked>(
-        selector?: Selector,
+        selector?: Selector
       ): [Picked, Instance] {
         const context = useContext(Context);
 
@@ -372,7 +372,7 @@ export type StatePieceListener<FieldState> = (payload: {
 
 export type StateChangeMiddleware<
   State extends object,
-  Methods extends _AnyMethodsRecord = {},
+  Methods extends _AnyMethodsRecord = {}
 > = (payload: {
   draft: Draft<State>;
   cloneDraft(): State;
@@ -380,10 +380,12 @@ export type StateChangeMiddleware<
   context: _MethodExecutionContext<Methods>;
 }) => State | Draft<State> | void;
 
-export type ExtractStateMethods<T> =
-  Omit<T, keyof MiniState<{}>> extends infer R
-    ? { [K in keyof R]: R[K] } & {}
-    : never;
+export type ExtractStateMethods<T> = Omit<
+  T,
+  keyof MiniState<{}>
+> extends infer R
+  ? { [K in keyof R]: R[K] } & {}
+  : never;
 
 /**
  * @internal

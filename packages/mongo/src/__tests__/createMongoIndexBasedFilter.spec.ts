@@ -23,35 +23,35 @@ describe('createMongoIndexBasedFilter', () => {
       hashQueryKey({
         PK: 'users',
         SK: 12000000000000000000000000000000000000,
-      }),
+      })
     ).toEqual('my_entity⋮_id⋮users⋮7z412⋮');
 
     expect(
       hashQueryKey({
         PK: 'users',
         SK: -0.0000000000000000000000000000000000012,
-      }),
+      })
     ).toEqual('my_entity⋮_id⋮users⋮4z1yx~⋮');
 
     expect(
       hashQueryKey({
         PK: 'users',
         SK: 0,
-      }),
+      })
     ).toEqual('my_entity⋮_id⋮users⋮5⋮');
 
     expect(hashQueryKey({ PK: 'users', SK: 2 })).toEqual(
-      'my_entity⋮_id⋮users⋮712⋮',
+      'my_entity⋮_id⋮users⋮712⋮'
     );
 
     expect(hashQueryKey({ PK: 'users', SK: '2' })).toEqual(
-      'my_entity⋮_id⋮users⋮2⋮',
+      'my_entity⋮_id⋮users⋮2⋮'
     );
   });
 
   async function get(
     PK: PKSKValueType,
-    SK: PKSKValueType | IndexFilter | undefined,
+    SK: PKSKValueType | IndexFilter | undefined
   ) {
     const $and = createMongoIndexBasedFilters({
       indexConfig,
@@ -82,7 +82,7 @@ describe('createMongoIndexBasedFilter', () => {
           {
             entity: 'my_entity',
             indexes: [{ name: '_id', PK: ['.PK'], SK: ['.SK'] }],
-          },
+          }
         );
 
         const doc: any = {
@@ -94,7 +94,7 @@ describe('createMongoIndexBasedFilter', () => {
         }
 
         await mockApp.collection().insertOne(doc);
-      }),
+      })
     );
   });
 

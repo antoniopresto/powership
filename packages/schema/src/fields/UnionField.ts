@@ -10,7 +10,7 @@ import { FieldType, TAnyFieldType } from './FieldType';
 
 export class UnionField<
   U extends FieldDefinitionConfig,
-  T extends Readonly<[U, ...U[]]>,
+  T extends Readonly<[U, ...U[]]>
 > extends FieldType<Infer<T[number]>, 'union', T> {
   //
   parse: Internal.FieldTypeParser<Infer<T[number]>>;
@@ -87,7 +87,7 @@ export class UnionField<
         }
 
         const expected = uniq(
-          this.utils.fieldTypes.map((el) => el.typeName),
+          this.utils.fieldTypes.map((el) => el.typeName)
         ).join(' or ');
 
         let errorMessage = `Expected value to match one of the following types: ${expected}.`;
@@ -100,9 +100,9 @@ export class UnionField<
 
   static create = <
     U extends FieldDefinitionConfig,
-    T extends Readonly<[U, ...U[]]>,
+    T extends Readonly<[U, ...U[]]>
   >(
-    def: T,
+    def: T
   ): UnionField<U, T> => {
     return new UnionField(def) as any;
   };

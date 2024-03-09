@@ -52,7 +52,7 @@ export function parsePath(init: string | (string | number)[]): PathParsed {
           return path;
         },
       },
-    },
+    }
   );
 
   return res;

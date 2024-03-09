@@ -99,8 +99,8 @@ export class BJSONConstructor {
         return value instanceof Date
           ? value
           : typeof value === 'string'
-            ? dateSerialize(value) || undefined
-            : undefined;
+          ? dateSerialize(value) || undefined
+          : undefined;
       },
     }),
 
@@ -176,7 +176,7 @@ export class BJSONConstructor {
   constructor(
     options: {
       extraSerializers?: Serializer<any>[];
-    } = {},
+    } = {}
   ) {
     this.serializers = [
       ...BJSONConstructor.serializers,
@@ -192,9 +192,9 @@ export class BJSONConstructor {
           self: BJSONConstructor;
           value: any;
           serializer?: Serializer<any>;
-        },
+        }
       ) => string | undefined;
-    } = {},
+    } = {}
   ) => {
     const { handler, quoteValues, quoteKeys } = options;
     let self = this;
@@ -205,7 +205,7 @@ export class BJSONConstructor {
       quoteKeys,
       defaultHandler: ({ value, options }) => {
         const serializer = this.serializers.find(
-          (el) => el.formatter.match(value) !== undefined,
+          (el) => el.formatter.match(value) !== undefined
         );
 
         const handled = handler?.({ ...options, value, self, serializer });
@@ -223,8 +223,8 @@ export class BJSONConstructor {
     if (typeof input !== 'string') {
       throw new Error(
         `BJSON.parse: expected input to be of string type, found "${getTypeName(
-          input,
-        )}"`,
+          input
+        )}"`
       );
     }
 
@@ -257,7 +257,7 @@ export type StringifyOptions = {
   defaultHandler?: StringifyDefaultHandler;
   quoteValues?: (
     str: string | number | boolean,
-    info: { key: string | number | undefined },
+    info: { key: string | number | undefined }
   ) => string;
   quoteKeys?: (str: string) => string;
   key?: string | number;
@@ -267,7 +267,7 @@ const maxErr = new RegExp('Maximum call stack size exceeded', 'g');
 
 export function stringify(
   value: any,
-  options: StringifyOptions = {},
+  options: StringifyOptions = {}
 ): string | undefined {
   try {
     return _stringify(value, options);
@@ -276,8 +276,8 @@ export function stringify(
     if (isMaxStack) {
       throw new Error(
         `Converting circular structure to JSON:\n${inspectObject(
-          describeType(value),
-        )}`,
+          describeType(value)
+        )}`
       );
     }
     throw error;
@@ -286,7 +286,7 @@ export function stringify(
 // some parts from meteor ejson
 export function _stringify(
   value: any,
-  options: StringifyOptions = {},
+  options: StringifyOptions = {}
 ): string | undefined {
   let {
     defaultHandler,

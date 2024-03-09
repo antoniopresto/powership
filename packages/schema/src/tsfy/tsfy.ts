@@ -43,7 +43,7 @@ export function tsfy(input: any, config?: TSFYConfig): TSFyResult {
         return input;
       } else {
         throw new Error(
-          `tsfy: expected input value to be an array when options.many is true.`,
+          `tsfy: expected input value to be an array when options.many is true.`
         );
       }
     }
@@ -104,11 +104,11 @@ export function tsfy(input: any, config?: TSFYConfig): TSFyResult {
   function resolvePart(
     ref: TSFYPart,
     hash: string | undefined,
-    count: number,
+    count: number
   ): string {
     if (count > iterationLimit) {
       throw new Error(
-        `tsfy: Maximum number of iterations (${iterationLimit}) exceeded.`,
+        `tsfy: Maximum number of iterations (${iterationLimit}) exceeded.`
       );
     } else {
       count += 1;

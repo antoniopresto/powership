@@ -17,7 +17,7 @@ function defaultOptions(): Required<ErrorClassCreatorOptions> {
 
 export function createErrorClass(
   originalName: string,
-  options?: ErrorClassCreatorOptions,
+  options?: ErrorClassCreatorOptions
 ) {
   const {
     setPrototypeOf = function (obj: any, proto: any) {
@@ -50,7 +50,7 @@ export function createErrorClass(
     constructor(
       message = '',
       details?: any,
-      shouldPublishStack = defaultShouldPublishStack,
+      shouldPublishStack = defaultShouldPublishStack
     ) {
       super(message);
 
@@ -107,7 +107,7 @@ export function customError(options: {
   const { message, details } = options;
   const error = new CustomError(message, details);
   error.stack = getStack(
-    options.stackFrom === undefined ? customError : options.stackFrom,
+    options.stackFrom === undefined ? customError : options.stackFrom
   );
   return error;
 }

@@ -108,7 +108,7 @@ describe('GraphQLParser', () => {
             list: true,
           },
         })
-        .objectType('otherPerson'),
+        .objectType('otherPerson')
     );
     const s1 = GraphQLParser.objectToGraphQL({
       object: object1,

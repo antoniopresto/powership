@@ -134,7 +134,7 @@ export class QueryBuilder<S extends Record<string, any> = Record<string, any>> {
       set(
         target: () => void,
         p: string | symbol,
-        value: any,
+        value: any
         // receiver: any
       ): boolean {
         target[p] = value;
@@ -145,7 +145,7 @@ export class QueryBuilder<S extends Record<string, any> = Record<string, any>> {
 }
 
 export function graphGet<T extends Record<string, any>>(
-  builder: (data: GraphGetData<T>) => Array<any>,
+  builder: (data: GraphGetData<T>) => Array<any>
 ): QueryBuilder<T> {
   return new QueryBuilder(builder);
 }
@@ -159,7 +159,7 @@ export type Utils<T extends Readonly<Record<string, unknown>>> = {
   $on: (
     record:
       | { [K: string]: unknown; __typeName: string }
-      | { [K: string]: unknown; __typeName: string }[],
+      | { [K: string]: unknown; __typeName: string }[]
   ) => GraphGetData<T>;
   $val: T;
   $variables: (args: Record<string, any>) => GraphGetData<T>;

@@ -23,7 +23,7 @@ export function simpleObjectClone<T>(input: T, options = { sort: false }): T {
       'Failed to execute JSON.stringify() on input object',
       {
         input,
-      },
+      }
     );
   }
 }

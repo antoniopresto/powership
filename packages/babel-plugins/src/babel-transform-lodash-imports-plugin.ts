@@ -21,7 +21,7 @@ export function TransformLodashImportsPlugin(): PluginObj {
               // If there's a subpath (like lodash/map), format it for ESM.
               // Otherwise, return 'lodash-es'.
               return subPath ? `lodash-es${subPath}` : 'lodash-es';
-            },
+            }
           );
         }
       },

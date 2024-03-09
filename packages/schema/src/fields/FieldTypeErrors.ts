@@ -9,7 +9,7 @@ export const FieldTypeErrorCodes = tuple(
   'unexpectedType',
   'custom',
   'invalidPhone',
-  'requiredField',
+  'requiredField'
 );
 
 export type FieldTypeErrorCode = (typeof FieldTypeErrorCodes)[number];
@@ -26,7 +26,7 @@ export class FieldTypeError extends Error {
         (details ? `${inspectObject(details)}` : '').trim(),
       ]
         .filter(Boolean)
-        .join(' '),
+        .join(' ')
     );
 
     this.code = code;
