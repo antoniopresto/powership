@@ -65,7 +65,9 @@ export function getPackageRunnerUtils(jsonPath: string) {
 
         return await runCommand(command, { cwd });
       } catch (e: any) {
-        const message = `Failed to run command in package "${json.name}":\n ${(
+        const message = `Failed to run command in package "${
+          json.name
+        }. If you trying to run a package script, use "run script SCRIPTNAME".\n ${(
           e.message ||
           inspect(e) ||
           ''
