@@ -15,15 +15,15 @@ export interface ExtendType<Input> {
   def(): this['definition'];
 
   extend<V extends Internal.FinalFieldDefinition>(
-    value: V | ((current: this['definition']) => V)
+    value: V | ((current: this['definition']) => V),
   ): ExtendType<Omit<this['definition'], keyof V> & V>;
 
   graphType(
-    name?: string
+    name?: string,
   ): GraphType<Cast<this['definition'], Internal.FinalFieldDefinition>>;
 
   objectType(
-    name?: string
+    name?: string,
   ): Internal.ObjectType<
     Cast<
       this['definition'],

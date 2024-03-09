@@ -14,7 +14,7 @@ interface InspectObjectDetails {
 export function inspectObject(
   inputObject: any,
   options: InspectObjectDetails = {},
-  appendDetailIndex = false
+  appendDetailIndex = false,
 ) {
   const {
     depth = 2,

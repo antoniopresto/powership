@@ -126,7 +126,7 @@ export class GraphQLParser {
     const { id: objectId } = nonNullValues(
       { id: object.id },
       'The provided object should be identified before converting. ' +
-        'You can use object.identify("abc")'
+        'You can use object.identify("abc")',
     );
 
     const cacheId = `${[objectId].filter(Boolean).join()}`;
@@ -158,7 +158,7 @@ export class GraphQLParser {
         interfaces?: ThunkReadonlyArray<GraphQLInterfaceType>;
       },
 
-      _getType: (data: ConvertFieldResult) => T
+      _getType: (data: ConvertFieldResult) => T,
     ) => {
       const { interfaces: currentInterfacesOption } = options;
 
@@ -172,8 +172,8 @@ export class GraphQLParser {
           ? parents.map(
               (parent) =>
                 Internal.ObjectType.register.get(
-                  parent
-                ) as Internal.ObjectType<any>
+                  parent,
+                ) as Internal.ObjectType<any>,
             )
           : [];
 
@@ -271,7 +271,7 @@ export class GraphQLParser {
               fieldName,
               parentName,
               path,
-            })
+            }),
           );
         });
 
@@ -300,7 +300,7 @@ export class GraphQLParser {
     }
 
     function getInputType(
-      _options: ParseInputTypeOptions = {}
+      _options: ParseInputTypeOptions = {},
     ): GraphQLInputObjectType {
       const options = { fields: {}, name: `${objectId}Input`, ..._options };
       const { name } = options;
@@ -410,7 +410,7 @@ export class GraphQLParser {
       any() {
         const create = wrapCreationWithCache(
           'Any',
-          () => new GraphQLScalarType({ name: 'Any' })
+          () => new GraphQLScalarType({ name: 'Any' }),
         );
         return { inputType: create, type: create };
       },
@@ -517,7 +517,7 @@ export class GraphQLParser {
             ...options,
 
             description: JSON.stringify(
-              description || `Literal value: ${def.value}`
+              description || `Literal value: ${def.value}`,
             ),
 
             name: recordName,
@@ -568,7 +568,7 @@ export class GraphQLParser {
         const object = Internal.ObjectType.getOrSet(
           id,
           // @ts-ignore
-          def
+          def,
         );
 
         const res = self.objectToGraphQL({
@@ -626,7 +626,7 @@ export class GraphQLParser {
       undefined() {
         const create = wrapCreationWithCache(
           'Undefined',
-          () => new GraphQLScalarType({ name: 'Undefined' })
+          () => new GraphQLScalarType({ name: 'Undefined' }),
         );
         return { inputType: create, type: create };
       },
@@ -687,7 +687,7 @@ export class GraphQLParser {
                 let object: any = field.utils.object;
                 if (!object.id) {
                   object = object.clone((el) =>
-                    el.objectType(`${subTypeName}_${index}`)
+                    el.objectType(`${subTypeName}_${index}`),
                   );
                 }
                 return object.graphqlType();
@@ -767,7 +767,7 @@ export function describeField(field: Internal.FinalFieldDefinition): string {
         quoteKeys(key) {
           return ` ${key}`;
         },
-      }
+      },
     );
 
     return `${value}`;

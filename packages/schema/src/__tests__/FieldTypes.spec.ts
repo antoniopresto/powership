@@ -12,38 +12,38 @@ describe('FieldTypes', () => {
   describe('StringField', () => {
     it('parses', () => {
       expect(() => Internal.StringField.create({ min: 1 }).parse('')).toThrow(
-        '0 is less than the min string length 1.'
+        '0 is less than the min string length 1.',
       );
       expect(() =>
-        Internal.StringField.create({ max: 2 }).parse('123')
+        Internal.StringField.create({ max: 2 }).parse('123'),
       ).toThrow('3 is more than the max string length 2.');
       expect(
         Internal.StringField.create({
           regex: ['^MIN.$', 'i'],
-        }).parse('mine')
+        }).parse('mine'),
       ).toBe('mine');
       expect(() =>
-        Internal.StringField.create({ regex: ['MIN.'] }).parse('mine')
+        Internal.StringField.create({ regex: ['MIN.'] }).parse('mine'),
       ).toThrowError(`RegexMismatch`);
     });
 
     it('accept custom parse message', () => {
       expect(() =>
-        Internal.StringField.create({ min: 5 }).parse('abc', 'custom')
+        Internal.StringField.create({ min: 5 }).parse('abc', 'custom'),
       ).toThrowError('custom');
 
       expect(() =>
         Internal.StringField.create({ min: 5 }).parse(
           'abc',
-          (v) => `hmm ${v} is not enough`
-        )
+          (v) => `hmm ${v} is not enough`,
+        ),
       ).toThrowError('hmm abc is not enough');
 
       expect(() =>
         Internal.StringField.create({ min: 5 }).parse(
           'xpt',
-          () => new TypeError('tt')
-        )
+          () => new TypeError('tt'),
+        ),
       ).toThrowError('tt');
     });
 
@@ -106,7 +106,7 @@ describe('FieldTypes', () => {
               defaultValue: 'foo',
             },
           },
-        }).parse({})
+        }).parse({}),
       ).toEqual({
         c: null,
         d: 'foo',
@@ -117,19 +117,19 @@ describe('FieldTypes', () => {
   describe('UlidField', () => {
     it('parses', () => {
       expect(
-        Internal.UlidField.create({ autoCreate: true }).parse(undefined)
+        Internal.UlidField.create({ autoCreate: true }).parse(undefined),
       ).toMatch(Internal.ULID_REGEX);
       expect(() =>
-        Internal.UlidField.create({ autoCreate: false }).parse(undefined)
+        Internal.UlidField.create({ autoCreate: false }).parse(undefined),
       ).toThrow('RequiredField');
 
       const VALID = '01FH3RMAQ4QWJ0ZJB73G4BPEEK';
       expect(Internal.UlidField.create().parse(VALID)).toEqual(VALID);
       expect(() => Internal.UlidField.create().parse('xxx')).toThrow(
-        'Invalid ulid.'
+        'Invalid ulid.',
       );
       expect(() =>
-        Internal.UlidField.create().parse('xpt', () => new TypeError('ulid'))
+        Internal.UlidField.create().parse('xpt', () => new TypeError('ulid')),
       ).toThrowError('ulid');
     });
 
@@ -191,24 +191,24 @@ describe('FieldTypes', () => {
   describe('IntField', () => {
     it('parses', () => {
       expect(() => Internal.IntField.create().parse(undefined)).toThrow(
-        'RequiredField'
+        'RequiredField',
       );
       expect(() => Internal.IntField.create({ min: 1000 }).parse(5)).toThrow(
-        '5 is less than the minimum 1000.'
+        '5 is less than the minimum 1000.',
       );
       expect(() => Internal.IntField.create({ max: 1 }).parse(2)).toThrow(
-        '2 is more than the maximum 1.'
+        '2 is more than the maximum 1.',
       );
       expect(() => Internal.IntField.create().parse(0.1)).toThrow(
-        '0.1 is not a valid integer.'
+        '0.1 is not a valid integer.',
       );
 
       expect(Internal.IntField.create().parse('1000044')).toBe(1000044);
       expect(() => Internal.IntField.create().parse('abc')).toThrow(
-        'Expected value to be of type "number", found string instead.'
+        'Expected value to be of type "number", found string instead.',
       );
       expect(() => Internal.IntField.create().parse('')).toThrow(
-        'Expected value to be of type "number", found string instead.'
+        'Expected value to be of type "number", found string instead.',
       );
     });
 
@@ -260,21 +260,21 @@ describe('FieldTypes', () => {
   describe('FloatField', () => {
     it('parses', () => {
       expect(() => Internal.FloatField.create().parse(undefined)).toThrow(
-        'RequiredField'
+        'RequiredField',
       );
       expect(() => Internal.FloatField.create({ min: 1000 }).parse(5)).toThrow(
-        '5 is less than the minimum 1000.'
+        '5 is less than the minimum 1000.',
       );
       expect(() => Internal.FloatField.create({ max: 1 }).parse(2)).toThrow(
-        '2 is more than the maximum 1.'
+        '2 is more than the maximum 1.',
       );
       expect(Internal.FloatField.create().parse(0.1)).toBe(0.1);
       expect(Internal.FloatField.create().parse('1.5')).toBe(1.5);
       expect(() => Internal.FloatField.create().parse('abc')).toThrow(
-        'Expected value to be of type "number", found string instead.'
+        'Expected value to be of type "number", found string instead.',
       );
       expect(() => Internal.FloatField.create().parse('')).toThrow(
-        'Expected value to be of type "number", found string instead.'
+        'Expected value to be of type "number", found string instead.',
       );
     });
 
@@ -326,14 +326,14 @@ describe('FieldTypes', () => {
   describe('EnumField', () => {
     it('parses', () => {
       expect(() =>
-        Internal.EnumField.create(['a', 'b']).parse(undefined)
+        Internal.EnumField.create(['a', 'b']).parse(undefined),
       ).toThrow('RequiredField');
       expect(() => Internal.EnumField.create(['a', 'b']).parse(null)).toThrow(
-        "accepted: 'a' or 'b', found null."
+        "accepted: 'a' or 'b', found null.",
       );
 
       expect(() =>
-        Internal.EnumField.create(['xx']).parse('ZZ', (v) => `${v}?`)
+        Internal.EnumField.create(['xx']).parse('ZZ', (v) => `${v}?`),
       ).toThrowError('ZZ?');
     });
 
@@ -396,19 +396,19 @@ describe('FieldTypes', () => {
   describe('EmailField', () => {
     it('parses', () => {
       expect(() => Internal.EmailField.create().parse(undefined)).toThrow(
-        'RequiredField'
+        'RequiredField',
       );
       expect(() => Internal.EmailField.create().parse(null)).toThrow(
-        'Expected value to be of type "string", found null instead.'
+        'Expected value to be of type "string", found null instead.',
       );
       expect(() => Internal.EmailField.create().parse('xx')).toThrow(
-        'Invalid email'
+        'Invalid email',
       );
       expect(() =>
-        Internal.EmailField.create().parse('xx', () => 'huu')
+        Internal.EmailField.create().parse('xx', () => 'huu'),
       ).toThrow('huu');
       expect(Internal.EmailField.create().parse('xx@zz.com')).toEqual(
-        'xx@zz.com'
+        'xx@zz.com',
       );
     });
 
@@ -460,21 +460,21 @@ describe('FieldTypes', () => {
   describe('RecordField', () => {
     it('parses', () => {
       expect(() => Internal.RecordField.create().parse(undefined)).toThrow(
-        'RequiredField'
+        'RequiredField',
       );
 
       expect(() => Internal.RecordField.create().parse(null)).toThrow(
-        'Expected value to be of type "object", found null instead.'
+        'Expected value to be of type "object", found null instead.',
       );
 
       expect(() => Internal.RecordField.create().parse([])).toThrow(
-        'Expected value to be of type "object", found array instead.'
+        'Expected value to be of type "object", found array instead.',
       );
 
       expect(() =>
-        Internal.RecordField.create({ type: 'int' }).parse({ a: 'xx' })
+        Internal.RecordField.create({ type: 'int' }).parse({ a: 'xx' }),
       ).toThrow(
-        'field \'a\': Expected value to be of type "number", found string instead.'
+        'field \'a\': Expected value to be of type "number", found string instead.',
       );
 
       expect(
@@ -485,7 +485,7 @@ describe('FieldTypes', () => {
         }).parse({
           a: '1',
           b: true,
-        })
+        }),
       ).toEqual({
         a: 1,
         b: true,
@@ -495,9 +495,9 @@ describe('FieldTypes', () => {
         Internal.RecordField.create({
           type: 'float',
           keyType: 'int',
-        }).parse({ a: '1' })
+        }).parse({ a: '1' }),
       ).toThrow(
-        'Unexpected record key `a`. Expected value to be of type "number", found string instead.'
+        'Unexpected record key `a`. Expected value to be of type "number", found string instead.',
       );
     });
 
@@ -602,7 +602,7 @@ describe('FieldTypes', () => {
       // @only-server
       const sut = await Internal.objectToTypescript(
         'records',
-        object.definition
+        object.definition,
       );
 
       expect(sut).toEqual('');
@@ -612,17 +612,17 @@ describe('FieldTypes', () => {
   describe('DateField', () => {
     it('parses', () => {
       expect(() => Internal.DateField.create().parse(undefined)).toThrow(
-        'RequiredField'
+        'RequiredField',
       );
       expect(() => Internal.DateField.create().parse(null)).toThrow(
-        'Expected value to be of type "date or string or number", found null instead.'
+        'Expected value to be of type "date or string or number", found null instead.',
       );
       expect(Internal.DateField.create().parse('2000-01-01')).toEqual(
-        new Date('2000-01-01T00:00:00.000Z')
+        new Date('2000-01-01T00:00:00.000Z'),
       );
 
       expect(() =>
-        Internal.DateField.create().parse('xx', () => 'huu')
+        Internal.DateField.create().parse('xx', () => 'huu'),
       ).toThrow('huu');
 
       const now = new Date(1);
@@ -632,17 +632,17 @@ describe('FieldTypes', () => {
       expect(Internal.DateField.create().parse(now)).toEqual(now);
 
       expect(() => Internal.DateField.create({ min: now }).parse(past)).toThrow(
-        '1970-01-01T00:00:00.000Z is less than the minimum 1970-01-01T00:00:00.001Z.'
+        '1970-01-01T00:00:00.000Z is less than the minimum 1970-01-01T00:00:00.001Z.',
       );
 
       expect(() =>
-        Internal.DateField.create({ max: now }).parse(future)
+        Internal.DateField.create({ max: now }).parse(future),
       ).toThrow(
-        '1970-01-01T00:00:00.002Z is more than the maximum 1970-01-01T00:00:00.001Z.'
+        '1970-01-01T00:00:00.002Z is more than the maximum 1970-01-01T00:00:00.001Z.',
       );
 
       expect(() =>
-        Internal.DateField.create({ max: now }).parse(future, () => 'xit')
+        Internal.DateField.create({ max: now }).parse(future, () => 'xit'),
       ).toThrow('xit');
     });
 
@@ -696,22 +696,22 @@ describe('FieldTypes', () => {
   describe('CursorField', () => {
     it('parses', () => {
       expect(() => Internal.CursorField.create().parse(undefined)).toThrow(
-        'RequiredField'
+        'RequiredField',
       );
       expect(() => Internal.CursorField.create().parse(null)).toThrow(
-        'Invalid input.'
+        'Invalid input.',
       );
       expect(() => Internal.CursorField.create().parse(12)).toThrow(
-        'Expected cursor, found 12'
+        'Expected cursor, found 12',
       );
       expect(() =>
-        Internal.CursorField.create().parse('xx', () => 'huu')
+        Internal.CursorField.create().parse('xx', () => 'huu'),
       ).toThrow('huu');
 
       expect(() =>
         Internal.CursorField.create().parse({
           a: 1,
-        })
+        }),
       ).toThrow(`➤ field "PK": RequiredField`);
 
       expect(
@@ -722,7 +722,7 @@ describe('FieldTypes', () => {
           limit: 1,
           after: 'd',
           fields: ['surname'],
-        })
+        }),
       ).toEqual({
         PK: 'a',
         version: '1',
@@ -799,13 +799,13 @@ describe('FieldTypes', () => {
   describe('BooleanField', () => {
     it('parses', () => {
       expect(() => Internal.BooleanField.create().parse(undefined)).toThrow(
-        'RequiredField'
+        'RequiredField',
       );
       expect(() => Internal.BooleanField.create().parse(null)).toThrow(
-        'Expected boolean, found Null'
+        'Expected boolean, found Null',
       );
       expect(() =>
-        Internal.BooleanField.create().parse('xx', () => 'huu')
+        Internal.BooleanField.create().parse('xx', () => 'huu'),
       ).toThrow('huu');
       expect(Internal.BooleanField.create().parse(false)).toEqual(false);
       expect(Internal.BooleanField.create().parse(true)).toEqual(true);
@@ -857,23 +857,23 @@ describe('FieldTypes', () => {
   describe('UnknownField', () => {
     it('parses', () => {
       expect(() => Internal.UnknownField.create().parse(undefined)).toThrow(
-        'RequiredField'
+        'RequiredField',
       );
       expect(Internal.UnknownField.create().parse(null)).toBe(null);
 
       expect(() =>
-        Internal.UnknownField.create({ types: ['number'] }).parse([])
+        Internal.UnknownField.create({ types: ['number'] }).parse([]),
       ).toThrow();
 
       expect(Internal.UnknownField.create({ types: ['number'] }).parse(1)).toBe(
-        1
+        1,
       );
 
       expect(() =>
         Internal.UnknownField.create({ types: ['number'] }).parse(
           'xx',
-          () => 'huu'
-        )
+          () => 'huu',
+        ),
       ).toThrow('huu');
 
       expect(Internal.UnknownField.create().parse(false)).toEqual(false);

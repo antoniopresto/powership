@@ -22,7 +22,7 @@ export function defineGetters<O extends object, Extensions extends object = {}>(
       | ((parent: O) => Extensions[K])
       | GettersConfig<O, Extensions[K]>;
   },
-  globalOptions?: GetterAttributes
+  globalOptions?: GetterAttributes,
 ): MergeGetters<O, Extensions> {
   let res: any = object;
 

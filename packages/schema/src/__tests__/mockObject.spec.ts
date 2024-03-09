@@ -61,7 +61,7 @@ describe('mockObject', () => {
           list: [expect.any(String), expect.any(String)],
         },
         graphType: expect.anything(),
-      }
+      },
     );
   });
 });

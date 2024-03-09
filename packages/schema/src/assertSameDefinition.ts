@@ -16,6 +16,6 @@ export function assertSameDefinition(id: string, a: any, b: any) {
   assertSame(
     `An Object with name "${id}" is already registered with another definition.`,
     a,
-    b
+    b,
   );
 }

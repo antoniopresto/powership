@@ -2,7 +2,7 @@ const filePathCache: Record<string, string> = Object.create(null);
 
 export function findModulePath(
   moduleName: string,
-  currentDirname: string
+  currentDirname: string,
 ): string {
   const fs = require('fs');
   const ORIGINAL_REQUIRE = require;

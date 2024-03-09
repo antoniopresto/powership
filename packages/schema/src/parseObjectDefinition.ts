@@ -27,26 +27,26 @@ import {
 
 export function parseObjectField<
   T extends FieldDefinitionConfig,
-  Options extends ParseFieldOptions
+  Options extends ParseFieldOptions,
 >(
   fieldName: string,
   definition: T,
-  options: Options
+  options: Options,
 ): [Options['returnInstance']] extends [true]
   ? TAnyFieldType
   : [Options['asString']] extends [true]
-  ? Internal.FieldAsString
-  : FinalFieldDefinition;
+    ? Internal.FieldAsString
+    : FinalFieldDefinition;
 
 export function parseObjectField<T extends FieldDefinitionConfig>(
   fieldName: string,
-  definition: T
+  definition: T,
 ): FinalFieldDefinition;
 
 export function parseObjectField(
   fieldName: string,
   definition: FieldDefinitionConfig,
-  options: ParseFieldOptions = {}
+  options: ParseFieldOptions = {},
 ) {
   let { returnInstance, asString, deep, omitMeta } = options;
 
@@ -85,7 +85,7 @@ export function parseObjectField(
 }
 
 export function parseField(
-  definition: Internal.FieldInput
+  definition: Internal.FieldInput,
 ): FinalFieldDefinition {
   return parseObjectField('__parseField__', definition);
 }
@@ -98,10 +98,10 @@ const stringifiableDefKeys = new Set([
 
 export function parseFieldDefinitionConfig<
   T extends FieldDefinitionConfig,
-  Options extends ParseFieldOptions
+  Options extends ParseFieldOptions,
 >(
   definition: T,
-  options?: Options
+  options?: Options,
 ): [Options['asString']] extends [true]
   ?
       | Internal.FieldAsString
@@ -201,7 +201,7 @@ export function parseFieldDefinitionConfig<
             definition.def.type,
             {
               deep,
-            }
+            },
           );
 
           validFlattenDefinitionKeysList.forEach((k) => {
@@ -260,7 +260,7 @@ export function parseFieldDefinitionConfig<
     }
 
     throw new Error(
-      `Unexpected field definition: ${inspectObject(definition)}`
+      `Unexpected field definition: ${inspectObject(definition)}`,
     );
   }
 
@@ -338,7 +338,7 @@ type ParseResult = {
 
 export function parseObjectDefinition(
   input: Record<string, any>,
-  options: Omit<ParseFieldOptions, 'returnInstance'> = {}
+  options: Omit<ParseFieldOptions, 'returnInstance'> = {},
 ): ParseResult {
   let { deep, omitMeta } = options;
 
@@ -378,7 +378,7 @@ export function parseObjectDefinition(
         {
           err: err.stack,
           input,
-        }
+        },
       );
     }
   });
@@ -401,7 +401,7 @@ export function parseObjectDefinition(
 }
 
 function isFinalFieldDefinition(
-  input: any
+  input: any,
 ): input is Internal.FinalFieldDefinitionStrict {
   return typeof input?.type === 'string';
 }
@@ -416,7 +416,7 @@ function isListDefinition(input: any): input is [FieldDefinitionConfig] {
         throw new Error(
           `Plain array is used only for union definitions.\n` +
             `  "${el}" is not valid as union item.\n` +
-            `  You can use { enum: ['${el}'] } instead of ['${el}'].`
+            `  You can use { enum: ['${el}'] } instead of ['${el}'].`,
         );
       }
     });
@@ -430,7 +430,7 @@ function isListDefinition(input: any): input is [FieldDefinitionConfig] {
  * @param input
  */
 export function isObjectAsTypeDefinition(
-  input: any
+  input: any,
 ): input is FieldDefinitionWithType<Internal.ObjectType<any>> {
   return (
     input && typeof input === 'object' && Internal.isObjectType(input.type)
@@ -451,7 +451,7 @@ const validFlattenDefinitionKeysList = getKeys(validFlattenDefinitionKeys);
 
 export function parseFlattenFieldDefinition(
   input: any,
-  options: ParseFieldOptions = {}
+  options: ParseFieldOptions = {},
 ): FinalFieldDefinition | false {
   const { deep } = options;
 
@@ -518,14 +518,14 @@ export function parseFlattenFieldDefinition(
       $,
       type,
     },
-    { deep }
+    { deep },
   );
 }
 
 export const CACHED_FIELD_INSTANCE_KEY = '__cachedFieldInstance';
 
 export function __getCachedFieldInstance(
-  field: FinalFieldDefinition & { [K: string]: any }
+  field: FinalFieldDefinition & { [K: string]: any },
 ): TAnyFieldType {
   if (field?.[CACHED_FIELD_INSTANCE_KEY]) {
     return field[CACHED_FIELD_INSTANCE_KEY];

@@ -3,7 +3,7 @@ import { NullableToPartial, Union } from './typings/index';
 // (item: Item, index: number, acc: T[]>) => T | null) => Mapper<T>
 export interface Mapper<Item extends object> {
   map<T extends object>(
-    cb: (current: Item, index: number, acc: T[]) => T | null
+    cb: (current: Item, index: number, acc: T[]) => T | null,
   ): Mapper<T>;
 
   combine(): _NullableNullable<Item>;
@@ -12,7 +12,7 @@ export interface Mapper<Item extends object> {
 }
 
 export function mapper<Item extends object>(
-  items: (Item | undefined | null)[]
+  items: (Item | undefined | null)[],
 ): Mapper<Item> {
   if (!Array.isArray(items)) {
     throw new Error(`Current value is not an array.`);

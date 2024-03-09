@@ -7,7 +7,7 @@ export function merge<Values extends object[]>(
 ): MergeAll<Values> {
   return values.reduce(
     (acc, next) => _merge(acc, next),
-    {}
+    {},
   ) as MergeAll<Values>;
 }
 

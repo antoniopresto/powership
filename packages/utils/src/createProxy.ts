@@ -12,7 +12,7 @@ export function proxyRealValue<T>(obj: T): T {
 
 export function createProxy<T extends Record<string, any>>(
   thunk: () => T,
-  options?: CreateProxyOptions<T>
+  options?: CreateProxyOptions<T>,
 ): T {
   let data;
 
@@ -72,7 +72,7 @@ export function createProxy<T extends Record<string, any>>(
       getOwnPropertyDescriptor(_o, k: any) {
         return Object.getOwnPropertyDescriptor(run(), k);
       },
-    }
+    },
   );
 
   return proxy as any;

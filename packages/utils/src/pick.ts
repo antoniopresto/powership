@@ -8,7 +8,7 @@ import { IsKnown, PathType } from './typings';
  */
 export function pick<O, P extends string | (string | number)[]>(
   object: O,
-  path: P
+  path: P,
 ): IsKnown<O> extends 1 ? (P extends string ? PathType<O, P> : any) : any;
 
 export function pick(object, path: string | (string | number)[]): any {

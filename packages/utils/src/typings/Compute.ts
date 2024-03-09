@@ -19,52 +19,51 @@ type ComputeDeep<
   A extends any,
   Max extends number,
   Current extends number,
-  Seen
+  Seen,
 > =
   //
   Current extends Max
     ? A
     : A extends BuiltIn
-    ? A
-    : If<
-        Has<Seen, A>,
-        A,
-        A extends Array<any>
-          ? A extends Array<Record<Key, any>>
-            ? Array<
-                {
-                  [K in keyof A[number]]: ComputeDeep<
-                    A[number][K],
+      ? A
+      : If<
+          Has<Seen, A>,
+          A,
+          A extends Array<any>
+            ? A extends Array<Record<Key, any>>
+              ? Array<
+                  {
+                    [K in keyof A[number]]: ComputeDeep<
+                      A[number][K],
+                      Max,
+                      NextIndex<Current>,
+                      A | Seen
+                    >;
+                  } & unknown
+                >
+              : A
+            : A extends ReadonlyArray<any>
+              ? A extends ReadonlyArray<Record<Key, any>>
+                ? ReadonlyArray<
+                    {
+                      [K in keyof A[number]]: ComputeDeep<
+                        A[number][K],
+                        Max,
+                        NextIndex<Current>,
+                        A | Seen
+                      >;
+                    } & unknown
+                  >
+                : A
+              : {
+                  [K in keyof A]: ComputeDeep<
+                    A[K],
                     Max,
                     NextIndex<Current>,
                     A | Seen
                   >;
                 } & unknown
-              >
-            : A
-          : A extends ReadonlyArray<any>
-          ? A extends ReadonlyArray<Record<Key, any>>
-            ? ReadonlyArray<
-                {
-                  [K in keyof A[number]]: ComputeDeep<
-                    A[number][K],
-                    Max,
-                    NextIndex<Current>,
-                    A | Seen
-                  >;
-                } & unknown
-              >
-            : A
-          : {
-              [K in keyof A]: ComputeDeep<
-                A[K],
-                Max,
-                NextIndex<Current>,
-                A | Seen
-              >;
-            } & unknown
-      >;
+        >;
 
-export type Compute<T, Max extends number = 1> = IsKnown<T> extends 1
-  ? ComputeDeep<T, Max, 0, never>
-  : T;
+export type Compute<T, Max extends number = 1> =
+  IsKnown<T> extends 1 ? ComputeDeep<T, Max, 0, never> : T;

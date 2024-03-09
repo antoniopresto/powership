@@ -71,7 +71,7 @@ describe('createType', () => {
         .extendObjectDefinition({
           jumps: 'boolean',
         })
-        .graphType('monkey')
+        .graphType('monkey'),
     );
 
     expect(monkey.definition).toEqual({
@@ -237,7 +237,7 @@ describe('createType', () => {
     assert<IsExact<Return, { foo: number }[] | undefined>>(true);
 
     expect(() => sut.parse([{ name: 1 }])).toThrow(
-      '➤  Foo: ➤ field "foo": RequiredField. at position 0'
+      '➤  Foo: ➤ field "foo": RequiredField. at position 0',
     );
 
     expect(sut.graphQLType().toString()).toEqual('[Foo]');
@@ -256,7 +256,7 @@ describe('createType', () => {
     const nodeInterface = new GraphType(object);
 
     expect(nodeInterface.graphQLInterface().toString()).toEqual(
-      'NodeInterface'
+      'NodeInterface',
     );
 
     const shipNode = new GraphType(ship).graphQLType({
@@ -314,13 +314,13 @@ describe('createType', () => {
   xit('Should validate against overriding register', () => {
     createType('t1', { object: { name: 'string' } }).touch();
     expect(() => createType('t1', { object: { name: 'int' } }).touch()).toThrow(
-      'An Object with name "t1" is already registered with another definition.'
+      'An Object with name "t1" is already registered with another definition.',
     );
     createType('t1', { object: { name: 'string' } }).touch();
 
     createType('t2', 'int?').touch();
     expect(() => createType('t2', 'int').touch()).toThrow(
-      'Different type already registered with name "t2"'
+      'Different type already registered with name "t2"',
     );
     createType('t2', 'int?').touch();
   });
@@ -539,7 +539,7 @@ describe('createType', () => {
         graphTypeResolver,
         usersOptionalResolver,
         usersListResolver,
-      ])
+      ]),
     );
 
     expect(schemaString.split('\n')).toEqual([

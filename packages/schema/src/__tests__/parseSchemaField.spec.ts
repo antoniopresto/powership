@@ -13,7 +13,7 @@ const { typeDefs, stringDefTypes, object2 } = objectMocks;
 describe('parseObjectField', () => {
   test('parseFlattenFieldDefinition', () => {
     expect(parseFlattenFieldDefinition(EnumField.create(['a', 'b']))).toEqual(
-      false
+      false,
     );
     expect(parseFlattenFieldDefinition('string')).toEqual(false);
     expect(parseFlattenFieldDefinition({ type: 'string' })).toEqual(false);
@@ -24,7 +24,7 @@ describe('parseObjectField', () => {
           def: ['male', 'female', 'other'],
           optional: true,
         },
-      })
+      }),
     ).toEqual(false);
 
     expect(
@@ -32,7 +32,7 @@ describe('parseObjectField', () => {
         object: {
           name: 'string',
         },
-      })
+      }),
     ).toEqual({
       def: {
         name: {
@@ -50,7 +50,7 @@ describe('parseObjectField', () => {
         },
         list: true,
         optional: true,
-      })
+      }),
     ).toEqual({
       def: {
         min: 1,
@@ -67,7 +67,7 @@ describe('parseObjectField', () => {
           min: 1,
         },
         description: true, // <-- invalid
-      })
+      }),
     ).toEqual(false);
 
     const spyWarn = jest.spyOn(console, 'warn');
@@ -79,7 +79,7 @@ describe('parseObjectField', () => {
           def: ['male', 'female', 'other'],
           optional: true,
         },
-      })
+      }),
     ).toEqual(false);
     expect(spyWarn).toBeCalledTimes(1);
   });
@@ -99,15 +99,15 @@ describe('parseObjectField', () => {
   test('enum FieldType', () => {
     const single = parseObjectField(
       'enum FieldType',
-      EnumField.create(['a', 'b'])
+      EnumField.create(['a', 'b']),
     );
     const list = parseObjectField(
       'enum FieldType',
-      EnumField.create(['a', 'b']).toList()
+      EnumField.create(['a', 'b']).toList(),
     );
     const listOptional = parseObjectField(
       'enum FieldType',
-      EnumField.create(['a', 'b']).toList().toOptional()
+      EnumField.create(['a', 'b']).toList().toOptional(),
     );
 
     expect(single).toEqual({
@@ -188,7 +188,7 @@ describe('parseObjectField', () => {
         type: 'object',
         def: object2['definition'],
         list: true,
-      })
+      }),
     ).toHaveProperty('list', true);
 
     expect(
@@ -196,14 +196,14 @@ describe('parseObjectField', () => {
         type: 'object',
         def: object2['definition'],
         optional: true,
-      })
+      }),
     ).toHaveProperty('optional', true);
   });
 
   test('objectObjectAsType', () => {
     const sut = parseObjectField(
       'objectObjectAsType',
-      typeDefs.objectObjectAsType // deprecated
+      typeDefs.objectObjectAsType, // deprecated
     );
 
     expect(sut).toEqual({
@@ -246,7 +246,7 @@ describe('parseObjectField', () => {
   test('stringFieldDefinition', () => {
     const sut = parseObjectField(
       'stringFieldDefinition',
-      typeDefs.stringFieldDefinition
+      typeDefs.stringFieldDefinition,
     );
 
     expect(sut).toEqual({
@@ -273,7 +273,7 @@ describe('parseObjectField', () => {
   test('stringDefTypes', () => {
     const sut = parseObjectField(
       'stringDefTypes',
-      createObjectType(stringDefTypes)
+      createObjectType(stringDefTypes),
     );
 
     expect(sut).toEqual({
@@ -410,7 +410,7 @@ describe('parseObjectField', () => {
           int: {},
           defaultValue: 123,
         },
-        { returnInstance: true }
+        { returnInstance: true },
       );
 
       expect(field.parse(undefined)).toEqual(123);
@@ -431,7 +431,7 @@ describe('parseObjectField', () => {
             },
           },
         },
-        { returnInstance: true }
+        { returnInstance: true },
       );
 
       expect(field.parse({ name: 'a' })).toEqual({ name: 'a', age: 123 });

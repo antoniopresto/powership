@@ -20,7 +20,7 @@ export function arrayFieldParse(config: {
   if (!input || !Array.isArray(input)) {
     throw new FieldTypeError(
       'unexpectedType',
-      `expected Array, found ${getTypeName(input)}`
+      `expected Array, found ${getTypeName(input)}`,
     );
   }
 
@@ -33,21 +33,21 @@ export function arrayFieldParse(config: {
   if (min !== undefined && found < min) {
     throw new FieldTypeError(
       'minSize',
-      `expected min ${min}, found: ${found}.`
+      `expected min ${min}, found: ${found}.`,
     );
   }
 
   if (max !== undefined && found > max) {
     throw new FieldTypeError(
       'maxSize',
-      `expected max ${max}, found: ${found}.`
+      `expected max ${max}, found: ${found}.`,
     );
   }
 
   if (length !== undefined && found !== length) {
     throw new FieldTypeError(
       'sizeMismatch',
-      `expected length ${length}, found ${found}.`
+      `expected length ${length}, found ${found}.`,
     );
   }
 

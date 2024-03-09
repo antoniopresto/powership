@@ -95,11 +95,11 @@ describe('Schema clone, etc', () => {
     expect(userObject.parse(user)).toEqual(user);
 
     expect(() => userObject.parse({ ...user, age: undefined })).toThrow(
-      `➤ field "age": RequiredField`
+      `➤ field "age": RequiredField`,
     );
 
     expect(() => userObject.parse({ ...user, enumArray: ['3'] })).toThrow(
-      "➤ field \"enumArray\": accepted: '1' or '2', found 3. at position 0."
+      "➤ field \"enumArray\": accepted: '1' or '2', found 3. at position 0.",
     );
   });
 
@@ -117,24 +117,24 @@ describe('Schema clone, etc', () => {
       object.parse({
         name: 'a',
         sub: { mySubField: 'foo' },
-      })
+      }),
     ).toEqual({ name: 'a', sub: { mySubField: 'foo' } });
 
     expect(() =>
       object.parse({
         name: 'a',
         sub: { mySubField: 'INVALID' },
-      })
+      }),
     ).toThrow(
-      '➤ field "sub": ➤ field "mySubField": accepted: \'foo\', found INVALID.'
+      '➤ field "sub": ➤ field "mySubField": accepted: \'foo\', found INVALID.',
     );
 
     expect(() => object.parse({ name: 'a', sub: 1 })).toThrow(
-      '➤ field "sub": Invalid input. Expected object, found Number.'
+      '➤ field "sub": Invalid input. Expected object, found Number.',
     );
 
     expect(() => object.parse({ name: 'a', sub: {} })).toThrow(
-      '➤ field "sub": ➤ field "mySubField": RequiredField'
+      '➤ field "sub": ➤ field "mySubField": RequiredField',
     );
   });
 
@@ -160,13 +160,13 @@ describe('Schema clone, etc', () => {
     expect(myObject.definition.roles.def).toEqual(rolesObject.definition);
 
     expect(() => myObject.parse({ userId: '123' })).toThrow(
-      '➤ field "roles": RequiredField'
+      '➤ field "roles": RequiredField',
     );
 
     expect(() => myObject.parse({ userId: '123', roles: [] })).not.toThrow();
 
     expect(() => myObject.parse({ userId: '123', roles: [1] })).toThrow(
-      '➤ field "roles": Invalid input. Expected object, found Number at position 0.'
+      '➤ field "roles": Invalid input. Expected object, found Number at position 0.',
     );
   });
 
@@ -319,7 +319,7 @@ describe('Schema clone, etc', () => {
     });
 
     const cloneNameAge = object1.clone((el) =>
-      el.only(['name', 'age']).objectType()
+      el.only(['name', 'age']).objectType(),
     );
 
     expect(object1.definition).toEqual({
@@ -370,7 +370,7 @@ describe('Schema clone, etc', () => {
             emails: '[email]',
           };
         })
-        .objectType('identifyMe')
+        .objectType('identifyMe'),
     );
     expect(object1.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
@@ -413,7 +413,7 @@ describe('Schema clone, etc', () => {
     });
 
     const clone = object1.clone((el) =>
-      el.optional(['name', 'email']).objectType()
+      el.optional(['name', 'email']).objectType(),
     );
 
     expect(object1.definition).toEqual({
@@ -460,7 +460,7 @@ describe('Schema clone, etc', () => {
     });
 
     const clone = object1.clone((el) =>
-      el.required(['name', 'email', 'age']).objectType()
+      el.required(['name', 'email', 'age']).objectType(),
     );
 
     expect(object1.definition).toEqual({
@@ -507,7 +507,7 @@ describe('Schema clone, etc', () => {
         .extendObjectDefinition({
           email: 'email',
         })
-        .objectType()
+        .objectType(),
     );
     expect(object1.definition).toEqual({
       [objectMetaFieldKey]: expect.anything(),
@@ -545,7 +545,7 @@ describe('Schema clone, etc', () => {
       createObjectType({
         age: 'int',
         weight: 'float',
-      }).parse({ age: '32', weight: '83' })
+      }).parse({ age: '32', weight: '83' }),
     ).toEqual({
       age: 32,
       weight: 83,
@@ -569,12 +569,12 @@ describe('Schema clone, etc', () => {
       object1.identify('abc');
       object1.identify('abc');
       expect(() => object1.identify('abcx')).toThrow(
-        'Trying to replace existing id "abc"'
+        'Trying to replace existing id "abc"',
       );
 
       expect(ObjectType.register.get('abc')).toBe(object1);
       expect(() => ObjectType.register.get('yyy')).toThrow(
-        'Missing value for key "yyy"'
+        'Missing value for key "yyy"',
       );
     });
 

@@ -5,7 +5,7 @@ import type { FinalFieldDefinition } from './fields/_parseFields';
 import * as Internal from './internal';
 
 function _parseStringDefinition<T extends AnyStringFieldDefinition>(
-  typeName: T
+  typeName: T,
 ): FinalFieldDefinition {
   const t = typeNameFromTemplate(typeName);
   const isOptional = isOptionalTemplate(typeName);
@@ -27,19 +27,19 @@ function _parseStringDefinition<T extends AnyStringFieldDefinition>(
 }
 
 function _isOptionalTemplate<T extends string>(
-  type: T
+  type: T,
 ): T extends `${string}?` ? true : false {
   return !!type.match(/\?$/) as any;
 }
 
 function _isListTemplate<T extends string>(
-  type: T
+  type: T,
 ): T extends `[${string}]` | `[${string}]?` ? true : false {
   return !!type.match(/]\??$/) as any;
 }
 
 function _typeNameFromTemplate<T extends FieldTypeName>(
-  enhanced: AnyStringFieldDefinition
+  enhanced: AnyStringFieldDefinition,
 ): T {
   return enhanced.replace(/[\[\]?, ]/g, '') as any;
 }
@@ -67,12 +67,12 @@ export type ExtractStringFieldDefType<T extends AnyStringFieldDefinition> =
   T extends FieldTypeName
     ? T
     : T extends `[${infer U}]?`
-    ? U
-    : T extends `${infer U}?`
-    ? U
-    : T extends `[${infer U}]`
-    ? U
-    : never;
+      ? U
+      : T extends `${infer U}?`
+        ? U
+        : T extends `[${infer U}]`
+          ? U
+          : never;
 
 export type ParseStringDefinition<S> =
   //
@@ -85,34 +85,34 @@ export type ParseStringDefinition<S> =
         type: S;
       }
     : //
-    //
-    S extends `${FieldTypeName}?`
-    ? //
-      {
-        def: undefined;
-        description?: string;
-        list: false;
-        optional: true;
-        type: ExtractStringFieldDefType<S>;
-      }
-    : //
-    S extends `[${FieldTypeName}]`
-    ? //
-      {
-        def: undefined;
-        description?: string;
-        list: true;
-        optional: false;
-        type: ExtractStringFieldDefType<S>;
-      }
-    : //
-    S extends `[${FieldTypeName}]?`
-    ? //
-      {
-        def: undefined;
-        description?: string;
-        list: true;
-        optional: true;
-        type: ExtractStringFieldDefType<S>;
-      }
-    : never;
+      //
+      S extends `${FieldTypeName}?`
+      ? //
+        {
+          def: undefined;
+          description?: string;
+          list: false;
+          optional: true;
+          type: ExtractStringFieldDefType<S>;
+        }
+      : //
+        S extends `[${FieldTypeName}]`
+        ? //
+          {
+            def: undefined;
+            description?: string;
+            list: true;
+            optional: false;
+            type: ExtractStringFieldDefType<S>;
+          }
+        : //
+          S extends `[${FieldTypeName}]?`
+          ? //
+            {
+              def: undefined;
+              description?: string;
+              list: true;
+              optional: true;
+              type: ExtractStringFieldDefType<S>;
+            }
+          : never;

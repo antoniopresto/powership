@@ -12,7 +12,7 @@ import type { ObjectDefinitionInput } from './_parseFields';
 type AnyObjectField = TypeLike<(typeof ObjectField)['prototype']>;
 
 export class ObjectField<
-  DefinitionInput extends ObjectDefinitionInput
+  DefinitionInput extends ObjectDefinitionInput,
 > extends FieldType<unknown, 'object', DefinitionInput> {
   parse: Internal.FieldTypeParser<unknown>;
 
@@ -40,7 +40,7 @@ export class ObjectField<
   }
 
   static create = <DefinitionInput extends ObjectDefinitionInput>(
-    def: DefinitionInput
+    def: DefinitionInput,
   ) => {
     return new ObjectField<DefinitionInput>(def);
   };

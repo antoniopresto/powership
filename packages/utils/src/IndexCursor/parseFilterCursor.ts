@@ -13,7 +13,7 @@ export function mountGraphID({ cursor }: { cursor: string }) {
 }
 
 export function parseFilterCursor(
-  initFullID: string
+  initFullID: string,
 ): ParsedIndexCursor | null {
   try {
     let fullID = initFullID.startsWith(CURSOR_PREFIX)

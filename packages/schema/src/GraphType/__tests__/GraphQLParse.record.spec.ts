@@ -65,7 +65,7 @@ describe('GraphQLParse.record', () => {
             addresses: [],
           },
         },
-      })
+      }),
     ).resolves.toMatchObject({
       errors: [
         {
@@ -87,7 +87,7 @@ describe('GraphQLParse.record', () => {
             },
           },
         },
-      })
+      }),
     ).resolves.toMatchObject({
       errors: [
         {
@@ -109,12 +109,12 @@ describe('GraphQLParse.record', () => {
             addresses: {},
           },
         },
-      })
+      }),
     ).resolves.toMatchObject({
       errors: [
         {
           message: expect.stringMatching(
-            'Expected value to be of type "object", found string instead.'
+            'Expected value to be of type "object", found string instead.',
           ),
         },
       ],

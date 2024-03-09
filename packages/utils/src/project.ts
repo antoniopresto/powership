@@ -4,7 +4,7 @@ import { Paths } from './typings';
 
 export function project<T, Path = Paths<T>>(
   value: T,
-  paths: ArrayLike<Path> | '*'
+  paths: ArrayLike<Path> | '*',
 ) {
   if (paths === '*') {
     return value;

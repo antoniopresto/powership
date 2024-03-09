@@ -13,7 +13,7 @@ describe('formatCode', () => {
 
   test('mutation', async () => {
     const sut = formatGraphQL('mutation users ($name: Int   ){name}').split(
-      '\n'
+      '\n',
     );
 
     expect(sut).toEqual([

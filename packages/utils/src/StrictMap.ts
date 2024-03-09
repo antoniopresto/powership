@@ -40,7 +40,7 @@ export class StrictMap<K, V> {
         }.`,
         {
           validKeys: [...this.nativeMap.keys()],
-        }
+        },
       );
     }
 

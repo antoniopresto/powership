@@ -1,6 +1,6 @@
 export type FilterStringListBorder<
   String extends string[],
-  Border extends string
+  Border extends string,
 > =
   //
   String extends unknown
@@ -12,11 +12,11 @@ export type FilterStringListBorder<
               ? Tail extends []
                 ? [ReplaceBorder<Head, Border>]
                 : Tail extends string[]
-                ? [
-                    ReplaceBorder<Head, Border>,
-                    ...FilterStringListBorder<Tail, Border>
-                  ]
-                : []
+                  ? [
+                      ReplaceBorder<Head, Border>,
+                      ...FilterStringListBorder<Tail, Border>,
+                    ]
+                  : []
               : never
             : never
           : never
@@ -29,11 +29,11 @@ export type ReplaceBorder<T extends string, S extends string> =
   S extends ''
     ? T
     : T extends unknown
-    ? T extends string
-      ? T extends `${S}${infer R}`
-        ? ReplaceBorder<R, S>
-        : T extends `${infer R}${S}`
-        ? ReplaceBorder<R, S>
-        : T
-      : never
-    : never;
+      ? T extends string
+        ? T extends `${S}${infer R}`
+          ? ReplaceBorder<R, S>
+          : T extends `${infer R}${S}`
+            ? ReplaceBorder<R, S>
+            : T
+        : never
+      : never;

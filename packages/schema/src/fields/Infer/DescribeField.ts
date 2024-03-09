@@ -27,8 +27,8 @@ export type $inferableKey = typeof $inferableKey;
 export type DescribeField<Input> = [$sealedKey] extends [keyof Input]
   ? Input
   : SealedField<_DescribeField<Input>> extends infer R
-  ? { [K in keyof R]: R[K] } & {}
-  : never;
+    ? { [K in keyof R]: R[K] } & {}
+    : never;
 
 export type _DescribeField<Input> =
   //
@@ -36,8 +36,8 @@ export type _DescribeField<Input> =
     ? Known extends string
       ? ParseStringDefinition<Known>
       : Known extends object
-      ? _DescribeObject<Known>
-      : never
+        ? _DescribeObject<Known>
+        : never
     : never;
 
 export type SealedField<D extends object> = 'type' extends keyof D
@@ -53,19 +53,15 @@ export type $sealedDef = Compute<
   } & CommonFieldDefinitionProps
 >;
 
-export type Seal<T extends object> = Merge<
-  T,
-  { $sealed: $sealedDef }
-> extends infer R
-  ? { [K in keyof R]: R[K] } & {}
-  : never;
+export type Seal<T extends object> =
+  Merge<T, { $sealed: $sealedDef }> extends infer R
+    ? { [K in keyof R]: R[K] } & {}
+    : never;
 
-export type DescribeWithoutSeal<T> = Omit<
-  DescribeField<T>,
-  $inferableKey | $sealedKey
-> extends infer R
-  ? { [K in keyof R]: R[K] } & {}
-  : never;
+export type DescribeWithoutSeal<T> =
+  Omit<DescribeField<T>, $inferableKey | $sealedKey> extends infer R
+    ? { [K in keyof R]: R[K] } & {}
+    : never;
 
 export type DescribeAndOverrideField<T, Override> =
   DescribeWithoutSeal<T> extends infer R
@@ -86,8 +82,8 @@ export type DescribeObjectDefinition<Input> =
   $sealedKey extends keyof Input
     ? Input
     : [Input] extends [object]
-    ? Seal<{ -readonly [K in keyof Input]: DescribeField<Input[K]> }>
-    : Seal<{}>;
+      ? Seal<{ -readonly [K in keyof Input]: DescribeField<Input[K]> }>
+      : Seal<{}>;
 
 export type _DescribeObject<Input extends object> =
   //
@@ -100,60 +96,60 @@ export type _DescribeObject<Input extends object> =
           ? DescribeField<Input['definition']>
           : never
         : //
-        K extends ObjectTypeKID
-        ? 'definition' extends keyof Input
-          ? {
-              type: 'object';
-              def: DescribeObjectDefinition<Input['definition']>;
-              list: _GetKey<Input, 'list'>;
-              optional: _GetKey<Input, 'optional'>;
-            }
-          : never
-        : //
-        K extends FieldTypeName
-        ? {
-            type: K;
-            def: V;
-            list: _GetKey<Input, 'list'>;
-            optional: _GetKey<Input, 'optional'>;
-          }
-        : //
-        K extends 'type'
-        ? // {type: ...}
-          //
-
-          // {type: FieldTypeName,  .... }
-          V extends FieldTypeName
-          ? {
-              type: V;
-              def: _GetKey<Input, 'def'>;
-              list: _GetKey<Input, 'list'>;
-              optional: _GetKey<Input, 'optional'>;
-            }
-          : //
-
-          // {type: GraphType,  .... }
-          Input[K] extends GraphTypeLikeFieldDefinition
-          ? Merge<
-              DescribeField<Input[K]['definition']>,
-              _OmitUndefined<{
+          K extends ObjectTypeKID
+          ? 'definition' extends keyof Input
+            ? {
+                type: 'object';
+                def: DescribeObjectDefinition<Input['definition']>;
                 list: _GetKey<Input, 'list'>;
                 optional: _GetKey<Input, 'optional'>;
-              }>
-            >
+              }
+            : never
           : //
+            K extends FieldTypeName
+            ? {
+                type: K;
+                def: V;
+                list: _GetKey<Input, 'list'>;
+                optional: _GetKey<Input, 'optional'>;
+              }
+            : //
+              K extends 'type'
+              ? // {type: ...}
+                //
 
-          // {type: ObjectType,  .... }
-          Input[K] extends ObjectTypeLikeFieldDefinition
-          ? {
-              type: 'object';
-              def: DescribeObjectDefinition<Input[K]['definition']>;
-              list: _GetKey<Input, 'list'>;
-              optional: _GetKey<Input, 'optional'>;
-            }
-          : never
-        : //
-          never
+                // {type: FieldTypeName,  .... }
+                V extends FieldTypeName
+                ? {
+                    type: V;
+                    def: _GetKey<Input, 'def'>;
+                    list: _GetKey<Input, 'list'>;
+                    optional: _GetKey<Input, 'optional'>;
+                  }
+                : //
+
+                  // {type: GraphType,  .... }
+                  Input[K] extends GraphTypeLikeFieldDefinition
+                  ? Merge<
+                      DescribeField<Input[K]['definition']>,
+                      _OmitUndefined<{
+                        list: _GetKey<Input, 'list'>;
+                        optional: _GetKey<Input, 'optional'>;
+                      }>
+                    >
+                  : //
+
+                    // {type: ObjectType,  .... }
+                    Input[K] extends ObjectTypeLikeFieldDefinition
+                    ? {
+                        type: 'object';
+                        def: DescribeObjectDefinition<Input[K]['definition']>;
+                        list: _GetKey<Input, 'list'>;
+                        optional: _GetKey<Input, 'optional'>;
+                      }
+                    : never
+              : //
+                never
       : never
     : never;
 

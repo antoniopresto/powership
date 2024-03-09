@@ -25,14 +25,14 @@ describe('State', () => {
       (draft) => draft.user.name, // observing name
       ({ next }) => {
         nameChanges.push(next);
-      }
+      },
     );
 
     const unlistenNumber = state.observe(
       (draft) => draft.user.address.number,
       ({ next }) => {
         streetNumberChanges.push(next);
-      }
+      },
     );
 
     expect(nameChanges).toEqual([]);

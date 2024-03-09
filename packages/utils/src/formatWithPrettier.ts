@@ -2,7 +2,7 @@ import type { Options } from 'prettier';
 
 export async function _formatWithPrettier(
   source: string,
-  options?: Options
+  options?: Options,
 ): Promise<string> {
   const prettier = await dynamicRequire<typeof import('prettier')>('prettier');
   return prettier.format(source, options);

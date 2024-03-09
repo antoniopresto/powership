@@ -20,13 +20,13 @@ export type FieldParserConfig =
 
 export type FieldTypeParser<Type> = (
   input: any,
-  config?: FieldParserConfig
+  config?: FieldParserConfig,
 ) => Type;
 
 export function parseValidationError(
   input: any,
   customMessage: ValidationCustomMessage | undefined,
-  originalError: (Error & { [K: string]: any }) | string
+  originalError: (Error & { [K: string]: any }) | string,
 ) {
   if (typeof originalError === 'object') {
     if (
@@ -35,7 +35,7 @@ export function parseValidationError(
       Array.isArray(originalError.issues)
     ) {
       const customIssue = originalError.issues.find(
-        (err) => typeof err?.params?.getMessage === 'function'
+        (err) => typeof err?.params?.getMessage === 'function',
       );
 
       if (typeof customIssue?.params?.getMessage === 'function') {
@@ -64,7 +64,7 @@ export function parseValidationError(
     } else {
       return new FieldTypeError(
         'custom',
-        _customError?.message || _customError
+        _customError?.message || _customError,
       );
     }
   }

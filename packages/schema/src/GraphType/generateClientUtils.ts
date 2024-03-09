@@ -13,7 +13,7 @@ import {
 
 export async function generateClientUtils(
   schema: GraphQLSchemaWithUtils,
-  options?: SchemaQueryTemplatesOptions
+  options?: SchemaQueryTemplatesOptions,
 ) {
   const [tsParts, queryTemplates] = await Promise.all([
     resolversTypescriptParts({
@@ -49,7 +49,7 @@ export async function generateClientUtils(
   tsParts.lines.forEach(({ payloadName, args, payload, inputName }) => {
     commonTypings.set(
       payloadName,
-      `export type ${payloadName} = ${payload.code}`
+      `export type ${payloadName} = ${payload.code}`,
     );
     commonTypings.set(inputName, `export type ${inputName} = ${args.code}`);
   });
@@ -73,7 +73,7 @@ export async function generateClientUtils(
       clientInterface += `\n${name}: {${argsText}, payload: GraphQLClientResponse<${payloadName}>},`;
 
       clientInterface += `\n`;
-    }
+    },
   );
 
   // adding the query and fragment texts for each resolver
@@ -87,14 +87,14 @@ export async function generateClientUtils(
 
       helpersText += `kind: '${kind}',payload: ${rehydrateType(
         payloadName,
-        typeDef
+        typeDef,
       )},\n`;
 
       helpersText += `\ninput: ${rehydrateType(
         inputName,
         argsDef
           ? { object: argsDef }
-          : { record: { keyType: 'string', type: 'unknown' } }
+          : { record: { keyType: 'string', type: 'unknown' } },
       )},\n`;
 
       const resolverQueries = queryTemplates.queryByResolver[kind][name];
@@ -114,11 +114,11 @@ export async function generateClientUtils(
           }, {} as any),
         },
         null,
-        2
+        2,
       )} as const,\n`;
 
       helpersText += `\n},\n`;
-    }
+    },
   );
 
   clientInterface += `\n}\n`;
@@ -141,7 +141,7 @@ export async function generateClientUtils(
 let creating = false;
 export async function saveGraphQLClientUtils(
   schema: GraphQLSchemaWithUtils,
-  DEST: string
+  DEST: string,
 ) {
   if (creating) return;
   creating = true;

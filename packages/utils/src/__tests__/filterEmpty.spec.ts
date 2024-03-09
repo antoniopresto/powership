@@ -16,7 +16,7 @@ describe('filterEmpty', () => {
     (type: any, input: Array<any>, expected: Array<any>) => {
       const options: FilterEmptyOptions = { types: [type] };
       expect(filterEmpty(input, options)).toEqual(expected);
-    }
+    },
   );
 
   test('should not filter any element when types is empty', () => {

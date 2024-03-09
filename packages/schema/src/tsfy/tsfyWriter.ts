@@ -17,7 +17,7 @@ const { ensureFileSync } = fsExtra;
 
 export const defaultTypesDest = path.resolve(
   Process.cwd(),
-  'generated/powership.d.ts'
+  'generated/powership.d.ts',
 );
 
 export interface TSFyWriterConfig extends TSFYConfig {
@@ -57,17 +57,15 @@ export function tsfyWriter(options: TSFyWriterConfig = {}) {
     if (GraphType.is(value) && value.optionalId) {
       const id = value.optionalId;
 
-      context.header[
-        `hash_declare_type_${id}`
-      ] = `declare function createType(name: '${id}', ...params: unknown[]): T${id}Type;`;
+      context.header[`hash_declare_type_${id}`] =
+        `declare function createType(name: '${id}', ...params: unknown[]): T${id}Type;`;
     }
 
     if (ObjectType.is(value) && value.id) {
       const id = value.id;
 
-      context.header[
-        `hash_declare_object_${id}`
-      ] = `declare function createObject(name: '${id}', ...params: unknown[]): T${id}Object;`;
+      context.header[`hash_declare_object_${id}`] =
+        `declare function createObject(name: '${id}', ...params: unknown[]): T${id}Object;`;
     }
 
     return {

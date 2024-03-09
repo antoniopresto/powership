@@ -18,7 +18,7 @@ export function parseTypeName(input: {
   if (!result) {
     throw new RuntimeError(
       `parseTypeName: failed to generate a valid type name`,
-      input
+      input,
     );
   }
 

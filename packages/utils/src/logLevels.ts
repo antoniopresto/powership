@@ -41,7 +41,7 @@ if (!globalLogLevel && !isProduction()) {
 }
 
 export function getLogLevelsRecord(
-  env: LogLevel = globalLogLevel
+  env: LogLevel = globalLogLevel,
 ): Set<LogLevelName> {
   if (Array.isArray(env)) {
     return new Set(env);
@@ -58,7 +58,7 @@ export function getLogLevelsRecord(
 
   const current = LogLevelsEnum[env];
   const levels = LogLevelEntries.filter(([, value]) => value <= current).map(
-    (el) => el[0]
+    (el) => el[0],
   );
   return new Set<LogLevelName>(levels);
 }

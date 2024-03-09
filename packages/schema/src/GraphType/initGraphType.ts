@@ -12,7 +12,7 @@ export function initGraphType(self: any, args: any) {
       self.touched = true;
 
       return payload;
-    }
+    },
   );
 
   Object.defineProperty(self, '__lazyGetter', {

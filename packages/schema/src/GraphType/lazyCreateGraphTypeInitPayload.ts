@@ -15,8 +15,8 @@ import {
 export function lazyCreateGraphTypeInitPayload(
   args: GraphTypeArgs,
   onLoad?: (
-    payload: LazyParseGraphTypePayload
-  ) => LazyParseGraphTypePayload | void
+    payload: LazyParseGraphTypePayload,
+  ) => LazyParseGraphTypePayload | void,
 ) {
   let payload: LazyParseGraphTypePayload;
 
@@ -60,7 +60,7 @@ export function lazyCreateGraphTypeInitPayload(
     if (!id && objectType) {
       id = getObjectDefinitionId(
         objectType.definition,
-        true // make nullable, the error below about undefined name is more clear
+        true, // make nullable, the error below about undefined name is more clear
       );
     }
 

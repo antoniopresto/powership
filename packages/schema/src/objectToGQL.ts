@@ -11,7 +11,7 @@ import { FinalObjectDefinition } from './fields/_parseFields';
  */
 export function objectToGQL(
   typeName: string,
-  definition: ObjectDefinitionInput | FinalObjectDefinition
+  definition: ObjectDefinitionInput | FinalObjectDefinition,
 ) {
   const object = createObjectType(typeName, definition);
 

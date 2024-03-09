@@ -19,7 +19,7 @@ function growThreadCountAndReturnNextAvailable() {
   const newSize = oldSize * 2;
   invariant(
     newSize <= 0x10000,
-    'Maximum number of concurrent threads exceeded. '
+    'Maximum number of concurrent threads exceeded. ',
   );
   const newArray = new Uint16Array(newSize);
   newArray.set(oldArray);

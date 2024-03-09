@@ -24,7 +24,7 @@ test('infer union types', () => {
   }>;
 
   assert<IsExact<TUnionListOptional, { name: string | number }[] | undefined>>(
-    true
+    true,
   );
 
   type TUnionListOptionalItem = InferField<{
@@ -49,7 +49,7 @@ test('infer union types', () => {
         uni: {
           union: [
             { enum: ['a', 'b'] }, //
-            'int'
+            'int',
           ];
         };
       };

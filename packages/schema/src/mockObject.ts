@@ -28,7 +28,7 @@ export type ObjectMockOptions = {
 
 export function objectMock<T extends { [K: string]: FieldInput }>(
   definition: T,
-  options?: ObjectMockOptions
+  options?: ObjectMockOptions,
 ): Infer<{ object: T }> {
   const placeHolder: any = {};
 
@@ -53,7 +53,7 @@ export function objectMock<T extends { [K: string]: FieldInput }>(
 
 export function fieldToMock(
   fieldInput: FieldInput,
-  options?: ObjectMockOptions
+  options?: ObjectMockOptions,
 ): any {
   const {
     randomText = randomName,
@@ -84,7 +84,7 @@ export function fieldToMock(
     date: () => new Date(randomInt(Date.now())),
     email: () => {
       return `${slugify(randomText().toLowerCase())}@${slugify(
-        randomText().toLowerCase()
+        randomText().toLowerCase(),
       )}${randomItem('.com', '.net', '.com.br', '.co', '.sh')}`;
     },
     enum: () => (Array.isArray(def) ? def[0] : undefined),

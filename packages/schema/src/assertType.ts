@@ -7,7 +7,7 @@ import { FieldInput } from './fields/_parseFields';
 export function assertType<Type extends FieldInput>(
   value: any,
   type: Type,
-  customMessage?: string
+  customMessage?: string,
 ): asserts value is Infer<Type> {
   wrapError(
     () => {
@@ -25,6 +25,6 @@ export function assertType<Type extends FieldInput>(
 
       nextError.stack = error.stack;
       return nextError;
-    }
+    },
   );
 }

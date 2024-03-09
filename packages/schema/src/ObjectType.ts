@@ -25,7 +25,7 @@ import { withCache, WithCache } from './withCache';
 
 export class ObjectType<
   Input,
-  HandledInput extends _HandleInput<Input> = _HandleInput<Input>
+  HandledInput extends _HandleInput<Input> = _HandleInput<Input>,
 > {
   get __isPowershipObject(): true {
     return true;
@@ -104,14 +104,14 @@ export class ObjectType<
     input: any,
     options?: {
       customMessage?: Internal.ValidationCustomMessage;
-    } & Internal.FieldParserOptionsObject
+    } & Internal.FieldParserOptionsObject,
   ): InferObjectDefinition<HandledInput>;
 
   parse(
     input: any,
     options?: {
       partial: true;
-    } & Internal.FieldParserOptionsObject
+    } & Internal.FieldParserOptionsObject,
   ): Partial<InferObjectDefinition<HandledInput>>;
 
   parse<Fields extends (keyof HandledInput)[]>(
@@ -119,7 +119,7 @@ export class ObjectType<
     options: {
       customMessage?: Internal.ValidationCustomMessage;
       fields: Fields;
-    } & Internal.FieldParserOptionsObject
+    } & Internal.FieldParserOptionsObject,
   ): {
     [K in keyof InferObjectDefinition<HandledInput> as K extends Fields[number]
       ? K
@@ -130,7 +130,7 @@ export class ObjectType<
     input: any,
     options: {
       exclude: Fields;
-    } & Internal.FieldParserOptionsObject
+    } & Internal.FieldParserOptionsObject,
   ): {
     [K in keyof InferObjectDefinition<HandledInput> as K extends Fields[number]
       ? never
@@ -139,7 +139,7 @@ export class ObjectType<
 
   parse(
     input: any,
-    options?: Internal.FieldParserOptionsObject
+    options?: Internal.FieldParserOptionsObject,
   ): InferObjectDefinition<HandledInput> {
     const { customMessage, customErrorMessage } = options || {};
     const { errors, parsed } = this.safeParse(input, options);
@@ -154,7 +154,7 @@ export class ObjectType<
       const err: any = Internal.parseValidationError(
         input,
         customMessage || customErrorMessage,
-        e_message
+        e_message,
       );
       err.isObjectValidationError = true;
       err.fieldErrors = errors;
@@ -166,7 +166,7 @@ export class ObjectType<
 
   softParse = <T = any>(
     input: any,
-    options: Internal.FieldParserOptionsObject = {}
+    options: Internal.FieldParserOptionsObject = {},
   ): InferObjectDefinition<HandledInput> & { [K: string]: T } => {
     return this.parse(input, { ...options, allowExtraFields: true });
   };
@@ -187,7 +187,7 @@ export class ObjectType<
       excludeInvalidListItems?: boolean;
       fields?: keyof HandledInput[];
       partial?: boolean;
-    } & Internal.FieldParserOptionsObject
+    } & Internal.FieldParserOptionsObject,
   ): { errors: string[]; parsed: unknown } {
     const {
       partial = false,
@@ -219,7 +219,7 @@ export class ObjectType<
         `Invalid input. Expected object, found ${getTypeName(input)}`,
         {
           input,
-        }
+        },
       );
     }
 
@@ -237,18 +237,18 @@ export class ObjectType<
 
     // === Start handling {[K: string}: any}|{[K: number}: any} ===
     const anyStringKey = fields.find(
-      (field) => field === Internal.SpecialObjectKeyEnum.$string
+      (field) => field === Internal.SpecialObjectKeyEnum.$string,
     );
 
     const anyNumberKey = fields.find(
-      (field) => field === Internal.SpecialObjectKeyEnum.$number
+      (field) => field === Internal.SpecialObjectKeyEnum.$number,
     );
 
     if (anyNumberKey || anyStringKey) {
       const allFieldsSet = new Set(fields);
       const keysNotDefined = inputKeys.filter((k) => !allFieldsSet.has(k));
       fields = fields.filter(
-        (k) => !Internal.SpecialObjectKeyEnum.list.includes(k as any)
+        (k) => !Internal.SpecialObjectKeyEnum.list.includes(k as any),
       );
 
       if (anyStringKey) {
@@ -382,7 +382,7 @@ export class ObjectType<
       invariantType(
         { [name]: definition[name] },
         'object',
-        `"${name}" is not in object definition.`
+        `"${name}" is not in object definition.`,
       );
       definition[name].description = comment || '';
     });
@@ -395,8 +395,8 @@ export class ObjectType<
       input: Internal.ExtendObjectDefinition<
         { object: HandledInput },
         { object: HandledInput }
-      >
-    ) => T
+      >,
+    ) => T,
   ): T {
     const parsed = Internal.parseField(this);
     const input: any = Internal.extendObjectDefinition(parsed);
@@ -422,7 +422,7 @@ export class ObjectType<
 
     if (this.id) {
       throw new Error(
-        `Trying to replace existing id "${this.id}" with "${id}". You can clone it to create a new Object.`
+        `Trying to replace existing id "${this.id}" with "${id}". You can clone it to create a new Object.`,
       );
     }
 
@@ -436,7 +436,7 @@ export class ObjectType<
 
   helpers = () => {
     return this.__withCache('helpers', () =>
-      Internal.getObjectHelpers(this)
+      Internal.getObjectHelpers(this),
     ) as Internal.ObjectHelpers;
   };
 
@@ -450,7 +450,7 @@ export class ObjectType<
       throw new RuntimeError(
         'Should object.identify() before converting to Graphql.' +
           '\nYou can call object.clone() to choose a different identification.',
-        { 'used definition': this.definition }
+        { 'used definition': this.definition },
       );
     }
 
@@ -467,7 +467,7 @@ export class ObjectType<
   };
 
   graphqlInterfaceType = (
-    options?: Internal.ParseInterfaceOptions
+    options?: Internal.ParseInterfaceOptions,
   ): GraphQLInterfaceType => {
     return this.toGraphQL().interfaceType(options);
   };
@@ -477,14 +477,14 @@ export class ObjectType<
   };
 
   typescriptPrint = (
-    options?: Internal.ObjectToTypescriptOptions
+    options?: Internal.ObjectToTypescriptOptions,
   ): Promise<string> => {
     // @only-server
     return Internal.objectToTypescript(
       this.nonNullId,
       // @ts-ignore
       this,
-      options
+      options,
     ) as any;
   };
 
@@ -503,7 +503,7 @@ export class ObjectType<
     return Internal.implementObject(
       name,
       this.definition as any,
-      ...parents
+      ...parents,
     ) as any;
   };
 
@@ -536,7 +536,7 @@ export class ObjectType<
    */
   static getOrSet = <T extends ObjectDefinitionInput>(
     id: string,
-    def: T | (() => T)
+    def: T | (() => T),
   ): ObjectType<T> => {
     const existing =
       ObjectType.register.has(id) &&
@@ -558,7 +558,7 @@ export class ObjectType<
   addGraphQLMiddleware = (
     middleware:
       | Internal.GraphQLParseMiddleware[]
-      | Internal.GraphQLParseMiddleware
+      | Internal.GraphQLParseMiddleware,
   ) => {
     this.graphQLMiddleware.push(...ensureArray(middleware));
   };
@@ -571,23 +571,24 @@ export class ObjectType<
 export const PowershipObject = ObjectType;
 
 export type ObjectTypeFromInput<
-  DefinitionInput extends Readonly<ObjectDefinitionInput>
-> = IsKnown<DefinitionInput> extends 1
-  ? [DefinitionInput] extends [ObjectDefinitionInput]
-    ? ObjectType<DefinitionInput>
-    : never
-  : any;
+  DefinitionInput extends Readonly<ObjectDefinitionInput>,
+> =
+  IsKnown<DefinitionInput> extends 1
+    ? [DefinitionInput] extends [ObjectDefinitionInput]
+      ? ObjectType<DefinitionInput>
+      : never
+    : any;
 
 export function createObjectType<
-  DefinitionInput extends Readonly<ObjectDefinitionInput>
+  DefinitionInput extends Readonly<ObjectDefinitionInput>,
 >(fields: Readonly<DefinitionInput>): ObjectTypeFromInput<DefinitionInput>;
 
 export function createObjectType<
-  DefinitionInput extends Readonly<ObjectDefinitionInput>
+  DefinitionInput extends Readonly<ObjectDefinitionInput>,
 >(name: string, fields: DefinitionInput): ObjectTypeFromInput<DefinitionInput>;
 
 export function createObjectType<
-  DefinitionInput extends Readonly<ObjectDefinitionInput>
+  DefinitionInput extends Readonly<ObjectDefinitionInput>,
 >(
   ...args: [string, DefinitionInput] | [DefinitionInput]
 ): ObjectTypeFromInput<DefinitionInput> {
@@ -628,7 +629,7 @@ type _HandleInput<T> = [IsKnown<T>] extends [1]
     ? T extends R
       ? T
       : T extends Readonly<R>
-      ? T
-      : {}
+        ? T
+        : {}
     : {}
   : {};

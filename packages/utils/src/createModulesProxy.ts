@@ -24,12 +24,12 @@ type Exports<ModulesMap extends ModulesProxyRecord> = {
 export type ModulesProxyResult<ModulesMap extends ModulesProxyRecord> =
   Exports<ModulesMap> & {
     transform: <T>(
-      callback: (current: ModulesProxyResult<ModulesMap>) => T
+      callback: (current: ModulesProxyResult<ModulesMap>) => T,
     ) => T;
   };
 
 export function createModulesProxy<ModulesMap extends ModulesProxyRecord>(
-  getModules: () => ModulesMap
+  getModules: () => ModulesMap,
 ): Compute<ModulesProxyResult<ModulesMap>> {
   let cache = new Map();
 
@@ -103,7 +103,7 @@ export function createModulesProxy<ModulesMap extends ModulesProxyRecord>(
 
   function _create() {
     function transform(
-      cb: Parameters<ModulesProxyResult<ModulesMap>['transform']>[0]
+      cb: Parameters<ModulesProxyResult<ModulesMap>['transform']>[0],
     ) {
       transformations.push(cb);
       return _create();
@@ -123,7 +123,7 @@ export function createModulesProxy<ModulesMap extends ModulesProxyRecord>(
               validModules: [...cache.entries()]
                 .filter((el) => el[1] !== undefined)
                 .map((el) => el[0]),
-            }
+            },
           );
         }
         return item;

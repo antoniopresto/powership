@@ -110,7 +110,7 @@ const digits36Reversed = [
 export function encodeNumber(input: string | number) {
   if ('string' !== typeof input && 'number' !== typeof input) {
     throw new Error(
-      `expected typeof input to be string, but received "${typeof input}"`
+      `expected typeof input to be string, but received "${typeof input}"`,
     );
   }
 
@@ -132,7 +132,7 @@ export function encodeNumber(input: string | number) {
       numberString.length,
       startPos,
       endPos,
-      decimalPointPos
+      decimalPointPos,
     );
 
     let signDigit = encodeSign(positive, magnitudePositive);
@@ -143,12 +143,12 @@ export function encodeNumber(input: string | number) {
     if (startPos < decimalPointPos && decimalPointPos < endPos) {
       result += writeDigits(
         positive,
-        numberString.substring(startPos, decimalPointPos)
+        numberString.substring(startPos, decimalPointPos),
       );
 
       result += writeDigits(
         positive,
-        numberString.substring(decimalPointPos + 1, endPos)
+        numberString.substring(decimalPointPos + 1, endPos),
       );
     } else {
       result += writeDigits(positive, numberString.substring(startPos, endPos));
@@ -212,7 +212,7 @@ function getMagnitudeParams(
   inputLength: number,
   sStartPos: number,
   _sEndPos: number,
-  decimalPointPos: number
+  decimalPointPos: number,
 ) {
   let magnitude: number;
   let magnitudePositive: boolean;
@@ -234,7 +234,7 @@ function getMagnitudeParams(
 function writeMagnitude(
   positive: boolean,
   magnitudePositive: boolean,
-  magnitude: number
+  magnitude: number,
 ) {
   const reverseDigits = positive != magnitudePositive;
 

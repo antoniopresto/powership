@@ -27,7 +27,7 @@ const defaultOptions: Required<FilterEmptyOptions> = {
 
 export function filterEmpty<T>(
   input: AnyArray<T | null | undefined>,
-  options?: FilterEmptyOptions
+  options?: FilterEmptyOptions,
 ): T[] {
   //
   //

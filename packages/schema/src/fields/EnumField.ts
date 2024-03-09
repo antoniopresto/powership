@@ -4,7 +4,7 @@ import { FieldType } from './FieldType';
 
 export class EnumField<
   U extends string,
-  T extends Readonly<[U, ...U[]]>
+  T extends Readonly<[U, ...U[]]>,
 > extends FieldType<T[number], 'enum', T> {
   //
   parse: FieldTypeParser<T[number]>;
@@ -22,7 +22,7 @@ export class EnumField<
           throw new Error(
             `accepted: ${this.def
               .map((e) => `'${e}'`)
-              .join(' or ')}, found ${input}.`
+              .join(' or ')}, found ${input}.`,
           );
         }
 
@@ -32,7 +32,7 @@ export class EnumField<
   }
 
   static create = <U extends string, T extends Readonly<[U, ...U[]]>>(
-    def: T
+    def: T,
   ): FieldType<T[number], 'enum', T> => {
     return new EnumField(def);
   };

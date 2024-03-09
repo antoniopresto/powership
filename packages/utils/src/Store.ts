@@ -15,7 +15,7 @@ export type EventMetadataBase = EventMetadataObjectBase | InternalEvent;
 export type StoreEvent<
   K,
   V,
-  Meta extends EventMetadataBase = EventMetadataBase
+  Meta extends EventMetadataBase = EventMetadataBase,
 > = {
   value: V;
   key: K;
@@ -27,20 +27,20 @@ export type StoreEvent<
 
 export type Nullable<
   T extends object,
-  Nullish extends null | undefined = undefined
+  Nullish extends null | undefined = undefined,
 > = {
   [K in keyof T]-?: T[K] | Nullish;
 } & {};
 
 export type StoreEventOptions<
-  Meta extends EventMetadataBase = EventMetadataBase
+  Meta extends EventMetadataBase = EventMetadataBase,
 > = {
   silently?: boolean;
   meta?: Meta;
 };
 
 export interface StoreOptions<
-  Dict extends Record<string, unknown> = Record<string, unknown>
+  Dict extends Record<string, unknown> = Record<string, unknown>,
 > {
   values?: ObjectEntries<Dict>;
   maxLength?: number;
@@ -66,7 +66,7 @@ export interface Store<
   V extends Dict[Extract<keyof Dict, string>] = Dict[Extract<
     keyof Dict,
     string
-  >]
+  >],
 > {
   hashBy: string[] | null;
 
@@ -89,7 +89,7 @@ export interface Store<
 
   remove<Key extends K>(
     key: Key,
-    eventOptions?: StoreEventOptions
+    eventOptions?: StoreEventOptions,
   ): Nullable<StoreEvent<Key, Dict[Key]>>;
 
   delete: this['remove'];
@@ -97,19 +97,19 @@ export interface Store<
   set<Key extends K>(
     key: Key,
     value: Dict[Key],
-    eventOptions?: StoreEventOptions
+    eventOptions?: StoreEventOptions,
   ): StoreEvent<Key, Dict[Key]>;
 
   add(
     value: Dict[keyof Dict],
-    eventOptions?: StoreEventOptions
+    eventOptions?: StoreEventOptions,
   ): StoreEvent<keyof Dict, Dict[keyof Dict]>;
 
   get<Key extends K>(key: Key, options?: StoreEventOptions): Dict[Key];
 
   getOptional<Key extends K>(
     key: Key,
-    options?: StoreEventOptions
+    options?: StoreEventOptions,
   ): Dict[Key] | undefined;
 
   has<Key extends K>(key: Key, options?: StoreEventOptions): Key | undefined;
@@ -118,19 +118,19 @@ export interface Store<
 
   groupBy<Group extends DotNotations<Dict[keyof Dict]>>(
     groups: Group[] | Group,
-    options?: GroupByOptions
+    options?: GroupByOptions,
   ): {
     [K: string]: Dict[keyof Dict][];
   };
 
   recordBy<Group extends DotNotations<Dict[keyof Dict]>>(
     groups: Group[] | Group,
-    options?: GroupByOptions
+    options?: GroupByOptions,
   ): Store<RecordBy<Dict, Group>>;
 
   keyBy(
     groups: DotNotations<Dict[keyof Dict]>[] | DotNotations<Dict[keyof Dict]>,
-    options?: GroupByOptions
+    options?: GroupByOptions,
   ): {
     [K: string]: Dict[keyof Dict];
   };
@@ -139,7 +139,7 @@ export interface Store<
 }
 
 export function createStore<
-  Dict extends Record<string, unknown> = Record<string, unknown>
+  Dict extends Record<string, unknown> = Record<string, unknown>,
 >(init?: ObjectEntries<Dict> | StoreOptions<Dict>): Store<Dict> {
   const {
     values,
@@ -165,12 +165,15 @@ export function createStore<
   }
 
   function _reindex() {
-    indexes = entries.reduce((acc, [k], currentIndex) => {
-      return {
-        ...acc,
-        [k]: currentIndex,
-      };
-    }, Object.create(null) as typeof indexes);
+    indexes = entries.reduce(
+      (acc, [k], currentIndex) => {
+        return {
+          ...acc,
+          [k]: currentIndex,
+        };
+      },
+      Object.create(null) as typeof indexes,
+    );
     return indexes;
   }
 

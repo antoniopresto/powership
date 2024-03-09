@@ -26,18 +26,18 @@ type _t<OP, P1, P2> =
     ? $pick<OP, P1, P2>
     : //
 
-    keyof OP extends infer OPK
-    ? OPK extends $op_key
-      ? {
-          $or: $or<$gop<OP, '$or'>, P1, P2>;
-          $pick: $pick<$gop<OP, '$pick'>, P1, P2>;
-          $template: $template<$gop<OP, '$template'>, P1, P2>;
-          $type: $type<$gop<OP, '$type'>, P1, P2>;
-          $shape: $shape<$gop<OP, '$shape'>, P1, P2>;
-          $merge: $merge<$gop<OP, '$merge'>, P1, P2>;
-        }[OPK]
-      : never
-    : never;
+      keyof OP extends infer OPK
+      ? OPK extends $op_key
+        ? {
+            $or: $or<$gop<OP, '$or'>, P1, P2>;
+            $pick: $pick<$gop<OP, '$pick'>, P1, P2>;
+            $template: $template<$gop<OP, '$template'>, P1, P2>;
+            $type: $type<$gop<OP, '$type'>, P1, P2>;
+            $shape: $shape<$gop<OP, '$shape'>, P1, P2>;
+            $merge: $merge<$gop<OP, '$merge'>, P1, P2>;
+          }[OPK]
+        : never
+      : never;
 
 export interface $ops {
   $or?: $or_def;

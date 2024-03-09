@@ -22,7 +22,7 @@ export type Merge<
   O1,
   depth extends Depth = 'flat',
   ignore extends object = BuiltIn,
-  fill extends any = undefined
+  fill extends any = undefined,
 > = O extends object
   ? O1 extends object
     ? O.Merge<Omit<O, keyof O1>, O1, depth, ignore, fill>

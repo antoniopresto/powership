@@ -33,14 +33,14 @@ describe('implementObject', () => {
       'ship',
       { name: 'string' },
       nodeType,
-      pageNodeType
+      pageNodeType,
     );
 
     type Result = typeof ship;
     type Inferred = Infer<Result>;
 
     assert<IsExact<Inferred, { id: string; name: string; title: string }>>(
-      true
+      true,
     );
   });
 
@@ -60,7 +60,7 @@ describe('implementObject', () => {
       'Post',
       { body: 'string' },
       nodeType,
-      pageNodeType
+      pageNodeType,
     );
 
     expect(postType.definition).toEqual({
@@ -105,7 +105,7 @@ describe('implementObject', () => {
       'Post',
       { body: 'string' },
       nodeType,
-      pageNodeType
+      pageNodeType,
     );
 
     expect(postType.graphqlPrint().split('\n')).toEqual([

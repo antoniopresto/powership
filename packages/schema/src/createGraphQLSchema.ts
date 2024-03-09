@@ -28,7 +28,7 @@ export type GraphQLSchemaWithUtils = import('graphql').GraphQLSchema & {
     grouped: GroupedResolvers;
     print: () => string;
     queryExamples: (
-      options?: ObjectMockOptions & { resolver?: string }
+      options?: ObjectMockOptions & { resolver?: string },
     ) => string;
     queryTemplates: () => SchemaQueryTemplatesResult;
     resolvers: AnyResolver[];
@@ -42,11 +42,11 @@ export type ResolverKind = typeof resolverKinds.enum;
 
 export function createGraphQLSchema<T = any>(
   resolvers?: T[],
-  config?: CreateGraphQLObjectOptions
+  config?: CreateGraphQLObjectOptions,
 ): T extends { __isResolver } ? GraphQLSchemaWithUtils : never;
 
 export function createGraphQLSchema<Config>(
-  config?: Config
+  config?: Config,
 ): Config extends CreateGraphQLObjectOptions ? GraphQLSchemaWithUtils : never;
 
 export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
@@ -59,14 +59,14 @@ export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
     : registeredResolvers;
 
   const schemaResolvers = resolvers.filter(
-    (el) => el.__isResolver && !el.__isRelation
+    (el) => el.__isResolver && !el.__isRelation,
   );
 
   const config = Array.isArray(args[0]) ? args[1] : args[0];
 
   const grouped = groupBy(
     schemaResolvers,
-    (item) => item.kind
+    (item) => item.kind,
   ) as GroupedResolvers;
 
   function createFields(kind: string) {
@@ -153,7 +153,7 @@ export type ResolversToTypeScriptOptions = {
 };
 
 export async function resolversTypescriptParts(
-  params: ResolversToTypeScriptOptions
+  params: ResolversToTypeScriptOptions,
 ) {
   const { name = 'Schema' } = params;
 
@@ -225,7 +225,7 @@ export async function resolversTypescriptParts(
 }
 
 export async function resolversToTypescript(
-  params: ResolversToTypeScriptOptions
+  params: ResolversToTypeScriptOptions,
 ) {
   const { options = {} } = params;
   const { format = true } = options;
@@ -323,7 +323,7 @@ async function convertType(options: {
       ...options,
       format: false,
       ignoreDefaultValues: kind !== 'input',
-    }
+    },
   )) as any;
 
   let code = result
@@ -384,13 +384,13 @@ function queryExamples({
             typeof example === 'string'
               ? `"${example}"`
               : example && typeof example === 'object'
-              ? BJSON.stringify(example, {
-                  quoteKeys(str) {
-                    if (str.match(/[-.]/)) return `"${str}"`;
-                    return str;
-                  },
-                })
-              : example;
+                ? BJSON.stringify(example, {
+                    quoteKeys(str) {
+                      if (str.match(/[-.]/)) return `"${str}"`;
+                      return str;
+                    },
+                  })
+                : example;
 
           return `${val.name}: ${ser}`;
         });

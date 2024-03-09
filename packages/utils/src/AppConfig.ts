@@ -5,7 +5,7 @@ export interface AppConfigInterface {
 }
 
 export interface IAppConfig<
-  Definition extends AppConfigInterface = AppConfigInterface
+  Definition extends AppConfigInterface = AppConfigInterface,
 > extends Store<Definition> {
   //
 }

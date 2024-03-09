@@ -39,8 +39,8 @@ export type ParseSpecialObjectKeys<T> = {
   -readonly [K in keyof T as K extends `$string`
     ? string
     : K extends `$number`
-    ? number
-    : never]: InferField<T[K]>;
+      ? number
+      : never]: InferField<T[K]>;
 } & {};
 
 export type _InferObjectDefinition<Input extends object> =
@@ -56,10 +56,10 @@ export type _GetAliasFields<Input extends object> = {
   [K in keyof Input as keyof Input[K] extends 'alias'
     ? K
     : 'type' extends keyof Input[K]
-    ? 'alias' extends Input[K]['type']
-      ? K
-      : never
-    : never]: Input[K];
+      ? 'alias' extends Input[K]['type']
+        ? K
+        : never
+      : never]: Input[K];
 } & {};
 
 export type _InferAlias<Input, Parent extends object> =
@@ -68,28 +68,28 @@ export type _InferAlias<Input, Parent extends object> =
     ? GetFieldByDotNotation<Parent, Input>
     : //
 
-    Input extends object
-    ? keyof Input extends infer K
-      ? K extends unknown
-        ? K extends keyof Input
-          ? // ====
-            //
-            K extends 'type'
-            ? InferField<Input[K]>
+      Input extends object
+      ? keyof Input extends infer K
+        ? K extends unknown
+          ? K extends keyof Input
+            ? // ====
+              //
+              K extends 'type'
+              ? InferField<Input[K]>
+              : //
+                K extends 'alias'
+                ? _InferAlias<Input[K], Parent>
+                : never
             : //
-            K extends 'alias'
-            ? _InferAlias<Input[K], Parent>
-            : never
-          : //
-            // ====
-            never
+              // ====
+              never
+          : never
         : never
-      : never
-    : never;
+      : never;
 
 export type _InferAliasFields<
   AliasFields extends object,
-  Parent extends object
+  Parent extends object,
 > = {
   [K in keyof AliasFields]: _InferAlias<AliasFields[K], Parent>;
 } & {};
@@ -98,6 +98,6 @@ export type _InferSpecialObjectKeys<T> = {
   -readonly [K in keyof T as K extends `$string`
     ? string
     : K extends `$number`
-    ? number
-    : never]: InferField<T[K]>;
+      ? number
+      : never]: InferField<T[K]>;
 } & {};

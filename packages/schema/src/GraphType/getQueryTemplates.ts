@@ -55,7 +55,7 @@ export type SchemaQueryTemplatesOptions = {
 
 export function getSchemaQueryTemplates(
   schema: GraphQLSchema,
-  options: SchemaQueryTemplatesOptions = {}
+  options: SchemaQueryTemplatesOptions = {},
 ): SchemaQueryTemplatesResult {
   const { depthLimit = 5000, includeDeprecatedFields = true } = options;
 
@@ -108,7 +108,7 @@ export function getSchemaQueryTemplates(
  * @param params
  */
 export function getQueryTemplates(
-  params: ParseQueryFieldOptions
+  params: ParseQueryFieldOptions,
 ): PrintQueryResult {
   const { kind = 'query' } = params;
   const { name } = params.graphQLField;
@@ -571,7 +571,7 @@ function hashField(graphQLField: GraphQLField<any, any>) {
       ]
         .filter((el) => el !== null && el !== undefined)
         .join('');
-    }
+    },
   );
 
   const suffix = `${wrappersPath}${argString}`;
@@ -596,7 +596,7 @@ function descriptionsToComments(...list: (string | undefined | null)[]) {
 
 function prettifyQuery(
   value: string,
-  queryKind: ParseQueryFieldOptions['queryKind']
+  queryKind: ParseQueryFieldOptions['queryKind'],
 ) {
   const isMainQuery = queryKind === 'mainQuery';
 

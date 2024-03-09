@@ -26,7 +26,7 @@ export const _defaultLogger: LoggerMethods = ((value) => {
               value.stdout.write.bind(value.stdout),
               '\n',
               ...args,
-              '\n'
+              '\n',
             );
           }
         : undefined;
@@ -37,7 +37,7 @@ export const _defaultLogger: LoggerMethods = ((value) => {
               value.stderr.write.bind(value.stderr),
               '\n',
               ...args,
-              '\n'
+              '\n',
             );
           }
         : undefined;
@@ -48,7 +48,7 @@ export const _defaultLogger: LoggerMethods = ((value) => {
               value.stdout.write.bind(value.stdout),
               '\n',
               ...args,
-              '\n'
+              '\n',
             );
           }
         : undefined;
@@ -59,7 +59,7 @@ export const _defaultLogger: LoggerMethods = ((value) => {
               value.stdout.write.bind(value.stdout),
               '\n',
               ...args,
-              '\n'
+              '\n',
             );
           }
         : undefined;
