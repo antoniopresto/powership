@@ -8,7 +8,7 @@ const defaultOptions = () => ({
 });
 
 export function setupMongoTest(
-  _options: Partial<ReturnType<typeof defaultOptions>> = {}
+  _options: Partial<ReturnType<typeof defaultOptions>> = {},
 ) {
   const options = {
     ...defaultOptions(),
@@ -44,7 +44,7 @@ export function setupMongoTest(
             name: '_id',
           },
         ],
-      } as const),
+      }) as const,
     transporter: () => transporter,
   };
 }

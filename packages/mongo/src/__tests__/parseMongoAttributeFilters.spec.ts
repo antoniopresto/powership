@@ -43,7 +43,7 @@ describe('parseMongoAttributeFilters', () => {
             $lte: 105,
           },
         },
-      ]
+      ],
     );
   });
 
@@ -60,7 +60,7 @@ describe('parseMongoAttributeFilters', () => {
     expect(
       parseMongoAttributeFilters({
         a: { $type: 'Binary' },
-      })
+      }),
     ).toEqual([{ a: { $type: 'binData' } }]);
   });
 
@@ -68,7 +68,7 @@ describe('parseMongoAttributeFilters', () => {
     expect(
       parseMongoAttributeFilters({
         a: { $startsWith: 'xx' },
-      })
+      }),
     ).toEqual([{ a: { $regex: '^xx' } }]);
   });
 
@@ -76,7 +76,7 @@ describe('parseMongoAttributeFilters', () => {
     expect(
       parseMongoAttributeFilters({
         a: { $contains: 1 },
-      })
+      }),
     ).toEqual([
       {
         a: {
@@ -93,7 +93,7 @@ describe('parseMongoAttributeFilters', () => {
     expect(
       parseMongoAttributeFilters({
         a: { $matchString: 'aa' },
-      })
+      }),
     ).toEqual([{ a: /aa/ }]);
   });
 
@@ -102,7 +102,7 @@ describe('parseMongoAttributeFilters', () => {
       parseMongoAttributeFilters({
         // @ts-ignore
         a: { $size: 1 },
-      })
+      }),
     ).toThrow('not supported attribute filter "$size".');
   });
 
@@ -110,14 +110,14 @@ describe('parseMongoAttributeFilters', () => {
     expect(
       parseMongoAttributeFilters({
         a: { $in: ['a'] },
-      })
+      }),
     ).toEqual([{ a: { $in: ['a'] } }]);
   });
   test('$eq', () => {
     expect(
       parseMongoAttributeFilters({
         a: { $eq: 1 },
-      })
+      }),
     ).toEqual([{ a: { $eq: 1 } }]);
   });
 
@@ -125,7 +125,7 @@ describe('parseMongoAttributeFilters', () => {
     expect(
       parseMongoAttributeFilters({
         a: { $ne: 1 },
-      })
+      }),
     ).toEqual([{ a: { $ne: 1 } }]);
   });
 
@@ -137,7 +137,7 @@ describe('parseMongoAttributeFilters', () => {
           { x: { $ne: 'zzz' } },
           //
         ] as any,
-      })
+      }),
     ).toEqual([
       {
         b: {
@@ -168,7 +168,7 @@ describe('parseMongoAttributeFilters', () => {
           },
           //
         ] as any,
-      })
+      }),
     ).toEqual([
       {
         b: {
@@ -206,7 +206,7 @@ describe('parseMongoAttributeFilters', () => {
           a: { $eq: 1 },
           $or: [{ o: { $gt: 1 } }],
         } as any,
-      })
+      }),
     ).toEqual([
       { $nor: [{ $and: [{ a: { $eq: 1 } }, { $or: [{ o: { $gt: 1 } }] }] }] },
     ]);

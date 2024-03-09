@@ -9,7 +9,7 @@ export function mongoLoadById(
   options: Omit<MongoFindManyParams, 'query' | 'sort' | 'onlyOne'> & {
     id: any;
   },
-  cacheContext: CacheContext
+  cacheContext: CacheContext,
 ) {
   const { id, ...rest } = options;
 
@@ -19,7 +19,7 @@ export function mongoLoadById(
       onlyOne: true,
       query: { _id: id },
     },
-    cacheContext
+    cacheContext,
   );
 }
 
@@ -27,7 +27,7 @@ export function mongoLoadByIds(
   options: Omit<MongoFindManyParams, 'query' | 'sort' | 'onlyOne'> & {
     ids: any[];
   },
-  cacheContext: CacheContext
+  cacheContext: CacheContext,
 ) {
   const { ids, ...rest } = options;
 
@@ -38,15 +38,15 @@ export function mongoLoadByIds(
           ...rest,
           id,
         },
-        cacheContext
+        cacheContext,
       );
-    })
+    }),
   );
 }
 
 export function mongoFindMany(
   options: MongoFindManyParams,
-  context?: CacheContext | null
+  context?: CacheContext | null,
 ): Promise<DocumentBase[]> {
   if (!context || typeof context !== 'object') {
     throw new RuntimeError(`Invalid context`, { context });

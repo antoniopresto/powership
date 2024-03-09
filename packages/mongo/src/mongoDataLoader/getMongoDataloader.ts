@@ -11,7 +11,7 @@ export function getMongoDataloader(
   //   a new cacheContext
   cacheContext: CacheContext,
 
-  dataloaderHash: string // from parseMongoDLOptions
+  dataloaderHash: string, // from parseMongoDLOptions
 ): MongoDataLoader {
   if (!cacheContext || typeof cacheContext !== 'object') {
     throw new Error(`invalid cacheContext`);

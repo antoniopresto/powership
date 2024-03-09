@@ -65,7 +65,7 @@ describe('MongoEntity.DataLoader', () => {
           { _id: USERS.Cacau },
         ],
       },
-      { projection: {}, sort: {} }
+      { projection: {}, sort: {} },
     );
 
     expect(spy).toBeCalledTimes(1);
@@ -92,9 +92,9 @@ describe('MongoEntity.DataLoader', () => {
         collection: 'users',
         projection: {},
         sort: { name: 1 }, // <--- different sort ⚠️
-      })
+      }),
     ).toThrow(
-      'MongoDataLoader: using more than one configuration for the same dataloader.'
+      'MongoDataLoader: using more than one configuration for the same dataloader.',
     );
 
     await p1; // wait to close test and destroy mongo
@@ -121,9 +121,9 @@ describe('MongoEntity.DataLoader', () => {
           projection: {},
           sort: { name: 1 },
         },
-      ])
+      ]),
     ).toThrow(
-      'MongoDataLoader: using more than one configuration for the same dataloader.'
+      'MongoDataLoader: using more than one configuration for the same dataloader.',
     );
   });
 
@@ -160,7 +160,7 @@ describe('MongoEntity.DataLoader', () => {
           { name: { $ne: 'H' } },
         ],
       },
-      { projection: {}, sort: { name: -1 } }
+      { projection: {}, sort: { name: -1 } },
     );
 
     expect(spy).toBeCalledTimes(1);
@@ -204,7 +204,7 @@ describe('MongoEntity.DataLoader', () => {
           { name: { $ne: 'H' } },
         ],
       },
-      { sort: undefined, projection: { index: 0 } }
+      { sort: undefined, projection: { index: 0 } },
     );
 
     expect(data[0][0].index).toBeUndefined();

@@ -101,7 +101,7 @@ export function isErrorWithStack(t: any): t is ErrorWithStack {
   return typeof t?.message === 'string' && typeof t.stack === 'string';
 }
 
-export interface ErrorWithStack {
+export interface ErrorWithStack extends Error {
   message: string;
   stack: string;
 }

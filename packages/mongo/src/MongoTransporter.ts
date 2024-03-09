@@ -92,7 +92,7 @@ export class MongoTransporter implements Transporter<MongoClient> {
     if (options.condition) {
       conditionExpression.$and = conditionExpression.$and || [];
       conditionExpression.$and.push(
-        ...parseMongoAttributeFilters(options.condition)
+        ...parseMongoAttributeFilters(options.condition),
       );
     }
 
@@ -135,7 +135,8 @@ export class MongoTransporter implements Transporter<MongoClient> {
           {
             hint: { _id: 1 },
             upsert: true,
-          }
+            includeResultMetadata: true,
+          },
         );
 
         const data = result.lastErrorObject || {};
@@ -145,8 +146,8 @@ export class MongoTransporter implements Transporter<MongoClient> {
             `Can't create two documents with same index. Existing document found with ${JSON.stringify(
               { notRepeat$OR, data },
               null,
-              2
-            )}`
+              2,
+            )}`,
           );
         }
 
@@ -178,7 +179,7 @@ export class MongoTransporter implements Transporter<MongoClient> {
 
     const { relationFilters, indexFilter } = createDocumentIndexBasedFilters(
       filter,
-      indexConfig
+      indexConfig,
     );
 
     const $and = parseMongoAttributeFilters(indexFilter);
@@ -200,7 +201,7 @@ export class MongoTransporter implements Transporter<MongoClient> {
     if (after) {
       const { indexFilter } = createDocumentIndexBasedFilters(
         typeof after === 'string' ? { id: after } : after,
-        indexConfig
+        indexConfig,
       );
 
       if (typeof indexFilter[sortKey] === 'string') {
@@ -216,7 +217,7 @@ export class MongoTransporter implements Transporter<MongoClient> {
               {
                 _id: indexFilter._id,
               },
-              'Failed to mount "after" condition.'
+              'Failed to mount "after" condition.',
             )._id,
           },
         });
@@ -247,7 +248,7 @@ export class MongoTransporter implements Transporter<MongoClient> {
           collection: collection.collectionName,
           db,
         },
-        options.context
+        options.context,
       );
     }
 
@@ -262,7 +263,7 @@ export class MongoTransporter implements Transporter<MongoClient> {
             query,
             sort: sortParsed,
           },
-          options.context
+          options.context,
         );
 
         if (result) {
@@ -381,7 +382,7 @@ export class MongoTransporter implements Transporter<MongoClient> {
   _parseUpdateParams(
     options:
       | { kind: 'updateOne'; params: UpdateOneConfig }
-      | { kind: 'updateMany'; params: UpdateManyConfig }
+      | { kind: 'updateMany'; params: UpdateManyConfig },
   ) {
     const { update, upsert, indexConfig, filter, condition } = options.params;
 
@@ -424,8 +425,9 @@ export class MongoTransporter implements Transporter<MongoClient> {
         updateExpression,
         {
           returnDocument: 'after',
+          includeResultMetadata: true,
           upsert,
-        }
+        },
       );
 
       const { updatedExisting, upserted } = result.lastErrorObject || {};
@@ -459,14 +461,14 @@ export class MongoTransporter implements Transporter<MongoClient> {
         updateExpression,
         {
           upsert,
-        }
+        },
       );
 
       const { modifiedCount, upsertedId } = result;
 
       return {
         modifiedCount,
-        upsertedId,
+        upsertedId: upsertedId ? upsertedId.toString() : null,
       };
     } catch (e: any) {
       return {
@@ -491,7 +493,10 @@ export class MongoTransporter implements Transporter<MongoClient> {
       parsedFilter.push(...parseMongoAttributeFilters(condition));
     }
 
-    const { value } = await collection.findOneAndDelete({ $and: parsedFilter });
+    const { value } = await collection.findOneAndDelete(
+      { $and: parsedFilter },
+      { includeResultMetadata: true },
+    );
 
     return { item: value as any };
   }

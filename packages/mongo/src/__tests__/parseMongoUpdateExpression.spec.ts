@@ -38,7 +38,7 @@ describe('parseMongoUpdateExpression', () => {
   }
 
   async function update(
-    exp: UpdateExpression<{ list: any[]; [K: string]: any }>
+    exp: UpdateExpression<{ list: any[]; [K: string]: any }>,
   ) {
     const res = await mockApp.transporter.updateOne({
       filter: { _id: 'user⋮_id⋮1⋮' },
@@ -265,7 +265,7 @@ describe('parseMongoUpdateExpression', () => {
 
     expect(await update({ $pull: { list: { $in: ['a', 2] } } })).toHaveProperty(
       'list',
-      ['b', 'c', 1]
+      ['b', 'c', 1],
     );
   });
 
@@ -275,7 +275,7 @@ describe('parseMongoUpdateExpression', () => {
     await update({ $set: { list: ['a', 'b', 'a'] } });
 
     expect(
-      await update({ $addToSet: { list: { $each: ['a', 2] } } })
+      await update({ $addToSet: { list: { $each: ['a', 2] } } }),
     ).toHaveProperty('list', ['a', 'b', 'a', 2]);
   });
 
@@ -425,7 +425,7 @@ describe('parseMongoUpdateExpression', () => {
       });
 
       expect(
-        await update({ $pull: { 'foo.bar.cux': { $in: ['a', 2] } } })
+        await update({ $pull: { 'foo.bar.cux': { $in: ['a', 2] } } }),
       ).toHaveProperty('foo.bar', {
         cux: ['b', 'c', 1],
       });
@@ -437,13 +437,13 @@ describe('parseMongoUpdateExpression', () => {
       await update({ $set: { 'foo.bar.cux': ['a', 'b', 'a'] } });
 
       expect(
-        await update({ $addToSet: { 'foo.bar.cux': { $each: ['a', 2] } } })
+        await update({ $addToSet: { 'foo.bar.cux': { $each: ['a', 2] } } }),
       ).toHaveProperty('foo.bar.cux', ['a', 'b', 'a', 2]);
 
       expect(
         await update({
           $addToSet: { 'foo.2.cux': { $each: ['a', 2] } },
-        })
+        }),
       ).toHaveProperty('foo', {
         '2': { cux: ['a', 2] },
         bar: { cux: ['a', 'b', 'a', 2] },

@@ -1,4 +1,4 @@
-import { RuntimeError } from '@powership/utils';
+import { RuntimeError, tryCatch } from '@powership/utils';
 import { Hope, hope } from '@powership/utils';
 import * as mongodb from 'mongodb';
 
@@ -46,22 +46,22 @@ export class MongoClient {
     this._dbPromise = hope();
     const promise = this._dbPromise;
 
-    this.client.connect((err, client) => {
-      if (err) {
-        promise.reject(err);
-        throw err;
-      }
+    const [err, client] = await tryCatch(() => this.client.connect());
 
-      if (!client?.db) {
-        promise.reject(new Error('connection failed'));
-        throw err;
-      }
+    if (err) {
+      promise.reject(err);
+      throw err;
+    }
 
-      const db = client.db(dbName || undefined);
-      promise.resolve(db);
-    });
+    if (!client?.db) {
+      promise.reject(new Error('connection failed'));
+      throw err;
+    }
 
-    return promise.promise;
+    const db = client.db(dbName || undefined);
+    promise.resolve(db);
+
+    return db;
   }
 
   static objectId(id?: string | number | mongodb.ObjectId) {
