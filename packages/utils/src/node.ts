@@ -4,7 +4,7 @@ import nodeURL from 'url';
 import chalk from 'chalk';
 import * as commander from 'commander';
 import fsExtra from 'fs-extra';
-import * as glob from 'glob';
+import glob from 'glob';
 import * as semver from 'semver';
 import urlPattern from 'url-pattern';
 

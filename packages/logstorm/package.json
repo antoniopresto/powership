@@ -1,6 +1,6 @@
 {
   "name": "logstorm",
-  "version": "3.3.5",
+  "version": "3.3.7",
   "typings": "out",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "type": "module",
@@ -124,6 +124,6 @@
     "tsx": "*",
     "ulid": "*",
     "url-pattern": "*",
-    "@powership/utils": "3.3.5"
+    "@powership/utils": "3.3.7"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "powership",
-  "version": "3.3.5",
+  "version": "3.3.7",
   "private": true,
   "scripts": {
     "pack": "run-s pack:*",
@@ -20,7 +20,11 @@
     "minor:prepublish": "run prepublishOnly",
     "minor:runmate": "cd packages/runmate && pnpm run link",
     "minor:version": "run version patch",
-    "minor:publish": "run command \"pnpm publish --ignore-scripts\""
+    "minor:publish": "run command \"pnpm publish --ignore-scripts\"",
+    "================= publish patch =============": "",
+    "publish-patch": "run-s publish-patch:*",
+    "publish-patch:1": "run build && run schema tests && run accounts prepublishOnly",
+    "publish-patch:2": "run version patch && npm run minor:publish"
   },
   "dependencies": {
     "@powership/babel-plugins": "workspace:*",

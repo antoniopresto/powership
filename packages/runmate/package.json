@@ -1,6 +1,6 @@
 {
   "name": "runmate",
-  "version": "3.3.5",
+  "version": "3.3.7",
   "typings": "out",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -141,8 +141,8 @@
     "ts-toolbelt": "*",
     "ulid": "*",
     "url-pattern": "*",
-    "@powership/utils": "3.3.5",
-    "logstorm": "3.3.5",
+    "@powership/utils": "3.3.7",
+    "logstorm": "3.3.7",
     "@types/vorpal": "*",
     "@types/glob": "*"
   }
