@@ -72,9 +72,9 @@ export class GraphType<Definition extends ObjectFieldInput> {
           if (self._optionalId) return self._optionalId;
           throw new RuntimeError(
             [
-              'The method you are trying to execute expects the GraphType used to be previously identified.\n' +
+              'The method you are trying to execute requires the GraphType to be identified.\n' +
                 'Examples:\n' +
-                ' - `myNiceType.identify("Foo")`\n' +
+                ' - `Type.identify("Foo")`\n' +
                 " - `createType('Bar', FieldDefinition)`",
             ].join('\n'),
             this.__lazyGetter.definitionInput

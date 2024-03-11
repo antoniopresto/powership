@@ -33,3 +33,4 @@ import * as Internal from './internal';
 export { Internal };
 
 export * from './internal';
+export * from './__alias__';

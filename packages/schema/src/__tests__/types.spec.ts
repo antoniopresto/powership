@@ -1,4 +1,5 @@
 import { assert, IsExact } from 'conditional-type-checks';
+import { booleanType, objectType, unknownType } from '../__alias__';
 
 import { Infer } from '../Infer';
 import { createObjectType, ObjectType } from '../ObjectType';
@@ -22,6 +23,18 @@ describe('typings', () => {
         }
       >
     >(true);
+  });
+
+  test('alias', () => {
+    const sut = [
+      unknownType('foo'),
+      booleanType(),
+      objectType('ga', { name: 'string' }),
+    ]
+      .map((el) => el.optionalId)
+      .join('');
+
+    expect(sut).toEqual('fooga');
   });
 
   test('TypeFromObjectDefinition', () => {
