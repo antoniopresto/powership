@@ -1,6 +1,6 @@
 {
   "name": "@powership/boilerplate",
-  "version": "3.3.13",
+  "version": "3.3.23",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "sideEffects": false,
   "type": "module",
@@ -37,34 +37,5 @@
     "babel-config.cjs",
     "README.md"
   ],
-  "peerDependencies": {
-    "eslint-plugin-typescript-sort-keys": "*",
-    "eslint-plugin-sort-keys-fix": "*",
-    "eslint-plugin-import": "*",
-    "eslint-plugin-eslint-comments": "*",
-    "eslint-config-prettier": "*",
-    "eslint": "*",
-    "babel-preset-minify": "*",
-    "@typescript-eslint/parser": "*",
-    "@typescript-eslint/eslint-plugin": "*",
-    "@babel/core": "*",
-    "@babel/types": "*",
-    "@types/babel__core": "*",
-    "babel-plugin-add-import-extension": "*",
-    "babel-plugin-replace-import-extension": "*",
-    "esbuild": "*",
-    "jest": "*",
-    "npm-run-all": "*",
-    "prettier": "*",
-    "prettier-plugin-multiline-arrays": "*",
-    "rimraf": "*",
-    "ts-jest": "*",
-    "typedoc": "*",
-    "typescript": "*",
-    "@powership/babel-plugins": "3.3.13",
-    "@babel/preset-typescript": "*",
-    "@babel/preset-env": "*",
-    "@babel/plugin-transform-typescript": "*",
-    "@babel/cli": "*"
-  }
+  "peerDependencies": {}
 }

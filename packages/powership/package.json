@@ -1,6 +1,6 @@
 {
   "name": "powership",
-  "version": "3.3.13",
+  "version": "3.3.23",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "type": "module",
   "main": "./out/index.cjs",
@@ -12,15 +12,33 @@
       "import": "./out/index.mjs",
       "require": "./out/index.cjs"
     },
-    "./nodeutils": {
-      "types": "./out/nodeutils.d.ts",
-      "import": "./out/nodeutils.mjs",
-      "require": "./out/nodeutils.cjs"
+    "./server-utils": {
+      "types": "./server-utils/index.d.ts",
+      "import": "./server-utils/index.mjs",
+      "require": "./server-utils/index.cjs"
     }
   },
   "browser": {
     "out/index.mjs": "./out/browser/index.mjs",
     "out/index.cjs": "./out/browser/index.cjs"
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./out/index.d.ts"
+      ],
+      "server-utils": [
+        "./server-utils/index.d.ts"
+      ]
+    }
+  },
+  "bin": {
+    "zz": "./bin/bin.cjs",
+    "tsx": "./bin/bin.cjs",
+    "powership": "./bin/bin.cjs",
+    "echopm": "./bin/echopm.cjs",
+    "pm": "./bin/pm.cjs",
+    "root": "./bin/root.cjs"
   },
   "sideEffects": false,
   "license": "MIT",
@@ -54,6 +72,7 @@
     "@powership/server": "workspace:*",
     "@powership/transporter": "workspace:*",
     "@powership/utils": "workspace:*",
+    "@types/bun": "1.0.10",
     "plugin-engine": "workspace:*"
   },
   "devDependencies": {
@@ -96,6 +115,7 @@
   "files": [
     "package.json",
     "out/*",
+    "server-utils/*",
     "README.md"
   ],
   "typedoc": {
@@ -104,59 +124,5 @@
     "displayName": "Powership",
     "tsconfig": "./tsconfig.module.json"
   },
-  "peerDependencies": {
-    "@powership/utils": "3.3.13",
-    "@powership/schema": "3.3.13",
-    "@powership/entity": "3.3.13",
-    "highlight.js": "*",
-    "@powership/transporter": "3.3.13",
-    "dataloader": "*",
-    "plugin-hooks": "*",
-    "sift": "*",
-    "@types/dateformat": "*",
-    "@types/fs-extra": "*",
-    "@types/lodash": "*",
-    "@types/lodash-es": "*",
-    "@types/semver": "*",
-    "aggio": "*",
-    "awesome-phonenumber": "*",
-    "big.js": "*",
-    "bun-safe": "*",
-    "bun-types": "*",
-    "commander": "*",
-    "dateformat": "*",
-    "dayjs": "*",
-    "deep-diff": "*",
-    "deep-object-diff": "*",
-    "ejson": "*",
-    "fast-copy": "*",
-    "fast-deep-equal": "*",
-    "fs-extra": "*",
-    "glob": "*",
-    "graphql": "*",
-    "graphql-parse-resolve-info": "*",
-    "hoper": "*",
-    "immer": "*",
-    "json-schema-to-typescript": "*",
-    "jsondiffpatch": "*",
-    "lodash": "*",
-    "lodash-es": "*",
-    "mitt": "*",
-    "object-hash": "*",
-    "prettier": "*",
-    "qs": "*",
-    "semver": "*",
-    "slugify": "*",
-    "ts-toolbelt": "*",
-    "tsx": "*",
-    "ulid": "*",
-    "url-pattern": "*",
-    "plugin-engine": "3.3.13",
-    "body-parser": "*",
-    "graphql-playground-html": "*",
-    "http-errors": "*",
-    "http-status-codes": "*",
-    "logstorm": "3.3.13",
-    "@powership/server": "3.3.13"
-  }
+  "peerDependencies": {}
 }

@@ -1,5 +1,5 @@
 import { AnyFunction, filterNull, hey } from '@powership/utils';
-import { CWD, glob, nodePath } from '@powership/utils/out/node';
+import { CWD, glob, nodePath } from '@powership/utils/server-utils';
 import { Command } from 'commander';
 
 import { packageRunner, PackageRunnerExecInput } from '../packageRunner';
@@ -80,8 +80,12 @@ function _executeInPackages(
             includeRoot = true,
           } = options || {};
 
-          if (commands?.[0]?.startsWith('./')) {
+          if (commands?.[0]?.startsWith('.')) {
             kind = 'runfile';
+          }
+
+          if (commands.length > 1) {
+            kind = 'command';
           }
 
           const ignoreList = ignore?.split(/, ?/);

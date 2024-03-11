@@ -1,6 +1,6 @@
 {
   "name": "@powership/babel-plugins",
-  "version": "3.3.13",
+  "version": "3.3.23",
   "main": "./out/index.js",
   "sideEffects": false,
   "typings": "./out/index.d.ts",
@@ -55,28 +55,5 @@
     "displayName": "Babel Plugins",
     "tsconfig": "./tsconfig.module.json"
   },
-  "peerDependencies": {
-    "typescript": "*",
-    "typedoc": "*",
-    "ts-jest": "*",
-    "rimraf": "*",
-    "prettier-plugin-multiline-arrays": "*",
-    "prettier": "*",
-    "npm-run-all": "*",
-    "jest": "*",
-    "eslint-plugin-typescript-sort-keys": "*",
-    "eslint-plugin-sort-keys-fix": "*",
-    "eslint-plugin-import": "*",
-    "eslint-plugin-eslint-comments": "*",
-    "eslint-config-prettier": "*",
-    "eslint": "*",
-    "esbuild": "*",
-    "babel-plugin-replace-import-extension": "*",
-    "babel-plugin-add-import-extension": "*",
-    "@typescript-eslint/parser": "*",
-    "@typescript-eslint/eslint-plugin": "*",
-    "@types/babel__core": "*",
-    "@babel/types": "*",
-    "@babel/core": "*"
-  }
+  "peerDependencies": {}
 }

@@ -1,5 +1,5 @@
 import { hey, jsonParse, pick, setByPath } from '@powership/utils';
-import { CWD, nodePath } from '@powership/utils/out/node';
+import { CWD, nodePath } from '@powership/utils/server-utils';
 import { Command } from 'commander';
 
 import {

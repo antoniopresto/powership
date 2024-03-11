@@ -63,7 +63,7 @@ export interface LogStorm extends LogMethods {
 export function createLogger(
   name: string,
   level = _getDefaultLogLevel(),
-  options: LogstormOptions = {}
+  options: LogstormOptions = {},
 ): LogStorm {
   //
 
@@ -147,7 +147,7 @@ export function createLogger(
 
       const changed = await self.hooks.willPrint.dispatch(
         { values: args, method: methodName },
-        {}
+        {},
       );
 
       return handler.apply(this, changed.values);
@@ -233,7 +233,7 @@ export function checkLogLevel(level: any): LogLevel {
 
   if (!valid) {
     console.warn(
-      `Logstorm: "${level}" is not a valid log level. "silent" will be used as level.`
+      `Logstorm: "${level}" is not a valid log level. "silent" will be used as level.`,
     );
     return 'silent';
   }
@@ -261,7 +261,7 @@ function _getDefaultLogLevel(): LogLevel {
     console.warn(
       `Logstorm: value "${
         LOGSTORM_LEVEL || LOG_LEVEL
-      }" from process.env is not a valid log level.`
+      }" from process.env is not a valid log level.`,
     );
   }
 

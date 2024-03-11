@@ -1,5 +1,5 @@
 import { PackageJson, sortObject } from '@powership/utils';
-import { CWD, fsExtra, glob, nodePath } from '@powership/utils/out/node';
+import { CWD, fsExtra, glob, nodePath } from '@powership/utils/server-utils';
 
 export type ExportDepsOptions = {
   cwd?: string;

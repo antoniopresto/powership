@@ -1,10 +1,13 @@
 {
   "name": "@powership/utils",
-  "version": "3.3.13",
+  "version": "3.3.23",
   "typings": "out",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
   "type": "module",
+  "bin": {
+    "zz": "./out/zz/index.cjs"
+  },
   "scripts": {
     "test": "jest",
     "build": "run-s clear && run-p declarations build:*",
@@ -29,8 +32,11 @@
       ".": [
         "./out/index.d.ts"
       ],
-      "node": [
-        "./out/node.d.ts"
+      "server-utils": [
+        "./server-utils"
+      ],
+      "zz": [
+        "./out/zz/index.d.ts"
       ]
     }
   },
@@ -41,15 +47,20 @@
       "import": "./out/index.mjs",
       "require": "./out/index.cjs"
     },
-    "./node": {
-      "types": "./out/node.d.ts",
-      "import": "./out/node.mjs",
-      "require": "./out/node.cjs"
+    "./server-utils": {
+      "types": "./server-utils/index.d.ts",
+      "import": "./server-utils/index.mjs",
+      "require": "./server-utils/index.cjs"
     },
-    "./out/node": {
-      "types": "./out/node.d.ts",
-      "import": "./out/node.mjs",
-      "require": "./out/node.cjs"
+    "./out/zz": {
+      "types": "./out/zz/index.d.ts",
+      "import": "./out/zz/index.mjs",
+      "require": "./out/zz/index.cjs"
+    },
+    "./zz": {
+      "types": "./out/zz/index.d.ts",
+      "import": "./out/zz/index.mjs",
+      "require": "./out/zz/index.cjs"
     }
   },
   "browser": {
@@ -59,11 +70,13 @@
   "description": "powership utils and helper functions",
   "keywords": [],
   "dependencies": {
+    "@types/bun": "1.0.10",
     "@types/dateformat": "5.0.2",
     "@types/fs-extra": "9.0.13",
     "@types/lodash": "4.14.191",
     "@types/lodash-es": "4.17.12",
     "@types/semver": "7.5.8",
+    "add": "2.0.6",
     "aggio": "0.2.0",
     "awesome-phonenumber": "6.2.0",
     "big.js": "6.2.1",
@@ -87,10 +100,12 @@
     "jsondiffpatch": "^0.4.1",
     "lodash": "4.17.21",
     "lodash-es": "4.17.21",
+    "minimatch": "9.0.3",
     "mitt": "3.0.0",
     "object-hash": "3.0.0",
     "plugin-hooks": "2.0.0",
     "prettier": "2.8.8",
+    "pretty-format": "29.7.0",
     "qs": "6.11.2",
     "semver": "7.6.0",
     "slugify": "1.6.5",
@@ -138,6 +153,7 @@
   "files": [
     "package.json",
     "out/*",
+    "server-utils/*",
     "README.md"
   ],
   "prettier": {
@@ -149,45 +165,5 @@
     "displayName": "Utils - A collection of common utilities. Internal or from other libraries",
     "tsconfig": "./tsconfig.module.json"
   },
-  "peerDependencies": {
-    "url-pattern": "*",
-    "ulid": "*",
-    "tsx": "*",
-    "ts-toolbelt": "*",
-    "slugify": "*",
-    "semver": "*",
-    "qs": "*",
-    "prettier": "*",
-    "plugin-hooks": "*",
-    "object-hash": "*",
-    "mitt": "*",
-    "lodash-es": "*",
-    "lodash": "*",
-    "jsondiffpatch": "*",
-    "json-schema-to-typescript": "*",
-    "immer": "*",
-    "hoper": "*",
-    "graphql-parse-resolve-info": "*",
-    "graphql": "*",
-    "glob": "*",
-    "fs-extra": "*",
-    "fast-deep-equal": "*",
-    "fast-copy": "*",
-    "ejson": "*",
-    "deep-object-diff": "*",
-    "deep-diff": "*",
-    "dayjs": "*",
-    "dateformat": "*",
-    "commander": "*",
-    "bun-types": "*",
-    "bun-safe": "*",
-    "big.js": "*",
-    "awesome-phonenumber": "*",
-    "aggio": "*",
-    "@types/semver": "*",
-    "@types/lodash-es": "*",
-    "@types/lodash": "*",
-    "@types/fs-extra": "*",
-    "@types/dateformat": "*"
-  }
+  "peerDependencies": {}
 }

@@ -7,6 +7,7 @@
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/packages/entity/generated" />
       <excludeFolder url="file://$MODULE_DIR$/.idea/dictionaries" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/utils/zz" />
       <excludePattern pattern="packages/**/lib/" />
       <excludePattern pattern="out" />
     </content>
