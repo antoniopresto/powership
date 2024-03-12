@@ -1,6 +1,7 @@
 import nodePath from 'path';
 import process from 'process';
 
+import { hey } from '@powership/utils';
 import fs from 'fs-extra';
 import * as glob from 'glob';
 
@@ -29,7 +30,7 @@ export function findWorkspacePackages(init?: FindWorkspacePackagesInit) {
     : null;
 
   if (!foundPatterns) {
-    console.warn(`⚠️ No workspaces config found in ${rootDir}`);
+    hey.warn(`⚠️ No workspaces config found in ${rootDir}`);
     foundPatterns = [];
   }
 

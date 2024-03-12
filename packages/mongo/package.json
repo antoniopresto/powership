@@ -1,6 +1,6 @@
 {
   "name": "@powership/mongo",
-  "version": "3.3.10",
+  "version": "3.3.12",
   "type": "module",
   "main": "./out/index.cjs",
   "module": "./out/index.mjs",
@@ -101,7 +101,6 @@
     "big.js": "*",
     "bun-safe": "*",
     "bun-types": "*",
-    "chalk": "*",
     "commander": "*",
     "dateformat": "*",
     "dayjs": "*",
@@ -130,9 +129,9 @@
     "tsx": "*",
     "ulid": "*",
     "url-pattern": "*",
-    "@powership/utils": "3.3.10",
-    "@powership/schema": "3.3.10",
-    "@powership/transporter": "3.3.10",
+    "@powership/utils": "3.3.12",
+    "@powership/schema": "3.3.12",
+    "@powership/transporter": "3.3.12",
     "mongodb": "*"
   },
   "files": [

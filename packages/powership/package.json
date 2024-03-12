@@ -1,6 +1,6 @@
 {
   "name": "powership",
-  "version": "3.3.10",
+  "version": "3.3.12",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "type": "module",
   "main": "./out/index.cjs",
@@ -105,11 +105,11 @@
     "tsconfig": "./tsconfig.module.json"
   },
   "peerDependencies": {
-    "@powership/utils": "3.3.10",
-    "@powership/schema": "3.3.10",
-    "@powership/entity": "3.3.10",
+    "@powership/utils": "3.3.12",
+    "@powership/schema": "3.3.12",
+    "@powership/entity": "3.3.12",
     "highlight.js": "*",
-    "@powership/transporter": "3.3.10",
+    "@powership/transporter": "3.3.12",
     "dataloader": "*",
     "plugin-hooks": "*",
     "sift": "*",
@@ -123,7 +123,6 @@
     "big.js": "*",
     "bun-safe": "*",
     "bun-types": "*",
-    "chalk": "*",
     "commander": "*",
     "dateformat": "*",
     "dayjs": "*",
@@ -152,12 +151,12 @@
     "tsx": "*",
     "ulid": "*",
     "url-pattern": "*",
-    "plugin-engine": "3.3.10",
+    "plugin-engine": "3.3.12",
     "body-parser": "*",
     "graphql-playground-html": "*",
     "http-errors": "*",
     "http-status-codes": "*",
-    "logstorm": "3.3.10",
-    "@powership/server": "3.3.10"
+    "logstorm": "3.3.12",
+    "@powership/server": "3.3.12"
   }
 }

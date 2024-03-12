@@ -49,7 +49,7 @@ export function setJsonValue(program: Command) {
           setByPath(json, objectPath, jsonValue);
 
           if (dryRun) {
-            console.info(nodePath.relative(util.cwd, jsonPath), '\n', json);
+            console.warn(nodePath.relative(util.cwd, jsonPath), '\n', json);
           } else {
             // @ts-ignore
             writePackageJSON(jsonPath, json);

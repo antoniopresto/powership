@@ -1,6 +1,6 @@
 {
   "name": "logstorm",
-  "version": "3.3.10",
+  "version": "3.3.12",
   "typings": "out",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "type": "module",
@@ -66,8 +66,7 @@
     "rimraf": "5.0.5",
     "ts-jest": "29.1.2",
     "typedoc": "0.25.11",
-    "typescript": "5.4.2",
-    "chalk": "4.1.2"
+    "typescript": "5.4.2"
   },
   "files": [
     "package.json",
@@ -94,7 +93,6 @@
     "big.js": "*",
     "bun-safe": "*",
     "bun-types": "*",
-    "chalk": "*",
     "commander": "*",
     "dateformat": "*",
     "dayjs": "*",
@@ -124,6 +122,6 @@
     "tsx": "*",
     "ulid": "*",
     "url-pattern": "*",
-    "@powership/utils": "3.3.10"
+    "@powership/utils": "3.3.12"
   }
 }

@@ -2,7 +2,6 @@ import nodePath from 'path';
 
 import { hey } from '@powership/utils';
 import { chunk } from 'lodash';
-import { logstorm } from 'logstorm';
 
 import { DepTree, PackageItem } from './depTree';
 import { findWorkspacePackages } from './findWorkspacePackages';
@@ -38,9 +37,7 @@ export function getPackageRunnerUtils(jsonPath: string) {
             if (json.scripts?.[init.script]) {
               return `npm run ${init.script}`;
             } else {
-              logstorm.log(
-                `${json.name} skipped "${init.script}" - not defined.`
-              );
+              hey.warn(`${json.name} skipped "${init.script}" - not defined.`);
               return null;
             }
           }
@@ -111,20 +108,11 @@ export async function packageRunner(
   const files = findWorkspacePackages({ cwd, includeRoot });
 
   if (files.length) {
-    (() => {
-      // force log
-      const level = logstorm.level;
-      const prefix = logstorm.prefix;
-      logstorm.level = 'info';
-      logstorm.prefix = false;
-      logstorm.info(
-        `Running command in:\n${(() => {
-          return files.map((el) => `  ‣ ${el.relative}`).join('\n');
-        })()}`
-      );
-      logstorm.level = level;
-      logstorm.prefix = prefix;
-    })();
+    hey.blue(
+      `Running command in:\n${(() => {
+        return files.map((el) => `  ‣ ${el.relative}`).join('\n');
+      })()}`
+    );
   }
 
   const utils = files.map((file) => getPackageRunnerUtils(file.path));
@@ -158,7 +146,7 @@ export async function packageRunner(
           if (from) {
             canRun = canRun || names.has(from);
             if (!canRun) {
-              console.info(`Skipped "${[...names.values()]}"`);
+              hey.warn(`Skipped "${[...names.values()]}"`);
               return;
             }
           }

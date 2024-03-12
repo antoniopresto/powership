@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import { hey } from '@powership/utils';
 import { Command } from 'commander';
 
 import { packageRunner } from '../packageRunner';
@@ -24,12 +24,12 @@ export function list(program: Command) {
 
         await printWithScroll(
           runner.utils.flatMap(({ version, name, cwd: folder }) => {
-            return `${name}@${version} ${chalk.bgBlack.grey(folder)}`;
+            return `${name}@${version} ${folder}`;
           }),
           timeout
         );
       } catch (e: any) {
-        console.error(chalk.red(e));
+        hey.error(e);
       }
     });
 }

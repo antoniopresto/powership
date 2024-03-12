@@ -1,5 +1,3 @@
-// @only-server
-import chalk from 'chalk';
 import { AsyncPlugin, createAsyncPlugin } from 'plugin-hooks';
 
 export const LogMethodNames = [
@@ -96,10 +94,6 @@ export function createLogger(
       const handler = self.logger?.[loggerKey];
       if (typeof handler !== 'function') return;
 
-      const colorize = (typeof chalk !== 'undefined' ? chalk : undefined)?.[
-        getColor(self.color) || ''
-      ];
-
       let time = '';
       const prefix = (() => {
         if (self.prefix === false) return false;
@@ -115,9 +109,7 @@ export function createLogger(
         }
 
         if (pre) {
-          pre = `${time} ${
-            typeof colorize === 'function' ? colorize(pre) : pre
-          }`;
+          pre = `${time} ${pre}`;
           pre += ' ';
         } else {
           pre = time + ' ';

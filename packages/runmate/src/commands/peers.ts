@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import { hey } from '@powership/utils';
 import { Command } from 'commander';
 
 import { packageRunner } from '../packageRunner';
@@ -34,7 +34,7 @@ export function peers(program: Command) {
           utils.saveJSON();
         });
       } catch (e: any) {
-        console.error(chalk.red(e));
+        hey.error(e);
       }
     });
 }

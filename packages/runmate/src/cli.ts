@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import chalk from 'chalk';
+import { hey } from '@powership/utils';
 import { Command } from 'commander';
 
 import { align } from './commands/align';
@@ -39,7 +39,7 @@ program
         }
       );
     } catch (e: any) {
-      console.error(chalk.redBright.bgBlack(e));
+      hey.error(e);
     }
   });
 
@@ -65,7 +65,7 @@ program
         pattern: src,
       });
     } catch (e: any) {
-      console.error(chalk.red(e));
+      hey.error(e);
     }
   });
 
@@ -143,7 +143,7 @@ program
         { chunkSize: +chunkSize, from }
       );
     } catch (e: any) {
-      console.error(chalk.red(e));
+      hey.error(e);
     }
   });
 

@@ -1,6 +1,6 @@
 import { inspect } from 'util';
 
-import chalk from 'chalk';
+import { hey } from '@powership/utils';
 import { Command } from 'commander';
 import semver from 'semver';
 
@@ -54,9 +54,9 @@ export function align(program: Command) {
           pkg.saveJSON();
         });
 
-        console.log(chalk.cyan(inspect({ finalVersions }, { depth: 10 })));
+        hey.blue(inspect({ finalVersions }, { depth: 10 }));
       } catch (e: any) {
-        console.error(chalk.red(e));
+        hey.error(e);
       }
     });
 }

@@ -149,9 +149,6 @@ importers:
       bun-types:
         specifier: '*'
         version: 1.0.29
-      chalk:
-        specifier: '*'
-        version: 4.1.2
       commander:
         specifier: '*'
         version: 10.0.0
@@ -522,9 +519,6 @@ importers:
       bun-types:
         specifier: '*'
         version: 1.0.29
-      chalk:
-        specifier: '*'
-        version: 4.1.2
       commander:
         specifier: '*'
         version: 10.0.0
@@ -766,9 +760,6 @@ importers:
       bun-types:
         specifier: '*'
         version: 1.0.29
-      chalk:
-        specifier: '*'
-        version: 4.1.2
       commander:
         specifier: '*'
         version: 10.0.0
@@ -1101,9 +1092,6 @@ importers:
       babel-preset-minify:
         specifier: 0.5.2
         version: 0.5.2
-      chalk:
-        specifier: 4.1.2
-        version: 4.1.2
       eslint:
         specifier: 8.57.0
         version: 8.57.0
@@ -1188,9 +1176,6 @@ importers:
       bun-types:
         specifier: '*'
         version: 1.0.29
-      chalk:
-        specifier: '*'
-        version: 4.1.2
       commander:
         specifier: '*'
         version: 10.0.0
@@ -1376,7 +1361,7 @@ importers:
         specifier: workspace:*
         version: link:../schema
       '@powership/transporter':
-        specifier: 3.3.3
+        specifier: 3.3.11
         version: link:../transporter
       '@powership/utils':
         specifier: workspace:*
@@ -1411,9 +1396,6 @@ importers:
       bun-types:
         specifier: '*'
         version: 1.0.29
-      chalk:
-        specifier: '*'
-        version: 4.1.2
       commander:
         specifier: '*'
         version: 10.0.0
@@ -1637,9 +1619,6 @@ importers:
       bun-types:
         specifier: '*'
         version: 1.0.29
-      chalk:
-        specifier: '*'
-        version: 4.1.2
       commander:
         specifier: '*'
         version: 10.0.0
@@ -1707,7 +1686,7 @@ importers:
         specifier: '*'
         version: 4.17.21
       logstorm:
-        specifier: 3.3.3
+        specifier: 3.3.11
         version: link:../logstorm
       mitt:
         specifier: '*'
@@ -1893,9 +1872,6 @@ importers:
       bun-types:
         specifier: '*'
         version: 1.0.29
-      chalk:
-        specifier: 4.1.2
-        version: 4.1.2
       commander:
         specifier: 10.0.0
         version: 10.0.0
@@ -1950,9 +1926,6 @@ importers:
       lodash-es:
         specifier: 4.17.21
         version: 4.17.21
-      logstorm:
-        specifier: workspace:*
-        version: link:../logstorm
       mitt:
         specifier: '*'
         version: 3.0.0
@@ -2092,9 +2065,6 @@ importers:
       bun-types:
         specifier: '*'
         version: 1.0.29
-      chalk:
-        specifier: '*'
-        version: 4.1.2
       commander:
         specifier: '*'
         version: 10.0.0
@@ -2327,9 +2297,6 @@ importers:
       bun-types:
         specifier: '*'
         version: 1.0.29
-      chalk:
-        specifier: '*'
-        version: 4.1.2
       commander:
         specifier: '*'
         version: 10.0.0
@@ -2574,9 +2541,6 @@ importers:
       bun-types:
         specifier: '*'
         version: 1.0.29
-      chalk:
-        specifier: '*'
-        version: 4.1.2
       commander:
         specifier: '*'
         version: 10.0.0
@@ -2785,9 +2749,6 @@ importers:
       bun-types:
         specifier: 1.0.29
         version: 1.0.29
-      chalk:
-        specifier: 4.1.2
-        version: 4.1.2
       commander:
         specifier: 10.0.0
         version: 10.0.0
@@ -6551,6 +6512,7 @@ packages:
       - babel-plugin-macros
       - supports-color
       - ts-node
+    dev: false
 
   /create-jest@29.7.0(@types/node@20.11.25)(ts-node@10.9.1):
     resolution: {integrity: sha512-Adz2bdH0Vq3F53KEMJOoftQFutWCukm6J24wbPWRO4k1kMY7gS7ds/uoJkNuV8wDCtWWnuwGcJwpWcih+zEW1Q==}
@@ -6569,7 +6531,6 @@ packages:
       - babel-plugin-macros
       - supports-color
       - ts-node
-    dev: true
 
   /create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
@@ -8548,6 +8509,7 @@ packages:
       - babel-plugin-macros
       - supports-color
       - ts-node
+    dev: false
 
   /jest-cli@29.7.0(@types/node@20.11.25)(ts-node@10.9.1):
     resolution: {integrity: sha512-OVVobw2IubN/GSYsxETi+gOe7Ka59EFMR/twOU3Jb2GnKKeMGJB5SGUUrEz3SFVmJASUdZUzy83sLNNQ2gZslg==}
@@ -8575,7 +8537,6 @@ packages:
       - babel-plugin-macros
       - supports-color
       - ts-node
-    dev: true
 
   /jest-config@29.7.0(@types/node@16.18.3)(ts-node@10.9.1):
     resolution: {integrity: sha512-uXbpfeQ7R6TZBqI3/TxCU4q4ttk3u0PJeC+E0zbfSoSjq6bJ7buBPxzQPL0ifrkY4DNu4JUdk0ImlBUYi840eQ==}
@@ -8616,6 +8577,7 @@ packages:
     transitivePeerDependencies:
       - babel-plugin-macros
       - supports-color
+    dev: false
 
   /jest-config@29.7.0(@types/node@20.11.25)(ts-node@10.9.1):
     resolution: {integrity: sha512-uXbpfeQ7R6TZBqI3/TxCU4q4ttk3u0PJeC+E0zbfSoSjq6bJ7buBPxzQPL0ifrkY4DNu4JUdk0ImlBUYi840eQ==}
@@ -8969,6 +8931,7 @@ packages:
       - babel-plugin-macros
       - supports-color
       - ts-node
+    dev: false
 
   /jest@29.7.0(@types/node@20.11.25)(ts-node@10.9.1):
     resolution: {integrity: sha512-NIy3oAFp9shda19hy4HK0HRTWKtPJmGdnvywu01nOqNC2vZg+Z+fvJDxpMQA88eb2I9EcafcdjYgsDthnYTvGw==}
@@ -8989,7 +8952,6 @@ packages:
       - babel-plugin-macros
       - supports-color
       - ts-node
-    dev: true
 
   /js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -10819,7 +10781,7 @@ packages:
       bs-logger: 0.2.6
       esbuild: 0.20.1
       fast-json-stable-stringify: 2.1.0
-      jest: 29.7.0(@types/node@16.18.3)(ts-node@10.9.1)
+      jest: 29.7.0(@types/node@20.11.25)(ts-node@10.9.1)
       jest-util: 29.7.0
       json5: 2.2.3
       lodash.memoize: 4.1.2

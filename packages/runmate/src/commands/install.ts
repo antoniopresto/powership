@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import { hey } from '@powership/utils';
 import { Command } from 'commander';
 
 import { packageRunner } from '../packageRunner';
@@ -32,7 +32,7 @@ export function install(program: Command) {
           await runner.run({ command: 'npm install' });
         }
       } catch (e: any) {
-        console.error(chalk.red(e));
+        hey.error(e);
       }
     });
 
@@ -54,7 +54,7 @@ export function install(program: Command) {
       try {
         await packageVersion(releaseTypeOrVersion, pattern);
       } catch (e: any) {
-        console.error(chalk.red(e));
+        hey.error(e);
       }
     });
 }
