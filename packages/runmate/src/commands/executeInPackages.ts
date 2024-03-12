@@ -1,5 +1,5 @@
-import { AnyFunction, filterNull } from '@powership/utils';
-import { chalk, CWD, glob, nodePath } from '@powership/utils/out/node';
+import { AnyFunction, filterNull, hey } from '@powership/utils';
+import { CWD, glob, nodePath } from '@powership/utils/out/node';
 import { Command } from 'commander';
 
 import { packageRunner, PackageRunnerExecInput } from '../packageRunner';
@@ -145,10 +145,8 @@ function _executeInPackages(
               })();
 
               if (!functions?.length) {
-                console.error(
-                  chalk.red(
-                    `‼️ No files found with pattern: ${commands?.join(' ')}`
-                  )
+                hey.error(
+                  `‼️ No files found with pattern: ${commands?.join(' ')}`
                 );
                 return;
               }

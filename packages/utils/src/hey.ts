@@ -1,18 +1,23 @@
-import * as process from 'process';
+// @only-server
+import fs from 'fs';
 
-export async function hey(
-  strings: TemplateStringsArray | string,
-  ...values: any[]
-) {
+import { tryCatch } from './tryCatch';
+
+function _hey(strings: TemplateStringsArray | string, ...values: any[]) {
   const formatted = heyFormat(strings, ...values) + '\n';
-  await safeWrite(formatted);
+  write(formatted);
   return formatted;
 }
 
-hey.styles = {
-  red: '\x1b[31m',
+const red = '\x1b[31m';
+const yellow = '\x1b[33m';
+
+export const styles = {
+  red: red,
+  error: red,
+  warn: yellow,
   green: '\x1b[32m',
-  yellow: '\x1b[33m',
+  yellow: yellow,
   blue: '\x1b[34m',
   bold: '\x1b[1m',
   underline: '\x1b[4m',
@@ -20,10 +25,9 @@ hey.styles = {
   reset: '\x1b[0m',
 };
 
-export function heyFormat(
-  input: string | TemplateStringsArray,
-  ...values: any[]
-) {
+_hey.styles = styles;
+
+function heyFormat(input: string | TemplateStringsArray, ...values: any[]) {
   let text = (() => {
     if (typeof input === 'string') return input;
     let result = input[0];
@@ -35,18 +39,18 @@ export function heyFormat(
 
   const regex = new RegExp(
     // /<(red|green|yellow|blue|bold|underline|strike)>(.*?)<\/\1>/g,
-    `<(${Object.keys(hey.styles).join('|')})>(.*?)<\\/\\1>`,
+    `<(${Object.keys(_hey.styles).join('|')})>(.*?)<\\/\\1>`,
     'g'
   );
 
   text = text.replace(regex, (_, style, el) => {
-    return `${hey.styles[style]}${heyFormat(el)}${hey.styles.reset}`;
+    return `${_hey.styles[style]}${heyFormat(el)}${_hey.styles.reset}`;
   });
 
-  return trimTemplateString(text);
+  return trimTabs(text);
 }
 
-async function safeWrite(input: string) {
+function write(input: string) {
   if (
     typeof process === 'undefined' ||
     typeof process?.stdout?.write !== 'function'
@@ -54,17 +58,14 @@ async function safeWrite(input: string) {
     return console.info(input);
   }
 
-  if (!process.stdout.writableEnded) {
-    return new Promise((resolve, reject) => {
-      process.stdout.write(input, (err) => {
-        if (err) return reject(err);
-        resolve(input);
-      });
-    });
+  const [err] = tryCatch(() => fs.writeSync(process.stdout.fd, input));
+
+  if (err) {
+    console.info(input);
   }
 }
 
-export function trimTemplateString(
+export function trimTabs(
   input: string | TemplateStringsArray,
   ...values: any[]
 ): string {
@@ -89,9 +90,50 @@ export function templateStringToText<T = any>(
   ...values: T[]
 ) {
   if (typeof input === 'string') return input;
-  let result = input[0];
-  values.forEach((value, i) => {
-    result += value + input[i + 1];
-  });
-  return result;
+  if (Array.isArray(input)) {
+    let result = input[0];
+    values.forEach((value, i) => {
+      result += value + input[i + 1];
+    });
+    return result;
+  }
+  return input?.toString?.();
 }
+
+export type Styles = typeof styles & {};
+
+export type HeyParams = readonly [
+  strings: TemplateStringsArray | string | { toString(): string },
+  ...values: any[]
+];
+
+const proxy = new Proxy(_hey, {
+  get(_receiver, key: any) {
+    if (key in styles) {
+      _hey[key] =
+        _hey[key] ||
+        ((...args: any[]) => {
+          // @ts-ignore
+          const string = templateStringToText(...args);
+          return _hey(`<${key}>${string}</${key}>`, []);
+        });
+    }
+
+    return _hey[key];
+  },
+  set(_, key, value) {
+    _hey[key] = value;
+    return true;
+  },
+});
+
+export type Hey = {
+  (...args: HeyParams): string;
+  format(...args: HeyParams): string;
+} & {
+  [K in keyof Styles]: (...args: HeyParams) => string;
+} & {
+  styles: Styles;
+} & {};
+
+export const hey = proxy as unknown as Hey;

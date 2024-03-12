@@ -1,5 +1,5 @@
-import { jsonParse, setByPath } from '@powership/utils';
-import { chalk, nodePath } from '@powership/utils/out/node';
+import { hey, jsonParse, setByPath } from '@powership/utils';
+import { nodePath } from '@powership/utils/out/node';
 import { Command } from 'commander';
 
 import { writePackageJSON } from '../handleJSON';
@@ -56,7 +56,7 @@ export function setJsonValue(program: Command) {
           }
         });
       } catch (e: any) {
-        console.error(chalk.red(e));
+        hey.error(e);
       }
     });
 
@@ -78,7 +78,7 @@ export function setJsonValue(program: Command) {
       try {
         await packageVersion(releaseTypeOrVersion, pattern);
       } catch (e: any) {
-        console.error(chalk.red(e));
+        hey.error(e);
       }
     });
 }

@@ -1,10 +1,9 @@
 import nodePath from 'path';
 import nodeURL from 'url';
 
-import chalk from 'chalk';
 import * as commander from 'commander';
 import fsExtra from 'fs-extra';
-import glob from 'glob';
+import { glob, Glob, globIterate, globIterateSync, globSync } from 'glob';
 import * as semver from 'semver';
 import urlPattern from 'url-pattern';
 
@@ -54,9 +53,12 @@ export {
   fsExtra as fs,
   nodePath,
   nodeURL,
-  chalk,
-  glob,
   semver,
   urlPattern,
   commander,
+  glob,
+  Glob,
+  globIterate,
+  globIterateSync,
+  globSync,
 };

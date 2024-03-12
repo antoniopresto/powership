@@ -4,7 +4,7 @@ describe('hey', () => {
   // afterEach();
 
   test('basic test', async () => {
-    const sut = await hey`
+    const sut = hey`
       Today is a nice day to 
           go <strike><bold><blue>outside!</blue></bold></strike>
           lets go?
@@ -16,5 +16,9 @@ describe('hey', () => {
       '    lets go?',
       '',
     ]);
+  });
+
+  test('error', () => {
+    hey.error(new Error('foo'));
   });
 });
