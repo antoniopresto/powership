@@ -1,6 +1,6 @@
 {
   "name": "@powership/deepstate",
-  "version": "3.3.12",
+  "version": "3.3.13",
   "main": "out/index.cjs",
   "module": "out/index.mjs",
   "sideEffects": false,
@@ -119,7 +119,7 @@
     "tsx": "*",
     "ulid": "*",
     "url-pattern": "*",
-    "@powership/utils": "3.3.12",
-    "@powership/schema": "3.3.12"
+    "@powership/utils": "3.3.13",
+    "@powership/schema": "3.3.13"
   }
 }

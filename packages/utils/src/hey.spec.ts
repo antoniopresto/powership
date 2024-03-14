@@ -18,6 +18,10 @@ describe('hey', () => {
     ]);
   });
 
+  test('blue', () => {
+    hey.blue('Hello!');
+  });
+
   test('error', () => {
     hey.error(new Error('foo'));
   });

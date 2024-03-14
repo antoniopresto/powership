@@ -107,26 +107,6 @@ export type HeyParams = readonly [
   ...values: any[]
 ];
 
-const proxy = new Proxy(_hey, {
-  get(_receiver, key: any) {
-    if (key in styles) {
-      _hey[key] =
-        _hey[key] ||
-        ((...args: any[]) => {
-          // @ts-ignore
-          const string = templateStringToText(...args);
-          return _hey(`<${key}>${string}</${key}>`, []);
-        });
-    }
-
-    return _hey[key];
-  },
-  set(_, key, value) {
-    _hey[key] = value;
-    return true;
-  },
-});
-
 export type Hey = {
   (...args: HeyParams): string;
   format(...args: HeyParams): string;
@@ -136,4 +116,14 @@ export type Hey = {
   styles: Styles;
 } & {};
 
-export const hey = proxy as unknown as Hey;
+Object.keys(styles).forEach((key) => {
+  Object.defineProperty(_hey, key, {
+    value: (...args: any[]) => {
+      // @ts-ignore
+      const string = `<${key}>${templateStringToText(...args)}</${key}>`;
+      return _hey(string);
+    },
+  });
+});
+
+export const hey = _hey as unknown as Hey;

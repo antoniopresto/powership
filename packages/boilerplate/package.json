@@ -1,6 +1,6 @@
 {
   "name": "@powership/boilerplate",
-  "version": "3.3.12",
+  "version": "3.3.13",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "sideEffects": false,
   "type": "module",
@@ -61,7 +61,7 @@
     "ts-jest": "*",
     "typedoc": "*",
     "typescript": "*",
-    "@powership/babel-plugins": "3.3.12",
+    "@powership/babel-plugins": "3.3.13",
     "@babel/preset-typescript": "*",
     "@babel/preset-env": "*",
     "@babel/plugin-transform-typescript": "*",

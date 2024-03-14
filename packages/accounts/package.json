@@ -1,6 +1,6 @@
 {
   "name": "@powership/accounts",
-  "version": "3.3.12",
+  "version": "3.3.13",
   "description": "Powership accounts",
   "type": "module",
   "main": "./out/index.cjs",
@@ -91,8 +91,8 @@
   "peerDependencies": {
     "scrypt-kdf": "*",
     "jsonwebtoken": "*",
-    "@powership/schema": "3.3.12",
-    "@powership/utils": "3.3.12",
+    "@powership/schema": "3.3.13",
+    "@powership/utils": "3.3.13",
     "dataloader": "*",
     "plugin-hooks": "*",
     "sift": "*",
@@ -134,7 +134,7 @@
     "tsx": "*",
     "ulid": "*",
     "url-pattern": "*",
-    "@powership/transporter": "3.3.12",
-    "@powership/entity": "3.3.12"
+    "@powership/transporter": "3.3.13",
+    "@powership/entity": "3.3.13"
   }
 }
