@@ -93,15 +93,16 @@ export function setDefaultTransporter(transporter: Transporter | undefined) {
 
 export function createEntity<
   InputDefinition extends ObjectDefinitionInput,
-  Indexes extends DocumentIndexesConfig,
-  Options extends EntityOptions<InputDefinition, Indexes> = EntityOptions<
-    InputDefinition,
-    Indexes
-  >
+  Indexes extends DocumentIndexesConfig
 >(
-  configOptions:
-    | EntityOptions<InputDefinition, Indexes>
-    | (() => EntityOptions<InputDefinition, Indexes>)
+  configOptions: () => EntityOptions<InputDefinition, Indexes>
+): Entity<InputDefinition, Indexes>;
+
+export function createEntity<
+  InputDefinition extends ObjectDefinitionInput,
+  Indexes extends DocumentIndexesConfig
+>(
+  configOptions: EntityOptions<InputDefinition, Indexes>
 ): Entity<InputDefinition, Indexes>;
 
 export function createEntity(
