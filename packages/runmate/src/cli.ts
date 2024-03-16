@@ -7,7 +7,7 @@ import { align } from './commands/align';
 import { executeInPackages } from './commands/executeInPackages';
 import { list } from './commands/list';
 import { peers } from './commands/peers';
-import { setJsonValue } from './commands/set-json-value';
+import { updateJsonValue } from './commands/update-json-value';
 import { version } from './commands/version';
 import { packageRunner, PackageRunnerUtils } from './packageRunner';
 import { packageJSONDependencyKeys } from './packageVersion';
@@ -150,7 +150,7 @@ program
 list(program);
 version(program);
 align(program);
-setJsonValue(program);
+updateJsonValue(program);
 peers(program);
 
 program.version('> Runmate ' + require('../package.json').version);

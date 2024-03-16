@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 import { hey, jsonParse, setByPath } from '@powership/utils';
 import { nodePath } from '@powership/utils/out/node';
 import { Command } from 'commander';
@@ -6,7 +8,9 @@ import { writePackageJSON } from '../handleJSON';
 import { packageRunner } from '../packageRunner';
 import { packageVersion } from '../packageVersion';
 
-export function setJsonValue(program: Command) {
+export function updateJsonValue(program: Command) {}
+
+function update(program: Command, op: 'get' | 'set') {
   program
     .command('set')
     .description('Set json value')
@@ -44,41 +48,22 @@ export function setJsonValue(program: Command) {
             throw error;
           }
 
+          if (op === 'get') {
+            fs.writeSync(process.stdout.fd, value);
+            return process.exit(0);
+          }
+
           const jsonValue = jsonParse(value)[1] || value;
           // @ts-ignore
           setByPath(json, objectPath, jsonValue);
 
-          if (dryRun) {
-            console.warn(nodePath.relative(util.cwd, jsonPath), '\n', json);
-          } else {
-            // @ts-ignore
-            writePackageJSON(jsonPath, json);
-          }
+          // @ts-ignore
+          writePackageJSON(jsonPath, json);
+          return;
         });
       } catch (e: any) {
         hey.error(e);
-      }
-    });
-
-  program
-    .command(
-      'version <releaseTypeOrVersion> [pattern]' //
-    )
-    .description(
-      [
-        'Update package versions.',
-        'Examples: ',
-        '➜  version 1.0.0',
-        '➜  version minor',
-        '➜  version major ./packages/utils',
-      ].join('\n')
-    )
-    .alias('v')
-    .action(async function run(releaseTypeOrVersion, pattern): Promise<any> {
-      try {
-        await packageVersion(releaseTypeOrVersion, pattern);
-      } catch (e: any) {
-        hey.error(e);
+        process.exit(1);
       }
     });
 }

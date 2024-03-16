@@ -35,26 +35,4 @@ export function install(program: Command) {
         hey.error(e);
       }
     });
-
-  program
-    .command(
-      'version <releaseTypeOrVersion> [pattern]' //
-    )
-    .description(
-      [
-        'Update package versions.',
-        'Examples: ',
-        '➜  version 1.0.0',
-        '➜  version minor',
-        '➜  version major ./packages/utils',
-      ].join('\n')
-    )
-    .alias('v')
-    .action(async function run(releaseTypeOrVersion, pattern): Promise<any> {
-      try {
-        await packageVersion(releaseTypeOrVersion, pattern);
-      } catch (e: any) {
-        hey.error(e);
-      }
-    });
 }
