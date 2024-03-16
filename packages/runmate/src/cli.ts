@@ -5,9 +5,9 @@ import { Command } from 'commander';
 
 import { align } from './commands/align';
 import { executeInPackages } from './commands/executeInPackages';
+import { getSetJSON } from './commands/getSetJSON';
 import { list } from './commands/list';
 import { peers } from './commands/peers';
-import { updateJsonValue } from './commands/update-json-value';
 import { version } from './commands/version';
 import { packageRunner, PackageRunnerUtils } from './packageRunner';
 import { packageJSONDependencyKeys } from './packageVersion';
@@ -30,7 +30,7 @@ program
     const { chunkSize, cwd: src } = options || {};
 
     try {
-      const runner = await packageRunner(src);
+      const runner = await packageRunner({ cwd: src, includeRoot: true });
       await runner.run(
         { command: 'rm -rf node_modules' },
         {
@@ -91,6 +91,7 @@ program
       const runner = await packageRunner({
         cwd: src,
         failFast: false,
+        // includeRoot: true // link? is it used?
       });
 
       if (clean) {
@@ -150,7 +151,7 @@ program
 list(program);
 version(program);
 align(program);
-updateJsonValue(program);
+getSetJSON(program);
 peers(program);
 
 program.version('> Runmate ' + require('../package.json').version);

@@ -102,18 +102,10 @@ export async function packageRunner(
   const {
     cwd = process.cwd(),
     failFast: failFastRoot = true,
-    includeRoot,
+    includeRoot = true,
   } = options;
 
   const files = findWorkspacePackages({ cwd, includeRoot });
-
-  if (files.length) {
-    hey.blue(
-      `Running command in:\n${(() => {
-        return files.map((el) => `  ‣ ${el.relative}`).join('\n');
-      })()}`
-    );
-  }
 
   const utils = files.map((file) => getPackageRunnerUtils(file.path));
   const packages = reduceObject(utils, (item) => ({ [item.name]: item }));

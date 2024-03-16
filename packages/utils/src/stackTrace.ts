@@ -8,7 +8,8 @@ export function getStack(parent?: any) {
 
 export function captureStackTrace(error: any, parent?: any) {
   if (typeof Error.captureStackTrace === 'function') {
-    return Error.captureStackTrace(error, parent);
+    Error.captureStackTrace(error, parent);
+    return error;
   }
 
   const container = new Error();
@@ -21,4 +22,6 @@ export function captureStackTrace(error: any, parent?: any) {
       return stack;
     },
   });
+
+  return error;
 }

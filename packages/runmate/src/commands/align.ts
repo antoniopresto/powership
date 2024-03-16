@@ -18,6 +18,7 @@ export function align(program: Command) {
         const runner = await packageRunner({
           failFast: false,
           cwd,
+          includeRoot: true,
         });
 
         const commons: { [K: string]: string[] } = {};

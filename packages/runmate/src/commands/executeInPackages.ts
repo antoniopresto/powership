@@ -33,11 +33,7 @@ function _executeInPackages(
 ) {
   return program
     .option('-d, --cwd <pattern>', 'Source directory or glob pattern')
-    .option(
-      '--include-root <boolean>',
-      'Include root project in execution',
-      'true'
-    )
+    .option('--include-root', 'Include root project in execution', true)
     .option(
       '-c, --chunk-size <number>',
       'Chunk size of parallel executions',
@@ -60,7 +56,7 @@ function _executeInPackages(
     .action(async function run(
       commands: string[],
       options?: {
-        includeRoot?: unknown;
+        includeRoot?: boolean;
         cwd?: string;
         chunkSize: string;
         failFast: boolean;
@@ -81,7 +77,7 @@ function _executeInPackages(
             packages,
             packageNameCommand,
             from,
-            includeRoot,
+            includeRoot = true,
           } = options || {};
 
           if (commands?.[0]?.startsWith('./')) {
@@ -95,17 +91,7 @@ function _executeInPackages(
             const runner = await packageRunner({
               cwd,
               failFast,
-              includeRoot: (() => {
-                if (typeof includeRoot === 'boolean') return includeRoot;
-
-                if (typeof includeRoot !== 'string') {
-                  throw new Error(
-                    `includeRoot received invalid value: ${includeRoot} `
-                  );
-                }
-
-                return includeRoot === 'true';
-              })(),
+              includeRoot: includeRoot,
             });
 
             if (kind === 'runfile') {
