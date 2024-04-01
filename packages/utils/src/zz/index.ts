@@ -19,7 +19,7 @@ export function isBunJsAvailable() {
   }
 }
 
-export function installBunJs() {
+export function installBunIfNeeded() {
   if (isBunJsAvailable()) return;
 
   try {
@@ -41,21 +41,17 @@ export type ZZOptions = {
   stdio?: 'overlapped' | 'pipe' | 'ignore' | 'inherit';
 };
 
-export function zz<Options extends ZZOptions>(
+export function bun<Options extends ZZOptions>(
   args?: string[] | string,
   options?: Options
 ) {
-  const input = parseArgv(args);
-  if (!input) return;
+  installBunIfNeeded();
 
-  // @ts-ignore
-  options = {
-    encoding: 'utf8',
-    stdio: options?.encoding ? 'ignore' : 'inherit',
-    ...options,
-  };
+  const input = parseArgv(args);
 
   const script = (() => {
+    if (!input) return '';
+
     if (input.input === '-') {
       return `bun ${input.params}`;
     }
@@ -97,7 +93,16 @@ export function zz<Options extends ZZOptions>(
     return ['bun --eval', `"${content}"`, append].join(' ');
   })();
 
-  return child_process.execSync(`${script}`, options);
+  const result = child_process.execSync(`${script}`, options);
+  
+  return {
+    buffer(){
+      if(typeof result === 'string'){
+        return Buffer.from(result)
+      }
+      return result
+    }
+  }
 }
 
 export function awaitUntil() {
@@ -121,7 +126,7 @@ if (hasArguments) {
   const { exit } = awaitUntil();
 
   try {
-    zz();
+    bun();
     exit(0);
   } catch (e) {
     exit(1);
