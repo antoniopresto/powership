@@ -1,6 +1,7 @@
 import { resolveCWD } from '@powership/utils/server-utils';
-import type { JSONSchema7 } from 'json-schema';
 import * as tsj from 'ts-json-schema-generator';
+
+import type { JSONSchema7 } from './index';
 
 export type OptionsReadTypescriptJSON = { filePath: string; tsconfig?: string };
 
@@ -25,5 +26,5 @@ export function readTypescriptJSON(options: OptionsReadTypescriptJSON | string):
   
   const schema = tsj.createGenerator(finalOptions);
 
-  return schema.createSchema('Product') as unknown as JSONSchema7;
+  return schema.createSchema() as unknown as JSONSchema7;
 }

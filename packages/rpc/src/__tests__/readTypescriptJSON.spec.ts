@@ -1,3 +1,4 @@
+import { jsonToType } from '../jsonToType';
 import { readTypescriptJSON } from '../readTypescriptJSON';
 
 describe('readTypescriptJSON', () => {
@@ -36,5 +37,12 @@ describe('readTypescriptJSON', () => {
         }
       }
     });
+  });
+  
+  
+  test('jsonToType', () => {
+    const sut = readTypescriptJSON('./src/__tests__/example1.ts');
+    const parsed = jsonToType(sut);
+    expect(parsed).toEqual({})
   });
 });
