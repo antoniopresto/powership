@@ -1,6 +1,9 @@
 export type Product = {
   id: string;
   name: string;
+  /**
+   * Product categories
+   */
   categories: string[];
 };
 

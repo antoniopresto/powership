@@ -1,6 +1,0 @@
-# top-most EditorConfig file
-root = true
-
-# Ignore paths
-[*/lib/*]
-generated_code = true
