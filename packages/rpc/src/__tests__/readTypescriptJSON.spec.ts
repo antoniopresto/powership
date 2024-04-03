@@ -6,43 +6,50 @@ describe('readTypescriptJSON', () => {
 
   test('basic test', () => {
     const sut = readTypescriptJSON('./src/__tests__/example1.ts');
-    
+
     expect(sut).toEqual({
-      "$ref": "#/definitions/Product",
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "definitions": {
-        "Product": {
-          "additionalProperties": false,
-          "properties": {
-            "categories": {
-              "description": "Product categories",
-              "items": {
-                "type": "string"
+      $ref: '#/definitions/Product',
+      $schema: 'http://json-schema.org/draft-07/schema#',
+      definitions: {
+        Product: {
+          additionalProperties: false,
+          properties: {
+            categories: {
+              description: 'Product categories',
+              items: {
+                type: 'string',
               },
-              "type": "array"
+              type: 'array',
             },
-            "id": {
-              "type": "string"
+            id: {
+              type: 'string',
             },
-            "name": {
-              "type": "string"
-            }
+            name: {
+              type: 'string',
+            },
           },
-          "required": [
-            "id",
-            "name",
-            "categories"
-          ],
-          "type": "object"
-        }
-      }
+          required: ['id', 'name', 'categories'],
+          type: 'object',
+        },
+      },
     });
   });
-  
-  
+
   test('jsonToType', () => {
     const sut = readTypescriptJSON('./src/__tests__/example1.ts');
     const parsed = jsonToType(sut);
-    expect(parsed).toEqual({})
+    expect(parsed).toEqual({
+      categories: {
+        description: 'Product categories',
+        list: true,
+        type: 'string',
+      },
+      id: {
+        type: 'string',
+      },
+      name: {
+        type: 'string',
+      },
+    });
   });
 });
