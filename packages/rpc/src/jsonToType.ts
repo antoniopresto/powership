@@ -1,7 +1,8 @@
 import { FieldDefinition, FinalFieldDefinition } from '@powership/schema';
+import { inspectObject } from '@powership/utils';
 import { JSONSchema7, JSONSchema7Definition, JSONSchema7TypeName } from 'json-schema';
 
-export function jsonToType(json: JSONSchema7Definition): { [K: string]: FieldDefinition } {
+export function jsonToType(json: JSONSchema7Definition): FieldDefinition[] {
   const $schema = getObject(json, (t) => t.$schema);
   const definitions = getObject(json, (t) => t.definitions);
   const type = getObject(json, (t) => t.type);
@@ -11,14 +12,26 @@ export function jsonToType(json: JSONSchema7Definition): { [K: string]: FieldDef
     throw new Error('jsonToType: received invalid json.');
   }
 
-  const schema: { [K: string]: FieldDefinition } = Object.create(null);
+  const references: { [K: string]: FieldDefinition } = Object.create(null);
 
-  for (let fn in definitions) {
-    const subSchema = definitions[fn];
-    const { properties, required } = subSchema;
+  function upsertRef(typeName: string) {
+    return (references[typeName] = references[typeName] || Object.create(null));
+  }
+
+  return Object.entries(definitions).map(([typeName, definition]) => {
+    typeName = parseName(typeName);
+    const schema = upsertRef(typeName);
+
+    const { properties, required } = definition;
 
     for (let prop in properties) {
       const element = properties[prop];
+
+      if (element.$ref) {
+        const name = parseName(element.$ref);
+        schema[prop] = upsertRef(name);
+        continue;
+      }
 
       const field = parseField(element.type, element);
 
@@ -46,22 +59,28 @@ export function jsonToType(json: JSONSchema7Definition): { [K: string]: FieldDef
         parentSchema: {
           enumerable: false,
           get() {
-            return subSchema;
+            return definition;
           },
         },
       });
     }
-  }
 
-  return schema;
+    return { type: 'object', name: typeName, def: schema };
+  });
+}
+
+function parseName(name: string) {
+  return decodeURIComponent(name.split('/').pop()!).replace(/([^<>])<([^>]*)>/g, '$1$2');
 }
 
 function parseField<TN extends JSONSchema7TypeName>(
   typename: TN | TN[],
   definition: JSONSchema7
 ): FinalFieldDefinition {
+  //
   if (Array.isArray(typename)) {
-    return { type: 'union', def: typename.map((el) => parseField(el, definition)) };
+    // TODO test
+    return { type: 'union', def: jsonToType(definition) };
   }
 
   // TODO represent other schema fields (ID, alias, etc);
@@ -75,11 +94,7 @@ function parseField<TN extends JSONSchema7TypeName>(
       return { type: 'object', def: jsonToType(definition) };
     }
     case 'array': {
-      const items = getObject(definition, (el) => el.items);
-      if (!items || Array.isArray(items) || typeof items !== 'object') {
-        throw new Error(`unexpected type for array.items ${items}`);
-      }
-      return { ...parseField(items.type, items), list: true };
+      return { type: 'array' };
     }
     case 'number': {
       return { type: 'float' };
@@ -91,7 +106,9 @@ function parseField<TN extends JSONSchema7TypeName>(
       return { type: 'int' };
     }
     default: {
-      throw new Error(`invalid type "${typename}"`);
+      console.error(`invalid type "${typename}" from definition:\n ${inspectObject(definition)}`);
+      return { type: 'any' };
+      // throw new Error(`invalid type "${typename}" from definition:\n ${inspectObject(definition)}`);
     }
   }
 }
