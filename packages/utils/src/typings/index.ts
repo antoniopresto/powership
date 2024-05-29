@@ -219,7 +219,7 @@ export type BinAny<T, True, False> = {
   1: True;
 }[IsAny<T> extends true ? 0 : 1];
 
-export const A_Z = tuple(
+export const A_Z_UPPERCASE = tuple(
   'A',
   'B',
   'C',
@@ -245,7 +245,10 @@ export const A_Z = tuple(
   'W',
   'X',
   'Y',
-  'Z',
+  'Z'
+);
+
+export const A_Z_LOWERCASE = tuple(
   'a',
   'b',
   'c',
@@ -274,10 +277,13 @@ export const A_Z = tuple(
   'z'
 );
 
+export type UppercaseLetters = (typeof A_Z_UPPERCASE)[number];
+export type LowercaseLetters = (typeof A_Z_LOWERCASE)[number];
+
+export const A_Z = [...A_Z_UPPERCASE, ...A_Z_LOWERCASE] as const;
+
 export type A_Z = (typeof A_Z)[number];
 export type Name = `${A_Z}${string}`;
-
-export * from '../IterationMap';
 
 export type PartialRequired<T, Optionals extends keyof T> = {
   [P in keyof T as P extends Optionals ? never : P]-?: T[P];
@@ -310,3 +316,9 @@ export type GetFieldByDotNotation<Obj, DotNotation> =
           | Extract<Obj[Left], undefined>
       : undefined
     : undefined;
+
+export type Maybe<T> = T | null | undefined;
+
+export type MaybeArrayMaybe<T> = Maybe<MaybeArray<Maybe<T | Maybe<T>[]>>>;
+
+export { type x } from 'ts-toolbelt/out/Any/x';

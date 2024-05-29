@@ -63,7 +63,7 @@ export * from './getters';
 export * from './hooks';
 export * from './Store';
 export * from './AppConfig';
-export * from './awaitSync';
+export * from './awaitInSerie';
 export * from './merge';
 export * from './mapper';
 export * from './reduceObject';
@@ -81,6 +81,10 @@ export * from './ReactLike';
 export * from './jsonClone';
 export * from './tryCatch';
 export * from './dateFormat';
+export * from './ansci';
+export * from './commands';
+export * from './Symbols'
+export * from './lazyRun'
 
 // @only-server
 export * from './logLevels';

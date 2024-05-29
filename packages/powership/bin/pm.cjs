@@ -23,7 +23,7 @@ pm() {
   local pmPath=$(pwd)
   local pmNextPath=$pmPath
   
-  for i in {0..7}; do
+  for i in {0..2}; do
     pmResult=$(echoPm "$pmNextPath")
 
     if [[ $pmResult != "" ]]; then

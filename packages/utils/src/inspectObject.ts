@@ -1,6 +1,7 @@
 // @only-server
 import utils from 'util';
 
+import { tabs } from './ansci';
 import { getTypeName } from './getTypeName';
 
 interface InspectObjectDetails {
@@ -37,20 +38,7 @@ export function inspectObject(
 
   const text = inspect(inputObject, 0);
 
-  return appendTab(text, tabSize);
-}
-
-function appendTab(text: string, size = 4) {
-  const tab = spaces(size);
-
-  return text
-    .split('\n')
-    .map((t) => `${tab}${t}`)
-    .join('\n');
-}
-
-function spaces(size: number, space = ' ') {
-  return [...Array(size)].map(() => space).join('');
+  return tabs(text, tabSize);
 }
 
 function _inspectObject(obj: any, config: any): string {

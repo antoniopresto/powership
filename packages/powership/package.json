@@ -72,7 +72,7 @@
     "@powership/server": "workspace:*",
     "@powership/transporter": "workspace:*",
     "@powership/utils": "workspace:*",
-    "@types/bun": "1.0.10",
+    "@types/bun": "1.0.12",
     "plugin-engine": "workspace:*"
   },
   "devDependencies": {

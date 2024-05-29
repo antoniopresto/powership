@@ -1,13 +1,18 @@
 import { inspectObject } from './inspectObject';
 import { getStack } from './stackTrace';
+import { PartialRequired } from './typings';
 
 export type ErrorClassCreatorOptions = {
   publicName?: string;
   defaultShouldPublishStack?: false;
   errorGroup?: string;
+  defaultMessage?: string;
 };
 
-function defaultOptions(): Required<ErrorClassCreatorOptions> {
+function defaultOptions(): PartialRequired<
+  ErrorClassCreatorOptions,
+  'defaultMessage'
+> {
   return {
     defaultShouldPublishStack: false,
     publicName: '',
@@ -26,7 +31,7 @@ export function createErrorClass(
     },
   } = Object;
 
-  let { defaultShouldPublishStack, publicName, errorGroup } = {
+  let { defaultShouldPublishStack, publicName, errorGroup, defaultMessage } = {
     ...defaultOptions(),
     ...options,
   };
@@ -49,13 +54,24 @@ export function createErrorClass(
 
     constructor(
       message = '',
-      details?: any,
-      shouldPublishStack = defaultShouldPublishStack
+      init: {
+        stackFrom?: unknown;
+        details?: unknown;
+        shouldPublishStack?: boolean;
+      } = {}
     ) {
-      super(message);
+      let {
+        details,
+        shouldPublishStack = defaultShouldPublishStack,
+        stackFrom,
+      } = init;
+
+      super(message || defaultMessage);
 
       this.name = name;
       this.__$name__ = name;
+
+      this.stack = getStack(stackFrom === undefined ? this : stackFrom);
 
       const detailsMessage = [originalName, this.stack, details]
         .map((el) => (typeof el !== 'string' ? inspectObject(el) : el))
@@ -63,8 +79,8 @@ export function createErrorClass(
         .join('\n');
 
       if (detailsMessage) {
-        if (typeof process && process.stderr) {
-          process.stderr.write(detailsMessage);
+        if (typeof process !== 'undefined' && process.stderr) {
+          process.stderr.write(detailsMessage + '\n');
         } else {
           console.error(detailsMessage);
         }
@@ -105,7 +121,7 @@ export function customError(options: {
   stackFrom?: any;
 }) {
   const { message, details } = options;
-  const error = new CustomError(message, details);
+  const error = new CustomError(message, { details });
   error.stack = getStack(
     options.stackFrom === undefined ? customError : options.stackFrom
   );

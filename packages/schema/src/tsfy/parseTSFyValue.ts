@@ -1,5 +1,5 @@
 import {
-  awaitSync,
+  awaitInSerie,
   describeType,
   ensureArray,
   noop,
@@ -85,7 +85,7 @@ export async function parseTSFyValue(
 
         const lastIndex = rootValue.length - 1;
 
-        const child = await awaitSync(
+        const child = await awaitInSerie(
           (rootValue as any[]).map(async (element, index) => {
             const part = await parseTSFyValue(element, context);
             const res = ensureArray(part);
@@ -108,7 +108,7 @@ export async function parseTSFyValue(
 
         currentRef.parts.push('{');
 
-        await awaitSync(
+        await awaitInSerie(
           pairs.map(async ([key, value]) => {
             if (key === '__dschm__') return;
             if (value?.hidden === true && isFieldTypeName(value.type)) {

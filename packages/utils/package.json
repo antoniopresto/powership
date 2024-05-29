@@ -70,7 +70,7 @@
   "description": "powership utils and helper functions",
   "keywords": [],
   "dependencies": {
-    "@types/bun": "1.0.10",
+    "@types/bun": "1.0.12",
     "@types/dateformat": "5.0.2",
     "@types/fs-extra": "9.0.13",
     "@types/lodash": "4.14.191",
@@ -78,10 +78,11 @@
     "@types/semver": "7.5.8",
     "add": "2.0.6",
     "aggio": "0.2.0",
+    "ajv": "8.12.0",
     "awesome-phonenumber": "6.2.0",
     "big.js": "6.2.1",
     "bun-safe": "1.0.7",
-    "bun-types": "1.0.29",
+    "bun-types": "1.0.36",
     "commander": "10.0.0",
     "dateformat": "5.0.3",
     "dayjs": "1.11.6",
@@ -107,6 +108,7 @@
     "prettier": "2.8.8",
     "pretty-format": "29.7.0",
     "qs": "6.11.2",
+    "re2": "1.20.10",
     "semver": "7.6.0",
     "slugify": "1.6.5",
     "ts-toolbelt": "9.6.0",
@@ -164,6 +166,5 @@
     "readmeFile": "./README.md",
     "displayName": "Utils - A collection of common utilities. Internal or from other libraries",
     "tsconfig": "./tsconfig.module.json"
-  },
-  "peerDependencies": {}
+  }
 }

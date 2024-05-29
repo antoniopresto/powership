@@ -114,7 +114,9 @@ export function invariant(
 ): asserts truthy {
   if (!truthy) {
     if (typeof errorMessage === 'string') {
-      throw new InvariantError(errorMessage, inspectObject(details, {}));
+      throw new InvariantError(errorMessage, {
+        details: inspectObject(details, {}),
+      });
     } else {
       if (errorMessage?.message) {
         throw errorMessage;
