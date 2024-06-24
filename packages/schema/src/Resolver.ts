@@ -16,7 +16,10 @@ import { createType, GraphType } from './GraphType/GraphType';
 import { getInnerType } from './GraphType/getQueryTemplates';
 import { Infer } from './Infer';
 import { InferField, ObjectDefinitionInput } from './fields/_parseFields';
-import * as Internal from './internal';
+import  {
+  //@only-server
+  PowershipWatchTypesPubSub
+}  from './internal';
 
 export interface ResolverContext {}
 
@@ -108,7 +111,7 @@ function _createResolver(options: any) {
   // @only-server
   _resolvers.set(name, result);
   // @only-server
-  Internal.PowershipWatchTypesPubSub.emit('created', {
+  PowershipWatchTypesPubSub.emit('created', {
     resolver: result,
   });
 

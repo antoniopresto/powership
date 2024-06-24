@@ -1,25 +1,33 @@
-import { RuntimeError } from '@powership/utils';
-import { isProduction } from '@powership/utils';
-import { getKeys } from '@powership/utils';
-import { getTypeName } from '@powership/utils';
-import { inspectObject } from '@powership/utils';
-
-import type { CustomFieldConfig } from './CustomFieldConfig';
-import { GraphType } from './GraphType/GraphType';
-import type { FieldDefinitionConfig } from './TObjectConfig';
-import { fieldInstanceFromDef } from './fieldInstanceFromDef';
-import { isFieldInstance, TAnyFieldType } from './fields/FieldType';
-import { LiteralField } from './fields/LiteralField';
 import {
+  getKeys,
+  getTypeName,
+  inspectObject,
+  isProduction,
+  RuntimeError,
+} from '@powership/utils';
+import {
+  GraphType,
+  fieldInstanceFromDef,
+  isFieldInstance,
+  TAnyFieldType,
+  LiteralField,
+  FieldDefinitionConfig,
+  isObjectType,
+  ShortenFinalFieldDefinition,
+  CustomFieldConfig,
+  FinalFieldDefinitionStrict,
+  ObjectType,
+  FieldAsString,
+  FieldInput,
+  FinalFieldDefinition,
+  types,
+  FieldDefinitionWithType,
   createEmptyMetaField,
   isMetaField,
   MetaField,
   objectMetaFieldKey,
-} from './fields/MetaFieldField';
-import { FieldDefinitionWithType } from './fields/_fieldDefinitions';
-import { FinalFieldDefinition } from './fields/_parseFields';
-import { types } from './fields/fieldTypes';
-import * as Internal from './internal';
+} from './internal';
+
 import {
   isStringFieldDefinition,
   parseStringDefinition,
@@ -35,7 +43,7 @@ export function parseObjectField<
 ): [Options['returnInstance']] extends [true]
   ? TAnyFieldType
   : [Options['asString']] extends [true]
-  ? Internal.FieldAsString
+  ? FieldAsString
   : FinalFieldDefinition;
 
 export function parseObjectField<T extends FieldDefinitionConfig>(
@@ -84,9 +92,7 @@ export function parseObjectField(
   });
 }
 
-export function parseField(
-  definition: Internal.FieldInput
-): FinalFieldDefinition {
+export function parseField(definition: FieldInput): FinalFieldDefinition {
   return parseObjectField('__parseField__', definition);
 }
 
@@ -103,11 +109,8 @@ export function parseFieldDefinitionConfig<
   definition: T,
   options?: Options
 ): [Options['asString']] extends [true]
-  ?
-      | Internal.FieldAsString
-      | Internal.FinalFieldDefinition
-      | Internal.ShortenFinalFieldDefinition
-  : Internal.FinalFieldDefinition {
+  ? FieldAsString | FinalFieldDefinition | ShortenFinalFieldDefinition
+  : FinalFieldDefinition {
   let { deep, asString } = options || {};
 
   if (deep?.asString) {
@@ -174,7 +177,7 @@ export function parseFieldDefinitionConfig<
           });
         }
 
-        if (Internal.isObjectType(definition.def)) {
+        if (isObjectType(definition.def)) {
           definition.def = definition.def.definition;
         } else {
           definition.def = parseObjectDefinition(definition.def, {
@@ -223,7 +226,7 @@ export function parseFieldDefinitionConfig<
       return parsed;
     }
 
-    if (Internal.isObjectType(definition)) {
+    if (isObjectType(definition)) {
       return {
         def: deep
           ? parseObjectDefinition(definition.definition, { deep })
@@ -298,7 +301,7 @@ export function parseFieldDefinitionConfig<
     if (asString && !hasNotStringifiableKeys) {
       const { type, list, optional, def } = result;
 
-      let _type: Internal.FieldAsString = type;
+      let _type: FieldAsString = type;
       if (list) _type = `[${_type}]`;
       if (optional) _type = `${_type}?`;
 
@@ -402,7 +405,7 @@ export function parseObjectDefinition(
 
 function isFinalFieldDefinition(
   input: any
-): input is Internal.FinalFieldDefinitionStrict {
+): input is FinalFieldDefinitionStrict {
   return typeof input?.type === 'string';
 }
 
@@ -431,10 +434,8 @@ function isListDefinition(input: any): input is [FieldDefinitionConfig] {
  */
 export function isObjectAsTypeDefinition(
   input: any
-): input is FieldDefinitionWithType<Internal.ObjectType<any>> {
-  return (
-    input && typeof input === 'object' && Internal.isObjectType(input.type)
-  );
+): input is FieldDefinitionWithType<ObjectType<any>> {
+  return input && typeof input === 'object' && isObjectType(input.type);
 }
 
 const validFlattenDefinitionKeys = {

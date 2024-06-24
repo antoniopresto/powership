@@ -120,7 +120,7 @@ describe('ProductResolver', () => {
 
     const schema = createGraphQLSchema();
 
-    const resp = await Internal.graphql({
+    const resp = await graphql({
       schema,
       contextValue: { userId: () => '123' },
       source:
@@ -154,7 +154,7 @@ describe('ProductResolver', () => {
 
     const schema = createGraphQLSchema();
 
-    const response = await Internal.graphql({
+    const response = await graphql({
       schema,
       contextValue: { userId: () => '123' },
       source:
@@ -191,7 +191,7 @@ describe('ProductResolver', () => {
 
     const schema = createGraphQLSchema();
 
-    const invalidCondition = await Internal.graphql({
+    const invalidCondition = await graphql({
       schema,
       contextValue: { userId: () => '123' },
       source:

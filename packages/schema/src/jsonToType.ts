@@ -12,10 +12,10 @@ import {
 } from '@powership/utils';
 
 import type { Infer } from './Infer';
-import * as Internal from './internal';
+import  {}  from './internal';
 
 const getRecordType = memoize(() =>
-  Internal.create.record({ keyType: 'string', type: 'any' })
+  create.record({ keyType: 'string', type: 'any' })
 );
 
 export const JSONFieldCase = Object.keys(stringCase).concat('camelCase') as (
@@ -24,7 +24,7 @@ export const JSONFieldCase = Object.keys(stringCase).concat('camelCase') as (
 )[];
 
 export const JSONToSchemaOptions = () =>
-  Internal.createObjectType({
+  createObjectType({
     fieldCase: { enum: JSONFieldCase, optional: true },
     examples: 'boolean?',
     name: 'string?',
@@ -35,11 +35,11 @@ export type JSONToSchemaOptions = Infer<ReturnType<typeof JSONToSchemaOptions>>;
 
 export function jsonToType(
   init: JSONToSchemaOptions
-): Internal.GraphType<{ object: { $string: 'unknown' } }> {
+): GraphType<{ object: { $string: 'unknown' } }> {
   const { name } = init;
 
   const definition = valueToTypeDef({ ...init, value: init.json });
-  const type = Internal.createType(definition);
+  const type = createType(definition);
 
   if (name) {
     type.identify(name);
@@ -49,14 +49,14 @@ export function jsonToType(
 }
 
 export function jsonToSchemaDefinition(options: JSONToSchemaOptions): {
-  [K: string]: Internal.FinalFieldDefinition;
+  [K: string]: FinalFieldDefinition;
 } {
   getRecordType().parse(options.json, 'jsonToSchema: Invalid input.');
 
   const res = valueToTypeDef({ ...options, value: options.json });
 
   if ('object' in res && typeof res.object === 'object') {
-    return res.object as Internal.FinalObjectDefinition;
+    return res.object as FinalObjectDefinition;
   }
 
   throw customError({
@@ -76,10 +76,10 @@ export function isCursorString(value: any): value is string {
   }
 }
 
-const phoneType = memoize(() => Internal.create.phone({}));
+const phoneType = memoize(() => create.phone({}));
 
 export const valuesToPowershipTypeRecord: {
-  [L in Internal.FieldTypeName]: (value: any) => boolean;
+  [L in FieldTypeName]: (value: any) => boolean;
 } = {
   null: (value) => value === null,
   undefined: (value) => value === undefined,
@@ -96,11 +96,11 @@ export const valuesToPowershipTypeRecord: {
   email: (value) =>
     Boolean(value && typeof value === 'string' && EmailRegex.test(value)),
   ID: (value) =>
-    !!value && typeof value === 'string' && Internal.ULID_REGEX.test(value),
+    !!value && typeof value === 'string' && ULID_REGEX.test(value),
   phone: (value) => phoneType().is(value),
   record: (value) =>
     !!value && typeof value === 'object' && !isPlainObject(value),
-  ulid: (value) => typeof value === 'string' && Internal.ULID_REGEX.test(value),
+  ulid: (value) => typeof value === 'string' && ULID_REGEX.test(value),
   union: () => false,
   unknown: () => false,
   alias: () => false,
@@ -116,10 +116,10 @@ export const powershipValueTypeCheckEntries = entries(
 
 export function valueToTypeDef(
   options: Omit<JSONToSchemaOptions, 'json'> & { value: any }
-): Internal.FlattenFieldDefinition {
+): FlattenFieldDefinition {
   const { fieldCase = 'keep', examples, value } = options;
 
-  const typename: Internal.FieldTypeName = (function iifeTypename() {
+  const typename: FieldTypeName = (function iifeTypename() {
     return (
       powershipValueTypeCheckEntries.find(([, check]) => {
         return check(value);
@@ -127,7 +127,7 @@ export function valueToTypeDef(
     );
   })();
 
-  const field: Internal.FlattenFieldDefinition = {
+  const field: FlattenFieldDefinition = {
     [typename]: {} as any,
   } as any;
 

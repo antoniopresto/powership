@@ -9,7 +9,7 @@ const { ensureFileSync, writeFileSync } = fsExtra;
 import { Resolver } from './Resolver';
 import { GraphTypeLike } from './fields/IObjectLike';
 import { LiteralField } from './fields/LiteralField';
-import * as Internal from './internal';
+import { formatWithPrettier, objectToTypescript } from './internal';
 
 const { serialize } = LiteralField.utils;
 
@@ -118,7 +118,7 @@ export async function writeTypes(options?: WriteTypesOptions) {
     item.footer && head.push(...item.footer);
   });
   // @only-server
-  const typesInterface = await Internal.objectToTypescript(
+  const typesInterface = await objectToTypescript(
     'RuntimeTypes',
     typesRecord
   );
@@ -140,7 +140,7 @@ export async function writeTypes(options?: WriteTypesOptions) {
     typesInterface,
   });
 
-  content = await Internal.formatWithPrettier(content, {
+  content = await formatWithPrettier(content, {
     parser: 'typescript',
     singleQuote: true,
   });

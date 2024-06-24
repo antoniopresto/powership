@@ -6,7 +6,7 @@ import type {
 } from '@powership/utils/out/parsePhoneNumber';
 
 import type { FieldTypeParser } from '../applyValidator';
-import * as Internal from '../internal';
+import { parsePhoneNumberServerSide } from '../internal';
 
 import { FieldType } from './FieldType';
 import { FieldTypeError } from './FieldTypeErrors';
@@ -37,7 +37,7 @@ export function _backendValidatePhoneNumber(
     });
   }
   // @only-server
-  let { valid, type } = Internal.parsePhoneNumberServerSide(input, {
+  let { valid, type } = parsePhoneNumberServerSide(input, {
     regionCode: regionCode,
   });
 
@@ -74,7 +74,7 @@ export function validatePhoneNumber(
   const hasAPV = (() => {
     try {
       // @only-server
-      return !!Internal.parsePhoneNumberServerSide;
+      return !!parsePhoneNumberServerSide;
     } catch (e) {
       return false;
     }

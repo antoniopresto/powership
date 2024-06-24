@@ -1,5 +1,9 @@
 // @only-server
-import { _formatWithPrettier, parsePhoneNumber } from '@powership/utils';
+import {
+  _formatWithPrettier,
+  createProxy,
+  parsePhoneNumber,
+} from '@powership/utils';
 // @only-server
 export { graphql, GraphQLSchema, printSchema } from 'graphql';
 
@@ -59,3 +63,9 @@ export * from './TObjectConfig';
 export * from './fields/fieldTypes';
 export * from './CustomFieldConfig';
 export type { Infer } from './Infer';
+
+import * as gft from './GraphType/GraphType';
+import * as obj from './ObjectType';
+import * as fdt from './fields/FieldType';
+
+export { gft, obj, fdt };

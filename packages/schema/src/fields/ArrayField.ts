@@ -3,7 +3,7 @@ import { inspectObject } from '@powership/utils';
 
 import { Infer } from '../Infer';
 import type { FieldTypeParser } from '../internal';
-import * as Internal from '../internal';
+import { } from '../internal';
 
 import { arrayFieldParse } from './ArrayFieldParse';
 import { FieldType, TAnyFieldType } from './FieldType';
@@ -34,7 +34,6 @@ export class ArrayField<T extends ArrayFieldDef> extends FieldType<
 
   constructor(def: T) {
     super({ def: def, name: 'array' });
-    const { parseObjectField } = Internal;
 
     try {
       this.utils.listItemType = parseObjectField(`ListItem`, def.of, {

@@ -1,3 +1,4 @@
+import { formatWithPrettier } from '../../internal';
 import * as Internal from '../../internal';
 import { createType } from '../../GraphType/GraphType';
 import { createObjectType, resetTypesCache } from '../../ObjectType';
@@ -60,7 +61,7 @@ describe('stringify', () => {
 
     const sut = await tsfy({ graphType, objectType }).toString();
 
-    const pretty = await Internal.formatWithPrettier(sut, {
+    const pretty = await formatWithPrettier(sut, {
       parser: 'typescript',
     });
 

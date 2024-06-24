@@ -1,7 +1,7 @@
-import * as Internal from './internal';
+import  {}  from './internal';
 
 export function validateObjectFields(params: {
-  definition: Internal.FinalFieldDefinition;
+  definition: FinalFieldDefinition;
   fieldName: string;
   fieldParserOptions?: { excludeInvalidListItems?: boolean };
   parentType?: string;
@@ -13,7 +13,7 @@ export function validateObjectFields(params: {
   const { fieldName, definition, value, parentType, fieldParserOptions } =
     params;
 
-  if (Internal.isMetaField(definition, fieldName)) {
+  if (isMetaField(definition, fieldName)) {
     return {
       errors: [],
     };
@@ -26,7 +26,7 @@ export function validateObjectFields(params: {
   }
 
   try {
-    const field = Internal.__getCachedFieldInstance(definition);
+    const field = __getCachedFieldInstance(definition);
     const parsed = field.parse(value, fieldParserOptions);
 
     return {

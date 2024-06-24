@@ -5,7 +5,7 @@ import { Merge } from '@powership/utils';
 import { ObjectLike } from './fields/IObjectLike';
 import { objectMetaFieldKey } from './fields/MetaFieldField';
 import { ObjectDefinitionInput } from './fields/_parseFields';
-import * as Internal from './internal';
+import { createObjectType, isObjectType, ObjectType } from './internal';
 
 export type ImplementObject<Dest, Extends> =
   //
@@ -13,10 +13,10 @@ export type ImplementObject<Dest, Extends> =
   Extends extends []
     ? Dest
     : Extends extends [infer Item, ...infer Rest]
-    ? Dest extends Internal.ObjectType<infer DestDef>
-      ? Item extends Internal.ObjectType<infer ItemDef>
+    ? Dest extends ObjectType<infer DestDef>
+      ? Item extends ObjectType<infer ItemDef>
         ? ImplementObject<
-            Internal.ObjectType<{
+            ObjectType<{
               [K in keyof Merge<ItemDef, DestDef>]: Merge<ItemDef, DestDef>[K];
             }>,
             Rest
@@ -32,14 +32,14 @@ export function implementObject<
   name: string,
   definition: Readonly<Def>,
   ...parents: Parents
-): ImplementObject<Internal.ObjectType<Def>, Parents> {
+): ImplementObject<ObjectType<Def>, Parents> {
   let def = simpleObjectClone(definition) as ObjectDefinitionInput;
   delete def[objectMetaFieldKey];
 
   const tree: string[] = [];
 
   parents.forEach((parent) => {
-    if (!Internal.isObjectType(parent)) {
+    if (!isObjectType(parent)) {
       throw new RuntimeError(
         `Failed to extend interface. Expected parent to be an Object.`,
         {
@@ -54,11 +54,11 @@ export function implementObject<
     tree.push(parent.nonNullId);
   });
 
-  const object = Internal.createObjectType(name, def);
+  const object = createObjectType(name, def);
   object.__setMetaData('implements', tree);
 
   return object as unknown as ImplementObject<
-    Internal.ObjectType<Def>,
+    ObjectType<Def>,
     Parents
   >;
 }

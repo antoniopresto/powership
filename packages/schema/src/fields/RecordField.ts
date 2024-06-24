@@ -3,7 +3,7 @@ import { inspectObject } from '@powership/utils';
 
 import { Infer } from '../Infer';
 import type { FieldDefinitionConfig } from '../TObjectConfig';
-import * as Internal from '../internal';
+import { } from '../internal';
 
 import { FieldType, TAnyFieldType } from './FieldType';
 
@@ -38,12 +38,11 @@ export class RecordField<Def extends RecordFieldDef> extends FieldType<
     return !!(input && typeof input === 'object' && input.__isRecordField);
   }
   //
-  parse: Internal.FieldTypeParser<InferRecordFieldType<Def>>;
+  parse: FieldTypeParser<InferRecordFieldType<Def>>;
 
   constructor(def: Def = { keyType: 'string', type: 'any' } as any) {
     super({ def: def, name: 'record' });
 
-    const { parseObjectField } = Internal;
 
     let parser: TAnyFieldType;
     try {

@@ -4,7 +4,7 @@ import { uniq } from '@powership/utils';
 
 import { Infer } from '../Infer';
 import type { FieldDefinitionConfig } from '../TObjectConfig';
-import * as Internal from '../internal';
+import { } from '../internal';
 
 import { FieldType, TAnyFieldType } from './FieldType';
 
@@ -13,7 +13,7 @@ export class UnionField<
   T extends Readonly<[U, ...U[]]>
 > extends FieldType<Infer<T[number]>, 'union', T> {
   //
-  parse: Internal.FieldTypeParser<Infer<T[number]>>;
+  parse: FieldTypeParser<Infer<T[number]>>;
 
   utils = {
     fieldTypes: [] as TAnyFieldType[],
@@ -29,7 +29,7 @@ export class UnionField<
     const getFieldTypes = memoize(() => {
       return def.map((el, index) => {
         try {
-          return Internal.parseObjectField(`UnionItem_${index}`, el, {
+          return parseObjectField(`UnionItem_${index}`, el, {
             returnInstance: true,
           });
         } catch (e: any) {

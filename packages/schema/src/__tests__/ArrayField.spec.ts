@@ -1,6 +1,6 @@
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLSchema, printSchema } from 'graphql';
-import * as Internal from '../internal';
+import { parseObjectDefinition, parseObjectField } from '../internal';
 
 import { createType } from '../GraphType/GraphType';
 import { createSchema, ObjectType } from '../ObjectType';
@@ -10,7 +10,7 @@ describe('ArrayField', () => {
   afterAll(ObjectType.reset);
 
   test('parseDefinition', () => {
-    const parsed = Internal.parseObjectDefinition({
+    const parsed = parseObjectDefinition({
       names: {
         array: {
           of: 'string',
@@ -30,7 +30,7 @@ describe('ArrayField', () => {
   });
 
   test('get instance', () => {
-    const parsed = Internal.parseObjectField(
+    const parsed = parseObjectField(
       'my_field',
       {
         object: {

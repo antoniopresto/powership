@@ -10,7 +10,6 @@ import {
   simpleObjectClone,
 } from '@powership/utils';
 
-import type { GraphType } from './GraphType/GraphType';
 import {
   DescribeField,
   DescribeObjectDefinition,
@@ -18,7 +17,14 @@ import {
 } from './fields/Infer';
 import { objectMetaFieldKey } from './fields/MetaFieldField';
 import { ObjectDefinitionInput } from './fields/_parseFields';
-import * as Internal from './internal';
+import {
+  ObjectType,
+  GraphType,
+  createObjectType,
+  createType,
+  deleteCachedFieldInstance,
+  parseObjectDefinition, parseField
+} from './internal';
 
 export interface ExtendObjectDefinition<Input, Origin> {
   definition: InnerDef<Input>;
@@ -38,7 +44,7 @@ export interface ExtendObjectDefinition<Input, Origin> {
 
   graphType(name: string): GraphType<{ object: InnerDef<Input> }>;
 
-  objectType(name?: string): Internal.ObjectType<InnerDef<Input>>;
+  objectType(name?: string): ObjectType<InnerDef<Input>>;
 
   only<K extends keyof this['definition']>(
     keys: K | K[]
@@ -104,19 +110,19 @@ export function extendObjectDefinition<Input>(
     return extendObjectDefinition(obj.object) as unknown as R;
   }
 
-  if (Internal.GraphType.is(obj)) {
+  if (GraphType.is(obj)) {
     // @ts-ignore
     return extendObjectDefinition(obj.definition) as unknown as R;
   }
 
-  if (Internal.ObjectType.is(obj)) {
+  if (ObjectType.is(obj)) {
     // @ts-ignore
     return extendObjectDefinition(obj.definition) as unknown as R;
   }
 
-  let clone: any = Internal.deleteCachedFieldInstance(
+  let clone: any = deleteCachedFieldInstance(
     simpleObjectClone(
-      Internal.parseObjectDefinition(Internal.deleteCachedFieldInstance(obj), {
+      parseObjectDefinition(deleteCachedFieldInstance(obj), {
         deep: { omitMeta: true },
       }).definition
     )
@@ -145,21 +151,21 @@ export function extendObjectDefinition<Input>(
       assertEqual(getTypeName(ext), 'Object');
       clone = Object.assign(
         clone,
-        Internal.parseObjectDefinition(ext, { omitMeta: true }).definition
+        parseObjectDefinition(ext, { omitMeta: true }).definition
       );
       return extendObjectDefinition(clone);
     },
 
     graphType(name) {
       return name
-        ? Internal.createType(name, { object: res.def() as any })
-        : Internal.createType({ object: res.def() as any });
+        ? createType(name, { object: res.def() as any })
+        : createType({ object: res.def() as any });
     },
 
     objectType(name) {
       return name
-        ? Internal.createObjectType(name, res.def() as any)
-        : Internal.createObjectType(res.def() as any);
+        ? createObjectType(name, res.def() as any)
+        : createObjectType(res.def() as any);
     },
 
     only(keys) {
@@ -191,7 +197,7 @@ export function extendObjectDefinition<Input>(
           );
         }
         clone[key] = {
-          ...Internal.parseField(clone[key]),
+          ...parseField(clone[key]),
           optional: true,
         };
       });
@@ -214,7 +220,7 @@ export function extendObjectDefinition<Input>(
           );
         }
         clone[key] = {
-          ...Internal.parseField(clone[key]),
+          ...parseField(clone[key]),
           optional: false,
         };
       });

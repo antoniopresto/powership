@@ -2,7 +2,7 @@ import { ObjectType } from '../ObjectType';
 import { TAnyFieldType } from '../fields/FieldType';
 import { getObjectDefinitionId } from '../fields/MetaFieldField';
 import { FieldInput, ObjectFieldInput } from '../fields/_parseFields';
-import * as Internal from '../internal';
+import { } from '../internal';
 import { parseObjectField } from '../parseObjectDefinition';
 
 import {

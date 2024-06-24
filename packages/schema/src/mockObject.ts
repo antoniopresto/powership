@@ -80,7 +80,7 @@ export function fieldToMock(
     array: () => undefined,
     // handled below,
     boolean: () => randomItem(true, false),
-    cursor: () => objectMock(CursorField.object().definition, options),
+    cursor: () => ({}),
     date: () => new Date(randomInt(Date.now())),
     email: () => {
       return `${slugify(randomText().toLowerCase())}@${slugify(

@@ -1,7 +1,7 @@
 import { expectedType } from '@powership/utils';
 
 import type { FieldTypeParser } from '../applyValidator';
-import * as Internal from '../internal';
+import { } from '../internal';
 
 import { FieldType } from './FieldType';
 
@@ -16,7 +16,7 @@ export class IDField extends FieldType<string, 'ID', IDFieldDef> {
     super({ def: def, name: 'ID' });
     const { autoCreate } = def;
 
-    const createId = Internal.create.ulid({ autoCreate: true }).parse;
+    const createId = create.ulid({ autoCreate: true }).parse;
 
     this.parse = this.applyParser({
       parse(input: string) {

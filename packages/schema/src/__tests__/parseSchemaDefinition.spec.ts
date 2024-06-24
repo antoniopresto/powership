@@ -1,9 +1,9 @@
-import * as Internal from '../internal';
+import { EnumField, ObjectType, parseObjectDefinition } from '../internal';
 import { objectMetaFieldKey } from '../fields/MetaFieldField';
 
 describe('parseObjectDefinition', () => {
   it('works', () => {
-    const { definition: sut, custom } = Internal.parseObjectDefinition({
+    const { definition: sut, custom } = parseObjectDefinition({
       objectIntDef: {
         type: 'int',
       },
@@ -14,9 +14,9 @@ describe('parseObjectDefinition', () => {
       enum: {
         enum: ['a', 'b'],
       },
-      fieldType: Internal.EnumField.create(['a', 'x']),
-      fieldTypeOptional: Internal.EnumField.create(['a', 'x']).toOptional(),
-      fieldTypeOptionalList: Internal.EnumField.create(['a', 'x'])
+      fieldType: EnumField.create(['a', 'x']),
+      fieldTypeOptional: EnumField.create(['a', 'x']).toOptional(),
+      fieldTypeOptionalList: EnumField.create(['a', 'x'])
         .toList()
         .toOptional(),
       objectAsFlattenDef: {
@@ -113,7 +113,7 @@ describe('parseObjectDefinition', () => {
   });
 
   it('parse object', () => {
-    const otherObject = new Internal.ObjectType({
+    const otherObject = new ObjectType({
       foo: 'string',
       status: {
         enum: ['open', 'closed'],
@@ -139,7 +139,7 @@ describe('parseObjectDefinition', () => {
       age: 'int',
     } as const;
 
-    const { definition: sut } = Internal.parseObjectDefinition({
+    const { definition: sut } = parseObjectDefinition({
       name: 'string',
       object: otherObject,
       objectList: {

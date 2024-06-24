@@ -28,7 +28,7 @@ export * from './createGraphQLSchema';
 // @only-server
 export type { ResolverKind } from './createGraphQLSchema';
 
-import * as Internal from './internal';
+import  {}  from './internal';
 
 export { Internal };
 

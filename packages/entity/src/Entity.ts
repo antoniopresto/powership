@@ -762,7 +762,7 @@ function _registerPKSKHook(input: {
 
       doc.ulid = (() => {
         if (doc.ulid) return doc.ulid;
-        return Internal.create.ulid({ autoCreate: true }).parse(undefined);
+        return create.ulid({ autoCreate: true }).parse(undefined);
       })();
 
       doc.createdAt = new Date();

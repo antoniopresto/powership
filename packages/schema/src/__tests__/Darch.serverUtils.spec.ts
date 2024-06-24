@@ -1,20 +1,20 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
-import * as Internal from '../internal';
+import { PowershipObject, create, gft } from '../internal';
 import { Infer } from '../Infer';
 
 describe('Powership aliases', () => {
-  afterEach(Internal.PowershipObject.reset);
+  afterEach(PowershipObject.reset);
 
   test('type creators', async () => {
-    expect(Internal.create.enum(['m']).definition).toEqual({
+    expect(create.enum(['m']).definition).toEqual({
       def: ['m'],
 
       type: 'enum',
     });
 
     expect(
-      Internal.create.object({
+      create.object({
         name: { string: {}, defaultValue: 'Antonio' },
       }).definition
     ).toEqual({
@@ -30,7 +30,7 @@ describe('Powership aliases', () => {
   });
 
   test('createType', () => {
-    const sut = Internal.createType;
+    const sut = gft.createType;
 
     expect(typeof sut).toBe('function');
     expect(sut.name).toBe('createType');

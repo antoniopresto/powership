@@ -8,7 +8,7 @@ import { getTypeName } from '@powership/utils';
 import { nonNullValues } from '@powership/utils';
 import { JSONSchema4 } from 'json-schema';
 
-import * as Internal from './internal';
+import  {}  from './internal';
 
 export type ObjectToJSONOptions = {
   ignoreDefaultValues?: boolean;
@@ -22,21 +22,21 @@ export type ObjectToJSONOptions = {
  */
 export function objectToJSON(
   parentName: string,
-  object: Internal.ObjectLike | Internal.ObjectDefinitionInput,
+  object: ObjectLike | ObjectDefinitionInput,
   options: ObjectToJSONOptions = { ignoreDefaultValues: true }
 ): JSONSchema4 & { properties: JSONSchema4 } {
-  let definition: Internal.FinalObjectDefinition;
+  let definition: FinalObjectDefinition;
 
-  if (Internal.isObjectType(object)) {
-    definition = object.definition as Internal.FinalObjectDefinition;
+  if (isObjectType(object)) {
+    definition = object.definition as FinalObjectDefinition;
   } else {
     // @ts-ignore
-    definition = Internal.createObjectType(
-      object as Internal.ObjectDefinitionInput
+    definition = createObjectType(
+      object as ObjectDefinitionInput
     ).definition;
   }
 
-  const description = Internal.isObjectType(object)
+  const description = isObjectType(object)
     ? object.description
     : undefined;
 
@@ -57,7 +57,7 @@ export function objectToJSON(
 
   const composers: ParsedField['composers'] = [];
   getKeys(definition).forEach((fieldName) => {
-    if (Internal.isHiddenFieldName(fieldName)) return;
+    if (isHiddenFieldName(fieldName)) return;
     const field = definition[fieldName];
     if (field.hidden) return;
 
@@ -92,13 +92,13 @@ type ParsedField = {
 };
 
 function parseGraphQLField(params: {
-  field: Internal.FinalFieldDefinition;
+  field: FinalFieldDefinition;
   fieldName: string;
   options: ObjectToJSONOptions;
   parentName: string | null;
 }): ParsedField {
   let { field, fieldName, parentName, options } = params;
-  field = Internal.parseField(field);
+  field = parseField(field);
   const { ignoreDefaultValues } = options;
   let { type, list, optional, description, defaultValue } = field;
   const composers: ParsedField['composers'] = [];
@@ -128,7 +128,7 @@ function parseGraphQLField(params: {
     const parsedListItem = parseGraphQLField({
       field:
         type === 'array'
-          ? Internal.parseObjectField(fieldName, field.def.of)
+          ? parseObjectField(fieldName, field.def.of)
           : { ...field, list: false },
       fieldName,
       options,
@@ -145,14 +145,14 @@ function parseGraphQLField(params: {
     };
   }
 
-  const typeParsers: { [K in Internal.FieldTypeName]: () => any } = {
+  const typeParsers: { [K in FieldTypeName]: () => any } = {
     ID() {
       jsonItem.type = 'string';
       jsonItem.tsType = 'ID';
     },
     alias() {
-      const type = Internal.__getCachedFieldInstance(field);
-      Internal.AliasField.assert(type);
+      const type = __getCachedFieldInstance(field);
+      AliasField.assert(type);
 
       composers.push({
         compose(parent) {
@@ -210,7 +210,7 @@ function parseGraphQLField(params: {
       jsonItem.type = 'integer';
     },
     literal() {
-      if (!Internal.LiteralField.isFinalTypeDef(field)) throw 'err';
+      if (!LiteralField.isFinalTypeDef(field)) throw 'err';
       const parsed =
         field.def['__o.proto__'] === 'String'
           ? field.def.value
@@ -236,7 +236,7 @@ function parseGraphQLField(params: {
       jsonItem.type = 'null';
     },
     object() {
-      const objectName = Internal.parseTypeName({
+      const objectName = parseTypeName({
         field,
         fieldName: '',
         parentName: parentName || '',
@@ -250,7 +250,7 @@ function parseGraphQLField(params: {
       Object.assign(jsonItem, {
         maxLength: 20,
         minLength: 10,
-        pattern: Internal.E164_PHONE_REGEX.toString(),
+        pattern: E164_PHONE_REGEX.toString(),
       });
 
       jsonItem.tsType = 'Phone';
@@ -275,7 +275,7 @@ function parseGraphQLField(params: {
       jsonItem.type = 'null';
     },
     union() {
-      const def = field.def as Internal.FinalFieldDefinition[];
+      const def = field.def as FinalFieldDefinition[];
       expectedType({ def }, 'array');
 
       jsonItem.anyOf = def.map((type) => {

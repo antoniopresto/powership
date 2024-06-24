@@ -1,4 +1,5 @@
 import { GraphQLSchema, printSchema } from 'graphql';
+import { parseObjectField } from '../../internal';
 import * as Internal from '../../internal';
 
 import { createObjectType, ObjectType } from '../../ObjectType';
@@ -335,7 +336,7 @@ describe('GraphQLParser', () => {
   });
 
   it('Should use name', async () => {
-    Internal.parseObjectField('un', {
+    parseObjectField('un', {
       union: ['string', 'int'],
       name: 'HappyFamily',
     });

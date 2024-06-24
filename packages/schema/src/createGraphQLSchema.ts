@@ -12,7 +12,7 @@ import {
 } from './GraphType/getQueryTemplates';
 import { _resolvers, Resolver } from './Resolver';
 import { cleanMetaField } from './fields/MetaFieldField';
-import * as Internal from './internal';
+import { formatWithPrettier, objectToTypescript, parseFieldDefinitionConfig } from './internal';
 import { objectMock, ObjectMockOptions } from './mockObject';
 import type { ObjectToTypescriptOptions } from './objectToTypescript';
 
@@ -50,8 +50,6 @@ export function createGraphQLSchema(
 ): GraphQLSchemaWithUtils;
 
 export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
-  const { GraphQLSchema } = Internal;
-
   const registeredResolvers = _resolvers.entries.map((el) => el[1]);
 
   let resolvers: Resolver[] = Array.isArray(args[0])
@@ -217,7 +215,7 @@ export async function resolversTypescriptParts(
       .replace(/\n\n/gm, '\n') // remove multi line breaks
       .replace(/^\n/gm, ''); // remove empty lines
   // @only-server
-  code = (await Internal.formatWithPrettier(code, {
+  code = (await formatWithPrettier(code, {
     parser: 'typescript',
   })) as any;
 
@@ -234,7 +232,7 @@ export async function resolversToTypescript(
 
   return format
     ? // @ts-ignore circular
-      (Internal.formatWithPrettier(code, {
+      (formatWithPrettier(code, {
         parser: 'typescript',
         printWidth: 100,
       }) as any)
@@ -304,14 +302,14 @@ async function convertType(options: {
 }) {
   const { entryName, type, kind } = options;
 
-  const parsed = Internal.parseFieldDefinitionConfig(type, {
+  const parsed = parseFieldDefinitionConfig(type, {
     deep: { omitMeta: true },
   });
 
   const { description } = parsed;
 
   // @ts-ignore circular // @only-server
-  const result = (await Internal.objectToTypescript(
+  const result = (await objectToTypescript(
     entryName,
     {
       CONVERT__REPLACE: {

@@ -11,7 +11,7 @@ export async function generateTypes(
   gql_utils = await schema.utils.generateClientUtils();
   gql_utils = `${gql_utils}\n\n${extendedUtils}`;
 
-  gql_utils = await Internal.formatWithPrettier(gql_utils, {
+  gql_utils = await formatWithPrettier(gql_utils, {
     singleQuote: true,
     parser: 'typescript',
   });

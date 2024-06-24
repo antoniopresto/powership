@@ -290,7 +290,7 @@ describe('createType', () => {
   });
 
   it('should print typescript', async () => {
-    const ts = await Internal.createType('IntHem', 'int?').typescriptPrint();
+    const ts = await createType('IntHem', 'int?').typescriptPrint();
 
     expect(ts.split('\n')).toEqual([
       'export interface IntHem {',
@@ -299,7 +299,7 @@ describe('createType', () => {
       '',
     ]);
 
-    const tsObject = await Internal.createType('Person', {
+    const tsObject = await createType('Person', {
       object: { name: 'string' },
     }).typescriptPrint();
 
@@ -517,10 +517,13 @@ describe('createType', () => {
       return {} as any;
     });
 
+
     const usersOptionalResolver = createResolver({
       name: 'usersOptional',
       type: graphType.optionalType(),
-    }).resolve(() => {
+    })
+      // @ts-ignore
+      .resolve(() => {
       return undefined;
     });
 

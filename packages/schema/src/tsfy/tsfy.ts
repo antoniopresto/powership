@@ -8,7 +8,7 @@ import {
 import { GraphType } from '../GraphType/GraphType';
 import { ObjectType } from '../ObjectType';
 import { isFieldTypeName } from '../fields/fieldTypes';
-import * as Internal from '../internal';
+import { } from '../internal';
 
 import { parseTSFyValue } from './parseTSFyValue';
 
@@ -93,7 +93,7 @@ export function tsfy(input: any, config?: TSFYConfig): TSFyResult {
 
     if (prettier) {
       // @only-server
-      return await Internal.formatWithPrettier(res, {
+      return await formatWithPrettier(res, {
         parser: 'typescript',
       });
     }

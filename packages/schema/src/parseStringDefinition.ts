@@ -2,7 +2,7 @@ import { memoize } from '@powership/utils';
 
 import type { FieldTypeName } from './fields/_fieldDefinitions';
 import type { FinalFieldDefinition } from './fields/_parseFields';
-import * as Internal from './internal';
+import { isFieldTypeName } from './internal';
 
 function _parseStringDefinition<T extends AnyStringFieldDefinition>(
   typeName: T
@@ -47,7 +47,7 @@ function _typeNameFromTemplate<T extends FieldTypeName>(
 function _isStringFieldDefinition(t: any): t is AnyStringFieldDefinition {
   if (typeof t !== 'string') return false;
   const field = typeNameFromTemplate(t as any);
-  return Internal.isFieldTypeName(field);
+  return isFieldTypeName(field);
 }
 
 export const parseStringDefinition = memoize(_parseStringDefinition);
