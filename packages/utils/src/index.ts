@@ -2,6 +2,7 @@ import * as TU from './typings';
 
 export * from 'aggio';
 
+export * from './streamToString';
 export * from './joinTemplateString';
 export * from './typings';
 export * from './devAssert';

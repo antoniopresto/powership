@@ -88,6 +88,9 @@ export function watchable<T extends object>(
       if (result.status === 'resolved') {
         return Reflect.get(result.value!, prop, receiver);
       }
+      if (result.error) {
+        throw result.error;
+      }
       throw new Error('The promise is rejected or not resolved yet.');
     },
   });

@@ -21,15 +21,18 @@ const browserConfig = {
   useBuiltIns: 'entry',
   corejs: '3.22',
   targets: {
-    chrome: '58',
-    ie: '11',
+    browsers: [
+      "last 1 versions",
+      "not dead",
+      "not < 5%"
+    ]
   },
 };
 
 const nodeConfig = {
   targets: {
-    node: '14',
-  },
+    node: "18"
+  }
 };
 
 const envConfig = {

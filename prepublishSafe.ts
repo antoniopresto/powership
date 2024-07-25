@@ -31,7 +31,7 @@ class DepTree {
     return (
       this.packageValues
         .map((el, index) => this.traverse(el, index))
-        // fixme if a package has only 1 dependent and this dependent is the first, it will brake the pipeline
+        // fixme if a package has only 1 dependent and this dependent is the first, it will break the pipeline
         .sort((a, b) => b.dependents.length - a.dependents.length)
     );
   };
