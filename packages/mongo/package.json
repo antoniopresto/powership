@@ -1,6 +1,6 @@
 {
   "name": "@powership/mongo",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "type": "module",
   "main": "./out/index.cjs",
   "module": "./out/index.mjs",
