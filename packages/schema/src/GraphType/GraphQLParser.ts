@@ -208,6 +208,7 @@ export class GraphQLParser {
           if (plainField.hidden) return;
 
           if (plainField.type === 'alias') {
+            // @ts-ignore
             Internal.AliasField.assert(instance);
 
             const subTypeName = Internal.parseTypeName({
@@ -218,6 +219,7 @@ export class GraphQLParser {
 
             aliases.push({
               fieldName: subTypeName,
+              // @ts-ignore
               instance,
               parentName: objectId,
               path: [objectId, fieldName],
@@ -261,6 +263,7 @@ export class GraphQLParser {
         builders.forEach(_useConvertFieldResult);
 
         aliases.forEach(({ instance, fieldName, parentName, path }) => {
+          //@ts-expect-error
           const { type } = instance.asFinalFieldDef.def as {
             type: Internal.FinalFieldDefinition; // already parsed during parseObjectDefinition
           };
@@ -417,7 +420,7 @@ export class GraphQLParser {
       array() {
         const {
           utils: { listItemType: innerFieldType },
-        } = fieldClone as Internal.ArrayField<any>;
+        } = fieldClone as any;
 
         const id = Internal.parseTypeName({
           field: innerFieldType,
@@ -448,7 +451,7 @@ export class GraphQLParser {
         };
       },
       cursor(): any {
-        const cursor = fieldClone as Internal.CursorField;
+        const cursor = fieldClone as any;
 
         return {
           inputType: cursor.utils.object.graphqlInputType,

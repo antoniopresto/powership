@@ -1,6 +1,6 @@
 // MetaField is a special field type used to add metadata to an object
 
-import { expectedType } from '@powership/utils';
+import { expectedType, watchable } from '@powership/utils';
 import { getTypeName } from '@powership/utils';
 import { nonNullValues } from '@powership/utils';
 import { Serializable } from '@powership/utils';
@@ -18,37 +18,41 @@ export type MetaFieldDef = {
   custom?: CustomFieldConfig;
 };
 
-export class MetaField extends FieldType<MetaField, 'meta', MetaFieldDef> {
-  parse: FieldTypeParser<MetaField>;
+export const MetaField = watchable(() => {
+  return class MetaField extends FieldType<MetaField, 'meta', MetaFieldDef> {
+    parse: FieldTypeParser<MetaField>;
 
-  constructor(def: MetaFieldDef = { id: null }) {
-    super({ def: def, name: 'meta' });
-    this.toOptional();
-    const { id, description } = def;
+    constructor(def: MetaFieldDef = { id: null }) {
+      super({ def: def, name: 'meta' });
+      this.toOptional();
+      const { id, description } = def;
 
-    expectedType({ id }, ['string', 'null']);
-    expectedType({ description }, ['string'], true);
+      expectedType({ id }, ['string', 'null']);
+      expectedType({ description }, ['string'], true);
 
-    this.parse = this.applyParser({
-      parse: (input: MetaField) => {
-        expectedType({ value: input?.['id'] }, 'string');
-        expectedType({ value: input?.['description'] }, 'string', true);
+      this.parse = this.applyParser({
+        parse: (input: MetaField) => {
+          expectedType({ value: input?.['id'] }, 'string');
+          expectedType({ value: input?.['description'] }, 'string', true);
 
-        return input;
-      },
-    });
-  }
+          return input;
+        },
+      });
+    }
 
-  static create = (def: MetaFieldDef = { id: null }): MetaField => {
-    return new MetaField(def);
+    static create = (def: MetaFieldDef = { id: null }): MetaField => {
+      return new MetaField(def);
+    };
+
+    toString = () => `${this.typeName}(${this.def?.id || ''})`;
   };
+});
 
-  toString = () => `${this.typeName}(${this.def?.id || ''})`;
-}
+export type MetaField = typeof MetaField;
 
 export const objectMetaFieldKey = '__dschm__';
 
-export function createEmptyMetaField(): MetaField['asFinalFieldDef'] {
+export function createEmptyMetaField() {
   return {
     def: { id: null },
     defaultValue: undefined,
@@ -81,19 +85,14 @@ export function isMetaFieldKey(t: any): t is typeof objectMetaFieldKey {
   return t === objectMetaFieldKey;
 }
 
-export function isMetaField(
-  t: any,
-  fieldName?: string
-): t is MetaField['asFinalFieldDef'] {
+export function isMetaField(t: any, fieldName?: string) {
   if (fieldName && fieldName !== objectMetaFieldKey) return false;
   return (
     t && typeof t === 'object' && t.type === 'meta' && typeof t.def === 'object'
   );
 }
 
-export function getObjectDefinitionMetaField(
-  input: Record<string, any>
-): MetaField['asFinalFieldDef'] | undefined {
+export function getObjectDefinitionMetaField(input: Record<string, any>) {
   return input[objectMetaFieldKey];
 }
 

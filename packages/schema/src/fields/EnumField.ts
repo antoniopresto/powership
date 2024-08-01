@@ -1,39 +1,43 @@
+import { watchable } from '@powership/utils';
+
 import type { FieldTypeParser } from '../applyValidator';
 
 import { FieldType } from './FieldType';
 
-export class EnumField<
-  U extends string,
-  T extends Readonly<[U, ...U[]]>
-> extends FieldType<T[number], 'enum', T> {
-  //
-  parse: FieldTypeParser<T[number]>;
+export const EnumField = watchable(() => {
+  return class EnumField<
+    U extends string,
+    T extends Readonly<[U, ...U[]]>
+  > extends FieldType<T[number], 'enum', T> {
+    //
+    parse: FieldTypeParser<T[number]>;
 
-  get value(): T {
-    return this.def;
-  }
+    get value(): T {
+      return this.def;
+    }
 
-  constructor(def: T) {
-    super({ def: def, name: 'enum' });
+    constructor(def: T) {
+      super({ def: def, name: 'enum' });
 
-    this.parse = this.applyParser({
-      parse: (input: any) => {
-        if (!this.def.includes(input)) {
-          throw new Error(
-            `accepted: ${this.def
-              .map((e) => `'${e}'`)
-              .join(' or ')}, found ${input}.`
-          );
-        }
+      this.parse = this.applyParser({
+        parse: (input: any) => {
+          if (!this.def.includes(input)) {
+            throw new Error(
+              `accepted: ${this.def
+                .map((e) => `'${e}'`)
+                .join(' or ')}, found ${input}.`
+            );
+          }
 
-        return input;
-      },
-    });
-  }
+          return input;
+        },
+      });
+    }
 
-  static create = <U extends string, T extends Readonly<[U, ...U[]]>>(
-    def: T
-  ): FieldType<T[number], 'enum', T> => {
-    return new EnumField(def);
+    static create = <U extends string, T extends Readonly<[U, ...U[]]>>(
+      def: T
+    ): FieldType<T[number], 'enum', T> => {
+      return new EnumField(def);
+    };
   };
-}
+});

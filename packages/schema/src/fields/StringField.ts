@@ -1,4 +1,4 @@
-import { expectedType } from '@powership/utils';
+import { expectedType, watchable } from '@powership/utils';
 
 import type { FieldTypeParser } from '../applyValidator';
 
@@ -11,56 +11,59 @@ export type StringFieldDef = {
   regex?: [string] | [string, string] | Readonly<[string, string] | [string]>;
 };
 
-export class StringField extends FieldType<
-  string,
-  'string',
-  StringFieldDef | undefined
-> {
-  parse: FieldTypeParser<string>;
+export const StringField = watchable(
+  () =>
+    class StringField extends FieldType<
+      string,
+      'string',
+      StringFieldDef | undefined
+    > {
+      parse: FieldTypeParser<string>;
 
-  constructor(def: StringFieldDef = {}) {
-    super({ def: def, name: 'string' });
+      constructor(def: StringFieldDef = {}) {
+        super({ def: def, name: 'string' });
 
-    const { min, max, regex } = def;
+        const { min, max, regex } = def;
 
-    expectedType({ max, min }, 'number', true);
-    expectedType({ regex }, 'array', true);
+        expectedType({ max, min }, 'number', true);
+        expectedType({ regex }, 'array', true);
 
-    const regExp = regex && new RegExp(regex[0], regex[1]);
+        const regExp = regex && new RegExp(regex[0], regex[1]);
 
-    this.parse = this.applyParser({
-      parse(input: string) {
-        expectedType({ value: input }, 'string');
+        this.parse = this.applyParser({
+          parse(input: string) {
+            expectedType({ value: input }, 'string');
 
-        if (regExp && !regExp.test(input) && regex) {
-          throw new FieldTypeError(`regexMismatch`, {
-            input,
-            regex: regExp.toString(),
-          });
-        }
+            if (regExp && !regExp.test(input) && regex) {
+              throw new FieldTypeError(`regexMismatch`, {
+                input,
+                regex: regExp.toString(),
+              });
+            }
 
-        const length = input.length;
+            const length = input.length;
 
-        if (max !== undefined && length > max) {
-          throw new FieldTypeError(
-            'maxSize',
-            `${length} is more than the max string length ${max}.`
-          );
-        }
+            if (max !== undefined && length > max) {
+              throw new FieldTypeError(
+                'maxSize',
+                `${length} is more than the max string length ${max}.`
+              );
+            }
 
-        if (min !== undefined && length < min) {
-          throw new FieldTypeError(
-            'minSize',
-            `${length} is less than the min string length ${min}.`
-          );
-        }
+            if (min !== undefined && length < min) {
+              throw new FieldTypeError(
+                'minSize',
+                `${length} is less than the min string length ${min}.`
+              );
+            }
 
-        return input;
-      },
-    });
-  }
+            return input;
+          },
+        });
+      }
 
-  static create = (def?: StringFieldDef): StringField => {
-    return new StringField(def);
-  };
-}
+      static create = (def?: StringFieldDef): StringField => {
+        return new StringField(def);
+      };
+    }
+);

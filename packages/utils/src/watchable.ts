@@ -13,15 +13,7 @@ export type WatchableResult<T> =
       error?: undefined;
     };
 
-export function watchable<T extends object>(
-  callback: () => T
-): T & {
-  (): T;
-  then: Promise<T>['then'];
-  catch: Promise<T>['catch'];
-  finally: Promise<T>['finally'];
-  current: () => T | undefined;
-} {
+export function watchable<T extends object>(callback: () => T): T {
   let result: WatchableResult<T | Promise<T>> = { status: 'pending' };
   const subscribers: { resolve: Function; reject: Function }[] = [];
 

@@ -1,4 +1,4 @@
-import { expectedType } from '@powership/utils';
+import { expectedType, watchable } from '@powership/utils';
 
 import type { FieldTypeParser } from '../applyValidator';
 
@@ -14,42 +14,44 @@ type EmailDef = {
 const emailRegex =
   /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
-export class EmailField extends FieldType<
-  string,
-  'email',
-  EmailDef | undefined
-> {
-  parse: FieldTypeParser<string>;
+export const EmailField = watchable(() => {
+  return class EmailField extends FieldType<
+    string,
+    'email',
+    EmailDef | undefined
+  > {
+    parse: FieldTypeParser<string>;
 
-  constructor(def: EmailDef = {}) {
-    super({ def: def, name: 'email' });
+    constructor(def: EmailDef = {}) {
+      super({ def: def, name: 'email' });
 
-    let { regex: _regex = emailRegex } = def;
+      let { regex: _regex = emailRegex } = def;
 
-    if (def.regex && !Array.isArray(def.regex)) {
-      throw new Error(
-        `Invalid regex definition received. Expected [string] | [string, string].`
-      );
+      if (def.regex && !Array.isArray(def.regex)) {
+        throw new Error(
+          `Invalid regex definition received. Expected [string] | [string, string].`
+        );
+      }
+
+      const regex = Array.isArray(_regex)
+        ? new RegExp(_regex[0], _regex[1])
+        : _regex;
+
+      this.parse = this.applyParser({
+        parse: (input: any) => {
+          expectedType({ value: input }, 'string');
+
+          if (!regex.test(input)) {
+            throw new Error(`Invalid email received.`);
+          }
+
+          return input;
+        },
+      });
     }
 
-    const regex = Array.isArray(_regex)
-      ? new RegExp(_regex[0], _regex[1])
-      : _regex;
-
-    this.parse = this.applyParser({
-      parse: (input: any) => {
-        expectedType({ value: input }, 'string');
-
-        if (!regex.test(input)) {
-          throw new Error(`Invalid email received.`);
-        }
-
-        return input;
-      },
-    });
-  }
-
-  static create = (def?: EmailDef): EmailField => {
-    return new EmailField(def);
+    static create = (def?: EmailDef): EmailField => {
+      return new EmailField(def);
+    };
   };
-}
+});

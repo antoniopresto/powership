@@ -4,9 +4,7 @@ import { AnyField } from './fields/AnyField';
 import { FinalFieldDefinition } from './fields/_parseFields';
 import { types } from './fields/fieldTypes';
 
-export function fieldInstanceFromDef(
-  definition: FinalFieldDefinition
-): AnyField {
+export function fieldInstanceFromDef(definition: FinalFieldDefinition): any {
   if (!types[definition.type]) {
     throw new RuntimeError(
       `invalid field definition. types["${definition?.type}"] is undefined`,

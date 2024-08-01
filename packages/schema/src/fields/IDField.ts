@@ -1,4 +1,4 @@
-import { expectedType } from '@powership/utils';
+import { expectedType, watchable } from '@powership/utils';
 
 import type { FieldTypeParser } from '../applyValidator';
 import * as Internal from '../internal';
@@ -9,31 +9,33 @@ export type IDFieldDef = {
   autoCreate?: boolean;
 };
 
-export class IDField extends FieldType<string, 'ID', IDFieldDef> {
-  parse: FieldTypeParser<string>;
+export const IDField = watchable(() => {
+  return class IDField extends FieldType<string, 'ID', IDFieldDef> {
+    parse: FieldTypeParser<string>;
 
-  constructor(def: IDFieldDef = {}) {
-    super({ def: def, name: 'ID' });
-    const { autoCreate } = def;
+    constructor(def: IDFieldDef = {}) {
+      super({ def: def, name: 'ID' });
+      const { autoCreate } = def;
 
-    const createId = Internal.create.ulid({ autoCreate: true }).parse;
+      const createId = Internal.create.ulid({ autoCreate: true }).parse;
 
-    this.parse = this.applyParser({
-      parse(input: string) {
-        expectedType({ value: input }, 'string');
-        return input;
-      },
+      this.parse = this.applyParser({
+        parse(input: string) {
+          expectedType({ value: input }, 'string');
+          return input;
+        },
 
-      preParse(input: any) {
-        if (autoCreate && input === undefined) {
-          return createId(undefined);
-        }
-        return input;
-      },
-    });
-  }
+        preParse(input: any) {
+          if (autoCreate && input === undefined) {
+            return createId(undefined);
+          }
+          return input;
+        },
+      });
+    }
 
-  static create = (def: IDFieldDef = {}): IDField => {
-    return new IDField(def);
+    static create = (def: IDFieldDef = {}): IDField => {
+      return new IDField(def);
+    };
   };
-}
+});

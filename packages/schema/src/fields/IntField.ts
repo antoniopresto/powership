@@ -1,4 +1,4 @@
-import { expectedType } from '@powership/utils';
+import { expectedType, watchable } from '@powership/utils';
 
 import type { FieldTypeParser } from '../applyValidator';
 
@@ -9,48 +9,50 @@ export type IntFieldDef = {
   min?: number;
 };
 
-export class IntField extends FieldType<
-  number,
-  'int',
-  IntFieldDef | undefined
-> {
-  parse: FieldTypeParser<number>;
+export const IntField = watchable(() => {
+  return class IntField extends FieldType<
+    number,
+    'int',
+    IntFieldDef | undefined
+  > {
+    parse: FieldTypeParser<number>;
 
-  constructor(def: IntFieldDef = {}) {
-    super({ def: def, name: 'int' });
-    const { min, max } = def;
+    constructor(def: IntFieldDef = {}) {
+      super({ def: def, name: 'int' });
+      const { min, max } = def;
 
-    expectedType({ max, min }, 'number', true);
+      expectedType({ max, min }, 'number', true);
 
-    this.parse = this.applyParser({
-      parse: (input: number) => {
-        expectedType({ value: input }, 'number');
+      this.parse = this.applyParser({
+        parse: (input: number) => {
+          expectedType({ value: input }, 'number');
 
-        if (!Number.isInteger(input)) {
-          throw new Error(`${input} is not a valid integer.`);
-        }
+          if (!Number.isInteger(input)) {
+            throw new Error(`${input} is not a valid integer.`);
+          }
 
-        if (max !== undefined && input > max) {
-          throw new Error(`${input} is more than the maximum ${max}.`);
-        }
+          if (max !== undefined && input > max) {
+            throw new Error(`${input} is more than the maximum ${max}.`);
+          }
 
-        if (min !== undefined && input < min) {
-          throw new Error(`${input} is less than the minimum ${min}.`);
-        }
+          if (min !== undefined && input < min) {
+            throw new Error(`${input} is less than the minimum ${min}.`);
+          }
 
-        return input;
-      },
-      preParse(input: any) {
-        if (typeof input === 'string' && input !== '') {
-          const asNumber = +input;
-          if (!isNaN(asNumber)) return asNumber;
-        }
-        return input;
-      },
-    });
-  }
+          return input;
+        },
+        preParse(input: any) {
+          if (typeof input === 'string' && input !== '') {
+            const asNumber = +input;
+            if (!isNaN(asNumber)) return asNumber;
+          }
+          return input;
+        },
+      });
+    }
 
-  static create = (def: IntFieldDef = {}): IntField => {
-    return new IntField(def);
+    static create = (def: IntFieldDef = {}): IntField => {
+      return new IntField(def);
+    };
   };
-}
+});

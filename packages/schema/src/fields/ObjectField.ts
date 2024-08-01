@@ -2,7 +2,7 @@
  * Used to represent an object as another object field
  */
 
-import { createProxy, TypeLike } from '@powership/utils';
+import { createProxy, TypeLike, watchable } from '@powership/utils';
 
 import * as Internal from '../internal';
 
@@ -11,37 +11,40 @@ import type { ObjectDefinitionInput } from './_parseFields';
 
 type AnyObjectField = TypeLike<(typeof ObjectField)['prototype']>;
 
-export class ObjectField<
-  DefinitionInput extends ObjectDefinitionInput
-> extends FieldType<unknown, 'object', DefinitionInput> {
-  parse: Internal.FieldTypeParser<unknown>;
+export const ObjectField = watchable(
+  () =>
+    class ObjectField<
+      DefinitionInput extends ObjectDefinitionInput
+    > extends FieldType<unknown, 'object', DefinitionInput> {
+      parse: Internal.FieldTypeParser<unknown>;
 
-  utils: {
-    object: any;
-  };
+      utils: {
+        object: any;
+      };
 
-  static is(t: any): t is AnyObjectField {
-    return isFieldInstance(t) && t.typeName === 'object';
-  }
+      static is(t: any): t is AnyObjectField {
+        return isFieldInstance(t) && t.typeName === 'object';
+      }
 
-  constructor(def: DefinitionInput) {
-    super({ def: def, name: 'object' });
+      constructor(def: DefinitionInput) {
+        super({ def: def, name: 'object' });
 
-    this.utils = createProxy(() => ({
-      // @ts-ignore circular
-      object: Internal.createObjectType(def as any) as any,
-    }));
+        this.utils = createProxy(() => ({
+          // @ts-ignore circular
+          object: Internal.createObjectType(def as any) as any,
+        }));
 
-    this.parse = this.applyParser({
-      parse: (input, _options) => {
-        return this.utils.object.parse(input, _options);
-      },
-    });
-  }
+        this.parse = this.applyParser({
+          parse: (input, _options) => {
+            return this.utils.object.parse(input, _options);
+          },
+        });
+      }
 
-  static create = <DefinitionInput extends ObjectDefinitionInput>(
-    def: DefinitionInput
-  ) => {
-    return new ObjectField<DefinitionInput>(def);
-  };
-}
+      static create = <DefinitionInput extends ObjectDefinitionInput>(
+        def: DefinitionInput
+      ) => {
+        return new ObjectField<DefinitionInput>(def);
+      };
+    }
+);

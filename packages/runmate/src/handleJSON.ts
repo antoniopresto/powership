@@ -1,11 +1,19 @@
 import fs from 'fs-extra';
 
 import { PackageJson } from './ICommons';
+import { nonNullValues } from '@powership/utils';
 
 export function readPackageJSON(path: string): PackageJson {
   const packageJSON = fs.readJSONSync(path);
-  if (!packageJSON?.name || !packageJSON?.version) {
-    throw new Error(`Invalid package found in "${path}"`);
+  try {
+    nonNullValues({
+        name: packageJSON?.name,
+        version: packageJSON.version
+      }, //
+      `Invalid package found in "${path}"`
+    )
+  }catch (e: any){
+    console.error(e.message)
   }
   return packageJSON;
 }

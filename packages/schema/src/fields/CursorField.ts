@@ -1,4 +1,4 @@
-import { createProxy } from '@powership/utils';
+import { createProxy, watchable } from '@powership/utils';
 
 import type { ObjectType } from '../ObjectType';
 import type { FieldTypeParser } from '../applyValidator';
@@ -54,49 +54,51 @@ type CursorDef = typeof def;
 
 let cursorObject: ObjectType<CursorDef> | undefined;
 
-function getCursorObject() {
-  // circular dependency
-  const { createObjectType } = Internal;
-  cursorObject = cursorObject || createObjectType('Cursor', def);
-  return cursorObject;
-}
-
-export class CursorField extends FieldType<
-  Internal.CursorType,
-  'cursor',
-  undefined
-> {
-  parse: FieldTypeParser<Internal.CursorType>;
-
-  utils: {
-    object: ObjectType<CursorDef>;
-  };
-
-  static object() {
-    return getCursorObject()!;
+export const CursorField = watchable(() => {
+  function getCursorObject() {
+    // circular dependency
+    const { createObjectType } = Internal;
+    cursorObject = cursorObject || createObjectType('Cursor', def);
+    return cursorObject;
   }
 
-  constructor() {
-    super({ def: undefined, name: 'cursor' });
+  return class CursorField extends FieldType<
+    Internal.CursorType,
+    'cursor',
+    undefined
+  > {
+    parse: FieldTypeParser<Internal.CursorType>;
 
-    this.utils = createProxy(() => ({
-      object: getCursorObject()!,
-    }));
+    utils: {
+      object: ObjectType<CursorDef>;
+    };
 
-    const parser = this.utils.object.parse.bind(this.utils.object);
+    static object() {
+      return getCursorObject()!;
+    }
 
-    this.parse = this.applyParser({
-      parse: (value) => {
-        if (typeof value !== 'object') {
-          throw new Error(`Expected cursor, found ${value}`);
-        }
+    constructor() {
+      super({ def: undefined, name: 'cursor' });
 
-        return parser(value);
-      },
-    });
-  }
+      this.utils = createProxy(() => ({
+        object: getCursorObject()!,
+      }));
 
-  static create = (): CursorField => {
-    return new CursorField();
+      const parser = this.utils.object.parse.bind(this.utils.object);
+
+      this.parse = this.applyParser({
+        parse: (value) => {
+          if (typeof value !== 'object') {
+            throw new Error(`Expected cursor, found ${value}`);
+          }
+
+          return parser(value);
+        },
+      });
+    }
+
+    static create = (): CursorField => {
+      return new CursorField();
+    };
   };
-}
+});

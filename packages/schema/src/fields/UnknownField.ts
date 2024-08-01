@@ -1,4 +1,4 @@
-import { getTypeName } from '@powership/utils';
+import { getTypeName, watchable } from '@powership/utils';
 
 import type { FieldTypeParser } from '../applyValidator';
 
@@ -9,44 +9,49 @@ export type UnknownFieldDef = {
   types?: string[] | string;
 };
 
-export class UnknownField extends FieldType<
-  unknown,
-  'unknown',
-  UnknownFieldDef | undefined
-> {
-  parse: FieldTypeParser<any>;
+export const UnknownField = watchable(
+  () =>
+    class UnknownField extends FieldType<
+      unknown,
+      'unknown',
+      UnknownFieldDef | undefined
+    > {
+      parse: FieldTypeParser<any>;
 
-  constructor(def?: UnknownFieldDef) {
-    super({ def: def, name: 'unknown' });
-    const { types } = def || {};
+      constructor(def?: UnknownFieldDef) {
+        super({ def: def, name: 'unknown' });
+        const { types } = def || {};
 
-    this.parse = this.applyParser({
-      parse: (input) => {
-        if (input === undefined) {
-          if (this.optional) return input;
-          throw new FieldTypeError('requiredField');
-        }
+        this.parse = this.applyParser({
+          parse: (input) => {
+            if (input === undefined) {
+              if (this.optional) return input;
+              throw new FieldTypeError('requiredField');
+            }
 
-        if (types?.length) {
-          const arr = (Array.isArray(types) ? types : [types]).map((el) =>
-            el.toLowerCase()
-          );
+            if (types?.length) {
+              const arr = (Array.isArray(types) ? types : [types]).map((el) =>
+                el.toLowerCase()
+              );
 
-          const tn = getTypeName(input).toLowerCase();
+              const tn = getTypeName(input).toLowerCase();
 
-          if (!arr.includes(tn)) {
-            throw new Error(
-              `expected type to be one of -> (${arr.join(', ')}), found "${tn}"`
-            );
-          }
-        }
+              if (!arr.includes(tn)) {
+                throw new Error(
+                  `expected type to be one of -> (${arr.join(
+                    ', '
+                  )}), found "${tn}"`
+                );
+              }
+            }
 
-        return input;
-      },
-    });
-  }
+            return input;
+          },
+        });
+      }
 
-  static create = (def?: UnknownFieldDef): UnknownField => {
-    return new UnknownField(def);
-  };
-}
+      static create = (def?: UnknownFieldDef): UnknownField => {
+        return new UnknownField(def);
+      };
+    }
+);

@@ -33,12 +33,14 @@ describe('watchable', () => {
     });
 
     // before access
+    // @ts-expect-error
     expect(watchableFunction.current()).toBeUndefined();
 
     // force run
     expect(watchableFunction.message).toBe('Current Value');
 
     // after access
+    // @ts-expect-error
     expect(watchableFunction.current()).toEqual({ message: 'Current Value' });
   });
 

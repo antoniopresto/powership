@@ -1,4 +1,4 @@
-import { expectedType } from '@powership/utils';
+import { expectedType, watchable } from '@powership/utils';
 
 import type { FieldTypeParser } from '../applyValidator';
 
@@ -9,47 +9,49 @@ export type FloatFieldDef = {
   min?: number;
 };
 
-export class FloatField extends FieldType<
-  number,
-  'float',
-  FloatFieldDef | undefined
-> {
-  parse: FieldTypeParser<number>;
+export const FloatField = watchable(() => {
+  return class FloatField extends FieldType<
+    number,
+    'float',
+    FloatFieldDef | undefined
+  > {
+    parse: FieldTypeParser<number>;
 
-  constructor(def: FloatFieldDef = {}) {
-    super({ def: def, name: 'float' });
+    constructor(def: FloatFieldDef = {}) {
+      super({ def: def, name: 'float' });
 
-    const { min, max } = def;
+      const { min, max } = def;
 
-    expectedType({ max, min }, 'number', true);
+      expectedType({ max, min }, 'number', true);
 
-    this.parse = this.applyParser({
-      parse: (input: number) => {
-        expectedType({ value: input }, 'number');
+      this.parse = this.applyParser({
+        parse: (input: number) => {
+          expectedType({ value: input }, 'number');
 
-        if (max !== undefined && input > max) {
-          throw new Error(`${input} is more than the maximum ${max}.`);
-        }
+          if (max !== undefined && input > max) {
+            throw new Error(`${input} is more than the maximum ${max}.`);
+          }
 
-        if (min !== undefined && input < min) {
-          throw new Error(`${input} is less than the minimum ${min}.`);
-        }
+          if (min !== undefined && input < min) {
+            throw new Error(`${input} is less than the minimum ${min}.`);
+          }
 
-        return input;
-      },
-      preParse(input: any) {
-        if (typeof input === 'string' && input !== '') {
-          const asNumber = +input;
-          if (!isNaN(asNumber)) return asNumber;
-        }
-        return input;
-      },
-    });
-  }
+          return input;
+        },
+        preParse(input: any) {
+          if (typeof input === 'string' && input !== '') {
+            const asNumber = +input;
+            if (!isNaN(asNumber)) return asNumber;
+          }
+          return input;
+        },
+      });
+    }
 
-  static create = (def: FloatFieldDef = {}): FloatField => {
-    return new FloatField(def);
+    static create = (def: FloatFieldDef = {}): FloatField => {
+      return new FloatField(def);
+    };
+
+    toString = () => `${this.typeName}(${this.def || ''})`;
   };
-
-  toString = () => `${this.typeName}(${this.def || ''})`;
-}
+});

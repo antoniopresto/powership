@@ -13,7 +13,6 @@ import { LiteralField } from './fields/LiteralField';
 import {
   createEmptyMetaField,
   isMetaField,
-  MetaField,
   objectMetaFieldKey,
 } from './fields/MetaFieldField';
 import { FieldDefinitionWithType } from './fields/_fieldDefinitions';
@@ -332,7 +331,7 @@ export type ParseFieldOptions = {
 
 type ParseResult = {
   definition: { [key: string]: FinalFieldDefinition };
-  meta?: MetaField['asFinalFieldDef'];
+  meta?: FieldDefinitionConfig;
   custom?: CustomFieldConfig;
 };
 
@@ -348,7 +347,7 @@ export function parseObjectDefinition(
 
   const result = {} as { [key: string]: FinalFieldDefinition };
 
-  let meta: MetaField['asFinalFieldDef'] | undefined = undefined;
+  let meta: any | undefined = undefined;
   let custom: CustomFieldConfig | undefined = undefined;
 
   const keys = getKeys(input);
@@ -383,7 +382,7 @@ export function parseObjectDefinition(
     }
   });
 
-  meta = meta || createEmptyMetaField();
+  meta = meta || (createEmptyMetaField() as any);
 
   if (meta) {
     meta.def.custom = custom;
@@ -532,7 +531,7 @@ export function __getCachedFieldInstance(
   }
 
   const parsed = parseFieldDefinitionConfig(field);
-  const instanceFromDef = fieldInstanceFromDef(parsed);
+  const instanceFromDef: any = fieldInstanceFromDef(parsed);
   setCachedFieldInstance(parsed, instanceFromDef);
   return instanceFromDef;
 }

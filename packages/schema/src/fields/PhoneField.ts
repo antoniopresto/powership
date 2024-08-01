@@ -1,4 +1,4 @@
-import { assertEqual, isProduction } from '@powership/utils';
+import { assertEqual, isProduction, watchable } from '@powership/utils';
 //
 import type {
   ParsedPhoneNumber,
@@ -99,31 +99,34 @@ export function validatePhoneNumber(
   return input;
 }
 
-export class PhoneField extends FieldType<string, 'phone', PhoneFieldDef> {
-  parse: FieldTypeParser<string>;
+export const PhoneField = watchable(
+  () =>
+    class PhoneField extends FieldType<string, 'phone', PhoneFieldDef> {
+      parse: FieldTypeParser<string>;
 
-  static is(input: any): input is PhoneField {
-    return input?.__isFieldType && input?.type === 'phone';
-  }
+      static is(input: any): input is PhoneField {
+        return input?.__isFieldType && input?.type === 'phone';
+      }
 
-  static assert(input: any): asserts input is PhoneField {
-    assertEqual(this.is(input), true, 'NOT_PHONE_FIELD');
-  }
+      static assert(input: any): asserts input is PhoneField {
+        assertEqual(this.is(input), true, 'NOT_PHONE_FIELD');
+      }
 
-  constructor(def: PhoneFieldDef) {
-    super({
-      def,
-      name: 'phone',
-    });
+      constructor(def: PhoneFieldDef) {
+        super({
+          def,
+          name: 'phone',
+        });
 
-    this.parse = this.applyParser({
-      parse(input: any) {
-        return validatePhoneNumber(input);
-      },
-    });
-  }
+        this.parse = this.applyParser({
+          parse(input: any) {
+            return validatePhoneNumber(input);
+          },
+        });
+      }
 
-  static create = (def: PhoneFieldDef): PhoneField => {
-    return new PhoneField(def);
-  };
-}
+      static create = (def: PhoneFieldDef): PhoneField => {
+        return new PhoneField(def);
+      };
+    }
+);

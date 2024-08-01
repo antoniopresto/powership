@@ -28,6 +28,7 @@ describe('parseStringDefinition', () => {
       const type = item[0];
       const expected = item[1];
 
+      // @ts-ignore
       const sut = parseStringDefinition(type);
 
       expect(sut).toEqual(expected);

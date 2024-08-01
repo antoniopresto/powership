@@ -1,28 +1,30 @@
-import { expectedType } from '@powership/utils';
+import { expectedType, watchable } from '@powership/utils';
 
 import type { FieldTypeParser } from '../applyValidator';
 
 import { FieldType } from './FieldType';
 
-export class NullField extends FieldType<string, 'null', undefined> {
-  parse: FieldTypeParser<string>;
+export const NullField = watchable(() => {
+  return class NullField extends FieldType<string, 'null', undefined> {
+    parse: FieldTypeParser<string>;
 
-  constructor() {
-    super({ def: undefined, name: 'null' });
+    constructor() {
+      super({ def: undefined, name: 'null' });
 
-    this.parse = this.applyParser({
-      parse(input: string) {
-        expectedType({ value: input }, 'null');
-        return input;
-      },
-      preParse(input: any) {
-        if (input === undefined) return null;
-        return input;
-      },
-    });
-  }
+      this.parse = this.applyParser({
+        parse(input: string) {
+          expectedType({ value: input }, 'null');
+          return input;
+        },
+        preParse(input: any) {
+          if (input === undefined) return null;
+          return input;
+        },
+      });
+    }
 
-  static create = (): NullField => {
-    return new NullField();
+    static create = (): NullField => {
+      return new NullField();
+    };
   };
-}
+});

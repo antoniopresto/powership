@@ -1,4 +1,4 @@
-import { dateSerialize } from '@powership/utils';
+import { dateSerialize, watchable } from '@powership/utils';
 import { expectedType } from '@powership/utils';
 
 import type { FieldTypeParser } from '../applyValidator';
@@ -11,71 +11,73 @@ export type DateFieldDef = {
   min?: Date;
 };
 
-export class DateField extends FieldType<
-  Date,
-  'date',
-  DateFieldDef | undefined
-> {
-  parse: FieldTypeParser<Date>;
+export const DateField = watchable(() => {
+  return class DateField extends FieldType<
+    Date,
+    'date',
+    DateFieldDef | undefined
+  > {
+    parse: FieldTypeParser<Date>;
 
-  constructor(def: DateFieldDef = {}) {
-    super({ def: def, name: 'date' });
-    const { min, max, autoCreate } = def;
+    constructor(def: DateFieldDef = {}) {
+      super({ def: def, name: 'date' });
+      const { min, max, autoCreate } = def;
 
-    let minTime = 0;
-    let maxTime = 0;
+      let minTime = 0;
+      let maxTime = 0;
 
-    expectedType({ max, min }, 'date', true);
+      expectedType({ max, min }, 'date', true);
 
-    if (min !== undefined) {
-      minTime = min.getTime();
+      if (min !== undefined) {
+        minTime = min.getTime();
+      }
+
+      if (max !== undefined) {
+        maxTime = max.getTime();
+      }
+
+      this.parse = this.applyParser({
+        parse: (input: unknown) => {
+          expectedType({ value: input }, ['date', 'string', 'number']);
+          const date = DateField.serialize(input);
+
+          const inputTime = date.getTime();
+
+          if (minTime !== 0 && inputTime < minTime && min) {
+            throw new Error(
+              `${date.toISOString()} is less than the minimum ${min.toISOString()}.`
+            );
+          }
+
+          if (maxTime !== 0 && inputTime > maxTime && max) {
+            throw new Error(
+              `${date.toISOString()} is more than the maximum ${max.toISOString()}.`
+            );
+          }
+
+          return date;
+        },
+        preParse(input: any) {
+          if (autoCreate && input === undefined) {
+            return new Date();
+          }
+          return input;
+        },
+      });
     }
 
-    if (max !== undefined) {
-      maxTime = max.getTime();
+    static create = (def: DateFieldDef = {}): DateField => {
+      return new DateField(def);
+    };
+
+    static serialize(value: unknown): Date {
+      const date = dateSerialize(value);
+
+      if (!(date instanceof Date)) {
+        throw new TypeError('Field error: value is not an instance of Date');
+      }
+
+      return date;
     }
-
-    this.parse = this.applyParser({
-      parse: (input: unknown) => {
-        expectedType({ value: input }, ['date', 'string', 'number']);
-        const date = DateField.serialize(input);
-
-        const inputTime = date.getTime();
-
-        if (minTime !== 0 && inputTime < minTime && min) {
-          throw new Error(
-            `${date.toISOString()} is less than the minimum ${min.toISOString()}.`
-          );
-        }
-
-        if (maxTime !== 0 && inputTime > maxTime && max) {
-          throw new Error(
-            `${date.toISOString()} is more than the maximum ${max.toISOString()}.`
-          );
-        }
-
-        return date;
-      },
-      preParse(input: any) {
-        if (autoCreate && input === undefined) {
-          return new Date();
-        }
-        return input;
-      },
-    });
-  }
-
-  static create = (def: DateFieldDef = {}): DateField => {
-    return new DateField(def);
   };
-
-  static serialize(value: unknown): Date {
-    const date = dateSerialize(value);
-
-    if (!(date instanceof Date)) {
-      throw new TypeError('Field error: value is not an instance of Date');
-    }
-
-    return date;
-  }
-}
+});

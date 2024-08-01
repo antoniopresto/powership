@@ -152,7 +152,6 @@ function parseGraphQLField(params: {
     },
     alias() {
       const type = Internal.__getCachedFieldInstance(field);
-      Internal.AliasField.assert(type);
 
       composers.push({
         compose(parent) {
@@ -160,6 +159,7 @@ function parseGraphQLField(params: {
             return pick(parent, type.def) as any;
           } else {
             return parseGraphQLField({
+              // @ts-ignore
               field: type.utils.fieldType.asFinalFieldDef,
               fieldName,
               options,
