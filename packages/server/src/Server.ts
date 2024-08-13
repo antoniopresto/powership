@@ -236,14 +236,25 @@ export class Server {
 
         const response = await app.handleRequest(appRequest);
 
-        const { statusCode, body, headersNamed } = response.toHttpResponse();
+        const { statusCode, body, headersNamed, streamBody } =
+          response.toHttpResponse();
+
         httpServerResponse.statusCode = statusCode;
 
         headersNamed.forEach(({ name, value }) => {
           httpServerResponse.setHeader(name, value);
         });
 
-        httpServerResponse.end(body);
+        if (streamBody) {
+          streamBody.on('error', (error) => {
+            ServerLogs.error(error);
+            httpServerResponse.statusCode = 500;
+            httpServerResponse.end();
+          });
+          streamBody.pipe(httpServerResponse);
+        } else {
+          httpServerResponse.end(body);
+        }
       } catch (error) {
         console.trace(error);
         ServerLogs.error(error);

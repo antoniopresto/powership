@@ -7,6 +7,7 @@ import qs, { ParsedQs } from 'qs';
 import { ServerLogs } from './ServerLogs';
 import { UnhandledSymbol } from './Symbol';
 import { createRouteMatcher, RouteMatcher } from './routeMatch';
+import { Readable, Stream } from 'node:stream';
 
 const { HttpError, InternalServerError, isHttpError, PreconditionFailed } =
   httpErrors;
@@ -122,7 +123,7 @@ export type GraphQLResponseRecord = {
 };
 
 export class BaseRequestHandler extends BaseRequest {
-  body: string | Record<string, any> | UnhandledSymbol;
+  body: RequestBody;
   headers: Headers;
   statusCode: ServerResponseStatus;
 
@@ -205,6 +206,10 @@ export class BaseRequestHandler extends BaseRequest {
 
     if (!body) return '';
 
+    if (isStream(body)) {
+      return body;
+    }
+
     if (typeof body === 'object') {
       try {
         return JSON.stringify(body);
@@ -263,14 +268,18 @@ export class BaseRequestHandler extends BaseRequest {
   ): HTTPHandlerParsed {
     const req = new BaseRequest(input);
 
-    return {
-      body:
-        type === 'RESPONSE'
-          ? this.httpResponseBody(input.body ?? UnhandledSymbol)
-          : input.body === UnhandledSymbol
-          ? ''
-          : input.body,
+    const { body: bodyInit } = input;
 
+    const body =
+      type === 'RESPONSE'
+        ? this.httpResponseBody(bodyInit ?? UnhandledSymbol)
+        : bodyInit === UnhandledSymbol
+        ? ''
+        : bodyInit ?? '';
+
+    return {
+      body,
+      streamBody: isStream(body) ? body : undefined,
       headers: this.httpHeaders(input.headers),
       statusCode: this.httpStatusCode(input.statusCode ?? 404),
       headersNamed: this.headersNamed(input.headers),
@@ -282,9 +291,21 @@ export class BaseRequestHandler extends BaseRequest {
   }
 }
 
+function isStream(value: any): value is Readable {
+  return (
+    typeof value?.pipe === 'function' &&
+    typeof value?.abort === 'function' &&
+    typeof value?.on === 'function'
+  );
+}
+
 export type HTTPHandlerParsed = {
   headers: HeaderRecord;
-  body: any;
+  body: RequestBody;
+  /**
+   * undefined if body is not streamable
+   */
+  streamBody: Readable | undefined;
   statusCode: number;
   headersNamed: HeaderNamed[];
   payload: Record<string, unknown>;
@@ -293,7 +314,11 @@ export type HTTPHandlerParsed = {
   type: 'REQUEST' | 'RESPONSE';
 };
 
-export type RequestBody = string | Record<string, unknown> | UnhandledSymbol;
+export type RequestBody =
+  | string
+  | Record<string, unknown>
+  | UnhandledSymbol
+  | Stream;
 
 export type HeaderNamed = { name: string; value: string };
 
