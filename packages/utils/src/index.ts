@@ -55,7 +55,6 @@ export * from './diff/diff';
 export * from './ms';
 export * from './hashObject';
 export * from './createModulesProxy';
-export * from './ufo';
 export * from './createErrorClass';
 export * from './PackageJson';
 export * from './isObject';
