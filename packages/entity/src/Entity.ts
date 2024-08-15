@@ -4,7 +4,6 @@ import {
   FinalFieldDefinition,
   FinalObjectDefinition,
   GraphType,
-  Internal,
   isFieldTypeName,
   ObjectDefinitionInput,
 } from '@powership/schema';
@@ -762,7 +761,7 @@ function _registerPKSKHook(input: {
 
       doc.ulid = (() => {
         if (doc.ulid) return doc.ulid;
-        return Internal.create.ulid({ autoCreate: true }).parse(undefined);
+        return ulid();
       })();
 
       doc.createdAt = new Date();

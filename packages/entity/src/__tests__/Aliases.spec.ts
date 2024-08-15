@@ -7,6 +7,130 @@ import { tupleEnum } from '@powership/utils';
 import { createEntity } from '../Entity';
 
 describe('Aliases', () => {
+  const AccountType = createType('Account', {
+    object: {
+      username: 'string',
+      providers: { string: {}, list: true, optional: true },
+    },
+  } as const);
+
+  const accessTypesEnum = tupleEnum('phone', 'email', 'oauth', 'custom');
+
+  const AccessTypeBase = createSchema({
+    createdAt: { date: { autoCreate: true } },
+    meta: 'record?',
+    updatedAt: { date: { autoCreate: true } },
+  } as const);
+
+  const AccessTypeSchema = createType({
+    union: [
+      {
+        object: {
+          ...AccessTypeBase.definition,
+          kind: { literal: accessTypesEnum.phone },
+          value: accessTypesEnum.phone,
+          verified: 'boolean',
+        },
+      },
+
+      {
+        object: {
+          ...AccessTypeBase.definition,
+          kind: { literal: accessTypesEnum.email },
+          value: accessTypesEnum.email,
+          verified: 'boolean',
+        },
+      },
+
+      {
+        object: {
+          ...AccessTypeBase.definition,
+          kind: { literal: accessTypesEnum.oauth },
+          provider: { description: 'Provider name', string: {} },
+          authToken: 'string',
+          value: { alias: 'provider' },
+        },
+      },
+
+      {
+        object: {
+          ...AccessTypeBase.definition,
+          kind: { literal: accessTypesEnum.custom },
+          meta: 'record',
+          value: 'string',
+        },
+      },
+    ],
+  } as const);
+
+  type AccessType = Infer<typeof AccessTypeSchema>;
+
+  const UserType = AccountType.clone((t) =>
+    t
+      .extendObjectDefinition({
+        firstName: 'string',
+        lastName: 'string',
+        access: { array: { of: AccessTypeSchema } },
+        email: {
+          alias: {
+            type: 'email',
+            aggregate: [
+              { $pick: 'access' }, //
+              { $sort: { createdAt: -1 } },
+              { $matchOne: { kind: 'email' } },
+              { $pick: 'value' }, //
+            ],
+          },
+        },
+
+        phone: {
+          description: 'First user phone',
+          optional: true,
+          alias: {
+            type: 'phone',
+            aggregate: [
+              { $pick: 'access' }, //
+              { $sort: { createdAt: -1 } },
+              { $matchOne: { kind: 'phone' } },
+              { $pick: 'value' }, //
+            ],
+          },
+        },
+      })
+      .graphType('User')
+  );
+
+  function _getEntity(transporter: MongoTransporter) {
+    return createEntity({
+      name: 'User',
+      transporter,
+      type: UserType,
+      indexes: [
+        {
+          name: '_id',
+          PK: ['.username'],
+        },
+      ],
+    });
+  }
+
+  function userMock() {
+    const access: AccessType = {
+      kind: 'email',
+      value: 'antonio@mail.com',
+      updatedAt: new Date(),
+      createdAt: new Date(),
+      verified: false,
+    };
+
+    return UserType.parse({
+      firstName: 'antonio',
+      lastName: 'Silva',
+      username: 'antonio',
+      access: [access],
+    });
+  }
+
   let mockApp: AppMock;
   let transporter: MongoTransporter;
 
@@ -233,127 +357,3 @@ describe('Aliases', () => {
     });
   });
 });
-
-export const AccountType = createType('Account', {
-  object: {
-    username: 'string',
-    providers: { string: {}, list: true, optional: true },
-  },
-} as const);
-
-const accessTypesEnum = tupleEnum('phone', 'email', 'oauth', 'custom');
-
-const AccessTypeBase = createSchema({
-  createdAt: { date: { autoCreate: true } },
-  meta: 'record?',
-  updatedAt: { date: { autoCreate: true } },
-} as const);
-
-const AccessTypeSchema = createType({
-  union: [
-    {
-      object: {
-        ...AccessTypeBase.definition,
-        kind: { literal: accessTypesEnum.phone },
-        value: accessTypesEnum.phone,
-        verified: 'boolean',
-      },
-    },
-
-    {
-      object: {
-        ...AccessTypeBase.definition,
-        kind: { literal: accessTypesEnum.email },
-        value: accessTypesEnum.email,
-        verified: 'boolean',
-      },
-    },
-
-    {
-      object: {
-        ...AccessTypeBase.definition,
-        kind: { literal: accessTypesEnum.oauth },
-        provider: { description: 'Provider name', string: {} },
-        authToken: 'string',
-        value: { alias: 'provider' },
-      },
-    },
-
-    {
-      object: {
-        ...AccessTypeBase.definition,
-        kind: { literal: accessTypesEnum.custom },
-        meta: 'record',
-        value: 'string',
-      },
-    },
-  ],
-} as const);
-
-type AccessType = Infer<typeof AccessTypeSchema>;
-
-const UserType = AccountType.clone((t) =>
-  t
-    .extendObjectDefinition({
-      firstName: 'string',
-      lastName: 'string',
-      access: { array: { of: AccessTypeSchema } },
-      email: {
-        alias: {
-          type: 'email',
-          aggregate: [
-            { $pick: 'access' }, //
-            { $sort: { createdAt: -1 } },
-            { $matchOne: { kind: 'email' } },
-            { $pick: 'value' }, //
-          ],
-        },
-      },
-
-      phone: {
-        description: 'First user phone',
-        optional: true,
-        alias: {
-          type: 'phone',
-          aggregate: [
-            { $pick: 'access' }, //
-            { $sort: { createdAt: -1 } },
-            { $matchOne: { kind: 'phone' } },
-            { $pick: 'value' }, //
-          ],
-        },
-      },
-    })
-    .graphType('User')
-);
-
-function _getEntity(transporter: MongoTransporter) {
-  return createEntity({
-    name: 'User',
-    transporter,
-    type: UserType,
-    indexes: [
-      {
-        name: '_id',
-        PK: ['.username'],
-      },
-    ],
-  });
-}
-
-function userMock() {
-  const access: AccessType = {
-    kind: 'email',
-    value: 'antonio@mail.com',
-    updatedAt: new Date(),
-    createdAt: new Date(),
-    verified: false,
-  };
-
-  return UserType.parse({
-    firstName: 'antonio',
-    lastName: 'Silva',
-    username: 'antonio',
-    access: [access],
-  });
-}

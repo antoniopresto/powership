@@ -1,10 +1,11 @@
-import { Internal, createResolver, Infer } from '@powership/schema';
+import { createResolver, Infer } from '@powership/schema';
 import { createGraphQLSchema } from '@powership/schema';
 import { PaginationResult } from '@powership/transporter';
 import { notNull, NullableToPartial, PromiseType } from '@powership/utils';
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { setupProductTest } from './setupProductTest';
+import { graphql } from 'graphql/graphql';
 
 describe('ProductResolver', () => {
   const { getMocks } = setupProductTest();
@@ -120,7 +121,7 @@ describe('ProductResolver', () => {
 
     const schema = createGraphQLSchema();
 
-    const resp = await Internal.graphql({
+    const resp = await graphql({
       schema,
       contextValue: { userId: () => '123' },
       source:
@@ -154,7 +155,7 @@ describe('ProductResolver', () => {
 
     const schema = createGraphQLSchema();
 
-    const response = await Internal.graphql({
+    const response = await graphql({
       schema,
       contextValue: { userId: () => '123' },
       source:
@@ -191,7 +192,7 @@ describe('ProductResolver', () => {
 
     const schema = createGraphQLSchema();
 
-    const invalidCondition = await Internal.graphql({
+    const invalidCondition = await graphql({
       schema,
       contextValue: { userId: () => '123' },
       source:

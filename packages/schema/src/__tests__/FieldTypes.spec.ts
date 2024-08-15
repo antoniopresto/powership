@@ -6,6 +6,7 @@ import type { CursorType } from '../fields/_fieldDefinitions';
 import { objectToGQL } from '../objectToGQL';
 
 import type { InferObjectDefinition } from '../fields/Infer';
+import { objectToTypescript } from '../objectToTypescript';
 
 describe('FieldTypes', () => {
   const { createObjectType, createType } = Internal;
@@ -600,10 +601,7 @@ describe('FieldTypes', () => {
         r3: '[record]?',
       });
       // @only-server
-      const sut = await Internal.objectToTypescript(
-        'records',
-        object.definition
-      );
+      const sut = await objectToTypescript('records', object.definition);
 
       expect(sut).toEqual('');
     });

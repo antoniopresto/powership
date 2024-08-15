@@ -14,7 +14,10 @@ import { _resolvers, Resolver } from './Resolver';
 import { cleanMetaField } from './fields/MetaFieldField';
 import * as Internal from './internal';
 import { objectMock, ObjectMockOptions } from './mockObject';
-import type { ObjectToTypescriptOptions } from './objectToTypescript';
+import {
+  objectToTypescript,
+  ObjectToTypescriptOptions,
+} from './objectToTypescript';
 
 export type CreateGraphQLObjectOptions = Partial<GraphQLSchemaConfig>;
 
@@ -310,8 +313,9 @@ async function convertType(options: {
 
   const { description } = parsed;
 
-  // @ts-ignore circular // @only-server
-  const result = (await Internal.objectToTypescript(
+  // @ts-ignore circular
+  // @only-server
+  const result = (await objectToTypescript(
     entryName,
     {
       CONVERT__REPLACE: {

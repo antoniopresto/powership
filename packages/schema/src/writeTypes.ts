@@ -10,6 +10,7 @@ import { Resolver } from './Resolver';
 import { GraphTypeLike } from './fields/IObjectLike';
 import { LiteralField } from './fields/LiteralField';
 import * as Internal from './internal';
+import { objectToTypescript } from './objectToTypescript';
 
 const { serialize } = LiteralField.utils;
 
@@ -118,10 +119,7 @@ export async function writeTypes(options?: WriteTypesOptions) {
     item.footer && head.push(...item.footer);
   });
   // @only-server
-  const typesInterface = await Internal.objectToTypescript(
-    'RuntimeTypes',
-    typesRecord
-  );
+  const typesInterface = await objectToTypescript('RuntimeTypes', typesRecord);
 
   let definitions = Object.entries(typesRecord).reduce((acc, [id, next]) => {
     acc += `\n"${id}": ${serialize(next.definition)}\n;`;

@@ -6,14 +6,15 @@ import { nonNullValues } from '@powership/utils';
 export function readPackageJSON(path: string): PackageJson {
   const packageJSON = fs.readJSONSync(path);
   try {
-    nonNullValues({
+    nonNullValues(
+      {
         name: packageJSON?.name,
-        version: packageJSON.version
+        version: packageJSON.version,
       }, //
       `Invalid package found in "${path}"`
-    )
-  }catch (e: any){
-    console.error(e.message)
+    );
+  } catch (e: any) {
+    console.error(e.message);
   }
   return packageJSON;
 }

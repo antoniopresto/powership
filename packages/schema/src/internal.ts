@@ -19,17 +19,6 @@ export async function formatWithPrettier(
 export type { ObjectToTypescriptOptions } from './objectToTypescript';
 
 // @only-server
-export async function objectToTypescript(
-  ...args: Parameters<
-    typeof import('./objectToTypescript')['objectToTypescript']
-  >
-) {
-  // too big
-  return import('./objectToTypescript').then(({ objectToTypescript }): any => {
-    return objectToTypescript(...args);
-  });
-}
-// @only-server
 export { parsePhoneNumber as parsePhoneNumberServerSide };
 
 export * from './implementObject';

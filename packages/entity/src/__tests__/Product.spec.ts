@@ -11,6 +11,59 @@ import {
 import { createEntity } from '../Entity';
 
 describe('Product', () => {
+  function mokit() {
+    const res = {
+      mockApp: {} as AppMock,
+      transporter: {} as MongoTransporter,
+      getOptions() {
+        return {
+          transporter: res.transporter,
+          name: 'Product',
+          indexes: [
+            {
+              name: '_id',
+              PK: ['.storeId'],
+              SK: ['.ulid'],
+            },
+            {
+              name: '_id1',
+              PK: ['.storeId'],
+              SK: ['.SKU'],
+            },
+          ],
+          type,
+        } as const;
+      },
+      getEntity() {
+        return createEntity(res.getOptions());
+      },
+      async before() {
+        await ObjectType.reset();
+        res.mockApp = createAppMock();
+        await res.mockApp.start();
+
+        res.transporter = new MongoTransporter({
+          collection: 'temp1',
+          client: res.mockApp.client!,
+        });
+      },
+      async after() {
+        await res.mockApp.reset();
+      },
+    };
+
+    const type = createType('Product', {
+      object: {
+        title: { string: { min: 2 } },
+        storeId: { ID: { autoCreate: false } },
+        SKU: { string: { min: 3 } },
+        category: 'string?',
+      },
+    });
+
+    return res;
+  }
+
   const { getEntity, getOptions, after, before } = mokit();
 
   beforeEach(before);
@@ -526,99 +579,47 @@ describe('Product', () => {
 
     expect(found).toMatchObject({ item: null });
   });
-});
 
-describe('Product GraphQL utils', () => {
-  const { getEntity, after, before } = mokit();
-  beforeEach(before);
-  afterEach(after);
+  describe('Product GraphQL utils', () => {
+    const { getEntity, after, before } = mokit();
 
-  test('indexGraphTypes', () => {
-    const entity = getEntity();
-    expect(entity.indexGraphTypes._id.clone((it) => it.def())).toEqual({
-      storeId: expect.objectContaining({ type: 'ID' }),
-      ulid: expect.objectContaining({ type: 'ulid' }),
-    });
-  });
+    beforeEach(before);
+    afterEach(after);
 
-  test('toFilterFields', async () => {
-    const entity = getEntity();
-    expect(entity.findOne.filterDef.def()).toEqual({
-      SKU: {
-        def: {
-          min: 3,
-        },
-        optional: true,
-        type: 'string',
-      },
-      id: {
-        optional: true,
-        type: 'ID',
-      },
-      storeId: {
-        def: {
-          autoCreate: false,
-        },
-        optional: true,
-        type: 'ID',
-      },
-      ulid: {
-        optional: true,
-        type: 'ulid',
-      },
-    });
-  });
-});
-
-function mokit() {
-  const res = {
-    mockApp: {} as AppMock,
-    transporter: {} as MongoTransporter,
-    getOptions() {
-      return {
-        transporter: res.transporter,
-        name: 'Product',
-        indexes: [
-          {
-            name: '_id',
-            PK: ['.storeId'],
-            SK: ['.ulid'],
-          },
-          {
-            name: '_id1',
-            PK: ['.storeId'],
-            SK: ['.SKU'],
-          },
-        ],
-        type,
-      } as const;
-    },
-    getEntity() {
-      return createEntity(res.getOptions());
-    },
-    async before() {
-      await ObjectType.reset();
-      res.mockApp = createAppMock();
-      await res.mockApp.start();
-
-      res.transporter = new MongoTransporter({
-        collection: 'temp1',
-        client: res.mockApp.client!,
+    test('indexGraphTypes', () => {
+      const entity = getEntity();
+      expect(entity.indexGraphTypes._id.clone((it) => it.def())).toEqual({
+        storeId: expect.objectContaining({ type: 'ID' }),
+        ulid: expect.objectContaining({ type: 'ulid' }),
       });
-    },
-    async after() {
-      await res.mockApp.reset();
-    },
-  };
+    });
 
-  const type = createType('Product', {
-    object: {
-      title: { string: { min: 2 } },
-      storeId: { ID: { autoCreate: false } },
-      SKU: { string: { min: 3 } },
-      category: 'string?',
-    },
+    test('toFilterFields', async () => {
+      const entity = getEntity();
+      expect(entity.findOne.filterDef.def()).toEqual({
+        SKU: {
+          def: {
+            min: 3,
+          },
+          optional: true,
+          type: 'string',
+        },
+        id: {
+          optional: true,
+          type: 'ID',
+        },
+        storeId: {
+          def: {
+            autoCreate: false,
+          },
+          optional: true,
+          type: 'ID',
+        },
+        ulid: {
+          optional: true,
+          type: 'ulid',
+        },
+      });
+    });
   });
-
-  return res;
-}
+});

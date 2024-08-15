@@ -1,13 +1,13 @@
 export * from './Infer';
 export * from './TObjectConfig';
-export * from './ObjectType';
+
 export * from './fields/Infer';
 export * from './Durable/IDurable';
 export * from './CustomFieldConfig';
 export * from './assertType';
 
 export { objectMetaFieldKey } from './fields/MetaFieldField';
-export * from './GraphType/GraphType';
+
 export * from './fields/IObjectLike';
 export * from './applyValidator';
 export * from './mockObject';
@@ -19,6 +19,8 @@ export * from './extendType';
 export * from './isHiddenFieldName';
 export * from './createSimpleRouter';
 
+export * from './fields/_parseFields';
+
 // @only-server
 export * from './Resolver';
 
@@ -28,9 +30,59 @@ export * from './createGraphQLSchema';
 // @only-server
 export type { ResolverKind } from './createGraphQLSchema';
 
-import * as Internal from './internal';
+import { createType, getType, GraphType } from './GraphType/GraphType';
+import type {
+  GraphTypeArgs,
+  LazyParseGraphTypePayload,
+} from './GraphType/GraphType';
 
-export { Internal };
+export { createType, getType, GraphType };
+export type { GraphTypeArgs, LazyParseGraphTypePayload };
 
-export * from './internal';
-export * from './__alias__';
+import {
+  createObjectType,
+  ObjectType,
+  createPowershipObject,
+  PowershipObject,
+  createSchema,
+  resetTypesCache,
+} from './ObjectType';
+
+import type { ObjectTypeFromInput } from './ObjectType';
+export type { ObjectTypeFromInput };
+
+export {
+  createObjectType,
+  ObjectType,
+  createPowershipObject,
+  PowershipObject,
+  createSchema,
+  resetTypesCache,
+};
+
+import {
+  parseObjectDefinition,
+  CACHED_FIELD_INSTANCE_KEY,
+  __getCachedFieldInstance,
+  deleteCachedFieldInstance,
+  isObjectAsTypeDefinition,
+  parseField,
+  parseFieldDefinitionConfig,
+  parseFlattenFieldDefinition,
+  parseObjectField,
+} from './parseObjectDefinition';
+
+export {
+  parseObjectDefinition,
+  CACHED_FIELD_INSTANCE_KEY,
+  __getCachedFieldInstance,
+  deleteCachedFieldInstance,
+  isObjectAsTypeDefinition,
+  parseField,
+  parseFieldDefinitionConfig,
+  parseFlattenFieldDefinition,
+  parseObjectField,
+};
+
+import type { ParseFieldOptions } from './parseObjectDefinition';
+export type { ParseFieldOptions };

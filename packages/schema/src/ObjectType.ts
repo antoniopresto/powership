@@ -21,6 +21,8 @@ import type {
   FinalObjectDefinition,
 } from './fields/_parseFields';
 import * as Internal from './internal';
+import { cleanMetaField } from './internal';
+import { objectToTypescript } from './objectToTypescript';
 import { withCache, WithCache } from './withCache';
 
 export class ObjectType<
@@ -480,7 +482,7 @@ export class ObjectType<
     options?: Internal.ObjectToTypescriptOptions
   ): Promise<string> => {
     // @only-server
-    return Internal.objectToTypescript(
+    return objectToTypescript(
       this.nonNullId,
       // @ts-ignore
       this,

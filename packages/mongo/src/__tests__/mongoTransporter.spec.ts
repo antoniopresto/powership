@@ -89,7 +89,7 @@ describe('createOne', () => {
   let mockApp: AppMock;
   let transporter: MongoTransporter;
   const indexConfig: AnyCollectionIndexConfig = {
-    entity: 'entity_foo',
+    entity: 'entity_zaz',
     indexes: [{ name: '_id', PK: ['.PK'], SK: ['.SK'] }],
   };
 
@@ -140,9 +140,9 @@ describe('createOne', () => {
       item: {
         PK: 'ranking',
         SK: 0,
-        _e: 'entity_foo',
-        _id: 'entity_foo⋮_id⋮ranking⋮5⋮',
-        _idPK: 'entity_foo⋮_id⋮ranking⋮',
+        _e: 'entity_zaz',
+        _id: 'entity_zaz⋮_id⋮ranking⋮5⋮',
+        _idPK: 'entity_zaz⋮_id⋮ranking⋮',
         _idSK: '5',
         _c: expect.any(String),
       },
@@ -161,7 +161,7 @@ describe('createOne', () => {
       item: {
         PK: 'ranking',
         SK: 10,
-        _id: 'entity_foo⋮_id⋮ranking⋮721⋮',
+        _id: 'entity_zaz⋮_id⋮ranking⋮721⋮',
       },
       updated: false,
     });
@@ -179,11 +179,11 @@ describe('createOne', () => {
       item: {
         PK: 'ranking',
         SK: 12000000000000000000000000000000000000,
-        _id: 'entity_foo⋮_id⋮ranking⋮7z412⋮',
-        _idPK: 'entity_foo⋮_id⋮ranking⋮',
+        _id: 'entity_zaz⋮_id⋮ranking⋮7z412⋮',
+        _idPK: 'entity_zaz⋮_id⋮ranking⋮',
         _idSK: '7z412',
         _c: expect.any(String),
-        _e: 'entity_foo',
+        _e: 'entity_zaz',
       },
       updated: false,
     });
@@ -203,10 +203,10 @@ describe('createOne', () => {
       item: {
         PK: 'users',
         SK: 'users',
-        _id: 'entity_foo⋮_id⋮users⋮users⋮',
-        _idPK: 'entity_foo⋮_id⋮users⋮',
+        _id: 'entity_zaz⋮_id⋮users⋮users⋮',
+        _idPK: 'entity_zaz⋮_id⋮users⋮',
         _idSK: 'users',
-        _e: 'entity_foo',
+        _e: 'entity_zaz',
         _c: expect.any(String),
       },
       updated: false,
@@ -224,9 +224,9 @@ describe('createOne', () => {
       item: {
         PK: 'users',
         SK: '5',
-        _e: 'entity_foo',
-        _id: 'entity_foo⋮_id⋮users⋮5⋮',
-        _idPK: 'entity_foo⋮_id⋮users⋮',
+        _e: 'entity_zaz',
+        _id: 'entity_zaz⋮_id⋮users⋮5⋮',
+        _idPK: 'entity_zaz⋮_id⋮users⋮',
         _c: expect.any(String),
       },
       updated: false,
@@ -241,7 +241,7 @@ describe('createOne', () => {
       item: {
         PK: 'users',
         SK: '123',
-        _id: 'entity_foo⋮_id⋮users⋮123⋮',
+        _id: 'entity_zaz⋮_id⋮users⋮123⋮',
         email: 'fulano@gmail.com',
         name: 'fulano',
       },
@@ -254,7 +254,7 @@ describe('createOne', () => {
       item: {
         PK: 'users',
         SK: '123',
-        _id: 'entity_foo⋮_id⋮users⋮123⋮',
+        _id: 'entity_zaz⋮_id⋮users⋮123⋮',
         email: 'fulano@gmail.com',
         name: 'fulano',
       },
@@ -367,7 +367,7 @@ describe('updateOne', () => {
   let mockApp: AppMock;
   let transporter: MongoTransporter;
   const indexConfig: AnyCollectionIndexConfig = {
-    entity: 'entity_foo',
+    entity: 'entity_zaz',
     indexes: [{ name: '_id', PK: ['.PK'], SK: ['.SK'] }],
   };
 
@@ -453,11 +453,11 @@ describe('updateOne', () => {
     expect(await update('a', { $inc: { num: 1, newNum: 2 } })).toHaveProperty(
       'item',
       expect.objectContaining({
-        _id: 'entity_foo⋮_id⋮a⋮a⋮',
+        _id: 'entity_zaz⋮_id⋮a⋮a⋮',
         PK: 'a',
         SK: 'a',
-        _e: 'entity_foo',
-        _idPK: 'entity_foo⋮_id⋮a⋮',
+        _e: 'entity_zaz',
+        _idPK: 'entity_zaz⋮_id⋮a⋮',
         _idSK: 'a',
         _c: expect.any(String),
         list: ['b', 'c', 'd', 'e'],
@@ -542,7 +542,7 @@ describe('updateMany', () => {
   let mockApp: AppMock;
   let transporter: MongoTransporter;
   const indexConfig: AnyCollectionIndexConfig = {
-    entity: 'entity_foo',
+    entity: 'entity_zaz',
     indexes: [{ name: '_id', PK: ['.PK'], SK: ['.SK'] }],
   };
   beforeEach(async () => {
@@ -602,7 +602,7 @@ describe('deleteOne', () => {
   let mockApp: AppMock;
   let transporter: MongoTransporter;
   const indexConfig: AnyCollectionIndexConfig = {
-    entity: 'entity_foo',
+    entity: 'entity_zaz',
     indexes: [{ name: '_id', PK: ['.PK'], SK: ['.SK'] }],
   };
   beforeEach(async () => {
@@ -654,7 +654,7 @@ describe('deleteOne', () => {
       },
     });
 
-    expect(removed).toHaveProperty('item._id', 'entity_foo⋮_id⋮a⋮b⋮');
+    expect(removed).toHaveProperty('item._id', 'entity_zaz⋮_id⋮a⋮b⋮');
 
     const removed2 = await transporter.deleteOne({
       indexConfig,
@@ -719,7 +719,7 @@ describe('deleteMany', () => {
   let mockApp: AppMock;
   let transporter: MongoTransporter;
   const indexConfig: AnyCollectionIndexConfig = {
-    entity: 'entity_foo',
+    entity: 'entity_zaz',
     indexes: [{ name: '_id', PK: ['.PK'], SK: ['.SK'] }],
   };
 
@@ -839,7 +839,7 @@ describe('findMany', () => {
   let collection: Collection;
 
   const indexConfig: AnyCollectionIndexConfig = {
-    entity: 'entity_foo',
+    entity: 'entity_zaz',
     indexes: [{ name: 'PK', PK: ['.PK'], SK: ['.SK'] }],
   };
 
@@ -1001,7 +1001,7 @@ describe('findMany', () => {
 
     expect(spy).toBeCalledWith(
       {
-        _id: 'entity_foo⋮PK⋮users⋮B⋮',
+        _id: 'entity_zaz⋮PK⋮users⋮B⋮',
       },
       { projection: ['sub.attr'], sort: { SK: 1 } }
     );
@@ -1039,11 +1039,11 @@ describe('findMany', () => {
 
     expect(sut.items).toHaveLength(3);
     expect(sut.items[0]).toEqual({
-      _id: 'entity_foo⋮PK⋮users⋮D⋮',
+      _id: 'entity_zaz⋮PK⋮users⋮D⋮',
       sub: { attr: 4 },
     });
     expect(sut.items[1]).toEqual({
-      _id: 'entity_foo⋮PK⋮users⋮C⋮',
+      _id: 'entity_zaz⋮PK⋮users⋮C⋮',
       sub: { attr: 3 },
     });
 
@@ -1143,7 +1143,7 @@ describe('findOne', () => {
   let mockApp: AppMock;
   let transporter: MongoTransporter;
   const indexConfig: AnyCollectionIndexConfig = {
-    entity: 'entity_foo',
+    entity: 'entity_zaz',
     indexes: [{ name: '_id', PK: ['.PK'], SK: ['.SK'] }],
   };
 
@@ -1260,7 +1260,7 @@ describe('findById', () => {
   let mockApp: AppMock;
   let transporter: MongoTransporter;
   const indexConfig: AnyCollectionIndexConfig = {
-    entity: 'entity_foo',
+    entity: 'entity_zaz',
     indexes: [{ name: '_id', PK: ['.PK'], SK: ['.SK'] }],
   };
 

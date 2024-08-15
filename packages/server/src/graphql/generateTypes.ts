@@ -1,4 +1,5 @@
-import { GraphQLSchemaWithUtils, Internal } from '@powership/schema';
+import { GraphQLSchemaWithUtils } from '@powership/schema';
+import { _formatWithPrettier } from '@powership/utils';
 
 export let gql_utils = '';
 
@@ -11,7 +12,7 @@ export async function generateTypes(
   gql_utils = await schema.utils.generateClientUtils();
   gql_utils = `${gql_utils}\n\n${extendedUtils}`;
 
-  gql_utils = await Internal.formatWithPrettier(gql_utils, {
+  gql_utils = await _formatWithPrettier(gql_utils, {
     singleQuote: true,
     parser: 'typescript',
   });

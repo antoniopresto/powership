@@ -13,7 +13,10 @@ import type {
 import type { GraphTypeLike } from '../fields/IObjectLike';
 import type { ObjectFieldInput } from '../fields/_parseFields';
 import * as Internal from '../internal';
-import type { ObjectToTypescriptOptions } from '../objectToTypescript';
+import {
+  objectToTypescript,
+  ObjectToTypescriptOptions,
+} from '../objectToTypescript';
 
 // @only-server
 import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
@@ -268,7 +271,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
       });
 
     // @only-server
-    return Internal.objectToTypescript(name, object, options) as any;
+    return objectToTypescript(name, object, options) as any;
   };
 
   optionalType = (

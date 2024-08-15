@@ -21,11 +21,7 @@ const browserConfig = {
   useBuiltIns: 'entry',
   corejs: '3.22',
   targets: {
-    browsers: [
-      "last 1 versions",
-      "not dead",
-      "not < 50%"
-    ]
+    browsers: ['last 1 versions', 'not dead', 'not < 50%'],
   },
 };
 
@@ -43,10 +39,6 @@ const envConfig = {
   'module-browser': {
     ...browserConfig,
     modules: false,
-    targets: {
-      ...browserConfig.targets,
-      esmodules: true,
-    },
   },
 
   node: {
@@ -56,8 +48,11 @@ const envConfig = {
   'module-node': {
     ...nodeConfig,
     modules: false,
+  },
+
+  module: {
+    modules: false,
     targets: {
-      ...nodeConfig.targets,
       esmodules: true,
     },
   },
@@ -66,10 +61,7 @@ const envConfig = {
 module.exports = function (api) {
   api.cache(true);
 
-  const presets = [
-    '@babel/preset-typescript', //
-    ['@babel/preset-env', envConfig],
-  ];
+  const presets = ['@babel/preset-typescript', ['@babel/preset-env', envConfig]];
 
   const plugins = [
     ['babel-plugin-add-import-extension', { extension: destinationExtension, replace: true }],
@@ -94,9 +86,6 @@ module.exports = function (api) {
   return {
     presets,
     plugins,
-    ignore: [
-      /node_modules/,
-      '**/__tests__', //
-    ],
+    ignore: [/node_modules/, '**/__tests__'],
   };
 };
