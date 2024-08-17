@@ -1,7 +1,7 @@
 import type { ArrayFieldDef } from '../ArrayField';
 import type { FieldTypeName } from '../_fieldDefinitions';
 
-import type { InferField } from './InferField';
+import type { Infer } from './Infer';
 import type { InferObjectDefinition } from './InferObjectType';
 import type { InferTypeName } from './InferString';
 
@@ -19,7 +19,7 @@ export type _InferFinalField<TypeName, Def> =
     // ARRAY
     TypeName extends 'array'
     ? [Def] extends [ArrayFieldDef<infer Of>]
-      ? InferField<Of>[]
+      ? Infer<Of>[]
       : never
     : //
 
@@ -40,7 +40,7 @@ export type _InferFinalField<TypeName, Def> =
     // UNION
     TypeName extends 'union'
     ? [Def] extends [ReadonlyArray<infer Item>]
-      ? InferField<Item>
+      ? Infer<Item>
       : never
     : //
 
@@ -48,9 +48,7 @@ export type _InferFinalField<TypeName, Def> =
     TypeName extends 'record'
     ? [Def] extends [{ keyType?: infer KeyType; type?: infer Type }]
       ? {
-          [K in KeyType extends 'int' | 'float'
-            ? number
-            : string]: InferField<Type>;
+          [K in KeyType extends 'int' | 'float' ? number : string]: Infer<Type>;
         }
       : { [K: string]: any }
     : //

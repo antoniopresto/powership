@@ -11,14 +11,13 @@ import {
 } from '@powership/utils';
 
 import type { GraphType } from './GraphType/GraphType';
-import {
+import type { ObjectType } from './ObjectType';
+import type {
   DescribeField,
   DescribeObjectDefinition,
   SealedField,
 } from './fields/Infer';
-import { objectMetaFieldKey } from './fields/MetaFieldField';
-import { ObjectDefinitionInput } from './fields/_parseFields';
-import * as Internal from './internal';
+import type { ObjectDefinitionInput } from './fields/_parseFields';
 
 export interface ExtendObjectDefinition<Input, Origin> {
   definition: InnerDef<Input>;
@@ -38,7 +37,7 @@ export interface ExtendObjectDefinition<Input, Origin> {
 
   graphType(name: string): GraphType<{ object: InnerDef<Input> }>;
 
-  objectType(name?: string): Internal.ObjectType<InnerDef<Input>>;
+  objectType(name?: string): ObjectType<InnerDef<Input>>;
 
   only<K extends keyof this['definition']>(
     keys: K | K[]
@@ -77,7 +76,7 @@ export interface ExtendObjectDefinition<Input, Origin> {
   >;
 }
 
-export function extendObjectDefinition<Input>(
+function extendObjectDefinition<Input>(
   input: Input
 ): ExtendObjectDefinition<Input, Input> {
   if (!input || typeof input !== 'object') {
@@ -104,28 +103,31 @@ export function extendObjectDefinition<Input>(
     return extendObjectDefinition(obj.object) as unknown as R;
   }
 
-  if (Internal.GraphType.is(obj)) {
+  if (powership.GraphType.is(obj)) {
     // @ts-ignore
     return extendObjectDefinition(obj.definition) as unknown as R;
   }
 
-  if (Internal.ObjectType.is(obj)) {
+  if (powership.ObjectType.is(obj)) {
     // @ts-ignore
     return extendObjectDefinition(obj.definition) as unknown as R;
   }
 
-  let clone: any = Internal.deleteCachedFieldInstance(
+  let clone: any = powership.deleteCachedFieldInstance(
     simpleObjectClone(
-      Internal.parseObjectDefinition(Internal.deleteCachedFieldInstance(obj), {
-        deep: { omitMeta: true },
-      }).definition
+      powership.parseObjectDefinition(
+        powership.deleteCachedFieldInstance(obj),
+        {
+          deep: { omitMeta: true },
+        }
+      ).definition
     )
   );
 
   const res = {
     def() {
-      if (objectMetaFieldKey in clone) {
-        delete clone[objectMetaFieldKey];
+      if (powership.objectMetaFieldKey in clone) {
+        delete clone[powership.objectMetaFieldKey];
       }
 
       return clone;
@@ -145,21 +147,21 @@ export function extendObjectDefinition<Input>(
       assertEqual(getTypeName(ext), 'Object');
       clone = Object.assign(
         clone,
-        Internal.parseObjectDefinition(ext, { omitMeta: true }).definition
+        powership.parseObjectDefinition(ext, { omitMeta: true }).definition
       );
       return extendObjectDefinition(clone);
     },
 
     graphType(name) {
       return name
-        ? Internal.createType(name, { object: res.def() as any })
-        : Internal.createType({ object: res.def() as any });
+        ? powership.createType(name, { object: res.def() as any })
+        : powership.createType({ object: res.def() as any });
     },
 
     objectType(name) {
       return name
-        ? Internal.createObjectType(name, res.def() as any)
-        : Internal.createObjectType(res.def() as any);
+        ? powership.createObjectType(name, res.def() as any)
+        : powership.createObjectType(res.def() as any);
     },
 
     only(keys) {
@@ -191,7 +193,7 @@ export function extendObjectDefinition<Input>(
           );
         }
         clone[key] = {
-          ...Internal.parseField(clone[key]),
+          ...powership.parseField(clone[key]),
           optional: true,
         };
       });
@@ -214,7 +216,7 @@ export function extendObjectDefinition<Input>(
           );
         }
         clone[key] = {
-          ...Internal.parseField(clone[key]),
+          ...powership.parseField(clone[key]),
           optional: false,
         };
       });
@@ -270,3 +272,13 @@ export type OverrideField<
     ? SealedField<Omit<DescribeField<Object[K]>, keyof Extend> & Extend>
     : Object[K];
 };
+
+Object.assign(powership, {
+  extendObjectDefinition,
+});
+
+declare global {
+  interface powership {
+    extendObjectDefinition: typeof extendObjectDefinition;
+  }
+}

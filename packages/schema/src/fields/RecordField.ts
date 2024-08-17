@@ -1,29 +1,29 @@
 import { expectedType } from '@powership/utils';
 import { inspectObject } from '@powership/utils';
 
-import { Infer } from '../Infer';
-import type { FieldDefinitionConfig } from '../TObjectConfig';
-import * as Internal from '../internal';
+import type { FieldTypeParser } from '../applyValidator';
 
 import { FieldType, TAnyFieldType } from './FieldType';
+import { Infer } from './Infer';
+import type { ObjectFieldInput } from './_parseFields';
 
 const validKeyTypes = ['int', 'string', 'float'] as const;
 type ValidKeyType = (typeof validKeyTypes)[number];
 
 export type RecordFieldDef = {
   keyType?: ValidKeyType;
-  type?: FieldDefinitionConfig;
+  type?: ObjectFieldInput;
 };
 
 export type InferRecordFieldType<Def> = Def extends { keyType: 'int' | 'float' }
   ? {
       [K: number]: Infer<
-        Def extends { type: FieldDefinitionConfig } ? Def['type'] : 'any'
+        Def extends { type: ObjectFieldInput } ? Def['type'] : 'any'
       >;
     }
   : {
       [K: string]: Infer<
-        Def extends { type: FieldDefinitionConfig } ? Def['type'] : 'any'
+        Def extends { type: ObjectFieldInput } ? Def['type'] : 'any'
       >;
     };
 
@@ -38,16 +38,14 @@ export class RecordField<Def extends RecordFieldDef> extends FieldType<
     return !!(input && typeof input === 'object' && input.__isRecordField);
   }
   //
-  parse: Internal.FieldTypeParser<InferRecordFieldType<Def>>;
+  parse: FieldTypeParser<InferRecordFieldType<Def>>;
 
   constructor(def: Def = { keyType: 'string', type: 'any' } as any) {
     super({ def: def, name: 'record' });
 
-    const { parseObjectField } = Internal;
-
     let parser: TAnyFieldType;
     try {
-      parser = parseObjectField(`RecordField`, def?.type || 'any', {
+      parser = powership.parseObjectField(`RecordField`, def?.type || 'any', {
         returnInstance: true,
       });
     } catch (e: any) {
@@ -65,7 +63,7 @@ export class RecordField<Def extends RecordFieldDef> extends FieldType<
         throw new Error(`keyType should be on of ${validKeyTypes}`);
       }
 
-      keyParser = parseObjectField('RecordFieldKey', def.keyType!, {
+      keyParser = powership.parseObjectField('RecordFieldKey', def.keyType!, {
         returnInstance: true,
       });
     } catch (e: any) {
@@ -109,4 +107,14 @@ export class RecordField<Def extends RecordFieldDef> extends FieldType<
     def = { keyType: 'string', type: 'any', ...def } as any;
     return new RecordField(def);
   };
+}
+
+Object.assign(powership, {
+  RecordField,
+});
+
+declare global {
+  interface powership {
+    RecordField: typeof RecordField;
+  }
 }

@@ -6,7 +6,7 @@ import {
   simpleObjectHash,
   Store,
 } from '@powership/utils';
-import fsExtra from 'fs-extra';
+import { fsExtra } from '@powership/utils/server-utils';
 
 import { GraphType } from '../GraphType/GraphType';
 import { ObjectType } from '../ObjectType';

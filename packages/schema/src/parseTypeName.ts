@@ -1,10 +1,8 @@
 import { RuntimeError } from '@powership/utils';
 
-import { getObjectDefinitionMetaField } from './fields/MetaFieldField';
-import { FinalFieldDefinition } from './fields/_parseFields';
-import { __getCachedFieldInstance } from './parseObjectDefinition';
+import type { FinalFieldDefinition } from './fields/_parseFields';
 
-export function parseTypeName(input: {
+function parseTypeName(input: {
   field: FinalFieldDefinition;
   fieldName: string;
   parentName: string;
@@ -25,13 +23,23 @@ export function parseTypeName(input: {
   return result;
 }
 
-export function getUserDefinedTypeName(field: FinalFieldDefinition) {
+function getUserDefinedTypeName(field: FinalFieldDefinition) {
   if (field.name && typeof field.name === 'string') return field.name;
 
-  const cached = __getCachedFieldInstance(field);
+  const cached = powership.__getCachedFieldInstance(field);
   if (cached.id) return cached.id;
 
   return field.type === 'object'
-    ? getObjectDefinitionMetaField(field.def)?.def.id
+    ? powership.getObjectDefinitionMetaField(field.def)?.def.id
     : null;
+}
+
+Object.assign(powership, {
+  parseTypeName,
+});
+
+declare global {
+  interface powership {
+    parseTypeName: typeof parseTypeName;
+  }
 }

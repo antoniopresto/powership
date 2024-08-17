@@ -79,3 +79,13 @@ export class DateField extends FieldType<
     return date;
   }
 }
+
+Object.assign(powership, {
+  DateField,
+});
+
+declare global {
+  interface powership {
+    DateField: typeof DateField;
+  }
+}

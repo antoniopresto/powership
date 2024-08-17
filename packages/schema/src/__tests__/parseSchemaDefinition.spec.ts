@@ -1,9 +1,8 @@
-import * as Internal from '../internal';
-import { objectMetaFieldKey } from '../fields/MetaFieldField';
+import '../__globals__';
 
 describe('parseObjectDefinition', () => {
   it('works', () => {
-    const { definition: sut, custom } = Internal.parseObjectDefinition({
+    const { definition: sut, custom } = powership.parseObjectDefinition({
       objectIntDef: {
         type: 'int',
       },
@@ -14,9 +13,9 @@ describe('parseObjectDefinition', () => {
       enum: {
         enum: ['a', 'b'],
       },
-      fieldType: Internal.EnumField.create(['a', 'x']),
-      fieldTypeOptional: Internal.EnumField.create(['a', 'x']).toOptional(),
-      fieldTypeOptionalList: Internal.EnumField.create(['a', 'x'])
+      fieldType: powership.EnumField.create(['a', 'x']),
+      fieldTypeOptional: powership.EnumField.create(['a', 'x']).toOptional(),
+      fieldTypeOptionalList: powership.EnumField.create(['a', 'x'])
         .toList()
         .toOptional(),
       objectAsFlattenDef: {
@@ -113,7 +112,7 @@ describe('parseObjectDefinition', () => {
   });
 
   it('parse object', () => {
-    const otherObject = new Internal.ObjectType({
+    const otherObject = new powership.ObjectType({
       foo: 'string',
       status: {
         enum: ['open', 'closed'],
@@ -121,7 +120,7 @@ describe('parseObjectDefinition', () => {
       $: { persist: true },
     } as const);
 
-    expect(otherObject.definition[objectMetaFieldKey]).toEqual({
+    expect(otherObject.definition[powership.objectMetaFieldKey]).toEqual({
       def: {
         custom: {
           persist: true,
@@ -139,7 +138,7 @@ describe('parseObjectDefinition', () => {
       age: 'int',
     } as const;
 
-    const { definition: sut } = Internal.parseObjectDefinition({
+    const { definition: sut } = powership.parseObjectDefinition({
       name: 'string',
       object: otherObject,
       objectList: {

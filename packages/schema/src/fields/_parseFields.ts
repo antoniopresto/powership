@@ -1,21 +1,19 @@
-import { CustomFieldConfig } from '../CustomFieldConfig';
+import type { CustomFieldConfig } from '../CustomFieldConfig';
 
-import {
+import type {
   GraphTypeInTypeFieldDefinition,
   GraphTypeLikeFieldDefinition,
 } from './Infer';
-import {
+import type {
   ObjectInTypeFieldDefinition,
   ObjectTypeLikeFieldDefinition,
 } from './Infer';
-import {
+import type {
   CommonFieldDefinitionProps,
   FieldDefinitions,
   FieldDefinitionWithType,
   FieldTypeName,
 } from './_fieldDefinitions';
-
-export * from './Infer/InferField';
 
 export type ObjectFieldInput = _ObjectFieldInputBase | FlattenFieldDefinition;
 

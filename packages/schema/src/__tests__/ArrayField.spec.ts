@@ -1,16 +1,19 @@
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLSchema, printSchema } from 'graphql';
-import * as Internal from '../internal';
 
 import { createType } from '../GraphType/GraphType';
-import { createSchema, ObjectType } from '../ObjectType';
+import { createObjectType, ObjectType } from '../ObjectType';
+import {
+  parseObjectDefinition,
+  parseObjectField,
+} from '../parseObjectDefinition';
 
 describe('ArrayField', () => {
   afterEach(ObjectType.reset);
   afterAll(ObjectType.reset);
 
   test('parseDefinition', () => {
-    const parsed = Internal.parseObjectDefinition({
+    const parsed = parseObjectDefinition({
       names: {
         array: {
           of: 'string',
@@ -30,7 +33,7 @@ describe('ArrayField', () => {
   });
 
   test('get instance', () => {
-    const parsed = Internal.parseObjectField(
+    const parsed = parseObjectField(
       'my_field',
       {
         object: {
@@ -173,7 +176,7 @@ describe('ArrayField', () => {
       },
     } as const);
 
-    const schemaTypeGql = createSchema('mySchemaType', {
+    const schemaTypeGql = createObjectType('mySchemaType', {
       child: plain_array,
     }).graphqlType(); // created because print ignores array (prints only the inner type)
 
@@ -216,7 +219,7 @@ describe('ArrayField', () => {
       },
     } as const);
 
-    const ts = await createSchema('mySchemaType', {
+    const ts = await createObjectType('mySchemaType', {
       child: plain_array,
     }).typescriptPrint(); // created because print ignores array (prints only the inner type)
 

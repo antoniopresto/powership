@@ -54,3 +54,13 @@ export class IntField extends FieldType<
     return new IntField(def);
   };
 }
+
+Object.assign(powership, {
+  IntField,
+});
+
+declare global {
+  interface powership {
+    IntField: typeof IntField;
+  }
+}

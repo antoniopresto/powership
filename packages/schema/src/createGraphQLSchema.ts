@@ -1,18 +1,18 @@
 import { BJSON, capitalize, notNull } from '@powership/utils';
 import { formatGraphQL } from '@powership/utils';
 import { groupBy, tupleEnum } from '@powership/utils';
+import { formatWithPrettier } from '@powership/utils';
 import type { GraphQLSchemaConfig } from 'graphql';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
+// @only-server
 import { generateClientUtils } from './GraphType/generateClientUtils';
 import { getInnerGraphTypeId } from './GraphType/getInnerGraphTypeId';
 import {
   getSchemaQueryTemplates,
   SchemaQueryTemplatesResult,
 } from './GraphType/getQueryTemplates';
-import { _resolvers, Resolver } from './Resolver';
-import { cleanMetaField } from './fields/MetaFieldField';
-import * as Internal from './internal';
+import type { Resolver } from './Resolver';
 import { objectMock, ObjectMockOptions } from './mockObject';
 import {
   objectToTypescript,
@@ -53,9 +53,7 @@ export function createGraphQLSchema(
 ): GraphQLSchemaWithUtils;
 
 export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
-  const { GraphQLSchema } = Internal;
-
-  const registeredResolvers = _resolvers.entries.map((el) => el[1]);
+  const registeredResolvers = powership._resolvers.entries.map((el) => el[1]);
 
   let resolvers: Resolver[] = Array.isArray(args[0])
     ? args[0]
@@ -220,7 +218,7 @@ export async function resolversTypescriptParts(
       .replace(/\n\n/gm, '\n') // remove multi line breaks
       .replace(/^\n/gm, ''); // remove empty lines
   // @only-server
-  code = (await Internal.formatWithPrettier(code, {
+  code = (await formatWithPrettier(code, {
     parser: 'typescript',
   })) as any;
 
@@ -237,7 +235,7 @@ export async function resolversToTypescript(
 
   return format
     ? // @ts-ignore circular
-      (Internal.formatWithPrettier(code, {
+      (formatWithPrettier(code, {
         parser: 'typescript',
         printWidth: 100,
       }) as any)
@@ -256,14 +254,16 @@ async function convertResolver(options: {
 
   const payloadDef = {
     // clearing ref because will be mutated to inject relations in definition
-    ...cleanMetaField(resolver.typeDef),
+    ...powership.cleanMetaField(resolver.typeDef),
   };
 
   allResolvers
     .filter((el) => el.__isRelation)
     .forEach((rel) => {
       if (rel.__relatedToGraphTypeId === payloadOriginName) {
-        const typeRelatedToFinalPayload = _resolvers.get(rel.__graphTypeId);
+        const typeRelatedToFinalPayload = powership._resolvers.get(
+          rel.__graphTypeId
+        );
         // @ts-ignore
         payloadDef.def[rel.name] = typeRelatedToFinalPayload.definition;
       }
@@ -307,7 +307,7 @@ async function convertType(options: {
 }) {
   const { entryName, type, kind } = options;
 
-  const parsed = Internal.parseFieldDefinitionConfig(type, {
+  const parsed = powership.parseFieldDefinitionConfig(type, {
     deep: { omitMeta: true },
   });
 

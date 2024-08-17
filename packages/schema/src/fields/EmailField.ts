@@ -53,3 +53,13 @@ export class EmailField extends FieldType<
     return new EmailField(def);
   };
 }
+
+Object.assign(powership, {
+  EmailField,
+});
+
+declare global {
+  interface powership {
+    EmailField: typeof EmailField;
+  }
+}

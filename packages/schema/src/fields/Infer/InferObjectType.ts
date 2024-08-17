@@ -6,7 +6,7 @@ import type {
 
 import type { FieldDefinitionWithType } from '../_fieldDefinitions';
 
-import type { InferField } from './InferField';
+import type { Infer } from './Infer';
 
 export interface ObjectTypeLikeFieldDefinition {
   __isPowershipObject: true;
@@ -40,13 +40,13 @@ export type ParseSpecialObjectKeys<T> = {
     ? string
     : K extends `$number`
     ? number
-    : never]: InferField<T[K]>;
+    : never]: Infer<T[K]>;
 } & {};
 
 export type _InferObjectDefinition<Input extends object> =
   _GetAliasFields<Input> extends infer Aliases
     ? {
-        [K in Exclude<keyof Input, keyof Aliases>]: InferField<Input[K]>;
+        [K in Exclude<keyof Input, keyof Aliases>]: Infer<Input[K]>;
       } & _InferSpecialObjectKeys<Input> extends infer Parent
       ? _InferAliasFields<Cast<Aliases, object>, Cast<Parent, object>> & Parent
       : never
@@ -75,7 +75,7 @@ export type _InferAlias<Input, Parent extends object> =
           ? // ====
             //
             K extends 'type'
-            ? InferField<Input[K]>
+            ? Infer<Input[K]>
             : //
             K extends 'alias'
             ? _InferAlias<Input[K], Parent>
@@ -99,5 +99,5 @@ export type _InferSpecialObjectKeys<T> = {
     ? string
     : K extends `$number`
     ? number
-    : never]: InferField<T[K]>;
+    : never]: Infer<T[K]>;
 } & {};

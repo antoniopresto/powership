@@ -1,6 +1,5 @@
 import { createObjectType } from '../ObjectType';
 import { EnumField } from '../fields/EnumField';
-import { objectMetaFieldKey } from '../fields/MetaFieldField';
 import {
   parseFlattenFieldDefinition,
   parseObjectField,
@@ -38,7 +37,7 @@ describe('parseObjectField', () => {
         name: {
           type: 'string',
         },
-        [objectMetaFieldKey]: expect.anything(),
+        [powership.objectMetaFieldKey]: expect.anything(),
       },
       type: 'object',
     });
@@ -211,7 +210,7 @@ describe('parseObjectField', () => {
       optional: true,
       type: 'object',
       def: {
-        [objectMetaFieldKey]: expect.anything(),
+        [powership.objectMetaFieldKey]: expect.anything(),
         name: {
           type: 'string',
         },
@@ -219,7 +218,7 @@ describe('parseObjectField', () => {
           type: 'object',
 
           def: {
-            [objectMetaFieldKey]: expect.anything(),
+            [powership.objectMetaFieldKey]: expect.anything(),
             name: {
               type: 'string',
             },
@@ -280,7 +279,7 @@ describe('parseObjectField', () => {
       type: 'object',
 
       def: {
-        [objectMetaFieldKey]: expect.anything(),
+        [powership.objectMetaFieldKey]: expect.anything(),
         stringDefBoolean: {
           type: 'boolean',
         },

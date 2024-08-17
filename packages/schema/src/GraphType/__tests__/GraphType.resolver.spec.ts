@@ -2,7 +2,7 @@ import { PromiseType } from '@powership/utils';
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
-import { createPowershipObject, ObjectType } from '../../ObjectType';
+import { createObjectType, ObjectType } from '../../ObjectType';
 import { createResolver } from '../../Resolver';
 import { GraphType } from '../GraphType';
 
@@ -12,7 +12,7 @@ describe('createResolver', () => {
   });
 
   it('Should create a Resolver', () => {
-    const UserType = createPowershipObject('User', {
+    const UserType = createObjectType('User', {
       name: { string: {}, description: 'the user name' },
       id: 'ulid',
     });
@@ -62,12 +62,12 @@ describe('createResolver', () => {
   });
 
   it('Should create complex types preserving names', () => {
-    const user = createPowershipObject('user', {
+    const user = createObjectType('user', {
       name: 'string',
       age: 'int?',
     });
 
-    const userAddress = createPowershipObject('UserAddress', {
+    const userAddress = createObjectType('UserAddress', {
       street: 'string',
       number: 'int?',
     }).describe('The user address');

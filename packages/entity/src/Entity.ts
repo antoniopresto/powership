@@ -1,10 +1,8 @@
 import {
   createType,
-  extendObjectDefinition,
   FinalFieldDefinition,
   FinalObjectDefinition,
   GraphType,
-  isFieldTypeName,
   ObjectDefinitionInput,
 } from '@powership/schema';
 import {
@@ -136,7 +134,7 @@ export function createEntity(
 
   function extendEntity(cb) {
     entityMutations.push((entity) => {
-      const ext_utils = { extend: extendObjectDefinition };
+      const ext_utils = { extend: powership.extendObjectDefinition };
       const partial = cb(entity, ext_utils);
       if (!partial || typeof partial !== 'object') return entity;
       return { ...entity, ...partial };
@@ -228,7 +226,7 @@ export function createEntity(
     // @ts-ignore
     return createEntity(() => {
       const newType = handler(
-        extendObjectDefinition(entityOptions.type),
+        powership.extendObjectDefinition(entityOptions.type),
         entityOptions
       );
 
@@ -328,10 +326,11 @@ export function createEntity(
     const indexFieldsDefinition = parseEntityIndexFields(indexConfig);
     const indexFieldKeys = Object.keys(indexFieldsDefinition);
 
-    const indexAndEntityExpectedFieldsDefinition = extendObjectDefinition({
-      ...createEntityDocumentBase(),
-      ...indexFieldsDefinition,
-    });
+    const indexAndEntityExpectedFieldsDefinition =
+      powership.extendObjectDefinition({
+        ...createEntityDocumentBase(),
+        ...indexFieldsDefinition,
+      });
 
     function getOutputDefinition(
       optionalIndexAndDefaultFields: boolean
@@ -544,7 +543,7 @@ export function createEntity(
           );
         }
 
-        const ext = extendObjectDefinition({
+        const ext = powership.extendObjectDefinition({
           object: {
             id: { optional: true, type: 'ID' },
           },
@@ -667,8 +666,12 @@ export function createEntity(
       return notNull(_indexes.indexFields._c);
     }
 
-    const extendInput = extendObjectDefinition({ object: inputDefinition });
-    const extendUpdate = extendObjectDefinition({ object: updateDefinition });
+    const extendInput = powership.extendObjectDefinition({
+      object: inputDefinition,
+    });
+    const extendUpdate = powership.extendObjectDefinition({
+      object: updateDefinition,
+    });
 
     Object.assign(entityResult, {
       inputType,
@@ -986,7 +989,7 @@ function _objectAliasPaths(
 
     if (Array.isArray(v.def)) {
       v.def.forEach((el) => {
-        if (!isFieldTypeName(el?.type)) return;
+        if (!powership.isFieldTypeName(el?.type)) return;
         _objectAliasPaths(el, found, currentPath);
       });
     }

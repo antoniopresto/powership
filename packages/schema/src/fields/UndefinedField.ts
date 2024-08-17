@@ -27,3 +27,13 @@ export class UndefinedField extends FieldType<
     return new UndefinedField();
   };
 }
+
+Object.assign(powership, {
+  UndefinedField,
+});
+
+declare global {
+  interface powership {
+    UndefinedField: typeof UndefinedField;
+  }
+}

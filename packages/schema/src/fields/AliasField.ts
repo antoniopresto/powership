@@ -7,9 +7,10 @@ import {
   pick,
 } from '@powership/utils';
 
-import * as Internal from '../internal';
+import type { FieldTypeParser } from '../applyValidator';
 
-import { FieldType } from './FieldType';
+import { FieldComposer, FieldType, TAnyFieldType } from './FieldType';
+import type { Infer } from './Infer';
 import type { FieldInput } from './_parseFields';
 
 export type AliasFieldAggregation<Parent = any> = {
@@ -29,17 +30,17 @@ export type AliasFieldAggregation<Parent = any> = {
 export type AliasFieldDef = string | AliasFieldAggregation;
 
 export class AliasField<InputDef extends AliasFieldDef = any> extends FieldType<
-  InputDef extends { type: infer T } ? Internal.Infer<T> : any,
+  InputDef extends { type: infer T } ? Infer<T> : any,
   'alias',
   AliasFieldDef
 > {
-  parse: Internal.FieldTypeParser<any>;
+  parse: FieldTypeParser<any>;
 
   utils = {} as {
-    fieldType: Internal.TAnyFieldType;
+    fieldType: TAnyFieldType;
   };
 
-  composer: Internal.FieldComposer;
+  composer: FieldComposer;
 
   static is(input: any): input is AliasField {
     return input?.__isFieldType && input?.type === 'alias';
@@ -61,7 +62,7 @@ export class AliasField<InputDef extends AliasFieldDef = any> extends FieldType<
       get() {
         return (fieldType =
           fieldType ||
-          Internal.createType(typeof def === 'string' ? 'any' : def.type)
+          powership.createType(typeof def === 'string' ? 'any' : def.type)
             .__lazyGetter.field);
       },
     });
@@ -93,4 +94,14 @@ export class AliasField<InputDef extends AliasFieldDef = any> extends FieldType<
   static create = (def: AliasFieldDef): AliasField => {
     return new AliasField(def);
   };
+}
+
+Object.assign(powership, {
+  AliasField,
+});
+
+declare global {
+  interface powership {
+    AliasField: typeof AliasField;
+  }
 }

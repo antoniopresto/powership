@@ -9,16 +9,9 @@ import {
 } from '@powership/utils';
 
 import { Infer } from './Infer';
-import { CursorField } from './fields/CursorField';
-import { FieldComposer } from './fields/FieldType';
-import { LiteralField } from './fields/LiteralField';
-import { createEmptyMetaField, isMetaFieldKey } from './fields/MetaFieldField';
-import { FieldTypeName } from './fields/_fieldDefinitions';
-import { FieldInput } from './fields/_parseFields';
-import {
-  __getCachedFieldInstance,
-  parseObjectField,
-} from './parseObjectDefinition';
+import type { FieldComposer } from './fields/FieldType';
+import type { FieldTypeName } from './fields/_fieldDefinitions';
+import type { FieldInput } from './fields/_parseFields';
 
 export type ObjectMockOptions = {
   maxArrayLength?: number;
@@ -34,11 +27,11 @@ export function objectMock<T extends { [K: string]: FieldInput }>(
 
   const composers: { composer: FieldComposer; key: string }[] = [];
   Object.entries(definition).forEach(([key, fieldInput]) => {
-    if (isMetaFieldKey(key)) return;
-    const def = parseObjectField(key, fieldInput);
+    if (powership.isMetaFieldKey(key)) return;
+    const def = powership.parseObjectField(key, fieldInput);
 
     if (def.type === 'alias') {
-      const instance = __getCachedFieldInstance(def);
+      const instance = powership.__getCachedFieldInstance(def);
       composers.push({ composer: instance.composer!, key });
     }
     placeHolder[key] = fieldToMock(def, options);
@@ -61,7 +54,7 @@ export function fieldToMock(
     randomNumber,
   } = options || {};
 
-  let { list, def, type } = parseObjectField('temp', fieldInput);
+  let { list, def, type } = powership.parseObjectField('temp', fieldInput);
 
   if (type === 'array') {
     const min = def.min === undefined ? 1 : def.min;
@@ -80,7 +73,8 @@ export function fieldToMock(
     array: () => undefined,
     // handled below,
     boolean: () => randomItem(true, false),
-    cursor: () => objectMock(CursorField.object().definition, options),
+    cursor: () =>
+      objectMock(powership.CursorField.object().definition, options),
     date: () => new Date(randomInt(Date.now())),
     email: () => {
       return `${slugify(randomText().toLowerCase())}@${slugify(
@@ -90,8 +84,8 @@ export function fieldToMock(
     enum: () => (Array.isArray(def) ? def[0] : undefined),
     float: () => (randomNumber || randomInt)(),
     int: () => (randomNumber || randomInt)(),
-    literal: () => LiteralField.utils.deserialize(def),
-    meta: () => createEmptyMetaField(),
+    literal: () => powership.LiteralField.utils.deserialize(def),
+    meta: () => powership.createEmptyMetaField(),
     null: () => null,
     object: () => (def ? objectMock(def, options) : undefined),
     phone: () => '+5511912345678',

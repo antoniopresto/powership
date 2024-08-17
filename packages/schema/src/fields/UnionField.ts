@@ -2,18 +2,18 @@ import { getTypeName, memoize } from '@powership/utils';
 import { inspectObject } from '@powership/utils';
 import { uniq } from '@powership/utils';
 
-import { Infer } from '../Infer';
-import type { FieldDefinitionConfig } from '../TObjectConfig';
-import * as Internal from '../internal';
+import type { FieldTypeParser } from '../applyValidator';
 
 import { FieldType, TAnyFieldType } from './FieldType';
+import { Infer } from './Infer';
+import type { ObjectFieldInput } from './_parseFields';
 
 export class UnionField<
-  U extends FieldDefinitionConfig,
+  U extends ObjectFieldInput,
   T extends Readonly<[U, ...U[]]>
 > extends FieldType<Infer<T[number]>, 'union', T> {
   //
-  parse: Internal.FieldTypeParser<Infer<T[number]>>;
+  parse: FieldTypeParser<Infer<T[number]>>;
 
   utils = {
     fieldTypes: [] as TAnyFieldType[],
@@ -29,7 +29,7 @@ export class UnionField<
     const getFieldTypes = memoize(() => {
       return def.map((el, index) => {
         try {
-          return Internal.parseObjectField(`UnionItem_${index}`, el, {
+          return powership.parseObjectField(`UnionItem_${index}`, el, {
             returnInstance: true,
           });
         } catch (e: any) {
@@ -98,12 +98,19 @@ export class UnionField<
     });
   }
 
-  static create = <
-    U extends FieldDefinitionConfig,
-    T extends Readonly<[U, ...U[]]>
-  >(
+  static create = <U extends ObjectFieldInput, T extends Readonly<[U, ...U[]]>>(
     def: T
   ): UnionField<U, T> => {
     return new UnionField(def) as any;
   };
+}
+
+Object.assign(powership, {
+  UnionField,
+});
+
+declare global {
+  interface powership {
+    UnionField: typeof UnionField;
+  }
 }

@@ -9,3 +9,11 @@ export function isObjectValidationError(
 export function isObjectType(input: any): input is ObjectType<any> {
   return input?.__isPowershipObject === true;
 }
+
+Object.assign(powership, { isObjectType });
+
+declare global {
+  interface powership {
+    isObjectType: typeof isObjectType;
+  }
+}

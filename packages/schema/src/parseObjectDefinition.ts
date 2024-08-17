@@ -1,3 +1,5 @@
+import './__globals__';
+
 import { RuntimeError } from '@powership/utils';
 import { isProduction } from '@powership/utils';
 import { getKeys } from '@powership/utils';
@@ -5,28 +7,21 @@ import { getTypeName } from '@powership/utils';
 import { inspectObject } from '@powership/utils';
 
 import type { CustomFieldConfig } from './CustomFieldConfig';
-import { GraphType } from './GraphType/GraphType';
-import type { FieldDefinitionConfig } from './TObjectConfig';
-import { fieldInstanceFromDef } from './fieldInstanceFromDef';
-import { isFieldInstance, TAnyFieldType } from './fields/FieldType';
-import { LiteralField } from './fields/LiteralField';
-import {
-  createEmptyMetaField,
-  isMetaField,
-  MetaField,
-  objectMetaFieldKey,
-} from './fields/MetaFieldField';
-import { FieldDefinitionWithType } from './fields/_fieldDefinitions';
-import { FinalFieldDefinition } from './fields/_parseFields';
-import { types } from './fields/fieldTypes';
-import * as Internal from './internal';
-import {
-  isStringFieldDefinition,
-  parseStringDefinition,
-} from './parseStringDefinition';
+import type { ObjectType } from './ObjectType';
+import type { TAnyFieldType } from './fields/FieldType';
+import type { MetaField } from './fields/MetaFieldField';
+import type { FieldDefinitionWithType } from './fields/_fieldDefinitions';
+import type {
+  FieldAsString,
+  FieldInput,
+  FinalFieldDefinition,
+  FinalFieldDefinitionStrict,
+  ObjectFieldInput,
+  ShortenFinalFieldDefinition,
+} from './fields/_parseFields';
 
 export function parseObjectField<
-  T extends FieldDefinitionConfig,
+  T extends ObjectFieldInput,
   Options extends ParseFieldOptions
 >(
   fieldName: string,
@@ -35,17 +30,17 @@ export function parseObjectField<
 ): [Options['returnInstance']] extends [true]
   ? TAnyFieldType
   : [Options['asString']] extends [true]
-  ? Internal.FieldAsString
+  ? FieldAsString
   : FinalFieldDefinition;
 
-export function parseObjectField<T extends FieldDefinitionConfig>(
+export function parseObjectField<T extends ObjectFieldInput>(
   fieldName: string,
   definition: T
 ): FinalFieldDefinition;
 
 export function parseObjectField(
   fieldName: string,
-  definition: FieldDefinitionConfig,
+  definition: ObjectFieldInput,
   options: ParseFieldOptions = {}
 ) {
   let { returnInstance, asString, deep, omitMeta } = options;
@@ -64,7 +59,7 @@ export function parseObjectField(
     if (asString) return parsed;
   }
 
-  const instanceFromDef = fieldInstanceFromDef(parsed);
+  const instanceFromDef = powership.fieldInstanceFromDef(parsed);
 
   setCachedFieldInstance(parsed, instanceFromDef);
 
@@ -84,9 +79,7 @@ export function parseObjectField(
   });
 }
 
-export function parseField(
-  definition: Internal.FieldInput
-): FinalFieldDefinition {
+export function parseField(definition: FieldInput): FinalFieldDefinition {
   return parseObjectField('__parseField__', definition);
 }
 
@@ -97,17 +90,14 @@ const stringifiableDefKeys = new Set([
 ]);
 
 export function parseFieldDefinitionConfig<
-  T extends FieldDefinitionConfig,
+  T extends ObjectFieldInput,
   Options extends ParseFieldOptions
 >(
   definition: T,
   options?: Options
 ): [Options['asString']] extends [true]
-  ?
-      | Internal.FieldAsString
-      | Internal.FinalFieldDefinition
-      | Internal.ShortenFinalFieldDefinition
-  : Internal.FinalFieldDefinition {
+  ? FieldAsString | FinalFieldDefinition | ShortenFinalFieldDefinition
+  : FinalFieldDefinition {
   let { deep, asString } = options || {};
 
   if (deep?.asString) {
@@ -115,7 +105,7 @@ export function parseFieldDefinitionConfig<
   }
 
   function _parseField(): FinalFieldDefinition {
-    if (LiteralField.isFinalTypeDef(definition)) {
+    if (powership.LiteralField.isFinalTypeDef(definition)) {
       return {
         def: definition.def,
         defaultValue: definition.defaultValue,
@@ -128,13 +118,13 @@ export function parseFieldDefinitionConfig<
       };
     }
 
-    if (GraphType.is(definition)) {
+    if (powership.GraphType.is(definition)) {
       const def = parseFieldDefinitionConfig(definition.definition, { deep });
       def.hidden = def.hidden || definition.hidden;
       return def;
     }
 
-    if (GraphType.isTypeDefinition(definition)) {
+    if (powership.GraphType.isTypeDefinition(definition)) {
       const {
         list = false,
         optional = false,
@@ -158,11 +148,11 @@ export function parseFieldDefinitionConfig<
       };
     }
 
-    if (isStringFieldDefinition(definition)) {
-      return parseStringDefinition(definition);
+    if (powership.isStringFieldDefinition(definition)) {
+      return powership.parseStringDefinition(definition);
     }
 
-    if (isFieldInstance(definition)) {
+    if (powership.isFieldInstance(definition)) {
       return definition.asFinalFieldDef;
     }
 
@@ -174,7 +164,7 @@ export function parseFieldDefinitionConfig<
           });
         }
 
-        if (Internal.isObjectType(definition.def)) {
+        if (powership.isObjectType(definition.def)) {
           definition.def = definition.def.definition;
         } else {
           definition.def = parseObjectDefinition(definition.def, {
@@ -223,7 +213,7 @@ export function parseFieldDefinitionConfig<
       return parsed;
     }
 
-    if (Internal.isObjectType(definition)) {
+    if (powership.isObjectType(definition)) {
       return {
         def: deep
           ? parseObjectDefinition(definition.definition, { deep })
@@ -298,7 +288,7 @@ export function parseFieldDefinitionConfig<
     if (asString && !hasNotStringifiableKeys) {
       const { type, list, optional, def } = result;
 
-      let _type: Internal.FieldAsString = type;
+      let _type: FieldAsString = type;
       if (list) _type = `[${_type}]`;
       if (optional) _type = `${_type}?`;
 
@@ -361,7 +351,7 @@ export function parseObjectDefinition(
         return (custom = field);
       }
 
-      if (isMetaField(field, fieldName)) {
+      if (powership.isMetaField(field, fieldName)) {
         return (meta = field);
       }
 
@@ -383,14 +373,14 @@ export function parseObjectDefinition(
     }
   });
 
-  meta = meta || createEmptyMetaField();
+  meta = meta || powership.createEmptyMetaField();
 
   if (meta) {
     meta.def.custom = custom;
   }
 
   if (!omitMeta) {
-    result[objectMetaFieldKey] = meta;
+    result[powership.objectMetaFieldKey] = meta;
   }
 
   return {
@@ -402,17 +392,17 @@ export function parseObjectDefinition(
 
 function isFinalFieldDefinition(
   input: any
-): input is Internal.FinalFieldDefinitionStrict {
+): input is FinalFieldDefinitionStrict {
   return typeof input?.type === 'string';
 }
 
-function isListDefinition(input: any): input is [FieldDefinitionConfig] {
+function isListDefinition(input: any): input is [ObjectFieldInput] {
   if (Array.isArray(input) && input.length === 1) return true;
 
   if (!isProduction()) {
     // verify against old enum definition
     input?.forEach?.((el) => {
-      if (typeof el === 'string' && !isStringFieldDefinition(el)) {
+      if (typeof el === 'string' && !powership.isStringFieldDefinition(el)) {
         throw new Error(
           `Plain array is used only for union definitions.\n` +
             `  "${el}" is not valid as union item.\n` +
@@ -431,9 +421,9 @@ function isListDefinition(input: any): input is [FieldDefinitionConfig] {
  */
 export function isObjectAsTypeDefinition(
   input: any
-): input is FieldDefinitionWithType<Internal.ObjectType<any>> {
+): input is FieldDefinitionWithType<ObjectType<any>> {
   return (
-    input && typeof input === 'object' && Internal.isObjectType(input.type)
+    input && typeof input === 'object' && powership.isObjectType(input.type)
   );
 }
 
@@ -464,7 +454,7 @@ export function parseFlattenFieldDefinition(
   for (let k in input) {
     const valueOfDefOrOptionalOrListOrDescription = input[k];
 
-    if (types[k]) {
+    if (powership.types[k]) {
       type = k;
       def = valueOfDefOrOptionalOrListOrDescription;
 
@@ -532,7 +522,7 @@ export function __getCachedFieldInstance(
   }
 
   const parsed = parseFieldDefinitionConfig(field);
-  const instanceFromDef = fieldInstanceFromDef(parsed);
+  const instanceFromDef = powership.fieldInstanceFromDef(parsed);
   setCachedFieldInstance(parsed, instanceFromDef);
   return instanceFromDef;
 }
@@ -552,8 +542,30 @@ function setCachedFieldInstance(field, instanceFromDef: TAnyFieldType) {
   });
 }
 
-export function deleteCachedFieldInstance<T>(def: T): T {
+function deleteCachedFieldInstance<T>(def: T): T {
   if (!def || typeof def !== 'object') return def;
   const { [CACHED_FIELD_INSTANCE_KEY]: _, ...rest } = def as any;
   return rest as any;
+}
+
+Object.assign(powership, {
+  parseFieldDefinitionConfig,
+  deleteCachedFieldInstance,
+  parseField,
+  parseObjectField,
+  __getCachedFieldInstance,
+  parseFlattenFieldDefinition,
+  parseObjectDefinition,
+});
+
+declare global {
+  interface powership {
+    __getCachedFieldInstance: typeof __getCachedFieldInstance;
+    deleteCachedFieldInstance: typeof deleteCachedFieldInstance;
+    parseField: typeof parseField;
+    parseObjectField: typeof parseObjectField;
+    parseFieldDefinitionConfig: typeof parseFieldDefinitionConfig;
+    parseFlattenFieldDefinition: typeof parseFlattenFieldDefinition;
+    parseObjectDefinition: typeof parseObjectDefinition;
+  }
 }

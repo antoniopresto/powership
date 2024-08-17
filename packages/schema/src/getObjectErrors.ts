@@ -1,7 +1,7 @@
-import * as Internal from './internal';
+import { FinalFieldDefinition } from './fields/_parseFields';
 
-export function validateObjectFields(params: {
-  definition: Internal.FinalFieldDefinition;
+function validateObjectFields(params: {
+  definition: FinalFieldDefinition;
   fieldName: string;
   fieldParserOptions?: { excludeInvalidListItems?: boolean };
   parentType?: string;
@@ -13,7 +13,7 @@ export function validateObjectFields(params: {
   const { fieldName, definition, value, parentType, fieldParserOptions } =
     params;
 
-  if (Internal.isMetaField(definition, fieldName)) {
+  if (powership.isMetaField(definition, fieldName)) {
     return {
       errors: [],
     };
@@ -26,7 +26,7 @@ export function validateObjectFields(params: {
   }
 
   try {
-    const field = Internal.__getCachedFieldInstance(definition);
+    const field = powership.__getCachedFieldInstance(definition);
     const parsed = field.parse(value, fieldParserOptions);
 
     return {
@@ -39,3 +39,15 @@ export function validateObjectFields(params: {
     };
   }
 }
+
+Object.assign(powership, {
+  validateObjectFields,
+});
+
+declare global {
+  interface powership {
+    validateObjectFields: typeof validateObjectFields;
+  }
+}
+
+export {};

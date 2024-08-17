@@ -1,3 +1,3 @@
-import type { InferField as Infer } from './fields/Infer';
+import type { Infer } from './fields/Infer';
 
 export type { Infer };

@@ -1,12 +1,36 @@
+import './__globals__';
+import {
+  __getCachedFieldInstance,
+  CACHED_FIELD_INSTANCE_KEY,
+  isObjectAsTypeDefinition,
+  parseField,
+  parseFieldDefinitionConfig,
+  parseFlattenFieldDefinition,
+  parseObjectDefinition,
+  parseObjectField,
+} from './parseObjectDefinition';
+import { createType, getType, GraphType } from './GraphType/GraphType';
+import {
+  createObjectType,
+  ObjectType,
+  PowershipObject,
+  resetTypesCache,
+} from './ObjectType';
+
+import type {
+  GraphTypeArgs,
+  LazyParseGraphTypePayload,
+} from './GraphType/GraphType';
+
+import type { ObjectTypeFromInput } from './ObjectType';
+import type { ParseFieldOptions } from './parseObjectDefinition';
+
 export * from './Infer';
-export * from './TObjectConfig';
 
 export * from './fields/Infer';
 export * from './Durable/IDurable';
 export * from './CustomFieldConfig';
 export * from './assertType';
-
-export { objectMetaFieldKey } from './fields/MetaFieldField';
 
 export * from './fields/IObjectLike';
 export * from './applyValidator';
@@ -27,62 +51,30 @@ export * from './Resolver';
 // @only-server
 export * from './createGraphQLSchema';
 
-// @only-server
-export type { ResolverKind } from './createGraphQLSchema';
+import type { ResolverKind } from './createGraphQLSchema';
 
-import { createType, getType, GraphType } from './GraphType/GraphType';
-import type {
+export {
+  createObjectType,
+  ObjectType,
+  PowershipObject,
+  resetTypesCache,
+  parseObjectDefinition,
+  CACHED_FIELD_INSTANCE_KEY,
+  __getCachedFieldInstance,
+  isObjectAsTypeDefinition,
+  parseField,
+  parseFieldDefinitionConfig,
+  parseFlattenFieldDefinition,
+  parseObjectField,
+  createType,
+  getType,
+  GraphType,
+};
+
+export type {
+  ParseFieldOptions,
+  ObjectTypeFromInput,
   GraphTypeArgs,
   LazyParseGraphTypePayload,
-} from './GraphType/GraphType';
-
-export { createType, getType, GraphType };
-export type { GraphTypeArgs, LazyParseGraphTypePayload };
-
-import {
-  createObjectType,
-  ObjectType,
-  createPowershipObject,
-  PowershipObject,
-  createSchema,
-  resetTypesCache,
-} from './ObjectType';
-
-import type { ObjectTypeFromInput } from './ObjectType';
-export type { ObjectTypeFromInput };
-
-export {
-  createObjectType,
-  ObjectType,
-  createPowershipObject,
-  PowershipObject,
-  createSchema,
-  resetTypesCache,
+  ResolverKind,
 };
-
-import {
-  parseObjectDefinition,
-  CACHED_FIELD_INSTANCE_KEY,
-  __getCachedFieldInstance,
-  deleteCachedFieldInstance,
-  isObjectAsTypeDefinition,
-  parseField,
-  parseFieldDefinitionConfig,
-  parseFlattenFieldDefinition,
-  parseObjectField,
-} from './parseObjectDefinition';
-
-export {
-  parseObjectDefinition,
-  CACHED_FIELD_INSTANCE_KEY,
-  __getCachedFieldInstance,
-  deleteCachedFieldInstance,
-  isObjectAsTypeDefinition,
-  parseField,
-  parseFieldDefinitionConfig,
-  parseFlattenFieldDefinition,
-  parseObjectField,
-};
-
-import type { ParseFieldOptions } from './parseObjectDefinition';
-export type { ParseFieldOptions };

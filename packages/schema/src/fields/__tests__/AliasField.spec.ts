@@ -1,14 +1,14 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { createType } from '../../GraphType/GraphType';
-import { createSchema, ObjectType } from '../../ObjectType';
+import { createObjectType, ObjectType } from '../../ObjectType';
 import { objectToJSON } from '../../objectToJSON';
 
 describe('AliasField', () => {
   afterEach(ObjectType.reset);
 
   it('works', async () => {
-    const schema = createSchema({
+    const schema = createObjectType({
       person: {
         union: [
           {
@@ -78,7 +78,7 @@ describe('AliasField', () => {
   });
 
   it('converts to json-schema', async () => {
-    const schema = createSchema({
+    const schema = createObjectType({
       person: {
         object: {
           age: 'int',

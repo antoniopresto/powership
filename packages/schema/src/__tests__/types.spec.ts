@@ -1,11 +1,10 @@
 import { assert, IsExact } from 'conditional-type-checks';
-import { booleanType, objectType, unknownType } from '../__alias__';
 
 import { Infer } from '../Infer';
 import { createObjectType, ObjectType } from '../ObjectType';
 import { EnumField } from '../fields/EnumField';
 import { _assertFields } from '../fields/__tests__/__assert';
-import { ParseStringDefinition } from '../parseStringDefinition';
+import type { ParseStringDefinition } from '../parseStringDefinition';
 
 describe('typings', () => {
   test('enum', () => {
@@ -27,9 +26,9 @@ describe('typings', () => {
 
   test('alias', () => {
     const sut = [
-      unknownType('foo'),
-      booleanType(),
-      objectType('ga', { name: 'string' }),
+      powership.createType('foo', 'unknown'),
+      powership.createType('boolean'),
+      powership.createType('ga', { object: { name: 'string' } }),
     ]
       .map((el) => el.optionalId)
       .join('');

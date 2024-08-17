@@ -1,18 +1,13 @@
 import path from 'path';
 
-import { Process } from '@powership/utils';
+import { formatWithPrettier, Process } from '@powership/utils';
 import { Emitter, mitt } from '@powership/utils';
-import fsExtra from 'fs-extra';
+import { fsExtra } from '@powership/utils/server-utils';
 
 const { ensureFileSync, writeFileSync } = fsExtra;
 
-import { Resolver } from './Resolver';
-import { GraphTypeLike } from './fields/IObjectLike';
-import { LiteralField } from './fields/LiteralField';
-import * as Internal from './internal';
-import { objectToTypescript } from './objectToTypescript';
-
-const { serialize } = LiteralField.utils;
+import type { Resolver } from './Resolver';
+import type { GraphTypeLike } from './fields/IObjectLike';
 
 export type CustomTypesWriterEvent = {
   body?: string[];
@@ -119,10 +114,15 @@ export async function writeTypes(options?: WriteTypesOptions) {
     item.footer && head.push(...item.footer);
   });
   // @only-server
-  const typesInterface = await objectToTypescript('RuntimeTypes', typesRecord);
+  const typesInterface = await powership.objectToTypescript(
+    'RuntimeTypes',
+    typesRecord
+  );
 
   let definitions = Object.entries(typesRecord).reduce((acc, [id, next]) => {
-    acc += `\n"${id}": ${serialize(next.definition)}\n;`;
+    acc += `\n"${id}": ${powership.LiteralField.utils.serialize(
+      next.definition
+    )}\n;`;
     return acc;
   }, '');
 
@@ -138,7 +138,7 @@ export async function writeTypes(options?: WriteTypesOptions) {
     typesInterface,
   });
 
-  content = await Internal.formatWithPrettier(content, {
+  content = await formatWithPrettier(content, {
     parser: 'typescript',
     singleQuote: true,
   });

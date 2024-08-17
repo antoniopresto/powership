@@ -37,3 +37,13 @@ export class EnumField<
     return new EnumField(def);
   };
 }
+
+Object.assign(powership, {
+  EnumField,
+});
+
+declare global {
+  interface powership {
+    EnumField: typeof EnumField;
+  }
+}

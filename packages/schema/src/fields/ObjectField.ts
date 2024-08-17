@@ -4,9 +4,9 @@
 
 import { createProxy, TypeLike } from '@powership/utils';
 
-import * as Internal from '../internal';
+import type { FieldTypeParser } from '../applyValidator';
 
-import { FieldType, isFieldInstance } from './FieldType';
+import { FieldType } from './FieldType';
 import type { ObjectDefinitionInput } from './_parseFields';
 
 type AnyObjectField = TypeLike<(typeof ObjectField)['prototype']>;
@@ -14,22 +14,21 @@ type AnyObjectField = TypeLike<(typeof ObjectField)['prototype']>;
 export class ObjectField<
   DefinitionInput extends ObjectDefinitionInput
 > extends FieldType<unknown, 'object', DefinitionInput> {
-  parse: Internal.FieldTypeParser<unknown>;
+  parse: FieldTypeParser<unknown>;
 
   utils: {
     object: any;
   };
 
   static is(t: any): t is AnyObjectField {
-    return isFieldInstance(t) && t.typeName === 'object';
+    return powership.isFieldInstance(t) && t.typeName === 'object';
   }
 
   constructor(def: DefinitionInput) {
     super({ def: def, name: 'object' });
 
     this.utils = createProxy(() => ({
-      // @ts-ignore circular
-      object: Internal.createObjectType(def as any) as any,
+      object: powership.createObjectType(def as any) as any,
     }));
 
     this.parse = this.applyParser({
@@ -44,4 +43,14 @@ export class ObjectField<
   ) => {
     return new ObjectField<DefinitionInput>(def);
   };
+}
+
+Object.assign(powership, {
+  ObjectField,
+});
+
+declare global {
+  interface powership {
+    ObjectField: typeof ObjectField;
+  }
 }

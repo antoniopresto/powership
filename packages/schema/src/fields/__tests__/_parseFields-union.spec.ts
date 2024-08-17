@@ -1,23 +1,23 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { ObjectType } from '../../ObjectType';
-import { InferField } from '../_parseFields';
 
-import { _assert, _assertFields } from './__assert';
+import { _assertFields } from './__assert';
+import { Infer } from '../Infer';
 
 test('infer union types', () => {
-  type TUnion = InferField<{
+  type TUnion = Infer<{
     object: { names: { union: ['string', 'int']; list: true } };
   }>;
   assert<IsExact<TUnion, { names: (string | number)[] }>>(true);
 
-  type TUnionList = InferField<{
+  type TUnionList = Infer<{
     list: true;
     object: { name: { union: ['string', 'int'] } };
   }>;
   assert<IsExact<TUnionList, { name: string | number }[]>>(true);
 
-  type TUnionListOptional = InferField<{
+  type TUnionListOptional = Infer<{
     list: true;
     object: { name: { union: ['string', 'int'] } };
     optional: true;
@@ -27,7 +27,7 @@ test('infer union types', () => {
     true
   );
 
-  type TUnionListOptionalItem = InferField<{
+  type TUnionListOptionalItem = Infer<{
     list: true;
     object: { name: { union: ['string', 'int?'] } };
     optional: true;
@@ -60,7 +60,7 @@ test('infer union types', () => {
     street: 'string';
   }>;
 
-  type TSampleObjectInfer = InferField<SampleObject>;
+  type TSampleObjectInfer = Infer<SampleObject>;
 
   type TSampleObject = {
     add: { name: string };
@@ -77,7 +77,7 @@ test('infer union types', () => {
 
   assert<IsExact<TSampleObject, TSampleObjectInfer>>(true);
 
-  type AddressObject = InferField<{
+  type AddressObject = Infer<{
     object: {
       // email type - will validate against email regex
       age: 'int?';

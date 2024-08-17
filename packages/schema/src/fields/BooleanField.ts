@@ -26,3 +26,13 @@ export class BooleanField extends FieldType<boolean, 'boolean', undefined> {
     return new BooleanField();
   };
 }
+
+Object.assign(powership, {
+  BooleanField,
+});
+
+declare global {
+  interface powership {
+    BooleanField: typeof BooleanField;
+  }
+}

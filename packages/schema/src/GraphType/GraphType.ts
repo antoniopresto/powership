@@ -1,3 +1,4 @@
+import '../__globals__';
 import {
   createStore,
   inspectObject,
@@ -9,17 +10,46 @@ import type {
   GraphQLNamedInputType,
   GraphQLNamedType,
 } from 'graphql';
+// @only-server
+import {
+  // @only-server
+  GraphQLSchema,
+  // @only-server
+  printSchema,
+} from 'graphql';
 
+import { FieldParserConfig } from '../applyValidator';
+import type { ExtendObjectDefinition } from '../extendObjectDefinition';
+import type {
+  ExtendType,
+  MakeTypeList,
+  MakeTypeOptional,
+  MakeTypeRequired,
+  MakeTypeSingle,
+} from '../extendType';
+import type { TAnyFieldType } from '../fields/FieldType';
 import type { GraphTypeLike } from '../fields/IObjectLike';
-import type { ObjectFieldInput } from '../fields/_parseFields';
-import * as Internal from '../internal';
+import type { Infer } from '../fields/Infer';
+import type {
+  FinalFieldDefinition,
+  ObjectDefinitionInput,
+  ObjectFieldInput,
+} from '../fields/_parseFields';
 import {
   objectToTypescript,
   ObjectToTypescriptOptions,
 } from '../objectToTypescript';
+// @only-server
+import { PowershipWatchTypesPubSub } from '../writeTypes';
+
+import { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
+// @only-server
+import { initGraphType } from './initGraphType';
 
 // @only-server
-import type { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
+import '../Resolver';
+// @only-server
+import './GraphQLParser';
 
 export class GraphType<Definition extends ObjectFieldInput> {
   static assert(type: any): asserts type is GraphType<any> {
@@ -37,7 +67,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
 
   static reset = async () => {
     // @only-server
-    Internal._resolvers.clear();
+    powership._resolvers.clear();
     this.register.clear();
   };
 
@@ -64,7 +94,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   );
 
   constructor(...args: GraphTypeArgs) {
-    Internal.initGraphType(this, args);
+    initGraphType(this, args);
 
     const self = this;
 
@@ -108,7 +138,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
     } else {
       if (!isBrowser()) {
         // @only-server
-        Internal.PowershipWatchTypesPubSub.emit('created', {
+        PowershipWatchTypesPubSub.emit('created', {
           graphType: this as any,
         });
       }
@@ -125,10 +155,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
     return this.__hidden;
   }
 
-  parse = (
-    input: any,
-    options?: Internal.FieldParserConfig
-  ): Internal.Infer<Definition> => {
+  parse = (input: any, options?: FieldParserConfig): Infer<Definition> => {
     const field = this.__lazyGetter.field;
 
     try {
@@ -155,7 +182,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
 
   _toGraphQL = (): ConvertFieldResult => {
     // @only-server
-    return Internal.GraphQLParser.fieldToGraphQL({
+    return powership.GraphQLParser.fieldToGraphQL({
       field: this.__lazyGetter.field,
       fieldName: this.id,
       parentName: this.id,
@@ -182,21 +209,19 @@ export class GraphType<Definition extends ObjectFieldInput> {
       throw new Error('graphQLInterface is only available for object type');
     }
     // @only-server
-    return Internal.GraphQLParser.objectToGraphQL({
+    return powership.GraphQLParser.objectToGraphQL({
       object: this.__lazyGetter.objectType,
     }).interfaceType(...args) as any;
   };
 
-  clone<T>(
-    handler: (input: Internal.ExtendObjectDefinition<this, this>) => T
-  ): T {
-    const parsed = Internal.parseField(this.definition);
-    const input: any = Internal.extendObjectDefinition(parsed);
+  clone<T>(handler: (input: ExtendObjectDefinition<this, this>) => T): T {
+    const parsed = powership.parseField(this.definition);
+    const input: any = powership.extendObjectDefinition(parsed);
     return handler(input);
   }
 
-  override<T>(handler: (input: Internal.ExtendType<this>) => T): T {
-    const input = Internal.extendType(this.definition) as any;
+  override<T>(handler: (input: ExtendType<this>) => T): T {
+    const input = powership.extendType(this.definition) as any;
     return handler(input);
   }
 
@@ -204,8 +229,8 @@ export class GraphType<Definition extends ObjectFieldInput> {
     definition: LazyParseGraphTypePayload
   ) => LazyParseGraphTypePayload)[] = [];
 
-  mutateFields<Def extends Internal.ObjectDefinitionInput>(
-    callback: (input: Internal.ExtendObjectDefinition<this, this>) => Def
+  mutateFields<Def extends ObjectDefinitionInput>(
+    callback: (input: ExtendObjectDefinition<this, this>) => Def
   ): GraphType<{ object: Def }> {
     if (this.touched) {
       throw new Error(
@@ -225,9 +250,9 @@ export class GraphType<Definition extends ObjectFieldInput> {
       }
 
       try {
-        const input: any = Internal.extendObjectDefinition(payload.definition);
+        const input: any = powership.extendObjectDefinition(payload.definition);
         payload.definition.def = callback(input);
-        payload.objectType = Internal.createObjectType({
+        payload.objectType = powership.createObjectType({
           [this.id]: this.definition,
         }) as any;
         (payload.field as any).utils.object = payload.objectType;
@@ -248,8 +273,6 @@ export class GraphType<Definition extends ObjectFieldInput> {
     const inputType = this.graphQLInputType();
 
     // @only-server
-    const { GraphQLSchema, printSchema } = Internal;
-    // @only-server
     const object = new GraphQLSchema({
       // @ts-ignore
       types: [type, inputType],
@@ -266,7 +289,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
     // @ts-ignore
     const object =
       this.__lazyGetter.objectType ||
-      Internal.createObjectType({
+      powership.createObjectType({
         [name]: this.definition,
       });
 
@@ -277,7 +300,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   optionalType = (
     name?: string
   ): Definition extends unknown
-    ? GraphType<Internal.MakeTypeOptional<Definition>>
+    ? GraphType<MakeTypeOptional<Definition>>
     : never => {
     let _id = name || this.optionalId;
     _id = _id ? `${_id}Optional` : undefined;
@@ -287,7 +310,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   requiredType = (
     name?: string
   ): Definition extends unknown
-    ? GraphType<Internal.MakeTypeRequired<Definition>>
+    ? GraphType<MakeTypeRequired<Definition>>
     : never => {
     let _id = name || this.optionalId;
     _id = _id ? `${_id}NotNull` : undefined;
@@ -297,7 +320,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   listType = (
     name?: string
   ): Definition extends unknown
-    ? GraphType<Internal.MakeTypeList<Definition>>
+    ? GraphType<MakeTypeList<Definition>>
     : never => {
     let _id = name || this.optionalId;
     _id = _id ? `${_id}List` : undefined;
@@ -307,7 +330,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   singleType = (
     name?: string
   ): Definition extends unknown
-    ? GraphType<Internal.MakeTypeSingle<Definition>>
+    ? GraphType<MakeTypeSingle<Definition>>
     : never => {
     let _id = name || this.optionalId;
     _id = _id ? `${_id}Item` : undefined;
@@ -320,7 +343,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
    * @param id
    * @param def
    */
-  static getOrSet = <T extends Internal.FieldDefinitionConfig>(
+  static getOrSet = <T extends ObjectFieldInput>(
     id: string,
     def: T
   ): GraphType<T> => {
@@ -351,9 +374,9 @@ export class GraphType<Definition extends ObjectFieldInput> {
 
 export type LazyParseGraphTypePayload = {
   // id can be from args or from the inner type, like an object type with id
-  definition: Internal.FinalFieldDefinition;
+  definition: FinalFieldDefinition;
   definitionInput: ObjectFieldInput | (() => ObjectFieldInput);
-  field: Internal.TAnyFieldType;
+  field: TAnyFieldType;
   id: string | undefined;
   idFromArgs: string | undefined;
   objectType?: any;
@@ -381,4 +404,16 @@ export function createType(...args: any[]) {
 
 export function getType(name: string): GraphTypeLike {
   return GraphType.register.get(name);
+}
+
+Object.assign(powership, {
+  GraphType,
+  createType,
+});
+
+declare global {
+  interface powership {
+    GraphType: typeof GraphType;
+    createType: typeof createType;
+  }
 }

@@ -64,3 +64,13 @@ export class StringField extends FieldType<
     return new StringField(def);
   };
 }
+
+Object.assign(powership, {
+  StringField,
+});
+
+declare global {
+  interface powership {
+    StringField: typeof StringField;
+  }
+}

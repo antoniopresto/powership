@@ -1,7 +1,15 @@
 import { inspectObject, simpleObjectClone } from '@powership/utils';
 
-import * as Internal from '../internal';
+import type { CustomFieldConfig } from '../CustomFieldConfig';
+import type {
+  FieldParserOptionsObject,
+  FieldTypeParser,
+  ValidationCustomMessage,
+} from '../applyValidator';
+import { parseValidationError } from '../applyValidator';
 
+import { arrayFieldParse } from './ArrayFieldParse';
+import { FieldTypeError, isFieldError } from './FieldTypeErrors';
 import type {
   FieldDefinitions,
   FieldTypeName,
@@ -31,6 +39,8 @@ export const FieldsTypeCache = new Map<
   }
 >();
 
+const $inferFieldKey = '___inferable' as const;
+
 export abstract class FieldType<
   Type,
   TypeName extends FieldTypeName,
@@ -45,7 +55,7 @@ export abstract class FieldType<
 
   readonly def: Def;
 
-  [Internal.$inferableKey]: ([List] extends [1] ? Type[] : Type) extends infer R
+  [$inferFieldKey]: ([List] extends [1] ? Type[] : Type) extends infer R
     ? [Optional] extends [1]
       ? R | undefined
       : R
@@ -126,7 +136,7 @@ export abstract class FieldType<
   defaultValue: DefaultValue;
   description?: string;
   hidden?: boolean;
-  $?: Internal.CustomFieldConfig;
+  $?: CustomFieldConfig;
 
   describe = (description: string): this => {
     this.description = description;
@@ -141,7 +151,7 @@ export abstract class FieldType<
     list: [List] extends [1] ? true : false;
     optional: [Optional] extends [1] ? true : false;
     type: Type;
-    $?: Internal.CustomFieldConfig;
+    $?: CustomFieldConfig;
   } => {
     return this.asFinalFieldDef as any;
   };
@@ -178,16 +188,14 @@ export abstract class FieldType<
   }
 
   applyParser = <Type>(parser: {
-    parse(input: any, _options: Internal.FieldParserOptionsObject): Type;
+    parse(input: any, _options: FieldParserOptionsObject): Type;
     preParse?(input: any): Type;
-  }): Internal.FieldTypeParser<Type> => {
+  }): FieldTypeParser<Type> => {
     return (
       input: any,
-      _options?:
-        | Internal.ValidationCustomMessage
-        | Internal.FieldParserOptionsObject
+      _options?: ValidationCustomMessage | FieldParserOptionsObject
     ) => {
-      let options: Internal.FieldParserOptionsObject = {};
+      let options: FieldParserOptionsObject = {};
 
       if (typeof _options === 'function') {
         options = { customErrorMessage: _options };
@@ -229,11 +237,11 @@ export abstract class FieldType<
       }
 
       if (input === undefined && !this.optional) {
-        throw new Internal.FieldTypeError('requiredField');
+        throw new FieldTypeError('requiredField');
       }
 
       if (this.asFinalFieldDef.list) {
-        return Internal.arrayFieldParse({
+        return arrayFieldParse({
           arrayOptions: {}, // since is the shot definition (list:true) there is no options
           input,
           parser: (input) => parser.parse(input, options),
@@ -244,15 +252,11 @@ export abstract class FieldType<
       try {
         return parser.parse(input, options) as any;
       } catch (originalError: any) {
-        if (!customMessage && Internal.isFieldError(originalError)) {
+        if (!customMessage && isFieldError(originalError)) {
           throw originalError;
         }
 
-        throw Internal.parseValidationError(
-          input,
-          customMessage,
-          originalError
-        );
+        throw parseValidationError(input, customMessage, originalError);
       }
     };
   };
@@ -278,7 +282,7 @@ export abstract class FieldType<
     return res as any;
   }
 
-  abstract parse: Internal.FieldTypeParser<Type>;
+  abstract parse: FieldTypeParser<Type>;
 
   readonly __isFieldType = true;
 
@@ -317,11 +321,11 @@ export abstract class FieldType<
       }
     }
 
-    return Internal.fieldInstanceFromDef(field) as any;
+    return powership.fieldInstanceFromDef(field) as any;
   };
 }
 
-export function isFieldInstance(t: any): t is TAnyFieldType {
+function isFieldInstance(t: any): t is TAnyFieldType {
   return t?.__isFieldType === true;
 }
 
@@ -336,3 +340,15 @@ export type AllFieldTypes = {
 };
 
 export type TAnyFieldType = AllFieldTypes[keyof AllFieldTypes];
+
+Object.assign(powership, {
+  FieldType,
+  isFieldInstance,
+});
+
+declare global {
+  interface powership {
+    FieldType: typeof FieldType;
+    isFieldInstance: typeof isFieldInstance;
+  }
+}

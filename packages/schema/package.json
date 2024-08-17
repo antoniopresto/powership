@@ -1,6 +1,6 @@
 {
   "name": "@powership/schema",
-  "version": "4.0.11",
+  "version": "4.1.1",
   "type": "module",
   "main": "./out/index.cjs",
   "module": "./out/index.mjs",
@@ -34,7 +34,10 @@
     "build:node": "TARGET=node npm run babild -- --out-dir out --out-file-extension .cjs",
     "build:module-node": "TARGET=module-node npm run babild -- --out-dir out --out-file-extension .mjs",
     "declarations": "tsc -p tsconfig.declarations.json",
-    "babild": "babel 'src' --extensions '.ts,.tsx' --source-maps=true --ignore '**/__tests__'"
+    "babild": "babel 'src' --extensions '.ts,.tsx' --source-maps=true --ignore '**/__tests__'",
+    "circular-watch": "nodemon -e ts --watch ./src --exec pnpm run circular-check",
+    "circular-check": "depcruise src | less",
+    "tswatch": "tsc --noEmit --watch"
   },
   "description": "TypeScript schema declaration and validation library with static type inference",
   "repository": {
@@ -73,16 +76,18 @@
     "@typescript-eslint/parser": "7.1.1",
     "babel-preset-minify": "0.5.2",
     "conditional-type-checks": "1.0.6",
+    "dependency-cruiser": "16.4.0",
     "esbuild": "0.20.1",
     "eslint": "8.57.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-eslint-comments": "3.2.0",
-    "eslint-plugin-import": "2.29.1",
     "eslint-plugin-sort-keys-fix": "1.1.2",
     "eslint-plugin-typescript-sort-keys": "3.2.0",
     "express": "4.18.2",
     "graphql": "16.8.1",
     "jest": "29.7.0",
+    "madge": "8.0.0",
+    "nodemon": "2.0.20",
     "npm-run-all": "4.1.5",
     "prettier": "2.8.8",
     "prettier-plugin-multiline-arrays": "3.0.4",
@@ -102,6 +107,5 @@
     "readmeFile": "./README.md",
     "displayName": "Powership Schema - A Super Portable TypeScript validation library",
     "tsconfig": "./tsconfig.module.json"
-  },
-  "peerDependencies": {}
+  }
 }

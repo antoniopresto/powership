@@ -1,4 +1,4 @@
-export * from './InferField';
+export * from './Infer';
 export * from './InferFinalField';
 export * from './DescribeField';
 export * from './InferGraphType';

@@ -1,8 +1,8 @@
-import { createSchema } from '@powership/schema';
+import { createObjectType } from '@powership/schema';
 
 import { usernameType } from '../utils/validateUserName';
 
-export const AccountType = createSchema({
+export const AccountType = createObjectType({
   accountId: { ulid: { autoCreate: true } },
 
   username: usernameType,

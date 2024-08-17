@@ -11,19 +11,43 @@ import { invariantType } from '@powership/utils';
 import { Serializable } from '@powership/utils';
 import type { GraphQLInterfaceType, GraphQLObjectType } from 'graphql';
 
-import type { ObjectDefinitionInput } from './TObjectConfig';
+import type {
+  GraphQLParseMiddleware,
+  GraphQLParserResult,
+  ParseInputTypeOptions,
+  ParseInterfaceOptions,
+  ParseTypeOptions,
+} from './GraphType/GraphQLParser';
+import { GraphQLParser } from './GraphType/GraphQLParser';
+import {
+  FieldParserOptionsObject,
+  parseValidationError,
+  ValidationCustomMessage,
+} from './applyValidator';
+import type { ExtendObjectDefinition } from './extendObjectDefinition';
 import type { FieldComposer } from './fields/FieldType';
 import type { ObjectLike } from './fields/IObjectLike';
 import type { InferObjectDefinition } from './fields/Infer';
+import { MetaFieldDef } from './fields/MetaFieldField';
+import {
+  FieldTypeName,
+  SpecialObjectKeyEnum,
+} from './fields/_fieldDefinitions';
 import type {
   FieldAsString,
   FinalFieldDefinition,
   FinalObjectDefinition,
+  ObjectDefinitionInput,
 } from './fields/_parseFields';
-import * as Internal from './internal';
-import { cleanMetaField } from './internal';
-import { objectToTypescript } from './objectToTypescript';
+import { getObjectHelpers, ObjectHelpers } from './getObjectHelpers';
+import { ImplementObject } from './implementObject';
+import {
+  objectToTypescript,
+  ObjectToTypescriptOptions,
+} from './objectToTypescript';
 import { withCache, WithCache } from './withCache';
+
+// @only-server
 
 export class ObjectType<
   Input,
@@ -36,7 +60,7 @@ export class ObjectType<
   static __isPowershipObject: boolean = true;
 
   __withCache: WithCache<{
-    helpers: Internal.ObjectHelpers;
+    helpers: ObjectHelpers;
   }>;
 
   inputDefinition: ObjectDefinitionInput | (() => ObjectDefinitionInput);
@@ -54,14 +78,14 @@ export class ObjectType<
         const objectDef =
           typeof this.inputDefinition === 'function'
             ? // @ts-ignore
-              this.inputDefinition(Internal)
+              this.inputDefinition()
             : this.inputDefinition;
 
         if (!objectDef || typeof objectDef !== 'object') {
           throw new Error('Expected object definition to be an object');
         }
 
-        return Internal.parseObjectDefinition(objectDef).definition;
+        return powership.parseObjectDefinition(objectDef).definition;
       })());
   }
 
@@ -85,43 +109,43 @@ export class ObjectType<
     return cleanMetaField(this.clone((el) => el.def()));
   }
 
-  edit(): Internal.ExtendObjectDefinition<
+  edit(): ExtendObjectDefinition<
     { type: 'object'; def: HandledInput },
     { type: 'object'; def: HandledInput }
   > {
-    return Internal.extendObjectDefinition(this) as any;
+    return powership.extendObjectDefinition(this) as any;
   }
 
-  get meta(): Internal.MetaFieldDef {
+  get meta(): MetaFieldDef {
     // @ts-ignore
-    return this.definition[Internal.objectMetaFieldKey].def;
+    return this.definition[powership.objectMetaFieldKey].def;
   }
 
-  __setMetaData(k: keyof Internal.MetaFieldDef, value: Serializable) {
+  __setMetaData(k: keyof MetaFieldDef, value: Serializable) {
     // @ts-ignore
-    this.definition[Internal.objectMetaFieldKey].def[k] = value;
+    this.definition[powership.objectMetaFieldKey].def[k] = value;
   }
 
   parse(
     input: any,
     options?: {
-      customMessage?: Internal.ValidationCustomMessage;
-    } & Internal.FieldParserOptionsObject
+      customMessage?: ValidationCustomMessage;
+    } & FieldParserOptionsObject
   ): InferObjectDefinition<HandledInput>;
 
   parse(
     input: any,
     options?: {
       partial: true;
-    } & Internal.FieldParserOptionsObject
+    } & FieldParserOptionsObject
   ): Partial<InferObjectDefinition<HandledInput>>;
 
   parse<Fields extends (keyof HandledInput)[]>(
     input: any,
     options: {
-      customMessage?: Internal.ValidationCustomMessage;
+      customMessage?: ValidationCustomMessage;
       fields: Fields;
-    } & Internal.FieldParserOptionsObject
+    } & FieldParserOptionsObject
   ): {
     [K in keyof InferObjectDefinition<HandledInput> as K extends Fields[number]
       ? K
@@ -132,7 +156,7 @@ export class ObjectType<
     input: any,
     options: {
       exclude: Fields;
-    } & Internal.FieldParserOptionsObject
+    } & FieldParserOptionsObject
   ): {
     [K in keyof InferObjectDefinition<HandledInput> as K extends Fields[number]
       ? never
@@ -141,7 +165,7 @@ export class ObjectType<
 
   parse(
     input: any,
-    options?: Internal.FieldParserOptionsObject
+    options?: FieldParserOptionsObject
   ): InferObjectDefinition<HandledInput> {
     const { customMessage, customErrorMessage } = options || {};
     const { errors, parsed } = this.safeParse(input, options);
@@ -153,7 +177,7 @@ export class ObjectType<
         e_message = `${this.id}: ${e_message}`;
       }
 
-      const err: any = Internal.parseValidationError(
+      const err: any = parseValidationError(
         input,
         customMessage || customErrorMessage,
         e_message
@@ -168,7 +192,7 @@ export class ObjectType<
 
   softParse = <T = any>(
     input: any,
-    options: Internal.FieldParserOptionsObject = {}
+    options: FieldParserOptionsObject = {}
   ): InferObjectDefinition<HandledInput> & { [K: string]: T } => {
     return this.parse(input, { ...options, allowExtraFields: true });
   };
@@ -185,11 +209,11 @@ export class ObjectType<
   safeParse(
     input: any,
     options?: {
-      customMessage?: Internal.ValidationCustomMessage;
+      customMessage?: ValidationCustomMessage;
       excludeInvalidListItems?: boolean;
       fields?: keyof HandledInput[];
       partial?: boolean;
-    } & Internal.FieldParserOptionsObject
+    } & FieldParserOptionsObject
   ): { errors: string[]; parsed: unknown } {
     const {
       partial = false,
@@ -239,18 +263,18 @@ export class ObjectType<
 
     // === Start handling {[K: string}: any}|{[K: number}: any} ===
     const anyStringKey = fields.find(
-      (field) => field === Internal.SpecialObjectKeyEnum.$string
+      (field) => field === SpecialObjectKeyEnum.$string
     );
 
     const anyNumberKey = fields.find(
-      (field) => field === Internal.SpecialObjectKeyEnum.$number
+      (field) => field === SpecialObjectKeyEnum.$number
     );
 
     if (anyNumberKey || anyStringKey) {
       const allFieldsSet = new Set(fields);
       const keysNotDefined = inputKeys.filter((k) => !allFieldsSet.has(k));
       fields = fields.filter(
-        (k) => !Internal.SpecialObjectKeyEnum.list.includes(k as any)
+        (k) => !SpecialObjectKeyEnum.list.includes(k as any)
       );
 
       if (anyStringKey) {
@@ -272,7 +296,7 @@ export class ObjectType<
 
     fields.forEach((currField): any => {
       if (currField.startsWith('$')) return; // special field
-      if (Internal.isMetaFieldKey(currField)) return;
+      if (powership.isMetaFieldKey(currField)) return;
       if (exclude && exclude.includes(currField)) return;
 
       // @ts-ignore
@@ -281,7 +305,7 @@ export class ObjectType<
       if (!includeHidden && fieldDef.hidden) return;
 
       if (fieldDef.type === 'alias') {
-        const instance = Internal.__getCachedFieldInstance(fieldDef);
+        const instance = powership.__getCachedFieldInstance(fieldDef);
         return fieldInputsList.push({
           composer: instance.composer!,
           fieldDef,
@@ -313,7 +337,7 @@ export class ObjectType<
     const notAliasFieldsResults = fieldInputsList.map((entry) => {
       const { key, fieldDef, value } = entry;
 
-      const result = Internal.validateObjectFields({
+      const result = powership.validateObjectFields({
         definition: fieldDef,
         fieldName: key,
         fieldParserOptions: { excludeInvalidListItems },
@@ -342,7 +366,7 @@ export class ObjectType<
       const value = composer.compose(parsed);
       const fieldDef = composer.def;
 
-      const result = Internal.validateObjectFields({
+      const result = powership.validateObjectFields({
         definition: fieldDef,
         fieldName: key,
         fieldParserOptions: { excludeInvalidListItems },
@@ -394,14 +418,14 @@ export class ObjectType<
 
   clone<T>(
     handler: (
-      input: Internal.ExtendObjectDefinition<
+      input: ExtendObjectDefinition<
         { object: HandledInput },
         { object: HandledInput }
       >
     ) => T
   ): T {
-    const parsed = Internal.parseField(this);
-    const input: any = Internal.extendObjectDefinition(parsed);
+    const parsed = powership.parseField(this);
+    const input: any = powership.extendObjectDefinition(parsed);
     return handler(input);
   }
 
@@ -438,12 +462,12 @@ export class ObjectType<
 
   helpers = () => {
     return this.__withCache('helpers', () =>
-      Internal.getObjectHelpers(this)
-    ) as Internal.ObjectHelpers;
+      getObjectHelpers(this)
+    ) as ObjectHelpers;
   };
 
   // @only-server
-  toGraphQL = (name?: string): Internal.GraphQLParserResult => {
+  toGraphQL = (name?: string): GraphQLParserResult => {
     if (name) {
       this.identify(name);
     }
@@ -457,19 +481,17 @@ export class ObjectType<
     }
 
     // @only-server
-    const { GraphQLParser } = Internal;
-    // @only-server
     return GraphQLParser.objectToGraphQL({
       object: this,
     });
   };
 
-  graphqlType = (options?: Internal.ParseTypeOptions): GraphQLObjectType => {
+  graphqlType = (options?: ParseTypeOptions): GraphQLObjectType => {
     return this.toGraphQL().getType(options);
   };
 
   graphqlInterfaceType = (
-    options?: Internal.ParseInterfaceOptions
+    options?: ParseInterfaceOptions
   ): GraphQLInterfaceType => {
     return this.toGraphQL().interfaceType(options);
   };
@@ -478,9 +500,7 @@ export class ObjectType<
     return this.toGraphQL().typeToString();
   };
 
-  typescriptPrint = (
-    options?: Internal.ObjectToTypescriptOptions
-  ): Promise<string> => {
+  typescriptPrint = (options?: ObjectToTypescriptOptions): Promise<string> => {
     // @only-server
     return objectToTypescript(
       this.nonNullId,
@@ -494,15 +514,15 @@ export class ObjectType<
     return this.toGraphQL().typeToString();
   };
 
-  graphqlInputType = (options?: Internal.ParseInputTypeOptions) => {
+  graphqlInputType = (options?: ParseInputTypeOptions) => {
     return this.toGraphQL().getInputType(options);
   };
 
   implement = <Parents extends ReadonlyArray<ObjectLike>>(
     name: string,
     ...parents: Parents
-  ): Internal.ImplementObject<ObjectType<HandledInput>, Parents> => {
-    return Internal.implementObject(
+  ): ImplementObject<ObjectType<HandledInput>, Parents> => {
+    return powership.implementObject(
       name,
       this.definition as any,
       ...parents
@@ -517,8 +537,9 @@ export class ObjectType<
     try {
       // only available server side or in tests
       // @only-server
-      const { GraphQLParser, GraphType } = Internal;
-      promises.push(GraphQLParser.reset(), GraphType.reset());
+      GraphQLParser.reset();
+      // @only-server
+      promises.push(powership.GraphType.reset());
     } catch (e) {
       if (!isBrowser()) {
         throw e;
@@ -555,18 +576,16 @@ export class ObjectType<
     }).identify(id);
   };
 
-  graphQLMiddleware: Internal.GraphQLParseMiddleware[] = [];
+  graphQLMiddleware: GraphQLParseMiddleware[] = [];
 
   addGraphQLMiddleware = (
-    middleware:
-      | Internal.GraphQLParseMiddleware[]
-      | Internal.GraphQLParseMiddleware
+    middleware: GraphQLParseMiddleware[] | GraphQLParseMiddleware
   ) => {
     this.graphQLMiddleware.push(...ensureArray(middleware));
   };
 
   static is(input: any): input is ObjectType<ObjectDefinitionInput> {
-    return Internal.isObjectType(input);
+    return powership.isObjectType(input);
   }
 }
 
@@ -602,7 +621,7 @@ export function createObjectType<
   }
 
   const idFromDefinition =
-    Internal.getObjectDefinitionMetaField(fields)?.def?.id;
+    powership.getObjectDefinitionMetaField(fields)?.def?.id;
 
   if (idFromDefinition) {
     return ObjectType.getOrSet(idFromDefinition, fields) as any;
@@ -611,9 +630,9 @@ export function createObjectType<
   return new ObjectType(fields) as any;
 }
 
-export const createPowershipObject = createObjectType;
-export const createSchema = createObjectType;
-export const resetTypesCache = ObjectType.reset;
+export function resetTypesCache() {
+  return ObjectType.reset();
+}
 
 type _HandleInput<T> = [IsKnown<T>] extends [1]
   ? {
@@ -621,7 +640,7 @@ type _HandleInput<T> = [IsKnown<T>] extends [1]
         | { parse(...args: any): any }
         | any[]
         | Readonly<any[]>
-        | { [K in Internal.FieldTypeName]?: any }
+        | { [K in FieldTypeName]?: any }
         | FieldAsString
         | { type: any }
         ? K
@@ -634,3 +653,17 @@ type _HandleInput<T> = [IsKnown<T>] extends [1]
       : {}
     : {}
   : {};
+
+Object.assign(powership, {
+  createObjectType,
+  resetTypesCache,
+  ObjectType,
+});
+
+declare global {
+  interface powership {
+    resetTypesCache: typeof resetTypesCache;
+    createObjectType: typeof createObjectType;
+    ObjectType: typeof ObjectType;
+  }
+}

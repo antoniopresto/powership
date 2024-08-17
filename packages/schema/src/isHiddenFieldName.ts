@@ -5,3 +5,13 @@
 export function isHiddenFieldName(name: string) {
   return name === '__dschm__';
 }
+
+Object.assign(powership, {
+  isHiddenFieldName,
+});
+
+declare global {
+  interface powership {
+    isHiddenFieldName: typeof isHiddenFieldName;
+  }
+}

@@ -1,10 +1,10 @@
-import * as fs from 'fs-extra';
+import { formatWithPrettier } from '@powership/utils';
+import { fsExtra as fs } from '@powership/utils/server-utils';
 
 import {
   GraphQLSchemaWithUtils,
   resolversTypescriptParts,
 } from '../createGraphQLSchema';
-import * as Internal from '../internal';
 
 import {
   getSchemaQueryTemplates,
@@ -132,7 +132,7 @@ export async function generateClientUtils(
     helpersText,
   ].join('\n');
 
-  return await Internal.formatWithPrettier(result, {
+  return await formatWithPrettier(result, {
     parser: 'typescript',
     singleQuote: true,
   });
@@ -168,7 +168,7 @@ export async function saveGraphQLClientUtils(
 }
 
 function rehydrateType(name: string, field: any) {
-  const parsed = Internal.parseFieldDefinitionConfig(field, {
+  const parsed = powership.parseFieldDefinitionConfig(field, {
     deep: { omitMeta: true },
   });
   const json = JSON.stringify(parsed);

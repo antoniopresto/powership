@@ -1,13 +1,12 @@
 import { Cast } from '@powership/utils';
 import { inspectObject } from '@powership/utils';
 
-import { Infer } from '../Infer';
-import type { FieldTypeParser } from '../internal';
-import * as Internal from '../internal';
+import type { FieldTypeParser } from '../applyValidator';
 
 import { arrayFieldParse } from './ArrayFieldParse';
 import { FieldType, TAnyFieldType } from './FieldType';
-import { ObjectFieldInput } from './_parseFields';
+import type { Infer } from './Infer';
+import type { ObjectFieldInput } from './_parseFields';
 
 export type ArrayFieldDef<Of = any> = {
   length?: number;
@@ -34,10 +33,9 @@ export class ArrayField<T extends ArrayFieldDef> extends FieldType<
 
   constructor(def: T) {
     super({ def: def, name: 'array' });
-    const { parseObjectField } = Internal;
 
     try {
-      this.utils.listItemType = parseObjectField(`ListItem`, def.of, {
+      this.utils.listItemType = powership.parseObjectField(`ListItem`, def.of, {
         returnInstance: true,
       });
     } catch (e: any) {
@@ -64,4 +62,14 @@ export class ArrayField<T extends ArrayFieldDef> extends FieldType<
   static create = <T extends ArrayFieldDef>(def: T): ArrayField<T> => {
     return new ArrayField(def) as any;
   };
+}
+
+Object.assign(powership, {
+  ArrayField,
+});
+
+declare global {
+  interface powership {
+    ArrayField: typeof ArrayField;
+  }
 }

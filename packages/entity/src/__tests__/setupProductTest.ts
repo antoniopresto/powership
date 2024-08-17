@@ -5,7 +5,7 @@ import { createAppMock } from '@powership/mongo/out/test-utils';
 
 import {
   createResolver,
-  createSchema,
+  createObjectType,
   createType,
   GraphType,
   objectMock,
@@ -34,7 +34,7 @@ export const DimensionsType = createType('Dimensions', {
   },
 });
 
-export const ProductImageMapType = createSchema('ProductImageMap', {
+export const ProductImageMapType = createObjectType('ProductImageMap', {
   key: 'string?',
   kind: 'string?',
   allowZoom: 'boolean?',

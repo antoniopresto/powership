@@ -46,9 +46,9 @@ export class MetaField extends FieldType<MetaField, 'meta', MetaFieldDef> {
   toString = () => `${this.typeName}(${this.def?.id || ''})`;
 }
 
-export const objectMetaFieldKey = '__dschm__';
+const objectMetaFieldKey = '__dschm__';
 
-export function createEmptyMetaField(): MetaField['asFinalFieldDef'] {
+function createEmptyMetaField(): MetaField['asFinalFieldDef'] {
   return {
     def: { id: null },
     defaultValue: undefined,
@@ -56,7 +56,7 @@ export function createEmptyMetaField(): MetaField['asFinalFieldDef'] {
   };
 }
 
-export function cleanMetaField(input: any) {
+function cleanMetaField(input: any) {
   if (!input || typeof input !== 'object') return input;
 
   const defType = getTypeName(input.def).toLowerCase();
@@ -77,11 +77,11 @@ export function cleanMetaField(input: any) {
   return input;
 }
 
-export function isMetaFieldKey(t: any): t is typeof objectMetaFieldKey {
+function isMetaFieldKey(t: any): t is typeof objectMetaFieldKey {
   return t === objectMetaFieldKey;
 }
 
-export function isMetaField(
+function isMetaField(
   t: any,
   fieldName?: string
 ): t is MetaField['asFinalFieldDef'] {
@@ -91,20 +91,20 @@ export function isMetaField(
   );
 }
 
-export function getObjectDefinitionMetaField(
+function getObjectDefinitionMetaField(
   input: Record<string, any>
 ): MetaField['asFinalFieldDef'] | undefined {
   return input[objectMetaFieldKey];
 }
 
-export function getObjectDefinitionId(
+function getObjectDefinitionId(
   definition: Record<string, any>,
   nullable: true
 ): string | undefined;
 
-export function getObjectDefinitionId(definition: Record<string, any>): string;
+function getObjectDefinitionId(definition: Record<string, any>): string;
 
-export function getObjectDefinitionId(
+function getObjectDefinitionId(
   definition: Record<string, any> = {},
   nullable = false
 ) {
@@ -119,3 +119,29 @@ export function getObjectDefinitionId(
     'Object not identified.'
   ).id;
 }
+
+Object.assign(powership, {
+  createEmptyMetaField,
+  isMetaField,
+  MetaField,
+  objectMetaFieldKey,
+  getObjectDefinitionId,
+  getObjectDefinitionMetaField,
+  isMetaFieldKey,
+  cleanMetaField,
+});
+
+declare global {
+  interface powership {
+    createEmptyMetaField: typeof createEmptyMetaField;
+    isMetaField: typeof isMetaField;
+    MetaField: typeof MetaField;
+    objectMetaFieldKey: typeof objectMetaFieldKey;
+    getObjectDefinitionId: typeof getObjectDefinitionId;
+    getObjectDefinitionMetaField: typeof getObjectDefinitionMetaField;
+    isMetaFieldKey: typeof isMetaFieldKey;
+    cleanMetaField: typeof cleanMetaField;
+  }
+}
+
+export {};

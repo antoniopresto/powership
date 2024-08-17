@@ -7,12 +7,7 @@ import type {
 } from '../_fieldDefinitions';
 import type { FinalFieldDefinition } from '../_parseFields';
 
-import type {
-  _FieldKV,
-  _GetKey,
-  GraphTypeKID,
-  ObjectTypeKID,
-} from './InferField';
+import type { _FieldKV, _GetKey, GraphTypeKID, ObjectTypeKID } from './Infer';
 import type { GraphTypeLikeFieldDefinition } from './InferGraphType';
 import type { ObjectTypeLikeFieldDefinition } from './InferObjectType';
 

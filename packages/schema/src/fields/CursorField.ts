@@ -2,9 +2,9 @@ import { createProxy } from '@powership/utils';
 
 import type { ObjectType } from '../ObjectType';
 import type { FieldTypeParser } from '../applyValidator';
-import * as Internal from '../internal';
 
 import { FieldType } from './FieldType';
+import type { CursorType } from './_fieldDefinitions';
 
 const def = {
   PK: {
@@ -56,17 +56,12 @@ let cursorObject: ObjectType<CursorDef> | undefined;
 
 function getCursorObject() {
   // circular dependency
-  const { createObjectType } = Internal;
-  cursorObject = cursorObject || createObjectType('Cursor', def);
+  cursorObject = cursorObject || powership.createObjectType('Cursor', def);
   return cursorObject;
 }
 
-export class CursorField extends FieldType<
-  Internal.CursorType,
-  'cursor',
-  undefined
-> {
-  parse: FieldTypeParser<Internal.CursorType>;
+export class CursorField extends FieldType<CursorType, 'cursor', undefined> {
+  parse: FieldTypeParser<CursorType>;
 
   utils: {
     object: ObjectType<CursorDef>;
@@ -99,4 +94,14 @@ export class CursorField extends FieldType<
   static create = (): CursorField => {
     return new CursorField();
   };
+}
+
+Object.assign(powership, {
+  CursorField,
+});
+
+declare global {
+  interface powership {
+    CursorField: typeof CursorField;
+  }
 }

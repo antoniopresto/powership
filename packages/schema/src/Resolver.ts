@@ -12,16 +12,16 @@ import {
   GraphQLResolveInfo,
 } from 'graphql';
 
-import { createType, GraphType } from './GraphType/GraphType';
-import { getInnerType } from './GraphType/getQueryTemplates';
-import { Infer } from './Infer';
-import { InferField, ObjectDefinitionInput } from './fields/_parseFields';
-import * as Internal from './internal';
+import type { GraphType } from './GraphType/GraphType';
+import { Infer } from './fields/Infer';
+import type { ObjectDefinitionInput } from './fields/_parseFields';
+// @only-server
+import { PowershipWatchTypesPubSub } from './writeTypes';
 
 export interface ResolverContext {}
 
 // @only-server
-export const _resolvers = createStore<Record<string, Resolver>>();
+const _resolvers = createStore<Record<string, Resolver>>();
 
 function _createResolver(options: any) {
   const { args, name, kind = 'query', resolve, type, ...rest } = options;
@@ -31,19 +31,22 @@ function _createResolver(options: any) {
     return _resolvers.get(name);
   }
 
-  const payloadType = (GraphType.is(type)
+  const payloadType = (powership.GraphType.is(type)
     ? type
-    : createType(`${name}Payload`, type)) as unknown as GraphType<any>;
+    : powership.createType(
+        `${name}Payload`,
+        type
+      )) as unknown as GraphType<any>;
 
   const gqlType = payloadType.graphQLType();
 
-  const argsType = createType(
+  const argsType = powership.createType(
     `${name}Input`,
     isPossibleArgsDef(args) ? { object: args } : 'record'
   ) as unknown as GraphType<any>;
 
   const argsGQLType = argsType.graphQLInputType({ name: `${name}Input` });
-  const innerArgsGQLType = getInnerType(argsGQLType);
+  const innerArgsGQLType = powership.getInnerGraphQLType(argsGQLType);
 
   const resolveFunction: any = async function typeCheckResolveWrapper(
     source,
@@ -108,7 +111,7 @@ function _createResolver(options: any) {
   // @only-server
   _resolvers.set(name, result);
   // @only-server
-  Internal.PowershipWatchTypesPubSub.emit('created', {
+  PowershipWatchTypesPubSub.emit('created', {
     resolver: result,
   });
 
@@ -122,7 +125,7 @@ export type InferResolverArgs<ArgsDef> =
     : [ArgsDef] extends [undefined]
     ? Record<string, unknown>
     : [ArgsDef] extends [{ [K: string]: unknown }]
-    ? InferField<{ object: ArgsDef }>
+    ? Infer<{ object: ArgsDef }>
     : Record<string, unknown>;
 
 export type ResolverKind = 'query' | 'mutation' | 'subscription';
@@ -259,4 +262,14 @@ export function createResolver<Result_GraphType>(
     },
     resolve: resolverFactory().resolve,
   };
+}
+
+Object.assign(powership, {
+  _resolvers,
+});
+
+declare global {
+  interface powership {
+    _resolvers: typeof _resolvers;
+  }
 }

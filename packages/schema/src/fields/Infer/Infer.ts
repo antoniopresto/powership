@@ -14,7 +14,7 @@ import type {
 } from './InferObjectType';
 import type { InferString } from './InferString';
 
-export type InferField<Input> =
+export type Infer<Input> =
   //
   OnlyKnown<Input> extends infer Known
     ? Known extends string

@@ -50,3 +50,13 @@ export class UnknownField extends FieldType<
     return new UnknownField(def);
   };
 }
+
+Object.assign(powership, {
+  UnknownField,
+});
+
+declare global {
+  interface powership {
+    UnknownField: typeof UnknownField;
+  }
+}

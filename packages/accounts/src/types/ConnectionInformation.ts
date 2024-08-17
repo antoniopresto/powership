@@ -1,6 +1,6 @@
-import { createSchema, Infer } from '@powership/schema';
+import { createObjectType, Infer } from '@powership/schema';
 
-export const ConnectionInformationSchema = createSchema(
+export const ConnectionInformationSchema = createObjectType(
   'AccountConnectionInformation',
   {
     ip: 'string',

@@ -1,7 +1,7 @@
 import { jsonToTypescript } from '@powership/utils';
 
-import { ObjectDefinitionInput } from './TObjectConfig';
-import { ObjectLike } from './fields/IObjectLike';
+import type { ObjectLike } from './fields/IObjectLike';
+import type { ObjectDefinitionInput } from './fields/_parseFields';
 import { objectToJSON } from './objectToJSON';
 
 export type ObjectToTypescriptOptions = {
@@ -41,4 +41,14 @@ export async function objectToTypescript(
     strictIndexSignatures,
     unreachableDefinitions,
   })) as any;
+}
+
+Object.assign(powership, {
+  objectToTypescript,
+});
+
+declare global {
+  interface powership {
+    objectToTypescript: typeof objectToTypescript;
+  }
 }

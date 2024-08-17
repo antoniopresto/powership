@@ -1,13 +1,10 @@
 import { RuntimeError } from '@powership/utils';
 
-import { AnyField } from './fields/AnyField';
-import { FinalFieldDefinition } from './fields/_parseFields';
-import { types } from './fields/fieldTypes';
+import type { AnyField } from './fields/AnyField';
+import type { FinalFieldDefinition } from './fields/_parseFields';
 
-export function fieldInstanceFromDef(
-  definition: FinalFieldDefinition
-): AnyField {
-  if (!types[definition.type]) {
+function fieldInstanceFromDef(definition: FinalFieldDefinition): AnyField {
+  if (!powership.types[definition.type]) {
     throw new RuntimeError(
       `invalid field definition. types["${definition?.type}"] is undefined`,
       {
@@ -16,7 +13,7 @@ export function fieldInstanceFromDef(
     );
   }
 
-  const fieldConstructor = types[definition.type] as typeof AnyField;
+  const fieldConstructor = powership.types[definition.type] as typeof AnyField;
 
   let field = fieldConstructor.create(definition.def);
 
@@ -51,4 +48,14 @@ export function fieldInstanceFromDef(
   }
 
   return field;
+}
+
+Object.assign(powership, {
+  fieldInstanceFromDef,
+});
+
+declare global {
+  interface powership {
+    fieldInstanceFromDef: typeof fieldInstanceFromDef;
+  }
 }

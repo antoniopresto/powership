@@ -1,8 +1,10 @@
 // @only-server
 import { GraphQLParser } from './GraphType/GraphQLParser';
 import { createObjectType } from './ObjectType';
-import { ObjectDefinitionInput } from './TObjectConfig';
-import { FinalObjectDefinition } from './fields/_parseFields';
+import type {
+  FinalObjectDefinition,
+  ObjectDefinitionInput,
+} from './fields/_parseFields';
 
 /**
  * @Deprecated - use GraphType instead

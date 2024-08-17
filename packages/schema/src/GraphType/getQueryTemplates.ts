@@ -184,7 +184,7 @@ function getFieldPayload({
   graphQLField: GraphQLField<any, any>;
 }): FieldPayload {
   const { args, type } = graphQLField;
-  const { innerType } = getInnerType(type);
+  const { innerType } = getInnerGraphQLType(type);
   const innerTypeString = innerType.toJSON();
 
   const { hash: key, readableHash } = hashField(graphQLField);
@@ -248,7 +248,7 @@ export function processField(config: {
 }): { cache: ProcessFieldPayload; payload: FieldPayload } {
   const { includeDeprecatedFields, cache = {}, graphQLField } = config;
 
-  const { innerType: type } = getInnerType(graphQLField.type);
+  const { innerType: type } = getInnerGraphQLType(graphQLField.type);
 
   const { hash: key } = hashField(graphQLField);
 
@@ -520,7 +520,7 @@ function parsedArgsToString(parsed: ParsedArgs['vars']) {
   };
 }
 
-export function getInnerType(graphqlType: GraphQLType): {
+function getInnerGraphQLType(graphqlType: GraphQLType): {
   innerType: GraphQLType;
   innerTypeJSON: string;
   wrappers: string[];
@@ -556,7 +556,7 @@ export function getInnerType(graphqlType: GraphQLType): {
 }
 
 function hashField(graphQLField: GraphQLField<any, any>) {
-  const { wrappersPath, innerType } = getInnerType(graphQLField.type);
+  const { wrappersPath, innerType } = getInnerGraphQLType(graphQLField.type);
 
   let argString = '';
 
@@ -614,4 +614,16 @@ function prettifyQuery(
     .trim() //
     .replace(/^{/, '')
     .replace(/}$/, '');
+}
+
+Object.assign(powership, {
+  getQueryTemplates,
+  getInnerGraphQLType,
+});
+
+declare global {
+  interface powership {
+    getQueryTemplates: typeof getQueryTemplates;
+    getInnerGraphQLType: typeof getInnerGraphQLType;
+  }
 }

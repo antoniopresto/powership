@@ -1,8 +1,11 @@
+import './__globals__';
+
+import './isHiddenFieldName';
+
 import { memoize } from '@powership/utils';
 
 import type { FieldTypeName } from './fields/_fieldDefinitions';
 import type { FinalFieldDefinition } from './fields/_parseFields';
-import * as Internal from './internal';
 
 function _parseStringDefinition<T extends AnyStringFieldDefinition>(
   typeName: T
@@ -47,14 +50,14 @@ function _typeNameFromTemplate<T extends FieldTypeName>(
 function _isStringFieldDefinition(t: any): t is AnyStringFieldDefinition {
   if (typeof t !== 'string') return false;
   const field = typeNameFromTemplate(t as any);
-  return Internal.isFieldTypeName(field);
+  return powership.isFieldTypeName(field);
 }
 
-export const parseStringDefinition = memoize(_parseStringDefinition);
-export const typeNameFromTemplate = memoize(_typeNameFromTemplate);
-export const isStringFieldDefinition = memoize(_isStringFieldDefinition);
-export const isListTemplate = memoize(_isListTemplate);
-export const isOptionalTemplate = memoize(_isOptionalTemplate);
+const parseStringDefinition = memoize(_parseStringDefinition);
+const typeNameFromTemplate = memoize(_typeNameFromTemplate);
+const isStringFieldDefinition = memoize(_isStringFieldDefinition);
+const isListTemplate = memoize(_isListTemplate);
+const isOptionalTemplate = memoize(_isOptionalTemplate);
 
 export type AnyStringFieldDefinition =
   | FieldTypeName
@@ -116,3 +119,21 @@ export type ParseStringDefinition<S> =
         type: ExtractStringFieldDefType<S>;
       }
     : never;
+
+Object.assign(powership, {
+  parseStringDefinition,
+  typeNameFromTemplate,
+  isStringFieldDefinition,
+  isListTemplate,
+  isOptionalTemplate,
+});
+
+declare global {
+  interface powership {
+    parseStringDefinition: typeof parseStringDefinition;
+    typeNameFromTemplate: typeof typeNameFromTemplate;
+    isStringFieldDefinition: typeof isStringFieldDefinition;
+    isListTemplate: typeof isListTemplate;
+    isOptionalTemplate: typeof isOptionalTemplate;
+  }
+}

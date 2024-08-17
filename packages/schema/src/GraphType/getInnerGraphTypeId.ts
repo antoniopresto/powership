@@ -1,7 +1,5 @@
 import { pick } from '@powership/utils';
 
-import { objectMetaFieldKey } from '../fields/MetaFieldField';
-
 export function getInnerGraphTypeId(input: any): string | undefined {
   if (!(input && typeof input === 'object')) {
     return undefined;
@@ -18,7 +16,10 @@ export function getInnerGraphTypeId(input: any): string | undefined {
 
   const inputId = pick(input, 'id');
   const inputTypeId = pick(input, 'type.id');
-  const inputMetaDefId = pick(input, `def.${objectMetaFieldKey}.def.id`);
+  const inputMetaDefId = pick(
+    input,
+    `def.${powership.objectMetaFieldKey}.def.id`
+  );
 
   id = inputMetaDefId || inputTypeId || inputId;
 

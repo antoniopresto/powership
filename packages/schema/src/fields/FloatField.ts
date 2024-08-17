@@ -53,3 +53,13 @@ export class FloatField extends FieldType<
 
   toString = () => `${this.typeName}(${this.def || ''})`;
 }
+
+Object.assign(powership, {
+  FloatField,
+});
+
+declare global {
+  interface powership {
+    FloatField: typeof FloatField;
+  }
+}

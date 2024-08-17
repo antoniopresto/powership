@@ -1,7 +1,6 @@
 import { getKeys } from '@powership/utils';
 
 import { types } from '../fields/fieldTypes';
-import { parseStringDefinition } from '../parseStringDefinition';
 
 const definitions = getKeys(types)
   .map((type) => {
@@ -16,7 +15,7 @@ const definitions = getKeys(types)
 
 describe('parseStringDefinition', () => {
   it('string', () => {
-    let sut = parseStringDefinition('string');
+    let sut = powership.parseStringDefinition('string');
 
     expect(sut).toEqual({
       type: 'string',
@@ -28,7 +27,7 @@ describe('parseStringDefinition', () => {
       const type = item[0];
       const expected = item[1];
 
-      const sut = parseStringDefinition(type);
+      const sut = powership.parseStringDefinition(type);
 
       expect(sut).toEqual(expected);
     });

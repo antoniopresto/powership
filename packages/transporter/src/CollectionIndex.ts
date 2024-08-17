@@ -1,4 +1,4 @@
-import { createSchema } from '@powership/schema';
+import { createObjectType } from '@powership/schema';
 import {
   $Any,
   devAssert,
@@ -161,12 +161,12 @@ export type ParsedDocumentIndexes =
       valid: false;
     };
 
-export const relationSchema = createSchema({
+export const relationSchema = createObjectType({
   entity: { string: { min: 1 } },
   name: { string: { min: 1 } },
 });
 
-export const indexItemSchema = createSchema({
+export const indexItemSchema = createObjectType({
   PK: { array: { of: 'string', min: 1 } },
   SK: { array: { of: 'string', min: 1 }, optional: true },
   name: { string: { min: 1 } },
@@ -174,7 +174,7 @@ export const indexItemSchema = createSchema({
   relations: { array: { of: relationSchema, min: 1 }, optional: true },
 });
 
-export const indexConfigSchema = createSchema({
+export const indexConfigSchema = createObjectType({
   entity: { string: { min: 1 } },
   indexes: {
     array: {

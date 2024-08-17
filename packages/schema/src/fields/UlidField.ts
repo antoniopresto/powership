@@ -9,7 +9,7 @@ type UlidDef = {
   autoCreate?: boolean;
 };
 
-export const ULID_REGEX = /^[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$/;
+const ULID_REGEX = /^[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$/;
 
 export class UlidField extends FieldType<string, 'ulid', UlidDef | undefined> {
   parse: FieldTypeParser<string>;
@@ -40,4 +40,16 @@ export class UlidField extends FieldType<string, 'ulid', UlidDef | undefined> {
   };
 
   static isUlid = (value: string) => ULID_REGEX.test(value);
+}
+
+Object.assign(powership, {
+  UlidField,
+  ULID_REGEX,
+});
+
+declare global {
+  interface powership {
+    UlidField: typeof UlidField;
+    ULID_REGEX: typeof ULID_REGEX;
+  }
 }

@@ -1,7 +1,7 @@
 import { MongoTransporter } from '@powership/mongo';
 import { AppMock, createAppMock } from '@powership/mongo/out/test-utils';
 
-import { createSchema, createType, Infer, ULID_REGEX } from '@powership/schema';
+import { createObjectType, createType, Infer } from '@powership/schema';
 import { tupleEnum } from '@powership/utils';
 
 import { createEntity } from '../Entity';
@@ -16,7 +16,7 @@ describe('Aliases', () => {
 
   const accessTypesEnum = tupleEnum('phone', 'email', 'oauth', 'custom');
 
-  const AccessTypeBase = createSchema({
+  const AccessTypeBase = createObjectType({
     createdAt: { date: { autoCreate: true } },
     meta: 'record?',
     updatedAt: { date: { autoCreate: true } },
@@ -186,7 +186,7 @@ describe('Aliases', () => {
         ],
         _id: 'user⋮_id⋮antonio⋮⋮',
         _idPK: 'user⋮_id⋮antonio⋮',
-        _v: expect.stringMatching(ULID_REGEX),
+        _v: expect.stringMatching(powership.ULID_REGEX),
         _idSK: '',
         firstName: 'antonio',
         lastName: 'Silva',

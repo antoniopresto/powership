@@ -22,3 +22,13 @@ export class AnyField extends FieldType<any, 'any', any> {
     return new AnyField();
   };
 }
+
+Object.assign(powership, {
+  AnyField,
+});
+
+declare global {
+  interface powership {
+    AnyField: typeof AnyField;
+  }
+}

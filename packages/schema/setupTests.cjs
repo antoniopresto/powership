@@ -1,1 +1,3 @@
-require('@powership/utils')._formatWithPrettier.prettier = require('prettier');
+if (typeof powership !== 'object') {
+  global.powership = Object.create(null);
+}

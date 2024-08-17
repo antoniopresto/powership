@@ -7,7 +7,7 @@ import {
 } from '../applyValidator';
 
 import { FieldTypeError } from './FieldTypeErrors';
-import { FieldDefinitions } from './_fieldDefinitions';
+import type { FieldDefinitions } from './_fieldDefinitions';
 
 export function arrayFieldParse(config: {
   arrayOptions: Omit<FieldDefinitions['array'], 'of'>;

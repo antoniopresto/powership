@@ -101,3 +101,13 @@ export class LiteralField<T extends Readonly<Serializable>> extends FieldType<
     return typeof t?.[PROTO_KEY] === 'string';
   }
 }
+
+Object.assign(powership, {
+  LiteralField,
+});
+
+declare global {
+  interface powership {
+    LiteralField: typeof LiteralField;
+  }
+}

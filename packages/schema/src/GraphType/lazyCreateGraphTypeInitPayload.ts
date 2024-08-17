@@ -1,9 +1,6 @@
 import { ObjectType } from '../ObjectType';
 import { TAnyFieldType } from '../fields/FieldType';
-import { getObjectDefinitionId } from '../fields/MetaFieldField';
 import { FieldInput, ObjectFieldInput } from '../fields/_parseFields';
-import * as Internal from '../internal';
-import { parseObjectField } from '../parseObjectDefinition';
 
 import {
   GraphType,
@@ -38,10 +35,10 @@ export function lazyCreateGraphTypeInitPayload(
     const def =
       typeof definitionInput === 'function'
         ? // @ts-ignore
-          definitionInput(Internal)
+          definitionInput()
         : definitionInput;
 
-    const field = parseObjectField('temp', def, {
+    const field = powership.parseObjectField('temp', def, {
       returnInstance: true,
     }) as TAnyFieldType & { utils: { object?: any } };
 
@@ -58,7 +55,7 @@ export function lazyCreateGraphTypeInitPayload(
     }
 
     if (!id && objectType) {
-      id = getObjectDefinitionId(
+      id = powership.getObjectDefinitionId(
         objectType.definition,
         true // make nullable, the error below about undefined name is more clear
       );

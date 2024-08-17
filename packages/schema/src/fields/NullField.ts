@@ -26,3 +26,13 @@ export class NullField extends FieldType<string, 'null', undefined> {
     return new NullField();
   };
 }
+
+Object.assign(powership, {
+  NullField,
+});
+
+declare global {
+  interface powership {
+    NullField: typeof NullField;
+  }
+}

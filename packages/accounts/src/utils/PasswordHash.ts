@@ -1,4 +1,4 @@
-import { createSchema, createType, Infer } from '@powership/schema';
+import { createObjectType, createType, Infer } from '@powership/schema';
 import Scrypt from 'scrypt-kdf';
 
 async function hash(params: PasswordHashParams): Promise<string> {
@@ -18,7 +18,7 @@ export const PasswordType = createType('PasswordType', () => ({
   type: 'string',
 }));
 
-hash.input = createSchema({
+hash.input = createObjectType({
   password: PasswordType,
 });
 
@@ -31,7 +31,7 @@ async function verify(
   return { valid };
 }
 
-verify.input = createSchema({
+verify.input = createObjectType({
   password: { string: {} },
   hash: { string: {} },
 });
