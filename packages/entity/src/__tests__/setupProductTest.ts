@@ -9,7 +9,7 @@ import {
   createType,
   GraphType,
   objectMock,
-  ObjectType,
+  resetTypesCache
 } from '@powership/schema';
 import { getTypeName, slugify } from '@powership/utils';
 
@@ -133,7 +133,7 @@ export function setupProductTest(withTransporter = true): {
   let transporter!: MongoTransporter;
 
   beforeEach(async function () {
-    await ObjectType.reset();
+    await resetTypesCache();
     mockApp = createAppMock();
     await mockApp.start();
     if (withTransporter) {

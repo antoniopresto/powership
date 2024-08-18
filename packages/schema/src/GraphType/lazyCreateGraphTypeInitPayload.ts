@@ -1,8 +1,7 @@
-import { ObjectType } from '../ObjectType';
-import { TAnyFieldType } from '../fields/FieldType';
-import { FieldInput, ObjectFieldInput } from '../fields/_parseFields';
+import type { TAnyFieldType } from '../fields/FieldType';
+import type { FieldInput, ObjectFieldInput } from '../fields/_parseFields';
 
-import {
+import type {
   GraphType,
   GraphTypeArgs,
   LazyParseGraphTypePayload,
@@ -42,7 +41,7 @@ export function lazyCreateGraphTypeInitPayload(
       returnInstance: true,
     }) as TAnyFieldType & { utils: { object?: any } };
 
-    const objectType = ObjectType.is(field?.utils?.object)
+    const objectType = powership.ObjectType.is(field?.utils?.object)
       ? field.utils.object
       : undefined;
 

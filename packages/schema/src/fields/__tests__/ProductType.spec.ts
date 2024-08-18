@@ -1,4 +1,4 @@
-import { createObjectType, ObjectType } from '../../ObjectType';
+import { createObjectType, resetTypesCache } from '../../ObjectType';
 import {
   BreadCrumbType,
   ProductImageMapType,
@@ -6,7 +6,7 @@ import {
 } from '../../__tests__/__mock__';
 
 describe('ProductType', () => {
-  afterEach(ObjectType.reset);
+  afterEach(resetTypesCache);
 
   it('works', async () => {
     expect(ProductType.print()).toEqual([

@@ -1,10 +1,10 @@
-import { ObjectType } from '../../ObjectType';
+import { resetTypesCache } from '../../ObjectType';
 import { createResolver } from '../../Resolver';
 import { createGraphQLSchema } from '../../createGraphQLSchema';
 import { createType } from '../GraphType';
 
 describe('schema.getGraphQLTypescript', () => {
-  afterEach(ObjectType.reset);
+  afterEach(resetTypesCache);
 
   it('works', async () => {
     const UserType = createType('User', {

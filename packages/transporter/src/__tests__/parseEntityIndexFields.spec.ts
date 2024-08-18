@@ -1,9 +1,9 @@
-import { createType, ObjectType } from '@powership/schema';
+import { createType, resetTypesCache } from '@powership/schema';
 
 import { parseEntityIndexFields } from '../parseEntityIndexFields';
 
 describe('parseEntityIndexFields', () => {
-  afterEach(ObjectType.reset);
+  afterEach(resetTypesCache);
 
   test('works', async () => {
     const oneField = parseEntityIndexFields({

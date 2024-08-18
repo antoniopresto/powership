@@ -1,13 +1,13 @@
 import { graphql, printSchema } from 'graphql';
 
-import { createObjectType, ObjectType } from '../../ObjectType';
+import { createObjectType, resetTypesCache } from '../../ObjectType';
 import { createResolver } from '../../Resolver';
 import { createGraphQLSchema } from '../../createGraphQLSchema';
 import { createType } from '../GraphType';
 
 describe('createGraphQLObject', () => {
   afterEach(async () => {
-    await ObjectType.reset();
+    await resetTypesCache();
   });
 
   it('works', async () => {

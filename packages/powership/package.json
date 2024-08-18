@@ -1,6 +1,6 @@
 {
   "name": "powership",
-  "version": "4.1.1",
+  "version": "4.1.35",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "type": "module",
   "main": "./out/index.cjs",
@@ -53,12 +53,13 @@
     "fix": "run-s fix:* ",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint src --ext .ts --fix",
-    "prepublishOnly": "run-s build fix && node ./smock-detector.js && run-p test",
+    "prepublishOnly": "run-s build fix && run-p test",
     "build-targets": "run-p build:*",
     "build:browser": "TARGET=browser npm run babild -- --out-dir out/browser --out-file-extension .cjs",
     "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir out/browser --out-file-extension .mjs",
     "build:node": "TARGET=node npm run babild -- --out-dir out --out-file-extension .cjs",
     "build:module-node": "TARGET=module-node npm run babild -- --out-dir out --out-file-extension .mjs",
+    "build:check": "node ./smock-detector.js",
     "declarations": "tsc -p tsconfig.declarations.json",
     "babild": "babel 'src' --extensions '.ts,.tsx' --source-maps=true --ignore '**/__tests__'"
   },

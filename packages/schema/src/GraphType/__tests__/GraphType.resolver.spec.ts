@@ -2,13 +2,13 @@ import { PromiseType } from '@powership/utils';
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
-import { createObjectType, ObjectType } from '../../ObjectType';
+import { createObjectType, resetTypesCache } from '../../ObjectType';
 import { createResolver } from '../../Resolver';
 import { GraphType } from '../GraphType';
 
 describe('createResolver', () => {
   afterEach(async () => {
-    await ObjectType.reset();
+    await resetTypesCache();
   });
 
   it('Should create a Resolver', () => {

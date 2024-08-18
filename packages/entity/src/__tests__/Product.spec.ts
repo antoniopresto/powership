@@ -1,7 +1,11 @@
 import { MongoTransporter } from '@powership/mongo';
 import { AppMock, createAppMock } from '@powership/mongo/out/test-utils';
 
-import { createType, ObjectType, parseField } from '@powership/schema';
+import {
+  createType,
+  parseField,
+  resetTypesCache
+} from '@powership/schema';
 
 import { createEntity } from '../Entity';
 
@@ -33,7 +37,7 @@ describe('Product', () => {
         return createEntity(res.getOptions());
       },
       async before() {
-        await ObjectType.reset();
+        await resetTypesCache();
         res.mockApp = createAppMock();
         await res.mockApp.start();
 

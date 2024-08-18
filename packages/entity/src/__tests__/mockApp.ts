@@ -1,7 +1,7 @@
 import { MongoTransporter } from '@powership/mongo';
 import { AppMock, createAppMock } from '@powership/mongo/out/test-utils';
 
-import { ObjectType } from '@powership/schema';
+import { resetTypesCache } from '@powership/schema';
 
 export function mockApp() {
   const res = {} as { mockApp: AppMock; transporter: MongoTransporter };
@@ -16,7 +16,7 @@ export function mockApp() {
   });
 
   afterEach(async function () {
-    await ObjectType.reset();
+    await resetTypesCache();
     await res.mockApp.reset();
   });
 

@@ -1,4 +1,4 @@
-import { ObjectType } from '../../ObjectType';
+import { resetTypesCache } from '../../ObjectType';
 import { createType, GraphType } from '../GraphType';
 import { getInnerGraphTypeId } from '../getInnerGraphTypeId';
 
@@ -14,7 +14,7 @@ describe('getInnerGraphTypeId', () => {
     }) as any;
   });
 
-  afterEach(ObjectType.reset);
+  afterEach(resetTypesCache);
 
   test('simple GraphType', async () => {
     const sut = getInnerGraphTypeId(type);

@@ -9,13 +9,6 @@ import {
   parseObjectDefinition,
   parseObjectField,
 } from './parseObjectDefinition';
-import { createType, getType, GraphType } from './GraphType/GraphType';
-import {
-  createObjectType,
-  ObjectType,
-  PowershipObject,
-  resetTypesCache,
-} from './ObjectType';
 
 import type {
   GraphTypeArgs,
@@ -52,11 +45,14 @@ export * from './Resolver';
 export * from './createGraphQLSchema';
 
 import type { ResolverKind } from './createGraphQLSchema';
+import type { GraphType } from './GraphType/GraphType';
+import type { ObjectType } from './ObjectType';
+
+import { createType, getType } from './GraphType/GraphType';
+import { createObjectType, resetTypesCache } from './ObjectType';
 
 export {
   createObjectType,
-  ObjectType,
-  PowershipObject,
   resetTypesCache,
   parseObjectDefinition,
   CACHED_FIELD_INSTANCE_KEY,
@@ -68,10 +64,11 @@ export {
   parseObjectField,
   createType,
   getType,
-  GraphType,
 };
 
 export type {
+  GraphType,
+  ObjectType,
   ParseFieldOptions,
   ObjectTypeFromInput,
   GraphTypeArgs,

@@ -135,7 +135,7 @@ describe('Aliases', () => {
   let transporter: MongoTransporter;
 
   beforeEach(async function () {
-    // await ObjectType.reset();
+    // await resetTypesCache();
     mockApp = createAppMock();
     await mockApp.start();
     transporter = new MongoTransporter({

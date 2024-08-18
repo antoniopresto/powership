@@ -2,15 +2,15 @@ import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLSchema, printSchema } from 'graphql';
 
 import { createType } from '../GraphType/GraphType';
-import { createObjectType, ObjectType } from '../ObjectType';
+import { createObjectType, resetTypesCache } from '../ObjectType';
 import {
   parseObjectDefinition,
   parseObjectField,
 } from '../parseObjectDefinition';
 
 describe('ArrayField', () => {
-  afterEach(ObjectType.reset);
-  afterAll(ObjectType.reset);
+  afterEach(resetTypesCache);
+  afterAll(resetTypesCache);
 
   test('parseDefinition', () => {
     const parsed = parseObjectDefinition({

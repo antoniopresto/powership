@@ -1,4 +1,4 @@
-import { ObjectType } from '@powership/schema';
+import { resetTypesCache } from '@powership/schema';
 
 import { MongoTransporter } from '../MongoTransporter';
 import { AppMock, createAppMock } from '../test-utils';
@@ -19,7 +19,7 @@ export function setupMongoTest(
   let transporter: MongoTransporter;
 
   beforeEach(async function () {
-    await ObjectType.reset();
+    await resetTypesCache();
     mockApp = createAppMock();
     await mockApp.start();
     transporter = new MongoTransporter({

@@ -1,11 +1,11 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { createType } from '../../GraphType/GraphType';
-import { createObjectType, ObjectType } from '../../ObjectType';
+import { createObjectType, resetTypesCache } from '../../ObjectType';
 import { objectToJSON } from '../../objectToJSON';
 
 describe('AliasField', () => {
-  afterEach(ObjectType.reset);
+  afterEach(resetTypesCache);
 
   it('works', async () => {
     const schema = createObjectType({

@@ -1,11 +1,11 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../Infer';
-import { createObjectType, ObjectType } from '../ObjectType';
+import { createObjectType, resetTypesCache } from '../ObjectType';
 import { implementObject, ImplementObject } from '../implementObject';
 
 describe('implementObject', () => {
-  afterEach(ObjectType.reset);
+  afterEach(resetTypesCache);
 
   test('infer ImplementObject', async () => {
     const nodeType = createObjectType('Node', {

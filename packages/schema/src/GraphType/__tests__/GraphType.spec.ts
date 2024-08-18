@@ -2,13 +2,17 @@ import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
 import { Infer } from '../../Infer';
-import { createObjectType, ObjectType } from '../../ObjectType';
+import {
+  createObjectType,
+  ObjectType,
+  resetTypesCache
+} from '../../ObjectType';
 import { createResolver } from '../../Resolver';
 import { createGraphQLSchema } from '../../createGraphQLSchema';
 import { createType, GraphType } from '../GraphType';
 
 describe('createType', () => {
-  beforeEach(ObjectType.reset);
+  beforeEach(resetTypesCache);
 
   it('works', async () => {
     const sut = new GraphType('user', {

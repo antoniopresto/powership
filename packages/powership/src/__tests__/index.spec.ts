@@ -1,9 +1,9 @@
 import { createEntity } from '@powership/entity';
-import { createType, ObjectType } from '@powership/schema';
+import { createType, resetTypesCache } from '@powership/schema';
 import { assert, IsExact } from 'conditional-type-checks';
 
 describe('index', () => {
-  beforeAll(ObjectType.reset);
+  beforeAll(resetTypesCache);
 
   it('works', async () => {
     const type = createType('User', {

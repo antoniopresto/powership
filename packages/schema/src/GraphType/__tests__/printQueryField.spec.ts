@@ -1,11 +1,11 @@
-import { createObjectType, ObjectType } from '../../ObjectType';
+import { createObjectType, resetTypesCache } from '../../ObjectType';
 import { createResolver } from '../../Resolver';
 import { createType } from '../GraphType';
 import { getQueryTemplates } from '../getQueryTemplates';
 
 describe('generateQuery', () => {
-  afterEach(ObjectType.reset);
-  beforeEach(ObjectType.reset);
+  afterEach(resetTypesCache);
+  beforeEach(resetTypesCache);
 
   it('handles defaultValue', async () => {
     const Item = createType('Item', { object: { value: 'int' } });

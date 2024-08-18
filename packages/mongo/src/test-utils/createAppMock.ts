@@ -1,6 +1,6 @@
 import * as process from 'process';
 
-import { ObjectType } from '@powership/schema';
+import { resetTypesCache } from '@powership/schema';
 import { delay, inspectObject, notNull } from '@powership/utils';
 import { MongoMemoryServer } from 'mongodb-memory-server-core';
 
@@ -50,7 +50,7 @@ export class AppMock {
 
   async reset() {
     try {
-      await ObjectType.reset();
+      await resetTypesCache();
       const mongoServer = this.mongoServer;
 
       (() => {

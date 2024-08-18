@@ -1,4 +1,4 @@
-import { createType, ObjectType } from '@powership/schema';
+import { createType, resetTypesCache } from '@powership/schema';
 import { ulid } from '@powership/utils';
 import { assert, IsExact } from 'conditional-type-checks';
 
@@ -7,8 +7,8 @@ import { EntityDocumentBase } from '../../EntityInterfaces';
 import { mockApp } from '../../__tests__/mockApp';
 
 describe('Entity.indexRelations', () => {
-  afterEach(ObjectType.reset);
-  beforeEach(ObjectType.reset);
+  afterEach(resetTypesCache);
+  beforeEach(resetTypesCache);
 
   const mock = mockApp();
 
