@@ -47,8 +47,6 @@ import {
 } from './objectToTypescript';
 import { withCache, WithCache } from './withCache';
 
-// @only-server
-
 export class ObjectType<
   Input,
   HandledInput extends _HandleInput<Input> = _HandleInput<Input>
@@ -588,8 +586,6 @@ export class ObjectType<
     return powership.isObjectType(input);
   }
 }
-
-export const PowershipObject = ObjectType;
 
 export type ObjectTypeFromInput<
   DefinitionInput extends Readonly<ObjectDefinitionInput>
