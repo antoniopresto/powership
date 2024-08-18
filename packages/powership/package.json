@@ -53,7 +53,7 @@
     "fix": "run-s fix:* ",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint src --ext .ts --fix",
-    "prepublishOnly": "run-s build fix && run-p test",
+    "prepublishOnly": "run-s build fix && node ./smock-detector.js && run-p test",
     "build-targets": "run-p build:*",
     "build:browser": "TARGET=browser npm run babild -- --out-dir out/browser --out-file-extension .cjs",
     "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir out/browser --out-file-extension .mjs",
