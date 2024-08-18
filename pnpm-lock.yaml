@@ -884,9 +884,6 @@ importers:
       glob:
         specifier: 10.3.10
         version: 10.3.10
-      lodash:
-        specifier: 4.17.21
-        version: 4.17.21
       lodash-es:
         specifier: 4.17.21
         version: 4.17.21
@@ -954,6 +951,9 @@ importers:
       jest:
         specifier: 29.7.0
         version: 29.7.0(@types/node@20.11.25)(ts-node@10.9.1(@types/node@20.11.25)(typescript@5.4.2))
+      lodash:
+        specifier: 4.17.21
+        version: 4.17.21
       nodemon:
         specifier: 2.0.20
         version: 2.0.20
@@ -1425,12 +1425,9 @@ importers:
       glob:
         specifier: 10.3.10
         version: 10.3.10
-      graphql:
-        specifier: 16.8.1
-        version: 16.8.1
       graphql-parse-resolve-info:
         specifier: 4.13.0
-        version: 4.13.0(graphql@16.8.1)
+        version: 4.13.0(graphql@16.9.0)
       hoper:
         specifier: 1.0.8
         version: 1.0.8
@@ -1443,9 +1440,6 @@ importers:
       jsondiffpatch:
         specifier: ^0.4.1
         version: 0.4.1
-      lodash:
-        specifier: 4.17.21
-        version: 4.17.21
       lodash-es:
         specifier: 4.17.21
         version: 4.17.21
@@ -1564,12 +1558,18 @@ importers:
       eslint-plugin-typescript-sort-keys:
         specifier: 3.2.0
         version: 3.2.0(@typescript-eslint/parser@7.1.1(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0)(typescript@5.4.2)
+      graphql:
+        specifier: 16.9.0
+        version: 16.9.0
       jest:
         specifier: 29.7.0
         version: 29.7.0(@types/node@20.11.25)(ts-node@10.9.1(@types/node@20.11.25)(typescript@5.4.2))
       jest-diff:
         specifier: 29.1.2
         version: 29.1.2
+      lodash:
+        specifier: 4.17.21
+        version: 4.17.21
       mongodb:
         specifier: 6.4.0
         version: 6.4.0(socks@2.8.1)
@@ -4990,6 +4990,10 @@ packages:
 
   graphql@16.8.1:
     resolution: {integrity: sha512-59LZHPdGZVh695Ud9lRzPBVTtlX9ZCV150Er2W43ro37wVof0ctenSaskPPjN7lVTIN8mSZt8PHUNKZuNQUuxw==}
+    engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
+
+  graphql@16.9.0:
+    resolution: {integrity: sha512-GGTKBX4SD7Wdb8mqeDLni2oaRGYQWjWHGKPQ24ZMnUtKfcsVoiv4uX8+LJr1K6U5VW2Lu1BwJnj7uiori0YtRw==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
 
   handlebars@4.7.8:
@@ -12322,10 +12326,10 @@ snapshots:
 
   graphemer@1.4.0: {}
 
-  graphql-parse-resolve-info@4.13.0(graphql@16.8.1):
+  graphql-parse-resolve-info@4.13.0(graphql@16.9.0):
     dependencies:
       debug: 4.3.4
-      graphql: 16.8.1
+      graphql: 16.9.0
       tslib: 2.6.2
     transitivePeerDependencies:
       - supports-color
@@ -12335,6 +12339,8 @@ snapshots:
       xss: 1.0.15
 
   graphql@16.8.1: {}
+
+  graphql@16.9.0: {}
 
   handlebars@4.7.8:
     dependencies:

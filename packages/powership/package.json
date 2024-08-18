@@ -1,6 +1,6 @@
 {
   "name": "powership",
-  "version": "4.1.350",
+  "version": "5.0.700",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "type": "module",
   "main": "./out/index.cjs",
@@ -67,6 +67,9 @@
     "type": "git",
     "url": "https://github.com/antoniopresto/powership/"
   },
+  "peerDependencies": {
+    "graphql": ">=16"
+  },
   "dependencies": {
     "@powership/entity": "workspace:*",
     "@powership/schema": "workspace:*",
@@ -124,6 +127,5 @@
     "readmeFile": "./README.md",
     "displayName": "Powership",
     "tsconfig": "./tsconfig.module.json"
-  },
-  "peerDependencies": {}
+  }
 }

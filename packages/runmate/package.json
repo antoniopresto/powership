@@ -1,6 +1,6 @@
 {
   "name": "runmate",
-  "version": "4.1.350",
+  "version": "5.0.700",
   "typings": "out",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -49,7 +49,6 @@
     "commander": "10.0.0",
     "fs-extra": "10.1.0",
     "glob": "10.3.10",
-    "lodash": "4.17.21",
     "lodash-es": "4.17.21",
     "@powership/utils": "workspace:*",
     "plugin-hooks": "2.0.0",
@@ -57,6 +56,7 @@
     "tsx": "4.7.1"
   },
   "devDependencies": {
+    "lodash": "4.17.21",
     "@babel/cli": "7.23.9",
     "@babel/plugin-transform-typescript": "7.23.6",
     "@babel/preset-env": "7.24.0",
