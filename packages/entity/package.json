@@ -1,6 +1,6 @@
 {
   "name": "@powership/entity",
-  "version": "5.0.700",
+  "version": "5.0.800",
   "type": "module",
   "main": "./out/index.cjs",
   "module": "./out/index.mjs",

@@ -1,5 +1,6 @@
 import { camelCase } from 'lodash';
 import { upperFirst } from 'lodash';
+import { snakeCase } from 'lodash';
 
 import { randomItem } from './randomItem';
 import { slugify } from './slugify';
@@ -16,6 +17,14 @@ export function joinPathsSnakeCase(...parts: (string | null | undefined)[]) {
   return parts.filter(Boolean).join('_');
 }
 
+export function removeDiacritics(string: string) {
+  return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+export function stringToValue(string: string) {
+  return snakeCase(removeDiacritics(string));
+}
+
 export const stringCase = {
   keep: (s: string) => s,
   capitalized: (s: string) => capitalize(s),
@@ -25,7 +34,10 @@ export const stringCase = {
   },
   undefined: (s: string) => stringCase.random(s),
   slugify: (s: string) => slugify(s),
+  snakeCase: (s: string) => snakeCase(s),
   camelCase,
+  removeDiacritics,
+  valuefy: stringToValue,
 };
 
 export { camelCase };
