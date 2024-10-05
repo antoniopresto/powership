@@ -41,7 +41,7 @@
 
 #### Defined in
 
-packages/server/lib/Server.d.ts:15
+packages/server/out/Server.d.ts:15
 
 ## Properties
 
@@ -59,7 +59,7 @@ packages/server/lib/Server.d.ts:15
 
 #### Defined in
 
-packages/server/lib/Server.d.ts:47
+packages/server/out/Server.d.ts:47
 
 ___
 
@@ -69,7 +69,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/Server.d.ts:14
+packages/server/out/Server.d.ts:14
 
 ___
 
@@ -79,7 +79,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/Server.d.ts:50
+packages/server/out/Server.d.ts:50
 
 ___
 
@@ -103,7 +103,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/Server.d.ts:52
+packages/server/out/Server.d.ts:52
 
 ___
 
@@ -113,7 +113,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/Server.d.ts:51
+packages/server/out/Server.d.ts:51
 
 ___
 
@@ -123,7 +123,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/Server.d.ts:49
+packages/server/out/Server.d.ts:49
 
 ___
 
@@ -144,7 +144,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/Server.d.ts:17
+packages/server/out/Server.d.ts:17
 
 ___
 
@@ -154,7 +154,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/Server.d.ts:48
+packages/server/out/Server.d.ts:48
 
 ___
 
@@ -164,7 +164,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/Server.d.ts:53
+packages/server/out/Server.d.ts:53
 
 ___
 
@@ -188,7 +188,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/Server.d.ts:16
+packages/server/out/Server.d.ts:16
 
 ## Methods
 
@@ -208,7 +208,7 @@ packages/server/lib/Server.d.ts:16
 
 #### Defined in
 
-packages/server/lib/Server.d.ts:54
+packages/server/out/Server.d.ts:54
 
 ▸ **start**(`port?`): `Promise`<[`Server`](Powership.Server.md) & { `withServer`: ``false``  }\>
 
@@ -224,4 +224,4 @@ packages/server/lib/Server.d.ts:54
 
 #### Defined in
 
-packages/server/lib/Server.d.ts:55
+packages/server/out/Server.d.ts:55

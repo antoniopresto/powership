@@ -1,8 +1,14 @@
 [Powership](../README.md) / [Modules](../modules.md) / [Powership](../modules/Powership.md) / Transporter
 
-# Interface: Transporter
+# Interface: Transporter<Client\>
 
 [Powership](../modules/Powership.md).Transporter
+
+## Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Client` | extends `any` = `any` |
 
 ## Table of contents
 
@@ -27,11 +33,11 @@
 
 ### \_client
 
-• **\_client**: `any`
+• **\_client**: `Client`
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:207
+packages/transporter/out/Transporter.d.ts:206
 
 ## Methods
 
@@ -45,7 +51,7 @@ packages/transporter/lib/Transporter.d.ts:207
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:208
+packages/transporter/out/Transporter.d.ts:207
 
 ___
 
@@ -71,7 +77,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:209
+packages/transporter/out/Transporter.d.ts:208
 
 ___
 
@@ -91,7 +97,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:210
+packages/transporter/out/Transporter.d.ts:209
 
 ___
 
@@ -111,7 +117,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:211
+packages/transporter/out/Transporter.d.ts:210
 
 ___
 
@@ -131,7 +137,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:212
+packages/transporter/out/Transporter.d.ts:211
 
 ___
 
@@ -151,7 +157,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:213
+packages/transporter/out/Transporter.d.ts:212
 
 ___
 
@@ -171,7 +177,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:214
+packages/transporter/out/Transporter.d.ts:213
 
 ___
 
@@ -191,7 +197,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:215
+packages/transporter/out/Transporter.d.ts:214
 
 ___
 
@@ -211,7 +217,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:216
+packages/transporter/out/Transporter.d.ts:215
 
 ___
 
@@ -231,4 +237,4 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:217
+packages/transporter/out/Transporter.d.ts:216

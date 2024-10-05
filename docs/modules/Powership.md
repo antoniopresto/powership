@@ -6,64 +6,44 @@
 
 ### References
 
-- [InferField](Powership.md#inferfield)
 - [T](Powership.md#t)
-- [isHttpError](Powership.md#ishttperror)
 
 ### Namespaces
 
 - [TU](Powership.TU.md)
-- [formatWithPrettier](Powership.formatWithPrettier.md)
-- [ufo](Powership.ufo.md)
 
 ### Classes
 
-- [AliasField](../classes/Powership.AliasField.md)
-- [AnyField](../classes/Powership.AnyField.md)
 - [BJSONConstructor](../classes/Powership.BJSONConstructor.md)
 - [BaseRequest](../classes/Powership.BaseRequest.md)
 - [BaseRequestHandler](../classes/Powership.BaseRequestHandler.md)
-- [BooleanField](../classes/Powership.BooleanField.md)
 - [CollectionErrors](../classes/Powership.CollectionErrors.md)
-- [CursorField](../classes/Powership.CursorField.md)
-- [DateField](../classes/Powership.DateField.md)
-- [EmailField](../classes/Powership.EmailField.md)
-- [EnumField](../classes/Powership.EnumField.md)
 - [FieldType](../classes/Powership.FieldType.md)
 - [FieldTypeError](../classes/Powership.FieldTypeError.md)
-- [FloatField](../classes/Powership.FloatField.md)
 - [GraphType](../classes/Powership.GraphType.md)
-- [IDField](../classes/Powership.IDField.md)
-- [IntField](../classes/Powership.IntField.md)
+- [Ident](../classes/Powership.Ident.md)
+- [IdentState](../classes/Powership.IdentState.md)
 - [InvalidExpectedTruthyError](../classes/Powership.InvalidExpectedTruthyError.md)
 - [InvalidExpectedTypeError](../classes/Powership.InvalidExpectedTypeError.md)
-- [LiteralField](../classes/Powership.LiteralField.md)
 - [Logger](../classes/Powership.Logger.md)
-- [MetaField](../classes/Powership.MetaField.md)
-- [MicroState](../classes/Powership.MicroState.md)
-- [NullField](../classes/Powership.NullField.md)
-- [ObjectField](../classes/Powership.ObjectField.md)
+- [MiniState](../classes/Powership.MiniState.md)
 - [ObjectType](../classes/Powership.ObjectType.md)
-- [RecordField](../classes/Powership.RecordField.md)
+- [PluginEngine](../classes/Powership.PluginEngine.md)
+- [RouteUtils](../classes/Powership.RouteUtils.md)
 - [RuntimeError](../classes/Powership.RuntimeError.md)
 - [Serializer](../classes/Powership.Serializer.md)
 - [Server](../classes/Powership.Server.md)
 - [ServerRequest](../classes/Powership.ServerRequest.md)
 - [ServerResponse](../classes/Powership.ServerResponse.md)
 - [StrictMap](../classes/Powership.StrictMap.md)
-- [StringField](../classes/Powership.StringField.md)
-- [UlidField](../classes/Powership.UlidField.md)
-- [UndefinedField](../classes/Powership.UndefinedField.md)
-- [UnionField](../classes/Powership.UnionField.md)
-- [UnknownField](../classes/Powership.UnknownField.md)
 
 ### Interfaces
 
 - [AppConfigInterface](../interfaces/Powership.AppConfigInterface.md)
-- [CommonFieldDefinitionProps](../interfaces/Powership.CommonFieldDefinitionProps.md)
 - [CreateOne](../interfaces/Powership.CreateOne.md)
-- [CreateResolver](../interfaces/Powership.CreateResolver.md)
 - [CustomFieldConfig](../interfaces/Powership.CustomFieldConfig.md)
+- [DateFormatI18n](../interfaces/Powership.DateFormatI18n.md)
+- [DateFormatMasks](../interfaces/Powership.DateFormatMasks.md)
 - [DeleteMany](../interfaces/Powership.DeleteMany.md)
 - [DeleteOne](../interfaces/Powership.DeleteOne.md)
 - [DocumentIndexFieldsParsed](../interfaces/Powership.DocumentIndexFieldsParsed.md)
@@ -79,11 +59,11 @@
 - [ExtendEntity](../interfaces/Powership.ExtendEntity.md)
 - [ExtendObjectDefinition](../interfaces/Powership.ExtendObjectDefinition.md)
 - [ExtendType](../interfaces/Powership.ExtendType.md)
-- [FieldDefinitionWithType](../interfaces/Powership.FieldDefinitionWithType.md)
 - [FindById](../interfaces/Powership.FindById.md)
 - [FindMany](../interfaces/Powership.FindMany.md)
 - [FindOne](../interfaces/Powership.FindOne.md)
 - [FirstIndexParsed](../interfaces/Powership.FirstIndexParsed.md)
+- [FunctionComponentLike](../interfaces/Powership.FunctionComponentLike.md)
 - [GetterAttributes](../interfaces/Powership.GetterAttributes.md)
 - [GettersConfig](../interfaces/Powership.GettersConfig.md)
 - [GraphTypeInTypeFieldDefinition](../interfaces/Powership.GraphTypeInTypeFieldDefinition.md)
@@ -96,29 +76,32 @@
 - [InitIndexCursor](../interfaces/Powership.InitIndexCursor.md)
 - [InitIndexCursorWithParent](../interfaces/Powership.InitIndexCursorWithParent.md)
 - [JoinKeyPartsOptions](../interfaces/Powership.JoinKeyPartsOptions.md)
-- [LiteralFieldDef](../interfaces/Powership.LiteralFieldDef.md)
+- [LoaderContext](../interfaces/Powership.LoaderContext.md)
 - [LoggerOptions](../interfaces/Powership.LoggerOptions.md)
 - [Mapper](../interfaces/Powership.Mapper.md)
 - [ObjectInTypeFieldDefinition](../interfaces/Powership.ObjectInTypeFieldDefinition.md)
 - [ObjectLike](../interfaces/Powership.ObjectLike.md)
 - [ObjectTypeLikeFieldDefinition](../interfaces/Powership.ObjectTypeLikeFieldDefinition.md)
-- [OnChange](../interfaces/Powership.OnChange.md)
 - [PackageJson](../interfaces/Powership.PackageJson.md)
 - [Paginate](../interfaces/Powership.Paginate.md)
 - [ParseCursorOptions](../interfaces/Powership.ParseCursorOptions.md)
 - [ParsedIndexCursor](../interfaces/Powership.ParsedIndexCursor.md)
+- [ReactLike](../interfaces/Powership.ReactLike.md)
+- [ResolverContext](../interfaces/Powership.ResolverContext.md)
+- [RouteMatcher](../interfaces/Powership.RouteMatcher.md)
 - [SerializableList](../interfaces/Powership.SerializableList.md)
 - [Store](../interfaces/Powership.Store.md)
 - [StoreOptions](../interfaces/Powership.StoreOptions.md)
 - [StrictMapOptions](../interfaces/Powership.StrictMapOptions.md)
 - [Stringifiable](../interfaces/Powership.Stringifiable.md)
-- [SubscriptionContext](../interfaces/Powership.SubscriptionContext.md)
 - [Transporter](../interfaces/Powership.Transporter.md)
-- [UFO](../interfaces/Powership.UFO-1.md)
 - [UpdateMany](../interfaces/Powership.UpdateMany.md)
 - [UpdateOne](../interfaces/Powership.UpdateOne.md)
-- [UseMicroState](../interfaces/Powership.UseMicroState.md)
 - [\_EntityLoaderUtils](../interfaces/Powership._EntityLoaderUtils.md)
+- [\_ExoticComponent](../interfaces/Powership._ExoticComponent.md)
+- [\_ReactContext](../interfaces/Powership._ReactContext.md)
+- [\_ReactElement](../interfaces/Powership._ReactElement.md)
+- [\_ReactPortal](../interfaces/Powership._ReactPortal.md)
 
 ### Type Aliases
 
@@ -127,12 +110,11 @@
 - [$sealedDef](Powership.md#$sealeddef)
 - [$sealedKey](Powership.md#$sealedkey)
 - [A\_Z](Powership.md#a_z)
-- [AliasFieldAggregation](Powership.md#aliasfieldaggregation)
-- [AliasFieldDef](Powership.md#aliasfielddef)
 - [AllFieldTypes](Powership.md#allfieldtypes)
 - [AllFilterOperations](Powership.md#allfilteroperations)
 - [AllFinalFieldDefinitions](Powership.md#allfinalfielddefinitions)
 - [AllIndexFilter](Powership.md#allindexfilter)
+- [AlphaNumeric](Powership.md#alphanumeric)
 - [AnyArray](Powership.md#anyarray)
 - [AnyCollectionIndexConfig](Powership.md#anycollectionindexconfig)
 - [AnyDocIndexItem](Powership.md#anydocindexitem)
@@ -141,7 +123,6 @@
 - [AnyFunction](Powership.md#anyfunction)
 - [AnyList](Powership.md#anylist)
 - [AnyRecord](Powership.md#anyrecord)
-- [AnyResolver](Powership.md#anyresolver)
 - [ArrayKeys](Powership.md#arraykeys)
 - [ArrayOperationRecord](Powership.md#arrayoperationrecord)
 - [ArrayType](Powership.md#arraytype)
@@ -161,8 +142,9 @@
 - [CreateOneConfig](Powership.md#createoneconfig)
 - [CreateOneResult](Powership.md#createoneresult)
 - [CreateProxyOptions](Powership.md#createproxyoptions)
-- [CursorType](Powership.md#cursortype)
-- [DateFieldDef](Powership.md#datefielddef)
+- [CreateResolver](Powership.md#createresolver)
+- [CreateResolverChain](Powership.md#createresolverchain)
+- [CreateResolverConfig](Powership.md#createresolverconfig)
 - [DeepArrayKeys](Powership.md#deeparraykeys)
 - [DeepFreeze](Powership.md#deepfreeze)
 - [DeepWritable](Powership.md#deepwritable)
@@ -199,21 +181,20 @@
 - [EntityParserHookContext](Powership.md#entityparserhookcontext)
 - [Entries](Powership.md#entries)
 - [ErrorClassCreatorOptions](Powership.md#errorclasscreatoroptions)
+- [EventHandler](Powership.md#eventhandler)
 - [EventMetadataBase](Powership.md#eventmetadatabase)
 - [EventMetadataObjectBase](Powership.md#eventmetadataobjectbase)
+- [ExtractRouteParams](Powership.md#extractrouteparams)
+- [ExtractStateMethods](Powership.md#extractstatemethods)
 - [FieldAsString](Powership.md#fieldasstring)
 - [FieldComposer](Powership.md#fieldcomposer)
 - [FieldCreators](Powership.md#fieldcreators)
-- [FieldDefinitionConfig](Powership.md#fielddefinitionconfig)
-- [FieldDefinitions](Powership.md#fielddefinitions)
-- [FieldExample](Powership.md#fieldexample)
-- [FieldExampleFunction](Powership.md#fieldexamplefunction)
+- [FieldDefinition](Powership.md#fielddefinition)
 - [FieldInput](Powership.md#fieldinput)
 - [FieldInputLikeRequiredKey](Powership.md#fieldinputlikerequiredkey)
 - [FieldParserConfig](Powership.md#fieldparserconfig)
 - [FieldParserOptionsObject](Powership.md#fieldparseroptionsobject)
 - [FieldTypeErrorCode](Powership.md#fieldtypeerrorcode)
-- [FieldTypeName](Powership.md#fieldtypename)
 - [FieldTypeOptions](Powership.md#fieldtypeoptions)
 - [FieldTypeParser](Powership.md#fieldtypeparser)
 - [FilterConditions](Powership.md#filterconditions)
@@ -227,10 +208,10 @@
 - [FindOneConfig](Powership.md#findoneconfig)
 - [FindOneResult](Powership.md#findoneresult)
 - [FlattenFieldDefinition](Powership.md#flattenfielddefinition)
-- [FloatFieldDef](Powership.md#floatfielddef)
 - [ForceString](Powership.md#forcestring)
 - [GetFieldByDotNotation](Powership.md#getfieldbydotnotation)
 - [GetFieldByDotPath](Powership.md#getfieldbydotpath)
+- [GetRouteParams](Powership.md#getrouteparams)
 - [GraphQLDataResponse](Powership.md#graphqldataresponse)
 - [GraphQLResponseRecord](Powership.md#graphqlresponserecord)
 - [GraphQLSchemaWithUtils](Powership.md#graphqlschemawithutils)
@@ -242,9 +223,11 @@
 - [HeaderNamed](Powership.md#headernamed)
 - [HeaderRecord](Powership.md#headerrecord)
 - [HeaderRecordInit](Powership.md#headerrecordinit)
-- [IDFieldDef](Powership.md#idfielddef)
+- [Hey](Powership.md#hey)
+- [HeyParams](Powership.md#heyparams)
+- [IdentOptions](Powership.md#identoptions)
+- [IdentStyle](Powership.md#identstyle)
 - [IfExtends](Powership.md#ifextends)
-- [ImplementObject](Powership.md#implementobject)
 - [IndexBasedFilterParsed](Powership.md#indexbasedfilterparsed)
 - [IndexFilter](Powership.md#indexfilter)
 - [IndexFilterFound](Powership.md#indexfilterfound)
@@ -256,12 +239,10 @@
 - [InferGraphType](Powership.md#infergraphtype)
 - [InferObjectDefinition](Powership.md#inferobjectdefinition)
 - [InferObjectType](Powership.md#inferobjecttype)
-- [InferRecordFieldType](Powership.md#inferrecordfieldtype)
 - [InferResolverArgs](Powership.md#inferresolverargs)
 - [InferString](Powership.md#inferstring)
 - [InferTypeName](Powership.md#infertypename)
 - [InnerDef](Powership.md#innerdef)
-- [IntFieldDef](Powership.md#intfielddef)
 - [InternalEvent](Powership.md#internalevent)
 - [InvalidParsedIndexField](Powership.md#invalidparsedindexfield)
 - [IsAny](Powership.md#isany)
@@ -271,11 +252,8 @@
 - [IsOptional](Powership.md#isoptional)
 - [IsUnknown](Powership.md#isunknown)
 - [IterationMap](Powership.md#iterationmap)
+- [JTSKey](Powership.md#jtskey)
 - [LazyParseGraphTypePayload](Powership.md#lazyparsegraphtypepayload)
-- [ListDefinition](Powership.md#listdefinition)
-- [ListDefinitionObject](Powership.md#listdefinitionobject)
-- [ListDefinitionTruthy](Powership.md#listdefinitiontruthy)
-- [LoaderContext](Powership.md#loadercontext)
 - [LogLevel](Powership.md#loglevel)
 - [LogLevelName](Powership.md#loglevelname)
 - [LoggerMethods](Powership.md#loggermethods)
@@ -290,8 +268,8 @@
 - [Merge](Powership.md#merge)
 - [MergeAll](Powership.md#mergeall)
 - [MergeGetters](Powership.md#mergegetters)
-- [MetaFieldDef](Powership.md#metafielddef)
 - [MethodFilter](Powership.md#methodfilter)
+- [MiddlewareStep](Powership.md#middlewarestep)
 - [ModulesProxyRecord](Powership.md#modulesproxyrecord)
 - [ModulesProxyResult](Powership.md#modulesproxyresult)
 - [NATIVE\_TYPE\_NAME](Powership.md#native_type_name)
@@ -317,7 +295,6 @@
 - [ObjectUnion](Powership.md#objectunion)
 - [OneFilterOperation](Powership.md#onefilteroperation)
 - [OnlyKnown](Powership.md#onlyknown)
-- [OptionalResolverConfig](Powership.md#optionalresolverconfig)
 - [Override](Powership.md#override)
 - [OverrideField](Powership.md#overridefield)
 - [PKSKValueType](Powership.md#pkskvaluetype)
@@ -330,29 +307,29 @@
 - [ParsedIndexFilterPart](Powership.md#parsedindexfilterpart)
 - [ParsedIndexKey](Powership.md#parsedindexkey)
 - [ParsedIndexPart](Powership.md#parsedindexpart)
+- [ParsedURL](Powership.md#parsedurl)
 - [ParsedUpdateExpression](Powership.md#parsedupdateexpression)
 - [PartialRequired](Powership.md#partialrequired)
 - [PathParsed](Powership.md#pathparsed)
 - [PathType](Powership.md#pathtype)
 - [Paths](Powership.md#paths)
 - [Pick](Powership.md#pick)
-- [PowershipObjectDefinition](Powership.md#powershipobjectdefinition)
+- [Plugin](Powership.md#plugin)
 - [PrevIndex](Powership.md#previndex)
 - [PromiseType](Powership.md#promisetype)
 - [ProxyGetModule](Powership.md#proxygetmodule)
 - [ProxyModuleConfig](Powership.md#proxymoduleconfig)
 - [QuerySort](Powership.md#querysort)
-- [ReactLike](Powership.md#reactlike)
+- [ReactNodeLike](Powership.md#reactnodelike)
 - [RecordBy](Powership.md#recordby)
-- [RecordFieldDef](Powership.md#recordfielddef)
 - [RelationsFilter](Powership.md#relationsfilter)
 - [RequestBody](Powership.md#requestbody)
 - [Resolver](Powership.md#resolver)
-- [ResolverContextBase](Powership.md#resolvercontextbase)
 - [ResolverKind](Powership.md#resolverkind)
 - [ResolverResolve](Powership.md#resolverresolve)
 - [ResolversToTypeScriptOptions](Powership.md#resolverstotypescriptoptions)
 - [RootFilterOperators](Powership.md#rootfilteroperators)
+- [RouteConfig](Powership.md#routeconfig)
 - [RunTimeErrorOptions](Powership.md#runtimeerroroptions)
 - [Seal](Powership.md#seal)
 - [SealedField](Powership.md#sealedfield)
@@ -362,15 +339,19 @@
 - [ServerResponseStatus](Powership.md#serverresponsestatus)
 - [Shape](Powership.md#shape)
 - [ShortenFinalFieldDefinition](Powership.md#shortenfinalfielddefinition)
+- [SimpleRoute](Powership.md#simpleroute)
+- [SimpleRouter](Powership.md#simplerouter)
 - [Simplify](Powership.md#simplify)
 - [SlugifyOptions](Powership.md#slugifyoptions)
-- [SpecialObjectKeys](Powership.md#specialobjectkeys)
+- [StateChangeMiddleware](Powership.md#statechangemiddleware)
+- [StatePieceListener](Powership.md#statepiecelistener)
+- [Status](Powership.md#status)
 - [StoreEvent](Powership.md#storeevent)
 - [StoreEventOptions](Powership.md#storeeventoptions)
-- [StringFieldDef](Powership.md#stringfielddef)
 - [StringValue](Powership.md#stringvalue)
 - [StringifyDefaultHandler](Powership.md#stringifydefaulthandler)
 - [StringifyOptions](Powership.md#stringifyoptions)
+- [Styles](Powership.md#styles)
 - [TAnyFieldType](Powership.md#tanyfieldtype)
 - [TopLevelFilterKey](Powership.md#toplevelfilterkey)
 - [TransporterFieldType](Powership.md#transporterfieldtype)
@@ -382,9 +363,9 @@
 - [Types](Powership.md#types)
 - [UnhandledSymbol](Powership.md#unhandledsymbol)
 - [UnionToIntersection](Powership.md#uniontointersection)
-- [UnknownFieldDef](Powership.md#unknownfielddef)
 - [UnknownRecord](Powership.md#unknownrecord)
 - [Unsubscribe](Powership.md#unsubscribe)
+- [UnsubscribeListener](Powership.md#unsubscribelistener)
 - [UpdateExpression](Powership.md#updateexpression)
 - [UpdateExpressionKey](Powership.md#updateexpressionkey)
 - [UpdateManyConfig](Powership.md#updatemanyconfig)
@@ -392,6 +373,7 @@
 - [UpdateOneConfig](Powership.md#updateoneconfig)
 - [UpdateOneResult](Powership.md#updateoneresult)
 - [ValidationCustomMessage](Powership.md#validationcustommessage)
+- [WatchableResult](Powership.md#watchableresult)
 - [Writeable](Powership.md#writeable)
 - [\_AllOptional](Powership.md#_alloptional)
 - [\_AnyEntity](Powership.md#_anyentity)
@@ -414,20 +396,17 @@
 - [\_InferObjectDefinition](Powership.md#_inferobjectdefinition)
 - [\_InferSpecialObjectKeys](Powership.md#_inferspecialobjectkeys)
 - [\_InnerDef](Powership.md#_innerdef)
+- [\_MethodExecutionContext](Powership.md#_methodexecutioncontext)
 - [\_NullableNullable](Powership.md#_nullablenullable)
 - [\_ObjectFieldInputBase](Powership.md#_objectfieldinputbase)
 - [\_OmitUndefined](Powership.md#_omitundefined)
 - [\_PathType](Powership.md#_pathtype)
-- [\_ResolverArgs](Powership.md#_resolverargs)
+- [\_PropsWithChildren](Powership.md#_propswithchildren)
 - [\_ShortenFinalFieldDefinitionFieldAsString](Powership.md#_shortenfinalfielddefinitionfieldasstring)
 - [\_UndefinedKeys](Powership.md#_undefinedkeys)
 - [\_UnknownDiff](Powership.md#_unknowndiff)
 - [\_WithInferList](Powership.md#_withinferlist)
 - [\_WithInferOptional](Powership.md#_withinferoptional)
-
-### Properties
-
-- [HttpError](Powership.md#httperror)
 
 ### Variables
 
@@ -443,7 +422,6 @@
 - [CACHED\_FIELD\_INSTANCE\_KEY](Powership.md#cached_field_instance_key)
 - [CURSOR\_CHARS](Powership.md#cursor_chars)
 - [CURSOR\_PREFIX](Powership.md#cursor_prefix)
-- [CircularDeps](Powership.md#circulardeps)
 - [CustomError](Powership.md#customerror)
 - [DEFAULT\_SORT](Powership.md#default_sort)
 - [ESCAPE\_INDEX\_PART\_SEP](Powership.md#escape_index_part_sep)
@@ -457,8 +435,10 @@
 - [FieldsTypeCache](Powership.md#fieldstypecache)
 - [FilterConditionsParsers](Powership.md#filterconditionsparsers)
 - [GlobalLogger](Powership.md#globallogger)
+- [HttpError](Powership.md#httperror)
 - [INDEX\_PART\_SEP](Powership.md#index_part_sep)
 - [INDEX\_PART\_SEP\_REGEX](Powership.md#index_part_sep_regex)
+- [IS\_BROWSER](Powership.md#is_browser)
 - [IndexCursor](Powership.md#indexcursor)
 - [InvariantError](Powership.md#invarianterror)
 - [KEY\_PART\_SEP](Powership.md#key_part_sep)
@@ -471,33 +451,32 @@
 - [MIN\_FILTER\_INDEX\_KEY\_PARTS](Powership.md#min_filter_index_key_parts)
 - [NodeLogger](Powership.md#nodelogger)
 - [PageInfoType](Powership.md#pageinfotype)
-- [PowershipObject](Powership.md#powershipobject)
 - [Process](Powership.md#process)
 - [RELATION\_PRECEDES](Powership.md#relation_precedes)
 - [SEP](Powership.md#sep)
 - [ServerLogs](Powership.md#serverlogs)
-- [SpecialObjectKeyEnum](Powership.md#specialobjectkeyenum)
 - [TopLevelFilterKeys](Powership.md#toplevelfilterkeys)
-- [ULID\_REGEX](Powership.md#ulid_regex)
 - [UnhandledSymbol](Powership.md#unhandledsymbol-1)
 - [\_\_LOCAL\_DEV\_USERID\_\_](Powership.md#__local_dev_userid__)
 - [\_defaultLogger](Powership.md#_defaultlogger)
 - [create](Powership.md#create)
+- [defaultGlobalTransporter](Powership.md#defaultglobaltransporter)
+- [i18n](Powership.md#i18n)
 - [indexConfigSchema](Powership.md#indexconfigschema)
 - [indexItemSchema](Powership.md#indexitemschema)
-- [isFieldTypeName](Powership.md#isfieldtypename)
+- [isHttpError](Powership.md#ishttperror)
+- [masks](Powership.md#masks)
 - [noop](Powership.md#noop)
-- [objectMetaFieldKey](Powership.md#objectmetafieldkey)
 - [randomNames](Powership.md#randomnames)
 - [relationSchema](Powership.md#relationschema)
 - [resolverKinds](Powership.md#resolverkinds)
 - [stringCase](Powership.md#stringcase)
+- [styles](Powership.md#styles-1)
 - [transporterLoaderNames](Powership.md#transporterloadernames)
 - [types](Powership.md#types-1)
 
 ### Functions
 
-- [$](Powership.md#$)
 - [\_\_getCachedFieldInstance](Powership.md#__getcachedfieldinstance)
 - [\_ensureTransporterMethodsImplementation](Powership.md#_ensuretransportermethodsimplementation)
 - [\_joinIndexCursorWithParent](Powership.md#_joinindexcursorwithparent)
@@ -519,11 +498,9 @@
 - [base64ToText](Powership.md#base64totext)
 - [capitalize](Powership.md#capitalize)
 - [captureStackTrace](Powership.md#capturestacktrace)
-- [cleanMetaField](Powership.md#cleanmetafield)
 - [conust](Powership.md#conust)
 - [createAggioIndexBasedFilters](Powership.md#createaggioindexbasedfilters)
 - [createDocumentIndexBasedFilters](Powership.md#createdocumentindexbasedfilters)
-- [createEmptyMetaField](Powership.md#createemptymetafield)
 - [createEntity](Powership.md#createentity)
 - [createEntityPlugin](Powership.md#createentityplugin)
 - [createErrorClass](Powership.md#createerrorclass)
@@ -531,21 +508,20 @@
 - [createGraphQLSchema](Powership.md#creategraphqlschema)
 - [createModulesProxy](Powership.md#createmodulesproxy)
 - [createObjectType](Powership.md#createobjecttype)
-- [createPowershipObject](Powership.md#createpowershipobject)
 - [createProxy](Powership.md#createproxy)
-- [createResolver](Powership.md#createresolver)
-- [createResolverFactory](Powership.md#createresolverfactory)
+- [createResolver](Powership.md#createresolver-1)
 - [createRouteHandler](Powership.md#createroutehandler)
 - [createRouteMatcher](Powership.md#createroutematcher)
-- [createSchema](Powership.md#createschema)
+- [createSimpleRouter](Powership.md#createsimplerouter)
+- [createState](Powership.md#createstate)
 - [createStore](Powership.md#createstore)
 - [createType](Powership.md#createtype)
 - [customError](Powership.md#customerror-1)
+- [dateFormat](Powership.md#dateformat)
 - [dateSerialize](Powership.md#dateserialize)
 - [deepFreeze](Powership.md#deepfreeze-1)
 - [defineGetters](Powership.md#definegetters)
 - [delay](Powership.md#delay)
-- [deleteCachedFieldInstance](Powership.md#deletecachedfieldinstance)
 - [describeConstructor](Powership.md#describeconstructor)
 - [describeType](Powership.md#describetype)
 - [devAssert](Powership.md#devassert)
@@ -557,12 +533,11 @@
 - [escapeCursorChars](Powership.md#escapecursorchars)
 - [escapeStringRegexp](Powership.md#escapestringregexp)
 - [expectedType](Powership.md#expectedtype)
-- [extendObjectDefinition](Powership.md#extendobjectdefinition)
-- [extendType](Powership.md#extendtype)
 - [fieldToMock](Powership.md#fieldtomock)
 - [filterNull](Powership.md#filternull)
 - [fnv1a](Powership.md#fnv1a)
 - [formatGraphQL](Powership.md#formatgraphql)
+- [formatTimezone](Powership.md#formattimezone)
 - [formatWithPrettier](Powership.md#formatwithprettier)
 - [freeThreadID](Powership.md#freethreadid)
 - [freeze](Powership.md#freeze)
@@ -572,8 +547,6 @@
 - [getLogLevelsRecord](Powership.md#getloglevelsrecord)
 - [getNativeConstructorType](Powership.md#getnativeconstructortype)
 - [getNativeTypeOf](Powership.md#getnativetypeof)
-- [getObjectDefinitionId](Powership.md#getobjectdefinitionid)
-- [getObjectDefinitionMetaField](Powership.md#getobjectdefinitionmetafield)
 - [getParsedIndexKeys](Powership.md#getparsedindexkeys)
 - [getResolver](Powership.md#getresolver)
 - [getStack](Powership.md#getstack)
@@ -583,7 +556,7 @@
 - [hashName](Powership.md#hashname)
 - [hashObject](Powership.md#hashobject)
 - [hashString](Powership.md#hashstring)
-- [implementObject](Powership.md#implementobject-1)
+- [hey](Powership.md#hey-1)
 - [indexToCursor](Powership.md#indextocursor)
 - [inspect](Powership.md#inspect)
 - [inspectObject](Powership.md#inspectobject)
@@ -593,32 +566,29 @@
 - [isEntity](Powership.md#isentity)
 - [isErrorWithStack](Powership.md#iserrorwithstack)
 - [isFieldError](Powership.md#isfielderror)
-- [isFieldInstance](Powership.md#isfieldinstance)
 - [isFilterConditionKey](Powership.md#isfilterconditionkey)
 - [isHiddenFieldName](Powership.md#ishiddenfieldname)
 - [isLogLevel](Powership.md#isloglevel)
-- [isMetaField](Powership.md#ismetafield)
-- [isMetaFieldKey](Powership.md#ismetafieldkey)
 - [isObject](Powership.md#isobject)
 - [isObjectAsTypeDefinition](Powership.md#isobjectastypedefinition)
-- [isObjectType](Powership.md#isobjecttype)
-- [isObjectValidationError](Powership.md#isobjectvalidationerror)
 - [isObjectWithoutPrototype](Powership.md#isobjectwithoutprototype)
 - [isPlainObject](Powership.md#isplainobject)
 - [isPossibleArgsDef](Powership.md#ispossibleargsdef)
 - [isProduction](Powership.md#isproduction)
-- [isUFO](Powership.md#isufo)
 - [joinCursorPartsWithTrailingSeparator](Powership.md#joincursorpartswithtrailingseparator)
 - [joinIndexCursor](Powership.md#joinindexcursor)
 - [joinKeyParts](Powership.md#joinkeyparts)
 - [joinPKSK](Powership.md#joinpksk)
 - [joinPathsCamelCase](Powership.md#joinpathscamelcase)
 - [joinPathsSnakeCase](Powership.md#joinpathssnakecase)
+- [joinTemplateString](Powership.md#jointemplatestring)
+- [jsonClone](Powership.md#jsonclone)
+- [jsonParse](Powership.md#jsonparse)
+- [jsonStringify](Powership.md#jsonstringify)
 - [jsonToTypescript](Powership.md#jsontotypescript)
 - [keyBy](Powership.md#keyby)
 - [keys](Powership.md#keys)
 - [mapper](Powership.md#mapper)
-- [memoize](Powership.md#memoize)
 - [merge](Powership.md#merge-1)
 - [mergeIndexRelationsResult](Powership.md#mergeindexrelationsresult)
 - [mountGraphID](Powership.md#mountgraphid)
@@ -656,50 +626,45 @@
 - [randomName](Powership.md#randomname)
 - [reduceObject](Powership.md#reduceobject)
 - [registerEntity](Powership.md#registerentity)
+- [removeDiacritics](Powership.md#removediacritics)
 - [resetTypesCache](Powership.md#resettypescache)
 - [resolversToTypescript](Powership.md#resolverstotypescript)
 - [resolversTypescriptParts](Powership.md#resolverstypescriptparts)
 - [setByPath](Powership.md#setbypath)
+- [setDefaultTransporter](Powership.md#setdefaulttransporter)
 - [setGlobalLogLevel](Powership.md#setgloballoglevel)
-- [setPrettier](Powership.md#setprettier)
 - [simpleObjectClone](Powership.md#simpleobjectclone)
 - [simpleObjectHash](Powership.md#simpleobjecthash)
+- [skipper](Powership.md#skipper)
 - [sortObject](Powership.md#sortobject)
 - [splitCursorParts](Powership.md#splitcursorparts)
+- [streamToString](Powership.md#streamtostring)
 - [stringHash](Powership.md#stringhash)
+- [stringToValue](Powership.md#stringtovalue)
 - [stringify](Powership.md#stringify)
 - [stripTrailingIndexSep](Powership.md#striptrailingindexsep)
+- [templateStringToText](Powership.md#templatestringtotext)
 - [textToBase64](Powership.md#texttobase64)
+- [trimTabs](Powership.md#trimtabs)
+- [tryCatch](Powership.md#trycatch)
 - [tuple](Powership.md#tuple)
 - [tupleEnum](Powership.md#tupleenum)
 - [tupleNum](Powership.md#tuplenum)
-- [ufo](Powership.md#ufo)
-- [ufos](Powership.md#ufos)
 - [ulid](Powership.md#ulid)
 - [uniq](Powership.md#uniq)
 - [uniqBy](Powership.md#uniqby)
 - [upperFirst](Powership.md#upperfirst)
 - [useProcess](Powership.md#useprocess)
 - [values](Powership.md#values)
+- [watchable](Powership.md#watchable)
 - [wrapError](Powership.md#wraperror)
+- [writeToStdoutSync](Powership.md#writetostdoutsync)
 
 ## References
-
-### InferField
-
-Renames and re-exports [Infer](Powership.md#infer)
-
-___
 
 ### T
 
 Re-exports [T](Powership.TU.T.md)
-
-___
-
-### isHttpError
-
-Renames and re-exports [HttpError](Powership.md#httperror)
 
 ## Type Aliases
 
@@ -709,9 +674,9 @@ Renames and re-exports [HttpError](Powership.md#httperror)
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/DescribeField.d.ts:12
+packages/schema/out/fields/Infer/DescribeField.d.ts:12
 
-packages/schema/lib/fields/Infer/DescribeField.d.ts:13
+packages/schema/out/fields/Infer/DescribeField.d.ts:13
 
 ___
 
@@ -721,19 +686,19 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/DescribeField.d.ts:10
+packages/schema/out/fields/Infer/DescribeField.d.ts:10
 
-packages/schema/lib/fields/Infer/DescribeField.d.ts:11
+packages/schema/out/fields/Infer/DescribeField.d.ts:11
 
 ___
 
 ### $sealedDef
 
-Ƭ **$sealedDef**: [`Compute`](Powership.TU.md#compute)<{ `list`: ``false`` ; `literal`: [`$sealed`](Powership.md#$sealed-1) ; `optional`: ``false``  } & [`CommonFieldDefinitionProps`](../interfaces/Powership.CommonFieldDefinitionProps.md)\>
+Ƭ **$sealedDef**: [`Compute`](Powership.TU.md#compute)<{ `list`: ``false`` ; `literal`: [`$sealed`](Powership.md#$sealed-1) ; `optional`: ``false``  } & `CommonFieldDefinitionProps`\>
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/DescribeField.d.ts:19
+packages/schema/out/fields/Infer/DescribeField.d.ts:19
 
 ___
 
@@ -743,9 +708,9 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/DescribeField.d.ts:8
+packages/schema/out/fields/Infer/DescribeField.d.ts:8
 
-packages/schema/lib/fields/Infer/DescribeField.d.ts:9
+packages/schema/out/fields/Infer/DescribeField.d.ts:9
 
 ___
 
@@ -755,35 +720,9 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:95
+packages/utils/out/typings/index.d.ts:95
 
-packages/utils/lib/typings/index.d.ts:96
-
-___
-
-### AliasFieldAggregation
-
-Ƭ **AliasFieldAggregation**<`Parent`\>: { `type`: [`FieldInput`](Powership.md#fieldinput)  } & { `aggregate`: `Aggregation`<`Parent`\> \| `Readonly`<`Aggregation`<`Parent`\>\> ; `from`: [`ObjectPath`](Powership.TU.md#objectpath)<`Parent`\>  } \| { `aggregate`: `Aggregation`<`Parent`\> \| `Readonly`<`Aggregation`<`Parent`\>\> ; `from?`: `undefined`  } \| { `aggregate?`: `undefined` ; `from`: [`ObjectPath`](Powership.TU.md#objectpath)<`Parent`\>  }
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Parent` | `any` |
-
-#### Defined in
-
-packages/schema/lib/fields/AliasField.d.ts:5
-
-___
-
-### AliasFieldDef
-
-Ƭ **AliasFieldDef**: `string` \| [`AliasFieldAggregation`](Powership.md#aliasfieldaggregation)
-
-#### Defined in
-
-packages/schema/lib/fields/AliasField.d.ts:17
+packages/utils/out/typings/index.d.ts:96
 
 ___
 
@@ -793,7 +732,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:69
+packages/schema/out/fields/FieldType.d.ts:68
 
 ___
 
@@ -821,7 +760,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:9
+packages/transporter/out/Transporter.d.ts:10
 
 ___
 
@@ -831,7 +770,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/_parseFields.d.ts:18
+packages/schema/out/fields/_parseFields.d.ts:18
 
 ___
 
@@ -853,7 +792,17 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:48
+packages/transporter/out/Transporter.d.ts:49
+
+___
+
+### AlphaNumeric
+
+Ƭ **AlphaNumeric**: `string` \| `number`
+
+#### Defined in
+
+packages/utils/out/routeUtils.d.ts:90
 
 ___
 
@@ -869,7 +818,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:37
+packages/utils/out/typings/index.d.ts:37
 
 ___
 
@@ -879,7 +828,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:44
+packages/transporter/out/CollectionIndex.d.ts:44
 
 ___
 
@@ -889,7 +838,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:38
+packages/transporter/out/CollectionIndex.d.ts:38
 
 ___
 
@@ -899,7 +848,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/Entity.d.ts:8
+packages/entity/out/EntityInterfaces/Entity.d.ts:8
 
 ___
 
@@ -909,7 +858,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/Context.d.ts:39
+packages/entity/out/EntityInterfaces/Context.d.ts:39
 
 ___
 
@@ -933,7 +882,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:46
+packages/utils/out/typings/index.d.ts:46
 
 ___
 
@@ -949,7 +898,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:38
+packages/utils/out/typings/index.d.ts:38
 
 ___
 
@@ -959,17 +908,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:33
-
-___
-
-### AnyResolver
-
-Ƭ **AnyResolver**: [`Resolver`](Powership.md#resolver)<`any`, `any`, `any`, `any`\>
-
-#### Defined in
-
-packages/schema/lib/Resolver.d.ts:32
+packages/utils/out/typings/index.d.ts:33
 
 ___
 
@@ -985,7 +924,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:63
+packages/utils/out/typings/index.d.ts:63
 
 ___
 
@@ -1002,7 +941,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:143
+packages/transporter/out/Transporter.d.ts:142
 
 ___
 
@@ -1018,7 +957,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:32
+packages/utils/out/typings/index.d.ts:32
 
 ___
 
@@ -1035,7 +974,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/ts-toolbet.d.ts:17
+packages/utils/out/typings/ts-toolbet.d.ts:17
 
 ___
 
@@ -1045,7 +984,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/areEqual.d.ts:2
+packages/utils/out/areEqual.d.ts:2
 
 ___
 
@@ -1055,7 +994,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:164
+packages/transporter/out/Transporter.d.ts:163
 
 ___
 
@@ -1075,7 +1014,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:7
+packages/server/out/BaseRequestHandler.d.ts:9
 
 ___
 
@@ -1093,7 +1032,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:91
+packages/utils/out/typings/index.d.ts:91
 
 ___
 
@@ -1111,7 +1050,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:87
+packages/utils/out/typings/index.d.ts:87
 
 ___
 
@@ -1128,7 +1067,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/ts-toolbet.d.ts:19
+packages/utils/out/typings/ts-toolbet.d.ts:19
 
 ___
 
@@ -1145,7 +1084,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:39
+packages/transporter/out/CollectionIndex.d.ts:39
 
 ___
 
@@ -1169,7 +1108,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:40
+packages/transporter/out/CollectionIndex.d.ts:40
 
 ___
 
@@ -1179,7 +1118,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:462
+packages/transporter/out/CollectionIndex.d.ts:462
 
 ___
 
@@ -1196,7 +1135,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/Compute.d.ts:17
+packages/utils/out/typings/Compute.d.ts:17
 
 ___
 
@@ -1214,7 +1153,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/getTypeName.d.ts:44
+packages/utils/out/getTypeName.d.ts:44
 
 ___
 
@@ -1224,7 +1163,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/createGraphQLSchema.d.ts:6
+packages/schema/out/createGraphQLSchema.d.ts:6
 
 ___
 
@@ -1245,14 +1184,14 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `condition?` | [`FilterRecord`](Powership.md#filterrecord)<`Doc`\> |
-| `context?` | [`LoaderContext`](Powership.md#loadercontext) |
+| `context?` | [`LoaderContext`](../interfaces/Powership.LoaderContext.md) |
 | `indexConfig` | [`CollectionIndexConfig`](Powership.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 | `item` | `Doc` |
 | `replace?` | `boolean` |
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:105
+packages/transporter/out/Transporter.d.ts:104
 
 ___
 
@@ -1277,7 +1216,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:167
+packages/transporter/out/Transporter.d.ts:166
 
 ___
 
@@ -1301,48 +1240,78 @@ ___
 
 #### Defined in
 
-packages/utils/lib/createProxy.d.ts:1
+packages/utils/out/createProxy.d.ts:1
 
 ___
 
-### CursorType
+### CreateResolver
 
-Ƭ **CursorType**: `Object`
+Ƭ **CreateResolver**<`Result_GraphType`\>: (`config`: [`CreateResolverConfig`](Powership.md#createresolverconfig)<`Result_GraphType`\>) => [`CreateResolverChain`](Powership.md#createresolverchain)<[[`IsKnown`](Powership.TU.md#isknown)<`Result_GraphType`\>] extends [``1``] ? [`Infer`](Powership.md#infer)<`Result_GraphType`\> : `unknown`\>
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `Result_GraphType` |
+
+#### Type declaration
+
+▸ (`config`): [`CreateResolverChain`](Powership.md#createresolverchain)<[[`IsKnown`](Powership.TU.md#isknown)<`Result_GraphType`\>] extends [``1``] ? [`Infer`](Powership.md#infer)<`Result_GraphType`\> : `unknown`\>
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `config` | [`CreateResolverConfig`](Powership.md#createresolverconfig)<`Result_GraphType`\> |
+
+##### Returns
+
+[`CreateResolverChain`](Powership.md#createresolverchain)<[[`IsKnown`](Powership.TU.md#isknown)<`Result_GraphType`\>] extends [``1``] ? [`Infer`](Powership.md#infer)<`Result_GraphType`\> : `unknown`\>
+
+#### Defined in
+
+packages/schema/out/Resolver.d.ts:54
+
+___
+
+### CreateResolverChain
+
+Ƭ **CreateResolverChain**<`PlainResultType`, `Args`, `Root`\>: `Object`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `PlainResultType` | `PlainResultType` |
+| `Args` | {} |
+| `Root` | `unknown` |
 
 #### Type declaration
 
 | Name | Type |
 | :------ | :------ |
-| `PK` | `string` |
-| `SK?` | `string` |
-| `after?` | `string` |
-| `fields?` | `string`[] |
-| `limit?` | `number` |
-| `prefix?` | `string` |
-| `sep?` | `string` |
-| `version?` | `string` |
+| `args` | <InputDefinition\>(`definition`: `InputDefinition`) => `Omit`<[`CreateResolverChain`](Powership.md#createresolverchain)<`PlainResultType`, [[`IsKnown`](Powership.TU.md#isknown)<`InputDefinition`\>] extends [``1``] ? [`InputDefinition`] extends [`object`] ? [`InferObjectDefinition`](Powership.md#inferobjectdefinition)<`InputDefinition`\> : `never` : { `[K: string]`: `unknown`;  }, `Root`\>, ``"args"``\> |
+| `resolve` | (`resolverFunction`: (`root`: `Root`, `args`: `Args`, `context`: [`ResolverContext`](../interfaces/Powership.ResolverContext.md)) => [`MaybePromise`](Powership.TU.md#maybepromise)<`PlainResultType`\>) => [`Resolver`](Powership.md#resolver)<`Root`, `Args`, `PlainResultType`\> |
 
 #### Defined in
 
-packages/schema/lib/fields/_fieldDefinitions.d.ts:10
+packages/schema/out/Resolver.d.ts:37
 
 ___
 
-### DateFieldDef
+### CreateResolverConfig
 
-Ƭ **DateFieldDef**: `Object`
+Ƭ **CreateResolverConfig**<`Result_GraphType`\>: [`Merge`](Powership.TU.T.md#merge)<`GraphQLFieldConfig`<`any`, `any`\>, { `args?`: `any` ; `kind?`: `ResolverKind` ; `name`: `string` ; `resolve?`: `any` ; `type`: `Result_GraphType`  }\>
 
-#### Type declaration
+#### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `autoCreate?` | `boolean` |
-| `max?` | `Date` |
-| `min?` | `Date` |
+| Name |
+| :------ |
+| `Result_GraphType` |
 
 #### Defined in
 
-packages/schema/lib/fields/DateField.d.ts:2
+packages/schema/out/Resolver.d.ts:47
 
 ___
 
@@ -1358,7 +1327,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:64
+packages/utils/out/typings/index.d.ts:64
 
 ___
 
@@ -1374,7 +1343,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/deepFreeze.d.ts:3
+packages/utils/out/deepFreeze.d.ts:3
 
 ___
 
@@ -1390,7 +1359,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/deepFreeze.d.ts:6
+packages/utils/out/deepFreeze.d.ts:6
 
 ___
 
@@ -1411,13 +1380,13 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `condition?` | [`FilterRecord`](Powership.md#filterrecord)<`Doc`\> |
-| `context?` | [`LoaderContext`](Powership.md#loadercontext) |
+| `context?` | [`LoaderContext`](../interfaces/Powership.LoaderContext.md) |
 | `filter` | [`MethodFilter`](Powership.md#methodfilter)<`PK`, `SK`\> |
 | `indexConfig` | [`CollectionIndexConfig`](Powership.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:128
+packages/transporter/out/Transporter.d.ts:127
 
 ___
 
@@ -1434,7 +1403,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:184
+packages/transporter/out/Transporter.d.ts:183
 
 ___
 
@@ -1455,13 +1424,13 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `condition?` | [`FilterRecord`](Powership.md#filterrecord)<`Item`\> |
-| `context?` | [`LoaderContext`](Powership.md#loadercontext) |
+| `context?` | [`LoaderContext`](../interfaces/Powership.LoaderContext.md) |
 | `filter` | [`MethodFilter`](Powership.md#methodfilter)<`PK`, `SK`\> |
 | `indexConfig` | [`CollectionIndexConfig`](Powership.md#collectionindexconfig)<`Item`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:134
+packages/transporter/out/Transporter.d.ts:133
 
 ___
 
@@ -1483,7 +1452,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:203
+packages/transporter/out/Transporter.d.ts:202
 
 ___
 
@@ -1500,7 +1469,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/DescribeField.d.ts:32
+packages/schema/out/fields/Infer/DescribeField.d.ts:32
 
 ___
 
@@ -1516,7 +1485,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/DescribeField.d.ts:14
+packages/schema/out/fields/Infer/DescribeField.d.ts:14
 
 ___
 
@@ -1532,7 +1501,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/DescribeField.d.ts:35
+packages/schema/out/fields/Infer/DescribeField.d.ts:35
 
 ___
 
@@ -1548,7 +1517,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/DescribeField.d.ts:29
+packages/schema/out/fields/Infer/DescribeField.d.ts:29
 
 ___
 
@@ -1564,7 +1533,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/diff/diff.d.ts:5
+packages/utils/out/diff/diff.d.ts:5
 
 ___
 
@@ -1574,7 +1543,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/diff/diff.d.ts:4
+packages/utils/out/diff/diff.d.ts:4
 
 ___
 
@@ -1584,7 +1553,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/diff/diff.d.ts:3
+packages/utils/out/diff/diff.d.ts:3
 
 ___
 
@@ -1594,7 +1563,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:65
+packages/transporter/out/Transporter.d.ts:66
 
 ___
 
@@ -1604,7 +1573,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:22
+packages/transporter/out/CollectionIndex.d.ts:22
 
 ___
 
@@ -1623,7 +1592,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:67
+packages/transporter/out/CollectionIndex.d.ts:67
 
 ___
 
@@ -1649,7 +1618,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:27
+packages/transporter/out/CollectionIndex.d.ts:27
 
 ___
 
@@ -1666,7 +1635,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:34
+packages/transporter/out/CollectionIndex.d.ts:34
 
 ___
 
@@ -1682,7 +1651,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/paginationUtils.d.ts:11
+packages/entity/out/paginationUtils.d.ts:11
 
 ___
 
@@ -1698,7 +1667,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/Document.d.ts:12
+packages/entity/out/EntityInterfaces/Document.d.ts:12
 
 ___
 
@@ -1721,7 +1690,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/Document.d.ts:2
+packages/entity/out/EntityInterfaces/Document.d.ts:2
 
 ___
 
@@ -1737,7 +1706,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/Document.d.ts:15
+packages/entity/out/EntityInterfaces/Document.d.ts:15
 
 ___
 
@@ -1758,7 +1727,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionErrors.d.ts:29
+packages/transporter/out/CollectionErrors.d.ts:29
 
 ___
 
@@ -1768,9 +1737,9 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionErrors.d.ts:2
+packages/transporter/out/CollectionErrors.d.ts:2
 
-packages/transporter/lib/CollectionErrors.d.ts:28
+packages/transporter/out/CollectionErrors.d.ts:28
 
 ___
 
@@ -1780,19 +1749,18 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionErrors.d.ts:27
+packages/transporter/out/CollectionErrors.d.ts:27
 
 ___
 
 ### EntityFieldResolver
 
-Ƭ **EntityFieldResolver**<`Context`, `TypeDef`, `ArgsDef`, `Root`\>: `Object`
+Ƭ **EntityFieldResolver**<`TypeDef`, `ArgsDef`, `Root`\>: `Object`
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Context` | `Context` |
 | `TypeDef` | extends [`ObjectFieldInput`](Powership.md#objectfieldinput) |
 | `ArgsDef` | extends [`ObjectDefinitionInput`](Powership.md#objectdefinitioninput) \| `undefined` |
 | `Root` | `Root` |
@@ -1803,12 +1771,12 @@ ___
 | :------ | :------ |
 | `args?` | `ArgsDef` |
 | `name` | `string` |
-| `resolve` | [`ResolverResolve`](Powership.md#resolverresolve)<`Context`, `Root`, `TypeDef`, `ArgsDef`\> |
+| `resolve` | [`ResolverResolve`](Powership.md#resolverresolve)<`Root`, `TypeDef`, `ArgsDef`\> |
 | `type` | `TypeDef` |
 
 #### Defined in
 
-packages/entity/lib/EntityOptions.d.ts:14
+packages/entity/out/EntityOptions.d.ts:14
 
 ___
 
@@ -1824,7 +1792,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:37
+packages/transporter/out/Transporter.d.ts:38
 
 ___
 
@@ -1844,8 +1812,8 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `beforeQuery` | `AsyncPlugin`<`EntityOperationInfoContext`, {}\> |
-| `createDefinition` | `SyncPlugin`<`Record`<`string`, [`FinalFieldDefinition`](Powership.md#finalfielddefinition)\>, { `entityOptions`: [`EntityOptions`](Powership.md#entityoptions) ; `fields`: `string`[] ; `kind`: [`EntityHooksCreateDefinitionKind`](Powership.md#entityhookscreatedefinitionkind-1) ; `resolvers`: [`EntityFieldResolver`](Powership.md#entityfieldresolver)<`any`, `any`, `any`, `any`\>[]  }\> |
-| `filterResult` | `AsyncPlugin`<{ `items`: [`EntityDocument`](Powership.md#entitydocument)<`Doc`\>[] ; `kind`: ``"items"``  } \| { `kind`: ``"pagination"`` ; `pagination`: [`PaginationResult`](Powership.md#paginationresult)<[`EntityDocument`](Powership.md#entitydocument)<`Doc`\>\>  }, { `operation`: `EntityOperationInfoContext` ; `resolvers`: [`EntityFieldResolver`](Powership.md#entityfieldresolver)<`any`, `any`, `any`, `any`\>[]  }\> |
+| `createDefinition` | `SyncPlugin`<`Record`<`string`, [`FinalFieldDefinition`](Powership.md#finalfielddefinition)\>, { `entityOptions`: [`EntityOptions`](Powership.md#entityoptions) ; `fields`: `string`[] ; `kind`: [`EntityHooksCreateDefinitionKind`](Powership.md#entityhookscreatedefinitionkind-1) ; `resolvers`: [`EntityFieldResolver`](Powership.md#entityfieldresolver)<`any`, `any`, `any`\>[]  }\> |
+| `filterResult` | `AsyncPlugin`<{ `items`: [`EntityDocument`](Powership.md#entitydocument)<`Doc`\>[] ; `kind`: ``"items"``  } \| { `kind`: ``"pagination"`` ; `pagination`: [`PaginationResult`](Powership.md#paginationresult)<[`EntityDocument`](Powership.md#entitydocument)<`Doc`\>\>  }, { `operation`: `EntityOperationInfoContext` ; `resolvers`: [`EntityFieldResolver`](Powership.md#entityfieldresolver)<`any`, `any`, `any`\>[]  }\> |
 | `initCreation` | `SyncPlugin`<[`EntityOptions`](Powership.md#entityoptions), `E`\> |
 | `postParse` | `AsyncPlugin`<`EntityOperationInfoContext`, [`EntityParserHookContext`](Powership.md#entityparserhookcontext)<`E`\>\> |
 | `preParse` | `AsyncPlugin`<`EntityOperationInfoContext`, [`EntityParserHookContext`](Powership.md#entityparserhookcontext)<`E`\>\> |
@@ -1853,7 +1821,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityPlugin.d.ts:21
+packages/entity/out/EntityPlugin.d.ts:21
 
 ___
 
@@ -1863,9 +1831,9 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityPlugin.d.ts:12
+packages/entity/out/EntityPlugin.d.ts:12
 
-packages/entity/lib/EntityPlugin.d.ts:13
+packages/entity/out/EntityPlugin.d.ts:13
 
 ___
 
@@ -1878,11 +1846,11 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `Method` | extends [`TransporterLoaderName`](Powership.md#transporterloadername) |
-| `Context` | extends [`LoaderContext`](Powership.md#loadercontext) = `Record`<`string`, `any`\> |
+| `Context` | extends [`LoaderContext`](../interfaces/Powership.LoaderContext.md) = `Record`<`string`, `any`\> |
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/EntityLoaderConfig.d.ts:2
+packages/entity/out/EntityInterfaces/EntityLoaderConfig.d.ts:2
 
 ___
 
@@ -1898,7 +1866,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/EntityLoaderMethods.d.ts:5
+packages/entity/out/EntityInterfaces/EntityLoaderMethods.d.ts:5
 
 ___
 
@@ -1926,7 +1894,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityOptions.d.ts:4
+packages/entity/out/EntityOptions.d.ts:4
 
 ___
 
@@ -1949,7 +1917,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityPlugin.d.ts:14
+packages/entity/out/EntityPlugin.d.ts:14
 
 ___
 
@@ -1965,7 +1933,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:43
+packages/utils/out/typings/index.d.ts:43
 
 ___
 
@@ -1983,7 +1951,73 @@ ___
 
 #### Defined in
 
-packages/utils/lib/createErrorClass.d.ts:2
+packages/utils/out/createErrorClass.d.ts:2
+
+___
+
+### EventHandler
+
+Ƭ **EventHandler**<`EventData`\>: (`data`: `EventData`, `context`: { `abortWith`: (`data`: `EventData`) => `void`  }) => `MaybePromise`<`EventData` \| `void`\>
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `EventData` |
+
+#### Type declaration
+
+▸ (`data`, `context`): `MaybePromise`<`EventData` \| `void`\>
+
+The PluginEngine class provides a structured way to allow extensibility
+within an application by implementing a Publish-Subscribe pattern with middleware support.
+This pattern is crucial for creating loosely coupled systems,
+which is essential for maintaining a scalable and maintainable
+codebase.
+
+By utilizing a middleware system with event-driven architecture,
+different parts of an application can communicate with each other in a decoupled fashion.
+This enables easier feature additions and modifications without
+causing a ripple effect of changes throughout the codebase.
+
+The PluginEngine class defines a mechanism to register event listeners (subscribers)
+for different named events (publishers) with `enter` and `exit` hooks.
+
+An event with associated data can be executed using the `exec`
+method, which invokes all the registered listeners for that event in
+the order they were added, allowing for potential modifications to
+the event data.
+
+The registered listeners can either process the events synchronously,
+processing one event at a time in the order they are received, or
+asynchronously, processing events in parallel as they are received.
+
+Additionally, a listener can terminate the processing of subsequent
+listeners for a particular event and immediately return the current
+state of the event data by utilizing the `abortWith` method
+provided in the context argument to the listener.
+This provides a mechanism to short-circuit the event processing
+chain when a certain condition is met, like an authorization failure.
+
+The PluginEngine class provides a clean and intuitive API for extending
+the functionality in a systematic way, while maintaining the
+decoupling and scalability of the application architecture.
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `data` | `EventData` |
+| `context` | `Object` |
+| `context.abortWith` | (`data`: `EventData`) => `void` |
+
+##### Returns
+
+`MaybePromise`<`EventData` \| `void`\>
+
+#### Defined in
+
+packages/plugin-engine/out/index.d.ts:36
 
 ___
 
@@ -1993,7 +2027,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/Store.d.ts:9
+packages/utils/out/Store.d.ts:9
 
 ___
 
@@ -2007,17 +2041,49 @@ ___
 
 #### Defined in
 
-packages/utils/lib/Store.d.ts:6
+packages/utils/out/Store.d.ts:6
+
+___
+
+### ExtractRouteParams
+
+Ƭ **ExtractRouteParams**<`Path`\>: `Path` extends \`:${infer Param}/${infer Rest}\` ? `Param` \| [`ExtractRouteParams`](Powership.md#extractrouteparams)<`Rest`\> : `Path` extends \`:${infer Param}\` ? `Param` : `Path` extends \`${string}:${infer Rest}\` ? [`ExtractRouteParams`](Powership.md#extractrouteparams)<\`:${Rest}\`\> : `never`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Path` | extends `string` |
+
+#### Defined in
+
+packages/utils/out/routeUtils.d.ts:91
+
+___
+
+### ExtractStateMethods
+
+Ƭ **ExtractStateMethods**<`T`\>: `Omit`<`T`, keyof [`MiniState`](../classes/Powership.MiniState.md)<{}\>\> extends infer R ? { [K in keyof R]: R[K] } & {} : `never`
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `T` |
+
+#### Defined in
+
+packages/utils/out/state/miniState.d.ts:99
 
 ___
 
 ### FieldAsString
 
-Ƭ **FieldAsString**: [`FieldTypeName`](Powership.md#fieldtypename) \| \`${FieldTypeName}?\` \| \`[${FieldTypeName}]\` \| \`[${FieldTypeName}]?\`
+Ƭ **FieldAsString**: `FieldTypeName` \| \`${FieldTypeName}?\` \| \`[${FieldTypeName}]\` \| \`[${FieldTypeName}]?\`
 
 #### Defined in
 
-packages/schema/lib/fields/_parseFields.d.ts:39
+packages/schema/out/fields/_parseFields.d.ts:39
 
 ___
 
@@ -2042,7 +2108,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:10
+packages/schema/out/fields/FieldType.d.ts:8
 
 ___
 
@@ -2052,82 +2118,17 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/fieldTypes.d.ts:69
+packages/schema/out/fields/fieldTypes.d.ts:29
 
 ___
 
-### FieldDefinitionConfig
+### FieldDefinition
 
-Ƭ **FieldDefinitionConfig**: [`ObjectFieldInput`](Powership.md#objectfieldinput)
-
-#### Defined in
-
-packages/schema/lib/TObjectConfig.d.ts:4
-
-___
-
-### FieldDefinitions
-
-Ƭ **FieldDefinitions**: `Object`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `ID` | { `autoCreate?`: `boolean`  } \| `undefined` |
-| `alias` | [`AliasFieldDef`](Powership.md#aliasfielddef) |
-| `any` | `undefined` |
-| `array` | `ArrayFieldDef` |
-| `boolean` | `undefined` |
-| `cursor` | `undefined` |
-| `date` | { `autoCreate?`: `boolean` ; `max?`: `Date` ; `min?`: `Date`  } \| `undefined` |
-| `email` | { `regex?`: [`string`] \| [`string`, `string`] \| `Readonly`<[`string`] \| [`string`, `string`]\>  } \| `undefined` |
-| `enum` | `string`[] \| `Readonly`<`string`[]\> |
-| `float` | { `max?`: `number` ; `min?`: `number`  } \| `undefined` |
-| `int` | { `max?`: `number` ; `min?`: `number`  } \| `undefined` |
-| `literal` | `Readonly`<`unknown`\> |
-| `meta` | [`MetaFieldDef`](Powership.md#metafielddef) |
-| `null` | `undefined` |
-| `object` | { `[K: string]`: [`ObjectFieldInput`](Powership.md#objectfieldinput);  } \| `Readonly`<{ `[K: string]`: [`ObjectFieldInput`](Powership.md#objectfieldinput);  }\> \| [`ObjectLike`](../interfaces/Powership.ObjectLike.md) |
-| `phone` | `PhoneFieldDef` |
-| `record` | [`RecordFieldDef`](Powership.md#recordfielddef) \| `undefined` |
-| `string` | { `max?`: `number` ; `min?`: `number` ; `regex?`: [`string`] \| [`string`, `string`] \| `Readonly`<[`string`] \| [`string`, `string`]\>  } \| `undefined` |
-| `ulid` | { `autoCreate?`: `boolean`  } \| `undefined` |
-| `undefined` | `undefined` |
-| `union` | [`ObjectFieldInput`](Powership.md#objectfieldinput)[] \| `Readonly`<[`ObjectFieldInput`](Powership.md#objectfieldinput)[]\> |
-| `unknown` | [`UnknownFieldDef`](Powership.md#unknownfielddef) \| `undefined` |
+Ƭ **FieldDefinition**: [`ObjectFieldInput`](Powership.md#objectfieldinput)
 
 #### Defined in
 
-packages/schema/lib/fields/_fieldDefinitions.d.ts:52
-
-___
-
-### FieldExample
-
-Ƭ **FieldExample**: [`FieldExampleFunction`](Powership.md#fieldexamplefunction) \| `string`
-
-#### Defined in
-
-packages/schema/lib/fields/_fieldDefinitions.d.ts:28
-
-___
-
-### FieldExampleFunction
-
-Ƭ **FieldExampleFunction**: () => `string` \| `Promise`<`string`\>
-
-#### Type declaration
-
-▸ (): `string` \| `Promise`<`string`\>
-
-##### Returns
-
-`string` \| `Promise`<`string`\>
-
-#### Defined in
-
-packages/schema/lib/fields/_fieldDefinitions.d.ts:27
+packages/schema/out/fields/_parseFields.d.ts:8
 
 ___
 
@@ -2137,17 +2138,17 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/_parseFields.d.ts:8
+packages/schema/out/fields/_parseFields.d.ts:7
 
 ___
 
 ### FieldInputLikeRequiredKey
 
-Ƭ **FieldInputLikeRequiredKey**: [`ObjectTypeKID`](Powership.md#objecttypekid) \| [`GraphTypeKID`](Powership.md#graphtypekid) \| [`FieldTypeName`](Powership.md#fieldtypename) \| ``"type"``
+Ƭ **FieldInputLikeRequiredKey**: [`ObjectTypeKID`](Powership.md#objecttypekid) \| [`GraphTypeKID`](Powership.md#graphtypekid) \| `FieldTypeName` \| ``"type"``
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferField.d.ts:20
+packages/schema/out/fields/Infer/Infer.d.ts:20
 
 ___
 
@@ -2157,7 +2158,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/applyValidator.d.ts:11
+packages/schema/out/applyValidator.d.ts:12
 
 ___
 
@@ -2179,7 +2180,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/applyValidator.d.ts:2
+packages/schema/out/applyValidator.d.ts:3
 
 ___
 
@@ -2189,27 +2190,17 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldTypeErrors.d.ts:2
-
-___
-
-### FieldTypeName
-
-Ƭ **FieldTypeName**: `Extract`<keyof [`FieldDefinitions`](Powership.md#fielddefinitions), `string`\>
-
-#### Defined in
-
-packages/schema/lib/fields/_fieldDefinitions.d.ts:100
+packages/schema/out/fields/FieldTypeErrors.d.ts:2
 
 ___
 
 ### FieldTypeOptions
 
-Ƭ **FieldTypeOptions**: [`ListDefinitionObject`](Powership.md#listdefinitionobject) & { `[K: string]`: `unknown`;  }
+Ƭ **FieldTypeOptions**: `ListDefinitionObject` & { `[K: string]`: `unknown`;  }
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:7
+packages/schema/out/fields/FieldType.d.ts:5
 
 ___
 
@@ -2240,7 +2231,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/applyValidator.d.ts:12
+packages/schema/out/applyValidator.d.ts:13
 
 ___
 
@@ -2256,7 +2247,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:34
+packages/transporter/out/Transporter.d.ts:35
 
 ___
 
@@ -2272,17 +2263,17 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:38
+packages/transporter/out/Transporter.d.ts:39
 
 ___
 
 ### FinalFieldDefinition
 
-Ƭ **FinalFieldDefinition**: { [K in FieldTypeName]: FieldDefinitionWithType<K\> }[[`FieldTypeName`](Powership.md#fieldtypename)]
+Ƭ **FinalFieldDefinition**: { [K in FieldTypeName]: FieldDefinitionWithType<K\> }[`FieldTypeName`]
 
 #### Defined in
 
-packages/schema/lib/fields/_parseFields.d.ts:31
+packages/schema/out/fields/_parseFields.d.ts:31
 
 ___
 
@@ -2292,7 +2283,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/_parseFields.d.ts:30
+packages/schema/out/fields/_parseFields.d.ts:30
 
 ___
 
@@ -2306,7 +2297,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/_parseFields.d.ts:15
+packages/schema/out/fields/_parseFields.d.ts:15
 
 ___
 
@@ -2328,14 +2319,14 @@ ___
 | :------ | :------ |
 | `condition?` | [`FilterRecord`](Powership.md#filterrecord)<`Doc`\> |
 | `consistent?` | `boolean` |
-| `context?` | [`LoaderContext`](Powership.md#loadercontext) |
+| `context?` | [`LoaderContext`](../interfaces/Powership.LoaderContext.md) |
 | `id` | `string` |
 | `indexConfig` | [`CollectionIndexConfig`](Powership.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 | `projection?` | `string`[] |
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:97
+packages/transporter/out/Transporter.d.ts:96
 
 ___
 
@@ -2358,7 +2349,7 @@ ___
 | `after?` | [`IndexFilterRecord`](Powership.md#indexfilterrecord)<`PK`, `SK`\> extends infer R ? { [K in keyof R]: R[K] } : {} \| `string` |
 | `condition?` | [`FilterRecord`](Powership.md#filterrecord)<`Doc`\> |
 | `consistent?` | `boolean` |
-| `context?` | [`LoaderContext`](Powership.md#loadercontext) |
+| `context?` | [`LoaderContext`](../interfaces/Powership.LoaderContext.md) |
 | `filter` | [`MethodFilter`](Powership.md#methodfilter)<`PK`, `SK`\> |
 | `first?` | `number` |
 | `indexConfig` | [`CollectionIndexConfig`](Powership.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
@@ -2367,7 +2358,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:76
+packages/transporter/out/Transporter.d.ts:75
 
 ___
 
@@ -2389,7 +2380,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:188
+packages/transporter/out/Transporter.d.ts:187
 
 ___
 
@@ -2411,14 +2402,14 @@ ___
 | :------ | :------ |
 | `condition?` | [`FilterRecord`](Powership.md#filterrecord)<`Doc`\> |
 | `consistent?` | `boolean` |
-| `context?` | [`LoaderContext`](Powership.md#loadercontext) |
+| `context?` | [`LoaderContext`](../interfaces/Powership.LoaderContext.md) |
 | `filter` | [`MethodFilter`](Powership.md#methodfilter)<`PK`, `SK`\> |
 | `indexConfig` | [`CollectionIndexConfig`](Powership.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 | `projection?` | `string`[] |
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:89
+packages/transporter/out/Transporter.d.ts:88
 
 ___
 
@@ -2440,34 +2431,17 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:140
+packages/transporter/out/Transporter.d.ts:139
 
 ___
 
 ### FlattenFieldDefinition
 
-Ƭ **FlattenFieldDefinition**: { [type in FieldTypeName]: { [K in type]: [FieldDefinitions[K]] extends [undefined] ? FieldDefinitions[K] \| Object : FieldDefinitions[K] } }[[`FieldTypeName`](Powership.md#fieldtypename)] & [`CommonFieldDefinitionProps`](../interfaces/Powership.CommonFieldDefinitionProps.md)
+Ƭ **FlattenFieldDefinition**: { [type in FieldTypeName]: { [K in type]: [FieldDefinitions[K]] extends [undefined] ? FieldDefinitions[K] \| Object : FieldDefinitions[K] } }[`FieldTypeName`] & `CommonFieldDefinitionProps`
 
 #### Defined in
 
-packages/schema/lib/fields/_parseFields.d.ts:34
-
-___
-
-### FloatFieldDef
-
-Ƭ **FloatFieldDef**: `Object`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `max?` | `number` |
-| `min?` | `number` |
-
-#### Defined in
-
-packages/schema/lib/fields/FloatField.d.ts:2
+packages/schema/out/fields/_parseFields.d.ts:34
 
 ___
 
@@ -2483,7 +2457,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:50
+packages/utils/out/typings/index.d.ts:50
 
 ___
 
@@ -2500,7 +2474,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:109
+packages/utils/out/typings/index.d.ts:109
 
 ___
 
@@ -2521,7 +2495,23 @@ to GetFieldByDotNotation
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:70
+packages/utils/out/typings/index.d.ts:70
+
+___
+
+### GetRouteParams
+
+Ƭ **GetRouteParams**<`Path`\>: [`IsKnown`](Powership.TU.md#isknown)<`Path`\> extends ``0`` ? {} : [[`ExtractRouteParams`](Powership.md#extractrouteparams)<`Path`\>] extends [`never`] ? {} : { [K in ExtractRouteParams<Path\>]: K extends \`${string}?\` ? AlphaNumeric \| undefined : AlphaNumeric } extends infer Parsed ? { [K in ExcludeOptionalSymbol<keyof Parsed\>]: Parsed extends { [KK in \`${K}?\`]: any } ? AlphaNumeric \| undefined : AlphaNumeric } : `never`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Path` | extends `string` |
+
+#### Defined in
+
+packages/utils/out/routeUtils.d.ts:92
 
 ___
 
@@ -2531,7 +2521,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:37
+packages/server/out/BaseRequestHandler.d.ts:39
 
 ___
 
@@ -2545,23 +2535,23 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:38
+packages/server/out/BaseRequestHandler.d.ts:40
 
 ___
 
 ### GraphQLSchemaWithUtils
 
-Ƭ **GraphQLSchemaWithUtils**: `GraphQLSchema` & { `utils`: { `generateClientUtils`: () => `Promise`<`string`\> ; `grouped`: [`GroupedResolvers`](Powership.md#groupedresolvers) ; `print`: () => `string` ; `queryExamples`: (`options?`: [`ObjectMockOptions`](Powership.md#objectmockoptions) & { `resolver?`: `string`  }) => `string` ; `queryTemplates`: () => `SchemaQueryTemplatesResult` ; `registeredResolvers`: [`AnyResolver`](Powership.md#anyresolver)[] ; `resolvers`: [`AnyResolver`](Powership.md#anyresolver)[] ; `typescript`: (`options?`: [`ResolversToTypeScriptOptions`](Powership.md#resolverstotypescriptoptions)) => `Promise`<`string`\> ; `usedConfig`: `GraphQLSchemaConfig`  }  }
+Ƭ **GraphQLSchemaWithUtils**: `GraphQLSchema` & { `utils`: { `generateClientUtils`: () => `Promise`<`string`\> ; `grouped`: [`GroupedResolvers`](Powership.md#groupedresolvers) ; `print`: () => `string` ; `queryExamples`: (`options?`: [`ObjectMockOptions`](Powership.md#objectmockoptions) & { `resolver?`: `string`  }) => `string` ; `queryTemplates`: () => `SchemaQueryTemplatesResult` ; `resolvers`: [`Resolver`](Powership.md#resolver)[] ; `typescript`: (`options?`: [`ResolversToTypeScriptOptions`](Powership.md#resolverstotypescriptoptions)) => `Promise`<`string`\> ; `usedConfig`: `GraphQLSchemaConfig`  }  }
 
 #### Defined in
 
-packages/schema/lib/createGraphQLSchema.d.ts:10
+packages/schema/out/createGraphQLSchema.d.ts:10
 
 ___
 
 ### GraphTypeArgs
 
-Ƭ **GraphTypeArgs**<`Def`\>: [`string`, `Def` \| (`utils`: `PowershipModules`) => `Def`] \| [`Def` \| (`utils`: `PowershipModules`) => `Def`]
+Ƭ **GraphTypeArgs**<`Def`\>: [`string`, `Def` \| () => `Def`] \| [`Def` \| () => `Def`]
 
 #### Type parameters
 
@@ -2571,7 +2561,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:116
+packages/schema/out/GraphType/GraphType.d.ts:78
 
 ___
 
@@ -2581,17 +2571,17 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferField.d.ts:18
+packages/schema/out/fields/Infer/Infer.d.ts:18
 
 ___
 
 ### GroupedResolvers
 
-Ƭ **GroupedResolvers**: { [K in AnyResolver["kind"]]: undefined \| AnyResolver[] }
+Ƭ **GroupedResolvers**: { [K in Resolver["kind"]]: undefined \| Resolver[] }
 
 #### Defined in
 
-packages/schema/lib/createGraphQLSchema.d.ts:7
+packages/schema/out/createGraphQLSchema.d.ts:7
 
 ___
 
@@ -2601,20 +2591,21 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `body` | `any` |
-| `headers` | [`HeaderRecord`](Powership.md#headerrecord) |
-| `headersNamed` | [`HeaderNamed`](Powership.md#headernamed)[] |
-| `method` | `string` |
-| `payload` | `Record`<`string`, `unknown`\> |
-| `query` | [`HttpError`](Powership.md#httperror) |
-| `statusCode` | `number` |
-| `type` | ``"REQUEST"`` \| ``"RESPONSE"`` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `body` | [`RequestBody`](Powership.md#requestbody) | - |
+| `headers` | [`HeaderRecord`](Powership.md#headerrecord) | - |
+| `headersNamed` | [`HeaderNamed`](Powership.md#headernamed)[] | - |
+| `method` | `string` | - |
+| `payload` | `Record`<`string`, `unknown`\> | - |
+| `query` | `ParsedQs` | - |
+| `statusCode` | `number` | - |
+| `streamBody` | `Readable` \| `undefined` | undefined if body is not streamable |
+| `type` | ``"REQUEST"`` \| ``"RESPONSE"`` | - |
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:71
+packages/server/out/BaseRequestHandler.d.ts:73
 
 ___
 
@@ -2624,7 +2615,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/getTypeName.d.ts:43
+packages/utils/out/getTypeName.d.ts:43
 
 ___
 
@@ -2641,7 +2632,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:82
+packages/server/out/BaseRequestHandler.d.ts:88
 
 ___
 
@@ -2655,7 +2646,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:86
+packages/server/out/BaseRequestHandler.d.ts:92
 
 ___
 
@@ -2669,23 +2660,59 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:89
+packages/server/out/BaseRequestHandler.d.ts:95
 
 ___
 
-### IDFieldDef
+### Hey
 
-Ƭ **IDFieldDef**: `Object`
+Ƭ **Hey**: (...`args`: [`HeyParams`](Powership.md#heyparams)) => `string` & { [K in keyof Styles]: Function } & { `styles`: [`Styles`](Powership.md#styles)  } & {}
+
+#### Defined in
+
+packages/utils/out/hey.d.ts:23
+
+___
+
+### HeyParams
+
+Ƭ **HeyParams**: readonly [strings: TemplateStringsArray \| string \| Object, values: any[]]
+
+#### Defined in
+
+packages/utils/out/hey.d.ts:17
+
+___
+
+### IdentOptions
+
+Ƭ **IdentOptions**: `Object`
 
 #### Type declaration
 
 | Name | Type |
 | :------ | :------ |
-| `autoCreate?` | `boolean` |
+| `children?` | [`Ident`](../classes/Powership.Ident.md)[] |
+| `index?` | `number` |
+| `level?` | `number` |
+| `parent?` | [`Ident`](../classes/Powership.Ident.md) \| ``null`` |
+| `style?` | [`IdentStyle`](Powership.md#identstyle) |
+| `tabSize?` | `number` |
+| `text?` | `string` |
 
 #### Defined in
 
-packages/schema/lib/fields/IDField.d.ts:2
+packages/utils/out/hey.d.ts:40
+
+___
+
+### IdentStyle
+
+Ƭ **IdentStyle**: keyof typeof `IdentPrefixes`
+
+#### Defined in
+
+packages/utils/out/hey.d.ts:39
 
 ___
 
@@ -2704,24 +2731,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:39
-
-___
-
-### ImplementObject
-
-Ƭ **ImplementObject**<`Dest`, `Extends`\>: `Extends` extends [] ? `Dest` : `Extends` extends [infer Item, ...(infer Rest)] ? `Dest` extends [`ObjectType`](../classes/Powership.ObjectType.md)<infer DestDef\> ? `Item` extends [`ObjectType`](../classes/Powership.ObjectType.md)<infer ItemDef\> ? [`ImplementObject`](Powership.md#implementobject)<[`ObjectType`](../classes/Powership.ObjectType.md)<{ [K in keyof Merge<ItemDef, DestDef\>]: Merge<ItemDef, DestDef\>[K] }\>, `Rest`\> : `never` : `never` : `never`
-
-#### Type parameters
-
-| Name |
-| :------ |
-| `Dest` |
-| `Extends` |
-
-#### Defined in
-
-packages/schema/lib/implementObject.d.ts:5
+packages/utils/out/typings/index.d.ts:39
 
 ___
 
@@ -2738,7 +2748,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:16
+packages/transporter/out/CollectionIndex.d.ts:16
 
 ___
 
@@ -2748,7 +2758,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:57
+packages/transporter/out/Transporter.d.ts:58
 
 ___
 
@@ -2758,7 +2768,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:4
+packages/transporter/out/CollectionIndex.d.ts:4
 
 ___
 
@@ -2775,7 +2785,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:60
+packages/transporter/out/Transporter.d.ts:61
 
 ___
 
@@ -2791,7 +2801,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:20
+packages/transporter/out/CollectionIndex.d.ts:20
 
 ___
 
@@ -2801,7 +2811,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:21
+packages/transporter/out/CollectionIndex.d.ts:21
 
 ___
 
@@ -2817,7 +2827,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferField.d.ts:8
+packages/schema/out/fields/Infer/Infer.d.ts:8
 
 ___
 
@@ -2829,12 +2839,12 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `TypeName` | extends [`FieldTypeName`](Powership.md#fieldtypename) |
+| `TypeName` | extends `FieldTypeName` |
 | `Def` | `never` |
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferFinalField.d.ts:6
+packages/schema/out/fields/Infer/InferFinalField.d.ts:6
 
 ___
 
@@ -2850,7 +2860,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferGraphType.d.ts:9
+packages/schema/out/fields/Infer/InferGraphType.d.ts:9
 
 ___
 
@@ -2866,7 +2876,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferObjectType.d.ts:11
+packages/schema/out/fields/Infer/InferObjectType.d.ts:11
 
 ___
 
@@ -2882,23 +2892,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferObjectType.d.ts:10
-
-___
-
-### InferRecordFieldType
-
-Ƭ **InferRecordFieldType**<`Def`\>: `Def` extends { `keyType`: ``"int"`` \| ``"float"``  } ? { `[K: number]`: [`Infer`](Powership.md#infer)<`Def` extends { `type`: [`FieldDefinitionConfig`](Powership.md#fielddefinitionconfig)  } ? `Def`[``"type"``] : ``"any"``\>;  } : { `[K: string]`: [`Infer`](Powership.md#infer)<`Def` extends { `type`: [`FieldDefinitionConfig`](Powership.md#fielddefinitionconfig)  } ? `Def`[``"type"``] : ``"any"``\>;  }
-
-#### Type parameters
-
-| Name |
-| :------ |
-| `Def` |
-
-#### Defined in
-
-packages/schema/lib/fields/RecordField.d.ts:10
+packages/schema/out/fields/Infer/InferObjectType.d.ts:10
 
 ___
 
@@ -2914,13 +2908,13 @@ ___
 
 #### Defined in
 
-packages/schema/lib/Resolver.d.ts:8
+packages/schema/out/Resolver.d.ts:8
 
 ___
 
 ### InferString
 
-Ƭ **InferString**<`Input`\>: `Input` extends \`${infer Start}?\` ? [`InferString`](Powership.md#inferstring)<`Start`\> \| `undefined` : `Input` extends \`[${infer Start}]\` ? [`InferString`](Powership.md#inferstring)<`Start`\>[] : `Input` extends [`FieldTypeName`](Powership.md#fieldtypename) ? [`InferTypeName`](Powership.md#infertypename)<`Input`\> : `Input` extends \`[${infer Type}]\` ? [`InferString`](Powership.md#inferstring)<`Type`\>[] : `never`
+Ƭ **InferString**<`Input`\>: `Input` extends \`${infer Start}?\` ? [`InferString`](Powership.md#inferstring)<`Start`\> \| `undefined` : `Input` extends \`[${infer Start}]\` ? [`InferString`](Powership.md#inferstring)<`Start`\>[] : `Input` extends `FieldTypeName` ? [`InferTypeName`](Powership.md#infertypename)<`Input`\> : `Input` extends \`[${infer Type}]\` ? [`InferString`](Powership.md#inferstring)<`Type`\>[] : `never`
 
 #### Type parameters
 
@@ -2930,13 +2924,13 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferString.d.ts:2
+packages/schema/out/fields/Infer/InferString.d.ts:2
 
 ___
 
 ### InferTypeName
 
-Ƭ **InferTypeName**<`Type`\>: `Type` extends `unknown` ? `Type` extends [`FieldTypeName`](Powership.md#fieldtypename) ? `Type` extends ``"any"`` ? `any` : `Type` extends ``"boolean"`` ? `boolean` : `Type` extends ``"cursor"`` ? [`CursorType`](Powership.md#cursortype) : `Type` extends ``"phone"`` ? `string` : `Type` extends ``"null"`` ? ``null`` : `Type` extends ``"undefined"`` ? `undefined` : `Type` extends ``"unknown"`` ? `unknown` : `Type` extends ``"string"`` ? `string` : `Type` extends ``"date"`` ? `Date` : `Type` extends ``"email"`` ? `string` : `Type` extends ``"float"`` ? `number` : `Type` extends ``"record"`` ? { `[K: string]`: `any`;  } : `Type` extends ``"int"`` ? `number` : `Type` extends ``"ulid"`` ? `string` : `Type` extends ``"ID"`` ? `string` : `never` : `never` : `never`
+Ƭ **InferTypeName**<`Type`\>: `Type` extends `unknown` ? `Type` extends `FieldTypeName` ? `Type` extends ``"any"`` ? `any` : `Type` extends ``"boolean"`` ? `boolean` : `Type` extends ``"cursor"`` ? `CursorType` : `Type` extends ``"phone"`` ? `string` : `Type` extends ``"null"`` ? ``null`` : `Type` extends ``"undefined"`` ? `undefined` : `Type` extends ``"unknown"`` ? `unknown` : `Type` extends ``"string"`` ? `string` : `Type` extends ``"date"`` ? `Date` : `Type` extends ``"email"`` ? `string` : `Type` extends ``"float"`` ? `number` : `Type` extends ``"record"`` ? { `[K: string]`: `any`;  } : `Type` extends ``"int"`` ? `number` : `Type` extends ``"ulid"`` ? `string` : `Type` extends ``"ID"`` ? `string` : `never` : `never` : `never`
 
 #### Type parameters
 
@@ -2946,7 +2940,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferString.d.ts:3
+packages/schema/out/fields/Infer/InferString.d.ts:3
 
 ___
 
@@ -2962,24 +2956,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/extendObjectDefinition.d.ts:36
-
-___
-
-### IntFieldDef
-
-Ƭ **IntFieldDef**: `Object`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `max?` | `number` |
-| `min?` | `number` |
-
-#### Defined in
-
-packages/schema/lib/fields/IntField.d.ts:2
+packages/schema/out/extendObjectDefinition.d.ts:43
 
 ___
 
@@ -2989,7 +2966,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/Store.d.ts:5
+packages/utils/out/Store.d.ts:5
 
 ___
 
@@ -3009,7 +2986,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:45
+packages/transporter/out/CollectionIndex.d.ts:45
 
 ___
 
@@ -3025,7 +3002,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:23
+packages/utils/out/typings/index.d.ts:23
 
 ___
 
@@ -3041,7 +3018,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:86
+packages/utils/out/typings/index.d.ts:86
 
 ___
 
@@ -3057,7 +3034,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:24
+packages/utils/out/typings/index.d.ts:24
 
 ___
 
@@ -3073,7 +3050,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:25
+packages/utils/out/typings/index.d.ts:25
 
 ___
 
@@ -3089,7 +3066,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:26
+packages/utils/out/typings/index.d.ts:26
 
 ___
 
@@ -3105,7 +3082,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:27
+packages/utils/out/typings/index.d.ts:27
 
 ___
 
@@ -3322,7 +3299,27 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IterationMap.d.ts:1
+packages/utils/out/IterationMap.d.ts:1
+
+___
+
+### JTSKey
+
+Ƭ **JTSKey**: `Object`
+
+#### Index signature
+
+▪ [K: `string`]: `any`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `toString` | () => `string` |
+
+#### Defined in
+
+packages/utils/out/joinTemplateString.d.ts:1
 
 ___
 
@@ -3335,7 +3332,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `definition` | [`FinalFieldDefinition`](Powership.md#finalfielddefinition) |
-| `definitionInput` | [`ObjectFieldInput`](Powership.md#objectfieldinput) \| (`utils`: `PowershipModules`) => [`ObjectFieldInput`](Powership.md#objectfieldinput) |
+| `definitionInput` | [`ObjectFieldInput`](Powership.md#objectfieldinput) \| () => [`ObjectFieldInput`](Powership.md#objectfieldinput) |
 | `field` | [`TAnyFieldType`](Powership.md#tanyfieldtype) |
 | `id` | `string` \| `undefined` |
 | `idFromArgs` | `string` \| `undefined` |
@@ -3343,65 +3340,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:108
-
-___
-
-### ListDefinition
-
-Ƭ **ListDefinition**: [`ListDefinitionObject`](Powership.md#listdefinitionobject) \| `boolean`
-
-#### Defined in
-
-packages/schema/lib/fields/_fieldDefinitions.d.ts:25
-
-___
-
-### ListDefinitionObject
-
-Ƭ **ListDefinitionObject**: `Object`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `length?` | `number` |
-| `max?` | `number` |
-| `min?` | `number` |
-
-#### Defined in
-
-packages/schema/lib/fields/_fieldDefinitions.d.ts:20
-
-___
-
-### ListDefinitionTruthy
-
-Ƭ **ListDefinitionTruthy**: [`ListDefinitionObject`](Powership.md#listdefinitionobject) \| ``true``
-
-#### Defined in
-
-packages/schema/lib/fields/_fieldDefinitions.d.ts:26
-
-___
-
-### LoaderContext
-
-Ƭ **LoaderContext**: `Object`
-
-#### Index signature
-
-▪ [K: `string`]: `unknown`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `userId?` | (...`args`: `unknown`[]) => [`MaybePromise`](Powership.TU.md#maybepromise)<`undefined` \| `string`\> |
-
-#### Defined in
-
-packages/transporter/lib/Transporter.d.ts:67
+packages/schema/out/GraphType/GraphType.d.ts:70
 
 ___
 
@@ -3411,7 +3350,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/logLevels.d.ts:25
+packages/utils/out/logLevels.d.ts:25
 
 ___
 
@@ -3421,7 +3360,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/logLevels.d.ts:24
+packages/utils/out/logLevels.d.ts:24
 
 ___
 
@@ -3431,7 +3370,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/nodeLogger.d.ts:2
+packages/utils/out/nodeLogger.d.ts:2
 
 ___
 
@@ -3448,7 +3387,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/extendObjectDefinition.d.ts:42
+packages/schema/out/extendObjectDefinition.d.ts:49
 
 ___
 
@@ -3465,7 +3404,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/extendObjectDefinition.d.ts:45
+packages/schema/out/extendObjectDefinition.d.ts:52
 
 ___
 
@@ -3488,7 +3427,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/extendType.d.ts:27
+packages/schema/out/extendType.d.ts:28
 
 ___
 
@@ -3504,7 +3443,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/extendType.d.ts:21
+packages/schema/out/extendType.d.ts:22
 
 ___
 
@@ -3520,7 +3459,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/extendType.d.ts:24
+packages/schema/out/extendType.d.ts:25
 
 ___
 
@@ -3536,7 +3475,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/extendType.d.ts:32
+packages/schema/out/extendType.d.ts:33
 
 ___
 
@@ -3552,7 +3491,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:31
+packages/utils/out/typings/index.d.ts:31
 
 ___
 
@@ -3568,7 +3507,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:29
+packages/utils/out/typings/index.d.ts:29
 
 ___
 
@@ -3588,7 +3527,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/ts-toolbet.d.ts:18
+packages/utils/out/typings/ts-toolbet.d.ts:18
 
 ___
 
@@ -3604,7 +3543,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/merge.d.ts:3
+packages/utils/out/merge.d.ts:3
 
 ___
 
@@ -3621,30 +3560,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/getters/defineGetters.d.ts:13
-
-___
-
-### MetaFieldDef
-
-Ƭ **MetaFieldDef**: `Object`
-
-#### Index signature
-
-▪ [K: `string`]: [`Serializable`](Powership.TU.md#serializable)
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `custom?` | [`CustomFieldConfig`](../interfaces/Powership.CustomFieldConfig.md) |
-| `description?` | `string` |
-| `id` | `string` \| ``null`` |
-| `implements?` | `string`[] |
-
-#### Defined in
-
-packages/schema/lib/fields/MetaFieldField.d.ts:4
+packages/utils/out/getters/defineGetters.d.ts:13
 
 ___
 
@@ -3661,7 +3577,17 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:71
+packages/transporter/out/Transporter.d.ts:70
+
+___
+
+### MiddlewareStep
+
+Ƭ **MiddlewareStep**: ``"enter"`` \| ``"exit"``
+
+#### Defined in
+
+packages/plugin-engine/out/index.d.ts:39
 
 ___
 
@@ -3675,7 +3601,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/createModulesProxy.d.ts:7
+packages/utils/out/createModulesProxy.d.ts:7
 
 ___
 
@@ -3691,7 +3617,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/createModulesProxy.d.ts:15
+packages/utils/out/createModulesProxy.d.ts:15
 
 ___
 
@@ -3701,7 +3627,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/getTypeName.d.ts:20
+packages/utils/out/getTypeName.d.ts:20
 
 ___
 
@@ -3711,7 +3637,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/getTypeName.d.ts:22
+packages/utils/out/getTypeName.d.ts:22
 
 ___
 
@@ -3727,7 +3653,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/ts-toolbet.d.ts:20
+packages/utils/out/typings/ts-toolbet.d.ts:20
 
 ___
 
@@ -3737,7 +3663,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:97
+packages/utils/out/typings/index.d.ts:97
 
 ___
 
@@ -3747,7 +3673,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/getTypeName.d.ts:41
+packages/utils/out/getTypeName.d.ts:41
 
 ___
 
@@ -3757,7 +3683,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/getTypeName.d.ts:42
+packages/utils/out/getTypeName.d.ts:42
 
 ___
 
@@ -3773,7 +3699,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/Compute.d.ts:8
+packages/utils/out/typings/Compute.d.ts:8
 
 ___
 
@@ -3789,7 +3715,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:51
+packages/utils/out/typings/index.d.ts:51
 
 ___
 
@@ -3806,7 +3732,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/Store.d.ts:18
+packages/utils/out/Store.d.ts:18
 
 ___
 
@@ -3822,7 +3748,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:52
+packages/utils/out/typings/index.d.ts:52
 
 ___
 
@@ -3839,7 +3765,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/OHas.d.ts:2
+packages/schema/out/fields/Infer/OHas.d.ts:2
 
 ___
 
@@ -3856,7 +3782,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/OHas.d.ts:3
+packages/schema/out/fields/Infer/OHas.d.ts:3
 
 ___
 
@@ -3872,7 +3798,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/OHas.d.ts:4
+packages/schema/out/fields/Infer/OHas.d.ts:4
 
 ___
 
@@ -3882,7 +3808,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/_parseFields.d.ts:9
+packages/schema/out/fields/_parseFields.d.ts:9
 
 ___
 
@@ -3898,7 +3824,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/objectEntries.d.ts:1
+packages/utils/out/objectEntries.d.ts:1
 
 ___
 
@@ -3908,7 +3834,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/_parseFields.d.ts:6
+packages/schema/out/fields/_parseFields.d.ts:5
 
 ___
 
@@ -3926,7 +3852,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/mockObject.d.ts:3
+packages/schema/out/mockObject.d.ts:3
 
 ___
 
@@ -3944,7 +3870,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:71
+packages/utils/out/typings/index.d.ts:71
 
 ___
 
@@ -3960,7 +3886,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:115
+packages/schema/out/ObjectType.d.ts:105
 
 ___
 
@@ -3970,7 +3896,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferField.d.ts:17
+packages/schema/out/fields/Infer/Infer.d.ts:17
 
 ___
 
@@ -3987,7 +3913,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:40
+packages/utils/out/typings/index.d.ts:40
 
 ___
 
@@ -3997,7 +3923,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:24
+packages/transporter/out/Transporter.d.ts:25
 
 ___
 
@@ -4013,25 +3939,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:28
-
-___
-
-### OptionalResolverConfig
-
-Ƭ **OptionalResolverConfig**<`Source`, `Context`, `Args`\>: `Omit`<`GraphQLFieldConfig`<`Source`, `Context`, `Args`\>, ``"resolve"`` \| ``"args"`` \| ``"type"``\>
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Source` | `any` |
-| `Context` | `any` |
-| `Args` | `any` |
-
-#### Defined in
-
-packages/schema/lib/Resolver.d.ts:38
+packages/utils/out/typings/index.d.ts:28
 
 ___
 
@@ -4048,7 +3956,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/override.d.ts:1
+packages/utils/out/override.d.ts:1
 
 ___
 
@@ -4066,7 +3974,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/extendObjectDefinition.d.ts:48
+packages/schema/out/extendObjectDefinition.d.ts:55
 
 ___
 
@@ -4076,7 +3984,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:8
+packages/transporter/out/Transporter.d.ts:9
 
 ___
 
@@ -4086,7 +3994,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/paginationUtils.d.ts:10
+packages/entity/out/paginationUtils.d.ts:10
 
 ___
 
@@ -4113,7 +4021,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:191
+packages/transporter/out/Transporter.d.ts:190
 
 ___
 
@@ -4129,7 +4037,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/paginationUtils.d.ts:17
+packages/entity/out/paginationUtils.d.ts:17
 
 ___
 
@@ -4150,7 +4058,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/parseObjectDefinition.d.ts:12
+packages/schema/out/parseObjectDefinition.d.ts:12
 
 ___
 
@@ -4166,7 +4074,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferObjectType.d.ts:14
+packages/schema/out/fields/Infer/InferObjectType.d.ts:14
 
 ___
 
@@ -4176,7 +4084,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:101
+packages/transporter/out/CollectionIndex.d.ts:101
 
 ___
 
@@ -4197,7 +4105,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/parseFilterIndexFilterParts.d.ts:4
+packages/transporter/out/parseFilterIndexFilterParts.d.ts:4
 
 ___
 
@@ -4229,7 +4137,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:73
+packages/transporter/out/CollectionIndex.d.ts:73
 
 ___
 
@@ -4256,7 +4164,17 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:52
+packages/transporter/out/CollectionIndex.d.ts:52
+
+___
+
+### ParsedURL
+
+Ƭ **ParsedURL**: { `domain`: `string` ; `hash`: `string` ; `href`: `string` ; `id`: `string` ; `pathname`: `string` ; `route`: `string` ; `search`: `string`  } & { `isAbsolutePath`: ``true``  } \| { `host`: `string` ; `hostname`: `string` ; `isAbsolutePath`: ``false`` ; `port`: `string` ; `protocol`: `string`  }
+
+#### Defined in
+
+packages/utils/out/routeUtils.d.ts:67
 
 ___
 
@@ -4272,7 +4190,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/parseUpdateExpression.d.ts:4
+packages/transporter/out/parseUpdateExpression.d.ts:4
 
 ___
 
@@ -4289,7 +4207,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:99
+packages/utils/out/typings/index.d.ts:99
 
 ___
 
@@ -4316,7 +4234,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/parsePath.d.ts:3
+packages/utils/out/parsePath.d.ts:3
 
 ___
 
@@ -4333,7 +4251,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/Path.d.ts:1
+packages/utils/out/typings/Path.d.ts:1
 
 ___
 
@@ -4350,7 +4268,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/Path.d.ts:6
+packages/utils/out/typings/Path.d.ts:6
 
 ___
 
@@ -4371,17 +4289,32 @@ to GetFieldByDotNotation
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:108
+packages/utils/out/typings/index.d.ts:108
 
 ___
 
-### PowershipObjectDefinition
+### Plugin
 
-Ƭ **PowershipObjectDefinition**: [`ObjectDefinitionInput`](Powership.md#objectdefinitioninput)
+Ƭ **Plugin**<`EventData`\>: `Object`
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `EventData` |
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `enter?` | [`EventHandler`](Powership.md#eventhandler)<`EventData`\> |
+| `error?` | (`error`: `unknown`) => { `[K: string]`: `unknown`; `message`: `string`  } |
+| `exit?` | [`EventHandler`](Powership.md#eventhandler)<`EventData`\> |
+| `name` | `string` |
 
 #### Defined in
 
-packages/schema/lib/TObjectConfig.d.ts:3
+packages/plugin-engine/out/index.d.ts:40
 
 ___
 
@@ -4397,7 +4330,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/Compute.d.ts:9
+packages/utils/out/typings/Compute.d.ts:9
 
 ___
 
@@ -4413,7 +4346,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:30
+packages/utils/out/typings/index.d.ts:30
 
 ___
 
@@ -4437,7 +4370,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/createModulesProxy.d.ts:2
+packages/utils/out/createModulesProxy.d.ts:2
 
 ___
 
@@ -4461,7 +4394,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/createModulesProxy.d.ts:3
+packages/utils/out/createModulesProxy.d.ts:3
 
 ___
 
@@ -4471,28 +4404,17 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:66
+packages/transporter/out/Transporter.d.ts:67
 
 ___
 
-### ReactLike
+### ReactNodeLike
 
-Ƭ **ReactLike**: `Object`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `createContext` | [`AnyFunction`](Powership.TU.md#anyfunction) |
-| `createElement` | [`AnyFunction`](Powership.TU.md#anyfunction) |
-| `useContext` | [`AnyFunction`](Powership.TU.md#anyfunction) |
-| `useEffect` | [`AnyFunction`](Powership.TU.md#anyfunction) |
-| `useMemo` | [`AnyFunction`](Powership.TU.md#anyfunction) |
-| `useState` | [`AnyFunction`](Powership.TU.md#anyfunction) |
+Ƭ **ReactNodeLike**: [`_ReactElement`](../interfaces/Powership._ReactElement.md) \| `string` \| `number` \| `Iterable`<[`ReactNodeLike`](Powership.md#reactnodelike)\> \| [`_ReactPortal`](../interfaces/Powership._ReactPortal.md) \| `boolean` \| ``null`` \| `undefined`
 
 #### Defined in
 
-packages/utils/lib/MicroState.d.ts:58
+packages/utils/out/ReactLike.d.ts:10
 
 ___
 
@@ -4509,24 +4431,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/Store.d.ts:34
-
-___
-
-### RecordFieldDef
-
-Ƭ **RecordFieldDef**: `Object`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `keyType?` | `ValidKeyType` |
-| `type?` | [`FieldDefinitionConfig`](Powership.md#fielddefinitionconfig) |
-
-#### Defined in
-
-packages/schema/lib/fields/RecordField.d.ts:6
+packages/utils/out/Store.d.ts:34
 
 ___
 
@@ -4540,50 +4445,35 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:11
+packages/transporter/out/CollectionIndex.d.ts:11
 
 ___
 
 ### RequestBody
 
-Ƭ **RequestBody**: `string` \| `Record`<`string`, `unknown`\> \| [`UnhandledSymbol`](Powership.md#unhandledsymbol-1)
+Ƭ **RequestBody**: `string` \| `Record`<`string`, `unknown`\> \| [`UnhandledSymbol`](Powership.md#unhandledsymbol-1) \| `Stream`
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:81
+packages/server/out/BaseRequestHandler.d.ts:87
 
 ___
 
 ### Resolver
 
-Ƭ **Resolver**<`Context`, `Root`, `Type`, `Args`\>: [`Compute`](Powership.TU.md#compute)<[`OptionalResolverConfig`](Powership.md#optionalresolverconfig)<`Root`, `Context`, `Args`\> & { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: `Args`, `context`: `Context`, `info`: `GraphQLResolveInfo`) => [`MaybePromise`](Powership.TU.md#maybepromise)<`Type`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  }, ``1``\>
+Ƭ **Resolver**<`TSource`, `TArgs`, `TResult`\>: `Omit`<`GraphQLFieldConfig`<`TSource`, [`ResolverContext`](../interfaces/Powership.ResolverContext.md), `TArgs`\>, ``"type"`` \| ``"args"`` \| ``"resolve"``\> & { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: (`root`: `TSource`, `args`: `TArgs`, `context`: `any`, `info`: `any`) => [`MaybePromise`](Powership.TU.md#maybepromise)<`TResult`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  }
 
 #### Type parameters
 
-| Name |
-| :------ |
-| `Context` |
-| `Root` |
-| `Type` |
-| `Args` |
+| Name | Type |
+| :------ | :------ |
+| `TSource` | `unknown` |
+| `TArgs` | extends `any` = {} |
+| `TResult` | extends `unknown` = `unknown` |
 
 #### Defined in
 
-packages/schema/lib/Resolver.d.ts:16
-
-___
-
-### ResolverContextBase
-
-Ƭ **ResolverContextBase**: `Object`
-
-#### Index signature
-
-▪ [K: `string`]: `unknown`
-
-#### Defined in
-
-packages/schema/lib/Resolver.d.ts:5
+packages/schema/out/Resolver.d.ts:16
 
 ___
 
@@ -4593,26 +4483,25 @@ ___
 
 #### Defined in
 
-packages/schema/lib/createGraphQLSchema.d.ts:34
+packages/schema/out/createGraphQLSchema.d.ts:33
 
 ___
 
 ### ResolverResolve
 
-Ƭ **ResolverResolve**<`Context`, `Source`, `TypeDef`, `ArgsDef`\>: (`x`: [`InferResolverArgs`](Powership.md#inferresolverargs)<`ArgsDef`\>) => `any` extends (`x`: infer R) => `any` ? { [K in keyof R]: R[K] } : `never` extends infer Args ? (`x`: [`Infer`](Powership.md#infer)<`TypeDef`\>) => `any` extends (`x`: infer R) => `any` ? (`parent`: [`Compute`](Powership.TU.md#compute)<`Source`\>, `args`: [`Compute`](Powership.TU.md#compute)<`Args`\>, `context`: `Context`, `info`: `GraphQLResolveInfo`) => [`IsKnown`](Powership.TU.md#isknown)<`R`\> extends ``1`` ? [`Compute`](Powership.TU.md#compute)<`Promise`<`R`\> \| `R`\> : `any` : (`parent`: `Source`, `args`: `Record`<`string`, `unknown`\>, `context`: `Context`, `info`: `GraphQLResolveInfo`) => `Promise`<`any`\> \| `any` : `never` extends infer R ? `R` : `never`
+Ƭ **ResolverResolve**<`Source`, `TypeDef`, `ArgsDef`\>: (`x`: [`InferResolverArgs`](Powership.md#inferresolverargs)<`ArgsDef`\>) => `any` extends (`x`: infer R) => `any` ? { [K in keyof R]: R[K] } : `never` extends infer Args ? (`x`: [`Infer`](Powership.md#infer)<`TypeDef`\>) => `any` extends (`x`: infer R) => `any` ? (`parent`: [`Compute`](Powership.TU.md#compute)<`Source`\>, `args`: [`Compute`](Powership.TU.md#compute)<`Args`\>, `context`: [`ResolverContext`](../interfaces/Powership.ResolverContext.md), `info`: `GraphQLResolveInfo`) => [`IsKnown`](Powership.TU.md#isknown)<`R`\> extends ``1`` ? [`Compute`](Powership.TU.md#compute)<`Promise`<`R`\> \| `R`\> : `any` : (`parent`: `Source`, `args`: `Record`<`string`, `unknown`\>, `context`: [`ResolverContext`](../interfaces/Powership.ResolverContext.md), `info`: `GraphQLResolveInfo`) => `Promise`<`any`\> \| `any` : `never` extends infer R ? `R` : `never`
 
 #### Type parameters
 
 | Name |
 | :------ |
-| `Context` |
 | `Source` |
 | `TypeDef` |
 | `ArgsDef` |
 
 #### Defined in
 
-packages/schema/lib/Resolver.d.ts:33
+packages/schema/out/Resolver.d.ts:32
 
 ___
 
@@ -4626,11 +4515,11 @@ ___
 | :------ | :------ |
 | `name` | `string` |
 | `options?` | `ObjectToTypescriptOptions` |
-| `resolvers` | [`AnyResolver`](Powership.md#anyresolver)[] |
+| `resolvers` | [`Resolver`](Powership.md#resolver)[] |
 
 #### Defined in
 
-packages/schema/lib/createGraphQLSchema.d.ts:39
+packages/schema/out/createGraphQLSchema.d.ts:36
 
 ___
 
@@ -4654,7 +4543,24 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:29
+packages/transporter/out/Transporter.d.ts:30
+
+___
+
+### RouteConfig
+
+Ƭ **RouteConfig**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `path` | `string` |
+| `query?` | [`ObjectDefinitionInput`](Powership.md#objectdefinitioninput) |
+
+#### Defined in
+
+packages/schema/out/createSimpleRouter.d.ts:4
 
 ___
 
@@ -4672,7 +4578,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/RuntimeError.d.ts:1
+packages/utils/out/RuntimeError.d.ts:1
 
 ___
 
@@ -4688,13 +4594,13 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/DescribeField.d.ts:24
+packages/schema/out/fields/Infer/DescribeField.d.ts:24
 
 ___
 
 ### SealedField
 
-Ƭ **SealedField**<`D`\>: ``"type"`` extends keyof `D` ? [`Seal`](Powership.md#seal)<[`Merge`](Powership.TU.T.md#merge)<[`CommonFieldDefinitionProps`](../interfaces/Powership.CommonFieldDefinitionProps.md), `D`\>\> : `D`
+Ƭ **SealedField**<`D`\>: ``"type"`` extends keyof `D` ? [`Seal`](Powership.md#seal)<[`Merge`](Powership.TU.T.md#merge)<`CommonFieldDefinitionProps`, `D`\>\> : `D`
 
 #### Type parameters
 
@@ -4704,7 +4610,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/DescribeField.d.ts:18
+packages/schema/out/fields/Infer/DescribeField.d.ts:18
 
 ___
 
@@ -4714,7 +4620,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:7
+packages/utils/out/typings/index.d.ts:7
 
 ___
 
@@ -4736,7 +4642,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/ServerRequest.d.ts:2
+packages/server/out/ServerRequest.d.ts:2
 
 ___
 
@@ -4748,13 +4654,13 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `body?` | `string` \| `Record`<`string`, `any`\> \| [`UnhandledSymbol`](Powership.md#unhandledsymbol-1) |
+| `body?` | [`RequestBody`](Powership.md#requestbody) |
 | `headers?` | [`HeaderRecordInit`](Powership.md#headerrecordinit) \| `Headers` |
 | `statusCode?` | [`ServerResponseStatus`](Powership.md#serverresponsestatus) |
 
 #### Defined in
 
-packages/server/lib/ServerResponse.d.ts:3
+packages/server/out/ServerResponse.d.ts:2
 
 ___
 
@@ -4764,7 +4670,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:92
+packages/server/out/BaseRequestHandler.d.ts:98
 
 ___
 
@@ -4774,17 +4680,43 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/_parseFields.d.ts:14
+packages/schema/out/fields/_parseFields.d.ts:14
 
 ___
 
 ### ShortenFinalFieldDefinition
 
-Ƭ **ShortenFinalFieldDefinition**: { [Type in FieldTypeName]: { [K in \_ShortenFinalFieldDefinitionFieldAsString<Type\>]: K \| { [L in K]: FieldDefinitions[Type] \| Object } }[\_ShortenFinalFieldDefinitionFieldAsString<Type\>] }[[`FieldTypeName`](Powership.md#fieldtypename)]
+Ƭ **ShortenFinalFieldDefinition**: { [Type in FieldTypeName]: { [K in \_ShortenFinalFieldDefinitionFieldAsString<Type\>]: K \| { [L in K]: FieldDefinitions[Type] \| Object } }[\_ShortenFinalFieldDefinitionFieldAsString<Type\>] }[`FieldTypeName`]
 
 #### Defined in
 
-packages/schema/lib/fields/_parseFields.d.ts:41
+packages/schema/out/fields/_parseFields.d.ts:41
+
+___
+
+### SimpleRoute
+
+Ƭ **SimpleRoute**: [`RouteConfig`](Powership.md#routeconfig) & { `match`: (`route`: `string`) => ``null`` \| [`AnyRecord`](Powership.TU.md#anyrecord) ; `mount`: (`config?`: { `query`: [`AnyRecord`](Powership.TU.md#anyrecord)  }) => `string`  }
+
+#### Defined in
+
+packages/schema/out/createSimpleRouter.d.ts:8
+
+___
+
+### SimpleRouter
+
+Ƭ **SimpleRouter**<`Routes`\>: { `$findRoute`: (`pathname`: `string`) => `RouteFindResult`  } & { [K in Extract<keyof Routes, string\>]: { [Sub in keyof Routes[K]]: Routes[K][Sub] } & Object }
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Routes` | extends `Readonly`<{ `[K: string]`: [`RouteConfig`](Powership.md#routeconfig);  }\> |
+
+#### Defined in
+
+packages/schema/out/createSimpleRouter.d.ts:19
 
 ___
 
@@ -4800,7 +4732,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:60
+packages/utils/out/typings/index.d.ts:60
 
 ___
 
@@ -4810,17 +4742,84 @@ ___
 
 #### Defined in
 
-packages/utils/lib/slugify.d.ts:2
+packages/utils/out/slugify.d.ts:2
 
 ___
 
-### SpecialObjectKeys
+### StateChangeMiddleware
 
-Ƭ **SpecialObjectKeys**: typeof `SpecialObjectKeyEnum.enum`
+Ƭ **StateChangeMiddleware**<`State`, `Methods`\>: (`payload`: { `context`: [`_MethodExecutionContext`](Powership.md#_methodexecutioncontext)<`Methods`\> ; `draft`: `Draft`<`State`\> ; `previous`: `State` ; `cloneDraft`: () => `State`  }) => `State` \| `Draft`<`State`\> \| `void`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `State` | extends `object` |
+| `Methods` | extends `_AnyMethodsRecord` = {} |
+
+#### Type declaration
+
+▸ (`payload`): `State` \| `Draft`<`State`\> \| `void`
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `payload` | `Object` |
+| `payload.context` | [`_MethodExecutionContext`](Powership.md#_methodexecutioncontext)<`Methods`\> |
+| `payload.draft` | `Draft`<`State`\> |
+| `payload.previous` | `State` |
+| `payload.cloneDraft` | () => `State` |
+
+##### Returns
+
+`State` \| `Draft`<`State`\> \| `void`
 
 #### Defined in
 
-packages/schema/lib/fields/_fieldDefinitions.d.ts:51
+packages/utils/out/state/miniState.d.ts:93
+
+___
+
+### StatePieceListener
+
+Ƭ **StatePieceListener**<`FieldState`\>: (`payload`: { `next`: `FieldState` ; `previous`: `FieldState`  }) => `void`
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `FieldState` |
+
+#### Type declaration
+
+▸ (`payload`): `void`
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `payload` | `Object` |
+| `payload.next` | `FieldState` |
+| `payload.previous` | `FieldState` |
+
+##### Returns
+
+`void`
+
+#### Defined in
+
+packages/utils/out/state/miniState.d.ts:89
+
+___
+
+### Status
+
+Ƭ **Status**: ``"pending"`` \| ``"resolved"`` \| ``"rejected"``
+
+#### Defined in
+
+packages/utils/out/watchable.d.ts:1
 
 ___
 
@@ -4849,7 +4848,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/Store.d.ts:10
+packages/utils/out/Store.d.ts:10
 
 ___
 
@@ -4872,25 +4871,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/Store.d.ts:21
-
-___
-
-### StringFieldDef
-
-Ƭ **StringFieldDef**: `Object`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `max?` | `number` |
-| `min?` | `number` |
-| `regex?` | [`string`] \| [`string`, `string`] \| `Readonly`<[`string`, `string`] \| [`string`]\> |
-
-#### Defined in
-
-packages/schema/lib/fields/StringField.d.ts:2
+packages/utils/out/Store.d.ts:21
 
 ___
 
@@ -4900,7 +4881,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/ms.d.ts:3
+packages/utils/out/ms.d.ts:3
 
 ___
 
@@ -4926,7 +4907,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/BJSON.d.ts:43
+packages/utils/out/BJSON.d.ts:43
 
 ___
 
@@ -4945,7 +4926,17 @@ ___
 
 #### Defined in
 
-packages/utils/lib/BJSON.d.ts:47
+packages/utils/out/BJSON.d.ts:47
+
+___
+
+### Styles
+
+Ƭ **Styles**: typeof [`styles`](Powership.md#styles-1) & {}
+
+#### Defined in
+
+packages/utils/out/hey.d.ts:16
 
 ___
 
@@ -4955,7 +4946,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:72
+packages/schema/out/fields/FieldType.d.ts:71
 
 ___
 
@@ -4965,7 +4956,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:166
+packages/transporter/out/Transporter.d.ts:165
 
 ___
 
@@ -4975,7 +4966,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:7
+packages/transporter/out/Transporter.d.ts:8
 
 ___
 
@@ -4985,7 +4976,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:224
+packages/transporter/out/Transporter.d.ts:223
 
 ___
 
@@ -4995,7 +4986,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:220
+packages/transporter/out/Transporter.d.ts:219
 
 ___
 
@@ -5005,7 +4996,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:221
+packages/transporter/out/Transporter.d.ts:220
 
 ___
 
@@ -5015,7 +5006,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/getTypeName.d.ts:30
+packages/utils/out/getTypeName.d.ts:30
 
 ___
 
@@ -5032,7 +5023,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:79
+packages/utils/out/typings/index.d.ts:79
 
 ___
 
@@ -5042,7 +5033,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/fieldTypes.d.ts:68
+packages/schema/out/fields/fieldTypes.d.ts:28
 
 ___
 
@@ -5052,9 +5043,9 @@ ___
 
 #### Defined in
 
-packages/server/lib/Symbol.d.ts:1
+packages/server/out/Symbol.d.ts:1
 
-packages/server/lib/Symbol.d.ts:2
+packages/server/out/Symbol.d.ts:2
 
 ___
 
@@ -5070,23 +5061,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:57
-
-___
-
-### UnknownFieldDef
-
-Ƭ **UnknownFieldDef**: `Object`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `types?` | `string`[] \| `string` |
-
-#### Defined in
-
-packages/schema/lib/fields/UnknownField.d.ts:2
+packages/utils/out/typings/index.d.ts:57
 
 ___
 
@@ -5100,7 +5075,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:34
+packages/utils/out/typings/index.d.ts:34
 
 ___
 
@@ -5118,7 +5093,27 @@ ___
 
 #### Defined in
 
-packages/utils/lib/MicroState.d.ts:10
+packages/utils/out/state/miniState.d.ts:88
+
+___
+
+### UnsubscribeListener
+
+Ƭ **UnsubscribeListener**: () => `void`
+
+#### Type declaration
+
+▸ (): `void`
+
+Type representing an unsubscribe function.
+
+##### Returns
+
+`void`
+
+#### Defined in
+
+packages/plugin-engine/out/index.d.ts:52
 
 ___
 
@@ -5148,7 +5143,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:148
+packages/transporter/out/Transporter.d.ts:147
 
 ___
 
@@ -5158,7 +5153,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:159
+packages/transporter/out/Transporter.d.ts:158
 
 ___
 
@@ -5179,7 +5174,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `condition?` | [`FilterRecord`](Powership.md#filterrecord)<`Doc`\> |
-| `context?` | [`LoaderContext`](Powership.md#loadercontext) |
+| `context?` | [`LoaderContext`](../interfaces/Powership.LoaderContext.md) |
 | `filter` | [`MethodFilter`](Powership.md#methodfilter)<`PK`, `SK`\> |
 | `indexConfig` | [`CollectionIndexConfig`](Powership.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 | `update` | [`UpdateExpression`](Powership.md#updateexpression)<`Doc`\> |
@@ -5187,7 +5182,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:120
+packages/transporter/out/Transporter.d.ts:119
 
 ___
 
@@ -5205,7 +5200,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:179
+packages/transporter/out/Transporter.d.ts:178
 
 ___
 
@@ -5226,7 +5221,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `condition?` | [`FilterRecord`](Powership.md#filterrecord)<`Doc`\> |
-| `context?` | [`LoaderContext`](Powership.md#loadercontext) |
+| `context?` | [`LoaderContext`](../interfaces/Powership.LoaderContext.md) |
 | `filter` | [`MethodFilter`](Powership.md#methodfilter)<`PK`, `SK`\> |
 | `indexConfig` | [`CollectionIndexConfig`](Powership.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 | `update` | [`UpdateExpression`](Powership.md#updateexpression)<`Doc`\> |
@@ -5234,7 +5229,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:112
+packages/transporter/out/Transporter.d.ts:111
 
 ___
 
@@ -5259,7 +5254,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:173
+packages/transporter/out/Transporter.d.ts:172
 
 ___
 
@@ -5269,7 +5264,23 @@ ___
 
 #### Defined in
 
-packages/schema/lib/applyValidator.d.ts:1
+packages/schema/out/applyValidator.d.ts:2
+
+___
+
+### WatchableResult
+
+Ƭ **WatchableResult**<`T`\>: { `error?`: `undefined` ; `status`: ``"pending"`` ; `value?`: `undefined`  } \| { `error`: `any` ; `status`: ``"rejected"`` ; `value?`: `undefined`  } \| { `error?`: `undefined` ; `status`: ``"resolved"`` ; `value`: `T`  }
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `T` |
+
+#### Defined in
+
+packages/utils/out/watchable.d.ts:2
 
 ___
 
@@ -5285,7 +5296,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:47
+packages/utils/out/typings/index.d.ts:47
 
 ___
 
@@ -5301,7 +5312,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/EntityFromContext.d.ts:75
+packages/entity/out/EntityInterfaces/EntityFromContext.d.ts:75
 
 ___
 
@@ -5311,7 +5322,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/Entity.d.ts:7
+packages/entity/out/EntityInterfaces/Entity.d.ts:7
 
 ___
 
@@ -5327,13 +5338,13 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/DescribeField.d.ts:17
+packages/schema/out/fields/Infer/DescribeField.d.ts:17
 
 ___
 
 ### \_DescribeObject
 
-Ƭ **\_DescribeObject**<`Input`\>: [`_FieldKV`](Powership.md#_fieldkv)<`Input`\> extends [infer K, infer V] ? `K` extends keyof `Input` ? `K` extends [`GraphTypeKID`](Powership.md#graphtypekid) ? ``"definition"`` extends keyof `Input` ? [`DescribeField`](Powership.md#describefield)<`Input`[``"definition"``]\> : `never` : `K` extends [`ObjectTypeKID`](Powership.md#objecttypekid) ? ``"definition"`` extends keyof `Input` ? { `def`: [`DescribeObjectDefinition`](Powership.md#describeobjectdefinition)<`Input`[``"definition"``]\> ; `list`: [`_GetKey`](Powership.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Powership.md#_getkey)<`Input`, ``"optional"``\> ; `type`: ``"object"``  } : `never` : `K` extends [`FieldTypeName`](Powership.md#fieldtypename) ? { `def`: `V` ; `list`: [`_GetKey`](Powership.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Powership.md#_getkey)<`Input`, ``"optional"``\> ; `type`: `K`  } : `K` extends ``"type"`` ? `V` extends [`FieldTypeName`](Powership.md#fieldtypename) ? { `def`: [`_GetKey`](Powership.md#_getkey)<`Input`, ``"def"``\> ; `list`: [`_GetKey`](Powership.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Powership.md#_getkey)<`Input`, ``"optional"``\> ; `type`: `V`  } : `Input`[`K`] extends [`GraphTypeLikeFieldDefinition`](../interfaces/Powership.GraphTypeLikeFieldDefinition.md) ? [`Merge`](Powership.TU.T.md#merge)<[`DescribeField`](Powership.md#describefield)<`Input`[`K`][``"definition"``]\>, [`_OmitUndefined`](Powership.md#_omitundefined)<{ `list`: [`_GetKey`](Powership.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Powership.md#_getkey)<`Input`, ``"optional"``\>  }\>\> : `Input`[`K`] extends [`ObjectTypeLikeFieldDefinition`](../interfaces/Powership.ObjectTypeLikeFieldDefinition.md) ? { `def`: [`DescribeObjectDefinition`](Powership.md#describeobjectdefinition)<`Input`[`K`][``"definition"``]\> ; `list`: [`_GetKey`](Powership.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Powership.md#_getkey)<`Input`, ``"optional"``\> ; `type`: ``"object"``  } : `never` : `never` : `never` : `never`
+Ƭ **\_DescribeObject**<`Input`\>: [`_FieldKV`](Powership.md#_fieldkv)<`Input`\> extends [infer K, infer V] ? `K` extends keyof `Input` ? `K` extends [`GraphTypeKID`](Powership.md#graphtypekid) ? ``"definition"`` extends keyof `Input` ? [`DescribeField`](Powership.md#describefield)<`Input`[``"definition"``]\> : `never` : `K` extends [`ObjectTypeKID`](Powership.md#objecttypekid) ? ``"definition"`` extends keyof `Input` ? { `def`: [`DescribeObjectDefinition`](Powership.md#describeobjectdefinition)<`Input`[``"definition"``]\> ; `list`: [`_GetKey`](Powership.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Powership.md#_getkey)<`Input`, ``"optional"``\> ; `type`: ``"object"``  } : `never` : `K` extends `FieldTypeName` ? { `def`: `V` ; `list`: [`_GetKey`](Powership.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Powership.md#_getkey)<`Input`, ``"optional"``\> ; `type`: `K`  } : `K` extends ``"type"`` ? `V` extends `FieldTypeName` ? { `def`: [`_GetKey`](Powership.md#_getkey)<`Input`, ``"def"``\> ; `list`: [`_GetKey`](Powership.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Powership.md#_getkey)<`Input`, ``"optional"``\> ; `type`: `V`  } : `Input`[`K`] extends [`GraphTypeLikeFieldDefinition`](../interfaces/Powership.GraphTypeLikeFieldDefinition.md) ? [`Merge`](Powership.TU.T.md#merge)<[`DescribeField`](Powership.md#describefield)<`Input`[`K`][``"definition"``]\>, [`_OmitUndefined`](Powership.md#_omitundefined)<{ `list`: [`_GetKey`](Powership.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Powership.md#_getkey)<`Input`, ``"optional"``\>  }\>\> : `Input`[`K`] extends [`ObjectTypeLikeFieldDefinition`](../interfaces/Powership.ObjectTypeLikeFieldDefinition.md) ? { `def`: [`DescribeObjectDefinition`](Powership.md#describeobjectdefinition)<`Input`[`K`][``"definition"``]\> ; `list`: [`_GetKey`](Powership.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Powership.md#_getkey)<`Input`, ``"optional"``\> ; `type`: ``"object"``  } : `never` : `never` : `never` : `never`
 
 #### Type parameters
 
@@ -5343,7 +5354,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/DescribeField.d.ts:38
+packages/schema/out/fields/Infer/DescribeField.d.ts:38
 
 ___
 
@@ -5371,7 +5382,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/diff/diff.d.ts:10
+packages/utils/out/diff/diff.d.ts:10
 
 ___
 
@@ -5401,7 +5412,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/EntityLoaderMethods.d.ts:28
+packages/entity/out/EntityInterfaces/EntityLoaderMethods.d.ts:28
 
 ___
 
@@ -5417,7 +5428,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityPlugin.d.ts:18
+packages/entity/out/EntityPlugin.d.ts:18
 
 ___
 
@@ -5433,7 +5444,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/EntityFromContext.d.ts:72
+packages/entity/out/EntityInterfaces/EntityFromContext.d.ts:72
 
 ___
 
@@ -5443,7 +5454,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/EntityFromContext.d.ts:71
+packages/entity/out/EntityInterfaces/EntityFromContext.d.ts:71
 
 ___
 
@@ -5459,7 +5470,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferField.d.ts:16
+packages/schema/out/fields/Infer/Infer.d.ts:16
 
 ___
 
@@ -5475,7 +5486,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferObjectType.d.ts:20
+packages/schema/out/fields/Infer/InferObjectType.d.ts:20
 
 ___
 
@@ -5492,7 +5503,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferField.d.ts:19
+packages/schema/out/fields/Infer/Infer.d.ts:19
 
 ___
 
@@ -5509,7 +5520,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/EntityLoaderMethods.d.ts:39
+packages/entity/out/EntityInterfaces/EntityLoaderMethods.d.ts:39
 
 ___
 
@@ -5519,7 +5530,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:36
+packages/server/out/BaseRequestHandler.d.ts:38
 
 ___
 
@@ -5536,7 +5547,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferObjectType.d.ts:23
+packages/schema/out/fields/Infer/InferObjectType.d.ts:23
 
 ___
 
@@ -5553,13 +5564,13 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferObjectType.d.ts:24
+packages/schema/out/fields/Infer/InferObjectType.d.ts:24
 
 ___
 
 ### \_InferField
 
-Ƭ **\_InferField**<`Input`\>: [`_FieldKV`](Powership.md#_fieldkv)<`Input`\> extends [infer K, infer V] ? `K` extends keyof `Input` ? `K` extends [`GraphTypeKID`](Powership.md#graphtypekid) ? [`InferGraphType`](Powership.md#infergraphtype)<`Input`\> : `K` extends [`ObjectTypeKID`](Powership.md#objecttypekid) ? [`InferObjectType`](Powership.md#inferobjecttype)<`Input`\> : `K` extends [`FieldTypeName`](Powership.md#fieldtypename) ? [`InferFinalField`](Powership.md#inferfinalfield)<`K`, `V`\> : `K` extends ``"type"`` ? `V` extends [`FieldTypeName`](Powership.md#fieldtypename) ? [`InferFinalField`](Powership.md#inferfinalfield)<`V`, [`_GetKey`](Powership.md#_getkey)<`Input`, ``"def"``\>\> : `Input`[`K`] extends [`GraphTypeLikeFieldDefinition`](../interfaces/Powership.GraphTypeLikeFieldDefinition.md) ? [`InferGraphType`](Powership.md#infergraphtype)<`Input`[`K`]\> : `Input`[`K`] extends [`ObjectTypeLikeFieldDefinition`](../interfaces/Powership.ObjectTypeLikeFieldDefinition.md) ? [`InferObjectType`](Powership.md#inferobjecttype)<`Input`[`K`]\> : `never` : `never` : `never` : `never`
+Ƭ **\_InferField**<`Input`\>: [`_FieldKV`](Powership.md#_fieldkv)<`Input`\> extends [infer K, infer V] ? `K` extends keyof `Input` ? `K` extends [`GraphTypeKID`](Powership.md#graphtypekid) ? [`InferGraphType`](Powership.md#infergraphtype)<`Input`\> : `K` extends [`ObjectTypeKID`](Powership.md#objecttypekid) ? [`InferObjectType`](Powership.md#inferobjecttype)<`Input`\> : `K` extends `FieldTypeName` ? [`InferFinalField`](Powership.md#inferfinalfield)<`K`, `V`\> : `K` extends ``"type"`` ? `V` extends `FieldTypeName` ? [`InferFinalField`](Powership.md#inferfinalfield)<`V`, [`_GetKey`](Powership.md#_getkey)<`Input`, ``"def"``\>\> : `Input`[`K`] extends [`GraphTypeLikeFieldDefinition`](../interfaces/Powership.GraphTypeLikeFieldDefinition.md) ? [`InferGraphType`](Powership.md#infergraphtype)<`Input`[`K`]\> : `Input`[`K`] extends [`ObjectTypeLikeFieldDefinition`](../interfaces/Powership.ObjectTypeLikeFieldDefinition.md) ? [`InferObjectType`](Powership.md#inferobjecttype)<`Input`[`K`]\> : `never` : `never` : `never` : `never`
 
 #### Type parameters
 
@@ -5569,7 +5580,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferField.d.ts:9
+packages/schema/out/fields/Infer/Infer.d.ts:9
 
 ___
 
@@ -5586,7 +5597,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferFinalField.d.ts:7
+packages/schema/out/fields/Infer/InferFinalField.d.ts:7
 
 ___
 
@@ -5602,7 +5613,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferObjectType.d.ts:17
+packages/schema/out/fields/Infer/InferObjectType.d.ts:17
 
 ___
 
@@ -5618,7 +5629,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferObjectType.d.ts:27
+packages/schema/out/fields/Infer/InferObjectType.d.ts:27
 
 ___
 
@@ -5634,7 +5645,23 @@ ___
 
 #### Defined in
 
-packages/schema/lib/extendObjectDefinition.d.ts:41
+packages/schema/out/extendObjectDefinition.d.ts:48
+
+___
+
+### \_MethodExecutionContext
+
+Ƭ **\_MethodExecutionContext**<`Methods`\>: { [K in keyof Methods]: Object } & {}[keyof `Methods`]
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Methods` | extends `_AnyMethodsRecord` |
+
+#### Defined in
+
+packages/utils/out/state/miniState.d.ts:114
 
 ___
 
@@ -5650,7 +5677,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/mapper.d.ts:11
+packages/utils/out/mapper.d.ts:11
 
 ___
 
@@ -5660,7 +5687,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/_parseFields.d.ts:7
+packages/schema/out/fields/_parseFields.d.ts:6
 
 ___
 
@@ -5676,7 +5703,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/DescribeField.d.ts:62
+packages/schema/out/fields/Infer/DescribeField.d.ts:62
 
 ___
 
@@ -5693,23 +5720,23 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/Path.d.ts:2
+packages/utils/out/typings/Path.d.ts:2
 
 ___
 
-### \_ResolverArgs
+### \_PropsWithChildren
 
-Ƭ **\_ResolverArgs**<`ArgsType`\>: `Exclude`<`ArgsType`, `undefined`\> extends infer R ? [`IsKnown`](Powership.TU.md#isknown)<`R`\> extends ``1`` ? [`Infer`](Powership.md#infer)<{ `object`: `R`  }\> : {} : {}
+Ƭ **\_PropsWithChildren**<`P`\>: `P` & { `children?`: [`ReactNodeLike`](Powership.md#reactnodelike)  }
 
 #### Type parameters
 
-| Name |
-| :------ |
-| `ArgsType` |
+| Name | Type |
+| :------ | :------ |
+| `P` | `unknown` |
 
 #### Defined in
 
-packages/schema/lib/Resolver.d.ts:69
+packages/utils/out/ReactLike.d.ts:15
 
 ___
 
@@ -5721,11 +5748,11 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`FieldTypeName`](Powership.md#fieldtypename) |
+| `T` | extends `FieldTypeName` |
 
 #### Defined in
 
-packages/schema/lib/fields/_parseFields.d.ts:40
+packages/schema/out/fields/_parseFields.d.ts:40
 
 ___
 
@@ -5741,7 +5768,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/mapper.d.ts:8
+packages/utils/out/mapper.d.ts:8
 
 ___
 
@@ -5762,7 +5789,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/diff/diff.d.ts:18
+packages/utils/out/diff/diff.d.ts:18
 
 ___
 
@@ -5779,7 +5806,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferField.d.ts:13
+packages/schema/out/fields/Infer/Infer.d.ts:13
 
 ___
 
@@ -5796,13 +5823,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferField.d.ts:10
-
-## Properties
-
-### HttpError
-
-• **HttpError**: `any`
+packages/schema/out/fields/Infer/Infer.d.ts:10
 
 ## Variables
 
@@ -5812,9 +5833,9 @@ packages/schema/lib/fields/Infer/InferField.d.ts:10
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/DescribeField.d.ts:12
+packages/schema/out/fields/Infer/DescribeField.d.ts:12
 
-packages/schema/lib/fields/Infer/DescribeField.d.ts:13
+packages/schema/out/fields/Infer/DescribeField.d.ts:13
 
 ___
 
@@ -5824,9 +5845,9 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/DescribeField.d.ts:10
+packages/schema/out/fields/Infer/DescribeField.d.ts:10
 
-packages/schema/lib/fields/Infer/DescribeField.d.ts:11
+packages/schema/out/fields/Infer/DescribeField.d.ts:11
 
 ___
 
@@ -5836,9 +5857,9 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/DescribeField.d.ts:8
+packages/schema/out/fields/Infer/DescribeField.d.ts:8
 
-packages/schema/lib/fields/Infer/DescribeField.d.ts:9
+packages/schema/out/fields/Infer/DescribeField.d.ts:9
 
 ___
 
@@ -5848,9 +5869,9 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:95
+packages/utils/out/typings/index.d.ts:95
 
-packages/utils/lib/typings/index.d.ts:96
+packages/utils/out/typings/index.d.ts:96
 
 ___
 
@@ -5860,7 +5881,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/AppConfig.d.ts:7
+packages/utils/out/AppConfig.d.ts:7
 
 ___
 
@@ -5870,7 +5891,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:163
+packages/transporter/out/Transporter.d.ts:162
 
 ___
 
@@ -5880,7 +5901,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/BJSON.d.ts:57
+packages/utils/out/BJSON.d.ts:57
 
 ___
 
@@ -5890,7 +5911,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/BJSON.d.ts:3
+packages/utils/out/BJSON.d.ts:3
 
 ___
 
@@ -5900,7 +5921,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/BJSON.d.ts:2
+packages/utils/out/BJSON.d.ts:2
 
 ___
 
@@ -5910,7 +5931,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/parseObjectDefinition.d.ts:35
+packages/schema/out/parseObjectDefinition.d.ts:35
 
 ___
 
@@ -5930,7 +5951,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:26
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:26
 
 ___
 
@@ -5940,17 +5961,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/parseFilterCursor.d.ts:2
-
-___
-
-### CircularDeps
-
-• `Const` **CircularDeps**: `PowershipModules`
-
-#### Defined in
-
-packages/schema/lib/CircularDeps.d.ts:97
+packages/utils/out/IndexCursor/parseFilterCursor.d.ts:2
 
 ___
 
@@ -5995,11 +6006,11 @@ ___
 | `is` | (`item`: `any`) => item is Object |
 | `prepareStackTrace?` | (`err`: `Error`, `stackTraces`: `NodeJS.CallSite`[]) => `any` |
 | `stackTraceLimit` | `number` |
-| `captureStackTrace` | (`targetObject`: `object`, `constructorOpt?`: `Function`) => `void` |
+| `captureStackTrace` | (`targetObject`: `object`, `constructorOpt?`: `Function`) => `void`(`targetObject`: `object`, `constructorOpt?`: `Function`) => `void` |
 
 #### Defined in
 
-packages/utils/lib/createErrorClass.d.ts:38
+packages/utils/out/createErrorClass.d.ts:39
 
 ___
 
@@ -6009,7 +6020,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:6
+packages/transporter/out/Transporter.d.ts:7
 
 ___
 
@@ -6019,7 +6030,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:33
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:33
 
 ___
 
@@ -6029,7 +6040,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:33
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:33
 
 ___
 
@@ -6039,7 +6050,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/emailRegex.d.ts:1
+packages/utils/out/emailRegex.d.ts:1
 
 ___
 
@@ -6049,9 +6060,9 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionErrors.d.ts:2
+packages/transporter/out/CollectionErrors.d.ts:2
 
-packages/transporter/lib/CollectionErrors.d.ts:28
+packages/transporter/out/CollectionErrors.d.ts:28
 
 ___
 
@@ -6061,9 +6072,9 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityPlugin.d.ts:12
+packages/entity/out/EntityPlugin.d.ts:12
 
-packages/entity/lib/EntityPlugin.d.ts:13
+packages/entity/out/EntityPlugin.d.ts:13
 
 ___
 
@@ -6073,7 +6084,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityStore.d.ts:2
+packages/entity/out/EntityStore.d.ts:2
 
 ___
 
@@ -6083,7 +6094,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldTypeErrors.d.ts:1
+packages/schema/out/fields/FieldTypeErrors.d.ts:1
 
 ___
 
@@ -6093,7 +6104,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:5
+packages/transporter/out/Transporter.d.ts:6
 
 ___
 
@@ -6103,7 +6114,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:15
+packages/schema/out/fields/FieldType.d.ts:13
 
 ___
 
@@ -6113,7 +6124,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:160
+packages/transporter/out/Transporter.d.ts:159
 
 ___
 
@@ -6123,7 +6134,17 @@ ___
 
 #### Defined in
 
-packages/utils/lib/nodeLogger.d.ts:44
+packages/utils/out/nodeLogger.d.ts:44
+
+___
+
+### HttpError
+
+• `Const` **HttpError**: `any`
+
+#### Defined in
+
+packages/server/out/BaseRequestHandler.d.ts:7
 
 ___
 
@@ -6133,7 +6154,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:33
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:33
 
 ___
 
@@ -6143,7 +6164,17 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:35
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:35
+
+___
+
+### IS\_BROWSER
+
+• `Const` **IS\_BROWSER**: `boolean`
+
+#### Defined in
+
+packages/utils/out/isBrowser.d.ts:1
 
 ___
 
@@ -6165,7 +6196,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/IndexCursor.d.ts:4
+packages/utils/out/IndexCursor/IndexCursor.d.ts:4
 
 ___
 
@@ -6210,11 +6241,11 @@ ___
 | `is` | (`item`: `any`) => item is Object |
 | `prepareStackTrace?` | (`err`: `Error`, `stackTraces`: `NodeJS.CallSite`[]) => `any` |
 | `stackTraceLimit` | `number` |
-| `captureStackTrace` | (`targetObject`: `object`, `constructorOpt?`: `Function`) => `void` |
+| `captureStackTrace` | (`targetObject`: `object`, `constructorOpt?`: `Function`) => `void`(`targetObject`: `object`, `constructorOpt?`: `Function`) => `void` |
 
 #### Defined in
 
-packages/utils/lib/invariant.d.ts:6
+packages/utils/out/invariant.d.ts:6
 
 ___
 
@@ -6224,7 +6255,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:33
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:33
 
 ___
 
@@ -6234,7 +6265,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:36
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:36
 
 ___
 
@@ -6244,7 +6275,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/getTypeName.d.ts:2
+packages/utils/out/getTypeName.d.ts:2
 
 ___
 
@@ -6254,7 +6285,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/logLevels.d.ts:12
+packages/utils/out/logLevels.d.ts:12
 
 ___
 
@@ -6264,7 +6295,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/logLevels.d.ts:23
+packages/utils/out/logLevels.d.ts:23
 
 ___
 
@@ -6288,7 +6319,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/logLevels.d.ts:1
+packages/utils/out/logLevels.d.ts:1
 
 ___
 
@@ -6298,7 +6329,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/parseIndexCursor.d.ts:2
+packages/utils/out/IndexCursor/parseIndexCursor.d.ts:2
 
 ___
 
@@ -6308,7 +6339,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/parseIndexCursor.d.ts:3
+packages/utils/out/IndexCursor/parseIndexCursor.d.ts:3
 
 ___
 
@@ -6318,7 +6349,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/nodeLogger.d.ts:43
+packages/utils/out/nodeLogger.d.ts:43
 
 ___
 
@@ -6328,17 +6359,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/paginationUtils.d.ts:2
-
-___
-
-### PowershipObject
-
-• `Const` **PowershipObject**: typeof [`ObjectType`](../classes/Powership.ObjectType.md)
-
-#### Defined in
-
-packages/schema/lib/ObjectType.d.ts:114
+packages/entity/out/paginationUtils.d.ts:2
 
 ___
 
@@ -6348,7 +6369,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/useProcess.d.ts:8
+packages/utils/out/useProcess.d.ts:10
 
 ___
 
@@ -6358,7 +6379,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:33
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:33
 
 ___
 
@@ -6368,7 +6389,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/BJSON.d.ts:1
+packages/utils/out/BJSON.d.ts:1
 
 ___
 
@@ -6378,17 +6399,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/ServerLogs.d.ts:1
-
-___
-
-### SpecialObjectKeyEnum
-
-• `Const` **SpecialObjectKeyEnum**: { `$number`: ``"$number"`` ; `$string`: ``"$string"``  } & { `list`: (``"$string"`` \| ``"$number"``)[]  } & { `enum`: ``"$string"`` \| ``"$number"``  }
-
-#### Defined in
-
-packages/schema/lib/fields/_fieldDefinitions.d.ts:43
+packages/server/out/ServerLogs.d.ts:1
 
 ___
 
@@ -6398,17 +6409,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:165
-
-___
-
-### ULID\_REGEX
-
-• `Const` **ULID\_REGEX**: `RegExp`
-
-#### Defined in
-
-packages/schema/lib/fields/UlidField.d.ts:5
+packages/transporter/out/Transporter.d.ts:164
 
 ___
 
@@ -6418,9 +6419,9 @@ ___
 
 #### Defined in
 
-packages/server/lib/Symbol.d.ts:1
+packages/server/out/Symbol.d.ts:1
 
-packages/server/lib/Symbol.d.ts:2
+packages/server/out/Symbol.d.ts:2
 
 ___
 
@@ -6430,7 +6431,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/ServerRequest.d.ts:11
+packages/server/out/ServerRequest.d.ts:11
 
 ___
 
@@ -6440,7 +6441,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/nodeLogger.d.ts:5
+packages/utils/out/nodeLogger.d.ts:5
 
 ___
 
@@ -6450,7 +6451,47 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/fieldTypes.d.ts:72
+packages/schema/out/fields/fieldTypes.d.ts:32
+
+___
+
+### defaultGlobalTransporter
+
+• **defaultGlobalTransporter**: [`Transporter`](../interfaces/Powership.Transporter.md) \| `undefined`
+
+#### Defined in
+
+packages/entity/out/Entity.d.ts:6
+
+___
+
+### i18n
+
+• **i18n**: [`DateFormatI18n`](../interfaces/Powership.DateFormatI18n.md)
+
+Internationalization strings
+
+**`Example`**
+
+```ts
+import { i18n } from 'dateformat';
+
+i18n.dayNames = [
+    'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat',
+    'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+];
+i18n.monthNames = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
+];
+i18n.timeNames = [
+    'a', 'p', 'am', 'pm', 'A', 'P', 'AM', 'PM'
+];
+```
+
+#### Defined in
+
+packages/utils/out/dateFormat.d.ts:93
 
 ___
 
@@ -6460,7 +6501,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:240
+packages/transporter/out/CollectionIndex.d.ts:240
 
 ___
 
@@ -6470,17 +6511,27 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:141
+packages/transporter/out/CollectionIndex.d.ts:141
 
 ___
 
-### isFieldTypeName
+### isHttpError
 
-• `Const` **isFieldTypeName**: `any`
+• `Const` **isHttpError**: `any`
 
 #### Defined in
 
-packages/schema/lib/fields/fieldTypes.d.ts:73
+packages/server/out/BaseRequestHandler.d.ts:7
+
+___
+
+### masks
+
+• **masks**: [`DateFormatMasks`](../interfaces/Powership.DateFormatMasks.md)
+
+#### Defined in
+
+packages/utils/out/dateFormat.d.ts:74
 
 ___
 
@@ -6490,17 +6541,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:104
-
-___
-
-### objectMetaFieldKey
-
-• `Const` **objectMetaFieldKey**: ``"__dschm__"``
-
-#### Defined in
-
-packages/schema/lib/fields/MetaFieldField.d.ts:17
+packages/utils/out/typings/index.d.ts:104
 
 ___
 
@@ -6510,7 +6551,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/randomItem.d.ts:3
+packages/utils/out/randomItem.d.ts:3
 
 ___
 
@@ -6520,7 +6561,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:118
+packages/transporter/out/CollectionIndex.d.ts:118
 
 ___
 
@@ -6530,7 +6571,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/createGraphQLSchema.d.ts:25
+packages/schema/out/createGraphQLSchema.d.ts:24
 
 ___
 
@@ -6547,12 +6588,40 @@ ___
 | `keep` | (`s`: `string`) => `string` |
 | `lowercase` | (`s`: `string`) => `string` |
 | `random` | (`s`: `string`) => `string` |
+| `removeDiacritics` | typeof [`removeDiacritics`](Powership.md#removediacritics) |
 | `slugify` | (`s`: `string`) => `string` |
+| `snakeCase` | (`s`: `string`) => `string` |
 | `undefined` | (`s`: `string`) => `string` |
+| `valuefy` | typeof [`stringToValue`](Powership.md#stringtovalue) |
 
 #### Defined in
 
-packages/utils/lib/stringCase.d.ts:5
+packages/utils/out/stringCase.d.ts:7
+
+___
+
+### styles
+
+• `Const` **styles**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `blue` | `string` |
+| `bold` | `string` |
+| `error` | `string` |
+| `green` | `string` |
+| `red` | `string` |
+| `reset` | `string` |
+| `strike` | `string` |
+| `underline` | `string` |
+| `warn` | `string` |
+| `yellow` | `string` |
+
+#### Defined in
+
+packages/utils/out/hey.d.ts:1
 
 ___
 
@@ -6562,7 +6631,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:219
+packages/transporter/out/Transporter.d.ts:218
 
 ___
 
@@ -6574,60 +6643,34 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `ID` | typeof [`IDField`](../classes/Powership.IDField.md) |
-| `alias` | typeof [`AliasField`](../classes/Powership.AliasField.md) |
-| `any` | typeof [`AnyField`](../classes/Powership.AnyField.md) |
-| `array` | typeof `ArrayField` |
-| `boolean` | typeof [`BooleanField`](../classes/Powership.BooleanField.md) |
-| `cursor` | typeof [`CursorField`](../classes/Powership.CursorField.md) |
-| `date` | typeof [`DateField`](../classes/Powership.DateField.md) |
-| `email` | typeof [`EmailField`](../classes/Powership.EmailField.md) |
-| `enum` | typeof [`EnumField`](../classes/Powership.EnumField.md) |
-| `float` | typeof [`FloatField`](../classes/Powership.FloatField.md) |
-| `int` | typeof [`IntField`](../classes/Powership.IntField.md) |
-| `literal` | typeof [`LiteralField`](../classes/Powership.LiteralField.md) |
-| `meta` | typeof [`MetaField`](../classes/Powership.MetaField.md) |
-| `null` | typeof [`NullField`](../classes/Powership.NullField.md) |
-| `object` | typeof [`ObjectField`](../classes/Powership.ObjectField.md) |
-| `phone` | typeof `PhoneField` |
-| `record` | typeof [`RecordField`](../classes/Powership.RecordField.md) |
-| `string` | typeof [`StringField`](../classes/Powership.StringField.md) |
-| `ulid` | typeof [`UlidField`](../classes/Powership.UlidField.md) |
-| `undefined` | typeof [`UndefinedField`](../classes/Powership.UndefinedField.md) |
-| `union` | typeof [`UnionField`](../classes/Powership.UnionField.md) |
-| `unknown` | typeof [`UnknownField`](../classes/Powership.UnknownField.md) |
+| `ID` | `IDField` |
+| `alias` | `AliasField` |
+| `any` | `AnyField` |
+| `array` | `ArrayField` |
+| `boolean` | `BooleanField` |
+| `cursor` | `CursorField` |
+| `date` | `DateField` |
+| `email` | `EmailField` |
+| `enum` | `EnumField` |
+| `float` | `FloatField` |
+| `int` | `IntField` |
+| `literal` | `LiteralField` |
+| `meta` | `MetaField` |
+| `null` | `NullField` |
+| `object` | `ObjectField` |
+| `phone` | `PhoneField` |
+| `record` | `RecordField` |
+| `string` | `StringField` |
+| `ulid` | `UlidField` |
+| `undefined` | `UndefinedField` |
+| `union` | `UnionField` |
+| `unknown` | `UnknownField` |
 
 #### Defined in
 
-packages/schema/lib/fields/fieldTypes.d.ts:44
+packages/schema/out/fields/fieldTypes.d.ts:4
 
 ## Functions
-
-### $
-
-▸ **$**<`V`\>(`current`): [`UFO`](../interfaces/Powership.UFO-1.md)<`V`\>
-
-#### Type parameters
-
-| Name |
-| :------ |
-| `V` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `current` | `V` |
-
-#### Returns
-
-[`UFO`](../interfaces/Powership.UFO-1.md)<`V`\>
-
-#### Defined in
-
-packages/utils/lib/ufo.d.ts:7
-
-___
 
 ### \_\_getCachedFieldInstance
 
@@ -6645,7 +6688,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/parseObjectDefinition.d.ts:36
+packages/schema/out/parseObjectDefinition.d.ts:36
 
 ___
 
@@ -6671,7 +6714,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:225
+packages/transporter/out/Transporter.d.ts:224
 
 ___
 
@@ -6692,7 +6735,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:46
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:46
 
 ___
 
@@ -6712,7 +6755,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/parsePath.d.ts:13
+packages/utils/out/parsePath.d.ts:13
 
 ___
 
@@ -6735,7 +6778,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/parseIndexCursor.d.ts:5
+packages/utils/out/IndexCursor/parseIndexCursor.d.ts:5
 
 ___
 
@@ -6755,7 +6798,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/parsePath.d.ts:12
+packages/utils/out/parsePath.d.ts:12
 
 ___
 
@@ -6775,7 +6818,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/simpleObjectHash.d.ts:2
+packages/utils/out/simpleObjectHash.d.ts:2
 
 ___
 
@@ -6796,7 +6839,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/BJSON.d.ts:56
+packages/utils/out/BJSON.d.ts:56
 
 ___
 
@@ -6810,7 +6853,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/threadId.d.ts:2
+packages/utils/out/threadId.d.ts:2
 
 ___
 
@@ -6831,7 +6874,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/diff/diff.d.ts:33
+packages/utils/out/diff/diff.d.ts:33
 
 ___
 
@@ -6852,7 +6895,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/areEqual.d.ts:1
+packages/utils/out/areEqual.d.ts:1
 
 ___
 
@@ -6881,7 +6924,7 @@ asserts value is ToBe extends Assertable ? ToBe : never
 
 #### Defined in
 
-packages/utils/lib/areEqual.d.ts:7
+packages/utils/out/areEqual.d.ts:7
 
 ___
 
@@ -6901,7 +6944,7 @@ asserts e is ErrorWithStack
 
 #### Defined in
 
-packages/utils/lib/invariant.d.ts:38
+packages/utils/out/invariant.d.ts:39
 
 ___
 
@@ -6922,7 +6965,7 @@ asserts input is FilterRecord<DocumentBase\>
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:228
+packages/transporter/out/Transporter.d.ts:227
 
 ___
 
@@ -6950,7 +6993,7 @@ asserts b is A
 
 #### Defined in
 
-packages/utils/lib/assertSame.d.ts:1
+packages/utils/out/assertSame.d.ts:1
 
 ___
 
@@ -6978,7 +7021,7 @@ asserts value is Infer<Type\>
 
 #### Defined in
 
-packages/schema/lib/assertType.d.ts:3
+packages/schema/out/assertType.d.ts:3
 
 ___
 
@@ -7006,7 +7049,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/expectedType.d.ts:10
+packages/utils/out/expectedType.d.ts:10
 
 ___
 
@@ -7032,7 +7075,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/awaitSync.d.ts:2
+packages/utils/out/awaitSync.d.ts:2
 
 ___
 
@@ -7052,7 +7095,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/textToBase64.d.ts:2
+packages/utils/out/textToBase64.d.ts:2
 
 ___
 
@@ -7072,13 +7115,13 @@ ___
 
 #### Defined in
 
-packages/utils/lib/stringCase.d.ts:2
+packages/utils/out/stringCase.d.ts:2
 
 ___
 
 ### captureStackTrace
 
-▸ **captureStackTrace**(`error`, `parent?`): `void`
+▸ **captureStackTrace**(`error`, `parent?`): `any`
 
 #### Parameters
 
@@ -7089,31 +7132,11 @@ ___
 
 #### Returns
 
-`void`
-
-#### Defined in
-
-packages/utils/lib/stackTrace.d.ts:2
-
-___
-
-### cleanMetaField
-
-▸ **cleanMetaField**(`input`): `any`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `input` | `any` |
-
-#### Returns
-
 `any`
 
 #### Defined in
 
-packages/schema/lib/fields/MetaFieldField.d.ts:19
+packages/utils/out/stackTrace.d.ts:2
 
 ___
 
@@ -7133,7 +7156,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/conust.d.ts:2
+packages/utils/out/conust.d.ts:2
 
 ___
 
@@ -7155,7 +7178,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/parseAggioAttributeFilters.d.ts:4
+packages/transporter/out/parseAggioAttributeFilters.d.ts:4
 
 ___
 
@@ -7179,27 +7202,13 @@ an index based search filter.
 
 #### Defined in
 
-packages/transporter/lib/createDocumentIndexBasedFilters.d.ts:9
-
-___
-
-### createEmptyMetaField
-
-▸ **createEmptyMetaField**(): [`MetaField`](../classes/Powership.MetaField.md)[``"asFinalFieldDef"``]
-
-#### Returns
-
-[`MetaField`](../classes/Powership.MetaField.md)[``"asFinalFieldDef"``]
-
-#### Defined in
-
-packages/schema/lib/fields/MetaFieldField.d.ts:18
+packages/transporter/out/createDocumentIndexBasedFilters.d.ts:9
 
 ___
 
 ### createEntity
 
-▸ **createEntity**<`InputDefinition`, `Indexes`, `Options`\>(`configOptions`): [`Entity`](../interfaces/Powership.Entity.md)<`InputDefinition`, `Indexes`\>
+▸ **createEntity**<`InputDefinition`, `Indexes`\>(`configOptions`): [`Entity`](../interfaces/Powership.Entity.md)<`InputDefinition`, `Indexes`\>
 
 #### Type parameters
 
@@ -7207,13 +7216,12 @@ ___
 | :------ | :------ |
 | `InputDefinition` | extends [`ObjectDefinitionInput`](Powership.md#objectdefinitioninput) |
 | `Indexes` | extends [`DocumentIndexesConfig`](../interfaces/Powership.DocumentIndexesConfig.md)<`string`, `Indexes`\> |
-| `Options` | extends [`EntityOptions`](Powership.md#entityoptions)<`InputDefinition`, `Indexes`\> = [`EntityOptions`](Powership.md#entityoptions)<`InputDefinition`, `Indexes`\> |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `configOptions` | [`EntityOptions`](Powership.md#entityoptions)<`InputDefinition`, `Indexes`\> \| () => [`EntityOptions`](Powership.md#entityoptions)<`InputDefinition`, `Indexes`\> |
+| `configOptions` | () => [`EntityOptions`](Powership.md#entityoptions)<`InputDefinition`, `Indexes`\> |
 
 #### Returns
 
@@ -7221,7 +7229,30 @@ ___
 
 #### Defined in
 
-packages/entity/lib/Entity.d.ts:6
+packages/entity/out/Entity.d.ts:8
+
+▸ **createEntity**<`InputDefinition`, `Indexes`\>(`configOptions`): [`Entity`](../interfaces/Powership.Entity.md)<`InputDefinition`, `Indexes`\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `InputDefinition` | extends [`ObjectDefinitionInput`](Powership.md#objectdefinitioninput) |
+| `Indexes` | extends [`DocumentIndexesConfig`](../interfaces/Powership.DocumentIndexesConfig.md)<`string`, `Indexes`\> |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `configOptions` | [`EntityOptions`](Powership.md#entityoptions)<`InputDefinition`, `Indexes`\> |
+
+#### Returns
+
+[`Entity`](../interfaces/Powership.Entity.md)<`InputDefinition`, `Indexes`\>
+
+#### Defined in
+
+packages/entity/out/Entity.d.ts:9
 
 ___
 
@@ -7242,7 +7273,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityPlugin.d.ts:8
+packages/entity/out/EntityPlugin.d.ts:8
 
 ___
 
@@ -7294,11 +7325,11 @@ ___
 | `is` | (`item`: `any`) => item is Object |
 | `prepareStackTrace?` | (`err`: `Error`, `stackTraces`: `NodeJS.CallSite`[]) => `any` |
 | `stackTraceLimit` | `number` |
-| `captureStackTrace` | (`targetObject`: `object`, `constructorOpt?`: `Function`) => `void` |
+| `captureStackTrace` | (`targetObject`: `object`, `constructorOpt?`: `Function`) => `void`(`targetObject`: `object`, `constructorOpt?`: `Function`) => `void` |
 
 #### Defined in
 
-packages/utils/lib/createErrorClass.d.ts:7
+packages/utils/out/createErrorClass.d.ts:7
 
 ___
 
@@ -7324,56 +7355,44 @@ ___
 
 #### Defined in
 
-packages/server/lib/graphql/graphqlHandler.d.ts:9
+packages/server/out/graphql/graphqlHandler.d.ts:9
 
 ___
 
 ### createGraphQLSchema
 
-▸ **createGraphQLSchema**<`T`\>(`resolvers?`, `config?`): `T` extends { `__isResolver`: `any`  } ? [`GraphQLSchemaWithUtils`](Powership.md#graphqlschemawithutils) : `never`
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | `any` |
+▸ **createGraphQLSchema**(`resolvers?`, `config?`): [`GraphQLSchemaWithUtils`](Powership.md#graphqlschemawithutils)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `resolvers?` | `T`[] |
+| `resolvers?` | [`Resolver`](Powership.md#resolver)<`unknown`, {}, `unknown`\>[] |
 | `config?` | `Partial`<`GraphQLSchemaConfig`\> |
 
 #### Returns
 
-`T` extends { `__isResolver`: `any`  } ? [`GraphQLSchemaWithUtils`](Powership.md#graphqlschemawithutils) : `never`
+[`GraphQLSchemaWithUtils`](Powership.md#graphqlschemawithutils)
 
 #### Defined in
 
-packages/schema/lib/createGraphQLSchema.d.ts:35
+packages/schema/out/createGraphQLSchema.d.ts:34
 
-▸ **createGraphQLSchema**<`Config`\>(`config?`): `Config` extends [`CreateGraphQLObjectOptions`](Powership.md#creategraphqlobjectoptions) ? [`GraphQLSchemaWithUtils`](Powership.md#graphqlschemawithutils) : `never`
-
-#### Type parameters
-
-| Name |
-| :------ |
-| `Config` |
+▸ **createGraphQLSchema**(`config?`): [`GraphQLSchemaWithUtils`](Powership.md#graphqlschemawithutils)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `config?` | `Config` |
+| `config?` | `Partial`<`GraphQLSchemaConfig`\> |
 
 #### Returns
 
-`Config` extends [`CreateGraphQLObjectOptions`](Powership.md#creategraphqlobjectoptions) ? [`GraphQLSchemaWithUtils`](Powership.md#graphqlschemawithutils) : `never`
+[`GraphQLSchemaWithUtils`](Powership.md#graphqlschemawithutils)
 
 #### Defined in
 
-packages/schema/lib/createGraphQLSchema.d.ts:38
+packages/schema/out/createGraphQLSchema.d.ts:35
 
 ___
 
@@ -7399,7 +7418,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/createModulesProxy.d.ts:18
+packages/utils/out/createModulesProxy.d.ts:18
 
 ___
 
@@ -7425,7 +7444,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:116
+packages/schema/out/ObjectType.d.ts:106
 
 ▸ **createObjectType**<`DefinitionInput`\>(`name`, `fields`): [`ObjectTypeFromInput`](Powership.md#objecttypefrominput)<`DefinitionInput`\>
 
@@ -7448,56 +7467,7 @@ packages/schema/lib/ObjectType.d.ts:116
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:117
-
-___
-
-### createPowershipObject
-
-▸ **createPowershipObject**<`DefinitionInput`\>(`fields`): [`ObjectTypeFromInput`](Powership.md#objecttypefrominput)<`DefinitionInput`\>
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `DefinitionInput` | extends `Readonly`<[`ObjectDefinitionInput`](Powership.md#objectdefinitioninput)\> |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `fields` | `Readonly`<`DefinitionInput`\> |
-
-#### Returns
-
-[`ObjectTypeFromInput`](Powership.md#objecttypefrominput)<`DefinitionInput`\>
-
-#### Defined in
-
-packages/schema/lib/ObjectType.d.ts:116
-
-▸ **createPowershipObject**<`DefinitionInput`\>(`name`, `fields`): [`ObjectTypeFromInput`](Powership.md#objecttypefrominput)<`DefinitionInput`\>
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `DefinitionInput` | extends `Readonly`<[`ObjectDefinitionInput`](Powership.md#objectdefinitioninput)\> |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `name` | `string` |
-| `fields` | `DefinitionInput` |
-
-#### Returns
-
-[`ObjectTypeFromInput`](Powership.md#objecttypefrominput)<`DefinitionInput`\>
-
-#### Defined in
-
-packages/schema/lib/ObjectType.d.ts:117
+packages/schema/out/ObjectType.d.ts:107
 
 ___
 
@@ -7524,105 +7494,38 @@ ___
 
 #### Defined in
 
-packages/utils/lib/createProxy.d.ts:7
+packages/utils/out/createProxy.d.ts:7
 
 ___
 
 ### createResolver
 
-▸ **createResolver**<`ResultType`, `ArgsType`\>(`config`): `Object`
+▸ **createResolver**<`Result_GraphType`\>(`config`): [`CreateResolverChain`](Powership.md#createresolverchain)<[[`IsKnown`](Powership.TU.md#isknown)<`Result_GraphType`\>] extends [``1``] ? [`Infer`](Powership.md#infer)<`Result_GraphType`\> : `unknown`\>
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `ResultType` | extends [`ObjectFieldInput`](Powership.md#objectfieldinput) |
-| `ArgsType` | extends [`ObjectDefinitionInput`](Powership.md#objectdefinitioninput) |
+| Name |
+| :------ |
+| `Result_GraphType` |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `config` | { `args?`: `ArgsType` \| `Readonly`<`ArgsType`\> ; `kind?`: `ResolverKind` ; `name`: `string` ; `resolve?`: `undefined` ; `type`: `ResultType` \| `Readonly`<`ResultType`\>  } & [`OptionalResolverConfig`](Powership.md#optionalresolverconfig)<`any`, `any`, `any`\> |
+| `config` | `Object` |
+| `config.args?` | `any` |
+| `config.kind?` | `ResolverKind` |
+| `config.name` | `string` |
+| `config.resolve?` | `any` |
+| `config.type` | `Result_GraphType` |
 
 #### Returns
 
-`Object`
-
-| Name | Type |
-| :------ | :------ |
-| `resolver` | <Returns, Root\>(`handler`: (`root`: `Root`, `args`: [`_ResolverArgs`](Powership.md#_resolverargs)<`ArgsType`\>, `context`: [`ResolverContextBase`](Powership.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => [`MaybePromise`](Powership.TU.md#maybepromise)<`Returns`\>) => { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: [`_ResolverArgs`](Powership.md#_resolverargs)<`ArgsType`\>, `context`: [`ResolverContextBase`](Powership.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => [`MaybePromise`](Powership.TU.md#maybepromise)<`Returns`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  } |
+[`CreateResolverChain`](Powership.md#createresolverchain)<[[`IsKnown`](Powership.TU.md#isknown)<`Result_GraphType`\>] extends [``1``] ? [`Infer`](Powership.md#infer)<`Result_GraphType`\> : `unknown`\>
 
 #### Defined in
 
-packages/schema/lib/Resolver.d.ts:40
-
-▸ **createResolver**<`ResultType`, `Returns`\>(`config`): { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: {}, `context`: [`ResolverContextBase`](Powership.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => [`MaybePromise`](Powership.TU.md#maybepromise)<`Returns`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  } & { `resolver?`: `undefined`  }
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `ResultType` | extends [`ObjectFieldInput`](Powership.md#objectfieldinput) |
-| `Returns` | `unknown` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `config` | { `args?`: `undefined` ; `kind?`: `ResolverKind` ; `name`: `string` ; `resolve`: <Root\>(`root`: `Root`, `args`: {}, `context`: [`ResolverContextBase`](Powership.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => [`MaybePromise`](Powership.TU.md#maybepromise)<`Returns`\> ; `type`: `ResultType` \| `Readonly`<`ResultType`\>  } & [`OptionalResolverConfig`](Powership.md#optionalresolverconfig)<`any`, `any`, `any`\> |
-
-#### Returns
-
-{ `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: {}, `context`: [`ResolverContextBase`](Powership.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => [`MaybePromise`](Powership.TU.md#maybepromise)<`Returns`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  } & { `resolver?`: `undefined`  }
-
-#### Defined in
-
-packages/schema/lib/Resolver.d.ts:49
-
-▸ **createResolver**<`ResultType`, `ArgsType`, `Returns`\>(`config`): { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: [`_ResolverArgs`](Powership.md#_resolverargs)<`ArgsType`\>, `context`: [`ResolverContextBase`](Powership.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => [`MaybePromise`](Powership.TU.md#maybepromise)<`Returns`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  } & { `resolver?`: `undefined`  }
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `ResultType` | extends [`ObjectFieldInput`](Powership.md#objectfieldinput) |
-| `ArgsType` | extends [`ObjectDefinitionInput`](Powership.md#objectdefinitioninput) |
-| `Returns` | `unknown` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `config` | { `args`: `ArgsType` \| `Readonly`<`ArgsType`\> ; `kind?`: `ResolverKind` ; `name`: `string` ; `resolve`: <Root\>(`root`: `Root`, `args`: [`_ResolverArgs`](Powership.md#_resolverargs)<`ArgsType`\>, `context`: [`ResolverContextBase`](Powership.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => [`MaybePromise`](Powership.TU.md#maybepromise)<`Returns`\> ; `type`: `ResultType` \| `Readonly`<`ResultType`\>  } & [`OptionalResolverConfig`](Powership.md#optionalresolverconfig)<`any`, `any`, `any`\> |
-
-#### Returns
-
-{ `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: [`_ResolverArgs`](Powership.md#_resolverargs)<`ArgsType`\>, `context`: [`ResolverContextBase`](Powership.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => [`MaybePromise`](Powership.TU.md#maybepromise)<`Returns`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  } & { `resolver?`: `undefined`  }
-
-#### Defined in
-
-packages/schema/lib/Resolver.d.ts:58
-
-___
-
-### createResolverFactory
-
-▸ **createResolverFactory**<`Context`\>(): [`CreateResolver`](../interfaces/Powership.CreateResolver.md)<`Context`\>
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Context` | extends [`ResolverContextBase`](Powership.md#resolvercontextbase) |
-
-#### Returns
-
-[`CreateResolver`](../interfaces/Powership.CreateResolver.md)<`Context`\>
-
-#### Defined in
-
-packages/schema/lib/Resolver.d.ts:68
+packages/schema/out/Resolver.d.ts:57
 
 ___
 
@@ -7650,7 +7553,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/createRouteHandler.d.ts:16
+packages/server/out/createRouteHandler.d.ts:16
 
 ▸ **createRouteHandler**<`Path`, `Callback`, `StaticData`\>(`path`, `handler`, `data`): `Handler`<`StaticData`\>
 
@@ -7676,7 +7579,7 @@ packages/server/lib/createRouteHandler.d.ts:16
 
 #### Defined in
 
-packages/server/lib/createRouteHandler.d.ts:17
+packages/server/out/createRouteHandler.d.ts:17
 
 ___
 
@@ -7704,56 +7607,59 @@ A wrapper around UrlPattern with improved typings
 
 #### Defined in
 
-packages/server/lib/routeMatch.d.ts:7
+packages/server/out/routeMatch.d.ts:7
 
 ___
 
-### createSchema
+### createSimpleRouter
 
-▸ **createSchema**<`DefinitionInput`\>(`fields`): [`ObjectTypeFromInput`](Powership.md#objecttypefrominput)<`DefinitionInput`\>
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `DefinitionInput` | extends `Readonly`<[`ObjectDefinitionInput`](Powership.md#objectdefinitioninput)\> |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `fields` | `Readonly`<`DefinitionInput`\> |
-
-#### Returns
-
-[`ObjectTypeFromInput`](Powership.md#objecttypefrominput)<`DefinitionInput`\>
-
-#### Defined in
-
-packages/schema/lib/ObjectType.d.ts:116
-
-▸ **createSchema**<`DefinitionInput`\>(`name`, `fields`): [`ObjectTypeFromInput`](Powership.md#objecttypefrominput)<`DefinitionInput`\>
+▸ **createSimpleRouter**<`Routes`\>(`config`): [`SimpleRouter`](Powership.md#simplerouter)<`Routes`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `DefinitionInput` | extends `Readonly`<[`ObjectDefinitionInput`](Powership.md#objectdefinitioninput)\> |
+| `Routes` | extends `Readonly`<{ `[K: string]`: [`RouteConfig`](Powership.md#routeconfig);  }\> |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `name` | `string` |
-| `fields` | `DefinitionInput` |
+| `config` | `Routes` |
 
 #### Returns
 
-[`ObjectTypeFromInput`](Powership.md#objecttypefrominput)<`DefinitionInput`\>
+[`SimpleRouter`](Powership.md#simplerouter)<`Routes`\>
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:117
+packages/schema/out/createSimpleRouter.d.ts:33
+
+___
+
+### createState
+
+▸ **createState**<`Value`\>(`initial`): [`MiniState`](../classes/Powership.MiniState.md)<`Value`, {}\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Value` | extends `object` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `initial` | `Value` |
+
+#### Returns
+
+[`MiniState`](../classes/Powership.MiniState.md)<`Value`, {}\>
+
+#### Defined in
+
+packages/utils/out/state/miniState.d.ts:77
 
 ___
 
@@ -7779,7 +7685,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/Store.d.ts:72
+packages/utils/out/Store.d.ts:72
 
 ___
 
@@ -7797,7 +7703,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `definition` | `Definition` \| (`utils`: `PowershipModules`) => `Definition` |
+| `definition` | `Definition` \| () => `Definition` |
 
 #### Returns
 
@@ -7805,7 +7711,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:117
+packages/schema/out/GraphType/GraphType.d.ts:79
 
 ▸ **createType**<`Definition`\>(`name`, `definition`): [`GraphType`](../classes/Powership.GraphType.md)<`Definition`\>
 
@@ -7820,7 +7726,7 @@ packages/schema/lib/GraphType/GraphType.d.ts:117
 | Name | Type |
 | :------ | :------ |
 | `name` | `string` |
-| `definition` | `Definition` \| (`utils`: `PowershipModules`) => `Definition` |
+| `definition` | `Definition` \| () => `Definition` |
 
 #### Returns
 
@@ -7828,7 +7734,7 @@ packages/schema/lib/GraphType/GraphType.d.ts:117
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:118
+packages/schema/out/GraphType/GraphType.d.ts:80
 
 ___
 
@@ -7865,7 +7771,50 @@ ___
 
 #### Defined in
 
-packages/utils/lib/createErrorClass.d.ts:69
+packages/utils/out/createErrorClass.d.ts:71
+
+___
+
+### dateFormat
+
+▸ **dateFormat**(`date?`, `mask?`, `utc?`, `gmt?`): `string`
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `date?` | `string` \| `number` \| `Date` | Defaults to the current date/time. |
+| `mask?` | `string` | Defaults to `masks.default`. |
+| `utc?` | `boolean` |  |
+| `gmt?` | `boolean` |  |
+
+#### Returns
+
+`string`
+
+A formatted version of the given date.
+
+#### Defined in
+
+packages/utils/out/dateFormat.d.ts:8
+
+▸ **dateFormat**(`mask?`, `utc?`, `gmt?`): `string`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `mask?` | `string` |
+| `utc?` | `boolean` |
+| `gmt?` | `boolean` |
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+packages/utils/out/dateFormat.d.ts:9
 
 ___
 
@@ -7885,7 +7834,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/dateSerialize.d.ts:1
+packages/utils/out/dateSerialize.d.ts:1
 
 ___
 
@@ -7911,7 +7860,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/deepFreeze.d.ts:2
+packages/utils/out/deepFreeze.d.ts:2
 
 ___
 
@@ -7940,7 +7889,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/getters/defineGetters.d.ts:10
+packages/utils/out/getters/defineGetters.d.ts:10
 
 ___
 
@@ -7960,33 +7909,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/delay.d.ts:1
-
-___
-
-### deleteCachedFieldInstance
-
-▸ **deleteCachedFieldInstance**<`T`\>(`def`): `T`
-
-#### Type parameters
-
-| Name |
-| :------ |
-| `T` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `def` | `T` |
-
-#### Returns
-
-`T`
-
-#### Defined in
-
-packages/schema/lib/parseObjectDefinition.d.ts:39
+packages/utils/out/delay.d.ts:1
 
 ___
 
@@ -8006,7 +7929,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/getTypeName.d.ts:29
+packages/utils/out/getTypeName.d.ts:29
 
 ___
 
@@ -8037,7 +7960,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/getTypeName.d.ts:31
+packages/utils/out/getTypeName.d.ts:31
 
 ___
 
@@ -8061,7 +7984,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/devAssert.d.ts:1
+packages/utils/out/devAssert.d.ts:1
 
 ___
 
@@ -8085,7 +8008,7 @@ Returns a list of differences between two types
 
 #### Defined in
 
-packages/utils/lib/diff/diff.d.ts:32
+packages/utils/out/diff/diff.d.ts:32
 
 ___
 
@@ -8105,7 +8028,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/encodeIndexValue.d.ts:1
+packages/transporter/out/encodeIndexValue.d.ts:1
 
 ___
 
@@ -8125,7 +8048,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/conust.d.ts:1
+packages/utils/out/conust.d.ts:1
 
 ___
 
@@ -8151,7 +8074,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/ensureArray.d.ts:1
+packages/utils/out/ensureArray.d.ts:1
 
 ___
 
@@ -8177,7 +8100,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/objectEntries.d.ts:4
+packages/utils/out/objectEntries.d.ts:4
 
 ___
 
@@ -8197,7 +8120,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:37
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:37
 
 ___
 
@@ -8217,7 +8140,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/scapeRegex.d.ts:1
+packages/utils/out/scapeRegex.d.ts:1
 
 ___
 
@@ -8245,59 +8168,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/expectedType.d.ts:10
-
-___
-
-### extendObjectDefinition
-
-▸ **extendObjectDefinition**<`Input`\>(`input`): [`ExtendObjectDefinition`](../interfaces/Powership.ExtendObjectDefinition.md)<`Input`, `Input`\>
-
-#### Type parameters
-
-| Name |
-| :------ |
-| `Input` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `input` | `Input` |
-
-#### Returns
-
-[`ExtendObjectDefinition`](../interfaces/Powership.ExtendObjectDefinition.md)<`Input`, `Input`\>
-
-#### Defined in
-
-packages/schema/lib/extendObjectDefinition.d.ts:35
-
-___
-
-### extendType
-
-▸ **extendType**<`Input`\>(`input`): [`ExtendType`](../interfaces/Powership.ExtendType.md)<`Input`\>
-
-#### Type parameters
-
-| Name |
-| :------ |
-| `Input` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `input` | `Input` |
-
-#### Returns
-
-[`ExtendType`](../interfaces/Powership.ExtendType.md)<`Input`\>
-
-#### Defined in
-
-packages/schema/lib/extendType.d.ts:20
+packages/utils/out/expectedType.d.ts:10
 
 ___
 
@@ -8318,7 +8189,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/mockObject.d.ts:13
+packages/schema/out/mockObject.d.ts:13
 
 ___
 
@@ -8344,7 +8215,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/filterNull.d.ts:1
+packages/utils/out/filterNull.d.ts:1
 
 ___
 
@@ -8364,7 +8235,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/fvn1a.d.ts:1
+packages/utils/out/fvn1a.d.ts:1
 
 ___
 
@@ -8384,7 +8255,33 @@ ___
 
 #### Defined in
 
-packages/utils/lib/formatGraphQL.d.ts:1
+packages/utils/out/formatGraphQL.d.ts:1
+
+___
+
+### formatTimezone
+
+▸ **formatTimezone**(`date`): `string`
+
+Get proper timezone abbreviation or timezone offset.
+
+This will fall back to `GMT+xxxx` if it does not recognize the
+timezone within the `timezone` RegEx above. Currently only common
+American and Australian timezone abbreviations are supported.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `date` | `any` |
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+packages/utils/out/dateFormat.d.ts:104
 
 ___
 
@@ -8405,7 +8302,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/formatWithPrettier.d.ts:3
+packages/utils/out/formatWithPrettier.d.ts:2
 
 ___
 
@@ -8425,7 +8322,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/threadId.d.ts:3
+packages/utils/out/threadId.d.ts:3
 
 ___
 
@@ -8451,7 +8348,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/deepFreeze.d.ts:2
+packages/utils/out/deepFreeze.d.ts:2
 
 ___
 
@@ -8478,7 +8375,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/getDocumentIndexFields.d.ts:2
+packages/transporter/out/getDocumentIndexFields.d.ts:2
 
 ___
 
@@ -8492,7 +8389,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/logLevels.d.ts:27
+packages/utils/out/logLevels.d.ts:27
 
 ___
 
@@ -8518,7 +8415,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/getKeys.d.ts:2
+packages/utils/out/getKeys.d.ts:2
 
 ___
 
@@ -8538,7 +8435,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/logLevels.d.ts:29
+packages/utils/out/logLevels.d.ts:29
 
 ___
 
@@ -8558,7 +8455,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/getTypeName.d.ts:21
+packages/utils/out/getTypeName.d.ts:21
 
 ___
 
@@ -8580,64 +8477,7 @@ Returns a string representation of the constructor of the given value if a simpl
 
 #### Defined in
 
-packages/utils/lib/getTypeName.d.ts:27
-
-___
-
-### getObjectDefinitionId
-
-▸ **getObjectDefinitionId**(`definition`, `nullable`): `string` \| `undefined`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `definition` | `Record`<`string`, `any`\> |
-| `nullable` | ``true`` |
-
-#### Returns
-
-`string` \| `undefined`
-
-#### Defined in
-
-packages/schema/lib/fields/MetaFieldField.d.ts:23
-
-▸ **getObjectDefinitionId**(`definition`): `string`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `definition` | `Record`<`string`, `any`\> |
-
-#### Returns
-
-`string`
-
-#### Defined in
-
-packages/schema/lib/fields/MetaFieldField.d.ts:24
-
-___
-
-### getObjectDefinitionMetaField
-
-▸ **getObjectDefinitionMetaField**(`input`): [`MetaField`](../classes/Powership.MetaField.md)[``"asFinalFieldDef"``] \| `undefined`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `input` | `Record`<`string`, `any`\> |
-
-#### Returns
-
-[`MetaField`](../classes/Powership.MetaField.md)[``"asFinalFieldDef"``] \| `undefined`
-
-#### Defined in
-
-packages/schema/lib/fields/MetaFieldField.d.ts:22
+packages/utils/out/getTypeName.d.ts:27
 
 ___
 
@@ -8657,13 +8497,13 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/createDocumentIndexBasedFilters.d.ts:10
+packages/transporter/out/createDocumentIndexBasedFilters.d.ts:10
 
 ___
 
 ### getResolver
 
-▸ **getResolver**(`name`): [`AnyResolver`](Powership.md#anyresolver)
+▸ **getResolver**(`name`): [`Resolver`](Powership.md#resolver)
 
 #### Parameters
 
@@ -8673,11 +8513,11 @@ ___
 
 #### Returns
 
-[`AnyResolver`](Powership.md#anyresolver)
+[`Resolver`](Powership.md#resolver)
 
 #### Defined in
 
-packages/schema/lib/Resolver.d.ts:37
+packages/schema/out/Resolver.d.ts:36
 
 ___
 
@@ -8697,7 +8537,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/stackTrace.d.ts:1
+packages/utils/out/stackTrace.d.ts:1
 
 ___
 
@@ -8717,7 +8557,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:119
+packages/schema/out/GraphType/GraphType.d.ts:81
 
 ___
 
@@ -8737,7 +8577,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/getTypeName.d.ts:1
+packages/utils/out/getTypeName.d.ts:1
 
 ___
 
@@ -8764,7 +8604,7 @@ obj is { [K in string]: unknown }
 
 #### Defined in
 
-packages/utils/lib/getKeys.d.ts:4
+packages/utils/out/getKeys.d.ts:4
 
 ___
 
@@ -8784,7 +8624,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/hashString.d.ts:2
+packages/utils/out/hashString.d.ts:2
 
 ___
 
@@ -8804,7 +8644,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/hashObject.d.ts:1
+packages/utils/out/hashObject.d.ts:1
 
 ___
 
@@ -8824,36 +8664,27 @@ ___
 
 #### Defined in
 
-packages/utils/lib/hashString.d.ts:1
+packages/utils/out/hashString.d.ts:1
 
 ___
 
-### implementObject
+### hey
 
-▸ **implementObject**<`Def`, `Parents`\>(`name`, `definition`, `...parents`): [`ImplementObject`](Powership.md#implementobject)<[`ObjectType`](../classes/Powership.ObjectType.md)<`Def`\>, `Parents`\>
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Def` | extends [`ObjectDefinitionInput`](Powership.md#objectdefinitioninput) |
-| `Parents` | extends readonly [`ObjectLike`](../interfaces/Powership.ObjectLike.md)[] |
+▸ **hey**(`...args`): `string`
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `name` | `string` |
-| `definition` | `Readonly`<`Def`\> |
-| `...parents` | `Parents` |
+| `...args` | [`HeyParams`](Powership.md#heyparams) |
 
 #### Returns
 
-[`ImplementObject`](Powership.md#implementobject)<[`ObjectType`](../classes/Powership.ObjectType.md)<`Def`\>, `Parents`\>
+`string`
 
 #### Defined in
 
-packages/schema/lib/implementObject.d.ts:8
+packages/utils/out/hey.d.ts:24
 
 ___
 
@@ -8880,7 +8711,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/parseIndexCursor.d.ts:9
+packages/utils/out/IndexCursor/parseIndexCursor.d.ts:9
 
 ___
 
@@ -8901,7 +8732,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/nodeLogger.d.ts:45
+packages/utils/out/nodeLogger.d.ts:45
 
 ___
 
@@ -8923,7 +8754,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/inspectObject.d.ts:8
+packages/utils/out/inspectObject.d.ts:8
 
 ___
 
@@ -8945,7 +8776,7 @@ asserts truthy
 
 #### Defined in
 
-packages/utils/lib/invariant.d.ts:44
+packages/utils/out/invariant.d.ts:46
 
 ___
 
@@ -8968,7 +8799,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/invariant.d.ts:45
+packages/utils/out/invariant.d.ts:47
 
 ___
 
@@ -8982,7 +8813,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/isBrowser.d.ts:1
+packages/utils/out/isBrowser.d.ts:2
 
 ___
 
@@ -9002,7 +8833,7 @@ value is AnyEntity
 
 #### Defined in
 
-packages/entity/lib/Entity.d.ts:7
+packages/entity/out/Entity.d.ts:10
 
 ___
 
@@ -9022,7 +8853,7 @@ t is ErrorWithStack
 
 #### Defined in
 
-packages/utils/lib/invariant.d.ts:39
+packages/utils/out/invariant.d.ts:40
 
 ___
 
@@ -9042,27 +8873,7 @@ el is FieldTypeError
 
 #### Defined in
 
-packages/schema/lib/fields/FieldTypeErrors.d.ts:9
-
-___
-
-### isFieldInstance
-
-▸ **isFieldInstance**(`t`): t is TAnyFieldType
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `t` | `any` |
-
-#### Returns
-
-t is TAnyFieldType
-
-#### Defined in
-
-packages/schema/lib/fields/FieldType.d.ts:68
+packages/schema/out/fields/FieldTypeErrors.d.ts:9
 
 ___
 
@@ -9082,7 +8893,7 @@ input is keyof AllFilterOperations \| keyof RootFilterOperators<Doc\>
 
 #### Defined in
 
-packages/transporter/lib/Transporter.d.ts:229
+packages/transporter/out/Transporter.d.ts:228
 
 ___
 
@@ -9104,7 +8915,7 @@ Checks if the field names should be hidden from generated code
 
 #### Defined in
 
-packages/schema/lib/isHiddenFieldName.d.ts:5
+packages/schema/out/isHiddenFieldName.d.ts:5
 
 ___
 
@@ -9124,48 +8935,7 @@ value is "error" \| "emerg" \| "alert" \| "crit" \| "warning" \| "notice" \| "in
 
 #### Defined in
 
-packages/utils/lib/logLevels.d.ts:26
-
-___
-
-### isMetaField
-
-▸ **isMetaField**(`t`, `fieldName?`): t is Object
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `t` | `any` |
-| `fieldName?` | `string` |
-
-#### Returns
-
-t is Object
-
-#### Defined in
-
-packages/schema/lib/fields/MetaFieldField.d.ts:21
-
-___
-
-### isMetaFieldKey
-
-▸ **isMetaFieldKey**(`t`): t is "\_\_dschm\_\_"
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `t` | `any` |
-
-#### Returns
-
-t is "\_\_dschm\_\_"
-
-#### Defined in
-
-packages/schema/lib/fields/MetaFieldField.d.ts:20
+packages/utils/out/logLevels.d.ts:26
 
 ___
 
@@ -9185,7 +8955,7 @@ value is AnyRecord
 
 #### Defined in
 
-packages/utils/lib/isObject.d.ts:2
+packages/utils/out/isObject.d.ts:2
 
 ___
 
@@ -9207,47 +8977,7 @@ input is FieldDefinitionWithType<ObjectType<any, Object\>\>
 
 #### Defined in
 
-packages/schema/lib/parseObjectDefinition.d.ts:33
-
-___
-
-### isObjectType
-
-▸ **isObjectType**(`input`): input is ObjectType<any, Object\>
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `input` | `any` |
-
-#### Returns
-
-input is ObjectType<any, Object\>
-
-#### Defined in
-
-packages/schema/lib/objectInferenceUtils.d.ts:5
-
-___
-
-### isObjectValidationError
-
-▸ **isObjectValidationError**(`input`): input is Error & Object
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `input` | `any` |
-
-#### Returns
-
-input is Error & Object
-
-#### Defined in
-
-packages/schema/lib/objectInferenceUtils.d.ts:2
+packages/schema/out/parseObjectDefinition.d.ts:33
 
 ___
 
@@ -9267,7 +8997,7 @@ value is Record<string, any\>
 
 #### Defined in
 
-packages/utils/lib/getTypeName.d.ts:28
+packages/utils/out/getTypeName.d.ts:28
 
 ___
 
@@ -9287,7 +9017,7 @@ value is AnyRecord
 
 #### Defined in
 
-packages/utils/lib/isObject.d.ts:3
+packages/utils/out/isObject.d.ts:3
 
 ___
 
@@ -9307,7 +9037,7 @@ args is Readonly<ObjectDefinitionInput\>
 
 #### Defined in
 
-packages/schema/lib/Resolver.d.ts:36
+packages/schema/out/Resolver.d.ts:35
 
 ___
 
@@ -9321,27 +9051,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/env.d.ts:1
-
-___
-
-### isUFO
-
-▸ **isUFO**(`input`): input is UFO<unknown\>
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `input` | `any` |
-
-#### Returns
-
-input is UFO<unknown\>
-
-#### Defined in
-
-packages/utils/lib/ufo.d.ts:13
+packages/utils/out/env.d.ts:1
 
 ___
 
@@ -9361,7 +9071,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:47
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:47
 
 ___
 
@@ -9382,7 +9092,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:34
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:34
 
 ___
 
@@ -9403,7 +9113,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:38
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:38
 
 ___
 
@@ -9426,7 +9136,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:39
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:39
 
 ___
 
@@ -9446,7 +9156,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/stringCase.d.ts:3
+packages/utils/out/stringCase.d.ts:3
 
 ___
 
@@ -9466,7 +9176,99 @@ ___
 
 #### Defined in
 
-packages/utils/lib/stringCase.d.ts:4
+packages/utils/out/stringCase.d.ts:4
+
+___
+
+### joinTemplateString
+
+▸ **joinTemplateString**(`strings`, `keys?`): `Object`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `strings` | `TemplateStringsArray` |
+| `keys?` | [`JTSKey`](Powership.md#jtskey)[] |
+
+#### Returns
+
+`Object`
+
+| Name | Type |
+| :------ | :------ |
+| `mediaRules` | `string`[] |
+| `root` | `string` |
+
+#### Defined in
+
+packages/utils/out/joinTemplateString.d.ts:5
+
+___
+
+### jsonClone
+
+▸ **jsonClone**<`T`\>(`value`): `T`
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `T` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `value` | `T` |
+
+#### Returns
+
+`T`
+
+#### Defined in
+
+packages/utils/out/jsonClone.d.ts:1
+
+___
+
+### jsonParse
+
+▸ **jsonParse**(`input`): [[`Powership`](Powership.md), ``null``] \| [``null``, `Record`<`string`, `any`\>]
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `input` | `unknown` |
+
+#### Returns
+
+[[`Powership`](Powership.md), ``null``] \| [``null``, `Record`<`string`, `any`\>]
+
+#### Defined in
+
+packages/utils/out/jsonClone.d.ts:3
+
+___
+
+### jsonStringify
+
+▸ **jsonStringify**(`input`): [[`Powership`](Powership.md), ``null``] \| [``null``, `string`]
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `input` | `unknown` |
+
+#### Returns
+
+[[`Powership`](Powership.md), ``null``] \| [``null``, `string`]
+
+#### Defined in
+
+packages/utils/out/jsonClone.d.ts:2
 
 ___
 
@@ -9488,7 +9290,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/jsonToTypescript.d.ts:5
+packages/utils/out/jsonToTypescript.d.ts:5
 
 ___
 
@@ -9517,7 +9319,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/keyBy.d.ts:1
+packages/utils/out/keyBy.d.ts:1
 
 ___
 
@@ -9543,7 +9345,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/objectEntries.d.ts:5
+packages/utils/out/objectEntries.d.ts:5
 
 ___
 
@@ -9569,27 +9371,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/mapper.d.ts:7
-
-___
-
-### memoize
-
-▸ **memoize**(`...args`): `any`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `...args` | `any`[] |
-
-#### Returns
-
-`any`
-
-#### Defined in
-
-packages/utils/lib/memoize.d.ts:1
+packages/utils/out/mapper.d.ts:7
 
 ___
 
@@ -9615,7 +9397,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/merge.d.ts:2
+packages/utils/out/merge.d.ts:2
 
 ___
 
@@ -9637,7 +9419,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/mergeIndexRelationsResult.d.ts:3
+packages/transporter/out/mergeIndexRelationsResult.d.ts:3
 
 ___
 
@@ -9658,7 +9440,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/parseFilterCursor.d.ts:3
+packages/utils/out/IndexCursor/parseFilterCursor.d.ts:3
 
 ___
 
@@ -9685,7 +9467,7 @@ Error if `value` is not a non-empty string or a number
 
 #### Defined in
 
-packages/utils/lib/ms.d.ts:17
+packages/utils/out/ms.d.ts:17
 
 ▸ **ms**(`value`, `options?`): `string`
 
@@ -9702,7 +9484,7 @@ packages/utils/lib/ms.d.ts:17
 
 #### Defined in
 
-packages/utils/lib/ms.d.ts:18
+packages/utils/out/ms.d.ts:18
 
 ___
 
@@ -9729,7 +9511,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/invariant.d.ts:2
+packages/utils/out/invariant.d.ts:2
 
 ___
 
@@ -9756,7 +9538,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/invariant.d.ts:5
+packages/utils/out/invariant.d.ts:5
 
 ___
 
@@ -9782,7 +9564,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/getKeys.d.ts:3
+packages/utils/out/getKeys.d.ts:3
 
 ___
 
@@ -9809,7 +9591,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/mockObject.d.ts:8
+packages/schema/out/mockObject.d.ts:8
 
 ___
 
@@ -9837,7 +9619,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/override.d.ts:2
+packages/utils/out/override.d.ts:2
 
 ___
 
@@ -9857,7 +9639,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/parseAggioAttributeFilters.d.ts:8
+packages/transporter/out/parseAggioAttributeFilters.d.ts:8
 
 ___
 
@@ -9877,7 +9659,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/parseAggioUpdateExpression.d.ts:3
+packages/transporter/out/parseAggioUpdateExpression.d.ts:3
 
 ___
 
@@ -9903,7 +9685,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:461
+packages/transporter/out/CollectionIndex.d.ts:461
 
 ___
 
@@ -9923,7 +9705,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/parseEntityIndexFields.d.ts:2
+packages/transporter/out/parseEntityIndexFields.d.ts:2
 
 ___
 
@@ -9943,7 +9725,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/parseObjectDefinition.d.ts:10
+packages/schema/out/parseObjectDefinition.d.ts:10
 
 ___
 
@@ -9971,7 +9753,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/parseObjectDefinition.d.ts:11
+packages/schema/out/parseObjectDefinition.d.ts:11
 
 ___
 
@@ -9991,7 +9773,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/parseFilterCursor.d.ts:6
+packages/utils/out/IndexCursor/parseFilterCursor.d.ts:6
 
 ___
 
@@ -10012,7 +9794,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/parseFilterIndexFilterParts.d.ts:12
+packages/transporter/out/parseFilterIndexFilterParts.d.ts:12
 
 ___
 
@@ -10033,7 +9815,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/parseObjectDefinition.d.ts:34
+packages/schema/out/parseObjectDefinition.d.ts:34
 
 ___
 
@@ -10054,7 +9836,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/parseIndexCursor.d.ts:4
+packages/utils/out/IndexCursor/parseIndexCursor.d.ts:4
 
 ___
 
@@ -10075,7 +9857,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/parseIndexFieldName.d.ts:1
+packages/utils/out/IndexCursor/parseIndexFieldName.d.ts:1
 
 ___
 
@@ -10096,7 +9878,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/parseObjectDefinition.d.ts:28
+packages/schema/out/parseObjectDefinition.d.ts:28
 
 ___
 
@@ -10125,7 +9907,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/parseObjectDefinition.d.ts:8
+packages/schema/out/parseObjectDefinition.d.ts:8
 
 ▸ **parseObjectField**<`T`\>(`fieldName`, `definition`): [`FinalFieldDefinition`](Powership.md#finalfielddefinition)
 
@@ -10148,7 +9930,7 @@ packages/schema/lib/parseObjectDefinition.d.ts:8
 
 #### Defined in
 
-packages/schema/lib/parseObjectDefinition.d.ts:9
+packages/schema/out/parseObjectDefinition.d.ts:9
 
 ___
 
@@ -10168,7 +9950,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:477
+packages/transporter/out/CollectionIndex.d.ts:477
 
 ___
 
@@ -10188,7 +9970,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/parsePath.d.ts:11
+packages/utils/out/parsePath.d.ts:11
 
 ___
 
@@ -10215,13 +9997,13 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/parseUpdateExpression.d.ts:9
+packages/transporter/out/parseUpdateExpression.d.ts:9
 
 ___
 
 ### parseValidationError
 
-▸ **parseValidationError**(`input`, `customMessage`, `originalError`): `Error` & { `[K: string]`: `any`;  }
+▸ **parseValidationError**(`input`, `customMessage`, `originalError`): [`FieldTypeError`](../classes/Powership.FieldTypeError.md) \| `Error` & { `[K: string]`: `any`;  }
 
 #### Parameters
 
@@ -10233,11 +10015,11 @@ ___
 
 #### Returns
 
-`Error` & { `[K: string]`: `any`;  }
+[`FieldTypeError`](../classes/Powership.FieldTypeError.md) \| `Error` & { `[K: string]`: `any`;  }
 
 #### Defined in
 
-packages/schema/lib/applyValidator.d.ts:13
+packages/schema/out/applyValidator.d.ts:14
 
 ___
 
@@ -10267,7 +10049,7 @@ Pick one object property by path
 
 #### Defined in
 
-packages/utils/lib/pick.d.ts:7
+packages/utils/out/pick.d.ts:7
 
 ___
 
@@ -10293,7 +10075,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/pickIndexKeyPartsFromDocument.d.ts:2
+packages/transporter/out/pickIndexKeyPartsFromDocument.d.ts:2
 
 ___
 
@@ -10313,7 +10095,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/pluralize.d.ts:1
+packages/utils/out/pluralize.d.ts:1
 
 ___
 
@@ -10341,7 +10123,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/project.d.ts:2
+packages/utils/out/project.d.ts:2
 
 ___
 
@@ -10367,7 +10149,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/createProxy.d.ts:6
+packages/utils/out/createProxy.d.ts:6
 
 ___
 
@@ -10387,7 +10169,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:50
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:50
 
 ___
 
@@ -10408,7 +10190,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/randomInt.d.ts:1
+packages/utils/out/randomInt.d.ts:1
 
 ___
 
@@ -10434,7 +10216,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/randomItem.d.ts:1
+packages/utils/out/randomItem.d.ts:1
 
 ___
 
@@ -10448,7 +10230,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/randomItem.d.ts:2
+packages/utils/out/randomItem.d.ts:2
 
 ___
 
@@ -10476,7 +10258,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/reduceObject.d.ts:1
+packages/utils/out/reduceObject.d.ts:1
 
 ___
 
@@ -10496,7 +10278,27 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityStore.d.ts:5
+packages/entity/out/EntityStore.d.ts:5
+
+___
+
+### removeDiacritics
+
+▸ **removeDiacritics**(`string`): `string`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `string` | `string` |
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+packages/utils/out/stringCase.d.ts:5
 
 ___
 
@@ -10510,7 +10312,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:101
+packages/schema/out/ObjectType.d.ts:108
 
 ___
 
@@ -10530,13 +10332,13 @@ ___
 
 #### Defined in
 
-packages/schema/lib/createGraphQLSchema.d.ts:84
+packages/schema/out/createGraphQLSchema.d.ts:61
 
 ___
 
 ### resolversTypescriptParts
 
-▸ **resolversTypescriptParts**(`params`): `Promise`<{ `code`: `string` ; `lines`: { `args`: { `code`: `any` ; `comments`: `string` ; `description`: `string`  } ; `code`: `string` ; `entryName`: `string` ; `inputName`: `any` ; `payload`: { `code`: `any` ; `comments`: `string` ; `description`: `string`  } ; `payloadName`: `any` ; `resolver`: { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField` ; `astNode?`: `Maybe` ; `deprecationReason?`: `Maybe` ; `description?`: `Maybe` ; `extensions?`: `Maybe` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: `any`, `context`: `any`, `info`: `GraphQLResolveInfo`) => `any` ; `subscribe?`: `GraphQLFieldResolver` ; `type`: `any` ; `typeDef`: `any`  }  }[]  }\>
+▸ **resolversTypescriptParts**(`params`): `Promise`<{ `code`: `string` ; `lines`: { `args`: { `code`: `any` ; `comments`: `string` ; `description`: `string`  } ; `code`: `string` ; `entryName`: `string` ; `inputName`: `any` ; `payload`: { `code`: `any` ; `comments`: `string` ; `description`: `string`  } ; `payloadName`: `any` ; `resolver`: [`Resolver`](Powership.md#resolver)  }[]  }\>
 
 #### Parameters
 
@@ -10546,11 +10348,11 @@ ___
 
 #### Returns
 
-`Promise`<{ `code`: `string` ; `lines`: { `args`: { `code`: `any` ; `comments`: `string` ; `description`: `string`  } ; `code`: `string` ; `entryName`: `string` ; `inputName`: `any` ; `payload`: { `code`: `any` ; `comments`: `string` ; `description`: `string`  } ; `payloadName`: `any` ; `resolver`: { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField` ; `astNode?`: `Maybe` ; `deprecationReason?`: `Maybe` ; `description?`: `Maybe` ; `extensions?`: `Maybe` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: `any`, `context`: `any`, `info`: `GraphQLResolveInfo`) => `any` ; `subscribe?`: `GraphQLFieldResolver` ; `type`: `any` ; `typeDef`: `any`  }  }[]  }\>
+`Promise`<{ `code`: `string` ; `lines`: { `args`: { `code`: `any` ; `comments`: `string` ; `description`: `string`  } ; `code`: `string` ; `entryName`: `string` ; `inputName`: `any` ; `payload`: { `code`: `any` ; `comments`: `string` ; `description`: `string`  } ; `payloadName`: `any` ; `resolver`: [`Resolver`](Powership.md#resolver)  }[]  }\>
 
 #### Defined in
 
-packages/schema/lib/createGraphQLSchema.d.ts:44
+packages/schema/out/createGraphQLSchema.d.ts:41
 
 ___
 
@@ -10579,7 +10381,27 @@ ___
 
 #### Defined in
 
-packages/utils/lib/setByPath.d.ts:1
+packages/utils/out/setByPath.d.ts:1
+
+___
+
+### setDefaultTransporter
+
+▸ **setDefaultTransporter**(`transporter`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `transporter` | `undefined` \| [`Transporter`](../interfaces/Powership.Transporter.md)<`any`\> |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+packages/entity/out/Entity.d.ts:7
 
 ___
 
@@ -10599,33 +10421,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/logLevels.d.ts:28
-
-___
-
-### setPrettier
-
-▸ **setPrettier**<`Prettier`\>(`prettier`): `void`
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Prettier` | extends `Object` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `prettier` | `Prettier` |
-
-#### Returns
-
-`void`
-
-#### Defined in
-
-packages/utils/lib/formatWithPrettier.d.ts:9
+packages/utils/out/logLevels.d.ts:28
 
 ___
 
@@ -10653,7 +10449,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/simpleObjectClone.d.ts:1
+packages/utils/out/simpleObjectClone.d.ts:1
 
 ___
 
@@ -10673,7 +10469,33 @@ ___
 
 #### Defined in
 
-packages/utils/lib/simpleObjectHash.d.ts:1
+packages/utils/out/simpleObjectHash.d.ts:1
+
+___
+
+### skipper
+
+▸ **skipper**<`T`\>(`callback`): `T`
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `T` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `callback` | (`skip`: (`value`: `T`) => `T`) => `T` |
+
+#### Returns
+
+`T`
+
+#### Defined in
+
+packages/utils/out/skipper.d.ts:1
 
 ___
 
@@ -10700,7 +10522,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/sortObject.d.ts:1
+packages/utils/out/sortObject.d.ts:1
 
 ___
 
@@ -10720,7 +10542,27 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:48
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:48
+
+___
+
+### streamToString
+
+▸ **streamToString**(`stream`): `Promise`<`string`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `stream` | `ReadableStream`<`Uint8Array`\> |
+
+#### Returns
+
+`Promise`<`string`\>
+
+#### Defined in
+
+packages/utils/out/streamToString.d.ts:1
 
 ___
 
@@ -10740,7 +10582,27 @@ ___
 
 #### Defined in
 
-packages/utils/lib/hashString.d.ts:1
+packages/utils/out/hashString.d.ts:1
+
+___
+
+### stringToValue
+
+▸ **stringToValue**(`string`): `string`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `string` | `string` |
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+packages/utils/out/stringCase.d.ts:6
 
 ___
 
@@ -10761,7 +10623,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/BJSON.d.ts:55
+packages/utils/out/BJSON.d.ts:55
 
 ___
 
@@ -10781,7 +10643,34 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:49
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:49
+
+___
+
+### templateStringToText
+
+▸ **templateStringToText**<`T`\>(`input`, `...values`): `any`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `input` | `string` \| `TemplateStringsArray` |
+| `...values` | `T`[] |
+
+#### Returns
+
+`any`
+
+#### Defined in
+
+packages/utils/out/hey.d.ts:15
 
 ___
 
@@ -10801,7 +10690,54 @@ ___
 
 #### Defined in
 
-packages/utils/lib/textToBase64.d.ts:1
+packages/utils/out/textToBase64.d.ts:1
+
+___
+
+### trimTabs
+
+▸ **trimTabs**(`input`, `...values`): `string`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `input` | `string` \| `TemplateStringsArray` |
+| `...values` | `any`[] |
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+packages/utils/out/hey.d.ts:14
+
+___
+
+### tryCatch
+
+▸ **tryCatch**<`T`\>(`fn`): [`T`] extends [`Promise`<infer R\>] ? `Promise`<[[`ErrorWithStack`](../interfaces/Powership.ErrorWithStack.md), ``null``] \| [``null``, `R`]\> : [[`ErrorWithStack`](../interfaces/Powership.ErrorWithStack.md), ``null``] \| [``null``, `T`]
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `T` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `fn` | () => `T` |
+
+#### Returns
+
+[`T`] extends [`Promise`<infer R\>] ? `Promise`<[[`ErrorWithStack`](../interfaces/Powership.ErrorWithStack.md), ``null``] \| [``null``, `R`]\> : [[`ErrorWithStack`](../interfaces/Powership.ErrorWithStack.md), ``null``] \| [``null``, `T`]
+
+#### Defined in
+
+packages/utils/out/tryCatch.d.ts:2
 
 ___
 
@@ -10827,7 +10763,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:6
+packages/utils/out/typings/index.d.ts:6
 
 ___
 
@@ -10853,7 +10789,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:14
+packages/utils/out/typings/index.d.ts:14
 
 ___
 
@@ -10879,59 +10815,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:13
-
-___
-
-### ufo
-
-▸ **ufo**<`V`\>(`current`): [`UFO`](../interfaces/Powership.UFO-1.md)<`V`\>
-
-#### Type parameters
-
-| Name |
-| :------ |
-| `V` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `current` | `V` |
-
-#### Returns
-
-[`UFO`](../interfaces/Powership.UFO-1.md)<`V`\>
-
-#### Defined in
-
-packages/utils/lib/ufo.d.ts:7
-
-___
-
-### ufos
-
-▸ **ufos**<`V`\>(`current`): [`UFO`](../interfaces/Powership.UFO-1.md)<`V`\>
-
-#### Type parameters
-
-| Name |
-| :------ |
-| `V` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `current` | `V` |
-
-#### Returns
-
-[`UFO`](../interfaces/Powership.UFO-1.md)<`V`\>
-
-#### Defined in
-
-packages/utils/lib/ufo.d.ts:7
+packages/utils/out/typings/index.d.ts:13
 
 ___
 
@@ -10951,7 +10835,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/ulid.d.ts:1
+packages/utils/out/ulid.d.ts:1
 
 ___
 
@@ -10977,7 +10861,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/uniq.d.ts:2
+packages/utils/out/uniq.d.ts:2
 
 ___
 
@@ -11004,7 +10888,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/uniq.d.ts:3
+packages/utils/out/uniq.d.ts:3
 
 ___
 
@@ -11024,7 +10908,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/upperFirst.d.ts:1
+packages/utils/out/upperFirst.d.ts:1
 
 ___
 
@@ -11038,7 +10922,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/useProcess.d.ts:3
+packages/utils/out/useProcess.d.ts:5
 
 ___
 
@@ -11064,7 +10948,33 @@ ___
 
 #### Defined in
 
-packages/utils/lib/objectEntries.d.ts:6
+packages/utils/out/objectEntries.d.ts:6
+
+___
+
+### watchable
+
+▸ **watchable**<`T`\>(`callback`): `T` & () => `T`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends `object` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `callback` | () => `T` |
+
+#### Returns
+
+`T` & () => `T`
+
+#### Defined in
+
+packages/utils/out/watchable.d.ts:15
 
 ___
 
@@ -11092,4 +11002,24 @@ ___
 
 #### Defined in
 
-packages/utils/lib/invariant.d.ts:37
+packages/utils/out/invariant.d.ts:38
+
+___
+
+### writeToStdoutSync
+
+▸ **writeToStdoutSync**(`input`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `input` | `string` |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+packages/utils/out/hey.d.ts:13

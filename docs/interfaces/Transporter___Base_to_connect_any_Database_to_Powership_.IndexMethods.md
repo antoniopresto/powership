@@ -33,7 +33,7 @@
 
 #### Defined in
 
-packages/transporter/src/IndexMethods.ts:33
+[packages/transporter/src/IndexMethods.ts:33](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/IndexMethods.ts#L33)
 
 ___
 
@@ -43,7 +43,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/IndexMethods.ts:37
+[packages/transporter/src/IndexMethods.ts:37](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/IndexMethods.ts#L37)
 
 ___
 
@@ -53,7 +53,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/IndexMethods.ts:38
+[packages/transporter/src/IndexMethods.ts:38](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/IndexMethods.ts#L38)
 
 ___
 
@@ -63,7 +63,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/IndexMethods.ts:39
+[packages/transporter/src/IndexMethods.ts:39](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/IndexMethods.ts#L39)
 
 ___
 
@@ -73,7 +73,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/IndexMethods.ts:35
+[packages/transporter/src/IndexMethods.ts:35](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/IndexMethods.ts#L35)
 
 ___
 
@@ -83,7 +83,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/IndexMethods.ts:34
+[packages/transporter/src/IndexMethods.ts:34](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/IndexMethods.ts#L34)
 
 ___
 
@@ -93,7 +93,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/IndexMethods.ts:36
+[packages/transporter/src/IndexMethods.ts:36](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/IndexMethods.ts#L36)
 
 ___
 
@@ -103,7 +103,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/IndexMethods.ts:40
+[packages/transporter/src/IndexMethods.ts:40](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/IndexMethods.ts#L40)
 
 ___
 
@@ -113,4 +113,4 @@ ___
 
 #### Defined in
 
-packages/transporter/src/IndexMethods.ts:41
+[packages/transporter/src/IndexMethods.ts:41](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/IndexMethods.ts#L41)

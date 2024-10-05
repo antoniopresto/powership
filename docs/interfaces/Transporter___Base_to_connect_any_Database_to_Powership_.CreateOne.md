@@ -22,7 +22,7 @@
 
 | Name | Type |
 | :------ | :------ |
-| `options` | `Indexes`[`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#filterrecord)<`Input`\> ; `context`: `undefined` \| [`LoaderContext`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#loadercontext) ; `item`: `Input` ; `replace`: `undefined` \| `boolean`  } : `never` : `never` : `never` |
+| `options` | `Indexes`[`number`] extends `I` ? `I` extends `unknown` ? `I` extends { `PK`: readonly `PK`[] ; `SK?`: readonly `SK`[]  } ? { `condition`: `undefined` \| [`FilterRecord`](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md#filterrecord)<`Input`\> ; `context`: `undefined` \| [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Powership_.LoaderContext.md) ; `item`: `Input` ; `replace`: `undefined` \| `boolean`  } : `never` : `never` : `never` |
 
 #### Returns
 
@@ -30,4 +30,4 @@
 
 #### Defined in
 
-packages/transporter/src/IndexMethods.ts:49
+[packages/transporter/src/IndexMethods.ts:49](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/IndexMethods.ts#L49)

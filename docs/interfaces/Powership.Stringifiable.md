@@ -22,4 +22,4 @@
 
 #### Defined in
 
-packages/utils/lib/typings/index.d.ts:9
+packages/utils/out/typings/index.d.ts:9

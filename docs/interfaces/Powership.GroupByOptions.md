@@ -19,7 +19,7 @@
 
 #### Defined in
 
-packages/utils/lib/Store.d.ts:31
+packages/utils/out/Store.d.ts:31
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 #### Defined in
 
-packages/utils/lib/Store.d.ts:32
+packages/utils/out/Store.d.ts:32

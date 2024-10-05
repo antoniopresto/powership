@@ -45,6 +45,7 @@
 - [EntityHooksCreateDefinitionKind](Entity.md#entityhookscreatedefinitionkind-1)
 - [EntityStore](Entity.md#entitystore)
 - [PageInfoType](Entity.md#pageinfotype)
+- [defaultGlobalTransporter](Entity.md#defaultglobaltransporter)
 
 ### Functions
 
@@ -52,6 +53,7 @@
 - [createEntityPlugin](Entity.md#createentityplugin)
 - [isEntity](Entity.md#isentity)
 - [registerEntity](Entity.md#registerentity)
+- [setDefaultTransporter](Entity.md#setdefaulttransporter)
 
 ## Type Aliases
 
@@ -61,7 +63,7 @@
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/Entity.ts:15
+[packages/entity/src/EntityInterfaces/Entity.ts:15](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/Entity.ts#L15)
 
 ___
 
@@ -71,7 +73,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/Context.ts:63
+[packages/entity/src/EntityInterfaces/Context.ts:63](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/Context.ts#L63)
 
 ___
 
@@ -87,7 +89,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/paginationUtils.ts:14
+[packages/entity/src/paginationUtils.ts:14](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/paginationUtils.ts#L14)
 
 ___
 
@@ -103,7 +105,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/Document.ts:14
+[packages/entity/src/EntityInterfaces/Document.ts:14](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/Document.ts#L14)
 
 ___
 
@@ -126,7 +128,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/Document.ts:3
+[packages/entity/src/EntityInterfaces/Document.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/Document.ts#L3)
 
 ___
 
@@ -142,19 +144,18 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/Document.ts:18
+[packages/entity/src/EntityInterfaces/Document.ts:18](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/Document.ts#L18)
 
 ___
 
 ### EntityFieldResolver
 
-Ƭ **EntityFieldResolver**<`Context`, `TypeDef`, `ArgsDef`, `Root`\>: `Object`
+Ƭ **EntityFieldResolver**<`TypeDef`, `ArgsDef`, `Root`\>: `Object`
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Context` | `Context` |
 | `TypeDef` | extends `ObjectFieldInput` |
 | `ArgsDef` | extends `ObjectDefinitionInput` \| `undefined` |
 | `Root` | `Root` |
@@ -165,12 +166,12 @@ ___
 | :------ | :------ |
 | `args?` | `ArgsDef` |
 | `name` | `string` |
-| `resolve` | `ResolverResolve`<`Context`, `Root`, `TypeDef`, `ArgsDef`\> |
+| `resolve` | `ResolverResolve`<`Root`, `TypeDef`, `ArgsDef`\> |
 | `type` | `TypeDef` |
 
 #### Defined in
 
-packages/entity/src/EntityOptions.ts:22
+[packages/entity/src/EntityOptions.ts:22](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityOptions.ts#L22)
 
 ___
 
@@ -190,8 +191,8 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `beforeQuery` | `AsyncPlugin`<`EntityOperationInfoContext`, {}\> |
-| `createDefinition` | `SyncPlugin`<`Record`<`string`, `FinalFieldDefinition`\>, { `entityOptions`: [`EntityOptions`](Entity.md#entityoptions) ; `fields`: `string`[] ; `kind`: [`EntityHooksCreateDefinitionKind`](Entity.md#entityhookscreatedefinitionkind-1) ; `resolvers`: [`EntityFieldResolver`](Entity.md#entityfieldresolver)<`any`, `any`, `any`, `any`\>[]  }\> |
-| `filterResult` | `AsyncPlugin`<{ `items`: [`EntityDocument`](Entity.md#entitydocument)<`Doc`\>[] ; `kind`: ``"items"``  } \| { `kind`: ``"pagination"`` ; `pagination`: `PaginationResult`<[`EntityDocument`](Entity.md#entitydocument)<`Doc`\>\>  }, { `operation`: `EntityOperationInfoContext` ; `resolvers`: [`EntityFieldResolver`](Entity.md#entityfieldresolver)<`any`, `any`, `any`, `any`\>[]  }\> |
+| `createDefinition` | `SyncPlugin`<`Record`<`string`, `FinalFieldDefinition`\>, { `entityOptions`: [`EntityOptions`](Entity.md#entityoptions) ; `fields`: `string`[] ; `kind`: [`EntityHooksCreateDefinitionKind`](Entity.md#entityhookscreatedefinitionkind-1) ; `resolvers`: [`EntityFieldResolver`](Entity.md#entityfieldresolver)<`any`, `any`, `any`\>[]  }\> |
+| `filterResult` | `AsyncPlugin`<{ `items`: [`EntityDocument`](Entity.md#entitydocument)<`Doc`\>[] ; `kind`: ``"items"``  } \| { `kind`: ``"pagination"`` ; `pagination`: `PaginationResult`<[`EntityDocument`](Entity.md#entitydocument)<`Doc`\>\>  }, { `operation`: `EntityOperationInfoContext` ; `resolvers`: [`EntityFieldResolver`](Entity.md#entityfieldresolver)<`any`, `any`, `any`\>[]  }\> |
 | `initCreation` | `SyncPlugin`<[`EntityOptions`](Entity.md#entityoptions), `E`\> |
 | `postParse` | `AsyncPlugin`<`EntityOperationInfoContext`, [`EntityParserHookContext`](Entity.md#entityparserhookcontext)<`E`\>\> |
 | `preParse` | `AsyncPlugin`<`EntityOperationInfoContext`, [`EntityParserHookContext`](Entity.md#entityparserhookcontext)<`E`\>\> |
@@ -199,7 +200,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityPlugin.ts:53
+[packages/entity/src/EntityPlugin.ts:53](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityPlugin.ts#L53)
 
 ___
 
@@ -209,9 +210,9 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityPlugin.ts:34
+[packages/entity/src/EntityPlugin.ts:34](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityPlugin.ts#L34)
 
-packages/entity/src/EntityPlugin.ts:41
+[packages/entity/src/EntityPlugin.ts:41](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityPlugin.ts#L41)
 
 ___
 
@@ -228,7 +229,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/EntityLoaderConfig.ts:7
+[packages/entity/src/EntityInterfaces/EntityLoaderConfig.ts:7](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/EntityLoaderConfig.ts#L7)
 
 ___
 
@@ -244,7 +245,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:18
+[packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:18](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts#L18)
 
 ___
 
@@ -272,7 +273,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityOptions.ts:10
+[packages/entity/src/EntityOptions.ts:10](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityOptions.ts#L10)
 
 ___
 
@@ -295,7 +296,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityPlugin.ts:44
+[packages/entity/src/EntityPlugin.ts:44](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityPlugin.ts#L44)
 
 ___
 
@@ -305,7 +306,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/paginationUtils.ts:12
+[packages/entity/src/paginationUtils.ts:12](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/paginationUtils.ts#L12)
 
 ___
 
@@ -321,7 +322,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/paginationUtils.ts:21
+[packages/entity/src/paginationUtils.ts:21](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/paginationUtils.ts#L21)
 
 ___
 
@@ -337,7 +338,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/EntityFromContext.ts:130
+[packages/entity/src/EntityInterfaces/EntityFromContext.ts:130](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L130)
 
 ___
 
@@ -347,7 +348,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/Entity.ts:11
+[packages/entity/src/EntityInterfaces/Entity.ts:11](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/Entity.ts#L11)
 
 ___
 
@@ -377,7 +378,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:57
+[packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:57](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts#L57)
 
 ___
 
@@ -393,7 +394,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityPlugin.ts:49
+[packages/entity/src/EntityPlugin.ts:49](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityPlugin.ts#L49)
 
 ___
 
@@ -409,7 +410,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/EntityFromContext.ts:126
+[packages/entity/src/EntityInterfaces/EntityFromContext.ts:126](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L126)
 
 ___
 
@@ -419,7 +420,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/EntityFromContext.ts:124
+[packages/entity/src/EntityInterfaces/EntityFromContext.ts:124](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/EntityFromContext.ts#L124)
 
 ___
 
@@ -436,7 +437,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:81
+[packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:81](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts#L81)
 
 ## Variables
 
@@ -446,9 +447,9 @@ packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:81
 
 #### Defined in
 
-packages/entity/src/EntityPlugin.ts:34
+[packages/entity/src/EntityPlugin.ts:34](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityPlugin.ts#L34)
 
-packages/entity/src/EntityPlugin.ts:41
+[packages/entity/src/EntityPlugin.ts:41](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityPlugin.ts#L41)
 
 ___
 
@@ -458,7 +459,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityStore.ts:5
+[packages/entity/src/EntityStore.ts:5](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityStore.ts#L5)
 
 ___
 
@@ -468,13 +469,23 @@ ___
 
 #### Defined in
 
-packages/entity/src/paginationUtils.ts:3
+[packages/entity/src/paginationUtils.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/paginationUtils.ts#L3)
+
+___
+
+### defaultGlobalTransporter
+
+• **defaultGlobalTransporter**: `Transporter` \| `undefined` = `undefined`
+
+#### Defined in
+
+[packages/entity/src/Entity.ts:85](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/Entity.ts#L85)
 
 ## Functions
 
 ### createEntity
 
-▸ **createEntity**<`InputDefinition`, `Indexes`, `Options`\>(`configOptions`): [`Entity`](../interfaces/Entity.Entity.md)<`InputDefinition`, `Indexes`\>
+▸ **createEntity**<`InputDefinition`, `Indexes`\>(`configOptions`): [`Entity`](../interfaces/Entity.Entity.md)<`InputDefinition`, `Indexes`\>
 
 #### Type parameters
 
@@ -482,13 +493,12 @@ packages/entity/src/paginationUtils.ts:3
 | :------ | :------ |
 | `InputDefinition` | extends `ObjectDefinitionInput` |
 | `Indexes` | extends `DocumentIndexesConfig`<`string`, `Indexes`\> |
-| `Options` | extends [`EntityOptions`](Entity.md#entityoptions)<`InputDefinition`, `Indexes`\> = [`EntityOptions`](Entity.md#entityoptions)<`InputDefinition`, `Indexes`\> |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `configOptions` | [`EntityOptions`](Entity.md#entityoptions)<`InputDefinition`, `Indexes`\> \| () => [`EntityOptions`](Entity.md#entityoptions)<`InputDefinition`, `Indexes`\> |
+| `configOptions` | () => [`EntityOptions`](Entity.md#entityoptions)<`InputDefinition`, `Indexes`\> |
 
 #### Returns
 
@@ -496,7 +506,30 @@ packages/entity/src/paginationUtils.ts:3
 
 #### Defined in
 
-packages/entity/src/Entity.ts:89
+[packages/entity/src/Entity.ts:91](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/Entity.ts#L91)
+
+▸ **createEntity**<`InputDefinition`, `Indexes`\>(`configOptions`): [`Entity`](../interfaces/Entity.Entity.md)<`InputDefinition`, `Indexes`\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `InputDefinition` | extends `ObjectDefinitionInput` |
+| `Indexes` | extends `DocumentIndexesConfig`<`string`, `Indexes`\> |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `configOptions` | [`EntityOptions`](Entity.md#entityoptions)<`InputDefinition`, `Indexes`\> |
+
+#### Returns
+
+[`Entity`](../interfaces/Entity.Entity.md)<`InputDefinition`, `Indexes`\>
+
+#### Defined in
+
+[packages/entity/src/Entity.ts:98](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/Entity.ts#L98)
 
 ___
 
@@ -517,7 +550,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityPlugin.ts:15
+[packages/entity/src/EntityPlugin.ts:15](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityPlugin.ts#L15)
 
 ___
 
@@ -537,7 +570,7 @@ value is AnyEntity
 
 #### Defined in
 
-packages/entity/src/Entity.ts:986
+[packages/entity/src/Entity.ts:1001](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/Entity.ts#L1001)
 
 ___
 
@@ -557,4 +590,24 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityStore.ts:7
+[packages/entity/src/EntityStore.ts:7](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityStore.ts#L7)
+
+___
+
+### setDefaultTransporter
+
+▸ **setDefaultTransporter**(`transporter`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `transporter` | `undefined` \| `Transporter`<`any`\> |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[packages/entity/src/Entity.ts:87](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/Entity.ts#L87)

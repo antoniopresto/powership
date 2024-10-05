@@ -40,7 +40,7 @@
 
 #### Defined in
 
-packages/mongo/src/MongoClient.ts:36
+[packages/mongo/src/MongoClient.ts:36](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoClient.ts#L36)
 
 ## Properties
 
@@ -50,7 +50,7 @@ packages/mongo/src/MongoClient.ts:36
 
 #### Defined in
 
-packages/mongo/src/MongoClient.ts:23
+[packages/mongo/src/MongoClient.ts:23](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoClient.ts#L23)
 
 ___
 
@@ -60,7 +60,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/MongoClient.ts:22
+[packages/mongo/src/MongoClient.ts:22](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoClient.ts#L22)
 
 ___
 
@@ -70,7 +70,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/MongoClient.ts:20
+[packages/mongo/src/MongoClient.ts:20](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoClient.ts#L20)
 
 ## Accessors
 
@@ -84,7 +84,7 @@ packages/mongo/src/MongoClient.ts:20
 
 #### Defined in
 
-packages/mongo/src/MongoClient.ts:25
+[packages/mongo/src/MongoClient.ts:25](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoClient.ts#L25)
 
 ## Methods
 
@@ -104,7 +104,7 @@ packages/mongo/src/MongoClient.ts:25
 
 #### Defined in
 
-packages/mongo/src/MongoClient.ts:43
+[packages/mongo/src/MongoClient.ts:43](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoClient.ts#L43)
 
 ___
 
@@ -124,4 +124,4 @@ ___
 
 #### Defined in
 
-packages/mongo/src/MongoClient.ts:67
+[packages/mongo/src/MongoClient.ts:67](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoClient.ts#L67)

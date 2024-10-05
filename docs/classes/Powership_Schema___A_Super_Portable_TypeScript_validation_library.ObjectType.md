@@ -78,11 +78,11 @@
 
 | Name | Type |
 | :------ | :------ |
-| `objectDef` | `HandledInput` \| (`modules`: `PowershipModules`) => `HandledInput` |
+| `objectDef` | `HandledInput` \| () => `HandledInput` |
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:83
+[packages/schema/src/ObjectType.ts:66](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L66)
 
 ## Properties
 
@@ -92,7 +92,7 @@ packages/schema/src/ObjectType.ts:83
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:75
+[packages/schema/src/ObjectType.ts:60](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L60)
 
 ___
 
@@ -102,17 +102,17 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:590
+[packages/schema/src/ObjectType.ts:577](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L577)
 
 ___
 
 ### inputDefinition
 
-• **inputDefinition**: [`ObjectDefinitionInput`](../modules/Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectdefinitioninput) \| (`modules`: `PowershipModules`) => [`ObjectDefinitionInput`](../modules/Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectdefinitioninput)
+• **inputDefinition**: [`ObjectDefinitionInput`](../modules/Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectdefinitioninput) \| () => [`ObjectDefinitionInput`](../modules/Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectdefinitioninput)
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:79
+[packages/schema/src/ObjectType.ts:64](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L64)
 
 ___
 
@@ -122,7 +122,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:73
+[packages/schema/src/ObjectType.ts:58](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L58)
 
 ___
 
@@ -132,7 +132,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:563
+[packages/schema/src/ObjectType.ts:550](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L550)
 
 ## Accessors
 
@@ -146,7 +146,7 @@ packages/schema/src/ObjectType.ts:563
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:69
+[packages/schema/src/ObjectType.ts:54](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L54)
 
 ___
 
@@ -160,7 +160,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:91
+[packages/schema/src/ObjectType.ts:72](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L72)
 
 ___
 
@@ -174,7 +174,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:108
+[packages/schema/src/ObjectType.ts:90](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L90)
 
 ___
 
@@ -188,7 +188,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:118
+[packages/schema/src/ObjectType.ts:100](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L100)
 
 • `set` **hidden**(`value`): `void`
 
@@ -204,7 +204,7 @@ packages/schema/src/ObjectType.ts:118
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:114
+[packages/schema/src/ObjectType.ts:96](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L96)
 
 ___
 
@@ -218,21 +218,21 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:448
+[packages/schema/src/ObjectType.ts:430](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L430)
 
 ___
 
 ### meta
 
-• `get` **meta**(): [`MetaFieldDef`](../modules/Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#metafielddef)
+• `get` **meta**(): `MetaFieldDef`
 
 #### Returns
 
-[`MetaFieldDef`](../modules/Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#metafielddef)
+`MetaFieldDef`
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:135
+[packages/schema/src/ObjectType.ts:117](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L117)
 
 ___
 
@@ -246,7 +246,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:452
+[packages/schema/src/ObjectType.ts:434](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L434)
 
 ## Methods
 
@@ -258,7 +258,7 @@ packages/schema/src/ObjectType.ts:452
 
 | Name | Type |
 | :------ | :------ |
-| `k` | keyof [`MetaFieldDef`](../modules/Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#metafielddef) |
+| `k` | keyof `MetaFieldDef` |
 | `value` | `Serializable` |
 
 #### Returns
@@ -267,7 +267,7 @@ packages/schema/src/ObjectType.ts:452
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:140
+[packages/schema/src/ObjectType.ts:122](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L122)
 
 ___
 
@@ -287,7 +287,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:592
+[packages/schema/src/ObjectType.ts:579](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L579)
 
 ___
 
@@ -301,7 +301,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:123
+[packages/schema/src/ObjectType.ts:105](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L105)
 
 ___
 
@@ -327,7 +327,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:435
+[packages/schema/src/ObjectType.ts:417](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L417)
 
 ___
 
@@ -347,7 +347,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:407
+[packages/schema/src/ObjectType.ts:389](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L389)
 
 ___
 
@@ -361,7 +361,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:128
+[packages/schema/src/ObjectType.ts:110](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L110)
 
 ___
 
@@ -381,7 +381,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:534
+[packages/schema/src/ObjectType.ts:515](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L515)
 
 ___
 
@@ -401,7 +401,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:510
+[packages/schema/src/ObjectType.ts:491](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L491)
 
 ___
 
@@ -415,7 +415,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:516
+[packages/schema/src/ObjectType.ts:497](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L497)
 
 ___
 
@@ -435,7 +435,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:506
+[packages/schema/src/ObjectType.ts:487](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L487)
 
 ___
 
@@ -449,7 +449,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:530
+[packages/schema/src/ObjectType.ts:511](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L511)
 
 ___
 
@@ -463,7 +463,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:479
+[packages/schema/src/ObjectType.ts:461](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L461)
 
 ___
 
@@ -489,13 +489,13 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:462
+[packages/schema/src/ObjectType.ts:444](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L444)
 
 ___
 
 ### implement
 
-▸ **implement**<`Parents`\>(`name`, `...parents`): [`ImplementObject`](../modules/Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#implementobject)<[`ObjectType`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>, `Parents`\>
+▸ **implement**<`Parents`\>(`name`, `...parents`): `ImplementObject`<[`ObjectType`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>, `Parents`\>
 
 #### Type parameters
 
@@ -512,11 +512,11 @@ ___
 
 #### Returns
 
-[`ImplementObject`](../modules/Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#implementobject)<[`ObjectType`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>, `Parents`\>
+`ImplementObject`<[`ObjectType`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>, `Parents`\>
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:538
+[packages/schema/src/ObjectType.ts:519](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L519)
 
 ___
 
@@ -537,7 +537,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:145
+[packages/schema/src/ObjectType.ts:127](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L127)
 
 ▸ **parse**(`input`, `options?`): `Partial`<[`InferObjectDefinition`](../modules/Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferobjectdefinition)<`HandledInput`\>\>
 
@@ -554,7 +554,7 @@ packages/schema/src/ObjectType.ts:145
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:152
+[packages/schema/src/ObjectType.ts:134](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L134)
 
 ▸ **parse**<`Fields`\>(`input`, `options`): { [K in string \| number \| symbol as K extends Fields[number] ? K : never]: InferObjectDefinition<HandledInput\>[K] }
 
@@ -577,7 +577,7 @@ packages/schema/src/ObjectType.ts:152
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:159
+[packages/schema/src/ObjectType.ts:141](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L141)
 
 ▸ **parse**<`Fields`\>(`input`, `options`): { [K in string \| number \| symbol as K extends Fields[number] ? never : K]: InferObjectDefinition<HandledInput\>[K] }
 
@@ -600,7 +600,7 @@ packages/schema/src/ObjectType.ts:159
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:171
+[packages/schema/src/ObjectType.ts:153](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L153)
 
 ___
 
@@ -626,7 +626,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:225
+[packages/schema/src/ObjectType.ts:207](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L207)
 
 ___
 
@@ -653,7 +653,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:209
+[packages/schema/src/ObjectType.ts:191](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L191)
 
 ___
 
@@ -673,7 +673,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:485
+[packages/schema/src/ObjectType.ts:468](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L468)
 
 ___
 
@@ -693,7 +693,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:520
+[packages/schema/src/ObjectType.ts:501](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L501)
 
 ___
 
@@ -713,7 +713,7 @@ input is InferObjectDefinition<HandledInput\>
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:216
+[packages/schema/src/ObjectType.ts:198](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L198)
 
 ___
 
@@ -743,7 +743,7 @@ Get an Object with the provided id
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:571
+[packages/schema/src/ObjectType.ts:558](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L558)
 
 ___
 
@@ -763,7 +763,7 @@ input is ObjectType<ObjectDefinitionInput, ObjectDefinitionInput\>
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:598
+[packages/schema/src/ObjectType.ts:585](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L585)
 
 ___
 
@@ -777,4 +777,4 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:545
+[packages/schema/src/ObjectType.ts:530](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L530)

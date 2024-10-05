@@ -20,7 +20,7 @@
 
 #### Defined in
 
-packages/utils/lib/nodeLogger.d.ts:8
+packages/utils/out/nodeLogger.d.ts:8
 
 ___
 
@@ -30,7 +30,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/nodeLogger.d.ts:9
+packages/utils/out/nodeLogger.d.ts:9
 
 ___
 
@@ -40,4 +40,4 @@ ___
 
 #### Defined in
 
-packages/utils/lib/nodeLogger.d.ts:7
+packages/utils/out/nodeLogger.d.ts:7

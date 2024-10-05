@@ -19,14 +19,14 @@
 
 #### Defined in
 
-packages/accounts/src/Accounts.ts:30
+[packages/accounts/src/Accounts.ts:30](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/Accounts.ts#L30)
 
 ___
 
 ### transporter
 
-• **transporter**: `Transporter`
+• **transporter**: `Transporter`<`any`\>
 
 #### Defined in
 
-packages/accounts/src/Accounts.ts:29
+[packages/accounts/src/Accounts.ts:29](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/Accounts.ts#L29)

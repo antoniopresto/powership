@@ -19,7 +19,7 @@
 
 #### Defined in
 
-packages/mongo/src/MongoClient.ts:6
+[packages/mongo/src/MongoClient.ts:6](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoClient.ts#L6)
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 #### Defined in
 
-packages/mongo/src/MongoClient.ts:7
+[packages/mongo/src/MongoClient.ts:7](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoClient.ts#L7)

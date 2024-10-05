@@ -22,15 +22,14 @@
 - [\_\_lazyGetter](Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#__lazygetter)
 - [beforeInitialize](Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#beforeinitialize)
 - [definition](Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#definition)
+- [id](Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#id)
 - [touched](Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#touched)
 - [\_\_isGraphType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#__isgraphtype-1)
 - [register](Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#register)
-- [resolvers](Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#resolvers)
 
 ### Accessors
 
 - [hidden](Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#hidden)
-- [id](Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#id)
 - [optionalId](Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#optionalid)
 
 ### Methods
@@ -51,6 +50,7 @@
 - [singleType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#singletype)
 - [touch](Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#touch)
 - [typescriptPrint](Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#typescriptprint)
+- [assert](Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#assert)
 - [getOrSet](Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#getorset)
 - [is](Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#is)
 - [isTypeDefinition](Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md#istypedefinition)
@@ -76,7 +76,7 @@
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:78
+[packages/schema/src/GraphType/GraphType.ts:83](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L83)
 
 • **new GraphType**<`Definition`\>(`name`, `definition`)
 
@@ -95,7 +95,7 @@ packages/schema/src/GraphType/GraphType.ts:78
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:84
+[packages/schema/src/GraphType/GraphType.ts:89](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L89)
 
 ## Properties
 
@@ -105,7 +105,7 @@ packages/schema/src/GraphType/GraphType.ts:84
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:45
+[packages/schema/src/GraphType/GraphType.ts:64](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L64)
 
 ___
 
@@ -115,7 +115,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:96
+[packages/schema/src/GraphType/GraphType.ts:121](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L121)
 
 ___
 
@@ -125,7 +125,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:202
+[packages/schema/src/GraphType/GraphType.ts:228](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L228)
 
 ___
 
@@ -135,7 +135,17 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:55
+[packages/schema/src/GraphType/GraphType.ts:74](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L74)
+
+___
+
+### id
+
+• **id**: `string`
+
+#### Defined in
+
+[packages/schema/src/GraphType/GraphType.ts:76](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L76)
 
 ___
 
@@ -145,7 +155,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:98
+[packages/schema/src/GraphType/GraphType.ts:123](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L123)
 
 ___
 
@@ -155,7 +165,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:44
+[packages/schema/src/GraphType/GraphType.ts:63](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L63)
 
 ___
 
@@ -165,17 +175,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:47
-
-___
-
-### resolvers
-
-▪ `Static` **resolvers**: `Store`<`Record`<`string`, { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: `any`, `context`: `any`, `info`: `GraphQLResolveInfo`) => `any` ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  }\>, `string`, { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: `any`, `context`: `any`, `info`: `GraphQLResolveInfo`) => `any` ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  }\>
-
-#### Defined in
-
-packages/schema/src/GraphType/GraphType.ts:48
+[packages/schema/src/GraphType/GraphType.ts:66](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L66)
 
 ## Accessors
 
@@ -189,7 +189,7 @@ packages/schema/src/GraphType/GraphType.ts:48
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:128
+[packages/schema/src/GraphType/GraphType.ts:154](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L154)
 
 • `set` **hidden**(`value`): `void`
 
@@ -205,21 +205,7 @@ packages/schema/src/GraphType/GraphType.ts:128
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:123
-
-___
-
-### id
-
-• `get` **id**(): `string`
-
-#### Returns
-
-`string`
-
-#### Defined in
-
-packages/schema/src/GraphType/GraphType.ts:57
+[packages/schema/src/GraphType/GraphType.ts:149](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L149)
 
 ___
 
@@ -233,7 +219,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:74
+[packages/schema/src/GraphType/GraphType.ts:79](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L79)
 
 ## Methods
 
@@ -247,7 +233,7 @@ packages/schema/src/GraphType/GraphType.ts:74
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:157
+[packages/schema/src/GraphType/GraphType.ts:183](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L183)
 
 ___
 
@@ -273,7 +259,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:191
+[packages/schema/src/GraphType/GraphType.ts:217](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L217)
 
 ___
 
@@ -293,7 +279,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:173
+[packages/schema/src/GraphType/GraphType.ts:199](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L199)
 
 ___
 
@@ -313,7 +299,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:179
+[packages/schema/src/GraphType/GraphType.ts:205](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L205)
 
 ___
 
@@ -333,7 +319,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:167
+[packages/schema/src/GraphType/GraphType.ts:193](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L193)
 
 ___
 
@@ -353,7 +339,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:108
+[packages/schema/src/GraphType/GraphType.ts:133](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L133)
 
 ___
 
@@ -373,7 +359,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:296
+[packages/schema/src/GraphType/GraphType.ts:320](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L320)
 
 ___
 
@@ -399,7 +385,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:206
+[packages/schema/src/GraphType/GraphType.ts:232](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L232)
 
 ___
 
@@ -419,7 +405,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:276
+[packages/schema/src/GraphType/GraphType.ts:300](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L300)
 
 ___
 
@@ -445,7 +431,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:197
+[packages/schema/src/GraphType/GraphType.ts:223](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L223)
 
 ___
 
@@ -466,7 +452,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:132
+[packages/schema/src/GraphType/GraphType.ts:158](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L158)
 
 ___
 
@@ -480,7 +466,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:245
+[packages/schema/src/GraphType/GraphType.ts:271](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L271)
 
 ___
 
@@ -500,7 +486,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:286
+[packages/schema/src/GraphType/GraphType.ts:310](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L310)
 
 ___
 
@@ -520,7 +506,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:306
+[packages/schema/src/GraphType/GraphType.ts:330](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L330)
 
 ___
 
@@ -534,7 +520,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:100
+[packages/schema/src/GraphType/GraphType.ts:125](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L125)
 
 ___
 
@@ -554,7 +540,27 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:260
+[packages/schema/src/GraphType/GraphType.ts:284](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L284)
+
+___
+
+### assert
+
+▸ `Static` **assert**(`type`): asserts type is GraphType<any\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `type` | `any` |
+
+#### Returns
+
+asserts type is GraphType<any\>
+
+#### Defined in
+
+[packages/schema/src/GraphType/GraphType.ts:55](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L55)
 
 ___
 
@@ -584,7 +590,7 @@ Get an Object with the provided id
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:322
+[packages/schema/src/GraphType/GraphType.ts:346](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L346)
 
 ___
 
@@ -604,7 +610,7 @@ input is GraphType<any\>
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:334
+[packages/schema/src/GraphType/GraphType.ts:358](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L358)
 
 ___
 
@@ -624,7 +630,7 @@ input is Object
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:338
+[packages/schema/src/GraphType/GraphType.ts:362](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L362)
 
 ___
 
@@ -638,4 +644,4 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:50
+[packages/schema/src/GraphType/GraphType.ts:68](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L68)

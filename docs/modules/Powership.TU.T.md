@@ -28,7 +28,7 @@
 
 #### Defined in
 
-packages/utils/lib/typings/ts-toolbet.d.ts:17
+packages/utils/out/typings/ts-toolbet.d.ts:17
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/ts-toolbet.d.ts:19
+packages/utils/out/typings/ts-toolbet.d.ts:19
 
 ___
 
@@ -65,7 +65,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/ts-toolbet.d.ts:18
+packages/utils/out/typings/ts-toolbet.d.ts:18
 
 ___
 
@@ -81,4 +81,4 @@ ___
 
 #### Defined in
 
-packages/utils/lib/typings/ts-toolbet.d.ts:20
+packages/utils/out/typings/ts-toolbet.d.ts:20

@@ -45,7 +45,7 @@ Omit.PK
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:48
+[packages/transporter/src/CollectionIndex.ts:48](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L48)
 
 ___
 
@@ -59,7 +59,7 @@ ParsedIndexCursor.PKFieldName
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:21
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:21
 
 ___
 
@@ -73,7 +73,7 @@ ParsedIndexCursor.PKPart
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:20
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:20
 
 ___
 
@@ -87,7 +87,7 @@ ParsedIndexCursor.PKPartOpen
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:19
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:19
 
 ___
 
@@ -101,7 +101,7 @@ Omit.SK
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:49
+[packages/transporter/src/CollectionIndex.ts:49](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L49)
 
 ___
 
@@ -115,7 +115,7 @@ ParsedIndexCursor.SKFieldName
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:22
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:22
 
 ___
 
@@ -129,7 +129,7 @@ ParsedIndexCursor.SKPart
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:24
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:24
 
 ___
 
@@ -143,7 +143,7 @@ ParsedIndexCursor.cursor
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:18
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:18
 
 ___
 
@@ -157,7 +157,7 @@ ParsedIndexCursor.entity
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:14
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:14
 
 ___
 
@@ -171,7 +171,7 @@ ParsedIndexCursor.filter
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:23
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:23
 
 ___
 
@@ -181,7 +181,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:131
+[packages/transporter/src/CollectionIndex.ts:131](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L131)
 
 ___
 
@@ -195,7 +195,7 @@ Omit.name
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:50
+[packages/transporter/src/CollectionIndex.ts:50](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L50)
 
 ___
 
@@ -209,7 +209,7 @@ ParsedIndexCursor.parentPrefix
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:17
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:17
 
 ___
 
@@ -223,7 +223,7 @@ ParsedIndexCursor.relatedTo
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:133
+[packages/transporter/src/CollectionIndex.ts:133](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L133)
 
 ___
 
@@ -237,7 +237,7 @@ Omit.relations
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:52
+[packages/transporter/src/CollectionIndex.ts:52](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L52)
 
 ___
 
@@ -247,4 +247,4 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:132
+[packages/transporter/src/CollectionIndex.ts:132](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L132)

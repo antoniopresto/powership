@@ -41,7 +41,7 @@ Error.constructor
 
 #### Defined in
 
-packages/schema/lib/fields/FieldTypeErrors.d.ts:7
+packages/schema/out/fields/FieldTypeErrors.d.ts:7
 
 ## Properties
 
@@ -51,7 +51,7 @@ packages/schema/lib/fields/FieldTypeErrors.d.ts:7
 
 #### Defined in
 
-packages/schema/lib/fields/FieldTypeErrors.d.ts:4
+packages/schema/out/fields/FieldTypeErrors.d.ts:4
 
 ___
 
@@ -61,7 +61,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldTypeErrors.d.ts:5
+packages/schema/out/fields/FieldTypeErrors.d.ts:5
 
 ___
 
@@ -85,4 +85,4 @@ el is FieldTypeError
 
 #### Defined in
 
-packages/schema/lib/fields/FieldTypeErrors.d.ts:6
+packages/schema/out/fields/FieldTypeErrors.d.ts:6

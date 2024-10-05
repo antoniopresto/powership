@@ -22,4 +22,4 @@
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:14
+[packages/utils/src/typings/index.ts:14](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L14)

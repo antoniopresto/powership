@@ -24,4 +24,4 @@
 
 #### Defined in
 
-packages/utils/src/IndexCursor/joinIndexCursor.ts:17
+[packages/utils/src/IndexCursor/joinIndexCursor.ts:17](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/joinIndexCursor.ts#L17)

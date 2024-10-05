@@ -35,7 +35,7 @@
 
 #### Defined in
 
-packages/schema/src/extendType.ts:21
+[packages/schema/src/extendType.ts:18](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendType.ts#L18)
 
 ## Methods
 
@@ -49,7 +49,7 @@ packages/schema/src/extendType.ts:21
 
 #### Defined in
 
-packages/schema/src/extendType.ts:23
+[packages/schema/src/extendType.ts:20](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendType.ts#L20)
 
 ___
 
@@ -75,7 +75,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/extendType.ts:25
+[packages/schema/src/extendType.ts:22](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendType.ts#L22)
 
 ___
 
@@ -95,7 +95,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/extendType.ts:29
+[packages/schema/src/extendType.ts:26](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendType.ts#L26)
 
 ___
 
@@ -109,7 +109,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/extendType.ts:46
+[packages/schema/src/extendType.ts:43](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendType.ts#L43)
 
 ___
 
@@ -129,7 +129,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/extendType.ts:33
+[packages/schema/src/extendType.ts:30](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendType.ts#L30)
 
 ___
 
@@ -143,7 +143,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/extendType.ts:42
+[packages/schema/src/extendType.ts:39](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendType.ts#L39)
 
 ___
 
@@ -157,7 +157,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/extendType.ts:44
+[packages/schema/src/extendType.ts:41](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendType.ts#L41)
 
 ___
 
@@ -171,4 +171,4 @@ ___
 
 #### Defined in
 
-packages/schema/src/extendType.ts:48
+[packages/schema/src/extendType.ts:45](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendType.ts#L45)

@@ -21,6 +21,7 @@
 - [FirstIndexParsed](../interfaces/Transporter___Base_to_connect_any_Database_to_Powership_.FirstIndexParsed.md)
 - [IndexMethods](../interfaces/Transporter___Base_to_connect_any_Database_to_Powership_.IndexMethods.md)
 - [IndexPKSKPartsListConfig](../interfaces/Transporter___Base_to_connect_any_Database_to_Powership_.IndexPKSKPartsListConfig.md)
+- [LoaderContext](../interfaces/Transporter___Base_to_connect_any_Database_to_Powership_.LoaderContext.md)
 - [Paginate](../interfaces/Transporter___Base_to_connect_any_Database_to_Powership_.Paginate.md)
 - [Transporter](../interfaces/Transporter___Base_to_connect_any_Database_to_Powership_.Transporter.md)
 - [UpdateMany](../interfaces/Transporter___Base_to_connect_any_Database_to_Powership_.UpdateMany.md)
@@ -66,7 +67,6 @@
 - [IndexKeyHash](Transporter___Base_to_connect_any_Database_to_Powership_.md#indexkeyhash)
 - [IndexPartKind](Transporter___Base_to_connect_any_Database_to_Powership_.md#indexpartkind)
 - [InvalidParsedIndexField](Transporter___Base_to_connect_any_Database_to_Powership_.md#invalidparsedindexfield)
-- [LoaderContext](Transporter___Base_to_connect_any_Database_to_Powership_.md#loadercontext)
 - [MethodFilter](Transporter___Base_to_connect_any_Database_to_Powership_.md#methodfilter)
 - [OneFilterOperation](Transporter___Base_to_connect_any_Database_to_Powership_.md#onefilteroperation)
 - [PKSKValueType](Transporter___Base_to_connect_any_Database_to_Powership_.md#pkskvaluetype)
@@ -150,7 +150,7 @@
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:40
+[packages/transporter/src/Transporter.ts:40](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L40)
 
 ___
 
@@ -172,7 +172,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:89
+[packages/transporter/src/Transporter.ts:89](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L89)
 
 ___
 
@@ -182,7 +182,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:76
+[packages/transporter/src/CollectionIndex.ts:76](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L76)
 
 ___
 
@@ -192,7 +192,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:61
+[packages/transporter/src/CollectionIndex.ts:61](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L61)
 
 ___
 
@@ -209,7 +209,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:277
+[packages/transporter/src/Transporter.ts:276](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L276)
 
 ___
 
@@ -219,7 +219,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:398
+[packages/transporter/src/Transporter.ts:397](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L397)
 
 ___
 
@@ -236,7 +236,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:63
+[packages/transporter/src/CollectionIndex.ts:63](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L63)
 
 ___
 
@@ -260,7 +260,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:68
+[packages/transporter/src/CollectionIndex.ts:68](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L68)
 
 ___
 
@@ -270,7 +270,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:236
+[packages/transporter/src/CollectionIndex.ts:236](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L236)
 
 ___
 
@@ -291,14 +291,14 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Powership_.md#filterrecord)<`Doc`\> |
-| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Powership_.md#loadercontext) |
+| `context?` | [`LoaderContext`](../interfaces/Transporter___Base_to_connect_any_Database_to_Powership_.LoaderContext.md) |
 | `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Powership_.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 | `item` | `Doc` |
 | `replace?` | `boolean` |
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:197
+[packages/transporter/src/Transporter.ts:196](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L196)
 
 ___
 
@@ -323,7 +323,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:403
+[packages/transporter/src/Transporter.ts:402](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L402)
 
 ___
 
@@ -344,13 +344,13 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Powership_.md#filterrecord)<`Doc`\> |
-| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Powership_.md#loadercontext) |
+| `context?` | [`LoaderContext`](../interfaces/Transporter___Base_to_connect_any_Database_to_Powership_.LoaderContext.md) |
 | `filter` | [`MethodFilter`](Transporter___Base_to_connect_any_Database_to_Powership_.md#methodfilter)<`PK`, `SK`\> |
 | `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Powership_.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:245
+[packages/transporter/src/Transporter.ts:244](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L244)
 
 ___
 
@@ -367,7 +367,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:423
+[packages/transporter/src/Transporter.ts:422](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L422)
 
 ___
 
@@ -388,13 +388,13 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Powership_.md#filterrecord)<`Item`\> |
-| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Powership_.md#loadercontext) |
+| `context?` | [`LoaderContext`](../interfaces/Transporter___Base_to_connect_any_Database_to_Powership_.LoaderContext.md) |
 | `filter` | [`MethodFilter`](Transporter___Base_to_connect_any_Database_to_Powership_.md#methodfilter)<`PK`, `SK`\> |
 | `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Powership_.md#collectionindexconfig)<`Item`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:259
+[packages/transporter/src/Transporter.ts:258](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L258)
 
 ___
 
@@ -416,7 +416,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:445
+[packages/transporter/src/Transporter.ts:444](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L444)
 
 ___
 
@@ -426,7 +426,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:115
+[packages/transporter/src/Transporter.ts:115](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L115)
 
 ___
 
@@ -436,7 +436,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:37
+[packages/transporter/src/CollectionIndex.ts:37](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L37)
 
 ___
 
@@ -455,7 +455,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:103
+[packages/transporter/src/CollectionIndex.ts:103](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L103)
 
 ___
 
@@ -481,7 +481,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:47
+[packages/transporter/src/CollectionIndex.ts:47](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L47)
 
 ___
 
@@ -498,7 +498,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:56
+[packages/transporter/src/CollectionIndex.ts:56](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L56)
 
 ___
 
@@ -519,7 +519,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionErrors.ts:40
+[packages/transporter/src/CollectionErrors.ts:40](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionErrors.ts#L40)
 
 ___
 
@@ -529,9 +529,9 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionErrors.ts:6
+[packages/transporter/src/CollectionErrors.ts:6](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionErrors.ts#L6)
 
-packages/transporter/src/CollectionErrors.ts:38
+[packages/transporter/src/CollectionErrors.ts:38](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionErrors.ts#L38)
 
 ___
 
@@ -541,7 +541,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionErrors.ts:37
+[packages/transporter/src/CollectionErrors.ts:37](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionErrors.ts#L37)
 
 ___
 
@@ -557,7 +557,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:74
+[packages/transporter/src/Transporter.ts:74](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L74)
 
 ___
 
@@ -573,7 +573,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:68
+[packages/transporter/src/Transporter.ts:68](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L68)
 
 ___
 
@@ -589,7 +589,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:76
+[packages/transporter/src/Transporter.ts:76](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L76)
 
 ___
 
@@ -611,14 +611,14 @@ ___
 | :------ | :------ |
 | `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Powership_.md#filterrecord)<`Doc`\> |
 | `consistent?` | `boolean` |
-| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Powership_.md#loadercontext) |
+| `context?` | [`LoaderContext`](../interfaces/Transporter___Base_to_connect_any_Database_to_Powership_.LoaderContext.md) |
 | `id` | `string` |
 | `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Powership_.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 | `projection?` | `string`[] |
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:181
+[packages/transporter/src/Transporter.ts:180](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L180)
 
 ___
 
@@ -641,7 +641,7 @@ ___
 | `after?` | [`IndexFilterRecord`](Transporter___Base_to_connect_any_Database_to_Powership_.md#indexfilterrecord)<`PK`, `SK`\> extends infer R ? { [K in keyof R]: R[K] } : {} \| `string` |
 | `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Powership_.md#filterrecord)<`Doc`\> |
 | `consistent?` | `boolean` |
-| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Powership_.md#loadercontext) |
+| `context?` | [`LoaderContext`](../interfaces/Transporter___Base_to_connect_any_Database_to_Powership_.LoaderContext.md) |
 | `filter` | [`MethodFilter`](Transporter___Base_to_connect_any_Database_to_Powership_.md#methodfilter)<`PK`, `SK`\> |
 | `first?` | `number` |
 | `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Powership_.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
@@ -650,7 +650,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:139
+[packages/transporter/src/Transporter.ts:138](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L138)
 
 ___
 
@@ -672,7 +672,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:428
+[packages/transporter/src/Transporter.ts:427](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L427)
 
 ___
 
@@ -694,14 +694,14 @@ ___
 | :------ | :------ |
 | `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Powership_.md#filterrecord)<`Doc`\> |
 | `consistent?` | `boolean` |
-| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Powership_.md#loadercontext) |
+| `context?` | [`LoaderContext`](../interfaces/Transporter___Base_to_connect_any_Database_to_Powership_.LoaderContext.md) |
 | `filter` | [`MethodFilter`](Transporter___Base_to_connect_any_Database_to_Powership_.md#methodfilter)<`PK`, `SK`\> |
 | `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Powership_.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 | `projection?` | `string`[] |
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:165
+[packages/transporter/src/Transporter.ts:164](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L164)
 
 ___
 
@@ -723,7 +723,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:273
+[packages/transporter/src/Transporter.ts:272](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L272)
 
 ___
 
@@ -740,7 +740,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:26
+[packages/transporter/src/CollectionIndex.ts:26](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L26)
 
 ___
 
@@ -750,7 +750,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:99
+[packages/transporter/src/Transporter.ts:99](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L99)
 
 ___
 
@@ -760,7 +760,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:19
+[packages/transporter/src/CollectionIndex.ts:19](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L19)
 
 ___
 
@@ -777,7 +777,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:103
+[packages/transporter/src/Transporter.ts:103](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L103)
 
 ___
 
@@ -793,7 +793,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:31
+[packages/transporter/src/CollectionIndex.ts:31](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L31)
 
 ___
 
@@ -803,7 +803,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:35
+[packages/transporter/src/CollectionIndex.ts:35](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L35)
 
 ___
 
@@ -823,27 +823,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:81
-
-___
-
-### LoaderContext
-
-Ƭ **LoaderContext**: `Object`
-
-#### Index signature
-
-▪ [K: `string`]: `unknown`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `userId?` | (...`args`: `unknown`[]) => `MaybePromise`<`undefined` \| `string`\> |
-
-#### Defined in
-
-packages/transporter/src/Transporter.ts:119
+[packages/transporter/src/CollectionIndex.ts:81](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L81)
 
 ___
 
@@ -860,7 +840,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:124
+[packages/transporter/src/Transporter.ts:123](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L123)
 
 ___
 
@@ -870,7 +850,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:56
+[packages/transporter/src/Transporter.ts:56](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L56)
 
 ___
 
@@ -880,7 +860,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:38
+[packages/transporter/src/Transporter.ts:38](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L38)
 
 ___
 
@@ -907,7 +887,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:432
+[packages/transporter/src/Transporter.ts:431](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L431)
 
 ___
 
@@ -917,7 +897,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:136
+[packages/transporter/src/CollectionIndex.ts:136](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L136)
 
 ___
 
@@ -938,7 +918,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/parseFilterIndexFilterParts.ts:21
+[packages/transporter/src/parseFilterIndexFilterParts.ts:21](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/parseFilterIndexFilterParts.ts#L21)
 
 ___
 
@@ -970,7 +950,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:110
+[packages/transporter/src/CollectionIndex.ts:110](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L110)
 
 ___
 
@@ -997,7 +977,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:89
+[packages/transporter/src/CollectionIndex.ts:89](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L89)
 
 ___
 
@@ -1013,7 +993,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/parseUpdateExpression.ts:6
+[packages/transporter/src/parseUpdateExpression.ts:6](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/parseUpdateExpression.ts#L6)
 
 ___
 
@@ -1023,7 +1003,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:117
+[packages/transporter/src/Transporter.ts:117](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L117)
 
 ___
 
@@ -1037,7 +1017,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:24
+[packages/transporter/src/CollectionIndex.ts:24](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L24)
 
 ___
 
@@ -1061,7 +1041,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:60
+[packages/transporter/src/Transporter.ts:60](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L60)
 
 ___
 
@@ -1071,7 +1051,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:401
+[packages/transporter/src/Transporter.ts:400](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L400)
 
 ___
 
@@ -1081,7 +1061,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:36
+[packages/transporter/src/Transporter.ts:36](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L36)
 
 ___
 
@@ -1091,7 +1071,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:493
+[packages/transporter/src/Transporter.ts:492](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L492)
 
 ___
 
@@ -1101,7 +1081,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:487
+[packages/transporter/src/Transporter.ts:486](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L486)
 
 ___
 
@@ -1111,7 +1091,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:489
+[packages/transporter/src/Transporter.ts:488](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L488)
 
 ___
 
@@ -1141,7 +1121,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:288
+[packages/transporter/src/Transporter.ts:287](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L287)
 
 ___
 
@@ -1151,7 +1131,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:311
+[packages/transporter/src/Transporter.ts:310](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L310)
 
 ___
 
@@ -1172,7 +1152,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Powership_.md#filterrecord)<`Doc`\> |
-| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Powership_.md#loadercontext) |
+| `context?` | [`LoaderContext`](../interfaces/Transporter___Base_to_connect_any_Database_to_Powership_.LoaderContext.md) |
 | `filter` | [`MethodFilter`](Transporter___Base_to_connect_any_Database_to_Powership_.md#methodfilter)<`PK`, `SK`\> |
 | `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Powership_.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 | `update` | [`UpdateExpression`](Transporter___Base_to_connect_any_Database_to_Powership_.md#updateexpression)<`Doc`\> |
@@ -1180,7 +1160,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:229
+[packages/transporter/src/Transporter.ts:228](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L228)
 
 ___
 
@@ -1198,7 +1178,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:417
+[packages/transporter/src/Transporter.ts:416](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L416)
 
 ___
 
@@ -1219,7 +1199,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `condition?` | [`FilterRecord`](Transporter___Base_to_connect_any_Database_to_Powership_.md#filterrecord)<`Doc`\> |
-| `context?` | [`LoaderContext`](Transporter___Base_to_connect_any_Database_to_Powership_.md#loadercontext) |
+| `context?` | [`LoaderContext`](../interfaces/Transporter___Base_to_connect_any_Database_to_Powership_.LoaderContext.md) |
 | `filter` | [`MethodFilter`](Transporter___Base_to_connect_any_Database_to_Powership_.md#methodfilter)<`PK`, `SK`\> |
 | `indexConfig` | [`CollectionIndexConfig`](Transporter___Base_to_connect_any_Database_to_Powership_.md#collectionindexconfig)<`Doc`, `PK` \| `SK` extends `undefined` ? `PK` : `SK`\> |
 | `update` | [`UpdateExpression`](Transporter___Base_to_connect_any_Database_to_Powership_.md#updateexpression)<`Doc`\> |
@@ -1227,7 +1207,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:213
+[packages/transporter/src/Transporter.ts:212](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L212)
 
 ___
 
@@ -1252,7 +1232,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:410
+[packages/transporter/src/Transporter.ts:409](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L409)
 
 ## Variables
 
@@ -1262,7 +1242,7 @@ packages/transporter/src/Transporter.ts:410
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:382
+[packages/transporter/src/Transporter.ts:381](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L381)
 
 ___
 
@@ -1272,7 +1252,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:34
+[packages/transporter/src/Transporter.ts:34](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L34)
 
 ___
 
@@ -1282,9 +1262,9 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionErrors.ts:6
+[packages/transporter/src/CollectionErrors.ts:6](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionErrors.ts#L6)
 
-packages/transporter/src/CollectionErrors.ts:38
+[packages/transporter/src/CollectionErrors.ts:38](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionErrors.ts#L38)
 
 ___
 
@@ -1294,7 +1274,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:22
+[packages/transporter/src/Transporter.ts:22](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L22)
 
 ___
 
@@ -1304,7 +1284,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:313
+[packages/transporter/src/Transporter.ts:312](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L312)
 
 ___
 
@@ -1314,7 +1294,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:400
+[packages/transporter/src/Transporter.ts:399](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L399)
 
 ___
 
@@ -1324,7 +1304,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:177
+[packages/transporter/src/CollectionIndex.ts:177](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L177)
 
 ___
 
@@ -1334,7 +1314,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:169
+[packages/transporter/src/CollectionIndex.ts:169](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L169)
 
 ___
 
@@ -1344,7 +1324,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:164
+[packages/transporter/src/CollectionIndex.ts:164](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L164)
 
 ___
 
@@ -1354,7 +1334,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:475
+[packages/transporter/src/Transporter.ts:474](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L474)
 
 ## Functions
 
@@ -1380,7 +1360,7 @@ packages/transporter/src/Transporter.ts:475
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:495
+[packages/transporter/src/Transporter.ts:494](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L494)
 
 ___
 
@@ -1401,7 +1381,7 @@ asserts input is FilterRecord<DocumentBase\>
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:504
+[packages/transporter/src/Transporter.ts:503](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L503)
 
 ___
 
@@ -1423,7 +1403,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/parseAggioAttributeFilters.ts:19
+[packages/transporter/src/parseAggioAttributeFilters.ts:19](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/parseAggioAttributeFilters.ts#L19)
 
 ___
 
@@ -1447,7 +1427,7 @@ an index based search filter.
 
 #### Defined in
 
-packages/transporter/src/createDocumentIndexBasedFilters.ts:24
+[packages/transporter/src/createDocumentIndexBasedFilters.ts:24](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/createDocumentIndexBasedFilters.ts#L24)
 
 ___
 
@@ -1467,7 +1447,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/encodeIndexValue.ts:3
+[packages/transporter/src/encodeIndexValue.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/encodeIndexValue.ts#L3)
 
 ___
 
@@ -1494,7 +1474,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/getDocumentIndexFields.ts:16
+[packages/transporter/src/getDocumentIndexFields.ts:16](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/getDocumentIndexFields.ts#L16)
 
 ___
 
@@ -1514,7 +1494,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/createDocumentIndexBasedFilters.ts:76
+[packages/transporter/src/createDocumentIndexBasedFilters.ts:76](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/createDocumentIndexBasedFilters.ts#L76)
 
 ___
 
@@ -1534,7 +1514,7 @@ input is keyof AllFilterOperations \| keyof RootFilterOperators<Doc\>
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:522
+[packages/transporter/src/Transporter.ts:521](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L521)
 
 ___
 
@@ -1556,7 +1536,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/mergeIndexRelationsResult.ts:14
+[packages/transporter/src/mergeIndexRelationsResult.ts:14](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/mergeIndexRelationsResult.ts#L14)
 
 ___
 
@@ -1576,7 +1556,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/parseAggioAttributeFilters.ts:41
+[packages/transporter/src/parseAggioAttributeFilters.ts:41](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/parseAggioAttributeFilters.ts#L41)
 
 ___
 
@@ -1596,7 +1576,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/parseAggioUpdateExpression.ts:5
+[packages/transporter/src/parseAggioUpdateExpression.ts:5](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/parseAggioUpdateExpression.ts#L5)
 
 ___
 
@@ -1622,7 +1602,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:187
+[packages/transporter/src/CollectionIndex.ts:187](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L187)
 
 ___
 
@@ -1642,7 +1622,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/parseEntityIndexFields.ts:10
+[packages/transporter/src/parseEntityIndexFields.ts:10](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/parseEntityIndexFields.ts#L10)
 
 ___
 
@@ -1663,7 +1643,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/parseFilterIndexFilterParts.ts:30
+[packages/transporter/src/parseFilterIndexFilterParts.ts:30](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/parseFilterIndexFilterParts.ts#L30)
 
 ___
 
@@ -1683,7 +1663,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:253
+[packages/transporter/src/CollectionIndex.ts:253](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L253)
 
 ___
 
@@ -1710,7 +1690,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/parseUpdateExpression.ts:21
+[packages/transporter/src/parseUpdateExpression.ts:21](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/parseUpdateExpression.ts#L21)
 
 ___
 
@@ -1736,4 +1716,4 @@ ___
 
 #### Defined in
 
-packages/transporter/src/pickIndexKeyPartsFromDocument.ts:16
+[packages/transporter/src/pickIndexKeyPartsFromDocument.ts:16](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/pickIndexKeyPartsFromDocument.ts#L16)

@@ -23,7 +23,7 @@
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:8
+[packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:8](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts#L8)
 
 ___
 
@@ -33,7 +33,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:9
+[packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:9](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts#L9)
 
 ___
 
@@ -43,7 +43,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:10
+[packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:10](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts#L10)
 
 ___
 
@@ -53,7 +53,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:11
+[packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:11](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts#L11)
 
 ___
 
@@ -63,7 +63,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:12
+[packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:12](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts#L12)
 
 ___
 
@@ -73,4 +73,4 @@ ___
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:13
+[packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:13](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts#L13)

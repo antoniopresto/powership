@@ -4,53 +4,26 @@
 
 ## Table of contents
 
-### References
-
-- [InferField](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferfield)
-
 ### Classes
 
-- [AliasField](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.AliasField.md)
-- [AnyField](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.AnyField.md)
-- [BooleanField](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.BooleanField.md)
-- [CursorField](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md)
-- [DateField](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.DateField.md)
-- [EmailField](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.EmailField.md)
-- [EnumField](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.EnumField.md)
 - [FieldType](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldType.md)
 - [FieldTypeError](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldTypeError.md)
-- [FloatField](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.FloatField.md)
 - [GraphType](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)
-- [IDField](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.IDField.md)
-- [IntField](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.IntField.md)
-- [LiteralField](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md)
-- [MetaField](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.MetaField.md)
-- [NullField](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.NullField.md)
-- [ObjectField](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectField.md)
 - [ObjectType](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)
-- [RecordField](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.RecordField.md)
-- [StringField](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.StringField.md)
-- [UlidField](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.UlidField.md)
-- [UndefinedField](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.UndefinedField.md)
-- [UnionField](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.UnionField.md)
-- [UnknownField](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.UnknownField.md)
 
 ### Interfaces
 
-- [CommonFieldDefinitionProps](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.CommonFieldDefinitionProps.md)
-- [CreateResolver](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.CreateResolver.md)
 - [CustomFieldConfig](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.CustomFieldConfig.md)
 - [DurableFieldConfig](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.DurableFieldConfig.md)
 - [ExtendObjectDefinition](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ExtendObjectDefinition.md)
 - [ExtendType](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)
-- [FieldDefinitionWithType](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldDefinitionWithType.md)
 - [GraphTypeInTypeFieldDefinition](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeInTypeFieldDefinition.md)
 - [GraphTypeLike](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLike.md)
 - [GraphTypeLikeFieldDefinition](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLikeFieldDefinition.md)
-- [LiteralFieldDef](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.LiteralFieldDef.md)
 - [ObjectInTypeFieldDefinition](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectInTypeFieldDefinition.md)
 - [ObjectLike](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectLike.md)
 - [ObjectTypeLikeFieldDefinition](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectTypeLikeFieldDefinition.md)
+- [ResolverContext](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ResolverContext.md)
 
 ### Type Aliases
 
@@ -58,14 +31,12 @@
 - [$sealed](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#$sealed)
 - [$sealedDef](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#$sealeddef)
 - [$sealedKey](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#$sealedkey)
-- [AliasFieldAggregation](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#aliasfieldaggregation)
-- [AliasFieldDef](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#aliasfielddef)
 - [AllFieldTypes](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#allfieldtypes)
 - [AllFinalFieldDefinitions](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#allfinalfielddefinitions)
-- [AnyResolver](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#anyresolver)
 - [CreateGraphQLObjectOptions](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#creategraphqlobjectoptions)
-- [CursorType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype)
-- [DateFieldDef](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#datefielddef)
+- [CreateResolver](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#createresolver)
+- [CreateResolverChain](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#createresolverchain)
+- [CreateResolverConfig](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#createresolverconfig)
 - [DescribeAndOverrideField](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#describeandoverridefield)
 - [DescribeField](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#describefield)
 - [DescribeObjectDefinition](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#describeobjectdefinition)
@@ -73,51 +44,38 @@
 - [FieldAsString](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldasstring)
 - [FieldComposer](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldcomposer)
 - [FieldCreators](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldcreators)
-- [FieldDefinitionConfig](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fielddefinitionconfig)
-- [FieldDefinitions](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fielddefinitions)
-- [FieldExample](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldexample)
-- [FieldExampleFunction](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldexamplefunction)
+- [FieldDefinition](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fielddefinition)
 - [FieldInput](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldinput)
 - [FieldInputLikeRequiredKey](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldinputlikerequiredkey)
 - [FieldParserConfig](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldparserconfig)
 - [FieldParserOptionsObject](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldparseroptionsobject)
 - [FieldTypeErrorCode](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypeerrorcode)
-- [FieldTypeName](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypename)
 - [FieldTypeOptions](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypeoptions)
 - [FieldTypeParser](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypeparser)
 - [FinalFieldDefinition](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#finalfielddefinition)
 - [FinalFieldDefinitionStrict](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#finalfielddefinitionstrict)
 - [FinalObjectDefinition](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#finalobjectdefinition)
 - [FlattenFieldDefinition](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#flattenfielddefinition)
-- [FloatFieldDef](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#floatfielddef)
 - [GraphQLSchemaWithUtils](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#graphqlschemawithutils)
 - [GraphTypeArgs](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#graphtypeargs)
 - [GraphTypeKID](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#graphtypekid)
 - [GroupedResolvers](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#groupedresolvers)
-- [IDFieldDef](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#idfielddef)
-- [ImplementObject](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#implementobject)
 - [Infer](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#infer)
 - [InferFinalField](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferfinalfield)
 - [InferGraphType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#infergraphtype)
 - [InferObjectDefinition](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferobjectdefinition)
 - [InferObjectType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferobjecttype)
-- [InferRecordFieldType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferrecordfieldtype)
 - [InferResolverArgs](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferresolverargs)
 - [InferString](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferstring)
 - [InferTypeName](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#infertypename)
 - [InnerDef](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#innerdef)
-- [IntFieldDef](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#intfielddef)
 - [LazyParseGraphTypePayload](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#lazyparsegraphtypepayload)
-- [ListDefinition](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#listdefinition)
-- [ListDefinitionObject](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#listdefinitionobject)
-- [ListDefinitionTruthy](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#listdefinitiontruthy)
 - [MakeFieldOptional](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#makefieldoptional)
 - [MakeFieldRequired](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#makefieldrequired)
 - [MakeTypeList](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#maketypelist)
 - [MakeTypeOptional](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#maketypeoptional)
 - [MakeTypeRequired](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#maketyperequired)
 - [MakeTypeSingle](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#maketypesingle)
-- [MetaFieldDef](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#metafielddef)
 - [OHas](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#ohas)
 - [OPick](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#opick)
 - [OWritable](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#owritable)
@@ -126,26 +84,22 @@
 - [ObjectMockOptions](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectmockoptions)
 - [ObjectTypeFromInput](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objecttypefrominput)
 - [ObjectTypeKID](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objecttypekid)
-- [OptionalResolverConfig](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#optionalresolverconfig)
 - [OverrideField](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#overridefield)
 - [ParseFieldOptions](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#parsefieldoptions)
 - [ParseSpecialObjectKeys](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#parsespecialobjectkeys)
-- [PowershipObjectDefinition](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#powershipobjectdefinition)
-- [RecordFieldDef](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#recordfielddef)
 - [Resolver](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolver)
-- [ResolverContextBase](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolvercontextbase)
 - [ResolverKind](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolverkind)
 - [ResolverResolve](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolverresolve)
 - [ResolversToTypeScriptOptions](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolverstotypescriptoptions)
+- [RouteConfig](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#routeconfig)
 - [Seal](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#seal)
 - [SealedField](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#sealedfield)
 - [Shape](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#shape)
 - [ShortenFinalFieldDefinition](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#shortenfinalfielddefinition)
-- [SpecialObjectKeys](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#specialobjectkeys)
-- [StringFieldDef](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#stringfielddef)
+- [SimpleRoute](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#simpleroute)
+- [SimpleRouter](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#simplerouter)
 - [TAnyFieldType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#tanyfieldtype)
 - [Types](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#types)
-- [UnknownFieldDef](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#unknownfielddef)
 - [ValidationCustomMessage](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#validationcustommessage)
 - [\_DescribeField](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_describefield)
 - [\_DescribeObject](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_describeobject)
@@ -161,7 +115,6 @@
 - [\_InnerDef](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_innerdef)
 - [\_ObjectFieldInputBase](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_objectfieldinputbase)
 - [\_OmitUndefined](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_omitundefined)
-- [\_ResolverArgs](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_resolverargs)
 - [\_ShortenFinalFieldDefinitionFieldAsString](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_shortenfinalfielddefinitionfieldasstring)
 - [\_WithInferList](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_withinferlist)
 - [\_WithInferOptional](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_withinferoptional)
@@ -172,15 +125,9 @@
 - [$sealed](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#$sealed-1)
 - [$sealedKey](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#$sealedkey-1)
 - [CACHED\_FIELD\_INSTANCE\_KEY](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#cached_field_instance_key)
-- [CircularDeps](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#circulardeps)
 - [FieldTypeErrorCodes](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypeerrorcodes)
 - [FieldsTypeCache](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldstypecache)
-- [PowershipObject](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#powershipobject)
-- [SpecialObjectKeyEnum](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#specialobjectkeyenum)
-- [ULID\_REGEX](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#ulid_regex)
 - [create](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#create)
-- [isFieldTypeName](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#isfieldtypename)
-- [objectMetaFieldKey](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectmetafieldkey)
 - [resolverKinds](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolverkinds)
 - [types](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#types-1)
 
@@ -188,32 +135,17 @@
 
 - [\_\_getCachedFieldInstance](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#__getcachedfieldinstance)
 - [assertType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#asserttype)
-- [cleanMetaField](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#cleanmetafield)
-- [createEmptyMetaField](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#createemptymetafield)
 - [createGraphQLSchema](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#creategraphqlschema)
 - [createObjectType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#createobjecttype)
-- [createPowershipObject](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#createpowershipobject)
-- [createResolver](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#createresolver)
-- [createResolverFactory](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#createresolverfactory)
-- [createSchema](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#createschema)
+- [createResolver](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#createresolver-1)
+- [createSimpleRouter](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#createsimplerouter)
 - [createType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#createtype)
-- [deleteCachedFieldInstance](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#deletecachedfieldinstance)
-- [extendObjectDefinition](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#extendobjectdefinition)
-- [extendType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#extendtype)
 - [fieldToMock](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtomock)
-- [getObjectDefinitionId](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#getobjectdefinitionid)
-- [getObjectDefinitionMetaField](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#getobjectdefinitionmetafield)
 - [getResolver](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#getresolver)
 - [getType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#gettype)
-- [implementObject](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#implementobject-1)
 - [isFieldError](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#isfielderror)
-- [isFieldInstance](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#isfieldinstance)
 - [isHiddenFieldName](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#ishiddenfieldname)
-- [isMetaField](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#ismetafield)
-- [isMetaFieldKey](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#ismetafieldkey)
 - [isObjectAsTypeDefinition](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#isobjectastypedefinition)
-- [isObjectType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#isobjecttype)
-- [isObjectValidationError](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#isobjectvalidationerror)
 - [isPossibleArgsDef](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#ispossibleargsdef)
 - [objectMock](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectmock)
 - [parseField](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#parsefield)
@@ -226,12 +158,6 @@
 - [resolversToTypescript](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolverstotypescript)
 - [resolversTypescriptParts](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolverstypescriptparts)
 
-## References
-
-### InferField
-
-Renames and re-exports [Infer](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#infer)
-
 ## Type Aliases
 
 ### $inferableKey
@@ -240,9 +166,9 @@ Renames and re-exports [Infer](Powership_Schema___A_Super_Portable_TypeScript_va
 
 #### Defined in
 
-packages/schema/src/fields/Infer/DescribeField.ts:19
+[packages/schema/src/fields/Infer/DescribeField.ts:19](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/DescribeField.ts#L19)
 
-packages/schema/src/fields/Infer/DescribeField.ts:20
+[packages/schema/src/fields/Infer/DescribeField.ts:20](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/DescribeField.ts#L20)
 
 ___
 
@@ -252,19 +178,19 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/DescribeField.ts:16
+[packages/schema/src/fields/Infer/DescribeField.ts:16](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/DescribeField.ts#L16)
 
-packages/schema/src/fields/Infer/DescribeField.ts:17
+[packages/schema/src/fields/Infer/DescribeField.ts:17](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/DescribeField.ts#L17)
 
 ___
 
 ### $sealedDef
 
-Ƭ **$sealedDef**: `Compute`<{ `list`: ``false`` ; `literal`: [`$sealed`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#$sealed-1) ; `optional`: ``false``  } & [`CommonFieldDefinitionProps`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.CommonFieldDefinitionProps.md)\>
+Ƭ **$sealedDef**: `Compute`<{ `list`: ``false`` ; `literal`: [`$sealed`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#$sealed-1) ; `optional`: ``false``  } & `CommonFieldDefinitionProps`\>
 
 #### Defined in
 
-packages/schema/src/fields/Infer/DescribeField.ts:42
+[packages/schema/src/fields/Infer/DescribeField.ts:42](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/DescribeField.ts#L42)
 
 ___
 
@@ -274,35 +200,9 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/DescribeField.ts:14
+[packages/schema/src/fields/Infer/DescribeField.ts:14](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/DescribeField.ts#L14)
 
-packages/schema/src/fields/Infer/DescribeField.ts:15
-
-___
-
-### AliasFieldAggregation
-
-Ƭ **AliasFieldAggregation**<`Parent`\>: { `type`: [`FieldInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldinput)  } & { `aggregate`: `Aggregation`<`Parent`\> \| `Readonly`<`Aggregation`<`Parent`\>\> ; `from`: `ObjectPath`<`Parent`\>  } \| { `aggregate`: `Aggregation`<`Parent`\> \| `Readonly`<`Aggregation`<`Parent`\>\> ; `from?`: `undefined`  } \| { `aggregate?`: `undefined` ; `from`: `ObjectPath`<`Parent`\>  }
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Parent` | `any` |
-
-#### Defined in
-
-packages/schema/src/fields/AliasField.ts:21
-
-___
-
-### AliasFieldDef
-
-Ƭ **AliasFieldDef**: `string` \| [`AliasFieldAggregation`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#aliasfieldaggregation)
-
-#### Defined in
-
-packages/schema/src/fields/AliasField.ts:35
+[packages/schema/src/fields/Infer/DescribeField.ts:15](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/DescribeField.ts#L15)
 
 ___
 
@@ -312,7 +212,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:333
+[packages/schema/src/fields/FieldType.ts:332](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L332)
 
 ___
 
@@ -322,17 +222,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/_parseFields.ts:42
-
-___
-
-### AnyResolver
-
-Ƭ **AnyResolver**: [`Resolver`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolver)<`any`, `any`, `any`, `any`\>
-
-#### Defined in
-
-packages/schema/src/Resolver.ts:153
+[packages/schema/src/fields/_parseFields.ts:41](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_parseFields.ts#L41)
 
 ___
 
@@ -342,48 +232,78 @@ ___
 
 #### Defined in
 
-packages/schema/src/createGraphQLSchema.ts:21
+[packages/schema/src/createGraphQLSchema.ts:22](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/createGraphQLSchema.ts#L22)
 
 ___
 
-### CursorType
+### CreateResolver
 
-Ƭ **CursorType**: `Object`
+Ƭ **CreateResolver**<`Result_GraphType`\>: (`config`: [`CreateResolverConfig`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#createresolverconfig)<`Result_GraphType`\>) => [`CreateResolverChain`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#createresolverchain)<[`IsKnown`<`Result_GraphType`\>] extends [``1``] ? [`Infer`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#infer)<`Result_GraphType`\> : `unknown`\>
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `Result_GraphType` |
+
+#### Type declaration
+
+▸ (`config`): [`CreateResolverChain`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#createresolverchain)<[`IsKnown`<`Result_GraphType`\>] extends [``1``] ? [`Infer`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#infer)<`Result_GraphType`\> : `unknown`\>
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `config` | [`CreateResolverConfig`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#createresolverconfig)<`Result_GraphType`\> |
+
+##### Returns
+
+[`CreateResolverChain`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#createresolverchain)<[`IsKnown`<`Result_GraphType`\>] extends [``1``] ? [`Infer`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#infer)<`Result_GraphType`\> : `unknown`\>
+
+#### Defined in
+
+[packages/schema/src/Resolver.ts:232](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/Resolver.ts#L232)
+
+___
+
+### CreateResolverChain
+
+Ƭ **CreateResolverChain**<`PlainResultType`, `Args`, `Root`\>: `Object`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `PlainResultType` | `PlainResultType` |
+| `Args` | {} |
+| `Root` | `unknown` |
 
 #### Type declaration
 
 | Name | Type |
 | :------ | :------ |
-| `PK` | `string` |
-| `SK?` | `string` |
-| `after?` | `string` |
-| `fields?` | `string`[] |
-| `limit?` | `number` |
-| `prefix?` | `string` |
-| `sep?` | `string` |
-| `version?` | `string` |
+| `args` | <InputDefinition\>(`definition`: `InputDefinition`) => `Omit`<[`CreateResolverChain`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#createresolverchain)<`PlainResultType`, [`IsKnown`<`InputDefinition`\>] extends [``1``] ? [`InputDefinition`] extends [`object`] ? [`InferObjectDefinition`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferobjectdefinition)<`InputDefinition`\> : `never` : { `[K: string]`: `unknown`;  }, `Root`\>, ``"args"``\> |
+| `resolve` | (`resolverFunction`: (`root`: `Root`, `args`: `Args`, `context`: [`ResolverContext`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ResolverContext.md)) => `MaybePromise`<`PlainResultType`\>) => [`Resolver`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolver)<`Root`, `Args`, `PlainResultType`\> |
 
 #### Defined in
 
-packages/schema/src/fields/_fieldDefinitions.ts:14
+[packages/schema/src/Resolver.ts:198](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/Resolver.ts#L198)
 
 ___
 
-### DateFieldDef
+### CreateResolverConfig
 
-Ƭ **DateFieldDef**: `Object`
+Ƭ **CreateResolverConfig**<`Result_GraphType`\>: `Merge`<`GraphQLFieldConfig`<`any`, `any`\>, { `args?`: `any` ; `kind?`: `ResolverKind` ; `name`: `string` ; `resolve?`: `any` ; `type`: `Result_GraphType`  }\>
 
-#### Type declaration
+#### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `autoCreate?` | `boolean` |
-| `max?` | `Date` |
-| `min?` | `Date` |
+| Name |
+| :------ |
+| `Result_GraphType` |
 
 #### Defined in
 
-packages/schema/src/fields/DateField.ts:6
+[packages/schema/src/Resolver.ts:221](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/Resolver.ts#L221)
 
 ___
 
@@ -400,7 +320,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/DescribeField.ts:65
+[packages/schema/src/fields/Infer/DescribeField.ts:65](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/DescribeField.ts#L65)
 
 ___
 
@@ -416,7 +336,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/DescribeField.ts:22
+[packages/schema/src/fields/Infer/DescribeField.ts:22](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/DescribeField.ts#L22)
 
 ___
 
@@ -432,7 +352,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/DescribeField.ts:79
+[packages/schema/src/fields/Infer/DescribeField.ts:79](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/DescribeField.ts#L79)
 
 ___
 
@@ -448,17 +368,17 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/DescribeField.ts:58
+[packages/schema/src/fields/Infer/DescribeField.ts:58](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/DescribeField.ts#L58)
 
 ___
 
 ### FieldAsString
 
-Ƭ **FieldAsString**: [`FieldTypeName`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypename) \| \`${FieldTypeName}?\` \| \`[${FieldTypeName}]\` \| \`[${FieldTypeName}]?\`
+Ƭ **FieldAsString**: `FieldTypeName` \| \`${FieldTypeName}?\` \| \`[${FieldTypeName}]\` \| \`[${FieldTypeName}]?\`
 
 #### Defined in
 
-packages/schema/src/fields/_parseFields.ts:72
+[packages/schema/src/fields/_parseFields.ts:71](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_parseFields.ts#L71)
 
 ___
 
@@ -483,7 +403,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:31
+[packages/schema/src/fields/FieldType.ts:28](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L28)
 
 ___
 
@@ -493,82 +413,17 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/fieldTypes.ts:86
+[packages/schema/src/fields/fieldTypes.ts:53](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/fieldTypes.ts#L53)
 
 ___
 
-### FieldDefinitionConfig
+### FieldDefinition
 
-Ƭ **FieldDefinitionConfig**: [`ObjectFieldInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput)
-
-#### Defined in
-
-packages/schema/src/TObjectConfig.ts:6
-
-___
-
-### FieldDefinitions
-
-Ƭ **FieldDefinitions**: `Object`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `ID` | { `autoCreate?`: `boolean`  } \| `undefined` |
-| `alias` | [`AliasFieldDef`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#aliasfielddef) |
-| `any` | `undefined` |
-| `array` | `ArrayFieldDef` |
-| `boolean` | `undefined` |
-| `cursor` | `undefined` |
-| `date` | { `autoCreate?`: `boolean` ; `max?`: `Date` ; `min?`: `Date`  } \| `undefined` |
-| `email` | { `regex?`: [`string`] \| [`string`, `string`] \| `Readonly`<[`string`] \| [`string`, `string`]\>  } \| `undefined` |
-| `enum` | `string`[] \| `Readonly`<`string`[]\> |
-| `float` | { `max?`: `number` ; `min?`: `number`  } \| `undefined` |
-| `int` | { `max?`: `number` ; `min?`: `number`  } \| `undefined` |
-| `literal` | `Readonly`<`unknown`\> |
-| `meta` | [`MetaFieldDef`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#metafielddef) |
-| `null` | `undefined` |
-| `object` | { `[K: string]`: [`ObjectFieldInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput);  } \| `Readonly`<{ `[K: string]`: [`ObjectFieldInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput);  }\> \| [`ObjectLike`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectLike.md) |
-| `phone` | `PhoneFieldDef` |
-| `record` | [`RecordFieldDef`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#recordfielddef) \| `undefined` |
-| `string` | { `max?`: `number` ; `min?`: `number` ; `regex?`: [`string`] \| [`string`, `string`] \| `Readonly`<[`string`] \| [`string`, `string`]\>  } \| `undefined` |
-| `ulid` | { `autoCreate?`: `boolean`  } \| `undefined` |
-| `undefined` | `undefined` |
-| `union` | [`ObjectFieldInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput)[] \| `Readonly`<[`ObjectFieldInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput)[]\> |
-| `unknown` | [`UnknownFieldDef`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#unknownfielddef) \| `undefined` |
+Ƭ **FieldDefinition**: [`ObjectFieldInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput)
 
 #### Defined in
 
-packages/schema/src/fields/_fieldDefinitions.ts:56
-
-___
-
-### FieldExample
-
-Ƭ **FieldExample**: [`FieldExampleFunction`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldexamplefunction) \| `string`
-
-#### Defined in
-
-packages/schema/src/fields/_fieldDefinitions.ts:35
-
-___
-
-### FieldExampleFunction
-
-Ƭ **FieldExampleFunction**: () => `string` \| `Promise`<`string`\>
-
-#### Type declaration
-
-▸ (): `string` \| `Promise`<`string`\>
-
-##### Returns
-
-`string` \| `Promise`<`string`\>
-
-#### Defined in
-
-packages/schema/src/fields/_fieldDefinitions.ts:34
+[packages/schema/src/fields/_parseFields.ts:29](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_parseFields.ts#L29)
 
 ___
 
@@ -578,17 +433,17 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/_parseFields.ts:30
+[packages/schema/src/fields/_parseFields.ts:28](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_parseFields.ts#L28)
 
 ___
 
 ### FieldInputLikeRequiredKey
 
-Ƭ **FieldInputLikeRequiredKey**: [`ObjectTypeKID`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objecttypekid) \| [`GraphTypeKID`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#graphtypekid) \| [`FieldTypeName`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypename) \| ``"type"``
+Ƭ **FieldInputLikeRequiredKey**: [`ObjectTypeKID`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objecttypekid) \| [`GraphTypeKID`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#graphtypekid) \| `FieldTypeName` \| ``"type"``
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferField.ts:93
+[packages/schema/src/fields/Infer/Infer.ts:96](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/Infer.ts#L96)
 
 ___
 
@@ -598,7 +453,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/applyValidator.ts:17
+[packages/schema/src/applyValidator.ts:17](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/applyValidator.ts#L17)
 
 ___
 
@@ -620,7 +475,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/applyValidator.ts:7
+[packages/schema/src/applyValidator.ts:7](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/applyValidator.ts#L7)
 
 ___
 
@@ -630,27 +485,17 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldTypeErrors.ts:15
-
-___
-
-### FieldTypeName
-
-Ƭ **FieldTypeName**: `Extract`<keyof [`FieldDefinitions`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fielddefinitions), `string`\>
-
-#### Defined in
-
-packages/schema/src/fields/_fieldDefinitions.ts:146
+[packages/schema/src/fields/FieldTypeErrors.ts:15](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldTypeErrors.ts#L15)
 
 ___
 
 ### FieldTypeOptions
 
-Ƭ **FieldTypeOptions**: [`ListDefinitionObject`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#listdefinitionobject) & { `[K: string]`: `unknown`;  }
+Ƭ **FieldTypeOptions**: `ListDefinitionObject` & { `[K: string]`: `unknown`;  }
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:28
+[packages/schema/src/fields/FieldType.ts:25](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L25)
 
 ___
 
@@ -681,17 +526,17 @@ ___
 
 #### Defined in
 
-packages/schema/src/applyValidator.ts:21
+[packages/schema/src/applyValidator.ts:21](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/applyValidator.ts#L21)
 
 ___
 
 ### FinalFieldDefinition
 
-Ƭ **FinalFieldDefinition**: { [K in FieldTypeName]: FieldDefinitionWithType<K\> }[[`FieldTypeName`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypename)]
+Ƭ **FinalFieldDefinition**: { [K in FieldTypeName]: FieldDefinitionWithType<K\> }[`FieldTypeName`]
 
 #### Defined in
 
-packages/schema/src/fields/_parseFields.ts:58
+[packages/schema/src/fields/_parseFields.ts:57](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_parseFields.ts#L57)
 
 ___
 
@@ -701,7 +546,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/_parseFields.ts:55
+[packages/schema/src/fields/_parseFields.ts:54](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_parseFields.ts#L54)
 
 ___
 
@@ -715,50 +560,33 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/_parseFields.ts:40
+[packages/schema/src/fields/_parseFields.ts:39](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_parseFields.ts#L39)
 
 ___
 
 ### FlattenFieldDefinition
 
-Ƭ **FlattenFieldDefinition**: { [type in FieldTypeName]: { [K in type]: [FieldDefinitions[K]] extends [undefined] ? FieldDefinitions[K] \| Object : FieldDefinitions[K] } }[[`FieldTypeName`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypename)] & [`CommonFieldDefinitionProps`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.CommonFieldDefinitionProps.md)
+Ƭ **FlattenFieldDefinition**: { [type in FieldTypeName]: { [K in type]: [FieldDefinitions[K]] extends [undefined] ? FieldDefinitions[K] \| Object : FieldDefinitions[K] } }[`FieldTypeName`] & `CommonFieldDefinitionProps`
 
 #### Defined in
 
-packages/schema/src/fields/_parseFields.ts:63
-
-___
-
-### FloatFieldDef
-
-Ƭ **FloatFieldDef**: `Object`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `max?` | `number` |
-| `min?` | `number` |
-
-#### Defined in
-
-packages/schema/src/fields/FloatField.ts:5
+[packages/schema/src/fields/_parseFields.ts:62](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_parseFields.ts#L62)
 
 ___
 
 ### GraphQLSchemaWithUtils
 
-Ƭ **GraphQLSchemaWithUtils**: `GraphQLSchema` & { `utils`: { `generateClientUtils`: () => `Promise`<`string`\> ; `grouped`: [`GroupedResolvers`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#groupedresolvers) ; `print`: () => `string` ; `queryExamples`: (`options?`: [`ObjectMockOptions`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectmockoptions) & { `resolver?`: `string`  }) => `string` ; `queryTemplates`: () => `SchemaQueryTemplatesResult` ; `registeredResolvers`: [`AnyResolver`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#anyresolver)[] ; `resolvers`: [`AnyResolver`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#anyresolver)[] ; `typescript`: (`options?`: [`ResolversToTypeScriptOptions`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolverstotypescriptoptions)) => `Promise`<`string`\> ; `usedConfig`: `GraphQLSchemaConfig`  }  }
+Ƭ **GraphQLSchemaWithUtils**: `GraphQLSchema` & { `utils`: { `generateClientUtils`: () => `Promise`<`string`\> ; `grouped`: [`GroupedResolvers`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#groupedresolvers) ; `print`: () => `string` ; `queryExamples`: (`options?`: [`ObjectMockOptions`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectmockoptions) & { `resolver?`: `string`  }) => `string` ; `queryTemplates`: () => `SchemaQueryTemplatesResult` ; `resolvers`: [`Resolver`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolver)[] ; `typescript`: (`options?`: [`ResolversToTypeScriptOptions`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolverstotypescriptoptions)) => `Promise`<`string`\> ; `usedConfig`: `GraphQLSchemaConfig`  }  }
 
 #### Defined in
 
-packages/schema/src/createGraphQLSchema.ts:27
+[packages/schema/src/createGraphQLSchema.ts:28](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/createGraphQLSchema.ts#L28)
 
 ___
 
 ### GraphTypeArgs
 
-Ƭ **GraphTypeArgs**<`Def`\>: [`string`, `Def` \| (`utils`: `PowershipModules`) => `Def`] \| [`Def` \| (`utils`: `PowershipModules`) => `Def`]
+Ƭ **GraphTypeArgs**<`Def`\>: [`string`, `Def` \| () => `Def`] \| [`Def` \| () => `Def`]
 
 #### Type parameters
 
@@ -768,7 +596,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:363
+[packages/schema/src/GraphType/GraphType.ts:385](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L385)
 
 ___
 
@@ -778,50 +606,17 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferField.ts:89
+[packages/schema/src/fields/Infer/Infer.ts:92](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/Infer.ts#L92)
 
 ___
 
 ### GroupedResolvers
 
-Ƭ **GroupedResolvers**: { [K in AnyResolver["kind"]]: undefined \| AnyResolver[] }
+Ƭ **GroupedResolvers**: { [K in Resolver["kind"]]: undefined \| Resolver[] }
 
 #### Defined in
 
-packages/schema/src/createGraphQLSchema.ts:23
-
-___
-
-### IDFieldDef
-
-Ƭ **IDFieldDef**: `Object`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `autoCreate?` | `boolean` |
-
-#### Defined in
-
-packages/schema/src/fields/IDField.ts:7
-
-___
-
-### ImplementObject
-
-Ƭ **ImplementObject**<`Dest`, `Extends`\>: `Extends` extends [] ? `Dest` : `Extends` extends [infer Item, ...(infer Rest)] ? `Dest` extends [`ObjectType`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<infer DestDef\> ? `Item` extends [`ObjectType`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<infer ItemDef\> ? [`ImplementObject`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#implementobject)<[`ObjectType`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<{ [K in keyof Merge<ItemDef, DestDef\>]: Merge<ItemDef, DestDef\>[K] }\>, `Rest`\> : `never` : `never` : `never`
-
-#### Type parameters
-
-| Name |
-| :------ |
-| `Dest` |
-| `Extends` |
-
-#### Defined in
-
-packages/schema/src/implementObject.ts:10
+[packages/schema/src/createGraphQLSchema.ts:24](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/createGraphQLSchema.ts#L24)
 
 ___
 
@@ -837,7 +632,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferField.ts:14
+[packages/schema/src/fields/Infer/Infer.ts:17](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/Infer.ts#L17)
 
 ___
 
@@ -849,12 +644,12 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `TypeName` | extends [`FieldTypeName`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypename) |
+| `TypeName` | extends `FieldTypeName` |
 | `Def` | `never` |
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferFinalField.ts:8
+[packages/schema/src/fields/Infer/InferFinalField.ts:8](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/InferFinalField.ts#L8)
 
 ___
 
@@ -870,7 +665,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferGraphType.ts:13
+[packages/schema/src/fields/Infer/InferGraphType.ts:13](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/InferGraphType.ts#L13)
 
 ___
 
@@ -886,7 +681,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferObjectType.ts:27
+[packages/schema/src/fields/Infer/InferObjectType.ts:27](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/InferObjectType.ts#L27)
 
 ___
 
@@ -902,23 +697,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferObjectType.ts:19
-
-___
-
-### InferRecordFieldType
-
-Ƭ **InferRecordFieldType**<`Def`\>: `Def` extends { `keyType`: ``"int"`` \| ``"float"``  } ? { `[K: number]`: [`Infer`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#infer)<`Def` extends { `type`: [`FieldDefinitionConfig`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fielddefinitionconfig)  } ? `Def`[``"type"``] : ``"any"``\>;  } : { `[K: string]`: [`Infer`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#infer)<`Def` extends { `type`: [`FieldDefinitionConfig`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fielddefinitionconfig)  } ? `Def`[``"type"``] : ``"any"``\>;  }
-
-#### Type parameters
-
-| Name |
-| :------ |
-| `Def` |
-
-#### Defined in
-
-packages/schema/src/fields/RecordField.ts:18
+[packages/schema/src/fields/Infer/InferObjectType.ts:19](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/InferObjectType.ts#L19)
 
 ___
 
@@ -934,13 +713,13 @@ ___
 
 #### Defined in
 
-packages/schema/src/Resolver.ts:116
+[packages/schema/src/Resolver.ts:121](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/Resolver.ts#L121)
 
 ___
 
 ### InferString
 
-Ƭ **InferString**<`Input`\>: `Input` extends \`${infer Start}?\` ? [`InferString`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferstring)<`Start`\> \| `undefined` : `Input` extends \`[${infer Start}]\` ? [`InferString`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferstring)<`Start`\>[] : `Input` extends [`FieldTypeName`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypename) ? [`InferTypeName`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#infertypename)<`Input`\> : `Input` extends \`[${infer Type}]\` ? [`InferString`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferstring)<`Type`\>[] : `never`
+Ƭ **InferString**<`Input`\>: `Input` extends \`${infer Start}?\` ? [`InferString`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferstring)<`Start`\> \| `undefined` : `Input` extends \`[${infer Start}]\` ? [`InferString`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferstring)<`Start`\>[] : `Input` extends `FieldTypeName` ? [`InferTypeName`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#infertypename)<`Input`\> : `Input` extends \`[${infer Type}]\` ? [`InferString`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferstring)<`Type`\>[] : `never`
 
 #### Type parameters
 
@@ -950,13 +729,13 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferString.ts:3
+[packages/schema/src/fields/Infer/InferString.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/InferString.ts#L3)
 
 ___
 
 ### InferTypeName
 
-Ƭ **InferTypeName**<`Type`\>: `Type` extends `unknown` ? `Type` extends [`FieldTypeName`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypename) ? `Type` extends ``"any"`` ? `any` : `Type` extends ``"boolean"`` ? `boolean` : `Type` extends ``"cursor"`` ? [`CursorType`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#cursortype) : `Type` extends ``"phone"`` ? `string` : `Type` extends ``"null"`` ? ``null`` : `Type` extends ``"undefined"`` ? `undefined` : `Type` extends ``"unknown"`` ? `unknown` : `Type` extends ``"string"`` ? `string` : `Type` extends ``"date"`` ? `Date` : `Type` extends ``"email"`` ? `string` : `Type` extends ``"float"`` ? `number` : `Type` extends ``"record"`` ? { `[K: string]`: `any`;  } : `Type` extends ``"int"`` ? `number` : `Type` extends ``"ulid"`` ? `string` : `Type` extends ``"ID"`` ? `string` : `never` : `never` : `never`
+Ƭ **InferTypeName**<`Type`\>: `Type` extends `unknown` ? `Type` extends `FieldTypeName` ? `Type` extends ``"any"`` ? `any` : `Type` extends ``"boolean"`` ? `boolean` : `Type` extends ``"cursor"`` ? `CursorType` : `Type` extends ``"phone"`` ? `string` : `Type` extends ``"null"`` ? ``null`` : `Type` extends ``"undefined"`` ? `undefined` : `Type` extends ``"unknown"`` ? `unknown` : `Type` extends ``"string"`` ? `string` : `Type` extends ``"date"`` ? `Date` : `Type` extends ``"email"`` ? `string` : `Type` extends ``"float"`` ? `number` : `Type` extends ``"record"`` ? { `[K: string]`: `any`;  } : `Type` extends ``"int"`` ? `number` : `Type` extends ``"ulid"`` ? `string` : `Type` extends ``"ID"`` ? `string` : `never` : `never` : `never`
 
 #### Type parameters
 
@@ -966,7 +745,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferString.ts:22
+[packages/schema/src/fields/Infer/InferString.ts:22](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/InferString.ts#L22)
 
 ___
 
@@ -982,24 +761,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/extendObjectDefinition.ts:223
-
-___
-
-### IntFieldDef
-
-Ƭ **IntFieldDef**: `Object`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `max?` | `number` |
-| `min?` | `number` |
-
-#### Defined in
-
-packages/schema/src/fields/IntField.ts:5
+[packages/schema/src/extendObjectDefinition.ts:231](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendObjectDefinition.ts#L231)
 
 ___
 
@@ -1012,7 +774,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `definition` | [`FinalFieldDefinition`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#finalfielddefinition) |
-| `definitionInput` | [`ObjectFieldInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput) \| (`utils`: `PowershipModules`) => [`ObjectFieldInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput) |
+| `definitionInput` | [`ObjectFieldInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput) \| () => [`ObjectFieldInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput) |
 | `field` | [`TAnyFieldType`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#tanyfieldtype) |
 | `id` | `string` \| `undefined` |
 | `idFromArgs` | `string` \| `undefined` |
@@ -1020,45 +782,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:351
-
-___
-
-### ListDefinition
-
-Ƭ **ListDefinition**: [`ListDefinitionObject`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#listdefinitionobject) \| `boolean`
-
-#### Defined in
-
-packages/schema/src/fields/_fieldDefinitions.ts:31
-
-___
-
-### ListDefinitionObject
-
-Ƭ **ListDefinitionObject**: `Object`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `length?` | `number` |
-| `max?` | `number` |
-| `min?` | `number` |
-
-#### Defined in
-
-packages/schema/src/fields/_fieldDefinitions.ts:25
-
-___
-
-### ListDefinitionTruthy
-
-Ƭ **ListDefinitionTruthy**: [`ListDefinitionObject`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#listdefinitionobject) \| ``true``
-
-#### Defined in
-
-packages/schema/src/fields/_fieldDefinitions.ts:32
+[packages/schema/src/GraphType/GraphType.ts:375](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L375)
 
 ___
 
@@ -1075,7 +799,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/extendObjectDefinition.ts:248
+[packages/schema/src/extendObjectDefinition.ts:256](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendObjectDefinition.ts#L256)
 
 ___
 
@@ -1092,7 +816,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/extendObjectDefinition.ts:253
+[packages/schema/src/extendObjectDefinition.ts:261](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendObjectDefinition.ts#L261)
 
 ___
 
@@ -1115,7 +839,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/extendType.ts:136
+[packages/schema/src/extendType.ts:131](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendType.ts#L131)
 
 ___
 
@@ -1131,7 +855,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/extendType.ts:126
+[packages/schema/src/extendType.ts:121](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendType.ts#L121)
 
 ___
 
@@ -1147,7 +871,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/extendType.ts:131
+[packages/schema/src/extendType.ts:126](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendType.ts#L126)
 
 ___
 
@@ -1163,30 +887,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/extendType.ts:138
-
-___
-
-### MetaFieldDef
-
-Ƭ **MetaFieldDef**: `Object`
-
-#### Index signature
-
-▪ [K: `string`]: `Serializable`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `custom?` | [`CustomFieldConfig`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.CustomFieldConfig.md) |
-| `description?` | `string` |
-| `id` | `string` \| ``null`` |
-| `implements?` | `string`[] |
-
-#### Defined in
-
-packages/schema/src/fields/MetaFieldField.ts:12
+[packages/schema/src/extendType.ts:133](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendType.ts#L133)
 
 ___
 
@@ -1203,7 +904,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/OHas.ts:3
+[packages/schema/src/fields/Infer/OHas.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/OHas.ts#L3)
 
 ___
 
@@ -1220,7 +921,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/OHas.ts:9
+[packages/schema/src/fields/Infer/OHas.ts:9](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/OHas.ts#L9)
 
 ___
 
@@ -1236,7 +937,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/OHas.ts:21
+[packages/schema/src/fields/Infer/OHas.ts:21](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/OHas.ts#L21)
 
 ___
 
@@ -1246,7 +947,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/_parseFields.ts:32
+[packages/schema/src/fields/_parseFields.ts:31](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_parseFields.ts#L31)
 
 ___
 
@@ -1256,7 +957,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/_parseFields.ts:20
+[packages/schema/src/fields/_parseFields.ts:18](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_parseFields.ts#L18)
 
 ___
 
@@ -1274,7 +975,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/mockObject.ts:23
+[packages/schema/src/mockObject.ts:16](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/mockObject.ts#L16)
 
 ___
 
@@ -1290,7 +991,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:605
+[packages/schema/src/ObjectType.ts:590](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L590)
 
 ___
 
@@ -1300,25 +1001,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferField.ts:88
-
-___
-
-### OptionalResolverConfig
-
-Ƭ **OptionalResolverConfig**<`Source`, `Context`, `Args`\>: `Omit`<`GraphQLFieldConfig`<`Source`, `Context`, `Args`\>, ``"resolve"`` \| ``"args"`` \| ``"type"``\>
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Source` | `any` |
-| `Context` | `any` |
-| `Args` | `any` |
-
-#### Defined in
-
-packages/schema/src/Resolver.ts:191
+[packages/schema/src/fields/Infer/Infer.ts:91](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/Infer.ts#L91)
 
 ___
 
@@ -1336,7 +1019,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/extendObjectDefinition.ts:258
+[packages/schema/src/extendObjectDefinition.ts:266](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendObjectDefinition.ts#L266)
 
 ___
 
@@ -1357,7 +1040,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/parseObjectDefinition.ts:325
+[packages/schema/src/parseObjectDefinition.ts:313](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/parseObjectDefinition.ts#L313)
 
 ___
 
@@ -1373,67 +1056,25 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferObjectType.ts:38
-
-___
-
-### PowershipObjectDefinition
-
-Ƭ **PowershipObjectDefinition**: [`ObjectDefinitionInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectdefinitioninput)
-
-#### Defined in
-
-packages/schema/src/TObjectConfig.ts:5
-
-___
-
-### RecordFieldDef
-
-Ƭ **RecordFieldDef**: `Object`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `keyType?` | `ValidKeyType` |
-| `type?` | [`FieldDefinitionConfig`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fielddefinitionconfig) |
-
-#### Defined in
-
-packages/schema/src/fields/RecordField.ts:13
+[packages/schema/src/fields/Infer/InferObjectType.ts:38](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/InferObjectType.ts#L38)
 
 ___
 
 ### Resolver
 
-Ƭ **Resolver**<`Context`, `Root`, `Type`, `Args`\>: `Compute`<[`OptionalResolverConfig`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#optionalresolverconfig)<`Root`, `Context`, `Args`\> & { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: `Args`, `context`: `Context`, `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Type`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  }, ``1``\>
+Ƭ **Resolver**<`TSource`, `TArgs`, `TResult`\>: `Omit`<`GraphQLFieldConfig`<`TSource`, [`ResolverContext`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ResolverContext.md), `TArgs`\>, ``"type"`` \| ``"args"`` \| ``"resolve"``\> & { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: (`root`: `TSource`, `args`: `TArgs`, `context`: `any`, `info`: `any`) => `MaybePromise`<`TResult`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  }
 
 #### Type parameters
 
-| Name |
-| :------ |
-| `Context` |
-| `Root` |
-| `Type` |
-| `Args` |
+| Name | Type |
+| :------ | :------ |
+| `TSource` | `unknown` |
+| `TArgs` | extends `any` = {} |
+| `TResult` | extends `unknown` = `unknown` |
 
 #### Defined in
 
-packages/schema/src/Resolver.ts:128
-
-___
-
-### ResolverContextBase
-
-Ƭ **ResolverContextBase**: `Object`
-
-#### Index signature
-
-▪ [K: `string`]: `unknown`
-
-#### Defined in
-
-packages/schema/src/Resolver.ts:20
+[packages/schema/src/Resolver.ts:133](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/Resolver.ts#L133)
 
 ___
 
@@ -1443,26 +1084,25 @@ ___
 
 #### Defined in
 
-packages/schema/src/createGraphQLSchema.ts:44
+[packages/schema/src/createGraphQLSchema.ts:44](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/createGraphQLSchema.ts#L44)
 
 ___
 
 ### ResolverResolve
 
-Ƭ **ResolverResolve**<`Context`, `Source`, `TypeDef`, `ArgsDef`\>: (`x`: [`InferResolverArgs`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferresolverargs)<`ArgsDef`\>) => `any` extends (`x`: infer R) => `any` ? { [K in keyof R]: R[K] } : `never` extends infer Args ? (`x`: [`Infer`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#infer)<`TypeDef`\>) => `any` extends (`x`: infer R) => `any` ? (`parent`: `Compute`<`Source`\>, `args`: `Compute`<`Args`\>, `context`: `Context`, `info`: `GraphQLResolveInfo`) => `IsKnown`<`R`\> extends ``1`` ? `Compute`<`Promise`<`R`\> \| `R`\> : `any` : (`parent`: `Source`, `args`: `Record`<`string`, `unknown`\>, `context`: `Context`, `info`: `GraphQLResolveInfo`) => `Promise`<`any`\> \| `any` : `never` extends infer R ? `R` : `never`
+Ƭ **ResolverResolve**<`Source`, `TypeDef`, `ArgsDef`\>: (`x`: [`InferResolverArgs`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferresolverargs)<`ArgsDef`\>) => `any` extends (`x`: infer R) => `any` ? { [K in keyof R]: R[K] } : `never` extends infer Args ? (`x`: [`Infer`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#infer)<`TypeDef`\>) => `any` extends (`x`: infer R) => `any` ? (`parent`: `Compute`<`Source`\>, `args`: `Compute`<`Args`\>, `context`: [`ResolverContext`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ResolverContext.md), `info`: `GraphQLResolveInfo`) => `IsKnown`<`R`\> extends ``1`` ? `Compute`<`Promise`<`R`\> \| `R`\> : `any` : (`parent`: `Source`, `args`: `Record`<`string`, `unknown`\>, `context`: [`ResolverContext`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ResolverContext.md), `info`: `GraphQLResolveInfo`) => `Promise`<`any`\> \| `any` : `never` extends infer R ? `R` : `never`
 
 #### Type parameters
 
 | Name |
 | :------ |
-| `Context` |
 | `Source` |
 | `TypeDef` |
 | `ArgsDef` |
 
 #### Defined in
 
-packages/schema/src/Resolver.ts:155
+[packages/schema/src/Resolver.ts:162](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/Resolver.ts#L162)
 
 ___
 
@@ -1476,11 +1116,28 @@ ___
 | :------ | :------ |
 | `name` | `string` |
 | `options?` | `ObjectToTypescriptOptions` |
-| `resolvers` | [`AnyResolver`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#anyresolver)[] |
+| `resolvers` | [`Resolver`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolver)[] |
 
 #### Defined in
 
-packages/schema/src/createGraphQLSchema.ts:156
+[packages/schema/src/createGraphQLSchema.ts:150](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/createGraphQLSchema.ts#L150)
+
+___
+
+### RouteConfig
+
+Ƭ **RouteConfig**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `path` | `string` |
+| `query?` | [`ObjectDefinitionInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectdefinitioninput) |
+
+#### Defined in
+
+[packages/schema/src/createSimpleRouter.ts:13](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/createSimpleRouter.ts#L13)
 
 ___
 
@@ -1496,13 +1153,13 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/DescribeField.ts:51
+[packages/schema/src/fields/Infer/DescribeField.ts:51](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/DescribeField.ts#L51)
 
 ___
 
 ### SealedField
 
-Ƭ **SealedField**<`D`\>: ``"type"`` extends keyof `D` ? [`Seal`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#seal)<`Merge`<[`CommonFieldDefinitionProps`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.CommonFieldDefinitionProps.md), `D`\>\> : `D`
+Ƭ **SealedField**<`D`\>: ``"type"`` extends keyof `D` ? [`Seal`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#seal)<`Merge`<`CommonFieldDefinitionProps`, `D`\>\> : `D`
 
 #### Type parameters
 
@@ -1512,7 +1169,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/DescribeField.ts:38
+[packages/schema/src/fields/Infer/DescribeField.ts:38](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/DescribeField.ts#L38)
 
 ___
 
@@ -1522,45 +1179,43 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/_parseFields.ts:38
+[packages/schema/src/fields/_parseFields.ts:37](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_parseFields.ts#L37)
 
 ___
 
 ### ShortenFinalFieldDefinition
 
-Ƭ **ShortenFinalFieldDefinition**: { [Type in FieldTypeName]: { [K in \_ShortenFinalFieldDefinitionFieldAsString<Type\>]: K \| { [L in K]: FieldDefinitions[Type] \| Object } }[\_ShortenFinalFieldDefinitionFieldAsString<Type\>] }[[`FieldTypeName`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypename)]
+Ƭ **ShortenFinalFieldDefinition**: { [Type in FieldTypeName]: { [K in \_ShortenFinalFieldDefinitionFieldAsString<Type\>]: K \| { [L in K]: FieldDefinitions[Type] \| Object } }[\_ShortenFinalFieldDefinitionFieldAsString<Type\>] }[`FieldTypeName`]
 
 #### Defined in
 
-packages/schema/src/fields/_parseFields.ts:81
+[packages/schema/src/fields/_parseFields.ts:80](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_parseFields.ts#L80)
 
 ___
 
-### SpecialObjectKeys
+### SimpleRoute
 
-Ƭ **SpecialObjectKeys**: typeof `SpecialObjectKeyEnum.enum`
+Ƭ **SimpleRoute**: [`RouteConfig`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#routeconfig) & { `match`: (`route`: `string`) => ``null`` \| `AnyRecord` ; `mount`: (`config?`: { `query`: `AnyRecord`  }) => `string`  }
 
 #### Defined in
 
-packages/schema/src/fields/_fieldDefinitions.ts:54
+[packages/schema/src/createSimpleRouter.ts:18](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/createSimpleRouter.ts#L18)
 
 ___
 
-### StringFieldDef
+### SimpleRouter
 
-Ƭ **StringFieldDef**: `Object`
+Ƭ **SimpleRouter**<`Routes`\>: { `$findRoute`: (`pathname`: `string`) => `RouteFindResult`  } & { [K in Extract<keyof Routes, string\>]: { [Sub in keyof Routes[K]]: Routes[K][Sub] } & Object }
 
-#### Type declaration
+#### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `max?` | `number` |
-| `min?` | `number` |
-| `regex?` | [`string`] \| [`string`, `string`] \| `Readonly`<[`string`, `string`] \| [`string`]\> |
+| `Routes` | extends `Readonly`<{ `[K: string]`: [`RouteConfig`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#routeconfig);  }\> |
 
 #### Defined in
 
-packages/schema/src/fields/StringField.ts:6
+[packages/schema/src/createSimpleRouter.ts:27](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/createSimpleRouter.ts#L27)
 
 ___
 
@@ -1570,7 +1225,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:343
+[packages/schema/src/fields/FieldType.ts:342](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L342)
 
 ___
 
@@ -1580,23 +1235,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/fieldTypes.ts:84
-
-___
-
-### UnknownFieldDef
-
-Ƭ **UnknownFieldDef**: `Object`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `types?` | `string`[] \| `string` |
-
-#### Defined in
-
-packages/schema/src/fields/UnknownField.ts:6
+[packages/schema/src/fields/fieldTypes.ts:51](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/fieldTypes.ts#L51)
 
 ___
 
@@ -1606,7 +1245,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/applyValidator.ts:3
+[packages/schema/src/applyValidator.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/applyValidator.ts#L3)
 
 ___
 
@@ -1622,13 +1261,13 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/DescribeField.ts:28
+[packages/schema/src/fields/Infer/DescribeField.ts:28](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/DescribeField.ts#L28)
 
 ___
 
 ### \_DescribeObject
 
-Ƭ **\_DescribeObject**<`Input`\>: [`_FieldKV`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_fieldkv)<`Input`\> extends [infer K, infer V] ? `K` extends keyof `Input` ? `K` extends [`GraphTypeKID`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#graphtypekid) ? ``"definition"`` extends keyof `Input` ? [`DescribeField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#describefield)<`Input`[``"definition"``]\> : `never` : `K` extends [`ObjectTypeKID`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objecttypekid) ? ``"definition"`` extends keyof `Input` ? { `def`: [`DescribeObjectDefinition`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#describeobjectdefinition)<`Input`[``"definition"``]\> ; `list`: [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"optional"``\> ; `type`: ``"object"``  } : `never` : `K` extends [`FieldTypeName`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypename) ? { `def`: `V` ; `list`: [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"optional"``\> ; `type`: `K`  } : `K` extends ``"type"`` ? `V` extends [`FieldTypeName`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypename) ? { `def`: [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"def"``\> ; `list`: [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"optional"``\> ; `type`: `V`  } : `Input`[`K`] extends [`GraphTypeLikeFieldDefinition`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLikeFieldDefinition.md) ? `Merge`<[`DescribeField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#describefield)<`Input`[`K`][``"definition"``]\>, [`_OmitUndefined`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_omitundefined)<{ `list`: [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"optional"``\>  }\>\> : `Input`[`K`] extends [`ObjectTypeLikeFieldDefinition`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectTypeLikeFieldDefinition.md) ? { `def`: [`DescribeObjectDefinition`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#describeobjectdefinition)<`Input`[`K`][``"definition"``]\> ; `list`: [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"optional"``\> ; `type`: ``"object"``  } : `never` : `never` : `never` : `never`
+Ƭ **\_DescribeObject**<`Input`\>: [`_FieldKV`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_fieldkv)<`Input`\> extends [infer K, infer V] ? `K` extends keyof `Input` ? `K` extends [`GraphTypeKID`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#graphtypekid) ? ``"definition"`` extends keyof `Input` ? [`DescribeField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#describefield)<`Input`[``"definition"``]\> : `never` : `K` extends [`ObjectTypeKID`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objecttypekid) ? ``"definition"`` extends keyof `Input` ? { `def`: [`DescribeObjectDefinition`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#describeobjectdefinition)<`Input`[``"definition"``]\> ; `list`: [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"optional"``\> ; `type`: ``"object"``  } : `never` : `K` extends `FieldTypeName` ? { `def`: `V` ; `list`: [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"optional"``\> ; `type`: `K`  } : `K` extends ``"type"`` ? `V` extends `FieldTypeName` ? { `def`: [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"def"``\> ; `list`: [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"optional"``\> ; `type`: `V`  } : `Input`[`K`] extends [`GraphTypeLikeFieldDefinition`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLikeFieldDefinition.md) ? `Merge`<[`DescribeField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#describefield)<`Input`[`K`][``"definition"``]\>, [`_OmitUndefined`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_omitundefined)<{ `list`: [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"optional"``\>  }\>\> : `Input`[`K`] extends [`ObjectTypeLikeFieldDefinition`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectTypeLikeFieldDefinition.md) ? { `def`: [`DescribeObjectDefinition`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#describeobjectdefinition)<`Input`[`K`][``"definition"``]\> ; `list`: [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"list"``\> ; `optional`: [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"optional"``\> ; `type`: ``"object"``  } : `never` : `never` : `never` : `never`
 
 #### Type parameters
 
@@ -1638,7 +1277,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/DescribeField.ts:87
+[packages/schema/src/fields/Infer/DescribeField.ts:87](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/DescribeField.ts#L87)
 
 ___
 
@@ -1654,7 +1293,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferField.ts:76
+[packages/schema/src/fields/Infer/Infer.ts:79](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/Infer.ts#L79)
 
 ___
 
@@ -1670,7 +1309,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferObjectType.ts:55
+[packages/schema/src/fields/Infer/InferObjectType.ts:55](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/InferObjectType.ts#L55)
 
 ___
 
@@ -1687,7 +1326,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferField.ts:91
+[packages/schema/src/fields/Infer/Infer.ts:94](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/Infer.ts#L94)
 
 ___
 
@@ -1704,7 +1343,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferObjectType.ts:65
+[packages/schema/src/fields/Infer/InferObjectType.ts:65](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/InferObjectType.ts#L65)
 
 ___
 
@@ -1721,13 +1360,13 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferObjectType.ts:90
+[packages/schema/src/fields/Infer/InferObjectType.ts:90](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/InferObjectType.ts#L90)
 
 ___
 
 ### \_InferField
 
-Ƭ **\_InferField**<`Input`\>: [`_FieldKV`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_fieldkv)<`Input`\> extends [infer K, infer V] ? `K` extends keyof `Input` ? `K` extends [`GraphTypeKID`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#graphtypekid) ? [`InferGraphType`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#infergraphtype)<`Input`\> : `K` extends [`ObjectTypeKID`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objecttypekid) ? [`InferObjectType`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferobjecttype)<`Input`\> : `K` extends [`FieldTypeName`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypename) ? [`InferFinalField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferfinalfield)<`K`, `V`\> : `K` extends ``"type"`` ? `V` extends [`FieldTypeName`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypename) ? [`InferFinalField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferfinalfield)<`V`, [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"def"``\>\> : `Input`[`K`] extends [`GraphTypeLikeFieldDefinition`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLikeFieldDefinition.md) ? [`InferGraphType`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#infergraphtype)<`Input`[`K`]\> : `Input`[`K`] extends [`ObjectTypeLikeFieldDefinition`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectTypeLikeFieldDefinition.md) ? [`InferObjectType`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferobjecttype)<`Input`[`K`]\> : `never` : `never` : `never` : `never`
+Ƭ **\_InferField**<`Input`\>: [`_FieldKV`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_fieldkv)<`Input`\> extends [infer K, infer V] ? `K` extends keyof `Input` ? `K` extends [`GraphTypeKID`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#graphtypekid) ? [`InferGraphType`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#infergraphtype)<`Input`\> : `K` extends [`ObjectTypeKID`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objecttypekid) ? [`InferObjectType`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferobjecttype)<`Input`\> : `K` extends `FieldTypeName` ? [`InferFinalField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferfinalfield)<`K`, `V`\> : `K` extends ``"type"`` ? `V` extends `FieldTypeName` ? [`InferFinalField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferfinalfield)<`V`, [`_GetKey`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_getkey)<`Input`, ``"def"``\>\> : `Input`[`K`] extends [`GraphTypeLikeFieldDefinition`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphTypeLikeFieldDefinition.md) ? [`InferGraphType`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#infergraphtype)<`Input`[`K`]\> : `Input`[`K`] extends [`ObjectTypeLikeFieldDefinition`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectTypeLikeFieldDefinition.md) ? [`InferObjectType`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#inferobjecttype)<`Input`[`K`]\> : `never` : `never` : `never` : `never`
 
 #### Type parameters
 
@@ -1737,7 +1376,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferField.ts:26
+[packages/schema/src/fields/Infer/Infer.ts:29](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/Infer.ts#L29)
 
 ___
 
@@ -1754,7 +1393,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferFinalField.ts:12
+[packages/schema/src/fields/Infer/InferFinalField.ts:12](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/InferFinalField.ts#L12)
 
 ___
 
@@ -1770,7 +1409,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferObjectType.ts:46
+[packages/schema/src/fields/Infer/InferObjectType.ts:46](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/InferObjectType.ts#L46)
 
 ___
 
@@ -1786,7 +1425,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferObjectType.ts:97
+[packages/schema/src/fields/Infer/InferObjectType.ts:97](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/InferObjectType.ts#L97)
 
 ___
 
@@ -1802,7 +1441,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/extendObjectDefinition.ts:238
+[packages/schema/src/extendObjectDefinition.ts:246](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendObjectDefinition.ts#L246)
 
 ___
 
@@ -1812,7 +1451,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/_parseFields.ts:22
+[packages/schema/src/fields/_parseFields.ts:20](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_parseFields.ts#L20)
 
 ___
 
@@ -1828,23 +1467,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/DescribeField.ts:155
-
-___
-
-### \_ResolverArgs
-
-Ƭ **\_ResolverArgs**<`ArgsType`\>: `Exclude`<`ArgsType`, `undefined`\> extends infer R ? `IsKnown`<`R`\> extends ``1`` ? [`Infer`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#infer)<{ `object`: `R`  }\> : {} : {}
-
-#### Type parameters
-
-| Name |
-| :------ |
-| `ArgsType` |
-
-#### Defined in
-
-packages/schema/src/Resolver.ts:270
+[packages/schema/src/fields/Infer/DescribeField.ts:155](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/DescribeField.ts#L155)
 
 ___
 
@@ -1856,11 +1479,11 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`FieldTypeName`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypename) |
+| `T` | extends `FieldTypeName` |
 
 #### Defined in
 
-packages/schema/src/fields/_parseFields.ts:78
+[packages/schema/src/fields/_parseFields.ts:77](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_parseFields.ts#L77)
 
 ___
 
@@ -1877,7 +1500,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferField.ts:70
+[packages/schema/src/fields/Infer/Infer.ts:73](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/Infer.ts#L73)
 
 ___
 
@@ -1894,7 +1517,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferField.ts:64
+[packages/schema/src/fields/Infer/Infer.ts:67](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/Infer.ts#L67)
 
 ## Variables
 
@@ -1904,9 +1527,9 @@ packages/schema/src/fields/Infer/InferField.ts:64
 
 #### Defined in
 
-packages/schema/src/fields/Infer/DescribeField.ts:19
+[packages/schema/src/fields/Infer/DescribeField.ts:19](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/DescribeField.ts#L19)
 
-packages/schema/src/fields/Infer/DescribeField.ts:20
+[packages/schema/src/fields/Infer/DescribeField.ts:20](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/DescribeField.ts#L20)
 
 ___
 
@@ -1916,9 +1539,9 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/DescribeField.ts:16
+[packages/schema/src/fields/Infer/DescribeField.ts:16](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/DescribeField.ts#L16)
 
-packages/schema/src/fields/Infer/DescribeField.ts:17
+[packages/schema/src/fields/Infer/DescribeField.ts:17](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/DescribeField.ts#L17)
 
 ___
 
@@ -1928,9 +1551,9 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/DescribeField.ts:14
+[packages/schema/src/fields/Infer/DescribeField.ts:14](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/DescribeField.ts#L14)
 
-packages/schema/src/fields/Infer/DescribeField.ts:15
+[packages/schema/src/fields/Infer/DescribeField.ts:15](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/DescribeField.ts#L15)
 
 ___
 
@@ -1940,17 +1563,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/parseObjectDefinition.ts:525
-
-___
-
-### CircularDeps
-
-• `Const` **CircularDeps**: `PowershipModules`
-
-#### Defined in
-
-packages/schema/src/CircularDeps.ts:264
+[packages/schema/src/parseObjectDefinition.ts:515](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/parseObjectDefinition.ts#L515)
 
 ___
 
@@ -1960,7 +1573,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldTypeErrors.ts:3
+[packages/schema/src/fields/FieldTypeErrors.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldTypeErrors.ts#L3)
 
 ___
 
@@ -1970,37 +1583,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:37
-
-___
-
-### PowershipObject
-
-• `Const` **PowershipObject**: typeof [`ObjectType`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md) = `ObjectType`
-
-#### Defined in
-
-packages/schema/src/ObjectType.ts:603
-
-___
-
-### SpecialObjectKeyEnum
-
-• `Const` **SpecialObjectKeyEnum**: { `$number`: ``"$number"`` ; `$string`: ``"$string"``  } & { `list`: (``"$string"`` \| ``"$number"``)[]  } & { `enum`: ``"$string"`` \| ``"$number"``  }
-
-#### Defined in
-
-packages/schema/src/fields/_fieldDefinitions.ts:53
-
-___
-
-### ULID\_REGEX
-
-• `Const` **ULID\_REGEX**: `RegExp`
-
-#### Defined in
-
-packages/schema/src/fields/UlidField.ts:10
+[packages/schema/src/fields/FieldType.ts:34](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L34)
 
 ___
 
@@ -2010,27 +1593,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/fieldTypes.ts:90
-
-___
-
-### isFieldTypeName
-
-• `Const` **isFieldTypeName**: `any`
-
-#### Defined in
-
-packages/schema/src/fields/fieldTypes.ts:112
-
-___
-
-### objectMetaFieldKey
-
-• `Const` **objectMetaFieldKey**: ``"__dschm__"``
-
-#### Defined in
-
-packages/schema/src/fields/MetaFieldField.ts:48
+[packages/schema/src/fields/fieldTypes.ts:57](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/fieldTypes.ts#L57)
 
 ___
 
@@ -2040,7 +1603,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/createGraphQLSchema.ts:43
+[packages/schema/src/createGraphQLSchema.ts:43](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/createGraphQLSchema.ts#L43)
 
 ___
 
@@ -2052,32 +1615,32 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `ID` | typeof [`IDField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.IDField.md) |
-| `alias` | typeof [`AliasField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.AliasField.md) |
-| `any` | typeof [`AnyField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.AnyField.md) |
+| `ID` | typeof `IDField` |
+| `alias` | typeof `AliasField` |
+| `any` | typeof `AnyField` |
 | `array` | typeof `ArrayField` |
-| `boolean` | typeof [`BooleanField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.BooleanField.md) |
-| `cursor` | typeof [`CursorField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md) |
-| `date` | typeof [`DateField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.DateField.md) |
-| `email` | typeof [`EmailField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.EmailField.md) |
-| `enum` | typeof [`EnumField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.EnumField.md) |
-| `float` | typeof [`FloatField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.FloatField.md) |
-| `int` | typeof [`IntField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.IntField.md) |
-| `literal` | typeof [`LiteralField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md) |
-| `meta` | typeof [`MetaField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.MetaField.md) |
-| `null` | typeof [`NullField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.NullField.md) |
-| `object` | typeof [`ObjectField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectField.md) |
+| `boolean` | typeof `BooleanField` |
+| `cursor` | typeof `CursorField` |
+| `date` | typeof `DateField` |
+| `email` | typeof `EmailField` |
+| `enum` | typeof `EnumField` |
+| `float` | typeof `FloatField` |
+| `int` | typeof `IntField` |
+| `literal` | typeof `LiteralField` |
+| `meta` | typeof `MetaField` |
+| `null` | typeof `NullField` |
+| `object` | typeof `ObjectField` |
 | `phone` | typeof `PhoneField` |
-| `record` | typeof [`RecordField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.RecordField.md) |
-| `string` | typeof [`StringField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.StringField.md) |
-| `ulid` | typeof [`UlidField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.UlidField.md) |
-| `undefined` | typeof [`UndefinedField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.UndefinedField.md) |
-| `union` | typeof [`UnionField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.UnionField.md) |
-| `unknown` | typeof [`UnknownField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.UnknownField.md) |
+| `record` | typeof `RecordField` |
+| `string` | typeof `StringField` |
+| `ulid` | typeof `UlidField` |
+| `undefined` | typeof `UndefinedField` |
+| `union` | typeof `UnionField` |
+| `unknown` | typeof `UnknownField` |
 
 #### Defined in
 
-packages/schema/src/fields/fieldTypes.ts:59
+[packages/schema/src/fields/fieldTypes.ts:42](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/fieldTypes.ts#L42)
 
 ## Functions
 
@@ -2097,7 +1660,7 @@ packages/schema/src/fields/fieldTypes.ts:59
 
 #### Defined in
 
-packages/schema/src/parseObjectDefinition.ts:527
+[packages/schema/src/parseObjectDefinition.ts:517](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/parseObjectDefinition.ts#L517)
 
 ___
 
@@ -2125,90 +1688,44 @@ asserts value is Infer<Type\>
 
 #### Defined in
 
-packages/schema/src/assertType.ts:7
-
-___
-
-### cleanMetaField
-
-▸ **cleanMetaField**(`input`): `any`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `input` | `any` |
-
-#### Returns
-
-`any`
-
-#### Defined in
-
-packages/schema/src/fields/MetaFieldField.ts:58
-
-___
-
-### createEmptyMetaField
-
-▸ **createEmptyMetaField**(): [`MetaField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.MetaField.md)[``"asFinalFieldDef"``]
-
-#### Returns
-
-[`MetaField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.MetaField.md)[``"asFinalFieldDef"``]
-
-#### Defined in
-
-packages/schema/src/fields/MetaFieldField.ts:50
+[packages/schema/src/assertType.ts:7](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/assertType.ts#L7)
 
 ___
 
 ### createGraphQLSchema
 
-▸ **createGraphQLSchema**<`T`\>(`resolvers?`, `config?`): `T` extends { `__isResolver`: `any`  } ? [`GraphQLSchemaWithUtils`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#graphqlschemawithutils) : `never`
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | `any` |
+▸ **createGraphQLSchema**(`resolvers?`, `config?`): [`GraphQLSchemaWithUtils`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#graphqlschemawithutils)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `resolvers?` | `T`[] |
+| `resolvers?` | [`Resolver`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolver)<`unknown`, {}, `unknown`\>[] |
 | `config?` | `Partial`<`GraphQLSchemaConfig`\> |
 
 #### Returns
 
-`T` extends { `__isResolver`: `any`  } ? [`GraphQLSchemaWithUtils`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#graphqlschemawithutils) : `never`
+[`GraphQLSchemaWithUtils`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#graphqlschemawithutils)
 
 #### Defined in
 
-packages/schema/src/createGraphQLSchema.ts:46
+[packages/schema/src/createGraphQLSchema.ts:46](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/createGraphQLSchema.ts#L46)
 
-▸ **createGraphQLSchema**<`Config`\>(`config?`): `Config` extends [`CreateGraphQLObjectOptions`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#creategraphqlobjectoptions) ? [`GraphQLSchemaWithUtils`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#graphqlschemawithutils) : `never`
-
-#### Type parameters
-
-| Name |
-| :------ |
-| `Config` |
+▸ **createGraphQLSchema**(`config?`): [`GraphQLSchemaWithUtils`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#graphqlschemawithutils)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `config?` | `Config` |
+| `config?` | `Partial`<`GraphQLSchemaConfig`\> |
 
 #### Returns
 
-`Config` extends [`CreateGraphQLObjectOptions`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#creategraphqlobjectoptions) ? [`GraphQLSchemaWithUtils`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#graphqlschemawithutils) : `never`
+[`GraphQLSchemaWithUtils`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#graphqlschemawithutils)
 
 #### Defined in
 
-packages/schema/src/createGraphQLSchema.ts:51
+[packages/schema/src/createGraphQLSchema.ts:51](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/createGraphQLSchema.ts#L51)
 
 ___
 
@@ -2234,7 +1751,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:613
+[packages/schema/src/ObjectType.ts:598](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L598)
 
 ▸ **createObjectType**<`DefinitionInput`\>(`name`, `fields`): [`ObjectTypeFromInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objecttypefrominput)<`DefinitionInput`\>
 
@@ -2257,203 +1774,64 @@ packages/schema/src/ObjectType.ts:613
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:617
-
-___
-
-### createPowershipObject
-
-▸ **createPowershipObject**<`DefinitionInput`\>(`fields`): [`ObjectTypeFromInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objecttypefrominput)<`DefinitionInput`\>
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `DefinitionInput` | extends `Readonly`<[`ObjectDefinitionInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectdefinitioninput)\> |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `fields` | `Readonly`<`DefinitionInput`\> |
-
-#### Returns
-
-[`ObjectTypeFromInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objecttypefrominput)<`DefinitionInput`\>
-
-#### Defined in
-
-packages/schema/src/ObjectType.ts:613
-
-▸ **createPowershipObject**<`DefinitionInput`\>(`name`, `fields`): [`ObjectTypeFromInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objecttypefrominput)<`DefinitionInput`\>
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `DefinitionInput` | extends `Readonly`<[`ObjectDefinitionInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectdefinitioninput)\> |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `name` | `string` |
-| `fields` | `DefinitionInput` |
-
-#### Returns
-
-[`ObjectTypeFromInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objecttypefrominput)<`DefinitionInput`\>
-
-#### Defined in
-
-packages/schema/src/ObjectType.ts:617
+[packages/schema/src/ObjectType.ts:602](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L602)
 
 ___
 
 ### createResolver
 
-▸ **createResolver**<`ResultType`, `ArgsType`\>(`config`): `Object`
+▸ **createResolver**<`Result_GraphType`\>(`config`): [`CreateResolverChain`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#createresolverchain)<[`IsKnown`<`Result_GraphType`\>] extends [``1``] ? [`Infer`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#infer)<`Result_GraphType`\> : `unknown`\>
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `ResultType` | extends [`ObjectFieldInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput) |
-| `ArgsType` | extends [`ObjectDefinitionInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectdefinitioninput) |
+| Name |
+| :------ |
+| `Result_GraphType` |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `config` | { `args?`: `ArgsType` \| `Readonly`<`ArgsType`\> ; `kind?`: `ResolverKind` ; `name`: `string` ; `resolve?`: `undefined` ; `type`: `ResultType` \| `Readonly`<`ResultType`\>  } & [`OptionalResolverConfig`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#optionalresolverconfig)<`any`, `any`, `any`\> |
+| `config` | `Object` |
+| `config.args?` | `any` |
+| `config.kind?` | `ResolverKind` |
+| `config.name` | `string` |
+| `config.resolve?` | `any` |
+| `config.type` | `Result_GraphType` |
 
 #### Returns
 
-`Object`
-
-| Name | Type |
-| :------ | :------ |
-| `resolver` | <Returns, Root\>(`handler`: (`root`: `Root`, `args`: [`_ResolverArgs`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_resolverargs)<`ArgsType`\>, `context`: [`ResolverContextBase`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\>) => { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: [`_ResolverArgs`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_resolverargs)<`ArgsType`\>, `context`: [`ResolverContextBase`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  } |
+[`CreateResolverChain`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#createresolverchain)<[`IsKnown`<`Result_GraphType`\>] extends [``1``] ? [`Infer`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#infer)<`Result_GraphType`\> : `unknown`\>
 
 #### Defined in
 
-packages/schema/src/Resolver.ts:201
-
-▸ **createResolver**<`ResultType`, `Returns`\>(`config`): { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: {}, `context`: [`ResolverContextBase`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  } & { `resolver?`: `undefined`  }
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `ResultType` | extends [`ObjectFieldInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput) |
-| `Returns` | `unknown` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `config` | { `args?`: `undefined` ; `kind?`: `ResolverKind` ; `name`: `string` ; `resolve`: <Root\>(`root`: `Root`, `args`: {}, `context`: [`ResolverContextBase`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\> ; `type`: `ResultType` \| `Readonly`<`ResultType`\>  } & [`OptionalResolverConfig`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#optionalresolverconfig)<`any`, `any`, `any`\> |
-
-#### Returns
-
-{ `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: {}, `context`: [`ResolverContextBase`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  } & { `resolver?`: `undefined`  }
-
-#### Defined in
-
-packages/schema/src/Resolver.ts:220
-
-▸ **createResolver**<`ResultType`, `ArgsType`, `Returns`\>(`config`): { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: [`_ResolverArgs`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_resolverargs)<`ArgsType`\>, `context`: [`ResolverContextBase`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  } & { `resolver?`: `undefined`  }
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `ResultType` | extends [`ObjectFieldInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectfieldinput) |
-| `ArgsType` | extends [`ObjectDefinitionInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectdefinitioninput) |
-| `Returns` | `unknown` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `config` | { `args`: `ArgsType` \| `Readonly`<`ArgsType`\> ; `kind?`: `ResolverKind` ; `name`: `string` ; `resolve`: <Root\>(`root`: `Root`, `args`: [`_ResolverArgs`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_resolverargs)<`ArgsType`\>, `context`: [`ResolverContextBase`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\> ; `type`: `ResultType` \| `Readonly`<`ResultType`\>  } & [`OptionalResolverConfig`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#optionalresolverconfig)<`any`, `any`, `any`\> |
-
-#### Returns
-
-{ `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: [`_ResolverArgs`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#_resolverargs)<`ArgsType`\>, `context`: [`ResolverContextBase`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolvercontextbase), `info`: `GraphQLResolveInfo`) => `MaybePromise`<`Returns`\> ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  } & { `resolver?`: `undefined`  }
-
-#### Defined in
-
-packages/schema/src/Resolver.ts:235
+[packages/schema/src/Resolver.ts:238](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/Resolver.ts#L238)
 
 ___
 
-### createResolverFactory
+### createSimpleRouter
 
-▸ **createResolverFactory**<`Context`\>(): [`CreateResolver`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.CreateResolver.md)<`Context`\>
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Context` | extends [`ResolverContextBase`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolvercontextbase) |
-
-#### Returns
-
-[`CreateResolver`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.CreateResolver.md)<`Context`\>
-
-#### Defined in
-
-packages/schema/src/Resolver.ts:257
-
-___
-
-### createSchema
-
-▸ **createSchema**<`DefinitionInput`\>(`fields`): [`ObjectTypeFromInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objecttypefrominput)<`DefinitionInput`\>
+▸ **createSimpleRouter**<`Routes`\>(`config`): [`SimpleRouter`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#simplerouter)<`Routes`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `DefinitionInput` | extends `Readonly`<[`ObjectDefinitionInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectdefinitioninput)\> |
+| `Routes` | extends `Readonly`<{ `[K: string]`: [`RouteConfig`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#routeconfig);  }\> |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `fields` | `Readonly`<`DefinitionInput`\> |
+| `config` | `Routes` |
 
 #### Returns
 
-[`ObjectTypeFromInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objecttypefrominput)<`DefinitionInput`\>
+[`SimpleRouter`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#simplerouter)<`Routes`\>
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:613
-
-▸ **createSchema**<`DefinitionInput`\>(`name`, `fields`): [`ObjectTypeFromInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objecttypefrominput)<`DefinitionInput`\>
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `DefinitionInput` | extends `Readonly`<[`ObjectDefinitionInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectdefinitioninput)\> |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `name` | `string` |
-| `fields` | `DefinitionInput` |
-
-#### Returns
-
-[`ObjectTypeFromInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objecttypefrominput)<`DefinitionInput`\>
-
-#### Defined in
-
-packages/schema/src/ObjectType.ts:617
+[packages/schema/src/createSimpleRouter.ts:44](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/createSimpleRouter.ts#L44)
 
 ___
 
@@ -2471,7 +1849,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `definition` | `Definition` \| (`utils`: `PowershipModules`) => `Definition` |
+| `definition` | `Definition` \| () => `Definition` |
 
 #### Returns
 
@@ -2479,7 +1857,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:367
+[packages/schema/src/GraphType/GraphType.ts:389](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L389)
 
 ▸ **createType**<`Definition`\>(`name`, `definition`): [`GraphType`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.GraphType.md)<`Definition`\>
 
@@ -2494,7 +1872,7 @@ packages/schema/src/GraphType/GraphType.ts:367
 | Name | Type |
 | :------ | :------ |
 | `name` | `string` |
-| `definition` | `Definition` \| (`utils`: `PowershipModules`) => `Definition` |
+| `definition` | `Definition` \| () => `Definition` |
 
 #### Returns
 
@@ -2502,85 +1880,7 @@ packages/schema/src/GraphType/GraphType.ts:367
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:371
-
-___
-
-### deleteCachedFieldInstance
-
-▸ **deleteCachedFieldInstance**<`T`\>(`def`): `T`
-
-#### Type parameters
-
-| Name |
-| :------ |
-| `T` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `def` | `T` |
-
-#### Returns
-
-`T`
-
-#### Defined in
-
-packages/schema/src/parseObjectDefinition.ts:555
-
-___
-
-### extendObjectDefinition
-
-▸ **extendObjectDefinition**<`Input`\>(`input`): [`ExtendObjectDefinition`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ExtendObjectDefinition.md)<`Input`, `Input`\>
-
-#### Type parameters
-
-| Name |
-| :------ |
-| `Input` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `input` | `Input` |
-
-#### Returns
-
-[`ExtendObjectDefinition`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ExtendObjectDefinition.md)<`Input`, `Input`\>
-
-#### Defined in
-
-packages/schema/src/extendObjectDefinition.ts:78
-
-___
-
-### extendType
-
-▸ **extendType**<`Input`\>(`input`): [`ExtendType`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<`Input`\>
-
-#### Type parameters
-
-| Name |
-| :------ |
-| `Input` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `input` | `Input` |
-
-#### Returns
-
-[`ExtendType`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ExtendType.md)<`Input`\>
-
-#### Defined in
-
-packages/schema/src/extendType.ts:51
+[packages/schema/src/GraphType/GraphType.ts:393](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L393)
 
 ___
 
@@ -2601,70 +1901,13 @@ ___
 
 #### Defined in
 
-packages/schema/src/mockObject.ts:54
-
-___
-
-### getObjectDefinitionId
-
-▸ **getObjectDefinitionId**(`definition`, `nullable`): `string` \| `undefined`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `definition` | `Record`<`string`, `any`\> |
-| `nullable` | ``true`` |
-
-#### Returns
-
-`string` \| `undefined`
-
-#### Defined in
-
-packages/schema/src/fields/MetaFieldField.ts:99
-
-▸ **getObjectDefinitionId**(`definition`): `string`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `definition` | `Record`<`string`, `any`\> |
-
-#### Returns
-
-`string`
-
-#### Defined in
-
-packages/schema/src/fields/MetaFieldField.ts:104
-
-___
-
-### getObjectDefinitionMetaField
-
-▸ **getObjectDefinitionMetaField**(`input`): [`MetaField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.MetaField.md)[``"asFinalFieldDef"``] \| `undefined`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `input` | `Record`<`string`, `any`\> |
-
-#### Returns
-
-[`MetaField`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.MetaField.md)[``"asFinalFieldDef"``] \| `undefined`
-
-#### Defined in
-
-packages/schema/src/fields/MetaFieldField.ts:93
+[packages/schema/src/mockObject.ts:47](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/mockObject.ts#L47)
 
 ___
 
 ### getResolver
 
-▸ **getResolver**(`name`): [`AnyResolver`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#anyresolver)
+▸ **getResolver**(`name`): [`Resolver`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolver)
 
 #### Parameters
 
@@ -2674,11 +1917,11 @@ ___
 
 #### Returns
 
-[`AnyResolver`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#anyresolver)
+[`Resolver`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolver)
 
 #### Defined in
 
-packages/schema/src/Resolver.ts:187
+[packages/schema/src/Resolver.ts:194](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/Resolver.ts#L194)
 
 ___
 
@@ -2698,36 +1941,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/GraphType/GraphType.ts:383
-
-___
-
-### implementObject
-
-▸ **implementObject**<`Def`, `Parents`\>(`name`, `definition`, `...parents`): [`ImplementObject`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#implementobject)<[`ObjectType`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`Def`\>, `Parents`\>
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Def` | extends [`ObjectDefinitionInput`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#objectdefinitioninput) |
-| `Parents` | extends readonly [`ObjectLike`](../interfaces/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectLike.md)[] |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `name` | `string` |
-| `definition` | `Readonly`<`Def`\> |
-| `...parents` | `Parents` |
-
-#### Returns
-
-[`ImplementObject`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#implementobject)<[`ObjectType`](../classes/Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectType.md)<`Def`\>, `Parents`\>
-
-#### Defined in
-
-packages/schema/src/implementObject.ts:28
+[packages/schema/src/GraphType/GraphType.ts:405](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/GraphType/GraphType.ts#L405)
 
 ___
 
@@ -2747,27 +1961,7 @@ el is FieldTypeError
 
 #### Defined in
 
-packages/schema/src/fields/FieldTypeErrors.ts:39
-
-___
-
-### isFieldInstance
-
-▸ **isFieldInstance**(`t`): t is TAnyFieldType
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `t` | `any` |
-
-#### Returns
-
-t is TAnyFieldType
-
-#### Defined in
-
-packages/schema/src/fields/FieldType.ts:329
+[packages/schema/src/fields/FieldTypeErrors.ts:39](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldTypeErrors.ts#L39)
 
 ___
 
@@ -2789,48 +1983,7 @@ Checks if the field names should be hidden from generated code
 
 #### Defined in
 
-packages/schema/src/isHiddenFieldName.ts:5
-
-___
-
-### isMetaField
-
-▸ **isMetaField**(`t`, `fieldName?`): t is Object
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `t` | `any` |
-| `fieldName?` | `string` |
-
-#### Returns
-
-t is Object
-
-#### Defined in
-
-packages/schema/src/fields/MetaFieldField.ts:83
-
-___
-
-### isMetaFieldKey
-
-▸ **isMetaFieldKey**(`t`): t is "\_\_dschm\_\_"
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `t` | `any` |
-
-#### Returns
-
-t is "\_\_dschm\_\_"
-
-#### Defined in
-
-packages/schema/src/fields/MetaFieldField.ts:79
+[packages/schema/src/isHiddenFieldName.ts:5](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/isHiddenFieldName.ts#L5)
 
 ___
 
@@ -2852,47 +2005,7 @@ input is FieldDefinitionWithType<ObjectType<any, Object\>\>
 
 #### Defined in
 
-packages/schema/src/parseObjectDefinition.ts:434
-
-___
-
-### isObjectType
-
-▸ **isObjectType**(`input`): input is ObjectType<any, Object\>
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `input` | `any` |
-
-#### Returns
-
-input is ObjectType<any, Object\>
-
-#### Defined in
-
-packages/schema/src/objectInferenceUtils.ts:9
-
-___
-
-### isObjectValidationError
-
-▸ **isObjectValidationError**(`input`): input is Error & Object
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `input` | `any` |
-
-#### Returns
-
-input is Error & Object
-
-#### Defined in
-
-packages/schema/src/objectInferenceUtils.ts:3
+[packages/schema/src/parseObjectDefinition.ts:422](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/parseObjectDefinition.ts#L422)
 
 ___
 
@@ -2912,7 +2025,7 @@ args is Readonly<ObjectDefinitionInput\>
 
 #### Defined in
 
-packages/schema/src/Resolver.ts:181
+[packages/schema/src/Resolver.ts:188](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/Resolver.ts#L188)
 
 ___
 
@@ -2939,7 +2052,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/mockObject.ts:29
+[packages/schema/src/mockObject.ts:22](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/mockObject.ts#L22)
 
 ___
 
@@ -2959,7 +2072,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/parseObjectDefinition.ts:94
+[packages/schema/src/parseObjectDefinition.ts:82](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/parseObjectDefinition.ts#L82)
 
 ___
 
@@ -2987,7 +2100,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/parseObjectDefinition.ts:104
+[packages/schema/src/parseObjectDefinition.ts:92](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/parseObjectDefinition.ts#L92)
 
 ___
 
@@ -3008,7 +2121,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/parseObjectDefinition.ts:452
+[packages/schema/src/parseObjectDefinition.ts:442](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/parseObjectDefinition.ts#L442)
 
 ___
 
@@ -3029,7 +2142,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/parseObjectDefinition.ts:341
+[packages/schema/src/parseObjectDefinition.ts:329](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/parseObjectDefinition.ts#L329)
 
 ___
 
@@ -3058,7 +2171,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/parseObjectDefinition.ts:35
+[packages/schema/src/parseObjectDefinition.ts:23](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/parseObjectDefinition.ts#L23)
 
 ▸ **parseObjectField**<`T`\>(`fieldName`, `definition`): [`FinalFieldDefinition`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#finalfielddefinition)
 
@@ -3081,7 +2194,7 @@ packages/schema/src/parseObjectDefinition.ts:35
 
 #### Defined in
 
-packages/schema/src/parseObjectDefinition.ts:48
+[packages/schema/src/parseObjectDefinition.ts:36](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/parseObjectDefinition.ts#L36)
 
 ___
 
@@ -3103,7 +2216,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/applyValidator.ts:26
+[packages/schema/src/applyValidator.ts:26](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/applyValidator.ts#L26)
 
 ___
 
@@ -3117,7 +2230,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/ObjectType.ts:545
+[packages/schema/src/ObjectType.ts:629](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/ObjectType.ts#L629)
 
 ___
 
@@ -3137,13 +2250,13 @@ ___
 
 #### Defined in
 
-packages/schema/src/createGraphQLSchema.ts:234
+[packages/schema/src/createGraphQLSchema.ts:228](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/createGraphQLSchema.ts#L228)
 
 ___
 
 ### resolversTypescriptParts
 
-▸ **resolversTypescriptParts**(`params`): `Promise`<{ `code`: `string` ; `lines`: { `args`: { `code`: `any` ; `comments`: `string` ; `description`: `string`  } ; `code`: `string` ; `entryName`: `string` = resolver.name; `inputName`: `any` ; `payload`: { `code`: `any` ; `comments`: `string` ; `description`: `string`  } ; `payloadName`: `any` ; `resolver`: { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: `any`, `context`: `any`, `info`: `GraphQLResolveInfo`) => `any` ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  }  }[]  }\>
+▸ **resolversTypescriptParts**(`params`): `Promise`<{ `code`: `string` ; `lines`: { `args`: { `code`: `any` ; `comments`: `string` ; `description`: `string`  } ; `code`: `string` ; `entryName`: `string` = resolver.name; `inputName`: `any` ; `payload`: { `code`: `any` ; `comments`: `string` ; `description`: `string`  } ; `payloadName`: `any` ; `resolver`: [`Resolver`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolver)<`unknown`, {}, `unknown`\>  }[]  }\>
 
 #### Parameters
 
@@ -3153,8 +2266,8 @@ ___
 
 #### Returns
 
-`Promise`<{ `code`: `string` ; `lines`: { `args`: { `code`: `any` ; `comments`: `string` ; `description`: `string`  } ; `code`: `string` ; `entryName`: `string` = resolver.name; `inputName`: `any` ; `payload`: { `code`: `any` ; `comments`: `string` ; `description`: `string`  } ; `payloadName`: `any` ; `resolver`: { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: `any`, `context`: `any`, `info`: `GraphQLResolveInfo`) => `any` ; `type`: `any` ; `typeDef`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\>  }  }[]  }\>
+`Promise`<{ `code`: `string` ; `lines`: { `args`: { `code`: `any` ; `comments`: `string` ; `description`: `string`  } ; `code`: `string` ; `entryName`: `string` = resolver.name; `inputName`: `any` ; `payload`: { `code`: `any` ; `comments`: `string` ; `description`: `string`  } ; `payloadName`: `any` ; `resolver`: [`Resolver`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#resolver)<`unknown`, {}, `unknown`\>  }[]  }\>
 
 #### Defined in
 
-packages/schema/src/createGraphQLSchema.ts:162
+[packages/schema/src/createGraphQLSchema.ts:156](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/createGraphQLSchema.ts#L156)

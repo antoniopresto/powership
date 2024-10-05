@@ -26,6 +26,7 @@
 - [graphQLInputType](Powership.GraphType.md#graphqlinputtype)
 - [graphQLInterface](Powership.GraphType.md#graphqlinterface)
 - [graphQLType](Powership.GraphType.md#graphqltype)
+- [id](Powership.GraphType.md#id)
 - [identify](Powership.GraphType.md#identify)
 - [listType](Powership.GraphType.md#listtype)
 - [optionalType](Powership.GraphType.md#optionaltype)
@@ -39,12 +40,10 @@
 - [getOrSet](Powership.GraphType.md#getorset)
 - [register](Powership.GraphType.md#register)
 - [reset](Powership.GraphType.md#reset)
-- [resolvers](Powership.GraphType.md#resolvers)
 
 ### Accessors
 
 - [hidden](Powership.GraphType.md#hidden)
-- [id](Powership.GraphType.md#id)
 - [optionalId](Powership.GraphType.md#optionalid)
 
 ### Methods
@@ -53,6 +52,7 @@
 - [mutateFields](Powership.GraphType.md#mutatefields)
 - [override](Powership.GraphType.md#override)
 - [touch](Powership.GraphType.md#touch)
+- [assert](Powership.GraphType.md#assert)
 - [is](Powership.GraphType.md#is)
 - [isTypeDefinition](Powership.GraphType.md#istypedefinition)
 
@@ -76,7 +76,7 @@
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:62
+packages/schema/out/GraphType/GraphType.d.ts:24
 
 • **new GraphType**<`Definition`\>(`name`, `definition`)
 
@@ -95,7 +95,7 @@ packages/schema/lib/GraphType/GraphType.d.ts:62
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:63
+packages/schema/out/GraphType/GraphType.d.ts:25
 
 ## Properties
 
@@ -105,7 +105,7 @@ packages/schema/lib/GraphType/GraphType.d.ts:63
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:14
+packages/schema/out/GraphType/GraphType.d.ts:17
 
 ___
 
@@ -115,7 +115,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:64
+packages/schema/out/GraphType/GraphType.d.ts:26
 
 ___
 
@@ -133,7 +133,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:72
+packages/schema/out/GraphType/GraphType.d.ts:34
 
 ___
 
@@ -143,7 +143,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:78
+packages/schema/out/GraphType/GraphType.d.ts:40
 
 ___
 
@@ -153,7 +153,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:58
+packages/schema/out/GraphType/GraphType.d.ts:20
 
 ___
 
@@ -177,7 +177,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:74
+packages/schema/out/GraphType/GraphType.d.ts:36
 
 ___
 
@@ -201,7 +201,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:75
+packages/schema/out/GraphType/GraphType.d.ts:37
 
 ___
 
@@ -225,7 +225,17 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:73
+packages/schema/out/GraphType/GraphType.d.ts:35
+
+___
+
+### id
+
+• **id**: `string`
+
+#### Defined in
+
+packages/schema/out/GraphType/GraphType.d.ts:21
 
 ___
 
@@ -249,7 +259,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:68
+packages/schema/out/GraphType/GraphType.d.ts:30
 
 ___
 
@@ -273,7 +283,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:88
+packages/schema/out/GraphType/GraphType.d.ts:50
 
 ___
 
@@ -297,7 +307,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:86
+packages/schema/out/GraphType/GraphType.d.ts:48
 
 ___
 
@@ -322,7 +332,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:71
+packages/schema/out/GraphType/GraphType.d.ts:33
 
 ___
 
@@ -340,7 +350,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:82
+packages/schema/out/GraphType/GraphType.d.ts:44
 
 ___
 
@@ -364,7 +374,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:87
+packages/schema/out/GraphType/GraphType.d.ts:49
 
 ___
 
@@ -388,7 +398,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:89
+packages/schema/out/GraphType/GraphType.d.ts:51
 
 ___
 
@@ -398,7 +408,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:65
+packages/schema/out/GraphType/GraphType.d.ts:27
 
 ___
 
@@ -422,7 +432,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:83
+packages/schema/out/GraphType/GraphType.d.ts:45
 
 ___
 
@@ -432,7 +442,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:13
+packages/schema/out/GraphType/GraphType.d.ts:16
 
 ___
 
@@ -466,7 +476,7 @@ Get an Object with the provided id
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:96
+packages/schema/out/GraphType/GraphType.d.ts:58
 
 ___
 
@@ -476,7 +486,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:15
+packages/schema/out/GraphType/GraphType.d.ts:18
 
 ___
 
@@ -494,17 +504,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:57
-
-___
-
-### resolvers
-
-▪ `Static` **resolvers**: [`Store`](../interfaces/Powership.Store.md)<`Record`<`string`, { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\> ; `astNode?`: `Maybe`<`FieldDefinitionNode`\> ; `deprecationReason?`: `Maybe`<`string`\> ; `description?`: `Maybe`<`string`\> ; `extensions?`: `Maybe`<`Readonly`<`GraphQLFieldExtensions`<`any`, `any`, `any`\>\>\> ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: `any`, `context`: `any`, `info`: `GraphQLResolveInfo`) => `any` ; `subscribe?`: `GraphQLFieldResolver`<`any`, `any`, `any`, `unknown`\> ; `type`: `any` ; `typeDef`: `any`  }\>, `string`, { `__graphTypeId`: `string` ; `__isRelation`: `boolean` ; `__isResolver`: ``true`` ; `__relatedToGraphTypeId`: `string` ; `args`: `any` ; `argsDef`: `any` ; `argsType`: `any` ; `asObjectField`: (`name?`: `string`) => `GraphQLField`<`any`, `any`, `any`\> ; `astNode?`: `Maybe`<`FieldDefinitionNode`\> ; `deprecationReason?`: `Maybe`<`string`\> ; `description?`: `Maybe`<`string`\> ; `extensions?`: `Maybe`<`Readonly`<`GraphQLFieldExtensions`<`any`, `any`, `any`\>\>\> ; `kind`: `ResolverKind` ; `name`: `string` ; `payloadType`: `any` ; `resolve`: <Root\>(`root`: `Root`, `args`: `any`, `context`: `any`, `info`: `GraphQLResolveInfo`) => `any` ; `subscribe?`: `GraphQLFieldResolver`<`any`, `any`, `any`, `unknown`\> ; `type`: `any` ; `typeDef`: `any`  }\>
-
-#### Defined in
-
-packages/schema/lib/GraphType/GraphType.d.ts:16
+packages/schema/out/GraphType/GraphType.d.ts:19
 
 ## Accessors
 
@@ -518,7 +518,7 @@ packages/schema/lib/GraphType/GraphType.d.ts:16
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:70
+packages/schema/out/GraphType/GraphType.d.ts:32
 
 • `set` **hidden**(`value`): `void`
 
@@ -534,21 +534,7 @@ packages/schema/lib/GraphType/GraphType.d.ts:70
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:69
-
-___
-
-### id
-
-• `get` **id**(): `string`
-
-#### Returns
-
-`string`
-
-#### Defined in
-
-packages/schema/lib/GraphType/GraphType.d.ts:59
+packages/schema/out/GraphType/GraphType.d.ts:31
 
 ___
 
@@ -562,7 +548,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:61
+packages/schema/out/GraphType/GraphType.d.ts:23
 
 ## Methods
 
@@ -588,7 +574,7 @@ packages/schema/lib/GraphType/GraphType.d.ts:61
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:76
+packages/schema/out/GraphType/GraphType.d.ts:38
 
 ___
 
@@ -614,7 +600,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:79
+packages/schema/out/GraphType/GraphType.d.ts:41
 
 ___
 
@@ -640,7 +626,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:77
+packages/schema/out/GraphType/GraphType.d.ts:39
 
 ___
 
@@ -654,7 +640,27 @@ ___
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:66
+packages/schema/out/GraphType/GraphType.d.ts:28
+
+___
+
+### assert
+
+▸ `Static` **assert**(`type`): asserts type is GraphType<any\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `type` | `any` |
+
+#### Returns
+
+asserts type is GraphType<any\>
+
+#### Defined in
+
+packages/schema/out/GraphType/GraphType.d.ts:15
 
 ___
 
@@ -674,7 +680,7 @@ input is GraphType<any\>
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:97
+packages/schema/out/GraphType/GraphType.d.ts:59
 
 ___
 
@@ -694,4 +700,4 @@ input is Object
 
 #### Defined in
 
-packages/schema/lib/GraphType/GraphType.d.ts:98
+packages/schema/out/GraphType/GraphType.d.ts:60

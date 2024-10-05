@@ -1,8 +1,14 @@
 [Powership](../README.md) / [Modules](../modules.md) / [Transporter - Base to connect any Database to Powership.](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md) / Transporter
 
-# Interface: Transporter
+# Interface: Transporter<Client\>
 
 [Transporter - Base to connect any Database to Powership.](../modules/Transporter___Base_to_connect_any_Database_to_Powership_.md).Transporter
+
+## Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Client` | extends `any` = `any` |
 
 ## Table of contents
 
@@ -27,11 +33,11 @@
 
 ### \_client
 
-• **\_client**: `any`
+• **\_client**: `Client`
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:450
+[packages/transporter/src/Transporter.ts:449](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L449)
 
 ## Methods
 
@@ -45,7 +51,7 @@ packages/transporter/src/Transporter.ts:450
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:452
+[packages/transporter/src/Transporter.ts:451](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L451)
 
 ___
 
@@ -71,7 +77,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:454
+[packages/transporter/src/Transporter.ts:453](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L453)
 
 ___
 
@@ -91,7 +97,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:458
+[packages/transporter/src/Transporter.ts:457](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L457)
 
 ___
 
@@ -111,7 +117,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:460
+[packages/transporter/src/Transporter.ts:459](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L459)
 
 ___
 
@@ -131,7 +137,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:462
+[packages/transporter/src/Transporter.ts:461](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L461)
 
 ___
 
@@ -151,7 +157,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:464
+[packages/transporter/src/Transporter.ts:463](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L463)
 
 ___
 
@@ -171,7 +177,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:466
+[packages/transporter/src/Transporter.ts:465](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L465)
 
 ___
 
@@ -191,7 +197,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:468
+[packages/transporter/src/Transporter.ts:467](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L467)
 
 ___
 
@@ -211,7 +217,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:470
+[packages/transporter/src/Transporter.ts:469](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L469)
 
 ___
 
@@ -231,4 +237,4 @@ ___
 
 #### Defined in
 
-packages/transporter/src/Transporter.ts:472
+[packages/transporter/src/Transporter.ts:471](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/Transporter.ts#L471)

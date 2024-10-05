@@ -36,4 +36,4 @@ Error.constructor
 
 #### Defined in
 
-packages/utils/lib/expectedType.d.ts:8
+packages/utils/out/expectedType.d.ts:8

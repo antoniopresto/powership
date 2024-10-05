@@ -30,7 +30,7 @@
 
 #### Defined in
 
-packages/utils/lib/mapper.d.ts:4
+packages/utils/out/mapper.d.ts:4
 
 ___
 
@@ -44,7 +44,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/mapper.d.ts:5
+packages/utils/out/mapper.d.ts:5
 
 ___
 
@@ -70,4 +70,4 @@ ___
 
 #### Defined in
 
-packages/utils/lib/mapper.d.ts:3
+packages/utils/out/mapper.d.ts:3

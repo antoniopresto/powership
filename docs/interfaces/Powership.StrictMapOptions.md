@@ -40,4 +40,4 @@
 
 #### Defined in
 
-packages/utils/lib/StrictMap.d.ts:2
+packages/utils/out/StrictMap.d.ts:2

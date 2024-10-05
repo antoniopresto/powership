@@ -44,7 +44,7 @@
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:23
+packages/server/out/BaseRequestHandler.d.ts:25
 
 ## Properties
 
@@ -54,7 +54,7 @@ packages/server/lib/BaseRequestHandler.d.ts:23
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:20
+packages/server/out/BaseRequestHandler.d.ts:22
 
 ___
 
@@ -64,7 +64,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:17
+packages/server/out/BaseRequestHandler.d.ts:19
 
 ___
 
@@ -74,7 +74,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:22
+packages/server/out/BaseRequestHandler.d.ts:24
 
 ___
 
@@ -84,7 +84,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:21
+packages/server/out/BaseRequestHandler.d.ts:23
 
 ___
 
@@ -118,7 +118,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:25
+packages/server/out/BaseRequestHandler.d.ts:27
 
 ___
 
@@ -128,7 +128,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:16
+packages/server/out/BaseRequestHandler.d.ts:18
 
 ___
 
@@ -138,7 +138,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:18
+packages/server/out/BaseRequestHandler.d.ts:20
 
 ___
 
@@ -148,7 +148,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:19
+packages/server/out/BaseRequestHandler.d.ts:21
 
 ___
 
@@ -172,7 +172,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:24
+packages/server/out/BaseRequestHandler.d.ts:26
 
 ___
 
@@ -182,7 +182,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:15
+packages/server/out/BaseRequestHandler.d.ts:17
 
 ___
 
@@ -206,4 +206,4 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:34
+packages/server/out/BaseRequestHandler.d.ts:36

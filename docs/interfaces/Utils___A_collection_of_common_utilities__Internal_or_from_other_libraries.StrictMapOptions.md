@@ -40,4 +40,4 @@
 
 #### Defined in
 
-packages/utils/src/StrictMap.ts:4
+[packages/utils/src/StrictMap.ts:4](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/StrictMap.ts#L4)

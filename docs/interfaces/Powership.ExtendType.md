@@ -35,7 +35,7 @@
 
 #### Defined in
 
-packages/schema/lib/extendType.d.ts:6
+packages/schema/out/extendType.d.ts:7
 
 ## Methods
 
@@ -49,7 +49,7 @@ packages/schema/lib/extendType.d.ts:6
 
 #### Defined in
 
-packages/schema/lib/extendType.d.ts:7
+packages/schema/out/extendType.d.ts:8
 
 ___
 
@@ -75,7 +75,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/extendType.d.ts:8
+packages/schema/out/extendType.d.ts:9
 
 ___
 
@@ -95,7 +95,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/extendType.d.ts:9
+packages/schema/out/extendType.d.ts:10
 
 ___
 
@@ -109,7 +109,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/extendType.d.ts:17
+packages/schema/out/extendType.d.ts:18
 
 ___
 
@@ -129,7 +129,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/extendType.d.ts:10
+packages/schema/out/extendType.d.ts:11
 
 ___
 
@@ -143,7 +143,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/extendType.d.ts:15
+packages/schema/out/extendType.d.ts:16
 
 ___
 
@@ -157,7 +157,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/extendType.d.ts:16
+packages/schema/out/extendType.d.ts:17
 
 ___
 
@@ -171,4 +171,4 @@ ___
 
 #### Defined in
 
-packages/schema/lib/extendType.d.ts:18
+packages/schema/out/extendType.d.ts:19

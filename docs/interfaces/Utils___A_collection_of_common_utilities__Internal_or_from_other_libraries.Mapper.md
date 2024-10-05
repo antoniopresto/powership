@@ -30,7 +30,7 @@
 
 #### Defined in
 
-packages/utils/src/mapper.ts:9
+[packages/utils/src/mapper.ts:9](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/mapper.ts#L9)
 
 ___
 
@@ -44,7 +44,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/mapper.ts:11
+[packages/utils/src/mapper.ts:11](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/mapper.ts#L11)
 
 ___
 
@@ -70,4 +70,4 @@ ___
 
 #### Defined in
 
-packages/utils/src/mapper.ts:5
+[packages/utils/src/mapper.ts:5](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/mapper.ts#L5)

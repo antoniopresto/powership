@@ -28,7 +28,7 @@
 
 #### Defined in
 
-packages/utils/src/IndexCursor/joinIndexCursor.ts:5
+[packages/utils/src/IndexCursor/joinIndexCursor.ts:5](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/joinIndexCursor.ts#L5)
 
 ___
 
@@ -38,7 +38,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/joinIndexCursor.ts:6
+[packages/utils/src/IndexCursor/joinIndexCursor.ts:6](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/joinIndexCursor.ts#L6)
 
 ___
 
@@ -48,7 +48,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/joinIndexCursor.ts:7
+[packages/utils/src/IndexCursor/joinIndexCursor.ts:7](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/joinIndexCursor.ts#L7)
 
 ___
 
@@ -58,7 +58,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/joinIndexCursor.ts:8
+[packages/utils/src/IndexCursor/joinIndexCursor.ts:8](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/joinIndexCursor.ts#L8)
 
 ___
 
@@ -68,4 +68,4 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/joinIndexCursor.ts:9
+[packages/utils/src/IndexCursor/joinIndexCursor.ts:9](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/joinIndexCursor.ts#L9)

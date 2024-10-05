@@ -15,13 +15,13 @@
 
 ### EntityAddRelation
 
-▸ **EntityAddRelation**<`Context`, `Definition`, `ArgsDef`\>(`options`): `Parent`
+▸ **EntityAddRelation**<`_Context`, `Definition`, `ArgsDef`\>(`options`): `Parent`
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Context` | extends `LoaderContext` |
+| `_Context` | extends `LoaderContext` |
 | `Definition` | extends `ObjectFieldInput` |
 | `ArgsDef` | extends `ObjectDefinitionInput` |
 
@@ -29,7 +29,7 @@
 
 | Name | Type |
 | :------ | :------ |
-| `options` | [`EntityFieldResolver`](../modules/Entity.md#entityfieldresolver)<`Context`, `Definition`, `ArgsDef`, `EContext`[``"document"``]\> |
+| `options` | [`EntityFieldResolver`](../modules/Entity.md#entityfieldresolver)<`Definition`, `ArgsDef`, `EContext`[``"document"``]\> |
 
 #### Returns
 
@@ -37,4 +37,4 @@
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/AddRelation.ts:12
+[packages/entity/src/EntityInterfaces/AddRelation.ts:12](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/AddRelation.ts#L12)

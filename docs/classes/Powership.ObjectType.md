@@ -78,11 +78,11 @@
 
 | Name | Type |
 | :------ | :------ |
-| `objectDef` | `HandledInput` \| (`modules`: `PowershipModules`) => `HandledInput` |
+| `objectDef` | `HandledInput` \| () => `HandledInput` |
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:32
+packages/schema/out/ObjectType.d.ts:23
 
 ## Properties
 
@@ -92,7 +92,7 @@ packages/schema/lib/ObjectType.d.ts:32
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:28
+packages/schema/out/ObjectType.d.ts:19
 
 ___
 
@@ -116,7 +116,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:111
+packages/schema/out/ObjectType.d.ts:102
 
 ___
 
@@ -126,7 +126,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:110
+packages/schema/out/ObjectType.d.ts:101
 
 ___
 
@@ -150,7 +150,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:99
+packages/schema/out/ObjectType.d.ts:90
 
 ___
 
@@ -174,7 +174,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:95
+packages/schema/out/ObjectType.d.ts:86
 
 ___
 
@@ -192,7 +192,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:96
+packages/schema/out/ObjectType.d.ts:87
 
 ___
 
@@ -216,7 +216,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:94
+packages/schema/out/ObjectType.d.ts:85
 
 ___
 
@@ -234,7 +234,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:98
+packages/schema/out/ObjectType.d.ts:89
 
 ___
 
@@ -252,17 +252,17 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:92
+packages/schema/out/ObjectType.d.ts:83
 
 ___
 
 ### implement
 
-• **implement**: <Parents\>(`name`: `string`, ...`parents`: `Parents`) => [`ImplementObject`](../modules/Powership.md#implementobject)<[`ObjectType`](Powership.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>, `Parents`\>
+• **implement**: <Parents\>(`name`: `string`, ...`parents`: `Parents`) => `ImplementObject`<[`ObjectType`](Powership.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>, `Parents`\>
 
 #### Type declaration
 
-▸ <`Parents`\>(`name`, `...parents`): [`ImplementObject`](../modules/Powership.md#implementobject)<[`ObjectType`](Powership.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>, `Parents`\>
+▸ <`Parents`\>(`name`, `...parents`): `ImplementObject`<[`ObjectType`](Powership.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>, `Parents`\>
 
 ##### Type parameters
 
@@ -279,21 +279,21 @@ ___
 
 ##### Returns
 
-[`ImplementObject`](../modules/Powership.md#implementobject)<[`ObjectType`](Powership.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>, `Parents`\>
+`ImplementObject`<[`ObjectType`](Powership.ObjectType.md)<`HandledInput`, `_HandleInput`<`HandledInput`\>\>, `Parents`\>
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:100
+packages/schema/out/ObjectType.d.ts:91
 
 ___
 
 ### inputDefinition
 
-• **inputDefinition**: [`ObjectDefinitionInput`](../modules/Powership.md#objectdefinitioninput) \| (`modules`: `PowershipModules`) => [`ObjectDefinitionInput`](../modules/Powership.md#objectdefinitioninput)
+• **inputDefinition**: [`ObjectDefinitionInput`](../modules/Powership.md#objectdefinitioninput) \| () => [`ObjectDefinitionInput`](../modules/Powership.md#objectdefinitioninput)
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:31
+packages/schema/out/ObjectType.d.ts:22
 
 ___
 
@@ -324,7 +324,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:66
+packages/schema/out/ObjectType.d.ts:57
 
 ___
 
@@ -348,7 +348,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:93
+packages/schema/out/ObjectType.d.ts:84
 
 ___
 
@@ -372,7 +372,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:97
+packages/schema/out/ObjectType.d.ts:88
 
 ___
 
@@ -382,7 +382,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:27
+packages/schema/out/ObjectType.d.ts:18
 
 ___
 
@@ -416,7 +416,7 @@ Get an Object with the provided id
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:109
+packages/schema/out/ObjectType.d.ts:100
 
 ___
 
@@ -426,7 +426,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:102
+packages/schema/out/ObjectType.d.ts:93
 
 ## Accessors
 
@@ -440,7 +440,7 @@ packages/schema/lib/ObjectType.d.ts:102
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:26
+packages/schema/out/ObjectType.d.ts:17
 
 ___
 
@@ -454,7 +454,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:34
+packages/schema/out/ObjectType.d.ts:25
 
 ___
 
@@ -468,7 +468,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:35
+packages/schema/out/ObjectType.d.ts:26
 
 ___
 
@@ -482,7 +482,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:38
+packages/schema/out/ObjectType.d.ts:29
 
 • `set` **hidden**(`value`): `void`
 
@@ -498,7 +498,7 @@ packages/schema/lib/ObjectType.d.ts:38
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:37
+packages/schema/out/ObjectType.d.ts:28
 
 ___
 
@@ -512,21 +512,21 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:87
+packages/schema/out/ObjectType.d.ts:78
 
 ___
 
 ### meta
 
-• `get` **meta**(): [`MetaFieldDef`](../modules/Powership.md#metafielddef)
+• `get` **meta**(): `MetaFieldDef`
 
 #### Returns
 
-[`MetaFieldDef`](../modules/Powership.md#metafielddef)
+`MetaFieldDef`
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:47
+packages/schema/out/ObjectType.d.ts:38
 
 ___
 
@@ -540,7 +540,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:88
+packages/schema/out/ObjectType.d.ts:79
 
 ## Methods
 
@@ -552,7 +552,7 @@ packages/schema/lib/ObjectType.d.ts:88
 
 | Name | Type |
 | :------ | :------ |
-| `k` | keyof [`MetaFieldDef`](../modules/Powership.md#metafielddef) |
+| `k` | keyof `MetaFieldDef` |
 | `value` | [`Serializable`](../modules/Powership.TU.md#serializable) |
 
 #### Returns
@@ -561,7 +561,7 @@ packages/schema/lib/ObjectType.d.ts:88
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:48
+packages/schema/out/ObjectType.d.ts:39
 
 ___
 
@@ -575,7 +575,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:39
+packages/schema/out/ObjectType.d.ts:30
 
 ___
 
@@ -601,7 +601,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:82
+packages/schema/out/ObjectType.d.ts:73
 
 ___
 
@@ -621,7 +621,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:79
+packages/schema/out/ObjectType.d.ts:70
 
 ___
 
@@ -635,7 +635,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:40
+packages/schema/out/ObjectType.d.ts:31
 
 ___
 
@@ -661,7 +661,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:89
+packages/schema/out/ObjectType.d.ts:80
 
 ___
 
@@ -682,7 +682,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:49
+packages/schema/out/ObjectType.d.ts:40
 
 ▸ **parse**(`input`, `options?`): `Partial`<[`InferObjectDefinition`](../modules/Powership.md#inferobjectdefinition)<`HandledInput`\>\>
 
@@ -699,7 +699,7 @@ packages/schema/lib/ObjectType.d.ts:49
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:52
+packages/schema/out/ObjectType.d.ts:43
 
 ▸ **parse**<`Fields`\>(`input`, `options`): { [K in string \| number \| symbol as K extends Fields[number] ? K : never]: InferObjectDefinition<HandledInput\>[K] }
 
@@ -722,7 +722,7 @@ packages/schema/lib/ObjectType.d.ts:52
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:55
+packages/schema/out/ObjectType.d.ts:46
 
 ▸ **parse**<`Fields`\>(`input`, `options`): { [K in string \| number \| symbol as K extends Fields[number] ? never : K]: InferObjectDefinition<HandledInput\>[K] }
 
@@ -745,7 +745,7 @@ packages/schema/lib/ObjectType.d.ts:55
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:61
+packages/schema/out/ObjectType.d.ts:52
 
 ___
 
@@ -771,7 +771,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:70
+packages/schema/out/ObjectType.d.ts:61
 
 ___
 
@@ -791,7 +791,7 @@ input is InferObjectDefinition<HandledInput\>
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:69
+packages/schema/out/ObjectType.d.ts:60
 
 ___
 
@@ -811,7 +811,7 @@ input is ObjectType<ObjectDefinitionInput, ObjectDefinitionInput\>
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:112
+packages/schema/out/ObjectType.d.ts:103
 
 ___
 
@@ -825,4 +825,4 @@ ___
 
 #### Defined in
 
-packages/schema/lib/ObjectType.d.ts:101
+packages/schema/out/ObjectType.d.ts:92

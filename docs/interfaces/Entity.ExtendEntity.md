@@ -36,4 +36,4 @@ Extend current entity
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/ExtendEntity.ts:10
+[packages/entity/src/EntityInterfaces/ExtendEntity.ts:10](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/ExtendEntity.ts#L10)

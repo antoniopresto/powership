@@ -18,4 +18,4 @@
 
 #### Defined in
 
-packages/schema/lib/Durable/IDurable.d.ts:3
+packages/schema/out/Durable/IDurable.d.ts:3

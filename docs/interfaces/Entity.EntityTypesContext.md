@@ -31,7 +31,7 @@
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/Context.ts:60
+[packages/entity/src/EntityInterfaces/Context.ts:60](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/Context.ts#L60)
 
 ___
 
@@ -41,7 +41,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/Context.ts:46
+[packages/entity/src/EntityInterfaces/Context.ts:46](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/Context.ts#L46)
 
 ___
 
@@ -51,7 +51,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/Context.ts:53
+[packages/entity/src/EntityInterfaces/Context.ts:53](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/Context.ts#L53)
 
 ___
 
@@ -61,7 +61,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/Context.ts:23
+[packages/entity/src/EntityInterfaces/Context.ts:23](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/Context.ts#L23)
 
 ___
 
@@ -71,7 +71,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/Context.ts:41
+[packages/entity/src/EntityInterfaces/Context.ts:41](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/Context.ts#L41)
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/Context.ts:14
+[packages/entity/src/EntityInterfaces/Context.ts:14](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/Context.ts#L14)
 
 ___
 
@@ -91,4 +91,4 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/Context.ts:34
+[packages/entity/src/EntityInterfaces/Context.ts:34](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/Context.ts#L34)

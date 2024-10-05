@@ -47,7 +47,7 @@ Error.constructor
 
 #### Defined in
 
-packages/utils/lib/RuntimeError.d.ts:17
+packages/utils/out/RuntimeError.d.ts:17
 
 • **new RuntimeError**(`message`, `details`, `options?`)
 
@@ -65,7 +65,7 @@ Error.constructor
 
 #### Defined in
 
-packages/utils/lib/RuntimeError.d.ts:18
+packages/utils/out/RuntimeError.d.ts:18
 
 ## Properties
 
@@ -75,7 +75,7 @@ packages/utils/lib/RuntimeError.d.ts:18
 
 #### Defined in
 
-packages/utils/lib/RuntimeError.d.ts:8
+packages/utils/out/RuntimeError.d.ts:8
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/RuntimeError.d.ts:9
+packages/utils/out/RuntimeError.d.ts:9
 
 ___
 
@@ -99,4 +99,4 @@ Error.name
 
 #### Defined in
 
-packages/utils/lib/RuntimeError.d.ts:7
+packages/utils/out/RuntimeError.d.ts:7

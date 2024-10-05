@@ -9,56 +9,12 @@
 | Name | Type |
 | :------ | :------ |
 | `Type` | `Type` |
-| `TypeName` | extends [`FieldTypeName`](../modules/Powership.md#fieldtypename) |
-| `Def` | extends [`FieldDefinitions`](../modules/Powership.md#fielddefinitions)[`TypeName`] |
+| `TypeName` | extends `FieldTypeName` |
+| `Def` | extends `FieldDefinitions`[`TypeName`] |
 | `List` | extends ``1`` \| ``0`` = ``0`` |
 | `Optional` | extends ``1`` \| ``0`` = ``0`` |
 | `DefaultValue` | extends `unknown` \| `undefined` = `undefined` |
 | `Options` | extends [`FieldTypeOptions`](../modules/Powership.md#fieldtypeoptions) = {} |
-
-## Hierarchy
-
-- **`FieldType`**
-
-  ↳ [`AnyField`](Powership.AnyField.md)
-
-  ↳ [`BooleanField`](Powership.BooleanField.md)
-
-  ↳ [`CursorField`](Powership.CursorField.md)
-
-  ↳ [`DateField`](Powership.DateField.md)
-
-  ↳ [`EmailField`](Powership.EmailField.md)
-
-  ↳ [`EnumField`](Powership.EnumField.md)
-
-  ↳ [`FloatField`](Powership.FloatField.md)
-
-  ↳ [`IDField`](Powership.IDField.md)
-
-  ↳ [`IntField`](Powership.IntField.md)
-
-  ↳ [`LiteralField`](Powership.LiteralField.md)
-
-  ↳ [`MetaField`](Powership.MetaField.md)
-
-  ↳ [`NullField`](Powership.NullField.md)
-
-  ↳ [`ObjectField`](Powership.ObjectField.md)
-
-  ↳ [`RecordField`](Powership.RecordField.md)
-
-  ↳ [`StringField`](Powership.StringField.md)
-
-  ↳ [`UlidField`](Powership.UlidField.md)
-
-  ↳ [`UndefinedField`](Powership.UndefinedField.md)
-
-  ↳ [`UnionField`](Powership.UnionField.md)
-
-  ↳ [`UnknownField`](Powership.UnknownField.md)
-
-  ↳ [`AliasField`](Powership.AliasField.md)
 
 ## Table of contents
 
@@ -108,7 +64,7 @@
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:42
+packages/schema/out/fields/FieldType.d.ts:41
 
 ___
 
@@ -118,7 +74,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:23
+packages/schema/out/fields/FieldType.d.ts:22
 
 ___
 
@@ -128,7 +84,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:64
+packages/schema/out/fields/FieldType.d.ts:63
 
 ___
 
@@ -160,7 +116,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:58
+packages/schema/out/fields/FieldType.d.ts:57
 
 ___
 
@@ -178,7 +134,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:66
+packages/schema/out/fields/FieldType.d.ts:65
 
 ___
 
@@ -188,7 +144,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:24
+packages/schema/out/fields/FieldType.d.ts:23
 
 ___
 
@@ -198,7 +154,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:22
+packages/schema/out/fields/FieldType.d.ts:21
 
 ___
 
@@ -208,7 +164,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:39
+packages/schema/out/fields/FieldType.d.ts:38
 
 ___
 
@@ -232,7 +188,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:43
+packages/schema/out/fields/FieldType.d.ts:42
 
 ___
 
@@ -261,7 +217,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:44
+packages/schema/out/fields/FieldType.d.ts:43
 
 ___
 
@@ -271,7 +227,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:40
+packages/schema/out/fields/FieldType.d.ts:39
 
 ___
 
@@ -281,7 +237,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:41
+packages/schema/out/fields/FieldType.d.ts:40
 
 ___
 
@@ -291,7 +247,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:26
+packages/schema/out/fields/FieldType.d.ts:25
 
 ___
 
@@ -301,7 +257,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:38
+packages/schema/out/fields/FieldType.d.ts:37
 
 ___
 
@@ -311,7 +267,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:27
+packages/schema/out/fields/FieldType.d.ts:26
 
 ___
 
@@ -321,7 +277,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:37
+packages/schema/out/fields/FieldType.d.ts:36
 
 ___
 
@@ -331,7 +287,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:28
+packages/schema/out/fields/FieldType.d.ts:27
 
 ___
 
@@ -341,7 +297,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:63
+packages/schema/out/fields/FieldType.d.ts:62
 
 ___
 
@@ -351,7 +307,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:21
+packages/schema/out/fields/FieldType.d.ts:20
 
 ___
 
@@ -361,7 +317,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:20
+packages/schema/out/fields/FieldType.d.ts:19
 
 ## Accessors
 
@@ -375,7 +331,7 @@ packages/schema/lib/fields/FieldType.d.ts:20
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:62
+packages/schema/out/fields/FieldType.d.ts:61
 
 ___
 
@@ -389,7 +345,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:25
+packages/schema/out/fields/FieldType.d.ts:24
 
 ## Methods
 
@@ -409,7 +365,7 @@ input is Type
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:36
+packages/schema/out/fields/FieldType.d.ts:35
 
 ___
 
@@ -435,7 +391,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:57
+packages/schema/out/fields/FieldType.d.ts:56
 
 ___
 
@@ -447,7 +403,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `options?` | [`ListDefinitionTruthy`](../modules/Powership.md#listdefinitiontruthy) |
+| `options?` | `ListDefinitionTruthy` |
 
 #### Returns
 
@@ -455,7 +411,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:56
+packages/schema/out/fields/FieldType.d.ts:55
 
 ___
 
@@ -469,7 +425,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:54
+packages/schema/out/fields/FieldType.d.ts:53
 
 ___
 
@@ -483,7 +439,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:55
+packages/schema/out/fields/FieldType.d.ts:54
 
 ___
 
@@ -503,7 +459,7 @@ input is Type
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:35
+packages/schema/out/fields/FieldType.d.ts:34
 
 ___
 
@@ -523,4 +479,4 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/FieldType.d.ts:65
+packages/schema/out/fields/FieldType.d.ts:64

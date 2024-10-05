@@ -27,7 +27,7 @@
 
 #### Defined in
 
-packages/utils/lib/getters/defineGetters.d.ts:5
+packages/utils/out/getters/defineGetters.d.ts:5
 
 ___
 
@@ -37,7 +37,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/getters/defineGetters.d.ts:3
+packages/utils/out/getters/defineGetters.d.ts:3
 
 ___
 
@@ -47,7 +47,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/getters/defineGetters.d.ts:2
+packages/utils/out/getters/defineGetters.d.ts:2
 
 ___
 
@@ -57,4 +57,4 @@ ___
 
 #### Defined in
 
-packages/utils/lib/getters/defineGetters.d.ts:4
+packages/utils/out/getters/defineGetters.d.ts:4

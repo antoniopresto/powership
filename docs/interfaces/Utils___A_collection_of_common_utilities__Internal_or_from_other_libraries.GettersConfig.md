@@ -39,7 +39,7 @@
 
 #### Defined in
 
-packages/utils/src/getters/defineGetters.ts:5
+[packages/utils/src/getters/defineGetters.ts:5](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getters/defineGetters.ts#L5)
 
 ___
 
@@ -53,7 +53,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/getters/defineGetters.ts:3
+[packages/utils/src/getters/defineGetters.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getters/defineGetters.ts#L3)
 
 ___
 
@@ -67,7 +67,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/getters/defineGetters.ts:2
+[packages/utils/src/getters/defineGetters.ts:2](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getters/defineGetters.ts#L2)
 
 ___
 
@@ -91,7 +91,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/getters/defineGetters.ts:9
+[packages/utils/src/getters/defineGetters.ts:9](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getters/defineGetters.ts#L9)
 
 ___
 
@@ -105,4 +105,4 @@ ___
 
 #### Defined in
 
-packages/utils/src/getters/defineGetters.ts:4
+[packages/utils/src/getters/defineGetters.ts:4](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getters/defineGetters.ts#L4)

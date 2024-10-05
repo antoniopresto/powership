@@ -6,7 +6,7 @@
 
 ## Hierarchy
 
-- [`FieldDefinitionWithType`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldDefinitionWithType.md)<[`ObjectTypeLikeFieldDefinition`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectTypeLikeFieldDefinition.md)\>
+- `FieldDefinitionWithType`<[`ObjectTypeLikeFieldDefinition`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectTypeLikeFieldDefinition.md)\>
 
   ↳ **`ObjectInTypeFieldDefinition`**
 
@@ -33,11 +33,11 @@
 
 #### Inherited from
 
-[FieldDefinitionWithType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldDefinitionWithType.md).[$](Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldDefinitionWithType.md#$)
+FieldDefinitionWithType.$
 
 #### Defined in
 
-packages/schema/src/fields/_fieldDefinitions.ts:46
+[packages/schema/src/fields/_fieldDefinitions.ts:46](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_fieldDefinitions.ts#L46)
 
 ___
 
@@ -47,11 +47,11 @@ ___
 
 #### Inherited from
 
-[FieldDefinitionWithType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldDefinitionWithType.md).[def](Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldDefinitionWithType.md#def)
+FieldDefinitionWithType.def
 
 #### Defined in
 
-packages/schema/src/fields/_fieldDefinitions.ts:42
+[packages/schema/src/fields/_fieldDefinitions.ts:42](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_fieldDefinitions.ts#L42)
 
 ___
 
@@ -61,11 +61,11 @@ ___
 
 #### Inherited from
 
-[FieldDefinitionWithType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldDefinitionWithType.md).[defaultValue](Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldDefinitionWithType.md#defaultvalue)
+FieldDefinitionWithType.defaultValue
 
 #### Defined in
 
-packages/schema/src/fields/_fieldDefinitions.ts:43
+[packages/schema/src/fields/_fieldDefinitions.ts:43](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_fieldDefinitions.ts#L43)
 
 ___
 
@@ -75,25 +75,25 @@ ___
 
 #### Inherited from
 
-[FieldDefinitionWithType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldDefinitionWithType.md).[description](Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldDefinitionWithType.md#description)
+FieldDefinitionWithType.description
 
 #### Defined in
 
-packages/schema/src/fields/_fieldDefinitions.ts:38
+[packages/schema/src/fields/_fieldDefinitions.ts:38](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_fieldDefinitions.ts#L38)
 
 ___
 
 ### example
 
-• `Optional` **example**: [`FieldExample`](../modules/Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldexample)
+• `Optional` **example**: `FieldExample`
 
 #### Inherited from
 
-[FieldDefinitionWithType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldDefinitionWithType.md).[example](Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldDefinitionWithType.md#example)
+FieldDefinitionWithType.example
 
 #### Defined in
 
-packages/schema/src/fields/_fieldDefinitions.ts:39
+[packages/schema/src/fields/_fieldDefinitions.ts:39](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_fieldDefinitions.ts#L39)
 
 ___
 
@@ -103,25 +103,25 @@ ___
 
 #### Inherited from
 
-[FieldDefinitionWithType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldDefinitionWithType.md).[hidden](Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldDefinitionWithType.md#hidden)
+FieldDefinitionWithType.hidden
 
 #### Defined in
 
-packages/schema/src/fields/_fieldDefinitions.ts:40
+[packages/schema/src/fields/_fieldDefinitions.ts:40](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_fieldDefinitions.ts#L40)
 
 ___
 
 ### list
 
-• `Optional` **list**: [`ListDefinition`](../modules/Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#listdefinition)
+• `Optional` **list**: `ListDefinition`
 
 #### Inherited from
 
-[FieldDefinitionWithType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldDefinitionWithType.md).[list](Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldDefinitionWithType.md#list)
+FieldDefinitionWithType.list
 
 #### Defined in
 
-packages/schema/src/fields/_fieldDefinitions.ts:44
+[packages/schema/src/fields/_fieldDefinitions.ts:44](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_fieldDefinitions.ts#L44)
 
 ___
 
@@ -131,11 +131,11 @@ ___
 
 #### Inherited from
 
-[FieldDefinitionWithType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldDefinitionWithType.md).[name](Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldDefinitionWithType.md#name)
+FieldDefinitionWithType.name
 
 #### Defined in
 
-packages/schema/src/fields/_fieldDefinitions.ts:41
+[packages/schema/src/fields/_fieldDefinitions.ts:41](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_fieldDefinitions.ts#L41)
 
 ___
 
@@ -145,11 +145,11 @@ ___
 
 #### Inherited from
 
-[FieldDefinitionWithType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldDefinitionWithType.md).[optional](Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldDefinitionWithType.md#optional)
+FieldDefinitionWithType.optional
 
 #### Defined in
 
-packages/schema/src/fields/_fieldDefinitions.ts:45
+[packages/schema/src/fields/_fieldDefinitions.ts:45](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_fieldDefinitions.ts#L45)
 
 ___
 
@@ -159,8 +159,8 @@ ___
 
 #### Inherited from
 
-[FieldDefinitionWithType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldDefinitionWithType.md).[type](Powership_Schema___A_Super_Portable_TypeScript_validation_library.FieldDefinitionWithType.md#type)
+FieldDefinitionWithType.type
 
 #### Defined in
 
-packages/schema/src/fields/_fieldDefinitions.ts:50
+[packages/schema/src/fields/_fieldDefinitions.ts:50](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/_fieldDefinitions.ts#L50)

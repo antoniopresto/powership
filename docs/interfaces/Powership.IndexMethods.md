@@ -33,7 +33,7 @@
 
 #### Defined in
 
-packages/transporter/lib/IndexMethods.d.ts:9
+packages/transporter/out/IndexMethods.d.ts:9
 
 ___
 
@@ -43,7 +43,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/IndexMethods.d.ts:13
+packages/transporter/out/IndexMethods.d.ts:13
 
 ___
 
@@ -53,7 +53,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/IndexMethods.d.ts:14
+packages/transporter/out/IndexMethods.d.ts:14
 
 ___
 
@@ -63,7 +63,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/IndexMethods.d.ts:15
+packages/transporter/out/IndexMethods.d.ts:15
 
 ___
 
@@ -73,7 +73,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/IndexMethods.d.ts:11
+packages/transporter/out/IndexMethods.d.ts:11
 
 ___
 
@@ -83,7 +83,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/IndexMethods.d.ts:10
+packages/transporter/out/IndexMethods.d.ts:10
 
 ___
 
@@ -93,7 +93,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/IndexMethods.d.ts:12
+packages/transporter/out/IndexMethods.d.ts:12
 
 ___
 
@@ -103,7 +103,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/IndexMethods.d.ts:16
+packages/transporter/out/IndexMethods.d.ts:16
 
 ___
 
@@ -113,4 +113,4 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/IndexMethods.d.ts:17
+packages/transporter/out/IndexMethods.d.ts:17

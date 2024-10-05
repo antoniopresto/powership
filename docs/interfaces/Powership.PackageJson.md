@@ -38,7 +38,7 @@
 
 #### Defined in
 
-packages/utils/lib/PackageJson.d.ts:17
+packages/utils/out/PackageJson.d.ts:17
 
 ___
 
@@ -48,7 +48,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/PackageJson.d.ts:23
+packages/utils/out/PackageJson.d.ts:23
 
 ___
 
@@ -58,7 +58,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/PackageJson.d.ts:14
+packages/utils/out/PackageJson.d.ts:14
 
 ___
 
@@ -68,7 +68,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/PackageJson.d.ts:15
+packages/utils/out/PackageJson.d.ts:15
 
 ___
 
@@ -78,7 +78,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/PackageJson.d.ts:24
+packages/utils/out/PackageJson.d.ts:24
 
 ___
 
@@ -88,7 +88,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/PackageJson.d.ts:9
+packages/utils/out/PackageJson.d.ts:9
 
 ___
 
@@ -98,7 +98,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/PackageJson.d.ts:21
+packages/utils/out/PackageJson.d.ts:21
 
 ___
 
@@ -108,7 +108,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/PackageJson.d.ts:6
+packages/utils/out/PackageJson.d.ts:6
 
 ___
 
@@ -118,7 +118,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/PackageJson.d.ts:8
+packages/utils/out/PackageJson.d.ts:8
 
 ___
 
@@ -128,7 +128,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/PackageJson.d.ts:2
+packages/utils/out/PackageJson.d.ts:2
 
 ___
 
@@ -138,7 +138,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/PackageJson.d.ts:16
+packages/utils/out/PackageJson.d.ts:16
 
 ___
 
@@ -148,7 +148,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/PackageJson.d.ts:22
+packages/utils/out/PackageJson.d.ts:22
 
 ___
 
@@ -158,7 +158,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/PackageJson.d.ts:4
+packages/utils/out/PackageJson.d.ts:4
 
 ___
 
@@ -168,7 +168,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/PackageJson.d.ts:5
+packages/utils/out/PackageJson.d.ts:5
 
 ___
 
@@ -178,7 +178,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/PackageJson.d.ts:7
+packages/utils/out/PackageJson.d.ts:7
 
 ___
 
@@ -188,7 +188,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/PackageJson.d.ts:3
+packages/utils/out/PackageJson.d.ts:3
 
 ___
 
@@ -198,4 +198,4 @@ ___
 
 #### Defined in
 
-packages/utils/lib/PackageJson.d.ts:18
+packages/utils/out/PackageJson.d.ts:18

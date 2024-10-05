@@ -26,6 +26,7 @@
 - [objectType](Powership_Schema___A_Super_Portable_TypeScript_validation_library.ExtendObjectDefinition.md#objecttype)
 - [only](Powership_Schema___A_Super_Portable_TypeScript_validation_library.ExtendObjectDefinition.md#only)
 - [optional](Powership_Schema___A_Super_Portable_TypeScript_validation_library.ExtendObjectDefinition.md#optional)
+- [pick](Powership_Schema___A_Super_Portable_TypeScript_validation_library.ExtendObjectDefinition.md#pick)
 - [required](Powership_Schema___A_Super_Portable_TypeScript_validation_library.ExtendObjectDefinition.md#required)
 
 ## Properties
@@ -36,7 +37,7 @@
 
 #### Defined in
 
-packages/schema/src/extendObjectDefinition.ts:30
+[packages/schema/src/extendObjectDefinition.ts:23](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendObjectDefinition.ts#L23)
 
 ## Methods
 
@@ -50,7 +51,7 @@ packages/schema/src/extendObjectDefinition.ts:30
 
 #### Defined in
 
-packages/schema/src/extendObjectDefinition.ts:32
+[packages/schema/src/extendObjectDefinition.ts:25](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendObjectDefinition.ts#L25)
 
 ___
 
@@ -76,7 +77,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/extendObjectDefinition.ts:34
+[packages/schema/src/extendObjectDefinition.ts:27](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendObjectDefinition.ts#L27)
 
 ___
 
@@ -102,7 +103,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/extendObjectDefinition.ts:38
+[packages/schema/src/extendObjectDefinition.ts:31](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendObjectDefinition.ts#L31)
 
 ___
 
@@ -122,7 +123,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/extendObjectDefinition.ts:45
+[packages/schema/src/extendObjectDefinition.ts:38](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendObjectDefinition.ts#L38)
 
 ___
 
@@ -142,7 +143,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/extendObjectDefinition.ts:47
+[packages/schema/src/extendObjectDefinition.ts:40](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendObjectDefinition.ts#L40)
 
 ___
 
@@ -168,7 +169,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/extendObjectDefinition.ts:49
+[packages/schema/src/extendObjectDefinition.ts:42](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendObjectDefinition.ts#L42)
 
 ___
 
@@ -182,7 +183,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/extendObjectDefinition.ts:53
+[packages/schema/src/extendObjectDefinition.ts:54](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendObjectDefinition.ts#L54)
 
 ▸ **optional**<`Op`\>(`keys`): [`ExtendObjectDefinition`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.ExtendObjectDefinition.md)<{ `object`: [`OverrideField`](../modules/Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#overridefield)<[`InnerDef`](../modules/Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#innerdef)<`Input`\>, `Op`, { `optional`: ``true``  }\>  }, `Origin`\>
 
@@ -204,7 +205,35 @@ packages/schema/src/extendObjectDefinition.ts:53
 
 #### Defined in
 
-packages/schema/src/extendObjectDefinition.ts:58
+[packages/schema/src/extendObjectDefinition.ts:59](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendObjectDefinition.ts#L59)
+
+___
+
+### pick
+
+▸ **pick**<`K`\>(`keys`): [`ExtendObjectDefinition`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.ExtendObjectDefinition.md)<{ `object`: `Pick`<[`InnerDef`](../modules/Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#innerdef)<`Input`\>, `K`\>  }, `Origin`\>
+
+Alias to `only`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `K` | extends `string` \| `number` \| `symbol` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `keys` | `K` \| `K`[] |
+
+#### Returns
+
+[`ExtendObjectDefinition`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.ExtendObjectDefinition.md)<{ `object`: `Pick`<[`InnerDef`](../modules/Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#innerdef)<`Input`\>, `K`\>  }, `Origin`\>
+
+#### Defined in
+
+[packages/schema/src/extendObjectDefinition.ts:50](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendObjectDefinition.ts#L50)
 
 ___
 
@@ -218,7 +247,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/extendObjectDefinition.ts:65
+[packages/schema/src/extendObjectDefinition.ts:66](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendObjectDefinition.ts#L66)
 
 ▸ **required**<`Op`\>(`keys`): [`ExtendObjectDefinition`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.ExtendObjectDefinition.md)<{ `object`: [`OverrideField`](../modules/Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#overridefield)<[`InnerDef`](../modules/Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#innerdef)<`Input`\>, `Op`, { `optional`: ``false``  }\>  }, `Origin`\>
 
@@ -240,4 +269,4 @@ packages/schema/src/extendObjectDefinition.ts:65
 
 #### Defined in
 
-packages/schema/src/extendObjectDefinition.ts:70
+[packages/schema/src/extendObjectDefinition.ts:71](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/extendObjectDefinition.ts#L71)

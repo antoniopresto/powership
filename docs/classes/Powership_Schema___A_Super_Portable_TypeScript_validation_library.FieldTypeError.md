@@ -41,7 +41,7 @@ Error.constructor
 
 #### Defined in
 
-packages/schema/src/fields/FieldTypeErrors.ts:22
+[packages/schema/src/fields/FieldTypeErrors.ts:22](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldTypeErrors.ts#L22)
 
 ## Properties
 
@@ -51,7 +51,7 @@ packages/schema/src/fields/FieldTypeErrors.ts:22
 
 #### Defined in
 
-packages/schema/src/fields/FieldTypeErrors.ts:18
+[packages/schema/src/fields/FieldTypeErrors.ts:18](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldTypeErrors.ts#L18)
 
 ___
 
@@ -61,7 +61,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldTypeErrors.ts:19
+[packages/schema/src/fields/FieldTypeErrors.ts:19](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldTypeErrors.ts#L19)
 
 ___
 
@@ -85,4 +85,4 @@ el is FieldTypeError
 
 #### Defined in
 
-packages/schema/src/fields/FieldTypeErrors.ts:20
+[packages/schema/src/fields/FieldTypeErrors.ts:20](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldTypeErrors.ts#L20)

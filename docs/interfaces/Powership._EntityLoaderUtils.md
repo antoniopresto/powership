@@ -28,7 +28,7 @@
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/EntityLoaderMethods.d.ts:26
+packages/entity/out/EntityInterfaces/EntityLoaderMethods.d.ts:26
 
 ___
 
@@ -38,7 +38,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/EntityLoaderMethods.d.ts:10
+packages/entity/out/EntityInterfaces/EntityLoaderMethods.d.ts:10
 
 ___
 
@@ -48,7 +48,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/EntityLoaderMethods.d.ts:9
+packages/entity/out/EntityInterfaces/EntityLoaderMethods.d.ts:9
 
 ___
 
@@ -58,4 +58,4 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/EntityLoaderMethods.d.ts:11
+packages/entity/out/EntityInterfaces/EntityLoaderMethods.d.ts:11

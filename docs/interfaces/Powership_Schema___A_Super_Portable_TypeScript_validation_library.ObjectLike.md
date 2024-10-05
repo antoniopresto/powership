@@ -19,7 +19,7 @@
 
 #### Defined in
 
-packages/schema/src/fields/IObjectLike.ts:6
+[packages/schema/src/fields/IObjectLike.ts:7](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/IObjectLike.ts#L7)
 
 ___
 
@@ -33,4 +33,4 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/IObjectLike.ts:7
+[packages/schema/src/fields/IObjectLike.ts:8](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/IObjectLike.ts#L8)

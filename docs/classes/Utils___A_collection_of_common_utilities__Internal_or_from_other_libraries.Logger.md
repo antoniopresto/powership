@@ -46,7 +46,7 @@
 
 #### Defined in
 
-packages/utils/src/nodeLogger.ts:107
+[packages/utils/src/nodeLogger.ts:108](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/nodeLogger.ts#L108)
 
 ## Properties
 
@@ -56,7 +56,7 @@ packages/utils/src/nodeLogger.ts:107
 
 #### Defined in
 
-packages/utils/src/nodeLogger.ts:105
+[packages/utils/src/nodeLogger.ts:106](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/nodeLogger.ts#L106)
 
 ___
 
@@ -66,7 +66,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/nodeLogger.ts:100
+[packages/utils/src/nodeLogger.ts:101](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/nodeLogger.ts#L101)
 
 ___
 
@@ -76,7 +76,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/nodeLogger.ts:101
+[packages/utils/src/nodeLogger.ts:102](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/nodeLogger.ts#L102)
 
 ## Accessors
 
@@ -104,7 +104,7 @@ packages/utils/src/nodeLogger.ts:101
 
 #### Defined in
 
-packages/utils/src/nodeLogger.ts:204
+[packages/utils/src/nodeLogger.ts:205](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/nodeLogger.ts#L205)
 
 ___
 
@@ -132,7 +132,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/nodeLogger.ts:198
+[packages/utils/src/nodeLogger.ts:199](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/nodeLogger.ts#L199)
 
 ___
 
@@ -160,7 +160,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/nodeLogger.ts:216
+[packages/utils/src/nodeLogger.ts:217](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/nodeLogger.ts#L217)
 
 ___
 
@@ -188,7 +188,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/nodeLogger.ts:210
+[packages/utils/src/nodeLogger.ts:211](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/nodeLogger.ts#L211)
 
 ## Methods
 
@@ -208,7 +208,7 @@ packages/utils/src/nodeLogger.ts:210
 
 #### Defined in
 
-packages/utils/src/nodeLogger.ts:128
+[packages/utils/src/nodeLogger.ts:129](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/nodeLogger.ts#L129)
 
 ___
 
@@ -228,7 +228,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/nodeLogger.ts:140
+[packages/utils/src/nodeLogger.ts:141](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/nodeLogger.ts#L141)
 
 ___
 
@@ -248,7 +248,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/nodeLogger.ts:124
+[packages/utils/src/nodeLogger.ts:125](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/nodeLogger.ts#L125)
 
 ___
 
@@ -268,7 +268,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/nodeLogger.ts:136
+[packages/utils/src/nodeLogger.ts:137](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/nodeLogger.ts#L137)
 
 ___
 
@@ -289,7 +289,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/nodeLogger.ts:120
+[packages/utils/src/nodeLogger.ts:121](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/nodeLogger.ts#L121)
 
 ___
 
@@ -309,4 +309,4 @@ ___
 
 #### Defined in
 
-packages/utils/src/nodeLogger.ts:132
+[packages/utils/src/nodeLogger.ts:133](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/nodeLogger.ts#L133)

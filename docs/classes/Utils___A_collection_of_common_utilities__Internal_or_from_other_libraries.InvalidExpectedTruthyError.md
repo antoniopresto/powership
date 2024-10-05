@@ -36,4 +36,4 @@ Error.constructor
 
 #### Defined in
 
-packages/utils/src/expectedType.ts:19
+[packages/utils/src/expectedType.ts:19](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/expectedType.ts#L19)

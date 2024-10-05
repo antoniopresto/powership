@@ -39,7 +39,7 @@
 
 #### Defined in
 
-packages/accounts/src/Sessions.ts:38
+[packages/accounts/src/Sessions.ts:38](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/Sessions.ts#L38)
 
 ## Properties
 
@@ -63,7 +63,7 @@ packages/accounts/src/Sessions.ts:38
 
 #### Defined in
 
-packages/accounts/src/Sessions.ts:36
+[packages/accounts/src/Sessions.ts:36](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/Sessions.ts#L36)
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/Sessions.ts:34
+[packages/accounts/src/Sessions.ts:34](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/Sessions.ts#L34)
 
 ## Methods
 
@@ -106,7 +106,7 @@ packages/accounts/src/Sessions.ts:34
 
 #### Defined in
 
-packages/accounts/src/Sessions.ts:55
+[packages/accounts/src/Sessions.ts:55](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/Sessions.ts#L55)
 
 ___
 
@@ -132,7 +132,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/Sessions.ts:51
+[packages/accounts/src/Sessions.ts:51](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/Sessions.ts#L51)
 
 ___
 
@@ -152,7 +152,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/Sessions.ts:318
+[packages/accounts/src/Sessions.ts:318](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/Sessions.ts#L318)
 
 ___
 
@@ -174,7 +174,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/Sessions.ts:297
+[packages/accounts/src/Sessions.ts:297](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/Sessions.ts#L297)
 
 ___
 
@@ -194,7 +194,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/Sessions.ts:94
+[packages/accounts/src/Sessions.ts:94](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/Sessions.ts#L94)
 
 ___
 
@@ -217,7 +217,7 @@ tokens if session is valid
 
 #### Defined in
 
-packages/accounts/src/Sessions.ts:69
+[packages/accounts/src/Sessions.ts:69](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/Sessions.ts#L69)
 
 ___
 
@@ -247,4 +247,4 @@ Create a new session if existingSession is null
 
 #### Defined in
 
-packages/accounts/src/Sessions.ts:155
+[packages/accounts/src/Sessions.ts:155](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/Sessions.ts#L155)

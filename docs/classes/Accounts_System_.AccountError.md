@@ -45,7 +45,7 @@ Error.constructor
 
 #### Defined in
 
-packages/accounts/src/utils/AccountError.ts:9
+[packages/accounts/src/utils/AccountError.ts:9](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/AccountError.ts#L9)
 
 ## Properties
 
@@ -55,7 +55,7 @@ packages/accounts/src/utils/AccountError.ts:9
 
 #### Defined in
 
-packages/accounts/src/utils/AccountError.ts:4
+[packages/accounts/src/utils/AccountError.ts:4](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/AccountError.ts#L4)
 
 ___
 
@@ -65,7 +65,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/AccountError.ts:5
+[packages/accounts/src/utils/AccountError.ts:5](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/AccountError.ts#L5)
 
 ___
 
@@ -75,7 +75,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/AccountError.ts:7
+[packages/accounts/src/utils/AccountError.ts:7](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/AccountError.ts#L7)
 
 ## Methods
 
@@ -95,4 +95,4 @@ input is AccountError
 
 #### Defined in
 
-packages/accounts/src/utils/AccountError.ts:16
+[packages/accounts/src/utils/AccountError.ts:16](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/AccountError.ts#L16)

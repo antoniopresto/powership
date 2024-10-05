@@ -32,7 +32,7 @@
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:2
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:2
 
 ___
 
@@ -46,7 +46,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:3
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:3
 
 ___
 
@@ -60,7 +60,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:4
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:4
 
 ___
 
@@ -74,7 +74,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:5
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:5
 
 ___
 
@@ -88,4 +88,4 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:44
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:44

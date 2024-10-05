@@ -22,7 +22,7 @@
 
 #### Defined in
 
-packages/accounts/src/utils/AccountError.ts:28
+[packages/accounts/src/utils/AccountError.ts:28](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/AccountError.ts#L28)
 
 ___
 
@@ -32,7 +32,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/AccountError.ts:27
+[packages/accounts/src/utils/AccountError.ts:27](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/AccountError.ts#L27)
 
 ___
 
@@ -42,7 +42,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/AccountError.ts:26
+[packages/accounts/src/utils/AccountError.ts:26](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/AccountError.ts#L26)
 
 ___
 
@@ -52,7 +52,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/AccountError.ts:25
+[packages/accounts/src/utils/AccountError.ts:25](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/AccountError.ts#L25)
 
 ___
 
@@ -62,4 +62,4 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/AccountError.ts:24
+[packages/accounts/src/utils/AccountError.ts:24](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/AccountError.ts#L24)

@@ -20,4 +20,4 @@ Represents the extra properties accepted in field definitions
 
 #### Defined in
 
-packages/schema/lib/CustomFieldConfig.d.ts:6
+packages/schema/out/CustomFieldConfig.d.ts:6

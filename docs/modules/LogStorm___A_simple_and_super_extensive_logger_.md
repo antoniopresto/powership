@@ -42,7 +42,7 @@
 
 #### Defined in
 
-packages/logstorm/src/index.ts:30
+[packages/logstorm/src/index.ts:30](https://github.com/antoniopresto/powership/blob/2672a73/packages/logstorm/src/index.ts#L30)
 
 ___
 
@@ -52,7 +52,7 @@ ___
 
 #### Defined in
 
-packages/logstorm/src/index.ts:197
+[packages/logstorm/src/index.ts:184](https://github.com/antoniopresto/powership/blob/2672a73/packages/logstorm/src/index.ts#L184)
 
 ___
 
@@ -62,7 +62,7 @@ ___
 
 #### Defined in
 
-packages/logstorm/src/index.ts:24
+[packages/logstorm/src/index.ts:24](https://github.com/antoniopresto/powership/blob/2672a73/packages/logstorm/src/index.ts#L24)
 
 ___
 
@@ -72,7 +72,7 @@ ___
 
 #### Defined in
 
-packages/logstorm/src/index.ts:193
+[packages/logstorm/src/index.ts:180](https://github.com/antoniopresto/powership/blob/2672a73/packages/logstorm/src/index.ts#L180)
 
 ___
 
@@ -88,7 +88,7 @@ ___
 
 #### Defined in
 
-packages/logstorm/src/index.ts:189
+[packages/logstorm/src/index.ts:176](https://github.com/antoniopresto/powership/blob/2672a73/packages/logstorm/src/index.ts#L176)
 
 ## Variables
 
@@ -98,7 +98,7 @@ packages/logstorm/src/index.ts:189
 
 #### Defined in
 
-packages/logstorm/src/index.ts:28
+[packages/logstorm/src/index.ts:28](https://github.com/antoniopresto/powership/blob/2672a73/packages/logstorm/src/index.ts#L28)
 
 ___
 
@@ -108,7 +108,7 @@ ___
 
 #### Defined in
 
-packages/logstorm/src/index.ts:25
+[packages/logstorm/src/index.ts:25](https://github.com/antoniopresto/powership/blob/2672a73/packages/logstorm/src/index.ts#L25)
 
 ___
 
@@ -118,7 +118,7 @@ ___
 
 #### Defined in
 
-packages/logstorm/src/index.ts:26
+[packages/logstorm/src/index.ts:26](https://github.com/antoniopresto/powership/blob/2672a73/packages/logstorm/src/index.ts#L26)
 
 ___
 
@@ -128,7 +128,7 @@ ___
 
 #### Defined in
 
-packages/logstorm/src/index.ts:3
+[packages/logstorm/src/index.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/logstorm/src/index.ts#L3)
 
 ___
 
@@ -151,7 +151,7 @@ ___
 
 #### Defined in
 
-packages/logstorm/src/index.ts:13
+[packages/logstorm/src/index.ts:13](https://github.com/antoniopresto/powership/blob/2672a73/packages/logstorm/src/index.ts#L13)
 
 ___
 
@@ -161,7 +161,7 @@ ___
 
 #### Defined in
 
-packages/logstorm/src/index.ts:187
+[packages/logstorm/src/index.ts:174](https://github.com/antoniopresto/powership/blob/2672a73/packages/logstorm/src/index.ts#L174)
 
 ## Functions
 
@@ -181,7 +181,7 @@ packages/logstorm/src/index.ts:187
 
 #### Defined in
 
-packages/logstorm/src/index.ts:240
+[packages/logstorm/src/index.ts:227](https://github.com/antoniopresto/powership/blob/2672a73/packages/logstorm/src/index.ts#L227)
 
 ___
 
@@ -201,7 +201,7 @@ ___
 
 #### Defined in
 
-packages/logstorm/src/index.ts:244
+[packages/logstorm/src/index.ts:231](https://github.com/antoniopresto/powership/blob/2672a73/packages/logstorm/src/index.ts#L231)
 
 ___
 
@@ -223,7 +223,7 @@ ___
 
 #### Defined in
 
-packages/logstorm/src/index.ts:63
+[packages/logstorm/src/index.ts:63](https://github.com/antoniopresto/powership/blob/2672a73/packages/logstorm/src/index.ts#L63)
 
 ___
 
@@ -237,4 +237,4 @@ ___
 
 #### Defined in
 
-packages/logstorm/src/index.ts:217
+[packages/logstorm/src/index.ts:204](https://github.com/antoniopresto/powership/blob/2672a73/packages/logstorm/src/index.ts#L204)

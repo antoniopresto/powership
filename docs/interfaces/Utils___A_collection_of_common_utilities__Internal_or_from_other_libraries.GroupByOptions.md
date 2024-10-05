@@ -19,7 +19,7 @@
 
 #### Defined in
 
-packages/utils/src/Store.ts:51
+[packages/utils/src/Store.ts:51](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/Store.ts#L51)
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 #### Defined in
 
-packages/utils/src/Store.ts:52
+[packages/utils/src/Store.ts:52](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/Store.ts#L52)

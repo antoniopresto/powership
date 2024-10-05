@@ -6,7 +6,7 @@
 
 ## Implements
 
-- `Transporter`
+- `Transporter`<[`MongoClient`](Mongo_Transporter_for_Powership_.MongoClient.md)\>
 
 ## Table of contents
 
@@ -57,7 +57,7 @@
 
 #### Defined in
 
-packages/mongo/src/MongoTransporter.ts:58
+[packages/mongo/src/MongoTransporter.ts:58](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoTransporter.ts#L58)
 
 ## Properties
 
@@ -71,7 +71,7 @@ Transporter.\_client
 
 #### Defined in
 
-packages/mongo/src/MongoTransporter.ts:43
+[packages/mongo/src/MongoTransporter.ts:43](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoTransporter.ts#L43)
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/MongoTransporter.ts:68
+[packages/mongo/src/MongoTransporter.ts:68](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoTransporter.ts#L68)
 
 ___
 
@@ -91,7 +91,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/MongoTransporter.ts:53
+[packages/mongo/src/MongoTransporter.ts:53](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoTransporter.ts#L53)
 
 ## Accessors
 
@@ -105,7 +105,7 @@ packages/mongo/src/MongoTransporter.ts:53
 
 #### Defined in
 
-packages/mongo/src/MongoTransporter.ts:45
+[packages/mongo/src/MongoTransporter.ts:45](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoTransporter.ts#L45)
 
 ___
 
@@ -131,7 +131,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/MongoTransporter.ts:54
+[packages/mongo/src/MongoTransporter.ts:54](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoTransporter.ts#L54)
 
 ## Methods
 
@@ -164,7 +164,7 @@ packages/mongo/src/MongoTransporter.ts:54
 
 #### Defined in
 
-packages/mongo/src/MongoTransporter.ts:381
+[packages/mongo/src/MongoTransporter.ts:382](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoTransporter.ts#L382)
 
 ___
 
@@ -188,7 +188,7 @@ Transporter.connect
 
 #### Defined in
 
-packages/mongo/src/MongoTransporter.ts:49
+[packages/mongo/src/MongoTransporter.ts:49](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoTransporter.ts#L49)
 
 ___
 
@@ -212,7 +212,7 @@ Transporter.createOne
 
 #### Defined in
 
-packages/mongo/src/MongoTransporter.ts:70
+[packages/mongo/src/MongoTransporter.ts:70](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoTransporter.ts#L70)
 
 ___
 
@@ -236,7 +236,7 @@ Transporter.deleteMany
 
 #### Defined in
 
-packages/mongo/src/MongoTransporter.ts:499
+[packages/mongo/src/MongoTransporter.ts:504](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoTransporter.ts#L504)
 
 ___
 
@@ -260,7 +260,7 @@ Transporter.deleteOne
 
 #### Defined in
 
-packages/mongo/src/MongoTransporter.ts:480
+[packages/mongo/src/MongoTransporter.ts:482](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoTransporter.ts#L482)
 
 ___
 
@@ -284,7 +284,7 @@ Transporter.findById
 
 #### Defined in
 
-packages/mongo/src/MongoTransporter.ts:367
+[packages/mongo/src/MongoTransporter.ts:368](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoTransporter.ts#L368)
 
 ___
 
@@ -308,7 +308,7 @@ Transporter.findMany
 
 #### Defined in
 
-packages/mongo/src/MongoTransporter.ts:168
+[packages/mongo/src/MongoTransporter.ts:169](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoTransporter.ts#L169)
 
 ___
 
@@ -332,7 +332,7 @@ Transporter.findOne
 
 #### Defined in
 
-packages/mongo/src/MongoTransporter.ts:348
+[packages/mongo/src/MongoTransporter.ts:349](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoTransporter.ts#L349)
 
 ___
 
@@ -352,7 +352,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/MongoTransporter.ts:520
+[packages/mongo/src/MongoTransporter.ts:525](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoTransporter.ts#L525)
 
 ___
 
@@ -376,7 +376,7 @@ Transporter.paginate
 
 #### Defined in
 
-packages/mongo/src/MongoTransporter.ts:318
+[packages/mongo/src/MongoTransporter.ts:319](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoTransporter.ts#L319)
 
 ___
 
@@ -400,7 +400,7 @@ Transporter.updateMany
 
 #### Defined in
 
-packages/mongo/src/MongoTransporter.ts:449
+[packages/mongo/src/MongoTransporter.ts:451](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoTransporter.ts#L451)
 
 ___
 
@@ -424,4 +424,4 @@ Transporter.updateOne
 
 #### Defined in
 
-packages/mongo/src/MongoTransporter.ts:414
+[packages/mongo/src/MongoTransporter.ts:415](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/MongoTransporter.ts#L415)

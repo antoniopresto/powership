@@ -38,7 +38,7 @@
 
 #### Defined in
 
-packages/utils/src/PackageJson.ts:20
+[packages/utils/src/PackageJson.ts:20](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/PackageJson.ts#L20)
 
 ___
 
@@ -48,7 +48,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/PackageJson.ts:28
+[packages/utils/src/PackageJson.ts:28](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/PackageJson.ts#L28)
 
 ___
 
@@ -58,7 +58,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/PackageJson.ts:17
+[packages/utils/src/PackageJson.ts:17](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/PackageJson.ts#L17)
 
 ___
 
@@ -68,7 +68,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/PackageJson.ts:18
+[packages/utils/src/PackageJson.ts:18](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/PackageJson.ts#L18)
 
 ___
 
@@ -78,7 +78,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/PackageJson.ts:29
+[packages/utils/src/PackageJson.ts:29](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/PackageJson.ts#L29)
 
 ___
 
@@ -88,7 +88,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/PackageJson.ts:9
+[packages/utils/src/PackageJson.ts:9](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/PackageJson.ts#L9)
 
 ___
 
@@ -98,7 +98,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/PackageJson.ts:26
+[packages/utils/src/PackageJson.ts:26](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/PackageJson.ts#L26)
 
 ___
 
@@ -108,7 +108,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/PackageJson.ts:6
+[packages/utils/src/PackageJson.ts:6](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/PackageJson.ts#L6)
 
 ___
 
@@ -118,7 +118,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/PackageJson.ts:8
+[packages/utils/src/PackageJson.ts:8](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/PackageJson.ts#L8)
 
 ___
 
@@ -128,7 +128,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/PackageJson.ts:2
+[packages/utils/src/PackageJson.ts:2](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/PackageJson.ts#L2)
 
 ___
 
@@ -138,7 +138,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/PackageJson.ts:19
+[packages/utils/src/PackageJson.ts:19](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/PackageJson.ts#L19)
 
 ___
 
@@ -148,7 +148,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/PackageJson.ts:27
+[packages/utils/src/PackageJson.ts:27](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/PackageJson.ts#L27)
 
 ___
 
@@ -158,7 +158,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/PackageJson.ts:4
+[packages/utils/src/PackageJson.ts:4](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/PackageJson.ts#L4)
 
 ___
 
@@ -168,7 +168,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/PackageJson.ts:5
+[packages/utils/src/PackageJson.ts:5](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/PackageJson.ts#L5)
 
 ___
 
@@ -178,7 +178,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/PackageJson.ts:7
+[packages/utils/src/PackageJson.ts:7](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/PackageJson.ts#L7)
 
 ___
 
@@ -188,7 +188,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/PackageJson.ts:3
+[packages/utils/src/PackageJson.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/PackageJson.ts#L3)
 
 ___
 
@@ -198,4 +198,4 @@ ___
 
 #### Defined in
 
-packages/utils/src/PackageJson.ts:21
+[packages/utils/src/PackageJson.ts:21](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/PackageJson.ts#L21)

@@ -47,7 +47,7 @@ Error.constructor
 
 #### Defined in
 
-packages/utils/src/RuntimeError.ts:22
+[packages/utils/src/RuntimeError.ts:22](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/RuntimeError.ts#L22)
 
 • **new RuntimeError**(`message`, `details`, `options?`)
 
@@ -65,7 +65,7 @@ Error.constructor
 
 #### Defined in
 
-packages/utils/src/RuntimeError.ts:29
+[packages/utils/src/RuntimeError.ts:29](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/RuntimeError.ts#L29)
 
 ## Properties
 
@@ -75,7 +75,7 @@ packages/utils/src/RuntimeError.ts:29
 
 #### Defined in
 
-packages/utils/src/RuntimeError.ts:12
+[packages/utils/src/RuntimeError.ts:12](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/RuntimeError.ts#L12)
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/RuntimeError.ts:13
+[packages/utils/src/RuntimeError.ts:13](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/RuntimeError.ts#L13)
 
 ___
 
@@ -99,4 +99,4 @@ Error.name
 
 #### Defined in
 
-packages/utils/src/RuntimeError.ts:10
+[packages/utils/src/RuntimeError.ts:10](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/RuntimeError.ts#L10)

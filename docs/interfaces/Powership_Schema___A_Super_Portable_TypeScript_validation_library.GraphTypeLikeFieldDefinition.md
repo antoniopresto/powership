@@ -19,7 +19,7 @@
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferGraphType.ts:6
+[packages/schema/src/fields/Infer/InferGraphType.ts:6](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/InferGraphType.ts#L6)
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferGraphType.ts:7
+[packages/schema/src/fields/Infer/InferGraphType.ts:7](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/InferGraphType.ts#L7)

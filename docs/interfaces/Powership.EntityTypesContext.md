@@ -31,7 +31,7 @@
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/Context.d.ts:37
+packages/entity/out/EntityInterfaces/Context.d.ts:37
 
 ___
 
@@ -41,7 +41,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/Context.d.ts:27
+packages/entity/out/EntityInterfaces/Context.d.ts:27
 
 ___
 
@@ -51,7 +51,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/Context.d.ts:33
+packages/entity/out/EntityInterfaces/Context.d.ts:33
 
 ___
 
@@ -61,7 +61,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/Context.d.ts:15
+packages/entity/out/EntityInterfaces/Context.d.ts:15
 
 ___
 
@@ -71,7 +71,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/Context.d.ts:23
+packages/entity/out/EntityInterfaces/Context.d.ts:23
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/Context.d.ts:11
+packages/entity/out/EntityInterfaces/Context.d.ts:11
 
 ___
 
@@ -91,4 +91,4 @@ ___
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/Context.d.ts:19
+packages/entity/out/EntityInterfaces/Context.d.ts:19

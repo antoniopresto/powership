@@ -22,4 +22,4 @@
 
 #### Defined in
 
-packages/entity/lib/EntityPlugin.d.ts:10
+packages/entity/out/EntityPlugin.d.ts:10

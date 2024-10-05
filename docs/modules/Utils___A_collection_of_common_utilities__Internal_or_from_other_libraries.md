@@ -12,16 +12,17 @@
 ### Namespaces
 
 - [TU](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md)
-- [formatWithPrettier](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.formatWithPrettier.md)
-- [ufo](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.ufo.md)
 
 ### Classes
 
 - [BJSONConstructor](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.BJSONConstructor.md)
+- [Ident](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.Ident.md)
+- [IdentState](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.IdentState.md)
 - [InvalidExpectedTruthyError](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.InvalidExpectedTruthyError.md)
 - [InvalidExpectedTypeError](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.InvalidExpectedTypeError.md)
 - [Logger](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.Logger.md)
-- [MicroState](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.MicroState.md)
+- [MiniState](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.MiniState.md)
+- [RouteUtils](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.RouteUtils.md)
 - [RuntimeError](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.RuntimeError.md)
 - [Serializer](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.Serializer.md)
 - [StrictMap](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.StrictMap.md)
@@ -29,7 +30,10 @@
 ### Interfaces
 
 - [AppConfigInterface](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.AppConfigInterface.md)
+- [DateFormatI18n](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.DateFormatI18n.md)
+- [DateFormatMasks](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.DateFormatMasks.md)
 - [ErrorWithStack](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.ErrorWithStack.md)
+- [FunctionComponentLike](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.FunctionComponentLike.md)
 - [GetterAttributes](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.GetterAttributes.md)
 - [GettersConfig](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.GettersConfig.md)
 - [GroupByOptions](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.GroupByOptions.md)
@@ -39,22 +43,25 @@
 - [JoinKeyPartsOptions](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.JoinKeyPartsOptions.md)
 - [LoggerOptions](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.LoggerOptions.md)
 - [Mapper](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.Mapper.md)
-- [OnChange](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.OnChange.md)
 - [PackageJson](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.PackageJson.md)
 - [ParseCursorOptions](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.ParseCursorOptions.md)
 - [ParsedIndexCursor](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.ParsedIndexCursor.md)
+- [ReactLike](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.ReactLike.md)
+- [RouteMatcher](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.RouteMatcher.md)
 - [SerializableList](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.SerializableList.md)
 - [Store](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.Store.md)
 - [StoreOptions](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.StoreOptions.md)
 - [StrictMapOptions](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.StrictMapOptions.md)
 - [Stringifiable](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.Stringifiable.md)
-- [SubscriptionContext](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.SubscriptionContext.md)
-- [UFO](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.UFO-1.md)
-- [UseMicroState](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.UseMicroState.md)
+- [\_ExoticComponent](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries._ExoticComponent.md)
+- [\_ReactContext](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries._ReactContext.md)
+- [\_ReactElement](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries._ReactElement.md)
+- [\_ReactPortal](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries._ReactPortal.md)
 
 ### Type Aliases
 
 - [A\_Z](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#a_z)
+- [AlphaNumeric](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#alphanumeric)
 - [AnyArray](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#anyarray)
 - [AnyFunction](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#anyfunction)
 - [AnyList](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#anylist)
@@ -79,10 +86,17 @@
 - [ErrorClassCreatorOptions](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#errorclasscreatoroptions)
 - [EventMetadataBase](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#eventmetadatabase)
 - [EventMetadataObjectBase](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#eventmetadataobjectbase)
+- [ExtractRouteParams](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#extractrouteparams)
+- [ExtractStateMethods](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#extractstatemethods)
 - [ForceString](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#forcestring)
 - [GetFieldByDotNotation](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#getfieldbydotnotation)
 - [GetFieldByDotPath](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#getfieldbydotpath)
+- [GetRouteParams](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#getrouteparams)
 - [Hashable](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#hashable)
+- [Hey](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#hey)
+- [HeyParams](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#heyparams)
+- [IdentOptions](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#identoptions)
+- [IdentStyle](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#identstyle)
 - [IfExtends](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#ifextends)
 - [InternalEvent](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#internalevent)
 - [IsAny](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#isany)
@@ -92,6 +106,7 @@
 - [IsOptional](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#isoptional)
 - [IsUnknown](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#isunknown)
 - [IterationMap](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#iterationmap)
+- [JTSKey](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#jtskey)
 - [LogLevel](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#loglevel)
 - [LogLevelName](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#loglevelname)
 - [LoggerMethods](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#loggermethods)
@@ -117,6 +132,7 @@
 - [ObjectUnion](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#objectunion)
 - [OnlyKnown](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#onlyknown)
 - [Override](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#override)
+- [ParsedURL](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#parsedurl)
 - [PartialRequired](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#partialrequired)
 - [PathParsed](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#pathparsed)
 - [PathType](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#pathtype)
@@ -126,26 +142,33 @@
 - [PromiseType](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#promisetype)
 - [ProxyGetModule](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#proxygetmodule)
 - [ProxyModuleConfig](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#proxymoduleconfig)
-- [ReactLike](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#reactlike)
+- [ReactNodeLike](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#reactnodelike)
 - [RecordBy](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#recordby)
 - [RunTimeErrorOptions](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#runtimeerroroptions)
 - [Serializable](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#serializable)
 - [Simplify](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#simplify)
 - [SlugifyOptions](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#slugifyoptions)
+- [StateChangeMiddleware](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#statechangemiddleware)
+- [StatePieceListener](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#statepiecelistener)
+- [Status](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#status)
 - [StoreEvent](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#storeevent)
 - [StoreEventOptions](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#storeeventoptions)
 - [StringValue](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#stringvalue)
 - [StringifyDefaultHandler](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#stringifydefaulthandler)
 - [StringifyOptions](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#stringifyoptions)
+- [Styles](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#styles)
 - [TypeDescription](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#typedescription)
 - [TypeLike](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#typelike)
 - [UnionToIntersection](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#uniontointersection)
 - [UnknownRecord](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#unknownrecord)
 - [Unsubscribe](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#unsubscribe)
+- [WatchableResult](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#watchableresult)
 - [Writeable](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#writeable)
 - [\_Difference](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_difference)
+- [\_MethodExecutionContext](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_methodexecutioncontext)
 - [\_NullableNullable](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_nullablenullable)
 - [\_PathType](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_pathtype)
+- [\_PropsWithChildren](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_propswithchildren)
 - [\_UndefinedKeys](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_undefinedkeys)
 - [\_UnknownDiff](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_unknowndiff)
 
@@ -165,6 +188,7 @@
 - [GlobalLogger](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#globallogger)
 - [INDEX\_PART\_SEP](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#index_part_sep)
 - [INDEX\_PART\_SEP\_REGEX](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#index_part_sep_regex)
+- [IS\_BROWSER](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#is_browser)
 - [IndexCursor](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#indexcursor)
 - [InvariantError](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#invarianterror)
 - [KEY\_PART\_SEP](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#key_part_sep)
@@ -180,9 +204,12 @@
 - [RELATION\_PRECEDES](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#relation_precedes)
 - [SEP](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#sep)
 - [\_defaultLogger](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_defaultlogger)
+- [i18n](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#i18n)
+- [masks](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#masks)
 - [noop](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#noop)
 - [randomNames](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#randomnames)
 - [stringCase](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#stringcase)
+- [styles](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#styles-1)
 
 ### Array Functions
 
@@ -190,7 +217,6 @@
 
 ### Other Functions
 
-- [$](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#$)
 - [\_joinIndexCursorWithParent](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_joinindexcursorwithparent)
 - [\_parseAffectedPaths](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_parseaffectedpaths)
 - [\_parseSubIndexCursor](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_parsesubindexcursor)
@@ -212,8 +238,10 @@
 - [createErrorClass](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#createerrorclass)
 - [createModulesProxy](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#createmodulesproxy)
 - [createProxy](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#createproxy)
+- [createState](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#createstate)
 - [createStore](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#createstore)
 - [customError](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#customerror-1)
+- [dateFormat](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#dateformat)
 - [dateSerialize](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#dateserialize)
 - [deepFreeze](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#deepfreeze-1)
 - [defineGetters](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#definegetters)
@@ -231,6 +259,7 @@
 - [filterNull](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#filternull)
 - [fnv1a](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#fnv1a)
 - [formatGraphQL](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#formatgraphql)
+- [formatTimezone](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#formattimezone)
 - [formatWithPrettier](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#formatwithprettier)
 - [freeThreadID](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#freethreadid)
 - [freeze](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#freeze)
@@ -245,6 +274,7 @@
 - [hashName](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#hashname)
 - [hashObject](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#hashobject)
 - [hashString](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#hashstring)
+- [hey](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#hey-1)
 - [indexToCursor](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#indextocursor)
 - [inspect](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#inspect)
 - [inspectObject](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#inspectobject)
@@ -257,18 +287,20 @@
 - [isObjectWithoutPrototype](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#isobjectwithoutprototype)
 - [isPlainObject](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#isplainobject)
 - [isProduction](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#isproduction)
-- [isUFO](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#isufo)
 - [joinCursorPartsWithTrailingSeparator](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#joincursorpartswithtrailingseparator)
 - [joinIndexCursor](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#joinindexcursor)
 - [joinKeyParts](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#joinkeyparts)
 - [joinPKSK](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#joinpksk)
 - [joinPathsCamelCase](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#joinpathscamelcase)
 - [joinPathsSnakeCase](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#joinpathssnakecase)
+- [joinTemplateString](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#jointemplatestring)
+- [jsonClone](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#jsonclone)
+- [jsonParse](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#jsonparse)
+- [jsonStringify](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#jsonstringify)
 - [jsonToTypescript](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#jsontotypescript)
 - [keyBy](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#keyby)
 - [keys](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#keys)
 - [mapper](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#mapper)
-- [memoize](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#memoize)
 - [merge](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#merge-1)
 - [mountGraphID](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#mountgraphid)
 - [ms](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#ms)
@@ -289,28 +321,34 @@
 - [randomItem](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#randomitem)
 - [randomName](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#randomname)
 - [reduceObject](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#reduceobject)
+- [removeDiacritics](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#removediacritics)
 - [setByPath](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#setbypath)
 - [setGlobalLogLevel](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#setgloballoglevel)
-- [setPrettier](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#setprettier)
 - [simpleObjectClone](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#simpleobjectclone)
 - [simpleObjectHash](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#simpleobjecthash)
+- [skipper](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#skipper)
 - [sortObject](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#sortobject)
 - [splitCursorParts](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#splitcursorparts)
+- [streamToString](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#streamtostring)
 - [stringHash](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#stringhash)
+- [stringToValue](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#stringtovalue)
 - [stringify](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#stringify)
 - [stripTrailingIndexSep](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#striptrailingindexsep)
+- [templateStringToText](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#templatestringtotext)
 - [textToBase64](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#texttobase64)
+- [trimTabs](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#trimtabs)
+- [tryCatch](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#trycatch)
 - [tuple](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#tuple)
 - [tupleEnum](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#tupleenum)
 - [tupleNum](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#tuplenum)
-- [ufo](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#ufo)
-- [ufos](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#ufos)
 - [ulid](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#ulid)
 - [uniq](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#uniq)
 - [upperFirst](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#upperfirst)
 - [useProcess](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#useprocess)
 - [values](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#values)
+- [watchable](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#watchable)
 - [wrapError](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#wraperror)
+- [writeToStdoutSync](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#writetostdoutsync)
 
 ## References
 
@@ -332,9 +370,19 @@ Renames and re-exports [__type](Utils___A_collection_of_common_utilities__Intern
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:222
+[packages/utils/src/typings/index.ts:222](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L222)
 
-packages/utils/src/typings/index.ts:277
+[packages/utils/src/typings/index.ts:277](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L277)
+
+___
+
+### AlphaNumeric
+
+Ƭ **AlphaNumeric**: `string` \| `number`
+
+#### Defined in
+
+[packages/utils/src/routeUtils.ts:230](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/routeUtils.ts#L230)
 
 ___
 
@@ -350,7 +398,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:105
+[packages/utils/src/typings/index.ts:105](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L105)
 
 ___
 
@@ -374,7 +422,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:120
+[packages/utils/src/typings/index.ts:120](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L120)
 
 ___
 
@@ -390,7 +438,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:106
+[packages/utils/src/typings/index.ts:106](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L106)
 
 ___
 
@@ -400,7 +448,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:102
+[packages/utils/src/typings/index.ts:102](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L102)
 
 ___
 
@@ -416,7 +464,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:149
+[packages/utils/src/typings/index.ts:149](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L149)
 
 ___
 
@@ -432,7 +480,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:100
+[packages/utils/src/typings/index.ts:100](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L100)
 
 ___
 
@@ -449,7 +497,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/ts-toolbet.ts:18
+[packages/utils/src/typings/ts-toolbet.ts:18](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/ts-toolbet.ts#L18)
 
 ___
 
@@ -459,7 +507,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/areEqual.ts:9
+[packages/utils/src/areEqual.ts:9](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/areEqual.ts#L9)
 
 ___
 
@@ -477,7 +525,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:217
+[packages/utils/src/typings/index.ts:217](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L217)
 
 ___
 
@@ -495,7 +543,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:212
+[packages/utils/src/typings/index.ts:212](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L212)
 
 ___
 
@@ -512,7 +560,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/ts-toolbet.ts:32
+[packages/utils/src/typings/ts-toolbet.ts:32](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/ts-toolbet.ts#L32)
 
 ___
 
@@ -529,7 +577,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/Compute.ts:68
+[packages/utils/src/typings/Compute.ts:68](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/Compute.ts#L68)
 
 ___
 
@@ -547,7 +595,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/getTypeName.ts:192
+[packages/utils/src/getTypeName.ts:192](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getTypeName.ts#L192)
 
 ___
 
@@ -571,7 +619,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/createProxy.ts:1
+[packages/utils/src/createProxy.ts:1](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/createProxy.ts#L1)
 
 ___
 
@@ -587,7 +635,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:155
+[packages/utils/src/typings/index.ts:155](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L155)
 
 ___
 
@@ -603,7 +651,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/deepFreeze.ts:21
+[packages/utils/src/deepFreeze.ts:21](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/deepFreeze.ts#L21)
 
 ___
 
@@ -619,7 +667,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/deepFreeze.ts:25
+[packages/utils/src/deepFreeze.ts:25](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/deepFreeze.ts#L25)
 
 ___
 
@@ -635,7 +683,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/diff/diff.ts:10
+[packages/utils/src/diff/diff.ts:10](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/diff/diff.ts#L10)
 
 ___
 
@@ -645,7 +693,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/diff/diff.ts:8
+[packages/utils/src/diff/diff.ts:8](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/diff/diff.ts#L8)
 
 ___
 
@@ -655,7 +703,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/diff/diff.ts:6
+[packages/utils/src/diff/diff.ts:6](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/diff/diff.ts#L6)
 
 ___
 
@@ -671,7 +719,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:116
+[packages/utils/src/typings/index.ts:116](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L116)
 
 ___
 
@@ -689,7 +737,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/createErrorClass.ts:4
+[packages/utils/src/createErrorClass.ts:4](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/createErrorClass.ts#L4)
 
 ___
 
@@ -699,7 +747,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/Store.ts:13
+[packages/utils/src/Store.ts:13](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/Store.ts#L13)
 
 ___
 
@@ -713,7 +761,39 @@ ___
 
 #### Defined in
 
-packages/utils/src/Store.ts:12
+[packages/utils/src/Store.ts:12](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/Store.ts#L12)
+
+___
+
+### ExtractRouteParams
+
+Ƭ **ExtractRouteParams**<`Path`\>: `Path` extends \`:${infer Param}/${infer Rest}\` ? `Param` \| [`ExtractRouteParams`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#extractrouteparams)<`Rest`\> : `Path` extends \`:${infer Param}\` ? `Param` : `Path` extends \`${string}:${infer Rest}\` ? [`ExtractRouteParams`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#extractrouteparams)<\`:${Rest}\`\> : `never`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Path` | extends `string` |
+
+#### Defined in
+
+[packages/utils/src/routeUtils.ts:233](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/routeUtils.ts#L233)
+
+___
+
+### ExtractStateMethods
+
+Ƭ **ExtractStateMethods**<`T`\>: `Omit`<`T`, keyof [`MiniState`](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.MiniState.md)<{}\>\> extends infer R ? { [K in keyof R]: R[K] } & {} : `never`
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `T` |
+
+#### Defined in
+
+[packages/utils/src/state/miniState.ts:383](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/state/miniState.ts#L383)
 
 ___
 
@@ -729,7 +809,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:126
+[packages/utils/src/typings/index.ts:126](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L126)
 
 ___
 
@@ -746,7 +826,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:295
+[packages/utils/src/typings/index.ts:295](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L295)
 
 ___
 
@@ -767,7 +847,23 @@ to GetFieldByDotNotation
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:162
+[packages/utils/src/typings/index.ts:162](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L162)
+
+___
+
+### GetRouteParams
+
+Ƭ **GetRouteParams**<`Path`\>: [`IsKnown`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#isknown)<`Path`\> extends ``0`` ? {} : [[`ExtractRouteParams`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#extractrouteparams)<`Path`\>] extends [`never`] ? {} : { [K in ExtractRouteParams<Path\>]: K extends \`${string}?\` ? AlphaNumeric \| undefined : AlphaNumeric } extends infer Parsed ? { [K in ExcludeOptionalSymbol<keyof Parsed\>]: Parsed extends { [KK in \`${K}?\`]: any } ? AlphaNumeric \| undefined : AlphaNumeric } : `never`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Path` | extends `string` |
+
+#### Defined in
+
+[packages/utils/src/routeUtils.ts:243](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/routeUtils.ts#L243)
 
 ___
 
@@ -777,7 +873,59 @@ ___
 
 #### Defined in
 
-packages/utils/src/getTypeName.ts:190
+[packages/utils/src/getTypeName.ts:190](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getTypeName.ts#L190)
+
+___
+
+### Hey
+
+Ƭ **Hey**: (...`args`: [`HeyParams`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#heyparams)) => `string` & { [K in keyof Styles]: Function } & { `styles`: [`Styles`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#styles)  } & {}
+
+#### Defined in
+
+[packages/utils/src/hey.ts:117](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/hey.ts#L117)
+
+___
+
+### HeyParams
+
+Ƭ **HeyParams**: readonly [strings: TemplateStringsArray \| string \| Object, values: any[]]
+
+#### Defined in
+
+[packages/utils/src/hey.ts:112](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/hey.ts#L112)
+
+___
+
+### IdentOptions
+
+Ƭ **IdentOptions**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `children?` | [`Ident`](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.Ident.md)[] |
+| `index?` | `number` |
+| `level?` | `number` |
+| `parent?` | [`Ident`](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.Ident.md) \| ``null`` |
+| `style?` | [`IdentStyle`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#identstyle) |
+| `tabSize?` | `number` |
+| `text?` | `string` |
+
+#### Defined in
+
+[packages/utils/src/hey.ts:149](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/hey.ts#L149)
+
+___
+
+### IdentStyle
+
+Ƭ **IdentStyle**: keyof typeof `IdentPrefixes`
+
+#### Defined in
+
+[packages/utils/src/hey.ts:148](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/hey.ts#L148)
 
 ___
 
@@ -796,7 +944,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:108
+[packages/utils/src/typings/index.ts:108](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L108)
 
 ___
 
@@ -806,7 +954,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/Store.ts:10
+[packages/utils/src/Store.ts:10](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/Store.ts#L10)
 
 ___
 
@@ -822,7 +970,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:66
+[packages/utils/src/typings/index.ts:66](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L66)
 
 ___
 
@@ -838,7 +986,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:204
+[packages/utils/src/typings/index.ts:204](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L204)
 
 ___
 
@@ -854,7 +1002,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:68
+[packages/utils/src/typings/index.ts:68](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L68)
 
 ___
 
@@ -870,7 +1018,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:70
+[packages/utils/src/typings/index.ts:70](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L70)
 
 ___
 
@@ -886,7 +1034,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:74
+[packages/utils/src/typings/index.ts:74](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L74)
 
 ___
 
@@ -902,7 +1050,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:76
+[packages/utils/src/typings/index.ts:76](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L76)
 
 ___
 
@@ -1119,7 +1267,27 @@ ___
 
 #### Defined in
 
-packages/utils/src/IterationMap.ts:1
+[packages/utils/src/IterationMap.ts:1](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IterationMap.ts#L1)
+
+___
+
+### JTSKey
+
+Ƭ **JTSKey**: `Object`
+
+#### Index signature
+
+▪ [K: `string`]: `any`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `toString` | () => `string` |
+
+#### Defined in
+
+[packages/utils/src/joinTemplateString.ts:1](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/joinTemplateString.ts#L1)
 
 ___
 
@@ -1129,7 +1297,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/logLevels.ts:21
+[packages/utils/src/logLevels.ts:21](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/logLevels.ts#L21)
 
 ___
 
@@ -1139,7 +1307,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/logLevels.ts:20
+[packages/utils/src/logLevels.ts:20](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/logLevels.ts#L20)
 
 ___
 
@@ -1149,7 +1317,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/nodeLogger.ts:17
+[packages/utils/src/nodeLogger.ts:18](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/nodeLogger.ts#L18)
 
 ___
 
@@ -1165,7 +1333,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:98
+[packages/utils/src/typings/index.ts:98](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L98)
 
 ___
 
@@ -1181,7 +1349,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:94
+[packages/utils/src/typings/index.ts:94](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L94)
 
 ___
 
@@ -1201,7 +1369,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/ts-toolbet.ts:20
+[packages/utils/src/typings/ts-toolbet.ts:20](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/ts-toolbet.ts#L20)
 
 ___
 
@@ -1217,7 +1385,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/merge.ts:14
+[packages/utils/src/merge.ts:14](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/merge.ts#L14)
 
 ___
 
@@ -1234,7 +1402,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/getters/defineGetters.ts:75
+[packages/utils/src/getters/defineGetters.ts:75](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getters/defineGetters.ts#L75)
 
 ___
 
@@ -1248,7 +1416,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/createModulesProxy.ts:16
+[packages/utils/src/createModulesProxy.ts:16](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/createModulesProxy.ts#L16)
 
 ___
 
@@ -1264,7 +1432,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/createModulesProxy.ts:24
+[packages/utils/src/createModulesProxy.ts:24](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/createModulesProxy.ts#L24)
 
 ___
 
@@ -1274,7 +1442,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/getTypeName.ts:29
+[packages/utils/src/getTypeName.ts:29](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getTypeName.ts#L29)
 
 ___
 
@@ -1284,7 +1452,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/getTypeName.ts:49
+[packages/utils/src/getTypeName.ts:49](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getTypeName.ts#L49)
 
 ___
 
@@ -1300,7 +1468,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/ts-toolbet.ts:33
+[packages/utils/src/typings/ts-toolbet.ts:33](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/ts-toolbet.ts#L33)
 
 ___
 
@@ -1310,7 +1478,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:278
+[packages/utils/src/typings/index.ts:278](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L278)
 
 ___
 
@@ -1320,7 +1488,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/getTypeName.ts:179
+[packages/utils/src/getTypeName.ts:179](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getTypeName.ts#L179)
 
 ___
 
@@ -1330,7 +1498,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/getTypeName.ts:181
+[packages/utils/src/getTypeName.ts:181](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getTypeName.ts#L181)
 
 ___
 
@@ -1346,7 +1514,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/Compute.ts:10
+[packages/utils/src/typings/Compute.ts:10](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/Compute.ts#L10)
 
 ___
 
@@ -1362,7 +1530,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:127
+[packages/utils/src/typings/index.ts:127](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L127)
 
 ___
 
@@ -1379,7 +1547,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/Store.ts:28
+[packages/utils/src/Store.ts:28](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/Store.ts#L28)
 
 ___
 
@@ -1395,7 +1563,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:129
+[packages/utils/src/typings/index.ts:129](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L129)
 
 ___
 
@@ -1411,7 +1579,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/objectEntries.ts:1
+[packages/utils/src/objectEntries.ts:1](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/objectEntries.ts#L1)
 
 ___
 
@@ -1429,7 +1597,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:167
+[packages/utils/src/typings/index.ts:167](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L167)
 
 ___
 
@@ -1446,7 +1614,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:112
+[packages/utils/src/typings/index.ts:112](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L112)
 
 ___
 
@@ -1462,7 +1630,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:86
+[packages/utils/src/typings/index.ts:86](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L86)
 
 ___
 
@@ -1479,7 +1647,17 @@ ___
 
 #### Defined in
 
-packages/utils/src/override.ts:1
+[packages/utils/src/override.ts:1](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/override.ts#L1)
+
+___
+
+### ParsedURL
+
+Ƭ **ParsedURL**: { `domain`: `string` ; `hash`: `string` ; `href`: `string` ; `id`: `string` ; `pathname`: `string` ; `route`: `string` ; `search`: `string`  } & { `isAbsolutePath`: ``true``  } \| { `host`: `string` ; `hostname`: `string` ; `isAbsolutePath`: ``false`` ; `port`: `string` ; `protocol`: `string`  }
+
+#### Defined in
+
+[packages/utils/src/routeUtils.ts:204](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/routeUtils.ts#L204)
 
 ___
 
@@ -1496,7 +1674,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:282
+[packages/utils/src/typings/index.ts:282](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L282)
 
 ___
 
@@ -1523,7 +1701,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/parsePath.ts:6
+[packages/utils/src/parsePath.ts:6](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/parsePath.ts#L6)
 
 ___
 
@@ -1540,7 +1718,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/Path.ts:1
+[packages/utils/src/typings/Path.ts:1](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/Path.ts#L1)
 
 ___
 
@@ -1557,7 +1735,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/Path.ts:47
+[packages/utils/src/typings/Path.ts:47](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/Path.ts#L47)
 
 ___
 
@@ -1578,7 +1756,7 @@ to GetFieldByDotNotation
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:291
+[packages/utils/src/typings/index.ts:291](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L291)
 
 ___
 
@@ -1594,7 +1772,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/Compute.ts:14
+[packages/utils/src/typings/Compute.ts:14](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/Compute.ts#L14)
 
 ___
 
@@ -1610,7 +1788,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:96
+[packages/utils/src/typings/index.ts:96](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L96)
 
 ___
 
@@ -1634,7 +1812,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/createModulesProxy.ts:9
+[packages/utils/src/createModulesProxy.ts:9](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/createModulesProxy.ts#L9)
 
 ___
 
@@ -1658,28 +1836,17 @@ ___
 
 #### Defined in
 
-packages/utils/src/createModulesProxy.ts:11
+[packages/utils/src/createModulesProxy.ts:11](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/createModulesProxy.ts#L11)
 
 ___
 
-### ReactLike
+### ReactNodeLike
 
-Ƭ **ReactLike**: `Object`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `createContext` | [`AnyFunction`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#anyfunction) |
-| `createElement` | [`AnyFunction`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#anyfunction) |
-| `useContext` | [`AnyFunction`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#anyfunction) |
-| `useEffect` | [`AnyFunction`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#anyfunction) |
-| `useMemo` | [`AnyFunction`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#anyfunction) |
-| `useState` | [`AnyFunction`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.TU.md#anyfunction) |
+Ƭ **ReactNodeLike**: [`_ReactElement`](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries._ReactElement.md) \| `string` \| `number` \| `Iterable`<[`ReactNodeLike`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#reactnodelike)\> \| [`_ReactPortal`](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries._ReactPortal.md) \| `boolean` \| ``null`` \| `undefined`
 
 #### Defined in
 
-packages/utils/src/MicroState.ts:311
+[packages/utils/src/ReactLike.ts:13](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/ReactLike.ts#L13)
 
 ___
 
@@ -1696,7 +1863,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/Store.ts:55
+[packages/utils/src/Store.ts:55](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/Store.ts#L55)
 
 ___
 
@@ -1714,7 +1881,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/RuntimeError.ts:3
+[packages/utils/src/RuntimeError.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/RuntimeError.ts#L3)
 
 ___
 
@@ -1724,7 +1891,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:11
+[packages/utils/src/typings/index.ts:11](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L11)
 
 ___
 
@@ -1740,7 +1907,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:147
+[packages/utils/src/typings/index.ts:147](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L147)
 
 ___
 
@@ -1750,7 +1917,84 @@ ___
 
 #### Defined in
 
-packages/utils/src/slugify.ts:3
+[packages/utils/src/slugify.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/slugify.ts#L3)
+
+___
+
+### StateChangeMiddleware
+
+Ƭ **StateChangeMiddleware**<`State`, `Methods`\>: (`payload`: { `context`: [`_MethodExecutionContext`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_methodexecutioncontext)<`Methods`\> ; `draft`: `Draft`<`State`\> ; `previous`: `State` ; `cloneDraft`: () => `State`  }) => `State` \| `Draft`<`State`\> \| `void`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `State` | extends `object` |
+| `Methods` | extends `_AnyMethodsRecord` = {} |
+
+#### Type declaration
+
+▸ (`payload`): `State` \| `Draft`<`State`\> \| `void`
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `payload` | `Object` |
+| `payload.context` | [`_MethodExecutionContext`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#_methodexecutioncontext)<`Methods`\> |
+| `payload.draft` | `Draft`<`State`\> |
+| `payload.previous` | `State` |
+| `payload.cloneDraft` | () => `State` |
+
+##### Returns
+
+`State` \| `Draft`<`State`\> \| `void`
+
+#### Defined in
+
+[packages/utils/src/state/miniState.ts:373](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/state/miniState.ts#L373)
+
+___
+
+### StatePieceListener
+
+Ƭ **StatePieceListener**<`FieldState`\>: (`payload`: { `next`: `FieldState` ; `previous`: `FieldState`  }) => `void`
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `FieldState` |
+
+#### Type declaration
+
+▸ (`payload`): `void`
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `payload` | `Object` |
+| `payload.next` | `FieldState` |
+| `payload.previous` | `FieldState` |
+
+##### Returns
+
+`void`
+
+#### Defined in
+
+[packages/utils/src/state/miniState.ts:368](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/state/miniState.ts#L368)
+
+___
+
+### Status
+
+Ƭ **Status**: ``"pending"`` \| ``"resolved"`` \| ``"rejected"``
+
+#### Defined in
+
+[packages/utils/src/watchable.ts:1](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/watchable.ts#L1)
 
 ___
 
@@ -1779,7 +2023,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/Store.ts:15
+[packages/utils/src/Store.ts:15](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/Store.ts#L15)
 
 ___
 
@@ -1802,7 +2046,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/Store.ts:35
+[packages/utils/src/Store.ts:35](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/Store.ts#L35)
 
 ___
 
@@ -1812,7 +2056,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/ms.ts:46
+[packages/utils/src/ms.ts:46](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/ms.ts#L46)
 
 ___
 
@@ -1838,7 +2082,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/BJSON.ts:251
+[packages/utils/src/BJSON.ts:251](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/BJSON.ts#L251)
 
 ___
 
@@ -1857,7 +2101,17 @@ ___
 
 #### Defined in
 
-packages/utils/src/BJSON.ts:256
+[packages/utils/src/BJSON.ts:256](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/BJSON.ts#L256)
+
+___
+
+### Styles
+
+Ƭ **Styles**: typeof [`styles`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#styles-1) & {}
+
+#### Defined in
+
+[packages/utils/src/hey.ts:110](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/hey.ts#L110)
 
 ___
 
@@ -1867,7 +2121,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/getTypeName.ts:147
+[packages/utils/src/getTypeName.ts:147](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getTypeName.ts#L147)
 
 ___
 
@@ -1884,7 +2138,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:190
+[packages/utils/src/typings/index.ts:190](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L190)
 
 ___
 
@@ -1900,7 +2154,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:139
+[packages/utils/src/typings/index.ts:139](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L139)
 
 ___
 
@@ -1914,7 +2168,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:103
+[packages/utils/src/typings/index.ts:103](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L103)
 
 ___
 
@@ -1932,7 +2186,23 @@ ___
 
 #### Defined in
 
-packages/utils/src/MicroState.ts:24
+[packages/utils/src/state/miniState.ts:366](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/state/miniState.ts#L366)
+
+___
+
+### WatchableResult
+
+Ƭ **WatchableResult**<`T`\>: { `error?`: `undefined` ; `status`: ``"pending"`` ; `value?`: `undefined`  } \| { `error`: `any` ; `status`: ``"rejected"`` ; `value?`: `undefined`  } \| { `error?`: `undefined` ; `status`: ``"resolved"`` ; `value`: `T`  }
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `T` |
+
+#### Defined in
+
+[packages/utils/src/watchable.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/watchable.ts#L3)
 
 ___
 
@@ -1948,7 +2218,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:122
+[packages/utils/src/typings/index.ts:122](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L122)
 
 ___
 
@@ -1976,7 +2246,23 @@ ___
 
 #### Defined in
 
-packages/utils/src/diff/diff.ts:28
+[packages/utils/src/diff/diff.ts:28](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/diff/diff.ts#L28)
+
+___
+
+### \_MethodExecutionContext
+
+Ƭ **\_MethodExecutionContext**<`Methods`\>: { [K in keyof Methods]: Object } & {}[keyof `Methods`]
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Methods` | extends `_AnyMethodsRecord` |
+
+#### Defined in
+
+[packages/utils/src/state/miniState.ts:404](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/state/miniState.ts#L404)
 
 ___
 
@@ -1992,7 +2278,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/mapper.ts:61
+[packages/utils/src/mapper.ts:61](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/mapper.ts#L61)
 
 ___
 
@@ -2009,7 +2295,23 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/Path.ts:9
+[packages/utils/src/typings/Path.ts:9](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/Path.ts#L9)
+
+___
+
+### \_PropsWithChildren
+
+Ƭ **\_PropsWithChildren**<`P`\>: `P` & { `children?`: [`ReactNodeLike`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#reactnodelike)  }
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `P` | `unknown` |
+
+#### Defined in
+
+[packages/utils/src/ReactLike.ts:28](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/ReactLike.ts#L28)
 
 ___
 
@@ -2025,7 +2327,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/mapper.ts:52
+[packages/utils/src/mapper.ts:52](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/mapper.ts#L52)
 
 ___
 
@@ -2046,7 +2348,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/diff/diff.ts:37
+[packages/utils/src/diff/diff.ts:37](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/diff/diff.ts#L37)
 
 ## Variables
 
@@ -2056,9 +2358,9 @@ packages/utils/src/diff/diff.ts:37
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:222
+[packages/utils/src/typings/index.ts:222](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L222)
 
-packages/utils/src/typings/index.ts:277
+[packages/utils/src/typings/index.ts:277](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L277)
 
 ___
 
@@ -2068,7 +2370,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/AppConfig.ts:13
+[packages/utils/src/AppConfig.ts:13](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/AppConfig.ts#L13)
 
 ___
 
@@ -2078,7 +2380,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/BJSON.ts:375
+[packages/utils/src/BJSON.ts:375](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/BJSON.ts#L375)
 
 ___
 
@@ -2088,7 +2390,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/BJSON.ts:12
+[packages/utils/src/BJSON.ts:12](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/BJSON.ts#L12)
 
 ___
 
@@ -2098,7 +2400,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/BJSON.ts:11
+[packages/utils/src/BJSON.ts:11](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/BJSON.ts#L11)
 
 ___
 
@@ -2118,7 +2420,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/joinIndexCursor.ts:34
+[packages/utils/src/IndexCursor/joinIndexCursor.ts:34](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/joinIndexCursor.ts#L34)
 
 ___
 
@@ -2128,7 +2430,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/parseFilterCursor.ts:7
+[packages/utils/src/IndexCursor/parseFilterCursor.ts:7](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/parseFilterCursor.ts#L7)
 
 ___
 
@@ -2138,7 +2440,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/createErrorClass.ts:100
+[packages/utils/src/createErrorClass.ts:100](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/createErrorClass.ts#L100)
 
 ___
 
@@ -2148,7 +2450,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/joinIndexCursor.ts:45
+[packages/utils/src/IndexCursor/joinIndexCursor.ts:45](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/joinIndexCursor.ts#L45)
 
 ___
 
@@ -2158,7 +2460,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/joinIndexCursor.ts:44
+[packages/utils/src/IndexCursor/joinIndexCursor.ts:44](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/joinIndexCursor.ts#L44)
 
 ___
 
@@ -2168,7 +2470,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/emailRegex.ts:4
+[packages/utils/src/emailRegex.ts:4](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/emailRegex.ts#L4)
 
 ___
 
@@ -2178,7 +2480,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/nodeLogger.ts:222
+[packages/utils/src/nodeLogger.ts:223](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/nodeLogger.ts#L223)
 
 ___
 
@@ -2188,7 +2490,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/joinIndexCursor.ts:43
+[packages/utils/src/IndexCursor/joinIndexCursor.ts:43](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/joinIndexCursor.ts#L43)
 
 ___
 
@@ -2198,7 +2500,17 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/joinIndexCursor.ts:77
+[packages/utils/src/IndexCursor/joinIndexCursor.ts:77](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/joinIndexCursor.ts#L77)
+
+___
+
+### IS\_BROWSER
+
+• `Const` **IS\_BROWSER**: `boolean`
+
+#### Defined in
+
+[packages/utils/src/isBrowser.ts:1](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/isBrowser.ts#L1)
 
 ___
 
@@ -2220,7 +2532,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/IndexCursor.ts:13
+[packages/utils/src/IndexCursor/IndexCursor.ts:13](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/IndexCursor.ts#L13)
 
 ___
 
@@ -2230,7 +2542,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/invariant.ts:73
+[packages/utils/src/invariant.ts:73](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/invariant.ts#L73)
 
 ___
 
@@ -2240,7 +2552,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/joinIndexCursor.ts:46
+[packages/utils/src/IndexCursor/joinIndexCursor.ts:46](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/joinIndexCursor.ts#L46)
 
 ___
 
@@ -2250,7 +2562,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/joinIndexCursor.ts:78
+[packages/utils/src/IndexCursor/joinIndexCursor.ts:78](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/joinIndexCursor.ts#L78)
 
 ___
 
@@ -2260,7 +2572,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/getTypeName.ts:14
+[packages/utils/src/getTypeName.ts:14](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getTypeName.ts#L14)
 
 ___
 
@@ -2270,7 +2582,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/logLevels.ts:17
+[packages/utils/src/logLevels.ts:17](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/logLevels.ts#L17)
 
 ___
 
@@ -2280,7 +2592,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/logLevels.ts:18
+[packages/utils/src/logLevels.ts:18](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/logLevels.ts#L18)
 
 ___
 
@@ -2304,7 +2616,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/logLevels.ts:5
+[packages/utils/src/logLevels.ts:5](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/logLevels.ts#L5)
 
 ___
 
@@ -2314,7 +2626,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/parseIndexCursor.ts:16
+[packages/utils/src/IndexCursor/parseIndexCursor.ts:16](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/parseIndexCursor.ts#L16)
 
 ___
 
@@ -2324,7 +2636,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/parseIndexCursor.ts:17
+[packages/utils/src/IndexCursor/parseIndexCursor.ts:17](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/parseIndexCursor.ts#L17)
 
 ___
 
@@ -2334,7 +2646,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/nodeLogger.ts:221
+[packages/utils/src/nodeLogger.ts:222](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/nodeLogger.ts#L222)
 
 ___
 
@@ -2344,7 +2656,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/useProcess.ts:24
+[packages/utils/src/useProcess.ts:26](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/useProcess.ts#L26)
 
 ___
 
@@ -2354,7 +2666,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/joinIndexCursor.ts:47
+[packages/utils/src/IndexCursor/joinIndexCursor.ts:47](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/joinIndexCursor.ts#L47)
 
 ___
 
@@ -2364,7 +2676,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/BJSON.ts:5
+[packages/utils/src/BJSON.ts:5](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/BJSON.ts#L5)
 
 ___
 
@@ -2374,7 +2686,47 @@ ___
 
 #### Defined in
 
-packages/utils/src/nodeLogger.ts:19
+[packages/utils/src/nodeLogger.ts:20](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/nodeLogger.ts#L20)
+
+___
+
+### i18n
+
+• **i18n**: [`DateFormatI18n`](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.DateFormatI18n.md)
+
+Internationalization strings
+
+**`Example`**
+
+```ts
+import { i18n } from 'dateformat';
+
+i18n.dayNames = [
+    'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat',
+    'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+];
+i18n.monthNames = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
+];
+i18n.timeNames = [
+    'a', 'p', 'am', 'pm', 'A', 'P', 'AM', 'PM'
+];
+```
+
+#### Defined in
+
+[packages/utils/src/dateFormat.ts:259](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/dateFormat.ts#L259)
+
+___
+
+### masks
+
+• **masks**: [`DateFormatMasks`](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.DateFormatMasks.md)
+
+#### Defined in
+
+[packages/utils/src/dateFormat.ts:223](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/dateFormat.ts#L223)
 
 ___
 
@@ -2384,7 +2736,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:286
+[packages/utils/src/typings/index.ts:286](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L286)
 
 ___
 
@@ -2394,7 +2746,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/randomItem.ts:23
+[packages/utils/src/randomItem.ts:23](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/randomItem.ts#L23)
 
 ___
 
@@ -2411,12 +2763,40 @@ ___
 | `keep` | (`s`: `string`) => `string` |
 | `lowercase` | (`s`: `string`) => `string` |
 | `random` | (`s`: `string`) => `string` |
+| `removeDiacritics` | (`string`: `string`) => `string` |
 | `slugify` | (`s`: `string`) => `string` |
+| `snakeCase` | (`s`: `string`) => `string` |
 | `undefined` | (`s`: `string`) => `string` |
+| `valuefy` | (`string`: `string`) => `string` |
 
 #### Defined in
 
-packages/utils/src/stringCase.ts:19
+[packages/utils/src/stringCase.ts:28](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/stringCase.ts#L28)
+
+___
+
+### styles
+
+• `Const` **styles**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `blue` | `string` |
+| `bold` | `string` |
+| `error` | `string` |
+| `green` | `string` |
+| `red` | `string` |
+| `reset` | `string` |
+| `strike` | `string` |
+| `underline` | `string` |
+| `warn` | `string` |
+| `yellow` | `string` |
+
+#### Defined in
+
+[packages/utils/src/hey.ts:16](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/hey.ts#L16)
 
 ## Array Functions
 
@@ -2464,32 +2844,6 @@ ___
 
 ## Other Functions
 
-### $
-
-▸ **$**<`V`\>(`current`): [`UFO`](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.UFO-1.md)<`V`\>
-
-#### Type parameters
-
-| Name |
-| :------ |
-| `V` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `current` | `V` |
-
-#### Returns
-
-[`UFO`](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.UFO-1.md)<`V`\>
-
-#### Defined in
-
-packages/utils/src/ufo.ts:8
-
-___
-
 ### \_joinIndexCursorWithParent
 
 ▸ **_joinIndexCursorWithParent**(`init`, `options`): `string`
@@ -2507,7 +2861,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/joinIndexCursor.ts:114
+[packages/utils/src/IndexCursor/joinIndexCursor.ts:114](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/joinIndexCursor.ts#L114)
 
 ___
 
@@ -2527,7 +2881,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/parsePath.ts:85
+[packages/utils/src/parsePath.ts:85](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/parsePath.ts#L85)
 
 ___
 
@@ -2550,7 +2904,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/parseIndexCursor.ts:84
+[packages/utils/src/IndexCursor/parseIndexCursor.ts:84](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/parseIndexCursor.ts#L84)
 
 ___
 
@@ -2570,7 +2924,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/parsePath.ts:63
+[packages/utils/src/parsePath.ts:63](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/parsePath.ts#L63)
 
 ___
 
@@ -2590,7 +2944,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/simpleObjectHash.ts:11
+[packages/utils/src/simpleObjectHash.ts:11](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/simpleObjectHash.ts#L11)
 
 ___
 
@@ -2611,7 +2965,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/BJSON.ts:287
+[packages/utils/src/BJSON.ts:287](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/BJSON.ts#L287)
 
 ___
 
@@ -2625,7 +2979,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/threadId.ts:35
+[packages/utils/src/threadId.ts:35](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/threadId.ts#L35)
 
 ___
 
@@ -2646,7 +3000,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/diff/diff.ts:175
+[packages/utils/src/diff/diff.ts:175](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/diff/diff.ts#L175)
 
 ___
 
@@ -2667,7 +3021,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/areEqual.ts:5
+[packages/utils/src/areEqual.ts:5](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/areEqual.ts#L5)
 
 ___
 
@@ -2696,7 +3050,7 @@ asserts value is ToBe extends Assertable ? ToBe : never
 
 #### Defined in
 
-packages/utils/src/areEqual.ts:19
+[packages/utils/src/areEqual.ts:19](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/areEqual.ts#L19)
 
 ___
 
@@ -2716,7 +3070,7 @@ asserts e is ErrorWithStack
 
 #### Defined in
 
-packages/utils/src/invariant.ts:94
+[packages/utils/src/invariant.ts:94](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/invariant.ts#L94)
 
 ___
 
@@ -2744,7 +3098,7 @@ asserts b is A
 
 #### Defined in
 
-packages/utils/src/assertSame.ts:4
+[packages/utils/src/assertSame.ts:4](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/assertSame.ts#L4)
 
 ___
 
@@ -2772,7 +3126,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/expectedType.ts:26
+[packages/utils/src/expectedType.ts:26](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/expectedType.ts#L26)
 
 ___
 
@@ -2798,7 +3152,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/awaitSync.ts:3
+[packages/utils/src/awaitSync.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/awaitSync.ts#L3)
 
 ___
 
@@ -2818,7 +3172,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/textToBase64.ts:14
+[packages/utils/src/textToBase64.ts:14](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/textToBase64.ts#L14)
 
 ___
 
@@ -2838,13 +3192,13 @@ ___
 
 #### Defined in
 
-packages/utils/src/stringCase.ts:7
+[packages/utils/src/stringCase.ts:8](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/stringCase.ts#L8)
 
 ___
 
 ### captureStackTrace
 
-▸ **captureStackTrace**(`error`, `parent?`): `void`
+▸ **captureStackTrace**(`error`, `parent?`): `any`
 
 #### Parameters
 
@@ -2855,11 +3209,11 @@ ___
 
 #### Returns
 
-`void`
+`any`
 
 #### Defined in
 
-packages/utils/src/stackTrace.ts:9
+[packages/utils/src/stackTrace.ts:9](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/stackTrace.ts#L9)
 
 ___
 
@@ -2879,7 +3233,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/conust.ts:168
+[packages/utils/src/conust.ts:168](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/conust.ts#L168)
 
 ___
 
@@ -2900,7 +3254,7 @@ typeof `InvariantError`
 
 #### Defined in
 
-packages/utils/src/createErrorClass.ts:18
+[packages/utils/src/createErrorClass.ts:18](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/createErrorClass.ts#L18)
 
 ___
 
@@ -2926,7 +3280,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/createModulesProxy.ts:31
+[packages/utils/src/createModulesProxy.ts:31](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/createModulesProxy.ts#L31)
 
 ___
 
@@ -2953,7 +3307,33 @@ ___
 
 #### Defined in
 
-packages/utils/src/createProxy.ts:13
+[packages/utils/src/createProxy.ts:13](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/createProxy.ts#L13)
+
+___
+
+### createState
+
+▸ **createState**<`Value`\>(`initial`): [`MiniState`](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.MiniState.md)<`Value`, {}\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Value` | extends `object` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `initial` | `Value` |
+
+#### Returns
+
+[`MiniState`](../classes/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.MiniState.md)<`Value`, {}\>
+
+#### Defined in
+
+[packages/utils/src/state/miniState.ts:232](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/state/miniState.ts#L232)
 
 ___
 
@@ -2979,7 +3359,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/Store.ts:141
+[packages/utils/src/Store.ts:141](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/Store.ts#L141)
 
 ___
 
@@ -3002,7 +3382,50 @@ ___
 
 #### Defined in
 
-packages/utils/src/createErrorClass.ts:102
+[packages/utils/src/createErrorClass.ts:102](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/createErrorClass.ts#L102)
+
+___
+
+### dateFormat
+
+▸ **dateFormat**(`date?`, `mask?`, `utc?`, `gmt?`): `string`
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `date?` | `string` \| `number` \| `Date` | Defaults to the current date/time. |
+| `mask?` | `string` | Defaults to `masks.default`. |
+| `utc?` | `boolean` |  |
+| `gmt?` | `boolean` |  |
+
+#### Returns
+
+`string`
+
+A formatted version of the given date.
+
+#### Defined in
+
+[packages/utils/src/dateFormat.ts:22](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/dateFormat.ts#L22)
+
+▸ **dateFormat**(`mask?`, `utc?`, `gmt?`): `string`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `mask?` | `string` |
+| `utc?` | `boolean` |
+| `gmt?` | `boolean` |
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+[packages/utils/src/dateFormat.ts:28](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/dateFormat.ts#L28)
 
 ___
 
@@ -3022,7 +3445,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/dateSerialize.ts:1
+[packages/utils/src/dateSerialize.ts:1](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/dateSerialize.ts#L1)
 
 ___
 
@@ -3048,7 +3471,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/deepFreeze.ts:4
+[packages/utils/src/deepFreeze.ts:4](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/deepFreeze.ts#L4)
 
 ___
 
@@ -3077,7 +3500,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/getters/defineGetters.ts:18
+[packages/utils/src/getters/defineGetters.ts:18](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getters/defineGetters.ts#L18)
 
 ___
 
@@ -3097,7 +3520,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/delay.ts:1
+[packages/utils/src/delay.ts:1](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/delay.ts#L1)
 
 ___
 
@@ -3117,7 +3540,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/getTypeName.ts:72
+[packages/utils/src/getTypeName.ts:72](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getTypeName.ts#L72)
 
 ___
 
@@ -3148,7 +3571,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/getTypeName.ts:149
+[packages/utils/src/getTypeName.ts:149](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getTypeName.ts#L149)
 
 ___
 
@@ -3172,7 +3595,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/devAssert.ts:3
+[packages/utils/src/devAssert.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/devAssert.ts#L3)
 
 ___
 
@@ -3196,7 +3619,7 @@ Returns a list of differences between two types
 
 #### Defined in
 
-packages/utils/src/diff/diff.ts:54
+[packages/utils/src/diff/diff.ts:54](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/diff/diff.ts#L54)
 
 ___
 
@@ -3216,7 +3639,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/conust.ts:110
+[packages/utils/src/conust.ts:110](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/conust.ts#L110)
 
 ___
 
@@ -3242,7 +3665,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/ensureArray.ts:1
+[packages/utils/src/ensureArray.ts:1](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/ensureArray.ts#L1)
 
 ___
 
@@ -3268,7 +3691,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/objectEntries.ts:7
+[packages/utils/src/objectEntries.ts:7](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/objectEntries.ts#L7)
 
 ___
 
@@ -3288,7 +3711,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/joinIndexCursor.ts:80
+[packages/utils/src/IndexCursor/joinIndexCursor.ts:80](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/joinIndexCursor.ts#L80)
 
 ___
 
@@ -3308,7 +3731,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/scapeRegex.ts:2
+[packages/utils/src/scapeRegex.ts:2](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/scapeRegex.ts#L2)
 
 ___
 
@@ -3336,7 +3759,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/expectedType.ts:26
+[packages/utils/src/expectedType.ts:26](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/expectedType.ts#L26)
 
 ___
 
@@ -3362,7 +3785,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/filterNull.ts:1
+[packages/utils/src/filterNull.ts:1](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/filterNull.ts#L1)
 
 ___
 
@@ -3382,7 +3805,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/fvn1a.ts:5
+[packages/utils/src/fvn1a.ts:5](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/fvn1a.ts#L5)
 
 ___
 
@@ -3402,7 +3825,33 @@ ___
 
 #### Defined in
 
-packages/utils/src/formatGraphQL.ts:3
+[packages/utils/src/formatGraphQL.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/formatGraphQL.ts#L3)
+
+___
+
+### formatTimezone
+
+▸ **formatTimezone**(`date`): `string`
+
+Get proper timezone abbreviation or timezone offset.
+
+This will fall back to `GMT+xxxx` if it does not recognize the
+timezone within the `timezone` RegEx above. Currently only common
+American and Australian timezone abbreviations are supported.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `date` | `any` |
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+[packages/utils/src/dateFormat.ts:408](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/dateFormat.ts#L408)
 
 ___
 
@@ -3423,7 +3872,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/formatWithPrettier.ts:5
+[packages/utils/src/formatWithPrettier.ts:5](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/formatWithPrettier.ts#L5)
 
 ___
 
@@ -3443,7 +3892,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/threadId.ts:44
+[packages/utils/src/threadId.ts:44](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/threadId.ts#L44)
 
 ___
 
@@ -3469,7 +3918,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/deepFreeze.ts:4
+[packages/utils/src/deepFreeze.ts:4](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/deepFreeze.ts#L4)
 
 ___
 
@@ -3483,7 +3932,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/logLevels.ts:31
+[packages/utils/src/logLevels.ts:31](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/logLevels.ts#L31)
 
 ___
 
@@ -3509,7 +3958,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/getKeys.ts:4
+[packages/utils/src/getKeys.ts:4](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getKeys.ts#L4)
 
 ___
 
@@ -3529,7 +3978,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/logLevels.ts:43
+[packages/utils/src/logLevels.ts:43](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/logLevels.ts#L43)
 
 ___
 
@@ -3549,7 +3998,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/getTypeName.ts:31
+[packages/utils/src/getTypeName.ts:31](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getTypeName.ts#L31)
 
 ___
 
@@ -3571,7 +4020,7 @@ Returns a string representation of the constructor of the given value if a simpl
 
 #### Defined in
 
-packages/utils/src/getTypeName.ts:55
+[packages/utils/src/getTypeName.ts:55](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getTypeName.ts#L55)
 
 ___
 
@@ -3591,7 +4040,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/stackTrace.ts:1
+[packages/utils/src/stackTrace.ts:1](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/stackTrace.ts#L1)
 
 ___
 
@@ -3611,7 +4060,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/getTypeName.ts:8
+[packages/utils/src/getTypeName.ts:8](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getTypeName.ts#L8)
 
 ___
 
@@ -3638,7 +4087,7 @@ obj is { [K in string]: unknown }
 
 #### Defined in
 
-packages/utils/src/getKeys.ts:15
+[packages/utils/src/getKeys.ts:15](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getKeys.ts#L15)
 
 ___
 
@@ -3658,7 +4107,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/hashString.ts:7
+[packages/utils/src/hashString.ts:7](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/hashString.ts#L7)
 
 ___
 
@@ -3678,7 +4127,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/hashObject.ts:3
+[packages/utils/src/hashObject.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/hashObject.ts#L3)
 
 ___
 
@@ -3698,7 +4147,27 @@ ___
 
 #### Defined in
 
-packages/utils/src/hashString.ts:3
+[packages/utils/src/hashString.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/hashString.ts#L3)
+
+___
+
+### hey
+
+▸ **hey**(`...args`): `string`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `...args` | [`HeyParams`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#heyparams) |
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+[packages/utils/src/hey.ts:118](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/hey.ts#L118)
 
 ___
 
@@ -3725,7 +4194,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/parseIndexCursor.ts:152
+[packages/utils/src/IndexCursor/parseIndexCursor.ts:152](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/parseIndexCursor.ts#L152)
 
 ___
 
@@ -3746,7 +4215,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/nodeLogger.ts:224
+[packages/utils/src/nodeLogger.ts:225](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/nodeLogger.ts#L225)
 
 ___
 
@@ -3768,7 +4237,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/inspectObject.ts:14
+[packages/utils/src/inspectObject.ts:14](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/inspectObject.ts#L14)
 
 ___
 
@@ -3790,7 +4259,7 @@ asserts truthy
 
 #### Defined in
 
-packages/utils/src/invariant.ts:109
+[packages/utils/src/invariant.ts:110](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/invariant.ts#L110)
 
 ___
 
@@ -3813,7 +4282,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/invariant.ts:127
+[packages/utils/src/invariant.ts:128](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/invariant.ts#L128)
 
 ___
 
@@ -3827,7 +4296,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/isBrowser.ts:1
+[packages/utils/src/isBrowser.ts:15](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/isBrowser.ts#L15)
 
 ___
 
@@ -3847,7 +4316,7 @@ t is ErrorWithStack
 
 #### Defined in
 
-packages/utils/src/invariant.ts:100
+[packages/utils/src/invariant.ts:100](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/invariant.ts#L100)
 
 ___
 
@@ -3867,7 +4336,7 @@ value is "error" \| "emerg" \| "alert" \| "crit" \| "warning" \| "notice" \| "in
 
 #### Defined in
 
-packages/utils/src/logLevels.ts:27
+[packages/utils/src/logLevels.ts:27](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/logLevels.ts#L27)
 
 ___
 
@@ -3887,7 +4356,7 @@ value is AnyRecord
 
 #### Defined in
 
-packages/utils/src/isObject.ts:3
+[packages/utils/src/isObject.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/isObject.ts#L3)
 
 ___
 
@@ -3907,7 +4376,7 @@ value is Record<string, any\>
 
 #### Defined in
 
-packages/utils/src/getTypeName.ts:68
+[packages/utils/src/getTypeName.ts:68](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getTypeName.ts#L68)
 
 ___
 
@@ -3927,7 +4396,7 @@ value is AnyRecord
 
 #### Defined in
 
-packages/utils/src/isObject.ts:7
+[packages/utils/src/isObject.ts:7](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/isObject.ts#L7)
 
 ___
 
@@ -3941,27 +4410,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/env.ts:3
-
-___
-
-### isUFO
-
-▸ **isUFO**(`input`): input is UFO<unknown\>
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `input` | `any` |
-
-#### Returns
-
-input is UFO<unknown\>
-
-#### Defined in
-
-packages/utils/src/ufo.ts:29
+[packages/utils/src/env.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/env.ts#L3)
 
 ___
 
@@ -3981,7 +4430,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/joinIndexCursor.ts:136
+[packages/utils/src/IndexCursor/joinIndexCursor.ts:136](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/joinIndexCursor.ts#L136)
 
 ___
 
@@ -4002,7 +4451,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/joinIndexCursor.ts:50
+[packages/utils/src/IndexCursor/joinIndexCursor.ts:50](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/joinIndexCursor.ts#L50)
 
 ___
 
@@ -4023,7 +4472,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/joinIndexCursor.ts:86
+[packages/utils/src/IndexCursor/joinIndexCursor.ts:86](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/joinIndexCursor.ts#L86)
 
 ___
 
@@ -4046,7 +4495,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/joinIndexCursor.ts:94
+[packages/utils/src/IndexCursor/joinIndexCursor.ts:94](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/joinIndexCursor.ts#L94)
 
 ___
 
@@ -4066,7 +4515,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/stringCase.ts:11
+[packages/utils/src/stringCase.ts:12](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/stringCase.ts#L12)
 
 ___
 
@@ -4086,7 +4535,99 @@ ___
 
 #### Defined in
 
-packages/utils/src/stringCase.ts:15
+[packages/utils/src/stringCase.ts:16](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/stringCase.ts#L16)
+
+___
+
+### joinTemplateString
+
+▸ **joinTemplateString**(`strings`, `keys?`): `Object`
+
+#### Parameters
+
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `strings` | `TemplateStringsArray` | `undefined` |
+| `keys` | [`JTSKey`](Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.md#jtskey)[] | `[]` |
+
+#### Returns
+
+`Object`
+
+| Name | Type |
+| :------ | :------ |
+| `mediaRules` | `string`[] |
+| `root` | `string` |
+
+#### Defined in
+
+[packages/utils/src/joinTemplateString.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/joinTemplateString.ts#L3)
+
+___
+
+### jsonClone
+
+▸ **jsonClone**<`T`\>(`value`): `T`
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `T` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `value` | `T` |
+
+#### Returns
+
+`T`
+
+#### Defined in
+
+[packages/utils/src/jsonClone.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/jsonClone.ts#L3)
+
+___
+
+### jsonParse
+
+▸ **jsonParse**(`input`): [[`ErrorWithStack`](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.ErrorWithStack.md), ``null``] \| [``null``, `Record`<`string`, `any`\>]
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `input` | `unknown` |
+
+#### Returns
+
+[[`ErrorWithStack`](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.ErrorWithStack.md), ``null``] \| [``null``, `Record`<`string`, `any`\>]
+
+#### Defined in
+
+[packages/utils/src/jsonClone.ts:11](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/jsonClone.ts#L11)
+
+___
+
+### jsonStringify
+
+▸ **jsonStringify**(`input`): [[`ErrorWithStack`](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.ErrorWithStack.md), ``null``] \| [``null``, `string`]
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `input` | `unknown` |
+
+#### Returns
+
+[[`ErrorWithStack`](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.ErrorWithStack.md), ``null``] \| [``null``, `string`]
+
+#### Defined in
+
+[packages/utils/src/jsonClone.ts:7](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/jsonClone.ts#L7)
 
 ___
 
@@ -4108,7 +4649,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/jsonToTypescript.ts:7
+[packages/utils/src/jsonToTypescript.ts:9](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/jsonToTypescript.ts#L9)
 
 ___
 
@@ -4137,7 +4678,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/keyBy.ts:1
+[packages/utils/src/keyBy.ts:1](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/keyBy.ts#L1)
 
 ___
 
@@ -4163,7 +4704,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/objectEntries.ts:11
+[packages/utils/src/objectEntries.ts:11](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/objectEntries.ts#L11)
 
 ___
 
@@ -4189,27 +4730,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/mapper.ts:14
-
-___
-
-### memoize
-
-▸ **memoize**(`...args`): `any`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `...args` | `any`[] |
-
-#### Returns
-
-`any`
-
-#### Defined in
-
-packages/utils/src/memoize.ts:10
+[packages/utils/src/mapper.ts:14](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/mapper.ts#L14)
 
 ___
 
@@ -4235,7 +4756,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/merge.ts:5
+[packages/utils/src/merge.ts:5](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/merge.ts#L5)
 
 ___
 
@@ -4256,7 +4777,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/parseFilterCursor.ts:10
+[packages/utils/src/IndexCursor/parseFilterCursor.ts:10](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/parseFilterCursor.ts#L10)
 
 ___
 
@@ -4283,7 +4804,7 @@ Error if `value` is not a non-empty string or a number
 
 #### Defined in
 
-packages/utils/src/ms.ts:65
+[packages/utils/src/ms.ts:65](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/ms.ts#L65)
 
 ▸ **ms**(`value`, `options?`): `string`
 
@@ -4300,7 +4821,7 @@ packages/utils/src/ms.ts:65
 
 #### Defined in
 
-packages/utils/src/ms.ts:66
+[packages/utils/src/ms.ts:66](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/ms.ts#L66)
 
 ___
 
@@ -4327,7 +4848,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/invariant.ts:20
+[packages/utils/src/invariant.ts:20](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/invariant.ts#L20)
 
 ___
 
@@ -4354,7 +4875,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/invariant.ts:55
+[packages/utils/src/invariant.ts:55](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/invariant.ts#L55)
 
 ___
 
@@ -4380,7 +4901,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/getKeys.ts:10
+[packages/utils/src/getKeys.ts:10](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/getKeys.ts#L10)
 
 ___
 
@@ -4408,7 +4929,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/override.ts:5
+[packages/utils/src/override.ts:5](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/override.ts#L5)
 
 ___
 
@@ -4428,7 +4949,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/parseFilterCursor.ts:15
+[packages/utils/src/IndexCursor/parseFilterCursor.ts:15](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/parseFilterCursor.ts#L15)
 
 ___
 
@@ -4449,7 +4970,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/parseIndexCursor.ts:19
+[packages/utils/src/IndexCursor/parseIndexCursor.ts:19](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/parseIndexCursor.ts#L19)
 
 ___
 
@@ -4470,7 +4991,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/parseIndexFieldName.ts:1
+[packages/utils/src/IndexCursor/parseIndexFieldName.ts:1](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/parseIndexFieldName.ts#L1)
 
 ___
 
@@ -4490,7 +5011,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/parsePath.ts:15
+[packages/utils/src/parsePath.ts:15](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/parsePath.ts#L15)
 
 ___
 
@@ -4520,7 +5041,7 @@ Pick one object property by path
 
 #### Defined in
 
-packages/utils/src/pick.ts:9
+[packages/utils/src/pick.ts:9](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/pick.ts#L9)
 
 ___
 
@@ -4540,7 +5061,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/pluralize.ts:56
+[packages/utils/src/pluralize.ts:56](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/pluralize.ts#L56)
 
 ___
 
@@ -4568,7 +5089,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/project.ts:5
+[packages/utils/src/project.ts:5](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/project.ts#L5)
 
 ___
 
@@ -4594,7 +5115,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/createProxy.ts:7
+[packages/utils/src/createProxy.ts:7](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/createProxy.ts#L7)
 
 ___
 
@@ -4614,7 +5135,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/joinIndexCursor.ts:167
+[packages/utils/src/IndexCursor/joinIndexCursor.ts:167](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/joinIndexCursor.ts#L167)
 
 ___
 
@@ -4635,7 +5156,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/randomInt.ts:1
+[packages/utils/src/randomInt.ts:1](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/randomInt.ts#L1)
 
 ___
 
@@ -4661,7 +5182,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/randomItem.ts:4
+[packages/utils/src/randomItem.ts:4](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/randomItem.ts#L4)
 
 ___
 
@@ -4675,7 +5196,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/randomItem.ts:18
+[packages/utils/src/randomItem.ts:18](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/randomItem.ts#L18)
 
 ___
 
@@ -4703,7 +5224,27 @@ ___
 
 #### Defined in
 
-packages/utils/src/reduceObject.ts:1
+[packages/utils/src/reduceObject.ts:1](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/reduceObject.ts#L1)
+
+___
+
+### removeDiacritics
+
+▸ **removeDiacritics**(`string`): `string`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `string` | `string` |
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+[packages/utils/src/stringCase.ts:20](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/stringCase.ts#L20)
 
 ___
 
@@ -4732,7 +5273,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/setByPath.ts:3
+[packages/utils/src/setByPath.ts:6](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/setByPath.ts#L6)
 
 ___
 
@@ -4752,33 +5293,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/logLevels.ts:35
-
-___
-
-### setPrettier
-
-▸ **setPrettier**<`Prettier`\>(`prettier`): `void`
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Prettier` | extends `Object` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `prettier` | `Prettier` |
-
-#### Returns
-
-`void`
-
-#### Defined in
-
-packages/utils/src/formatWithPrettier.ts:22
+[packages/utils/src/logLevels.ts:35](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/logLevels.ts#L35)
 
 ___
 
@@ -4806,7 +5321,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/simpleObjectClone.ts:7
+[packages/utils/src/simpleObjectClone.ts:7](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/simpleObjectClone.ts#L7)
 
 ___
 
@@ -4826,7 +5341,33 @@ ___
 
 #### Defined in
 
-packages/utils/src/simpleObjectHash.ts:7
+[packages/utils/src/simpleObjectHash.ts:7](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/simpleObjectHash.ts#L7)
+
+___
+
+### skipper
+
+▸ **skipper**<`T`\>(`callback`): `T`
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `T` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `callback` | (`skip`: (`value`: `T`) => `T`) => `T` |
+
+#### Returns
+
+`T`
+
+#### Defined in
+
+[packages/utils/src/skipper.ts:1](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/skipper.ts#L1)
 
 ___
 
@@ -4853,7 +5394,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/sortObject.ts:4
+[packages/utils/src/sortObject.ts:4](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/sortObject.ts#L4)
 
 ___
 
@@ -4873,7 +5414,27 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/joinIndexCursor.ts:148
+[packages/utils/src/IndexCursor/joinIndexCursor.ts:148](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/joinIndexCursor.ts#L148)
+
+___
+
+### streamToString
+
+▸ **streamToString**(`stream`): `Promise`<`string`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `stream` | `ReadableStream`<`Uint8Array`\> |
+
+#### Returns
+
+`Promise`<`string`\>
+
+#### Defined in
+
+[packages/utils/src/streamToString.ts:1](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/streamToString.ts#L1)
 
 ___
 
@@ -4893,7 +5454,27 @@ ___
 
 #### Defined in
 
-packages/utils/src/hashString.ts:3
+[packages/utils/src/hashString.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/hashString.ts#L3)
+
+___
+
+### stringToValue
+
+▸ **stringToValue**(`string`): `string`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `string` | `string` |
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+[packages/utils/src/stringCase.ts:24](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/stringCase.ts#L24)
 
 ___
 
@@ -4914,7 +5495,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/BJSON.ts:268
+[packages/utils/src/BJSON.ts:268](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/BJSON.ts#L268)
 
 ___
 
@@ -4934,7 +5515,34 @@ ___
 
 #### Defined in
 
-packages/utils/src/IndexCursor/joinIndexCursor.ts:163
+[packages/utils/src/IndexCursor/joinIndexCursor.ts:163](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/IndexCursor/joinIndexCursor.ts#L163)
+
+___
+
+### templateStringToText
+
+▸ **templateStringToText**<`T`\>(`input`, `...values`): `any`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `input` | `string` \| `TemplateStringsArray` |
+| `...values` | `T`[] |
+
+#### Returns
+
+`any`
+
+#### Defined in
+
+[packages/utils/src/hey.ts:95](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/hey.ts#L95)
 
 ___
 
@@ -4954,7 +5562,54 @@ ___
 
 #### Defined in
 
-packages/utils/src/textToBase64.ts:4
+[packages/utils/src/textToBase64.ts:4](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/textToBase64.ts#L4)
+
+___
+
+### trimTabs
+
+▸ **trimTabs**(`input`, `...values`): `string`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `input` | `string` \| `TemplateStringsArray` |
+| `...values` | `any`[] |
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+[packages/utils/src/hey.ts:75](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/hey.ts#L75)
+
+___
+
+### tryCatch
+
+▸ **tryCatch**<`T`\>(`fn`): [`T`] extends [`Promise`<infer R\>] ? `Promise`<[[`ErrorWithStack`](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.ErrorWithStack.md), ``null``] \| [``null``, `R`]\> : [[`ErrorWithStack`](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.ErrorWithStack.md), ``null``] \| [``null``, `T`]
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `T` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `fn` | () => `T` |
+
+#### Returns
+
+[`T`] extends [`Promise`<infer R\>] ? `Promise`<[[`ErrorWithStack`](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.ErrorWithStack.md), ``null``] \| [``null``, `R`]\> : [[`ErrorWithStack`](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.ErrorWithStack.md), ``null``] \| [``null``, `T`]
+
+#### Defined in
+
+[packages/utils/src/tryCatch.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/tryCatch.ts#L3)
 
 ___
 
@@ -4980,7 +5635,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:9
+[packages/utils/src/typings/index.ts:9](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L9)
 
 ___
 
@@ -5006,7 +5661,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:21
+[packages/utils/src/typings/index.ts:21](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L21)
 
 ___
 
@@ -5032,59 +5687,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/index.ts:19
-
-___
-
-### ufo
-
-▸ **ufo**<`V`\>(`current`): [`UFO`](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.UFO-1.md)<`V`\>
-
-#### Type parameters
-
-| Name |
-| :------ |
-| `V` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `current` | `V` |
-
-#### Returns
-
-[`UFO`](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.UFO-1.md)<`V`\>
-
-#### Defined in
-
-packages/utils/src/ufo.ts:8
-
-___
-
-### ufos
-
-▸ **ufos**<`V`\>(`current`): [`UFO`](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.UFO-1.md)<`V`\>
-
-#### Type parameters
-
-| Name |
-| :------ |
-| `V` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `current` | `V` |
-
-#### Returns
-
-[`UFO`](../interfaces/Utils___A_collection_of_common_utilities__Internal_or_from_other_libraries.UFO-1.md)<`V`\>
-
-#### Defined in
-
-packages/utils/src/ufo.ts:8
+[packages/utils/src/typings/index.ts:19](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/index.ts#L19)
 
 ___
 
@@ -5104,7 +5707,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/ulid.ts:3
+[packages/utils/src/ulid.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/ulid.ts#L3)
 
 ___
 
@@ -5130,7 +5733,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/uniq.ts:6
+[packages/utils/src/uniq.ts:4](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/uniq.ts#L4)
 
 ___
 
@@ -5150,7 +5753,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/upperFirst.ts:1
+[packages/utils/src/upperFirst.ts:1](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/upperFirst.ts#L1)
 
 ___
 
@@ -5164,7 +5767,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/useProcess.ts:9
+[packages/utils/src/useProcess.ts:11](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/useProcess.ts#L11)
 
 ___
 
@@ -5190,7 +5793,33 @@ ___
 
 #### Defined in
 
-packages/utils/src/objectEntries.ts:15
+[packages/utils/src/objectEntries.ts:15](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/objectEntries.ts#L15)
+
+___
+
+### watchable
+
+▸ **watchable**<`T`\>(`callback`): `T` & () => `T`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends `object` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `callback` | () => `T` |
+
+#### Returns
+
+`T` & () => `T`
+
+#### Defined in
+
+[packages/utils/src/watchable.ts:16](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/watchable.ts#L16)
 
 ___
 
@@ -5218,4 +5847,24 @@ ___
 
 #### Defined in
 
-packages/utils/src/invariant.ts:75
+[packages/utils/src/invariant.ts:75](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/invariant.ts#L75)
+
+___
+
+### writeToStdoutSync
+
+▸ **writeToStdoutSync**(`input`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `input` | `string` |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[packages/utils/src/hey.ts:60](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/hey.ts#L60)

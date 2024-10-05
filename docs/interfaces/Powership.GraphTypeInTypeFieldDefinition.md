@@ -6,7 +6,7 @@
 
 ## Hierarchy
 
-- [`FieldDefinitionWithType`](Powership.FieldDefinitionWithType.md)<[`GraphTypeLikeFieldDefinition`](Powership.GraphTypeLikeFieldDefinition.md)\>
+- `FieldDefinitionWithType`<[`GraphTypeLikeFieldDefinition`](Powership.GraphTypeLikeFieldDefinition.md)\>
 
   ↳ **`GraphTypeInTypeFieldDefinition`**
 
@@ -33,11 +33,11 @@
 
 #### Inherited from
 
-[FieldDefinitionWithType](Powership.FieldDefinitionWithType.md).[$](Powership.FieldDefinitionWithType.md#$)
+FieldDefinitionWithType.$
 
 #### Defined in
 
-packages/schema/lib/fields/_fieldDefinitions.d.ts:38
+packages/schema/out/fields/_fieldDefinitions.d.ts:38
 
 ___
 
@@ -47,11 +47,11 @@ ___
 
 #### Inherited from
 
-[FieldDefinitionWithType](Powership.FieldDefinitionWithType.md).[def](Powership.FieldDefinitionWithType.md#def)
+FieldDefinitionWithType.def
 
 #### Defined in
 
-packages/schema/lib/fields/_fieldDefinitions.d.ts:34
+packages/schema/out/fields/_fieldDefinitions.d.ts:34
 
 ___
 
@@ -61,11 +61,11 @@ ___
 
 #### Inherited from
 
-[FieldDefinitionWithType](Powership.FieldDefinitionWithType.md).[defaultValue](Powership.FieldDefinitionWithType.md#defaultvalue)
+FieldDefinitionWithType.defaultValue
 
 #### Defined in
 
-packages/schema/lib/fields/_fieldDefinitions.d.ts:35
+packages/schema/out/fields/_fieldDefinitions.d.ts:35
 
 ___
 
@@ -75,25 +75,25 @@ ___
 
 #### Inherited from
 
-[FieldDefinitionWithType](Powership.FieldDefinitionWithType.md).[description](Powership.FieldDefinitionWithType.md#description)
+FieldDefinitionWithType.description
 
 #### Defined in
 
-packages/schema/lib/fields/_fieldDefinitions.d.ts:30
+packages/schema/out/fields/_fieldDefinitions.d.ts:30
 
 ___
 
 ### example
 
-• `Optional` **example**: [`FieldExample`](../modules/Powership.md#fieldexample)
+• `Optional` **example**: `FieldExample`
 
 #### Inherited from
 
-[FieldDefinitionWithType](Powership.FieldDefinitionWithType.md).[example](Powership.FieldDefinitionWithType.md#example)
+FieldDefinitionWithType.example
 
 #### Defined in
 
-packages/schema/lib/fields/_fieldDefinitions.d.ts:31
+packages/schema/out/fields/_fieldDefinitions.d.ts:31
 
 ___
 
@@ -103,25 +103,25 @@ ___
 
 #### Inherited from
 
-[FieldDefinitionWithType](Powership.FieldDefinitionWithType.md).[hidden](Powership.FieldDefinitionWithType.md#hidden)
+FieldDefinitionWithType.hidden
 
 #### Defined in
 
-packages/schema/lib/fields/_fieldDefinitions.d.ts:32
+packages/schema/out/fields/_fieldDefinitions.d.ts:32
 
 ___
 
 ### list
 
-• `Optional` **list**: [`ListDefinition`](../modules/Powership.md#listdefinition)
+• `Optional` **list**: `ListDefinition`
 
 #### Inherited from
 
-[FieldDefinitionWithType](Powership.FieldDefinitionWithType.md).[list](Powership.FieldDefinitionWithType.md#list)
+FieldDefinitionWithType.list
 
 #### Defined in
 
-packages/schema/lib/fields/_fieldDefinitions.d.ts:36
+packages/schema/out/fields/_fieldDefinitions.d.ts:36
 
 ___
 
@@ -131,11 +131,11 @@ ___
 
 #### Inherited from
 
-[FieldDefinitionWithType](Powership.FieldDefinitionWithType.md).[name](Powership.FieldDefinitionWithType.md#name)
+FieldDefinitionWithType.name
 
 #### Defined in
 
-packages/schema/lib/fields/_fieldDefinitions.d.ts:33
+packages/schema/out/fields/_fieldDefinitions.d.ts:33
 
 ___
 
@@ -145,11 +145,11 @@ ___
 
 #### Inherited from
 
-[FieldDefinitionWithType](Powership.FieldDefinitionWithType.md).[optional](Powership.FieldDefinitionWithType.md#optional)
+FieldDefinitionWithType.optional
 
 #### Defined in
 
-packages/schema/lib/fields/_fieldDefinitions.d.ts:37
+packages/schema/out/fields/_fieldDefinitions.d.ts:37
 
 ___
 
@@ -159,8 +159,8 @@ ___
 
 #### Inherited from
 
-[FieldDefinitionWithType](Powership.FieldDefinitionWithType.md).[type](Powership.FieldDefinitionWithType.md#type)
+FieldDefinitionWithType.type
 
 #### Defined in
 
-packages/schema/lib/fields/_fieldDefinitions.d.ts:41
+packages/schema/out/fields/_fieldDefinitions.d.ts:41

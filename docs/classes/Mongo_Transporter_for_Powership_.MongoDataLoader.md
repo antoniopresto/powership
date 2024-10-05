@@ -30,7 +30,7 @@
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/MongoDataLoader.ts:18
+[packages/mongo/src/mongoDataLoader/MongoDataLoader.ts:18](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/MongoDataLoader.ts#L18)
 
 ## Methods
 
@@ -50,7 +50,7 @@ packages/mongo/src/mongoDataLoader/MongoDataLoader.ts:18
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/MongoDataLoader.ts:69
+[packages/mongo/src/mongoDataLoader/MongoDataLoader.ts:69](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/MongoDataLoader.ts#L69)
 
 ___
 
@@ -70,7 +70,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/MongoDataLoader.ts:34
+[packages/mongo/src/mongoDataLoader/MongoDataLoader.ts:34](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/MongoDataLoader.ts#L34)
 
 ___
 
@@ -90,4 +90,4 @@ ___
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/MongoDataLoader.ts:49
+[packages/mongo/src/mongoDataLoader/MongoDataLoader.ts:49](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/MongoDataLoader.ts#L49)

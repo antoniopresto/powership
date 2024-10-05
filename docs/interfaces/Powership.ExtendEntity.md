@@ -36,4 +36,4 @@ Extend current entity
 
 #### Defined in
 
-packages/entity/lib/EntityInterfaces/ExtendEntity.d.ts:8
+packages/entity/out/EntityInterfaces/ExtendEntity.d.ts:8

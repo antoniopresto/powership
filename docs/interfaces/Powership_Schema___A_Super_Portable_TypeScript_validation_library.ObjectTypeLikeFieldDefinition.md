@@ -19,7 +19,7 @@
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferObjectType.ts:12
+[packages/schema/src/fields/Infer/InferObjectType.ts:12](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/InferObjectType.ts#L12)
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/Infer/InferObjectType.ts:13
+[packages/schema/src/fields/Infer/InferObjectType.ts:13](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/Infer/InferObjectType.ts#L13)

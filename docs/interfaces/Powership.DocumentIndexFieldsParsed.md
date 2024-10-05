@@ -20,7 +20,7 @@
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:474
+packages/transporter/out/CollectionIndex.d.ts:474
 
 ___
 
@@ -30,7 +30,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:475
+packages/transporter/out/CollectionIndex.d.ts:475
 
 ___
 
@@ -40,4 +40,4 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:473
+packages/transporter/out/CollectionIndex.d.ts:473

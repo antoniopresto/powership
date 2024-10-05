@@ -42,7 +42,7 @@
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:4
+[packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:4](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts#L4)
 
 ___
 
@@ -52,7 +52,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:16
+[packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:16](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts#L16)
 
 ___
 
@@ -62,7 +62,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/parseMongoDLParams.ts:7
+[packages/mongo/src/mongoDataLoader/parseMongoDLParams.ts:7](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/parseMongoDLParams.ts#L7)
 
 ## Functions
 
@@ -84,7 +84,7 @@ packages/mongo/src/mongoDataLoader/parseMongoDLParams.ts:7
 
 #### Defined in
 
-packages/transporter/lib/parseAggioAttributeFilters.d.ts:4
+packages/transporter/out/parseAggioAttributeFilters.d.ts:4
 
 ___
 
@@ -105,7 +105,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/getMongoDataloader.ts:7
+[packages/mongo/src/mongoDataLoader/getMongoDataloader.ts:7](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/getMongoDataloader.ts#L7)
 
 ___
 
@@ -125,7 +125,7 @@ input is ObjectId
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/parseMongoDLParams.ts:45
+[packages/mongo/src/mongoDataLoader/parseMongoDLParams.ts:45](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/parseMongoDLParams.ts#L45)
 
 ___
 
@@ -146,7 +146,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/mongoFindMany.ts:47
+[packages/mongo/src/mongoDataLoader/mongoFindMany.ts:47](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/mongoFindMany.ts#L47)
 
 ___
 
@@ -167,7 +167,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/mongoFindMany.ts:8
+[packages/mongo/src/mongoDataLoader/mongoFindMany.ts:8](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/mongoFindMany.ts#L8)
 
 ___
 
@@ -188,7 +188,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/mongoFindMany.ts:26
+[packages/mongo/src/mongoDataLoader/mongoFindMany.ts:26](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/mongoFindMany.ts#L26)
 
 ___
 
@@ -208,7 +208,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/parseAggioAttributeFilters.d.ts:8
+packages/transporter/out/parseAggioAttributeFilters.d.ts:8
 
 ___
 
@@ -235,7 +235,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/parseMongoDLParams.ts:9
+[packages/mongo/src/mongoDataLoader/parseMongoDLParams.ts:9](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/parseMongoDLParams.ts#L9)
 
 ___
 
@@ -255,4 +255,4 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/parseAggioUpdateExpression.d.ts:3
+packages/transporter/out/parseAggioUpdateExpression.d.ts:3

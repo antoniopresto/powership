@@ -42,7 +42,7 @@ Error.constructor
 
 #### Defined in
 
-packages/utils/src/expectedType.ts:8
+[packages/utils/src/expectedType.ts:8](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/expectedType.ts#L8)
 
 ## Properties
 
@@ -52,7 +52,7 @@ packages/utils/src/expectedType.ts:8
 
 #### Defined in
 
-packages/utils/src/expectedType.ts:6
+[packages/utils/src/expectedType.ts:6](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/expectedType.ts#L6)
 
 ___
 
@@ -62,7 +62,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/expectedType.ts:4
+[packages/utils/src/expectedType.ts:4](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/expectedType.ts#L4)
 
 ___
 
@@ -72,4 +72,4 @@ ___
 
 #### Defined in
 
-packages/utils/src/expectedType.ts:5
+[packages/utils/src/expectedType.ts:5](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/expectedType.ts#L5)

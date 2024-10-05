@@ -28,7 +28,7 @@
 
 #### Defined in
 
-packages/utils/src/typings/ts-toolbet.ts:18
+[packages/utils/src/typings/ts-toolbet.ts:18](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/ts-toolbet.ts#L18)
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/ts-toolbet.ts:32
+[packages/utils/src/typings/ts-toolbet.ts:32](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/ts-toolbet.ts#L32)
 
 ___
 
@@ -65,7 +65,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/ts-toolbet.ts:20
+[packages/utils/src/typings/ts-toolbet.ts:20](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/ts-toolbet.ts#L20)
 
 ___
 
@@ -81,4 +81,4 @@ ___
 
 #### Defined in
 
-packages/utils/src/typings/ts-toolbet.ts:33
+[packages/utils/src/typings/ts-toolbet.ts:33](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/typings/ts-toolbet.ts#L33)

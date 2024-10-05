@@ -44,7 +44,7 @@ Error.constructor
 
 #### Defined in
 
-packages/transporter/src/CollectionErrors.ts:17
+[packages/transporter/src/CollectionErrors.ts:17](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionErrors.ts#L17)
 
 ## Properties
 
@@ -54,7 +54,7 @@ packages/transporter/src/CollectionErrors.ts:17
 
 #### Defined in
 
-packages/transporter/src/CollectionErrors.ts:14
+[packages/transporter/src/CollectionErrors.ts:14](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionErrors.ts#L14)
 
 ___
 
@@ -64,7 +64,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionErrors.ts:15
+[packages/transporter/src/CollectionErrors.ts:15](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionErrors.ts#L15)
 
 ## Methods
 
@@ -84,4 +84,4 @@ input is CollectionErrors
 
 #### Defined in
 
-packages/transporter/src/CollectionErrors.ts:32
+[packages/transporter/src/CollectionErrors.ts:32](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionErrors.ts#L32)

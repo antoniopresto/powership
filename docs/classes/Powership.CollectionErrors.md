@@ -44,7 +44,7 @@ Error.constructor
 
 #### Defined in
 
-packages/transporter/lib/CollectionErrors.d.ts:24
+packages/transporter/out/CollectionErrors.d.ts:24
 
 ## Properties
 
@@ -54,7 +54,7 @@ packages/transporter/lib/CollectionErrors.d.ts:24
 
 #### Defined in
 
-packages/transporter/lib/CollectionErrors.d.ts:13
+packages/transporter/out/CollectionErrors.d.ts:13
 
 ___
 
@@ -64,7 +64,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionErrors.d.ts:14
+packages/transporter/out/CollectionErrors.d.ts:14
 
 ## Methods
 
@@ -84,4 +84,4 @@ input is CollectionErrors
 
 #### Defined in
 
-packages/transporter/lib/CollectionErrors.d.ts:25
+packages/transporter/out/CollectionErrors.d.ts:25

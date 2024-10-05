@@ -28,7 +28,7 @@
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:54
+[packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:54](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts#L54)
 
 ___
 
@@ -38,7 +38,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:37
+[packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:37](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts#L37)
 
 ___
 
@@ -48,7 +48,7 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:35
+[packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:35](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts#L35)
 
 ___
 
@@ -58,4 +58,4 @@ ___
 
 #### Defined in
 
-packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:39
+[packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts:39](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityInterfaces/EntityLoaderMethods.ts#L39)

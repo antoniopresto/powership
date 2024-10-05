@@ -26,7 +26,7 @@
 
 #### Defined in
 
-packages/utils/src/Store.ts:47
+[packages/utils/src/Store.ts:47](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/Store.ts#L47)
 
 ___
 
@@ -36,7 +36,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/Store.ts:46
+[packages/utils/src/Store.ts:46](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/Store.ts#L46)
 
 ___
 
@@ -46,4 +46,4 @@ ___
 
 #### Defined in
 
-packages/utils/src/Store.ts:45
+[packages/utils/src/Store.ts:45](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/Store.ts#L45)

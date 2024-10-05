@@ -24,22 +24,13 @@ Using Powership you can quickly create types that can be easily extended, transf
 ## Creating and extending types
 
 ```ts
-import {
-  createGraphQLSchema,
-  createResolver,
-  createType,
-  createEntity,
-  Infer,
-} from 'powership';
+import { createGraphQLSchema, createResolver, createType, createEntity, Infer } from 'powership';
 
 const AddressType = createType('Address', {
   object: {
     street: 'string',
     number: {
-      union: [
-        'string',
-        'int?',
-      ],
+      union: ['string', 'int?'],
     },
   },
 });
@@ -54,28 +45,17 @@ const UserType = createType(
 
       // declaring a union field - will infer as `string | undefined | number[]`
       unionField: {
-        union: [
-          'string?',
-          '[int]?',
-        ],
+        union: ['string?', '[int]?'],
       },
 
       // represents an enum
       letter: {
-        enum: [
-          'a',
-          'b',
-          'c',
-        ],
+        enum: ['a', 'b', 'c'],
       },
 
       // more detailed way to define enums
       letterOptionalList: {
-        enum: [
-          'x',
-          'y',
-          'z',
-        ],
+        enum: ['x', 'y', 'z'],
         optional: true,
         list: true,
       },
@@ -171,10 +151,7 @@ const StoreEntity = createEntity({
     },
     {
       name: 'id2',
-      PK: [
-        '.ownerId',
-        '.storeId',
-      ],
+      PK: ['.ownerId', '.storeId'],
     },
   ],
 });

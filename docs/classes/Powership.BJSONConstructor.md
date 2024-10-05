@@ -37,7 +37,7 @@
 
 #### Defined in
 
-packages/utils/lib/BJSON.d.ts:29
+packages/utils/out/BJSON.d.ts:29
 
 ## Properties
 
@@ -61,7 +61,7 @@ packages/utils/lib/BJSON.d.ts:29
 
 #### Defined in
 
-packages/utils/lib/BJSON.d.ts:39
+packages/utils/out/BJSON.d.ts:39
 
 ___
 
@@ -71,7 +71,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/BJSON.d.ts:28
+packages/utils/out/BJSON.d.ts:28
 
 ___
 
@@ -96,7 +96,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/BJSON.d.ts:32
+packages/utils/out/BJSON.d.ts:32
 
 ___
 
@@ -106,7 +106,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/BJSON.d.ts:27
+packages/utils/out/BJSON.d.ts:27
 
 ## Methods
 
@@ -126,7 +126,7 @@ packages/utils/lib/BJSON.d.ts:27
 
 #### Defined in
 
-packages/utils/lib/BJSON.d.ts:40
+packages/utils/out/BJSON.d.ts:40
 
 ___
 
@@ -146,4 +146,4 @@ ___
 
 #### Defined in
 
-packages/utils/lib/BJSON.d.ts:41
+packages/utils/out/BJSON.d.ts:41

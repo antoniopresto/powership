@@ -20,7 +20,7 @@
 
 #### Defined in
 
-packages/utils/src/nodeLogger.ts:95
+[packages/utils/src/nodeLogger.ts:96](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/nodeLogger.ts#L96)
 
 ___
 
@@ -30,7 +30,7 @@ ___
 
 #### Defined in
 
-packages/utils/src/nodeLogger.ts:96
+[packages/utils/src/nodeLogger.ts:97](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/nodeLogger.ts#L97)
 
 ___
 
@@ -40,4 +40,4 @@ ___
 
 #### Defined in
 
-packages/utils/src/nodeLogger.ts:94
+[packages/utils/src/nodeLogger.ts:95](https://github.com/antoniopresto/powership/blob/2672a73/packages/utils/src/nodeLogger.ts#L95)

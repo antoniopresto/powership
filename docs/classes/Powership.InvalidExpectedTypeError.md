@@ -42,7 +42,7 @@ Error.constructor
 
 #### Defined in
 
-packages/utils/lib/expectedType.d.ts:5
+packages/utils/out/expectedType.d.ts:5
 
 ## Properties
 
@@ -52,7 +52,7 @@ packages/utils/lib/expectedType.d.ts:5
 
 #### Defined in
 
-packages/utils/lib/expectedType.d.ts:4
+packages/utils/out/expectedType.d.ts:4
 
 ___
 
@@ -62,7 +62,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/expectedType.d.ts:2
+packages/utils/out/expectedType.d.ts:2
 
 ___
 
@@ -72,4 +72,4 @@ ___
 
 #### Defined in
 
-packages/utils/lib/expectedType.d.ts:3
+packages/utils/out/expectedType.d.ts:3

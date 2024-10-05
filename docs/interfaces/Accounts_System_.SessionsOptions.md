@@ -33,7 +33,7 @@
 
 #### Defined in
 
-packages/accounts/src/Sessions.ts:28
+[packages/accounts/src/Sessions.ts:28](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/Sessions.ts#L28)
 
 ___
 
@@ -43,4 +43,4 @@ ___
 
 #### Defined in
 
-packages/accounts/src/Sessions.ts:27
+[packages/accounts/src/Sessions.ts:27](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/Sessions.ts#L27)

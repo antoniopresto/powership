@@ -72,13 +72,13 @@
 
 #### Defined in
 
-packages/server/lib/ServerRequest.d.ts:16
+packages/server/out/ServerRequest.d.ts:16
 
 ## Properties
 
 ### body
 
-• **body**: `string` \| `Record`<`string`, `any`\> \| typeof [`UnhandledSymbol`](../modules/Powership.md#unhandledsymbol-1)
+• **body**: [`RequestBody`](../modules/Powership.md#requestbody)
 
 #### Inherited from
 
@@ -86,7 +86,7 @@ packages/server/lib/ServerRequest.d.ts:16
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:42
+packages/server/out/BaseRequestHandler.d.ts:44
 
 ___
 
@@ -104,7 +104,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/ServerRequest.d.ts:17
+packages/server/out/ServerRequest.d.ts:17
 
 ___
 
@@ -118,7 +118,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:43
+packages/server/out/BaseRequestHandler.d.ts:45
 
 ___
 
@@ -132,7 +132,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:17
+packages/server/out/BaseRequestHandler.d.ts:19
 
 ___
 
@@ -146,7 +146,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/ServerRequest.d.ts:15
+packages/server/out/ServerRequest.d.ts:15
 
 ___
 
@@ -156,7 +156,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/ServerRequest.d.ts:18
+packages/server/out/ServerRequest.d.ts:18
 
 ___
 
@@ -170,7 +170,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:21
+packages/server/out/BaseRequestHandler.d.ts:23
 
 ___
 
@@ -208,7 +208,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:25
+packages/server/out/BaseRequestHandler.d.ts:27
 
 ___
 
@@ -222,7 +222,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:16
+packages/server/out/BaseRequestHandler.d.ts:18
 
 ___
 
@@ -236,7 +236,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:18
+packages/server/out/BaseRequestHandler.d.ts:20
 
 ___
 
@@ -250,7 +250,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:19
+packages/server/out/BaseRequestHandler.d.ts:21
 
 ___
 
@@ -278,7 +278,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:24
+packages/server/out/BaseRequestHandler.d.ts:26
 
 ___
 
@@ -292,7 +292,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:44
+packages/server/out/BaseRequestHandler.d.ts:46
 
 ___
 
@@ -330,7 +330,7 @@ https://github.com/snd/url-pattern
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:62
+packages/server/out/BaseRequestHandler.d.ts:64
 
 ___
 
@@ -352,7 +352,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:55
+packages/server/out/BaseRequestHandler.d.ts:57
 
 ___
 
@@ -374,7 +374,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:54
+packages/server/out/BaseRequestHandler.d.ts:56
 
 ___
 
@@ -388,7 +388,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:15
+packages/server/out/BaseRequestHandler.d.ts:17
 
 ___
 
@@ -412,7 +412,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/ServerRequest.d.ts:23
+packages/server/out/ServerRequest.d.ts:23
 
 ___
 
@@ -440,7 +440,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:34
+packages/server/out/BaseRequestHandler.d.ts:36
 
 ## Methods
 
@@ -460,7 +460,7 @@ packages/server/lib/BaseRequestHandler.d.ts:34
 
 #### Defined in
 
-packages/server/lib/ServerRequest.d.ts:20
+packages/server/out/ServerRequest.d.ts:20
 
 ___
 
@@ -478,7 +478,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:46
+packages/server/out/BaseRequestHandler.d.ts:48
 
 ___
 
@@ -501,7 +501,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:47
+packages/server/out/BaseRequestHandler.d.ts:49
 
 ___
 
@@ -521,7 +521,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/ServerRequest.d.ts:21
+packages/server/out/ServerRequest.d.ts:21
 
 ___
 
@@ -541,7 +541,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/ServerRequest.d.ts:22
+packages/server/out/ServerRequest.d.ts:22
 
 ___
 
@@ -555,7 +555,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/ServerRequest.d.ts:19
+packages/server/out/ServerRequest.d.ts:19
 
 ___
 
@@ -585,7 +585,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:63
+packages/server/out/BaseRequestHandler.d.ts:65
 
 ___
 
@@ -609,7 +609,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:67
+packages/server/out/BaseRequestHandler.d.ts:69
 
 ___
 
@@ -633,23 +633,23 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:68
+packages/server/out/BaseRequestHandler.d.ts:70
 
 ___
 
 ### httpResponseBody
 
-▸ `Static` **httpResponseBody**(`body`): `string`
+▸ `Static` **httpResponseBody**(`body`): `string` \| `Readable`
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `body` | `string` \| `Record`<`string`, `any`\> \| typeof [`UnhandledSymbol`](../modules/Powership.md#unhandledsymbol-1) |
+| `body` | [`RequestBody`](../modules/Powership.md#requestbody) |
 
 #### Returns
 
-`string`
+`string` \| `Readable`
 
 #### Inherited from
 
@@ -657,7 +657,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:65
+packages/server/out/BaseRequestHandler.d.ts:67
 
 ___
 
@@ -681,7 +681,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:64
+packages/server/out/BaseRequestHandler.d.ts:66
 
 ___
 
@@ -693,7 +693,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `body` | `string` \| `Record`<`string`, `any`\> \| typeof [`UnhandledSymbol`](../modules/Powership.md#unhandledsymbol-1) |
+| `body` | [`RequestBody`](../modules/Powership.md#requestbody) |
 
 #### Returns
 
@@ -705,7 +705,7 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:66
+packages/server/out/BaseRequestHandler.d.ts:68
 
 ___
 
@@ -730,4 +730,4 @@ ___
 
 #### Defined in
 
-packages/server/lib/BaseRequestHandler.d.ts:69
+packages/server/out/BaseRequestHandler.d.ts:71

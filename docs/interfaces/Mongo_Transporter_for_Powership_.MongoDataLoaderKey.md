@@ -25,7 +25,7 @@
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:24
+[packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:24](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts#L24)
 
 ___
 
@@ -35,7 +35,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:26
+[packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:26](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts#L26)
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:27
+[packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:27](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts#L27)
 
 ___
 
@@ -55,7 +55,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:28
+[packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:28](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts#L28)
 
 ___
 
@@ -65,7 +65,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:29
+[packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:29](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts#L29)
 
 ___
 
@@ -75,7 +75,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:30
+[packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:30](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts#L30)
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:31
+[packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:31](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts#L31)
 
 ___
 
@@ -95,4 +95,4 @@ ___
 
 #### Defined in
 
-packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:32
+[packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts:32](https://github.com/antoniopresto/powership/blob/2672a73/packages/mongo/src/mongoDataLoader/IMongoDataLoader.ts#L32)

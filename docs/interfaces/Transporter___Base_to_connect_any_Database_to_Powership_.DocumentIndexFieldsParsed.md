@@ -20,7 +20,7 @@
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:249
+[packages/transporter/src/CollectionIndex.ts:249](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L249)
 
 ___
 
@@ -30,7 +30,7 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:250
+[packages/transporter/src/CollectionIndex.ts:250](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L250)
 
 ___
 
@@ -40,4 +40,4 @@ ___
 
 #### Defined in
 
-packages/transporter/src/CollectionIndex.ts:248
+[packages/transporter/src/CollectionIndex.ts:248](https://github.com/antoniopresto/powership/blob/2672a73/packages/transporter/src/CollectionIndex.ts#L248)

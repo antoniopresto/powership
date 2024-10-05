@@ -18,4 +18,4 @@
 
 #### Defined in
 
-packages/schema/src/Durable/IDurable.ts:4
+[packages/schema/src/Durable/IDurable.ts:4](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/Durable/IDurable.ts#L4)

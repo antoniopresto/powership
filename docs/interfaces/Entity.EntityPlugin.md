@@ -22,4 +22,4 @@
 
 #### Defined in
 
-packages/entity/src/EntityPlugin.ts:31
+[packages/entity/src/EntityPlugin.ts:31](https://github.com/antoniopresto/powership/blob/2672a73/packages/entity/src/EntityPlugin.ts#L31)

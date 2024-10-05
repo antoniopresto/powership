@@ -19,7 +19,7 @@
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferGraphType.d.ts:4
+packages/schema/out/fields/Infer/InferGraphType.d.ts:4
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferGraphType.d.ts:5
+packages/schema/out/fields/Infer/InferGraphType.d.ts:5

@@ -23,7 +23,7 @@ Session is not valid
 
 #### Defined in
 
-packages/accounts/src/utils/AccountError.ts:116
+[packages/accounts/src/utils/AccountError.ts:116](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/AccountError.ts#L116)
 
 ___
 
@@ -35,7 +35,7 @@ Will throw if access token is missing.
 
 #### Defined in
 
-packages/accounts/src/utils/AccountError.ts:121
+[packages/accounts/src/utils/AccountError.ts:121](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/AccountError.ts#L121)
 
 ___
 
@@ -47,7 +47,7 @@ Will throw if session is not found.
 
 #### Defined in
 
-packages/accounts/src/utils/AccountError.ts:129
+[packages/accounts/src/utils/AccountError.ts:129](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/AccountError.ts#L129)
 
 ___
 
@@ -59,4 +59,4 @@ Will throw if verification of the access token failed.
 
 #### Defined in
 
-packages/accounts/src/utils/AccountError.ts:125
+[packages/accounts/src/utils/AccountError.ts:125](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/AccountError.ts#L125)

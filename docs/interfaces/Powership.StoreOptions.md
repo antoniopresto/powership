@@ -26,7 +26,7 @@
 
 #### Defined in
 
-packages/utils/lib/Store.d.ts:28
+packages/utils/out/Store.d.ts:28
 
 ___
 
@@ -36,7 +36,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/Store.d.ts:27
+packages/utils/out/Store.d.ts:27
 
 ___
 
@@ -46,4 +46,4 @@ ___
 
 #### Defined in
 
-packages/utils/lib/Store.d.ts:26
+packages/utils/out/Store.d.ts:26

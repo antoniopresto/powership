@@ -19,7 +19,7 @@
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferObjectType.d.ts:5
+packages/schema/out/fields/Infer/InferObjectType.d.ts:5
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/Infer/InferObjectType.d.ts:6
+packages/schema/out/fields/Infer/InferObjectType.d.ts:6

@@ -20,7 +20,7 @@
 
 #### Defined in
 
-packages/accounts/src/Sessions.ts:432
+[packages/accounts/src/Sessions.ts:432](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/Sessions.ts#L432)
 
 ___
 
@@ -30,7 +30,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/Sessions.ts:433
+[packages/accounts/src/Sessions.ts:433](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/Sessions.ts#L433)
 
 ___
 
@@ -40,4 +40,4 @@ ___
 
 #### Defined in
 
-packages/accounts/src/Sessions.ts:434
+[packages/accounts/src/Sessions.ts:434](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/Sessions.ts#L434)

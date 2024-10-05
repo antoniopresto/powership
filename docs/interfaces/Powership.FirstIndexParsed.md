@@ -45,7 +45,7 @@ Omit.PK
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:28
+packages/transporter/out/CollectionIndex.d.ts:28
 
 ___
 
@@ -59,7 +59,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:21
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:21
 
 ___
 
@@ -73,7 +73,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:20
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:20
 
 ___
 
@@ -87,7 +87,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:19
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:19
 
 ___
 
@@ -101,7 +101,7 @@ Omit.SK
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:29
+packages/transporter/out/CollectionIndex.d.ts:29
 
 ___
 
@@ -115,7 +115,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:22
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:22
 
 ___
 
@@ -129,7 +129,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:24
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:24
 
 ___
 
@@ -143,7 +143,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:18
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:18
 
 ___
 
@@ -157,7 +157,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:14
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:14
 
 ___
 
@@ -171,7 +171,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:23
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:23
 
 ___
 
@@ -181,7 +181,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:97
+packages/transporter/out/CollectionIndex.d.ts:97
 
 ___
 
@@ -195,7 +195,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:30
+packages/transporter/out/CollectionIndex.d.ts:30
 
 ___
 
@@ -209,7 +209,7 @@ ___
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:17
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:17
 
 ___
 
@@ -223,7 +223,7 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:99
+packages/transporter/out/CollectionIndex.d.ts:99
 
 ___
 
@@ -237,7 +237,7 @@ Omit.relations
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:32
+packages/transporter/out/CollectionIndex.d.ts:32
 
 ___
 
@@ -247,4 +247,4 @@ ___
 
 #### Defined in
 
-packages/transporter/lib/CollectionIndex.d.ts:98
+packages/transporter/out/CollectionIndex.d.ts:98

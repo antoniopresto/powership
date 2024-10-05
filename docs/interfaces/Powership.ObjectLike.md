@@ -19,7 +19,7 @@
 
 #### Defined in
 
-packages/schema/lib/fields/IObjectLike.d.ts:4
+packages/schema/out/fields/IObjectLike.d.ts:5
 
 ___
 
@@ -33,4 +33,4 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/IObjectLike.d.ts:5
+packages/schema/out/fields/IObjectLike.d.ts:6

@@ -26,6 +26,7 @@
 - [objectType](Powership.ExtendObjectDefinition.md#objecttype)
 - [only](Powership.ExtendObjectDefinition.md#only)
 - [optional](Powership.ExtendObjectDefinition.md#optional)
+- [pick](Powership.ExtendObjectDefinition.md#pick)
 - [required](Powership.ExtendObjectDefinition.md#required)
 
 ## Properties
@@ -36,7 +37,7 @@
 
 #### Defined in
 
-packages/schema/lib/extendObjectDefinition.d.ts:7
+packages/schema/out/extendObjectDefinition.d.ts:7
 
 ## Methods
 
@@ -50,7 +51,7 @@ packages/schema/lib/extendObjectDefinition.d.ts:7
 
 #### Defined in
 
-packages/schema/lib/extendObjectDefinition.d.ts:8
+packages/schema/out/extendObjectDefinition.d.ts:8
 
 ___
 
@@ -76,7 +77,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/extendObjectDefinition.d.ts:9
+packages/schema/out/extendObjectDefinition.d.ts:9
 
 ___
 
@@ -102,7 +103,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/extendObjectDefinition.d.ts:12
+packages/schema/out/extendObjectDefinition.d.ts:12
 
 ___
 
@@ -122,7 +123,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/extendObjectDefinition.d.ts:15
+packages/schema/out/extendObjectDefinition.d.ts:15
 
 ___
 
@@ -142,7 +143,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/extendObjectDefinition.d.ts:18
+packages/schema/out/extendObjectDefinition.d.ts:18
 
 ___
 
@@ -168,7 +169,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/extendObjectDefinition.d.ts:19
+packages/schema/out/extendObjectDefinition.d.ts:19
 
 ___
 
@@ -182,7 +183,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/extendObjectDefinition.d.ts:22
+packages/schema/out/extendObjectDefinition.d.ts:29
 
 ▸ **optional**<`Op`\>(`keys`): [`ExtendObjectDefinition`](Powership.ExtendObjectDefinition.md)<{ `object`: [`OverrideField`](../modules/Powership.md#overridefield)<[`InnerDef`](../modules/Powership.md#innerdef)<`Input`\>, `Op`, { `optional`: ``true``  }\>  }, `Origin`\>
 
@@ -204,7 +205,35 @@ packages/schema/lib/extendObjectDefinition.d.ts:22
 
 #### Defined in
 
-packages/schema/lib/extendObjectDefinition.d.ts:25
+packages/schema/out/extendObjectDefinition.d.ts:32
+
+___
+
+### pick
+
+▸ **pick**<`K`\>(`keys`): [`ExtendObjectDefinition`](Powership.ExtendObjectDefinition.md)<{ `object`: `Pick`<[`InnerDef`](../modules/Powership.md#innerdef)<`Input`\>, `K`\>  }, `Origin`\>
+
+Alias to `only`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `K` | extends `string` \| `number` \| `symbol` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `keys` | `K` \| `K`[] |
+
+#### Returns
+
+[`ExtendObjectDefinition`](Powership.ExtendObjectDefinition.md)<{ `object`: `Pick`<[`InnerDef`](../modules/Powership.md#innerdef)<`Input`\>, `K`\>  }, `Origin`\>
+
+#### Defined in
+
+packages/schema/out/extendObjectDefinition.d.ts:26
 
 ___
 
@@ -218,7 +247,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/extendObjectDefinition.d.ts:28
+packages/schema/out/extendObjectDefinition.d.ts:35
 
 ▸ **required**<`Op`\>(`keys`): [`ExtendObjectDefinition`](Powership.ExtendObjectDefinition.md)<{ `object`: [`OverrideField`](../modules/Powership.md#overridefield)<[`InnerDef`](../modules/Powership.md#innerdef)<`Input`\>, `Op`, { `optional`: ``false``  }\>  }, `Origin`\>
 
@@ -240,4 +269,4 @@ packages/schema/lib/extendObjectDefinition.d.ts:28
 
 #### Defined in
 
-packages/schema/lib/extendObjectDefinition.d.ts:31
+packages/schema/out/extendObjectDefinition.d.ts:38

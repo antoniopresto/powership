@@ -24,4 +24,4 @@
 
 #### Defined in
 
-packages/utils/lib/IndexCursor/joinIndexCursor.d.ts:11
+packages/utils/out/IndexCursor/joinIndexCursor.d.ts:11

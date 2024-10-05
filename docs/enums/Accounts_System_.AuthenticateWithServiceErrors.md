@@ -22,7 +22,7 @@ Service failed to authenticate the user
 
 #### Defined in
 
-packages/accounts/src/utils/AccountError.ts:42
+[packages/accounts/src/utils/AccountError.ts:42](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/AccountError.ts#L42)
 
 ___
 
@@ -34,7 +34,7 @@ Service is not registered on the server
 
 #### Defined in
 
-packages/accounts/src/utils/AccountError.ts:34
+[packages/accounts/src/utils/AccountError.ts:34](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/AccountError.ts#L34)
 
 ___
 
@@ -46,4 +46,4 @@ User is deactivated, so not allowed to login
 
 #### Defined in
 
-packages/accounts/src/utils/AccountError.ts:38
+[packages/accounts/src/utils/AccountError.ts:38](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/AccountError.ts#L38)

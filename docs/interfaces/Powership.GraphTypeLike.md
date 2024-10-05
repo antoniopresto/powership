@@ -14,6 +14,10 @@
 - [id](Powership.GraphTypeLike.md#id)
 - [optionalId](Powership.GraphTypeLike.md#optionalid)
 
+### Methods
+
+- [parse](Powership.GraphTypeLike.md#parse)
+
 ## Properties
 
 ### \_\_isGraphType
@@ -22,7 +26,7 @@
 
 #### Defined in
 
-packages/schema/lib/fields/IObjectLike.d.ts:10
+packages/schema/out/fields/IObjectLike.d.ts:11
 
 ___
 
@@ -32,17 +36,17 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/IObjectLike.d.ts:11
+packages/schema/out/fields/IObjectLike.d.ts:12
 
 ___
 
 ### definition
 
-• **definition**: [`FinalFieldDefinition`](../modules/Powership.md#finalfielddefinition)
+• **definition**: [`AnyRecord`](../modules/Powership.TU.md#anyrecord)
 
 #### Defined in
 
-packages/schema/lib/fields/IObjectLike.d.ts:12
+packages/schema/out/fields/IObjectLike.d.ts:13
 
 ___
 
@@ -52,7 +56,7 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/IObjectLike.d.ts:13
+packages/schema/out/fields/IObjectLike.d.ts:14
 
 ___
 
@@ -62,4 +66,25 @@ ___
 
 #### Defined in
 
-packages/schema/lib/fields/IObjectLike.d.ts:14
+packages/schema/out/fields/IObjectLike.d.ts:15
+
+## Methods
+
+### parse
+
+▸ **parse**(`value`, `options?`): `any`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `value` | `any` |
+| `options?` | [`FieldParserConfig`](../modules/Powership.md#fieldparserconfig) |
+
+#### Returns
+
+`any`
+
+#### Defined in
+
+packages/schema/out/fields/IObjectLike.d.ts:16

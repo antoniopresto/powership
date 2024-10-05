@@ -9,6 +9,7 @@
 ### Properties
 
 - [message](Powership.ErrorWithStack.md#message)
+- [name](Powership.ErrorWithStack.md#name)
 - [stack](Powership.ErrorWithStack.md#stack)
 
 ## Properties
@@ -19,7 +20,17 @@
 
 #### Defined in
 
-packages/utils/lib/invariant.d.ts:41
+packages/utils/out/invariant.d.ts:43
+
+___
+
+### name
+
+• **name**: `string`
+
+#### Defined in
+
+packages/utils/out/invariant.d.ts:42
 
 ___
 
@@ -29,4 +40,4 @@ ___
 
 #### Defined in
 
-packages/utils/lib/invariant.d.ts:42
+packages/utils/out/invariant.d.ts:44

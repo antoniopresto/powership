@@ -23,7 +23,7 @@ Chalk color to be used in prefix, when the `chalk` package is available
 
 #### Defined in
 
-packages/logstorm/src/index.ts:45
+[packages/logstorm/src/index.ts:45](https://github.com/antoniopresto/powership/blob/2672a73/packages/logstorm/src/index.ts#L45)
 
 ___
 
@@ -35,7 +35,7 @@ Defaults to the global `console`
 
 #### Defined in
 
-packages/logstorm/src/index.ts:40
+[packages/logstorm/src/index.ts:40](https://github.com/antoniopresto/powership/blob/2672a73/packages/logstorm/src/index.ts#L40)
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 #### Defined in
 
-packages/logstorm/src/index.ts:35
+[packages/logstorm/src/index.ts:35](https://github.com/antoniopresto/powership/blob/2672a73/packages/logstorm/src/index.ts#L35)
 
 ___
 
@@ -57,4 +57,4 @@ If true, the current time will be printed when logging
 
 #### Defined in
 
-packages/logstorm/src/index.ts:50
+[packages/logstorm/src/index.ts:50](https://github.com/antoniopresto/powership/blob/2672a73/packages/logstorm/src/index.ts#L50)

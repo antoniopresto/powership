@@ -9,56 +9,12 @@
 | Name | Type |
 | :------ | :------ |
 | `Type` | `Type` |
-| `TypeName` | extends [`FieldTypeName`](../modules/Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypename) |
-| `Def` | extends [`FieldDefinitions`](../modules/Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fielddefinitions)[`TypeName`] |
+| `TypeName` | extends `FieldTypeName` |
+| `Def` | extends `FieldDefinitions`[`TypeName`] |
 | `List` | extends ``1`` \| ``0`` = ``0`` |
 | `Optional` | extends ``1`` \| ``0`` = ``0`` |
 | `DefaultValue` | extends `unknown` \| `undefined` = `undefined` |
 | `Options` | extends [`FieldTypeOptions`](../modules/Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#fieldtypeoptions) = {} |
-
-## Hierarchy
-
-- **`FieldType`**
-
-  ↳ [`AnyField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.AnyField.md)
-
-  ↳ [`BooleanField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.BooleanField.md)
-
-  ↳ [`CursorField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.CursorField.md)
-
-  ↳ [`DateField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.DateField.md)
-
-  ↳ [`EmailField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.EmailField.md)
-
-  ↳ [`EnumField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.EnumField.md)
-
-  ↳ [`FloatField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.FloatField.md)
-
-  ↳ [`IDField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.IDField.md)
-
-  ↳ [`IntField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.IntField.md)
-
-  ↳ [`LiteralField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.LiteralField.md)
-
-  ↳ [`MetaField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.MetaField.md)
-
-  ↳ [`NullField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.NullField.md)
-
-  ↳ [`ObjectField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.ObjectField.md)
-
-  ↳ [`RecordField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.RecordField.md)
-
-  ↳ [`StringField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.StringField.md)
-
-  ↳ [`UlidField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.UlidField.md)
-
-  ↳ [`UndefinedField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.UndefinedField.md)
-
-  ↳ [`UnionField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.UnionField.md)
-
-  ↳ [`UnknownField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.UnknownField.md)
-
-  ↳ [`AliasField`](Powership_Schema___A_Super_Portable_TypeScript_validation_library.AliasField.md)
 
 ## Table of contents
 
@@ -108,7 +64,7 @@
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:140
+[packages/schema/src/fields/FieldType.ts:139](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L139)
 
 ___
 
@@ -118,7 +74,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:59
+[packages/schema/src/fields/FieldType.ts:58](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L58)
 
 ___
 
@@ -128,7 +84,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:288
+[packages/schema/src/fields/FieldType.ts:287](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L287)
 
 ___
 
@@ -138,7 +94,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:65
+[packages/schema/src/fields/FieldType.ts:64](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L64)
 
 ___
 
@@ -148,7 +104,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:57
+[packages/schema/src/fields/FieldType.ts:56](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L56)
 
 ___
 
@@ -158,7 +114,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:137
+[packages/schema/src/fields/FieldType.ts:136](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L136)
 
 ___
 
@@ -168,7 +124,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:138
+[packages/schema/src/fields/FieldType.ts:137](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L137)
 
 ___
 
@@ -178,7 +134,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:139
+[packages/schema/src/fields/FieldType.ts:138](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L138)
 
 ___
 
@@ -188,7 +144,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:71
+[packages/schema/src/fields/FieldType.ts:70](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L70)
 
 ___
 
@@ -198,7 +154,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:136
+[packages/schema/src/fields/FieldType.ts:135](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L135)
 
 ___
 
@@ -208,7 +164,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:72
+[packages/schema/src/fields/FieldType.ts:71](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L71)
 
 ___
 
@@ -218,7 +174,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:135
+[packages/schema/src/fields/FieldType.ts:134](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L134)
 
 ___
 
@@ -228,7 +184,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:73
+[packages/schema/src/fields/FieldType.ts:72](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L72)
 
 ___
 
@@ -238,7 +194,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:286
+[packages/schema/src/fields/FieldType.ts:285](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L285)
 
 ___
 
@@ -248,7 +204,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:55
+[packages/schema/src/fields/FieldType.ts:54](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L54)
 
 ___
 
@@ -258,7 +214,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:54
+[packages/schema/src/fields/FieldType.ts:53](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L53)
 
 ## Accessors
 
@@ -272,7 +228,7 @@ packages/schema/src/fields/FieldType.ts:54
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:265
+[packages/schema/src/fields/FieldType.ts:264](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L264)
 
 ___
 
@@ -286,7 +242,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:67
+[packages/schema/src/fields/FieldType.ts:66](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L66)
 
 ## Methods
 
@@ -314,7 +270,7 @@ packages/schema/src/fields/FieldType.ts:67
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:191
+[packages/schema/src/fields/FieldType.ts:190](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L190)
 
 ___
 
@@ -328,7 +284,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:294
+[packages/schema/src/fields/FieldType.ts:293](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L293)
 
 ___
 
@@ -348,7 +304,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:142
+[packages/schema/src/fields/FieldType.ts:141](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L141)
 
 ___
 
@@ -373,7 +329,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:147
+[packages/schema/src/fields/FieldType.ts:146](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L146)
 
 ___
 
@@ -393,7 +349,7 @@ input is Type
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:131
+[packages/schema/src/fields/FieldType.ts:130](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L130)
 
 ___
 
@@ -419,7 +375,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:183
+[packages/schema/src/fields/FieldType.ts:182](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L182)
 
 ___
 
@@ -431,7 +387,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `options?` | [`ListDefinitionTruthy`](../modules/Powership_Schema___A_Super_Portable_TypeScript_validation_library.md#listdefinitiontruthy) |
+| `options?` | `ListDefinitionTruthy` |
 
 #### Returns
 
@@ -439,7 +395,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:172
+[packages/schema/src/fields/FieldType.ts:171](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L171)
 
 ___
 
@@ -453,7 +409,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:160
+[packages/schema/src/fields/FieldType.ts:159](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L159)
 
 ___
 
@@ -467,7 +423,7 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:166
+[packages/schema/src/fields/FieldType.ts:165](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L165)
 
 ___
 
@@ -487,7 +443,7 @@ input is Type
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:122
+[packages/schema/src/fields/FieldType.ts:121](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L121)
 
 ___
 
@@ -507,4 +463,4 @@ ___
 
 #### Defined in
 
-packages/schema/src/fields/FieldType.ts:290
+[packages/schema/src/fields/FieldType.ts:289](https://github.com/antoniopresto/powership/blob/2672a73/packages/schema/src/fields/FieldType.ts#L289)

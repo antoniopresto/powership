@@ -106,9 +106,9 @@
 
 #### Defined in
 
-packages/accounts/src/types/AccessType.ts:45
+[packages/accounts/src/types/AccessType.ts:45](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/AccessType.ts#L45)
 
-packages/accounts/src/types/AccessType.ts:55
+[packages/accounts/src/types/AccessType.ts:55](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/AccessType.ts#L55)
 
 ___
 
@@ -118,7 +118,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/entity/AccessTypeEntity.ts:22
+[packages/accounts/src/entity/AccessTypeEntity.ts:22](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/entity/AccessTypeEntity.ts#L22)
 
 ___
 
@@ -128,7 +128,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/types/AccessType.ts:6
+[packages/accounts/src/types/AccessType.ts:6](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/AccessType.ts#L6)
 
 ___
 
@@ -138,9 +138,9 @@ ___
 
 #### Defined in
 
-packages/accounts/src/types/AccessType.ts:8
+[packages/accounts/src/types/AccessType.ts:8](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/AccessType.ts#L8)
 
-packages/accounts/src/types/AccessType.ts:43
+[packages/accounts/src/types/AccessType.ts:43](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/AccessType.ts#L43)
 
 ___
 
@@ -150,7 +150,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/entity/AccountEntity.ts:36
+[packages/accounts/src/entity/AccountEntity.ts:36](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/entity/AccountEntity.ts#L36)
 
 ___
 
@@ -160,9 +160,9 @@ ___
 
 #### Defined in
 
-packages/accounts/src/entity/AccountEntity.ts:14
+[packages/accounts/src/entity/AccountEntity.ts:14](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/entity/AccountEntity.ts#L14)
 
-packages/accounts/src/entity/AccountEntity.ts:35
+[packages/accounts/src/entity/AccountEntity.ts:35](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/entity/AccountEntity.ts#L35)
 
 ___
 
@@ -172,7 +172,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/AccountError.ts:21
+[packages/accounts/src/utils/AccountError.ts:21](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/AccountError.ts#L21)
 
 ___
 
@@ -182,7 +182,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/entity/AccountEntity.ts:37
+[packages/accounts/src/entity/AccountEntity.ts:37](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/entity/AccountEntity.ts#L37)
 
 ___
 
@@ -192,7 +192,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/Sessions.ts:429
+[packages/accounts/src/Sessions.ts:429](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/Sessions.ts#L429)
 
 ___
 
@@ -202,9 +202,9 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/crypto.ts:114
+[packages/accounts/src/utils/crypto.ts:114](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/crypto.ts#L114)
 
-packages/accounts/src/utils/crypto.ts:126
+[packages/accounts/src/utils/crypto.ts:126](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/crypto.ts#L126)
 
 ___
 
@@ -214,7 +214,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/crypto.ts:128
+[packages/accounts/src/utils/crypto.ts:128](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/crypto.ts#L128)
 
 ___
 
@@ -224,7 +224,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/types/ConnectionInformation.ts:12
+[packages/accounts/src/types/ConnectionInformation.ts:12](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/ConnectionInformation.ts#L12)
 
 ___
 
@@ -248,7 +248,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/Accounts.ts:33
+[packages/accounts/src/Accounts.ts:33](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/Accounts.ts#L33)
 
 ___
 
@@ -258,7 +258,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/types/EmailTemplate.ts:16
+[packages/accounts/src/types/EmailTemplate.ts:16](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/EmailTemplate.ts#L16)
 
 ___
 
@@ -276,7 +276,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/types/LoginResult.ts:5
+[packages/accounts/src/types/LoginResult.ts:5](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/LoginResult.ts#L5)
 
 ___
 
@@ -297,7 +297,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/crypto.ts:105
+[packages/accounts/src/utils/crypto.ts:105](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/crypto.ts#L105)
 
 ___
 
@@ -307,7 +307,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/PasswordHash.ts:48
+[packages/accounts/src/utils/PasswordHash.ts:48](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/PasswordHash.ts#L48)
 
 ___
 
@@ -317,7 +317,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/PasswordHash.ts:49
+[packages/accounts/src/utils/PasswordHash.ts:49](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/PasswordHash.ts#L49)
 
 ___
 
@@ -327,7 +327,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/types/SessionType.ts:21
+[packages/accounts/src/types/SessionType.ts:21](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/SessionType.ts#L21)
 
 ___
 
@@ -337,9 +337,9 @@ ___
 
 #### Defined in
 
-packages/accounts/src/types/SessionType.ts:4
+[packages/accounts/src/types/SessionType.ts:4](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/SessionType.ts#L4)
 
-packages/accounts/src/types/SessionType.ts:23
+[packages/accounts/src/types/SessionType.ts:23](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/SessionType.ts#L23)
 
 ___
 
@@ -349,7 +349,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/types/SessionType.ts:22
+[packages/accounts/src/types/SessionType.ts:22](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/SessionType.ts#L22)
 
 ___
 
@@ -359,7 +359,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/Sessions.ts:388
+[packages/accounts/src/Sessions.ts:388](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/Sessions.ts#L388)
 
 ___
 
@@ -369,7 +369,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/entity/SessionEntity.ts:21
+[packages/accounts/src/entity/SessionEntity.ts:21](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/entity/SessionEntity.ts#L21)
 
 ___
 
@@ -379,7 +379,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/crypto.ts:148
+[packages/accounts/src/utils/crypto.ts:148](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/crypto.ts#L148)
 
 ___
 
@@ -400,7 +400,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/Sessions.ts:379
+[packages/accounts/src/Sessions.ts:379](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/Sessions.ts#L379)
 
 ___
 
@@ -410,7 +410,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/types/TokenType.ts:51
+[packages/accounts/src/types/TokenType.ts:51](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/TokenType.ts#L51)
 
 ___
 
@@ -420,7 +420,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/entity/TokenEntity.ts:27
+[packages/accounts/src/entity/TokenEntity.ts:27](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/entity/TokenEntity.ts#L27)
 
 ___
 
@@ -430,9 +430,9 @@ ___
 
 #### Defined in
 
-packages/accounts/src/entity/TokenEntity.ts:5
+[packages/accounts/src/entity/TokenEntity.ts:5](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/entity/TokenEntity.ts#L5)
 
-packages/accounts/src/entity/TokenEntity.ts:25
+[packages/accounts/src/entity/TokenEntity.ts:25](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/entity/TokenEntity.ts#L25)
 
 ## Variables
 
@@ -442,9 +442,9 @@ packages/accounts/src/entity/TokenEntity.ts:25
 
 #### Defined in
 
-packages/accounts/src/types/AccessType.ts:45
+[packages/accounts/src/types/AccessType.ts:45](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/AccessType.ts#L45)
 
-packages/accounts/src/types/AccessType.ts:55
+[packages/accounts/src/types/AccessType.ts:55](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/AccessType.ts#L55)
 
 ___
 
@@ -454,7 +454,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/entity/AccessTypeEntity.ts:5
+[packages/accounts/src/entity/AccessTypeEntity.ts:5](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/entity/AccessTypeEntity.ts#L5)
 
 ___
 
@@ -464,21 +464,21 @@ ___
 
 #### Defined in
 
-packages/accounts/src/types/AccessType.ts:8
+[packages/accounts/src/types/AccessType.ts:8](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/AccessType.ts#L8)
 
-packages/accounts/src/types/AccessType.ts:43
+[packages/accounts/src/types/AccessType.ts:43](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/AccessType.ts#L43)
 
 ___
 
 ### AccountEntity
 
-• `Const` **AccountEntity**: `EntityFromContext`<`EntityTypesContext`<`Omit`<`Omit`<`Omit`<`Object`, ``"sessions"``\> & { `sessions`: { `array`: { `of`: `GraphType`<{ `object`: `Omit`<`EntityDocumentBaseDef`<``true``\>, ``"token"`` \| ``"accountId"`` \| ``"valid"`` \| ``"connectionInfo"``\> & { `accountId`: ``"string"`` = 'string'; `connectionInfo`: `GraphType`<{ `object`: { `$string`: ``"unknown"`` = 'unknown'; `ip`: ``"string?"`` = 'string?'; `userAgent`: ``"string?"`` = 'string?' }  }\> = SessionConnectionInfo; `token`: ``"string"`` = 'string'; `valid`: ``"boolean"`` = 'boolean' }  }\>  }  }  }, ``"accessTypes"``\> & { `accessTypes`: { `array`: { `of`: `GraphType`<{ `object`: `Omit`<`EntityDocumentBaseDef`<``true``\>, ``"data"`` \| ``"meta"`` \| ``"accountId"`` \| ``"verified"``\> & { `accountId`: ``"ID"`` = 'ID'; `data`: `GraphType`<{ `union`: readonly [{ `object`: { `kind`: { `literal`: ``"email"`` = accessTypesEnum.email } ; `value`: ``"email"`` = 'email' }  }, { `object`: { `kind`: { `literal`: ``"phone"`` = accessTypesEnum.phone } ; `value`: ``"phone"`` = accessTypesEnum.phone }  }, { `object`: { `authToken`: ``"string"`` = 'string'; `kind`: { `literal`: ``"oauth"`` = accessTypesEnum.oauth } ; `provider`: { `description`: ``"Provider name"`` = 'Provider name'; `string`: {} = {} } ; `value`: { `alias`: ``"provider"`` = 'provider' }  }  }, { `object`: { `kind`: { `literal`: ``"custom"`` = accessTypesEnum.custom } ; `meta`: ``"record"`` = 'record'; `value`: ``"string"`` = 'string' }  }]  }\> = AccessTypeUnion; `meta`: ``"record?"`` = 'record?'; `verified`: ``"boolean?"`` = 'boolean?' }  }\>  }  }  }, ``"tokens"``\> & { `tokens`: { `array`: { `of`: `GraphType`<{ `object`: `Omit`<`EntityDocumentBaseDef`<``true``\>, ``"meta"`` \| ``"accountId"`` \| ``"value"`` \| ``"kind"`` \| ``"reason"`` \| ``"createdFor"`` \| ``"used"`` \| ``"usageLocations"`` \| ``"location"``\> & { `accountId`: ``"ID"`` = 'ID'; `createdFor`: { `description`: `string` ; `string`: { `min`: ``2`` = 2 }  } ; `kind`: { `description`: ``"Examples: 2fa, password_recovery"`` = 'Examples: 2fa, password\_recovery'; `enum`: (``"password"`` \| ``"custom"`` \| ``"email_verification"`` \| ``"phone_verification"`` \| ``"password_recovery"`` \| ``"magick_link"`` \| ``"twoFactorAuth"``)[] = tokenKindEnum.list } ; `location`: { `object`: { `device`: ``"string?"`` = 'string?'; `ip`: ``"string?"`` = 'string?'; `meta`: ``"record?"`` = 'record?' } ; `optional`: ``true`` = true } ; `meta`: ``"record?"`` = 'record?'; `reason`: ``"string?"`` = 'string?'; `usageLocations`: { `list`: ``true`` = true; `object`: { `device`: ``"string?"`` = 'string?'; `ip`: ``"string?"`` = 'string?'; `meta`: ``"record?"`` = 'record?' } ; `optional`: ``true`` = true } ; `used`: { `boolean`: {} = {}; `defaultValue`: ``false`` = false; `optional`: ``true`` = true } ; `value`: { `string`: { `max`: ``1000`` = 1000; `min`: ``4`` = 4 }  }  }  }\>  }  }  }, ({ `PK`: ``".accountId"``[] ; `name`: `string` = '\_id' } \| { `PK`: ``".username"``[] ; `name`: `string` = '\_id2' })[]\>\>
+• `Const` **AccountEntity**: `EntityFromContext`<`EntityTypesContext`<`Omit`<`Omit`<`Omit`<`Object`, ``"sessions"``\> & { `sessions`: { `array`: { `of`: `GraphType`<{ `object`: `Omit`<`EntityDocumentBaseDef`<``true``\>, ``"accountId"`` \| ``"token"`` \| ``"valid"`` \| ``"connectionInfo"``\> & { `accountId`: ``"string"`` = 'string'; `connectionInfo`: `GraphType`<{ `object`: { `$string`: ``"unknown"`` = 'unknown'; `ip`: ``"string?"`` = 'string?'; `userAgent`: ``"string?"`` = 'string?' }  }\> = SessionConnectionInfo; `token`: ``"string"`` = 'string'; `valid`: ``"boolean"`` = 'boolean' }  }\>  }  }  }, ``"accessTypes"``\> & { `accessTypes`: { `array`: { `of`: `GraphType`<{ `object`: `Omit`<`EntityDocumentBaseDef`<``true``\>, ``"meta"`` \| ``"accountId"`` \| ``"data"`` \| ``"verified"``\> & { `accountId`: ``"ID"`` = 'ID'; `data`: `GraphType`<{ `union`: readonly [{ `object`: { `kind`: { `literal`: ``"email"`` = accessTypesEnum.email } ; `value`: ``"email"`` = 'email' }  }, { `object`: { `kind`: { `literal`: ``"phone"`` = accessTypesEnum.phone } ; `value`: ``"phone"`` = accessTypesEnum.phone }  }, { `object`: { `authToken`: ``"string"`` = 'string'; `kind`: { `literal`: ``"oauth"`` = accessTypesEnum.oauth } ; `provider`: { `description`: ``"Provider name"`` = 'Provider name'; `string`: {} = {} } ; `value`: { `alias`: ``"provider"`` = 'provider' }  }  }, { `object`: { `kind`: { `literal`: ``"custom"`` = accessTypesEnum.custom } ; `meta`: ``"record"`` = 'record'; `value`: ``"string"`` = 'string' }  }]  }\> = AccessTypeUnion; `meta`: ``"record?"`` = 'record?'; `verified`: ``"boolean?"`` = 'boolean?' }  }\>  }  }  }, ``"tokens"``\> & { `tokens`: { `array`: { `of`: `GraphType`<{ `object`: `Omit`<`EntityDocumentBaseDef`<``true``\>, ``"meta"`` \| ``"accountId"`` \| ``"value"`` \| ``"kind"`` \| ``"reason"`` \| ``"createdFor"`` \| ``"used"`` \| ``"usageLocations"`` \| ``"location"``\> & { `accountId`: ``"ID"`` = 'ID'; `createdFor`: { `description`: `string` ; `string`: { `min`: ``2`` = 2 }  } ; `kind`: { `description`: ``"Examples: 2fa, password_recovery"`` = 'Examples: 2fa, password\_recovery'; `enum`: (``"password"`` \| ``"custom"`` \| ``"email_verification"`` \| ``"phone_verification"`` \| ``"password_recovery"`` \| ``"magick_link"`` \| ``"twoFactorAuth"``)[] = tokenKindEnum.list } ; `location`: { `object`: { `device`: ``"string?"`` = 'string?'; `ip`: ``"string?"`` = 'string?'; `meta`: ``"record?"`` = 'record?' } ; `optional`: ``true`` = true } ; `meta`: ``"record?"`` = 'record?'; `reason`: ``"string?"`` = 'string?'; `usageLocations`: { `list`: ``true`` = true; `object`: { `device`: ``"string?"`` = 'string?'; `ip`: ``"string?"`` = 'string?'; `meta`: ``"record?"`` = 'record?' } ; `optional`: ``true`` = true } ; `used`: { `boolean`: {} = {}; `defaultValue`: ``false`` = false; `optional`: ``true`` = true } ; `value`: { `string`: { `max`: ``1000`` = 1000; `min`: ``4`` = 4 }  }  }  }\>  }  }  }, ({ `PK`: ``".accountId"``[] ; `name`: `string` = '\_id' } \| { `PK`: ``".username"``[] ; `name`: `string` = '\_id2' })[]\>\>
 
 #### Defined in
 
-packages/accounts/src/entity/AccountEntity.ts:14
+[packages/accounts/src/entity/AccountEntity.ts:14](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/entity/AccountEntity.ts#L14)
 
-packages/accounts/src/entity/AccountEntity.ts:35
+[packages/accounts/src/entity/AccountEntity.ts:35](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/entity/AccountEntity.ts#L35)
 
 ___
 
@@ -508,7 +508,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/AccountError.ts:171
+[packages/accounts/src/utils/AccountError.ts:171](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/AccountError.ts#L171)
 
 ___
 
@@ -540,7 +540,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/AccountHooks.ts:1
+[packages/accounts/src/utils/AccountHooks.ts:1](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/AccountHooks.ts#L1)
 
 ___
 
@@ -550,9 +550,9 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/crypto.ts:114
+[packages/accounts/src/utils/crypto.ts:114](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/crypto.ts#L114)
 
-packages/accounts/src/utils/crypto.ts:126
+[packages/accounts/src/utils/crypto.ts:126](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/crypto.ts#L126)
 
 ___
 
@@ -562,7 +562,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/types/AccountType.ts:5
+[packages/accounts/src/types/AccountType.ts:5](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/AccountType.ts#L5)
 
 ___
 
@@ -572,7 +572,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/types/ConnectionInformation.ts:3
+[packages/accounts/src/types/ConnectionInformation.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/ConnectionInformation.ts#L3)
 
 ___
 
@@ -582,7 +582,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/Sessions.ts:24
+[packages/accounts/src/Sessions.ts:24](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/Sessions.ts#L24)
 
 ___
 
@@ -592,7 +592,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/types/EmailTemplate.ts:3
+[packages/accounts/src/types/EmailTemplate.ts:3](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/EmailTemplate.ts#L3)
 
 ___
 
@@ -611,7 +611,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/PasswordHash.ts:39
+[packages/accounts/src/utils/PasswordHash.ts:39](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/PasswordHash.ts#L39)
 
 ___
 
@@ -621,7 +621,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/PasswordHash.ts:16
+[packages/accounts/src/utils/PasswordHash.ts:16](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/PasswordHash.ts#L16)
 
 ___
 
@@ -631,9 +631,9 @@ ___
 
 #### Defined in
 
-packages/accounts/src/types/SessionType.ts:4
+[packages/accounts/src/types/SessionType.ts:4](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/SessionType.ts#L4)
 
-packages/accounts/src/types/SessionType.ts:23
+[packages/accounts/src/types/SessionType.ts:23](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/SessionType.ts#L23)
 
 ___
 
@@ -643,7 +643,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/entity/SessionEntity.ts:6
+[packages/accounts/src/entity/SessionEntity.ts:6](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/entity/SessionEntity.ts#L6)
 
 ___
 
@@ -653,7 +653,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/crypto.ts:135
+[packages/accounts/src/utils/crypto.ts:135](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/crypto.ts#L135)
 
 ___
 
@@ -663,7 +663,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/types/SessionType.ts:12
+[packages/accounts/src/types/SessionType.ts:12](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/SessionType.ts#L12)
 
 ___
 
@@ -673,9 +673,9 @@ ___
 
 #### Defined in
 
-packages/accounts/src/entity/TokenEntity.ts:5
+[packages/accounts/src/entity/TokenEntity.ts:5](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/entity/TokenEntity.ts#L5)
 
-packages/accounts/src/entity/TokenEntity.ts:25
+[packages/accounts/src/entity/TokenEntity.ts:25](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/entity/TokenEntity.ts#L25)
 
 ___
 
@@ -685,7 +685,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/types/TokenType.ts:14
+[packages/accounts/src/types/TokenType.ts:14](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/TokenType.ts#L14)
 
 ___
 
@@ -695,7 +695,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/validateUserName.ts:6
+[packages/accounts/src/utils/validateUserName.ts:6](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/validateUserName.ts#L6)
 
 ___
 
@@ -705,27 +705,27 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/validateUserName.ts:15
+[packages/accounts/src/utils/validateUserName.ts:15](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/validateUserName.ts#L15)
 
 ___
 
 ### accessTypesEnum
 
-• `Const` **accessTypesEnum**: { `custom`: ``"custom"`` ; `email`: ``"email"`` ; `oauth`: ``"oauth"`` ; `phone`: ``"phone"``  } & { `list`: (``"email"`` \| ``"oauth"`` \| ``"phone"`` \| ``"custom"``)[]  } & { `enum`: ``"email"`` \| ``"oauth"`` \| ``"phone"`` \| ``"custom"``  }
+• `Const` **accessTypesEnum**: { `custom`: ``"custom"`` ; `email`: ``"email"`` ; `oauth`: ``"oauth"`` ; `phone`: ``"phone"``  } & { `list`: (``"email"`` \| ``"phone"`` \| ``"oauth"`` \| ``"custom"``)[]  } & { `enum`: ``"email"`` \| ``"phone"`` \| ``"oauth"`` \| ``"custom"``  }
 
 #### Defined in
 
-packages/accounts/src/types/AccessType.ts:4
+[packages/accounts/src/types/AccessType.ts:4](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/AccessType.ts#L4)
 
 ___
 
 ### accessTypesList
 
-• `Const` **accessTypesList**: (``"email"`` \| ``"oauth"`` \| ``"phone"`` \| ``"custom"`` \| (``"email"`` \| ``"oauth"`` \| ``"phone"`` \| ``"custom"``)[])[]
+• `Const` **accessTypesList**: (``"email"`` \| ``"phone"`` \| ``"oauth"`` \| ``"custom"`` \| (``"email"`` \| ``"phone"`` \| ``"oauth"`` \| ``"custom"``)[])[]
 
 #### Defined in
 
-packages/accounts/src/types/AccessType.ts:5
+[packages/accounts/src/types/AccessType.ts:5](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/AccessType.ts#L5)
 
 ___
 
@@ -735,7 +735,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/badWords.ts:1
+[packages/accounts/src/utils/badWords.ts:1](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/badWords.ts#L1)
 
 ___
 
@@ -745,7 +745,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/reservedUsernames.ts:1
+[packages/accounts/src/utils/reservedUsernames.ts:1](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/reservedUsernames.ts#L1)
 
 ___
 
@@ -755,7 +755,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/types/TokenType.ts:4
+[packages/accounts/src/types/TokenType.ts:4](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/types/TokenType.ts#L4)
 
 ___
 
@@ -765,7 +765,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/validateUserName.ts:8
+[packages/accounts/src/utils/validateUserName.ts:8](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/validateUserName.ts#L8)
 
 ## Functions
 
@@ -791,7 +791,7 @@ packages/accounts/src/utils/validateUserName.ts:8
 
 #### Defined in
 
-packages/accounts/src/Sessions.ts:390
+[packages/accounts/src/Sessions.ts:390](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/Sessions.ts#L390)
 
 ___
 
@@ -811,7 +811,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/crypto.ts:46
+[packages/accounts/src/utils/crypto.ts:46](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/crypto.ts#L46)
 
 ___
 
@@ -833,7 +833,7 @@ Generate a random token string
 
 #### Defined in
 
-packages/accounts/src/utils/crypto.ts:22
+[packages/accounts/src/utils/crypto.ts:22](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/crypto.ts#L22)
 
 ___
 
@@ -854,7 +854,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/crypto.ts:61
+[packages/accounts/src/utils/crypto.ts:61](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/crypto.ts#L61)
 
 ___
 
@@ -877,7 +877,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/crypto.ts:26
+[packages/accounts/src/utils/crypto.ts:26](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/crypto.ts#L26)
 
 ___
 
@@ -897,7 +897,7 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/validateUserName.ts:22
+[packages/accounts/src/utils/validateUserName.ts:22](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/validateUserName.ts#L22)
 
 ___
 
@@ -920,4 +920,4 @@ ___
 
 #### Defined in
 
-packages/accounts/src/utils/crypto.ts:36
+[packages/accounts/src/utils/crypto.ts:36](https://github.com/antoniopresto/powership/blob/2672a73/packages/accounts/src/utils/crypto.ts#L36)
