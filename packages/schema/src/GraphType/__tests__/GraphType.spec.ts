@@ -5,7 +5,7 @@ import { Infer } from '../../Infer';
 import {
   createObjectType,
   ObjectType,
-  resetTypesCache
+  resetTypesCache,
 } from '../../ObjectType';
 import { createResolver } from '../../Resolver';
 import { createGraphQLSchema } from '../../createGraphQLSchema';

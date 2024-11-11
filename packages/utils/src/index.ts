@@ -82,6 +82,7 @@ export * from './ReactLike';
 export * from './jsonClone';
 export * from './tryCatch';
 export * from './dateFormat';
+export * from './parsePhoneNumber';
 
 // @only-server
 export * from './logLevels';
@@ -98,8 +99,6 @@ export * from './jsonToTypescript';
 export * from './formatGraphQL';
 // @only-server
 export * from './formatWithPrettier';
-// @only-server
-export * from './parsePhoneNumber';
 
 export { TU };
 

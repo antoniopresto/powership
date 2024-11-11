@@ -9,7 +9,7 @@ import {
   createType,
   GraphType,
   objectMock,
-  resetTypesCache
+  resetTypesCache,
 } from '@powership/schema';
 import { getTypeName, slugify } from '@powership/utils';
 

@@ -44,8 +44,6 @@ export function parseValidationError(
     }
   }
 
-  // console.log(_originDef);
-
   const error =
     typeof originalError === 'string'
       ? new FieldTypeError('custom', originalError)

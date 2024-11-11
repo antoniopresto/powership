@@ -256,7 +256,6 @@ function parseGraphQLField(params: {
       Object.assign(jsonItem, {
         maxLength: 20,
         minLength: 10,
-        pattern: powership.E164_PHONE_REGEX.toString(),
       });
 
       jsonItem.tsType = 'Phone';

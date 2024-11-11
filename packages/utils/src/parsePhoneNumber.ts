@@ -1,2 +1,9 @@
-export { parsePhoneNumber } from 'awesome-phonenumber';
-export type { ParsedPhoneNumber, PhoneNumberTypes } from 'awesome-phonenumber';
+export {
+  formatIncompletePhoneNumber,
+  AsYouType,
+  parsePhoneNumberFromString,
+  parsePhoneNumberWithError,
+  ParseError,
+} from 'libphonenumber-js';
+
+export type { PhoneNumber, CountryCode } from 'libphonenumber-js';

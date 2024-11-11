@@ -1383,9 +1383,6 @@ importers:
       aggio:
         specifier: 0.2.0
         version: 0.2.0
-      awesome-phonenumber:
-        specifier: 6.2.0
-        version: 6.2.0
       big.js:
         specifier: 6.2.1
         version: 6.2.1
@@ -1440,6 +1437,9 @@ importers:
       jsondiffpatch:
         specifier: ^0.4.1
         version: 0.4.1
+      libphonenumber-js:
+        specifier: 1.11.14
+        version: 1.11.14
       lodash-es:
         specifier: 4.17.21
         version: 4.17.21
@@ -3783,10 +3783,6 @@ packages:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
 
-  awesome-phonenumber@6.2.0:
-    resolution: {integrity: sha512-JSFTjZhWxKHUWAOQU+oBJ86Xf89vJpF82w6iuE9lEybeQzYKFs+zVKjOwzevFBfLjiXf72DsWESA+daVUBrhHw==}
-    engines: {node: '>=18'}
-
   b4a@1.6.6:
     resolution: {integrity: sha512-5Tk1HLk6b6ctmjIkAcU/Ujv/1WqiDl0F0JdRCR80VsOcUlHcu7pWeWRlOqQLHfDEsVx9YH/aif5AG4ehoCtTmg==}
 
@@ -4038,8 +4034,8 @@ packages:
   bun-types@1.0.33:
     resolution: {integrity: sha512-L5tBIf9g6rBBkvshqysi5NoLQ9NnhSPU1pfJ9FzqoSfofYdyac3WLUnOIuQ+M5za/sooVUOP2ko+E6Tco0OLIA==}
 
-  bun-types@1.1.24:
-    resolution: {integrity: sha512-UNEcYawHWOVw9GYQdOgjJvTQduYlPckmRMqpBqfkWpUzeK2CZfEP/JOYBH6SMypyfkNg/Zsqf0olN6vMrSPg3w==}
+  bun-types@1.1.34:
+    resolution: {integrity: sha512-br5QygTEL/TwB4uQOb96Ky22j4Gq2WxWH/8Oqv20fk5HagwKXo/akB+LiYgSfzexCt6kkcUaVm+bKiPl71xPvw==}
 
   bytes@3.1.2:
     resolution: {integrity: sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==}
@@ -5535,6 +5531,9 @@ packages:
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
+
+  libphonenumber-js@1.11.14:
+    resolution: {integrity: sha512-sexvAfwcW1Lqws4zFp8heAtAEXbEDnvkYCEGzvOoMgZR7JhXo/IkE9MkkGACgBed5fWqh3ShBGnJBdDnU9N8EQ==}
 
   lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
@@ -10589,8 +10588,6 @@ snapshots:
     dependencies:
       possible-typed-array-names: 1.0.0
 
-  awesome-phonenumber@6.2.0: {}
-
   b4a@1.6.6: {}
 
   babel-helper-evaluate-path@0.5.0: {}
@@ -10981,7 +10978,7 @@ snapshots:
 
   bun-safe@1.0.7:
     dependencies:
-      bun-types: 1.1.24
+      bun-types: 1.1.34
 
   bun-types@1.0.26:
     dependencies:
@@ -10998,7 +10995,7 @@ snapshots:
       '@types/node': 20.11.25
       '@types/ws': 8.5.10
 
-  bun-types@1.1.24:
+  bun-types@1.1.34:
     dependencies:
       '@types/node': 20.12.14
       '@types/ws': 8.5.10
@@ -13216,6 +13213,8 @@ snapshots:
     dependencies:
       prelude-ls: 1.2.1
       type-check: 0.4.0
+
+  libphonenumber-js@1.11.14: {}
 
   lines-and-columns@1.2.4: {}
 
