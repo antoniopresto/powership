@@ -5,7 +5,7 @@ export function textToBase64(text: string) {
   assertTypes({ text }, 'string');
 
   if (isBrowser()) {
-    return window.atob(text);
+    return window.btoa(text);
   }
 
   return Buffer.from(text).toString('base64');

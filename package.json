@@ -1,6 +1,6 @@
 {
   "name": "powership",
-  "version": "5.0.801",
+  "version": "5.0.802",
   "private": true,
   "scripts": {
     "pack": "run-s pack:*",
