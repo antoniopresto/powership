@@ -242,7 +242,7 @@ export class Accounts {
   }
 
   /**
-   * Add a reset password token to a user.
+   * @deprecated Add a reset password token to a user.
    * @param options.accountId Id used to update the user.
    * @param options.reason Reason to use for the token.
    * @param options.token a random token
@@ -349,6 +349,35 @@ export class Accounts {
     });
 
     if (!isPasswordValid) {
+      throw new Error('LOGIN_FAILED');
+    }
+
+    const result = await this.sessions.upsertRefreshTokenAndSessionDocument({
+      account: foundUser,
+      request,
+      op: 'insert',
+    });
+
+    request.authToken = result.authToken;
+    request.user = result.account;
+    return result;
+  }
+
+  /**
+   * Used to create a session when the authentication is done externally
+   * @param input
+   */
+  async pushCustomSession(input: {
+    username: string;
+    request: SessionRequest;
+  }): Promise<LoginResult> {
+    const { username, request } = input;
+
+    const foundUser = await this.findUser({
+      username,
+    });
+
+    if (!foundUser) {
       throw new Error('LOGIN_FAILED');
     }
 
