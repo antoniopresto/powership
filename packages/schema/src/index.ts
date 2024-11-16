@@ -37,6 +37,7 @@ export * from './isHiddenFieldName';
 export * from './createSimpleRouter';
 
 export * from './fields/_parseFields';
+export * from './fields/_fieldDefinitions';
 
 // @only-server
 export * from './Resolver';
