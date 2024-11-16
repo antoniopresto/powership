@@ -19,8 +19,8 @@ import { AccountError } from './AccountError';
 /**
  * Generate a random token string
  */
-export function createRandomToken(length = 43) {
-  return randomBytes(length).toString('hex');
+export function createRandomToken(length = 64) {
+  return randomBytes(length).toString('base64url');
 }
 
 export function signAccountJWT(input: {
@@ -39,7 +39,10 @@ export function verifySessionJWT(input: {
   config?: jwt.VerifyOptions;
 }): SessionJWTPayload {
   const { secret, authToken, config } = input;
-  const payload = jwt.verify(authToken, secret, config);
+  const payload = jwt.verify(authToken, secret, {
+    algorithms: ['HS256'],
+    ...config,
+  });
   return SessionJWTPayloadType.parse(payload);
 }
 
