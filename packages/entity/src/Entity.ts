@@ -289,12 +289,7 @@ export function createEntity(
     const _hooks = _createHooks();
 
     // keep it here, because can be changed in the above "onGet"
-    const {
-      indexes,
-      transporter: defaultTransporter = defaultGlobalTransporter,
-      type,
-      name: entityName,
-    } = entityOptions;
+    const { indexes, type, name: entityName } = entityOptions;
 
     plugins.forEach((plugin) => {
       try {
@@ -393,7 +388,7 @@ export function createEntity(
       resolvers,
     });
 
-    entityResult['transporter'] = defaultTransporter;
+    entityResult['transporter'] = entityOptions.transporter;
 
     const conditionsType = objectToGraphQLConditionType(
       `${entityName}QueryConditions`,
@@ -440,7 +435,7 @@ export function createEntity(
         if (args.length !== 1) {
           return devAssert(`Invalid number of arguments for ${newMethodName}`);
         }
-        const { transporter = defaultTransporter } = args['0'];
+        const { transporter = entityOptions.transporter } = args['0'];
 
         invariant(
           transporter,
@@ -704,7 +699,7 @@ export function createEntity(
       ): ParsedDocumentIndexes {
         return getDocumentIndexFields(doc, indexConfig);
       },
-      transporter: defaultTransporter || entityOptions.transporter,
+      transporter: entityOptions.transporter,
       type: entityType,
       extendInput,
       extendUpdate,
