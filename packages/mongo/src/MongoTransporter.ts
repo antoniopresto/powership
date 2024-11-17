@@ -50,19 +50,9 @@ export class MongoTransporter implements Transporter<MongoClient> {
     return this._client.connect(dbName);
   }
 
-  logger: Logger;
-  get debug() {
-    return this.logger.debug;
-  }
-
-  constructor(options: {
-    client: MongoClient;
-    collection: string;
-    logger?: LoggerOptions;
-  }) {
+  constructor(options: { client: MongoClient; collection: string }) {
     this._client = options.client;
     this.collection = options.collection;
-    this.logger = new Logger({ prefix: 'MongoTransporter', ...options.logger });
   }
 
   collection: string;
@@ -127,7 +117,6 @@ export class MongoTransporter implements Transporter<MongoClient> {
         res.created = !!upsertedId;
         res.updated = updated;
         res.item = { ...item, _id: upsertedId || item._id };
-        this.debug('createOne', { result, conditionExpression, item, options });
       } else {
         const result = await collection.findOneAndUpdate(
           conditionExpression,
@@ -156,10 +145,8 @@ export class MongoTransporter implements Transporter<MongoClient> {
         res.created = created;
         res.updated = false;
         res.item = created ? item : null;
-        this.debug('createOne', { result, conditionExpression, item, options });
       }
     } catch (e: any) {
-      this.logger.error('createOne', e);
       res.error = e.message;
     }
 
@@ -295,19 +282,6 @@ export class MongoTransporter implements Transporter<MongoClient> {
         return { items: null, all: [], error: e };
       }
     })();
-
-    this.debug('findMany', {
-      error,
-      query,
-      mainEntity: all[0],
-      relationsQuery,
-      relations: all[1],
-      collection: collection.collectionName,
-      onlyOne,
-      projection,
-      sortParsed,
-      options,
-    });
 
     if (!items) {
       throw error;
