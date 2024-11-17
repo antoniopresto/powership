@@ -3,3 +3,4 @@ export * from './EntityPlugin';
 export * from './EntityOptions';
 export * from './EntityInterfaces';
 export * from './EntityStore';
+export * from './defaultFields';
