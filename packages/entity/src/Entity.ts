@@ -27,6 +27,7 @@ import {
   createAsyncPlugin,
   createProxy,
   createSyncPlugin,
+  defineGetters,
   devAssert,
   ensureArray,
   invariant,
@@ -35,7 +36,6 @@ import {
   nonNullValues,
   notNull,
   pick,
-  proxyRealValue,
   RuntimeError,
   simpleObjectClone,
   tupleEnum,
@@ -54,7 +54,6 @@ import {
 } from './EntityInterfaces';
 import { EntityFieldResolver, EntityOptions } from './EntityOptions';
 import { createEntityPlugin, EntityHooks } from './EntityPlugin';
-import { registerEntity } from './EntityStore';
 import { createEntityDocumentBase } from './defaultFields';
 import {
   buildEntityOperationInfoContext,
@@ -429,171 +428,185 @@ export function createEntity(
       method: TransporterLoaderName;
       newMethodName: string;
     }) {
-      const { indexInfo, loaderIndexes, newMethodName, method } = config;
+      const { newMethodName } = config;
+      defineGetters(
+        entityResult,
+        {
+          [newMethodName]: () => {
+            const { indexInfo, loaderIndexes, newMethodName, method } = config;
 
-      const loader: TransporterLoader = async function loader(...args) {
-        if (args.length !== 1) {
-          return devAssert(`Invalid number of arguments for ${newMethodName}`);
-        }
-        const { transporter = entityOptions.transporter } = args['0'];
+            const loader: TransporterLoader = async function loader(...args) {
+              if (args.length !== 1) {
+                return devAssert(
+                  `Invalid number of arguments for ${newMethodName}`
+                );
+              }
+              const {
+                transporter = entityOptions.transporter ||
+                  entityResult.transporter,
+              } = args['0'];
 
-        invariant(
-          transporter,
-          `config.transporter should be provided for "${newMethodName}" or during entity creation.`
-        );
+              invariant(
+                transporter,
+                `config.transporter should be provided for "${newMethodName}" or during entity creation.`
+              );
 
-        await transporter.connect();
+              await transporter.connect();
 
-        const configInput = {
-          ...args[0],
-          context: args[0].context,
-          indexConfig: {
-            ...indexConfig,
-            loaderIndexes: loaderIndexes,
-          },
-        };
+              const configInput = {
+                ...args[0],
+                context: args[0].context,
+                indexConfig: {
+                  ...indexConfig,
+                  loaderIndexes: loaderIndexes,
+                },
+              };
 
-        const operation = await _parseOperationContext({
-          databaseType,
-          entity: entityResult,
-          entityOptions,
-          hooks: _hooks,
-          method,
-          methodOptions: configInput,
-          indexFieldKeys,
-        });
+              const operation = await _parseOperationContext({
+                databaseType,
+                entity: entityResult,
+                entityOptions,
+                hooks: _hooks,
+                method,
+                methodOptions: configInput,
+                indexFieldKeys,
+              });
 
-        const context = { operation, resolvers };
+              const context = { operation, resolvers };
 
-        let resolver: AnyFunction = transporter[method].bind(transporter);
+              let resolver: AnyFunction = transporter[method].bind(transporter);
 
-        resolver = (await _hooks.willResolve.dispatch(
-          resolver as any,
-          operation as any
-        )) as any;
+              resolver = (await _hooks.willResolve.dispatch(
+                resolver as any,
+                operation as any
+              )) as any;
 
-        const p = resolver(operation.options);
+              const p = resolver(operation.options);
 
-        let result = await p;
+              let result = await p;
 
-        debug(`${method}`, { options: operation.options, result });
+              debug(`${method}`, { options: operation.options, result });
 
-        if (
-          !result.error &&
-          operation.isUpdate &&
-          entityResult.aliasPaths.length &&
-          !result.item
-        ) {
-          // checking for updates that have failed to update aliases
-          // probably because of version mismatch, since we check for version match.
+              if (
+                !result.error &&
+                operation.isUpdate &&
+                entityResult.aliasPaths.length &&
+                !result.item
+              ) {
+                // checking for updates that have failed to update aliases
+                // probably because of version mismatch, since we check for version match.
 
-          if (!context.operation.getDocumentResults) {
-            // just in case of aliasesPlugin being removed
-            // aliasesPlugin sets context.operation.getDocumentResults
-            throw new Error(`UPDATE_DOCUMENT_WITH_ALIAS_FIELDS_ERROR_1`);
-          }
+                if (!context.operation.getDocumentResults) {
+                  // just in case of aliasesPlugin being removed
+                  // aliasesPlugin sets context.operation.getDocumentResults
+                  throw new Error(`UPDATE_DOCUMENT_WITH_ALIAS_FIELDS_ERROR_1`);
+                }
 
-          if (context.operation.getDocumentResults) {
-            throw new Error(`UPDATE_DOCUMENT_WITH_ALIAS_FIELDS_ERROR_2`);
-          }
-        }
+                if (context.operation.getDocumentResults) {
+                  throw new Error(`UPDATE_DOCUMENT_WITH_ALIAS_FIELDS_ERROR_2`);
+                }
+              }
 
-        if (result.item) {
-          const res = await _hooks.filterResult.dispatch(
-            { items: [result.item], kind: 'items' },
-            context
-          );
-          if (res.kind === 'items') result.item = res.items[0];
-        }
+              if (result.item) {
+                const res = await _hooks.filterResult.dispatch(
+                  { items: [result.item], kind: 'items' },
+                  context
+                );
+                if (res.kind === 'items') result.item = res.items[0];
+              }
 
-        if (result.items) {
-          const res = await _hooks.filterResult.dispatch(
-            { items: result.items, kind: 'items' },
-            context
-          );
-          if (res.kind === 'items') result.items = res.items;
-        }
+              if (result.items) {
+                const res = await _hooks.filterResult.dispatch(
+                  { items: result.items, kind: 'items' },
+                  context
+                );
+                if (res.kind === 'items') result.items = res.items;
+              }
 
-        if (result.edges) {
-          const res = await _hooks.filterResult.dispatch(
-            { kind: 'pagination', pagination: result },
-            context
-          );
-          if (res.kind === 'pagination') result = res.pagination;
-        }
+              if (result.edges) {
+                const res = await _hooks.filterResult.dispatch(
+                  { kind: 'pagination', pagination: result },
+                  context
+                );
+                if (res.kind === 'pagination') result = res.pagination;
+              }
 
-        return result;
-      };
+              return result;
+            };
 
-      // create the filter with the index fields plus the "id" field
-      const filterExt = (function getFilterDef() {
-        if (indexInfo.length === 1) {
-          return indexGraphTypes[
-            indexInfo[0].index.name
-            // @ts-ignore
-          ].__lazyGetter.objectType!.clone((el) =>
-            el
-              .optional()
-              .extendObjectDefinition({ id: { optional: true, type: 'ID' } })
-          );
-        }
+            // create the filter with the index fields plus the "id" field
+            const filterExt = (function getFilterDef() {
+              if (indexInfo.length === 1) {
+                return indexGraphTypes[
+                  indexInfo[0].index.name
+                  // @ts-ignore
+                ].__lazyGetter.objectType!.clone((el) =>
+                  el.optional().extendObjectDefinition({
+                    id: { optional: true, type: 'ID' },
+                  })
+                );
+              }
 
-        const ext = powership.extendObjectDefinition({
-          object: {
-            id: { optional: true, type: 'ID' },
-          },
-        });
+              const ext = powership.extendObjectDefinition({
+                object: {
+                  id: { optional: true, type: 'ID' },
+                },
+              });
 
-        const all = {};
+              const all = {};
 
-        indexInfo.forEach(({ index: { name } }) => {
-          // @ts-ignore
-          const graph = indexGraphTypes[name].__lazyGetter.objectType.clone(
-            (el) => el.optional().def()
-          );
+              indexInfo.forEach(({ index: { name } }) => {
+                // @ts-ignore
+                const graph = indexGraphTypes[
+                  name
+                ].__lazyGetter.objectType.clone((el) => el.optional().def());
 
-          Object.entries(graph).forEach(([k, v]) => {
-            all[k] = v;
-          });
-        });
+                Object.entries(graph).forEach(([k, v]) => {
+                  all[k] = v;
+                });
+              });
 
-        return ext.extendObjectDefinition(all);
-      })();
+              return ext.extendObjectDefinition(all);
+            })();
 
-      function getPaginationType() {
-        return {
-          after: {
-            optional: true,
-            type: 'ID',
-          },
-          condition: {
-            optional: true,
-            type: conditionsType,
-          },
-          filter: {
-            def: filterExt.def(),
-            type: 'object',
-          },
-          first: {
-            optional: true,
-            type: 'int',
-          },
-        };
-      }
+            function getPaginationType() {
+              return {
+                after: {
+                  optional: true,
+                  type: 'ID',
+                },
+                condition: {
+                  optional: true,
+                  type: conditionsType,
+                },
+                filter: {
+                  def: filterExt.def(),
+                  type: 'object',
+                },
+                first: {
+                  optional: true,
+                  type: 'int',
+                },
+              };
+            }
 
-      Object.defineProperties(loader, {
-        filterDef: { value: filterExt },
-        indexInfo: { value: indexInfo },
-        name: { value: newMethodName },
-        queryArgs: {
-          get() {
-            return getPaginationType();
+            Object.defineProperties(loader, {
+              filterDef: { value: filterExt },
+              indexInfo: { value: indexInfo },
+              name: { value: newMethodName },
+              queryArgs: {
+                get() {
+                  return getPaginationType();
+                },
+              },
+            });
+
+            loaders[newMethodName] = loader;
+            return loader;
           },
         },
-      });
-
-      loaders[newMethodName] = loader;
-      entityResult[newMethodName] = loader;
+        {}
+      );
     }
 
     indexConfig.indexes.forEach((index) => {
@@ -711,15 +724,6 @@ export function createEntity(
 
     return entityResult;
   }
-
-  setTimeout(() => {
-    try {
-      const value = proxyRealValue(entity);
-      registerEntity(value);
-    } catch (e) {
-      // break on tests
-    }
-  }, 100);
 
   return entity;
 }
