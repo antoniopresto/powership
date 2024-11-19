@@ -404,6 +404,28 @@ export function createEntity(
       entity: entityResult,
     });
 
+    _hooks.beforeQuery.pushMiddleware((ctx) => {
+      if ('filter' in ctx.options) {
+        ctx.options.filter = entity.databaseType.parse(
+          ctx.options.filter, // (!) also because mongo includes filter in upsert
+          { allowExtraFields: true, partial: true }
+        );
+      }
+      if ('condition' in ctx.options && ctx.options.condition) {
+        let override = Object.create(null);
+        Object.entries(ctx.options.condition).forEach(([k, v]) => {
+          if (typeof v === 'string' || typeof v === 'number') {
+            override[k] = v;
+          }
+        });
+        override = entity.databaseType.parse(override, {
+          allowExtraFields: true,
+          partial: true,
+        });
+        ctx.options.condition = { ...ctx.options.condition, ...override };
+      }
+    });
+
     const entityType = createType(`${entityName}Entity`, {
       object: simpleObjectClone(outputTypeDefinition),
     });
@@ -770,6 +792,8 @@ function _registerPKSKHook(input: {
       doc.createdBy =
         doc.createdBy || (await ctx.options.context?.userId?.(false));
 
+      doc = entity.inputType.parse(doc, { allowExtraFields: true });
+
       const parsedIndexes = getDocumentIndexFields(doc, indexConfig);
 
       if (!parsedIndexes.valid) {
@@ -777,8 +801,8 @@ function _registerPKSKHook(input: {
       }
 
       doc = {
-        ...parsedIndexes.indexFields,
         ...doc,
+        ...parsedIndexes.indexFields,
       };
 
       if (!doc.id) {
@@ -791,20 +815,30 @@ function _registerPKSKHook(input: {
     }
 
     if (ctx.isUpdate) {
+      if (ctx.options.update.$setIfNull) {
+        ctx.options.update.$setIfNull = entity.databaseType.parse(
+          ctx.options.update.$setIfNull,
+          { allowExtraFields: true, partial: true }
+        );
+      }
+
+      if (ctx.options.update.$setOnInsert) {
+        ctx.options.update.$setOnInsert = entity.databaseType.parse(
+          ctx.options.update.$setOnInsert,
+          { allowExtraFields: true, partial: true }
+        );
+      }
+
       ctx.options.update.$set = await _onUpdate({
         ...ctx.options.update.$set,
       });
     }
 
     if (ctx.isUpsert) {
-      const $setOnInsert = await _onCreate({
-        ...ctx.options.update.$set,
+      ctx.options.update.$setOnInsert = await _onCreate({
         ...ctx.options.update.$setOnInsert,
-        ...ctx.options.update.$setIfNull,
+        ...ctx.options.update.$set,
       });
-      ctx.options.update.$setOnInsert = {
-        ...$setOnInsert,
-      };
     }
 
     if (ctx.isCreate) {

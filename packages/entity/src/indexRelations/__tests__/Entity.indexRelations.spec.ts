@@ -56,38 +56,75 @@ describe('Entity.indexRelations', () => {
     return { accessType, accessEntity, accountEntity, accountType };
   }
 
-  test('format index fields before create', async () => {
+  test('format PK and SK fields before upsert', async () => {
     const unformatted = '+55 (11) 90000-0000';
 
-    const PhoneThing = createType('PhoneThing', {
+    const PaymentType = createType('Payment', {
       object: {
+        accountId: 'ulid?',
         phone: 'phone',
+        phone2: 'phone?',
+        cartSessionId: 'string',
+        paymentSession: 'record',
+        paidAt: 'date?',
+        cart: 'record',
       },
     });
 
-    const PhoneThingEntity = createEntity({
-      name: 'PhoneThing',
-      type: PhoneThing,
+    const PaymentEntity = createEntity({
+      name: 'Payment',
+      type: PaymentType,
       transporter: mock.transporter,
       indexes: [
         {
-          PK: ['.phone'],
           name: '_id',
+          PK: ['.phone'],
+          SK: ['.cartSessionId'],
+        },
+        {
+          name: '_id2',
+          PK: ['.cartSessionId'],
+          SK: ['.phone'],
         },
       ],
     });
 
-    const created = await PhoneThingEntity.createOne({
-      item: {
-        phone: unformatted,
+    const created = await PaymentEntity.updateOne({
+      upsert: true,
+      filter: { phone: unformatted },
+      update: {
+        $setOnInsert: { phone: unformatted, cartSessionId: '123' },
+        $set: {
+          cart: { a: 1 },
+          paymentSession: { b: 2 },
+        },
       },
       context: {},
     });
 
     expect(created.item).toEqual(
       expect.objectContaining({
-        _id: 'phonething⋮_id⋮+5511900000000⋮⋮',
+        _idPK: 'payment⋮_id⋮+5511900000000⋮',
+        _id2: 'payment⋮_id2⋮123⋮+5511900000000⋮',
+        _id2SK: '+5511900000000',
         phone: '+5511900000000',
+      })
+    );
+
+    expect(created.item!.phone2).toBeUndefined();
+
+    const updated = await PaymentEntity.updateOne({
+      filter: { phone: created.item!.phone },
+      update: {
+        $setIfNull: { phone2: '+55 (11) 97777-7777' },
+      },
+      context: {},
+    });
+
+    expect(updated.item).toEqual(
+      expect.objectContaining({
+        _id: 'payment⋮_id⋮+5511900000000⋮123⋮', // keep the same
+        phone2: '+5511977777777', // formatted
       })
     );
   });

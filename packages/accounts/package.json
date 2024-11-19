@@ -1,6 +1,6 @@
 {
   "name": "@powership/accounts",
-  "version": "5.0.816",
+  "version": "5.0.817",
   "description": "Powership accounts",
   "type": "module",
   "main": "./out/index.cjs",
