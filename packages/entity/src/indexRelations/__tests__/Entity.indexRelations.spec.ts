@@ -56,6 +56,42 @@ describe('Entity.indexRelations', () => {
     return { accessType, accessEntity, accountEntity, accountType };
   }
 
+  test('format index fields before create', async () => {
+    const unformatted = '+55 (11) 90000-0000';
+
+    const PhoneThing = createType('PhoneThing', {
+      object: {
+        phone: 'phone',
+      },
+    });
+
+    const PhoneThingEntity = createEntity({
+      name: 'PhoneThing',
+      type: PhoneThing,
+      transporter: mock.transporter,
+      indexes: [
+        {
+          PK: ['.phone'],
+          name: '_id',
+        },
+      ],
+    });
+
+    const created = await PhoneThingEntity.createOne({
+      item: {
+        phone: unformatted,
+      },
+      context: {},
+    });
+
+    expect(created.item).toEqual(
+      expect.objectContaining({
+        _id: 'phonething⋮_id⋮+5511900000000⋮⋮',
+        phone: '+5511900000000',
+      })
+    );
+  });
+
   test('validate PK to be equal in relation', async () => {
     const accessType = createType('AccessType', {
       object: {

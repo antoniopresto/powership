@@ -800,6 +800,7 @@ function _registerPKSKHook(input: {
       const $setOnInsert = await _onCreate({
         ...ctx.options.update.$set,
         ...ctx.options.update.$setOnInsert,
+        ...ctx.options.update.$setIfNull,
       });
       ctx.options.update.$setOnInsert = {
         ...$setOnInsert,
