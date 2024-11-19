@@ -1,6 +1,6 @@
 {
   "name": "logstorm",
-  "version": "5.0.817",
+  "version": "5.0.818",
   "typings": "out",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "type": "module",

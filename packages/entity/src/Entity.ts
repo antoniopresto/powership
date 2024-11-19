@@ -406,7 +406,7 @@ export function createEntity(
 
     _hooks.beforeQuery.pushMiddleware((ctx) => {
       if ('filter' in ctx.options) {
-        ctx.options.filter = entity.databaseType.parse(
+        ctx.options.filter = entity.inputType.parse(
           ctx.options.filter, // (!) also because mongo includes filter in upsert
           { allowExtraFields: true, partial: true }
         );
@@ -418,7 +418,7 @@ export function createEntity(
             override[k] = v;
           }
         });
-        override = entity.databaseType.parse(override, {
+        override = entity.inputType.parse(override, {
           allowExtraFields: true,
           partial: true,
         });
@@ -815,30 +815,32 @@ function _registerPKSKHook(input: {
     }
 
     if (ctx.isUpdate) {
-      if (ctx.options.update.$setIfNull) {
-        ctx.options.update.$setIfNull = entity.databaseType.parse(
-          ctx.options.update.$setIfNull,
-          { allowExtraFields: true, partial: true }
-        );
-      }
+      if (ctx.isUpsert) {
+        ctx.options.update.$setOnInsert = await _onCreate({
+          ...ctx.options.update.$setIfNull,
+          ...ctx.options.update.$setOnInsert,
+          ...ctx.options.update.$set,
+        });
+      } else {
+        if (ctx.options.update.$setIfNull) {
+          ctx.options.update.$setIfNull = entity.inputType.parse(
+            ctx.options.update.$setIfNull,
+            { allowExtraFields: true, partial: true }
+          );
+        }
 
-      if (ctx.options.update.$setOnInsert) {
-        ctx.options.update.$setOnInsert = entity.databaseType.parse(
-          ctx.options.update.$setOnInsert,
-          { allowExtraFields: true, partial: true }
-        );
+        if (ctx.options.update.$set) {
+          ctx.options.update.$set = entity.inputType.parse(
+            ctx.options.update.$set,
+            { allowExtraFields: true, partial: true }
+          );
+        }
       }
 
       ctx.options.update.$set = await _onUpdate({
         ...ctx.options.update.$set,
       });
-    }
-
-    if (ctx.isUpsert) {
-      ctx.options.update.$setOnInsert = await _onCreate({
-        ...ctx.options.update.$setOnInsert,
-        ...ctx.options.update.$set,
-      });
+      //  ======= close update handling ====
     }
 
     if (ctx.isCreate) {

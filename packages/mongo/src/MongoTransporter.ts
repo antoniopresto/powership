@@ -23,8 +23,6 @@ import {
   UpdateOneResult,
 } from '@powership/transporter';
 import {
-  Logger,
-  LoggerOptions,
   NodeLogger,
   nonNullValues,
   parseIndexFieldName,
@@ -264,20 +262,22 @@ export class MongoTransporter implements Transporter<MongoClient> {
         .toArray();
     }
 
-    const { items, error, all } = await (async () => {
+    const { items, error } = await (async () => {
       try {
         const all = await Promise.all([_mainEntityQuery(), _relationsQuery()]);
 
-        const items = (() => {
-          const [main, relations] = all;
-          if (!relations) return main;
+        return {
+          items: (() => {
+            const [main, relations] = all;
+            if (!relations) return main;
 
-          return mergeIndexRelationsResult({
-            items: [...main, ...relations],
-            indexConfig,
-          });
-        })();
-        return { items, error: null, all };
+            return mergeIndexRelationsResult({
+              items: [...main, ...relations],
+              indexConfig,
+            });
+          })(),
+          error: null,
+        };
       } catch (e) {
         return { items: null, all: [], error: e };
       }

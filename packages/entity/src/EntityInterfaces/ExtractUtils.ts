@@ -78,7 +78,7 @@ export type EntityUpdateParam<E> = EntityExtractMethods<E> extends infer R
     : never
   : never;
 
-export type EntityFilters<E> = EntityExtractMethods<E> extends infer R
+export type EntityExtractFilters<E> = EntityExtractMethods<E> extends infer R
   ? R extends {
       updateMany: {
         config: {
