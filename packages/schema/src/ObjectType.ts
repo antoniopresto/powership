@@ -302,6 +302,11 @@ export class ObjectType<
 
       if (!includeHidden && fieldDef.hidden) return;
 
+      const value = input[currField];
+      const isNullish = value === undefined || value === null;
+      const isNullishAndPartial = isNullish && partial;
+      if (isNullishAndPartial) return;
+
       if (fieldDef.type === 'alias') {
         const instance = powership.__getCachedFieldInstance(fieldDef);
         return fieldInputsList.push({
@@ -310,17 +315,6 @@ export class ObjectType<
           key: currField,
           value: undefined,
         });
-      }
-
-      const value = input[currField];
-
-      const hasAutoCreateOption = fieldDef?.def?.['autoCreate'] === true;
-      if (
-        (value === undefined || value === null) &&
-        partial &&
-        !hasAutoCreateOption
-      ) {
-        return;
       }
 
       fieldInputsList.push({

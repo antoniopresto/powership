@@ -406,23 +406,18 @@ export function createEntity(
 
     _hooks.beforeQuery.pushMiddleware((ctx) => {
       if ('filter' in ctx.options) {
-        ctx.options.filter = entity.inputType.parse(
-          ctx.options.filter, // (!) also because mongo includes filter in upsert
-          { allowExtraFields: true, partial: true }
+        preparseFilterGraphTypeFields(
+          ctx.options.filter,
+          ctx.entity,
+          'inputType'
         );
       }
       if ('condition' in ctx.options && ctx.options.condition) {
-        let override = Object.create(null);
-        Object.entries(ctx.options.condition).forEach(([k, v]) => {
-          if (typeof v === 'string' || typeof v === 'number') {
-            override[k] = v;
-          }
-        });
-        override = entity.inputType.parse(override, {
-          allowExtraFields: true,
-          partial: true,
-        });
-        ctx.options.condition = { ...ctx.options.condition, ...override };
+        preparseFilterGraphTypeFields(
+          ctx.options.condition,
+          ctx.entity,
+          'inputType'
+        );
       }
     });
 
@@ -792,7 +787,7 @@ function _registerPKSKHook(input: {
       doc.createdBy =
         doc.createdBy || (await ctx.options.context?.userId?.(false));
 
-      doc = entity.inputType.parse(doc, { allowExtraFields: true });
+      doc = preparseFilterGraphTypeFields(doc, entity, 'inputType');
 
       const parsedIndexes = getDocumentIndexFields(doc, indexConfig);
 
@@ -823,16 +818,18 @@ function _registerPKSKHook(input: {
         });
       } else {
         if (ctx.options.update.$setIfNull) {
-          ctx.options.update.$setIfNull = entity.inputType.parse(
+          ctx.options.update.$setIfNull = preparseFilterGraphTypeFields(
             ctx.options.update.$setIfNull,
-            { allowExtraFields: true, partial: true }
+            ctx.entity,
+            'inputType'
           );
         }
 
         if (ctx.options.update.$set) {
-          ctx.options.update.$set = entity.inputType.parse(
+          ctx.options.update.$set = preparseFilterGraphTypeFields(
             ctx.options.update.$set,
-            { allowExtraFields: true, partial: true }
+            ctx.entity,
+            'inputType'
           );
         }
       }
@@ -1036,4 +1033,32 @@ function _objectAliasPaths(
 
 export function isEntity(value): value is AnyEntity {
   return (value as AnyEntity | undefined)?.__isEntity === true;
+}
+
+function preparseFilterGraphTypeFields<T extends Record<string, any>>(
+  values: T,
+  entity: AnyEntity,
+  typeName: 'inputType' | 'databaseType'
+): T {
+  // Pre parsing fields that may be formated before filtering or updating
+  // The `phone` field is the current use case.
+  // It is needed also for filters on updates using upsert:true,
+  // because mongo include filters in the possible generated document.
+  let preParsed = Object.create(null);
+  Object.entries(values).forEach(([k, v]) => {
+    if (typeof v === 'string' || typeof v === 'number') {
+      if (k.includes('.')) return;
+      if (k.includes('[')) return;
+      preParsed[k] = v;
+    }
+  });
+
+  try {
+    preParsed = entity[typeName].parse(preParsed, {
+      allowExtraFields: true,
+      partial: true,
+    });
+  } catch (e: any) {}
+
+  return Object.assign(values, preParsed);
 }

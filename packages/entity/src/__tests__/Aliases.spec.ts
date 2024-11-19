@@ -6,8 +6,7 @@ import { tupleEnum } from '@powership/utils';
 
 import { createEntity } from '../Entity';
 
-// FIXME, errors on pre parsing aliases
-xdescribe('Aliases', () => {
+describe('Aliases', () => {
   const AccountType = createType('Account', {
     object: {
       username: 'string',
