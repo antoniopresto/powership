@@ -6,3 +6,4 @@ export * from './EntityFromContext';
 export * from './EntityLoaderConfig';
 export * from './EntityLoaderMethods';
 export * from './ExtendEntity';
+export * from './ExtractUtils';
