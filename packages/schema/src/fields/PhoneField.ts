@@ -1,8 +1,8 @@
 import {
   assertEqual,
-  parsePhoneNumberWithError,
   CountryCode,
   tryCatch,
+  parsePhoneNumber,
 } from '@powership/utils';
 
 import type { FieldTypeParser } from '../applyValidator';
@@ -27,7 +27,7 @@ export function validatePhoneNumber(
   const { defaultCountry } = options;
 
   let [, phoneNumber] = tryCatch(() => {
-    return parsePhoneNumberWithError(input, {
+    return parsePhoneNumber(input, {
       extract: true,
       defaultCountry,
     });
@@ -40,7 +40,7 @@ export function validatePhoneNumber(
     });
   }
 
-  return phoneNumber.number.toString();
+  return phoneNumber;
 }
 
 export class PhoneField extends FieldType<string, 'phone', PhoneFieldDef> {
