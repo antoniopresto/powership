@@ -32,7 +32,7 @@ const customTypeRecord: Record<string, CustomTypesWriterEvent> = {};
 // @only-server
 PowershipWatchTypesPubSub.on('created', async (event) => {
   if (event.graphType?.optionalId) {
-    typesRecord[`${event.graphType.id}`] = event.graphType;
+    typesRecord[`${event.graphType?.optionalId}`] = event.graphType;
   }
 
   if (event.resolver) {
@@ -284,22 +284,22 @@ declare global {
 }
 
 let timeoutRef: any;
-let timeoutMS = 2000;
+
 function save() {
   clearTimeout(timeoutRef);
 
-  if (process.env.powership_emit_interval) {
-    timeoutMS =
-      +process.env.powership_emit_interval > 0
-        ? +process.env.powership_emit_interval
-        : timeoutMS;
+  let EMIT = process.env.POWERSHIP_EMIT_TYPES;
+  if (!EMIT) return;
 
-    timeoutRef = setTimeout(() => {
-      writeTypes().catch((err) => {
-        console.error('writeTypes:', err.message);
-      });
-    }, timeoutMS);
-  }
+  let timeout = +EMIT;
+  if (!(timeout > 0)) timeout = 2000;
+  timeout = Math.max(timeout, 1000);
+
+  timeoutRef = setTimeout(() => {
+    writeTypes().catch((err) => {
+      console.error('writeTypes:', err.message);
+    });
+  }, timeout);
 }
 
 process.on('unhandledRejection', () => {
