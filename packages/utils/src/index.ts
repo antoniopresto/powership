@@ -11,6 +11,7 @@ export * from './getTypeName';
 export * from './RuntimeError';
 export * from './getKeys';
 export * from './keyBy';
+export * from './pickRequired';
 export * from './groupBy';
 export * from './sortBy';
 export * from './setByPath';
