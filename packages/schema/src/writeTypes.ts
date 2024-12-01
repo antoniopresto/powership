@@ -170,7 +170,7 @@ function template({
 declare global {
   module '@powership/schema' {
     export * from '@powership/schema';
-    import { ObjectFieldInput, ValidationCustomMessage, FieldDefinitionConfig } from '@powership/schema';
+    import { ObjectFieldInput, ValidationCustomMessage, FieldDefinition } from '@powership/schema';
     import { Merge } from '@powership/utils';
   
     import {
@@ -181,7 +181,7 @@ declare global {
     
     ${extraCustomHead.join('\n')}
 
-    export class GraphTypeRuntime<Definition extends FieldDefinitionConfig, Type, Name> {
+    export class GraphTypeRuntime<Definition extends FieldDefinition, Type, Name> {
       static __isGraphType: true;
       readonly __isGraphType: true;
       

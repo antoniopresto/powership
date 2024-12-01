@@ -1,6 +1,6 @@
 {
   "name": "@powership/babel-plugins",
-  "version": "5.1.1",
+  "version": "5.1.3",
   "main": "./out/index.js",
   "sideEffects": false,
   "typings": "./out/index.d.ts",
