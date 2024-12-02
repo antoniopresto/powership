@@ -795,7 +795,7 @@ describe('FieldTypes', () => {
         'RequiredField'
       );
       expect(() => BooleanField.create().parse(null)).toThrow(
-        'Expected boolean, found Null'
+        'Expected boolean, found null'
       );
       expect(() => BooleanField.create().parse('xx', () => 'huu')).toThrow(
         'huu'

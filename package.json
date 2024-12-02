@@ -1,10 +1,9 @@
 {
   "name": "powership",
-  "version": "5.1.3",
+  "version": "5.1.6",
   "private": true,
   "scripts": {
-    "pack": "run-s pack:*",
-    "pack:publish": "run \"pnpm publish\"",
+    "prepublishOnly": "turbo prepublishOnly --concurrency=1 --force",
     "prepublishSafe": "bun-safe ./prepublishSafe.ts",
     "pre": "run prepublishOnly",
     "fix": "run fix",
@@ -71,5 +70,8 @@
     "@powership/schema",
     "@powership/transporter"
   ],
-  "packageManager": "pnpm@8.2.0"
+  "packageManager": "pnpm@8.2.0",
+  "devDependencies": {
+    "turbo": "2.3.3"
+  }
 }

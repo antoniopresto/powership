@@ -28,7 +28,9 @@ export function lazyCreateGraphTypeInitPayload(
     definitionInput = args[0];
   }
 
-  function initializer(self: GraphType<FieldDefinition>): LazyParseGraphTypePayload {
+  function initializer(
+    self: GraphType<FieldDefinition>
+  ): LazyParseGraphTypePayload {
     if (payload) return payload;
 
     const def =
