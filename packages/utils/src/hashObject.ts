@@ -5,3 +5,5 @@ export function hashObject(obj: any) {
     respectType: false,
   });
 }
+
+export { objectHash };

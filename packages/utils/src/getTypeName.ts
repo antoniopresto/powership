@@ -1,6 +1,5 @@
 import { isPlainObject } from 'lodash';
 
-import { BJSON } from './BJSON';
 import { proxyRealValue } from './createProxy';
 import { hashObject } from './hashObject';
 import { tupleEnum } from './typings';
@@ -10,14 +9,6 @@ export function getTypeName(input: any): string {
   if (simple !== undefined) return simple;
   return describeConstructor(input).constructorName;
 }
-
-export const messageTypes = {
-  expectedValueOfTypeFound(expected: string, foundValue: unknown) {
-    return `Expected value to be of type '${expected}', but found a '${getTypeName(
-      foundValue
-    )}' instead.`;
-  },
-};
 
 export const KNOWN_CONSTRUCTOR_NAMES = tupleEnum(
   'undefined',
@@ -165,7 +156,7 @@ export function describeType(value) {
 
   let _string: string;
   function toString() {
-    return (_string = _string ?? BJSON.stringify(value));
+    return (_string = _string ?? hashObject(value));
   }
 
   let _hash: string;

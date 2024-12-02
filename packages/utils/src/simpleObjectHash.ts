@@ -1,8 +1,7 @@
-import { BJSON } from './BJSON';
 import { proxyRealValue } from './createProxy';
 import { describeConstructor, getNativeConstructorType } from './getTypeName';
-import { hashName, hashString, stringHash } from './hashString';
-import { sortObject } from './sortObject';
+import { objectHash } from './hashObject';
+import { hashName, hashString } from './hashString';
 
 export function simpleObjectHash(value: any): string {
   return hashName(_simpleObjectHash(value));
@@ -15,8 +14,7 @@ export function _simpleObjectHash(value: any): string {
   value = proxyRealValue(value);
 
   if (typeof value === 'function' && value.name) {
-    const json = BJSON.stringify(value);
-    const hash = stringHash(json);
+    const hash = objectHash(value);
     return `;function(${value.name}_${hash});`;
   }
 
@@ -35,9 +33,7 @@ export function _simpleObjectHash(value: any): string {
     }
   }
 
-  const sorted = sortObject(value);
-
-  const bJSON = BJSON.stringify(sorted);
+  const bJSON = objectHash(value);
 
   return `;${constructorName}(${hashString(bJSON)})`;
 }
