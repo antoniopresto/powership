@@ -13,8 +13,8 @@ if (!validTargets.includes(TARGET)) {
   );
 }
 
-const KIND = TARGET.includes('browser') ? 'browser' : 'server';
-const KIND_INVERT = KIND === 'browser' ? 'server' : 'browser';
+const KIND = TARGET.includes('browser') ? 'Browser' : 'Server';
+const KIND_INVERT = KIND === 'browser' ? 'Server' : 'Browser';
 
 const browserConfig = {
   useBuiltIns: 'entry',
@@ -71,7 +71,7 @@ module.exports = function (api) {
     [
       require('@powership/babel-plugins').StripBlocksPlugin,
       {
-        magicComment: `@only-${KIND_INVERT}`,
+        magicComment: `@only${KIND_INVERT}`,
       },
     ],
   ];
