@@ -24,6 +24,7 @@ import {
 } from '@powership/transporter';
 import {
   AnyFunction,
+  BJSON,
   capitalize,
   createAsyncPlugin,
   createProxy,
@@ -743,33 +744,38 @@ export function createEntity(
     PowershipWatchTypesPubSub.emit('created', {
       custom: () => ({
         name: entityOptions.name,
-        imports: [
-          `import { DocumentIndexesConfig, EntityOptions } from 'powership';`,
-        ],
+        imports: [`import { Entity } from 'powership';`],
         head: ['export type ID = number | string;'],
         body: (() => {
-          const conf = (
+          let { type, name, indexes } = (
             typeof configOptions === 'function'
               ? configOptions()
               : configOptions
           ) as EntityOptions;
 
-          const configJSON = JSON.stringify(conf, null, 2);
-          const indexesJSON = JSON.stringify(conf.indexes, null, 2);
+          const typeId = type.optionalId || entityResult.type.id;
+          const indexesJSON = JSON.stringify(indexes);
+
+          const configJSON = [
+            '{',
+            `name: "${name}",`,
+            `indexes: ${indexesJSON},`,
+            `type: GraphTypeRuntime<RuntimeDefinitions['${typeId}'], RuntimeTypes['${typeId}'], '${typeId}'>,`,
+            '[K: string]: any,',
+            '}',
+          ].join('\n');
 
           const config_str =
             typeof configOptions === 'function'
               ? `() => (${configJSON})`
               : `${configJSON}`;
 
-          const typeId = conf.type.optionalId || entityResult.type.id;
-
           return [
             'export function createEntity(',
             `configOptions:`,
             config_str,
             '',
-            `): Entity<RuntimeDefinitions['${typeId}'], ${indexesJSON}>;`,
+            `): Entity<RuntimeDefinitions['${typeId}']['def'], ${indexesJSON}>;`,
           ];
         })(),
       }),

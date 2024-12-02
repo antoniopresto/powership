@@ -1,11 +1,25 @@
-import { createType, resetTypesCache, generateTypes } from '@powership/schema';
+import { MongoTransporter } from '@powership/mongo';
+import { createType, generateTypes } from '@powership/schema';
 import { delay } from '@powership/utils';
 import { nodePath } from '@powership/utils/server-utils';
 import { createEntity } from '../Entity';
+import { AppMock, createAppMock } from './createAppMock';
 
 xdescribe('writeTypes', () => {
-  beforeEach(async () => {
-    await resetTypesCache();
+  let mockApp: AppMock;
+  let transporter: MongoTransporter;
+
+  beforeEach(async function () {
+    mockApp = createAppMock();
+    await mockApp.start();
+    transporter = new MongoTransporter({
+      collection: 'temp1',
+      client: mockApp.client!,
+    });
+  });
+
+  afterEach(async function () {
+    await mockApp.reset();
   });
 
   const dest = nodePath.resolve(__dirname, 'writeTypesResult.txt');
@@ -23,6 +37,7 @@ xdescribe('writeTypes', () => {
     createEntity({
       name: 'SUTEntity',
       type: SUTType,
+      transporter,
       indexes: [
         {
           PK: ['.accountId'],
