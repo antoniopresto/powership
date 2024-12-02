@@ -9,12 +9,10 @@ import { inspectObject } from './inspectObject';
 import { getStack } from './stackTrace';
 
 function join(...parts: any[]) {
-  return (
-    parts
-      .filter((el) => typeof el === 'string' && el)
-      .map((el) => el.trim())
-      .join('\n       ➻ ') + '\n\n_ lines were trimmed _'
-  );
+  return parts
+    .filter((el) => typeof el === 'string' && el)
+    .map((el) => el.trim())
+    .join('\n 🔴 ');
 }
 
 export function nonNullValues<T>(
@@ -22,12 +20,13 @@ export function nonNullValues<T>(
   customMessage = ''
 ): T {
   if (!object || typeof object !== 'object') {
+    const message = join(
+      customMessage,
+      `${object} is not a valid object`,
+      inspectObject(object)
+    );
     throw customError({
-      message: join(
-        customMessage,
-        `${object} is not a valid object`,
-        inspectObject(object)
-      ),
+      message,
       stackFrom: nonNullValues,
     }).identify('NonNullValues');
   }
@@ -43,8 +42,12 @@ export function nonNullValues<T>(
   });
 
   if (errors.length) {
+    const message =
+      join(customMessage, errors.join('\n')) +
+      `\nReceived: ${inspectObject(object).trim()}\n`;
+
     throw customError({
-      message: join(customMessage, errors.join('\n'), inspectObject(object)),
+      message,
       stackFrom: nonNullValues,
     });
   }

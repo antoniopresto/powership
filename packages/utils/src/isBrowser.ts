@@ -1,8 +1,8 @@
 export const IS_BROWSER = (() => {
-  //@only-server
+  //@onlyServer
   return false;
 
-  //@only-browser
+  //@onlyBrowser
   return true;
 
   try {

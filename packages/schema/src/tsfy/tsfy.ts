@@ -91,7 +91,7 @@ export function tsfy(input: any, config?: TSFYConfig): TSFyResult {
       .join('\n');
 
     if (prettier) {
-      // @only-server
+      // @onlyServer
       return await formatWithPrettier(res, {
         parser: 'typescript',
       });

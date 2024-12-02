@@ -5,7 +5,7 @@ import { formatWithPrettier } from '@powership/utils';
 import type { GraphQLSchemaConfig } from 'graphql';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
-// @only-server
+// @onlyServer
 import { generateClientUtils } from './GraphType/generateClientUtils';
 import { getInnerGraphTypeId } from './GraphType/getInnerGraphTypeId';
 import {
@@ -217,7 +217,7 @@ export async function resolversTypescriptParts(
     `${prefix}\n${typesCode}\n${interfaceCode}}\n${queryCode}}\n${mutationCode}}\n${subscriptionCode}}\n`
       .replace(/\n\n/gm, '\n') // remove multi line breaks
       .replace(/^\n/gm, ''); // remove empty lines
-  // @only-server
+  // @onlyServer
   code = (await formatWithPrettier(code, {
     parser: 'typescript',
   })) as any;
@@ -314,7 +314,7 @@ async function convertType(options: {
   const { description } = parsed;
 
   // @ts-ignore circular
-  // @only-server
+  // @onlyServer
   const result = (await objectToTypescript(
     entryName,
     {

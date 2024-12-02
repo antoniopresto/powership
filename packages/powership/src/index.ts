@@ -2,18 +2,18 @@ export * from '@powership/schema';
 export * from '@powership/utils';
 export * from 'plugin-engine';
 
-// @only-server
+// @onlyServer
 export * from '@powership/entity';
-// @only-server
+// @onlyServer
 export * from '@powership/transporter';
 
-// @only-server
+// @onlyServer
 export type { RootFilterOperators } from '@powership/transporter';
 
-// @only-server
+// @onlyServer
 export * from '@powership/server';
 
-// @only-server
+// @onlyServer
 export {
   BaseRequest,
   BaseRequestHandler,
@@ -26,7 +26,7 @@ export {
   ServerLogs,
 } from '@powership/server';
 
-// @only-server
+// @onlyServer
 export type {
   Handler,
   RouteHandlerCallback,

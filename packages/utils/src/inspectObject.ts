@@ -1,4 +1,4 @@
-// @only-server
+// @onlyServer
 import utils from 'util';
 
 import { getTypeName } from './getTypeName';

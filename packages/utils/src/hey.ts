@@ -1,4 +1,4 @@
-// @only-server
+// @onlyServer
 import fs from 'fs';
 
 import { isPlainObject } from './isObject';
@@ -177,6 +177,7 @@ export class Ident {
   get list() {
     return [...this.children];
   }
+
   get chain() {
     const list = this.list;
     return list.map.bind(list);

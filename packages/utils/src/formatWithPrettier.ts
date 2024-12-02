@@ -1,5 +1,5 @@
 import type { Options } from 'prettier';
-// @only-server
+// @onlyServer
 import { format } from 'prettier';
 
 export async function formatWithPrettier(

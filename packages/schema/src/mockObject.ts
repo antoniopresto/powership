@@ -11,7 +11,7 @@ import {
 import { Infer } from './Infer';
 import type { FieldComposer } from './fields/FieldType';
 import type { FieldTypeName } from './fields/_fieldDefinitions';
-import type { FieldInput } from './fields/_parseFields';
+import type { FieldDefinition } from './fields/_parseFields';
 
 export type ObjectMockOptions = {
   maxArrayLength?: number;
@@ -19,7 +19,7 @@ export type ObjectMockOptions = {
   randomText?: () => string;
 };
 
-export function objectMock<T extends { [K: string]: FieldInput }>(
+export function objectMock<T extends { [K: string]: FieldDefinition }>(
   definition: T,
   options?: ObjectMockOptions
 ): Infer<{ object: T }> {
@@ -45,7 +45,7 @@ export function objectMock<T extends { [K: string]: FieldInput }>(
 }
 
 export function fieldToMock(
-  fieldInput: FieldInput,
+  fieldInput: FieldDefinition,
   options?: ObjectMockOptions
 ): any {
   const {

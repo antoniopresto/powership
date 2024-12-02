@@ -1,4 +1,4 @@
-import { FieldInput, ObjectDefinitionInput } from '@powership/schema';
+import { FieldDefinition, ObjectDefinitionInput } from '@powership/schema';
 import {
   INDEX_PART_SEP,
   parseIndexFieldName,
@@ -23,7 +23,7 @@ export function parseEntityIndexFields(indexConfig: AnyCollectionIndexConfig) {
 
     const PKName = parseIndexFieldName(index.name, 'PK');
 
-    const fields: { [K in keyof CommonIndexFields]: FieldInput } = {
+    const fields: { [K in keyof CommonIndexFields]: FieldDefinition } = {
       _c: {
         hidden: true,
         name: `EntityHashedCursor`,

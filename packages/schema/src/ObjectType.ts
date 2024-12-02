@@ -458,7 +458,7 @@ export class ObjectType<
     ) as ObjectHelpers;
   };
 
-  // @only-server
+  // @onlyServer
   toGraphQL = (name?: string): GraphQLParserResult => {
     if (name) {
       this.identify(name);
@@ -472,7 +472,7 @@ export class ObjectType<
       );
     }
 
-    // @only-server
+    // @onlyServer
     return GraphQLParser.objectToGraphQL({
       object: this,
     });
@@ -493,7 +493,7 @@ export class ObjectType<
   };
 
   typescriptPrint = (options?: ObjectToTypescriptOptions): Promise<string> => {
-    // @only-server
+    // @onlyServer
     return objectToTypescript(
       this.nonNullId,
       // @ts-ignore
@@ -528,9 +528,9 @@ export class ObjectType<
 
     try {
       // only available server side or in tests
-      // @only-server
+      // @onlyServer
       GraphQLParser.reset();
-      // @only-server
+      // @onlyServer
       promises.push(powership.GraphType.reset());
     } catch (e) {
       if (!isBrowser()) {

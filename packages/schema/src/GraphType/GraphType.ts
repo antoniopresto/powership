@@ -10,11 +10,11 @@ import type {
   GraphQLNamedInputType,
   GraphQLNamedType,
 } from 'graphql';
-// @only-server
+// @onlyServer
 import {
-  // @only-server
+  // @onlyServer
   GraphQLSchema,
-  // @only-server
+  // @onlyServer
   printSchema,
 } from 'graphql';
 
@@ -39,16 +39,16 @@ import {
   objectToTypescript,
   ObjectToTypescriptOptions,
 } from '../objectToTypescript';
-// @only-server
+// @onlyServer
 import { PowershipWatchTypesPubSub } from '../writeTypes';
 
 import { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
-// @only-server
+// @onlyServer
 import { initGraphType } from './initGraphType';
 
-// @only-server
+// @onlyServer
 import '../Resolver';
-// @only-server
+// @onlyServer
 import './GraphQLParser';
 
 export class GraphType<Definition extends ObjectFieldInput> {
@@ -66,7 +66,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   static register = createStore<Record<string, GraphTypeLike>>();
 
   static reset = async () => {
-    // @only-server
+    // @onlyServer
     powership._resolvers.clear();
     this.register.clear();
   };
@@ -137,7 +137,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
       //
     } else {
       if (!isBrowser()) {
-        // @only-server
+        // @onlyServer
         PowershipWatchTypesPubSub.emit('created', {
           graphType: this as any,
         });
@@ -154,6 +154,18 @@ export class GraphType<Definition extends ObjectFieldInput> {
   get hidden() {
     return this.__hidden;
   }
+
+  validate = (
+    input: any,
+    options?: FieldParserConfig
+  ): input is Infer<Definition> => {
+    try {
+      this.parse(input, options);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  };
 
   parse = (input: any, options?: FieldParserConfig): Infer<Definition> => {
     const field = this.__lazyGetter.field;
@@ -181,7 +193,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   };
 
   _toGraphQL = (): ConvertFieldResult => {
-    // @only-server
+    // @onlyServer
     return powership.GraphQLParser.fieldToGraphQL({
       field: this.__lazyGetter.field,
       fieldName: this.id,
@@ -208,7 +220,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
     if (!this.__lazyGetter.objectType) {
       throw new Error('graphQLInterface is only available for object type');
     }
-    // @only-server
+    // @onlyServer
     return powership.GraphQLParser.objectToGraphQL({
       object: this.__lazyGetter.objectType,
     }).interfaceType(...args) as any;
@@ -272,12 +284,12 @@ export class GraphType<Definition extends ObjectFieldInput> {
     const type = this.graphQLType();
     const inputType = this.graphQLInputType();
 
-    // @only-server
+    // @onlyServer
     const object = new GraphQLSchema({
       // @ts-ignore
       types: [type, inputType],
     });
-    // @only-server
+    // @onlyServer
     return printSchema(object).split('\n');
   };
 
@@ -293,7 +305,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
         [name]: this.definition,
       });
 
-    // @only-server
+    // @onlyServer
     return objectToTypescript(name, object, options) as any;
   };
 
@@ -396,6 +408,9 @@ export function createType<Definition extends ObjectFieldInput>(
 ): GraphType<Definition>;
 
 export function createType(...args: any[]) {
+  if (args.length === 1 && GraphType.is(args[0])) {
+    return args[0];
+  }
   return new GraphType(
     // @ts-ignore
     ...args

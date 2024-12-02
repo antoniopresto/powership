@@ -83,7 +83,7 @@ describe('simpleObjectClone', () => {
     );
 
     expect(str).toEqual(
-      '{"12":[Date,RegExp,{"a":1,"b":HMM____},Null,undefined],"b":HMM____}'
+      '{"12":[Date,RegExp,{"a":1,"b":HMM____},null,undefined],"b":HMM____}'
     );
   });
 });

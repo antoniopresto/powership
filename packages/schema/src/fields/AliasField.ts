@@ -11,10 +11,10 @@ import type { FieldTypeParser } from '../applyValidator';
 
 import { FieldComposer, FieldType, TAnyFieldType } from './FieldType';
 import type { Infer } from './Infer';
-import type { FieldInput } from './_parseFields';
+import type { FieldDefinition } from './_parseFields';
 
 export type AliasFieldAggregation<Parent = any> = {
-  type: FieldInput;
+  type: FieldDefinition;
 } & (
   | {
       from: ObjectPath<Parent>;

@@ -56,32 +56,32 @@ import './GraphType/initGraphType';
 import './GraphType/lazyCreateGraphTypeInitPayload';
 import './GraphType/objectToQuery';
 
-// @only-server
+// @onlyServer
 import './objectToGQL';
-// @only-server
+// @onlyServer
 import './objectToJSON';
 import './objectToTypescript';
 import './parseTypeName';
-// @only-server
+// @onlyServer
 import './Resolver';
 import './withCache';
-// @only-server
+// @onlyServer
 import './writeTypes';
-// @only-server
+// @onlyServer
 import './createGraphQLSchema';
-// @only-server
+// @onlyServer
 import './GraphType/generateClientUtils';
 import './GraphType/getInnerGraphTypeId';
-// @only-server
+// @onlyServer
 import './GraphType/getQueryTemplates';
 import './GraphType/graphGet';
-// @only-server
+// @onlyServer
 import './GraphType/GraphQLDateType';
-// @only-server
+// @onlyServer
 import './GraphType/GraphQLNullType';
-// @only-server
+// @onlyServer
 import './GraphType/GraphQLParser';
-// @only-server
+// @onlyServer
 import './GraphType/GraphQLPhoneType';
 
 export function __globals__() {} // just to help auto complete importing

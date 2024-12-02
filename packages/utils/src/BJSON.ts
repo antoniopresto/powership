@@ -137,7 +137,7 @@ export class BJSONConstructor {
     }),
 
     new Serializer({
-      name: 'Undefined',
+      name: 'undefined',
       tsName() {
         return 'undefined';
       },
@@ -337,10 +337,10 @@ export function _stringify(
       return v;
     }
 
-    case 'Null':
+    case 'null':
       return 'null';
 
-    case 'Undefined':
+    case 'undefined':
       return 'undefined';
 
     case 'Function':

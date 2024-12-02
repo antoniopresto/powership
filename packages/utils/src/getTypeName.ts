@@ -11,9 +11,17 @@ export function getTypeName(input: any): string {
   return describeConstructor(input).constructorName;
 }
 
+export const messageTypes = {
+  expectedValueOfTypeFound(expected: string, foundValue: unknown) {
+    return `Expected value to be of type '${expected}', but found a '${getTypeName(
+      foundValue
+    )}' instead.`;
+  },
+};
+
 export const KNOWN_CONSTRUCTOR_NAMES = tupleEnum(
-  'Undefined',
-  'Null',
+  'undefined',
+  'null',
   'String',
   'Boolean',
   'BigInt',
@@ -29,8 +37,8 @@ export const KNOWN_CONSTRUCTOR_NAMES = tupleEnum(
 export type NATIVE_TYPE_NAME = typeof KNOWN_CONSTRUCTOR_NAMES.enum;
 
 export function getNativeConstructorType(input): NATIVE_TYPE_NAME | undefined {
-  if (input === undefined) return KNOWN_CONSTRUCTOR_NAMES['Undefined'];
-  if (input === null) return KNOWN_CONSTRUCTOR_NAMES['Null'];
+  if (input === undefined) return KNOWN_CONSTRUCTOR_NAMES['undefined'];
+  if (input === null) return KNOWN_CONSTRUCTOR_NAMES['null'];
   if (typeof input === 'string') return KNOWN_CONSTRUCTOR_NAMES['String'];
   if (typeof input === 'boolean') return KNOWN_CONSTRUCTOR_NAMES['Boolean'];
   if (typeof input === 'bigint') return KNOWN_CONSTRUCTOR_NAMES['BigInt'];
@@ -52,7 +60,7 @@ export type NATIVE_TYPE_OF = Lowercase<NATIVE_TYPE_NAME>;
  * Returns a string representation of the constructor of the given value if a simple native type.
  * @param input {any} The value to get the constructor name of.
  */
-export function getNativeTypeOf(input): NATIVE_TYPE_OF | undefined {
+export function getNativeTypeOf(input: any): NATIVE_TYPE_OF | undefined {
   if (input === undefined) return 'undefined';
   if (input === null) return 'object';
   if (typeof input === 'string') return 'string';
@@ -70,9 +78,9 @@ export function isObjectWithoutPrototype(value): value is Record<string, any> {
 }
 
 export function describeConstructor(value): ConstructorDescription {
-  const iowp = isObjectWithoutPrototype(value);
+  const objectWithoutProto = isObjectWithoutPrototype(value);
 
-  let _constructorBody;
+  let _constructorBody: string;
   function constructorBody(): string {
     return (_constructorBody =
       _constructorBody ?? value?.constructor?.toString?.());
@@ -86,7 +94,7 @@ export function describeConstructor(value): ConstructorDescription {
         const nativeConstructor = getNativeConstructorType(value);
         if (nativeConstructor) return nativeConstructor;
 
-        if (iowp) {
+        if (objectWithoutProto) {
           return KNOWN_CONSTRUCTOR_NAMES['Object'];
         }
 
@@ -108,7 +116,8 @@ export function describeConstructor(value): ConstructorDescription {
 
   let _native: boolean;
   function native(): boolean {
-    return (_native = _native ?? (iowp || !!getNativeTypeOf(value)));
+    return (_native =
+      _native ?? (objectWithoutProto || !!getNativeTypeOf(value)));
   }
 
   function typeName(): string {
@@ -120,7 +129,7 @@ export function describeConstructor(value): ConstructorDescription {
   return Object.defineProperties(
     {},
     {
-      isObjectWithoutPrototype: { value: iowp },
+      isObjectWithoutPrototype: { value: objectWithoutProto },
 
       native: {
         get() {

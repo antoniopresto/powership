@@ -13,7 +13,7 @@ import type { MetaField } from './fields/MetaFieldField';
 import type { FieldDefinitionWithType } from './fields/_fieldDefinitions';
 import type {
   FieldAsString,
-  FieldInput,
+  FieldDefinition,
   FinalFieldDefinition,
   FinalFieldDefinitionStrict,
   ObjectFieldInput,
@@ -79,7 +79,7 @@ export function parseObjectField(
   });
 }
 
-export function parseField(definition: FieldInput): FinalFieldDefinition {
+export function parseField(definition: FieldDefinition): FinalFieldDefinition {
   return parseObjectField('__parseField__', definition);
 }
 

@@ -39,10 +39,10 @@ export * from './createSimpleRouter';
 export * from './fields/_parseFields';
 export * from './fields/_fieldDefinitions';
 
-// @only-server
+// @onlyServer
 export * from './Resolver';
 
-// @only-server
+// @onlyServer
 export * from './createGraphQLSchema';
 
 import type { ResolverKind } from './createGraphQLSchema';

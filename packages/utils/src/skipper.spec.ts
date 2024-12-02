@@ -4,7 +4,7 @@ describe('skipper', () => {
   // afterEach();
 
   test('skip', async () => {
-    let sut = skipper((skip) => {
+    let sut = skipper<number>((skip) => {
       skip(2);
       return 1;
     });
@@ -17,6 +17,6 @@ describe('skipper', () => {
       skipper(() => {
         throw new Error('Ohno');
       })
-    ).toThrowError('Ohno');
+    ).toThrow('Ohno');
   });
 });

@@ -25,7 +25,6 @@ export type _ObjectFieldInputBase =
   | FinalFieldDefinition
   | FieldAsString;
 
-export type FieldInput = ObjectFieldInput;
 export type FieldDefinition = ObjectFieldInput;
 
 export type ObjectDefinitionInput = {

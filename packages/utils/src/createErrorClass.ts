@@ -63,7 +63,7 @@ export function createErrorClass(
         .join('\n');
 
       if (detailsMessage) {
-        if (typeof process && process.stderr) {
+        if (typeof process !== 'undefined' && process.stderr) {
           process.stderr.write(detailsMessage);
         } else {
           console.error(detailsMessage);

@@ -1,5 +1,5 @@
 import type { TAnyFieldType } from '../fields/FieldType';
-import type { FieldInput, ObjectFieldInput } from '../fields/_parseFields';
+import type { FieldDefinition, ObjectFieldInput } from '../fields/_parseFields';
 
 import type {
   GraphType,
@@ -28,7 +28,7 @@ export function lazyCreateGraphTypeInitPayload(
     definitionInput = args[0];
   }
 
-  function initializer(self: GraphType<FieldInput>): LazyParseGraphTypePayload {
+  function initializer(self: GraphType<FieldDefinition>): LazyParseGraphTypePayload {
     if (payload) return payload;
 
     const def =
