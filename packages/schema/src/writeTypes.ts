@@ -18,7 +18,7 @@ export type CustomTypesWriterEvent = {
 
 export const PowershipWatchTypesPubSub: Emitter<{
   created: {
-    custom?: CustomTypesWriterEvent;
+    custom?: CustomTypesWriterEvent | (() => CustomTypesWriterEvent);
     graphType?: GraphTypeLike;
     resolver?: Resolver;
   };
@@ -26,9 +26,11 @@ export const PowershipWatchTypesPubSub: Emitter<{
 
 const typesRecord: Record<string, GraphTypeLike> = {};
 const resolversRecord: Record<string, Resolver> = {};
-const customTypeRecord: Record<string, CustomTypesWriterEvent> = {};
+const customTypeRecord: Record<
+  string,
+  CustomTypesWriterEvent | (() => CustomTypesWriterEvent)
+> = {};
 
-// APLICAR AOS RESOLVERS DA ENTITY, etc.
 // @onlyServer
 PowershipWatchTypesPubSub.on('created', async (event) => {
   if (event.graphType?.optionalId) {
@@ -46,11 +48,11 @@ PowershipWatchTypesPubSub.on('created', async (event) => {
   save();
 });
 
-export interface WriteTypesOptions {
+export type WriteTypesOptions = {
   dest?: string;
-}
+};
 
-export const defaultTypesDest = path.resolve(
+export let defaultTypesDest = path.resolve(
   Process.cwd(),
   'src/generated/powership.d.ts'
 );
@@ -77,8 +79,6 @@ export async function writeTypes(options?: WriteTypesOptions) {
 
     txt += `\n export ${fn};\n`;
     txt += `\n export ${getTypeFn};\n`;
-
-    txt += `\n export const Powership = { createType, getType };\n`;
 
     return txt;
   });
@@ -108,11 +108,13 @@ export async function writeTypes(options?: WriteTypesOptions) {
   const body: string[] = [];
   const footer: string[] = [];
 
-  Object.values(customTypeRecord).forEach((item) => {
+  Object.values(customTypeRecord).forEach((def) => {
+    const item = typeof def === 'function' ? def() : def;
     item.head && head.push(...item.head);
     item.body && head.push(...item.body);
     item.footer && head.push(...item.footer);
   });
+
   // @onlyServer
   const typesInterface = await powership.objectToTypescript(
     'RuntimeTypes',
