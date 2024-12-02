@@ -7,7 +7,7 @@
       "inputs": ["src/**"]
     },
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^declarations", "^build"],
       "outputs": ["out/**"],
       "inputs": ["src/**"]
     },
