@@ -35,6 +35,7 @@ export * from './extendObjectDefinition';
 export * from './extendType';
 export * from './isHiddenFieldName';
 export * from './createSimpleRouter';
+export * from './handler';
 
 export * from './fields/_parseFields';
 export * from './fields/_fieldDefinitions';

@@ -6,11 +6,11 @@ export const symbols = {
   above_max: Symbol('status.above_maximum_threshold'),
   loading: Symbol('status.loading_in_progress'),
   ready: Symbol('status.ready_for_use'),
-  error: Symbol('status.error_occurred'),
   success: Symbol('status.operation_successful'),
   pending: Symbol('status.operation_pending'),
   completed: Symbol('status.operation_completed'),
   cancelled: Symbol('status.operation_cancelled'),
+  custom_error: Symbol('status.custom_error'),
 
   // Process States
   paused: Symbol('process.paused_state'),
@@ -192,6 +192,9 @@ export const symbols = {
   string_not_numeric: Symbol('validation.string.non_numeric'),
   string_invalid_case: Symbol('validation.string.case_mismatch'),
 
+  // Enum validation
+  enum_invalid_value: Symbol('validation.enum.invalid_value'),
+
   // Number Validation
   number_not_finite: Symbol('validation.number.not_finite'),
   number_is_nan: Symbol('validation.number.is_nan'),
@@ -269,6 +272,8 @@ export const symbols = {
   email_disposable: Symbol('validation.email.disposable_address'),
   email_dns_error: Symbol('validation.email.dns_lookup_failed'),
   email_blacklisted: Symbol('validation.email.blacklisted_address'),
+
+  phone_invalid_number: Symbol('validation.phone.invalid_number'),
 
   // File Validation
   file_too_large: Symbol('validation.file.exceeds_size_limit'),
@@ -486,3 +491,9 @@ export const symbols = {
   not_implemented: Symbol('validation.general.not_implemented'),
   deprecated_usage: Symbol('validation.general.deprecated_usage'),
 } as const;
+
+export type Symbols = {
+  -readonly [K in keyof typeof symbols]: (typeof symbols)[K] extends unknown
+    ? (typeof symbols)[K]
+    : never;
+} & {};
