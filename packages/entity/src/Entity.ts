@@ -24,7 +24,6 @@ import {
 } from '@powership/transporter';
 import {
   AnyFunction,
-  BJSON,
   capitalize,
   createAsyncPlugin,
   createProxy,
@@ -741,55 +740,50 @@ export function createEntity(
       return next(acc);
     }, entityResult);
 
-    PowershipWatchTypesPubSub.emit('created', {
-      custom: () => ({
-        name: entityOptions.name,
-        imports: [`import { Entity } from 'powership';`],
-        head: ['export type ID = number | string;'],
-        body: (() => {
-          let { type, name, indexes } = (
-            typeof configOptions === 'function'
-              ? configOptions()
-              : configOptions
-          ) as EntityOptions;
+    if (process.env.POWERSHIP_GENERATE_ENTITY_TYPES) {
+      PowershipWatchTypesPubSub.emit('created', {
+        custom: () => ({
+          name: entityOptions.name,
+          imports: [`import { Entity } from 'powership';`],
+          head: ['export type ID = number | string;'],
+          body: (() => {
+            let { type, name, indexes } = (
+              typeof configOptions === 'function'
+                ? configOptions()
+                : configOptions
+            ) as EntityOptions;
 
-          const typeId = type.optionalId || entityResult.type.id;
-          const indexesJSON = JSON.stringify(indexes);
+            const typeId = type.optionalId || entityResult.type.id;
+            const indexesJSON = JSON.stringify(indexes);
 
-          const configJSON = [
-            '{',
-            `name: "${name}",`,
-            `indexes: ${indexesJSON},`,
-            `type: GraphTypeRuntime<RuntimeDefinitions['${typeId}'], RuntimeTypes['${typeId}'], '${typeId}'>,`,
-            '[K: string]: any,',
-            '}',
-          ].join('\n');
+            const configJSON = [
+              '{',
+              `name: "${name}",`,
+              `indexes: ${indexesJSON},`,
+              `type: GraphTypeRuntime<RuntimeDefinitions['${typeId}'], RuntimeTypes['${typeId}'], '${typeId}'>,`,
+              '[K: string]: any,',
+              '}',
+            ].join('\n');
 
-          const config_str =
-            typeof configOptions === 'function'
-              ? `() => (${configJSON})`
-              : `${configJSON}`;
+            const config_str =
+              typeof configOptions === 'function'
+                ? `() => (${configJSON})`
+                : `${configJSON}`;
 
-          return [
-            'export function createEntity(',
-            `configOptions:`,
-            config_str,
-            '',
-            `): Entity<RuntimeDefinitions['${typeId}']['def'], ${indexesJSON}>;`,
-          ];
-        })(),
-      }),
-    });
+            return [
+              'export function createEntity(',
+              `configOptions:`,
+              config_str,
+              '',
+              `): Entity<RuntimeDefinitions['${typeId}']['def'], ${indexesJSON}>;`,
+            ];
+          })(),
+        }),
+      });
+    }
 
     return entityResult;
   }
-
-  setTimeout(() => {
-    try {
-      // touching the proxy (probably) before `generateTypes` is called
-      (entity as AnyEntity).type.id;
-    } catch (e) {}
-  }, 300);
 
   return entity;
 }

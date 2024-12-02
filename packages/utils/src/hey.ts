@@ -1,4 +1,4 @@
-// @onlyServer
+// @only-server
 import fs from 'fs';
 
 import { isPlainObject } from './isObject';

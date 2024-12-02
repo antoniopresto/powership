@@ -1,6 +1,6 @@
 {
   "name": "@powership/accounts",
-  "version": "5.7.7",
+  "version": "5.7.12",
   "description": "Powership accounts",
   "type": "module",
   "main": "./out/index.cjs",
@@ -22,7 +22,7 @@
   "scripts": {
     "#postinstall": "node ./scripts/postinstall.js",
     "test": "jest --runInBand",
-    "build": "run-p build:*",
+    "build": "run-p declarations build:*",
     "tswatch": "tsc -p tsconfig.declarations.json --noEmit --watch",
     "clear": "rimraf out",
     "fix": "run-s fix:* ",

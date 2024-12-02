@@ -1,6 +1,6 @@
 {
   "name": "@powership/transporter",
-  "version": "5.7.7",
+  "version": "5.7.12",
   "type": "module",
   "main": "./out/index.cjs",
   "module": "./out/index.mjs",
@@ -21,7 +21,7 @@
   "license": "MIT",
   "scripts": {
     "test": "jest --runInBand",
-    "build": "run-p build:*",
+    "build": "run-p declarations build:*",
     "clear": "rimraf out",
     "fix": "run-s fix:* ",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",

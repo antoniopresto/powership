@@ -1,7 +1,8 @@
 import type { JSONSchema4 as JSONObject4 } from 'json-schema';
 import type { JSONSchema4 } from 'json-schema';
 import type { Options } from 'json-schema-to-typescript';
-//@onlyServer
+
+// @only-server
 import { compile } from 'json-schema-to-typescript';
 
 export { JSONSchema4, JSONObject4 };
@@ -11,6 +12,6 @@ export async function jsonToTypescript(
   name: string,
   options: Partial<Options> = {}
 ): Promise<string> {
-  // @onlyServer
+  // @only-server
   return await compile(schema, name, options);
 }

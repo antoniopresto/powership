@@ -1,6 +1,6 @@
 {
   "name": "@powership/utils",
-  "version": "5.7.7",
+  "version": "5.7.12",
   "typings": "out",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -10,7 +10,7 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "run-p build:*",
+    "build": "run-p declarations build:*",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint src --ext .ts --fix",

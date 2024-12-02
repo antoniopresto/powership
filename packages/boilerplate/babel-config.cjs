@@ -6,8 +6,8 @@ if (!validTargets.includes(TARGET)) {
   throw new Error(`Invalid process.env.TARGET "${TARGET}", expected one of ${validTargets}`);
 }
 
-const KIND = TARGET.includes('browser') ? 'Browser' : 'Server';
-const KIND_INVERT = KIND === 'browser' ? 'Server' : 'Browser';
+const KIND = TARGET.includes('browser') ? 'browser' : 'server';
+const KIND_INVERT = KIND === 'browser' ? 'server' : 'browser';
 
 const destinationExtension = {
   browser: 'cjs',
@@ -68,7 +68,7 @@ module.exports = function (api) {
     [
       StripBlocksPlugin,
       {
-        magicComment: `@only${KIND_INVERT}`,
+        magicComment: `@only-${KIND_INVERT}`,
       },
     ],
     [

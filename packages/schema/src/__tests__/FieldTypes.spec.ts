@@ -601,7 +601,7 @@ describe('FieldTypes', () => {
         r2: 'record?',
         r3: '[record]?',
       });
-      // @onlyServer
+      // @only-server
       const sut = await objectToTypescript('records', object.definition);
 
       expect(sut).toEqual('');

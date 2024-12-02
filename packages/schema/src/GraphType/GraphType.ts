@@ -10,11 +10,11 @@ import type {
   GraphQLNamedInputType,
   GraphQLNamedType,
 } from 'graphql';
-// @onlyServer
+// @only-server
 import {
-  // @onlyServer
+  // @only-server
   GraphQLSchema,
-  // @onlyServer
+  // @only-server
   printSchema,
 } from 'graphql';
 
@@ -39,16 +39,16 @@ import {
   objectToTypescript,
   ObjectToTypescriptOptions,
 } from '../objectToTypescript';
-// @onlyServer
+// @only-server
 import { PowershipWatchTypesPubSub } from '../generateTypes';
 
 import { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
-// @onlyServer
+// @only-server
 import { initGraphType } from './initGraphType';
 
-// @onlyServer
+// @only-server
 import '../Resolver';
-// @onlyServer
+// @only-server
 import './GraphQLParser';
 
 export class GraphType<Definition extends ObjectFieldInput> {
@@ -66,7 +66,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   static register = createStore<Record<string, GraphTypeLike>>();
 
   static reset = async () => {
-    // @onlyServer
+    // @only-server
     powership._resolvers.clear();
     this.register.clear();
   };
@@ -137,7 +137,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
       //
     } else {
       if (!isBrowser()) {
-        // @onlyServer
+        // @only-server
         PowershipWatchTypesPubSub.emit('created', {
           graphType: this as any,
         });
@@ -193,7 +193,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
   };
 
   _toGraphQL = (): ConvertFieldResult => {
-    // @onlyServer
+    // @only-server
     return powership.GraphQLParser.fieldToGraphQL({
       field: this.__lazyGetter.field,
       fieldName: this.id,
@@ -220,7 +220,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
     if (!this.__lazyGetter.objectType) {
       throw new Error('graphQLInterface is only available for object type');
     }
-    // @onlyServer
+    // @only-server
     return powership.GraphQLParser.objectToGraphQL({
       object: this.__lazyGetter.objectType,
     }).interfaceType(...args) as any;
@@ -284,12 +284,12 @@ export class GraphType<Definition extends ObjectFieldInput> {
     const type = this.graphQLType();
     const inputType = this.graphQLInputType();
 
-    // @onlyServer
+    // @only-server
     const object = new GraphQLSchema({
       // @ts-ignore
       types: [type, inputType],
     });
-    // @onlyServer
+    // @only-server
     return printSchema(object).split('\n');
   };
 
@@ -305,7 +305,7 @@ export class GraphType<Definition extends ObjectFieldInput> {
         [name]: this.definition,
       });
 
-    // @onlyServer
+    // @only-server
     return objectToTypescript(name, object, options) as any;
   };
 

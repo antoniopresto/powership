@@ -686,9 +686,6 @@ importers:
       '@powership/boilerplate':
         specifier: workspace:*
         version: link:../boilerplate
-      '@powership/mongo':
-        specifier: workspace:*
-        version: link:../mongo
       '@types/jest':
         specifier: 29.5.12
         version: 29.5.12

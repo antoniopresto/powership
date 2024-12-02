@@ -1,10 +1,5 @@
 export const IS_BROWSER = (() => {
-  //@onlyServer
-  return false;
-
-  //@onlyBrowser
-  return true;
-
+  if (typeof document === 'undefined') return false;
   try {
     return document.body.getBoundingClientRect().width > 0;
   } catch (e) {

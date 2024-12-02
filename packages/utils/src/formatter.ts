@@ -1,4 +1,4 @@
-// @onlyServer
+// @only-server
 import kleur from 'kleur';
 
 import { IS_BROWSER } from './isBrowser';
@@ -121,7 +121,7 @@ export abstract class BaseFormatter implements IFormatter {
   protected abstract getColor(text: string, type: FormatterMessageType): string;
 }
 
-// @onlyServer
+// @only-server
 export class _NodeFormatter extends BaseFormatter {
   protected getIcon(type: FormatterMessageType): string {
     return FORMATTER_ICONS[type] + ' ';
@@ -237,7 +237,7 @@ export class _NodeFormatter extends BaseFormatter {
   }
 }
 
-// @onlyBrowser
+// @only-browser
 export class _BrowserFormatter extends BaseFormatter {
   private readonly CSS_COLORS = {
     error: '#ff0000',
@@ -280,11 +280,11 @@ export class Formatter implements IFormatter {
   constructor() {
     this.formatter = (() => {
       if (IS_BROWSER) {
-        // @onlyBrowser
+        // @only-browser
         return new _BrowserFormatter();
       }
 
-      // @onlyBrowser
+      // @only-browser
       return new _NodeFormatter();
     })();
   }

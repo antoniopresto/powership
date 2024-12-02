@@ -1,4 +1,4 @@
-// @onlyServer
+// @only-server
 import { GraphQLParser } from './GraphType/GraphQLParser';
 import { createObjectType } from './ObjectType';
 import type {

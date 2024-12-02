@@ -40,13 +40,13 @@ export * from './handler';
 export * from './fields/_parseFields';
 export * from './fields/_fieldDefinitions';
 
-// @onlyServer
+// @only-server
 export * from './Resolver';
 
-// @onlyServer
+// @only-server
 export * from './createGraphQLSchema';
 
-// @onlyServer
+// @only-server
 export * from './generateTypes';
 
 import type { ResolverKind } from './createGraphQLSchema';

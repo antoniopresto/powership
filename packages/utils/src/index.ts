@@ -91,23 +91,23 @@ export * from './tryCatch';
 export * from './dateFormat';
 export * from './parsePhoneNumber';
 
-// @onlyServer
+// @only-server
 export * from './logLevels';
 
-// @onlyServer
+// @only-server
 export * from './fsExtra';
 
-// @onlyServer
+// @only-server
 export * from './nodeLogger';
-// @onlyServer
+// @only-server
 export * from './conust';
-// @onlyServer
+// @only-server
 export * from './big';
-// @onlyServer
+// @only-server
 export * from './jsonToTypescript';
-// @onlyServer
+// @only-server
 export * from './formatGraphQL';
-// @onlyServer
+// @only-server
 export * from './formatWithPrettier';
 
 export { TU };

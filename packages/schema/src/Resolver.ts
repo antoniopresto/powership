@@ -15,17 +15,17 @@ import {
 import type { GraphType } from './GraphType/GraphType';
 import { Infer } from './fields/Infer';
 import type { ObjectDefinitionInput } from './fields/_parseFields';
-// @onlyServer
+// @only-server
 import { PowershipWatchTypesPubSub } from './generateTypes';
 
 export interface ResolverContext {}
 
-// @onlyServer
+// @only-server
 const _resolvers = createStore<Record<string, Resolver>>();
 
 function _createResolver(options: any) {
   const { args, name, kind = 'query', resolve, type, ...rest } = options;
-  // @onlyServer
+  // @only-server
   if (_resolvers.has(name)) {
     // @ts-ignore
     return _resolvers.get(name);
@@ -108,9 +108,9 @@ function _createResolver(options: any) {
     type: gqlType,
     typeDef: payloadType.definition,
   };
-  // @onlyServer
+  // @only-server
   _resolvers.set(name, result);
-  // @onlyServer
+  // @only-server
   PowershipWatchTypesPubSub.emit('created', {
     resolver: result,
   });

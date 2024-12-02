@@ -1,6 +1,6 @@
 {
   "name": "@powership/babel-plugins",
-  "version": "5.7.7",
+  "version": "5.7.12",
   "main": "./out/index.js",
   "sideEffects": false,
   "typings": "./out/index.d.ts",
@@ -13,7 +13,8 @@
     "build-targets": "run-p build",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
-    "fix:lint": "eslint src --ext .ts --fix"
+    "fix:lint": "eslint src --ext .ts --fix",
+    "clear": "rimraf out"
   },
   "description": "powership babel plugins",
   "keywords": [],

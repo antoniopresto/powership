@@ -1,6 +1,6 @@
 {
   "name": "runmate",
-  "version": "5.7.7",
+  "version": "5.7.12",
   "typings": "out",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -23,7 +23,7 @@
     "test": "jest --runInBand",
     "link": "pnpm prepublishOnly && pnpm link --global",
     "ts": "tsc --noEmit",
-    "build": "run-p build:*",
+    "build": "run-p declarations build:*",
     "clear": "rimraf out",
     "fix": "run-s fix:* ",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
