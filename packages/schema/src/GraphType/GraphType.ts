@@ -40,7 +40,7 @@ import {
   ObjectToTypescriptOptions,
 } from '../objectToTypescript';
 // @onlyServer
-import { PowershipWatchTypesPubSub } from '../writeTypes';
+import { PowershipWatchTypesPubSub } from '../generateTypes';
 
 import { ConvertFieldResult, GraphQLParserResult } from './GraphQLParser';
 // @onlyServer

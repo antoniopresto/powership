@@ -94,6 +94,7 @@ function parse(str: string): number {
     throw new Error('Value exceeds the maximum length of 100 characters.');
   }
   const match =
+    // @ts-ignore
     /^(?<value>-?(?:\d+)?\.?\d+) *(?<type>milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(
       str
     );

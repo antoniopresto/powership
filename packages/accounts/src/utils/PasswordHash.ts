@@ -27,7 +27,10 @@ async function verify(
 ): Promise<{ valid: boolean }> {
   const { password, hash } = verify.input.parse(params);
   const keyBuf = Buffer.from(hash, 'base64');
-  const valid = await Scrypt.verify(keyBuf, password);
+  const valid = await Scrypt.verify(
+    new Uint8Array(keyBuf.buffer, keyBuf.byteOffset, keyBuf.length),
+    password
+  );
   return { valid };
 }
 

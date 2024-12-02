@@ -66,7 +66,7 @@ import './parseTypeName';
 import './Resolver';
 import './withCache';
 // @onlyServer
-import './writeTypes';
+import './generateTypes';
 // @onlyServer
 import './createGraphQLSchema';
 // @onlyServer

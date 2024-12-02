@@ -1,6 +1,6 @@
 {
   "name": "@powership/accounts",
-  "version": "5.1.6",
+  "version": "5.1.10",
   "description": "Powership accounts",
   "type": "module",
   "main": "./out/index.cjs",
@@ -21,7 +21,7 @@
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "build": "run-s clear && run-p declarations build:*",
+    "build": "run-p declarations build:*",
     "clear": "rimraf out",
     "fix": "run-s fix:* ",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
@@ -46,6 +46,7 @@
   "author": "@antoniopresto",
   "dependencies": {
     "@powership/entity": "workspace:*",
+    "@powership/mongo": "workspace:*",
     "@powership/schema": "workspace:*",
     "@powership/utils": "workspace:*",
     "@powership/transporter": "workspace:*",
@@ -80,7 +81,7 @@
     "rimraf": "5.0.5",
     "ts-jest": "29.1.2",
     "typedoc": "0.25.11",
-    "typescript": "5.4.2"
+    "typescript": "5.7.2"
   },
   "typedoc": {
     "entryPoint": "./src/index.ts",

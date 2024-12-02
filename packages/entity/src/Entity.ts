@@ -4,6 +4,7 @@ import {
   FinalObjectDefinition,
   GraphType,
   ObjectDefinitionInput,
+  PowershipWatchTypesPubSub,
 } from '@powership/schema';
 import {
   AnyCollectionIndexConfig,
@@ -739,8 +740,50 @@ export function createEntity(
       return next(acc);
     }, entityResult);
 
+    PowershipWatchTypesPubSub.emit('created', {
+      custom: () => ({
+        name: entityOptions.name,
+        imports: [
+          `import { DocumentIndexesConfig, EntityOptions } from 'powership';`,
+        ],
+        head: ['export type ID = number | string;'],
+        body: (() => {
+          const conf = (
+            typeof configOptions === 'function'
+              ? configOptions()
+              : configOptions
+          ) as EntityOptions;
+
+          const configJSON = JSON.stringify(conf, null, 2);
+          const indexesJSON = JSON.stringify(conf.indexes, null, 2);
+
+          const config_str =
+            typeof configOptions === 'function'
+              ? `() => (${configJSON})`
+              : `${configJSON}`;
+
+          const typeId = conf.type.optionalId || entityResult.type.id;
+
+          return [
+            'export function createEntity(',
+            `configOptions:`,
+            config_str,
+            '',
+            `): Entity<RuntimeDefinitions['${typeId}'], ${indexesJSON}>;`,
+          ];
+        })(),
+      }),
+    });
+
     return entityResult;
   }
+
+  setTimeout(() => {
+    try {
+      // touching the proxy (probably) before `generateTypes` is called
+      (entity as AnyEntity).type.id;
+    } catch (e) {}
+  }, 300);
 
   return entity;
 }

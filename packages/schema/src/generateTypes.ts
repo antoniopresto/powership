@@ -1,6 +1,6 @@
 import path from 'path';
 
-import { formatWithPrettier, Process } from '@powership/utils';
+import { formatWithPrettier, Process, uniq } from '@powership/utils';
 import { Emitter, mitt } from '@powership/utils';
 import { fsExtra } from '@powership/utils/server-utils';
 
@@ -12,6 +12,7 @@ import type { GraphTypeLike } from './fields/IObjectLike';
 export type CustomTypesWriterEvent = {
   body?: string[];
   footer?: string[];
+  imports?: string[];
   head?: string[];
   name: string;
 };
@@ -31,7 +32,6 @@ const customTypeRecord: Record<
   CustomTypesWriterEvent | (() => CustomTypesWriterEvent)
 > = {};
 
-// @onlyServer
 PowershipWatchTypesPubSub.on('created', async (event) => {
   if (event.graphType?.optionalId) {
     typesRecord[`${event.graphType?.optionalId}`] = event.graphType;
@@ -48,20 +48,12 @@ PowershipWatchTypesPubSub.on('created', async (event) => {
   save();
 });
 
-export type WriteTypesOptions = {
-  dest?: string;
-};
-
 export let defaultTypesDest = path.resolve(
   Process.cwd(),
   'src/generated/powership.d.ts'
 );
 
-export async function writeTypes(options?: WriteTypesOptions) {
-  const { dest = defaultTypesDest } = options || {};
-
-  ensureFileSync(dest);
-
+export async function generateTypes(dest?: string) {
   const creators = Object.keys(typesRecord).map((name) => {
     let txt = '';
 
@@ -105,17 +97,18 @@ export async function writeTypes(options?: WriteTypesOptions) {
   });
 
   const head: string[] = [];
+  const imports: string[] = [];
   const body: string[] = [];
   const footer: string[] = [];
 
   Object.values(customTypeRecord).forEach((def) => {
     const item = typeof def === 'function' ? def() : def;
+    item.imports && imports.push(...item.imports);
     item.head && head.push(...item.head);
     item.body && head.push(...item.body);
     item.footer && head.push(...item.footer);
   });
 
-  // @onlyServer
   const typesInterface = await powership.objectToTypescript(
     'RuntimeTypes',
     typesRecord
@@ -130,9 +123,10 @@ export async function writeTypes(options?: WriteTypesOptions) {
 
   definitions = `export interface RuntimeDefinitions {\n${definitions}\n}`;
 
-  let content = template({
+  let text = template({
     creators,
     definitions,
+    extraImports: imports,
     extraCustomBody: body,
     extraCustomFooter: footer,
     extraCustomHead: head,
@@ -140,12 +134,24 @@ export async function writeTypes(options?: WriteTypesOptions) {
     typesInterface,
   });
 
-  content = await formatWithPrettier(content, {
+  text = await formatWithPrettier(text, {
     parser: 'typescript',
     singleQuote: true,
   });
 
-  writeFileSync(dest, content);
+  function saveFile(filePath: string) {
+    ensureFileSync(filePath);
+    writeFileSync(filePath, text);
+  }
+
+  if (dest) {
+    saveFile(dest);
+  }
+
+  return {
+    text,
+    saveFile,
+  };
 }
 
 function template({
@@ -153,12 +159,14 @@ function template({
   creators,
   resolvers,
   definitions,
+  extraImports,
   extraCustomHead,
   extraCustomBody,
   extraCustomFooter,
 }: {
   creators: string[];
   definitions: string;
+  extraImports: string[];
   extraCustomBody: string[];
   extraCustomFooter: string[];
   extraCustomHead: string[];
@@ -170,10 +178,9 @@ function template({
 /* tslint:disable */
 /* eslint-disable */
 declare global {
-  module '@powership/schema' {
-    export * from '@powership/schema';
-    import { ObjectFieldInput, ValidationCustomMessage, FieldDefinition } from '@powership/schema';
-    import { Merge } from '@powership/utils';
+  module 'powership' {
+    export * from 'powership';
+    import { ObjectFieldInput, ValidationCustomMessage, FieldDefinition, Merge } from 'powership';
   
     import {
       GraphQLField,
@@ -181,7 +188,9 @@ declare global {
       GraphQLResolveInfo,
     } from 'graphql';
     
-    ${extraCustomHead.join('\n')}
+    ${uniq(extraImports).join('\n')}
+    
+    ${uniq(extraCustomHead).join('\n')}
 
     export class GraphTypeRuntime<Definition extends FieldDefinition, Type, Name> {
       static __isGraphType: true;
@@ -298,8 +307,8 @@ function save() {
   timeout = Math.max(timeout, 1000);
 
   timeoutRef = setTimeout(() => {
-    writeTypes().catch((err) => {
-      console.error('writeTypes:', err.message);
+    generateTypes(defaultTypesDest).catch((err) => {
+      console.error('generateTypes:', err.message);
     });
   }, timeout);
 }

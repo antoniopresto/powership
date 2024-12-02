@@ -5,7 +5,7 @@
     "paths": {},
     "lib": ["es5", "es6", "es7", "esnext", "dom"],
     "declaration": true,
-    "target": "es5",
+    "target": "es2020",
     "removeComments": false,
     "esModuleInterop": true,
     "moduleResolution": "node",

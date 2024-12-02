@@ -1,6 +1,6 @@
 {
   "name": "powership",
-  "version": "5.1.6",
+  "version": "5.1.10",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "type": "module",
   "main": "./out/index.cjs",
@@ -114,7 +114,7 @@
     "ts-jest": "29.1.2",
     "ts-node": "10.9.1",
     "typedoc": "0.25.11",
-    "typescript": "5.4.2"
+    "typescript": "5.7.2"
   },
   "files": [
     "package.json",

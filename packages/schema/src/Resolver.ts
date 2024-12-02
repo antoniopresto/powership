@@ -16,7 +16,7 @@ import type { GraphType } from './GraphType/GraphType';
 import { Infer } from './fields/Infer';
 import type { ObjectDefinitionInput } from './fields/_parseFields';
 // @onlyServer
-import { PowershipWatchTypesPubSub } from './writeTypes';
+import { PowershipWatchTypesPubSub } from './generateTypes';
 
 export interface ResolverContext {}
 

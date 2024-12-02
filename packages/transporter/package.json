@@ -1,6 +1,6 @@
 {
   "name": "@powership/transporter",
-  "version": "5.1.6",
+  "version": "5.1.10",
   "type": "module",
   "main": "./out/index.cjs",
   "module": "./out/index.mjs",
@@ -21,7 +21,7 @@
   "license": "MIT",
   "scripts": {
     "test": "cd ../mongo && npm run build && cd - && jest",
-    "build": "run-s clear && run-p declarations build:*",
+    "build": "run-p declarations build:*",
     "clear": "rimraf out",
     "fix": "run-s fix:* ",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
@@ -84,7 +84,7 @@
     "rimraf": "5.0.5",
     "ts-jest": "29.1.2",
     "typedoc": "0.25.11",
-    "typescript": "5.4.2"
+    "typescript": "5.7.2"
   },
   "files": [
     "package.json",

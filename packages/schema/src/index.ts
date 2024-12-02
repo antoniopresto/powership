@@ -47,7 +47,7 @@ export * from './Resolver';
 export * from './createGraphQLSchema';
 
 // @onlyServer
-export * from './writeTypes';
+export * from './generateTypes';
 
 import type { ResolverKind } from './createGraphQLSchema';
 import type { GraphType } from './GraphType/GraphType';

@@ -1,15 +1,23 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
-    "prepublishOnly": {
-      "dependsOn": ["^prepublishOnly"]
+    "pre": {
+      "dependsOn": ["^build", "fix", "test"],
+      "outputs": ["out/**"],
+      "inputs": ["src/**", "package.json", "tsconfig.json"]
     },
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["out/**"]
+      "outputs": ["out/**"],
+      "inputs": ["src/**", "package.json", "tsconfig.json"]
     },
-    "fix": {},
-    "test": {},
+    "fix": {
+      "inputs": ["src/**", "package.json", "tsconfig.json"]
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "inputs": ["src/**", "package.json", "tsconfig.json"]
+    },
     "clear": {
       "cache": false
     },

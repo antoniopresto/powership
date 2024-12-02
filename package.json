@@ -1,11 +1,12 @@
 {
   "name": "powership",
-  "version": "5.1.6",
+  "version": "5.1.10",
   "private": true,
   "scripts": {
-    "prepublishOnly": "turbo prepublishOnly --concurrency=1 --force",
-    "prepublishSafe": "bun-safe ./prepublishSafe.ts",
-    "pre": "run prepublishOnly",
+    "patch": "run-s patch:*",
+    "patch:prepare": "turbo prepublishOnly",
+    "patch:version": "run version patch",
+    "patch:publish": "pnpm exec \"pnpm publish --ignore-scripts\"",
     "fix": "run fix",
     "test": "run test",
     "validate": "(cd packages/schema && npm run prepublish)",
@@ -13,17 +14,7 @@
     "i": "rm -rf node_modules/.pnpm && rm -rf pnpm-lock.yaml && pnpm install",
     "reset": "./reset.sh",
     "beta": "bun run scripts/beta.ts",
-    "beta-version": "bun run scripts/beta-version.ts",
-    "minor": "run-s minor:*",
-    "minor:peers": "run peer && pnpm install",
-    "minor:prepublish": "run prepublishOnly",
-    "minor:runmate": "cd packages/runmate && pnpm run link",
-    "minor:version": "run version patch",
-    "minor:publish": "run command \"pnpm publish --ignore-scripts\"",
-    "================= publish patch =============": "",
-    "publish-patch": "run-s publish-patch:*",
-    "publish-patch:1": "run build && run schema tests && run accounts prepublishOnly",
-    "publish-patch:2": "run version patch && npm run minor:publish"
+    "beta-version": "bun run scripts/beta-version.ts"
   },
   "dependencies": {
     "@powership/babel-plugins": "workspace:*",
@@ -55,7 +46,7 @@
     "ts-node": "10.9.1",
     "typedoc": "0.23.24",
     "typedoc-plugin-markdown": "3.14.0",
-    "typescript": "4.8.2",
+    "typescript": "5.7.2",
     "zx": "7.2.3"
   },
   "xworkspaces": [
