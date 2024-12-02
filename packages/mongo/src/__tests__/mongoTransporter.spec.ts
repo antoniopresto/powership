@@ -8,7 +8,7 @@ import { nonNullValues, ulid } from '@powership/utils';
 import { Collection } from 'mongodb';
 
 import type { MongoTransporter } from '../MongoTransporter';
-import type { AppMock } from '../test-utils';
+import type { AppMock } from './createAppMock';
 
 const itemUser = {
   item: {
@@ -35,7 +35,7 @@ describe('MongoTransporter', () => {
     let createAppMock;
 
     jest.isolateModules(() => {
-      createAppMock = require('../test-utils').createAppMock;
+      createAppMock = require('./createAppMock').createAppMock;
     });
 
     mockApp = await createAppMock();
@@ -43,8 +43,8 @@ describe('MongoTransporter', () => {
     transporter = mockApp._transporter!;
   });
 
-  afterEach(async function () {
-    await mockApp.reset();
+  afterAll(async function () {
+    await mockApp.reset().catch(() => {});
   });
 
   test('case 101', async () => {
@@ -98,7 +98,7 @@ describe('createOne', () => {
 
     jest.isolateModules(() => {
       MongoTransporter = require('../MongoTransporter').MongoTransporter;
-      createAppMock = require('../test-utils').createAppMock;
+      createAppMock = require('./createAppMock').createAppMock;
     });
 
     mockApp = await createAppMock();
@@ -376,7 +376,7 @@ describe('updateOne', () => {
 
     jest.isolateModules(() => {
       MongoTransporter = require('../MongoTransporter').MongoTransporter;
-      createAppMock = require('../test-utils').createAppMock;
+      createAppMock = require('./createAppMock').createAppMock;
     });
 
     mockApp = await createAppMock();
@@ -550,7 +550,7 @@ describe('updateMany', () => {
 
     jest.isolateModules(() => {
       MongoTransporter = require('../MongoTransporter').MongoTransporter;
-      createAppMock = require('../test-utils').createAppMock;
+      createAppMock = require('./createAppMock').createAppMock;
     });
 
     mockApp = await createAppMock();
@@ -610,7 +610,7 @@ describe('deleteOne', () => {
 
     jest.isolateModules(() => {
       MongoTransporter = require('../MongoTransporter').MongoTransporter;
-      createAppMock = require('../test-utils').createAppMock;
+      createAppMock = require('./createAppMock').createAppMock;
     });
 
     mockApp = await createAppMock();
@@ -728,7 +728,7 @@ describe('deleteMany', () => {
 
     jest.isolateModules(() => {
       MongoTransporter = require('../MongoTransporter').MongoTransporter;
-      createAppMock = require('../test-utils').createAppMock;
+      createAppMock = require('./createAppMock').createAppMock;
     });
 
     mockApp = await createAppMock();
@@ -852,7 +852,7 @@ describe('findMany', () => {
 
     jest.isolateModules(() => {
       MongoTransporter = require('../MongoTransporter').MongoTransporter;
-      createAppMock = require('../test-utils').createAppMock;
+      createAppMock = require('./createAppMock').createAppMock;
     });
 
     mockApp = await createAppMock();
@@ -1151,7 +1151,7 @@ describe('findOne', () => {
     let createAppMock;
 
     jest.isolateModules(() => {
-      createAppMock = require('../test-utils').createAppMock;
+      createAppMock = require('./createAppMock').createAppMock;
     });
 
     mockApp = await createAppMock();
@@ -1269,7 +1269,7 @@ describe('findById', () => {
 
     jest.isolateModules(() => {
       MongoTransporter = require('../MongoTransporter').MongoTransporter;
-      createAppMock = require('../test-utils').createAppMock;
+      createAppMock = require('./createAppMock').createAppMock;
     });
 
     mockApp = await createAppMock();

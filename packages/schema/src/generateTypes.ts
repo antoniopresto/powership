@@ -1,8 +1,7 @@
 import path from 'path';
 
 import { formatWithPrettier, Process, uniq } from '@powership/utils';
-import { Emitter, mitt } from '@powership/utils';
-import { fsExtra } from '@powership/utils/server-utils';
+import { Emitter, mitt, fsExtra } from '@powership/utils';
 
 const { ensureFileSync, writeFileSync } = fsExtra;
 

@@ -2,21 +2,22 @@
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
     "pre": {
-      "dependsOn": ["^build", "fix", "test"],
+      "dependsOn": ["^declarations", "^build", "test"],
       "outputs": ["out/**"],
-      "inputs": ["src/**", "package.json", "tsconfig.json"]
+      "inputs": ["src/**"]
     },
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["out/**"],
-      "inputs": ["src/**", "package.json", "tsconfig.json"]
+      "inputs": ["src/**"]
     },
     "fix": {
-      "inputs": ["src/**", "package.json", "tsconfig.json"]
+      "inputs": ["src/**"]
     },
     "test": {
-      "dependsOn": ["^build"],
-      "inputs": ["src/**", "package.json", "tsconfig.json"]
+      "inputs": ["src/**"],
+      "outputLogs": "new-only",
+      "cache": true
     },
     "clear": {
       "cache": false

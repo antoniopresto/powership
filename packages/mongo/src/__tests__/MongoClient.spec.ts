@@ -1,4 +1,4 @@
-import { AppMock, createAppMock } from '../test-utils';
+import { AppMock, createAppMock } from './createAppMock';
 
 describe('MongoClient', () => {
   let mockApp: AppMock;

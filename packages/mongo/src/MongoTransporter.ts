@@ -396,6 +396,7 @@ export class MongoTransporter implements Transporter<MongoClient> {
     try {
       const result = await collection.findOneAndUpdate(
         { $and: parsedFilter },
+        // @ts-ignore
         updateExpression,
         {
           returnDocument: 'after',
@@ -432,6 +433,7 @@ export class MongoTransporter implements Transporter<MongoClient> {
     try {
       const result = await collection.updateMany(
         { $and: parsedFilter },
+        // @ts-ignore
         updateExpression,
         {
           upsert,

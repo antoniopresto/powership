@@ -1,7 +1,7 @@
 import { UpdateExpression } from '@powership/transporter';
 
 import { MongoTransporter } from '../MongoTransporter';
-import { AppMock, createAppMock } from '../test-utils';
+import { AppMock, createAppMock } from './createAppMock';
 
 const mockUser = () => ({
   _c: 'user⋮_id⋮1⋮⋮',

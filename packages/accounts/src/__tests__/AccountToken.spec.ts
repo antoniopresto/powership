@@ -1,5 +1,4 @@
-import { AppMock, createAppMock } from '@powership/mongo/out/test-utils';
-
+import { AppMock, createAppMock } from './createAppMock';
 import { Token } from '../types/TokenType';
 
 function _require() {

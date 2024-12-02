@@ -6,7 +6,7 @@ import {
 } from '@powership/transporter';
 
 import { createMongoIndexBasedFilters } from '../parseMongoAttributeFilters';
-import { AppMock, createAppMock } from '../test-utils';
+import { AppMock, createAppMock } from './createAppMock';
 
 describe('createMongoIndexBasedFilter', () => {
   let mockApp: AppMock;

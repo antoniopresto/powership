@@ -1,7 +1,7 @@
 import { resetTypesCache } from '@powership/schema';
 
 import { MongoTransporter } from '../MongoTransporter';
-import { AppMock, createAppMock } from '../test-utils';
+import { AppMock, createAppMock } from './createAppMock';
 
 const defaultOptions = () => ({
   collection: 'temp1',

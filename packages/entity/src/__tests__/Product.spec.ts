@@ -1,5 +1,5 @@
 import { MongoTransporter } from '@powership/mongo';
-import { AppMock, createAppMock } from '@powership/mongo/out/test-utils';
+import { AppMock, createAppMock } from './createAppMock';
 
 import { createType, parseField, resetTypesCache } from '@powership/schema';
 

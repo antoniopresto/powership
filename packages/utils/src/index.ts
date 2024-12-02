@@ -95,6 +95,9 @@ export * from './parsePhoneNumber';
 export * from './logLevels';
 
 // @onlyServer
+export * from './fsExtra';
+
+// @onlyServer
 export * from './nodeLogger';
 // @onlyServer
 export * from './conust';

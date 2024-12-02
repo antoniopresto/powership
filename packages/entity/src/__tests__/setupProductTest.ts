@@ -1,7 +1,4 @@
 import { MongoTransporter } from '@powership/mongo';
-import type { AppMock } from '@powership/mongo/out/test-utils';
-
-import { createAppMock } from '@powership/mongo/out/test-utils';
 
 import {
   createResolver,
@@ -15,6 +12,7 @@ import { getTypeName, slugify } from '@powership/utils';
 
 import { createEntity } from '../Entity';
 import { Entity } from '../EntityInterfaces';
+import { AppMock, createAppMock } from './createAppMock';
 
 export const BreadCrumbType = createType('BreadCrumb', {
   object: {
