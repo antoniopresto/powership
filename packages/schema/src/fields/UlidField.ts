@@ -1,9 +1,8 @@
 import { expectedType } from '@powership/utils';
 import { ulid } from '@powership/utils';
 
-import type { FieldTypeParser } from '../applyValidator';
-
 import { FieldType } from './FieldType';
+import { FieldTypeParser } from '../validator';
 
 type UlidDef = {
   autoCreate?: boolean;

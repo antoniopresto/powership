@@ -1,8 +1,7 @@
 import { expectedType } from '@powership/utils';
 
-import type { FieldTypeParser } from '../applyValidator';
-
 import { FieldType } from './FieldType';
+import { FieldTypeParser } from '../validator';
 
 export type FloatFieldDef = {
   max?: number;

@@ -2,11 +2,10 @@ import { getTypeName, memoize } from '@powership/utils';
 import { inspectObject } from '@powership/utils';
 import { uniq } from '@powership/utils';
 
-import type { FieldTypeParser } from '../applyValidator';
-
 import { FieldType, TAnyFieldType } from './FieldType';
 import { Infer } from './Infer';
 import type { ObjectFieldInput } from './_parseFields';
+import { FieldTypeParser } from '../validator';
 
 export class UnionField<
   U extends ObjectFieldInput,

@@ -1,5 +1,6 @@
 import '../__globals__';
 import {
+  captureStackTrace,
   createStore,
   inspectObject,
   isBrowser,
@@ -18,7 +19,6 @@ import {
   printSchema,
 } from 'graphql';
 
-import { FieldParserConfig } from '../applyValidator';
 import type { ExtendObjectDefinition } from '../extendObjectDefinition';
 import type {
   ExtendType,
@@ -50,6 +50,7 @@ import { initGraphType } from './initGraphType';
 import '../Resolver';
 // @onlyServer
 import './GraphQLParser';
+import { FieldParserConfig } from '../validator';
 
 export class GraphType<Definition extends ObjectFieldInput> {
   static assert(type: any): asserts type is GraphType<any> {
@@ -179,6 +180,8 @@ export class GraphType<Definition extends ObjectFieldInput> {
 
       return field.parse(input, _options) as any;
     } catch (e: any) {
+      e = captureStackTrace(e, this.parse);
+
       let message = e.message;
 
       if (field.list) {

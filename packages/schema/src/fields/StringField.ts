@@ -1,9 +1,8 @@
-import { expectedType } from '@powership/utils';
-
-import type { FieldTypeParser } from '../applyValidator';
+import { expectedType, getTypeName, symbols } from '@powership/utils';
 
 import { FieldType } from './FieldType';
-import { FieldTypeError } from './FieldTypeErrors';
+import { FieldTypeError } from '../validator/FieldTypeErrors';
+import { FieldTypeParser, ValidationError } from '../validator';
 
 export type StringFieldDef = {
   max?: number;
@@ -11,11 +10,7 @@ export type StringFieldDef = {
   regex?: [string] | [string, string] | Readonly<[string, string] | [string]>;
 };
 
-export class StringField extends FieldType<
-  string,
-  'string',
-  StringFieldDef | undefined
-> {
+export class StringField extends FieldType<string, 'string', StringFieldDef> {
   parse: FieldTypeParser<string>;
 
   constructor(def: StringFieldDef = {}) {
@@ -29,40 +24,55 @@ export class StringField extends FieldType<
     const regExp = regex && new RegExp(regex[0], regex[1]);
 
     this.parse = this.applyParser({
-      parse(input: string) {
-        expectedType({ value: input }, 'string');
-
-        if (regExp && !regExp.test(input) && regex) {
-          throw new FieldTypeError(`regexMismatch`, {
-            input,
-            regex: regExp.toString(),
-          });
+      parse: (input: any, options) => {
+        if (typeof input !== 'string') {
+          throw new ValidationError([
+            {
+              path: options?.path || [],
+              value: input,
+              message: `Expected string, found ${getTypeName(input)}`,
+              symbol: symbols.type_mismatch,
+            },
+          ]);
         }
 
-        const length = input.length;
-
-        if (max !== undefined && length > max) {
-          throw new FieldTypeError(
-            'maxSize',
-            `${length} is more than the max string length ${max}.`
-          );
+        if (regExp && !regExp.test(input)) {
+          throw new ValidationError([
+            {
+              path: options?.path || [],
+              value: input,
+              message: 'Value does not match required pattern',
+              symbol: symbols.string_regex_mismatch,
+            },
+          ]);
         }
 
-        if (min !== undefined && length < min) {
-          throw new FieldTypeError(
-            'minSize',
-            `${length} is less than the min string length ${min}.`
-          );
+        if (min !== undefined && input.length < min) {
+          throw new ValidationError([
+            {
+              path: options?.path || [],
+              value: input,
+              message: `String must be at least ${min} characters long`,
+              symbol: symbols.string_too_short,
+            },
+          ]);
+        }
+
+        if (max !== undefined && input.length > max) {
+          throw new ValidationError([
+            {
+              path: options?.path || [],
+              value: input,
+              message: `String must be at most ${max} characters long`,
+              symbol: symbols.string_too_long,
+            },
+          ]);
         }
 
         return input;
       },
     });
   }
-
-  static create = (def?: StringFieldDef): StringField => {
-    return new StringField(def);
-  };
 }
 
 Object.assign(powership, {

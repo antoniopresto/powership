@@ -1,8 +1,7 @@
 import { getTypeName } from '@powership/utils';
 
-import type { FieldTypeParser } from '../applyValidator';
-
 import { FieldType } from './FieldType';
+import { FieldTypeParser } from '../validator';
 
 export class BooleanField extends FieldType<boolean, 'boolean', undefined> {
   parse: FieldTypeParser<boolean>;

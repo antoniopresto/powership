@@ -7,11 +7,10 @@ import {
   pick,
 } from '@powership/utils';
 
-import type { FieldTypeParser } from '../applyValidator';
-
 import { FieldComposer, FieldType, TAnyFieldType } from './FieldType';
 import type { Infer } from './Infer';
 import type { FieldDefinition } from './_parseFields';
+import { FieldTypeParser } from '../validator';
 
 export type AliasFieldAggregation<Parent = any> = {
   type: FieldDefinition;

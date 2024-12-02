@@ -1,14 +1,13 @@
 import {
-  assertEqual,
   CountryCode,
   tryCatch,
   parsePhoneNumber,
+  symbols,
+  getTypeName,
 } from '@powership/utils';
 
-import type { FieldTypeParser } from '../applyValidator';
-
 import { FieldType } from './FieldType';
-import { FieldTypeError } from './FieldTypeErrors';
+import { FieldTypeParser, ValidationError } from '../validator';
 
 export type PhoneValidationOptions = {
   defaultCountry?: CountryCode;
@@ -34,10 +33,14 @@ export function validatePhoneNumber(
   });
 
   if (!phoneNumber) {
-    throw new FieldTypeError('invalidPhone', {
-      expected: 'VALID_PHONE_NUMBER',
-      found: input,
-    });
+    throw new ValidationError([
+      {
+        path: [],
+        value: input,
+        message: 'Invalid phone number format',
+        symbol: symbols.phone_invalid_number,
+      },
+    ]);
   }
 
   return phoneNumber;
@@ -46,30 +49,39 @@ export function validatePhoneNumber(
 export class PhoneField extends FieldType<string, 'phone', PhoneFieldDef> {
   parse: FieldTypeParser<string>;
 
-  static is(input: any): input is PhoneField {
-    return input?.__isFieldType && input?.type === 'phone';
-  }
-
-  static assert(input: any): asserts input is PhoneField {
-    assertEqual(this.is(input), true, 'NOT_PHONE_FIELD');
-  }
-
-  constructor(def: PhoneFieldDef) {
-    super({
-      def,
-      name: 'phone',
-    });
+  constructor(def: PhoneFieldDef = {}) {
+    super({ def, name: 'phone' });
 
     this.parse = this.applyParser({
-      parse(input: any) {
-        return validatePhoneNumber(input);
+      parse: (value, options) => {
+        if (typeof value !== 'string') {
+          throw new ValidationError([
+            {
+              path: options?.path || [],
+              value,
+              message: `Expected phone number as string, found ${getTypeName(
+                value
+              )}`,
+              symbol: symbols.type_mismatch,
+            },
+          ]);
+        }
+
+        try {
+          return validatePhoneNumber(value, def);
+        } catch (e) {
+          throw new ValidationError([
+            {
+              path: options?.path || [],
+              value,
+              message: 'Invalid phone number format',
+              symbol: symbols.phone_invalid_number,
+            },
+          ]);
+        }
       },
     });
   }
-
-  static create = (def: PhoneFieldDef): PhoneField => {
-    return new PhoneField(def);
-  };
 }
 
 Object.assign(powership, {

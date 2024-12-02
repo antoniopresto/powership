@@ -26,11 +26,11 @@ export * from './CustomFieldConfig';
 export * from './assertType';
 
 export * from './fields/IObjectLike';
-export * from './applyValidator';
+export * from './validator';
 export * from './mockObject';
 export * from './fields/FieldType';
 export * from './fields/fieldTypes';
-export * from './fields/FieldTypeErrors';
+export * from './validator/FieldTypeErrors';
 export * from './extendObjectDefinition';
 export * from './extendType';
 export * from './isHiddenFieldName';

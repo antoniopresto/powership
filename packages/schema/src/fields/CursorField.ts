@@ -1,10 +1,10 @@
 import { createProxy } from '@powership/utils';
 
 import type { ObjectType } from '../ObjectType';
-import type { FieldTypeParser } from '../applyValidator';
 
 import { FieldType } from './FieldType';
 import type { CursorType } from './_fieldDefinitions';
+import { FieldTypeParser } from '../validator';
 
 const def = {
   PK: {

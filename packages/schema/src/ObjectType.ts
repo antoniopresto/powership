@@ -1,4 +1,5 @@
 import {
+  captureStackTrace,
   createStore,
   isBrowser,
   IsKnown,
@@ -19,11 +20,6 @@ import type {
   ParseTypeOptions,
 } from './GraphType/GraphQLParser';
 import { GraphQLParser } from './GraphType/GraphQLParser';
-import {
-  FieldParserOptionsObject,
-  parseValidationError,
-  ValidationCustomMessage,
-} from './applyValidator';
 import type { ExtendObjectDefinition } from './extendObjectDefinition';
 import type { FieldComposer } from './fields/FieldType';
 import type { ObjectLike } from './fields/IObjectLike';
@@ -46,6 +42,12 @@ import {
   ObjectToTypescriptOptions,
 } from './objectToTypescript';
 import { withCache, WithCache } from './withCache';
+import {
+  FieldParserOptionsObject,
+  ObjectValidator,
+  parseValidationError,
+  ValidationCustomMessage,
+} from './validator';
 
 export class ObjectType<
   Input,
@@ -165,35 +167,21 @@ export class ObjectType<
     input: any,
     options?: FieldParserOptionsObject
   ): InferObjectDefinition<HandledInput> {
-    const { customMessage, customErrorMessage } = options || {};
-    const { errors, parsed } = this.safeParse(input, options);
+    const validator = new ObjectValidator();
 
-    if (errors.length) {
-      let e_message = errors.join(' \n');
+    // @ts-ignore
+    Object.entries(this.definition).forEach(([key, fieldDef]) => {
+      if (powership.isMetaFieldKey(key)) return;
+      validator.validateField(input[key], fieldDef, [key]);
+    });
 
-      if (this.id) {
-        e_message = `${this.id}: ${e_message}`;
-      }
-
-      const err: any = parseValidationError(
-        input,
-        customMessage || customErrorMessage,
-        e_message
-      );
-      err.isObjectValidationError = true;
-      err.fieldErrors = errors;
-      throw err;
+    const errors = validator.getErrors();
+    if (errors) {
+      throw captureStackTrace(errors, this.parse);
     }
 
-    return parsed as any;
+    return input as any;
   }
-
-  softParse = <T = any>(
-    input: any,
-    options: FieldParserOptionsObject = {}
-  ): InferObjectDefinition<HandledInput> & { [K: string]: T } => {
-    return this.parse(input, { ...options, allowExtraFields: true });
-  };
 
   validate(input: any): input is InferObjectDefinition<HandledInput> {
     try {

@@ -1,15 +1,18 @@
-import { inspectObject, simpleObjectClone } from '@powership/utils';
+import { inspectObject, simpleObjectClone, symbols } from '@powership/utils';
 
 import type { CustomFieldConfig } from '../CustomFieldConfig';
-import type {
-  FieldParserOptionsObject,
-  FieldTypeParser,
-  ValidationCustomMessage,
-} from '../applyValidator';
-import { parseValidationError } from '../applyValidator';
 
 import { arrayFieldParse } from './ArrayFieldParse';
-import { FieldTypeError, isFieldError } from './FieldTypeErrors';
+import {
+  FieldParserConfig,
+  FieldParserOptionsObject,
+  FieldTypeError,
+  FieldTypeParser,
+  isFieldError,
+  parseValidationError,
+  ValidationCustomMessage,
+  ValidationError,
+} from '../validator';
 import type {
   FieldDefinitions,
   FieldTypeName,
@@ -187,31 +190,26 @@ export abstract class FieldType<
     return this as any;
   }
 
-  applyParser = <Type>(parser: {
-    parse(input: any, _options: FieldParserOptionsObject): Type;
-    preParse?(input: any): Type;
-  }): FieldTypeParser<Type> => {
-    return (
-      input: any,
-      _options?: ValidationCustomMessage | FieldParserOptionsObject
-    ) => {
+  applyParser = <T>(parser: {
+    parse(input: any, options: FieldParserOptionsObject): T;
+    preParse?(input: any): T;
+  }): FieldTypeParser<T> => {
+    return (input: any, config?: FieldParserConfig): T => {
       let options: FieldParserOptionsObject = {};
 
-      if (typeof _options === 'function') {
-        options = { customErrorMessage: _options };
-      }
-      if (typeof _options === 'string') {
-        options = { customErrorMessage: _options };
-      }
-      if (typeof _options === 'object') {
-        options = _options;
+      if (typeof config === 'function') {
+        options = { customMessage: config };
+      } else if (typeof config === 'string') {
+        options = { customMessage: config };
+      } else if (typeof config === 'object') {
+        options = config;
       }
 
-      const { customErrorMessage: customMessage, includeHidden = true } =
-        options;
+      const { customMessage, includeHidden = true, path = [] } = options;
 
-      // keep it secret
-      if (this.hidden && !includeHidden) return undefined;
+      if (this.hidden && !includeHidden) {
+        return undefined as any;
+      }
 
       if (parser.preParse) {
         input = parser.preParse(input);
@@ -225,38 +223,53 @@ export abstract class FieldType<
       }
 
       if (this.type === 'null' && input === undefined) {
-        return null;
+        return null as any;
       }
 
       if (this.type !== 'null' && input === null && this.optional) {
-        return undefined;
+        return undefined as any;
       }
 
-      if (input === undefined && this.optional) {
-        return undefined;
-      }
+      if (input === undefined) {
+        if (this.optional) {
+          return undefined as any;
+        }
 
-      if (input === undefined && !this.optional) {
-        throw new FieldTypeError('requiredField');
-      }
-
-      if (this.asFinalFieldDef.list) {
-        return arrayFieldParse({
-          arrayOptions: {}, // since is the shot definition (list:true) there is no options
-          input,
-          parser: (input) => parser.parse(input, options),
-          parserOptions: options,
-        });
+        throw new ValidationError([
+          {
+            path,
+            value: input,
+            message: 'Field is required',
+            symbol: symbols.object_missing_required,
+          },
+        ]);
       }
 
       try {
-        return parser.parse(input, options) as any;
-      } catch (originalError: any) {
-        if (!customMessage && isFieldError(originalError)) {
-          throw originalError;
+        const result = parser.parse(input, options);
+
+        if (result === undefined && !this.optional) {
+          throw new ValidationError([
+            {
+              path,
+              value: input,
+              message: 'Parser returned undefined for required field',
+              symbol: symbols.validation_failed,
+            },
+          ]);
         }
 
-        throw parseValidationError(input, customMessage, originalError);
+        return result;
+      } catch (error: any) {
+        if (ValidationError.is(error)) {
+          throw error;
+        }
+
+        if (FieldTypeError.is(error)) {
+          throw error.toValidationError(path);
+        }
+
+        throw parseValidationError(input, customMessage, error, path);
       }
     };
   };

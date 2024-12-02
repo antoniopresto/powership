@@ -1,6 +1,5 @@
-import type { FieldTypeParser } from '../applyValidator';
-
 import { FieldType } from './FieldType';
+import { FieldTypeParser } from '../validator';
 
 export class AnyField extends FieldType<any, 'any', any> {
   parse: FieldTypeParser<any>;

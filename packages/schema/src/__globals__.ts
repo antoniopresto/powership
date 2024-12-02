@@ -36,7 +36,7 @@ import './fields/ArrayField';
 import './parseStringDefinition';
 import './fields/fieldTypes';
 import './objectInferenceUtils';
-import './applyValidator';
+import './validator';
 import './assertSameDefinition';
 import './assertType';
 import './createSimpleRouter';

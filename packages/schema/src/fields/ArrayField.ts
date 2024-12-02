@@ -1,12 +1,11 @@
 import { Cast } from '@powership/utils';
 import { inspectObject } from '@powership/utils';
 
-import type { FieldTypeParser } from '../applyValidator';
-
 import { arrayFieldParse } from './ArrayFieldParse';
 import { FieldType, TAnyFieldType } from './FieldType';
 import type { Infer } from './Infer';
 import type { ObjectFieldInput } from './_parseFields';
+import { FieldTypeParser } from '../validator';
 
 export type ArrayFieldDef<Of = any> = {
   length?: number;

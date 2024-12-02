@@ -1,7 +1,8 @@
 import type { AnyRecord } from '@powership/utils';
 
 import type { LazyParseGraphTypePayload } from '../GraphType/GraphType';
-import type { FieldParserConfig } from '../applyValidator';
+
+import { FieldParserConfig } from '../validator';
 
 export interface ObjectLike {
   __isPowershipObject: true;

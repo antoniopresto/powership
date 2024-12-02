@@ -1,9 +1,8 @@
-import { getTypeName } from '@powership/utils';
-
-import type { FieldTypeParser } from '../applyValidator';
+import { getTypeName, symbols } from '@powership/utils';
 
 import { FieldType } from './FieldType';
-import { FieldTypeError } from './FieldTypeErrors';
+import { FieldTypeError } from '../validator/FieldTypeErrors';
+import { FieldTypeParser, ValidationError } from '../validator';
 
 export type UnknownFieldDef = {
   types?: string[] | string;
@@ -21,10 +20,17 @@ export class UnknownField extends FieldType<
     const { types } = def || {};
 
     this.parse = this.applyParser({
-      parse: (input) => {
+      parse: (input, options) => {
         if (input === undefined) {
           if (this.optional) return input;
-          throw new FieldTypeError('requiredField');
+          throw new ValidationError([
+            {
+              path: options?.path || [],
+              value: input,
+              message: 'Field is required',
+              symbol: symbols.object_missing_required,
+            },
+          ]);
         }
 
         if (types?.length) {
@@ -35,9 +41,16 @@ export class UnknownField extends FieldType<
           const tn = getTypeName(input).toLowerCase();
 
           if (!arr.includes(tn)) {
-            throw new Error(
-              `expected type to be one of -> (${arr.join(', ')}), found "${tn}"`
-            );
+            throw new ValidationError([
+              {
+                path: options?.path || [],
+                value: input,
+                message: `Expected type to be one of: ${arr.join(
+                  ', '
+                )}, found "${tn}"`,
+                symbol: symbols.unexpected_type,
+              },
+            ]);
           }
         }
 

@@ -4,10 +4,9 @@
 
 import { createProxy, TypeLike } from '@powership/utils';
 
-import type { FieldTypeParser } from '../applyValidator';
-
 import { FieldType } from './FieldType';
 import type { ObjectDefinitionInput } from './_parseFields';
+import { FieldTypeParser } from '../validator';
 
 type AnyObjectField = TypeLike<(typeof ObjectField)['prototype']>;
 

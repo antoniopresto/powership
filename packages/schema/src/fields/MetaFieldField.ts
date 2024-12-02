@@ -6,9 +6,9 @@ import { nonNullValues } from '@powership/utils';
 import { Serializable } from '@powership/utils';
 
 import type { CustomFieldConfig } from '../CustomFieldConfig';
-import type { FieldTypeParser } from '../applyValidator';
 
 import { FieldType } from './FieldType';
+import { FieldTypeParser } from '../validator';
 
 export type MetaFieldDef = {
   [K: string]: Serializable;

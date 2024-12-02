@@ -1,11 +1,10 @@
 import { expectedType } from '@powership/utils';
 import { inspectObject } from '@powership/utils';
 
-import type { FieldTypeParser } from '../applyValidator';
-
 import { FieldType, TAnyFieldType } from './FieldType';
 import { Infer } from './Infer';
 import type { ObjectFieldInput } from './_parseFields';
+import { FieldTypeParser } from '../validator';
 
 const validKeyTypes = ['int', 'string', 'float'] as const;
 type ValidKeyType = (typeof validKeyTypes)[number];

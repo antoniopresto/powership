@@ -1,73 +1,100 @@
-import { getTypeName } from '@powership/utils';
-
+import { symbols } from '@powership/utils';
+import { ArrayFieldDef } from './ArrayField';
 import {
   FieldParserOptionsObject,
   FieldTypeParser,
   parseValidationError,
-} from '../applyValidator';
-
-import { FieldTypeError } from './FieldTypeErrors';
-import type { FieldDefinitions } from './_fieldDefinitions';
+  ValidationError,
+  ValidatorPathSegment,
+} from '../validator';
 
 export function arrayFieldParse(config: {
-  arrayOptions: Omit<FieldDefinitions['array'], 'of'>;
+  arrayOptions: Omit<ArrayFieldDef, 'of'>;
   input: any;
   parser: FieldTypeParser<any>;
-  parserOptions: FieldParserOptionsObject;
+  parserOptions: FieldParserOptionsObject & { path?: ValidatorPathSegment[] };
 }) {
   const { parser, parserOptions, input, arrayOptions } = config;
+  const { path = [] } = parserOptions;
 
-  if (!input || !Array.isArray(input)) {
-    throw new FieldTypeError(
-      'unexpectedType',
-      `expected Array, found ${getTypeName(input)}`
-    );
+  if (!Array.isArray(input)) {
+    throw new ValidationError([
+      {
+        path,
+        value: input,
+        message: `Expected Array, received ${typeof input}`,
+        symbol: symbols.type_mismatch,
+      },
+    ]);
   }
 
-  const { excludeInvalidListItems, customMessage } = parserOptions;
-
   const { min, length, max } = arrayOptions;
-
   const found = input.length;
 
   if (min !== undefined && found < min) {
-    throw new FieldTypeError(
-      'minSize',
-      `expected min ${min}, found: ${found}.`
-    );
+    throw new ValidationError([
+      {
+        path,
+        value: input,
+        message: `Array must contain at least ${min} items, found ${found}`,
+        symbol: symbols.array_too_short,
+      },
+    ]);
   }
 
   if (max !== undefined && found > max) {
-    throw new FieldTypeError(
-      'maxSize',
-      `expected max ${max}, found: ${found}.`
-    );
+    throw new ValidationError([
+      {
+        path,
+        value: input,
+        message: `Array must contain at most ${max} items, found ${found}`,
+        symbol: symbols.array_too_long,
+      },
+    ]);
   }
 
   if (length !== undefined && found !== length) {
-    throw new FieldTypeError(
-      'sizeMismatch',
-      `expected length ${length}, found ${found}.`
-    );
+    throw new ValidationError([
+      {
+        path,
+        value: input,
+        message: `Array must contain exactly ${length} items, found ${found}`,
+        symbol: symbols.array_invalid_item,
+      },
+    ]);
   }
 
   const values: any = [];
+  const errors: ValidationError[] = [];
 
-  input.forEach((item, key) => {
+  input.forEach((item, index) => {
+    const itemPath = [...path, index];
+
     try {
-      const parsed = parser(item, parserOptions);
+      const parsed = parser(item, {
+        ...parserOptions,
+        path: itemPath,
+      });
       values.push(parsed);
-    } catch (originalError: any) {
-      if (excludeInvalidListItems) {
+    } catch (error: any) {
+      if (parserOptions.excludeInvalidListItems) {
         return;
       }
 
-      const error = parseValidationError(item, customMessage, originalError);
+      if (ValidationError.is(error)) {
+        errors.push(error);
+        return;
+      }
 
-      error.message = `${error.message} at position ${key}`;
-      throw error;
+      errors.push(
+        parseValidationError(item, parserOptions.customMessage, error, itemPath)
+      );
     }
   });
+
+  if (errors.length) {
+    throw new ValidationError(errors.flatMap((error) => error.errors));
+  }
 
   return values;
 }
