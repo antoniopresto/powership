@@ -279,6 +279,92 @@ describe('parseMongoUpdateExpression', () => {
     ).toHaveProperty('list', ['a', 'b', 'a', 2]);
   });
 
+  test('TTLCache scenario with $addToSet and $setOnInsert', async () => {
+    const ONE_HOUR_MS = 3600000;
+    const key = 'testKey';
+    const key2 = 'testKey2';
+    const attempt = 'testAttempt';
+
+    const result = await mockApp.transporter.updateOne({
+      filter: { key, key2 },
+      upsert: true,
+      update: {
+        $addToSet: {
+          value: attempt,
+        },
+        $setOnInsert: {
+          key,
+          key2,
+        },
+        $set: {
+          createdAt: new Date(),
+          ttl: ONE_HOUR_MS,
+        },
+      },
+      indexConfig: {
+        entity: 'cache',
+        indexes: [{ name: 'key_key2', PK: ['.key', '.key2'] }],
+      },
+      context: {},
+    });
+
+    expect(result.error).toBeUndefined();
+    expect(result.item).toMatchObject({
+      key,
+      key2,
+      value: [attempt],
+      ttl: ONE_HOUR_MS,
+    });
+  });
+
+  test('TTLCache scenario with $set and $setOnInsert', async () => {
+    const ONE_HOUR_MS = 3600000;
+    const key = 'testKey';
+    const key2 = 'testKey2';
+    const attempt = 'attempt1';
+
+    await mockApp.transporter.createOne({
+      item: {
+        key,
+        key2,
+        value: [attempt],
+      },
+      indexConfig: {
+        entity: 'cache',
+        indexes: [{ name: 'key_key2', PK: ['.key', '.key2'] }],
+      },
+      context: {},
+    });
+
+    const attempt2 = 'attempt2';
+    const result = await mockApp.transporter.updateOne({
+      filter: { key, key2 },
+      upsert: true,
+      update: {
+        $addToSet: {
+          value: attempt2,
+        },
+        $set: {
+          createdAt: new Date(),
+          ttl: ONE_HOUR_MS,
+        },
+      },
+      indexConfig: {
+        entity: 'cache',
+        indexes: [{ name: 'key_key2', PK: ['.key', '.key2'] }],
+      },
+      context: {},
+    });
+
+    expect(result.error).toBeUndefined();
+    expect(result.item).toMatchObject({
+      key,
+      key2,
+      ttl: ONE_HOUR_MS,
+      value: [attempt, attempt2],
+    });
+  });
+
   describe('deepObjects', () => {
     test('$set', async () => {
       await create();

@@ -1,6 +1,6 @@
 {
   "name": "@powership/transporter",
-  "version": "5.7.12",
+  "version": "5.7.14",
   "type": "module",
   "main": "./out/index.cjs",
   "module": "./out/index.mjs",
@@ -24,6 +24,7 @@
     "build": "run-p declarations build:*",
     "clear": "rimraf out",
     "fix": "run-s fix:* ",
+    "watch": "nodemon --watch 'src/**/*' -e ts,tsx --exec 'pnpm run build'",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint src --ext .ts --fix",
     "prepublishOnly": "run-s build fix && run-p test",
@@ -56,12 +57,12 @@
     "sift": "17.0.1"
   },
   "devDependencies": {
-    "@powership/boilerplate": "workspace:*",
     "@babel/cli": "7.24.8",
     "@babel/plugin-transform-typescript": "7.24.8",
     "@babel/preset-env": "7.24.8",
     "@babel/preset-typescript": "7.24.7",
     "@powership/babel-plugins": "workspace:*",
+    "@powership/boilerplate": "workspace:*",
     "@types/jest": "29.5.12",
     "@types/node": "20.11.25",
     "@typescript-eslint/eslint-plugin": "7.17.0",
@@ -79,6 +80,7 @@
     "mongodb": "6.4.0",
     "mongodb-memory-server": "10.1.2",
     "mongodb-memory-server-core": "10.1.2",
+    "nodemon": "3.1.7",
     "npm-run-all": "4.1.5",
     "prettier": "2.8.8",
     "prettier-plugin-multiline-arrays": "3.0.4",
@@ -97,6 +99,5 @@
     "readmeFile": "./README.md",
     "displayName": "Transporter - Base to connect any Database to Powership.",
     "tsconfig": "./tsconfig.module.json"
-  },
-  "peerDependencies": {}
+  }
 }

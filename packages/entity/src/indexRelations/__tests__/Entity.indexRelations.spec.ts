@@ -102,6 +102,8 @@ describe('Entity.indexRelations', () => {
       context: {},
     });
 
+    expect(created.error).toBeUndefined();
+
     expect(created.item).toEqual(
       expect.objectContaining({
         _idPK: 'payment⋮_id⋮+5511900000000⋮',

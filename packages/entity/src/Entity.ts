@@ -853,12 +853,49 @@ function _registerPKSKHook(input: {
     }
 
     if (ctx.isUpdate) {
+      ctx.options.update.$set = await _onUpdate({
+        ...ctx.options.update.$set,
+      });
+
       if (ctx.isUpsert) {
-        ctx.options.update.$setOnInsert = await _onCreate({
+        const processedDoc = await _onCreate({
           ...ctx.options.update.$setIfNull,
           ...ctx.options.update.$setOnInsert,
           ...ctx.options.update.$set,
         });
+
+        const originalSetFields = new Set(
+          Object.keys(ctx.options.update.$set || {}).map(
+            (el) => el.split('.')[0]
+          )
+        );
+
+        const setFields = {};
+        const setOnInsertFields = {};
+
+        for (const [key, value] of Object.entries(processedDoc)) {
+          if (originalSetFields.has(key)) {
+            setFields[key] = value;
+          } else {
+            setOnInsertFields[key] = value;
+          }
+        }
+
+        ctx.options.update.$set = setFields;
+        ctx.options.update.$setOnInsert = setOnInsertFields;
+        delete ctx.options.update.$setIfNull;
+
+        const conflictingFields = Object.keys(setFields).filter(
+          (key) => key in setOnInsertFields
+        );
+
+        if (conflictingFields.length > 0) {
+          throw new Error(
+            `Found conflicting fields in update operators: ${conflictingFields.join(
+              ', '
+            )}`
+          );
+        }
       } else {
         if (ctx.options.update.$setIfNull) {
           ctx.options.update.$setIfNull = preparseFilterGraphTypeFields(
@@ -876,10 +913,6 @@ function _registerPKSKHook(input: {
           );
         }
       }
-
-      ctx.options.update.$set = await _onUpdate({
-        ...ctx.options.update.$set,
-      });
       //  ======= close update handling ====
     }
 

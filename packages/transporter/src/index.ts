@@ -13,4 +13,4 @@ export * from './createDocumentIndexBasedFilters';
 export * from './encodeIndexValue';
 export * from './parseEntityIndexFields';
 export * from './parseAggioAttributeFilters';
-export * from './parseAggioUpdateExpression';
+export * from './parseMongoUpdateExpression';
