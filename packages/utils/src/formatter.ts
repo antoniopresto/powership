@@ -284,7 +284,7 @@ export class Formatter implements IFormatter {
         return new _BrowserFormatter();
       }
 
-      // @only-browser
+      // @only-server
       return new _NodeFormatter();
     })();
   }

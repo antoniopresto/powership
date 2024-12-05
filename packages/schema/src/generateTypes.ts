@@ -52,7 +52,7 @@ export let defaultTypesDest = path.resolve(
   'src/generated/powership.d.ts'
 );
 
-export async function generateTypes(dest?: string) {
+export async function generateTypes(dest = defaultTypesDest) {
   const creators = Object.keys(typesRecord).map((name) => {
     let txt = '';
 
