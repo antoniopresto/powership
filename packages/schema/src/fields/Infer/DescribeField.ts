@@ -1,6 +1,5 @@
 import type { Compute, Merge, OnlyKnown } from '@powership/utils';
 
-import type { ParseStringDefinition } from '../../parseStringDefinition';
 import type {
   CommonFieldDefinitionProps,
   FieldTypeName,
@@ -10,6 +9,7 @@ import type { FinalFieldDefinition } from '../_parseFields';
 import type { _FieldKV, _GetKey, GraphTypeKID, ObjectTypeKID } from './Infer';
 import type { GraphTypeLikeFieldDefinition } from './InferGraphType';
 import type { ObjectTypeLikeFieldDefinition } from './InferObjectType';
+import { ParseStringDefinition } from '../../types';
 
 export const $sealedKey = '___sealed';
 export type $sealedKey = typeof $sealedKey;

@@ -1,7 +1,8 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../Infer';
-import { createObjectType } from '../ObjectType';
+
+import { createObjectType } from '../types';
 
 describe('subObjects', () => {
   const object1 = createObjectType('customer', {

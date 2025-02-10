@@ -1,1 +1,1 @@
-module.exports = require('@powership/boilerplate/babel-config.cjs')
+module.exports = require('@powership/boilerplate/babel-config.cjs');

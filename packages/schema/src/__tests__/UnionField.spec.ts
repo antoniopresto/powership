@@ -1,9 +1,9 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../Infer';
-import { createObjectType } from '../ObjectType';
 import { DescribeField } from '../fields/Infer';
-import { UnionField } from '../fields/UnionField';
+
+import { createObjectType, UnionField } from '../types';
 
 describe('Union', () => {
   it('parses', () => {

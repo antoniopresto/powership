@@ -6,7 +6,9 @@ import { Emitter, mitt, fsExtra } from '@powership/utils';
 const { ensureFileSync, writeFileSync } = fsExtra;
 
 import type { Resolver } from './Resolver';
-import type { GraphTypeLike } from './fields/IObjectLike';
+import { objectToTypescript } from './objectToTypescript';
+
+import { GraphTypeLike, LiteralField } from './types';
 
 export type CustomTypesWriterEvent = {
   body?: string[];
@@ -108,15 +110,10 @@ export async function generateTypes(dest = defaultTypesDest) {
     item.footer && head.push(...item.footer);
   });
 
-  const typesInterface = await powership.objectToTypescript(
-    'RuntimeTypes',
-    typesRecord
-  );
+  const typesInterface = await objectToTypescript('RuntimeTypes', typesRecord);
 
   let definitions = Object.entries(typesRecord).reduce((acc, [id, next]) => {
-    acc += `\n"${id}": ${powership.LiteralField.utils.serialize(
-      next.definition
-    )}\n;`;
+    acc += `\n"${id}": ${LiteralField.utils.serialize(next.definition)}\n;`;
     return acc;
   }, '');
 

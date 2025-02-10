@@ -1,7 +1,6 @@
-import { createObjectType, resetTypesCache } from '../../ObjectType';
 import { createResolver } from '../../Resolver';
-import { createType } from '../GraphType';
 import { getQueryTemplates } from '../getQueryTemplates';
+import { createObjectType, createType, resetTypesCache } from '../../types';
 
 describe('generateQuery', () => {
   afterEach(resetTypesCache);

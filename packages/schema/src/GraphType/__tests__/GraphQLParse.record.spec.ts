@@ -5,7 +5,7 @@ import {
   printSchema,
 } from 'graphql';
 
-import { createObjectType } from '../../ObjectType';
+import { createObjectType } from '../../types';
 
 describe('GraphQLParse.record', () => {
   const person = createObjectType('Person', {

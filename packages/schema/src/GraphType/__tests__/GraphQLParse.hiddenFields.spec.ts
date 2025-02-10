@@ -1,7 +1,6 @@
 import { printType } from 'graphql/utilities';
 
-import { createObjectType, resetTypesCache } from '../../ObjectType';
-import { createType } from '../GraphType';
+import { createObjectType, createType, resetTypesCache } from '../../types';
 
 describe('GraphQLParse.hiddenFields', () => {
   const person = createObjectType('Person', {

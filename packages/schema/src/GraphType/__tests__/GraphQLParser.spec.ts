@@ -1,7 +1,7 @@
 import { GraphQLSchema, printSchema } from 'graphql';
 
-import { createObjectType, ObjectType } from '../../ObjectType';
 import { GraphQLParser } from '../GraphQLParser';
+import { createObjectType, ObjectType, parseObjectField } from '../../types';
 
 describe('GraphQLParser', () => {
   afterEach(() => {
@@ -334,7 +334,7 @@ describe('GraphQLParser', () => {
   });
 
   it('Should use name', async () => {
-    powership.parseObjectField('un', {
+    parseObjectField('un', {
       union: ['string', 'int'],
       name: 'HappyFamily',
     });

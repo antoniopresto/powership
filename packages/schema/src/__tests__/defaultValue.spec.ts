@@ -1,8 +1,7 @@
 import { GraphQLParser } from '../GraphType/GraphQLParser';
-import { createType } from '../GraphType/GraphType';
-import { createObjectType, ObjectType } from '../ObjectType';
 import { createResolver } from '../Resolver';
 import { createGraphQLSchema } from '../createGraphQLSchema';
+import { createObjectType, createType, ObjectType } from '../types';
 
 describe('defaultValue', () => {
   afterEach(() => {

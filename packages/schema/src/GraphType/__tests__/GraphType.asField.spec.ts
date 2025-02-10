@@ -1,7 +1,6 @@
-import { resetTypesCache } from '../../ObjectType';
 import { createResolver } from '../../Resolver';
 import { createGraphQLSchema } from '../../createGraphQLSchema';
-import { createType } from '../GraphType';
+import { createType, resetTypesCache } from '../../types';
 
 describe('GraphType.asField', () => {
   afterEach(resetTypesCache);

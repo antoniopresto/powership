@@ -1,20 +1,20 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../Infer';
-import { createType } from '../GraphType/GraphType';
+import { create, createType, resetTypesCache } from '../types';
 
 describe('Powership aliases', () => {
-  afterEach(powership.resetTypesCache);
+  afterEach(resetTypesCache);
 
   test('type creators', async () => {
-    expect(powership.create.enum(['m']).definition).toEqual({
+    expect(create.enum(['m']).definition).toEqual({
       def: ['m'],
 
       type: 'enum',
     });
 
     expect(
-      powership.create.object({
+      create.object({
         name: { string: {}, defaultValue: 'Antonio' },
       }).definition
     ).toEqual({

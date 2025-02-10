@@ -1,6 +1,6 @@
 {
   "name": "runmate",
-  "version": "5.8.0",
+  "version": "5.8.8",
   "typings": "out",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -63,7 +63,7 @@
     "@babel/preset-typescript": "7.24.7",
     "@powership/babel-plugins": "workspace:*",
     "@powership/boilerplate": "workspace:*",
-    "@types/node": "20.11.25",
+    "@types/node": "22.13.1",
     "@typescript-eslint/eslint-plugin": "7.17.0",
     "@typescript-eslint/parser": "7.17.0",
     "babel-preset-minify": "0.5.2",

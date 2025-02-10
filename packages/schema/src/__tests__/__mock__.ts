@@ -1,8 +1,6 @@
 import { tuple } from '@powership/utils';
 
-import { createType } from '../GraphType/GraphType';
-import { createObjectType } from '../ObjectType';
-import { StringField } from '../fields/StringField';
+import { createObjectType, createType, StringField } from '../types';
 
 const object1 = createObjectType({
   age: 'int?',

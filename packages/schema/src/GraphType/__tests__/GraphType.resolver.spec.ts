@@ -2,9 +2,8 @@ import { PromiseType } from '@powership/utils';
 import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
-import { createObjectType, resetTypesCache } from '../../ObjectType';
 import { createResolver } from '../../Resolver';
-import { GraphType } from '../GraphType';
+import { createObjectType, GraphType, resetTypesCache } from '../../types';
 
 describe('createResolver', () => {
   afterEach(async () => {

@@ -1,5 +1,4 @@
-import { createType } from '../../GraphType/GraphType';
-import { resetTypesCache } from '../../ObjectType';
+import { createType, resetTypesCache } from '../../types';
 
 describe('PhoneField', () => {
   afterEach(resetTypesCache);

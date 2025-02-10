@@ -1,5 +1,3 @@
-import type { CustomFieldConfig } from '../CustomFieldConfig';
-
 import type {
   GraphTypeInTypeFieldDefinition,
   GraphTypeLikeFieldDefinition,
@@ -14,6 +12,7 @@ import type {
   FieldDefinitionWithType,
   FieldTypeName,
 } from './_fieldDefinitions';
+import { CustomFieldConfig } from '../types';
 
 export type ObjectFieldInput = _ObjectFieldInputBase | FlattenFieldDefinition;
 

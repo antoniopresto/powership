@@ -1,7 +1,6 @@
-import { createType } from '../../GraphType/GraphType';
-import { createObjectType, resetTypesCache } from '../../ObjectType';
 import { tsfy } from '../tsfy';
 import { formatWithPrettier } from '@powership/utils';
+import { createObjectType, createType, resetTypesCache } from '../../types';
 
 describe('stringify', () => {
   afterEach(resetTypesCache);

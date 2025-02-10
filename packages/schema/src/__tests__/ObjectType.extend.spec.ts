@@ -1,8 +1,7 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
-import { createType } from '../GraphType/GraphType';
 import { Infer } from '../Infer';
-import { createObjectType, resetTypesCache } from '../ObjectType';
+import { createObjectType, createType, resetTypesCache } from '../types';
 
 describe('ObjectType.extend', () => {
   afterEach(async () => {

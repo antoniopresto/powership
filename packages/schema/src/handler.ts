@@ -1,7 +1,6 @@
 import { FieldDefinition } from './fields/_parseFields';
 import { Infer } from './fields/Infer';
-import { createType } from './GraphType/GraphType';
-import { FieldParserConfig } from './applyValidator';
+import { createType, FieldParserConfig } from './types';
 
 export function checkType<Type extends FieldDefinition>(
   definition: Type,

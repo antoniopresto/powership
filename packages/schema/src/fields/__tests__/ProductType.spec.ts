@@ -1,9 +1,9 @@
-import { createObjectType, resetTypesCache } from '../../ObjectType';
 import {
   BreadCrumbType,
   ProductImageMapType,
   ProductType,
 } from '../../__tests__/__mock__';
+import { createObjectType, resetTypesCache } from '../../types';
 
 describe('ProductType', () => {
   afterEach(resetTypesCache);

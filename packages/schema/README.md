@@ -1,7 +1,7 @@
 # @powership/schema
 Typescript schema validation with static type inference.
 
-Schemas are a crucial part of a microservices architecture or a detachable application architecture (powership). 
+Schemas are a crucial part of a microservices architecture or a detachable application architecture  (global.powership). 
 They can serve as contracts between different pieces of an application (frontend, backend, forms) and different services.
 So schemas should be **easily portable, written and read**, and that's the goal of this package.
 

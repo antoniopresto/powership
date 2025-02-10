@@ -12,12 +12,18 @@ import {
   getSchemaQueryTemplates,
   SchemaQueryTemplatesResult,
 } from './GraphType/getQueryTemplates';
-import type { Resolver } from './Resolver';
-import { objectMock, ObjectMockOptions } from './mockObject';
+import { _resolvers, Resolver } from './Resolver';
 import {
   objectToTypescript,
   ObjectToTypescriptOptions,
 } from './objectToTypescript';
+
+import {
+  cleanMetaField,
+  objectMock,
+  ObjectMockOptions,
+  parseFieldDefinitionConfig,
+} from './types';
 
 export type CreateGraphQLObjectOptions = Partial<GraphQLSchemaConfig>;
 
@@ -53,7 +59,7 @@ export function createGraphQLSchema(
 ): GraphQLSchemaWithUtils;
 
 export function createGraphQLSchema(...args: any[]): GraphQLSchemaWithUtils {
-  const registeredResolvers = powership._resolvers.entries.map((el) => el[1]);
+  const registeredResolvers = _resolvers.entries.map((el) => el[1]);
 
   let resolvers: Resolver[] = Array.isArray(args[0])
     ? args[0]
@@ -254,16 +260,14 @@ async function convertResolver(options: {
 
   const payloadDef = {
     // clearing ref because will be mutated to inject relations in definition
-    ...powership.cleanMetaField(resolver.typeDef),
+    ...cleanMetaField(resolver.typeDef),
   };
 
   allResolvers
     .filter((el) => el.__isRelation)
     .forEach((rel) => {
       if (rel.__relatedToGraphTypeId === payloadOriginName) {
-        const typeRelatedToFinalPayload = powership._resolvers.get(
-          rel.__graphTypeId
-        );
+        const typeRelatedToFinalPayload = _resolvers.get(rel.__graphTypeId);
         // @ts-ignore
         payloadDef.def[rel.name] = typeRelatedToFinalPayload.definition;
       }
@@ -307,7 +311,7 @@ async function convertType(options: {
 }) {
   const { entryName, type, kind } = options;
 
-  const parsed = powership.parseFieldDefinitionConfig(type, {
+  const parsed = parseFieldDefinitionConfig(type, {
     deep: { omitMeta: true },
   });
 

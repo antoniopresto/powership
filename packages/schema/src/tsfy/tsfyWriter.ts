@@ -8,10 +8,8 @@ import {
 } from '@powership/utils';
 import { fsExtra } from '@powership/utils/server-utils';
 
-import { GraphType } from '../GraphType/GraphType';
-import { ObjectType } from '../ObjectType';
-
 import { createTSFYContext, tsfy, TSFYConfig } from './tsfy';
+import { GraphType, ObjectType } from '../types';
 
 const { ensureFileSync } = fsExtra;
 

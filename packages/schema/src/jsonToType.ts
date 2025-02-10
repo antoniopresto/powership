@@ -12,7 +12,6 @@ import {
   watchable,
 } from '@powership/utils';
 
-import type { GraphType } from './GraphType/GraphType';
 import type { Infer } from './Infer';
 import { FieldTypeName } from './fields/_fieldDefinitions';
 import type {
@@ -20,6 +19,13 @@ import type {
   FinalObjectDefinition,
   FlattenFieldDefinition,
 } from './fields/_parseFields';
+import {
+  create,
+  createObjectType,
+  createType,
+  GraphType,
+  ULID_REGEX,
+} from './types';
 
 export const JSONFieldCase = Object.keys(stringCase).concat('camelCase') as (
   | keyof typeof stringCase
@@ -27,7 +33,7 @@ export const JSONFieldCase = Object.keys(stringCase).concat('camelCase') as (
 )[];
 
 export const JSONToSchemaOptions = watchable(() => {
-  return powership.createObjectType({
+  return createObjectType({
     fieldCase: { enum: JSONFieldCase, optional: true },
     examples: 'boolean?',
     name: 'string?',
@@ -43,7 +49,7 @@ export function jsonToType(
   const { name } = init;
 
   const definition = valueToTypeDef({ ...init, value: init.json });
-  const type = powership.createType(definition);
+  const type = createType(definition);
 
   if (name) {
     type.identify(name);
@@ -78,7 +84,7 @@ export function isCursorString(value: any): value is string {
   }
 }
 
-const phoneType = memoize(() => powership.create.phone({}));
+const phoneType = memoize(() => create.phone({}));
 
 export const valuesToPowershipTypeRecord: {
   [L in FieldTypeName]: (value: any) => boolean;
@@ -97,13 +103,11 @@ export const valuesToPowershipTypeRecord: {
   date: (value) => getTypeName(value) === 'Date',
   email: (value) =>
     Boolean(value && typeof value === 'string' && EmailRegex.test(value)),
-  ID: (value) =>
-    !!value && typeof value === 'string' && powership.ULID_REGEX.test(value),
+  ID: (value) => !!value && typeof value === 'string' && ULID_REGEX.test(value),
   phone: (value) => phoneType().is(value),
   record: (value) =>
     !!value && typeof value === 'object' && !isPlainObject(value),
-  ulid: (value) =>
-    typeof value === 'string' && powership.ULID_REGEX.test(value),
+  ulid: (value) => typeof value === 'string' && ULID_REGEX.test(value),
   union: () => false,
   unknown: () => false,
   alias: () => false,

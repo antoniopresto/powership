@@ -1,9 +1,9 @@
-import type { ArrayFieldDef } from '../ArrayField';
 import type { FieldTypeName } from '../_fieldDefinitions';
 
 import type { Infer } from './Infer';
 import type { InferObjectDefinition } from './InferObjectType';
 import type { InferTypeName } from './InferString';
+import { ArrayFieldDef } from '../../types';
 
 export type InferFinalField<TypeName extends FieldTypeName, Def = never> =
   //

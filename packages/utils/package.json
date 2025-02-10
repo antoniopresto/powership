@@ -1,6 +1,6 @@
 {
   "name": "@powership/utils",
-  "version": "5.8.0",
+  "version": "5.8.8",
   "typings": "out",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "license": "MIT",
@@ -130,7 +130,7 @@
     "@types/ejson": "2.2.0",
     "@types/jest": "29.5.12",
     "@types/json-schema": "7.0.11",
-    "@types/node": "20.11.25",
+    "@types/node": "22.13.1",
     "@types/object-hash": "2.2.1",
     "@types/prettier": "2.7.1",
     "@types/qs": "6.9.10",

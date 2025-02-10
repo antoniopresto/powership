@@ -1,11 +1,12 @@
-import { createObjectType } from '../ObjectType';
-import { EnumField } from '../fields/EnumField';
+import { objectMocks } from './__mock__';
+
 import {
+  createObjectType,
+  EnumField,
+  objectMetaFieldKey,
   parseFlattenFieldDefinition,
   parseObjectField,
-} from '../parseObjectDefinition';
-
-import { objectMocks } from './__mock__';
+} from '../types';
 
 const { typeDefs, stringDefTypes, object2 } = objectMocks;
 
@@ -37,7 +38,7 @@ describe('parseObjectField', () => {
         name: {
           type: 'string',
         },
-        [powership.objectMetaFieldKey]: expect.anything(),
+        [objectMetaFieldKey]: expect.anything(),
       },
       type: 'object',
     });
@@ -210,7 +211,7 @@ describe('parseObjectField', () => {
       optional: true,
       type: 'object',
       def: {
-        [powership.objectMetaFieldKey]: expect.anything(),
+        [objectMetaFieldKey]: expect.anything(),
         name: {
           type: 'string',
         },
@@ -218,7 +219,7 @@ describe('parseObjectField', () => {
           type: 'object',
 
           def: {
-            [powership.objectMetaFieldKey]: expect.anything(),
+            [objectMetaFieldKey]: expect.anything(),
             name: {
               type: 'string',
             },
@@ -279,7 +280,7 @@ describe('parseObjectField', () => {
       type: 'object',
 
       def: {
-        [powership.objectMetaFieldKey]: expect.anything(),
+        [objectMetaFieldKey]: expect.anything(),
         stringDefBoolean: {
           type: 'boolean',
         },

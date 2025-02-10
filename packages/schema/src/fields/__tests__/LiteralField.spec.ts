@@ -1,13 +1,17 @@
 import { assert, IsExact } from 'conditional-type-checks';
 import { graphql } from 'graphql';
 
-import { createType } from '../../GraphType/GraphType';
 import { Infer } from '../Infer';
-import { createObjectType, resetTypesCache } from '../../ObjectType';
 import { createResolver } from '../../Resolver';
 import { createGraphQLSchema } from '../../createGraphQLSchema';
 import { objectToJSON } from '../../objectToJSON';
-import { LiteralField } from '../LiteralField';
+
+import {
+  createObjectType,
+  createType,
+  LiteralField,
+  resetTypesCache,
+} from '../../types';
 
 describe('LiteralField', () => {
   afterEach(resetTypesCache);

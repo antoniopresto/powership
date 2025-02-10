@@ -8,13 +8,24 @@ import { getTypeName } from '@powership/utils';
 import { nonNullValues } from '@powership/utils';
 import type { JSONSchema4 } from 'json-schema';
 
-import type { ObjectLike } from './fields/IObjectLike';
 import type { FieldTypeName } from './fields/_fieldDefinitions';
 import type {
   FinalFieldDefinition,
   FinalObjectDefinition,
   ObjectDefinitionInput,
 } from './fields/_parseFields';
+import {
+  __getCachedFieldInstance,
+  AliasField,
+  createObjectType,
+  isHiddenFieldName,
+  isObjectType,
+  LiteralField,
+  ObjectLike,
+  parseField,
+  parseObjectField,
+  parseTypeName,
+} from './types';
 
 export type ObjectToJSONOptions = {
   ignoreDefaultValues?: boolean;
@@ -33,18 +44,14 @@ export function objectToJSON(
 ): JSONSchema4 & { properties: JSONSchema4 } {
   let definition: FinalObjectDefinition;
 
-  if (powership.isObjectType(object)) {
+  if (isObjectType(object)) {
     definition = object.definition as FinalObjectDefinition;
   } else {
     // @ts-ignore
-    definition = powership.createObjectType(
-      object as ObjectDefinitionInput
-    ).definition;
+    definition = createObjectType(object as ObjectDefinitionInput).definition;
   }
 
-  const description = powership.isObjectType(object)
-    ? object.description
-    : undefined;
+  const description = isObjectType(object) ? object.description : undefined;
 
   const topProperties: Record<string, JSONSchema4> = {};
   const required: string[] = [];
@@ -63,7 +70,7 @@ export function objectToJSON(
 
   const composers: ParsedField['composers'] = [];
   getKeys(definition).forEach((fieldName) => {
-    if (powership.isHiddenFieldName(fieldName)) return;
+    if (isHiddenFieldName(fieldName)) return;
     const field = definition[fieldName];
     if (field.hidden) return;
 
@@ -104,7 +111,7 @@ function parseGraphQLField(params: {
   parentName: string | null;
 }): ParsedField {
   let { field, fieldName, parentName, options } = params;
-  field = powership.parseField(field);
+  field = parseField(field);
   const { ignoreDefaultValues } = options;
   let { type, list, optional, description, defaultValue } = field;
   const composers: ParsedField['composers'] = [];
@@ -134,7 +141,7 @@ function parseGraphQLField(params: {
     const parsedListItem = parseGraphQLField({
       field:
         type === 'array'
-          ? powership.parseObjectField(fieldName, field.def.of)
+          ? parseObjectField(fieldName, field.def.of)
           : { ...field, list: false },
       fieldName,
       options,
@@ -157,8 +164,8 @@ function parseGraphQLField(params: {
       jsonItem.tsType = 'ID';
     },
     alias() {
-      const type = powership.__getCachedFieldInstance(field);
-      powership.AliasField.assert(type);
+      const type = __getCachedFieldInstance(field);
+      AliasField.assert(type);
 
       composers.push({
         compose(parent) {
@@ -216,7 +223,7 @@ function parseGraphQLField(params: {
       jsonItem.type = 'integer';
     },
     literal() {
-      if (!powership.LiteralField.isFinalTypeDef(field)) throw 'err';
+      if (!LiteralField.isFinalTypeDef(field)) throw 'err';
       const parsed =
         field.def['__o.proto__'] === 'String'
           ? field.def.value
@@ -242,7 +249,7 @@ function parseGraphQLField(params: {
       jsonItem.type = 'null';
     },
     object() {
-      const objectName = powership.parseTypeName({
+      const objectName = parseTypeName({
         field,
         fieldName: '',
         parentName: parentName || '',

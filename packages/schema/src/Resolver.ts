@@ -12,16 +12,17 @@ import {
   GraphQLResolveInfo,
 } from 'graphql';
 
-import type { GraphType } from './GraphType/GraphType';
 import { Infer } from './fields/Infer';
 import type { ObjectDefinitionInput } from './fields/_parseFields';
 // @only-server
 import { PowershipWatchTypesPubSub } from './generateTypes';
+import { getInnerGraphQLType } from './GraphType/getQueryTemplates';
+import { createType, GraphType } from './types';
 
 export interface ResolverContext {}
 
 // @only-server
-const _resolvers = createStore<Record<string, Resolver>>();
+export const _resolvers = createStore<Record<string, Resolver>>();
 
 function _createResolver(options: any) {
   const { args, name, kind = 'query', resolve, type, ...rest } = options;
@@ -31,22 +32,19 @@ function _createResolver(options: any) {
     return _resolvers.get(name);
   }
 
-  const payloadType = (powership.GraphType.is(type)
+  const payloadType = (GraphType.is(type)
     ? type
-    : powership.createType(
-        `${name}Payload`,
-        type
-      )) as unknown as GraphType<any>;
+    : createType(`${name}Payload`, type)) as unknown as GraphType<any>;
 
   const gqlType = payloadType.graphQLType();
 
-  const argsType = powership.createType(
+  const argsType = createType(
     `${name}Input`,
     isPossibleArgsDef(args) ? { object: args } : 'record'
   ) as unknown as GraphType<any>;
 
   const argsGQLType = argsType.graphQLInputType({ name: `${name}Input` });
-  const innerArgsGQLType = powership.getInnerGraphQLType(argsGQLType);
+  const innerArgsGQLType = getInnerGraphQLType(argsGQLType);
 
   const resolveFunction: any = async function typeCheckResolveWrapper(
     source,
@@ -262,14 +260,4 @@ export function createResolver<Result_GraphType>(
     },
     resolve: resolverFactory().resolve,
   };
-}
-
-Object.assign(powership, {
-  _resolvers,
-});
-
-declare global {
-  interface powership {
-    _resolvers: typeof _resolvers;
-  }
 }

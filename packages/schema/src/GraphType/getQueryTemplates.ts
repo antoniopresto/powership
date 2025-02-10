@@ -12,7 +12,8 @@ import {
 } from 'graphql';
 
 import { ResolverKind, resolverKinds } from '../createGraphQLSchema';
-import { LiteralField } from '../fields/LiteralField';
+
+import { LiteralField } from '../types';
 
 export type ParseQueryFieldOptions = {
   breadcrumb?: string[];
@@ -520,7 +521,7 @@ function parsedArgsToString(parsed: ParsedArgs['vars']) {
   };
 }
 
-function getInnerGraphQLType(graphqlType: GraphQLType): {
+export function getInnerGraphQLType(graphqlType: GraphQLType): {
   innerType: GraphQLType;
   innerTypeJSON: string;
   wrappers: string[];
@@ -614,16 +615,4 @@ function prettifyQuery(
     .trim() //
     .replace(/^{/, '')
     .replace(/}$/, '');
-}
-
-Object.assign(powership, {
-  getQueryTemplates,
-  getInnerGraphQLType,
-});
-
-declare global {
-  interface powership {
-    getQueryTemplates: typeof getQueryTemplates;
-    getInnerGraphQLType: typeof getInnerGraphQLType;
-  }
 }

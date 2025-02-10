@@ -1,6 +1,5 @@
-import { resetTypesCache } from '../../ObjectType';
-import { createType, GraphType } from '../GraphType';
 import { getInnerGraphTypeId } from '../getInnerGraphTypeId';
+import { createType, GraphType, resetTypesCache } from '../../types';
 
 describe('getInnerGraphTypeId', () => {
   let type: GraphType<any>;

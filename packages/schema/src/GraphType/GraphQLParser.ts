@@ -1,5 +1,3 @@
-import '../__globals__';
-
 import {
   assertEqual,
   BJSON,
@@ -24,34 +22,48 @@ import {
   GraphQLObjectType,
   GraphQLObjectTypeConfig,
   GraphQLOutputType,
-  GraphQLScalarType,
   GraphQLSchema,
   GraphQLString,
   GraphQLUnionType,
   isNullableType,
   printSchema,
 } from 'graphql';
+
 import type {
   GraphQLInterfaceTypeConfig,
   ThunkObjMap,
   ThunkReadonlyArray,
 } from 'graphql/type/definition';
 
-import type { ObjectType } from '../ObjectType';
-import type { AliasField } from '../fields/AliasField';
-import type { ArrayField } from '../fields/ArrayField';
-import type { CursorField } from '../fields/CursorField';
-import { TAnyFieldType } from '../fields/FieldType';
 import { ObjectTypeLikeFieldDefinition } from '../fields/Infer';
 import { FieldTypeName } from '../fields/_fieldDefinitions';
 import { FinalFieldDefinition } from '../fields/_parseFields';
-import { ObjectHelpers } from '../getObjectHelpers';
-import { isHiddenFieldName } from '../isHiddenFieldName';
 
-import { GraphQLDateType } from './GraphQLDateType';
 import { GraphQLNullType } from './GraphQLNullType';
-import { GraphQLPhoneType } from './GraphQLPhoneType';
 import { GraphQLUlidType } from './GraphQLUlidType';
+
+import {
+  __getCachedFieldInstance,
+  AliasField,
+  ArrayField,
+  cleanMetaField,
+  CursorField,
+  DateField,
+  getObjectDefinitionMetaField,
+  isHiddenFieldName,
+  isObjectType,
+  LiteralField,
+  ObjectField,
+  ObjectHelpers,
+  ObjectType,
+  parseTypeName,
+  PhoneValidationOptions,
+  TAnyFieldType,
+  UnionField,
+  validatePhoneNumber,
+} from '../types';
+
+import { GraphQLError, GraphQLScalarType, Kind } from 'graphql';
 
 export function createHooks() {
   return {
@@ -116,6 +128,85 @@ function wrapCreationWithCache(name: string, create: (...args: any[]) => any) {
   };
 }
 
+export type GraphQLPhoneTypeOptions = PhoneValidationOptions & {
+  description?: string;
+  name?: string;
+};
+
+const validator = (ast, options: GraphQLPhoneTypeOptions) => {
+  const { kind, value } = ast;
+
+  if (kind !== Kind.STRING) {
+    throw new GraphQLError(
+      `Query error: Can only parse strings got a: ${kind}`,
+      [ast]
+    );
+  }
+
+  return validatePhoneNumber(value, options);
+};
+
+export class GraphQLPhoneType extends GraphQLScalarType {
+  constructor(options: GraphQLPhoneTypeOptions = {}) {
+    const { name = 'Phone', description } = options || {};
+
+    super({
+      description,
+      name,
+      parseLiteral: (ast) => validator(ast, options),
+      parseValue: (value) => {
+        const ast = {
+          kind: Kind.STRING,
+          value,
+        };
+        return validator(ast, options);
+      },
+      serialize: (value) => {
+        const ast = {
+          kind: Kind.STRING,
+          value,
+        };
+        return validator(ast, options);
+      },
+    });
+  }
+}
+
+export const GraphQLDateType = new GraphQLScalarType({
+  name: 'Date',
+  parseLiteral(ast) {
+    if (ast.kind === Kind.INT) {
+      return new Date(parseInt(ast.value, 10));
+    }
+
+    if (ast.kind !== Kind.STRING) {
+      throw new GraphQLError(
+        `Query error: Can only parse string or integer to Date but got a: ${ast.kind}`,
+        [ast]
+      );
+    }
+
+    const result = new Date(ast.value);
+    if (Number.isNaN(result.getTime())) {
+      throw new GraphQLError('Query error: Invalid date', [ast]);
+    }
+
+    return result;
+  },
+  parseValue(value: any) {
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+      throw new TypeError('Field error: value is an invalid Date');
+    }
+
+    return date;
+  },
+  serialize(value) {
+    return DateField.serialize(value).toJSON();
+  },
+});
+
 export class GraphQLParser {
   static resultsCache = resultsCache;
   static graphqlTypesRegister = graphqlTypesRegister;
@@ -128,7 +219,7 @@ export class GraphQLParser {
   };
 
   static objectIds = (object: ObjectTypeLikeFieldDefinition) => {
-    if (!powership.isObjectType(object)) {
+    if (!isObjectType(object)) {
       throw new RuntimeError(`Invalid Object.`, {
         object,
       });
@@ -181,8 +272,7 @@ export class GraphQLParser {
 
         const types = parents
           ? parents.map(
-              (parent) =>
-                powership.ObjectType.register.get(parent) as ObjectType<any>
+              (parent) => ObjectType.register.get(parent) as ObjectType<any>
             )
           : [];
 
@@ -217,9 +307,9 @@ export class GraphQLParser {
           if (plainField.hidden) return;
 
           if (plainField.type === 'alias') {
-            powership.AliasField.assert(instance);
+            AliasField.assert(instance);
 
-            const subTypeName = powership.parseTypeName({
+            const subTypeName = parseTypeName({
               field: plainField,
               fieldName,
               parentName: objectId,
@@ -276,7 +366,7 @@ export class GraphQLParser {
 
           _useConvertFieldResult(
             this.fieldToGraphQL({
-              field: powership.__getCachedFieldInstance(type),
+              field: __getCachedFieldInstance(type),
               fieldName,
               parentName,
               path,
@@ -395,7 +485,7 @@ export class GraphQLParser {
     const fieldParsed = {} as ConvertFieldResult;
     fieldsRegister.set(cacheId, fieldParsed);
 
-    const subTypeName = powership.parseTypeName({
+    const subTypeName = parseTypeName({
       field: fieldClone,
       fieldName,
       parentName,
@@ -428,7 +518,7 @@ export class GraphQLParser {
           utils: { listItemType: innerFieldType },
         } = fieldClone as ArrayField<any>;
 
-        const id = powership.parseTypeName({
+        const id = parseTypeName({
           field: innerFieldType,
           fieldName,
           parentName,
@@ -512,10 +602,10 @@ export class GraphQLParser {
         };
       },
       literal() {
-        if (!powership.LiteralField.is(fieldClone)) throw new Error('ts');
+        if (!LiteralField.is(fieldClone)) throw new Error('ts');
         const { description, def } = fieldClone;
 
-        const recordName = powership.parseTypeName({
+        const recordName = parseTypeName({
           field: fieldClone,
           fieldName,
           parentName,
@@ -532,14 +622,14 @@ export class GraphQLParser {
             name: recordName,
 
             parseValue(value: any) {
-              return powership.LiteralField.utils.deserialize({
+              return LiteralField.utils.deserialize({
                 ...def,
                 value,
               });
             },
 
             serialize(value: any) {
-              return powership.LiteralField.utils.deserialize({
+              return LiteralField.utils.deserialize({
                 ...def,
                 value,
               });
@@ -564,17 +654,17 @@ export class GraphQLParser {
       object() {
         assertEqual(fieldClone.type, 'object');
 
-        const id = powership.parseTypeName({
+        const id = parseTypeName({
           field: fieldClone,
           fieldName,
           parentName,
         });
 
-        const def = powership.ObjectType.is(fieldClone.def)
+        const def = ObjectType.is(fieldClone.def)
           ? fieldClone.def.clone((el) => el.def())
           : fieldClone.def;
 
-        const object = powership.ObjectType.getOrSet(
+        const object = ObjectType.getOrSet(
           id,
           // @ts-ignore
           def
@@ -593,7 +683,7 @@ export class GraphQLParser {
         };
       },
       record() {
-        const recordName = powership.parseTypeName({
+        const recordName = parseTypeName({
           field: fieldClone,
           fieldName,
           parentName,
@@ -641,7 +731,7 @@ export class GraphQLParser {
       },
 
       union() {
-        if (!powership.UnionField.is(fieldClone)) throw fieldClone;
+        if (!UnionField.is(fieldClone)) throw fieldClone;
         let descriptions: string[] = [];
 
         // if all types are objects it can be used as normal GraphQL union
@@ -692,7 +782,7 @@ export class GraphQLParser {
               name: subTypeName,
               ...options,
               types: fieldClone.utils.fieldTypes.map((field, index) => {
-                if (!powership.ObjectField.is(field)) throw field;
+                if (!ObjectField.is(field)) throw field;
                 let object: any = field.utils.object;
                 if (!object.id) {
                   object = object.clone((el) =>
@@ -770,14 +860,11 @@ export function describeField(field: FinalFieldDefinition): string {
   if (field.name) return field.name;
 
   if (field.type === 'literal') {
-    const value = BJSON.stringify(
-      powership.LiteralField.utils.deserialize(field.def),
-      {
-        quoteKeys(key) {
-          return ` ${key}`;
-        },
-      }
-    );
+    const value = BJSON.stringify(LiteralField.utils.deserialize(field.def), {
+      quoteKeys(key) {
+        return ` ${key}`;
+      },
+    });
 
     return `${value}`;
   }
@@ -787,9 +874,9 @@ export function describeField(field: FinalFieldDefinition): string {
       const { value } = payload;
 
       if (value?.type === 'object' && value.def) {
-        const meta = powership.getObjectDefinitionMetaField(value?.def || {});
+        const meta = getObjectDefinitionMetaField(value?.def || {});
         if (meta?.def.id) return meta.def.id;
-        return describeField(powership.cleanMetaField(value.def));
+        return describeField(cleanMetaField(value.def));
       }
 
       return undefined;
@@ -803,14 +890,4 @@ export function describeField(field: FinalFieldDefinition): string {
       return `${value}`;
     },
   });
-}
-
-Object.assign(powership, {
-  GraphQLParser,
-});
-
-declare global {
-  interface powership {
-    GraphQLParser: typeof GraphQLParser;
-  }
 }

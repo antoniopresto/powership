@@ -11,6 +11,8 @@ import {
   SchemaQueryTemplatesOptions,
 } from './getQueryTemplates';
 
+import { parseFieldDefinitionConfig } from '../types';
+
 export async function generateClientUtils(
   schema: GraphQLSchemaWithUtils,
   options?: SchemaQueryTemplatesOptions
@@ -168,7 +170,7 @@ export async function saveGraphQLClientUtils(
 }
 
 function rehydrateType(name: string, field: any) {
-  const parsed = powership.parseFieldDefinitionConfig(field, {
+  const parsed = parseFieldDefinitionConfig(field, {
     deep: { omitMeta: true },
   });
   const json = JSON.stringify(parsed);

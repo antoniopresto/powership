@@ -10,6 +10,7 @@ import {
   proxyRealValue,
   TypeDescription,
 } from '@powership/utils';
+import { GraphType, isFieldTypeName, ObjectType } from '../types';
 
 export const tsfy_defaults = {
   iterationLimit: 5000,
@@ -184,15 +185,15 @@ export function getTSFyIdentifier(value: any) {
     return `T${value.name}Entity`;
   }
 
-  if (powership.GraphType.is(value) && value.optionalId) {
+  if (GraphType.is(value) && value.optionalId) {
     return `T${value.optionalId}Type`;
   }
 
-  if (powership.ObjectType.is(value)) {
+  if (ObjectType.is(value)) {
     return value.id ? `T${value.id}Object` : undefined;
   }
 
-  if (powership.isFieldTypeName(value.type) && typeof value.name === 'string') {
+  if (isFieldTypeName(value.type) && typeof value.name === 'string') {
     return `T${value.name}Field`;
   }
   return undefined;
@@ -347,13 +348,13 @@ export async function parseTSFyValue(
     return currentRef;
   }
 
-  if (powership.ObjectType.is(rootValue)) {
+  if (ObjectType.is(rootValue)) {
     const child = await parseTSFyValue(rootValue.definition, context);
     currentRef.parts = ['ObjectType<', ...ensureArray(child), '>'];
     return currentRef;
   }
 
-  if (powership.GraphType.is(rootValue)) {
+  if (GraphType.is(rootValue)) {
     const child = await parseTSFyValue(rootValue.definition, context);
     currentRef.parts = ['GraphType<', ...ensureArray(child), '>'];
     return currentRef;
@@ -405,10 +406,7 @@ export async function parseTSFyValue(
         await awaitSync(
           pairs.map(async ([key, value]) => {
             if (key === '__dschm__') return;
-            if (
-              value?.hidden === true &&
-              powership.isFieldTypeName(value.type)
-            ) {
+            if (value?.hidden === true && isFieldTypeName(value.type)) {
               return;
             }
             const valueRes = await parseTSFyValue(value, context);

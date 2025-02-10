@@ -1,6 +1,6 @@
 {
   "name": "@powership/server",
-  "version": "5.8.0",
+  "version": "5.8.8",
   "type": "module",
   "main": "./out/index.cjs",
   "module": "./out/index.mjs",
@@ -74,7 +74,7 @@
     "@types/jest": "29.5.12",
     "@types/lodash": "4.14.191",
     "@types/lodash-es": "4.17.12",
-    "@types/node": "20.11.25",
+    "@types/node": "22.13.1",
     "@types/supertest": "2.0.12",
     "@typescript-eslint/eslint-plugin": "7.17.0",
     "@typescript-eslint/parser": "7.17.0",

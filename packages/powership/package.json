@@ -1,6 +1,6 @@
 {
   "name": "powership",
-  "version": "5.8.0",
+  "version": "5.8.8",
   "author": "antoniopresto <antoniopresto@gmail.com>",
   "type": "module",
   "main": "./out/index.cjs",
@@ -90,7 +90,7 @@
     "@types/babel__core": "7.20.5",
     "@types/babel__helper-plugin-utils": "7.10.0",
     "@types/jest": "29.5.12",
-    "@types/node": "20.11.25",
+    "@types/node": "22.13.1",
     "@typescript-eslint/eslint-plugin": "7.17.0",
     "@typescript-eslint/parser": "7.17.0",
     "babel-plugin-transform-strip-block": "0.0.5",

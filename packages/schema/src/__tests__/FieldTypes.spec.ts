@@ -1,5 +1,3 @@
-import '../__globals__';
-
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { _assertFields } from '../fields/__tests__/__assert';
@@ -8,54 +6,56 @@ import { objectToGQL } from '../objectToGQL';
 
 import type { InferObjectDefinition } from '../fields/Infer';
 import { objectToTypescript } from '../objectToTypescript';
-import { DateField } from '../fields/DateField';
-import { CursorField } from '../fields/CursorField';
-import { createObjectType } from '../ObjectType';
-import { UlidField } from '../fields/UlidField';
-import { FloatField } from '../fields/FloatField';
-import { IntField } from '../fields/IntField';
-import { EnumField } from '../fields/EnumField';
-import { EmailField } from '../fields/EmailField';
-import { RecordField } from '../fields/RecordField';
-import { BooleanField } from '../fields/BooleanField';
-import { UnknownField } from '../fields/UnknownField';
+import {
+  BooleanField,
+  createObjectType,
+  createType,
+  CursorField,
+  DateField,
+  EmailField,
+  EnumField,
+  FloatField,
+  IntField,
+  RecordField,
+  StringField,
+  ULID_REGEX,
+  UlidField,
+  UnknownField,
+} from '../types';
 
 describe('FieldTypes', () => {
   describe('StringField', () => {
     it('parses', () => {
-      expect(() => powership.StringField.create({ min: 1 }).parse('')).toThrow(
+      expect(() => StringField.create({ min: 1 }).parse('')).toThrow(
         '0 is less than the min string length 1.'
       );
-      expect(() =>
-        powership.StringField.create({ max: 2 }).parse('123')
-      ).toThrow('3 is more than the max string length 2.');
+      expect(() => StringField.create({ max: 2 }).parse('123')).toThrow(
+        '3 is more than the max string length 2.'
+      );
       expect(
-        powership.StringField.create({
+        StringField.create({
           regex: ['^MIN.$', 'i'],
         }).parse('mine')
       ).toBe('mine');
       expect(() =>
-        powership.StringField.create({ regex: ['MIN.'] }).parse('mine')
+        StringField.create({ regex: ['MIN.'] }).parse('mine')
       ).toThrowError(`RegexMismatch`);
     });
 
     it('accept custom parse message', () => {
       expect(() =>
-        powership.StringField.create({ min: 5 }).parse('abc', 'custom')
+        StringField.create({ min: 5 }).parse('abc', 'custom')
       ).toThrowError('custom');
 
       expect(() =>
-        powership.StringField.create({ min: 5 }).parse(
+        StringField.create({ min: 5 }).parse(
           'abc',
           (v) => `hmm ${v} is not enough`
         )
       ).toThrowError('hmm abc is not enough');
 
       expect(() =>
-        powership.StringField.create({ min: 5 }).parse(
-          'xpt',
-          () => new TypeError('tt')
-        )
+        StringField.create({ min: 5 }).parse('xpt', () => new TypeError('tt'))
       ).toThrowError('tt');
     });
 
@@ -65,7 +65,7 @@ describe('FieldTypes', () => {
         nameOpt: 'string?',
         nameList: '[string]',
         nameListOptional: '[string]?',
-        nameFromType: powership.StringField.create().toList().toOptional(),
+        nameFromType: StringField.create().toList().toOptional(),
         defObject: {
           type: 'string',
           optional: true,
@@ -104,23 +104,21 @@ describe('FieldTypes', () => {
     });
 
     test('null in optional', () => {
-      const res = powership.StringField.create().toOptional();
+      const res = StringField.create().toOptional();
       expect(res.parse(null)).toBe(undefined);
 
       expect(
-        powership
-          .createType('nullasoptional', {
-            object: {
-              a: 'string?',
-              b: 'string?',
-              c: 'null',
-              d: {
-                type: 'string',
-                defaultValue: 'foo',
-              },
+        createType('nullasoptional', {
+          object: {
+            a: 'string?',
+            b: 'string?',
+            c: 'null',
+            d: {
+              type: 'string',
+              defaultValue: 'foo',
             },
-          })
-          .parse({})
+          },
+        }).parse({})
       ).toEqual({
         c: null,
         d: 'foo',
@@ -131,7 +129,7 @@ describe('FieldTypes', () => {
   describe('UlidField', () => {
     it('parses', () => {
       expect(UlidField.create({ autoCreate: true }).parse(undefined)).toMatch(
-        powership.ULID_REGEX
+        ULID_REGEX
       );
       expect(() =>
         UlidField.create({ autoCreate: false }).parse(undefined)
@@ -150,7 +148,7 @@ describe('FieldTypes', () => {
         u: { ulid: { autoCreate: true } },
       });
 
-      expect(obj.parse({}).u).toMatch(powership.ULID_REGEX);
+      expect(obj.parse({}).u).toMatch(ULID_REGEX);
     });
 
     test('types', () => {

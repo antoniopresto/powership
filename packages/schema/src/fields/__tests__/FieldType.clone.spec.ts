@@ -1,8 +1,11 @@
-import { createType } from '../../GraphType/GraphType';
-import { createObjectType, resetTypesCache } from '../../ObjectType';
-import { CursorField } from '../CursorField';
-import { LiteralField } from '../LiteralField';
-import { ObjectField } from '../ObjectField';
+import {
+  createObjectType,
+  createType,
+  CursorField,
+  LiteralField,
+  ObjectField,
+  resetTypesCache,
+} from '../../types';
 
 describe('FieldType.clone', () => {
   afterEach(resetTypesCache);

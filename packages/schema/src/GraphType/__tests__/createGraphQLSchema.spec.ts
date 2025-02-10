@@ -1,9 +1,8 @@
 import { graphql, printSchema } from 'graphql';
 
-import { createObjectType, resetTypesCache } from '../../ObjectType';
 import { createResolver } from '../../Resolver';
 import { createGraphQLSchema } from '../../createGraphQLSchema';
-import { createType } from '../GraphType';
+import { createObjectType, createType, resetTypesCache } from '../../types';
 
 describe('createGraphQLObject', () => {
   afterEach(async () => {

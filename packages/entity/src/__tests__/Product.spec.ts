@@ -1,7 +1,12 @@
 import { MongoTransporter } from '@powership/mongo';
 import { AppMock, createAppMock } from './createAppMock';
 
-import { createType, parseField, resetTypesCache } from '@powership/schema';
+import {
+  createType,
+  parseField,
+  resetTypesCache,
+  ULID_REGEX,
+} from '@powership/schema';
 
 import { createEntity } from '../Entity';
 
@@ -175,14 +180,14 @@ describe('Product', () => {
         id: expect.any(String),
         _c: expect.any(String),
         _e: 'product',
-        _v: expect.stringMatching(powership.ULID_REGEX),
+        _v: expect.stringMatching(ULID_REGEX),
         _id: expect.stringMatching(/^product⋮_id⋮store1⋮/),
         _id1: expect.stringMatching(/^product⋮_id1⋮store1⋮sku0/),
         _id1PK: 'product⋮_id1⋮store1⋮',
         _id1SK: 'sku0',
         _idPK: 'product⋮_id⋮store1⋮',
-        _idSK: expect.stringMatching(powership.ULID_REGEX),
-        ulid: expect.stringMatching(powership.ULID_REGEX),
+        _idSK: expect.stringMatching(ULID_REGEX),
+        ulid: expect.stringMatching(ULID_REGEX),
         storeId: 'store1',
         title: 'banana',
         createdAt: expect.any(Date),
@@ -212,15 +217,15 @@ describe('Product', () => {
       item: {
         SKU: 'sku0',
         _e: 'product',
-        _v: expect.stringMatching(powership.ULID_REGEX),
+        _v: expect.stringMatching(ULID_REGEX),
         _id: expect.stringMatching(/^product⋮_id⋮store1⋮/),
         _id1: expect.stringMatching(/^product⋮_id1⋮store1⋮sku0/),
         _id1PK: 'product⋮_id1⋮store1⋮',
         _id1SK: 'sku0',
         _idPK: 'product⋮_id⋮store1⋮',
         id: expect.any(String),
-        _idSK: expect.stringMatching(powership.ULID_REGEX),
-        ulid: expect.stringMatching(powership.ULID_REGEX),
+        _idSK: expect.stringMatching(ULID_REGEX),
+        ulid: expect.stringMatching(ULID_REGEX),
         storeId: 'store1',
         title: 'banana',
         createdAt: expect.any(Date),
@@ -478,7 +483,7 @@ describe('Product', () => {
       created: false,
       item: {
         SKU: 'sku_batata',
-        _v: expect.stringMatching(powership.ULID_REGEX),
+        _v: expect.stringMatching(ULID_REGEX),
         updatedAt: expect.any(Date),
         updatedBy: 'user1',
       },
@@ -526,7 +531,7 @@ describe('Product', () => {
         storeId: 'store1',
         category: 'updated',
         category_2: 'added',
-        ulid: expect.stringMatching(powership.ULID_REGEX),
+        ulid: expect.stringMatching(ULID_REGEX),
         updatedAt: expect.any(Date),
         updatedBy: 'user1',
       },

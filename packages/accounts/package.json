@@ -1,6 +1,6 @@
 {
   "name": "@powership/accounts",
-  "version": "5.8.0",
+  "version": "5.8.8",
   "description": "Powership accounts",
   "type": "module",
   "main": "./out/index.cjs",
@@ -68,7 +68,7 @@
     "@powership/mongo": "workspace:*",
     "@types/jest": "29.5.12",
     "@types/jsonwebtoken": "8.5.9",
-    "@types/node": "20.11.25",
+    "@types/node": "22.13.1",
     "@typescript-eslint/eslint-plugin": "7.17.0",
     "@typescript-eslint/parser": "7.17.0",
     "babel-preset-minify": "0.5.2",

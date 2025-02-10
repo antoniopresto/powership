@@ -1,7 +1,13 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
 import { Infer } from '../Infer';
-import { createObjectType, ObjectType, resetTypesCache } from '../ObjectType';
+
+import {
+  createObjectType,
+  objectMetaFieldKey,
+  ObjectType,
+  resetTypesCache,
+} from '../types';
 
 function _userObject() {
   return new ObjectType({
@@ -261,7 +267,7 @@ describe('Schema clone, etc', () => {
         optional: true,
         type: 'int',
       },
-      [powership.objectMetaFieldKey]: expect.anything(),
+      [objectMetaFieldKey]: expect.anything(),
     });
   });
 
@@ -276,7 +282,7 @@ describe('Schema clone, etc', () => {
     const noEmail = object1.clone((el) => el.exclude(['email']).objectType());
 
     expect(object1.definition).toEqual({
-      [powership.objectMetaFieldKey]: expect.anything(),
+      [objectMetaFieldKey]: expect.anything(),
       age: {
         optional: true,
         type: 'int',
@@ -290,7 +296,7 @@ describe('Schema clone, etc', () => {
     });
 
     expect(noName.definition).toEqual({
-      [powership.objectMetaFieldKey]: expect.anything(),
+      [objectMetaFieldKey]: expect.anything(),
       age: {
         optional: true,
         type: 'int',
@@ -320,7 +326,7 @@ describe('Schema clone, etc', () => {
     );
 
     expect(object1.definition).toEqual({
-      [powership.objectMetaFieldKey]: expect.anything(),
+      [objectMetaFieldKey]: expect.anything(),
       age: {
         optional: true,
         type: 'int',
@@ -334,7 +340,7 @@ describe('Schema clone, etc', () => {
     });
 
     expect(cloneNameAge.definition).toEqual({
-      [powership.objectMetaFieldKey]: expect.anything(),
+      [objectMetaFieldKey]: expect.anything(),
       age: {
         optional: true,
         type: 'int',
@@ -370,7 +376,7 @@ describe('Schema clone, etc', () => {
         .objectType('identifyMe')
     );
     expect(object1.definition).toEqual({
-      [powership.objectMetaFieldKey]: expect.anything(),
+      [objectMetaFieldKey]: expect.anything(),
       age: {
         optional: true,
         type: 'int',
@@ -384,7 +390,7 @@ describe('Schema clone, etc', () => {
     });
 
     expect(clone.definition).toEqual({
-      [powership.objectMetaFieldKey]: expect.anything(),
+      [objectMetaFieldKey]: expect.anything(),
       emails: {
         list: true,
 
@@ -414,7 +420,7 @@ describe('Schema clone, etc', () => {
     );
 
     expect(object1.definition).toEqual({
-      [powership.objectMetaFieldKey]: expect.anything(),
+      [objectMetaFieldKey]: expect.anything(),
       age: {
         optional: true,
         type: 'int',
@@ -428,7 +434,7 @@ describe('Schema clone, etc', () => {
     });
 
     expect(clone.definition).toEqual({
-      [powership.objectMetaFieldKey]: expect.anything(),
+      [objectMetaFieldKey]: expect.anything(),
       age: {
         optional: true,
         type: 'int',
@@ -461,7 +467,7 @@ describe('Schema clone, etc', () => {
     );
 
     expect(object1.definition).toEqual({
-      [powership.objectMetaFieldKey]: expect.anything(),
+      [objectMetaFieldKey]: expect.anything(),
       age: {
         optional: true,
         type: 'int',
@@ -475,7 +481,7 @@ describe('Schema clone, etc', () => {
     });
 
     expect(clone.definition).toEqual({
-      [powership.objectMetaFieldKey]: expect.anything(),
+      [objectMetaFieldKey]: expect.anything(),
       age: {
         type: 'int',
       },
@@ -507,7 +513,7 @@ describe('Schema clone, etc', () => {
         .objectType()
     );
     expect(object1.definition).toEqual({
-      [powership.objectMetaFieldKey]: expect.anything(),
+      [objectMetaFieldKey]: expect.anything(),
       age: {
         optional: true,
         type: 'int',
@@ -518,7 +524,7 @@ describe('Schema clone, etc', () => {
     });
 
     expect(withEmail.definition).toEqual({
-      [powership.objectMetaFieldKey]: expect.anything(),
+      [objectMetaFieldKey]: expect.anything(),
       age: {
         optional: true,
         type: 'int',

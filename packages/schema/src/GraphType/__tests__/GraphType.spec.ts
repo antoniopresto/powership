@@ -2,14 +2,15 @@ import { assert, IsExact } from 'conditional-type-checks';
 import { GraphQLObjectType, GraphQLSchema, printSchema } from 'graphql';
 
 import { Infer } from '../../Infer';
-import {
-  createObjectType,
-  ObjectType,
-  resetTypesCache,
-} from '../../ObjectType';
 import { createResolver } from '../../Resolver';
 import { createGraphQLSchema } from '../../createGraphQLSchema';
-import { createType, GraphType } from '../GraphType';
+import {
+  createObjectType,
+  createType,
+  GraphType,
+  ObjectType,
+  resetTypesCache,
+} from '../../types';
 
 describe('createType', () => {
   beforeEach(resetTypesCache);

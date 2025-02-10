@@ -1,9 +1,8 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
-import { ObjectType } from '../../ObjectType';
-
 import { _assertFields } from './__assert';
 import { Infer } from '../Infer';
+import { ObjectType } from '../../types';
 
 test('infer union types', () => {
   type TUnion = Infer<{

@@ -1,6 +1,4 @@
-import { createType } from '../GraphType/GraphType';
-import { createObjectType } from '../ObjectType';
-import { objectMock } from '../mockObject';
+import { createObjectType, createType, objectMock } from '../types';
 
 describe('mockObject', () => {
   it('works', async () => {

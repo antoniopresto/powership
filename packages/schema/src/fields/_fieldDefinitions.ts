@@ -1,15 +1,17 @@
 import { tupleEnum } from '@powership/utils';
 
-import { CustomFieldConfig } from '../CustomFieldConfig';
-
-import { AliasFieldDef } from './AliasField';
-import { ArrayFieldDef } from './ArrayField';
-import { ObjectLike } from './IObjectLike';
-import { MetaFieldDef } from './MetaFieldField';
-import { PhoneFieldDef } from './PhoneField';
-import { RecordFieldDef } from './RecordField';
-import { UnknownFieldDef } from './UnknownField';
 import { ObjectFieldInput } from './_parseFields';
+
+import {
+  AliasFieldDef,
+  ArrayFieldDef,
+  CustomFieldConfig,
+  MetaFieldDef,
+  ObjectLike,
+  PhoneFieldDef,
+  RecordFieldDef,
+  UnknownFieldDef,
+} from '../types';
 
 export type CursorType = {
   PK: string;

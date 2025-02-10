@@ -1,8 +1,7 @@
 import { assert, IsExact } from 'conditional-type-checks';
 
-import { createType } from '../../GraphType/GraphType';
-import { createObjectType, resetTypesCache } from '../../ObjectType';
 import { objectToJSON } from '../../objectToJSON';
+import { createObjectType, createType, resetTypesCache } from '../../types';
 
 describe('AliasField', () => {
   afterEach(resetTypesCache);

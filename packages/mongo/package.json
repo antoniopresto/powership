@@ -1,6 +1,6 @@
 {
   "name": "@powership/mongo",
-  "version": "5.8.0",
+  "version": "5.8.8",
   "type": "module",
   "main": "./out/index.cjs",
   "module": "./out/index.mjs",
@@ -61,7 +61,7 @@
     "@powership/babel-plugins": "workspace:*",
     "@powership/boilerplate": "workspace:*",
     "@types/jest": "29.5.12",
-    "@types/node": "20.11.25",
+    "@types/node": "22.13.1",
     "@typescript-eslint/eslint-plugin": "7.17.0",
     "@typescript-eslint/parser": "7.17.0",
     "conditional-type-checks": "1.0.6",
