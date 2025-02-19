@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generateRouterMap basic test 1`] = `
+[
+  {
+    "path": "pages/account.tsx",
+  },
+  {
+    "path": "pages/home.tsx",
+  },
+  {
+    "path": "api/product/[id].tsx",
+  },
+  {
+    "path": "pages/[category]/[slug].tsx",
+  },
+]
+`;
