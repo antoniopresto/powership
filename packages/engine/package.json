@@ -1,0 +1,100 @@
+{
+  "name": "@powership/engine",
+  "version": "5.8.8",
+  "description": "Powership engine",
+  "type": "module",
+  "main": "./out/index.cjs",
+  "module": "./out/index.mjs",
+  "types": "./out/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./out/index.d.ts",
+      "import": "./out/index.mjs",
+      "require": "./out/index.cjs"
+    }
+  },
+  "browser": {
+    "out/index.mjs": "./out/browser/index.mjs",
+    "out/index.cjs": "./out/browser/index.cjs"
+  },
+  "sideEffects": false,
+  "license": "MIT",
+  "scripts": {
+    "#postinstall": "node ./scripts/postinstall.js",
+    "test": "jest --runInBand",
+    "build": "run-p declarations build:*",
+    "tswatch": "tsc -p tsconfig.declarations.json --noEmit --watch",
+    "clear": "rimraf out",
+    "fix": "run-s fix:* ",
+    "fix:prettier": "prettier \"src/**/*.ts\" --write",
+    "fix:lint": "eslint src --ext .ts --fix",
+    "prepublishOnly": "run-s build fix && run-p test",
+    "build-targets": "run-p build:*",
+    "build:browser": "TARGET=browser npm run babild -- --out-dir out/browser --out-file-extension .cjs",
+    "build:module-browser": "TARGET=module-browser npm run babild -- --out-dir out/browser --out-file-extension .mjs",
+    "build:node": "TARGET=node npm run babild -- --out-dir out --out-file-extension .cjs",
+    "build:module-node": "TARGET=module-node npm run babild -- --out-dir out --out-file-extension .mjs",
+    "declarations": "tsc -p tsconfig.declarations.json",
+    "babild": "babel 'src' --extensions '.ts,.tsx' --source-maps=true --ignore '**/__tests__'"
+  },
+  "files": [
+    "package.json",
+    "out/*",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git"
+  },
+  "author": "@antoniopresto",
+  "dependencies": {
+    "@powership/entity": "workspace:*",
+    "@powership/mongo": "workspace:*",
+    "@powership/schema": "workspace:*",
+    "@powership/utils": "workspace:*",
+    "@powership/transporter": "workspace:*",
+    "jsonwebtoken": "8.5.1",
+    "scrypt-kdf": "2.0.1"
+  },
+  "devDependencies": {
+    "@powership/boilerplate": "workspace:*",
+    "mongodb-memory-server": "10.1.2",
+    "mongodb-memory-server-core": "10.1.2",
+    "mongodb": "6.4.0",
+    "@babel/cli": "7.24.8",
+    "@babel/plugin-transform-typescript": "7.24.8",
+    "@babel/preset-env": "7.24.8",
+    "@babel/preset-typescript": "7.24.7",
+    "@powership/babel-plugins": "workspace:*",
+    "@powership/mongo": "workspace:*",
+    "@types/jest": "29.5.12",
+    "@types/jsonwebtoken": "8.5.9",
+    "@types/node": "22.13.1",
+    "@typescript-eslint/eslint-plugin": "7.17.0",
+    "@typescript-eslint/parser": "7.17.0",
+    "babel-preset-minify": "0.5.2",
+    "esbuild": "0.20.1",
+    "eslint": "8.57.1",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-eslint-comments": "3.2.0",
+    "eslint-plugin-import": "2.29.1",
+    "eslint-plugin-sort-keys-fix": "1.1.2",
+    "eslint-plugin-typescript-sort-keys": "3.2.0",
+    "jest": "29.7.0",
+    "npm-run-all": "4.1.5",
+    "prettier": "2.8.8",
+    "prettier-plugin-multiline-arrays": "3.0.4",
+    "rimraf": "6.0.1",
+    "ts-jest": "29.1.2",
+    "typedoc": "0.25.11",
+    "typescript": "5.7.2"
+  },
+  "typedoc": {
+    "entryPoint": "./src/index.ts",
+    "readmeFile": "./README.md",
+    "displayName": "Accounts System.",
+    "tsconfig": "./tsconfig.module.json"
+  },
+  "peerDependencies": {
+    "mongodb": ">=6"
+  }
+}
