@@ -3,16 +3,28 @@
 exports[`generateRouterMap basic test 1`] = `
 [
   {
+    "filePath": "pages/account.tsx",
+    "match": [Function],
     "path": "pages/account.tsx",
+    "stringify": [Function],
   },
   {
+    "filePath": "pages/home.tsx",
+    "match": [Function],
     "path": "pages/home.tsx",
+    "stringify": [Function],
   },
   {
-    "path": "api/product/[id].tsx",
+    "filePath": "api/product/[id].tsx",
+    "match": [Function],
+    "path": "api/product/:id",
+    "stringify": [Function],
   },
   {
-    "path": "pages/[category]/[slug].tsx",
+    "filePath": "pages/[category]/[slug].tsx",
+    "match": [Function],
+    "path": "pages/:category/:slug",
+    "stringify": [Function],
   },
 ]
 `;
