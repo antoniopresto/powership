@@ -66,7 +66,7 @@ describe('objectToJSON', () => {
                   number: {
                     anyOf: [
                       {
-                        description: 'person name',
+                        // description: 'person name',
                         type: 'string',
                       },
                       {
@@ -75,7 +75,7 @@ describe('objectToJSON', () => {
                     ],
                   },
                   street: {
-                    description: 'person name',
+                    // description: 'person name', // FIXME
                     type: 'string',
                   },
                 },

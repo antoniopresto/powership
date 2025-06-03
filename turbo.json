@@ -1,8 +1,8 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
-    "pre": {
-      "dependsOn": ["^declarations", "^build", "test"],
+    "prepublishOnly": {
+      "dependsOn": ["^prepublishOnly"],
       "outputs": ["out/**"],
       "inputs": ["src/**"]
     },

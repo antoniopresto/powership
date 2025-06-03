@@ -10,7 +10,6 @@
     "packages/utils",
     "packages/logstorm",
     "packages/mongo",
-    "packages/runmate",
     "packages/schema",
     "packages/transporter"
   ],

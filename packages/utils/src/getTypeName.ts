@@ -4,6 +4,8 @@ import { proxyRealValue } from './createProxy';
 import { hashObject } from './hashObject';
 import { tupleEnum } from './typings';
 
+const constructorNameCache = new WeakMap<Function, string>();
+
 export function getTypeName(input: any): string {
   const simple = getNativeConstructorType(input);
   if (simple !== undefined) return simple;
@@ -71,38 +73,42 @@ export function isObjectWithoutPrototype(value): value is Record<string, any> {
 export function describeConstructor(value): ConstructorDescription {
   const objectWithoutProto = isObjectWithoutPrototype(value);
 
-  let _constructorBody: string;
-  function constructorBody(): string {
-    return (_constructorBody =
-      _constructorBody ?? value?.constructor?.toString?.());
-  }
-
   let _constructorName: string;
   function constructorName(): string {
-    return (_constructorName =
-      _constructorName ??
-      (() => {
-        const nativeConstructor = getNativeConstructorType(value);
-        if (nativeConstructor) return nativeConstructor;
+    if (_constructorName) return _constructorName;
 
-        if (objectWithoutProto) {
-          return KNOWN_CONSTRUCTOR_NAMES['Object'];
-        }
+    const nativeConstructor = getNativeConstructorType(value);
+    if (nativeConstructor) return (_constructorName = nativeConstructor);
 
-        if (typeof value === 'function') {
-          return KNOWN_CONSTRUCTOR_NAMES['Function'];
-        }
+    if (objectWithoutProto) {
+      return (_constructorName = KNOWN_CONSTRUCTOR_NAMES['Object']);
+    }
 
-        const named = constructorBody()
-          ?.match(/(function|class) ?([^({)]*)/)?.[2]
-          ?.split(' ')[0];
+    if (typeof value === 'function') {
+      return (_constructorName = KNOWN_CONSTRUCTOR_NAMES['Function']);
+    }
 
-        if (!named) {
-          throw new Error(`Cannot get prototype of value ${typeof value}`);
-        }
+    const constructor = value?.constructor;
+    if (!constructor) {
+      throw new Error(`Cannot get constructor of value ${typeof value}`);
+    }
 
-        return named;
-      })());
+    if (constructorNameCache.has(constructor)) {
+      return (_constructorName = constructorNameCache.get(constructor)!);
+    }
+
+    let name = constructor.name;
+
+    if (!name || name === '') {
+      const constructorString = constructor.toString();
+      name = constructorString.match(/(?:function|class)\s+([^({ ]*)/)?.[1];
+    }
+
+    const finalName = name || 'Object';
+
+    constructorNameCache.set(constructor, finalName);
+
+    return (_constructorName = finalName);
   }
 
   let _native: boolean;
@@ -121,32 +127,16 @@ export function describeConstructor(value): ConstructorDescription {
     {},
     {
       isObjectWithoutPrototype: { value: objectWithoutProto },
-
-      native: {
-        get() {
-          return native();
-        },
-      },
-
-      constructorName: {
-        get() {
-          const cn = constructorName();
-          return cn;
-        },
-      },
-
-      typeName: {
-        get() {
-          return typeName();
-        },
-      },
+      native: { get: native },
+      constructorName: { get: constructorName },
+      typeName: { get: typeName },
     }
   ) as ConstructorDescription;
 }
 
 export type TypeDescription = ReturnType<typeof describeType>;
 
-export function describeType(value) {
+export function describeType(value: any) {
   const localProxyValue = proxyRealValue(value);
   const isLocalProxy = localProxyValue !== value;
 
