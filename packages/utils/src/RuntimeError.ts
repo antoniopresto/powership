@@ -7,6 +7,8 @@ export type RunTimeErrorOptions = {
 };
 
 export class RuntimeError extends Error {
+  static printDetails = true;
+
   name = 'RuntimeError';
 
   details;
@@ -32,6 +34,8 @@ export class RuntimeError extends Error {
     super(message);
     this.details = details;
     this.detailsString = message;
+
+    if (!RuntimeError.printDetails) return;
 
     const {
       skipStackLines = 0,

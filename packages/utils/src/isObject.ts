@@ -1,9 +1,9 @@
 import { AnyRecord } from './typings';
 
-export function isObject(value: unknown): value is AnyRecord {
-  return !!value && typeof value === 'object';
+export function isPlainObject(value: unknown): value is AnyRecord {
+  if (typeof value !== 'object' || value === null) return false;
+  const proto = Object.getPrototypeOf(value);
+  return proto === Object.prototype || proto === null;
 }
 
-export function isPlainObject(value: unknown): value is AnyRecord {
-  return isObject(value) && value.toString() === '[object Object]';
-}
+export { isPlainObject as isObject };
